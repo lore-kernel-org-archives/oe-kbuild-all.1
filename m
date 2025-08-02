@@ -1,68 +1,58 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C411B1EF09D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 07:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C59B672;
+	Sat,  2 Aug 2025 08:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754119804; cv=none; b=SYggky+cDYZWjgoy1w6nlVlB0COGELeXMcLRqA7XHvfC2FYIf7Q8xFOWm6Gn06XKms+Ylld1smZ8MYkTpzg2CMMuKYOG+Bx4QZeOnSfy/KOwPLDSXfaj6sMoZG/MRmT+3ruZTBBJgaXZTThi4XmlcH9mE7H+5tueVjkD3L+FGTU=
+	t=1754122488; cv=none; b=VK0uBY8MkYaYxEbjZIP7YdclRUWNSp0Vc74u2tY/ujxTYFIGfpHbTVVhyNcEXoYCxCtQlMx0YYJjCN9icYuXWdxVbP4i7O+mYxt8lTZ3HTv+1WNql6/bY6OOxP77SVRAURT47lphu5gbHy8LySbIKxLfBi2imNxG6bI7TY//xgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754119804; c=relaxed/simple;
-	bh=DIDcBZIkPuJkd9g00xqreI+Dc8V8g6RIIzkmuu9nZ7o=;
+	s=arc-20240116; t=1754122488; c=relaxed/simple;
+	bh=gPgdoG6DKACUz+wbpkMrrqo9G1KgXvXEJHqtTviapgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZJKZX/YLxGnqMKqafkfuo1OjLjHTwHcU/V4m0DBNuqeHbVYlYC16uwIylkawhg/WGocz7KI5xBiXsng32/N6/Hw1Q59ch1qkqKJENt6/6n/fChqQOc5TXDtt7q1cjIY4NSn2CWtUMHHE4uxhmbmbe7t/jye7vO9v3z+8O6ii/uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pZ62GHga; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=RFYqYDaSzQ6/zbkWMCMBDtqdNUXFHxbzBpbN43QnBrrQmYs6XAQyZ3FwSTkIh4WEUMQv12k8CdavbMIDfYe9OVz5m8Sfb8o9N/j476UaCXWXh+yfQrE45Ik5PwcwmH5xjCPFJweyUW5YBxzLIueRCoMSKRMTi35rtzz5qFLxb5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijnmkPFw; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pZ62GHga"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4561607166aso20309535e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 Aug 2025 00:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754119801; x=1754724601; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sVqkSmfmXqQYH9ngeJMeDZTbZMYNuXLAMBadZ9U6AGc=;
-        b=pZ62GHgaD+6zQrbF2towG0sZBWLj0WXsGHDPfQztIGsQKowHHNKv6pnVQyStZSIaB1
-         hWl4wXBkci8rraFArTxDybe8j40G/IgMGuLGzUpBDdrviubyYea/wSzv85uLN4/Zt9qP
-         GCLOquiy3zmbijqqT7fjM6Ne+zPltcbveVMIjXO7xQ0h+ClchxDEXJe+XSqpNTN4Acv7
-         Xyo+mNIhvxlfgZHjeGNOc5Wr6S7oulqkACVRBCkQdTYINSk0ocr05yG2ru6FneUYzV73
-         Qvs3jVFrWwfwET1gjAXPk6hBONQn0H3W8wU05ykZ4mFkff+yx4w4Ini/FdkiTcmABVey
-         73MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754119801; x=1754724601;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sVqkSmfmXqQYH9ngeJMeDZTbZMYNuXLAMBadZ9U6AGc=;
-        b=cOaBMaalf36ZZOFF9XaxnXZBxTHguQyxSR+kuf8/4Q9YlZTg1UBOchjhp6Rs+1fwVI
-         +6k4Qa4LG+FWwtnJEop/ye4yN3o/eMx/k5dad8KjVSynSBrVrLccJUa5DTLv8TOVeo0E
-         rgWqg/dpPUwg4h5CYTkzueaX/90qr2b8v05pGzII/1d4NGY3PW/uQy+/b4bdEacbovy6
-         h1+KhmmonsT1nmQ7OP/K2Rt0rLrYkpSrNGs1NhhDbUpUbFoPkenLnBTBsIzEz8gTB7XY
-         2LKe/SJ8E17i39HL7BE07PiTqi35W4E0Me4If1LbsilZ1z3cWM97mCnQxNMeK3xILRpA
-         gv7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCViXhxSzCb2qEua1A5gc0p5mB1f52sSHJNDdf/72rmpv6kiYYdW5MZfdiZoyJgUxHd+YjiSmRH//ykoKXiY@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZBKRDAT7lnq8H14ftYL/Km7kcEPfF476qeAI3D0Ax4YhVV7Mi
-	gtIZP52ko22f5YBUhihqy6rdl86mg2DHdO1riMfbo9rMXT29PaY0k0RUnFBL1cjNUsw=
-X-Gm-Gg: ASbGncvJEi2BxZwUJEJySefXt/cMho9zLJ8meridnvGqIe1bhQo5FvxYDU3/Q/7ztjG
-	kpY617pjCiooi9JB/JssNq+kPhGEUZJwMXdrcjmJzGgCQ4QfGvTQh611uL37r7A9htoyaBpNhaK
-	hkkZ+ocoULM8vsOdE+GoR6JVemE9sCPGqhgZk8jbd5u9X/Ix1bSyIa7+Bs7JhWEB5yYj+NMw7bp
-	VSbSwwXZN3lfjeWu9yUzBagAgrxJAfL2UmZiP3e/gvHQ/E956HY6FmbDxiR+2a7+ZU/tfhqrqnE
-	Lk9g5dEobyC++jbFpGR6JZ695Wfif8FBIS3Ev4Srnjfa0X79SwPjOtJwBk4EQ+FwdoLwoR0k+xb
-	f8c7EqDnVY9rTwiDLkVdkHOiq9tc=
-X-Google-Smtp-Source: AGHT+IF8KvCsCjeTEyKbXPId3ohQmFPUY38d88zx4FQsCO/4ZoZFs0jr0FAKcWT1QAALg5TjCmnVhA==
-X-Received: by 2002:a05:600c:4692:b0:456:1a69:94fa with SMTP id 5b1f17b1804b1-458b69dd831mr13148315e9.13.1754119800883;
-        Sat, 02 Aug 2025 00:30:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c47ca5fsm8119453f8f.63.2025.08.02.00.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 00:30:00 -0700 (PDT)
-Date: Sat, 2 Aug 2025 10:29:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kent Overstreet <kent.overstreet@linux.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12911/13054] fs/bcachefs/snapshot.c:1149
- bch2_snapshot_node_delete() warn: missing error code? 'ret'
-Message-ID: <8dc19809-7a3a-427f-be4e-bec7a76b4bfd@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijnmkPFw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754122487; x=1785658487;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gPgdoG6DKACUz+wbpkMrrqo9G1KgXvXEJHqtTviapgw=;
+  b=ijnmkPFwkrBm60T5F9bEwuLuwquwHi9Vv+ftTPoRJgtcan5f5XRY2A4P
+   dyjQvU4UaJrTWTn992G9TkR3i++tS7C08yQDGpsUAT024si1PRh+mfxiJ
+   WpYtFu4npCigoGRsw5fQabuvAiGeh/c6/aakwpjtfIgnOtAgS6XuUaIw+
+   CKm9BlbMoEng8uoldaTMi5e7RwuATFmfIUWEqqnfrplBDrsoxBMff8xc9
+   QrAPup+/GFDHo7dcekFgt3jhA+YHR0nBPGoc91sE6eztxd1h0oBtuAsLk
+   JJJ3xzE36etJt+q/hFrrdyaksyIdjUgDDet4yxuZUOatJwrR0DfSpczPb
+   g==;
+X-CSE-ConnectionGUID: Ggo3wMOJQCSUy3fvOIYnRQ==
+X-CSE-MsgGUID: qAy8kxpBTJ24heaNW/rJaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67530152"
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
+   d="scan'208";a="67530152"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 01:14:46 -0700
+X-CSE-ConnectionGUID: 2300p3UoT5KcC+AHc8nkkA==
+X-CSE-MsgGUID: 4xKOult4RT+SOh1NOym/Hg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
+   d="scan'208";a="167937655"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Aug 2025 01:14:44 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ui7O6-0005FI-0P;
+	Sat, 02 Aug 2025 08:14:42 +0000
+Date: Sat, 2 Aug 2025 16:13:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 12906/13054] fs/bcachefs/dirent.c:752:3: error:
+ cannot jump from this goto statement to its label
+Message-ID: <202508021612.sgqqMGQr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,85 +64,54 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-commit: 24c5e7ab4066da2073d1c50e82308c8bc0ec4ec3 [12911/13054] bcachefs: Convert bch2_bkey_get_mut() to CLASS(btree_iter)
-config: parisc-randconfig-r071-20250801 (https://download.01.org/0day-ci/archive/20250802/202508020434.RgnHwchO-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
+commit: 4c3205637f1ecb1af44e99c92a9931ae2f84bc58 [12906/13054] bcachefs: CLASS(btree_iter)
+config: x86_64-randconfig-008-20250630 (https://download.01.org/0day-ci/archive/20250802/202508021612.sgqqMGQr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508021612.sgqqMGQr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508020434.RgnHwchO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508021612.sgqqMGQr-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/snapshot.c:1149 bch2_snapshot_node_delete() warn: missing error code? 'ret'
+All errors (new ones prefixed by >>):
 
-vim +/ret +1149 fs/bcachefs/snapshot.c
+>> fs/bcachefs/dirent.c:752:3: error: cannot jump from this goto statement to its label
+     752 |                 goto err;
+         |                 ^
+   fs/bcachefs/dirent.c:756:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     756 |         CLASS(btree_iter, iter)(trans, BTREE_ID_dirents, pos, BTREE_ITER_intent);
+         |                           ^
+   1 error generated.
+--
+>> fs/bcachefs/io_misc.c:275:3: error: cannot jump from this goto statement to its label
+     275 |                 goto err;
+         |                 ^
+   fs/bcachefs/io_misc.c:277:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     277 |         CLASS(btree_iter, fpunch_iter)(trans, BTREE_ID_extents,
+         |                           ^
+   1 error generated.
 
-96dea3d599dbc3 Kent Overstreet 2023-09-12  1110  static int bch2_snapshot_node_delete(struct btree_trans *trans, u32 id)
-8e877caaad8185 Kent Overstreet 2023-08-16  1111  {
-8e877caaad8185 Kent Overstreet 2023-08-16  1112  	struct bch_fs *c = trans->c;
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1113  	u32 parent_id, child_id;
-8e877caaad8185 Kent Overstreet 2023-08-16  1114  	unsigned i;
-8e877caaad8185 Kent Overstreet 2023-08-16  1115  
-e9756dd29f33ed Kent Overstreet 2025-05-02  1116  	struct bkey_i_snapshot *s =
-24c5e7ab4066da Kent Overstreet 2025-07-31  1117  		bch2_bkey_get_mut_typed(trans, BTREE_ID_snapshots, POS(0, id), 0, snapshot);
-24c5e7ab4066da Kent Overstreet 2025-07-31  1118  	int ret = PTR_ERR_OR_ZERO(s);
-8e877caaad8185 Kent Overstreet 2023-08-16  1119  	bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-8e877caaad8185 Kent Overstreet 2023-08-16  1120  				"missing snapshot %u", id);
-8e877caaad8185 Kent Overstreet 2023-08-16  1121  
-8e877caaad8185 Kent Overstreet 2023-08-16  1122  	if (ret)
-24c5e7ab4066da Kent Overstreet 2025-07-31  1123  		return ret;
-8e877caaad8185 Kent Overstreet 2023-08-16  1124  
-e9756dd29f33ed Kent Overstreet 2025-05-02  1125  	BUG_ON(BCH_SNAPSHOT_DELETED(&s->v));
-e9756dd29f33ed Kent Overstreet 2025-05-02  1126  	BUG_ON(s->v.children[1]);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1127  
-e9756dd29f33ed Kent Overstreet 2025-05-02  1128  	parent_id = le32_to_cpu(s->v.parent);
-e9756dd29f33ed Kent Overstreet 2025-05-02  1129  	child_id = le32_to_cpu(s->v.children[0]);
-8e877caaad8185 Kent Overstreet 2023-08-16  1130  
-8e877caaad8185 Kent Overstreet 2023-08-16  1131  	if (parent_id) {
-24c5e7ab4066da Kent Overstreet 2025-07-31  1132  		struct bkey_i_snapshot *parent =
-24c5e7ab4066da Kent Overstreet 2025-07-31  1133  			bch2_bkey_get_mut_typed(trans, BTREE_ID_snapshots, POS(0, parent_id),
-8e877caaad8185 Kent Overstreet 2023-08-16  1134  						0, snapshot);
-8e877caaad8185 Kent Overstreet 2023-08-16  1135  		ret = PTR_ERR_OR_ZERO(parent);
-8e877caaad8185 Kent Overstreet 2023-08-16  1136  		bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-8e877caaad8185 Kent Overstreet 2023-08-16  1137  					"missing snapshot %u", parent_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1138  		if (unlikely(ret))
-24c5e7ab4066da Kent Overstreet 2025-07-31  1139  			return ret;
-8e877caaad8185 Kent Overstreet 2023-08-16  1140  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1141  		/* find entry in parent->children for node being deleted */
-8e877caaad8185 Kent Overstreet 2023-08-16  1142  		for (i = 0; i < 2; i++)
-8e877caaad8185 Kent Overstreet 2023-08-16  1143  			if (le32_to_cpu(parent->v.children[i]) == id)
-8e877caaad8185 Kent Overstreet 2023-08-16  1144  				break;
-8e877caaad8185 Kent Overstreet 2023-08-16  1145  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1146  		if (bch2_fs_inconsistent_on(i == 2, c,
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1147  					"snapshot %u missing child pointer to %u",
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1148  					parent_id, id))
-24c5e7ab4066da Kent Overstreet 2025-07-31 @1149  			return ret;
 
-This returns success but it looks like the intention was to return an
-error code.
+vim +752 fs/bcachefs/dirent.c
 
-8e877caaad8185 Kent Overstreet 2023-08-16  1150  
-0a11adfb7aceb6 Kent Overstreet 2023-11-11  1151  		parent->v.children[i] = cpu_to_le32(child_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1152  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1153  		normalize_snapshot_child_pointers(&parent->v);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1154  	}
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1155  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1156  	if (child_id) {
-24c5e7ab4066da Kent Overstreet 2025-07-31  1157  		struct bkey_i_snapshot *child =
-24c5e7ab4066da Kent Overstreet 2025-07-31  1158  			bch2_bkey_get_mut_typed(trans, BTREE_ID_snapshots, POS(0, child_id),
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1159  						0, snapshot);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1160  		ret = PTR_ERR_OR_ZERO(child);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1161  		bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1162  					"missing snapshot %u", child_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1163  		if (unlikely(ret))
-24c5e7ab4066da Kent Overstreet 2025-07-31  1164  			return ret;
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1165  
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1166  		child->v.parent = cpu_to_le32(parent_id);
-f55d6e07bc6c9b Kent Overstreet 2023-08-17  1167  
+758ea4ff812b4d Kent Overstreet 2025-03-20  743  
+758ea4ff812b4d Kent Overstreet 2025-03-20  744  int bch2_fsck_remove_dirent(struct btree_trans *trans, struct bpos pos)
+758ea4ff812b4d Kent Overstreet 2025-03-20  745  {
+758ea4ff812b4d Kent Overstreet 2025-03-20  746  	struct bch_fs *c = trans->c;
+758ea4ff812b4d Kent Overstreet 2025-03-20  747  	struct bch_inode_unpacked dir_inode;
+758ea4ff812b4d Kent Overstreet 2025-03-20  748  	struct bch_hash_info dir_hash_info;
+758ea4ff812b4d Kent Overstreet 2025-03-20  749  
+4c3205637f1ecb Kent Overstreet 2025-07-30  750  	int ret = lookup_first_inode(trans, pos.inode, &dir_inode);
+758ea4ff812b4d Kent Overstreet 2025-03-20  751  	if (ret)
+758ea4ff812b4d Kent Overstreet 2025-03-20 @752  		goto err;
+
+:::::: The code at line 752 was first introduced by commit
+:::::: 758ea4ff812b4dfd4cef6dba0eb4b0025a7b147e bcachefs: Move bch2_check_dirent_target() to namei.c
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
