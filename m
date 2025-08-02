@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3E042AA1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 01:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1071A4964E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 02:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754098723; cv=none; b=MY6uNLgnhXN8x3HHCKuUiMtOHTedBqZubbcZnV04aJR3iwUEE4NqOpPr4dG44Ie1F2gBlq9J3CSWnqcl6yEHk0Z2cvJgCIzlOl/QNt1DLUPRON0kEagz5DHEn7o1qqHmFDO/Tfi6LYykCpfmsLi7xIWw4VbkZvshCZrb3+dd4yo=
+	t=1754100378; cv=none; b=MHW/xwxioC6AeRsvshFcWFJD/81FjiNCuw9ILvmy4vn2oFHXeJKtKx+SQYe40gHbqrX05g6n2UsxYLM4l6nrhpBDNvrBFmG4tw855+zzioDgyp2LW/BJGLwq96xj9M0BmyPcWRcHqZrZGgGbM25FP5a7CVCyavjkgOvu2CFvJus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754098723; c=relaxed/simple;
-	bh=2sfE04cO8cgDd4Fg1avw/Ly9eqct9hagR6UUXU2DAh4=;
+	s=arc-20240116; t=1754100378; c=relaxed/simple;
+	bh=CeO9+H5Wkv8f40ztt39PVBGF/5d/D/HEC/Zq02+ZlAk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tVtlanAK9aixuQ66Xlbrwz1rBvgCpEznpxboxEdu78wFw5/JVFjmvZvRjo48Fp3PA1SMxuDcnaZBLKaiPaYxTRih9ZFpMvI0wUDLfJGJDkjKkKbCe5MKgZBtsSq6vaMGEaOguxOpjgUR2ILwXQXH2xTqNvrjEu8oTforDwcWsVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxbEGVLN; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=SU3VZFMG0vFuqVvXszbKseMp9tABlzW41OwGXd0Kxm/uhw/f3i79xCgXy7gVLnxxWKcUQTqD21ojsctGrTZ9mRnH6xsUfg/N6EkJh9s/eqLOd+MypG92suLu0n87TLgJXIb+uTfNeFG3mHUsdndqnK18yASJIS9wojyz7v0qW3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRHzu07a; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxbEGVLN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRHzu07a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754098721; x=1785634721;
+  t=1754100376; x=1785636376;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2sfE04cO8cgDd4Fg1avw/Ly9eqct9hagR6UUXU2DAh4=;
-  b=WxbEGVLNVuMfRMXFlf1rk3V3QyTAt53rm4x2QldN2EfjQ65O/m4fV2iM
-   Do8tuY1zDtGF0aTdzZs3tDb6vBb4oFJgPA9dGUVOzOJf//rkpUjuLHZpM
-   PG/Xk6J+NSu7IuNSLZIHahPcpI2+RLjhenbbTGZt9PVzelEaG7A8pw6G/
-   5K5gme0nfGyoYcw1QUqBmLiMmxD83yAgW312QG9lyIovvV3ksVwOxKvA5
-   uD7NF338lk8048NQo+eKWCgdfo1ILaaHW5cbzuU4BWn91+ta7n+7g2ROm
-   +lV4otvn68P27wgbs5itVZkdCRxzx4qpx6jZHVRfuQR5ex0YnJW4Vs500
+  bh=CeO9+H5Wkv8f40ztt39PVBGF/5d/D/HEC/Zq02+ZlAk=;
+  b=gRHzu07aPjWb3VTLHRvhl7mr1om7WQ6Dh8MrpMsxSNyRvT9azjRPysIH
+   aXLbw68tplqImzBFoEr2t8PLhcJOpAkYabzTVE8u78ldrLy0tIMF+8Qs1
+   /Tya15WlMF1mX3aD4mrcczo1bM//d65uq3+rSmMVRHqXBg76cDPCVVU/Q
+   SLppI0fvc9Oq4EdUEYxnisbb7XpbtZTMqIsLp2z9iCxPvdvkPSc8OOxa8
+   8SG2ZAXOy0b1R0LG0ADeO8ZlBdG7NUSGwE3QVSldFGZgOevMZc/NMPuDZ
+   qhEJsfW9qiHXvDGMF+ZQyQKJbWHCzBoy/tiqX4ZnZSy5eiuMRPawpXTyC
    w==;
-X-CSE-ConnectionGUID: I//9Cx6qS9Kx+hIG8a+yaA==
-X-CSE-MsgGUID: phYkaghOQhKkil1N7S1Q/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67815411"
+X-CSE-ConnectionGUID: urRTsZv4SHuFW2rk03f2Xw==
+X-CSE-MsgGUID: JT0ZoJN0Tna24uTqiwSliQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56533053"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="67815411"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 18:38:41 -0700
-X-CSE-ConnectionGUID: KdcgouR2QtGNevIybS6n/A==
-X-CSE-MsgGUID: FOMdlO0lRia53mMl2iLm8Q==
+   d="scan'208";a="56533053"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 19:06:16 -0700
+X-CSE-ConnectionGUID: LgNeLNgPSp+1Wn4PqI526Q==
+X-CSE-MsgGUID: 445MpQXNR/G4Gg0faCKEdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168170081"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 01 Aug 2025 18:38:40 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="164093941"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 01 Aug 2025 19:06:14 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui1Cn-0001Kd-1R;
-	Sat, 02 Aug 2025 01:38:37 +0000
-Date: Sat, 2 Aug 2025 03:38:00 +0200
+	id 1ui1dU-000564-0t;
+	Sat, 02 Aug 2025 02:06:12 +0000
+Date: Sat, 2 Aug 2025 10:05:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [mripard:drm/state-readout 39/51]
  drivers/gpu/drm/tidss/tidss_dispc.c:2992:1: warning: label 'err_clk_disable'
  defined but not used
-Message-ID: <202508020338.YXfUAVLi-lkp@intel.com>
+Message-ID: <202508021007.dgIrVQ5n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,61 +66,70 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git drm/state-readout
 head:   f8f58ab7e9eac7e5daa40ab3f03b67f54ee9e9a4
 commit: a002bb9e724a3a99d4e0d030a90d053a61980592 [39/51] [HACK] drm/tidss: dispc: Skip reset
-config: parisc-randconfig-2001-20250801 (https://download.01.org/0day-ci/archive/20250802/202508020338.YXfUAVLi-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020338.YXfUAVLi-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20250802 (https://download.01.org/0day-ci/archive/20250802/202508021007.dgIrVQ5n-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508021007.dgIrVQ5n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508020338.YXfUAVLi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508021007.dgIrVQ5n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bug.h:5,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/gpu/drm/tidss/tidss_dispc.c:7:
-   drivers/gpu/drm/tidss/tidss_dispc.c: In function 'CH':
-   drivers/gpu/drm/tidss/tidss_dispc.c:483:35: error: 'struct dev_pm_info' has no member named 'runtime_status'
-     483 |         WARN_ON((dispc->dev->power.runtime_status != RPM_ACTIVE) &&
-         |                                   ^
-   arch/parisc/include/asm/bug.h:86:32: note: in definition of macro 'WARN_ON'
-      86 |         int __ret_warn_on = !!(x);                              \
-         |                                ^
-   drivers/gpu/drm/tidss/tidss_dispc.c:484:35: error: 'struct dev_pm_info' has no member named 'runtime_status'
-     484 |                 (dispc->dev->power.runtime_status != RPM_RESUMING) &&
-         |                                   ^
-   arch/parisc/include/asm/bug.h:86:32: note: in definition of macro 'WARN_ON'
-      86 |         int __ret_warn_on = !!(x);                              \
-         |                                ^
-   drivers/gpu/drm/tidss/tidss_dispc.c:485:35: error: 'struct dev_pm_info' has no member named 'runtime_status'
-     485 |                 (dispc->dev->power.runtime_status != RPM_SUSPENDING));
-         |                                   ^
-   arch/parisc/include/asm/bug.h:86:32: note: in definition of macro 'WARN_ON'
-      86 |         int __ret_warn_on = !!(x);                              \
-         |                                ^
-   drivers/gpu/drm/tidss/tidss_dispc.c: In function 'FLD_MOD':
-   drivers/gpu/drm/tidss/tidss_dispc.c:581:33: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     581 |         return (orig & ~mask) | FIELD_PREP(mask, val);
-         |                                 ^~~~~~~~~~
-   drivers/gpu/drm/tidss/tidss_dispc.c: In function 'REG_GET':
-   drivers/gpu/drm/tidss/tidss_dispc.c:586:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     586 |         return FIELD_GET(mask, dispc_read(dispc, idx));
-         |                ^~~~~~~~~
    drivers/gpu/drm/tidss/tidss_dispc.c: In function 'dispc_init_hw':
 >> drivers/gpu/drm/tidss/tidss_dispc.c:2992:1: warning: label 'err_clk_disable' defined but not used [-Wunused-label]
     2992 | err_clk_disable:
          | ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/tidss/tidss_dispc.c: At top level:
+   At top level:
 >> drivers/gpu/drm/tidss/tidss_dispc.c:2939:12: warning: 'dispc_softreset' defined but not used [-Wunused-function]
     2939 | static int dispc_softreset(struct dispc_device *dispc)
          |            ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from <command-line>:
+   drivers/gpu/drm/tidss/tidss_dispc.c: In function 'FLD_MOD':
+   include/linux/compiler_types.h:568:38: error: call to '__compiletime_assert_438' declared with attribute error: FIELD_PREP: mask is not constant
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:549:4: note: in definition of macro '__compiletime_assert'
+     549 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),  \
+         |   ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:115:3: note: in expansion of macro '__BF_FIELD_CHECK'
+     115 |   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
+         |   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tidss/tidss_dispc.c:581:26: note: in expansion of macro 'FIELD_PREP'
+     581 |  return (orig & ~mask) | FIELD_PREP(mask, val);
+         |                          ^~~~~~~~~~
+   drivers/gpu/drm/tidss/tidss_dispc.c: In function 'REG_GET':
+   include/linux/compiler_types.h:568:38: error: call to '__compiletime_assert_443' declared with attribute error: FIELD_GET: mask is not constant
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:549:4: note: in definition of macro '__compiletime_assert'
+     549 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),  \
+         |   ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:155:3: note: in expansion of macro '__BF_FIELD_CHECK'
+     155 |   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: "); \
+         |   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tidss/tidss_dispc.c:586:9: note: in expansion of macro 'FIELD_GET'
+     586 |  return FIELD_GET(mask, dispc_read(dispc, idx));
+         |         ^~~~~~~~~
 
 
 vim +/err_clk_disable +2992 drivers/gpu/drm/tidss/tidss_dispc.c
