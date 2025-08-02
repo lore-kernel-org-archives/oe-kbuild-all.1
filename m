@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631D71991DD
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 10:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA4DA920
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 10:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754129278; cv=none; b=ZkuIwE+x47aD0vISHTOOgolyf3/I2b0EeITCJfnXRVHd9IE2rZLiN/XOacuyJYxOYtDeT1G+XqIL1nCebPXAnCPDrn1iTZBST8/Jn4YG4F/8fKDzyMz0LcgbKd7o4B3DUtlQS07+0QfRoTh4R/fzXZ4d7lZ1uBULVIZH66KzS+c=
+	t=1754129880; cv=none; b=AiVET/c/ANiYq/tGxKkz5mHtx1LzkxbbRgm+vXJIkspvEb4szfx7c9o44N/ZiKZewj1CcCwwoa8BV5Cu+/LM9EJPhgM4CgvxJH+68Fi4BxYxRFMNKMZ4su902jzA8tDsA1boOt0bIb4GNFJCGH2Ogw3o2TiNXbfaLQGZ0g6FK04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754129278; c=relaxed/simple;
-	bh=WifwYiw+/VhG8MFuis/kqFt7PWc4yq0zX4DIOGOfrq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kJei37xANZyF4t+7Em23Sm0F1JhfECpJKzDASNFGTHDlXiE2qygTTN1PrGAGK3XPyVB10ybByqiOPf7tAcvv7oHSEXJMd1lQW8PiBxSEu7ICm1ebrE7swo5Y0A6nJ8G7zhmFCPCsE/6c4v4OZnAFoUohpJrTFhYCVdNKW+WaR7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHnWTylD; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1754129880; c=relaxed/simple;
+	bh=riNYIRqVoOoakrBnug7k5od3DJ5mfh+UAdeMk36JlMs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GO4ydkTuPoVTgeOoIsj4+uUFvbaVB+zaUANZasq7a/b0o8sZjDfq8hX+SUIJvJIrNOJZihOAu56UlCD6qz/FbQZzNH0wUnHckSkz5lTN/JY+1qM4V9SfDC9NC64KJ26WenbNolS96ALjLsdZibzuI6WkAKlQgPDsgrIG0/tsZpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjPRpBoJ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHnWTylD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjPRpBoJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754129276; x=1785665276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WifwYiw+/VhG8MFuis/kqFt7PWc4yq0zX4DIOGOfrq8=;
-  b=PHnWTylD95THkNTtvO5zAAbEp3+0EDCIU8ddD++8O9umxSd64q3OBsoh
-   LExszsJu5QiEWehL2ol8wXxnak7n4hfFY+/Pu1eMXghnFFWNkSB4Rn7H5
-   4nM7KB4oYnCzK3CXJLuIUtPQ4QrVCmjSahD9rM1+ysjvJdVO2yvOTRKyS
-   GKn6F4vrCyN2uJUsqaLhgOnkfu8QqCKcGS3KeBrDpDxUzSN9BGN5I/uaa
-   IobbPCZGwfvNYivsq7Afhw9yU1mkjLJSUIUxO5E/0MQZTUUjndf0MZSO7
-   0YCCQUmcXio8lFjg8gn0HsRCP/TZUQrJm3RYfZ+mlCrZBNkAkOt14RVwf
-   w==;
-X-CSE-ConnectionGUID: idn8C8GZTnm8ZiijymkVoQ==
-X-CSE-MsgGUID: MjfbHWO1R2udzftQECojmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56548696"
+  t=1754129878; x=1785665878;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=riNYIRqVoOoakrBnug7k5od3DJ5mfh+UAdeMk36JlMs=;
+  b=NjPRpBoJRguD+BJZZN0phNjp0bRBkAZ2A7/zVsIOTv9Gr8NKi3aSEU1m
+   b6xzfIP1VgqNf9FEhJl+4Pyx1rRZuSNNqUbphXNHHwr4eZCSoZFP/zWjZ
+   ON/6wY3QEzSQE15kP6g7+NHnlxnxmBKy2n9jZX1sVPtCX/YEeqR4jjaH9
+   4ciNsPW+Mzy6RC0MvE7nSwvr/VDCtCIPXpkbuyEKMsAnWKvxV5+/jABn4
+   MsLIK+poRG+JANBi/XebghYHupxwWic4V8q9mlPle+5CN/h81/XOwTsiC
+   z19Fit/pjsSsbQGiNerq8fqsPagfWE2z7UGo8iMnsfB2VtmqFmJC/muE9
+   A==;
+X-CSE-ConnectionGUID: h1tX/vUET0OX0Qug7BPmJw==
+X-CSE-MsgGUID: nbUCk9q5SeOWeBpgv+GB1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="74052868"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56548696"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 03:07:56 -0700
-X-CSE-ConnectionGUID: 3krxle8xTzCGPuWpLHetTw==
-X-CSE-MsgGUID: O/FXCyNQTSqPo6EQJGwuDg==
+   d="scan'208";a="74052868"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 03:17:57 -0700
+X-CSE-ConnectionGUID: ALnym2G+Q5KJYzyyGR31WA==
+X-CSE-MsgGUID: 7YIAIXgYQpKP/vbYvYF2kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="163778078"
+   d="scan'208";a="168229114"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Aug 2025 03:07:53 -0700
+  by orviesa004.jf.intel.com with ESMTP; 02 Aug 2025 03:17:55 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui99a-0005IW-1u;
-	Sat, 02 Aug 2025 10:07:50 +0000
-Date: Sat, 2 Aug 2025 18:07:32 +0800
+	id 1ui9JH-0005Iq-1f;
+	Sat, 02 Aug 2025 10:17:51 +0000
+Date: Sat, 2 Aug 2025 18:17:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Ethan Carter Edwards <ethan@ethancedwards.com>
-Subject: Re: [PATCH] drm/nouveau/gsp: remove always true if check
-Message-ID: <202508021705.k0nkiqga-lkp@intel.com>
-References: <20250801-nouveau-fifo-v1-1-25b9db5283bc@ethancedwards.com>
+To: Gu Bowen <gubowen5@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [sj:mm-new 40/108] mm/kmemleak.c:440:25: error: implicit declaration
+ of function '__printk_safe_enter'
+Message-ID: <202508021825.tUu2retW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,108 +63,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250801-nouveau-fifo-v1-1-25b9db5283bc@ethancedwards.com>
 
-Hi Ethan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b9ddaa95fd283bce7041550ddbbe7e764c477110]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Carter-Edwards/drm-nouveau-gsp-remove-always-true-if-check/20250802-095804
-base:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-patch link:    https://lore.kernel.org/r/20250801-nouveau-fifo-v1-1-25b9db5283bc%40ethancedwards.com
-patch subject: [PATCH] drm/nouveau/gsp: remove always true if check
-config: i386-buildonly-randconfig-004-20250802 (https://download.01.org/0day-ci/archive/20250802/202508021705.k0nkiqga-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git mm-new
+head:   85e964e7a1ee73a0bb6db3e08355b93b25fa295f
+commit: c9e6712790c0d20de3914c44e8a22d9df00cb28a [40/108] mm: fix possible deadlock in console_trylock_spinning
+config: i386-buildonly-randconfig-001-20250802 (https://download.01.org/0day-ci/archive/20250802/202508021825.tUu2retW-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508021705.k0nkiqga-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508021825.tUu2retW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508021705.k0nkiqga-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508021825.tUu2retW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c: In function 'r535_chan_ramfc_write':
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c:193:34: error: conflicting types for 'ctrl'; have 'NVA06F_CTRL_BIND_PARAMS *'
-     193 |         NVA06F_CTRL_BIND_PARAMS *ctrl;
-         |                                  ^~~~
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c:191:45: note: previous declaration of 'ctrl' with type 'NVA06F_CTRL_GPFIFO_SCHEDULE_PARAMS *'
-     191 |         NVA06F_CTRL_GPFIFO_SCHEDULE_PARAMS *ctrl;
-         |                                             ^~~~
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c:211:13: error: 'NVA06F_CTRL_BIND_PARAMS' has no member named 'bEnable'
-     211 |         ctrl->bEnable = 1;
-         |             ^~
+   mm/kmemleak.c: In function '__lookup_object':
+>> mm/kmemleak.c:440:25: error: implicit declaration of function '__printk_safe_enter' [-Werror=implicit-function-declaration]
+     440 |                         __printk_safe_enter();
+         |                         ^~~~~~~~~~~~~~~~~~~
+>> mm/kmemleak.c:444:25: error: implicit declaration of function '__printk_safe_exit' [-Werror=implicit-function-declaration]
+     444 |                         __printk_safe_exit();
+         |                         ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +193 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
+vim +/__printk_safe_enter +440 mm/kmemleak.c
 
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  152  
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  153  static int
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  154  r535_chan_ramfc_write(struct nvkm_chan *chan, u64 offset, u64 length, u32 devm, bool priv)
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  155  {
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  156  	struct nvkm_fifo *fifo = chan->cgrp->runl->fifo;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  157  	struct nvkm_engn *engn;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  158  	struct nvkm_device *device = fifo->engine.subdev.device;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  159  	const struct nvkm_rm_api *rmapi = device->gsp->rm->api;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  160  	u32 eT = ~0;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  161  	int ret;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  162  
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  163  	if (unlikely(device->gr && !device->gr->engine.subdev.oneinit)) {
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  164  		ret = nvkm_subdev_oneinit(&device->gr->engine.subdev);
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  165  		if (ret)
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  166  			return ret;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  167  	}
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  168  
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  169  	nvkm_runl_foreach_engn(engn, chan->cgrp->runl) {
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  170  		eT = engn->id;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  171  		break;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  172  	}
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  173  
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  174  	if (WARN_ON(eT == ~0))
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  175  		return -EINVAL;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  176  
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  177  	chan->rm.mthdbuf.ptr = dma_alloc_coherent(fifo->engine.subdev.device->dev,
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  178  						  fifo->rm.mthdbuf_size,
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  179  						  &chan->rm.mthdbuf.addr, GFP_KERNEL);
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  180  	if (!chan->rm.mthdbuf.ptr)
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  181  		return -ENOMEM;
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  182  
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  183  	ret = rmapi->fifo->chan.alloc(&chan->vmm->rm.device, NVKM_RM_CHAN(chan->id),
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  184  				      eT, chan->runq, priv, chan->id, chan->inst->addr,
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  185  				      nvkm_memory_addr(chan->userd.mem) + chan->userd.base,
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  186  				      chan->rm.mthdbuf.addr, chan->vmm, offset, length,
-27b13dc5d0515e drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c Ben Skeggs 2024-11-20  187  				      &chan->rm.object);
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  188  	if (ret)
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  189  		return ret;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  190  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  191  	NVA06F_CTRL_GPFIFO_SCHEDULE_PARAMS *ctrl;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  192  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19 @193  	NVA06F_CTRL_BIND_PARAMS *ctrl;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  194  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  195  	ctrl = nvkm_gsp_rm_ctrl_get(&chan->rm.object,
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  196  						NVA06F_CTRL_CMD_BIND, sizeof(*ctrl));
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  197  	if (WARN_ON(IS_ERR(ctrl)))
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  198  		return PTR_ERR(ctrl);
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  199  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  200  	ctrl->engineType = eT;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  201  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  202  	ret = nvkm_gsp_rm_ctrl_wr(&chan->rm.object, ctrl);
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  203  	if (ret)
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  204  		return ret;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  205  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  206  	ctrl = nvkm_gsp_rm_ctrl_get(&chan->rm.object,
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  207  					NVA06F_CTRL_CMD_GPFIFO_SCHEDULE, sizeof(*ctrl));
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  208  	if (WARN_ON(IS_ERR(ctrl)))
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  209  		return PTR_ERR(ctrl);
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  210  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19 @211  	ctrl->bEnable = 1;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  212  	ret = nvkm_gsp_rm_ctrl_wr(&chan->rm.object, ctrl);
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  213  
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  214  	return ret;
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  215  }
-2a77d015b53886 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c        Ben Skeggs 2023-09-19  216  
+   413	
+   414	/*
+   415	 * Look-up a memory block metadata (kmemleak_object) in the object search
+   416	 * tree based on a pointer value. If alias is 0, only values pointing to the
+   417	 * beginning of the memory block are allowed. The kmemleak_lock must be held
+   418	 * when calling this function.
+   419	 */
+   420	static struct kmemleak_object *__lookup_object(unsigned long ptr, int alias,
+   421						       unsigned int objflags)
+   422	{
+   423		struct rb_node *rb = object_tree(objflags)->rb_node;
+   424		unsigned long untagged_ptr = (unsigned long)kasan_reset_tag((void *)ptr);
+   425	
+   426		while (rb) {
+   427			struct kmemleak_object *object;
+   428			unsigned long untagged_objp;
+   429	
+   430			object = rb_entry(rb, struct kmemleak_object, rb_node);
+   431			untagged_objp = (unsigned long)kasan_reset_tag((void *)object->pointer);
+   432	
+   433			if (untagged_ptr < untagged_objp)
+   434				rb = object->rb_node.rb_left;
+   435			else if (untagged_objp + object->size <= untagged_ptr)
+   436				rb = object->rb_node.rb_right;
+   437			else if (untagged_objp == untagged_ptr || alias)
+   438				return object;
+   439			else {
+ > 440				__printk_safe_enter();
+   441				kmemleak_warn("Found object by alias at 0x%08lx\n",
+   442					      ptr);
+   443				dump_object_info(object);
+ > 444				__printk_safe_exit();
+   445				break;
+   446			}
+   447		}
+   448		return NULL;
+   449	}
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
