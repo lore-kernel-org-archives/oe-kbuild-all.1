@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9ABF17BA5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 22:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D472A165F16;
+	Sat,  2 Aug 2025 22:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754173796; cv=none; b=dQ5dr98KAigag6VznCKG4DbwCc4EssIvHFh+RuA6Z0g8Y8Yf+IKKtoBnTlxMdrqdfXzmYJj1GD8MbEoobiq5jllpf0GbVn6RWdwhjLRJ/BfjHrmnj/8oArCexvcKa38xfm+yjHv0BNoid0RD0jO+Mnj28FpS5lSDwoKlMYVJbaY=
+	t=1754175116; cv=none; b=FOHI44DbGCxOMfimbPtR8CmvlW5bCHpusICRjOpd+JJAFNTYXscelLsOvu7alRjCI4SrCEbE6hxadNZpUMkq8JgtpQ+c0pqCjJ0tVnPSPqmJcGn4TO3gKVTt7fH9yTUr3vFzjAZjDIxSjswS2QZzf4tnYo6aUnP5NIILvExdVW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754173796; c=relaxed/simple;
-	bh=2y82VdY0nQWJpna0kVM+g/CMRjb9AMLLeM7aWVWcSCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WjabPswspKiKufmU2F0koO3XP0R8NRQzk9g3Urlxh1kesESRSs7KNzDO1axoi/W+gsL9k/Vt4KMCKMXkstTxdDYsfmBMFSftKH8eevX+v2kcBq29ilMd9fr5GWNbGA78lzrnqJMZR/qB/xuTgi888AH2g6FTaPnKW1p/roT+QY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgsnyLRe; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1754175116; c=relaxed/simple;
+	bh=y/n12O9fa44RVpWSR/uGMzs+dyOyktMqkxPoVmLAku4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LY5OqNrF/abpQIC7+w8BREa3JIMJWzH0ROmN5ZxDYuaFOYGHivlqSS8LDRLIj+pD0PakLLUhG2OYSLZYLUXpzszrVFe2HtICqA8olKerGQ3upr4lgpL0rQiyT55Hl7+icEL3QNg3AqhsrgFqyFLeOITBgCrrNcW2gBwB5zay8/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oD26mui3; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgsnyLRe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oD26mui3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754173792; x=1785709792;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2y82VdY0nQWJpna0kVM+g/CMRjb9AMLLeM7aWVWcSCE=;
-  b=OgsnyLReG90G4LJE20EE8XLPLgpS0kuL0fvZtNc9T6Lx16HveKMl/gBF
-   3my6D9J7w/g2HvPU1Oc6fBe1woSC7KbnfnwBHgQtnsYgqQKdVRzMiWVIr
-   vjrSK/o+sYMha4tJDtgypwXFk0kEU1EEWqYRtpmXoQnaaCIwJPJ6BymN5
-   cs3+2Myiqju4pEGhcAO9D9LnEJA6xZHwSq9jejaTrS2wB6puH0WIxvCgL
-   OXOqXlmpgxm+6g4I06d8mO+8fKwC35dN81oRzXungTmzskc0/a6uGpufA
-   97rq2pYcJKO6LiKeJY8Ux6scO5tqgTcZHAsALLJNOHBq1A8J7GfjQwZJu
-   A==;
-X-CSE-ConnectionGUID: s3W8jrUbQAqRZdl2sjRF0w==
-X-CSE-MsgGUID: ppJOMomJQCSD6Yv6CTfIOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="56562664"
+  t=1754175115; x=1785711115;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y/n12O9fa44RVpWSR/uGMzs+dyOyktMqkxPoVmLAku4=;
+  b=oD26mui3OWKvgn+KTIJnrlO8NGN3aoOTHTNIi5P/BVnyg1NYD+cHNzg9
+   jwXq6jI4m7/Mm69IzbHWrUAoVA14vXXP01wXOCt2tpV5wh3sYa/PAjdw5
+   nkmY881ZpAFXkfH69MUSn04UF0TTeOxdWkqt7A80u/Acs67j11XPKB8jD
+   jda0ft7eRzyLJeamvl9p+lBIhxcDGNYzkt35wKwVvXEY0meQeQVL+P1d+
+   P0FAgFxPEhCWSsKTqDPNQkX7k3tRDHuZtHwtG7HIQ0DgHVkHDMTJ6wkPk
+   Py8ZLe3Irhj0S2zWU/o1BAVFwQNTE7xq6PmYYrS9IeJhPndHA6ePLIujB
+   w==;
+X-CSE-ConnectionGUID: P0Pt8u1ESQ62rCQPCMM8rA==
+X-CSE-MsgGUID: YAzA0w9SQraP6HgdvXYO4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="56353674"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56562664"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 15:29:51 -0700
-X-CSE-ConnectionGUID: Bvlc+u4lQUe0AlKk4IKleA==
-X-CSE-MsgGUID: Wk8dPSfST16QTMDlGn4Sbg==
+   d="scan'208";a="56353674"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 15:51:54 -0700
+X-CSE-ConnectionGUID: L+yFVs7uRFmFVZcvmyaMfw==
+X-CSE-MsgGUID: tbag8bmURFWXVRhQISzQOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="187537661"
+   d="scan'208";a="164639906"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Aug 2025 15:29:49 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 02 Aug 2025 15:51:51 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiKjb-0005dG-0t;
-	Sat, 02 Aug 2025 22:29:47 +0000
-Date: Sun, 3 Aug 2025 06:29:38 +0800
+	id 1uiL4u-0005dc-2A;
+	Sat, 02 Aug 2025 22:51:48 +0000
+Date: Sun, 3 Aug 2025 06:51:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis/dev 32/33] crypto/crypto_engine.c:48:17:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202508030653.EJ9Q7Nqh-lkp@intel.com>
+To: Haren Myneni <haren@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, msuchanek@suse.de,
+	mahesh@linux.ibm.com, tyreld@linux.ibm.com, hbabu@us.ibm.com,
+	haren@linux.ibm.com
+Subject: Re: [PATCH 8/9] powerpc/pseries: Enable hvpipe with
+ ibm,set-system-parameter RTAS
+Message-ID: <202508030602.TrsVGpjD-lkp@intel.com>
+References: <20250802024121.955274-9-haren@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,957 +66,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250802024121.955274-9-haren@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   fdd3a307f8bbbf8727a633b44c3d6a31103e1938
-commit: 2c56e090ffa701a43db01da9e65a53d4db11329b [32/33] crypto: Enable capability analysis
-config: sparc64-randconfig-r133-20250802 (https://download.01.org/0day-ci/archive/20250803/202508030653.EJ9Q7Nqh-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce: (https://download.01.org/0day-ci/archive/20250803/202508030653.EJ9Q7Nqh-lkp@intel.com/reproduce)
+Hi Haren,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes v6.16]
+[cannot apply to linus/master next-20250801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-papr-hvpipe-ioctl/20250802-104715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20250802024121.955274-9-haren%40linux.ibm.com
+patch subject: [PATCH 8/9] powerpc/pseries: Enable hvpipe with ibm,set-system-parameter RTAS
+config: powerpc64-randconfig-001-20250803 (https://download.01.org/0day-ci/archive/20250803/202508030602.TrsVGpjD-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250803/202508030602.TrsVGpjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508030653.EJ9Q7Nqh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508030602.TrsVGpjD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/crypto_engine.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/crypto_engine.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/crypto_engine.c:48:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:48:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:48:17: sparse:     got struct raw_spinlock [usertype] *
->> crypto/crypto_engine.c:48:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:48:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:48:17: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:80:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:80:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:80:9: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:80:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:80:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:80:9: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:112:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:112:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:112:17: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:112:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:112:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:112:17: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:167:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:167:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:167:17: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:167:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:167:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:167:17: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:190:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:190:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:190:17: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:190:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:190:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:190:17: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:233:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:233:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:233:9: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:233:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:233:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:233:9: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:405:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:405:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:405:9: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:405:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:405:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:405:9: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:433:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:433:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:433:9: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:433:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:433:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:433:9: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:442:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct raw_spinlock [usertype] * @@
-   crypto/crypto_engine.c:442:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:442:17: sparse:     got struct raw_spinlock [usertype] *
-   crypto/crypto_engine.c:442:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:442:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:442:17: sparse:     got struct spinlock *
-   crypto/crypto_engine.c:507:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/crypto_engine.c:507:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/crypto_engine.c:507:9: sparse:     got struct spinlock *
---
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/list_bl.h, include/linux/rculist_bl.h, include/linux/dcache.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/list_bl.h, include/linux/rculist_bl.h, include/linux/dcache.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/list_bl.h, include/linux/rculist_bl.h, include/linux/dcache.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/list_bl.h, include/linux/rculist_bl.h, include/linux/dcache.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/list_bl.h, include/linux/rculist_bl.h, include/linux/dcache.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/geniv.c: note: in included file (through include/linux/list_bl.h, include/linux/rculist_bl.h, include/linux/dcache.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/geniv.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/geniv.c:115:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/geniv.c:115:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/geniv.c:115:9: sparse:     got struct spinlock *
---
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/acompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/acompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/acompress.c:442:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/acompress.c:442:17: sparse:     expected struct __capability_bitlock const *var
-   crypto/acompress.c:442:17: sparse:     got struct spinlock *
---
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/scompress.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/scompress.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/scompress.c:237:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/scompress.c:237:46: sparse:     expected struct __capability_bitlock const *var
-   crypto/scompress.c:237:46: sparse:     got struct spinlock *
-   crypto/scompress.c:240:49: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/scompress.c:240:49: sparse:     expected struct __capability_bitlock const *var
-   crypto/scompress.c:240:49: sparse:     got struct spinlock *
---
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/deflate.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/acompress.h, ...):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/deflate.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/deflate.c:112:41: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/deflate.c:112:41: sparse:     expected struct __capability_bitlock const *var
-   crypto/deflate.c:112:41: sparse:     got struct spinlock *
-   crypto/deflate.c:192:41: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/deflate.c:192:41: sparse:     expected struct __capability_bitlock const *var
-   crypto/deflate.c:192:41: sparse:     got struct spinlock *
---
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mutex.h, include/linux/seqlock.h, include/linux/mmzone.h, ...):
-   include/linux/mutex_types.h:41:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/ansi_cprng.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/ansi_cprng.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
->> crypto/ansi_cprng.c:324:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct srcu_struct const *var @@     got struct spinlock * @@
-   crypto/ansi_cprng.c:324:9: sparse:     expected struct srcu_struct const *var
-   crypto/ansi_cprng.c:324:9: sparse:     got struct spinlock *
---
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/hash.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/jitterentropy-kcapi.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/jitterentropy-kcapi.c:229:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/jitterentropy-kcapi.c:229:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/jitterentropy-kcapi.c:229:9: sparse:     got struct spinlock *
-   crypto/jitterentropy-kcapi.c:266:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   crypto/jitterentropy-kcapi.c:266:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/jitterentropy-kcapi.c:266:9: sparse:     got struct spinlock *
---
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/seqlock.h, include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/drbg.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/drbg.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/drbg.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/drbg.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/drbg.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   crypto/drbg.c: note: in included file (through include/linux/mm.h, include/linux/scatterlist.h, include/crypto/drbg.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   crypto/drbg.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> crypto/drbg.c:1919:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct mutex * @@
-   crypto/drbg.c:1919:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/drbg.c:1919:9: sparse:     got struct mutex *
-   crypto/drbg.c:2023:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct mutex * @@
-   crypto/drbg.c:2023:9: sparse:     expected struct __capability_bitlock const *var
-   crypto/drbg.c:2023:9: sparse:     got struct mutex *
+All warnings (new ones prefixed by >>):
 
-vim +48 crypto/crypto_engine.c
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:725:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     725 |         if (!enable_hvpipe_IRQ() && !set_hvpipe_sys_param(1)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:737:9: note: uninitialized use occurs here
+     737 |         return ret;
+         |                ^~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:725:2: note: remove the 'if' if its condition is always true
+     725 |         if (!enable_hvpipe_IRQ() && !set_hvpipe_sys_param(1)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/platforms/pseries/papr-hvpipe.c:725:6: warning: variable 'ret' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+     725 |         if (!enable_hvpipe_IRQ() && !set_hvpipe_sys_param(1)) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:737:9: note: uninitialized use occurs here
+     737 |         return ret;
+         |                ^~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:725:6: note: remove the '&&' if its condition is always true
+     725 |         if (!enable_hvpipe_IRQ() && !set_hvpipe_sys_param(1)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:703:9: note: initialize the variable 'ret' to silence this warning
+     703 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
 
-e5e7eb023f2465 Herbert Xu     2023-08-13  30  
-218d1cc1860c45 Corentin LABBE 2018-01-26  31  /**
-218d1cc1860c45 Corentin LABBE 2018-01-26  32   * crypto_finalize_request - finalize one request if the request is done
-218d1cc1860c45 Corentin LABBE 2018-01-26  33   * @engine: the hardware engine
-218d1cc1860c45 Corentin LABBE 2018-01-26  34   * @req: the request need to be finalized
-218d1cc1860c45 Corentin LABBE 2018-01-26  35   * @err: error number
-218d1cc1860c45 Corentin LABBE 2018-01-26  36   */
-218d1cc1860c45 Corentin LABBE 2018-01-26  37  static void crypto_finalize_request(struct crypto_engine *engine,
-218d1cc1860c45 Corentin LABBE 2018-01-26  38  				    struct crypto_async_request *req, int err)
-218d1cc1860c45 Corentin LABBE 2018-01-26  39  {
-218d1cc1860c45 Corentin LABBE 2018-01-26  40  	unsigned long flags;
-218d1cc1860c45 Corentin LABBE 2018-01-26  41  
-6a89f492f8e509 Iuliana Prodan 2020-04-28  42  	/*
-6a89f492f8e509 Iuliana Prodan 2020-04-28  43  	 * If hardware cannot enqueue more requests
-6a89f492f8e509 Iuliana Prodan 2020-04-28  44  	 * and retry mechanism is not supported
-6a89f492f8e509 Iuliana Prodan 2020-04-28  45  	 * make sure we are completing the current request
-6a89f492f8e509 Iuliana Prodan 2020-04-28  46  	 */
-6a89f492f8e509 Iuliana Prodan 2020-04-28  47  	if (!engine->retry_support) {
-218d1cc1860c45 Corentin LABBE 2018-01-26 @48  		spin_lock_irqsave(&engine->queue_lock, flags);
-6a89f492f8e509 Iuliana Prodan 2020-04-28  49  		if (engine->cur_req == req) {
-6a89f492f8e509 Iuliana Prodan 2020-04-28  50  			engine->cur_req = NULL;
-6a89f492f8e509 Iuliana Prodan 2020-04-28  51  		}
-218d1cc1860c45 Corentin LABBE 2018-01-26  52  		spin_unlock_irqrestore(&engine->queue_lock, flags);
-6a89f492f8e509 Iuliana Prodan 2020-04-28  53  	}
-218d1cc1860c45 Corentin LABBE 2018-01-26  54  
-4058cf08945c18 Corentin Labbe 2022-02-21  55  	lockdep_assert_in_softirq();
-6909823d47c17c Herbert Xu     2023-01-31  56  	crypto_request_complete(req, err);
-218d1cc1860c45 Corentin LABBE 2018-01-26  57  
-218d1cc1860c45 Corentin LABBE 2018-01-26  58  	kthread_queue_work(engine->kworker, &engine->pump_requests);
-218d1cc1860c45 Corentin LABBE 2018-01-26  59  }
-218d1cc1860c45 Corentin LABBE 2018-01-26  60  
 
-:::::: The code at line 48 was first introduced by commit
-:::::: 218d1cc1860c45b77f6814b44f6f0ffb9e40a82f crypto: engine - Permit to enqueue all async requests
+vim +725 arch/powerpc/platforms/pseries/papr-hvpipe.c
 
-:::::: TO: Corentin LABBE <clabbe.montjoie@gmail.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+   700	
+   701	static int __init papr_hvpipe_init(void)
+   702	{
+   703		int ret;
+   704	
+   705		if (!of_find_property(rtas.dev, "ibm,hypervisor-pipe-capable",
+   706			NULL))
+   707			return -ENODEV;
+   708	
+   709		if (!rtas_function_implemented(RTAS_FN_IBM_SEND_HVPIPE_MSG) ||
+   710			!rtas_function_implemented(RTAS_FN_IBM_RECEIVE_HVPIPE_MSG))
+   711			return -ENODEV;
+   712	
+   713		papr_hvpipe_work = kzalloc(sizeof(struct work_struct), GFP_ATOMIC);
+   714		if (!papr_hvpipe_work)
+   715			return -ENOMEM;
+   716	
+   717		INIT_WORK(papr_hvpipe_work, papr_hvpipe_work_fn);
+   718	
+   719		papr_hvpipe_wq = alloc_ordered_workqueue("papr hvpipe workqueue", 0);
+   720		if (!papr_hvpipe_wq) {
+   721			ret = -ENOMEM;
+   722			goto out;
+   723		}
+   724	
+ > 725		if (!enable_hvpipe_IRQ() && !set_hvpipe_sys_param(1)) {
 
 -- 
 0-DAY CI Kernel Test Service
