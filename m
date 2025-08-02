@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EC92E36E9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 21:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB672CCDB
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 22:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754171272; cv=none; b=AAafAotFkrMTY5d3soNiMWjZuUxhPmZMH7m2hOJgryoEmO8e6GOZ1fmOcXA1S+PhIrAf/8sa/bnFbR4RUPHtTf4dtj6wlXK1xjoqdb3ymHYLg59oGB5eP54EkRfOsctmIMS+eprhYuJZ80qn3iSw4eneuChWGEfUqrJ04S+R6H8=
+	t=1754173192; cv=none; b=iaA3im70zE3lJtkY9hUorZgaNs2Bp8ZVsKacF2oHMBu3JbZO53igmbuZPoy+7G+mXYgSqaI7ZhTruJSPjj7+8wud5s6zGcgC5c8+8obkkjZ2EswsYDQGEOkarplLisRoQHtqeZI/WFxR4ygfmyI/fbvV6uKlLIbXzyZ/RGh18Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754171272; c=relaxed/simple;
-	bh=gjcS/YpMBCyY1ZuYQDnH6byJDaA2ZggM0E6V4/qGMe0=;
+	s=arc-20240116; t=1754173192; c=relaxed/simple;
+	bh=TOCegUuLxLNBm/I9c3o3mDB6x8I7hdLDFFgclLWKb/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FKmCpBDcJvhjHjbnk3dHXJl+X/YmBbgqVNTg18etpNAw0zFFli54S3HzgWaC4c4RD3JuDT3G1wOnGZ1cq56GOB2/psH1zD2WjiXho+pUBQ9n1r9yn+FECAy6J52/iwCi+6xodnx2pwq12q/QLdlbKwWgCWQ27tIGoRrmtI1EWD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjMSxE8O; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=sfjBGjivemqmEnKPUG5CI6oY6OXnq5inDKlLoxYTJAc8UYswJSex8LX5AFB6gfDjFD1nqfNpOi0EVTwdEI+9ipfwpaCTFbL+t00fEZkSI9wUvIrg7lLpHrF0nwpyWw6w7QHLqVNxdHPudXrhPxrak7fZyfGO9W/Njn9RvCVto9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbC6eFvR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjMSxE8O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbC6eFvR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754171268; x=1785707268;
+  t=1754173191; x=1785709191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gjcS/YpMBCyY1ZuYQDnH6byJDaA2ZggM0E6V4/qGMe0=;
-  b=BjMSxE8OLIfCeB4dM7BRJYWvN8MbrucVNF4A0FBBwzrRNHLX7QbtHf6U
-   JV77xadEwOGPhI50mILI3b2iXwIVAwtRoCd4ObAk37h+LH1y3DQsSNGrL
-   nqdTAveQfwZcgiSdVw/vw5t8xWc0v+Uqdy2Z6m6rueqPq9BfAYGdsre0k
-   S7DoMXHxb/SjYFDjDG1kubN5VlTQtUriBzMk8/5qs4qMBeFAaCcp2mb9c
-   HPG/Fameqa5zlsYp/41/YEda/MkGvfrh/0oOmv/fWo/ZyakU/TefRTH/C
-   xlcKroTUdpe3NjLiVnpGxVt/7bq7gVv+ELjWIAwbPlYEHBwWjcwHsIJBk
+  bh=TOCegUuLxLNBm/I9c3o3mDB6x8I7hdLDFFgclLWKb/8=;
+  b=VbC6eFvRi7M6Yuqw4BTlS9RvogGQt3edsRyKZr3z1f6hZ4rsQzrFfVak
+   mz4prm9IZgglF/i942eDd4XdxKYdw/zW0YKNeIgc+Y73zHYwvj9pKmnYj
+   ezG6sdmWC3Wuioujujw78vsN8f9xEVdM7sOmOsyOyYsa1AGFEfMMhRtf5
+   IQaFq/ECGGGaGEa9iHCXbbwqHStGOR1TLppzAPWVAnlRIXwE/7KmFFq69
+   s6ingzNONs4qg8rNLWLnlj1AGBaHQ641+W5v6Ikju10DHv/PSAu4TrHxy
+   DSwMj5I682MG+w4s6Tk5U89zVZDicjzeoe7ZzAMurUQUorbSgYRRaRwsV
    A==;
-X-CSE-ConnectionGUID: KJWGc0yfR1yf4YIZrR2uvQ==
-X-CSE-MsgGUID: WtXX7MDbTyi+Z1iEm7Y2qA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="56621130"
+X-CSE-ConnectionGUID: OgFYSH5YRE+cErqMpDNbLA==
+X-CSE-MsgGUID: J6NsTGJoTMKmnvaBuD1AQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="60312831"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56621130"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 14:47:47 -0700
-X-CSE-ConnectionGUID: yrRfcvApTaKkRN8Rk6CnWQ==
-X-CSE-MsgGUID: NLSijY1GTU6ql5dJoJumPw==
+   d="scan'208";a="60312831"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 15:19:50 -0700
+X-CSE-ConnectionGUID: shUPuvNuTTCZ6slRDOfP6A==
+X-CSE-MsgGUID: yUHuLqm5R/aPjg1Ac7wtQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="163392158"
+   d="scan'208";a="168031661"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Aug 2025 14:47:46 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Aug 2025 15:19:49 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiK4u-0005ci-1l;
-	Sat, 02 Aug 2025 21:47:44 +0000
-Date: Sun, 3 Aug 2025 05:47:30 +0800
+	id 1uiKZu-0005d6-2D;
+	Sat, 02 Aug 2025 22:19:46 +0000
+Date: Sun, 3 Aug 2025 06:19:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis/dev 29/33] lib/rhashtable.c:1039:9: sparse:
- sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202508030548.8y1AGD80-lkp@intel.com>
+Subject: [sean-jc:x86/fastpath_cleanups 5/18] arch/x86/kvm/lapic.c:1503:13:
+ warning: 'kvm_apic_send_ipi_fast' defined but not used
+Message-ID: <202508030631.Haxg7KS9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,241 +62,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   fdd3a307f8bbbf8727a633b44c3d6a31103e1938
-commit: 6d0490237dee99dbf103074a64ee81a057caa964 [29/33] rhashtable: Enable capability analysis
-config: sparc64-randconfig-r133-20250802 (https://download.01.org/0day-ci/archive/20250803/202508030548.8y1AGD80-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce: (https://download.01.org/0day-ci/archive/20250803/202508030548.8y1AGD80-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/fastpath_cleanups
+head:   08556c37b38e79abe3b7f28f0d6977da3222e039
+commit: 3808e95e74487c08cd3e1003ba137e583d6b9bd0 [5/18] KVM: x86: Drop semi-arbitrary restrictions on IPI type in fastpath
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250803/202508030631.Haxg7KS9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250803/202508030631.Haxg7KS9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508030548.8y1AGD80-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508030631.Haxg7KS9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/sched.h):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/rculist.h):
-   include/linux/rcupdate.h:34:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:13:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/rhashtable.c: note: in included file (through include/linux/mm.h):
-   include/linux/bit_spinlock.h:19:1: sparse: sparse: multiple definitions for function '__assume_shared_cap'
-   lib/rhashtable.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
->> lib/rhashtable.c:1039:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct mutex * @@
-   lib/rhashtable.c:1039:9: sparse:     expected struct __capability_bitlock const *var
-   lib/rhashtable.c:1039:9: sparse:     got struct mutex *
->> lib/rhashtable.c:1040:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct __capability_bitlock const *var @@     got struct spinlock * @@
-   lib/rhashtable.c:1040:9: sparse:     expected struct __capability_bitlock const *var
-   lib/rhashtable.c:1040:9: sparse:     got struct spinlock *
+All warnings (new ones prefixed by >>):
 
-vim +1039 lib/rhashtable.c
+>> arch/x86/kvm/lapic.c:1503:13: warning: 'kvm_apic_send_ipi_fast' defined but not used [-Wunused-function]
+    1503 | static bool kvm_apic_send_ipi_fast(struct kvm_lapic *apic, u32 icr_low,
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
-31ccde2dacea83 Herbert Xu       2015-03-24   985  
-7e1e77636e3607 Thomas Graf      2014-08-02   986  /**
-7e1e77636e3607 Thomas Graf      2014-08-02   987   * rhashtable_init - initialize a new hash table
-7e1e77636e3607 Thomas Graf      2014-08-02   988   * @ht:		hash table to be initialized
-7e1e77636e3607 Thomas Graf      2014-08-02   989   * @params:	configuration parameters
-7e1e77636e3607 Thomas Graf      2014-08-02   990   *
-7e1e77636e3607 Thomas Graf      2014-08-02   991   * Initializes a new hash table based on the provided configuration
-7e1e77636e3607 Thomas Graf      2014-08-02   992   * parameters. A table can be configured either with a variable or
-7e1e77636e3607 Thomas Graf      2014-08-02   993   * fixed length key:
-7e1e77636e3607 Thomas Graf      2014-08-02   994   *
-7e1e77636e3607 Thomas Graf      2014-08-02   995   * Configuration Example 1: Fixed length keys
-7e1e77636e3607 Thomas Graf      2014-08-02   996   * struct test_obj {
-7e1e77636e3607 Thomas Graf      2014-08-02   997   *	int			key;
-7e1e77636e3607 Thomas Graf      2014-08-02   998   *	void *			my_member;
-7e1e77636e3607 Thomas Graf      2014-08-02   999   *	struct rhash_head	node;
-7e1e77636e3607 Thomas Graf      2014-08-02  1000   * };
-7e1e77636e3607 Thomas Graf      2014-08-02  1001   *
-7e1e77636e3607 Thomas Graf      2014-08-02  1002   * struct rhashtable_params params = {
-7e1e77636e3607 Thomas Graf      2014-08-02  1003   *	.head_offset = offsetof(struct test_obj, node),
-7e1e77636e3607 Thomas Graf      2014-08-02  1004   *	.key_offset = offsetof(struct test_obj, key),
-7e1e77636e3607 Thomas Graf      2014-08-02  1005   *	.key_len = sizeof(int),
-87545899b52f9c Daniel Borkmann  2014-12-10  1006   *	.hashfn = jhash,
-7e1e77636e3607 Thomas Graf      2014-08-02  1007   * };
-7e1e77636e3607 Thomas Graf      2014-08-02  1008   *
-7e1e77636e3607 Thomas Graf      2014-08-02  1009   * Configuration Example 2: Variable length keys
-7e1e77636e3607 Thomas Graf      2014-08-02  1010   * struct test_obj {
-7e1e77636e3607 Thomas Graf      2014-08-02  1011   *	[...]
-7e1e77636e3607 Thomas Graf      2014-08-02  1012   *	struct rhash_head	node;
-7e1e77636e3607 Thomas Graf      2014-08-02  1013   * };
-7e1e77636e3607 Thomas Graf      2014-08-02  1014   *
-49f7b33e63fec9 Patrick McHardy  2015-03-25  1015   * u32 my_hash_fn(const void *data, u32 len, u32 seed)
-7e1e77636e3607 Thomas Graf      2014-08-02  1016   * {
-7e1e77636e3607 Thomas Graf      2014-08-02  1017   *	struct test_obj *obj = data;
-7e1e77636e3607 Thomas Graf      2014-08-02  1018   *
-7e1e77636e3607 Thomas Graf      2014-08-02  1019   *	return [... hash ...];
-7e1e77636e3607 Thomas Graf      2014-08-02  1020   * }
-7e1e77636e3607 Thomas Graf      2014-08-02  1021   *
-7e1e77636e3607 Thomas Graf      2014-08-02  1022   * struct rhashtable_params params = {
-7e1e77636e3607 Thomas Graf      2014-08-02  1023   *	.head_offset = offsetof(struct test_obj, node),
-87545899b52f9c Daniel Borkmann  2014-12-10  1024   *	.hashfn = jhash,
-7e1e77636e3607 Thomas Graf      2014-08-02  1025   *	.obj_hashfn = my_hash_fn,
-7e1e77636e3607 Thomas Graf      2014-08-02  1026   * };
-7e1e77636e3607 Thomas Graf      2014-08-02  1027   */
-9e54dd8b64dccd Kent Overstreet  2024-03-21  1028  int rhashtable_init_noprof(struct rhashtable *ht,
-488fb86ee91d3b Herbert Xu       2015-03-20  1029  		    const struct rhashtable_params *params)
-7e1e77636e3607 Thomas Graf      2014-08-02  1030  {
-7e1e77636e3607 Thomas Graf      2014-08-02  1031  	struct bucket_table *tbl;
-7e1e77636e3607 Thomas Graf      2014-08-02  1032  	size_t size;
-7e1e77636e3607 Thomas Graf      2014-08-02  1033  
-31ccde2dacea83 Herbert Xu       2015-03-24  1034  	if ((!params->key_len && !params->obj_hashfn) ||
-02fd97c3d4a8a1 Herbert Xu       2015-03-20  1035  	    (params->obj_hashfn && !params->obj_cmpfn))
-7e1e77636e3607 Thomas Graf      2014-08-02  1036  		return -EINVAL;
-7e1e77636e3607 Thomas Graf      2014-08-02  1037  
-97defe1ecf868b Thomas Graf      2015-01-02  1038  	memset(ht, 0, sizeof(*ht));
-97defe1ecf868b Thomas Graf      2015-01-02 @1039  	mutex_init(&ht->mutex);
-ba7c95ea3870fe Herbert Xu       2015-03-24 @1040  	spin_lock_init(&ht->lock);
-97defe1ecf868b Thomas Graf      2015-01-02  1041  	memcpy(&ht->p, params, sizeof(*params));
-97defe1ecf868b Thomas Graf      2015-01-02  1042  
-9e54dd8b64dccd Kent Overstreet  2024-03-21  1043  	alloc_tag_record(ht->alloc_tag);
-9e54dd8b64dccd Kent Overstreet  2024-03-21  1044  
-a998f712f77ea4 Thomas Graf      2015-03-19  1045  	if (params->min_size)
-a998f712f77ea4 Thomas Graf      2015-03-19  1046  		ht->p.min_size = roundup_pow_of_two(params->min_size);
-a998f712f77ea4 Thomas Graf      2015-03-19  1047  
-6d684e54690cae Herbert Xu       2017-04-27  1048  	/* Cap total entries at 2^31 to avoid nelems overflow. */
-6d684e54690cae Herbert Xu       2017-04-27  1049  	ht->max_elems = 1u << 31;
-2d2ab658d2debc Herbert Xu       2017-04-28  1050  
-2d2ab658d2debc Herbert Xu       2017-04-28  1051  	if (params->max_size) {
-2d2ab658d2debc Herbert Xu       2017-04-28  1052  		ht->p.max_size = rounddown_pow_of_two(params->max_size);
-6d684e54690cae Herbert Xu       2017-04-27  1053  		if (ht->p.max_size < ht->max_elems / 2)
-6d684e54690cae Herbert Xu       2017-04-27  1054  			ht->max_elems = ht->p.max_size * 2;
-2d2ab658d2debc Herbert Xu       2017-04-28  1055  	}
-6d684e54690cae Herbert Xu       2017-04-27  1056  
-48e75b430670eb Florian Westphal 2017-05-01  1057  	ht->p.min_size = max_t(u16, ht->p.min_size, HASH_MIN_SIZE);
-a998f712f77ea4 Thomas Graf      2015-03-19  1058  
-3a324606bbabfc Herbert Xu       2015-12-16  1059  	size = rounded_hashtable_size(&ht->p);
-3a324606bbabfc Herbert Xu       2015-12-16  1060  
-31ccde2dacea83 Herbert Xu       2015-03-24  1061  	ht->key_len = ht->p.key_len;
-31ccde2dacea83 Herbert Xu       2015-03-24  1062  	if (!params->hashfn) {
-31ccde2dacea83 Herbert Xu       2015-03-24  1063  		ht->p.hashfn = jhash;
-31ccde2dacea83 Herbert Xu       2015-03-24  1064  
-31ccde2dacea83 Herbert Xu       2015-03-24  1065  		if (!(ht->key_len & (sizeof(u32) - 1))) {
-31ccde2dacea83 Herbert Xu       2015-03-24  1066  			ht->key_len /= sizeof(u32);
-31ccde2dacea83 Herbert Xu       2015-03-24  1067  			ht->p.hashfn = rhashtable_jhash2;
-31ccde2dacea83 Herbert Xu       2015-03-24  1068  		}
-31ccde2dacea83 Herbert Xu       2015-03-24  1069  	}
-31ccde2dacea83 Herbert Xu       2015-03-24  1070  
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1071  	/*
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1072  	 * This is api initialization and thus we need to guarantee the
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1073  	 * initial rhashtable allocation. Upon failure, retry with the
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1074  	 * smallest possible size with __GFP_NOFAIL semantics.
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1075  	 */
-b9ecfdaa1090b5 Herbert Xu       2015-03-24  1076  	tbl = bucket_table_alloc(ht, size, GFP_KERNEL);
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1077  	if (unlikely(tbl == NULL)) {
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1078  		size = max_t(u16, ht->p.min_size, HASH_MIN_SIZE);
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1079  		tbl = bucket_table_alloc(ht, size, GFP_KERNEL | __GFP_NOFAIL);
-2d22ecf6db1c39 Davidlohr Bueso  2018-08-21  1080  	}
-7e1e77636e3607 Thomas Graf      2014-08-02  1081  
-545a148e43bed6 Ying Xue         2015-01-07  1082  	atomic_set(&ht->nelems, 0);
-a5b6846f9e1a08 Daniel Borkmann  2015-03-12  1083  
-7e1e77636e3607 Thomas Graf      2014-08-02  1084  	RCU_INIT_POINTER(ht->tbl, tbl);
-7e1e77636e3607 Thomas Graf      2014-08-02  1085  
-57699a40b4f269 Ying Xue         2015-01-16  1086  	INIT_WORK(&ht->run_work, rht_deferred_worker);
-97defe1ecf868b Thomas Graf      2015-01-02  1087  
-7e1e77636e3607 Thomas Graf      2014-08-02  1088  	return 0;
-7e1e77636e3607 Thomas Graf      2014-08-02  1089  }
-9e54dd8b64dccd Kent Overstreet  2024-03-21  1090  EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
-7e1e77636e3607 Thomas Graf      2014-08-02  1091  
 
-:::::: The code at line 1039 was first introduced by commit
-:::::: 97defe1ecf868b8127f8e62395499d6a06e4c4b1 rhashtable: Per bucket locks & deferred expansion/shrinking
+vim +/kvm_apic_send_ipi_fast +1503 arch/x86/kvm/lapic.c
 
-:::::: TO: Thomas Graf <tgraf@suug.ch>
-:::::: CC: David S. Miller <davem@davemloft.net>
+  1502	
+> 1503	static bool kvm_apic_send_ipi_fast(struct kvm_lapic *apic, u32 icr_low,
+  1504					   u32 icr_high)
+  1505	{
+  1506		struct kvm_lapic_irq irq;
+  1507		int r;
+  1508	
+  1509		kvm_icr_to_lapic_irq(apic, icr_low, icr_high, &irq);
+  1510	
+  1511		if (!kvm_irq_delivery_to_apic_fast(apic->vcpu->kvm, apic, &irq, &r, NULL))
+  1512			return false;
+  1513	
+  1514		trace_kvm_apic_ipi(icr_low, irq.dest_id);
+  1515		return 0;
+  1516	}
+  1517	
 
 -- 
 0-DAY CI Kernel Test Service
