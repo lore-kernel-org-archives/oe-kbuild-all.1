@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCECDF59
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 13:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2416B149DF0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 13:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754141050; cv=none; b=TCQMzIonWRtOJQz3GX4eRp5+rsbrxNV7gONpa3iwElMTVOqdTK3UGJj+2Aee7zhZPBB1K/m8mY3+4jWaAgEcyYP3wnN0vwlrZ7bWEx59xyMgYPYy98htx/tSUcFJJROxhjeX9ZCVuyLB8UHpVt5eXdbb4VRvjQJbiIQNwSqOTyE=
+	t=1754142853; cv=none; b=gihU1jSz9dlp0qSwytK5DVcIP4fEGjFu2mvfdL8LOBUIq+THvjryEZ1gAVk89j+UsjdJh+Kj8ni8EMpmJESpND9kx2rzrwSmMSyqc6n0WJeRXsZmMZvjsMmFI8U0zMb1d8KjF8PzQHIs9jUsBPd/EfJYlmgfJAGb9SR/17kK5WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754141050; c=relaxed/simple;
-	bh=Pq3p7t9fiJNQbXnBuYuVkhgNE1EaWmbqxeInofvsTVE=;
+	s=arc-20240116; t=1754142853; c=relaxed/simple;
+	bh=sZYFL+DlHnwnmBxE98YJgOOnL9vH+kc03VHFt1T2ebs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u4KJr9k/cdyxVRH2G0NIacMzgP1qqvAnTn/qVnlFiLcOYh3aWYy3SczzikbLOzE6p19I1K3v1Do4bc5D3el4MZPA7fFRd/CaZ6DL4qwWUzRU/hsO8nPJB3nD24qIshFbRuBOvklUAMYs6ysBjI20ogkl3jDMnNi/mgfUTSEZdPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3xPctkV; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=YbnbX2dlOgaD1/5jjB0FIlH7IeOBw9h6m+bRh3ft9r5+XS4h3CBI0KdqrfkaEksP3AQeEOMFD1A7y1l4u+vf379/bJjz+11c98TNg5OXM0IgDWL/woLsf/+4BLADFh7BD/up6oihksxDOK39/v3+iBpzn8LaT/UjRUI2AUTO9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+Uq+GMW; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3xPctkV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+Uq+GMW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754141049; x=1785677049;
+  t=1754142852; x=1785678852;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pq3p7t9fiJNQbXnBuYuVkhgNE1EaWmbqxeInofvsTVE=;
-  b=D3xPctkVM28psOOTGUhSYRNUod7mftrd45aVgI4r4zcBJHVfx2O/tzs2
-   Mz92pwg+dRekyal4484TMmJEbEkYI4i0PdLEOXVdGIi9gBzlcGTJysS9Z
-   xmum6yYIm9kS1+NISUrIX/sw/RZHmWTnGLq4Z1+EwhUr6oBD1hFEugecf
-   8joG/U/ytDRso4L4PnRNTLXjdcpwkRCMTHTssi+e74Ol749FSLC5F+QzS
-   jLq/JZQW1vHRnLJzkuT2Lctgt4aXp760r22CovF3HSmCQeGNqDb/X6Ff/
-   M7S0dNy7ghGOy2kU7c7tRGFmFa+7CZ9wwaCKbKY493VbYKYORqKwOh2Lh
-   g==;
-X-CSE-ConnectionGUID: MVVmd522Te+02yUZ38D9aA==
-X-CSE-MsgGUID: iX/YTjRkSrq+FpteZdM+PA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="59091175"
+  bh=sZYFL+DlHnwnmBxE98YJgOOnL9vH+kc03VHFt1T2ebs=;
+  b=K+Uq+GMWKuegzDTjCOdeXt39FrYQN8gIs0BjIYeI3bPeHNG76FOnshZe
+   WA0WEEdPkqF7G98abwaJY5tNd41HDr5qe+6PFEPnm0YYcoVJ11IYMg90S
+   CVVYrCa0fkdUYmC0TK8po7b4dbhC9cQzupHxCl1G1O+XGPUPHP3wVxR5m
+   ppoq93cAZ8OPYQaVq9JOgBEm5Kwtt6EpR5o3KrPifmdpihCWCPkVjguop
+   QUucncwo7+z0WjNNokLyqUzUcmX2UzEQJn2fJwIAkb0Ygkti111S26vvh
+   womitfiykdDMW/skeWHNlMDSu6veq1E21GIE2muEwCFJBaIVXTCmLdi4d
+   A==;
+X-CSE-ConnectionGUID: mPLnT0TOQNSdeoLRP+Z8Qg==
+X-CSE-MsgGUID: zZsmHFFvQg6rXAMQadJN/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="44062110"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="59091175"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 06:24:09 -0700
-X-CSE-ConnectionGUID: DH8HfCATR3S6/Qnrwxh8PA==
-X-CSE-MsgGUID: 2mqXDWA3S9+4qSxu4Pxtzw==
+   d="scan'208";a="44062110"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 06:54:11 -0700
+X-CSE-ConnectionGUID: PtBtRKVlSz2nKWvq3KHSrg==
+X-CSE-MsgGUID: cOzPOntARLOINLlP+ccxsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="200943618"
+   d="scan'208";a="194738859"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 Aug 2025 06:24:08 -0700
+  by orviesa002.jf.intel.com with ESMTP; 02 Aug 2025 06:54:10 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiCDV-0005Nq-0x;
-	Sat, 02 Aug 2025 13:24:05 +0000
-Date: Sat, 2 Aug 2025 21:23:14 +0800
+	id 1uiCgZ-0005Oi-1Q;
+	Sat, 02 Aug 2025 13:54:07 +0000
+Date: Sat, 2 Aug 2025 21:53:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2630/2630] fs/nfs/enfs/shard_route.c:273:
- warning: Function parameter or member '__struct_name' not described in
- 'DEFINE_CLEAR_LIST_FUNC'
-Message-ID: <202508022134.uLbgotjO-lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
+Subject: [netdev-net:main 15/21] kismet: WARNING: unmet direct dependencies
+ detected for ZL3073X when selected by ZL3073X_I2C
+Message-ID: <202508022110.nTqZ5Ylu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,48 +64,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8fa27fba5fd9db50ef3d03358c9abd371dcbdd99
-commit: 2d5981287b67cc1a5d9231bff267f90001251ba3 [2630/2630] nfs/enfs: introduce DEFINE_CLEAR_LIST_FUNC to define enfs_clear_fs_info()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250802/202508022134.uLbgotjO-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508022134.uLbgotjO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git main
+head:   1dbf1d590d10a6d1978e8184f8dfe20af22d680a
+commit: a4f0866e3dbbf3fee4078bce0b78d65a0875c0bc [15/21] dpll: Make ZL3073X invisible
+config: nios2-kismet-CONFIG_ZL3073X-CONFIG_ZL3073X_I2C-0-0 (https://download.01.org/0day-ci/archive/20250802/202508022110.nTqZ5Ylu-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250802/202508022110.nTqZ5Ylu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508022134.uLbgotjO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508022110.nTqZ5Ylu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> fs/nfs/enfs/shard_route.c:273: warning: Function parameter or member '__struct_name' not described in 'DEFINE_CLEAR_LIST_FUNC'
->> fs/nfs/enfs/shard_route.c:273: warning: Function parameter or member '__list_name' not described in 'DEFINE_CLEAR_LIST_FUNC'
->> fs/nfs/enfs/shard_route.c:273: warning: expecting prototype for enfs_clear_ ## __struct_name()(). Prototype was for DEFINE_CLEAR_LIST_FUNC() instead
-   fs/nfs/enfs/shard_route.c:349: warning: Cannot understand  * @return:0 for success,otherwise for failed
-    on line 349 - I thought it was a doc line
-
-
-vim +273 fs/nfs/enfs/shard_route.c
-
-   256	
-   257	/**
-   258	 * enfs_clear_ ## __struct_name() - delete and free all __struct_name from view_table
-   259	 * @table: view table
-   260	 *
-   261	 * Context: protected by view_table write lock
-   262	 * Return: None
-   263	 */
-   264	#define DEFINE_CLEAR_LIST_FUNC(__struct_name, __list_name)		\
-   265	static void enfs_clear_ ## __struct_name(struct view_table *table)	\
-   266	{									\
-   267		struct __struct_name *item, *tmp;				\
-   268										\
-   269		list_for_each_entry_safe(item, tmp, &table->__list_name, next) {\
-   270			list_del(&item->next);					\
-   271			kfree(item);						\
-   272		}								\
- > 273	}
-   274	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ZL3073X when selected by ZL3073X_I2C
+   WARNING: unmet direct dependencies detected for ZL3073X
+     Depends on [n]: NET [=n]
+     Selected by [y]:
+     - ZL3073X_I2C [=y] && I2C [=y]
 
 -- 
 0-DAY CI Kernel Test Service
