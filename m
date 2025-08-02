@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EB02E3714
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 20:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E7E25776;
+	Sat,  2 Aug 2025 21:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754166769; cv=none; b=o7VA8ixJvIXfdnLN1Dv5TiVZKNOy9vn22eKC3GJwemhSmvdSu8B7crn8IBqZQwJaI/POOuKAIDp1l3gOZEu902Nen6FaumcvpaRzribYg2HoqNS4tg5JkC6TPPmtQy/EWVh33T0tycm4pmxMnZDudoVHXK75ittB9SvWdxPvZlM=
+	t=1754168689; cv=none; b=OyB5m8kKkU0WBGrjket6YsZ0SHRDO71ZVxmI+tS7jb15jUnPNbo9CMclHsmSjtnUy2R7hGybu5CEKI4XjVFjQ9IrC1z8W5fBDZYrypJXGxdE6Nn5P+P/RiiOqkDY8mFlDFtN7NbkJEisqt9iHhrKkeOU1iUEQi7t9oUTtXAvwB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754166769; c=relaxed/simple;
-	bh=A9/FMGgwL8k4f/Cs6mpDxwtHqIV6h3Aeolasc0uvK38=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B+cqyAUr1TY8BqsMITiOQizSPZvKeLsiZDdf21yiKs+N9AF69P0G6K76WdKPEsDcZ9IZpctcv2pC5/lYVd9/IM1UoHRnfHqSeQm1Nu2I+JKACd6teu0LaUBs2JEfFT3Gaizy7O5pNBj7z3B3rKvE8IyXDFxmXzqgd/oaAHzC+LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ixch0LOE; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1754168689; c=relaxed/simple;
+	bh=HVCw/ums2+GbSs2nNoNRXRXxNNLaozl5ohYBKWjGkFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Va66c15pvBykwvG000r2xsXzAW0NhpK6jpFizB96Y+UbnKkGSQj6c/eSmirorrWJKxbaiqVDjN10ua1FJi/mq+gBWqrBWIpQ8gLmOlwiluf2Mk8cqK/4pr1+AMANr4OoCoOcIIY+lpPm03r9dMcBdoG2BHeCGs474U8JYCNLi68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6lVPFwd; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ixch0LOE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6lVPFwd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754166767; x=1785702767;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A9/FMGgwL8k4f/Cs6mpDxwtHqIV6h3Aeolasc0uvK38=;
-  b=Ixch0LOEFPRcaYHKN4BiGu2KWFZY+iJYMkDozav4uIU1OK47WJ2lv+0E
-   KGke5m3648zN4HfHAJD8/ZKtAv/ACMUWQwVBfGYFveoaPlCUwmxpkULNs
-   GNIKCnSmAu8pHEcCnucLgR9Jt8BkCs5olN312YlvXIT5tVg+d3x6acJtP
-   csnlhHioedtrT5Ui0vWM+7D2nbGc6Rmo5nbcVefZqvlcG2Nk4yZJ5t5qh
-   zxY9wdcRte7J4TkvHJBAksWciM28VDY72YZ+sGyqC8fwRhQ3aGt86635/
-   inZgI4zLnaxGMNUh/DgwLKLtnJN9JvqCv3sUFx0kMvaWYxB/iWz2/7gDi
-   g==;
-X-CSE-ConnectionGUID: /p+grfWIRCGoai9i7qgwuA==
-X-CSE-MsgGUID: KA1Vdck9TIa8jgC2cGE/fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="67172597"
+  t=1754168687; x=1785704687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HVCw/ums2+GbSs2nNoNRXRXxNNLaozl5ohYBKWjGkFM=;
+  b=S6lVPFwdP27KOTpye+byleEnUS7PfHE/RPq8t2DsQGmOufpDsEhDsSmM
+   42LNIrafiTwhUcSfbgq8+Jd6BQ2L4MzwZYRHVvHIhEiNmy+pqAXsgeJ+z
+   mnzMw3b/ipOlDvId2XrogWt8PuSN4kYLbK7qAg74UVy0J3bZoY3tytTXH
+   H40foca774HWIatGneTS/Qxq9BwFc/8V7R+5DOc+3io8uvzThATDUaoG9
+   nPePvuNpFp2koKvBLXDJDJpP3VWRJKGHuiUtGYGPNUwkngAQi870/5sRS
+   edCqqEPGsFX3fZHls9KOJtmmTb4weHZCQVfOuJJmqotw1fF023nLBr1pb
+   w==;
+X-CSE-ConnectionGUID: VoxOkvyPRw+Y0TtNIBsmJw==
+X-CSE-MsgGUID: rih0O+/yQkuYk6AfDsQLfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="79033274"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="67172597"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 13:32:45 -0700
-X-CSE-ConnectionGUID: oXfmAA66T/Wnq0fRYo4JAA==
-X-CSE-MsgGUID: OmQBGNZLSM2WhWRn+omqEw==
+   d="scan'208";a="79033274"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 14:04:46 -0700
+X-CSE-ConnectionGUID: X+apVM/tT5+7iem5KDZ/vg==
+X-CSE-MsgGUID: Xqd3NhdMSHKhb2aNzkvJSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168093531"
+   d="scan'208";a="168293533"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Aug 2025 13:32:40 -0700
+  by orviesa004.jf.intel.com with ESMTP; 02 Aug 2025 14:04:43 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiIuE-0005aq-13;
-	Sat, 02 Aug 2025 20:32:38 +0000
-Date: Sun, 3 Aug 2025 04:32:05 +0800
+	id 1uiJPF-0005bY-18;
+	Sat, 02 Aug 2025 21:04:41 +0000
+Date: Sun, 3 Aug 2025 05:03:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis/dev 14/33] include/net/sock.h:2179:17: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202508030440.kkrawze3-lkp@intel.com>
+To: Haren Myneni <haren@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, msuchanek@suse.de,
+	mahesh@linux.ibm.com, tyreld@linux.ibm.com, hbabu@us.ibm.com,
+	haren@linux.ibm.com
+Subject: Re: [PATCH 7/9] powerpc/pseries: Enable HVPIPE event message
+ interrupt
+Message-ID: <202508030428.qmzSb9kN-lkp@intel.com>
+References: <20250802024121.955274-8-haren@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,63 +66,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250802024121.955274-8-haren@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   fdd3a307f8bbbf8727a633b44c3d6a31103e1938
-commit: 20516295fa8be1f4447326d6b8fa1b1c5e236951 [14/33] rcu: Support Clang's capability analysis
-config: arc-randconfig-r123-20250802 (https://download.01.org/0day-ci/archive/20250803/202508030440.kkrawze3-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250803/202508030440.kkrawze3-lkp@intel.com/reproduce)
+Hi Haren,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes v6.16]
+[cannot apply to linus/master next-20250801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-papr-hvpipe-ioctl/20250802-104715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20250802024121.955274-8-haren%40linux.ibm.com
+patch subject: [PATCH 7/9] powerpc/pseries: Enable HVPIPE event message interrupt
+config: powerpc64-randconfig-001-20250803 (https://download.01.org/0day-ci/archive/20250803/202508030428.qmzSb9kN-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250803/202508030428.qmzSb9kN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508030440.kkrawze3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508030428.qmzSb9kN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/sock.c: note: in included file (through include/net/inet_sock.h, include/net/ip.h, include/linux/errqueue.h):
->> include/net/sock.h:2179:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct dst_entry *old_dst @@     got void @@
-   include/net/sock.h:2179:17: sparse:     expected struct dst_entry *old_dst
-   include/net/sock.h:2179:17: sparse:     got void
->> include/net/sock.h:2179:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct dst_entry *old_dst @@     got void @@
-   include/net/sock.h:2179:17: sparse:     expected struct dst_entry *old_dst
-   include/net/sock.h:2179:17: sparse:     got void
->> include/net/sock.h:2179:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct dst_entry *old_dst @@     got void @@
-   include/net/sock.h:2179:17: sparse:     expected struct dst_entry *old_dst
-   include/net/sock.h:2179:17: sparse:     got void
->> include/net/sock.h:2179:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct dst_entry *old_dst @@     got void @@
-   include/net/sock.h:2179:17: sparse:     expected struct dst_entry *old_dst
-   include/net/sock.h:2179:17: sparse:     got void
-   net/core/sock.c:2582:9: sparse: sparse: context imbalance in 'sk_clone_lock' - different lock contexts for basic block
->> include/net/sock.h:2179:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct dst_entry *old_dst @@     got void @@
-   include/net/sock.h:2179:17: sparse:     expected struct dst_entry *old_dst
-   include/net/sock.h:2179:17: sparse:     got void
---
->> net/sched/act_api.c:65:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct tc_cookie *old @@     got void @@
-   net/sched/act_api.c:65:13: sparse:     expected struct tc_cookie *old
-   net/sched/act_api.c:65:13: sparse:     got void
-   net/sched/act_api.c:380:17: sparse: sparse: context imbalance in '__tcf_action_put' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +2179 include/net/sock.h
+>> arch/powerpc/platforms/pseries/papr-hvpipe.c:698:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     698 |         if (!enable_hvpipe_IRQ()) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:710:9: note: uninitialized use occurs here
+     710 |         return ret;
+         |                ^~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:698:2: note: remove the 'if' if its condition is always true
+     698 |         if (!enable_hvpipe_IRQ()) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/platforms/pseries/papr-hvpipe.c:676:9: note: initialize the variable 'ret' to silence this warning
+     676 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2171  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2172  static inline void
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2173  sk_dst_set(struct sock *sk, struct dst_entry *dst)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2174  {
-7f502361531e9e Eric Dumazet   2014-06-30  2175  	struct dst_entry *old_dst;
-7f502361531e9e Eric Dumazet   2014-06-30  2176  
-7f502361531e9e Eric Dumazet   2014-06-30  2177  	sk_tx_queue_clear(sk);
-eb44ad4e635132 Eric Dumazet   2023-09-21  2178  	WRITE_ONCE(sk->sk_dst_pending_confirm, 0);
-b4cb4a1391dcdc Eric Dumazet   2024-06-04 @2179  	old_dst = unrcu_pointer(xchg(&sk->sk_dst_cache, RCU_INITIALIZER(dst)));
-7f502361531e9e Eric Dumazet   2014-06-30  2180  	dst_release(old_dst);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2181  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2182  
 
-:::::: The code at line 2179 was first introduced by commit
-:::::: b4cb4a1391dcdc640c4ade003aaf0ee19cc8d509 net: use unrcu_pointer() helper
+vim +698 arch/powerpc/platforms/pseries/papr-hvpipe.c
 
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: Paolo Abeni <pabeni@redhat.com>
+   673	
+   674	static int __init papr_hvpipe_init(void)
+   675	{
+   676		int ret;
+   677	
+   678		if (!of_find_property(rtas.dev, "ibm,hypervisor-pipe-capable",
+   679			NULL))
+   680			return -ENODEV;
+   681	
+   682		if (!rtas_function_implemented(RTAS_FN_IBM_SEND_HVPIPE_MSG) ||
+   683			!rtas_function_implemented(RTAS_FN_IBM_RECEIVE_HVPIPE_MSG))
+   684			return -ENODEV;
+   685	
+   686		papr_hvpipe_work = kzalloc(sizeof(struct work_struct), GFP_ATOMIC);
+   687		if (!papr_hvpipe_work)
+   688			return -ENOMEM;
+   689	
+   690		INIT_WORK(papr_hvpipe_work, papr_hvpipe_work_fn);
+   691	
+   692		papr_hvpipe_wq = alloc_ordered_workqueue("papr hvpipe workqueue", 0);
+   693		if (!papr_hvpipe_wq) {
+   694			ret = -ENOMEM;
+   695			goto out;
+   696		}
+   697	
+ > 698		if (!enable_hvpipe_IRQ()) {
 
 -- 
 0-DAY CI Kernel Test Service
