@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2321D1F91F6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 08:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8522B14AA9;
+	Sat,  2 Aug 2025 08:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754122507; cv=none; b=j5aOY1IfUlQHbh/htuR7/t04HASnpyIUFXbnV4aLG3b9odunNw6s1HIUPFjxYUUmJki6NsMgThK8QO7hjeJebPfKRqq+TJUZY9iKEVgUVAECkNTb9zcTYO+LaobHdsnibVPO3/dcU7dltdnQZJflUaersxKegbTj568GS86dHPg=
+	t=1754123751; cv=none; b=Wzu92HjWcm+EoVBr1cWT35z4z5AqYO8f4dMkrg2rDgKcLMQhYeTrqDk0ZwSx7nLrIulVD9arnlVYtnis3YRwHV1ziPsg1BYmO8YoodlIYTLa7my1oOyowa0/+nP/WQfokCIZo7u8OMg0Q0/kgM0VtMXppGykvOjBDO++MFRej7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754122507; c=relaxed/simple;
-	bh=Rcy+HEEOYhzQjH8EyFnZfnvkuUHGFMUh6KH5FcxMhY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tIbfhnvZrEiIil2r7Cl3qRO5wYiMWCF0sWQrjt8YNdYC3L4FljtCeyQ6c0Lphe5+F+aYCVph/Z4i0kruK1fwQP9dZVOnhMmiZZ596B7BpdQBdL9jOc/Ndoq/zeDAkFOJt2f59Ic55jbsywYeJVzrMjpCRAx8De7J5kHnWcTz6dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIWfg3SD; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1754123751; c=relaxed/simple;
+	bh=8bfVxE+mhdN5sUT9N7F8IdeU8CaCWVjVoBf4PN2G9gM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ei2IEXs+DvNBnmwCQ5YNFB3R+yS94sEl3kFA8mNfwfObtzvabzxKIeq0R/Cpik/A+1e1bwfDvj414wajW7zqWWnjWkOKYi22GkVsdNPkS1TDpd9pDNhvlHVhthUkH4j4yIf75wBVYhO3B6sudXsS52xsR/3az1fLYAc/RMbCyl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dllTNh1A; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIWfg3SD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dllTNh1A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754122505; x=1785658505;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rcy+HEEOYhzQjH8EyFnZfnvkuUHGFMUh6KH5FcxMhY4=;
-  b=JIWfg3SDBGstOqylfGmDwYtA0HHPqNsky6AIQD+TZGY+aOi7vhnWWVK8
-   RMyGBi6dzs8tQE4KfsnJN00UFj2MJQR7rShSmInXqmvawzUedRfa92yxH
-   qIAmokxu1cMBLpUNpMCuNzhD3EZR7dU5OiiemUPiwbfxC+u2VNFgwaA9t
-   XlhlleGPOCmLVyUh1tfdHpbuvlCXSAXXnC0yr6FK5I+AzT28/q36m+HWy
-   SaRZPq0PnxiADn2r37OYPJAJeYsKI1ROz3zj4VjU80kTcIv4bxrBQa3kD
-   9nERKw3hk95RrUwX3fJfuNaC5asLRc0MzJtnUfdMqovckkg6Q+8MUYA8U
-   g==;
-X-CSE-ConnectionGUID: 49j/m3O3SYKmcr0SZKee6g==
-X-CSE-MsgGUID: iktnvtALSk2EhCZhCFyTew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56597065"
+  t=1754123749; x=1785659749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8bfVxE+mhdN5sUT9N7F8IdeU8CaCWVjVoBf4PN2G9gM=;
+  b=dllTNh1AjMoqD/awS9qJ9ShRo6MJbiZlZxshDb92XxKCYn9rkcOQow6E
+   d2lj+ZAxQcT2Br4beYBIxcyFpqpHJ7ovk6RzTSkHKL3e3+GstH7AZ61xF
+   Q8Wfe8yL1xkw6FMAz0BVIn+RaC6mulXFi3GdS6u8eb4ZDVLhZa/5kWtWv
+   V/C+wxi63dKPv4UtvA2a1bLncfdAUkeW5+35wsJtWURZKXNwZtbzgrZY3
+   FTykk5gVBFCPbWffVGNGQr1Ag78rlqki3SGYohd8mivBCUJPtMf9T1PCI
+   L47UiMfTCSflJr9oUsERfLaU2fkX/eFMF/ShK7V9yP+6QfJz5DR5pM0J/
+   Q==;
+X-CSE-ConnectionGUID: 7ihdw5kNQrWj9RL68pNuDA==
+X-CSE-MsgGUID: t1CIP7dMS86qWZNrrWYffg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67033661"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56597065"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 01:15:05 -0700
-X-CSE-ConnectionGUID: bpBsmdJTRbmJVx4Srnq+1Q==
-X-CSE-MsgGUID: Y9NaLTYZTJqYVm/fCNcMrw==
+   d="scan'208";a="67033661"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 01:35:49 -0700
+X-CSE-ConnectionGUID: uxvYRkJ4Sy2XCx4wbUaHAA==
+X-CSE-MsgGUID: e6qkSG7rSjiRQh7UjGZI0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="200908176"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 02 Aug 2025 01:15:04 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="169052769"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 02 Aug 2025 01:35:46 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui7OP-0001Oj-0n;
-	Sat, 02 Aug 2025 08:15:01 +0000
-Date: Sat, 2 Aug 2025 10:14:15 +0200
+	id 1ui7iS-0005GG-0O;
+	Sat, 02 Aug 2025 08:35:44 +0000
+Date: Sat, 2 Aug 2025 16:35:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1743/1743] versioncheck:
- ./drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_init.c: 559: need
- linux/version.h
-Message-ID: <202508021059.WWLDL1gp-lkp@intel.com>
+To: David Hill <dhill@redhat.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, David Hill <dhill@redhat.com>
+Subject: Re: [PATCH] PATCH: i40e Improve trusted VF MAC addresses logging
+ when limit is reached
+Message-ID: <202508021646.pWqgToeU-lkp@intel.com>
+References: <20250801133017.2107083-1-dhill@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +66,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250801133017.2107083-1-dhill@redhat.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   96df9367f25b4b9a5d57e7829fea294b2a322700
-commit: 9e1cec03a3abb934592272fc19603d00bb62f7cb [1743/1743] net: hns3: place cae entrance procedure implementations in a separate file
-reproduce: (https://download.01.org/0day-ci/archive/20250802/202508021059.WWLDL1gp-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tnguy-next-queue/dev-queue]
+[also build test ERROR on tnguy-net-queue/dev-queue horms-ipvs/master linus/master v6.16 next-20250801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Hill/PATCH-i40e-Improve-trusted-VF-MAC-addresses-logging-when-limit-is-reached/20250801-213326
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20250801133017.2107083-1-dhill%40redhat.com
+patch subject: [PATCH] PATCH: i40e Improve trusted VF MAC addresses logging when limit is reached
+config: x86_64-buildonly-randconfig-003-20250802 (https://download.01.org/0day-ci/archive/20250802/202508021646.pWqgToeU-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508021646.pWqgToeU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508021059.WWLDL1gp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508021646.pWqgToeU-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-15.1.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/hisilicon/hns3/hns-customer/hns3_enet_it.c: 89: need linux/version.h
->> ./drivers/net/ethernet/hisilicon/hns3/hns3_cae/hns3_cae_init.c: 559: need linux/version.h
-   ./drivers/net/ethernet/hisilicon/hns3/kcompat.c: 82: need linux/version.h
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+>> drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:2957:77: error: use of undeclared identifier 'num_ports'
+    2957 |           mac2add_cnt, I40E_VC_MAX_MACVLAN_PER_TRUSTED_VF(pf->num_alloc_vfs,num_ports)));
+         |                                                                             ^
+>> drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:2957:77: error: use of undeclared identifier 'num_ports'
+>> drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:2957:88: error: extraneous ')' before ';'
+    2957 |           mac2add_cnt, I40E_VC_MAX_MACVLAN_PER_TRUSTED_VF(pf->num_alloc_vfs,num_ports)));
+         |                                                                                        ^
+   3 errors generated.
+
+
+vim +/num_ports +2957 drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c
+
+  2870	
+  2871	#define I40E_VC_MAX_MACVLAN_PER_TRUSTED_VF(vf_num, num_ports)		\
+  2872	({	typeof(vf_num) vf_num_ = (vf_num);				\
+  2873		typeof(num_ports) num_ports_ = (num_ports);			\
+  2874		((I40E_MAX_MACVLAN_PER_PF(num_ports_) - vf_num_ *		\
+  2875		I40E_VC_MAX_MAC_ADDR_PER_VF) / vf_num_) +			\
+  2876		I40E_VC_MAX_MAC_ADDR_PER_VF; })
+  2877	/**
+  2878	 * i40e_check_vf_permission
+  2879	 * @vf: pointer to the VF info
+  2880	 * @al: MAC address list from virtchnl
+  2881	 *
+  2882	 * Check that the given list of MAC addresses is allowed. Will return -EPERM
+  2883	 * if any address in the list is not valid. Checks the following conditions:
+  2884	 *
+  2885	 * 1) broadcast and zero addresses are never valid
+  2886	 * 2) unicast addresses are not allowed if the VMM has administratively set
+  2887	 *    the VF MAC address, unless the VF is marked as privileged.
+  2888	 * 3) There is enough space to add all the addresses.
+  2889	 *
+  2890	 * Note that to guarantee consistency, it is expected this function be called
+  2891	 * while holding the mac_filter_hash_lock, as otherwise the current number of
+  2892	 * addresses might not be accurate.
+  2893	 **/
+  2894	static inline int i40e_check_vf_permission(struct i40e_vf *vf,
+  2895						   struct virtchnl_ether_addr_list *al)
+  2896	{
+  2897		struct i40e_pf *pf = vf->pf;
+  2898		struct i40e_vsi *vsi = pf->vsi[vf->lan_vsi_idx];
+  2899		struct i40e_hw *hw = &pf->hw;
+  2900		int mac2add_cnt = 0;
+  2901		int i;
+  2902	
+  2903		for (i = 0; i < al->num_elements; i++) {
+  2904			struct i40e_mac_filter *f;
+  2905			u8 *addr = al->list[i].addr;
+  2906	
+  2907			if (is_broadcast_ether_addr(addr) ||
+  2908			    is_zero_ether_addr(addr)) {
+  2909				dev_err(&pf->pdev->dev, "invalid VF MAC addr %pM\n",
+  2910					addr);
+  2911				return -EINVAL;
+  2912			}
+  2913	
+  2914			/* If the host VMM administrator has set the VF MAC address
+  2915			 * administratively via the ndo_set_vf_mac command then deny
+  2916			 * permission to the VF to add or delete unicast MAC addresses.
+  2917			 * Unless the VF is privileged and then it can do whatever.
+  2918			 * The VF may request to set the MAC address filter already
+  2919			 * assigned to it so do not return an error in that case.
+  2920			 */
+  2921			if (!i40e_can_vf_change_mac(vf) &&
+  2922			    !is_multicast_ether_addr(addr) &&
+  2923			    !ether_addr_equal(addr, vf->default_lan_addr.addr)) {
+  2924				dev_err(&pf->pdev->dev,
+  2925					"VF attempting to override administratively set MAC address, bring down and up the VF interface to resume normal operation\n");
+  2926				return -EPERM;
+  2927			}
+  2928	
+  2929			/*count filters that really will be added*/
+  2930			f = i40e_find_mac(vsi, addr);
+  2931			if (!f)
+  2932				++mac2add_cnt;
+  2933		}
+  2934	
+  2935		/* If this VF is not privileged, then we can't add more than a limited
+  2936		 * number of addresses. Check to make sure that the additions do not
+  2937		 * push us over the limit.
+  2938		 */
+  2939		if (!test_bit(I40E_VIRTCHNL_VF_CAP_PRIVILEGE, &vf->vf_caps)) {
+  2940			if ((i40e_count_filters(vsi) + mac2add_cnt) >
+  2941			    I40E_VC_MAX_MAC_ADDR_PER_VF) {
+  2942				dev_err(&pf->pdev->dev,
+  2943					"Cannot add more MAC addresses, VF is not trusted, switch the VF to trusted to add more functionality\n");
+  2944				return -EPERM;
+  2945			}
+  2946		/* If this VF is trusted, it can use more resources than untrusted.
+  2947		 * However to ensure that every trusted VF has appropriate number of
+  2948		 * resources, divide whole pool of resources per port and then across
+  2949		 * all VFs.
+  2950		 */
+  2951		} else {
+  2952			if ((i40e_count_filters(vsi) + mac2add_cnt) >
+  2953			    I40E_VC_MAX_MACVLAN_PER_TRUSTED_VF(pf->num_alloc_vfs,
+  2954							       hw->num_ports)) {
+  2955				dev_err(&pf->pdev->dev,
+  2956					"Cannot add more MAC addresses, trusted VF %d uses %d out of %d MAC addresses\n", vf->vf_id, i40e_count_filters(vsi) +
+> 2957	          mac2add_cnt, I40E_VC_MAX_MACVLAN_PER_TRUSTED_VF(pf->num_alloc_vfs,num_ports)));
+  2958				return -EPERM;
+  2959			}
+  2960		}
+  2961		return 0;
+  2962	}
+  2963	
 
 -- 
 0-DAY CI Kernel Test Service
