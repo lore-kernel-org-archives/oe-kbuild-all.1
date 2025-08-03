@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F3E3C2F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 01:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A303C2F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 01:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754183885; cv=none; b=N0JgDHhZ2aqnesxhjphHTOMHPnWc/Pboq/ovrDwoP/yVsEap868mqh+4UOaGNcJdGfX71uDMW6P96x2jPwPgIVW3rfKMp4wriyIZv+LhEpUvNpDCwdt0nzWEAJ07WdcrrYz4OAMLebxICBhGSFXD4mdPpmeLVFcRxLqleHuI5yE=
+	t=1754183945; cv=none; b=mO+CT9+fX+gL5mOf0xQttNOEjamI3MXXIwDm0CVqmXIFanfL3ElG4BwA0B2wVPAsEb7GZuAnFkUR7rxO8MMPdFBFXlmxIX7hBQPDkpScmTu1o6n5soBqSuoiYjPq0lQW86tWb8QtroUbbSToRGIixEG+zagE3lwzIJc4nSPD0qU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754183885; c=relaxed/simple;
-	bh=wTp8nnI90mSxRQ8aWYdV3fBmkkIyMGHrJb8KZlqZqXM=;
+	s=arc-20240116; t=1754183945; c=relaxed/simple;
+	bh=ZDSZLb+ocL+4CdzQaRwarIKc/HAbTK5y4q9XjhqAvcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e8RQRLNdDdWMZoTibX2cLgpK3uGQqz2Po0LZwLt6KvkdlqeoPwrQvgHbQY6vOZYmsGEK7uGRDkawtFqVujSyctdo9tkJyxBtqUBiFd+Y0xUUjhpRxlE0bpXJV144uuf19aaB6egOYaFaLtx2CrsPkz8GkPdQshGXyPn69kUlxgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g89RtXlW; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=W5cqhfMw30kHqMJG9bbD++SbmB+7WwPuap9sebPchZcQkOjo2qKT+bnGyE/jH0kc3/UIeDDFpKHEZ14CSLs49V/mPoeCbsz739CZjxByON5FMJhVL+BO1/lBVodRUeOg2ALS4kDOlPDziilhf/AMtk0gxGFNs/41PERCmqWFjBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KroBnbXg; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g89RtXlW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KroBnbXg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754183884; x=1785719884;
+  t=1754183944; x=1785719944;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wTp8nnI90mSxRQ8aWYdV3fBmkkIyMGHrJb8KZlqZqXM=;
-  b=g89RtXlWYZNlmfw15ov+jkExjAsZFZvuvVCZ66NyUcYBTDfzithriuMg
-   mAuPDmMxz63c2lNvVLRRoVwCN01CRdmZUhL5U3IXzZqwFPmoMTry3MRcr
-   kW41hx3tHwCMKt5eFRKpxLnFZmxjzzKFSNDJrXBM7x7ZPQDDX7mmrw4Qa
-   Dbxy01CZHoEbQRXbDVPI5xcJ6cqXAJlGX/J2R0KTv9SaSAZsUm5qGEaBy
-   AdgcQ0b8ilEgB6oeKAB+psJcbKVwI/My5BYbfCiR9DZA0Tol6giRX/H+w
-   gB9kFOBcsAAqq8sYLNtgUQUXDsqOEDhUtCAJrO6no4VQmqFMCE+9zOC8U
-   A==;
-X-CSE-ConnectionGUID: zlXdbncRT2KkIJ1BhjfMbQ==
-X-CSE-MsgGUID: KoTSzwsET8W5pMqBXG25og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="56446908"
+  bh=ZDSZLb+ocL+4CdzQaRwarIKc/HAbTK5y4q9XjhqAvcU=;
+  b=KroBnbXgcoyhwh/8unhNbNIbaSieyM3uQ3Uu8LV4sw/8riHAGVyMPOrJ
+   zSpMQX69Os1XhU/JwtyoNtuD+N+XAWI2voJDlx/RyITN1avpVDvWFDv9S
+   /0nBpaO3bX2cEdZP0S1oUEqABpXsoXl8PJLIprtAHnUVqYepTGIKccOOn
+   awvMCIImYwcRrkKiP38eEO2+ct2/7wDWtI7KmT5Y9Ts6df/wwCpKCaAjl
+   eaC+mqqcZL6jqfwNTrU1vEe0NcbUO+ZZFu7ZK7RlHkNfLpjRoXkqM0cnL
+   xc0tm+mf8la+qJfmorWRKTEt6AkC52MO0P86LAgXjIj3pB35F1/QiAb7l
+   Q==;
+X-CSE-ConnectionGUID: zOvYmqDkR3WWZEM064ETFg==
+X-CSE-MsgGUID: ES10G4tJTvSWfX4UtGnb1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="56188860"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56446908"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 18:18:03 -0700
-X-CSE-ConnectionGUID: 1gHTJS+VToG2RQQYLhZzxQ==
-X-CSE-MsgGUID: CxRgnC+5SaWYp33yX08I6Q==
+   d="scan'208";a="56188860"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 18:19:04 -0700
+X-CSE-ConnectionGUID: O+bIlj9OQxaOdc+BcdY2hg==
+X-CSE-MsgGUID: KM2kh2MZT+q11CzLMfDLHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="163140314"
+   d="scan'208";a="163549293"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Aug 2025 18:18:02 -0700
+  by orviesa009.jf.intel.com with ESMTP; 02 Aug 2025 18:19:02 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiNMN-0005hc-32;
-	Sun, 03 Aug 2025 01:17:59 +0000
-Date: Sun, 3 Aug 2025 09:17:59 +0800
+	id 1uiNNM-0005hk-09;
+	Sun, 03 Aug 2025 01:19:00 +0000
+Date: Sun, 3 Aug 2025 09:18:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2630/2630]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4039:39: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202508030926.Js3SWM6z-lkp@intel.com>
+To: Nick Terrell <terrelln@meta.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/s390/include/uapi/../../../../lib/zstd/decompress/zstd_decompress_block.c:1987
+ ZSTD_decompressSequencesLong() warn: inconsistent indenting
+Message-ID: <202508030928.NddvBAsZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8fa27fba5fd9db50ef3d03358c9abd371dcbdd99
-commit: 587296e12d7d64c971a182ca1d28de8cdbe29ca9 [2630/2630] iommu/arm-smmu-v3: Add mpam helpers to query and set state
-config: arm64-randconfig-r111-20250803 (https://download.01.org/0day-ci/archive/20250803/202508030926.Js3SWM6z-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce: (https://download.01.org/0day-ci/archive/20250803/202508030926.Js3SWM6z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   186f3edfdd41f2ae87fc40a9ccba52a3bf930994
+commit: 65d1f5507ed2c78c64fce40e44e5574a9419eb09 zstd: Import upstream v1.5.7
+date:   5 months ago
+config: s390-randconfig-r071-20250803 (https://download.01.org/0day-ci/archive/20250803/202508030928.NddvBAsZ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508030926.Js3SWM6z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508030928.NddvBAsZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4039:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4039:39: sparse:     expected restricted __le64
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4039:39: sparse:     got unsigned long long
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4040:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4040:39: sparse:     expected restricted __le64
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:4040:39: sparse:     got unsigned long long
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
-   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
-   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
+New smatch warnings:
+arch/s390/include/uapi/../../../../lib/zstd/decompress/zstd_decompress_block.c:1987 ZSTD_decompressSequencesLong() warn: inconsistent indenting
 
-vim +4039 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+Old smatch warnings:
+arch/s390/include/uapi/../../../../lib/zstd/decompress/huf_decompress.c:650 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead of &
+arch/s390/include/uapi/../../../../lib/zstd/decompress/huf_decompress.c:650 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead of &
+arch/s390/include/uapi/../../../../lib/zstd/decompress/huf_decompress.c:1431 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instead of &
+arch/s390/include/uapi/../../../../lib/zstd/decompress/huf_decompress.c:1431 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instead of &
+arch/s390/include/uapi/../../../../lib/zstd/decompress/zstd_decompress_block.c:941 ZSTD_execSequenceEnd() warn: inconsistent indenting
+arch/s390/include/uapi/../../../../lib/zstd/decompress/zstd_decompress_block.c:990 ZSTD_execSequenceEndSplitLitBuffer() warn: inconsistent indenting
+arch/s390/include/uapi/../../../../lib/zstd/decompress/zstd_decompress_block.c:1063 ZSTD_execSequence() warn: inconsistent indenting
 
-  4000	
-  4001	static int arm_smmu_group_set_mpam(struct iommu_group *group, u16 partid,
-  4002					   u8 pmg)
-  4003	{
-  4004		int i;
-  4005		u32 sid;
-  4006		unsigned long flags;
-  4007		struct arm_smmu_ste *step;
-  4008		struct iommu_domain *domain;
-  4009		struct arm_smmu_device *smmu;
-  4010		struct arm_smmu_master *master;
-  4011		struct arm_smmu_cmdq_batch cmds;
-  4012		struct arm_smmu_domain *smmu_domain;
-  4013		struct arm_smmu_cmdq_ent cmd = {
-  4014			.opcode	= CMDQ_OP_CFGI_STE,
-  4015			.cfgi	= {
-  4016				.leaf	= true,
-  4017			},
-  4018		};
-  4019		struct arm_smmu_master_domain *master_domain;
-  4020	
-  4021		domain = iommu_get_domain_for_group(group);
-  4022		smmu_domain = to_smmu_domain(domain);
-  4023		if (!(smmu_domain->smmu->features & ARM_SMMU_FEAT_MPAM))
-  4024			return -EIO;
-  4025		smmu = smmu_domain->smmu;
-  4026	
-  4027		arm_smmu_cmdq_batch_init(smmu, &cmds);
-  4028	
-  4029		spin_lock_irqsave(&smmu_domain->devices_lock, flags);
-  4030		list_for_each_entry(master_domain, &smmu_domain->devices,
-  4031				    devices_elm) {
-  4032			master = master_domain->master;
-  4033	
-  4034			for (i = 0; i < master->num_streams; i++) {
-  4035				sid = master->streams[i].id;
-  4036				step = arm_smmu_get_step_for_sid(smmu, sid);
-  4037	
-  4038				/* These need locking if the VMSPtr is ever used */
-> 4039				step->data[4] = FIELD_PREP(STRTAB_STE_4_PARTID, partid);
-  4040				step->data[5] = FIELD_PREP(STRTAB_STE_5_PMG, pmg);
-  4041	
-  4042				cmd.cfgi.sid = sid;
-  4043				arm_smmu_cmdq_batch_add(smmu, &cmds, &cmd);
-  4044			}
-  4045	
-  4046			master->partid = partid;
-  4047			master->pmg = pmg;
-  4048		}
-  4049		spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
-  4050	
-  4051		arm_smmu_cmdq_batch_submit(smmu, &cmds);
-  4052	
-  4053		return 0;
-  4054	}
-  4055	
+vim +1987 arch/s390/include/uapi/../../../../lib/zstd/decompress/zstd_decompress_block.c
+
+  1967	
+  1968	
+  1969	#ifndef ZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT
+  1970	/* ZSTD_decompressSequencesLong() :
+  1971	 * decompression function triggered when a minimum share of offsets is considered "long",
+  1972	 * aka out of cache.
+  1973	 * note : "long" definition seems overloaded here, sometimes meaning "wider than bitstream register", and sometimes meaning "farther than memory cache distance".
+  1974	 * This function will try to mitigate main memory latency through the use of prefetching */
+  1975	static size_t
+  1976	ZSTD_decompressSequencesLong(ZSTD_DCtx* dctx,
+  1977	                             void* dst, size_t maxDstSize,
+  1978	                             const void* seqStart, size_t seqSize, int nbSeq,
+  1979	                             const ZSTD_longOffset_e isLongOffset)
+  1980	{
+  1981	    DEBUGLOG(5, "ZSTD_decompressSequencesLong");
+  1982	#if DYNAMIC_BMI2
+  1983	    if (ZSTD_DCtx_get_bmi2(dctx)) {
+  1984	        return ZSTD_decompressSequencesLong_bmi2(dctx, dst, maxDstSize, seqStart, seqSize, nbSeq, isLongOffset);
+  1985	    }
+  1986	#endif
+> 1987	  return ZSTD_decompressSequencesLong_default(dctx, dst, maxDstSize, seqStart, seqSize, nbSeq, isLongOffset);
+  1988	}
+  1989	#endif /* ZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT */
+  1990	
+  1991	
 
 -- 
 0-DAY CI Kernel Test Service
