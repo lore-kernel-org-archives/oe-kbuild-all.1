@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B842BAF7;
-	Sun,  3 Aug 2025 11:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82941205502
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 13:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754221665; cv=none; b=KPp1q7IUIIrmbYbu0I3cr+voP4dplWl1MEu1uKSTpfpxTizFR53i/msedY+/HrILZOio9GxFY2kqGzZEuX8ms2OYUV0X28x9/RL9oc+CmBEKSlKDBsxKBMRfDpYWvqlnsWZ05hGLnKku7pMBlpXBRNei2lxQsst04UNsYxuSGm0=
+	t=1754226831; cv=none; b=rnOj2XSomkiYW78u12UmEvQpth2k4HVeHsIeiAjKFUW2SVDQLlUruGe5LAQ/2NY53qNT/s1dOJ9GOrvatQrcZJLdez5twvIvXOfPFdfY0eSVzZHoOK1HqmE1Ro6Jn9TXa9aJVwqnoV1/x4sU+Y17fhxPKyysv1tgL8tCO8GN2kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754221665; c=relaxed/simple;
-	bh=Z6LUtm/a1u3IqonFflkwNo9Q8rvdSD3mMT0ePh0ZCac=;
+	s=arc-20240116; t=1754226831; c=relaxed/simple;
+	bh=uOxYQznVsFKZX6gJObHrdGVChAt769B3AjUKWxpasFg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PRbNnmdTfn3s8hGpg81KISCRWFA+SuorFkctstq4QIBsBdw9BEDmD0BIn5PemLY7l6/9YNtpwlB/48X2EtY/3VGUj/I64HtEnj/rqmElG7HardSCxhfCPivrBmeV5j3Z2NEouj/R15r1Vz9oTjEE/RAvPyq63+MFZnJvW2rL1TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJULeuj2; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=qXpaQiZBPkxXzHPFwOecoV5XEQAiSDNISIM6KEEOBftSWx7yHgeG8/A2BfpOxhFJCnOaqsheGdg2BazU3jZWtc/90eSmiwBWhHO3ssAMksSf/cPSdfU/aujg1zqgFy4whNHEkACudUK2lZFHSQU6AfDp/fVPFNiHqO18nS/J4f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kw7ncP4Y; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJULeuj2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kw7ncP4Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754221663; x=1785757663;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z6LUtm/a1u3IqonFflkwNo9Q8rvdSD3mMT0ePh0ZCac=;
-  b=UJULeuj2uJovV8oQJmx/AOo5mQspvpkYnmlpKFZzqiS2UVarIOO102mR
-   Ulh91MZPQp68lfbuJ/tUDjCrY86jU1h4tpaEthwe5oVzi6kQf9aj1Ib4o
-   T2LpWObjbowqsiSTFIpCgGHhAbNf4zqqBJwkweUwYYPej1MjUnIz623qD
-   10Z9n8O54JmWpBrMYFFCNNWZyi7+2OqA+sWZksDGZlrFGA3YuT/8hXsJL
-   8igOj0z9QuBaIL3OIl0ETcJRqfN8BmAZCDc7Hcgox1k+WaKjgvasAA1fW
-   9JU3Ye2gd1uugwRFbWjBr67DHOCahoAR8/NucGnzSTFxKxP+RHuqmUUVs
-   Q==;
-X-CSE-ConnectionGUID: RL/x5k2bSkibf8IwCV5H3A==
-X-CSE-MsgGUID: suBx52sYTfiIq17UKRwVpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="60314841"
+  t=1754226829; x=1785762829;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uOxYQznVsFKZX6gJObHrdGVChAt769B3AjUKWxpasFg=;
+  b=kw7ncP4YBwY47SMbs9rqOmwLEvxwJmQKdLLo62KBP89kru50ERbOkbYl
+   8/l7YGDR8adKIzqCYZk8AWY3lcNWK38UO1PaZ1XM9XxgPwfzYLrpm+WL6
+   6gDM/5aBhm0N+YWdcAQi8Xn4LF0nex5hpUGDn+CJgouqXDQsOhOWQ6H4T
+   0v8l3Iu0qbAfc/mx0RzVPqOB59UW7tvLRhVUlqjS89sTaPvFX4fq7iOVL
+   tmEH9DWbcsur0YK0rbPJ+IUBAin6edgMoatOeWWTTmAbxhC/a74OVpyjx
+   aKeoYYw4rPBdVEtIIxQANhe6BbJR8syO1N0fxukeeeS6NQtejrhPRJkXO
+   A==;
+X-CSE-ConnectionGUID: 6g3Y3AWvTISZtORjoQld/w==
+X-CSE-MsgGUID: 8fUp9/qCR7uoIfAaujAWog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="67072291"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="60314841"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 04:47:43 -0700
-X-CSE-ConnectionGUID: 16KLkAucQLSg6lZg4oZb1w==
-X-CSE-MsgGUID: +w8HhBzfTRKBwjk+wneDAA==
+   d="scan'208";a="67072291"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 06:13:48 -0700
+X-CSE-ConnectionGUID: ph4FFE+7RAS/G41Oqiu7tg==
+X-CSE-MsgGUID: SMPjfLzVSJih5kt/3OO9YA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="194767570"
+   d="scan'208";a="164395772"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Aug 2025 04:47:42 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 03 Aug 2025 06:13:46 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiXBj-0001cp-1S;
-	Sun, 03 Aug 2025 11:47:39 +0000
-Date: Sun, 3 Aug 2025 13:46:55 +0200
+	id 1uiYX2-0001dH-1J;
+	Sun, 03 Aug 2025 13:13:44 +0000
+Date: Sun, 3 Aug 2025 15:13:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12906/13054] fs/bcachefs/io_misc.c:275:3: error:
- cannot jump from this goto statement to its label
-Message-ID: <202508031339.6X3Lcpa8-lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb:
+ clock-controller@f0801000 (nuvoton,npcm750-clk): 'clock-controller' does not
+ match any of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202508031542.43A5fCUg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,77 +64,438 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-commit: 4c3205637f1ecb1af44e99c92a9931ae2f84bc58 [12906/13054] bcachefs: CLASS(btree_iter)
-config: x86_64-randconfig-2004-20250802 (https://download.01.org/0day-ci/archive/20250803/202508031339.6X3Lcpa8-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250803/202508031339.6X3Lcpa8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a6923c06a3b2e2c534ae28c53a7531e76cc95cfa
+commit: 71b80a33653debf0374498e6f4141aae43038d0b dt-bindings: clock: Conver=
+t nuvoton,npcm750-clk to DT schema
+date:   10 days ago
+config: arm-randconfig-2051-20250801 (https://download.01.org/0day-ci/archi=
+ve/20250803/202508031542.43A5fCUg-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 654=
+0c93aa991dbc2b09cc5395493dadd7181551e)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20250803/202508031542.43A5fCUg-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508031339.6X3Lcpa8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508031542.43A5fCUg-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
-
->> fs/bcachefs/io_misc.c:275:3: error: cannot jump from this goto statement to its label
-     275 |                 goto err;
-         |                 ^
-   fs/bcachefs/io_misc.c:277:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     277 |         CLASS(btree_iter, fpunch_iter)(trans, BTREE_ID_extents,
-         |                           ^
-   1 error generated.
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/arm/nuvoton/nuvoton,npcm=
+=2Eyaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: / (nuvoton,npcm750): =
+memory: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: / (nuvoton,npcm750): =
+memory: False schema does not allow {'reg': [[0, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: cache-controller@3fc0=
+00 (arm,pl310-cache): 'clocks' does not match any of the regexes: '^pinctrl=
+-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/cache/l2c2x0.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: /soc/rst@801000: fail=
+ed to match any schema with compatible: ['nuvoton,npcm750-rst', 'syscon', '=
+simple-mfd']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: ahb (simple-bus): apb=
+:ranges: [[0, 4026531840, 3145728]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: clock-controller@f080=
+1000 (nuvoton,npcm750-clk): 'clock-controller' does not match any of the re=
+gexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: clock-controller@f080=
+1000 (nuvoton,npcm750-clk): compatible: ['nuvoton,npcm750-clk', 'syscon'] i=
+s too long
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: eth@f0802000 (snps,dw=
+mac): $nodename:0: 'eth@f0802000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: /ahb/spi@fb000000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: /ahb/spi@c0000000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: /ahb/spi@fb001000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: apb (simple-bus): wat=
+chdog@901C: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: /ahb/apb/lpc_kcs@7000=
+: failed to match any schema with compatible: ['nuvoton,npcm750-lpc-kcs', '=
+simple-mfd', 'syscon']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gsj.dtb: /ahb/apb/lpc_kcs@7000=
+/kcs1@0: failed to match any schema with compatible: ['nuvoton,npcm750-kcs-=
+bmc']
 --
->> fs/bcachefs/dirent.c:752:3: error: cannot jump from this goto statement to its label
-     752 |                 goto err;
-         |                 ^
-   fs/bcachefs/dirent.c:756:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     756 |         CLASS(btree_iter, iter)(trans, BTREE_ID_dirents, pos, BTREE_ITER_intent);
-         |                           ^
-   1 error generated.
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: cache-controller@3fc0=
+00 (arm,pl310-cache): 'clocks' does not match any of the regexes: '^pinctrl=
+-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/cache/l2c2x0.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: uart-mux-controller (=
+mmio-mux): $nodename:0: 'uart-mux-controller' does not match '^mux-controll=
+er(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: uart1-mode-mux-contro=
+ller (mmio-mux): $nodename:0: 'uart1-mode-mux-controller' does not match '^=
+mux-controller(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/mux/mux-controller.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: /soc/rst@801000: fail=
+ed to match any schema with compatible: ['nuvoton,npcm750-rst', 'syscon', '=
+simple-mfd']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: ahb (simple-bus): apb=
+:ranges: [[0, 4026531840, 3145728]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: clock-controller@f080=
+1000 (nuvoton,npcm750-clk): 'clock-controller' does not match any of the re=
+gexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: clock-controller@f080=
+1000 (nuvoton,npcm750-clk): compatible: ['nuvoton,npcm750-clk', 'syscon'] i=
+s too long
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: eth@f0802000 (snps,dw=
+mac): $nodename:0: 'eth@f0802000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: /ahb/spi@fb000000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: /ahb/spi@c0000000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: /ahb/spi@fb001000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: apb (simple-bus): wat=
+chdog@901C: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: /ahb/apb/lpc_kcs@7000=
+: failed to match any schema with compatible: ['nuvoton,npcm750-lpc-kcs', '=
+simple-mfd', 'syscon']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-gbs.dtb: /ahb/apb/lpc_kcs@7000=
+/kcs1@0: failed to match any schema with compatible: ['nuvoton,npcm750-kcs-=
+bmc']
+--
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /: failed to match a=
+ny schema with compatible: ['fii,kudo', 'nuvoton,npcm730']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: / (fii,kudo): memory=
+: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: / (fii,kudo): memory=
+: False schema does not allow {'reg': [[0, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: cache-controller@3fc=
+000 (arm,pl310-cache): 'clocks' does not match any of the regexes: '^pinctr=
+l-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/cache/l2c2x0.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /soc/rst@801000: fai=
+led to match any schema with compatible: ['nuvoton,npcm750-rst', 'syscon', =
+'simple-mfd']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: ahb (simple-bus): ap=
+b:ranges: [[0, 4026531840, 3145728]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: clock-controller@f08=
+01000 (nuvoton,npcm750-clk): 'clock-controller' does not match any of the r=
+egexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: clock-controller@f08=
+01000 (nuvoton,npcm750-clk): compatible: ['nuvoton,npcm750-clk', 'syscon'] =
+is too long
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: eth@f0802000 (snps,d=
+wmac): $nodename:0: 'eth@f0802000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /ahb/spi@fb000000: f=
+ailed to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /ahb/spi@c0000000: f=
+ailed to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /ahb/spi@fb001000: f=
+ailed to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: apb (simple-bus): wa=
+tchdog@901C: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /ahb/apb/lpc_kcs@700=
+0: failed to match any schema with compatible: ['nuvoton,npcm750-lpc-kcs', =
+'simple-mfd', 'syscon']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dtb: /ahb/apb/lpc_kcs@700=
+0/kcs1@0: failed to match any schema with compatible: ['nuvoton,npcm750-kcs=
+-bmc']
+--
+   cooling-levels: size (2) error for type uint32-array
+   cooling-levels: size (2) error for type uint32-array
+   cooling-levels: size (2) error for type uint32-array
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: / (nuvoton,npcm750-ev=
+b): memory: False schema does not allow {'device_type': ['memory'], 'reg': =
+[[0, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: cache-controller@3fc0=
+00 (arm,pl310-cache): 'clocks' does not match any of the regexes: '^pinctrl=
+-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/cache/l2c2x0.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: /soc/rst@801000: fail=
+ed to match any schema with compatible: ['nuvoton,npcm750-rst', 'syscon', '=
+simple-mfd']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: ahb (simple-bus): apb=
+:ranges: [[0, 4026531840, 3145728]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: clock-controller@f080=
+1000 (nuvoton,npcm750-clk): 'clock-controller' does not match any of the re=
+gexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: clock-controller@f080=
+1000 (nuvoton,npcm750-clk): compatible: ['nuvoton,npcm750-clk', 'syscon'] i=
+s too long
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: eth@f0802000 (snps,dw=
+mac): $nodename:0: 'eth@f0802000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: /ahb/spi@fb000000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: /ahb/spi@c0000000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: /ahb/spi@fb001000: fa=
+iled to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: apb (simple-bus): wat=
+chdog@901C: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: /ahb/apb/lpc_kcs@7000=
+: failed to match any schema with compatible: ['nuvoton,npcm750-lpc-kcs', '=
+simple-mfd', 'syscon']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dtb: /ahb/apb/lpc_kcs@7000=
+/kcs1@0: failed to match any schema with compatible: ['nuvoton,npcm750-kcs-=
+bmc']
+--
+   	from schema $id: http://devicetree.org/schemas/arm/nuvoton/nuvoton,npcm=
+=2Eyaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: / (nuvoton=
+,npcm750): memory: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: / (nuvoton=
+,npcm750): memory: False schema does not allow {'reg': [[0, 1073741824]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: cache-cont=
+roller@3fc000 (arm,pl310-cache): 'clocks' does not match any of the regexes=
+: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/cache/l2c2x0.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: /soc/rst@8=
+01000: failed to match any schema with compatible: ['nuvoton,npcm750-rst', =
+'syscon', 'simple-mfd']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: ahb (simpl=
+e-bus): apb:ranges: [[0, 4026531840, 3145728]] is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: clock-cont=
+roller@f0801000 (nuvoton,npcm750-clk): 'clock-controller' does not match an=
+y of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+>> arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: clock-cont=
+roller@f0801000 (nuvoton,npcm750-clk): compatible: ['nuvoton,npcm750-clk', =
+'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/nuvoton,npcm750-cl=
+k.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: eth@f08020=
+00 (snps,dwmac): $nodename:0: 'eth@f0802000' does not match '^ethernet(@.*)=
+?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: /ahb/spi@f=
+b000000: failed to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: flash@1 (j=
+edec,spi-nor): Unevaluated properties are not allowed ('npcm,fiu-rx-bus-wid=
+th' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: flash@1 (j=
+edec,spi-nor): 'npcm,fiu-rx-bus-width' does not match any of the regexes: '=
+^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|g=
+pmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '=
+^(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rc=
+ar_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|=
+st-spics|ts),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^GEFanuc,.*', '^I=
+BM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+\\-._@]{0,63}$', =
+'^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,.*', '^abracon,.*=
+', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*', '^acme,.*', '^actions=
+,.*', '^active-semi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', '^adaptr=
+um,.*', '^adh,.*', '^adi,.*', '^adieng,.*', '^admatec,.*', '^advantech,.*',=
+ '^aeroflexgaisler,.*', '^aesop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*',=
+ '^aldec,.*', '^alfa-network,.*', '^allegro,.*', '^allegromicro,.*', '^alli=
+edvision,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^=
+alt,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^=
+amediatech,.*', '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', =
+'^ams,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', =
+'^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*',=
+ '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^a=
+riaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^armsom,.*', '^arrow=
+,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.*', '^aspeed,.*'=
+, '^asrock,.*', '^asteralabs,.*', '^asus,.*', '^atheros,.*', '^atlas,.*', '=
+^atmel,.*', '^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', =
+'^avnet,.*', '^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.=
+*', '^baikal,.*', '^bananapi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*'=
+, '^bhf,.*', '^bigtreetech,.*', '^bitmain,.*', '^blaize,.*', '^blutek,.*', =
+'^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,=
+=2E*', '^bticino,.*', '^buffalo,.*', '^bur,.*', '^bytedance,.*', '^calamp,.=
+*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*', '^cameo,.*', '^canaan,.=
+*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '^catalyst,.*', '^cavium,.=
+*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwise,.*', '^ceva,.*', '^char=
+gebyte,.*', '^checkpoint,.*', '^chefree,.*', '^chipidea,.*', '^chipone,.*',=
+ '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*', '^chrp,.*', '^chunghwa,.=
+*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisco,.*', '^clockwork,.*', '^=
+cloos,.*', '^cloudengines,.*', '^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^com=
+pulab,.*', '^comvetia,.*', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '=
+^corpro,.*', '^cortina,.*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^cr=
+ystalfontz,.*', '^csky,.*', '^csot,.*', '^csq,.*', '^ctera,.*', '^ctu,.*', =
+'^cubietech,.*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.=
+*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^de=
+ll,.*', '^delta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*=
+', '^dfrobot,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^di=
+monoff,.*', '^diodes,.*', '^dioo,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^=
+dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', =
+'^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*'=
+, '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^econet,.*', =
+'^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^einfochips=
+,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^elida,.*', '^=
+elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emcraft,.*', '^em=
+lid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^enclustra=
+,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^englede=
+r,.*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', '^est,.*', '^ettus,=
+=2E*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exa=
+r,.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchil=
+d,.*', '^fairphone,.*', '^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fc=
+s,.*', '^feixin,.*', '^feiyang,.*', '^fii,.*', '^firefly,.*', '^focaltech,.=
+*', '^forlinx,.*', '^freebox,.*', '^freecom,.*', '^frida,.*', '^friendlyarm=
+,.*', '^fsl,.*', '^fujitsu,.*', '^fxtec,.*', '^galaxycore,.*', '^gameforce,=
+=2E*', '^gardena,.*', '^gateway,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', =
+'^geekbuying,.*', '^gef,.*', '^gehc,.*', '^gemei,.*', '^gemtek,.*', '^genes=
+ys,.*', '^genexis,.*', '^geniatech,.*', '^giantec,.*', '^giantplus,.*', '^g=
+linet,.*', '^globalscale,.*', '^globaltop,.*', '^gmt,.*', '^gocontroll,.*',=
+ '^goldelico,.*', '^goodix,.*', '^google,.*', '^goramo,.*', '^gplus,.*', '^=
+grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^hannstar,.*', '^haochuang=
+yi,.*', '^haoyu,.*', '^hardkernel,.*', '^hechuang,.*', '^hideep,.*', '^hima=
+x,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', '^hitex,.*=
+', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^hoperf,.*',=
+ '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huawei,.*', '^=
+hugsun,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', '^hydis,.*', '^hynitron,.=
+*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,=
+=2E*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagis,.*', '^img,.*', '^imi,.=
+*', '^inanbo,.*', '^incircuit,.*', '^indiedroid,.*', '^inet-tek,.*', '^infi=
+neon,.*', '^inforce,.*', '^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^i=
+nnocomm,.*', '^innolux,.*', '^inside-secure,.*', '^insignal,.*', '^inspur,.=
+*', '^intel,.*', '^intercontrol,.*', '^invensense,.*', '^inventec,.*', '^in=
+versepath,.*', '^iom,.*', '^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,=
+=2E*', '^ite,.*', '^itead,.*', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadar=
+d,.*', '^jasonic,.*', '^jdi,.*', '^jedec,.*', '^jenson,.*', '^jesurun,.*', =
+'^jethome,.*', '^jianda,.*', '^jide,.*', '^joz,.*', '^kam,.*', '^karo,.*', =
+'^keithkoep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic=
+,.*', '^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol=
+,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie=
+,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', =
+'^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenov=
+o,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro=
+,.*', '^lincolntech,.*', '^lineartechnology,.*', '^linksprite,.*', '^linksy=
+s,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liontron,.*', '^liteon,=
+=2E*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longche=
+er,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*', '^lunz=
+n,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.*', '^macnica,.*', '^m=
+antix,.*', '^mapleboard,.*', '^marantec,.*', '^marvell,.*', '^maxbotix,.*',=
+ '^maxim,.*', '^maxlinear,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer=
+,.*', '^mediatek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,=
+=2E*', '^mellanox,.*', '^memsensing,.*', '^memsic,.*', '^menlo,.*', '^mento=
+r,.*', '^meraki,.*', '^merrii,.*', '^methode,.*', '^micrel,.*', '^microchip=
+,.*', '^microcrystal,.*', '^micron,.*', '^microsoft,.*', '^microsys,.*', '^=
+microtips,.*', '^mikroe,.*', '^mikrotik,.*', '^milkv,.*', '^miniand,.*', '^=
+minix,.*', '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^m=
+ixel,.*', '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moor=
+tec,.*', '^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^m=
+pl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^msta=
+r,.*', '^mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic=
+,.*', '^mxicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^n=
+eofidelity,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.*'=
+, '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven=
+,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nintendo,=
+=2E*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatek,.*', =
+'^novtech,.*', '^numonyx,.*', '^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^=
+nvidia,.*', '^nxp,.*', '^oceanic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^=
+oki,.*', '^olimex,.*', '^olpc,.*', '^oneplus,.*', '^onie,.*', '^onion,.*', =
+'^onnn,.*', '^ontat,.*', '^opalkelly,.*', '^openailab,.*', '^opencores,.*',=
+ '^openembed,.*', '^openpandora,.*', '^openrisc,.*', '^openwrt,.*', '^optio=
+n,.*', '^oranth,.*', '^orisetech,.*', '^ortustech,.*', '^osddisplays,.*', '=
+^osmc,.*', '^ouya,.*', '^overkiz,.*', '^ovti,.*', '^oxsemi,.*', '^ozzmaker,=
+=2E*', '^panasonic,.*', '^parade,.*', '^parallax,.*', '^pda,.*', '^pegatron=
+,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '^phytec,.*', '^picoch=
+ip,.*', '^pinctrl-[0-9]+$', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^=
+plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*',=
+ '^pocketbook,.*', '^polaroid,.*', '^polyhex,.*', '^portwell,.*', '^poslab,=
+=2E*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^pri,.*',=
+ '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedlight,.*'=
+, '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,.*', '^=
+qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta,.*', '^r=
+adxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberrypi,.*', =
+'^raydium,.*', '^rda,.*', '^realtek,.*', '^relfor,.*', '^remarkable,.*', '^=
+renesas,.*', '^rervision,.*', '^retronix,.*', '^revotics,.*', '^rex,.*', '^=
+richtek,.*', '^ricoh,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockc=
+hip,.*', '^rocktech,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseappl=
+epi,.*', '^rve,.*', '^saef,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*'=
+, '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', =
+'^sciosense,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', '^semtech,.=
+*', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^sercomm,.*', '^sff,=
+=2E*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shift,.*', '^shi=
+mafuji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*', '^si-linux,.*',=
+ '^siemens,.*', '^sifive,.*', '^siflower,.*', '^sigma,.*', '^sii,.*', '^sil=
+,.*', '^silabs,.*', '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insig=
+ht,.*', '^siliconfile,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*',=
+ '^sinlinx,.*', '^sinovoip,.*', '^sinowealth,.*', '^sipeed,.*', '^sirf,.*',=
+ '^sis,.*', '^sitronix,.*', '^skov,.*', '^skyworks,.*', '^smartfiber,.*', '=
+^smartlabs,.*', '^smartrg,.*', '^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,=
+=2E*', '^socionext,.*', '^solidrun,.*', '^solomon,.*', '^sony,.*', '^sophgo=
+,.*', '^sourceparts,.*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^=
+spinalhdl,.*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*',=
+ '^st,.*', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*', =
+'^starterkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*',=
+ '^storopack,.*', '^summit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*=
+', '^supermicro,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^synopsys,.*'=
+, '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*', '^tcu,.=
+*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^technologic,.=
+*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', '^tempo,=
+=2E*', '^terasic,.*', '^tesla,.*', '^test,.*', '^tfc,.*', '^thead,.*', '^th=
+ine,.*', '^thingyjp,.*', '^thundercomm,.*', '^thwc,.*', '^ti,.*', '^tianma,=
+=2E*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^topic,.*', '^topland,.*', '^to=
+ppoly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^toumaz,.*', '^tpk=
+,.*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^transpeed,.*', '^traverse,.*', '=
+^tronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^turing,.*', '^tyan,=
+=2E*', '^tyhx,.*', '^u-blox,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*'=
+, '^udoo,.*', '^ufispace,.*', '^ugoos,.*', '^ultratronik,.*', '^uni-t,.*', =
+'^uniwest,.*', '^upisemi,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', =
+'^v3,.*', '^vaisala,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexc=
+om,.*', '^via,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.=
+*', '^virtual,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.=
+*', '^vivax,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '=
+^vscom,.*', '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waves=
+hare,.*', '^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^=
+whwave,.*', '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^wi=
+nbond,.*', '^wingtech,.*', '^winlink,.*', '^winsen,.*', '^winstar,.*', '^wi=
+relesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*=
+', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xillybus,.*', '^xi=
+ngbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xunl=
+ong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*',=
+ '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys,.=
+*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlink,.*', '^zealz,.*=
+', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zt=
+e,.*', '^zyxel,.*'
+   	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml#
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: /ahb/spi@c=
+0000000: failed to match any schema with compatible: ['nuvoton,npcm750-fiu']
+   arch/arm/boot/dts/nuvoton/nuvoton-npcm750-runbmc-olympus.dtb: /ahb/spi@f=
+b001000: failed to match any schema with compatible: ['nuvoton,npcm750-fiu']
 
-
-vim +275 fs/bcachefs/io_misc.c
-
-5902cc283c060f Kent Overstreet 2023-09-04  260  
-b030e262b517b6 Kent Overstreet 2023-09-10  261  static int __bch2_resume_logged_op_truncate(struct btree_trans *trans,
-b030e262b517b6 Kent Overstreet 2023-09-10  262  					    struct bkey_i *op_k,
-b030e262b517b6 Kent Overstreet 2023-09-10  263  					    u64 *i_sectors_delta)
-5902cc283c060f Kent Overstreet 2023-09-04  264  {
-b030e262b517b6 Kent Overstreet 2023-09-10  265  	struct bch_fs *c = trans->c;
-b030e262b517b6 Kent Overstreet 2023-09-10  266  	struct bkey_i_logged_op_truncate *op = bkey_i_to_logged_op_truncate(op_k);
-b030e262b517b6 Kent Overstreet 2023-09-10  267  	subvol_inum inum = { le32_to_cpu(op->v.subvol), le64_to_cpu(op->v.inum) };
-b030e262b517b6 Kent Overstreet 2023-09-10  268  	u64 new_i_size = le64_to_cpu(op->v.new_i_size);
-0f25eb4b60771f Kent Overstreet 2024-09-23  269  	bool warn_errors = i_sectors_delta != NULL;
-5902cc283c060f Kent Overstreet 2023-09-04  270  	int ret;
-5902cc283c060f Kent Overstreet 2023-09-04  271  
-cb52d23e77a6e5 Kent Overstreet 2023-11-11  272  	ret = commit_do(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc,
-0f25eb4b60771f Kent Overstreet 2024-09-23  273  			truncate_set_isize(trans, inum, new_i_size, i_sectors_delta != NULL));
-5902cc283c060f Kent Overstreet 2023-09-04  274  	if (ret)
-5902cc283c060f Kent Overstreet 2023-09-04 @275  		goto err;
-5902cc283c060f Kent Overstreet 2023-09-04  276  
-4c3205637f1ecb Kent Overstreet 2025-07-30  277  	CLASS(btree_iter, fpunch_iter)(trans, BTREE_ID_extents,
-b030e262b517b6 Kent Overstreet 2023-09-10  278  			     POS(inum.inum, round_up(new_i_size, block_bytes(c)) >> 9),
-5dd8c60e1e0448 Kent Overstreet 2024-04-07  279  			     BTREE_ITER_intent);
-b030e262b517b6 Kent Overstreet 2023-09-10  280  	ret = bch2_fpunch_at(trans, &fpunch_iter, inum, U64_MAX, i_sectors_delta);
-b030e262b517b6 Kent Overstreet 2023-09-10  281  
-5902cc283c060f Kent Overstreet 2023-09-04  282  	if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
-5902cc283c060f Kent Overstreet 2023-09-04  283  		ret = 0;
-5902cc283c060f Kent Overstreet 2023-09-04  284  err:
-0f25eb4b60771f Kent Overstreet 2024-09-23  285  	if (warn_errors)
-e5aa8046415528 Kent Overstreet 2024-03-23  286  		bch_err_fn(c, ret);
-5902cc283c060f Kent Overstreet 2023-09-04  287  	return ret;
-5902cc283c060f Kent Overstreet 2023-09-04  288  }
-5902cc283c060f Kent Overstreet 2023-09-04  289  
-
-:::::: The code at line 275 was first introduced by commit
-:::::: 5902cc283c060f0a006ee9b2f2a64855a09399b4 bcachefs: New io_misc.c helpers
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
