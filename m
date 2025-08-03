@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF001CF96
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 22:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C420F215073
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 22:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754259623; cv=none; b=pYjxtRakZt3gAPHKlJbA147HXcIRqcP6LrIv8NQu8RbefOX2oeYrkWbMQHsWkhf1uDi55g2mZ4+/85tO/62YkSf67AtXLVfHXU0FxA6nNFBNVg/fi9utenlJXBIgnJ+BsSKsQ6zmKyStiFbbgwLsyCR3plH4NvDq9plcFy+UwWA=
+	t=1754261123; cv=none; b=a1KMN9qXq72sdILAiGZ5kl9/MaU5eNiztE78FhdnLLm6sA6tykbBJfqpcOqFVyKn2ca9AO1k9JVfqHn2l/8u8b4xiGC5ckR22dCO6DZ6u8SPuCvaHESIPwwLBkLYLYUmqjv2VH0AzES4Q93C+pB4l2fDD/QqCkGW6DbyU4VIfdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754259623; c=relaxed/simple;
-	bh=OBS4BdvajXLJDSvE1x8qC4T+YWnCWTvXcw5wAi1UUaM=;
+	s=arc-20240116; t=1754261123; c=relaxed/simple;
+	bh=5ELDt3OakYBpCAHRpqVuDk3mpGAC6IOIjXAlnA8GbYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZXDfFMmm3dBrDqee5pmsmsNcvHg+pW2LhnE/sineIoKfBs063suVuvouNgHd2LiIBpp4Azkyh8V3E1g6CXtxPabYLbak0ch5727MxcX9VknTcWCwbtDYRn2Ixrl8507uHdOAG7NrFv0tNVIhhz00Pwg9rda+2ZHBR7IMZIf+pJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=geH7b0Ef; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=piAWtldPLoSKEuOXuRqZLDyD+fQZCeQnUqMCdCB5x3hmUmIaadnSYqV7VZq1mIMb8cI+7moaGXMWdx/szQYCw9FnNqScQweWfsilMqtm7DBj2bb+AAdWhNlQy1QMgmgKgoqxJrB4Uh8nD6vAJ2llDKPMDZFwLRjNQ57/9Wz+jic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWKoxEOC; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="geH7b0Ef"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWKoxEOC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754259621; x=1785795621;
+  t=1754261121; x=1785797121;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OBS4BdvajXLJDSvE1x8qC4T+YWnCWTvXcw5wAi1UUaM=;
-  b=geH7b0EfG12cazfJA+yen8KDSdJi2BZ91JqV2NwK/6YNP3GwfqXd/Bt/
-   QNeUCHnfguMQU/etUdgpJ8Ggr75zrBlxgXZvCygW4l+pNFLxBGNzIJdJP
-   QHKBYfzK4xd0gRMizT+Tj1200QOBe9HgyixtGiIs+vT8oN6UTv/p02GAz
-   EH773SiaT0vjFT9TeB/naiigBWK53vOSv0XedCqwinlSH9xou8xLQrPzr
-   Dv1UhqiopAJ8RRnsyGQiNd7DFkqDG7sL/fVELWArPz07URhDyGU1lyjOV
-   l1FtbwgcrDDa6UKg+MnOIc9gMfz/3ixd9MHp7UcXwVuuCIIfhl04oWDNl
+  bh=5ELDt3OakYBpCAHRpqVuDk3mpGAC6IOIjXAlnA8GbYE=;
+  b=gWKoxEOC+F81NPzX0vJDDedawzm94KAicxVoxid+T32LXuwAMiqso/GL
+   k7l5HTOL+Qi0H7cHvquVBG5coNUBBb2ZlcRCjPEAddaa3G5Xv09CXa9Ts
+   1ng/JWJBIt2rXFPzh9nUQSz7Iu/8kxn1YrYPKj7hBt3/JW4weh8vlqTOG
+   zPYqmuF4YsNduYzxKPoiDXC/zF0aW1z6xpIsOhgWyE7PtDZNkGeJUUNWm
+   n8wlTQ0JT9fwEe3s7bCGLyt8VY8JYcPectT70InlXYfOhWOYxz0KplMdv
+   OZcLXTDlO6M74whwBdTB0iJVTuhuZ364FBExnvIhDk0aluClGb3v8Y+2l
    Q==;
-X-CSE-ConnectionGUID: UggGFCulRbCjTEr4qikYfg==
-X-CSE-MsgGUID: 5Y4lJYW3TJ6nRRkTREcjzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="81964454"
+X-CSE-ConnectionGUID: GhIIhu7XRLuGcTqVPVIASA==
+X-CSE-MsgGUID: zmhSxPsJTx6mTXC6/g0/eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="67969223"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="81964454"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 15:20:19 -0700
-X-CSE-ConnectionGUID: eT8fIWRrQoavVcjEsIKKEw==
-X-CSE-MsgGUID: dzkyWV1VTtCHnWJa4g/nrw==
+   d="scan'208";a="67969223"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 15:45:20 -0700
+X-CSE-ConnectionGUID: sg5lYZj/QdapvuVs0MjvUA==
+X-CSE-MsgGUID: ypg9CJBUSoS30zq1BR1U4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="201182598"
+   d="scan'208";a="163286667"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 03 Aug 2025 15:20:18 -0700
+  by orviesa006.jf.intel.com with ESMTP; 03 Aug 2025 15:45:19 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uih3v-0001gN-0S;
-	Sun, 03 Aug 2025 22:20:15 +0000
-Date: Mon, 4 Aug 2025 00:19:53 +0200
+	id 1uihS8-0001gp-2S;
+	Sun, 03 Aug 2025 22:45:16 +0000
+Date: Mon, 4 Aug 2025 00:45:08 +0200
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>
-Subject: [linux-next:master 12718/13054] drivers/i3c/internals.h:54:9:
- warning: passing argument 1 of 'readsl' discards 'const' qualifier from
- pointer target type
-Message-ID: <202508040037.jlKvwppm-lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/250-aop 44/85] warning: deref which would be done
+ by auto-deref
+Message-ID: <202508040052.olOycacT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,61 +62,186 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-commit: 3b661ca549b9e5bb11d0bc97ada6110aac3282d2 [12718/13054] i3c: add missing include to internal header
-config: sparc64-randconfig-2001-20250802 (https://download.01.org/0day-ci/archive/20250804/202508040037.jlKvwppm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508040037.jlKvwppm-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   800be80e4ce2e4872e0d8f2716b2b7c79a0511ef
+commit: 9010e06df0a80c2f6a97716684f16b0a95fdabca [44/85] rust: types: Add declare_flags_type()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250804/202508040052.olOycacT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508040052.olOycacT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508040037.jlKvwppm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508040052.olOycacT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/i3c/master.c:21:
-   drivers/i3c/internals.h: In function 'i3c_readl_fifo':
->> drivers/i3c/internals.h:54:9: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      54 |  readsl(addr, buf, nbytes / 4);
-         |         ^~~~
-   In file included from arch/sparc/include/asm/io.h:5,
-                    from include/linux/io.h:12,
-                    from drivers/i3c/internals.h:12,
-                    from drivers/i3c/master.c:21:
-   arch/sparc/include/asm/io_64.h:265:41: note: expected 'void *' but argument is of type 'const void *'
-     265 | static inline void readsl(void __iomem *port, void *buf, unsigned long count)
-         |                           ~~~~~~~~~~~~~~^~~~
-
-
-vim +54 drivers/i3c/internals.h
-
-733b439375b494 Jorge Marques 2025-06-24  44  
-733b439375b494 Jorge Marques 2025-06-24  45  /**
-733b439375b494 Jorge Marques 2025-06-24  46   * i3c_readl_fifo - Read data buffer from 32bit FIFO
-733b439375b494 Jorge Marques 2025-06-24  47   * @addr: FIFO Address to read from
-733b439375b494 Jorge Marques 2025-06-24  48   * @buf: Pointer to the buffer to store read bytes
-733b439375b494 Jorge Marques 2025-06-24  49   * @nbytes: Number of bytes to read
-733b439375b494 Jorge Marques 2025-06-24  50   */
-733b439375b494 Jorge Marques 2025-06-24  51  static inline void i3c_readl_fifo(const void __iomem *addr, void *buf,
-733b439375b494 Jorge Marques 2025-06-24  52  				  int nbytes)
-733b439375b494 Jorge Marques 2025-06-24  53  {
-733b439375b494 Jorge Marques 2025-06-24 @54  	readsl(addr, buf, nbytes / 4);
-733b439375b494 Jorge Marques 2025-06-24  55  	if (nbytes & 3) {
-733b439375b494 Jorge Marques 2025-06-24  56  		u32 tmp;
-733b439375b494 Jorge Marques 2025-06-24  57  
-733b439375b494 Jorge Marques 2025-06-24  58  		tmp = readl(addr);
-733b439375b494 Jorge Marques 2025-06-24  59  		memcpy(buf + (nbytes & ~3), &tmp, nbytes & 3);
-733b439375b494 Jorge Marques 2025-06-24  60  	}
-733b439375b494 Jorge Marques 2025-06-24  61  }
-733b439375b494 Jorge Marques 2025-06-24  62  
-
-:::::: The code at line 54 was first introduced by commit
-:::::: 733b439375b494e8a6950ab47d18a4b615b73cb3 i3c: master: Add inline i3c_readl_fifo() and i3c_writel_fifo()
-
-:::::: TO: Jorge Marques <jorge.marques@analog.com>
-:::::: CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>> warning: deref which would be done by auto-deref
+   --> rust/kernel/alloc/kbox.rs:546:9
+   |
+   546 |         &**self
+   |         ^^^^^^^ help: try: `self`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#explicit_auto_deref
+   = note: `-W clippy::explicit-auto-deref` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::explicit_auto_deref)]`
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<i64>], &mut [i64]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> rust/kernel.o: warning: objtool: _RNvXNtNtCshc5sK6KjdJJ_6kernel3str9parse_intaNtNtB2_7private12FromStrRadix14from_str_radix() falls through to next function _RNvXNtNtCshc5sK6KjdJJ_6kernel3str9parse_intaNtNtB2_7private12FromStrRadix7abs_min()
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<u8>], &mut [u8]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: `-W clippy::missing-transmute-annotations` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::missing_transmute_annotations)]`
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<u16>], &mut [u16]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<u32>], &mut [u32]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<u64>], &mut [u64]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<i8>], &mut [i8]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<i16>], &mut [i16]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: transmute used without annotations
+   --> rust/kernel/device/property.rs:420:40
+   |
+   420 |                   Ok(unsafe { core::mem::transmute(out) })
+   |                                          ^^^^^^^^^ help: consider adding missing annotations: `transmute::<&mut [core::mem::MaybeUninit<i32>], &mut [i32]>`
+   ...
+   462 | / impl_property_for_int! {
+   463 | |     u8: fwnode_property_read_u8_array,
+   464 | |     u16: fwnode_property_read_u16_array,
+   465 | |     u32: fwnode_property_read_u32_array,
+   ...   |
+   470 | |     i64: fwnode_property_read_u64_array,
+   471 | | }
+   | |_- in this macro invocation
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_transmute_annotations
+   = note: this warning originates in the macro `impl_property_for_int` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> warning: unresolved link to `mem::forget`
+   --> rust/kernel/alloc/kvec.rs:753:11
+   |
+   753 |     /// [`mem::forget`], for example), the vector may have lost and leaked
+   |           ^^^^^^^^^^^ no item named `mem` in scope
+   |
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
 
 -- 
 0-DAY CI Kernel Test Service
