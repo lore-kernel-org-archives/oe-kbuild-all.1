@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44619173
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 02:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D34F15B135
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Aug 2025 03:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754188270; cv=none; b=WBtGpt+V3GpCwS9RRdqRn9g6nPtNOsIiZRnvOJaU/beAcVzULqodV9/VFXMOGqOU1I9pG1hcfhfJUTJQK3CCXWr06Oj+m/kRgB59BxMN+2dqQ3Di7i0ya1hihRJldwFWvJ7Fl0FFzltfOJosFwDTQDtZWpy/tPrlHkqrK32EplA=
+	t=1754190734; cv=none; b=VvdwXERgiK1dTMxKlXT6k4VwO1Tu5cTJLKz7cEcFEHIOQjG/PDX9yk72rmjwRzZ5HHeXBqb65suihTKUMigKgAi7JMlv+43akb9GvPmf8I+PfH0IYJySusweXoLoqkimFcH0MzC2af8V4UCsSoQ1EhfAqaHE4nuo+ZB6Mto8608=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754188270; c=relaxed/simple;
-	bh=9XFPyumX+u+suVKu/vCkQlUho0r6iR/IUryMuVjN6dw=;
+	s=arc-20240116; t=1754190734; c=relaxed/simple;
+	bh=3aSl6hRDyPAlEiw/jbmM3lv0wo4M1+U3it3864oWUjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JkKKgq5MvkImNK738wBHO9KSsHI8eoA5hxJ1aSiLC7YTOrRNMq/kG1m8LjVDoSCJ5ndG2lYt0KFjDPBSTz8E2nZnWA2ZqSqLSVzAGjCydaHswjy4HG2oz4yn8Gd6aRjR+eWRhnz0r12rRRoLsJZ8K3GnwLSr67z5h+JjpFZcdGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYHi7tPq; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=dOISRdhJ7mHW2ZV+D7b8VIt9nMoM4X7Xk0/WMliT2oqa9vBiMvGKoChu4emGKLP5e5SCu7SRf+o9RI7W1WjbK+azHpHXWtffbL5h9xXPoqzK2dM6YbakUPdJx0O0wtxbLWfVOwkjIFMhrTyhexkwdXDyBYnJrOg/GmsVVA6ZMKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cCq09Re5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYHi7tPq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cCq09Re5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754188269; x=1785724269;
+  t=1754190732; x=1785726732;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9XFPyumX+u+suVKu/vCkQlUho0r6iR/IUryMuVjN6dw=;
-  b=hYHi7tPq1dFF3PiNepWLZGy9dphVVqA09qSgvqHLPbhzaLbXZ7j33Xg+
-   PGhZRaMCt9I8u6fnSu5/+7BB5MMuY8Mx2jDjeRLEt4yljBSpnMhEjCiNV
-   uLbDLVBlDCP8x6T2FktlcOQnbc5tRfDkqMYg19rKxvGi/fgYs4LuI6is6
-   4onW28qPxtL2e17kMorP8FqF/MJrgZH2OSahOHdKRQp13oCoCe5NSCTlk
-   dNrpmGDuEM/kWHbY6UTnbFc9ukWBk+U/vPKJLayGdJOHG0+l1izrn1iZF
-   dghHRUFiTd0NhPZSTD6QGihcv9zNoE1sSogj0hYe8mQbcynH08/T1nNs7
+  bh=3aSl6hRDyPAlEiw/jbmM3lv0wo4M1+U3it3864oWUjE=;
+  b=cCq09Re5cTWnB9mJjOwS6IrmAxoVz2+3WlyRVNLldLZC4YxkLT3yI1Z/
+   9BRW5TBZ61UrbqjlvoL7uF7KKc+EJZrRxBHYwWkLTrWqIVxnhgFSj5RYC
+   FWea8trBqObos3xSjVWJn2ajBTD/SrJkUm+AAbZyXOtvp9YEfOcRI60xm
+   j2r85bEn9brou3KtQna4PyeYQagOn91FyfbKLCgpysKmf04oOMjtoBeG2
+   VMZW0x8YoG13BgG1wQSHREeHTEgXCicxtYNwKmWnb8Mgwtungb3nEksAP
+   I9+7NMHEkQkJ5ZebdZApMpGXWHDm7MU8Cge+dPGVW2f9CWuj2Qe5r7bs3
    A==;
-X-CSE-ConnectionGUID: FhSurMs3QFSCeC8tPq2dzQ==
-X-CSE-MsgGUID: cqchJx8jTmW3KFhCaNYrYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="56633319"
+X-CSE-ConnectionGUID: mwPggvL8TyOsXdmEXm5iqw==
+X-CSE-MsgGUID: WFgVKBAbRE669704S8uTRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="55545476"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56633319"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 19:31:08 -0700
-X-CSE-ConnectionGUID: jdsmdgJ2T9m0xs2X4srPaw==
-X-CSE-MsgGUID: YdHQ4zICTJWDG5bG0iKXjQ==
+   d="scan'208";a="55545476"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2025 20:12:11 -0700
+X-CSE-ConnectionGUID: XPcVwM0LRAaU4VHIGNm5bQ==
+X-CSE-MsgGUID: fvf0ACakT6u3VYI5F7kqLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="164319910"
+   d="scan'208";a="168062288"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Aug 2025 19:31:07 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Aug 2025 20:12:10 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiOV7-0005jI-0q;
-	Sun, 03 Aug 2025 02:31:05 +0000
-Date: Sun, 3 Aug 2025 10:30:26 +0800
+	id 1uiP8q-0005ke-1l;
+	Sun, 03 Aug 2025 03:12:08 +0000
+Date: Sun, 3 Aug 2025 11:12:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
+To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kees:ready/next-20250801/ffs-const 17/17]
- include/linux/compiler_types.h:572:45: error: call to
- '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON
- failed: init___fls < 32
-Message-ID: <202508031025.doWxtzzc-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2630/2630] arch/arm64/include/asm/xcall.h:13:31:
+ error: '__NR_syscalls' undeclared here (not in a function); did you mean
+ 'rseq_syscall'?
+Message-ID: <202508031142.M80c8vhN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,69 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git ready/next-20250801/ffs-const
-head:   d9f035e9f405abb3990b8603f40b4be613c0bb09
-commit: d9f035e9f405abb3990b8603f40b4be613c0bb09 [17/17] KUnit: ffs: Validate all the __attribute_const__ annotations
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250803/202508031025.doWxtzzc-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250803/202508031025.doWxtzzc-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e5f0407c7ee0aba1c7b2ab0f516e9dfb707a0ee2
+commit: b5fb30ccdb3d8ed46e1e740d9aaebcb96f8db97a [2630/2630] arm64: Reserve a kabi in task_struct exclusively for xcall
+config: arm64-randconfig-r113-20250803 (https://download.01.org/0day-ci/archive/20250803/202508031142.M80c8vhN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250803/202508031142.M80c8vhN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508031025.doWxtzzc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508031142.M80c8vhN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   lib/tests/ffs_kunit.c: In function 'build_test___fls.isra':
->> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_242' declared with attribute error: BUILD_BUG_ON failed: init___fls < 32
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
-     553 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   lib/tests/ffs_kunit.c:510:9: note: in expansion of macro 'BUILD_BUG_ON'
-     510 |         BUILD_BUG_ON(init_##func < 32);                                 \
-         |         ^~~~~~~~~~~~
-   lib/tests/ffs_kunit.c:521:1: note: in expansion of macro 'CREATE_WRAPPER'
-     521 | CREATE_WRAPPER(__fls)
-         | ^~~~~~~~~~~~~~
+   In file included from include/vdso/const.h:5:0,
+                    from include/linux/const.h:4,
+                    from include/linux/align.h:5,
+                    from include/linux/bitmap.h:7,
+                    from arch/arm64/kernel/xcall.c:8:
+>> arch/arm64/include/asm/xcall.h:13:31: error: '__NR_syscalls' undeclared here (not in a function); did you mean 'rseq_syscall'?
+     DECLARE_BITMAP(xcall_enable, __NR_syscalls);
+                                  ^
+   include/uapi/linux/const.h:34:40: note: in definition of macro '__KERNEL_DIV_ROUND_UP'
+    #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                           ^
+   include/linux/types.h:11:21: note: in expansion of macro 'BITS_TO_LONGS'
+     unsigned long name[BITS_TO_LONGS(bits)]
+                        ^~~~~~~~~~~~~
+   arch/arm64/include/asm/xcall.h:13:2: note: in expansion of macro 'DECLARE_BITMAP'
+     DECLARE_BITMAP(xcall_enable, __NR_syscalls);
+     ^~~~~~~~~~~~~~
 
 
-vim +/__compiletime_assert_242 +572 include/linux/compiler_types.h
+vim +13 arch/arm64/include/asm/xcall.h
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
-
-:::::: The code at line 572 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+    10	
+    11	struct xcall_info {
+    12		/* Must be first! */
+  > 13		DECLARE_BITMAP(xcall_enable, __NR_syscalls);
+    14	};
+    15	
 
 -- 
 0-DAY CI Kernel Test Service
