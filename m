@@ -1,61 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B441242D97
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 09:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D722417D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 09:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754299190; cv=none; b=EDfM/6c6hlR9boVPKqzIzHJ/Y/d00lnOPxNAZrB5gO7ZF58mOSudqbpbN0K0ebKI70tkwC1wHPxLgTBpgbYX6f03JDl9qD5vtisiRCKi194+1/3UQkaGM3LhMYmwOEFBUOP3xBpR/pmWfy3sOxBBs4gU2N2LwkGYDvEAU7bKlLI=
+	t=1754299192; cv=none; b=Y52UW+i11t6LlYGUG7CmdWbhv6p9iWJkoskYg8M1IYNeLlSkylI3Y6QK+zAP6ilopSemMG7O2tntJj68hc6QXxbKslbcrSMB92G0v72KZ7ute5w2TzXIoQYbsqSCa4BcD1eeE9QpF8aVgW+wSZCsrmF9crW7ixaXzChzS6dKK3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754299190; c=relaxed/simple;
-	bh=V6ybioRO1EN1BefObLKBZwE4akmUV2W9K0azxJ9b3pg=;
+	s=arc-20240116; t=1754299192; c=relaxed/simple;
+	bh=LON9eXeBI1UX+rop2YuQraqsYMaynjGOa49u5wWH3VU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z/8pKaSqJT7RtpEvr+kftL+S/KwSbanP1zIy59zkPzBmG/UWInglh8pIjFN6hs9uDM4iXMdCHw9xMpZLUG8nSqHTkeOPC4Me7k7coIcELh4+y0FdDOslzuWGbuvsEu+NaoS/V6AfbDZSW6CRzy34FEtwVKZPY6+FmtJslpy2c/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Seo+I1ZR; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=gFLJLyXRLbHKXiNfcv6tlHY++TnkZyMOWMQI4D9afXp7hFEjYRUtXhV5tmMvluxqq6Oq2d0uUb2LZLQfSaARmj95tgXY/vW6Or0ntaTCLieJobXqIvGXidMw8qkM4A1RqGsgLu8jq6QV11u80q6+zMFRPIK0UylkXto4RQmC4wM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EU+qG4rH; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Seo+I1ZR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EU+qG4rH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754299189; x=1785835189;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V6ybioRO1EN1BefObLKBZwE4akmUV2W9K0azxJ9b3pg=;
-  b=Seo+I1ZRfmna+upVPFRFSf66YPMywKv4TVDS9KABKTVe6ewZXJQ5ukSH
-   Vj4ofS6doD7mRJi9mIcOOJBcbNH9XLaq5ylcgdgMrzrLymU3GZqMAXPFP
-   ETT02HJXuOfoVT6CyiIBt0ZeU8giGlIyUc+t2oBUmPNf5I7IHZ6pN/OMk
-   Gm/K7ZInrIaeaEeQkdfM8rEWAC1sOOhZlG6K3jN4X8iwCgIWQic7HYRN8
-   rOJAdUWnXxQV0BMK5YlBaC/cxZ1uNXy3JNVmruquchlizFeRJkFlX5oVx
-   0xHJZL3raWXh3G0GABw7hZvqCZ4UcNwCHxLImkmGw+6s4JEC/jQ6hgFtU
-   g==;
-X-CSE-ConnectionGUID: R5F4iKLMR5uvLgs5TXl60Q==
-X-CSE-MsgGUID: 5jokiNIEQhufuULotP2Whg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="59172904"
+  t=1754299190; x=1785835190;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LON9eXeBI1UX+rop2YuQraqsYMaynjGOa49u5wWH3VU=;
+  b=EU+qG4rH3W7vunZ5rTooz/l0KL/wiTkNvAeDlDfTBt5er5Y+pml4uGv4
+   0e8isckVuYZ2YQXNs0+mK2hLuww8/KmVGbasvLeqTo0hQwRQkepO+KvoB
+   yF5yXFteoCCYr2RI/ijo/XvFgAHwrzwieAOwO37Sg89BQ5f2rQkalX3v3
+   qTsXBwxcRxogEcTrHTMH0i7xX4FUqr/XP+u8kkZezwhnqyRYgpoylrK5g
+   VZq3ELdha2x6ZqjbQld15aCx4DG3rm/CdzXgrnhxeBhqCHSkj8EUyHqBD
+   RwgsYTqEOkHLbC/ND2ReeljuKlwKtskF7TZwWrkJICCfEDqyCQfFWDCwI
+   w==;
+X-CSE-ConnectionGUID: I95LrelqTLSFuT/Evkm4Uw==
+X-CSE-MsgGUID: onX/Q/xLToKAWEATdIlnFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="59172907"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="59172904"
+   d="scan'208";a="59172907"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 02:19:48 -0700
-X-CSE-ConnectionGUID: fl/gq1RdRuanaZ6YB4zFRQ==
-X-CSE-MsgGUID: qHlX7+MgSxGCDzZA0FSFZQ==
+X-CSE-ConnectionGUID: StS0gKWASVifqsuD0CuIHg==
+X-CSE-MsgGUID: X7yIoqobQymP8zyNdblt+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168296664"
+   d="scan'208";a="168296665"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 04 Aug 2025 02:19:46 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uirM7-0006vE-3A;
-	Mon, 04 Aug 2025 09:19:43 +0000
-Date: Mon, 4 Aug 2025 17:18:56 +0800
+	id 1uirM8-0006vG-01;
+	Mon, 04 Aug 2025 09:19:44 +0000
+Date: Mon, 4 Aug 2025 17:18:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- arch/arm64/boot/dts/mediatek/mt8188-evb.dtb:
- /soc/pwrap@10024000/pmic/regulators: failed to match any schema with
- compatible: ['mediatek,mt6359-regulator']
-Message-ID: <202508041749.rJkpGhRC-lkp@intel.com>
+To: Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [dtor-input:next 25/25] drivers/input/touch-overlay.c: warning:
+ EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+Message-ID: <202508041754.ykl25o1q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,340 +62,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   bf0fb8bb181b86adf67dcc60b8269d60814de5a1
-commit: 3c8f511a658dc067543286f1e4a56eaa3cffa956 [1/1] arm64: dts: mt6359: =
-Add missing 'compatible' property to regulators node
-config: arm64-randconfig-051-20250726 (https://download.01.org/0day-ci/arch=
-ive/20250804/202508041749.rJkpGhRC-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853=
-c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20250804/202508041749.rJkpGhRC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+head:   a7bee4e7f78089c101be2ad51f4b5ec64782053e
+commit: a7bee4e7f78089c101be2ad51f4b5ec64782053e [25/25] Merge tag 'ib-mfd-gpio-input-pwm-v6.17' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd into next
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250804/202508041754.ykl25o1q-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508041754.ykl25o1q-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508041749.rJkpGhRC-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508041754.ykl25o1q-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: syscon@10006000 (mediatek,m=
-t8188-scpsys): power-controller:power-domain@15:power-domain@16:power-domai=
-n@29:power-domain@30: Unevaluated properties are not allowed ('power-domain=
-@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scps=
-ys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller (mediatek,=
-mt8188-power-controller): power-domain@15:power-domain@16:power-domain@29:p=
-ower-domain@30: Unevaluated properties are not allowed ('power-domain@31', =
-'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-con=
-troller.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: f=
-ailed to match any schema with compatible: ['mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/re=
-gulators: failed to match any schema with compatible: ['mediatek,mt6359-reg=
-ulator']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt=
-6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,=
-mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,=
-mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (=
-mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not=
- match '^syscon@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
-sys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (=
-mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must =
-be fixed:
-   	['mediatek,mt8188-vppsys0'] is too short
-   	'mediatek,mt8195-mmsys' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwr=
-ap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt=
-6359']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwr=
-ap@10026000/pmic/regulators: failed to match any schema with compatible: ['=
-mediatek,mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwr=
-ap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['m=
-ediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: syscon@1=
-1210000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of th=
-e regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expe=
-cted
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk',=
- 'aud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk=
-', 'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_td=
-m_clk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk',=
- 'aud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3r=
-d_dac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_c=
-lk', 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpl=
-l_d4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck',=
- 'top_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 't=
-op_i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_=
-i2s4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s=
-8_m_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll=
-12_div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apl=
-l12_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_ap=
-ll12_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
-fe-pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6]=
-, [56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10],=
- [56, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56,=
- 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101]=
-, [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], =
-[22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, =
-67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, =
-147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]]=
- is too long
---
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@=
-10026000/pmic: failed to match any schema with compatible: ['mediatek,mt635=
-9']
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@=
-10026000/pmic/regulators: failed to match any schema with compatible: ['med=
-iatek,mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@=
-10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['medi=
-atek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: syscon@1121=
-0000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of the r=
-egexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
-dsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk', 'a=
-ud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk', =
-'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_tdm_c=
-lk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk', 'a=
-ud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3rd_d=
-ac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_clk'=
-, 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpll_d=
-4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck', 't=
-op_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 'top_=
-i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_i2s=
-4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s8_m=
-_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll12_=
-div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apll12=
-_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_apll1=
-2_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
-pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [=
-56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [5=
-6, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26=
-], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [=
-22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22=
-, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67]=
-, [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147=
-], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is=
- too long
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024=
-000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024=
-000/pmic/regulators: failed to match any schema with compatible: ['mediatek=
-,mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024=
-000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,=
-mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@1031=
-5000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4=
-, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediate=
-k,mt6360): #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
-k,rt5682s): 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
-ml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
-k,rt5682s): 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
-ml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
-k,rt5682s): Unevaluated properties are not allowed ('VBAT-supply' was unexp=
-ected)
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024=
-000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024=
-000/pmic/regulators: failed to match any schema with compatible: ['mediatek=
-,mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024=
-000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,=
-mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@1031=
-5000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4=
-, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: t-phy@11e30000 (=
-mediatek,mt8195-tphy): 'power-domains' does not match any of the regexes: '=
-^(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ovl@1c000000 (me=
-diatek,mt8195-disp-ovl): compatible: 'oneOf' conditional failed, one must b=
-e fixed:
-   	['mediatek,mt8195-disp-ovl'] is too short
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt2701-disp-ovl', '=
-mediatek,mt8173-disp-ovl', 'mediatek,mt8183-disp-ovl', 'mediatek,mt8192-dis=
-p-ovl', 'mediatek,mt8195-mdp3-ovl']
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt7623-disp-ovl', '=
-mediatek,mt2712-disp-ovl']
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt6795-disp-ovl']
---
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: syscon@10006000 (=
-mediatek,mt8188-scpsys): power-controller:power-domain@15:power-domain@16:p=
-ower-domain@29:power-domain@30: Unevaluated properties are not allowed ('po=
-wer-domain@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scps=
-ys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: power-controller =
-(mediatek,mt8188-power-controller): power-domain@15:power-domain@16:power-d=
-omain@29:power-domain@30: Unevaluated properties are not allowed ('power-do=
-main@31', 'power-domain@32' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-con=
-troller.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@100240=
-00/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@100240=
-00/pmic/regulators: failed to match any schema with compatible: ['mediatek,=
-mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@100240=
-00/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,m=
-t6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 =
-(mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 =
-(mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
-lbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@=
-14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000=
-' does not match '^syscon@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
-sys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@=
-14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed,=
- one must be fixed:
-   	['mediatek,mt8188-vppsys0'] is too short
-   	'mediatek,mt8195-mmsys' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwra=
-p@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6=
-359']
->> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwra=
-p@10024000/pmic/regulators: failed to match any schema with compatible: ['m=
-ediatek,mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwra=
-p@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['me=
-diatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iom=
-mu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0,=
- 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: regulator=
- (mediatek,mt6360-regulator): 'BUCK1', 'BUCK2', 'LDO1', 'LDO2', 'LDO3', 'LD=
-O5', 'LDO6', 'LDO7' do not match any of the regexes: '^buck[12]$', '^ldo[12=
-3567]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6360-regulat=
-or.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: t-phy@11e=
-30000 (mediatek,mt8195-tphy): 'power-domains' does not match any of the reg=
-exes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ovl@1c000=
-000 (mediatek,mt8195-disp-ovl): compatible: 'oneOf' conditional failed, one=
- must be fixed:
-   	['mediatek,mt8195-disp-ovl'] is too short
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt2701-disp-ovl', '=
-mediatek,mt8173-disp-ovl', 'mediatek,mt8183-disp-ovl', 'mediatek,mt8192-dis=
-p-ovl', 'mediatek,mt8195-mdp3-ovl']
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
-_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
-_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@100240=
-00/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@100240=
-00/pmic/regulators: failed to match any schema with compatible: ['mediatek,=
-mt6359-regulator']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@100240=
-00/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,m=
-t6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315=
-000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4,=
- 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
-l#
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: t-phy@11e30000 (m=
-ediatek,mt8195-tphy): 'power-domains' does not match any of the regexes: '^=
-(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
-   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ovl@1c000000 (med=
-iatek,mt8195-disp-ovl): compatible: 'oneOf' conditional failed, one must be=
- fixed:
-   	['mediatek,mt8195-disp-ovl'] is too short
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt2701-disp-ovl', '=
-mediatek,mt8173-disp-ovl', 'mediatek,mt8183-disp-ovl', 'mediatek,mt8192-dis=
-p-ovl', 'mediatek,mt8195-mdp3-ovl']
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt7623-disp-ovl', '=
-mediatek,mt2712-disp-ovl']
-   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt6795-disp-ovl']
+All warnings (new ones prefixed by >>):
 
---=20
+   drivers/iio/common/ssp_sensors/ssp_iio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/common/st_sensors/st_sensors_buffer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/common/st_sensors/st_sensors_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/common/st_sensors/st_sensors_i2c.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/common/st_sensors/st_sensors_spi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/common/st_sensors/st_sensors_trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/dac/ad3552r-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/dac/ad5592r-base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/dac/ad5686.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/dummy/iio_dummy_evgen.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/gyro/bmg160_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/gyro/fxas21002c_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/gyro/st_gyro_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/humidity/hts221_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/adis.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/bmi160/bmi160_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/bmi270/bmi270_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/bmi323/bmi323_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/bno055/bno055.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/fxos8700_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/inv_icm42600/inv_icm42600_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/inv_mpu6050/inv_mpu_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/imu/st_lsm9ds0/st_lsm9ds0_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-backend.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-configfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-event.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-sw-device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-sw-trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/industrialio-trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/light/st_uvis25_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/magnetometer/bmc150_magn.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/magnetometer/hmc5843_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/magnetometer/rm3100-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/magnetometer/st_magn_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/bmp280-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/bmp280-regmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/hsc030pa.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/mpl115.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/mprls0025pa.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/ms5611_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/st_pressure_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/pressure/zpa2326.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/trigger/stm32-lptimer-trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iio/trigger/stm32-timer-trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/addr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/cache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/cgroup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/cm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/cma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/cq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/ib_core_uverbs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/iwcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/mad.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/mr_pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/nldev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/rdma_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/restrack.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/roce_gid_mgmt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/rw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/sa_query.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/security.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/sysfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/ucaps.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/umem_dmabuf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/uverbs_cmd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/uverbs_ioctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/uverbs_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/core/uverbs_std_types.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/ah.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/cq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/mcast.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/mr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/qp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/rc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/sw/rdmavt/vt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/ulp/rtrs/rtrs-clt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/ulp/rtrs/rtrs-srv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/infiniband/ulp/rtrs/rtrs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/ff-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/ff-memless.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/gameport/gameport.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/input-poller.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/input.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/joystick/iforce/iforce-main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/joystick/iforce/iforce-packets.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/misc/ad714x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/misc/adxl34x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/misc/cma3000_d0x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/rmi4/rmi_2d_sensor.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/rmi4/rmi_bus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/rmi4/rmi_driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/serio/hil_mlc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/serio/hp_sdc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/serio/i8042.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/serio/libps2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/serio/serio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/sparse-keymap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> drivers/input/touch-overlay.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/ad7879.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/cyttsp_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/goodix_berlin_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/tsc200x-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/wm9705.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/wm9712.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/wm9713.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/input/touchscreen/wm97xx-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/icc-clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/imx/imx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/mediatek/icc-emi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/qcom/bcm-voter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/qcom/icc-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/qcom/icc-rpm-clocks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/qcom/icc-rpm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/qcom/icc-rpmh.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/interconnect/qcom/smd-rpm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/dma-iommu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/intel/dmar.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/intel/iommu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/io-pgfault.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/io-pgtable.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommu-debugfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommu-pages.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommu-sva.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommu-sysfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommufd/device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommufd/driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommufd/iova_bitmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommufd/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iommufd/vfio_compat.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/iova.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/irq_remapping.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/iommu/omap-iommu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ipack/ipack.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/irqchip/irq-ath79-misc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/irqchip/irq-renesas-rzv2h.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/irqchip/irq-riscv-imsic-state.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/irqchip/irqchip.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/capi/kcapi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/hardware/mISDN/isdnhdlc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/hardware/mISDN/mISDNipac.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/hardware/mISDN/mISDNisar.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/mISDN/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/mISDN/fsm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/mISDN/hwchannel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/isdn/mISDN/layer1.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/led-class-flash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/led-class-multicolor.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/led-class.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/led-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/leds-lp55xx-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/leds-ti-lmu-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/simatic/simatic-ipc-leds-gpio-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/trigger/ledtrig-backlight.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/trigger/ledtrig-camera.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/trigger/ledtrig-cpu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/trigger/ledtrig-disk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/leds/trigger/ledtrig-mtd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/adb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/macio_asic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/mediabay.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/smu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/via-cuda.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/via-pmu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/windfarm_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/windfarm_pid.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/macintosh/windfarm_smu_sat.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/mailbox/mailbox.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/mailbox/mtk-cmdq-mailbox.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/mailbox/pcc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/mcb/mcb-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-audit.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-bio-prison-v1.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-bio-prison-v2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-bufio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-builtin.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-cache-background-tracker.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-cache-policy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-exception-store.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-ioctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-kcopyd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-log.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-path-selector.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-region-hash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-rq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-snap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-table.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-target.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm-zone.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/dm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/md.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/persistent-data/dm-block-manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/raid5-cache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/md/raid5.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/media/cec/core/cec-adap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/media/cec/core/cec-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
