@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151C63AC1C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 17:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0CC1DF24F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 17:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754327666; cv=none; b=sRPfiIb4u7NbDy46pcJVBLbeTGXd4Vg7QFP+YoKAxhHgSBvzKJAcbDdEmtz9zCQxG/AbASQrTyHsuIJiYC3X3ZN/rBdS98KlT8geb8REYiyK5Yhg5DD4A2MwfEcp+YVFmI7hTv2D5tcvynTJF/XKpBQkmv/68v3GwVM/jm+3lZE=
+	t=1754329785; cv=none; b=ov0TbAm/u6czXF+sKBf9ZaWm1JiOUTnFPTbAUofjfExPGaDEJlkx8VqvYsm8I3BqJbKhH18iUNcFivuHiLb0ZPEd1pu+dw4YmgzCmwcDPLj5jWTJupck3OOlJekpWnPd/p1J2zPGi/A6pPhCiL/EptsHr2RIwc4sZ5IcZqsTXx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754327666; c=relaxed/simple;
-	bh=UgexuOY1XcLShJ2HQB4gwSZQ4fB8pNQpLLry18c9STM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VM0aLJ3aSjNA2dQ1HqnCQolWV6RVmQtsnDBwfHUEz7luGaVm3/4VikeIhwpIdPAdhzs6nMT2KfSv/zDI5ttAoynpZq68Xr8dz2bxkkYLeTB6SeWL8q16jf01WmTrxM7p9uacd4rtpXNLMY/XpNVGRpDwqjMdo3bOaZCYqZ+BgN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8XvgcYM; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1754329785; c=relaxed/simple;
+	bh=q6heWKyDFbjItz7wuCWRrYQJUr7D5cG41YJHZWVIU6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VrjBMfHhX8et5zdgk5SgNuXqbh37hjL+zUPW1XP5K7gWM9ChYu8Gg3uhkDiFL4jQN0w4+lYjE+94XblJQHEmiSq1JjVXYr0BxDmoq+Vl18DzGaVf5r7PUyvOU2Ks2rel2UYnNCV6mMD2CbDKWFl89/gxcWK/7N2gHacUHr6QBl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CssflQVc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8XvgcYM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CssflQVc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754327665; x=1785863665;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UgexuOY1XcLShJ2HQB4gwSZQ4fB8pNQpLLry18c9STM=;
-  b=U8XvgcYM/qbsz6SyHMtvdyc5g0BbGIIHYh3EC9Hyz2ZEjtuhM7hmXthH
-   +Y0/6dzjOJ+9L1CgeUBqhIuuXOx3iyF77RqnRiaR6JY5u9b0HKmkT34ym
-   QoqBAMlf4a96h7KJcfpmxXo0XEoEdwY0lxDXvx5Fg1l/zG0msY7dI/ECs
-   5niSsGujOwKVgMESDlLUxStH7KQiacy4nawwIScBxbSlyH4dh/O88YHr1
-   rdFQJw/rcqVVPStr+DIxmZHi2+ndbsJvBfFN1+qQPTJHz17fj9WjL1fXf
-   qUd6AACHOjH8zp+yngKMI0tYQ6Y9SRQiABUf2oTT+GivCuDSP20n4Ee+6
-   Q==;
-X-CSE-ConnectionGUID: XYOKFIZqTISHBJWyPeicnQ==
-X-CSE-MsgGUID: PTDqySRdT32+FvB8PtwuFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="60431145"
+  t=1754329783; x=1785865783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q6heWKyDFbjItz7wuCWRrYQJUr7D5cG41YJHZWVIU6g=;
+  b=CssflQVcXPUQfuFdUTUjNFl0hpLSC+6bHfy0ZdmiMUsW5ZQtNkiqgBeb
+   MrsDH3V666Bzq6E/MSmvC56XoWhisenEyaghFAHrhIraP3YdjHgmMXlHI
+   M4kRTath1iYFL2t6Pf9G5sOkNM4BALckt4BhmqWGRoEUVQCEEXeQr1yJO
+   W1vwYIktgMJAy5NXNU6eEsGKj+1P5sVsytMLfqxHU3R0qSoxotN7DCzeK
+   rYZTy0yj8fOw7j0Xca3sZGgjsCW6t3Ebl5cilCF6t51/euABWq0o282uV
+   u43XZLVLYDEddrMR1VQ3WgtIb6WXq3Zu1BaMY2MEO0k1QM/OtuMJT2Cse
+   w==;
+X-CSE-ConnectionGUID: yQ+Cl6iyQHOs07UBqi747w==
+X-CSE-MsgGUID: EVYKmNI8SiephqkdYeV+Sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="67304829"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="60431145"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 10:14:25 -0700
-X-CSE-ConnectionGUID: AE/99b3zShWnnWIY0gQ0WA==
-X-CSE-MsgGUID: KxRy58RWSk+OkHLbwlwYmg==
+   d="scan'208";a="67304829"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 10:49:42 -0700
+X-CSE-ConnectionGUID: olE6/67RQQOuZ+UKVgVyYA==
+X-CSE-MsgGUID: 3xthNx7uR+eN5fI4n0anQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="164613898"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Aug 2025 10:14:23 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="163905010"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 04 Aug 2025 10:49:38 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiylR-0001p5-1c;
-	Mon, 04 Aug 2025 17:14:21 +0000
-Date: Mon, 4 Aug 2025 19:13:35 +0200
+	id 1uizJX-0000At-0a;
+	Mon, 04 Aug 2025 17:49:35 +0000
+Date: Tue, 5 Aug 2025 01:49:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis/dev 29/34] WARNING: modpost: EXPORT symbol
- "rhashtable_insert_slow" [vmlinux] version generation failed, symbol will
- not be versioned.
-Message-ID: <202508041921.OrjN5TvW-lkp@intel.com>
+To: Varshini Rajendran <varshini.rajendran@microchip.com>,
+	eugen.hristev@linaro.org, jic23@kernel.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev, srini@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, varshini.rajendran@microchip.com
+Subject: Re: [PATCH 02/15] nvmem: microchip-otpc: rework to access packets
+ based on tag
+Message-ID: <202508050141.HKFcYdLy-lkp@intel.com>
+References: <20250804100219.63325-3-varshini.rajendran@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +70,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250804100219.63325-3-varshini.rajendran@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   84b025a0f61636d7599b175d0a8186de719087e4
-commit: b8cbb419251f38f6c7c8a75e2b146a03004e87a8 [29/34] rhashtable: Enable capability analysis
-config: mips-bmips_stb_defconfig (https://download.01.org/0day-ci/archive/20250804/202508041921.OrjN5TvW-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508041921.OrjN5TvW-lkp@intel.com/reproduce)
+Hi Varshini,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on jic23-iio/togreg v6.16]
+[cannot apply to linus/master next-20250804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Varshini-Rajendran/ARM-dts-microchip-sama7d65-add-cpu-opps/20250804-180839
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250804100219.63325-3-varshini.rajendran%40microchip.com
+patch subject: [PATCH 02/15] nvmem: microchip-otpc: rework to access packets based on tag
+config: arc-randconfig-002-20250804 (https://download.01.org/0day-ci/archive/20250805/202508050141.HKFcYdLy-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508050141.HKFcYdLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508041921.OrjN5TvW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508050141.HKFcYdLy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: EXPORT symbol "rhashtable_insert_slow" [vmlinux] version generation failed, symbol will not be versioned.
-Is "rhashtable_insert_slow" prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: EXPORT symbol "rhashtable_walk_start_check" [vmlinux] version generation failed, symbol will not be versioned.
-Is "rhashtable_walk_start_check" prototyped in <asm/asm-prototypes.h>?
+>> Warning: drivers/nvmem/microchip-otpc.c:83 struct member 'payload_info' not described in 'mchp_otpc_packet'
+>> Warning: drivers/nvmem/microchip-otpc.c:83 Excess struct member 'id' description in 'mchp_otpc_packet'
+>> Warning: drivers/nvmem/microchip-otpc.c:83 Excess struct member 'offset' description in 'mchp_otpc_packet'
 
 -- 
 0-DAY CI Kernel Test Service
