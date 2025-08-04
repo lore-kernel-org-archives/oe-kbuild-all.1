@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0CC1DF24F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 17:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA3E1FF1A1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 18:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754329785; cv=none; b=ov0TbAm/u6czXF+sKBf9ZaWm1JiOUTnFPTbAUofjfExPGaDEJlkx8VqvYsm8I3BqJbKhH18iUNcFivuHiLb0ZPEd1pu+dw4YmgzCmwcDPLj5jWTJupck3OOlJekpWnPd/p1J2zPGi/A6pPhCiL/EptsHr2RIwc4sZ5IcZqsTXx0=
+	t=1754331030; cv=none; b=j7TXuThiJ4U4chda8svk5TSQEXFRN5B33vKMfM7ZY2gFwfglSyDmKkwvGpUqi5WpMyEcOtWK2hxKyXXEO0PlK1FX1OPmTvZYzXzaGSNj8vIYfzj85UOs4KOdGnZtGZB8Bg16yIWHWwEO5wvGKzJSjjvddGE55etqH7vPeQ2EJ4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754329785; c=relaxed/simple;
-	bh=q6heWKyDFbjItz7wuCWRrYQJUr7D5cG41YJHZWVIU6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VrjBMfHhX8et5zdgk5SgNuXqbh37hjL+zUPW1XP5K7gWM9ChYu8Gg3uhkDiFL4jQN0w4+lYjE+94XblJQHEmiSq1JjVXYr0BxDmoq+Vl18DzGaVf5r7PUyvOU2Ks2rel2UYnNCV6mMD2CbDKWFl89/gxcWK/7N2gHacUHr6QBl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CssflQVc; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1754331030; c=relaxed/simple;
+	bh=FAB+//jvolR8PNCCiS+fItBj6kQ2DNyuzu/ZP3S6VbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UCv4HYowUAdEbK0mjH2BZuf1l2fKDWpSdZPYAqWn/HEf4i6ziWW5x7q4LGTuJpSd7a4Macggw5IY8WrqjYZeiNvAeQz/CgVxpNRRbncYlDpQy0HU0Mw9nTElti4rY4y/Ph40Wk1cyCaThJVPEvVWtToLJjzVsiAyOJ1reHUEyCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=neb5Kb1A; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CssflQVc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="neb5Kb1A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754329783; x=1785865783;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q6heWKyDFbjItz7wuCWRrYQJUr7D5cG41YJHZWVIU6g=;
-  b=CssflQVcXPUQfuFdUTUjNFl0hpLSC+6bHfy0ZdmiMUsW5ZQtNkiqgBeb
-   MrsDH3V666Bzq6E/MSmvC56XoWhisenEyaghFAHrhIraP3YdjHgmMXlHI
-   M4kRTath1iYFL2t6Pf9G5sOkNM4BALckt4BhmqWGRoEUVQCEEXeQr1yJO
-   W1vwYIktgMJAy5NXNU6eEsGKj+1P5sVsytMLfqxHU3R0qSoxotN7DCzeK
-   rYZTy0yj8fOw7j0Xca3sZGgjsCW6t3Ebl5cilCF6t51/euABWq0o282uV
-   u43XZLVLYDEddrMR1VQ3WgtIb6WXq3Zu1BaMY2MEO0k1QM/OtuMJT2Cse
-   w==;
-X-CSE-ConnectionGUID: yQ+Cl6iyQHOs07UBqi747w==
-X-CSE-MsgGUID: EVYKmNI8SiephqkdYeV+Sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="67304829"
+  t=1754331029; x=1785867029;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FAB+//jvolR8PNCCiS+fItBj6kQ2DNyuzu/ZP3S6VbM=;
+  b=neb5Kb1AoN2d7KkULGY16GQfHOAKk/CYFYH6byKL8gQrYq/VB6bOZf++
+   /kPYodqArGu7q1N+KyD8E7fLD3/yRnvjPslBkqGlB1YPyGJHflZkbr83b
+   EMtVwDTL5Gk0q3LfpfXRXw7+SqqYEwSbbVReHXM22l1Ou69wmrxUhrHjg
+   SQJQPO9cRAa+an+r53y/Kw06wFDsh9CSB5GwLjPozazAbEMFBU2nntbkR
+   EZnj+DUYJQf7r83cTSGigCN751auKe8lPpAK/Ev/T7n4X04RzGgUOUvHR
+   nBQBaHsv1nTqOUuKUuL22jd/WDdteOirHWJzak1j0fC8NhxZdw1UmXB8K
+   g==;
+X-CSE-ConnectionGUID: zrA35Mw3R82i+/md1CmmMw==
+X-CSE-MsgGUID: 9PiiEZOuQouTLgrkWnY5UQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="59220780"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="67304829"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 10:49:42 -0700
-X-CSE-ConnectionGUID: olE6/67RQQOuZ+UKVgVyYA==
-X-CSE-MsgGUID: 3xthNx7uR+eN5fI4n0anQQ==
+   d="scan'208";a="59220780"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 11:10:28 -0700
+X-CSE-ConnectionGUID: THrQKq52RGa5Dxusvv/89w==
+X-CSE-MsgGUID: AjSPrpgtTXuisguzHYP9aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="163905010"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 04 Aug 2025 10:49:38 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="164228110"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa007.jf.intel.com with ESMTP; 04 Aug 2025 11:10:27 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uizJX-0000At-0a;
-	Mon, 04 Aug 2025 17:49:35 +0000
-Date: Tue, 5 Aug 2025 01:49:07 +0800
+	id 1uizdg-0001pP-2e;
+	Mon, 04 Aug 2025 18:10:24 +0000
+Date: Mon, 4 Aug 2025 20:09:36 +0200
 From: kernel test robot <lkp@intel.com>
-To: Varshini Rajendran <varshini.rajendran@microchip.com>,
-	eugen.hristev@linaro.org, jic23@kernel.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, srini@kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, varshini.rajendran@microchip.com
-Subject: Re: [PATCH 02/15] nvmem: microchip-otpc: rework to access packets
- based on tag
-Message-ID: <202508050141.HKFcYdLy-lkp@intel.com>
-References: <20250804100219.63325-3-varshini.rajendran@microchip.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1743/1743]
+ drivers/md/bcache/journal.c:320:6: warning: no previous prototype for
+ 'is_discard_enabled'
+Message-ID: <202508042020.dTIoVoFF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,37 +62,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250804100219.63325-3-varshini.rajendran@microchip.com>
 
-Hi Varshini,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on jic23-iio/togreg v6.16]
-[cannot apply to linus/master next-20250804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Varshini-Rajendran/ARM-dts-microchip-sama7d65-add-cpu-opps/20250804-180839
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250804100219.63325-3-varshini.rajendran%40microchip.com
-patch subject: [PATCH 02/15] nvmem: microchip-otpc: rework to access packets based on tag
-config: arc-randconfig-002-20250804 (https://download.01.org/0day-ci/archive/20250805/202508050141.HKFcYdLy-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508050141.HKFcYdLy-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   ba07135cf74b1424e2f7f0c60e59c5b206ab320c
+commit: 70e6748c08ab45df178269e4e3ae6da56c33af54 [1743/1743] bcache: fix failure in journal relplay
+config: x86_64-buildonly-randconfig-2004-20250802 (https://download.01.org/0day-ci/archive/20250804/202508042020.dTIoVoFF-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508042020.dTIoVoFF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508050141.HKFcYdLy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508042020.dTIoVoFF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/nvmem/microchip-otpc.c:83 struct member 'payload_info' not described in 'mchp_otpc_packet'
->> Warning: drivers/nvmem/microchip-otpc.c:83 Excess struct member 'id' description in 'mchp_otpc_packet'
->> Warning: drivers/nvmem/microchip-otpc.c:83 Excess struct member 'offset' description in 'mchp_otpc_packet'
+>> drivers/md/bcache/journal.c:320:6: warning: no previous prototype for 'is_discard_enabled' [-Wmissing-prototypes]
+     320 | bool is_discard_enabled(struct cache_set *s)
+         |      ^~~~~~~~~~~~~~~~~~
+
+
+vim +/is_discard_enabled +320 drivers/md/bcache/journal.c
+
+   319	
+ > 320	bool is_discard_enabled(struct cache_set *s)
+   321	{
+   322		struct cache *ca;
+   323		unsigned int i;
+   324	
+   325		for_each_cache(ca, s, i)
+   326			if (ca->discard)
+   327				return true;
+   328	
+   329		return false;
+   330	}
+   331	
 
 -- 
 0-DAY CI Kernel Test Service
