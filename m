@@ -1,143 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E451F9F7A;
-	Mon,  4 Aug 2025 14:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59872BB17
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 15:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754319241; cv=none; b=dTu9dxG/hY/DRzqEpxzVPAhAhqzjauXm9wAVHV6b4beJ0fNIhYYiZwayxcjcOja3kiOno3jp8u6gWY/MsQ8O4lkxm1+NQcDX+e7COfiTZ4aosfLCEZHKy+NqYYbPh8MvxuHwIRQuy0Jqj1WVQ2O7LRHrpmyCh3yrbCmOZs5Ga9s=
+	t=1754321711; cv=none; b=s9+PGvR7Sf5FhWhbg7e1Zqxa80WuYvRyXW7ErvQHZfa437c8KVvDu7AOT27Ts86AEubUZ1ci965A/ggpQX9kii92Q8UDhFwoWZh06rk0wUQixhqV3w1bppUD6KPf8YU6wUjCf/zszhm/DkcMj3ulBFEhyeu89BvZeXIdSrOm07I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754319241; c=relaxed/simple;
-	bh=5a8vM/Mb91kTjb/vSOmxh+YNJwab9PXTqNeITTi4mYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HMyKoHgxMLMFkVEzGMGdWnX4kApRKbckj0Tz5bJJik05ll7mTKr6/xqU6OUfNSh+1Ccf1b4ZVo0LRnLuEFF2y57E8dRPYH/ywIkOkyfqVeCRtuWBSqnY2a1jbJBjdnRWjw6yQVbEK47ookJHM4pMSsnUi+C2MknHZ74eQYjmfdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjEgnTIX; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1754321711; c=relaxed/simple;
+	bh=29Ldb5UUbUcj8wdaADM/N6FyZf4XIgKKRgzEI5Xt/wQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HKT6lie8g2uR95kUi95c2EPnI/QEmZNWFEBwVdgKgZDdCRUENxq7ipLTgSE+qFnpIfP89vMQaAiJnOQxv34lzHW/zqKJmAx30ydcKcshIEGxtRxuvepfOmqglAfl94kPj8EqwmJqp5ijXuoWBtybtnhKhS6jolpcU8XP3tdN5c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWDtzAGo; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjEgnTIX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWDtzAGo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754319238; x=1785855238;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5a8vM/Mb91kTjb/vSOmxh+YNJwab9PXTqNeITTi4mYQ=;
-  b=hjEgnTIXk/CZEPcH4tgKqqQ0PwlR3fZ7Vu7oPyRmZLqCQzWx5tkt/Apo
-   GS5YDz/CIt0wHoDmC82wmjU9+mw4IBiWyuRozSIl7GNO3qPASXIf6+rk/
-   /YTqh5mfVHJOdox+C2wxFIcVloJcSwvTFt/fLf7R28W2sadZA1H9IzrfM
-   EatCRFZTs0K6aXixb9hB/K2xJ/E4KFSZKJRw6NgmiSPRfPvWlrZxR7VDU
-   THCyolLQONU2LRo5c6aEHvyCXHIAMN21Of8ywJpRmkT2Kz7IL4u1DvOlX
-   wzSnYy00RjIcq2PiDHUyIBQdhD1nZ9nDN67FoEyUlc4yxgYeqEUTnsO8e
-   g==;
-X-CSE-ConnectionGUID: 0uTnHpTzR+qlNlYMLV9QTA==
-X-CSE-MsgGUID: 69dSgTh7TDqBfTm/akCcWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="55635329"
+  t=1754321709; x=1785857709;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=29Ldb5UUbUcj8wdaADM/N6FyZf4XIgKKRgzEI5Xt/wQ=;
+  b=EWDtzAGolgSRgOPIXnY690y1dgVRokfvIEiytX7fHT7dP5JgSOPyOfm/
+   OGB8owyJeBEPJ9WL0TJwjfxHj5N+m6YCiv3re/5ihgetlTzFXO5SvrpQ+
+   0TrczuMQE+cDpj2dOAA3yfK/CKV5u4lhjh0ji6t/oJ0ob6OVkZJgPmuNe
+   YMcqsXh56OFmj+abImhf5Op1/v4xxn9H2Oz3nqCWerhyLq72hN75uk+Mi
+   +6e8OxqIuOhqXyFst6xtX6oALPG7eSl9b63hvyIJ6Y75r36UL5rskSrhz
+   DGKruFFfoO0bYFgNZ3qd7Ew/grd7CKkZVqzd2bM8Xti8G9/IEJpyzd0/2
+   A==;
+X-CSE-ConnectionGUID: JqWSFK0HR1W5cWM4ystjtw==
+X-CSE-MsgGUID: Oxe3gHaZQemyWZEkB4Zruw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="60419965"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="55635329"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 07:53:57 -0700
-X-CSE-ConnectionGUID: UsTZ36QYTtingaaaKiB8ww==
-X-CSE-MsgGUID: kz3pHOVoSiyDnKey+EdOvQ==
+   d="scan'208";a="60419965"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 08:35:09 -0700
+X-CSE-ConnectionGUID: 6oTGNMSHRcC6i+s+QPQf4w==
+X-CSE-MsgGUID: UE5ZDn0lR12koFaaGN9RVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="195021292"
+   d="scan'208";a="164642061"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Aug 2025 07:53:57 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Aug 2025 08:35:08 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uiwZW-000059-1K;
-	Mon, 04 Aug 2025 14:53:54 +0000
-Date: Mon, 4 Aug 2025 22:53:01 +0800
+	id 1uixDN-00006d-27;
+	Mon, 04 Aug 2025 15:35:05 +0000
+Date: Mon, 4 Aug 2025 23:34:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/090-spi-hid 18/19]
- drivers/hid/dockchannel-hid/dockchannel-hid.c:987:18: warning: format
- specifies type 'long' but the argument has type '__size_t' (aka 'unsigned
- int')
-Message-ID: <202508042201.aI0hBZCq-lkp@intel.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+	jikos@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bentiss@kernel.org, luguohong@xiaomi.com,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH 2/2] HID: input: report battery status changes immediately
+Message-ID: <202508042305.PBym6Evd-lkp@intel.com>
+References: <20250804091215.6637-2-jose.exposito89@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250804091215.6637-2-jose.exposito89@gmail.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   17ba359286a86638c4d3a3b5bb2ba3a19db1d898
-commit: 7ebaa0bb0d52e5d9c2b7967868b0e3932847b854 [18/19] HID: Add Apple DockChannel HID transport driver
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250804/202508042201.aI0hBZCq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508042201.aI0hBZCq-lkp@intel.com/reproduce)
+Hi José,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.16 next-20250804]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jos-Exp-sito/HID-input-report-battery-status-changes-immediately/20250804-171355
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250804091215.6637-2-jose.exposito89%40gmail.com
+patch subject: [PATCH 2/2] HID: input: report battery status changes immediately
+config: arm-randconfig-004-20250804 (https://download.01.org/0day-ci/archive/20250804/202508042305.PBym6Evd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508042305.PBym6Evd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508042201.aI0hBZCq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508042305.PBym6Evd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hid/dockchannel-hid/dockchannel-hid.c:987:18: warning: format specifies type 'long' but the argument has type '__size_t' (aka 'unsigned int') [-Wformat]
-     986 |                 dev_err(iface->dchid->dev, "Bad sub header length (%d > %ld)\n",
-         |                                                                         ~~~
-         |                                                                         %zu
-     987 |                         shdr->length, hdr->length - sizeof(*shdr));
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   1 warning generated.
+>> drivers/hid/hid-input.c:651:13: warning: 'hidinput_update_battery_charge_status' defined but not used [-Wunused-function]
+     651 | static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +987 drivers/hid/dockchannel-hid/dockchannel-hid.c
+vim +/hidinput_update_battery_charge_status +651 drivers/hid/hid-input.c
 
-   979	
-   980	static void dchid_handle_ack(struct dchid_iface *iface, struct dchid_hdr *hdr, void *data)
-   981	{
-   982		struct dchid_subhdr *shdr = (void *)data;
-   983		u8 *payload = data + sizeof(*shdr);
-   984	
-   985		if (shdr->length + sizeof(*shdr) > hdr->length) {
-   986			dev_err(iface->dchid->dev, "Bad sub header length (%d > %ld)\n",
- > 987				shdr->length, hdr->length - sizeof(*shdr));
-   988			return;
-   989		}
-   990		if (shdr->flags != iface->out_flags) {
-   991			dev_err(iface->dchid->dev,
-   992				"Received unexpected flags 0x%x on ACK channel (expFected 0x%x)\n",
-   993				shdr->flags, iface->out_flags);
-   994			return;
-   995		}
-   996	
-   997		if (shdr->length < 1) {
-   998			dev_err(iface->dchid->dev, "Received length 0 output report ack\n");
-   999			return;
-  1000		}
-  1001		if (iface->tx_seq != hdr->seq) {
-  1002			dev_err(iface->dchid->dev, "Received ACK with bad seq (expected %d, got %d)\n",
-  1003				iface->tx_seq, hdr->seq);
-  1004			return;
-  1005		}
-  1006		if (iface->out_report != payload[0]) {
-  1007			dev_err(iface->dchid->dev, "Received ACK with bad report (expected %d, got %d\n",
-  1008				iface->out_report, payload[0]);
-  1009			return;
-  1010		}
-  1011	
-  1012		if (iface->resp_buf && iface->resp_size)
-  1013			memcpy(iface->resp_buf, payload + 1, min((size_t)shdr->length - 1, iface->resp_size));
-  1014	
-  1015		iface->resp_size = shdr->length;
-  1016		iface->out_report = -1;
-  1017		iface->retcode = shdr->retcode;
-  1018		complete(&iface->out_complete);
-  1019	}
-  1020	
+581c4484769e69 Dmitry Torokhov 2017-08-01  650  
+133568dfb5acfa José Expósito   2025-08-04 @651  static bool hidinput_update_battery_charge_status(struct hid_device *dev,
+133568dfb5acfa José Expósito   2025-08-04  652  						  unsigned int usage, int value)
+581c4484769e69 Dmitry Torokhov 2017-08-01  653  {
+133568dfb5acfa José Expósito   2025-08-04  654  	return false;
+581c4484769e69 Dmitry Torokhov 2017-08-01  655  }
+a608dc1c06397d José Expósito   2022-11-24  656  
 
 -- 
 0-DAY CI Kernel Test Service
