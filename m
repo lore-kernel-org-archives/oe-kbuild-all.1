@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBB017A2EB
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 04:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141372E36ED
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Aug 2025 04:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754280221; cv=none; b=eMGnGU89thdsIKmeiQRHEqfEznCHFzLn1O9WehjZxi02kV65IWTBN2Zxt91dc/VimxyVurVTDqXH14NH0Adi44PtaFG5OQu//aN7Nx7UeUH/9JHw5NJKMcx2NEWC7dEgfcGI18WYrd96zBb5FJhZUP9kXuzRNA5A9pJnHiyfGJs=
+	t=1754282336; cv=none; b=djwbcUwv+SSvCy6XBYf/T/QBkks0IF5fl1zY2dktoXoECz/ODPwrMGIhebQ9UU9Tin+u3WGPXig6xQHdaqwZfQj6cK9RW71iIhVFI/AazP5R2YvCEviZEEq+cPcbhRDEbs1i7Il1IxSLDs1AEnkmg1HRoLARtXBgiWftQIstRdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754280221; c=relaxed/simple;
-	bh=mnUD4pinVXTUVxuvkFkoumqCrbHqzWsnLZoK8WbFYjo=;
+	s=arc-20240116; t=1754282336; c=relaxed/simple;
+	bh=hCE5IQbnweLhVcMYMvxurSfpObQwz2XdDtzen7+OQ1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QlU5yHpFCkXkvO9eRBQQKX3TO2PIq7iBcED0nutzFKeZbflZlmtRcYsPA6ETmJtOiD+jW3Mi1TIgAnVa+biWynumBbDi9S64YvuM7ihINlau6q6LWog4HRt/a+HVuaVYwnaCRERzwCsGbIXUmISfl+Y9b2Ls8QSfDD2Zp18p3bI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D2RD02zh; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=mHa0DB2/UEzFfyqknaCO2Vfn3tHSpuODR50iPNkGhIzS+On2ydfUlJy7eN5RFC6CmZkVDScqYpRa1AFGna7GmGzygO6sPAm1gVMl4MNOdrxI09jSXgBf69XWU6NMU6Vn5TSp0B/qcOT2zZqS95kJleVfi50d1REL+IocgFmKcOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5bwOF4T; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D2RD02zh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5bwOF4T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754280219; x=1785816219;
+  t=1754282335; x=1785818335;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mnUD4pinVXTUVxuvkFkoumqCrbHqzWsnLZoK8WbFYjo=;
-  b=D2RD02zhwlEE//oq48jGN1PSyBsDPbpNrJB3eeG5LLYkxxcyFFRJ8lyR
-   6CdFn1myHDdlGm2AReosKVvUz5TzPAgdz/ByxoDyaJEzkgT60jyrY40c2
-   GDC+PfIv6tYHxaZo06taRKKYvNAkEYqGHytW9e+U8lWDaKY+sViTippdK
-   M60YQ90KKLg8osYkHxvqN0EmstWdfOGI8bPD5VwdHOOtY3vUJ3g7WKYVy
-   GK5s3GtoLj3uUskD/qJAuSxIEJ04sMWeXvoTEQo1cYmzg+LidDxlYi2tH
-   Jm4yeQKL55bE/2IMpZbOZ7Ee7L7P1iEpob0Y5wHgxj+Oie3cY7eiUeAw7
+  bh=hCE5IQbnweLhVcMYMvxurSfpObQwz2XdDtzen7+OQ1c=;
+  b=C5bwOF4T0tecL3rzdR56fn63cPhSNPJdyvXQRsn0fKwSwO59H9oK4Bxx
+   HtDSNFOMniFAHnSizaeBeMhFRwvRlw1dhhRdCkya0Dc2f+ityf1xyXERk
+   DcS8BC4u/tfTlDwc/n7VKG/Ij5Jf46WBd9Uh0TJRrGcH6jX+KRVSRo4jC
+   VzYplhKozevmMAX2taZhaYblilxZQnRlQiN78cGaaFqSmPfEbitFbQhfk
+   ObRRK+DHxuxqv4FvEd+GxdS3KbzP9vg1fMCk2Qbt5b+5M6HwHgFpi+nev
+   DHm1+0BjznBr8FcmU6AH0yvEckF9W0fi7dSlnpKx99UpSbaLTEjKdIOb9
    w==;
-X-CSE-ConnectionGUID: IAdMRQ18QVSJ/7U0Q0TyWg==
-X-CSE-MsgGUID: UGZBkXTFSIO64gHDtGnBxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="56492708"
+X-CSE-ConnectionGUID: mtWqce7bSTm7ul/tvvTUAw==
+X-CSE-MsgGUID: 7tSNlW22QuiXu3W37mrDow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="67102018"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56492708"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 21:03:39 -0700
-X-CSE-ConnectionGUID: r3KncWg2TXydEGgwYV6T6A==
-X-CSE-MsgGUID: l3m/ehHTTvyZ+n6rB2ujEg==
+   d="scan'208";a="67102018"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2025 21:38:54 -0700
+X-CSE-ConnectionGUID: laSERmtYR3OY7tVKoGBNDw==
+X-CSE-MsgGUID: n+NHaOD0Scmr6Xc9OU28hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="194989529"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa002.jf.intel.com with ESMTP; 03 Aug 2025 21:03:38 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="164838966"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 03 Aug 2025 21:38:53 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uimQB-0001j9-1C;
-	Mon, 04 Aug 2025 04:03:35 +0000
-Date: Mon, 4 Aug 2025 06:03:00 +0200
+	id 1uimyJ-0006nc-0d;
+	Mon, 04 Aug 2025 04:38:51 +0000
+Date: Mon, 4 Aug 2025 12:38:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Lucien.Jheng" <lucienzx159@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
-Subject: air_en8811h.c:undefined reference to `clk_restore_context'
-Message-ID: <202508040641.2jSvUzIC-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/090-spi-hid 16/19] Warning:
+ drivers/hid/spi-hid/spi-hid-apple-core.c:156 struct member 'id' not
+ described in 'spihid_msg_hdr'
+Message-ID: <202508041200.KWfVxm1H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +63,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2eedaa3909be9102d648a4a0a50ccf64f96c54f
-commit: 6b9c9def95cb402374730d51a1f44927f467b774 net: phy: air_en8811h: Introduce resume/suspend and clk_restore_context to ensure correct CKO settings after network interface reinitialization.
-date:   5 weeks ago
-config: m68k-randconfig-2002-20250804 (https://download.01.org/0day-ci/archive/20250804/202508040641.2jSvUzIC-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508040641.2jSvUzIC-lkp@intel.com/reproduce)
+Hi Janne,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   17ba359286a86638c4d3a3b5bb2ba3a19db1d898
+commit: 345bbf0bb62dbb237dce855e37d4924bdcf393ff [16/19] WIP: HID: transport: spi: add Apple SPI transport
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250804/202508041200.KWfVxm1H-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250804/202508041200.KWfVxm1H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508040641.2jSvUzIC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508041200.KWfVxm1H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: drivers/net/phy/air_en8811h.o: in function `en8811h_resume':
->> air_en8811h.c:(.text+0x6d0): undefined reference to `clk_restore_context'
-   m68k-linux-ld: drivers/net/phy/air_en8811h.o: in function `en8811h_suspend':
->> air_en8811h.c:(.text+0x6e8): undefined reference to `clk_save_context'
+>> Warning: drivers/hid/spi-hid/spi-hid-apple-core.c:156 struct member 'id' not described in 'spihid_msg_hdr'
+>> Warning: drivers/hid/spi-hid/spi-hid-apple-core.c:156 Excess struct member 'msgid' description in 'spihid_msg_hdr'
 
 -- 
 0-DAY CI Kernel Test Service
