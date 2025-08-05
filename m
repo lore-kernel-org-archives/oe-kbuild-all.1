@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A422E36F6;
-	Tue,  5 Aug 2025 18:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B95F15ECCC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Aug 2025 19:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754420158; cv=none; b=fjESGYMqO/Wb+CecOXDYobFWN8L6Lox4wgZMva+dpeWIpsJvtS5rYBw1N9K8uYZkEEPZQ3KlhUpTTf9Gn2vJ0tGDK2opHXscJmBwZUDwjpKOMJwsKKbYy1Kg+Hv1uMqJ6e0lB1uWVg0kiETC50oEjAU6CRVISX4zrQI0vjTocWs=
+	t=1754420638; cv=none; b=NOpmKsH6TdPngbU5aBBs/qL8MJ9+GQq0NDCC+Xm70rArYTj85Tfy+a9AP/xpzQkhetiHm8gudiBWfo0eodwewCBYUWbJIYlvHkIxi0O2usilQ5fvo4v5nxe8TUdrkKTDAkblVV92M8+ElmthnigqQqk9wBl4fJRl8L0Oh8bOt1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754420158; c=relaxed/simple;
-	bh=KFwarEgTIgd3P2HiXSkhm+b4Pa1sd+1sLQw0H4V1E6g=;
+	s=arc-20240116; t=1754420638; c=relaxed/simple;
+	bh=4976wWvdvExgQYIPDcl/jmLeS+9npG2+jtKbfhgbB4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lqso8DKuvKtDIkYU85luaydZa2yq6Jmjp6zvczgPDuoGsbgViZOAbsBt5XbRYeL0sDn6uIn7LEEZS1tFL+M0gPjYSqqpZ+3hAVpvp5JlxgFOfvP422uGSXdnD5IAsneZ5BzYBhBzNcpr24MYClK6T0B+KTZGF6qeyHue9B4aJFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G6Aau0ak; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=eWO8x7XgCV1rziexMiXqsm2tgtB6tVVwVhDSJ9AZF9MduUFCYH4jZjiFfwyhJk+8RZVXEGnDSSC9Je8bcHnSK4wkDrtsPjIoEE3u5J8apG6YXbrXpRKfdy+bvKV0plxQr1pVXCXrJCtBSi2qcrNbX0/+DZ6JTwpvm5fQ8pa7Mxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhLqZql1; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6Aau0ak"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhLqZql1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754420156; x=1785956156;
+  t=1754420637; x=1785956637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KFwarEgTIgd3P2HiXSkhm+b4Pa1sd+1sLQw0H4V1E6g=;
-  b=G6Aau0akEmVFAS+bJtH5ct5HTXkJN+r2Zai3MYpVPsD2RPb+NeKZmzv5
-   G0f2y7hbFC9DRITa4GzGY19+EjQe41466sOjJxvOIbO4oagUiqDKLYpP6
-   /YkyDYjFutcikQW0NpEvWE4kpGj53EWzJojtQv+MdvRAnv9fPVZJHwdwA
-   bpnnyaabWMKODRWadD/6e7pj3Os0F64iTeEvQ5MStEYEuZ/P5vkqZlw+8
-   bIxrhK6GgrlULM31gbzjcqjn9n1sup9hAnWWAqcj0u3Ceyxnx6/AIzwyU
-   Fc+StfXfQ5XmxzRkzxITSObsopINWS5nJURa342XS/FVD0udU2kBi/SZa
-   g==;
-X-CSE-ConnectionGUID: rQfrRlUiRemRpdofFqmFAg==
-X-CSE-MsgGUID: tZhVEXfiTh2KOk/T5PS2jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56872341"
+  bh=4976wWvdvExgQYIPDcl/jmLeS+9npG2+jtKbfhgbB4g=;
+  b=hhLqZql1kshe+8yuBTCMEShupD8wbG2T5wfHBgwrnPGYy5bG+gnHO4bk
+   CZ2DlWUCLv1LP3f6o9v95RyTDS7DgR316VSNQyxfaqtIzFCrl9cUEDXEB
+   MRZP8QfEwmem+rQg01taq134cXiEqtxIRSZUlSbGNvAuqgzVHYBN/W+Xb
+   CT8f2yVxd37dCgWhoVm8B+nbtvKhpglcFOomj3SloqpJkbnf5akEGVHso
+   WPu6/z80l48e1LPHFBoQWnhd86TOyvgmL/ok5hFOrMZwI/lQHa7ZA/j1M
+   /EbAnt9JYLi7eZynU48yonxavXS1eGVykIMBGaAmDp0Xn4vHjJCSz4E6Q
+   Q==;
+X-CSE-ConnectionGUID: JafpA45TSnefk5ALIVed8g==
+X-CSE-MsgGUID: itemjYIuQLiLAAJ6nzIQQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="67431807"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="56872341"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 11:55:56 -0700
-X-CSE-ConnectionGUID: ISu1QqVOTqSW3Qdytqg2yA==
-X-CSE-MsgGUID: BY0crQMNSPyXEcULm35l9A==
+   d="scan'208";a="67431807"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 12:03:56 -0700
+X-CSE-ConnectionGUID: Xq+vMy45QDC7M01X+jAnmw==
+X-CSE-MsgGUID: ck8RpZyZQvaVKQYeZn6TKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="168718125"
+   d="scan'208";a="168743346"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Aug 2025 11:55:54 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 Aug 2025 12:03:55 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujMpE-00022t-1C;
-	Tue, 05 Aug 2025 18:55:52 +0000
-Date: Tue, 5 Aug 2025 20:55:19 +0200
+	id 1ujMwy-00022x-2j;
+	Tue, 05 Aug 2025 19:03:52 +0000
+Date: Tue, 5 Aug 2025 21:03:25 +0200
 From: kernel test robot <lkp@intel.com>
-To: Nemesa Garg <nemesa.garg@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Suraj Kandpal <suraj.kandpal@intel.com>,
-	Animesh Manna <animesh.manna@intel.com>
-Subject: [drm-i915:drm-intel-next 1/1]
- drivers/gpu/drm/i915/display/skl_scaler.c:967:57: warning: variable 'id' is
- uninitialized when used here
-Message-ID: <202508052002.gCODptW2-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425):
+ Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+Message-ID: <202508052107.FMDBuysn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/drm/i915/kernel drm-intel-next
-head:   73309ed9d598d35576431c4691813e080980df68
-commit: 73309ed9d598d35576431c4691813e080980df68 [1/1] drm/i915/display: WA_14011503117
-config: x86_64-buildonly-randconfig-2004-20250805 (https://download.01.org/0day-ci/archive/20250805/202508052002.gCODptW2-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508052002.gCODptW2-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   b81b7955a6b4a374f56d4369ff697d4b6ba67dc7
+commit: 3962e5a3845dfd66d9918598f1e0c974e9841f3c [1/1] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
+config: arm64-randconfig-2051-20250803 (https://download.01.org/0day-ci/archive/20250805/202508052107.FMDBuysn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508052107.FMDBuysn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508052002.gCODptW2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508052107.FMDBuysn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/skl_scaler.c:967:57: warning: variable 'id' is uninitialized when used here [-Wuninitialized]
-     967 |         intel_de_write_fw(display, SKL_PS_ECC_STAT(crtc->pipe, id), 1);
-         |                                                                ^~
-   drivers/gpu/drm/i915/display/intel_display_regs.h:1193:8: note: expanded from macro 'SKL_PS_ECC_STAT'
-    1193 |                         _ID(id, _PS_ECC_STAT_1A, _PS_ECC_STAT_2A),   \
-         |                             ^~
-   drivers/gpu/drm/i915/display/intel_display_regs.h:1043:34: note: expanded from macro '_ID'
-    1043 | #define _ID(id, a, b) _PICK_EVEN(id, a, b)
-         |                                  ^~
-   drivers/gpu/drm/i915/i915_reg_defs.h:127:49: note: expanded from macro '_PICK_EVEN'
-     127 | #define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
-         |                                                 ^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   drivers/gpu/drm/i915/display/intel_display_reg_defs.h:18:45: note: expanded from macro '_PIPE'
-      18 | #define _PIPE(pipe, a, b)               _PICK_EVEN(pipe, a, b)
-         |                                                          ^
-   drivers/gpu/drm/i915/i915_reg_defs.h:127:41: note: expanded from macro '_PICK_EVEN'
-     127 | #define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
-         |                                         ^~~
-   drivers/gpu/drm/i915/i915_reg_defs.h:181:47: note: expanded from macro '_MMIO'
-     181 | #define _MMIO(r) ((const i915_reg_t){ .reg = (r) })
-         |                                               ^
-   drivers/gpu/drm/i915/display/skl_scaler.c:962:8: note: initialize the variable 'id' to silence this warning
-     962 |         int id;
-         |               ^
-         |                = 0
-   1 warning generated.
-
-
-vim +/id +967 drivers/gpu/drm/i915/display/skl_scaler.c
-
-   955	
-   956	void adl_scaler_ecc_unmask(const struct intel_crtc_state *crtc_state)
-   957	{
-   958		struct intel_display *display = to_intel_display(crtc_state);
-   959		struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-   960		const struct intel_crtc_scaler_state *scaler_state =
-   961			&crtc_state->scaler_state;
-   962		int id;
-   963	
-   964		if (!scaler_state && scaler_state->scaler_id == -1)
-   965			return;
-   966	
- > 967		intel_de_write_fw(display, SKL_PS_ECC_STAT(crtc->pipe, id), 1);
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
