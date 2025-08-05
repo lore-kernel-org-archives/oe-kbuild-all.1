@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B95F15ECCC
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Aug 2025 19:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A741523D280;
+	Tue,  5 Aug 2025 19:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754420638; cv=none; b=NOpmKsH6TdPngbU5aBBs/qL8MJ9+GQq0NDCC+Xm70rArYTj85Tfy+a9AP/xpzQkhetiHm8gudiBWfo0eodwewCBYUWbJIYlvHkIxi0O2usilQ5fvo4v5nxe8TUdrkKTDAkblVV92M8+ElmthnigqQqk9wBl4fJRl8L0Oh8bOt1o=
+	t=1754423422; cv=none; b=bi9YArAy6RT2oCLddfgF/Cfy9qlwSol1w4HeSyssi8XtBVc55/TuGSOuq+g7tUfViLXoebODlKytHXrLAt68eOEz8GEs2p7s09Tre7Bh+KTu232wcyz9DMJAPYY61m4GrPi6Nv0UQZ8Qg7z35yGAWFoM1Pq5Os7Mo/Bf8up06BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754420638; c=relaxed/simple;
-	bh=4976wWvdvExgQYIPDcl/jmLeS+9npG2+jtKbfhgbB4g=;
+	s=arc-20240116; t=1754423422; c=relaxed/simple;
+	bh=sq+TsBlokvj2nW5GBy+xlnJIXewATZWVZsqJKTacnf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eWO8x7XgCV1rziexMiXqsm2tgtB6tVVwVhDSJ9AZF9MduUFCYH4jZjiFfwyhJk+8RZVXEGnDSSC9Je8bcHnSK4wkDrtsPjIoEE3u5J8apG6YXbrXpRKfdy+bvKV0plxQr1pVXCXrJCtBSi2qcrNbX0/+DZ6JTwpvm5fQ8pa7Mxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhLqZql1; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Eq8lqS2eqaQg3QVir35K9ZukE/b40+j2qnShI+TR6qgl92oDbsnrk5LMKi5xy/segkhPDUSuJ+xDbGh3KDY+FE0LdA4nSAjjH6gzvwazr1m6ku+d7LySMoDLibDQKJWiQnPliVoGexHu0K4vBy0NLeo2gbXgAVs8czrkGRMVBg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0Walifb; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhLqZql1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0Walifb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754420637; x=1785956637;
+  t=1754423421; x=1785959421;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4976wWvdvExgQYIPDcl/jmLeS+9npG2+jtKbfhgbB4g=;
-  b=hhLqZql1kshe+8yuBTCMEShupD8wbG2T5wfHBgwrnPGYy5bG+gnHO4bk
-   CZ2DlWUCLv1LP3f6o9v95RyTDS7DgR316VSNQyxfaqtIzFCrl9cUEDXEB
-   MRZP8QfEwmem+rQg01taq134cXiEqtxIRSZUlSbGNvAuqgzVHYBN/W+Xb
-   CT8f2yVxd37dCgWhoVm8B+nbtvKhpglcFOomj3SloqpJkbnf5akEGVHso
-   WPu6/z80l48e1LPHFBoQWnhd86TOyvgmL/ok5hFOrMZwI/lQHa7ZA/j1M
-   /EbAnt9JYLi7eZynU48yonxavXS1eGVykIMBGaAmDp0Xn4vHjJCSz4E6Q
-   Q==;
-X-CSE-ConnectionGUID: JafpA45TSnefk5ALIVed8g==
-X-CSE-MsgGUID: itemjYIuQLiLAAJ6nzIQQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="67431807"
+  bh=sq+TsBlokvj2nW5GBy+xlnJIXewATZWVZsqJKTacnf8=;
+  b=I0Walifb0rrPE1xAD3dv6fDwwdNP4wDxitLewfEo4oxDMv0DFmU+5qHi
+   jsWIxyRr8oLa1aE45Ue7vzWZCuqeV/jjmiHzoF3CxCltZum0EVdecyxSo
+   6Jw2J7wfsojXjkauUprDX3oNM9pmSEar/4niqvicJq2Qic93tFBunOe/u
+   dgWBxCqS86DbuMBo+ygkETmpkeJQps+lHV6g0wtAX11/Zku5GcrAkAYeG
+   Tezs6qFQRu/lXPCy4GW810Pt6oCSzW22zTWDbGUVTTPmiGPvl4JssHKU5
+   Z1WT2fbnz30CPe/X2B8hcL1YtyzVV7dF7QTZl6VZEGJisjmlzZC7qkzyD
+   w==;
+X-CSE-ConnectionGUID: m8DpIrPVQBmjg/LRGwcgrA==
+X-CSE-MsgGUID: gUMd3rjIRaia6EaNzUcowA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56625717"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="67431807"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 12:03:56 -0700
-X-CSE-ConnectionGUID: Xq+vMy45QDC7M01X+jAnmw==
-X-CSE-MsgGUID: ck8RpZyZQvaVKQYeZn6TKQ==
+   d="scan'208";a="56625717"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 12:50:21 -0700
+X-CSE-ConnectionGUID: drbTNnOZRwGL08M5Q8H75g==
+X-CSE-MsgGUID: nkPVE99SQ0KhNGkj3pzpzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="168743346"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 05 Aug 2025 12:03:55 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="169848691"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Aug 2025 12:50:19 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujMwy-00022x-2j;
-	Tue, 05 Aug 2025 19:03:52 +0000
-Date: Tue, 5 Aug 2025 21:03:25 +0200
+	id 1ujNfs-0000ly-31;
+	Tue, 05 Aug 2025 19:50:16 +0000
+Date: Wed, 6 Aug 2025 03:49:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425):
- Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-Message-ID: <202508052107.FMDBuysn-lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: include/linux/ucopysize.h:45:4: error: call to '__bad_copy_from'
+ declared with 'error' attribute: copy source size is too small
+Message-ID: <202508060351.OMeX2wGa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,34 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   b81b7955a6b4a374f56d4369ff697d4b6ba67dc7
-commit: 3962e5a3845dfd66d9918598f1e0c974e9841f3c [1/1] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
-config: arm64-randconfig-2051-20250803 (https://download.01.org/0day-ci/archive/20250805/202508052107.FMDBuysn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508052107.FMDBuysn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6bcdbd62bd56e6d7383f9e06d9d148935b3c9b73
+commit: 808aac63e2bdf9bae08485e072bf3d317a18acbf uaccess: Introduce ucopysize.h
+date:   5 months ago
+config: um-randconfig-001-20250806 (https://download.01.org/0day-ci/archive/20250806/202508060351.OMeX2wGa-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060351.OMeX2wGa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508052107.FMDBuysn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508060351.OMeX2wGa-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+All errors (new ones prefixed by >>):
+
+   In file included from net/sctp/socket.c:45:
+   In file included from include/linux/sched/signal.h:9:
+   In file included from include/linux/sched/task.h:13:
+   In file included from include/linux/uaccess.h:10:
+>> include/linux/ucopysize.h:45:4: error: call to '__bad_copy_from' declared with 'error' attribute: copy source size is too small
+                           __bad_copy_from();
+                           ^
+   1 error generated.
+
+
+vim +45 include/linux/ucopysize.h
+
+    36	
+    37	static __always_inline __must_check bool
+    38	check_copy_size(const void *addr, size_t bytes, bool is_source)
+    39	{
+    40		int sz = __builtin_object_size(addr, 0);
+    41		if (unlikely(sz >= 0 && sz < bytes)) {
+    42			if (!__builtin_constant_p(bytes))
+    43				copy_overflow(sz, bytes);
+    44			else if (is_source)
+  > 45				__bad_copy_from();
+    46			else
+    47				__bad_copy_to();
+    48			return false;
+    49		}
+    50		if (WARN_ON_ONCE(bytes > INT_MAX))
+    51			return false;
+    52		check_object_size(addr, bytes, is_source);
+    53		return true;
+    54	}
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
