@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E246C42A80
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Aug 2025 12:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4933C17BA9
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Aug 2025 12:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754397336; cv=none; b=tOCuWWrXux0xYJtTR8VP3Dof1yvYBbZK1m3bAoUQvOZ/3IhP9JGBKs0Gnmz1lCz/d5VautV05qVKGXz7JAfoGZFYTweRZjYXXBvmxx1iRBbwE5m1hGJbkTt6dnFLEhK2dcG9tAuAmGHQ4gNWyFS5SYdxiTyS3Wxq+51tPGWB6jY=
+	t=1754397636; cv=none; b=rkajKys3s26tSOPC+F2wrNttYkc4dzVCUQtrN+Xq6bL/727D8rZwUU8cBS2RNyznvxD+8z49n4Bop+j0HA89F2zM6tV1518nKd3flt2WaKRJ1Gum8yI9Rjr2Mo79o0MaSoaZvLviz0f9JPMWpO48ir/c5LER0v01FG+qba9ajj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754397336; c=relaxed/simple;
-	bh=b/ziRWDmfxMcu/3dKLZMO9CJshX2hW5FBir0unjbwYU=;
+	s=arc-20240116; t=1754397636; c=relaxed/simple;
+	bh=pvN0p+DGLPd0Jv8Ajj0UrwmaFg16jau7XeSrqTbjbFg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oaHbmUTTR1bwvbGtBUR0sKWBYodGQiVhJzLaUH9xPYG5MYIHRl1Vu/P6nJJGyzos2++MGunoOWmKHYcRDgXVAAV+sg34PZca/dErYUHfq99UKhwjH63S53nfiuMKVEKLochFVQohFpYTXjagNECJnqF/aPnEsUBOaTXs2PUVNnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aW7lvajY; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=VXX2KnnVRaOQ5r0tQFVhowuMQgBTKWUSYjn2mC9hcyxOjnUjJKjXzSEKKDGYig3K0bH5fGIRRYHswsPy+LRDo7CGM6vCscFCDCs+SIYNc4EDqL2FqzX+OI8Yc99SjjeOx2ijwbPPX7qytF6nQqOgVg0rnxUQNytgd07viUnkxgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jd31e4YG; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aW7lvajY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jd31e4YG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754397335; x=1785933335;
+  t=1754397634; x=1785933634;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b/ziRWDmfxMcu/3dKLZMO9CJshX2hW5FBir0unjbwYU=;
-  b=aW7lvajYpiEAJYTZSD+qS00shlAckLaxJ4BBV1hXcejfrE2V7oK0K9fQ
-   oN7k+bOPhA6le2Ksx8BFAQ9MsVnPlu5Hngy0+YSbU+LlohMw53gLcuE4C
-   ff69wKsx619FtG9117p3BMo/fOLZr26BB4trFrpcSYlu29ZlAOdc7njzX
-   KDmts4uTKiSYiBeAGyX7YgEjLioeed9EEffdVQurnCbAamyYxi2ZBQC+f
-   Y6GU5dIZAzQuwBgCX898hYV1auSFcJrZSQyo6ZjA3HpKArTVnpq+wSanI
-   CIflFQUO1s/gwAz1tTmf5JyM1IIJKkFkVjzugSu0sts1MQdbnM5lTdw7v
-   Q==;
-X-CSE-ConnectionGUID: i5pMXNHWTeO6o5FwfjZQuA==
-X-CSE-MsgGUID: VZ+DWmM4TG+Gzk3ayapqkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="56825825"
+  bh=pvN0p+DGLPd0Jv8Ajj0UrwmaFg16jau7XeSrqTbjbFg=;
+  b=Jd31e4YGfBIeC6pfO9oHDZQ6CP5P4+LOtRJ8W4k7l7+1dgh7mr+wxkxD
+   NgXkMRsatuXs9jKRpwRa8MT7oMytYwa8hlKlm+t8tRwQcWHts4VMM+V8H
+   LWe1aVDyl6lYNzf7bFB+/2hi/saJCIHybRkVnEzWJXXs3RzwQs+nbBuCu
+   8ZEH5np47gR0GKrgJpdaoZYwg1QiDt4zTOhE8GISXbBZAmmuhl1fVUn8i
+   SSLb4Sv+PkmnXIRnlpUOS84vXLzlaH0MTHKa7uWiS4N18yKXXXoWqXc57
+   +QQvmmXgvnSBoYH8V/Y/2CVMuhKR3Lfp+2qOpUig2yeeZc7kbIUjpEdMu
+   g==;
+X-CSE-ConnectionGUID: UF86+sWBTTSoR5lDf834kw==
+X-CSE-MsgGUID: 3MTc7xp0Sd6sJYy0++DmDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="74149419"
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="56825825"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 05:35:34 -0700
-X-CSE-ConnectionGUID: tI5GWfl0QW6ds3lojnknzg==
-X-CSE-MsgGUID: KfmJVgS0RAKxfJRe3BNvYA==
+   d="scan'208";a="74149419"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 05:40:34 -0700
+X-CSE-ConnectionGUID: 2MMsNlhKT8WCkM8VEdi31g==
+X-CSE-MsgGUID: irbseD7qQg6aLHRMFHOUDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="168637689"
+   d="scan'208";a="195318700"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Aug 2025 05:35:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 05 Aug 2025 05:40:33 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujGt8-00020F-1a;
-	Tue, 05 Aug 2025 12:35:30 +0000
-Date: Tue, 5 Aug 2025 14:34:41 +0200
+	id 1ujGxy-00020N-2h;
+	Tue, 05 Aug 2025 12:40:30 +0000
+Date: Tue, 5 Aug 2025 14:40:04 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c
- (ite,it6505): 'extcon' is a required property
-Message-ID: <202508051423.45TlP4Cp-lkp@intel.com>
+Subject: [jlayton:dir-deleg 26/26] fs/nfsd/nfs4state.c:1054:28: warning:
+ 'nfsd_refstr_from_qstr' defined but not used
+Message-ID: <202508051446.wydhCF99-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +62,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3c22b228856fc42453590d4438551296e5c2aaca
-commit: 6974b1ee7cb35339e3d85127e148c5976b010a16 [1/1] UPSTREAM: arm64: dts: mediatek: Add MT8186 Chinchou Chromebooks
-config: arm64-randconfig-2053-20250805 (https://download.01.org/0day-ci/archive/20250805/202508051423.45TlP4Cp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508051423.45TlP4Cp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   4e05ff4e8e6879032361c40f33178eee80d85dfe
+commit: 4e05ff4e8e6879032361c40f33178eee80d85dfe [26/26] nfsd: add data structures for handling CB_NOTIFY to directory delegation
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250805/202508051446.wydhCF99-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508051446.wydhCF99-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508051423.45TlP4Cp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508051446.wydhCF99-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku0.dtb: dp-bridge@5c (ite,it6505): 'extcon' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku1.dtb: dp-bridge@5c (ite,it6505): 'extcon' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-chinchou-sku16.dtb: dp-bridge@5c (ite,it6505): 'extcon' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+All warnings (new ones prefixed by >>):
+
+>> fs/nfsd/nfs4state.c:1054:28: warning: 'nfsd_refstr_from_qstr' defined but not used [-Wunused-function]
+    1054 | static struct nfsd_refstr *nfsd_refstr_from_qstr(struct qstr *q)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/nfsd_refstr_from_qstr +1054 fs/nfsd/nfs4state.c
+
+  1052	
+  1053	
+> 1054	static struct nfsd_refstr *nfsd_refstr_from_qstr(struct qstr *q)
+  1055	{
+  1056		struct nfsd_refstr *nr;
+  1057	
+  1058		nr = kmalloc(sizeof(*nr) + q->len + 1, GFP_KERNEL);
+  1059		if (nr) {
+  1060			memcpy(&nr->nr_str, q->name, q->len);
+  1061			nr->nr_str[q->len + 1] = '\0';
+  1062		}
+  1063		return nr;
+  1064	}
+  1065	
 
 -- 
 0-DAY CI Kernel Test Service
