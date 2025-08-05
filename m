@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E760A41;
-	Tue,  5 Aug 2025 01:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329D7632
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Aug 2025 03:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754356833; cv=none; b=E8QnHi5+I1NdS39K3oK2K/U4lI0qYcOEVSg80drJBBBYTSSz21bn52gjj9lmtsYVTJvk953CvzW9i/e4DH/Afnrp6Qm232bgkUFLaz0m6cGwBc1Qdp/Ccsv9RTK3HFf8lIw/6AU49344IsnwkpLBJoqyvs9Luh7b9GrV0yUIJ3A=
+	t=1754362862; cv=none; b=FmCdjBd43nE62V6tv2/lQGSVBTWyF6z+JKFnRUW7+qm8Gv6Yu0guiNckbnuwsQd4CiI38sRRbaDrfGtJww1kb7KVSdZGXK4NWrjSLuY6egPS1yDz58rVSZvxCjPCL/QJaXOl2d8JrE8mq9TzoCLaeabAuJ+yePTLaSFAEjOO9m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754356833; c=relaxed/simple;
-	bh=3TK5NuTlj5f5BuNbmc030Sp7GuaGongNzpzt5+AGsiQ=;
+	s=arc-20240116; t=1754362862; c=relaxed/simple;
+	bh=ZXHVKboxZCUL9h+KgMtC7Irea7q6xHcBT3Z1wq8He2U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m2lbFWAwNAy9bkfYTmqlgRd7OSXpFb3B1I/JTWIZTZx6dQjqFU3l3wxs9AeBwUtN/CXq9aHLikD4q0l4mhtEDHSs0VerFoYBX4OmCNLzIOVHAqFmQsypfLrWLs0KoyYATGBOK4eWut01HgCUxSyViTFbj1j8Cj/orEL3VtTexX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRz+G05x; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=f873PoniZtqvcP0ZMA8mzdn1hOZDU/JqgQDio6IZgwJb3XKX/3NCUWcmrlL1vFL4nlxemYljRMTbLeS17KmUhyrPJ+nKlwm2qbiB/0KqN3AMVaUITA85gQ6njNR1SzFXek5HvUBqNmJ0XOBPMd6R7BtY79XT1eTSwzclqe8Hn9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIeRSR5r; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRz+G05x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIeRSR5r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754356832; x=1785892832;
+  t=1754362860; x=1785898860;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3TK5NuTlj5f5BuNbmc030Sp7GuaGongNzpzt5+AGsiQ=;
-  b=fRz+G05xv37uFjgZiSptvR77hmm9olvIDkXNqWTWUF/4dOqePiQLyyjg
-   P/szfHtPrJUhjRw/rHACLWRAqyDSThhfFBDlimagrxPMW/+wyqNGxf5HM
-   KYzbKX4aE6T/nGUASD0L5CO+py2hUHCkhaUfch1CMp9j2mPOwTek6F2wc
-   l4BOqG+Y3B27NwpxWw7/c1lIWeiEhJDe33qa5dPK05w6HhvWiy9EIvQTQ
-   CuqFNL+fq5tZUF92t62+Y5wsKqC0pHHnNhid8sy0lEDCTAB/ZeAUmAzdc
-   y0fJlhoVE1rPzev3ak9EteMxDHnIgF7DCkjPiW+GgujS6QBiIlEd/tqod
+  bh=ZXHVKboxZCUL9h+KgMtC7Irea7q6xHcBT3Z1wq8He2U=;
+  b=PIeRSR5rDKGP7Y67fZ5DHQOfCh0b8fT2PYZ65kbHQzpM24yoXSDHPskE
+   RAdNe1/O2L4VGllMeFbFzFpXj6VfbvEKzRU+ESTsJfKxoVGZ+oj3kiIi0
+   wh7IcMQBtv494UzOFi3krnTQhkT+wHn62GBqFZ2iso5HiLQBusHsUQYhK
+   O+Btyj+cB4Db3ivRebkLqZeU7fUIZHRmndlEODJgvZY8SPJU41wGjGgM7
+   WcaN/r4aZMb/wgweatUsazDg3EySjyXEH4Vz7+WMnrBo5Qr1YZvpJVxkE
+   W+oxZsAAcl3Xaz35AH5GEIkf0j202xLVnxODTP+iSckmiLMF8yOkOCCEe
    w==;
-X-CSE-ConnectionGUID: VUGL8bK/QJe/vge+XbL2SA==
-X-CSE-MsgGUID: xvvVy4vrToytHUp0OOqFlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="55843761"
+X-CSE-ConnectionGUID: 4hxP5r+UQd28t6Jia9AlfQ==
+X-CSE-MsgGUID: ux3XFVBESM+NWdsWHjUj3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="74221571"
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="55843761"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 18:20:31 -0700
-X-CSE-ConnectionGUID: /GTsUFOLQuetAzXaQ8WgQQ==
-X-CSE-MsgGUID: e6SRY+l7QU2EFzanGKwSEQ==
+   d="scan'208";a="74221571"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2025 20:00:59 -0700
+X-CSE-ConnectionGUID: p82xninsQnmUju91KzndHw==
+X-CSE-MsgGUID: hXoldjfMQ66cEZV5t1SFHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; 
-   d="scan'208";a="168508367"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 04 Aug 2025 18:20:30 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="165132059"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa010.fm.intel.com with ESMTP; 04 Aug 2025 20:00:59 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uj6Ls-0000MN-11;
-	Tue, 05 Aug 2025 01:20:28 +0000
-Date: Tue, 5 Aug 2025 09:19:56 +0800
+	id 1uj7v6-0001uR-1V;
+	Tue, 05 Aug 2025 03:00:56 +0000
+Date: Tue, 5 Aug 2025 05:00:38 +0200
 From: kernel test robot <lkp@intel.com>
-To: Janne Grunau <j@jannau.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/250-aop 58/85] warning: associated items `zeroed`
- and `as_raw` are never used
-Message-ID: <202508050919.LC8FqyKy-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1743/1743]
+ arch/x86/kernel/cpu/cacheinfo.c:685:6: warning: no previous prototype for
+ 'cacheinfo_hygon_init_llc_id'
+Message-ID: <202508050522.5Dp2I0DP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,34 +63,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   800be80e4ce2e4872e0d8f2716b2b7c79a0511ef
-commit: 589bf67694fd455396952ab520e7219e3b2ae481 [58/85] rust: io: resource: Add owned Resource initialiser
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250805/202508050919.LC8FqyKy-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508050919.LC8FqyKy-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5c1061eccd6b1d6c12741278240a2b93ff91a0a8
+commit: 1a0525a3d6d3c9c8effb3ae49581ef8ef99d8b26 [1743/1743] x86/cpu: Get cache info and setup cache cpumap for Hygon Dhyana
+config: x86_64-buildonly-randconfig-2004-20250802 (https://download.01.org/0day-ci/archive/20250805/202508050522.5Dp2I0DP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250805/202508050522.5Dp2I0DP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508050919.LC8FqyKy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508050522.5Dp2I0DP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: associated items `zeroed` and `as_raw` are never used
-   --> rust/kernel/io/resource.rs:93:19
-   |
-   91  | impl Resource {
-   | ------------- associated items in this implementation
-   92  |     /// Create a new zeroed [`Resource`]
-   93  |     pub(crate) fn zeroed() -> Self {
-   |                   ^^^^^^
-   ...
-   100 |     pub(crate) fn as_raw(&self) -> *mut bindings::resource {
-   |                   ^^^^^^
-   |
-   = note: `#[warn(dead_code)]` on by default
+   arch/x86/kernel/cpu/cacheinfo.c:647:6: warning: no previous prototype for 'cacheinfo_amd_init_llc_id' [-Wmissing-prototypes]
+     647 | void cacheinfo_amd_init_llc_id(struct cpuinfo_x86 *c, int cpu, u8 node_id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/cacheinfo.c:685:6: warning: no previous prototype for 'cacheinfo_hygon_init_llc_id' [-Wmissing-prototypes]
+     685 | void cacheinfo_hygon_init_llc_id(struct cpuinfo_x86 *c, int cpu, u8 node_id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/cacheinfo.c: In function 'amd_cpuid4':
+   arch/x86/kernel/cpu/cacheinfo.c:249:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     249 |                 l1 = &l1i;
+         |                 ~~~^~~~~~
+   arch/x86/kernel/cpu/cacheinfo.c:250:9: note: here
+     250 |         case 0:
+         |         ^~~~
+
+
+vim +/cacheinfo_hygon_init_llc_id +685 arch/x86/kernel/cpu/cacheinfo.c
+
+   684	
+ > 685	void cacheinfo_hygon_init_llc_id(struct cpuinfo_x86 *c, int cpu, u8 node_id)
+   686	{
+   687		/*
+   688		 * We may have multiple LLCs if L3 caches exist, so check if we
+   689		 * have an L3 cache by looking at the L3 cache CPUID leaf.
+   690		 */
+   691		if (!cpuid_edx(0x80000006))
+   692			return;
+   693	
+   694		/*
+   695		 * LLC is at the core complex level.
+   696		 * Core complex ID is ApicId[3] for these processors.
+   697		 */
+   698		per_cpu(cpu_llc_id, cpu) = c->apicid >> 3;
+   699	}
+   700	
 
 -- 
 0-DAY CI Kernel Test Service
