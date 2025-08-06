@@ -1,59 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7884127470
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 22:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A515927470;
+	Wed,  6 Aug 2025 22:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754518629; cv=none; b=Tcxp7FZNQhx9TvBojkh1xe5s2lPxIDtRNsR20goAao+aUf8z1M3HlYcWzh/Z7uUZIFNaoGP7elU0I8nxcTNJt7gWSAvj810vLI+GCdZBgu/sTA7qRrPxHiz9z3sXAV3h8iMFXgQv+eHK6ang9JChe+pq9f3HimT2gwA+cpHYuz0=
+	t=1754518780; cv=none; b=ANphS2D9sLgyrD7W+y/DHDwEAPoGtnyyiOPpAxm4l5txTXhG0kXuYLi+MT+UuKeF2Km4J5ugNcp2CW3FjwRQLA4dweEXse7yPkPV88rO5qey02k1J1vdIwXg8Y/kZVUEvRGVXuejvB8MLy2RgVVnLPSZg2mCj5mPsojKdpoFR9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754518629; c=relaxed/simple;
-	bh=OLLGkl7v/GntKsUgO1dpoauem9fix5440e5vm+xw2Nk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cJfFzNVT1mvpjrat1tELv35ww3JIKDNsJqlbcRzuC70u6ZJB9AtFkdqYcp7tB5QnBKkLNSx2nikBMAaVbsRuR82uoUKTYKuZqUTcM2hsbrZ5fpGBsq0jwYl+WAyuBx7dkSF0HhyAiHphdrGcosYfZhGo77KwGJAUF9cKyH3kkuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0ugIIbA; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754518780; c=relaxed/simple;
+	bh=yEqWEe7fKZL9wI174QfVtk/Gwqa6G81uHG2fSIPPD/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p11uMfj8e0lL2ZJV6ywKfZklRAW9YMG8TsWwA/GKfeSMEcnUFpXiieIYpBxkcQqWalVimmzwJUBidDAn/fXjYT8LwC5ZTTWEgFLyp9SKKd5j/XvmiHTHI/MtbHX5zY/vC9Y70Y942nUiYd9UsYfg6eGrbO57j3xUFU3acqXvFHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHLLHCvB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0ugIIbA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754518628; x=1786054628;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OLLGkl7v/GntKsUgO1dpoauem9fix5440e5vm+xw2Nk=;
-  b=P0ugIIbA1VLgoB8S/G2Mf8srAs4CBcoPBQNuh4xao/Tbz5JX0iUEOJXV
-   y15VSJ7GIsmg1ivUAvF8OIzoR1wSR8OkCUQIgfi/cDwvJFsJiTbz+J989
-   XX254LVJ4mknCd/kfFYEafgVOr25poWYlsdlhvyK5Mb2BTDdP1+OGYS6K
-   xcNt13cmmb6bE7eC1GdPvUr+rg1z9jvE8f4Qrisp5tHIv3HsUMTYPoOUY
-   XJxOHFsTkokCZzhKBmOpbnrBEyg9CHn0AQW3PWO2XFkNoHrnV8yluBXfR
-   cFZgaU/oLU75Wua1mi+TiSWqqMXDD41kK0TkI7plPI6FwTOEKu6yhFFna
-   Q==;
-X-CSE-ConnectionGUID: YFTPgGs/RmqCV9asKTGLoA==
-X-CSE-MsgGUID: NeGc0KqXQB2tV4oG0Hmxeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56927615"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="56927615"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 15:17:07 -0700
-X-CSE-ConnectionGUID: HOOjaaEtQ+Cvy5TzWrOCjg==
-X-CSE-MsgGUID: fMO3c3JoTZK1GwsosIIkAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="188560103"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Aug 2025 15:17:06 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ujmRP-00029S-07;
-	Wed, 06 Aug 2025 22:17:00 +0000
-Date: Thu, 7 Aug 2025 06:16:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1753/1753]
- block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for
- '__bio_stage_hierarchy_start'
-Message-ID: <202508070635.5wrIFk3h-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHLLHCvB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78FBC4CEE7;
+	Wed,  6 Aug 2025 22:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754518780;
+	bh=yEqWEe7fKZL9wI174QfVtk/Gwqa6G81uHG2fSIPPD/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KHLLHCvBe3OZo40BHCtVxsxT6dMCdX9rQWVIa/9UupLGzqjW4cLDrJYw5khQHSSGH
+	 Wpwfi2JGvb95/9dooHH4zcCWdySLAMEM4LNAz5UOY7ozKmkq7dsm5XNHbtBtG8bYYn
+	 frMm5q39mo6fjQ+iahDkrH9N8L4QCJpJEUGvus39+5AHA0P79KVK+BWOPxv2U8XoeY
+	 2W8fS34SmgC5bWT4WKfaUa96L90bt7V4jpnSC15J1A32eXIA5ch8nYzwLkXcw2+55M
+	 EoJz9oKFDa3WjepsWjrZuBhdMbMcgc5Y3R4LL6TGALIcRbQcXKnZmY7zI1ZUOWAmJa
+	 rXqXwlQN7Ca0w==
+Date: Wed, 6 Aug 2025 15:19:35 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Samuel Holland <samuel.holland@sifive.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Jesse Taube <mr.bossman075@gmail.com>
+Subject: Re: ld.lld: error: Function Import: link error: linking module flags
+ 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at
+ 861458), and 'i32 1' from vmlinux.a(net-traces.o at 1004198)
+Message-ID: <20250806221935.GA1397381@ax162>
+References: <202508061842.68gt097v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,91 +46,20 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202508061842.68gt097v-lkp@intel.com>
 
-Hi Yu,
+On Wed, Aug 06, 2025 at 07:06:34PM +0800, kernel test robot wrote:
+...
+> config: riscv-randconfig-002-20250806 (https://download.01.org/0day-ci/archive/20250806/202508061842.68gt097v-lkp@intel.com/config)
+...
+>    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 861458), and 'i32 1' from vmlinux.a(trace.o at 871118)
+>    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 861458), and 'i32 1' from vmlinux.a(memcontrol.o at 876278)
+>    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 861458), and 'i32 1' from vmlinux.a(mballoc.o at 886958)
+> >> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 861458), and 'i32 1' from vmlinux.a(net-traces.o at 1004198)
 
-FYI, the error/warning still remains.
+As this configuration has CONFIG_CMODEL_MEDLOW, I expect
+https://lore.kernel.org/20250710-riscv-restrict-lto-to-medany-v1-1-b1dac9871ecf@kernel.org/
+to avoid this.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   464c0bf980f96a307759f809825ab0a3b59f8b70
-commit: ac91631e9ef7b530c02e40d10085072c08fb4a0a [1753/1753] blk-io-hierarchy: support new stage for bio lifetime
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250807/202508070635.5wrIFk3h-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070635.5wrIFk3h-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508070635.5wrIFk3h-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> block/blk-io-hierarchy/iodump.c:571:7: warning: no previous prototype for '__bio_stage_hierarchy_start' [-Wmissing-prototypes]
-     571 | void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
-         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/preempt.h:5,
-                    from ./arch/arm64/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:81,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from include/linux/seq_file.h:11,
-                    from block/blk-io-hierarchy/iodump.c:14:
-   In function 'check_object_size',
-       inlined from 'check_copy_size' at include/linux/thread_info.h:90:2,
-       inlined from 'copy_from_user' at include/linux/uaccess.h:143:6,
-       inlined from 'threshold_store' at block/blk-io-hierarchy/iodump.c:273:6:
-   include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized [-Wmaybe-uninitialized]
-      59 |                 __check_object_size(ptr, n, to_user);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/thread_info.h: In function 'threshold_store':
-   include/linux/thread_info.h:52:13: note: by argument 1 of type 'const void *' to '__check_object_size' declared here
-      52 | extern void __check_object_size(const void *ptr, unsigned long n,
-         |             ^~~~~~~~~~~~~~~~~~~
-   block/blk-io-hierarchy/iodump.c:267:14: note: 'b' declared here
-     267 |         char b[MAX_BUF_LEN + 1];
-         |              ^
-
-
-vim +/__bio_stage_hierarchy_start +571 block/blk-io-hierarchy/iodump.c
-
-   570	
- > 571	void *__bio_stage_hierarchy_start(struct bio_stage_dump_data *bstage_ddata,
-   572					 loff_t *pos)
-   573	{
-   574		struct pos_data *pdata = &bstage_ddata->pdata;
-   575		struct rq_dump_data *rq_ddata = &bstage_ddata->rq_ddata;
-   576	
-   577	retry:
-   578		if (stage_is_bio(pdata->stage)) {
-   579			struct list_head *list;
-   580			struct bio_dump_data *bio_ddata =
-   581				get_bio_stage_ddata(rq_ddata->q, pdata->stage);
-   582	
-   583			if (!bio_ddata) {
-   584				bio_stage_start_next_stage(bstage_ddata, pos);
-   585				goto retry;
-   586			}
-   587	
-   588			spin_lock_irq(&bio_ddata->lock);
-   589			list = seq_list_start(&bio_ddata->head, pdata->count);
-   590			if (list)
-   591				return list;
-   592	
-   593			spin_unlock_irq(&bio_ddata->lock);
-   594			bio_stage_start_next_stage(bstage_ddata, pos);
-   595			goto retry;
-   596		}
-   597	
-   598		if (pdata->stage == STAGE_BIO &&
-   599		    __rq_hierarchy_start(rq_ddata, pdata->count))
-   600			return bstage_ddata;
-   601	
-   602		return NULL;
-   603	}
-   604	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
