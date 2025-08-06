@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD620171C9;
-	Wed,  6 Aug 2025 07:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC0A1F03FB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 07:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754464723; cv=none; b=GE+LlOya36BU1keW7zqkZRX1VXoCKhhLwvzGL9VQLYhrPB3EKI/Gy1hgQCytcwKZq5nWBaEDItZIfmHMeNimCplGnjhua5RRf9ApRzD2Rf7blE8jUHzpg9na0cBWD2eznxXmKEUgCWWch/6e4gVYiVlo+pdm6qK9ee2XJhksclY=
+	t=1754465792; cv=none; b=jXPp1Wp6AIfNueZ1TIeuWP60sQwbumRbaRIzU/zTZQpThhMXhA47bSXMaXheCHOIhAdVzwtfVvkJ86jWcjsNrvYbNHuaAAhxy4trwvJozMTdmes+87r5HeC1/XbCLPAH0pyDpiryuqek1fonwkysPiRREeckMdu8cRGq4ens3vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754464723; c=relaxed/simple;
-	bh=nNxhoKULW/u7Nvh1p4ZhOqCELveHSO6eUylzpEfTeqE=;
+	s=arc-20240116; t=1754465792; c=relaxed/simple;
+	bh=1/xsipOKXb9o/e/L5ji3i/MbwgZA1R9G3gsSYfiPK1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T8JHSz3d6WHDuR8M4PJ3J6RUHKVvm913KuGH54n/XJzENEpqxgJ/9xI4Azcbc6suGpRKjvZtuhgaqDavJtqMMyiEFDlHrlN3DypoHbYiVDjqT1dujVIgqyM8La80nrMhZ9RJVPUCV3VMkxxkBXyjpwuuV3u6jlqT7tWW/z1/Rlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uh88DQL+; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=jimbi3WgZdDEjMTE8FRHrxrfZWiArupAcQJ5zG7dTmN/aaimnAaHQiXLWikMThkw0Y0L6HwMJYMsyBw784e0OmEoa2T0pKR+XiExF+ipG0h2rGPmAjiZVgXLf0Ysgwe89OaudgEZgUVWJu6zCBofOT+ErCspAdcfn2yxxA0POEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9lgr6Dj; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uh88DQL+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9lgr6Dj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754464722; x=1786000722;
+  t=1754465791; x=1786001791;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nNxhoKULW/u7Nvh1p4ZhOqCELveHSO6eUylzpEfTeqE=;
-  b=Uh88DQL+b1jBCpc8VmN7AffcryBteb0nU1dPwVMIGk9MikCqZJlT9uYp
-   UggS+NybswtPxzSFrx/oF+hFpNJJQ6jEjASIFve+su1Cl057vhy+pKQbO
-   OgMEkZvKznJmUGZPP/JnhamiyAwUMVPcSwtfkN6vGbiLufQjKs47hbMZc
-   nL6hXMK2Pz22AlVobwnRhNqoHKwbxK/gCM1sijbHSa/Bn/MO6o0QTnEPJ
-   svw2bhHdk+OZ2RQz7I36+3/aUBvKF4Tl7MNaVVMx1FlJ/MGyksewB1z1U
-   8/LMs/0UQ+I7nrz8TbsYJEILlaahiGyh+45Pi5O9x1ptVtJzjc6Lm5uIK
-   w==;
-X-CSE-ConnectionGUID: QFYAduCDR72TvEIjgJCHHA==
-X-CSE-MsgGUID: t4hr/Yf7TX24NjI47xKKIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="68147900"
+  bh=1/xsipOKXb9o/e/L5ji3i/MbwgZA1R9G3gsSYfiPK1I=;
+  b=S9lgr6Dj2tIJEl296DWjWsPe3QDwj7HNlYwWhpcO5jLiFBXTHY49qWmS
+   3l+mRZmz++pIcbLFwzOCoHAYA2CDM2xk82YJ9aOhjkIvCDemlwhT80kX4
+   g7QlNCmxGF9Q2qoUPB4d2Kg6YLha/YL30rIfbo7ed+ZXoaMNmXNrFr0I3
+   J37iSRdvnFpL/4uU3fMktUEx8dFRsK1vzn4eUjde3Xl9ysdrs3uHLQGL/
+   UL0HR/VBkTavNMV1g1FC2FA8lIZP+boLxJQramWRLZPYccMzrKW04ioJW
+   Yce+uZ7d9Z1J0E/A5bsv+87Dy/+GO6r2V+hBXGUcwrFc4A6mbLtSnwCuB
+   g==;
+X-CSE-ConnectionGUID: uIwhMm/sRMyWd49hmtHlLg==
+X-CSE-MsgGUID: ypdcyw7ET5+LUR9nerdKVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56911891"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="68147900"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 00:18:40 -0700
-X-CSE-ConnectionGUID: CqvA096ZSvWDZuOfLE9yzg==
-X-CSE-MsgGUID: 8AqaE68FQEWjiOwfSZkBHg==
+   d="scan'208";a="56911891"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 00:36:30 -0700
+X-CSE-ConnectionGUID: VtKUxU1DSnSIAi4Euuvk+Q==
+X-CSE-MsgGUID: R0Gg2YziT5a5DAvnKtDSOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="201879694"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 06 Aug 2025 00:18:38 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="164367474"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 06 Aug 2025 00:36:29 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujYPz-00029j-2C;
-	Wed, 06 Aug 2025 07:18:35 +0000
-Date: Wed, 6 Aug 2025 09:18:07 +0200
+	id 1ujYhG-0001NW-2R;
+	Wed, 06 Aug 2025 07:36:26 +0000
+Date: Wed, 6 Aug 2025 15:35:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: lib/maple_tree.c:4206:20: warning: stack frame size (1064) exceeds
- limit (1024) in 'mas_wr_store_entry'
-Message-ID: <202508060948.H36grbYA-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:vmx/tdx_post_populate 14/14]
+ arch/x86/kvm/svm/sev.c:2253:29: error: too many arguments to function
+ 'copy_page'
+Message-ID: <202508061520.8119nyAa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,99 +63,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   479058002c32b77acac43e883b92174e22c4be2d
-commit: 1fd7c4f3228e9775c97b25a6e5e2420df8cf0e76 maple_tree: convert mas_insert() to preallocate nodes
-date:   11 months ago
-config: um-alldefconfig (https://download.01.org/0day-ci/archive/20250806/202508060948.H36grbYA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060948.H36grbYA-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux vmx/tdx_post_populate
+head:   f11b520b45d3ae669d6687e82638cea99f40c1fd
+commit: f11b520b45d3ae669d6687e82638cea99f40c1fd [14/14] tmp
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250806/202508061520.8119nyAa-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061520.8119nyAa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508060948.H36grbYA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061520.8119nyAa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   lib/maple_tree.c:351:21: warning: unused function 'mte_set_full' [-Wunused-function]
-     351 | static inline void *mte_set_full(const struct maple_enode *node)
-         |                     ^~~~~~~~~~~~
-   lib/maple_tree.c:356:21: warning: unused function 'mte_clear_full' [-Wunused-function]
-     356 | static inline void *mte_clear_full(const struct maple_enode *node)
-         |                     ^~~~~~~~~~~~~~
-   lib/maple_tree.c:361:20: warning: unused function 'mte_has_null' [-Wunused-function]
-     361 | static inline bool mte_has_null(const struct maple_enode *node)
-         |                    ^~~~~~~~~~~~
-   lib/maple_tree.c:4161:20: warning: unused function 'mas_wr_modify' [-Wunused-function]
-    4161 | static inline void mas_wr_modify(struct ma_wr_state *wr_mas)
-         |                    ^~~~~~~~~~~~~
->> lib/maple_tree.c:4206:20: warning: stack frame size (1064) exceeds limit (1024) in 'mas_wr_store_entry' [-Wframe-larger-than]
-    4206 | static inline void mas_wr_store_entry(struct ma_wr_state *wr_mas)
-         |                    ^
-   lib/maple_tree.c:3783:21: warning: stack frame size (1032) exceeds limit (1024) in 'mas_wr_spanning_store' [-Wframe-larger-than]
-    3783 | static noinline int mas_wr_spanning_store(struct ma_wr_state *wr_mas)
-         |                     ^
-   6 warnings generated.
+   arch/x86/kvm/svm/sev.c: In function 'sev_gmem_post_populate':
+>> arch/x86/kvm/svm/sev.c:2253:29: error: too many arguments to function 'copy_page'
+    2253 |                         if (copy_page(vaddr, src + i * PAGE_SIZE, PAGE_SIZE)) {
+         |                             ^~~~~~~~~
+   In file included from arch/x86/include/asm/page.h:12,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/smp.h:118,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/kvm_types.h:23,
+                    from arch/x86/kvm/svm/sev.c:11:
+   arch/x86/include/asm/page_64.h:62:6: note: declared here
+      62 | void copy_page(void *to, void *from);
+         |      ^~~~~~~~~
+>> arch/x86/kvm/svm/sev.c:2253:29: error: void value not ignored as it ought to be
+    2253 |                         if (copy_page(vaddr, src + i * PAGE_SIZE, PAGE_SIZE)) {
+         |                             ^~~~~~~~~
 
 
-vim +/mas_wr_store_entry +4206 lib/maple_tree.c
+vim +/copy_page +2253 arch/x86/kvm/svm/sev.c
 
-54a611b605901c Liam R. Howlett 2022-09-06  4198  
-54a611b605901c Liam R. Howlett 2022-09-06  4199  /*
-54a611b605901c Liam R. Howlett 2022-09-06  4200   * mas_wr_store_entry() - Internal call to store a value
-54a611b605901c Liam R. Howlett 2022-09-06  4201   * @mas: The maple state
-54a611b605901c Liam R. Howlett 2022-09-06  4202   * @entry: The entry to store.
-54a611b605901c Liam R. Howlett 2022-09-06  4203   *
-54a611b605901c Liam R. Howlett 2022-09-06  4204   * Return: The contents that was stored at the index.
-54a611b605901c Liam R. Howlett 2022-09-06  4205   */
-739820a6178b03 JaeJoon Jung    2024-06-14 @4206  static inline void mas_wr_store_entry(struct ma_wr_state *wr_mas)
-54a611b605901c Liam R. Howlett 2022-09-06  4207  {
-54a611b605901c Liam R. Howlett 2022-09-06  4208  	struct ma_state *mas = wr_mas->mas;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4209  	unsigned char new_end = mas_wr_new_end(wr_mas);
-54a611b605901c Liam R. Howlett 2022-09-06  4210  
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4211  	switch (mas->store_type) {
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4212  	case wr_invalid:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4213  		MT_BUG_ON(mas->tree, 1);
-739820a6178b03 JaeJoon Jung    2024-06-14  4214  		return;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4215  	case wr_new_root:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4216  		mas_new_root(mas, wr_mas->entry);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4217  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4218  	case wr_store_root:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4219  		mas_store_root(mas, wr_mas->entry);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4220  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4221  	case wr_exact_fit:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4222  		rcu_assign_pointer(wr_mas->slots[mas->offset], wr_mas->entry);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4223  		if (!!wr_mas->entry ^ !!wr_mas->content)
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4224  			mas_update_gap(mas);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4225  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4226  	case wr_append:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4227  		mas_wr_append(wr_mas, new_end);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4228  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4229  	case wr_slot_store:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4230  		mas_wr_slot_store(wr_mas);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4231  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4232  	case wr_node_store:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4233  		mas_wr_node_store(wr_mas, new_end);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4234  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4235  	case wr_spanning_store:
-54a611b605901c Liam R. Howlett 2022-09-06  4236  		mas_wr_spanning_store(wr_mas);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4237  		break;
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4238  	case wr_split_store:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4239  	case wr_rebalance:
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4240  		mas_wr_bnode(wr_mas);
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4241  		break;
-54a611b605901c Liam R. Howlett 2022-09-06  4242  	}
-54a611b605901c Liam R. Howlett 2022-09-06  4243  
-580fcbd67ce2cd Sidhartha Kumar 2024-08-14  4244  	return;
-54a611b605901c Liam R. Howlett 2022-09-06  4245  }
-54a611b605901c Liam R. Howlett 2022-09-06  4246  
-
-:::::: The code at line 4206 was first introduced by commit
-:::::: 739820a6178b03b1b6b99a467c85e9e7146d51c1 maple_tree: modified return type of mas_wr_store_entry()
-
-:::::: TO: JaeJoon Jung <rgbi3307@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+  2224	
+  2225	static int sev_gmem_post_populate(struct kvm *kvm, gfn_t gfn_start, kvm_pfn_t pfn,
+  2226					  struct page *src, int order, void *opaque)
+  2227	{
+  2228		struct sev_gmem_populate_args *sev_populate_args = opaque;
+  2229		struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
+  2230		int n_private = 0, ret, i;
+  2231		int npages = (1 << order);
+  2232		gfn_t gfn;
+  2233	
+  2234		if (WARN_ON_ONCE(sev_populate_args->type != KVM_SEV_SNP_PAGE_TYPE_ZERO && !src))
+  2235			return -EINVAL;
+  2236	
+  2237		for (gfn = gfn_start, i = 0; gfn < gfn_start + npages; gfn++, i++) {
+  2238			struct sev_data_snp_launch_update fw_args = {0};
+  2239			bool assigned = false;
+  2240			int level;
+  2241	
+  2242			ret = snp_lookup_rmpentry((u64)pfn + i, &assigned, &level);
+  2243			if (ret || assigned) {
+  2244				pr_debug("%s: Failed to ensure GFN 0x%llx RMP entry is initial shared state, ret: %d assigned: %d\n",
+  2245					 __func__, gfn, ret, assigned);
+  2246				ret = ret ? -EINVAL : -EEXIST;
+  2247				goto err;
+  2248			}
+  2249	
+  2250			if (src) {
+  2251				void *vaddr = kmap_local_pfn(pfn + i);
+  2252	
+> 2253				if (copy_page(vaddr, src + i * PAGE_SIZE, PAGE_SIZE)) {
+  2254					ret = -EFAULT;
+  2255					goto err;
+  2256				}
+  2257				kunmap_local(vaddr);
+  2258			}
+  2259	
+  2260			ret = rmp_make_private(pfn + i, gfn << PAGE_SHIFT, PG_LEVEL_4K,
+  2261					       sev_get_asid(kvm), true);
+  2262			if (ret)
+  2263				goto err;
+  2264	
+  2265			n_private++;
+  2266	
+  2267			fw_args.gctx_paddr = __psp_pa(sev->snp_context);
+  2268			fw_args.address = __sme_set(pfn_to_hpa(pfn + i));
+  2269			fw_args.page_size = PG_LEVEL_TO_RMP(PG_LEVEL_4K);
+  2270			fw_args.page_type = sev_populate_args->type;
+  2271	
+  2272			ret = __sev_issue_cmd(sev_populate_args->sev_fd, SEV_CMD_SNP_LAUNCH_UPDATE,
+  2273					      &fw_args, &sev_populate_args->fw_error);
+  2274			if (ret)
+  2275				goto fw_err;
+  2276		}
+  2277	
+  2278		return 0;
+  2279	
+  2280	fw_err:
+  2281		/*
+  2282		 * If the firmware command failed handle the reclaim and cleanup of that
+  2283		 * PFN specially vs. prior pages which can be cleaned up below without
+  2284		 * needing to reclaim in advance.
+  2285		 *
+  2286		 * Additionally, when invalid CPUID function entries are detected,
+  2287		 * firmware writes the expected values into the page and leaves it
+  2288		 * unencrypted so it can be used for debugging and error-reporting.
+  2289		 *
+  2290		 * Copy this page back into the source buffer so userspace can use this
+  2291		 * information to provide information on which CPUID leaves/fields
+  2292		 * failed CPUID validation.
+  2293		 */
+  2294		if (!snp_page_reclaim(kvm, pfn + i) &&
+  2295		    sev_populate_args->type == KVM_SEV_SNP_PAGE_TYPE_CPUID &&
+  2296		    sev_populate_args->fw_error == SEV_RET_INVALID_PARAM) {
+  2297			void *vaddr = kmap_local_pfn(pfn + i);
+  2298	
+  2299			if (copy_to_user(src + i * PAGE_SIZE, vaddr, PAGE_SIZE))
+  2300				pr_debug("Failed to write CPUID page back to userspace\n");
+  2301	
+  2302			kunmap_local(vaddr);
+  2303		}
+  2304	
+  2305		/* pfn + i is hypervisor-owned now, so skip below cleanup for it. */
+  2306		n_private--;
+  2307	
+  2308	err:
+  2309		pr_debug("%s: exiting with error ret %d (fw_error %d), restoring %d gmem PFNs to shared.\n",
+  2310			 __func__, ret, sev_populate_args->fw_error, n_private);
+  2311		for (i = 0; i < n_private; i++)
+  2312			kvm_rmp_make_shared(kvm, pfn + i, PG_LEVEL_4K);
+  2313	
+  2314		return ret;
+  2315	}
+  2316	
 
 -- 
 0-DAY CI Kernel Test Service
