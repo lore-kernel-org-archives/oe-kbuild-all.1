@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361DE23FC4C;
-	Wed,  6 Aug 2025 10:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9C41FDD
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 10:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754475923; cv=none; b=qNOtNDBL5xGARTQCZF5EdEySCWE7wz6GgmKo1WNKlO4hIwfC9FG8otm5CkogpSDiO2QrjHeO3qdpga64XFS6v+7REBbl7YoBiU9lONt1afIvqMHiLZD+odaCCKUBLy9BxqtqYNaphC8KkTcDRrjkhvOuSle4WGJmz7JFsNQe0Mk=
+	t=1754476432; cv=none; b=vF3Nv/+XvAcB6+nJgTmzkAdWeNwA8ER9/Uc3Ugu3RT0spsLJ9BiyQKBCfmDgVp2RuXuA/pG8qmSoDmSGg7zbIZOXS4OC9qtxnkV5kbjA1AgHSLbO6OlWUzAd9xHnar9PL2qO0FhOlUVXBTEFBFzuU/8DUpnsXvjkEslfD83cEZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754475923; c=relaxed/simple;
-	bh=lQuKRNOdyBLCKnmOXaLObB146vsfWcL0sWyfJEa5yo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dfGgu6CTzL26tTHaq4lAaatpM93I0Oha1E8fZBtcrKN5Ce5TA0OpotWMbaWR4Z0Thk6BpfG0wcc7QaFzkbn+ZwGtCK78eIffUladTReA+on1v36OFVABugA5KTLO+TL8V15LUQHZhgaSP2EtER4F+yEM5luZ2FXEzOC3/XSSBFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEYm2b/x; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1754476432; c=relaxed/simple;
+	bh=iQUdtUr1tBjEmUQdqXR6nZ4qOO686FNhpnCiELZhBxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ue3GtLKHOmaUsPQWGynayuUiJkZQoaR+Yzq6Hd+o8usjExDNapnAbC0rRt0GEMG8TXKuMpBUap1D53OcgB9WIadSrcYqofH4cWxH9SuInZk0NYYoUqkLFuhwD7dCgiUpm/0BDdXKiXMIYRGHpBlmSc8oXH8FqVZ8cWXbvVE8rOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Peb/o64t; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEYm2b/x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Peb/o64t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754475921; x=1786011921;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lQuKRNOdyBLCKnmOXaLObB146vsfWcL0sWyfJEa5yo8=;
-  b=AEYm2b/xTxyQu/CUGCjKkZnakRNsgBDSZ2sHCszulmZJExwXAj4fiSH5
-   gPf4Cqp54CoRGSiqpH9mIGJIczDmkJhWBG40IQhVD06HpdQvBi6/7sUFL
-   UY/qfneE66c14CpU+TjjkxoDQBERWnw5gOi7y/JzAtATan7Yzm+M5wfRk
-   sNtIqMo0nntviY/9sC2G1vRKS1k4oeCAqY3ldsXTdg0pYmHvugv4l1L0Y
-   +4mT9QhHudD4fsM6oNN9E37HyJy6B6d9NDHmEm5iz8oLsjxwrgY9xWldp
-   fTucpi02PczgiZEEhplpSUtHNmij6QwFqixp0l7w19VPW1vBO7/ntBv34
-   w==;
-X-CSE-ConnectionGUID: RSZA2vqRQSm/nq042sCjEQ==
-X-CSE-MsgGUID: WqDa/3F9T9+2g0qO57X3Kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="79337038"
+  t=1754476431; x=1786012431;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iQUdtUr1tBjEmUQdqXR6nZ4qOO686FNhpnCiELZhBxo=;
+  b=Peb/o64tw/hlnt0ebj/yJuMk4pIFvRAFcUSPH36BSji5psJW8bdMBcS8
+   IjfoejIpyd0klUgsLofmsJKNlQ45uoj8ALYxDsvpNcNjM+jolgShqKd90
+   pvT1/bQ2gdbXLxlu+L6fzpPx/yXvcpvxPPgNm34+ie+XY9ZYyXIQzmKh/
+   vqZctNH1BvzLihmj0Zbj/alB1vETEsYcUSLAELS68XE0C5MIFPL6cUa73
+   k6jJJ/bWWTQ2EKSQdR5k6L/bVOL8npuVE8KgXYo7NxruDOYAKLQCJ9b/5
+   h8rRPn8dFVdOrQPKppovCaumIsaiUfcl9Tis1dz5F2GMkXeOqybtwfgVR
+   Q==;
+X-CSE-ConnectionGUID: ply4pgF/TpyTPdlsGvJYFA==
+X-CSE-MsgGUID: Q+kNKe5TSUyd+PuMh6mWuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="67056083"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="79337038"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 03:25:21 -0700
-X-CSE-ConnectionGUID: Z6/6PeVJTYOIZNPtcxitnA==
-X-CSE-MsgGUID: HS2lCiJCTYaqt9oompwpvQ==
+   d="scan'208";a="67056083"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 03:33:50 -0700
+X-CSE-ConnectionGUID: 2vXArbLrQeaNlqr6xdGP2g==
+X-CSE-MsgGUID: b1d5dWYKQoe3PMb8spqL5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="195579330"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Aug 2025 03:25:18 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="165510795"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa010.fm.intel.com with ESMTP; 06 Aug 2025 03:33:49 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujbKW-0001Xe-0I;
-	Wed, 06 Aug 2025 10:25:11 +0000
-Date: Wed, 6 Aug 2025 18:24:15 +0800
+	id 1ujbSt-0002Bv-1J;
+	Wed, 06 Aug 2025 10:33:47 +0000
+Date: Wed, 6 Aug 2025 12:33:14 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ricky Wu <ricky_wu@realtek.com>, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org, chenhuacai@kernel.org,
-	ulf.hansson@linaro.org, maximlevitsky@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] misc: rtsx: usb card reader: add OCP support
-Message-ID: <202508061704.hwI8epAJ-lkp@intel.com>
-References: <20250805032220.2355160-1-ricky_wu@realtek.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kbusch:kbusch/nvme-virt-boundaries 13/17] block/blk-mq-dma.c:18:39:
+ error: 'struct bio' has no member named 'bi_integrity'
+Message-ID: <202508061200.u0crhNro-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,96 +61,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250805032220.2355160-1-ricky_wu@realtek.com>
 
-Hi Ricky,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master next-20250806]
-[cannot apply to soc/for-next ulf-hansson-mmc-mirror/next v6.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ricky-Wu/misc-rtsx-usb-card-reader-add-OCP-support/20250806-101802
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20250805032220.2355160-1-ricky_wu%40realtek.com
-patch subject: [PATCH] misc: rtsx: usb card reader: add OCP support
-config: i386-buildonly-randconfig-001-20250806 (https://download.01.org/0day-ci/archive/20250806/202508061704.hwI8epAJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061704.hwI8epAJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kbusch/linux.git kbusch/nvme-virt-boundaries
+head:   6586a1a5cd6772594c5afbc077979c8e370ae265
+commit: 20aeb67ff13e29203779874125598410a09baf56 [13/17] blk-mq-dma: add support for mapping integrity metadata
+config: powerpc-adder875_defconfig (https://download.01.org/0day-ci/archive/20250806/202508061200.u0crhNro-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061200.u0crhNro-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508061704.hwI8epAJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061200.u0crhNro-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mmc/host/rtsx_usb_sdmmc.c:1054:7: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1054 |                 if (!(host->ocp_stat & (MS_OCP_NOW | MS_OCP_EVER)))
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/rtsx_usb_sdmmc.c:1056:7: note: uninitialized use occurs here
-    1056 |                 if (err)
-         |                     ^~~
-   drivers/mmc/host/rtsx_usb_sdmmc.c:1054:3: note: remove the 'if' if its condition is always true
-    1054 |                 if (!(host->ocp_stat & (MS_OCP_NOW | MS_OCP_EVER)))
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1055 |                         err = sd_power_on(host);
-   drivers/mmc/host/rtsx_usb_sdmmc.c:1038:9: note: initialize the variable 'err' to silence this warning
-    1038 |         int err;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   block/blk-mq-dma.c: In function '__blk_map_iter_next':
+>> block/blk-mq-dma.c:18:39: error: 'struct bio' has no member named 'bi_integrity'
+      18 |                 iter->iter = iter->bio->bi_integrity->bip_iter;
+         |                                       ^~
+   block/blk-mq-dma.c:19:39: error: 'struct bio' has no member named 'bi_integrity'
+      19 |                 iter->bvec = iter->bio->bi_integrity->bip_vec;
+         |                                       ^~
 
 
-vim +1054 drivers/mmc/host/rtsx_usb_sdmmc.c
+vim +18 block/blk-mq-dma.c
 
-  1034	
-  1035	static void sd_set_power_mode(struct rtsx_usb_sdmmc *host,
-  1036			unsigned char power_mode)
-  1037	{
-  1038		int err;
-  1039		struct rtsx_ucr *ucr = host->ucr;
-  1040	
-  1041		if (power_mode == host->power_mode)
-  1042			return;
-  1043	
-  1044		switch (power_mode) {
-  1045		case MMC_POWER_OFF:
-  1046			err = sd_power_off(host);
-  1047			if (err)
-  1048				dev_dbg(sdmmc_dev(host), "power-off (err = %d)\n", err);
-  1049			pm_runtime_put_noidle(sdmmc_dev(host));
-  1050			break;
-  1051	
-  1052		case MMC_POWER_UP:
-  1053			pm_runtime_get_noresume(sdmmc_dev(host));
-> 1054			if (!(host->ocp_stat & (MS_OCP_NOW | MS_OCP_EVER)))
-  1055				err = sd_power_on(host);
-  1056			if (err)
-  1057				dev_dbg(sdmmc_dev(host), "power-on (err = %d)\n", err);
-  1058			/* issue the clock signals to card at least 74 clocks */
-  1059			rtsx_usb_write_register(ucr, SD_BUS_STAT, SD_CLK_TOGGLE_EN, SD_CLK_TOGGLE_EN);
-  1060			break;
-  1061	
-  1062		case MMC_POWER_ON:
-  1063			/* stop to send the clock signals */
-  1064			rtsx_usb_write_register(ucr, SD_BUS_STAT, SD_CLK_TOGGLE_EN, 0x00);
-  1065			break;
-  1066	
-  1067		case MMC_POWER_UNDEFINED:
-  1068			break;
-  1069	
-  1070		default:
-  1071			break;
-  1072		}
-  1073	
-  1074		host->power_mode = power_mode;
-  1075	}
-  1076	
+     8	
+     9	static bool __blk_map_iter_next(struct blk_map_iter *iter)
+    10	{
+    11		if (iter->iter.bi_size)
+    12			return true;
+    13		if (!iter->bio || !iter->bio->bi_next)
+    14			return false;
+    15	
+    16		iter->bio = iter->bio->bi_next;
+    17		if (iter->is_integrity) {
+  > 18			iter->iter = iter->bio->bi_integrity->bip_iter;
+    19			iter->bvec = iter->bio->bi_integrity->bip_vec;
+    20		} else {
+    21			iter->iter = iter->bio->bi_iter;
+    22			iter->bvec = iter->bio->bi_io_vec;
+    23		}
+    24		return true;
+    25	}
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
