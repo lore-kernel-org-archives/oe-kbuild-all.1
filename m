@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C6B20469E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 06:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6B72116F4;
+	Wed,  6 Aug 2025 06:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754461661; cv=none; b=gAANbXvAq6Q0di4Z9K28kl/DJkI2gBktSDs/C3bxoueJnfCqDShC8lgsFgz2CPulFpRcugTkolx4xkuRM+POu51V5R8+kEUlbGS7j/hJztZfXHZNEAXR2ZlxajZoe+seHUSlNytlAW3IZn1OqOI/oZB2KUrUA5i2BnJL6b+J648=
+	t=1754463230; cv=none; b=trpwGPgT0vUGy+BROqXONIvAgfOV/5bZKFqLd1T/+LECM3dohFrookczMao/pk82XCL7NwKVq0gek7P8RJOFzVgLM1Sysa0atHb4ZV5+3F+iUmqOr6630ALpepzNMhyTXKG2TY0sg5W88RcaLhs9jUz1YqBcX0gJ+Z5qapPhICk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754461661; c=relaxed/simple;
-	bh=UBnOuuOHOX2RliooY9PseUZTarA3eiPj7/y6gH+ALs8=;
+	s=arc-20240116; t=1754463230; c=relaxed/simple;
+	bh=crE24hj8Eoik0NSSJPzl9GnH8mFS5y7oD6aiLP9y3gw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D9bNDQOQ+f51rL4C/qpPgRyV62thyJZllnwiYSjcQV3ppmdnxZ6ZPaoQ3ytpKMfx5pAA6nlq+Nixd7jEUmRDuSL3pAThdfh7J6+wL2wxIM1jXLhaCYiR42LdHsp06u5FFDUUxYRaSxPHB7r0cuQyFFX6N+b8L6DDyWg9sdfW6xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dSJ8l+VJ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=aOH0BzXZNC6YPUosQK5dtSKaYKpjG/zO+99efx0LRjpjotRyoaJAOVw8qCcE8z7emnPiq4vjd/J1M25oAoisc7l1iaxYDIf4ma/sHUG9We+O7LWenAN1Z6hgg5DX8+TF5PsjDdhus2t2gtxCOtqFrUMLjU6z1wo7ZqD0x1IX3Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7T7HHFU; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dSJ8l+VJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7T7HHFU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754461658; x=1785997658;
+  t=1754463228; x=1785999228;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UBnOuuOHOX2RliooY9PseUZTarA3eiPj7/y6gH+ALs8=;
-  b=dSJ8l+VJUPbFw5QJol+grH/JV1ZmcFOgWbSwPIFXXjXXDTvIWZtmKXHr
-   bG5XAjLq/mcyePWdxB3a+PR+xqcsJIHy1yqcMLFblw6TDNjVpFWLHCaJS
-   XQAg+hjesfcGk1yrjDyywh3RFiAKa70dG9cl2VdAqDglsz6lWxARx4yoE
-   4h7427K6uwK/Yb2D6UcRCiD2xIjFbcV3+PhZimkIGFT9hZQO1FIyWLcf2
-   BUbE/188oXzbHC5zAgG0ZpJKUOQapZ3WQEP25AIUXZcWonClK0IUYU3vN
-   bmWPzXp51dAjbm+RvLFsRDDtjip4NLGbaKeIdF8I4n460JCFwcjJDXnt6
-   A==;
-X-CSE-ConnectionGUID: /VETM9exQzueUr0T8YQ5Jw==
-X-CSE-MsgGUID: RYbxRbf9Q06N6HPX2rRA+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="79317343"
+  bh=crE24hj8Eoik0NSSJPzl9GnH8mFS5y7oD6aiLP9y3gw=;
+  b=A7T7HHFUBFi1Y4/03H1CpulyT2n/duARc0DRruEWQPBTr8/neQ4+h+F+
+   pS1Tc8MyY0yQAHZIRwA5EnWfNMpJLH7SPou+Obnc0jHpvSuWBNGpUjM4l
+   w2T3Sr+HRHDJ0CRMRRz8Go+6OztJet1TumCyxMuK4RUIbEXZpwxesgFYX
+   vJX4UqGlTLxcq4pIvU7OppA/acbEwXJkV/BhPjxcBv0qRT8y7QUGn1u9X
+   1zxlEYRoSgj8hcLtGf9ZnJWtlP+MylqIIrtNcRltQdcW2b6BAdMX+/ngn
+   TqKfkZjtFikEoc5uJQ27ICca/5JGnrz6YvUSM89AgIokDyV1p6Zh/IYER
+   w==;
+X-CSE-ConnectionGUID: dRM/yu4wR1K/AzapQgVnqg==
+X-CSE-MsgGUID: GOP1C2PqQnulUIHBS3L/qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56483664"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="79317343"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 23:27:38 -0700
-X-CSE-ConnectionGUID: Rjt8xqdvTnaX/Z+DPYHaSQ==
-X-CSE-MsgGUID: F4IuNS92SaSH89nWxXXwSg==
+   d="scan'208";a="56483664"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 23:53:47 -0700
+X-CSE-ConnectionGUID: KnsRGmvWTNqD/C0Fgt9nVg==
+X-CSE-MsgGUID: qVf3xPHpRASgTz2qLA1v5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="169142023"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 05 Aug 2025 23:27:35 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="164711262"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 05 Aug 2025 23:53:47 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujXca-00029L-2O;
-	Wed, 06 Aug 2025 06:27:32 +0000
-Date: Wed, 6 Aug 2025 08:27:12 +0200
+	id 1ujY1w-0001M6-14;
+	Wed, 06 Aug 2025 06:53:44 +0000
+Date: Wed, 6 Aug 2025 14:53:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ziyue Zhang <ziyue.zhang@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000
- (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-Message-ID: <202508060850.8u61bAqj-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/250-aop 59/85] 14 | use crate::error::to_result;
+Message-ID: <202508061455.8ckVeMVh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,112 +61,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7881cd6886a89eda848192d3f5759ce08672e084
-commit: fbcbd66fddd2e9ad295d6e3707e2421f062727d5 dt-bindings: PCI: qcom,pcie-sa8775p: Document 'link_down' reset
-date:   5 days ago
-config: arm64-randconfig-2051-20250801 (https://download.01.org/0day-ci/archive/20250806/202508060850.8u61bAqj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060850.8u61bAqj-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   800be80e4ce2e4872e0d8f2716b2b7c79a0511ef
+commit: b8387350530fcbed7c4d7d7840a789fd09501b68 [59/85] rust: of: Add reserved_mem_region_to_resource_byname()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250806/202508061455.8ckVeMVh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061455.8ckVeMVh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508060850.8u61bAqj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061455.8ckVeMVh-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
---
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+All error/warnings (new ones prefixed by >>):
+
+>> warning: unused import: `crate::error::to_result`
+   --> rust/kernel/of.rs:14:5
+   |
+>> 14 | use crate::error::to_result;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
 
 -- 
 0-DAY CI Kernel Test Service
