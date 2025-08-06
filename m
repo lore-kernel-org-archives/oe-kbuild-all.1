@@ -1,58 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8D6209F2E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 09:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361DE23FC4C;
+	Wed,  6 Aug 2025 10:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754473455; cv=none; b=rtoswFYw4w/lcpY3scmG4ujsSHPan1Ui1ksVGGa7sdTO6v80FshXgLmyYBD0T+ctf1BtPZxEwFqaPpKHNpCC+cuQ162M7DwFqW/+jv6u6v2C4K7zn7q0Rz8269DuLqJws9lFwT7OwEjMKszzt9ugmngiPFvmrb50sqHbQ0q/d5E=
+	t=1754475923; cv=none; b=qNOtNDBL5xGARTQCZF5EdEySCWE7wz6GgmKo1WNKlO4hIwfC9FG8otm5CkogpSDiO2QrjHeO3qdpga64XFS6v+7REBbl7YoBiU9lONt1afIvqMHiLZD+odaCCKUBLy9BxqtqYNaphC8KkTcDRrjkhvOuSle4WGJmz7JFsNQe0Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754473455; c=relaxed/simple;
-	bh=0ZV7Y/KILlduvG/MfAwgtD6i5hw6gq1g+DTBIebzwAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LHFBuVncPYht95qhMjtdIbsOVoFqOnrlkf5hGlN/ZrD7jjS/4ZR+vHYETLF9YLPxiNbo9Hi+fJ/GvgoNUdkcBBDvIpgwVDCaxBwOO5QN5y501L3i+42BdyONGvmaoVjyToS2t8MgQBHSb3Y5dtHMDQcj6aNQt2UxVe1NBx3SG2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzgEKv9v; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1754475923; c=relaxed/simple;
+	bh=lQuKRNOdyBLCKnmOXaLObB146vsfWcL0sWyfJEa5yo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dfGgu6CTzL26tTHaq4lAaatpM93I0Oha1E8fZBtcrKN5Ce5TA0OpotWMbaWR4Z0Thk6BpfG0wcc7QaFzkbn+ZwGtCK78eIffUladTReA+on1v36OFVABugA5KTLO+TL8V15LUQHZhgaSP2EtER4F+yEM5luZ2FXEzOC3/XSSBFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEYm2b/x; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzgEKv9v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEYm2b/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754473454; x=1786009454;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0ZV7Y/KILlduvG/MfAwgtD6i5hw6gq1g+DTBIebzwAU=;
-  b=KzgEKv9vGUUyshJ0JAFjc8Z3hbT4j+r9u0Jd6Hcm9gv8Nr8hmMizUkLY
-   iERp71KcY1NsgIuSTZaC4V+dZdQ6CE5Wk9JJyymwowKMw32SkzdxTZlfG
-   aGAyDPXdSMcto2VWYIYbLQ1aTP6+sWMcLj8lM7IAZQ5gIziKxaYromYJn
-   dVE1Zn7/3VWzRvj5calIULChZt/Q0rfCuyLoQxpZsw4MhAgmGps1dvHbt
-   GrbO5pSVfwmEQ4Gk0C3DyIgiiFxZOn3xocweZZy0SRHeR54hdikN1dJ1M
-   kVwPYq32e9qRK37nhde8nyB6H/qS6AgCdK2lPITiVo55Vgv+lLC5sYgXr
+  t=1754475921; x=1786011921;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lQuKRNOdyBLCKnmOXaLObB146vsfWcL0sWyfJEa5yo8=;
+  b=AEYm2b/xTxyQu/CUGCjKkZnakRNsgBDSZ2sHCszulmZJExwXAj4fiSH5
+   gPf4Cqp54CoRGSiqpH9mIGJIczDmkJhWBG40IQhVD06HpdQvBi6/7sUFL
+   UY/qfneE66c14CpU+TjjkxoDQBERWnw5gOi7y/JzAtATan7Yzm+M5wfRk
+   sNtIqMo0nntviY/9sC2G1vRKS1k4oeCAqY3ldsXTdg0pYmHvugv4l1L0Y
+   +4mT9QhHudD4fsM6oNN9E37HyJy6B6d9NDHmEm5iz8oLsjxwrgY9xWldp
+   fTucpi02PczgiZEEhplpSUtHNmij6QwFqixp0l7w19VPW1vBO7/ntBv34
    w==;
-X-CSE-ConnectionGUID: RQxKXfP6TLqRV30ZyZ1xug==
-X-CSE-MsgGUID: GrwOD8x4QEaiOtxQL+iZBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="79333971"
+X-CSE-ConnectionGUID: RSZA2vqRQSm/nq042sCjEQ==
+X-CSE-MsgGUID: WqDa/3F9T9+2g0qO57X3Kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="79337038"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="79333971"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 02:44:14 -0700
-X-CSE-ConnectionGUID: wfZ2XWu8Q+Wy63Wz23fNJQ==
-X-CSE-MsgGUID: uC9l9RppRFS8SdeEfDeuqA==
+   d="scan'208";a="79337038"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 03:25:21 -0700
+X-CSE-ConnectionGUID: Z6/6PeVJTYOIZNPtcxitnA==
+X-CSE-MsgGUID: HS2lCiJCTYaqt9oompwpvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="201901033"
+   d="scan'208";a="195579330"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 06 Aug 2025 02:44:12 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 06 Aug 2025 03:25:18 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujagV-0001UG-2Q;
-	Wed, 06 Aug 2025 09:43:54 +0000
-Date: Wed, 6 Aug 2025 17:42:21 +0800
+	id 1ujbKW-0001Xe-0I;
+	Wed, 06 Aug 2025 10:25:11 +0000
+Date: Wed, 6 Aug 2025 18:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:wip-libcrypto 26/29] fs/smb/server/auth.c:82: undefined
- reference to `hmac_md5_init_usingrawkey'
-Message-ID: <202508061716.tsXPYEkA-lkp@intel.com>
+To: Ricky Wu <ricky_wu@realtek.com>, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org, chenhuacai@kernel.org,
+	ulf.hansson@linaro.org, maximlevitsky@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] misc: rtsx: usb card reader: add OCP support
+Message-ID: <202508061704.hwI8epAJ-lkp@intel.com>
+References: <20250805032220.2355160-1-ricky_wu@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,152 +65,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250805032220.2355160-1-ricky_wu@realtek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-libcrypto
-head:   7fbf88966943cc7f22f9dade58354f59b70be55d
-commit: 4f84d682e6846b063101d09a9228291b5c381255 [26/29] smb: server: Use HMAC-MD5 library instead of crypto_shash
-config: x86_64-randconfig-077-20250806 (https://download.01.org/0day-ci/archive/20250806/202508061716.tsXPYEkA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061716.tsXPYEkA-lkp@intel.com/reproduce)
+Hi Ricky,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master next-20250806]
+[cannot apply to soc/for-next ulf-hansson-mmc-mirror/next v6.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricky-Wu/misc-rtsx-usb-card-reader-add-OCP-support/20250806-101802
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20250805032220.2355160-1-ricky_wu%40realtek.com
+patch subject: [PATCH] misc: rtsx: usb card reader: add OCP support
+config: i386-buildonly-randconfig-001-20250806 (https://download.01.org/0day-ci/archive/20250806/202508061704.hwI8epAJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061704.hwI8epAJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508061716.tsXPYEkA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061704.hwI8epAJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: fs/smb/server/auth.o: in function `calc_ntlmv2_hash':
->> fs/smb/server/auth.c:82: undefined reference to `hmac_md5_init_usingrawkey'
-   ld: fs/smb/server/auth.o: in function `hmac_md5_update':
-   include/crypto/md5.h:164: undefined reference to `md5_update'
->> ld: include/crypto/md5.h:164: undefined reference to `md5_update'
-   ld: fs/smb/server/auth.o: in function `calc_ntlmv2_hash':
->> fs/smb/server/auth.c:119: undefined reference to `hmac_md5_final'
-   ld: fs/smb/server/auth.o: in function `ksmbd_auth_ntlmv2':
-   fs/smb/server/auth.c:152: undefined reference to `hmac_md5_init_usingrawkey'
-   ld: fs/smb/server/auth.o: in function `hmac_md5_update':
-   include/crypto/md5.h:164: undefined reference to `md5_update'
->> ld: include/crypto/md5.h:164: undefined reference to `md5_update'
-   ld: fs/smb/server/auth.o: in function `ksmbd_auth_ntlmv2':
-   fs/smb/server/auth.c:155: undefined reference to `hmac_md5_final'
->> ld: fs/smb/server/auth.c:158: undefined reference to `hmac_md5_usingrawkey'
-   ld: crypto/md5.o: in function `crypto_hmac_md5_setkey':
-   crypto/md5.c:99: undefined reference to `hmac_md5_preparekey'
-   ld: crypto/md5.o: in function `crypto_hmac_md5_digest':
-   crypto/md5.c:125: undefined reference to `hmac_md5'
-   ld: crypto/md5.o: in function `crypto_hmac_md5_final':
-   crypto/md5.c:118: undefined reference to `hmac_md5_final'
-   ld: crypto/md5.o: in function `hmac_md5_update':
-   include/crypto/md5.h:164: undefined reference to `md5_update'
-   ld: crypto/md5.o: in function `crypto_md5_update':
-   crypto/md5.c:66: undefined reference to `md5_update'
-   ld: crypto/md5.o: in function `crypto_hmac_md5_init':
-   crypto/md5.c:105: undefined reference to `hmac_md5_init'
-   ld: crypto/md5.o: in function `crypto_md5_digest':
-   crypto/md5.c:79: undefined reference to `md5'
-   ld: crypto/md5.o: in function `crypto_md5_final':
-   crypto/md5.c:72: undefined reference to `md5_final'
-   ld: crypto/md5.o: in function `crypto_md5_init':
-   crypto/md5.c:59: undefined reference to `md5_init'
+>> drivers/mmc/host/rtsx_usb_sdmmc.c:1054:7: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1054 |                 if (!(host->ocp_stat & (MS_OCP_NOW | MS_OCP_EVER)))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/host/rtsx_usb_sdmmc.c:1056:7: note: uninitialized use occurs here
+    1056 |                 if (err)
+         |                     ^~~
+   drivers/mmc/host/rtsx_usb_sdmmc.c:1054:3: note: remove the 'if' if its condition is always true
+    1054 |                 if (!(host->ocp_stat & (MS_OCP_NOW | MS_OCP_EVER)))
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1055 |                         err = sd_power_on(host);
+   drivers/mmc/host/rtsx_usb_sdmmc.c:1038:9: note: initialize the variable 'err' to silence this warning
+    1038 |         int err;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +82 fs/smb/server/auth.c
+vim +1054 drivers/mmc/host/rtsx_usb_sdmmc.c
 
-    73	
-    74	static int calc_ntlmv2_hash(struct ksmbd_conn *conn, struct ksmbd_session *sess,
-    75				    char *ntlmv2_hash, char *dname)
-    76	{
-    77		int ret = 0, len, conv_len;
-    78		wchar_t *domain = NULL;
-    79		__le16 *uniname = NULL;
-    80		struct hmac_md5_ctx ctx;
-    81	
-  > 82		hmac_md5_init_usingrawkey(&ctx, user_passkey(sess->user),
-    83					  CIFS_ENCPWD_SIZE);
-    84	
-    85		/* convert user_name to unicode */
-    86		len = strlen(user_name(sess->user));
-    87		uniname = kzalloc(2 + UNICODE_LEN(len), KSMBD_DEFAULT_GFP);
-    88		if (!uniname) {
-    89			ret = -ENOMEM;
-    90			goto out;
-    91		}
-    92	
-    93		conv_len = smb_strtoUTF16(uniname, user_name(sess->user), len,
-    94					  conn->local_nls);
-    95		if (conv_len < 0 || conv_len > len) {
-    96			ret = -EINVAL;
-    97			goto out;
-    98		}
-    99		UniStrupr(uniname);
-   100	
-   101		hmac_md5_update(&ctx, (const u8 *)uniname, UNICODE_LEN(conv_len));
-   102	
-   103		/* Convert domain name or conn name to unicode and uppercase */
-   104		len = strlen(dname);
-   105		domain = kzalloc(2 + UNICODE_LEN(len), KSMBD_DEFAULT_GFP);
-   106		if (!domain) {
-   107			ret = -ENOMEM;
-   108			goto out;
-   109		}
-   110	
-   111		conv_len = smb_strtoUTF16((__le16 *)domain, dname, len,
-   112					  conn->local_nls);
-   113		if (conv_len < 0 || conv_len > len) {
-   114			ret = -EINVAL;
-   115			goto out;
-   116		}
-   117	
-   118		hmac_md5_update(&ctx, (const u8 *)domain, UNICODE_LEN(conv_len));
- > 119		hmac_md5_final(&ctx, ntlmv2_hash);
-   120	out:
-   121		kfree(uniname);
-   122		kfree(domain);
-   123		return ret;
-   124	}
-   125	
-   126	/**
-   127	 * ksmbd_auth_ntlmv2() - NTLMv2 authentication handler
-   128	 * @conn:		connection
-   129	 * @sess:		session of connection
-   130	 * @ntlmv2:		NTLMv2 challenge response
-   131	 * @blen:		NTLMv2 blob length
-   132	 * @domain_name:	domain name
-   133	 * @cryptkey:		session crypto key
-   134	 *
-   135	 * Return:	0 on success, error number on error
-   136	 */
-   137	int ksmbd_auth_ntlmv2(struct ksmbd_conn *conn, struct ksmbd_session *sess,
-   138			      struct ntlmv2_resp *ntlmv2, int blen, char *domain_name,
-   139			      char *cryptkey)
-   140	{
-   141		char ntlmv2_hash[CIFS_ENCPWD_SIZE];
-   142		char ntlmv2_rsp[CIFS_HMAC_MD5_HASH_SIZE];
-   143		struct hmac_md5_ctx ctx;
-   144		int rc;
-   145	
-   146		rc = calc_ntlmv2_hash(conn, sess, ntlmv2_hash, domain_name);
-   147		if (rc) {
-   148			ksmbd_debug(AUTH, "could not get v2 hash rc %d\n", rc);
-   149			return rc;
-   150		}
-   151	
-   152		hmac_md5_init_usingrawkey(&ctx, ntlmv2_hash, CIFS_HMAC_MD5_HASH_SIZE);
-   153		hmac_md5_update(&ctx, cryptkey, CIFS_CRYPTO_KEY_SIZE);
-   154		hmac_md5_update(&ctx, (const u8 *)&ntlmv2->blob_signature, blen);
-   155		hmac_md5_final(&ctx, ntlmv2_rsp);
-   156	
-   157		/* Generate the session key */
- > 158		hmac_md5_usingrawkey(ntlmv2_hash, CIFS_HMAC_MD5_HASH_SIZE,
-   159				     ntlmv2_rsp, SMB2_NTLMV2_SESSKEY_SIZE,
-   160				     sess->sess_key);
-   161	
-   162		if (memcmp(ntlmv2->ntlmv2_hash, ntlmv2_rsp, CIFS_HMAC_MD5_HASH_SIZE) != 0)
-   163			return -EINVAL;
-   164		return 0;
-   165	}
-   166	
+  1034	
+  1035	static void sd_set_power_mode(struct rtsx_usb_sdmmc *host,
+  1036			unsigned char power_mode)
+  1037	{
+  1038		int err;
+  1039		struct rtsx_ucr *ucr = host->ucr;
+  1040	
+  1041		if (power_mode == host->power_mode)
+  1042			return;
+  1043	
+  1044		switch (power_mode) {
+  1045		case MMC_POWER_OFF:
+  1046			err = sd_power_off(host);
+  1047			if (err)
+  1048				dev_dbg(sdmmc_dev(host), "power-off (err = %d)\n", err);
+  1049			pm_runtime_put_noidle(sdmmc_dev(host));
+  1050			break;
+  1051	
+  1052		case MMC_POWER_UP:
+  1053			pm_runtime_get_noresume(sdmmc_dev(host));
+> 1054			if (!(host->ocp_stat & (MS_OCP_NOW | MS_OCP_EVER)))
+  1055				err = sd_power_on(host);
+  1056			if (err)
+  1057				dev_dbg(sdmmc_dev(host), "power-on (err = %d)\n", err);
+  1058			/* issue the clock signals to card at least 74 clocks */
+  1059			rtsx_usb_write_register(ucr, SD_BUS_STAT, SD_CLK_TOGGLE_EN, SD_CLK_TOGGLE_EN);
+  1060			break;
+  1061	
+  1062		case MMC_POWER_ON:
+  1063			/* stop to send the clock signals */
+  1064			rtsx_usb_write_register(ucr, SD_BUS_STAT, SD_CLK_TOGGLE_EN, 0x00);
+  1065			break;
+  1066	
+  1067		case MMC_POWER_UNDEFINED:
+  1068			break;
+  1069	
+  1070		default:
+  1071			break;
+  1072		}
+  1073	
+  1074		host->power_mode = power_mode;
+  1075	}
+  1076	
 
 -- 
 0-DAY CI Kernel Test Service
