@@ -1,71 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EED219A79;
-	Wed,  6 Aug 2025 19:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D64273D94;
+	Wed,  6 Aug 2025 19:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754509531; cv=none; b=ARfdGs3qx7jFJGiruNBDj9mvRloW1BVYK/eGzWkXY7yS9PNZDlGwk7XYWTx3lWyM7C7I0DLRB4COhTks6I4AOasA9avMb6PELT6gA9sBLqxljtuaKALgjkTozhNoKA3k1Ici0IHORX1a15Bx3E2Ci6DW2c7TgeOZZ/5XlUQZrCs=
+	t=1754509921; cv=none; b=NjBnioXS5DJbG5psMRQIckx1hGyfVpUj1hXplWyTS7/4OUruUSzcHc57mLr8nVwNzEWElTeNoVZrZX9epjo/noh4ps95sAJ1npSBswhrKSlouUHvibhQMXgYsBMdVzAtnP5iM3yIXAiYAsdxhy34dOpPIGkBApmPC1oJ5hWlc6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754509531; c=relaxed/simple;
-	bh=PHSbwYIQhxWlqkYmx2TlmpPz5Tj+JhG6IBOTdEluDig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IQ78HDjWyjsFR01IgZsHdgu4og8pq4LCATrjkogjnIqHIz7IPMI5PoP3Sw69/8KoFOoExolGCWg5BZj3FgFTLzvoa6iJr+Qd9I2OhusNRiR6TV8NIfXdCpTgWeNbMiVKYbJZMTCCjMovW/OQIob5R6/TFi8StBSyO5j0WytZhEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fxpc8lVI; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754509921; c=relaxed/simple;
+	bh=+ow9HSlu8lyz0gxQMpcmr/8DfGMGyygEDZL6LsfYEtM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=rCfUOwygNG43VF3TNLLFcVzeuq1UT40NyU8Zv84T00FKZ2YkAhzHWK03hIKwX/FZewe3HKevm7eqoyFeZ9bJtnZjlM7ATTNwJAOBQ4nYmHDB0tDd5cm5aJxDPJ+4a3JGeCCR3TvZ/GYqdjSJLKLGmohO0J59njsrsm23WEaJZVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCphF2pP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fxpc8lVI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754509530; x=1786045530;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PHSbwYIQhxWlqkYmx2TlmpPz5Tj+JhG6IBOTdEluDig=;
-  b=Fxpc8lVIVSrUBSZ1l0wqpBheNjfwlJJv44MsgsEZDLRFnjTtfv4xEYEH
-   qQng932gsJmipRh+calfwp4fczlPdOiVTwnRg8UMAKFwAb0OZIj6R0zva
-   7uNO0PYB7UN7qVbeBdgYqFUVhzhaBXgPoGItAamIhlCEP/AkJAzV07HMl
-   JtS8DPFr5na9rQhAaPDCl5nM+Xv1RBb+4QABal33hhkZfW6/GmWIETu5F
-   dIVO9lej734P5ezxvfEgUVyaCSO9JJ4m8YDkzaxFx5wgdV6B+5iSMGDyh
-   +UAFFdjjqBR7yXglp+qU3p7rxxG4FFS+dp85dWTYPY/MKbQYoI1YzQ4VO
-   g==;
-X-CSE-ConnectionGUID: wHDZtSkjQYeL3z0wrRSdxw==
-X-CSE-MsgGUID: i9GgFOcqTUClC7SyPIOeaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56971852"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="56971852"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 12:45:26 -0700
-X-CSE-ConnectionGUID: s6re+NOZT8OyWcgCf5S0Ig==
-X-CSE-MsgGUID: 6joJOnm1QkiEJH4+/9hQuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="164379697"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Aug 2025 12:45:22 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ujk4e-000226-1a;
-	Wed, 06 Aug 2025 19:45:20 +0000
-Date: Thu, 7 Aug 2025 03:44:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuu?= <linux@weissschuh.net>,
-	Qiu-ji Chen <chenqiuji666@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCphF2pP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DDBC4CEE7;
+	Wed,  6 Aug 2025 19:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754509920;
+	bh=+ow9HSlu8lyz0gxQMpcmr/8DfGMGyygEDZL6LsfYEtM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=nCphF2pPonuDBS5AGHJQ5L++hkYBVM9CiQfoEN8tyUnnLI7TgGDmH+ib2JmKexCOf
+	 csffpw/r6i3tGN0MWkDHyKaMsEBdOw0ibIrjLuCl1Xe4utkd0k2CAWYtpu7MfcacG2
+	 xcpczwWhUA++bxAPG0AChP9av6gaQeHGDzfQNa1n/XMDvgURZjhm/Enmel2jBRVgjR
+	 tRAQ9eyz8mKux3rQahmtibSDCpmg6WqXCKf70OJot8f5qilUUGDSFFp/7SXDpn7Hfp
+	 CJMuI7O9M1+QnONyQrdFDB0vnbd98z3eoGsSjV3Ltjyw8b67JfOOlAT80JbUxkeKkF
+	 UqgqAQcPJikyw==
+Date: Wed, 6 Aug 2025 14:51:59 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Ziyue Zhang <ziyue.zhang@oss.qualcomm.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
 	"Rob Herring (Arm)" <robh@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cdx: don't select CONFIG_GENERIC_MSI_IRQ
-Message-ID: <202508070308.opy5dIFX-lkp@intel.com>
-References: <20250805161059.4006484-1-arnd@kernel.org>
+	Johan Hovold <johan+linaro@kernel.org>,
+	Tengfei Fan <quic_tengfan@quicinc.com>,
+	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000
+ (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+Message-ID: <20250806195159.GA11906@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,171 +48,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250805161059.4006484-1-arnd@kernel.org>
+In-Reply-To: <202508060850.8u61bAqj-lkp@intel.com>
 
-Hi Arnd,
+[+cc Tengfei, author of qcs9100-ride.dts and qcs9100-ride-r3.dts,
+Mrinmay, author of bf3ee3db23ed ("arm64: dts: qcom: sa8775p-ride: enable pcie nodes"),
+Bart, author of sa8775p-ride-r3.dts]
 
-kernel test robot noticed the following build errors:
+On Wed, Aug 06, 2025 at 08:27:12AM +0200, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   7881cd6886a89eda848192d3f5759ce08672e084
+> commit: fbcbd66fddd2e9ad295d6e3707e2421f062727d5 dt-bindings: PCI: qcom,pcie-sa8775p: Document 'link_down' reset
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on next-20250806]
-[cannot apply to soc/for-next v6.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+fbcbd66fddd2 ("dt-bindings: PCI: qcom,pcie-sa8775p: Document 'link_down' reset")
+is now upstream.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/cdx-don-t-select-CONFIG_GENERIC_MSI_IRQ/20250806-121343
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250805161059.4006484-1-arnd%40kernel.org
-patch subject: [PATCH] cdx: don't select CONFIG_GENERIC_MSI_IRQ
-config: hexagon-randconfig-002-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070308.opy5dIFX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070308.opy5dIFX-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508070308.opy5dIFX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/vfio/cdx/intr.c:41:8: error: call to undeclared function 'msi_domain_alloc_irqs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      41 |         ret = msi_domain_alloc_irqs(dev, MSI_DEFAULT_DOMAIN, nvec);
-         |               ^
-   drivers/vfio/cdx/intr.c:41:8: note: did you mean 'msi_domain_get_virq'?
-   include/linux/msi_api.h:58:14: note: 'msi_domain_get_virq' declared here
-      58 | unsigned int msi_domain_get_virq(struct device *dev, unsigned int domid, unsigned int index);
-         |              ^
->> drivers/vfio/cdx/intr.c:135:2: error: call to undeclared function 'msi_domain_free_irqs_all'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     135 |         msi_domain_free_irqs_all(dev, MSI_DEFAULT_DOMAIN);
-         |         ^
-   2 errors generated.
-
-
-vim +/msi_domain_alloc_irqs +41 drivers/vfio/cdx/intr.c
-
-848e447e000c418 Nipun Gupta 2024-04-23   23  
-848e447e000c418 Nipun Gupta 2024-04-23   24  static int vfio_cdx_msi_enable(struct vfio_cdx_device *vdev, int nvec)
-848e447e000c418 Nipun Gupta 2024-04-23   25  {
-848e447e000c418 Nipun Gupta 2024-04-23   26  	struct cdx_device *cdx_dev = to_cdx_device(vdev->vdev.dev);
-848e447e000c418 Nipun Gupta 2024-04-23   27  	struct device *dev = vdev->vdev.dev;
-848e447e000c418 Nipun Gupta 2024-04-23   28  	int msi_idx, ret;
-848e447e000c418 Nipun Gupta 2024-04-23   29  
-848e447e000c418 Nipun Gupta 2024-04-23   30  	vdev->cdx_irqs = kcalloc(nvec, sizeof(struct vfio_cdx_irq), GFP_KERNEL);
-848e447e000c418 Nipun Gupta 2024-04-23   31  	if (!vdev->cdx_irqs)
-848e447e000c418 Nipun Gupta 2024-04-23   32  		return -ENOMEM;
-848e447e000c418 Nipun Gupta 2024-04-23   33  
-848e447e000c418 Nipun Gupta 2024-04-23   34  	ret = cdx_enable_msi(cdx_dev);
-848e447e000c418 Nipun Gupta 2024-04-23   35  	if (ret) {
-848e447e000c418 Nipun Gupta 2024-04-23   36  		kfree(vdev->cdx_irqs);
-848e447e000c418 Nipun Gupta 2024-04-23   37  		return ret;
-848e447e000c418 Nipun Gupta 2024-04-23   38  	}
-848e447e000c418 Nipun Gupta 2024-04-23   39  
-848e447e000c418 Nipun Gupta 2024-04-23   40  	/* Allocate cdx MSIs */
-848e447e000c418 Nipun Gupta 2024-04-23  @41  	ret = msi_domain_alloc_irqs(dev, MSI_DEFAULT_DOMAIN, nvec);
-848e447e000c418 Nipun Gupta 2024-04-23   42  	if (ret) {
-848e447e000c418 Nipun Gupta 2024-04-23   43  		cdx_disable_msi(cdx_dev);
-848e447e000c418 Nipun Gupta 2024-04-23   44  		kfree(vdev->cdx_irqs);
-848e447e000c418 Nipun Gupta 2024-04-23   45  		return ret;
-848e447e000c418 Nipun Gupta 2024-04-23   46  	}
-848e447e000c418 Nipun Gupta 2024-04-23   47  
-848e447e000c418 Nipun Gupta 2024-04-23   48  	for (msi_idx = 0; msi_idx < nvec; msi_idx++)
-848e447e000c418 Nipun Gupta 2024-04-23   49  		vdev->cdx_irqs[msi_idx].irq_no = msi_get_virq(dev, msi_idx);
-848e447e000c418 Nipun Gupta 2024-04-23   50  
-848e447e000c418 Nipun Gupta 2024-04-23   51  	vdev->msi_count = nvec;
-848e447e000c418 Nipun Gupta 2024-04-23   52  	vdev->config_msi = 1;
-848e447e000c418 Nipun Gupta 2024-04-23   53  
-848e447e000c418 Nipun Gupta 2024-04-23   54  	return 0;
-848e447e000c418 Nipun Gupta 2024-04-23   55  }
-848e447e000c418 Nipun Gupta 2024-04-23   56  
-848e447e000c418 Nipun Gupta 2024-04-23   57  static int vfio_cdx_msi_set_vector_signal(struct vfio_cdx_device *vdev,
-848e447e000c418 Nipun Gupta 2024-04-23   58  					  int vector, int fd)
-848e447e000c418 Nipun Gupta 2024-04-23   59  {
-848e447e000c418 Nipun Gupta 2024-04-23   60  	struct eventfd_ctx *trigger;
-848e447e000c418 Nipun Gupta 2024-04-23   61  	int irq_no, ret;
-848e447e000c418 Nipun Gupta 2024-04-23   62  
-848e447e000c418 Nipun Gupta 2024-04-23   63  	if (vector < 0 || vector >= vdev->msi_count)
-848e447e000c418 Nipun Gupta 2024-04-23   64  		return -EINVAL;
-848e447e000c418 Nipun Gupta 2024-04-23   65  
-848e447e000c418 Nipun Gupta 2024-04-23   66  	irq_no = vdev->cdx_irqs[vector].irq_no;
-848e447e000c418 Nipun Gupta 2024-04-23   67  
-848e447e000c418 Nipun Gupta 2024-04-23   68  	if (vdev->cdx_irqs[vector].trigger) {
-848e447e000c418 Nipun Gupta 2024-04-23   69  		free_irq(irq_no, vdev->cdx_irqs[vector].trigger);
-848e447e000c418 Nipun Gupta 2024-04-23   70  		kfree(vdev->cdx_irqs[vector].name);
-848e447e000c418 Nipun Gupta 2024-04-23   71  		eventfd_ctx_put(vdev->cdx_irqs[vector].trigger);
-848e447e000c418 Nipun Gupta 2024-04-23   72  		vdev->cdx_irqs[vector].trigger = NULL;
-848e447e000c418 Nipun Gupta 2024-04-23   73  	}
-848e447e000c418 Nipun Gupta 2024-04-23   74  
-848e447e000c418 Nipun Gupta 2024-04-23   75  	if (fd < 0)
-848e447e000c418 Nipun Gupta 2024-04-23   76  		return 0;
-848e447e000c418 Nipun Gupta 2024-04-23   77  
-848e447e000c418 Nipun Gupta 2024-04-23   78  	vdev->cdx_irqs[vector].name = kasprintf(GFP_KERNEL, "vfio-msi[%d](%s)",
-848e447e000c418 Nipun Gupta 2024-04-23   79  						vector, dev_name(vdev->vdev.dev));
-848e447e000c418 Nipun Gupta 2024-04-23   80  	if (!vdev->cdx_irqs[vector].name)
-848e447e000c418 Nipun Gupta 2024-04-23   81  		return -ENOMEM;
-848e447e000c418 Nipun Gupta 2024-04-23   82  
-848e447e000c418 Nipun Gupta 2024-04-23   83  	trigger = eventfd_ctx_fdget(fd);
-848e447e000c418 Nipun Gupta 2024-04-23   84  	if (IS_ERR(trigger)) {
-848e447e000c418 Nipun Gupta 2024-04-23   85  		kfree(vdev->cdx_irqs[vector].name);
-848e447e000c418 Nipun Gupta 2024-04-23   86  		return PTR_ERR(trigger);
-848e447e000c418 Nipun Gupta 2024-04-23   87  	}
-848e447e000c418 Nipun Gupta 2024-04-23   88  
-848e447e000c418 Nipun Gupta 2024-04-23   89  	ret = request_irq(irq_no, vfio_cdx_msihandler, 0,
-848e447e000c418 Nipun Gupta 2024-04-23   90  			  vdev->cdx_irqs[vector].name, trigger);
-848e447e000c418 Nipun Gupta 2024-04-23   91  	if (ret) {
-848e447e000c418 Nipun Gupta 2024-04-23   92  		kfree(vdev->cdx_irqs[vector].name);
-848e447e000c418 Nipun Gupta 2024-04-23   93  		eventfd_ctx_put(trigger);
-848e447e000c418 Nipun Gupta 2024-04-23   94  		return ret;
-848e447e000c418 Nipun Gupta 2024-04-23   95  	}
-848e447e000c418 Nipun Gupta 2024-04-23   96  
-848e447e000c418 Nipun Gupta 2024-04-23   97  	vdev->cdx_irqs[vector].trigger = trigger;
-848e447e000c418 Nipun Gupta 2024-04-23   98  
-848e447e000c418 Nipun Gupta 2024-04-23   99  	return 0;
-848e447e000c418 Nipun Gupta 2024-04-23  100  }
-848e447e000c418 Nipun Gupta 2024-04-23  101  
-848e447e000c418 Nipun Gupta 2024-04-23  102  static int vfio_cdx_msi_set_block(struct vfio_cdx_device *vdev,
-848e447e000c418 Nipun Gupta 2024-04-23  103  				  unsigned int start, unsigned int count,
-848e447e000c418 Nipun Gupta 2024-04-23  104  				  int32_t *fds)
-848e447e000c418 Nipun Gupta 2024-04-23  105  {
-848e447e000c418 Nipun Gupta 2024-04-23  106  	int i, j, ret = 0;
-848e447e000c418 Nipun Gupta 2024-04-23  107  
-848e447e000c418 Nipun Gupta 2024-04-23  108  	if (start >= vdev->msi_count || start + count > vdev->msi_count)
-848e447e000c418 Nipun Gupta 2024-04-23  109  		return -EINVAL;
-848e447e000c418 Nipun Gupta 2024-04-23  110  
-848e447e000c418 Nipun Gupta 2024-04-23  111  	for (i = 0, j = start; i < count && !ret; i++, j++) {
-848e447e000c418 Nipun Gupta 2024-04-23  112  		int fd = fds ? fds[i] : -1;
-848e447e000c418 Nipun Gupta 2024-04-23  113  
-848e447e000c418 Nipun Gupta 2024-04-23  114  		ret = vfio_cdx_msi_set_vector_signal(vdev, j, fd);
-848e447e000c418 Nipun Gupta 2024-04-23  115  	}
-848e447e000c418 Nipun Gupta 2024-04-23  116  
-848e447e000c418 Nipun Gupta 2024-04-23  117  	if (ret) {
-848e447e000c418 Nipun Gupta 2024-04-23  118  		for (--j; j >= (int)start; j--)
-848e447e000c418 Nipun Gupta 2024-04-23  119  			vfio_cdx_msi_set_vector_signal(vdev, j, -1);
-848e447e000c418 Nipun Gupta 2024-04-23  120  	}
-848e447e000c418 Nipun Gupta 2024-04-23  121  
-848e447e000c418 Nipun Gupta 2024-04-23  122  	return ret;
-848e447e000c418 Nipun Gupta 2024-04-23  123  }
-848e447e000c418 Nipun Gupta 2024-04-23  124  
-848e447e000c418 Nipun Gupta 2024-04-23  125  static void vfio_cdx_msi_disable(struct vfio_cdx_device *vdev)
-848e447e000c418 Nipun Gupta 2024-04-23  126  {
-848e447e000c418 Nipun Gupta 2024-04-23  127  	struct cdx_device *cdx_dev = to_cdx_device(vdev->vdev.dev);
-848e447e000c418 Nipun Gupta 2024-04-23  128  	struct device *dev = vdev->vdev.dev;
-848e447e000c418 Nipun Gupta 2024-04-23  129  
-848e447e000c418 Nipun Gupta 2024-04-23  130  	vfio_cdx_msi_set_block(vdev, 0, vdev->msi_count, NULL);
-848e447e000c418 Nipun Gupta 2024-04-23  131  
-848e447e000c418 Nipun Gupta 2024-04-23  132  	if (!vdev->config_msi)
-848e447e000c418 Nipun Gupta 2024-04-23  133  		return;
-848e447e000c418 Nipun Gupta 2024-04-23  134  
-848e447e000c418 Nipun Gupta 2024-04-23 @135  	msi_domain_free_irqs_all(dev, MSI_DEFAULT_DOMAIN);
-848e447e000c418 Nipun Gupta 2024-04-23  136  	cdx_disable_msi(cdx_dev);
-848e447e000c418 Nipun Gupta 2024-04-23  137  	kfree(vdev->cdx_irqs);
-848e447e000c418 Nipun Gupta 2024-04-23  138  
-848e447e000c418 Nipun Gupta 2024-04-23  139  	vdev->cdx_irqs = NULL;
-848e447e000c418 Nipun Gupta 2024-04-23  140  	vdev->msi_count = 0;
-848e447e000c418 Nipun Gupta 2024-04-23  141  	vdev->config_msi = 0;
-848e447e000c418 Nipun Gupta 2024-04-23  142  }
-848e447e000c418 Nipun Gupta 2024-04-23  143  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> date:   5 days ago
+> config: arm64-randconfig-2051-20250801 (https://download.01.org/0day-ci/archive/20250806/202508060850.8u61bAqj-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
+> dtschema version: 2025.6.2.dev4+g8f79ddd
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060850.8u61bAqj-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508060850.8u61bAqj-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+> --
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+>    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+> --
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+> --
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
+>    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+>    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
+>    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+>    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
+>    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
