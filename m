@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC0A1F03FB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 07:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE311F03C7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 07:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754465792; cv=none; b=jXPp1Wp6AIfNueZ1TIeuWP60sQwbumRbaRIzU/zTZQpThhMXhA47bSXMaXheCHOIhAdVzwtfVvkJ86jWcjsNrvYbNHuaAAhxy4trwvJozMTdmes+87r5HeC1/XbCLPAH0pyDpiryuqek1fonwkysPiRREeckMdu8cRGq4ens3vs=
+	t=1754467053; cv=none; b=TY1vQ+sgp93BCPp8fe6cR9nlZe5ECwWFoyNd8n0qoIb6vKE1scRMTRaE3oF2MSEPKAzrzShtNV2klZWEcjyrMgsa/iSX1Q98GtYIjislkgZzKVJY4wtOb45Qzvw3XWFbVOqoQPf1xIyur0EUWQrWqIn/oGvJ8BDbOY/kjxFiBhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754465792; c=relaxed/simple;
-	bh=1/xsipOKXb9o/e/L5ji3i/MbwgZA1R9G3gsSYfiPK1I=;
+	s=arc-20240116; t=1754467053; c=relaxed/simple;
+	bh=/RUVsQNJLcZysedzesQmrYpB8n11NzILSK6Y+A4lSak=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jimbi3WgZdDEjMTE8FRHrxrfZWiArupAcQJ5zG7dTmN/aaimnAaHQiXLWikMThkw0Y0L6HwMJYMsyBw784e0OmEoa2T0pKR+XiExF+ipG0h2rGPmAjiZVgXLf0Ysgwe89OaudgEZgUVWJu6zCBofOT+ErCspAdcfn2yxxA0POEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9lgr6Dj; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=q3BzJsNH+iPnbNw05o+NV4QFeK82Od+KkQo98/t9rbZhQ8NuvelconCkIEYWtJIyBNGQ0OXxyb4gVd2D1qCRT3QVWAyna13SsFLo1LwZSt9wQo6qN+9yr4IK6+RkctzF2r5czhFlSEMw35JIfldvW/p2a7xTiqxUE6/E1fjq2Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTDa7/5w; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9lgr6Dj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTDa7/5w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754465791; x=1786001791;
+  t=1754467052; x=1786003052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1/xsipOKXb9o/e/L5ji3i/MbwgZA1R9G3gsSYfiPK1I=;
-  b=S9lgr6Dj2tIJEl296DWjWsPe3QDwj7HNlYwWhpcO5jLiFBXTHY49qWmS
-   3l+mRZmz++pIcbLFwzOCoHAYA2CDM2xk82YJ9aOhjkIvCDemlwhT80kX4
-   g7QlNCmxGF9Q2qoUPB4d2Kg6YLha/YL30rIfbo7ed+ZXoaMNmXNrFr0I3
-   J37iSRdvnFpL/4uU3fMktUEx8dFRsK1vzn4eUjde3Xl9ysdrs3uHLQGL/
-   UL0HR/VBkTavNMV1g1FC2FA8lIZP+boLxJQramWRLZPYccMzrKW04ioJW
-   Yce+uZ7d9Z1J0E/A5bsv+87Dy/+GO6r2V+hBXGUcwrFc4A6mbLtSnwCuB
-   g==;
-X-CSE-ConnectionGUID: uIwhMm/sRMyWd49hmtHlLg==
-X-CSE-MsgGUID: ypdcyw7ET5+LUR9nerdKVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56911891"
+  bh=/RUVsQNJLcZysedzesQmrYpB8n11NzILSK6Y+A4lSak=;
+  b=YTDa7/5wKoZa68PqsprKi06yFi2kWeexT1vocpCGGw5L/JK4UzUQnPCp
+   tfQpbz6N2GiX7UzQIDQBVb7s2hd+eyURcsmmYPVNkFQcpZolbLE0hxFbn
+   NlDv6O9qywFyM16uZJmzkEjmjjdfbOVWr/rdzXYQGKY3aYw5jiqn7BtUw
+   gaiAWK8o+qZanvneSjrYW/egcpGvtAFaV/p/Wqtv6/+W5wzQGYr6lxGQ0
+   XHnoUNhwxKuXJuNpBUl08U4HAOnvhcC0tAFhseibrE/7xWicKZHwLDO09
+   8PihGnBFK36gfY+M20Z12VRWXSlX/As4SbRnzVWMsLvhrdWSfW+LzN+r2
+   Q==;
+X-CSE-ConnectionGUID: 7e9YyyObTwaYZJuFlUUYnQ==
+X-CSE-MsgGUID: 6nW9WPhkQl+8bGwP7aK5Ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="74235789"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="56911891"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 00:36:30 -0700
-X-CSE-ConnectionGUID: VtKUxU1DSnSIAi4Euuvk+Q==
-X-CSE-MsgGUID: R0Gg2YziT5a5DAvnKtDSOQ==
+   d="scan'208";a="74235789"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 00:57:32 -0700
+X-CSE-ConnectionGUID: T/J84TENQKSUjbHcVu4fGA==
+X-CSE-MsgGUID: lYWvZHIuSOy7f6/ytnLsPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="164367474"
+   d="scan'208";a="164242779"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 06 Aug 2025 00:36:29 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Aug 2025 00:57:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujYhG-0001NW-2R;
-	Wed, 06 Aug 2025 07:36:26 +0000
-Date: Wed, 6 Aug 2025 15:35:26 +0800
+	id 1ujZ1c-0001O6-0J;
+	Wed, 06 Aug 2025 07:57:28 +0000
+Date: Wed, 6 Aug 2025 15:56:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:vmx/tdx_post_populate 14/14]
- arch/x86/kvm/svm/sev.c:2253:29: error: too many arguments to function
- 'copy_page'
-Message-ID: <202508061520.8119nyAa-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dtb: flash@0 (jedec,spi-nor):
+ Unevaluated properties are not allowed ('vcc-supply' was unexpected)
+Message-ID: <202508061510.mXU8SmBt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,135 +63,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux vmx/tdx_post_populate
-head:   f11b520b45d3ae669d6687e82638cea99f40c1fd
-commit: f11b520b45d3ae669d6687e82638cea99f40c1fd [14/14] tmp
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250806/202508061520.8119nyAa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061520.8119nyAa-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   052da8f4d40816c8c7522def8c32ccf4dcca35e6
+commit: 4fd50f6980e2a491ab9b21b42db5f474e85badfa [1/1] arm64: dts: rockchip: Add vcc-supply to SPI flash on rk3566-rock3c
+config: arm64-randconfig-051-20250726 (https://download.01.org/0day-ci/archive/20250806/202508061510.mXU8SmBt-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061510.mXU8SmBt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508061520.8119nyAa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061510.mXU8SmBt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/x86/kvm/svm/sev.c: In function 'sev_gmem_post_populate':
->> arch/x86/kvm/svm/sev.c:2253:29: error: too many arguments to function 'copy_page'
-    2253 |                         if (copy_page(vaddr, src + i * PAGE_SIZE, PAGE_SIZE)) {
-         |                             ^~~~~~~~~
-   In file included from arch/x86/include/asm/page.h:12,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:60,
-                    from include/linux/smp.h:118,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/kvm_types.h:23,
-                    from arch/x86/kvm/svm/sev.c:11:
-   arch/x86/include/asm/page_64.h:62:6: note: declared here
-      62 | void copy_page(void *to, void *from);
-         |      ^~~~~~~~~
->> arch/x86/kvm/svm/sev.c:2253:29: error: void value not ignored as it ought to be
-    2253 |                         if (copy_page(vaddr, src + i * PAGE_SIZE, PAGE_SIZE)) {
-         |                             ^~~~~~~~~
-
-
-vim +/copy_page +2253 arch/x86/kvm/svm/sev.c
-
-  2224	
-  2225	static int sev_gmem_post_populate(struct kvm *kvm, gfn_t gfn_start, kvm_pfn_t pfn,
-  2226					  struct page *src, int order, void *opaque)
-  2227	{
-  2228		struct sev_gmem_populate_args *sev_populate_args = opaque;
-  2229		struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
-  2230		int n_private = 0, ret, i;
-  2231		int npages = (1 << order);
-  2232		gfn_t gfn;
-  2233	
-  2234		if (WARN_ON_ONCE(sev_populate_args->type != KVM_SEV_SNP_PAGE_TYPE_ZERO && !src))
-  2235			return -EINVAL;
-  2236	
-  2237		for (gfn = gfn_start, i = 0; gfn < gfn_start + npages; gfn++, i++) {
-  2238			struct sev_data_snp_launch_update fw_args = {0};
-  2239			bool assigned = false;
-  2240			int level;
-  2241	
-  2242			ret = snp_lookup_rmpentry((u64)pfn + i, &assigned, &level);
-  2243			if (ret || assigned) {
-  2244				pr_debug("%s: Failed to ensure GFN 0x%llx RMP entry is initial shared state, ret: %d assigned: %d\n",
-  2245					 __func__, gfn, ret, assigned);
-  2246				ret = ret ? -EINVAL : -EEXIST;
-  2247				goto err;
-  2248			}
-  2249	
-  2250			if (src) {
-  2251				void *vaddr = kmap_local_pfn(pfn + i);
-  2252	
-> 2253				if (copy_page(vaddr, src + i * PAGE_SIZE, PAGE_SIZE)) {
-  2254					ret = -EFAULT;
-  2255					goto err;
-  2256				}
-  2257				kunmap_local(vaddr);
-  2258			}
-  2259	
-  2260			ret = rmp_make_private(pfn + i, gfn << PAGE_SHIFT, PG_LEVEL_4K,
-  2261					       sev_get_asid(kvm), true);
-  2262			if (ret)
-  2263				goto err;
-  2264	
-  2265			n_private++;
-  2266	
-  2267			fw_args.gctx_paddr = __psp_pa(sev->snp_context);
-  2268			fw_args.address = __sme_set(pfn_to_hpa(pfn + i));
-  2269			fw_args.page_size = PG_LEVEL_TO_RMP(PG_LEVEL_4K);
-  2270			fw_args.page_type = sev_populate_args->type;
-  2271	
-  2272			ret = __sev_issue_cmd(sev_populate_args->sev_fd, SEV_CMD_SNP_LAUNCH_UPDATE,
-  2273					      &fw_args, &sev_populate_args->fw_error);
-  2274			if (ret)
-  2275				goto fw_err;
-  2276		}
-  2277	
-  2278		return 0;
-  2279	
-  2280	fw_err:
-  2281		/*
-  2282		 * If the firmware command failed handle the reclaim and cleanup of that
-  2283		 * PFN specially vs. prior pages which can be cleaned up below without
-  2284		 * needing to reclaim in advance.
-  2285		 *
-  2286		 * Additionally, when invalid CPUID function entries are detected,
-  2287		 * firmware writes the expected values into the page and leaves it
-  2288		 * unencrypted so it can be used for debugging and error-reporting.
-  2289		 *
-  2290		 * Copy this page back into the source buffer so userspace can use this
-  2291		 * information to provide information on which CPUID leaves/fields
-  2292		 * failed CPUID validation.
-  2293		 */
-  2294		if (!snp_page_reclaim(kvm, pfn + i) &&
-  2295		    sev_populate_args->type == KVM_SEV_SNP_PAGE_TYPE_CPUID &&
-  2296		    sev_populate_args->fw_error == SEV_RET_INVALID_PARAM) {
-  2297			void *vaddr = kmap_local_pfn(pfn + i);
-  2298	
-  2299			if (copy_to_user(src + i * PAGE_SIZE, vaddr, PAGE_SIZE))
-  2300				pr_debug("Failed to write CPUID page back to userspace\n");
-  2301	
-  2302			kunmap_local(vaddr);
-  2303		}
-  2304	
-  2305		/* pfn + i is hypervisor-owned now, so skip below cleanup for it. */
-  2306		n_private--;
-  2307	
-  2308	err:
-  2309		pr_debug("%s: exiting with error ret %d (fw_error %d), restoring %d gmem PFNs to shared.\n",
-  2310			 __func__, ret, sev_populate_args->fw_error, n_private);
-  2311		for (i = 0; i < n_private; i++)
-  2312			kvm_rmp_make_shared(kvm, pfn + i, PG_LEVEL_4K);
-  2313	
-  2314		return ret;
-  2315	}
-  2316	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3566-rock-3c.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('vcc-supply' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
