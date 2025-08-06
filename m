@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C06F1DB125;
-	Wed,  6 Aug 2025 14:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD5528FABC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 15:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754491866; cv=none; b=GkzSHsK2MADtUx2XDrdOJzb9Ckkfg8dFVwc2oHUAE2LMFdAJpiE+VunNmjWQD0C49e8cLEBrUFSadME6cmVemj6lCTBvMXboZRfXpVQCD+HpFD0m57ROaN9SWaTTNiCdeG8yIdTZVNNBafxI6p3alvjKvWHJtOLG+TfBk2je8Fs=
+	t=1754492829; cv=none; b=EIXkGtGiDXqlGhWc4XU7FzVLRFBOeZphZzuYkgZjrDv5ZVmkxunWO7fPlsQE7BijhaKsNoRnKFH7Byq+oZrihJzPon5XoX2rX+odsc1DeG+5Zr8ojOkmRi9RHgaVA4VJvy2q17X+M/mi8McS7VuHDjbZrtObjqLSTEymg4utD5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754491866; c=relaxed/simple;
-	bh=jYOf2US5bWDo7NlujX8N73KHv16qVgm8SXDzuRBuNuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OpZkWHdgX6nFINlp53j2+eHoAV6VT6sS2JXiONMOTi57Auyy/LrwG+E7quqo6oacXOsWafQBJYvgpxNVy2MpP1Q5tDMmgd0hFnmeSm0QsagBNxen4K2+EdbXb5vk2Sy/5MMEJTyXvsO7SXxQ7tJhpG416N1y5U37CdJixT4vmho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CX4FIaSV; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1754492829; c=relaxed/simple;
+	bh=nutjFReopkSI71nnEce01nT3jxKuZw56oNPD1MJocgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V7Zmcp+vc1w3TnNoWI7t3XKU0vBnK0hSDAUQo7IcXERd1YhXl/xZ9a611qfW+NJ3A4BkisMvnGbtANWrK3vhZIv6D56s34Dz2Q1rRXnv/nZiNgosNe95ndSQIrCV8VqPyVSKeX0fTZeOL+gKxFW5wK6ZhdIHNrWwPeCPF79BnBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KsRH13go; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CX4FIaSV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KsRH13go"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754491865; x=1786027865;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jYOf2US5bWDo7NlujX8N73KHv16qVgm8SXDzuRBuNuI=;
-  b=CX4FIaSVLPIO6cG+jigimb5Bxwu+KVcm3Sgojm730E18YlYxEM4sakgO
-   xIZJvq7u9q1cYO6BWvQGSBAKbl6MdQzM9CW9jjy0/QiqbeUz59b3hLFXX
-   h9fn4yG3vZAhwhB2R0Zcf7GmDXeuA3szQxAhkLMHCUlZOS9cO6xA04Lcb
-   7hm9ysbTd02GUHtKOHksA2FL9hUwLxxzTdgmk5HHQtbqMMxY4YnwdcsaL
-   Nqr/33CrbObU2dHyqtK5j/0FqQUlpPzFaKIN/SOiROUD946gtsb1BB+Ed
-   osM0MTcR6WdvTCFx6hzSMn55mD16+t++mrY0whYCGmIFrmsqfcWxv+iQt
+  t=1754492827; x=1786028827;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nutjFReopkSI71nnEce01nT3jxKuZw56oNPD1MJocgM=;
+  b=KsRH13goUb0iGdIeNA0LqljJADesPtiJXAfSl8wSdZgbC2591QXPNEfU
+   JXdD0NeeGOqNqDOr3PVrA87+VgXyR0Q1fz5X9vkfwj9kF9yzKB7faaQMX
+   x7Q+Ck9wb6dhRmImeaVnCkQanzIHT6Wc4iD8qMlzjdBajS7v1GNYCEutd
+   rTlWqwGo3UTNcTEQz9Up7Qh+w5FHOgm3m6Yooj28rqCOd/Wd0PlwI6isF
+   hIaD34nu3P/5ROh0yxVmL54rYdeBsSW1ZjIuxGf+C62/0WEDO0BygaQza
+   gLNEanNLR7UXxXK0JfehSU6E4hnhRDrPskoc+5+iszDMzb+PuhBCF+FzA
    Q==;
-X-CSE-ConnectionGUID: l+PpNv+zRBqueNiynX2zsA==
-X-CSE-MsgGUID: CFt/VIJgQquC8Wz3kYuCZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67078659"
+X-CSE-ConnectionGUID: MkXMwcwtTUWgz8CEafhhbA==
+X-CSE-MsgGUID: eBczdM5ETe2Ran8SLOotiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56680445"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="67078659"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 07:51:05 -0700
-X-CSE-ConnectionGUID: XH6+x08qTfGWxhF0zUB9XA==
-X-CSE-MsgGUID: acmb15dRTzSsSmXqlb9RyQ==
+   d="scan'208";a="56680445"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 08:07:07 -0700
+X-CSE-ConnectionGUID: mEMgFFh7S6q8/PuvyLzR5A==
+X-CSE-MsgGUID: TpBnf4TOT+6BS+8J6iP/2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="165567416"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Aug 2025 07:51:01 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="169041147"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 06 Aug 2025 08:07:05 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujfTn-0001n8-00;
-	Wed, 06 Aug 2025 14:50:59 +0000
-Date: Wed, 6 Aug 2025 22:50:14 +0800
+	id 1ujfjL-0002DT-0E;
+	Wed, 06 Aug 2025 15:07:03 +0000
+Date: Wed, 6 Aug 2025 17:06:59 +0200
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Takaya Saeki <takayas@google.com>, Tom Zanussi <zanussi@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ian Rogers <irogers@google.com>, aahringo@redhat.com,
-	Douglas Raillard <douglas.raillard@arm.com>
-Subject: Re: [PATCH 7/7] tracing: Add syscall_user_buf_size to limit amount
- written
-Message-ID: <202508062211.cwYqtLu0-lkp@intel.com>
-References: <20250805193235.747004484@kernel.org>
+To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2658/2658]
+ crypto/asymmetric_keys/pgp_library.c:189: warning: Function parameter or
+ member 'data' not described in 'pgp_parse_packets'
+Message-ID: <202508061744.hiwFyKYj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,89 +62,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250805193235.747004484@kernel.org>
 
-Hi Steven,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.16 next-20250806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Replace-syscall-RCU-pointer-assignment-with-READ-WRITE_ONCE/20250806-122312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250805193235.747004484%40kernel.org
-patch subject: [PATCH 7/7] tracing: Add syscall_user_buf_size to limit amount written
-config: hexagon-randconfig-002-20250806 (https://download.01.org/0day-ci/archive/20250806/202508062211.cwYqtLu0-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508062211.cwYqtLu0-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   8551213150db5f8eebd27273dae93f6fe258d63a
+commit: b78af6579e15dcdff86504da90af77f3e890270e [2658/2658] PGPLIB: Basic packet parser
+config: loongarch-randconfig-2005-20250806 (https://download.01.org/0day-ci/archive/20250806/202508061744.hiwFyKYj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061744.hiwFyKYj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508062211.cwYqtLu0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061744.hiwFyKYj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/trace/trace.c:11128:32: error: use of undeclared identifier 'CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT'
-    11128 |         global_trace.syscall_buf_sz = CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT;
-          |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> crypto/asymmetric_keys/pgp_library.c:189: warning: Function parameter or member 'data' not described in 'pgp_parse_packets'
+>> crypto/asymmetric_keys/pgp_library.c:189: warning: Function parameter or member 'datalen' not described in 'pgp_parse_packets'
+>> crypto/asymmetric_keys/pgp_library.c:189: warning: Excess function parameter '_data' description in 'pgp_parse_packets'
+>> crypto/asymmetric_keys/pgp_library.c:189: warning: Excess function parameter '_datalen' description in 'pgp_parse_packets'
 
 
-vim +/CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT +11128 kernel/trace/trace.c
+vim +189 crypto/asymmetric_keys/pgp_library.c
 
- 11110	
- 11111		init_trace_flags_index(&global_trace);
- 11112	
- 11113		register_tracer(&nop_trace);
- 11114	
- 11115		/* Function tracing may start here (via kernel command line) */
- 11116		init_function_trace();
- 11117	
- 11118		/* All seems OK, enable tracing */
- 11119		tracing_disabled = 0;
- 11120	
- 11121		atomic_notifier_chain_register(&panic_notifier_list,
- 11122					       &trace_panic_notifier);
- 11123	
- 11124		register_die_notifier(&trace_die_notifier);
- 11125	
- 11126		global_trace.flags = TRACE_ARRAY_FL_GLOBAL;
- 11127	
- 11128		global_trace.syscall_buf_sz = CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT;
- 11129	
- 11130		INIT_LIST_HEAD(&global_trace.systems);
- 11131		INIT_LIST_HEAD(&global_trace.events);
- 11132		INIT_LIST_HEAD(&global_trace.hist_vars);
- 11133		INIT_LIST_HEAD(&global_trace.err_log);
- 11134		list_add(&global_trace.marker_list, &marker_copies);
- 11135		list_add(&global_trace.list, &ftrace_trace_arrays);
- 11136	
- 11137		apply_trace_boot_options();
- 11138	
- 11139		register_snapshot_cmd();
- 11140	
- 11141		return 0;
- 11142	
- 11143	out_free_pipe_cpumask:
- 11144		free_cpumask_var(global_trace.pipe_cpumask);
- 11145	out_free_savedcmd:
- 11146		trace_free_saved_cmdlines_buffer();
- 11147	out_free_temp_buffer:
- 11148		ring_buffer_free(temp_buffer);
- 11149	out_rm_hp_state:
- 11150		cpuhp_remove_multi_state(CPUHP_TRACE_RB_PREPARE);
- 11151	out_free_cpumask:
- 11152		free_cpumask_var(global_trace.tracing_cpumask);
- 11153	out_free_buffer_mask:
- 11154		free_cpumask_var(tracing_buffer_mask);
- 11155		return ret;
- 11156	}
- 11157	
+   178	
+   179	/**
+   180	 * pgp_parse_packets - Parse a set of PGP packets
+   181	 * @_data: Data to be parsed (updated)
+   182	 * @_datalen: Amount of data (updated)
+   183	 * @ctx: Parsing context
+   184	 *
+   185	 * Parse a set of PGP packets [RFC 4880: 4].
+   186	 */
+   187	int pgp_parse_packets(const u8 *data, size_t datalen,
+   188			      struct pgp_parse_context *ctx)
+ > 189	{
+   190		enum pgp_packet_tag type;
+   191		ssize_t pktlen;
+   192		u8 headerlen;
+   193		int ret;
+   194	
+   195		while (datalen > 2) {
+   196			pktlen = pgp_parse_packet_header(&data, &datalen, &type,
+   197							 &headerlen);
+   198			if (pktlen < 0)
+   199				return pktlen;
+   200	
+   201			if ((ctx->types_of_interest >> type) & 1) {
+   202				ret = ctx->process_packet(ctx, type, headerlen,
+   203							  data, pktlen);
+   204				if (ret < 0)
+   205					return ret;
+   206			}
+   207			data += pktlen;
+   208			datalen -= pktlen;
+   209		}
+   210	
+   211		if (datalen != 0) {
+   212			pr_debug("Excess octets in packet stream\n");
+   213			return -EBADMSG;
+   214		}
+   215	
+   216		return 0;
+   217	}
+   218	EXPORT_SYMBOL_GPL(pgp_parse_packets);
+   219	
 
 -- 
 0-DAY CI Kernel Test Service
