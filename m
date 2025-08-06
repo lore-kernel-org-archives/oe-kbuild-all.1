@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E1C367
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 08:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A8288CAC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 08:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754470171; cv=none; b=CGesleyle+1zBynpEbQLR+XfRJrjh5AKOQah7JMtVF3lQnUW/EF0M2QVRb6G6xdAujiwF2FL1v5AQ76W+THO0WXlRcVHBHQkci8sht7N/ZBg3YcoWSlT2/hJhAxyhrscrhZ8kazkblM1JQZGrNmH/blpl1ZTW/wpf9qadFUm0Hs=
+	t=1754470175; cv=none; b=MbRQC/lQBoiiyR+b9ey6u/0KxuDrXgn6NtYnAN8H9o7M2+J4XqLxFlbZwOk9Qki1/tVI4c0pPg7pXXXO5sFzMf0dwHx26XekADx+8vkOSBXcHdslDMwTltdX26Iitj4On4X1Re9SDNzx22aeHsnlwKH+N2qtJFeFaNgtoZmwaDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754470171; c=relaxed/simple;
-	bh=0988g4lUsWGkNxdb3eVyghAVByp1FYNQVFvB+omhiyE=;
+	s=arc-20240116; t=1754470175; c=relaxed/simple;
+	bh=UT7nyhPdmQHN7/JI1uNqlPwK6jbBizOYJ8aBe6M/5B4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rf1V790Axeu2koWqaq5oCallJtK/95Wnb2t+k+Y2Mf5CDhOJFVAtBN7l8iHl/nEsK6zgyLdyp8lPJUE3JKIgYyFsAsdGUtW7XTLgtiKUAq1IF5fAykcIRqLI6hg2lX8fphDsl5e7kCYZb5cNSSc+1jWfD846zi4ewQ8x254ueOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/MYfMJ6; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=Uo/07ZUnD89JylkyFmzK9WjOaXBYCgBi/eycQ/186fZypRKsw70Ftv/Nk/db3e+HsCZxo4dnkShC+PvcbYeudOrJVauWTqJjCEwnEVlhYLV3E8nx61WduKRn8IUVNoX6tLF7XRSV1ZpTxMvV65tgDaD6xF5qrf+3jL870RVqHEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9VCtafd; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/MYfMJ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9VCtafd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754470170; x=1786006170;
+  t=1754470174; x=1786006174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0988g4lUsWGkNxdb3eVyghAVByp1FYNQVFvB+omhiyE=;
-  b=e/MYfMJ6Jc4na0by5BFG6hdOridg//LMpz1tMK9RN0YKBquritgpSsOY
-   EoGmKSD12ND75zz6aBINXeZav3L3wrV6sb20LOUEWc717JvkcJQnoqnEw
-   5KfXUckTB62tNO7V3bBkrLTRzOKjY3pldRTsrRtjWEzgjFGLykOuLBqDm
-   NVmE5lfG7hMcCJx4YgIqLZuOKE5ZOy4I38kvM/bS7EKRWtBg0p72hy3jN
-   U1FVBPs1dnkY6G8cePeSaX+izd+GXW42LSh/bpQmlKovQd3J0MNJNvVje
-   8oc3U4isqwtUQlcWce+qAZlxPc3QkIRKkvz2PWk6DENkYFzGTwv5XRTzr
-   Q==;
-X-CSE-ConnectionGUID: 19k3FwwVTDK/NGJQxb06xw==
-X-CSE-MsgGUID: KDDkjnzgQ7eoh43C+zXj0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="59395442"
+  bh=UT7nyhPdmQHN7/JI1uNqlPwK6jbBizOYJ8aBe6M/5B4=;
+  b=K9VCtafd29EuqkhPP5J0SVuMWZ9kcl8ac2aDtxqaDIq9aLl2x13gSyIA
+   z7mbDnsGHy0VOvp3lxIfnnicHBoDoOtLG+W8Lua+USt8s+kD9rHUeZMbM
+   xoPRD4/CVydrJ9sfeVtYBawuEBClhbmbrtDCMDxJ9XYEtRsr/gWZwIcL8
+   X/ZZh2U67N3BJm4/I5CeOyM6/1mADpZcvqNIE3FlfXLrV9toOKUf6HKv3
+   5G8oipCSRbT0RMRkFl2QPzvNZTDw+Ff5zuRVpIKIYfb7MiUdcGbZL7Rgm
+   Vn8QaL+ajLmSLxR4hTa84KzT08WyO1lMpm5w+EdC9wUNW1VYsMC5rYjvQ
+   w==;
+X-CSE-ConnectionGUID: +fY9QSkzStecYqtJZ1AYhg==
+X-CSE-MsgGUID: XlnrG4jiTsCAwQGTdDaZqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="60592907"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="59395442"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 01:49:29 -0700
-X-CSE-ConnectionGUID: Q382yZR6RXm/enhKfEhR+Q==
-X-CSE-MsgGUID: xMIaYgrxQ4mAdoyr94eE/A==
+   d="scan'208";a="60592907"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 01:49:33 -0700
+X-CSE-ConnectionGUID: 4Es0gvxgQzCxXuWJyAfO+g==
+X-CSE-MsgGUID: QQxiaIafRdaVEXxNMAYdQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="165488771"
+   d="scan'208";a="164380151"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Aug 2025 01:49:28 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Aug 2025 01:49:28 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujZpt-0001Q6-20;
+	id 1ujZpt-0001Q2-1r;
 	Wed, 06 Aug 2025 08:49:25 +0000
-Date: Wed, 6 Aug 2025 16:49:10 +0800
+Date: Wed, 6 Aug 2025 16:49:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Caleb James DeLisle <cjd@cjdns.fr>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: kismet: WARNING: unmet direct dependencies detected for SERIAL_8250
- when selected by ECONET
-Message-ID: <202508061622.zf1SMW7r-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/1] kernel/locking/rwsem.c:1651:9:
+ error: implicit declaration of function
+ 'trace_android_vh_rwsem_write_finished'; did you mean
+ 'trace_android_vh_rwsem_write_wait_finish'?
+Message-ID: <202508061604.3VhGf2Id-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,29 +64,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   479058002c32b77acac43e883b92174e22c4be2d
-commit: 79ee1d20e37cd553cc961962fca8107e69a0c293 mips: econet: Fix incorrect Kconfig dependencies
-date:   2 months ago
-config: mips-kismet-CONFIG_SERIAL_8250-CONFIG_ECONET-0-0 (https://download.01.org/0day-ci/archive/20250806/202508061622.zf1SMW7r-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250806/202508061622.zf1SMW7r-lkp@intel.com/reproduce)
+Hi JianMin,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   886d2f37b79982531259490548bc83b9216ca685
+commit: 78cf7a145c200d185e2370c712abd8235d1bd5aa [0/1] ANDROID: rwsem: Add vendor hook to the rw-semaphore
+config: i386-buildonly-randconfig-004-20250806 (https://download.01.org/0day-ci/archive/20250806/202508061604.3VhGf2Id-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508061604.3VhGf2Id-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508061622.zf1SMW7r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508061604.3VhGf2Id-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SERIAL_8250 when selected by ECONET
-   WARNING: unmet direct dependencies detected for SERIAL_8250
-     Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && !S390
-     Selected by [y]:
-     - ECONET [=y]
-   
-   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
-     Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=y] && OF [=y]
-     Selected by [y]:
-     - ECONET [=y]
+All errors (new ones prefixed by >>):
+
+   kernel/locking/rwsem.c: In function 'up_write':
+>> kernel/locking/rwsem.c:1651:9: error: implicit declaration of function 'trace_android_vh_rwsem_write_finished'; did you mean 'trace_android_vh_rwsem_write_wait_finish'? [-Werror=implicit-function-declaration]
+    1651 |         trace_android_vh_rwsem_write_finished(sem);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         trace_android_vh_rwsem_write_wait_finish
+   cc1: some warnings being treated as errors
+
+
+vim +1651 kernel/locking/rwsem.c
+
+  1644	
+  1645	/*
+  1646	 * release a write lock
+  1647	 */
+  1648	void up_write(struct rw_semaphore *sem)
+  1649	{
+  1650		rwsem_release(&sem->dep_map, _RET_IP_);
+> 1651		trace_android_vh_rwsem_write_finished(sem);
+  1652		__up_write(sem);
+  1653	}
+  1654	EXPORT_SYMBOL(up_write);
+  1655	
 
 -- 
 0-DAY CI Kernel Test Service
