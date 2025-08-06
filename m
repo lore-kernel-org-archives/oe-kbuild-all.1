@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73C9214A6A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 19:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EED219A79;
+	Wed,  6 Aug 2025 19:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754508846; cv=none; b=LBLZ34DhLVds4pCrsSDrPjjAQrHfU45bZSdr8F8Pa+yu+BVerxJNQId7iLL1xGkeZ/BWjpW2n6HppfZjIAX0X5/F6ff0WGuIbLzeZPU5yMp4WdzNF1cE+ylSBLjVX9faDpPVexjRJgWYzyURMEEH7EXGujGnUDxVxDQ54/XsqYc=
+	t=1754509531; cv=none; b=ARfdGs3qx7jFJGiruNBDj9mvRloW1BVYK/eGzWkXY7yS9PNZDlGwk7XYWTx3lWyM7C7I0DLRB4COhTks6I4AOasA9avMb6PELT6gA9sBLqxljtuaKALgjkTozhNoKA3k1Ici0IHORX1a15Bx3E2Ci6DW2c7TgeOZZ/5XlUQZrCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754508846; c=relaxed/simple;
-	bh=I2ZjiBoABg3vL9xpgJjm9ONJ6K0S8dyHY2g5A0oOCgY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hDHiNwcEDI7xDVrrYL5HJMV6PoefcGywnMbUtIGAmZpkEgt44gy6G2IiPD8A3gEWJb8h7NAAaI55TWBMpRrNmru1TOz869V1WgZUrCQgHBl1wjgK2oWR/KBo7Si1evEpS+08TgHPW61PzwfE5sj/TOvIIE9CnjqShnEFK4wv5PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IAyIXa+F; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1754509531; c=relaxed/simple;
+	bh=PHSbwYIQhxWlqkYmx2TlmpPz5Tj+JhG6IBOTdEluDig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IQ78HDjWyjsFR01IgZsHdgu4og8pq4LCATrjkogjnIqHIz7IPMI5PoP3Sw69/8KoFOoExolGCWg5BZj3FgFTLzvoa6iJr+Qd9I2OhusNRiR6TV8NIfXdCpTgWeNbMiVKYbJZMTCCjMovW/OQIob5R6/TFi8StBSyO5j0WytZhEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fxpc8lVI; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IAyIXa+F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fxpc8lVI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754508845; x=1786044845;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I2ZjiBoABg3vL9xpgJjm9ONJ6K0S8dyHY2g5A0oOCgY=;
-  b=IAyIXa+FZQf1w18rrdiqX632jLvK+3Dios4LEzHM7EZkXy7ZnA35C2se
-   Qm+SdhnBTxUBrI9oWTi4eG8sQnjx8m8OMv73ILO/6gtIFTtYqztYpCrx5
-   NeTNeL6mt9RE1QEjS1SBlS7kZ/4J1YXVPlggM8SjCau8TDrcipzNBLP7d
-   OLAJryzbWcJnGQUpOuY2b8b2eII0iynpUbsbkHO7nCmBu0NKoFaw202Gm
-   ASN2gEqpQiZF83WjTAkcP3TM5qbAGoeLy7lokEG9TVKlXB8b5Qzhnpgsb
-   D8aPmDqifxqeIVrVTcBNRJDlGD2Zd9fi0Feg0y8h5saeNv+BbyPMf6GUn
-   A==;
-X-CSE-ConnectionGUID: yYHNjffXTvy4dY1jRMKm6g==
-X-CSE-MsgGUID: kyatCeRnTa+mS+d0bfAfvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60468478"
+  t=1754509530; x=1786045530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PHSbwYIQhxWlqkYmx2TlmpPz5Tj+JhG6IBOTdEluDig=;
+  b=Fxpc8lVIVSrUBSZ1l0wqpBheNjfwlJJv44MsgsEZDLRFnjTtfv4xEYEH
+   qQng932gsJmipRh+calfwp4fczlPdOiVTwnRg8UMAKFwAb0OZIj6R0zva
+   7uNO0PYB7UN7qVbeBdgYqFUVhzhaBXgPoGItAamIhlCEP/AkJAzV07HMl
+   JtS8DPFr5na9rQhAaPDCl5nM+Xv1RBb+4QABal33hhkZfW6/GmWIETu5F
+   dIVO9lej734P5ezxvfEgUVyaCSO9JJ4m8YDkzaxFx5wgdV6B+5iSMGDyh
+   +UAFFdjjqBR7yXglp+qU3p7rxxG4FFS+dp85dWTYPY/MKbQYoI1YzQ4VO
+   g==;
+X-CSE-ConnectionGUID: wHDZtSkjQYeL3z0wrRSdxw==
+X-CSE-MsgGUID: i9GgFOcqTUClC7SyPIOeaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56971852"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="60468478"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 12:34:03 -0700
-X-CSE-ConnectionGUID: oFowJcMyTJi2cSFDhoL1YA==
-X-CSE-MsgGUID: y1C+q5cHTnyuwXWsBYG+pw==
+   d="scan'208";a="56971852"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 12:45:26 -0700
+X-CSE-ConnectionGUID: s6re+NOZT8OyWcgCf5S0Ig==
+X-CSE-MsgGUID: 6joJOnm1QkiEJH4+/9hQuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169294466"
+   d="scan'208";a="164379697"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 06 Aug 2025 12:34:02 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Aug 2025 12:45:22 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujjtf-00021k-2V;
-	Wed, 06 Aug 2025 19:33:59 +0000
-Date: Thu, 7 Aug 2025 03:33:42 +0800
+	id 1ujk4e-000226-1a;
+	Wed, 06 Aug 2025 19:45:20 +0000
+Date: Thu, 7 Aug 2025 03:44:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:ksmbd-for-next-next 6/7] Warning:
- fs/smb/server/connection.c:53 function parameter 'inet_addr' not described
- in 'ksmbd_conn_alloc'
-Message-ID: <202508070312.uVOEHE5y-lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuu?= <linux@weissschuh.net>,
+	Qiu-ji Chen <chenqiuji666@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cdx: don't select CONFIG_GENERIC_MSI_IRQ
+Message-ID: <202508070308.opy5dIFX-lkp@intel.com>
+References: <20250805161059.4006484-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +74,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250805161059.4006484-1-arnd@kernel.org>
 
-tree:   https://github.com/smfrench/smb3-kernel.git ksmbd-for-next-next
-head:   e93cacc370af1638851fe447da90438f954b8de5
-commit: eebc2ac55b40f0829837e5c986e6d26e7bcd73dd [6/7] ksmbd: replace connection list with xarray
-config: csky-randconfig-001-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070312.uVOEHE5y-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070312.uVOEHE5y-lkp@intel.com/reproduce)
+Hi Arnd,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20250806]
+[cannot apply to soc/for-next v6.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/cdx-don-t-select-CONFIG_GENERIC_MSI_IRQ/20250806-121343
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250805161059.4006484-1-arnd%40kernel.org
+patch subject: [PATCH] cdx: don't select CONFIG_GENERIC_MSI_IRQ
+config: hexagon-randconfig-002-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070308.opy5dIFX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070308.opy5dIFX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508070312.uVOEHE5y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070308.opy5dIFX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/smb/server/connection.c:53 function parameter 'inet_addr' not described in 'ksmbd_conn_alloc'
+>> drivers/vfio/cdx/intr.c:41:8: error: call to undeclared function 'msi_domain_alloc_irqs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      41 |         ret = msi_domain_alloc_irqs(dev, MSI_DEFAULT_DOMAIN, nvec);
+         |               ^
+   drivers/vfio/cdx/intr.c:41:8: note: did you mean 'msi_domain_get_virq'?
+   include/linux/msi_api.h:58:14: note: 'msi_domain_get_virq' declared here
+      58 | unsigned int msi_domain_get_virq(struct device *dev, unsigned int domid, unsigned int index);
+         |              ^
+>> drivers/vfio/cdx/intr.c:135:2: error: call to undeclared function 'msi_domain_free_irqs_all'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     135 |         msi_domain_free_irqs_all(dev, MSI_DEFAULT_DOMAIN);
+         |         ^
+   2 errors generated.
+
+
+vim +/msi_domain_alloc_irqs +41 drivers/vfio/cdx/intr.c
+
+848e447e000c418 Nipun Gupta 2024-04-23   23  
+848e447e000c418 Nipun Gupta 2024-04-23   24  static int vfio_cdx_msi_enable(struct vfio_cdx_device *vdev, int nvec)
+848e447e000c418 Nipun Gupta 2024-04-23   25  {
+848e447e000c418 Nipun Gupta 2024-04-23   26  	struct cdx_device *cdx_dev = to_cdx_device(vdev->vdev.dev);
+848e447e000c418 Nipun Gupta 2024-04-23   27  	struct device *dev = vdev->vdev.dev;
+848e447e000c418 Nipun Gupta 2024-04-23   28  	int msi_idx, ret;
+848e447e000c418 Nipun Gupta 2024-04-23   29  
+848e447e000c418 Nipun Gupta 2024-04-23   30  	vdev->cdx_irqs = kcalloc(nvec, sizeof(struct vfio_cdx_irq), GFP_KERNEL);
+848e447e000c418 Nipun Gupta 2024-04-23   31  	if (!vdev->cdx_irqs)
+848e447e000c418 Nipun Gupta 2024-04-23   32  		return -ENOMEM;
+848e447e000c418 Nipun Gupta 2024-04-23   33  
+848e447e000c418 Nipun Gupta 2024-04-23   34  	ret = cdx_enable_msi(cdx_dev);
+848e447e000c418 Nipun Gupta 2024-04-23   35  	if (ret) {
+848e447e000c418 Nipun Gupta 2024-04-23   36  		kfree(vdev->cdx_irqs);
+848e447e000c418 Nipun Gupta 2024-04-23   37  		return ret;
+848e447e000c418 Nipun Gupta 2024-04-23   38  	}
+848e447e000c418 Nipun Gupta 2024-04-23   39  
+848e447e000c418 Nipun Gupta 2024-04-23   40  	/* Allocate cdx MSIs */
+848e447e000c418 Nipun Gupta 2024-04-23  @41  	ret = msi_domain_alloc_irqs(dev, MSI_DEFAULT_DOMAIN, nvec);
+848e447e000c418 Nipun Gupta 2024-04-23   42  	if (ret) {
+848e447e000c418 Nipun Gupta 2024-04-23   43  		cdx_disable_msi(cdx_dev);
+848e447e000c418 Nipun Gupta 2024-04-23   44  		kfree(vdev->cdx_irqs);
+848e447e000c418 Nipun Gupta 2024-04-23   45  		return ret;
+848e447e000c418 Nipun Gupta 2024-04-23   46  	}
+848e447e000c418 Nipun Gupta 2024-04-23   47  
+848e447e000c418 Nipun Gupta 2024-04-23   48  	for (msi_idx = 0; msi_idx < nvec; msi_idx++)
+848e447e000c418 Nipun Gupta 2024-04-23   49  		vdev->cdx_irqs[msi_idx].irq_no = msi_get_virq(dev, msi_idx);
+848e447e000c418 Nipun Gupta 2024-04-23   50  
+848e447e000c418 Nipun Gupta 2024-04-23   51  	vdev->msi_count = nvec;
+848e447e000c418 Nipun Gupta 2024-04-23   52  	vdev->config_msi = 1;
+848e447e000c418 Nipun Gupta 2024-04-23   53  
+848e447e000c418 Nipun Gupta 2024-04-23   54  	return 0;
+848e447e000c418 Nipun Gupta 2024-04-23   55  }
+848e447e000c418 Nipun Gupta 2024-04-23   56  
+848e447e000c418 Nipun Gupta 2024-04-23   57  static int vfio_cdx_msi_set_vector_signal(struct vfio_cdx_device *vdev,
+848e447e000c418 Nipun Gupta 2024-04-23   58  					  int vector, int fd)
+848e447e000c418 Nipun Gupta 2024-04-23   59  {
+848e447e000c418 Nipun Gupta 2024-04-23   60  	struct eventfd_ctx *trigger;
+848e447e000c418 Nipun Gupta 2024-04-23   61  	int irq_no, ret;
+848e447e000c418 Nipun Gupta 2024-04-23   62  
+848e447e000c418 Nipun Gupta 2024-04-23   63  	if (vector < 0 || vector >= vdev->msi_count)
+848e447e000c418 Nipun Gupta 2024-04-23   64  		return -EINVAL;
+848e447e000c418 Nipun Gupta 2024-04-23   65  
+848e447e000c418 Nipun Gupta 2024-04-23   66  	irq_no = vdev->cdx_irqs[vector].irq_no;
+848e447e000c418 Nipun Gupta 2024-04-23   67  
+848e447e000c418 Nipun Gupta 2024-04-23   68  	if (vdev->cdx_irqs[vector].trigger) {
+848e447e000c418 Nipun Gupta 2024-04-23   69  		free_irq(irq_no, vdev->cdx_irqs[vector].trigger);
+848e447e000c418 Nipun Gupta 2024-04-23   70  		kfree(vdev->cdx_irqs[vector].name);
+848e447e000c418 Nipun Gupta 2024-04-23   71  		eventfd_ctx_put(vdev->cdx_irqs[vector].trigger);
+848e447e000c418 Nipun Gupta 2024-04-23   72  		vdev->cdx_irqs[vector].trigger = NULL;
+848e447e000c418 Nipun Gupta 2024-04-23   73  	}
+848e447e000c418 Nipun Gupta 2024-04-23   74  
+848e447e000c418 Nipun Gupta 2024-04-23   75  	if (fd < 0)
+848e447e000c418 Nipun Gupta 2024-04-23   76  		return 0;
+848e447e000c418 Nipun Gupta 2024-04-23   77  
+848e447e000c418 Nipun Gupta 2024-04-23   78  	vdev->cdx_irqs[vector].name = kasprintf(GFP_KERNEL, "vfio-msi[%d](%s)",
+848e447e000c418 Nipun Gupta 2024-04-23   79  						vector, dev_name(vdev->vdev.dev));
+848e447e000c418 Nipun Gupta 2024-04-23   80  	if (!vdev->cdx_irqs[vector].name)
+848e447e000c418 Nipun Gupta 2024-04-23   81  		return -ENOMEM;
+848e447e000c418 Nipun Gupta 2024-04-23   82  
+848e447e000c418 Nipun Gupta 2024-04-23   83  	trigger = eventfd_ctx_fdget(fd);
+848e447e000c418 Nipun Gupta 2024-04-23   84  	if (IS_ERR(trigger)) {
+848e447e000c418 Nipun Gupta 2024-04-23   85  		kfree(vdev->cdx_irqs[vector].name);
+848e447e000c418 Nipun Gupta 2024-04-23   86  		return PTR_ERR(trigger);
+848e447e000c418 Nipun Gupta 2024-04-23   87  	}
+848e447e000c418 Nipun Gupta 2024-04-23   88  
+848e447e000c418 Nipun Gupta 2024-04-23   89  	ret = request_irq(irq_no, vfio_cdx_msihandler, 0,
+848e447e000c418 Nipun Gupta 2024-04-23   90  			  vdev->cdx_irqs[vector].name, trigger);
+848e447e000c418 Nipun Gupta 2024-04-23   91  	if (ret) {
+848e447e000c418 Nipun Gupta 2024-04-23   92  		kfree(vdev->cdx_irqs[vector].name);
+848e447e000c418 Nipun Gupta 2024-04-23   93  		eventfd_ctx_put(trigger);
+848e447e000c418 Nipun Gupta 2024-04-23   94  		return ret;
+848e447e000c418 Nipun Gupta 2024-04-23   95  	}
+848e447e000c418 Nipun Gupta 2024-04-23   96  
+848e447e000c418 Nipun Gupta 2024-04-23   97  	vdev->cdx_irqs[vector].trigger = trigger;
+848e447e000c418 Nipun Gupta 2024-04-23   98  
+848e447e000c418 Nipun Gupta 2024-04-23   99  	return 0;
+848e447e000c418 Nipun Gupta 2024-04-23  100  }
+848e447e000c418 Nipun Gupta 2024-04-23  101  
+848e447e000c418 Nipun Gupta 2024-04-23  102  static int vfio_cdx_msi_set_block(struct vfio_cdx_device *vdev,
+848e447e000c418 Nipun Gupta 2024-04-23  103  				  unsigned int start, unsigned int count,
+848e447e000c418 Nipun Gupta 2024-04-23  104  				  int32_t *fds)
+848e447e000c418 Nipun Gupta 2024-04-23  105  {
+848e447e000c418 Nipun Gupta 2024-04-23  106  	int i, j, ret = 0;
+848e447e000c418 Nipun Gupta 2024-04-23  107  
+848e447e000c418 Nipun Gupta 2024-04-23  108  	if (start >= vdev->msi_count || start + count > vdev->msi_count)
+848e447e000c418 Nipun Gupta 2024-04-23  109  		return -EINVAL;
+848e447e000c418 Nipun Gupta 2024-04-23  110  
+848e447e000c418 Nipun Gupta 2024-04-23  111  	for (i = 0, j = start; i < count && !ret; i++, j++) {
+848e447e000c418 Nipun Gupta 2024-04-23  112  		int fd = fds ? fds[i] : -1;
+848e447e000c418 Nipun Gupta 2024-04-23  113  
+848e447e000c418 Nipun Gupta 2024-04-23  114  		ret = vfio_cdx_msi_set_vector_signal(vdev, j, fd);
+848e447e000c418 Nipun Gupta 2024-04-23  115  	}
+848e447e000c418 Nipun Gupta 2024-04-23  116  
+848e447e000c418 Nipun Gupta 2024-04-23  117  	if (ret) {
+848e447e000c418 Nipun Gupta 2024-04-23  118  		for (--j; j >= (int)start; j--)
+848e447e000c418 Nipun Gupta 2024-04-23  119  			vfio_cdx_msi_set_vector_signal(vdev, j, -1);
+848e447e000c418 Nipun Gupta 2024-04-23  120  	}
+848e447e000c418 Nipun Gupta 2024-04-23  121  
+848e447e000c418 Nipun Gupta 2024-04-23  122  	return ret;
+848e447e000c418 Nipun Gupta 2024-04-23  123  }
+848e447e000c418 Nipun Gupta 2024-04-23  124  
+848e447e000c418 Nipun Gupta 2024-04-23  125  static void vfio_cdx_msi_disable(struct vfio_cdx_device *vdev)
+848e447e000c418 Nipun Gupta 2024-04-23  126  {
+848e447e000c418 Nipun Gupta 2024-04-23  127  	struct cdx_device *cdx_dev = to_cdx_device(vdev->vdev.dev);
+848e447e000c418 Nipun Gupta 2024-04-23  128  	struct device *dev = vdev->vdev.dev;
+848e447e000c418 Nipun Gupta 2024-04-23  129  
+848e447e000c418 Nipun Gupta 2024-04-23  130  	vfio_cdx_msi_set_block(vdev, 0, vdev->msi_count, NULL);
+848e447e000c418 Nipun Gupta 2024-04-23  131  
+848e447e000c418 Nipun Gupta 2024-04-23  132  	if (!vdev->config_msi)
+848e447e000c418 Nipun Gupta 2024-04-23  133  		return;
+848e447e000c418 Nipun Gupta 2024-04-23  134  
+848e447e000c418 Nipun Gupta 2024-04-23 @135  	msi_domain_free_irqs_all(dev, MSI_DEFAULT_DOMAIN);
+848e447e000c418 Nipun Gupta 2024-04-23  136  	cdx_disable_msi(cdx_dev);
+848e447e000c418 Nipun Gupta 2024-04-23  137  	kfree(vdev->cdx_irqs);
+848e447e000c418 Nipun Gupta 2024-04-23  138  
+848e447e000c418 Nipun Gupta 2024-04-23  139  	vdev->cdx_irqs = NULL;
+848e447e000c418 Nipun Gupta 2024-04-23  140  	vdev->msi_count = 0;
+848e447e000c418 Nipun Gupta 2024-04-23  141  	vdev->config_msi = 0;
+848e447e000c418 Nipun Gupta 2024-04-23  142  }
+848e447e000c418 Nipun Gupta 2024-04-23  143  
 
 -- 
 0-DAY CI Kernel Test Service
