@@ -1,62 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A0D1E25ED
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 20:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DDC205AA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 20:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754512160; cv=none; b=HjEhTTgJxFy5q/qazC+zQh9EWEDZ0eE4IGgvCSMiH506AGUXAWqMgUSboDjSlDqE5S7p8Uhw5W8mZR0KyszJ32Sjz2AgwtR4zH7M9DLjJyF1PCh5KWcbprBG2BITIDiyeTaLCc5u2AdhL5CTLAnp38nFo3XRmYgBaE0Kdctn0qs=
+	t=1754512257; cv=none; b=KGtOm7I8hnhnKS33NWYe3YlrJ1INhQWhJinwaHxngg60/SWFKffo+I22XmRMuDLx6L33C/OEz+XQcM3za3AgfHM6NQ1nLxjh5OdaodGSdGu4avQObERWCMdPZwf3pB20OHmRqvbgwAlAcUopvBgDlmHYyo10IRFq3IyG98frmbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754512160; c=relaxed/simple;
-	bh=LUUYjmMtw+FyXq16C/NjmvalMIiu6tu25CS1fCfwgRw=;
+	s=arc-20240116; t=1754512257; c=relaxed/simple;
+	bh=IUvrNEmDlCZzmuFligTjfGnRr54fRAByHqiRZrgG2+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a8ftpflM0dasyPru/leHm8HoTAbq5+3Lxfp+BsSdYGibqxCbhvmtAyyS7Wx4AJ23rFBVRqutmXr0Z/zFPgwWebAC+Q+Td6Gu7BjzoaIdffxh8V13wd4RezJ3XhWkWNcZ8CzBTKbrzSrbDAsHGAaDu5Q1Z+804d8lPvZpAxOLA70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgYaIffo; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ewer13bfkoUtzASlzESI1ngMBJus3O5sR7i7HHK/U8hgiAGYxXtO0vouNckaC9B2J7i649SrzN/dNW/eSSUtLCEI8ddcLRtrFwGwXh3hPj0uXks+dcf9EEvMMA+kfr2Rw0kAtIM7QIv+PZTyar/faYO2E7APioqCUVYOQqWgvKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgwfzB8P; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgYaIffo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgwfzB8P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754512159; x=1786048159;
+  t=1754512256; x=1786048256;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LUUYjmMtw+FyXq16C/NjmvalMIiu6tu25CS1fCfwgRw=;
-  b=kgYaIffojHKoFLAh9Fot5bEWdnvezumquE5X/E5xgyrNBry3Lc7LziUJ
-   ubpf5MKkGXQpEnUQ2AsTGROyLmAgF0bgxRmNT1Sn9zo3MIdFOtxjpl+fL
-   4CBu6NgmZbVp+4n8QD83pmea2HT1B8RWpP4bOLjDskRCH6gPtN/we9p5i
-   9m53TLBjrr4MOWGsLi3ij8pckc84889/VmvOjXonm1Dx3HuzbS5cfUKRF
-   QibCS1oGH/+W08jlu2CYEQwLA5nKJsCmEsaXcBbD1/aNnpdPAAOjF1mnL
-   oqH7f09cRZBKjbWO0/gVK9WqgBCI3rAOzPwhDhCA4Heey1YvuobXjOS3c
+  bh=IUvrNEmDlCZzmuFligTjfGnRr54fRAByHqiRZrgG2+o=;
+  b=lgwfzB8PLT7hy8+WnnjA3EP18/+lHPyU7vlu9WhkqaeqVakT8ErEnd5I
+   vCELXqA3UpPnsD3AvSWSuGvvueaL8ylCCs2BuMVXsJVmFFuGIDwjVp59B
+   VbyuRwJjIGysuHCoAepSqSryFdM3sfM/hV9emAtPUg11surGctcJUZvxF
+   BJ68ODxQnJz2jLBVbotDO9qdR50dmXpdVWArzvbxfVMK0JEGpHgZtgYhV
+   T9+1WTmZfv21Pz5lLwyRUKs6W7nqcrqZDbE6G1ltMxasvTWqZoRTOzSKn
+   Bz3zJY/Rpf1qASQ9fUlbvmYNk9azCh3I6nzpP9L3kKoIlGmk6TsnftAlM
    A==;
-X-CSE-ConnectionGUID: 9II7jve1TuK9SY+0q9Y6Yg==
-X-CSE-MsgGUID: CDoNdwCxSkydel8AV6tW5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56975218"
+X-CSE-ConnectionGUID: +tEFDJizQSatiPlIpZfCpQ==
+X-CSE-MsgGUID: VkryzdykQlOlGaTH3R4Xew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56806108"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="56975218"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 13:29:19 -0700
-X-CSE-ConnectionGUID: qCiSHFCEQRKu989NXrFLcQ==
-X-CSE-MsgGUID: I8vzutjXQBiXQB8rHJvZnA==
+   d="scan'208";a="56806108"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 13:30:55 -0700
+X-CSE-ConnectionGUID: UsXKBFW4QpCuPgMwmiQ6lA==
+X-CSE-MsgGUID: 44kMhEi7QB2iCbTDY/YqCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165205710"
+   d="scan'208";a="165666300"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 06 Aug 2025 13:29:16 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 06 Aug 2025 13:30:50 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujkkz-000244-0z;
-	Wed, 06 Aug 2025 20:29:08 +0000
-Date: Thu, 7 Aug 2025 04:28:28 +0800
+	id 1ujkmZ-00024O-1u;
+	Wed, 06 Aug 2025 20:30:45 +0000
+Date: Thu, 7 Aug 2025 04:28:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wake Liu <wakel@google.com>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	wakel@google.com
-Subject: Re: [PATCH] vdso: Define NSEC_PER_SEC as 64-bit to prevent overflow
-Message-ID: <202508070443.SWaWZTdB-lkp@intel.com>
-References: <20250805162153.952693-1-wakel@google.com>
+To: Nam Cao <namcao@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Nam Cao <namcao@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>
+Subject: Re: [PATCH v2 5/5] rv: Add rts monitor
+Message-ID: <202508070415.RDcwKpac-lkp@intel.com>
+References: <88fdbeb3f2ecf3a6259f3ee8636ae5b21fa6b72d.1754466623.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,69 +74,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250805162153.952693-1-wakel@google.com>
+In-Reply-To: <88fdbeb3f2ecf3a6259f3ee8636ae5b21fa6b72d.1754466623.git.namcao@linutronix.de>
 
-Hi Wake,
+Hi Nam,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tip/timers/vdso]
-[also build test WARNING on linus/master v6.16 next-20250806]
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master next-20250806]
+[cannot apply to tip/sched/core v6.16]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wake-Liu/vdso-Define-NSEC_PER_SEC-as-64-bit-to-prevent-overflow/20250806-125650
-base:   tip/timers/vdso
-patch link:    https://lore.kernel.org/r/20250805162153.952693-1-wakel%40google.com
-patch subject: [PATCH] vdso: Define NSEC_PER_SEC as 64-bit to prevent overflow
-config: powerpc-randconfig-002-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070443.SWaWZTdB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070443.SWaWZTdB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/rv-ltl-Prepare-for-other-monitor-types/20250806-160342
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/88fdbeb3f2ecf3a6259f3ee8636ae5b21fa6b72d.1754466623.git.namcao%40linutronix.de
+patch subject: [PATCH v2 5/5] rv: Add rts monitor
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250807/202508070415.RDcwKpac-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070415.RDcwKpac-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508070443.SWaWZTdB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070415.RDcwKpac-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/powerpc/xmon/xmon.c: In function 'show_uptime':
->> arch/powerpc/xmon/xmon.c:1008:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'long long int' [-Wformat=]
-    1008 |   printf("Uptime: %lu.%.2lu seconds\n", (unsigned long)uptime.tv_sec,
-         |                       ~~~~^
-         |                           |
-         |                           long unsigned int
-         |                       %.2llu
-    1009 |    ((unsigned long)uptime.tv_nsec / (NSEC_PER_SEC/100)));
-         |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                   |
-         |                                   long long int
+   In file included from include/asm-generic/percpu.h:7,
+                    from ./arch/sh/include/generated/asm/percpu.h:1,
+                    from include/linux/irqflags.h:19,
+                    from arch/sh/include/asm/cmpxchg-irq.h:5,
+                    from arch/sh/include/asm/cmpxchg.h:21,
+                    from arch/sh/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/sh/include/asm/bitops.h:23,
+                    from include/linux/bitops.h:67,
+                    from include/linux/kernel.h:23,
+                    from include/linux/interrupt.h:6,
+                    from include/linux/trace_recursion.h:5,
+                    from include/linux/ftrace.h:10,
+                    from kernel/trace/rv/monitors/rts/rts.c:2:
+   include/rv/ltl_monitor.h: In function 'ltl_get_monitor':
+>> include/linux/percpu-defs.h:90:40: error: section attribute cannot be specified for local variables
+      90 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
+         |                                        ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
+     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:91:33: error: section attribute cannot be specified for local variables
+      91 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
+     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+>> include/linux/percpu-defs.h:91:33: error: declaration of '__pcpu_unique_ltl_monitor' with no linkage follows extern declaration
+      91 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
+     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:90:40: note: previous declaration of '__pcpu_unique_ltl_monitor' with type 'char'
+      90 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
+         |                                        ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
+     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+>> include/rv/ltl_monitor.h:69:51: error: section attribute cannot be specified for local variables
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                                                   ^~~~~~~~~~~
+   include/linux/percpu-defs.h:92:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+      92 |         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
+         |                                                   ^~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+>> include/rv/ltl_monitor.h:69:51: error: section attribute cannot be specified for local variables
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                                                   ^~~~~~~~~~~
+   include/linux/percpu-defs.h:93:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+      93 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
+         |                                                   ^~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+>> include/rv/ltl_monitor.h:69:51: error: weak declaration of 'ltl_monitor' must be public
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                                                   ^~~~~~~~~~~
+   include/linux/percpu-defs.h:93:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+      93 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
+         |                                                   ^~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+>> include/rv/ltl_monitor.h:69:51: error: declaration of 'ltl_monitor' with no linkage follows extern declaration
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                                                   ^~~~~~~~~~~
+   include/linux/percpu-defs.h:93:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+      93 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
+         |                                                   ^~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
+   include/rv/ltl_monitor.h:69:51: note: previous declaration of 'ltl_monitor' with type 'struct ltl_monitor'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                                                   ^~~~~~~~~~~
+   include/linux/percpu-defs.h:92:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
+      92 |         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
+         |                                                   ^~~~
+   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
+      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+         |                ^~~~~~~~~~~~~~
 
 
-vim +1008 arch/powerpc/xmon/xmon.c
+vim +69 include/rv/ltl_monitor.h
 
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds       2005-04-16   996  
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18   997  /* Based on uptime_proc_show(). */
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18   998  static void
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18   999  show_uptime(void)
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1000  {
-f6bd74fa084eb9 arch/powerpc/xmon/xmon.c Arnd Bergmann        2018-06-18  1001  	struct timespec64 uptime;
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1002  
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1003  	if (setjmp(bus_error_jmp) == 0) {
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1004  		catch_memory_errors = 1;
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1005  		sync();
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1006  
-f6bd74fa084eb9 arch/powerpc/xmon/xmon.c Arnd Bergmann        2018-06-18  1007  		ktime_get_coarse_boottime_ts64(&uptime);
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18 @1008  		printf("Uptime: %lu.%.2lu seconds\n", (unsigned long)uptime.tv_sec,
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1009  			((unsigned long)uptime.tv_nsec / (NSEC_PER_SEC/100)));
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1010  
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1011  		sync();
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1012  		__delay(200);						\
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1013  	}
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1014  	catch_memory_errors = 0;
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1015  }
-59d3391e8cf274 arch/powerpc/xmon/xmon.c Guilherme G. Piccoli 2017-09-18  1016  
+a9769a5b987838 Nam Cao 2025-07-09  61  
+59c45d176bc0f2 Nam Cao 2025-08-06  62  static struct ltl_monitor *ltl_get_monitor(monitor_target target)
+a9769a5b987838 Nam Cao 2025-07-09  63  {
+59c45d176bc0f2 Nam Cao 2025-08-06  64  	return &target->rv[ltl_monitor_slot].ltl_mon;
+a9769a5b987838 Nam Cao 2025-07-09  65  }
+50fd6be3de4982 Nam Cao 2025-08-06  66  #elif LTL_MONITOR_TYPE == RV_MON_PER_CPU
+50fd6be3de4982 Nam Cao 2025-08-06  67  static struct ltl_monitor *ltl_get_monitor(unsigned int cpu)
+50fd6be3de4982 Nam Cao 2025-08-06  68  {
+50fd6be3de4982 Nam Cao 2025-08-06 @69  	static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
+50fd6be3de4982 Nam Cao 2025-08-06  70  
+50fd6be3de4982 Nam Cao 2025-08-06  71  	return per_cpu_ptr(&ltl_monitor, cpu);
+50fd6be3de4982 Nam Cao 2025-08-06  72  }
+59c45d176bc0f2 Nam Cao 2025-08-06  73  #endif
+a9769a5b987838 Nam Cao 2025-07-09  74  
 
 -- 
 0-DAY CI Kernel Test Service
