@@ -1,45 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D64273D94;
-	Wed,  6 Aug 2025 19:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F7710E4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 20:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754509921; cv=none; b=NjBnioXS5DJbG5psMRQIckx1hGyfVpUj1hXplWyTS7/4OUruUSzcHc57mLr8nVwNzEWElTeNoVZrZX9epjo/noh4ps95sAJ1npSBswhrKSlouUHvibhQMXgYsBMdVzAtnP5iM3yIXAiYAsdxhy34dOpPIGkBApmPC1oJ5hWlc6U=
+	t=1754512152; cv=none; b=f+E4RadhH3WfFGGyWx7L8cMcVAMoEGZxcW2utWcscHYHYRviGn5HBi6O6zbXgq/pcsuVV2LgJtgZ00a5o0ahAiX4TgscgAl9XKVb8fLPHzKbmDxYuuwFvPHDTEhiCDeZ9IS4O4Y1xBWTTF+4otn9c2en4m0BAvYyHaxaT4XAkTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754509921; c=relaxed/simple;
-	bh=+ow9HSlu8lyz0gxQMpcmr/8DfGMGyygEDZL6LsfYEtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rCfUOwygNG43VF3TNLLFcVzeuq1UT40NyU8Zv84T00FKZ2YkAhzHWK03hIKwX/FZewe3HKevm7eqoyFeZ9bJtnZjlM7ATTNwJAOBQ4nYmHDB0tDd5cm5aJxDPJ+4a3JGeCCR3TvZ/GYqdjSJLKLGmohO0J59njsrsm23WEaJZVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCphF2pP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754512152; c=relaxed/simple;
+	bh=a+87Pw3CxGgExCGo239uu1vTCQEUqmPQtZjqoW+heDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q2qPomsGpWRLyyTk04WPA+SBTGr46UJdy45TFtvDnXtGkYW7CCt0ChNDePvZ0bamHcSz9MxpHuKCWBjt+lacHm1eaSb7pyeJG3UZAmyFA1kJ39auFP/K/N7q+EzyEisn63HRkpnaJq8okTCanufC6TaAxKL4lv3OxpJ7huKznsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gW3Tw9Fh; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCphF2pP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79DDBC4CEE7;
-	Wed,  6 Aug 2025 19:52:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754509920;
-	bh=+ow9HSlu8lyz0gxQMpcmr/8DfGMGyygEDZL6LsfYEtM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=nCphF2pPonuDBS5AGHJQ5L++hkYBVM9CiQfoEN8tyUnnLI7TgGDmH+ib2JmKexCOf
-	 csffpw/r6i3tGN0MWkDHyKaMsEBdOw0ibIrjLuCl1Xe4utkd0k2CAWYtpu7MfcacG2
-	 xcpczwWhUA++bxAPG0AChP9av6gaQeHGDzfQNa1n/XMDvgURZjhm/Enmel2jBRVgjR
-	 tRAQ9eyz8mKux3rQahmtibSDCpmg6WqXCKf70OJot8f5qilUUGDSFFp/7SXDpn7Hfp
-	 CJMuI7O9M1+QnONyQrdFDB0vnbd98z3eoGsSjV3Ltjyw8b67JfOOlAT80JbUxkeKkF
-	 UqgqAQcPJikyw==
-Date: Wed, 6 Aug 2025 14:51:59 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Ziyue Zhang <ziyue.zhang@oss.qualcomm.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Tengfei Fan <quic_tengfan@quicinc.com>,
-	Mrinmay Sarkar <quic_msarkar@quicinc.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000
- (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
-Message-ID: <20250806195159.GA11906@bhelgaas>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gW3Tw9Fh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754512152; x=1786048152;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a+87Pw3CxGgExCGo239uu1vTCQEUqmPQtZjqoW+heDg=;
+  b=gW3Tw9Fh7G1ixtEq98wYDhuRgTJZddWLivlLC4RXqqEzbCxaThQXu3ik
+   +lIuqCxU3VEAlvG9ED55zrdPOAXJ/YMp3aguygG4xFfCC3GpHBEjc3HGn
+   kN8V/Ej9aBdWDZx88Y+MnbUxi9NA2DHLUAbpG9Jsr1u7GiviJrE0zj8TA
+   Ljf/FZW+8MsxzOndwvyP/Zf0znhDFBhnGWo1miroCDFlQI2Xc7LtzyiiW
+   yEjYsRIdxlRUZnMxdSnnO5x+JnvfrnQybuFA1AWh25PWrTDBwGDOvImGl
+   nOfw9i7ETdMoUAKyt3FN/y9Tz9++TJ5qNdQ+6tvCwXVyy51GBVuxikhxW
+   w==;
+X-CSE-ConnectionGUID: mmvwWhlbQxG3qYxYeIp42Q==
+X-CSE-MsgGUID: +tjjGlUkRIWciv18eYrGbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56975209"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="56975209"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 13:29:11 -0700
+X-CSE-ConnectionGUID: HZq8wMGdTDq7AwssYwec3Q==
+X-CSE-MsgGUID: xtAiFekAS36m9ospDvkgCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="165205701"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 06 Aug 2025 13:29:08 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ujkkd-000242-2M;
+	Wed, 06 Aug 2025 20:28:59 +0000
+Date: Thu, 7 Aug 2025 04:28:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xin Zhao <jackzxcui1989@163.com>, willemdebruijn.kernel@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Xin Zhao <jackzxcui1989@163.com>
+Subject: Re: [PATCH] net: af_packet: add af_packet hrtimer mode
+Message-ID: <202508070419.1T0vxudH-lkp@intel.com>
+References: <20250806055210.1530081-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,124 +65,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508060850.8u61bAqj-lkp@intel.com>
+In-Reply-To: <20250806055210.1530081-1-jackzxcui1989@163.com>
 
-[+cc Tengfei, author of qcs9100-ride.dts and qcs9100-ride-r3.dts,
-Mrinmay, author of bf3ee3db23ed ("arm64: dts: qcom: sa8775p-ride: enable pcie nodes"),
-Bart, author of sa8775p-ride-r3.dts]
+Hi Xin,
 
-On Wed, Aug 06, 2025 at 08:27:12AM +0200, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   7881cd6886a89eda848192d3f5759ce08672e084
-> commit: fbcbd66fddd2e9ad295d6e3707e2421f062727d5 dt-bindings: PCI: qcom,pcie-sa8775p: Document 'link_down' reset
+kernel test robot noticed the following build errors:
 
-fbcbd66fddd2 ("dt-bindings: PCI: qcom,pcie-sa8775p: Document 'link_down' reset")
-is now upstream.
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.16 next-20250806]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> date:   5 days ago
-> config: arm64-randconfig-2051-20250801 (https://download.01.org/0day-ci/archive/20250806/202508060850.8u61bAqj-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
-> dtschema version: 2025.6.2.dev4+g8f79ddd
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060850.8u61bAqj-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508060850.8u61bAqj-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-> --
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
->    arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-> --
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-> --
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth (qcom,wcn6855-bt): 'vddrfa1p8-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): clock-names:0: 'nrt_bus' was expected
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000 (qcom,sa8775p-dpu): Unevaluated properties are not allowed ('clock-names' was unexpected)
->    	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
->    	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c00000 (qcom,pcie-sa8775p): resets: [[51, 7]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): reset-names: ['pci'] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
-> >> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: pcie@1c10000 (qcom,pcie-sa8775p): resets: [[51, 12]] is too short
->    	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sa8775p.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmumx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
->    arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu (qcom,wcn6855-pmu): 'vddpmucx-supply' is a required property
->    	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Zhao/net-af_packet-add-af_packet-hrtimer-mode/20250806-135354
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250806055210.1530081-1-jackzxcui1989%40163.com
+patch subject: [PATCH] net: af_packet: add af_packet hrtimer mode
+config: x86_64-randconfig-004-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070419.1T0vxudH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070419.1T0vxudH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070419.1T0vxudH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   net/packet/af_packet.c: In function 'prb_setup_retire_blk_timer':
+>> net/packet/af_packet.c:615:9: error: implicit declaration of function 'hrtimer_init'; did you mean 'hrtimers_init'? [-Werror=implicit-function-declaration]
+     615 |         hrtimer_init(&pkc->retire_blk_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
+         |         ^~~~~~~~~~~~
+         |         hrtimers_init
+   cc1: some warnings being treated as errors
+
+
+vim +615 net/packet/af_packet.c
+
+   608	
+   609	static void prb_setup_retire_blk_timer(struct packet_sock *po)
+   610	{
+   611		struct tpacket_kbdq_core *pkc;
+   612	
+   613		pkc = GET_PBDQC_FROM_RB(&po->rx_ring);
+   614	#ifdef CONFIG_PACKET_HRTIMER
+ > 615		hrtimer_init(&pkc->retire_blk_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
+   616		pkc->retire_blk_timer.function = prb_retire_rx_blk_timer_expired;
+   617		if (pkc->tov_in_msecs == 0)
+   618			pkc->tov_in_msecs = jiffies_to_msecs(1);
+   619	#else
+   620		timer_setup(&pkc->retire_blk_timer, prb_retire_rx_blk_timer_expired,
+   621			    0);
+   622		pkc->retire_blk_timer.expires = jiffies;
+   623	#endif
+   624	}
+   625	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
