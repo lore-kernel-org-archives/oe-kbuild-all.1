@@ -1,58 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0B41FF5EC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 19:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7DA2144CF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 19:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754508100; cv=none; b=WV/vgXxULmX4t3kmAieL/gEZl2sNjtn2tDHxr2d//7ch1IKaxjqL3jY0nLpt8fkCSr1ZpX5QuP1vIL4qDrjzF5NCfF+5Eb4VhddsKhRe3Rs/2XBXV2hm9PnonkuLdd0Vy3nWpFdjJrcKRF+L9QWj8nLGCL0y1eP6PGGuZMJdvUs=
+	t=1754508101; cv=none; b=jlVWk9o6UcwZIT3VKByVOC2XOE8Cq8QQmmbZ1FkVGeCDam2K/JryBH1YXVcbKb0xeqnnWI7HK/XZJlPqbRRInYOYTwDOGjixNHecy/LGdsVBFyFBA+Z4Raeww+JCWtShXvhOR7WtU9dommcv9A2zQ2nbfR0JQpcEsu4b8BZCgDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754508100; c=relaxed/simple;
-	bh=Drl/A4pGoe9vvE9VBCK3gnRBeR3/PSWSk8dg0P6q8LE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QhxmvoIdb+sW9DDEHEjuNY0s913YLERACxNuKkj31Bw8Z5GG3ydumw3LJGf73cRKbIdVOeuLulGAGLi3KuxJsoVxmz29ki6p7RVMVYSHMWfxew6oiV/oD426S0HGCq/4DOJQMOATj85ieAbtMI35XZYBOZ3EoHoy/r8Tx+RugJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9JQPS+5; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1754508101; c=relaxed/simple;
+	bh=VfzJFYG0I6fueKmtnfKXQH8Nl+odnLVfzpNrbWBlEbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kHg96+EfDqjvBTQavjw+ogrKekYIR6g4kVinZRPkJtEYM4/cEswlQyZX3MtpGv7nWiyJBpnnvjRMCM+OjLbPn4qNSduknwZ7YHB5fvv20K5CstIYAZt1KqsN7XMM7f+5uudrcT366u+itrLO9ZNB9PRDD3vU9Ps8KC1FX504PjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4PQ/vT5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9JQPS+5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4PQ/vT5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754508099; x=1786044099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Drl/A4pGoe9vvE9VBCK3gnRBeR3/PSWSk8dg0P6q8LE=;
-  b=X9JQPS+58rCN9s0aUwHmmGKjSOynBv/orIvnr3fvqkQkI/TPxV4N8fBQ
-   BgjdAGXag9/VbSZfk/JQ2o/HRhXZwKblpeP2BvJl132D+50W9vKZSMslH
-   /GN2R/FN3BiSdMqBQCsEvNpkbljSNOa/dda02RTUJPVI4InesWJ4A2bxp
-   ndsnUnM6075Ti6v2YpK+DBc1e9r4pDr+Wa4imu95wiErZLW1Ap/KGf9Jy
-   1FsQrlaOAD4yA8J6ytoUN66CuOALM7lo7AHdIUs9ZsL0zu98ikkJYNQjG
-   9X5sDKc7uXEg/oVKh6AXT/ZphpZhKXGtR1ypZpIYbWMddQ3cYYDGnRBX1
-   g==;
-X-CSE-ConnectionGUID: oAgmeGvSRJa6TG7PNP3Qxg==
-X-CSE-MsgGUID: j86j4cHrTTm/gusTkoOpPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="55873383"
+  t=1754508100; x=1786044100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VfzJFYG0I6fueKmtnfKXQH8Nl+odnLVfzpNrbWBlEbU=;
+  b=R4PQ/vT5AsKvni4FQErDp0fLKPbPbSrePT8bh8zXtPeOTRavVGqAV/Xa
+   AxmKC11yHEvnso96eeIIun6wnnKG+JlU+LyrqTtDHqfdP2maCPhLM+hT8
+   ZaRFbn8muykp4pMk04e1wUkHB9UupFqbiKuZO/7cmQzecIq4IvonOUyg4
+   Z5+zhXPND0cHdJAMKeYwQFxJwxkLgl+erbZVicmlztJeS3IrT66BdzGNa
+   9qfQPY+hWlPnTjr9aDW6GYTKhnBu/mA8lcWYmltnAEmOi7RE/SbsNzFEy
+   Uf+TyZKhMRcRtras8LV8Pz7pM5fGNdRWs0wYx9htevpVJk7QTfRQIy/6p
+   w==;
+X-CSE-ConnectionGUID: eeZupvNwRH+KrJk3GO2vHA==
+X-CSE-MsgGUID: w/2+E6TRQWOnGJIfwrSGHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="55873384"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="55873383"
+   d="scan'208";a="55873384"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 12:21:38 -0700
-X-CSE-ConnectionGUID: mbBkJXL8RbaItjuJ1rAmpg==
-X-CSE-MsgGUID: 4YTNkfkIQ5aqonLCJUg1CQ==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 12:21:39 -0700
+X-CSE-ConnectionGUID: CiIBJemYQAKeE8htM1CPDg==
+X-CSE-MsgGUID: BHAGgQ0LQJm7nBXeAiKfqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165194041"
+   d="scan'208";a="165194039"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 06 Aug 2025 12:21:37 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujjhe-00020m-2I;
+	id 1ujjhe-00020k-2E;
 	Wed, 06 Aug 2025 19:21:34 +0000
-Date: Thu, 7 Aug 2025 03:21:32 +0800
+Date: Thu, 7 Aug 2025 03:21:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1753/1753] block/genhd.c:642:5:
- warning: no previous prototype for function 'disk_scan_partitions'
-Message-ID: <202508070349.2ODYAkPf-lkp@intel.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, jdelvare@suse.com,
+	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH 2/2] hwmon: (ina780) Add driver for TI INA780
+Message-ID: <202508070319.QMV6021c-lkp@intel.com>
+References: <20250806005127.542298-2-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,66 +66,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250806005127.542298-2-chris.packham@alliedtelesis.co.nz>
 
-Hi Yu,
+Hi Chris,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   464c0bf980f96a307759f809825ab0a3b59f8b70
-commit: cdfb5c11ad89867cd28c903369fbfebe3f36ca26 [1753/1753] block: fix kabi broken in ioctl.c
-config: x86_64-buildonly-randconfig-006-20250806 (https://download.01.org/0day-ci/archive/20250807/202508070349.2ODYAkPf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070349.2ODYAkPf-lkp@intel.com/reproduce)
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.16 next-20250806]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/hwmon-ina780-Add-driver-for-TI-INA780/20250806-115131
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250806005127.542298-2-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH 2/2] hwmon: (ina780) Add driver for TI INA780
+config: x86_64-randconfig-072-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070319.QMV6021c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070319.QMV6021c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508070349.2ODYAkPf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070319.QMV6021c-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/genhd.c:642:5: warning: no previous prototype for function 'disk_scan_partitions' [-Wmissing-prototypes]
-     642 | int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
-         |     ^
-   block/genhd.c:642:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     642 | int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
-         | ^
-         | static 
-   1 warning generated.
-   block/genhd.c:533: warning: Function parameter or member 'devt' not described in 'blk_invalidate_devt'
+   drivers/hwmon/ina780.c: In function 'ina780_read_temp':
+>> drivers/hwmon/ina780.c:293:18: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
+     293 |         int reg, mask;
+         |                  ^~~~
 
 
-vim +/disk_scan_partitions +642 block/genhd.c
+vim +/mask +293 drivers/hwmon/ina780.c
 
-d2bf1b6723ed0e Tejun Heo         2010-12-08  641  
-efc73feb2901d2 Christoph Hellwig 2023-04-07 @642  int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
-b9484a857f600c Yu Kuai           2022-08-09  643  {
-b9484a857f600c Yu Kuai           2022-08-09  644  	struct block_device *bdev;
-efc73feb2901d2 Christoph Hellwig 2023-04-07  645  	int ret;
-b9484a857f600c Yu Kuai           2022-08-09  646  
-efc73feb2901d2 Christoph Hellwig 2023-04-07  647  	if (!disk_part_scan_enabled(disk))
-efc73feb2901d2 Christoph Hellwig 2023-04-07  648  		return -EINVAL;
-b9484a857f600c Yu Kuai           2022-08-09  649  
-b9484a857f600c Yu Kuai           2022-08-09  650  	bdev = bdget_disk(disk, 0);
-b9484a857f600c Yu Kuai           2022-08-09  651  	if (!bdev)
-efc73feb2901d2 Christoph Hellwig 2023-04-07  652  		return -ENOMEM;
-b9484a857f600c Yu Kuai           2022-08-09  653  
-b9484a857f600c Yu Kuai           2022-08-09  654  	bdev->bd_invalidated = 1;
-efc73feb2901d2 Christoph Hellwig 2023-04-07  655  
-efc73feb2901d2 Christoph Hellwig 2023-04-07  656  	ret = blkdev_get(bdev, mode, NULL);
-efc73feb2901d2 Christoph Hellwig 2023-04-07  657  	if (!ret)
-efc73feb2901d2 Christoph Hellwig 2023-04-07  658  		blkdev_put(bdev, mode);
-efc73feb2901d2 Christoph Hellwig 2023-04-07  659  
-efc73feb2901d2 Christoph Hellwig 2023-04-07  660  	return ret;
-fbbec472351c99 Christoph Hellwig 2023-04-07  661  }
-fbbec472351c99 Christoph Hellwig 2023-04-07  662  
-
-:::::: The code at line 642 was first introduced by commit
-:::::: efc73feb2901d27dcd01fa859d1378aee42850aa block: merge disk_scan_partitions and blkdev_reread_part
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Yongqiang Liu <duanzi@zju.edu.cn>
+   289	
+   290	static int ina780_read_temp(struct device *dev, u32 attr, long *val)
+   291	{
+   292		struct ina780_data *data = dev_get_drvdata(dev);
+ > 293		int reg, mask;
+   294		int regval;
+   295		int err;
+   296	
+   297		switch (attr) {
+   298		case hwmon_temp_input:
+   299			reg = INA780_DIETEMP;
+   300			break;
+   301		case hwmon_temp_max:
+   302			reg = INA780_TEMP_LIMIT;
+   303			break;
+   304		case hwmon_temp_max_alarm:
+   305			reg = INA780_DIAG_ALRT;
+   306			mask = INA780_DIAG_ALRT_TMPOL;
+   307			break;
+   308		default:
+   309			return -EOPNOTSUPP;
+   310		}
+   311	
+   312		switch (attr) {
+   313		case hwmon_temp_input:
+   314		case hwmon_temp_max:
+   315			err = regmap_read(data->regmap, reg, &regval);
+   316			if (err)
+   317				return err;
+   318			*val = div_s64(((s64)((s16)regval) >> 4) * INA780_TEMP_LSB, 1000);
+   319			break;
+   320		case hwmon_temp_max_alarm:
+   321			err = regmap_read(data->regmap, INA780_DIAG_ALRT, &regval);
+   322			*val = !!(regval & INA780_DIAG_ALRT_TMPOL);
+   323			break;
+   324		}
+   325	
+   326		return 0;
+   327	}
+   328	
 
 -- 
 0-DAY CI Kernel Test Service
