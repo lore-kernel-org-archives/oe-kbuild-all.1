@@ -1,70 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C7B28ECD1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 15:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC855288CB3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 15:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754493140; cv=none; b=O4AyQILzti9Cz7d/qpZgifRt/xcy6p4APzf7EHoTrPm8SoA33JqDDbVLzm8KTGWigLn8Yr5YPhjkUB3ta+P1Zqeyz+drv04gX90it7ym1cXKWRQS4D4gPuDRSWY6XQR/WxrpxS28GX/7V2yJsOrdboumOE90xrJ7Iu8vAMyBmhA=
+	t=1754493803; cv=none; b=esmlb8oyjjaiWfZ5T4YkHf4VtfxWo6dJgPvM846vh6reg2KOEnoAz4H6oGf59h0jVYgzJWIzUwRhVdVu5LQ4tHp6FxXGYm4HrGraveBa16EAe/PnO1gCQLGVupJbtXzujqWwCjFuUzbPFLzSJpHs4qZxSPuTk+spIhYNdwk2i+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754493140; c=relaxed/simple;
-	bh=z0GZ2itZ2i6se6vN/uwlmzSn0GLQ1L0gKV7qLJ9Ot0A=;
+	s=arc-20240116; t=1754493803; c=relaxed/simple;
+	bh=AkGEAlIH3C0KUKVdvEoZWqHlxEIlk+uNMPjIK23FfD4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fcwc0FReKQpsTNUBbFyRPLSHHkDCbx1giAPTxWTrCE7hM2wezVC60KFNkkudPwZCbk31j6IGRR0xjDpUpUfDSXPSjsQMAM2ZRCo3+l5lVYke8EC8qG/hO662WSxidPmO0OvtvtXRA1xCa48vbSLuCTreinzbLW0yK5Q6VfrezWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnuY2MuY; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=aa5woTuY17vI0jiJsAn1P4soRGetSPrID6DcjC6+bsagpN1BfhbKnBKThoip9Zq55VGFGOJZIQCT6qZpncjfm+SKt2gdSt7pe1e2CzfxDAezx4LFu/VgNkO9mOwg07eXEo9fO2MQdhb+SuqibUBsEQ2zFht4YgsADexZ86KNE/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hc36Hzxq; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnuY2MuY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hc36Hzxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754493139; x=1786029139;
+  t=1754493802; x=1786029802;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=z0GZ2itZ2i6se6vN/uwlmzSn0GLQ1L0gKV7qLJ9Ot0A=;
-  b=BnuY2MuY88bwr2i0UY+c5NsLQrskuA7ps1VggbcOEEgwPDR1Oo43y8zm
-   ajI5q1QqN6uUeYbuJjfMrouONVMT7GCk1AmdRWI5EgiwEcqS1Uyz6DUUI
-   CWCUP2AKGlm1dgiFahuxh1YahaUYVwtL+uWSl+yez4VcWq28BtGqQqJ3C
-   bUK00myQhbwNrLmfx5okbyU8liNoRrRp2rd/iYTRMM+qamrAUDBFPbuoA
-   VtZDBXgWp6n13wBfjmiFyL2QOZXXuQJVGELZCKMkNPPC5rjYN5q+ux4dT
-   A4qArn6nWfubZKvn6amxsKb+mDroQZTSeJPXO5zX5aUWLPJy22JX23f2L
-   Q==;
-X-CSE-ConnectionGUID: ZYwLtLmEQ1+ppJtucXT8nw==
-X-CSE-MsgGUID: cHIe9QFlTsuAgz/S0LhZGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67510065"
+  bh=AkGEAlIH3C0KUKVdvEoZWqHlxEIlk+uNMPjIK23FfD4=;
+  b=hc36HzxqDS0LEZLKQUkRFO1b6Jl+p17ikmQGMCTHCDYXy/6xdX58kFQu
+   DPabW4Z/uj2EHUFVjktAc1A78dK9uw819MpZr7HzvLAGlygBYhhwMbvEt
+   sLUlQfO+q3H6MC7Va5HbHV1lsAHnFtJdOCe06rylhiTDUD6364yE3LqBJ
+   gLll86BmdvWxSTeZDTlotywW03nKqpvXcXK8GrXJ+mHsOvWHAUo8H365E
+   y/JdjcU000AI4VkyvzycqxE7nEAnC9uTT3vFzgU4d5FflxaPW7+DfbrE0
+   /+WfCuonz4n4lvJfyLDVIr4tjlHs6qZrhMnRw5Uur43apvrZDhOa7DC1v
+   A==;
+X-CSE-ConnectionGUID: bDub920IR0eprjAj7cfKqg==
+X-CSE-MsgGUID: pFHrL+/wRfelEFzbWsKumw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="74395755"
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="67510065"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 08:12:17 -0700
-X-CSE-ConnectionGUID: BAtTOpw7R7mkNp+FPRptAA==
-X-CSE-MsgGUID: ZjHK3kmaSZej6Qvc1WOpVA==
+   d="scan'208";a="74395755"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 08:23:21 -0700
+X-CSE-ConnectionGUID: PGRGgmDGRLyq4aozpxbSNw==
+X-CSE-MsgGUID: pO0qc8FiTq2lQarZ37YpLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
-   d="scan'208";a="201964384"
+   d="scan'208";a="164819014"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 06 Aug 2025 08:12:13 -0700
+  by orviesa007.jf.intel.com with ESMTP; 06 Aug 2025 08:23:19 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujfoI-0001oO-2p;
-	Wed, 06 Aug 2025 15:12:10 +0000
-Date: Wed, 6 Aug 2025 23:12:02 +0800
+	id 1ujfz2-0001oo-0l;
+	Wed, 06 Aug 2025 15:23:16 +0000
+Date: Wed, 6 Aug 2025 23:22:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Takaya Saeki <takayas@google.com>, Tom Zanussi <zanussi@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ian Rogers <irogers@google.com>, aahringo@redhat.com,
-	Douglas Raillard <douglas.raillard@arm.com>
-Subject: Re: [PATCH 5/7] tracing: Display some syscall arrays as strings
-Message-ID: <202508062215.aRvDXrBA-lkp@intel.com>
-References: <20250805193235.416382557@kernel.org>
+To: Stefano Manni <stefano.manni@gmail.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stefano Manni <stefano.manni@gmail.com>
+Subject: Re: [PATCH] iio: adc: ad799x: add reference supply for ad7994
+Message-ID: <202508062313.Up1PAzZN-lkp@intel.com>
+References: <20250805142423.17710-1-stefano.manni@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,183 +66,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250805193235.416382557@kernel.org>
+In-Reply-To: <20250805142423.17710-1-stefano.manni@gmail.com>
 
-Hi Steven,
+Hi Stefano,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on trace/for-next]
+[auto build test ERROR on jic23-iio/togreg]
 [also build test ERROR on linus/master v6.16 next-20250806]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Replace-syscall-RCU-pointer-assignment-with-READ-WRITE_ONCE/20250806-122312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250805193235.416382557%40kernel.org
-patch subject: [PATCH 5/7] tracing: Display some syscall arrays as strings
-config: i386-randconfig-141-20250806 (https://download.01.org/0day-ci/archive/20250806/202508062215.aRvDXrBA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508062215.aRvDXrBA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefano-Manni/iio-adc-ad799x-add-reference-supply-for-ad7994/20250806-125049
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250805142423.17710-1-stefano.manni%40gmail.com
+patch subject: [PATCH] iio: adc: ad799x: add reference supply for ad7994
+config: arc-randconfig-002-20250806 (https://download.01.org/0day-ci/archive/20250806/202508062313.Up1PAzZN-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508062313.Up1PAzZN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508062215.aRvDXrBA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508062313.Up1PAzZN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/trace/trace_syscalls.c: In function 'check_faultable_syscall':
->> kernel/trace/trace_syscalls.c:883:14: error: '__NR_kexec_file_load' undeclared (first use in this function)
-     883 |         case __NR_kexec_file_load:
-         |              ^~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_syscalls.c:883:14: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/trace/trace_syscalls.c:957:14: error: '__NR_newfstatat' undeclared (first use in this function)
-     957 |         case __NR_newfstatat:
-         |              ^~~~~~~~~~~~~~~
+   drivers/iio/adc/ad799x.c: In function 'ad799x_probe':
+>> drivers/iio/adc/ad799x.c:829:73: error: called object is not a function or function pointer
+     829 |                 if ((st->id == ad7991) || (st->id == ad7995) || (st->id == ad7999)
+         |                                                                 ~~~~~~~~^~~~~~~~~~
 
 
-vim +/__NR_kexec_file_load +883 kernel/trace/trace_syscalls.c
+vim +829 drivers/iio/adc/ad799x.c
 
-   851	
-   852	/*
-   853	 * For system calls that reference user space memory that can
-   854	 * be recorded into the event, set the system call meta data's user_mask
-   855	 * to the "args" index that points to the user space memory to retrieve.
-   856	 */
-   857	static void check_faultable_syscall(struct trace_event_call *call, int nr)
-   858	{
-   859		struct syscall_metadata *sys_data = call->data;
-   860	
-   861		/* Only work on entry */
-   862		if (sys_data->enter_event != call)
-   863			return;
-   864	
-   865		sys_data->user_arg_size = -1;
-   866	
-   867		switch (nr) {
-   868		/* user arg 1 with size arg at 2 */
-   869		case __NR_write:
-   870		case __NR_mq_timedsend:
-   871		case __NR_pwrite64:
-   872			sys_data->user_mask = BIT(1);
-   873			sys_data->user_arg_size = 2;
-   874			break;
-   875		/* user arg 0 with size arg at 1 as string */
-   876		case __NR_setdomainname:
-   877		case __NR_sethostname:
-   878			sys_data->user_mask = BIT(0);
-   879			sys_data->user_arg_size = 1;
-   880			sys_data->user_arg_is_str = 1;
-   881			break;
-   882		/* user arg 4 with size arg at 3 as string */
- > 883		case __NR_kexec_file_load:
-   884			sys_data->user_mask = BIT(4);
-   885			sys_data->user_arg_size = 3;
-   886			sys_data->user_arg_is_str = 1;
-   887			break;
-   888		/* user arg at position 0 */
-   889		case __NR_access:
-   890		case __NR_acct:
-   891		case __NR_add_key: /* Just _type. TODO add _description */
-   892		case __NR_chdir:
-   893		case __NR_chown:
-   894		case __NR_chmod:
-   895		case __NR_chroot:
-   896		case __NR_creat:
-   897		case __NR_delete_module:
-   898		case __NR_execve:
-   899		case __NR_fsopen:
-   900		case __NR_getxattr: /* Just pathname, TODO add name */
-   901		case __NR_lchown:
-   902		case __NR_lgetxattr: /* Just pathname, TODO add name */
-   903		case __NR_lremovexattr: /* Just pathname, TODO add name */
-   904		case __NR_link: /* Just oldname. TODO add newname */
-   905		case __NR_listxattr: /* Just pathname, TODO add list */
-   906		case __NR_llistxattr: /* Just pathname, TODO add list */
-   907		case __NR_lsetxattr: /* Just pathname, TODO add list */
-   908		case __NR_open:
-   909		case __NR_memfd_create:
-   910		case __NR_mount: /* Just dev_name, TODO add dir_name and type */
-   911		case __NR_mkdir:
-   912		case __NR_mknod:
-   913		case __NR_mq_open:
-   914		case __NR_mq_unlink:
-   915		case __NR_pivot_root: /* Just new_root, TODO add old_root */
-   916		case __NR_readlink:
-   917		case __NR_removexattr: /* Just pathname, TODO add name */
-   918		case __NR_rename: /* Just oldname. TODO add newname */
-   919		case __NR_request_key: /* Just _type. TODO add _description */
-   920		case __NR_rmdir:
-   921		case __NR_setxattr: /* Just pathname, TODO add list */
-   922		case __NR_shmdt:
-   923		case __NR_statfs:
-   924		case __NR_swapon:
-   925		case __NR_swapoff:
-   926		case __NR_symlink: /* Just oldname. TODO add newname */
-   927		case __NR_truncate:
-   928		case __NR_unlink:
-   929		case __NR_umount2:
-   930		case __NR_utime:
-   931		case __NR_utimes:
-   932			sys_data->user_mask = BIT(0);
-   933			break;
-   934		/* user arg at position 1 */
-   935		case __NR_execveat:
-   936		case __NR_faccessat:
-   937		case __NR_faccessat2:
-   938		case __NR_finit_module:
-   939		case __NR_fchmodat:
-   940		case __NR_fchmodat2:
-   941		case __NR_fchownat:
-   942		case __NR_fgetxattr:
-   943		case __NR_flistxattr:
-   944		case __NR_fsetxattr:
-   945		case __NR_fspick:
-   946		case __NR_fremovexattr:
-   947		case __NR_futimesat:
-   948		case __NR_getxattrat: /* Just pathname, TODO add name */
-   949		case __NR_inotify_add_watch:
-   950		case __NR_linkat: /* Just oldname. TODO add newname */
-   951		case __NR_listxattrat: /* Just pathname, TODO add list */
-   952		case __NR_mkdirat:
-   953		case __NR_mknodat:
-   954		case __NR_mount_setattr:
-   955		case __NR_move_mount: /* Just from_pathname, TODO add to_pathname */
-   956		case __NR_name_to_handle_at:
-   957		case __NR_newfstatat:
-   958		case __NR_openat:
-   959		case __NR_openat2:
-   960		case __NR_open_tree:
-   961		case __NR_open_tree_attr:
-   962		case __NR_readlinkat:
-   963		case __NR_renameat: /* Just oldname. TODO add newname */
-   964		case __NR_renameat2: /* Just oldname. TODO add newname */
-   965		case __NR_removexattrat: /* Just pathname, TODO add name */
-   966		case __NR_quotactl:
-   967		case __NR_setxattrat: /* Just pathname, TODO add list */
-   968		case __NR_syslog:
-   969		case __NR_symlinkat: /* Just oldname. TODO add newname */
-   970		case __NR_statx:
-   971		case __NR_unlinkat:
-   972		case __NR_utimensat:
-   973			sys_data->user_mask = BIT(1);
-   974			break;
-   975		/* user arg at position 2 */
-   976		case __NR_init_module:
-   977		case __NR_fsconfig:
-   978			sys_data->user_mask = BIT(2);
-   979			break;
-   980		/* user arg at position 4 */
-   981		case __NR_fanotify_mark:
-   982			sys_data->user_mask = BIT(4);
-   983			break;
-   984		default:
-   985			sys_data->user_mask = 0;
-   986		}
-   987	}
-   988	
+   777	
+   778	static int ad799x_probe(struct i2c_client *client)
+   779	{
+   780		const struct i2c_device_id *id = i2c_client_get_device_id(client);
+   781		int ret;
+   782		int extra_config = 0;
+   783		struct ad799x_state *st;
+   784		struct iio_dev *indio_dev;
+   785		const struct ad799x_chip_info *chip_info =
+   786			&ad799x_chip_info_tbl[id->driver_data];
+   787	
+   788		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*st));
+   789		if (indio_dev == NULL)
+   790			return -ENOMEM;
+   791	
+   792		st = iio_priv(indio_dev);
+   793		/* this is only used for device removal purposes */
+   794		i2c_set_clientdata(client, indio_dev);
+   795	
+   796		st->id = id->driver_data;
+   797		if (client->irq > 0 && chip_info->irq_config.info)
+   798			st->chip_config = &chip_info->irq_config;
+   799		else
+   800			st->chip_config = &chip_info->noirq_config;
+   801	
+   802		/* TODO: Add pdata options for filtering and bit delay */
+   803	
+   804		st->reg = devm_regulator_get(&client->dev, "vcc");
+   805		if (IS_ERR(st->reg))
+   806			return PTR_ERR(st->reg);
+   807		ret = regulator_enable(st->reg);
+   808		if (ret)
+   809			return ret;
+   810	
+   811		/* check if an external reference is supplied */
+   812		st->vref = devm_regulator_get_optional(&client->dev, "vref");
+   813	
+   814		if (IS_ERR(st->vref)) {
+   815			if (PTR_ERR(st->vref) == -ENODEV) {
+   816				st->vref = NULL;
+   817				dev_info(&client->dev, "Using VCC reference voltage\n");
+   818			} else {
+   819				ret = PTR_ERR(st->vref);
+   820				goto error_disable_reg;
+   821			}
+   822		}
+   823	
+   824		if (st->vref) {
+   825			/*
+   826			 * Use external reference voltage if supported by hardware.
+   827			 * This is optional if voltage / regulator present, use VCC otherwise.
+   828			 */
+ > 829			if ((st->id == ad7991) || (st->id == ad7995) || (st->id == ad7999)
+   830				(st->id == ad7994)) {
+   831				dev_info(&client->dev, "Using external reference voltage\n");
+   832				extra_config |= AD7991_REF_SEL;
+   833				ret = regulator_enable(st->vref);
+   834				if (ret)
+   835					goto error_disable_reg;
+   836			} else {
+   837				st->vref = NULL;
+   838				dev_warn(&client->dev, "Supplied reference not supported\n");
+   839			}
+   840		}
+   841	
+   842		st->client = client;
+   843	
+   844		indio_dev->name = id->name;
+   845		indio_dev->info = st->chip_config->info;
+   846	
+   847		indio_dev->modes = INDIO_DIRECT_MODE;
+   848		indio_dev->channels = st->chip_config->channel;
+   849		indio_dev->num_channels = chip_info->num_channels;
+   850	
+   851		ret = ad799x_update_config(st, st->chip_config->default_config | extra_config);
+   852		if (ret)
+   853			goto error_disable_vref;
+   854	
+   855		ret = iio_triggered_buffer_setup(indio_dev, NULL,
+   856			&ad799x_trigger_handler, NULL);
+   857		if (ret)
+   858			goto error_disable_vref;
+   859	
+   860		if (client->irq > 0) {
+   861			ret = devm_request_threaded_irq(&client->dev,
+   862							client->irq,
+   863							NULL,
+   864							ad799x_event_handler,
+   865							IRQF_TRIGGER_FALLING |
+   866							IRQF_ONESHOT,
+   867							client->name,
+   868							indio_dev);
+   869			if (ret)
+   870				goto error_cleanup_ring;
+   871		}
+   872	
+   873		mutex_init(&st->lock);
+   874	
+   875		ret = iio_device_register(indio_dev);
+   876		if (ret)
+   877			goto error_cleanup_ring;
+   878	
+   879		return 0;
+   880	
+   881	error_cleanup_ring:
+   882		iio_triggered_buffer_cleanup(indio_dev);
+   883	error_disable_vref:
+   884		if (st->vref)
+   885			regulator_disable(st->vref);
+   886	error_disable_reg:
+   887		regulator_disable(st->reg);
+   888	
+   889		return ret;
+   890	}
+   891	
 
 -- 
 0-DAY CI Kernel Test Service
