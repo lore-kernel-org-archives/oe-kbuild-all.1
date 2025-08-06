@@ -1,71 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DDC205AA1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 20:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4072BD5B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Aug 2025 20:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754512257; cv=none; b=KGtOm7I8hnhnKS33NWYe3YlrJ1INhQWhJinwaHxngg60/SWFKffo+I22XmRMuDLx6L33C/OEz+XQcM3za3AgfHM6NQ1nLxjh5OdaodGSdGu4avQObERWCMdPZwf3pB20OHmRqvbgwAlAcUopvBgDlmHYyo10IRFq3IyG98frmbI=
+	t=1754512872; cv=none; b=PUs+/AImt06jXC9msuTDpaXiPxdM+ADR/CM01w9f6iAi92vkmXWRMPburXL16t3vT3WsKA6F5davjhk7mBNPL3fWYknXMlgm6ahtxFHL5heZIFi5e0wo4SYeMgnMRNohXN4RlTzOl44AqqF06culf5Y7NQPMaXD+o9dh8cBmmnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754512257; c=relaxed/simple;
-	bh=IUvrNEmDlCZzmuFligTjfGnRr54fRAByHqiRZrgG2+o=;
+	s=arc-20240116; t=1754512872; c=relaxed/simple;
+	bh=+Kj3Cp8LPwva2q9gWj1Lp/dXKJzRTOeU9qOHIURBHpg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ewer13bfkoUtzASlzESI1ngMBJus3O5sR7i7HHK/U8hgiAGYxXtO0vouNckaC9B2J7i649SrzN/dNW/eSSUtLCEI8ddcLRtrFwGwXh3hPj0uXks+dcf9EEvMMA+kfr2Rw0kAtIM7QIv+PZTyar/faYO2E7APioqCUVYOQqWgvKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgwfzB8P; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=uMrP+1jqym7ZSJQKoSfEGA1Esyv3Bq8+WwUdRrJA5eEDD3P0rULZUeXZOMPsU/BzSLFtLYA9x4ilrv3te9z4I0ZOGqXU4R9wf5E3CeA8mfmY+nsZA00Yvh6BnFE0AGQqUj4zOS270y7bJE+dr9EV0WIk5rNYc1kszdDsT+Xtsko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqczba0S; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgwfzB8P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqczba0S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754512256; x=1786048256;
+  t=1754512869; x=1786048869;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IUvrNEmDlCZzmuFligTjfGnRr54fRAByHqiRZrgG2+o=;
-  b=lgwfzB8PLT7hy8+WnnjA3EP18/+lHPyU7vlu9WhkqaeqVakT8ErEnd5I
-   vCELXqA3UpPnsD3AvSWSuGvvueaL8ylCCs2BuMVXsJVmFFuGIDwjVp59B
-   VbyuRwJjIGysuHCoAepSqSryFdM3sfM/hV9emAtPUg11surGctcJUZvxF
-   BJ68ODxQnJz2jLBVbotDO9qdR50dmXpdVWArzvbxfVMK0JEGpHgZtgYhV
-   T9+1WTmZfv21Pz5lLwyRUKs6W7nqcrqZDbE6G1ltMxasvTWqZoRTOzSKn
-   Bz3zJY/Rpf1qASQ9fUlbvmYNk9azCh3I6nzpP9L3kKoIlGmk6TsnftAlM
-   A==;
-X-CSE-ConnectionGUID: +tEFDJizQSatiPlIpZfCpQ==
-X-CSE-MsgGUID: VkryzdykQlOlGaTH3R4Xew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56806108"
+  bh=+Kj3Cp8LPwva2q9gWj1Lp/dXKJzRTOeU9qOHIURBHpg=;
+  b=iqczba0SVZH1hmrOMT9nNyDZEaI3l/kD4cl1wVj75h4WNH1yDZ53anR5
+   N7h8GigbPSbueliESEf75aW80NDlK7wpUYh2TdHr/585vPOTUbqcyUjRV
+   miiKKEktLbXh2ayJJhxGPtQ8bF2fp7sMmAIFCYGrWCGtTRpzyt3YGnkBA
+   CrCj+qOghNeRc3jWXTwvw7OQyx2Sm0wJ804gfmTbcoBAwiZ5o6Gnu1ZK9
+   r8DHJCvYwBtvoty3dx6/AA1UqeRKNiuQXFLhQ/yb3ec93irv/t2e6rRog
+   qiSrm1+8xM1Y4E8ttCXrW0Qn/bPptLXPwSkyKnu1JPiWgpm+NK8m31ilS
+   w==;
+X-CSE-ConnectionGUID: nvG2EKrjQAWLCh/o6LqoAA==
+X-CSE-MsgGUID: kjKEwfxdTmCvlzgElUUoRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68292951"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="56806108"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 13:30:55 -0700
-X-CSE-ConnectionGUID: UsXKBFW4QpCuPgMwmiQ6lA==
-X-CSE-MsgGUID: 44kMhEi7QB2iCbTDY/YqCw==
+   d="scan'208";a="68292951"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 13:41:09 -0700
+X-CSE-ConnectionGUID: 4UCBIf49RfezSkorl0A6/A==
+X-CSE-MsgGUID: b09J71hZS5icy2vQddJOYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165666300"
+   d="scan'208";a="170139148"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Aug 2025 13:30:50 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 06 Aug 2025 13:41:06 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujkmZ-00024O-1u;
-	Wed, 06 Aug 2025 20:30:45 +0000
-Date: Thu, 7 Aug 2025 04:28:42 +0800
+	id 1ujkwR-00024s-04;
+	Wed, 06 Aug 2025 20:41:02 +0000
+Date: Thu, 7 Aug 2025 04:40:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Nam Cao <namcao@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>
-Subject: Re: [PATCH v2 5/5] rv: Add rts monitor
-Message-ID: <202508070415.RDcwKpac-lkp@intel.com>
-References: <88fdbeb3f2ecf3a6259f3ee8636ae5b21fa6b72d.1754466623.git.namcao@linutronix.de>
+To: Boris Burkov <boris@bur.io>, linux-btrfs@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	kernel-team@fb.com
+Cc: oe-kbuild-all@lists.linux.dev, shakeel.butt@linux.dev,
+	hch@infradead.org, wqu@suse.com
+Subject: Re: [PATCH 3/3] mm: add vmstat for cgroup uncharged pages
+Message-ID: <202508070434.6EpRsRF3-lkp@intel.com>
+References: <eae30d630ba07de8966d09a3e1700f53715980c2.1754438418.git.boris@bur.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,149 +65,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <88fdbeb3f2ecf3a6259f3ee8636ae5b21fa6b72d.1754466623.git.namcao@linutronix.de>
+In-Reply-To: <eae30d630ba07de8966d09a3e1700f53715980c2.1754438418.git.boris@bur.io>
 
-Hi Nam,
+Hi Boris,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master next-20250806]
-[cannot apply to tip/sched/core v6.16]
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on v6.16]
+[cannot apply to akpm-mm/mm-everything linus/master next-20250806]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/rv-ltl-Prepare-for-other-monitor-types/20250806-160342
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/88fdbeb3f2ecf3a6259f3ee8636ae5b21fa6b72d.1754466623.git.namcao%40linutronix.de
-patch subject: [PATCH v2 5/5] rv: Add rts monitor
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250807/202508070415.RDcwKpac-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070415.RDcwKpac-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/mm-filemap-add-filemap_add_folio_nocharge/20250806-130147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/eae30d630ba07de8966d09a3e1700f53715980c2.1754438418.git.boris%40bur.io
+patch subject: [PATCH 3/3] mm: add vmstat for cgroup uncharged pages
+config: i386-buildonly-randconfig-003-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070434.6EpRsRF3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070434.6EpRsRF3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508070415.RDcwKpac-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070434.6EpRsRF3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/percpu.h:7,
-                    from ./arch/sh/include/generated/asm/percpu.h:1,
-                    from include/linux/irqflags.h:19,
-                    from arch/sh/include/asm/cmpxchg-irq.h:5,
-                    from arch/sh/include/asm/cmpxchg.h:21,
-                    from arch/sh/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/sh/include/asm/bitops.h:23,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from include/linux/interrupt.h:6,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from kernel/trace/rv/monitors/rts/rts.c:2:
-   include/rv/ltl_monitor.h: In function 'ltl_get_monitor':
->> include/linux/percpu-defs.h:90:40: error: section attribute cannot be specified for local variables
-      90 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
-         |                                        ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:91:33: error: section attribute cannot be specified for local variables
-      91 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
-         |                                 ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
->> include/linux/percpu-defs.h:91:33: error: declaration of '__pcpu_unique_ltl_monitor' with no linkage follows extern declaration
-      91 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
-         |                                 ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:90:40: note: previous declaration of '__pcpu_unique_ltl_monitor' with type 'char'
-      90 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
-         |                                        ^~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:113:9: note: in expansion of macro 'DEFINE_PER_CPU_SECTION'
-     113 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
->> include/rv/ltl_monitor.h:69:51: error: section attribute cannot be specified for local variables
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                                                   ^~~~~~~~~~~
-   include/linux/percpu-defs.h:92:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      92 |         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
-         |                                                   ^~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
->> include/rv/ltl_monitor.h:69:51: error: section attribute cannot be specified for local variables
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                                                   ^~~~~~~~~~~
-   include/linux/percpu-defs.h:93:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      93 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                                                   ^~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
->> include/rv/ltl_monitor.h:69:51: error: weak declaration of 'ltl_monitor' must be public
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                                                   ^~~~~~~~~~~
-   include/linux/percpu-defs.h:93:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      93 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                                                   ^~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
->> include/rv/ltl_monitor.h:69:51: error: declaration of 'ltl_monitor' with no linkage follows extern declaration
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                                                   ^~~~~~~~~~~
-   include/linux/percpu-defs.h:93:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      93 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                                                   ^~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
-   include/rv/ltl_monitor.h:69:51: note: previous declaration of 'ltl_monitor' with type 'struct ltl_monitor'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                                                   ^~~~~~~~~~~
-   include/linux/percpu-defs.h:92:51: note: in definition of macro 'DEFINE_PER_CPU_SECTION'
-      92 |         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
-         |                                                   ^~~~
-   include/rv/ltl_monitor.h:69:16: note: in expansion of macro 'DEFINE_PER_CPU'
-      69 |         static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-         |                ^~~~~~~~~~~~~~
+   mm/filemap.c: In function 'filemap_unaccount_folio':
+   mm/filemap.c:209:9: error: implicit declaration of function 'filemap_mod_uncharged_vmstat'; did you mean 'filemap_mod_uncharged_cgroup_vmstat'? [-Werror=implicit-function-declaration]
+     209 |         filemap_mod_uncharged_vmstat(folio, -1);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         filemap_mod_uncharged_cgroup_vmstat
+   mm/filemap.c: At top level:
+>> mm/filemap.c:158:13: warning: 'filemap_mod_uncharged_cgroup_vmstat' defined but not used [-Wunused-function]
+     158 | static void filemap_mod_uncharged_cgroup_vmstat(struct folio *folio, int sign)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +69 include/rv/ltl_monitor.h
+vim +/filemap_mod_uncharged_cgroup_vmstat +158 mm/filemap.c
 
-a9769a5b987838 Nam Cao 2025-07-09  61  
-59c45d176bc0f2 Nam Cao 2025-08-06  62  static struct ltl_monitor *ltl_get_monitor(monitor_target target)
-a9769a5b987838 Nam Cao 2025-07-09  63  {
-59c45d176bc0f2 Nam Cao 2025-08-06  64  	return &target->rv[ltl_monitor_slot].ltl_mon;
-a9769a5b987838 Nam Cao 2025-07-09  65  }
-50fd6be3de4982 Nam Cao 2025-08-06  66  #elif LTL_MONITOR_TYPE == RV_MON_PER_CPU
-50fd6be3de4982 Nam Cao 2025-08-06  67  static struct ltl_monitor *ltl_get_monitor(unsigned int cpu)
-50fd6be3de4982 Nam Cao 2025-08-06  68  {
-50fd6be3de4982 Nam Cao 2025-08-06 @69  	static DEFINE_PER_CPU(struct ltl_monitor, ltl_monitor);
-50fd6be3de4982 Nam Cao 2025-08-06  70  
-50fd6be3de4982 Nam Cao 2025-08-06  71  	return per_cpu_ptr(&ltl_monitor, cpu);
-50fd6be3de4982 Nam Cao 2025-08-06  72  }
-59c45d176bc0f2 Nam Cao 2025-08-06  73  #endif
-a9769a5b987838 Nam Cao 2025-07-09  74  
+   148	
+   149	#ifdef CONFIG_MEMCG
+   150	static void filemap_mod_uncharged_vmstat(struct folio *folio, int sign)
+   151	{
+   152		long nr = folio_nr_pages(folio) * sign;
+   153	
+   154		if (!folio_memcg(folio))
+   155			__lruvec_stat_mod_folio(folio, NR_UNCHARGED_FILE_PAGES, nr);
+   156	}
+   157	#else
+ > 158	static void filemap_mod_uncharged_cgroup_vmstat(struct folio *folio, int sign)
+   159	{
+   160		return;
+   161	}
+   162	#endif
+   163	
+   164	
+   165	static void filemap_unaccount_folio(struct address_space *mapping,
+   166			struct folio *folio)
+   167	{
+   168		long nr;
+   169	
+   170		VM_BUG_ON_FOLIO(folio_mapped(folio), folio);
+   171		if (!IS_ENABLED(CONFIG_DEBUG_VM) && unlikely(folio_mapped(folio))) {
+   172			pr_alert("BUG: Bad page cache in process %s  pfn:%05lx\n",
+   173				 current->comm, folio_pfn(folio));
+   174			dump_page(&folio->page, "still mapped when deleted");
+   175			dump_stack();
+   176			add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+   177	
+   178			if (mapping_exiting(mapping) && !folio_test_large(folio)) {
+   179				int mapcount = folio_mapcount(folio);
+   180	
+   181				if (folio_ref_count(folio) >= mapcount + 2) {
+   182					/*
+   183					 * All vmas have already been torn down, so it's
+   184					 * a good bet that actually the page is unmapped
+   185					 * and we'd rather not leak it: if we're wrong,
+   186					 * another bad page check should catch it later.
+   187					 */
+   188					atomic_set(&folio->_mapcount, -1);
+   189					folio_ref_sub(folio, mapcount);
+   190				}
+   191			}
+   192		}
+   193	
+   194		/* hugetlb folios do not participate in page cache accounting. */
+   195		if (folio_test_hugetlb(folio))
+   196			return;
+   197	
+   198		nr = folio_nr_pages(folio);
+   199	
+   200		__lruvec_stat_mod_folio(folio, NR_FILE_PAGES, -nr);
+   201		if (folio_test_swapbacked(folio)) {
+   202			__lruvec_stat_mod_folio(folio, NR_SHMEM, -nr);
+   203			if (folio_test_pmd_mappable(folio))
+   204				__lruvec_stat_mod_folio(folio, NR_SHMEM_THPS, -nr);
+   205		} else if (folio_test_pmd_mappable(folio)) {
+   206			__lruvec_stat_mod_folio(folio, NR_FILE_THPS, -nr);
+   207			filemap_nr_thps_dec(mapping);
+   208		}
+ > 209		filemap_mod_uncharged_vmstat(folio, -1);
+   210	
+   211		/*
+   212		 * At this point folio must be either written or cleaned by
+   213		 * truncate.  Dirty folio here signals a bug and loss of
+   214		 * unwritten data - on ordinary filesystems.
+   215		 *
+   216		 * But it's harmless on in-memory filesystems like tmpfs; and can
+   217		 * occur when a driver which did get_user_pages() sets page dirty
+   218		 * before putting it, while the inode is being finally evicted.
+   219		 *
+   220		 * Below fixes dirty accounting after removing the folio entirely
+   221		 * but leaves the dirty flag set: it has no effect for truncated
+   222		 * folio and anyway will be cleared before returning folio to
+   223		 * buddy allocator.
+   224		 */
+   225		if (WARN_ON_ONCE(folio_test_dirty(folio) &&
+   226				 mapping_can_writeback(mapping)))
+   227			folio_account_cleaned(folio, inode_to_wb(mapping->host));
+   228	}
+   229	
 
 -- 
 0-DAY CI Kernel Test Service
