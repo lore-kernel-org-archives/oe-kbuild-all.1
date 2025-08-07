@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A63273D86
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 17:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913A51FCF41;
+	Thu,  7 Aug 2025 17:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754587992; cv=none; b=nrPqeoMSninHn4PMXGIRJDRToWkfiRjwNa8obO0vq8X93K9IHdweWocz4wyBAeWr+jNQhBrhj8h4XfycuGV9qslm9x7AZsZwwbz+5ofRlS0frBeE4q666+768IUuEXuEP4l/rT0XvnTbOSSIn8kOOK+B1USezQ1ThGpSuakrMNw=
+	t=1754589366; cv=none; b=em6tKknu2T+OHgrfXH4H0v5G6psDeOPNn9RQiOY+j5fLB0P0Yfq7W7LlQ53vGpx7ywZPkQ1zxMOrC5muREVxu4B02TZ0SN+0x1YtzX1SfAAUbC5RZBUquRCVJoAMWH3Nf9Z2713Bls1CrAFGh/rEmyjgQMwVsO9SKr7kZ50Whzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754587992; c=relaxed/simple;
-	bh=xZxVKJh17oudJyYOxZDnuB2ZrzAQCWGUyMm9JbAvclQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SdkxmC/Ror2fYqNgcFayAkJPiK+kFJ6p2huqW0FblHN+3tonYEFh9DgHuF/iIxqgCkiAe07KFX21y3P1OVMWqYtM8xsPMVTyfR+Ys1LBspcNK6avVyQ1e50qpa70kIwVnYmRUnjEzjNS2jIlevakBWSNeGBQEjYobpGidaDrQFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jge8vUhf; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1754589366; c=relaxed/simple;
+	bh=TAXqubzsBEIA8arpECTj6N2IP2QqQQyNT2bLiy8zTkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sKvC14hl/6ZuMuUtZjZ17kqBrQTUFvzyzh0sLD4X6ZYBxaCtSXiFkvgTA1mw7LgPieYzJ3i1Y04G48uJanOs4kmUeH92tDOI6gjFJVGVP/Y6zCC5qsFw5UkZJ71LMRWktBdeBp6WgEVR6wQyh3gL1CTpfnXfYNRereUqiBsmkeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6M8D/Vf; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jge8vUhf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6M8D/Vf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754587990; x=1786123990;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xZxVKJh17oudJyYOxZDnuB2ZrzAQCWGUyMm9JbAvclQ=;
-  b=jge8vUhfmmSLt1ssiA+RLOiDSB1b7KkOvnJk0dwFXw/ng74lCSHd63ma
-   cmsNS+I3iGPvStXESGZYa9bJyxswtJwMlzI9EPfgwgSH7Q1mxMzDAdf0A
-   U1CpFouXei4rNuiSpLND6dbc2CPHgWp2x4GgnvOFHNdBmhuPSk2gwvTyX
-   W6h/jHJVXOvsLsuBORy3Ua67u5mD6Q4vuDlvvxIgheRIMfC+ZU6My1lUi
-   9enPGxQDH90Z3969S4mtdaAFUSoRAV4nAFZR+YKE3wFDh7e0M5x/Ig7bs
-   uU7zzUknI14zewWvIr56HPeKbj3RDfoaDt3OvnuI8I83QL8rfdmna6kgm
-   Q==;
-X-CSE-ConnectionGUID: BKxJqtMvRKODFVv4RwbPoQ==
-X-CSE-MsgGUID: k1bbGOd+RuWt7M/H1trCRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67524299"
+  t=1754589365; x=1786125365;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TAXqubzsBEIA8arpECTj6N2IP2QqQQyNT2bLiy8zTkI=;
+  b=O6M8D/VfNFZLPPDqqj/mL4eThO9xG4HxF+fbpyANd3f4ybMP/ryCMWeO
+   8ArMb1vF9kSOciwhEurUnKIsnjSYCBzWZWMHIg+Nffqc/3u9VrOmuBRE1
+   t1DnKISsH7NEn/PW2YwVDx7p852m8driMuiVSiNpfR3uL7fqcdOwbG2Gi
+   yHdfIUpEDftcsulm6oEMnfXk9Ice94FmKtUp5Pwtv9zFsqNkDUztY5KF7
+   HnJvHXyvj7oWbvEe+Xftiy0jX2bDpmUR5f3ThS+eK41z0q3tfDuubigKj
+   23uqgG8xjKpEGeDmd+ZoF2R9hkgw2slCuAL0b8kMVpW4kY1ZHtJPVXNVB
+   g==;
+X-CSE-ConnectionGUID: emvnQ27pQCOpyWYoqq2RIw==
+X-CSE-MsgGUID: oBJDQWr8SZykkZKjyYQ6xQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56141672"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="67524299"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 10:33:06 -0700
-X-CSE-ConnectionGUID: nDg0i1A8SkaoNOc3BwJ26Q==
-X-CSE-MsgGUID: mifzILFbTO6NDJf1F+dNjw==
+   d="scan'208";a="56141672"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 10:56:04 -0700
+X-CSE-ConnectionGUID: sgd3Ks+xRWWyEHltsJTu+w==
+X-CSE-MsgGUID: 3Dd3cOroRKuj9Wq4M4u96A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="164367140"
+   d="scan'208";a="165139305"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 07 Aug 2025 10:33:06 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2025 10:56:00 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk4U9-00033D-1y;
-	Thu, 07 Aug 2025 17:33:02 +0000
-Date: Fri, 8 Aug 2025 01:32:11 +0800
+	id 1uk4qG-00034I-2D;
+	Thu, 07 Aug 2025 17:55:55 +0000
+Date: Fri, 8 Aug 2025 01:55:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt-convert 320/801] Warning: Duplicate compatible "ti,lm36274"
- found in schemas matching "$id":
-Message-ID: <202508080155.t2P0Mnhn-lkp@intel.com>
+To: Shyam Saini <shyamsaini@linux.microsoft.com>, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, jgg@ziepe.ca, will@kernel.org,
+	jacob.pan@linux.microsoft.com, eric.auger@redhat.com,
+	code@tyhicks.com, eahariha@linux.microsoft.com,
+	vijayb@linux.microsoft.com, bboscaccy@linux.microsoft.com
+Subject: Re: [PATCH v3 3/3] arm-smmu: select suitable MSI IOVA
+Message-ID: <202508080104.M1bnmiMo-lkp@intel.com>
+References: <20250806215539.1240561-4-shyamsaini@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,93 +67,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250806215539.1240561-4-shyamsaini@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 72e0494921741c36a0d4755e5ace79a5251bc5e6 [320/801] dt-bindings: mfd: Convert ti-lmu to DT schema
-config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250808/202508080155.t2P0Mnhn-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080155.t2P0Mnhn-lkp@intel.com/reproduce)
+Hi Shyam,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.16 next-20250807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Saini/arm-smmu-move-MSI_IOVA-macro-definitions/20250807-055741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20250806215539.1240561-4-shyamsaini%40linux.microsoft.com
+patch subject: [PATCH v3 3/3] arm-smmu: select suitable MSI IOVA
+config: um-randconfig-r071-20250807 (https://download.01.org/0day-ci/archive/20250808/202508080104.M1bnmiMo-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080104.M1bnmiMo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080155.t2P0Mnhn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080104.M1bnmiMo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/devicetree/bindings/iommu/nvidia,tegra30-smmu.yaml: ignoring, error parsing file
-   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,tptcs: missing type definition
-   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,edma-reserved-slot-ranges: missing type definition
-   Documentation/devicetree/bindings/memory-controllers/atmel,ebi.yaml: atmel,smc-page-mode: missing type definition
-   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
-   Documentation/devicetree/bindings/display/smi-sm501.yaml: edid: missing type definition
-   Documentation/devicetree/bindings/cpufreq/operating-points-v2.yaml: opp-supported-hw: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/opp/opp-v2-base.yaml: opp-supported-hw: multiple incompatible types: uint32-matrix
-   Documentation/devicetree/bindings/arm/vexpress-config.yaml: arm,vexpress-sysreg,func: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/hwmon/vexpress.yaml: arm,vexpress-sysreg,func: multiple incompatible types: phandle-array
-   Warning: Duplicate compatible "operating-points-v2" found in schemas matching "$id":
-   	http://devicetree.org/schemas/cpufreq/operating-points-v2.yaml#
-   	http://devicetree.org/schemas/opp/opp-v2.yaml#
-   Warning: Duplicate compatible "aspeed,ast2500-gfx" found in schemas matching "$id":
-   	http://devicetree.org/schemas/gpu/aspeed,ast2500-gfx.yaml#
-   	http://devicetree.org/schemas/aspeed,ast2500-gfx.yaml#
->> Warning: Duplicate compatible "ti,lm36274" found in schemas matching "$id":
-   	http://devicetree.org/schemas/leds/ti,lm36274.yaml#
-   	http://devicetree.org/schemas/mfd/ti-lmu.yaml#
-   Warning: Duplicate compatible "active-semi,act8945a" found in schemas matching "$id":
-   	http://devicetree.org/schemas/regulator/active-semi,act8945a.yaml#
-   	http://devicetree.org/schemas/mfd/active-semi,act8945a.yaml#
-   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
-   	http://devicetree.org/schemas/aspeed,ast2400-cf-fsi-master.yaml#
-   	http://devicetree.org/schemas/fsi-master.yaml#
-   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
-   	http://devicetree.org/schemas/fsi-master.yaml#
-   	http://devicetree.org/schemas/fsi-master-gpio.yaml#
-   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-sb" found in schemas matching "$id":
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-sb.yaml#
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
-   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-nb" found in schemas matching "$id":
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-nb.yaml#
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
-   Warning: Duplicate compatible "st,lis3lv02d" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
-   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
-   Warning: Duplicate compatible "st,lis302dl-spi" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
-   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
-   Warning: Duplicate compatible "fsl,vf610-mscm-ir" found in schemas matching "$id":
-   	http://devicetree.org/schemas/interrupt-controller/fsl,vf610-mscm-ir.yaml#
-   	http://devicetree.org/schemas/arm/freescale/fsl,vf610-mscm-ir.yaml#
-   Warning: Duplicate compatible "ti,omap4-dss" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/ti/ti,omap-dss.yaml#
-   	http://devicetree.org/schemas/display/ti/ti,omap4-dss.yaml#
-   Warning: Duplicate compatible "ti,opa362" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/ti/ti,opa362.yaml#
-   	http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
-   Warning: Duplicate compatible "fsl,ls1021a-dcu" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
-   Warning: Duplicate compatible "fsl,vf610-dcu" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
-   Warning: Duplicate compatible "maxim,max77620" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mfd/maxim,max77620.yaml#
-   	http://devicetree.org/schemas/trivial-gpio.yaml#
-   Warning: Duplicate compatible "cdns,gpio-r1p02" found in schemas matching "$id":
-   	http://devicetree.org/schemas/cdns,gpio-r1p02.yaml#
-   	http://devicetree.org/schemas/gpio/cdns,gpio.yaml#
-   Warning: Duplicate compatible "st" found in schemas matching "$id":
-   	http://devicetree.org/schemas/stericsson,nomadik,src.yaml#
-   	http://devicetree.org/schemas/st,comms-irb.yaml#
+   In file included from drivers/iommu/arm/arm-smmu/arm-smmu.c:24:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1602:35: error: use of undeclared identifier 'MSI_IOVA_BASE'
+    1602 |         static const u64 msi_bases[] = { MSI_IOVA_BASE, MSI_IOVA_BASE2 };
+         |                                          ^~~~~~~~~~~~~
+>> drivers/iommu/arm/arm-smmu/arm-smmu.c:1602:50: error: use of undeclared identifier 'MSI_IOVA_BASE2'
+    1602 |         static const u64 msi_bases[] = { MSI_IOVA_BASE, MSI_IOVA_BASE2 };
+         |                                                         ^~~~~~~~~~~~~~
+>> drivers/iommu/arm/arm-smmu/arm-smmu.c:1610:23: error: invalid application of 'sizeof' to an incomplete type 'const u64[]' (aka 'const unsigned long long[]')
+    1610 |         for (int i = 0; i != ARRAY_SIZE(msi_bases); i++) {
+         |                              ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1613:44: error: use of undeclared identifier 'MSI_IOVA_LENGTH'
+    1613 |                 if (resv_region_intersects(msi_bases[i], MSI_IOVA_LENGTH, head))
+         |                                                          ^~~~~~~~~~~~~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1616:50: error: use of undeclared identifier 'MSI_IOVA_LENGTH'
+    1616 |                 region = iommu_alloc_resv_region(msi_bases[i], MSI_IOVA_LENGTH, prot,
+         |                                                                ^~~~~~~~~~~~~~~
+   1 warning and 5 errors generated.
+
+
+vim +/MSI_IOVA_BASE2 +1602 drivers/iommu/arm/arm-smmu/arm-smmu.c
+
+  1596	
+  1597	static void arm_smmu_get_resv_regions(struct device *dev,
+  1598					      struct list_head *head)
+  1599	{
+  1600		int prot = IOMMU_WRITE | IOMMU_NOEXEC | IOMMU_MMIO;
+  1601	
+> 1602		static const u64 msi_bases[] = { MSI_IOVA_BASE, MSI_IOVA_BASE2 };
+  1603	
+  1604		iommu_dma_get_resv_regions(dev, head);
+  1605	
+  1606		/*
+  1607		 * Use the first msi_base that does not intersect with a platform
+  1608		 * reserved region. The SW MSI base selection is entirely arbitrary.
+  1609		 */
+> 1610		for (int i = 0; i != ARRAY_SIZE(msi_bases); i++) {
+  1611			struct iommu_resv_region *region;
+  1612	
+  1613			if (resv_region_intersects(msi_bases[i], MSI_IOVA_LENGTH, head))
+  1614				continue;
+  1615	
+  1616			region = iommu_alloc_resv_region(msi_bases[i], MSI_IOVA_LENGTH, prot,
+  1617							 IOMMU_RESV_SW_MSI, GFP_KERNEL);
+  1618			if (!region)
+  1619				return;
+  1620	
+  1621			list_add_tail(&region->list, head);
+  1622			return;
+  1623		}
+  1624	}
+  1625	
 
 -- 
 0-DAY CI Kernel Test Service
