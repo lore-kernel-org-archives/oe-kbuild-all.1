@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C36278158
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 11:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66AF278161
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 11:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754565543; cv=none; b=L2H9iJysRe3IFB31pnSZ1caJoYmNiU94DQUJ/Bv8HdzG0DmSjUMe9yd6odPhwdpx9SioL2yaoXlXhJS4ABgDSfZ/G+d/QjfVlmRiSsf3LW5w7ihMwsprppcLy7TiaJFrmRnuEL1zAXwU6lUjbn6ED4WEwqjVKt8Pzpep1u4QM5Q=
+	t=1754565922; cv=none; b=kZ4dNryNSfrOt71QD1E1995qH9XvbbL7uZAT178tMn0ey71vHVK64hwApUXUxHfMC/2IxQPN+UiUyCBcLAVRak2bBO2OgXsNwclC44zW7YsYt/7BEYUeD4I/BOT0smOBq+2bayYWhyb8+VDk+HMU+KBKlsBmw4Vt/oVFd68rxNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754565543; c=relaxed/simple;
-	bh=zWErrF7JnkHK/A4lQkqO8Fx2pw5TjwJs9rJSs2umRUM=;
+	s=arc-20240116; t=1754565922; c=relaxed/simple;
+	bh=nf1Uz/64Xk7Uq7Ha4ydJ+I/gpEixPS0OjNVi7zKfnbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=csNIy2qDBHcnJZIF1QsRiyqhPTRiAgUNln9O0/+Wf8VWVimoj2iGfN3jglGtxyoF4T57PtLOzu2pfwYDzOawOl6OHuKllwXn5FzScf7hgUuKLaj94oxhvGVKoiQyjeJD20F4SrDhTe0dNj1gLqzYhslwzJOJkoXshRzU1G1rI7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRHAyuU2; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Bk0Dk1isVEKi+wdOJsI+ZXI4LK8J5lmd8RmSaI6y3L2KjVW342VqwkojhvITb0gQesmJQUk+AHFb2vWfE/Zy0ZChTXwiOnD2IuMpjUUDfNqzuEwipzBkf1U2SG3pr3+j2OscqanvR/w+JlTUrj1/0QRFicvIehTP9CPNiDEltEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EF/V5Dp+; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRHAyuU2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EF/V5Dp+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754565541; x=1786101541;
+  t=1754565921; x=1786101921;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zWErrF7JnkHK/A4lQkqO8Fx2pw5TjwJs9rJSs2umRUM=;
-  b=hRHAyuU2DWrb9Q9UDv1katPs6g4KvPW8FOo3IqmbA7Jn45WtIwukeB+o
-   TNg4zbZ9xh3DDTM8W8DxtWXRO4H3AUXjvpmTuKL1g+NBsfjiiD00dQ4z6
-   8gqdanekUExDomBE+BLqKS+34J6ecfRXeKOzoHsxDpGOBRXhQdGjuO7S6
-   0nj5rCufGgrNKwrxEWbjg97yZsNPcr8uuNXyUzogy5FCjK13ztqoOcXYQ
-   WNZo0gk4qjDJt4wqYz2rhyA2vURtmgvsWWcHaCtZ+wDsc1BULCfFmREkv
-   QlPj+j70JJpOnbNBcsLCt5RdbCAqZzlaNNLWpCrB55YHBJ2gFslZDw24n
-   Q==;
-X-CSE-ConnectionGUID: W+fkioLbRt+LvxQZAJKtYw==
-X-CSE-MsgGUID: IzKcwe8lTmyXwn1xaHesRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67164627"
+  bh=nf1Uz/64Xk7Uq7Ha4ydJ+I/gpEixPS0OjNVi7zKfnbE=;
+  b=EF/V5Dp+CmHRzGTULRjUnz0mq2pxAmWjepBWy0Y+sL7KgqVajjgvEO64
+   SUwvGc0/PNFI0X1jBrJTDDDvDQiQPbImXMDONDRnYSt3IpH056OU/Z4Zz
+   3hzTucNYW6ZmL9XCO0x5W0d4tBBYFGL9wAfZZclYDPsoakeTQtfgv2Ji2
+   6jR6Fwm5tg9HllF2hosMkTs9ex1FnNnwfnTAmlwtzU5CR1FZyrchWxrFx
+   tNvl/LqZbaWuN18KGEY/KO3K1aEGu0g+m7xwgaequyehfmDtqVpia4TnR
+   b5z0qry8BZVsjATZOm8JDcTzyudA5CNHG5NvMff6nDlNjErpWv1kVmzRe
+   g==;
+X-CSE-ConnectionGUID: eaB/hdA6TpSr8Jf/p6EHLQ==
+X-CSE-MsgGUID: coUw59YURzG1ArBuxTttZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="82343249"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="67164627"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 04:18:59 -0700
-X-CSE-ConnectionGUID: p7eIi775TZKuRKUEH15FWw==
-X-CSE-MsgGUID: oMh4KAhpTx2FZwTXJVC2yA==
+   d="scan'208";a="82343249"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 04:25:20 -0700
+X-CSE-ConnectionGUID: dzliR5lhQsu/jdTiLvSQ2w==
+X-CSE-MsgGUID: kQ2ZwGZQRsWAVVRVI3eYRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="195875197"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Aug 2025 04:18:58 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="196023491"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa002.jf.intel.com with ESMTP; 07 Aug 2025 04:25:19 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujye8-0002ic-2S;
-	Thu, 07 Aug 2025 11:18:56 +0000
-Date: Thu, 7 Aug 2025 19:18:32 +0800
+	id 1ujykG-0002RL-1E;
+	Thu, 07 Aug 2025 11:25:16 +0000
+Date: Thu, 7 Aug 2025 13:24:56 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt-convert 202/801] Warning: Duplicate compatible
- "st,lis3lv02d" found in schemas matching "$id":
-Message-ID: <202508071953.NWN7cBIh-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [ceph-client:tls-tracing-only 14/14] htmldocs: Warning:
+ Documentation/binary-logging/rtlog-api-reference.rst references a file that
+ doesn't exist: Documentation/trace/rtlog.rst
+Message-ID: <202508071322.vUnGCohg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +64,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: d82b644c654ce4b75e5bcf6f1a3370383f6a8c63 [202/801] dt-bindings: iio: Convert accel/st,lis3lv02d to DT schema
-config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071953.NWN7cBIh-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071953.NWN7cBIh-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git tls-tracing-only
+head:   ffad14ce035a047cbfda2d38f7ae37b0767de136
+commit: ffad14ce035a047cbfda2d38f7ae37b0767de136 [14/14] Documentation
+reproduce: (https://download.01.org/0day-ci/archive/20250807/202508071322.vUnGCohg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508071953.NWN7cBIh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508071322.vUnGCohg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,tptcs: missing type definition
-   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,edma-reserved-slot-ranges: missing type definition
-   Documentation/devicetree/bindings/display/smi-sm501.yaml: edid: missing type definition
-   Documentation/devicetree/bindings/cpufreq/operating-points-v2.yaml: opp-supported-hw: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/opp/opp-v2-base.yaml: opp-supported-hw: multiple incompatible types: uint32-matrix
-   Documentation/devicetree/bindings/arm/vexpress-config.yaml: arm,vexpress-sysreg,func: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/hwmon/vexpress.yaml: arm,vexpress-sysreg,func: multiple incompatible types: phandle-array
-   Warning: Duplicate compatible "operating-points-v2" found in schemas matching "$id":
-   	http://devicetree.org/schemas/cpufreq/operating-points-v2.yaml#
-   	http://devicetree.org/schemas/opp/opp-v2.yaml#
-   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
-   	http://devicetree.org/schemas/aspeed,ast2400-cf-fsi-master.yaml#
-   	http://devicetree.org/schemas/fsi-master.yaml#
-   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
-   	http://devicetree.org/schemas/fsi-master.yaml#
-   	http://devicetree.org/schemas/fsi-master-gpio.yaml#
-   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-nb" found in schemas matching "$id":
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-nb.yaml#
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
-   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-sb" found in schemas matching "$id":
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-sb.yaml#
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
->> Warning: Duplicate compatible "st,lis3lv02d" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
-   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
->> Warning: Duplicate compatible "st,lis302dl-spi" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
-   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
-   Warning: Duplicate compatible "fsl,vf610-mscm-ir" found in schemas matching "$id":
-   	http://devicetree.org/schemas/interrupt-controller/fsl,vf610-mscm-ir.yaml#
-   	http://devicetree.org/schemas/arm/freescale/fsl,vf610-mscm-ir.yaml#
-   Warning: Duplicate compatible "ti,omap4-dss" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/ti/ti,omap-dss.yaml#
-   	http://devicetree.org/schemas/display/ti/ti,omap4-dss.yaml#
-   Warning: Duplicate compatible "ti,opa362" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/ti/ti,opa362.yaml#
-   	http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
-   Warning: Duplicate compatible "fsl,ls1021a-dcu" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
-   Warning: Duplicate compatible "fsl,vf610-dcu" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
-   Warning: Duplicate compatible "cdns,gpio-r1p02" found in schemas matching "$id":
-   	http://devicetree.org/schemas/cdns,gpio-r1p02.yaml#
-   	http://devicetree.org/schemas/gpio/cdns,gpio.yaml#
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
+>> Warning: Documentation/binary-logging/rtlog-api-reference.rst references a file that doesn't exist: Documentation/trace/rtlog.rst
+>> Warning: Documentation/binary-logging/rtlog-api-reference.rst references a file that doesn't exist: Documentation/trace/rtlog-developer-guide.rst
+>> Warning: Documentation/binary-logging/rtlog-api-reference.rst references a file that doesn't exist: Documentation/trace/rtlog-examples.rst
+>> Warning: Documentation/binary-logging/rtlog-api-reference.rst references a file that doesn't exist: Documentation/trace/rtlog-performance.rst
+>> Warning: Documentation/binary-logging/rtlog-developer-guide.rst references a file that doesn't exist: Documentation/trace/rtlog.rst
+>> Warning: Documentation/binary-logging/rtlog-examples.rst references a file that doesn't exist: Documentation/trace/rtlog.rst
+>> Warning: Documentation/binary-logging/rtlog-examples.rst references a file that doesn't exist: Documentation/trace/rtlog-developer-guide.rst
+>> Warning: Documentation/binary-logging/rtlog-performance.rst references a file that doesn't exist: Documentation/trace/rtlog.rst
+>> Warning: Documentation/binary-logging/rtlog-performance.rst references a file that doesn't exist: Documentation/trace/rtlog-developer-guide.rst
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
 
 -- 
 0-DAY CI Kernel Test Service
