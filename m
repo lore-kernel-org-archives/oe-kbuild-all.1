@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67CA221737
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 22:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460E41E520E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 22:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754606727; cv=none; b=u1zwluu7mrFzhk4VcHQWesyaP1ebUsRBgLn1a9+ppm5TR+7iemdtvz4Z63ijGXaariYeICXIdhiv1ynMdXuYwxlheJZyF9bGZnKaEn4JH6PHBvSxqUBHlmU7YpRu22zAPepn5YR7yoSy5WLQBTZk7f7Ja9P6Q8Yx2c4UGGi6hWc=
+	t=1754607387; cv=none; b=LDqVJL7GmalRQU60gjVmoH2DBbWhPpzelOdTIhnmjwHe1q6GBO+OzH4mSV72Gx/6PI3pwcA0hf+zfVjw5qsIvqQivGZfklNbFULwOciS+UPPZprRxg2/GOQJritpBBb4HxEwJKDuFpdAulwNJj6/u8BxvRf2GdSeGigJ+YEurIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754606727; c=relaxed/simple;
-	bh=dP8M0RlEr+Yq9XviTN7ripchL0Jg+Irmb/RRjJS6qy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k1lqD2MEqKwSW8h8rAExcBLQblRiTpO06olsH8m30yaT6XRvoCBfRn2LdBaYhjualCWSHBHjszXL9drlLRl1zFPHW96gpi6JU3mmT+Go4favdgwYwJQEfUa4y7CDAeyiYJjSaYY7MtIG4xGkB9BkwDuj1udHAzyQINWx0UZewXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjaipmYk; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1754607387; c=relaxed/simple;
+	bh=x3SJYyHJRhY+n7DLNkTRTTs07lvnD7ZZPYtpaG63BfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFr0c4p2mPka4ZA4PS/bDSjuEkS5bO/J8dvrRvmDbcgzINwxPQhcgnmje9l9Kt56nvCGEymmjBGBylWx3V8HnOzlY1NAew61Sme6oU4l41TUTZvoUIFA9TD3ic0asnM8Sj8XSQfVjMJhHYsWqxSnJP+HUKcMJpA5IP7qjkeO5zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C95O4ZkM; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjaipmYk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C95O4ZkM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754606726; x=1786142726;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dP8M0RlEr+Yq9XviTN7ripchL0Jg+Irmb/RRjJS6qy0=;
-  b=RjaipmYkAnwkPMZFoAexSokKhR6OcsNf5ANOCMkedhQXMf+B4gV///PU
-   xLqLRPLVG9tAasqZGPt8VcvMJEXdk061AcqU+J0Z8aUndWdbi6TB6rB9h
-   vURSz/h68JhUPuAalWCdPAdmUTKZfWp+pdtCrUJk26UcpOxq4UaTBtGSV
-   JTVcRHoUqgX/WdqlGChHgIzVYVSIrzJ/X/9US6HO4pmiI8eOSAQzltHGS
-   TfnYNEDvQtsNyiGO0TjNgNVytHMd/qNFdKD2ja500HH3lQ8/Y4tsEdNqd
-   fVpO6IQuY5Mc1BuqAV7EY5eSXh8rHVhQIkIc7lDU267iG/40GSj8kwTud
-   A==;
-X-CSE-ConnectionGUID: a5oFT+c6TXOzGUhKtmo0Hg==
-X-CSE-MsgGUID: HAzsQzhGS2uzut6OSxlkqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68411593"
+  t=1754607386; x=1786143386;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x3SJYyHJRhY+n7DLNkTRTTs07lvnD7ZZPYtpaG63BfY=;
+  b=C95O4ZkMe18eRPMiz5ValU65FuAdx/gPftOKpEekZ0zMqFSKWiRvTaHk
+   A/2JjNWxbnA/FXHw8JWu4Og5d/cfnpb9X1fKkpFE3wbraWK8G5tWmvwIh
+   8Q5CSGwC1G491OwuifAgBqW7IdxkDU46K6LXptl7CTsfGp9WTmOLApDTQ
+   vYH/hNLlV6M4MedBdzaAS4hTwFnMHuHwZqzBHmO4AxVn/yVlo5DDhqSj2
+   QYj79T6FzE4y1s0HpB2WD+K99uJls6yFrLMSYznzHZe0whqLT1L7WME2t
+   lgolGnYKE6Oj/OFwsKHelw/5eEGA0bTLlgXL3w9qMWoC6hLLglnsauSlk
+   Q==;
+X-CSE-ConnectionGUID: vqxeZUhjRH6sS17h0V2HDw==
+X-CSE-MsgGUID: jPVVr/IySzW7xwoyIoIWzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68036652"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="68411593"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 15:45:25 -0700
-X-CSE-ConnectionGUID: LSowsUCUTtu9TFoHcwRJAg==
-X-CSE-MsgGUID: zQyTDxH5So+TUoWOTW3AFQ==
+   d="scan'208";a="68036652"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 15:56:26 -0700
+X-CSE-ConnectionGUID: OVcowfqvSf2y7BRcQ7vVsQ==
+X-CSE-MsgGUID: fmvMa4nGQ7et7v8klGEXSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="170557506"
+   d="scan'208";a="164845373"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 07 Aug 2025 15:45:24 -0700
+  by orviesa009.jf.intel.com with ESMTP; 07 Aug 2025 15:56:25 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk9MQ-0003Kk-0T;
-	Thu, 07 Aug 2025 22:45:22 +0000
-Date: Fri, 8 Aug 2025 06:44:43 +0800
+	id 1uk9X4-0003Kw-2l;
+	Thu, 07 Aug 2025 22:56:22 +0000
+Date: Fri, 8 Aug 2025 06:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
+To: Zihuan Zhang <zhangzihuan@kylinos.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.1.5 15/17] include/linux/bpf_psi.h:34:39: warning:
- 'struct psi_trigger_params' declared inside parameter list will not be
- visible outside of this definition or declaration
-Message-ID: <202508080626.6ixUDVZf-lkp@intel.com>
+Subject: Re: [RFC PATCH v1 2/9] freezer: Introduce API to set per-task freeze
+ priority
+Message-ID: <202508080646.M5mv6IBA-lkp@intel.com>
+References: <20250807121418.139765-3-zhangzihuan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +63,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250807121418.139765-3-zhangzihuan@kylinos.cn>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.1.5
-head:   5da37b0fa382bf6c978606c1f682424f3e49d27e
-commit: 6de83397e2150cad0ca5ee7ce49a1fd8cf05f4f1 [15/17] sched: psi: implement psi trigger handling using bpf
-config: arc-randconfig-002-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080626.6ixUDVZf-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080626.6ixUDVZf-lkp@intel.com/reproduce)
+Hi Zihuan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on brauner-vfs/vfs.all linus/master v6.16 next-20250807]
+[cannot apply to tip/sched/core kees/for-next/execve]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zihuan-Zhang/freezer-Introduce-freeze_priority-field-in-task_struct/20250807-201611
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250807121418.139765-3-zhangzihuan%40kylinos.cn
+patch subject: [RFC PATCH v1 2/9] freezer: Introduce API to set per-task freeze priority
+config: arm-randconfig-002-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080646.M5mv6IBA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080646.M5mv6IBA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080626.6ixUDVZf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080646.M5mv6IBA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:22:
-   include/linux/bpf_psi.h:18:41: warning: 'struct psi_trigger' declared inside parameter list will not be visible outside of this definition or declaration
-      18 |         void (*handle_psi_event)(struct psi_trigger *t);
-         |                                         ^~~~~~~~~~~
->> include/linux/bpf_psi.h:34:39: warning: 'struct psi_trigger_params' declared inside parameter list will not be visible outside of this definition or declaration
-      34 |                          const struct psi_trigger_params *params);
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/bpf_psi.h:33:33: warning: 'struct psi_trigger' declared inside parameter list will not be visible outside of this definition or declaration
-      33 | void bpf_psi_add_trigger(struct psi_trigger *t,
-         |                                 ^~~~~~~~~~~
-   include/linux/bpf_psi.h:35:36: warning: 'struct psi_trigger' declared inside parameter list will not be visible outside of this definition or declaration
-      35 | void bpf_psi_remove_trigger(struct psi_trigger *t);
-         |                                    ^~~~~~~~~~~
-   include/linux/bpf_psi.h:36:34: warning: 'struct psi_trigger' declared inside parameter list will not be visible outside of this definition or declaration
-      36 | void bpf_psi_handle_event(struct psi_trigger *t);
-         |                                  ^~~~~~~~~~~
+   In file included from kernel/fork.c:77:
+   include/linux/freezer.h: In function 'freeze_set_default_priority':
+>> include/linux/freezer.h:95:55: warning: no return statement in function returning non-void [-Wreturn-type]
+      95 | static inline bool freeze_set_default_priority(struct task_struct *p, unsigned int prio) {}
+         |                                                       ^~~~~~~~~~~
 
 
-vim +34 include/linux/bpf_psi.h
+vim +95 include/linux/freezer.h
 
-    31	
-    32	#ifdef CONFIG_BPF_SYSCALL
-    33	void bpf_psi_add_trigger(struct psi_trigger *t,
-  > 34				 const struct psi_trigger_params *params);
-    35	void bpf_psi_remove_trigger(struct psi_trigger *t);
-    36	void bpf_psi_handle_event(struct psi_trigger *t);
-    37	#ifdef CONFIG_CGROUPS
-    38	void bpf_psi_cgroup_free(struct cgroup *cgroup);
-    39	#endif
-    40	
+    91	
+    92	#else /* !CONFIG_FREEZER */
+    93	static inline bool frozen(struct task_struct *p) { return false; }
+    94	static inline bool freezing(struct task_struct *p) { return false; }
+  > 95	static inline bool freeze_set_default_priority(struct task_struct *p, unsigned int prio) {}
+    96	static inline void __thaw_task(struct task_struct *t) {}
+    97	
 
 -- 
 0-DAY CI Kernel Test Service
