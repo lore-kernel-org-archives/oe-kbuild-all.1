@@ -1,150 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE4EBA34
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 15:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573AA2367BF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 15:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754581732; cv=none; b=DPxlX9mc39s940ReLxX5QRGcAnEzlhWMgewR4CU5taCCQSqZkIkJfOsV15tOjB005+GOOqxAJR0ILFBsLus7i7Kwu9moN14veeypzCkxp9U/9t7ORuQRqCTCutfRdSJh7miWIc57mHEHEsz8Ycnd0+sXOkT044WV9R5s51dx4sI=
+	t=1754582289; cv=none; b=R5BOyIST/G3zkOJ3H9VXe3++kKw0YkibCUKqe5Hbpru6u4A5cI1+jrvWkgl8NMelQtPkBhKH0isZXfJpmTqdSYnWHINU3W2rxTh/ZRjWQcuuFr1eFfmN3nGrzaIjUEbgYsyLX+9sN1KoOYE1J/HssEThBFof1wfD228bb2aAeaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754581732; c=relaxed/simple;
-	bh=t2isChxoZmZHcVZWs0H8jL1QOW+h0x2ii/7YPK7/tqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gU8dIt3oKJQsZ+0mSo4M/bZGVOrCGAZoyBFN7UfKKTkTUNF2siv4utrRZKlXvzoUFW7fpziTj6an5mg6AUobIS2iMvg5ZhtLf2qCAKI/RNrwKY+iwfNj9zpJLoM5rFMThECZk4gjAfwhkX3rl57Q/DRF4i7eaEYsbuoB6lp94jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFIrEp9B; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754582289; c=relaxed/simple;
+	bh=FD/LxcPGni3IIHeLKZstBs+UbIbv3l8UHKH1/4wo2Zo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=coxGwnTaKyrQnpn3iJMABg99n/udh4zRhHh+bZa35YHWCFFXx5TPTvGgRAY/6Dv2qgsTBA+qdLpdxdarI5F29wJAjdYr/jKCzXVLdnoPsZ2xAscGN6/1tC6aAINrHbDDTbPETAAhQC23YboULXDkmywin3Sp9c7wtRZ1kFW/T8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uTpXlaOV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFIrEp9B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754581730; x=1786117730;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t2isChxoZmZHcVZWs0H8jL1QOW+h0x2ii/7YPK7/tqQ=;
-  b=WFIrEp9Bwy9S/5y66vDklufZD8AXvVoO2UiHcFylh7ZU18y16JKsB5i0
-   b+FRkxw5s67hYts9o6Pcxz2Dbbi4W+gCyk3XSwBrJnEbQcvogOSjVn0dP
-   JuBqwzR+Po2GF+iQZGCUg7KJgP+dJ4dpDHW472d0aqLB7NV1yg1q0So1Q
-   8G9Zpw5YIayAgdfY94hXXwmVahhKzxGe72EUyD0dowObsQ3KBufvuGTtX
-   NEbfG69L0jzUEwv/Y0RkIAuSbH25/ezhUhVj3UFpUyw4VMWjApeceTf47
-   +QyrGO+yNVo1DdXJV0HBTX+IFZJ2qv31A261CyXPx+dznr7WTOTVmoT/r
-   Q==;
-X-CSE-ConnectionGUID: WcGjNUvYRXq2SWgbcB8R1g==
-X-CSE-MsgGUID: rgiVb2zSSDySSQTaP7bs3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60767584"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="60767584"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 08:48:50 -0700
-X-CSE-ConnectionGUID: BY5hG06OTfOL7QAQywpv+Q==
-X-CSE-MsgGUID: +Sf8aCMDT/OsviQNwBC+Dg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="170353220"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Aug 2025 08:48:48 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uk2rF-0002vu-1n;
-	Thu, 07 Aug 2025 15:48:45 +0000
-Date: Thu, 7 Aug 2025 23:48:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Denis Benato <benato.denis96@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
-	mario.limonciello@amd.com, "Luke D . Jones" <luke@ljones.dev>,
-	Denis Benato <benato.denis96@gmail.com>
-Subject: Re: [PATCH v10 2/8] platform/x86: asus-armoury: move existing
- tunings to asus-armoury module
-Message-ID: <202508072334.8n7nwIG3-lkp@intel.com>
-References: <20250806135319.1205762-3-benato.denis96@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uTpXlaOV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6029C4CEEB;
+	Thu,  7 Aug 2025 15:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754582289;
+	bh=FD/LxcPGni3IIHeLKZstBs+UbIbv3l8UHKH1/4wo2Zo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=uTpXlaOVHb6nXsUTsQ3DV9tbu0j1ZSNqGCkpgK3mbC11IiT98agKW6XBspsYvK1Rg
+	 FJQohNGfyCiNXvxpp4cLg+97A/4NNWKlglQmiUBhJXJsX2sqcsu91fIZMkz0mW28OK
+	 aKFrCIVfv9SBXt25y3siLhF/LG8sT16C+mdzFt4PA4hUjmdeiSI27cb7uRk+S243cj
+	 HKOHshz5+BGJ4Y+FfqSVQt8B4dCiDjFMxb43+XRQfDt2r4r/SI0cZmhU6ao1mjWDnj
+	 GgNzUwmbNq4J88T3cS9l0a37WJr8+2PtDhKRtckvNINyNPuTJLltxP7SSpd5s9r5As
+	 0NW/EpPbC/Bjw==
+From: SeongJae Park <sj@kernel.org>
+To: Philip Li <philip.li@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	kernel test robot <lkp@intel.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [sj:mm-new 42/45] ERROR: modpost: __ex_table+0x1584 references non-executable section '.rodata.spk_ttyio_synth_probe.str1.4'
+Date: Thu,  7 Aug 2025 08:58:05 -0700
+Message-Id: <20250807155805.25652-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <aJRS3iAcvITYGKxq@rli9-mobl>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806135319.1205762-3-benato.denis96@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Denis,
+On Thu, 7 Aug 2025 15:16:46 +0800 Philip Li <philip.li@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> On Wed, Aug 06, 2025 at 10:51:38PM -0700, SeongJae Park wrote:
+> > On Wed,  6 Aug 2025 22:43:49 -0700 SeongJae Park <sj@kernel.org> wrote:
+> > 
+> > > On Thu, 7 Aug 2025 06:31:25 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+> > > 
+> > > > +cc SJ, as his tree :)
+> > > 
+> > > Thank you, Lorenzo!
+> > > 
+> > > > 
+> > > > On Thu, Aug 07, 2025 at 12:03:03PM +0800, kernel test robot wrote:
+> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git mm-new
+> > > > 
+> > > > Not sure why SJ isn't cc'd when it's his tree?
+> > > > 
+> > > > Not sure how easy it would be for the scripts to figure this out.
+> > > 
+> > > As people might already realized, it is Andrew's mm-new branch.  I started
+> > > pushing Andrew's mm-{new,unstable,stable} branches to my tree for backup
+> > > purpose, since DAMON development branch (damon/next) is using mm-new as its
+> > > baseline.  Seems it caused confusion to kernel test robot and other people.
+> > > Sorry about that.
+> > > 
+> > > kernel test robot, is there a way to mark mm-{new,unstable,stable} branches on
+> > > my tree be ignored from your tests?  If there is no good way, I can remove the
+> > > branches from my tree.
+> > 
+> > To stop more confusion first rather than waiting for the answer, I just deleted
+> > the mm-{new,unstable,stable} branches from my tree.  I don't really depend on
+> > those branches on my tree since I can keep fetching Andrew's tree or using my
+> > trees outside of kernel.org.  So this is no problem for me.
+> > 
+> > kernel test robot, please let me know if there is a way to mark specific
+> > branches on my tree be ignored from your tests, though, if you get a time and
+> > have an idea.
+> 
+> Yes, the test bot supports this to ignore branches by pattern, for example,
+> 
+> 	branch_denylist: .*-wip|.*-v[0-9]*|.*-[0-9]*
+> 	branch_denylist: mirror/.*
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16 next-20250807]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cool.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Denis-Benato/platform-x86-asus-wmi-export-symbols-used-for-read-write-WMI/20250806-215748
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250806135319.1205762-3-benato.denis96%40gmail.com
-patch subject: [PATCH v10 2/8] platform/x86: asus-armoury: move existing tunings to asus-armoury module
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250807/202508072334.8n7nwIG3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072334.8n7nwIG3-lkp@intel.com/reproduce)
+> 
+> Do you want to just ignore mm-{new,unstable,stable} branches, I can configure the
+> repo to handle this?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508072334.8n7nwIG3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/platform/x86/asus-armoury.c:28:
->> include/linux/platform_data/x86/asus-wmi.h:199:35: warning: 'asus_use_hid_led_dmi_ids' defined but not used [-Wunused-const-variable=]
-     199 | static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+Great, could you please do so?
 
 
-vim +/asus_use_hid_led_dmi_ids +199 include/linux/platform_data/x86/asus-wmi.h
+Thanks,
+SJ
 
-ffb6ce7086ee2d Daniel Drake  2018-10-09  196  
-a720dee5e03923 Luke D. Jones 2024-07-13  197  /* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
-9d3b02ad9b1d1f Luke D. Jones 2025-08-06  198  #if IS_REACHABLE(CONFIG_ASUS_WMI) || IS_REACHABLE(CONFIG_HID_ASUS)
-a720dee5e03923 Luke D. Jones 2024-07-13 @199  static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
-a720dee5e03923 Luke D. Jones 2024-07-13  200  	{
-a720dee5e03923 Luke D. Jones 2024-07-13  201  		.matches = {
-a720dee5e03923 Luke D. Jones 2024-07-13  202  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
-a720dee5e03923 Luke D. Jones 2024-07-13  203  		},
-a720dee5e03923 Luke D. Jones 2024-07-13  204  	},
-a720dee5e03923 Luke D. Jones 2024-07-13  205  	{
-a720dee5e03923 Luke D. Jones 2024-07-13  206  		.matches = {
-a720dee5e03923 Luke D. Jones 2024-07-13  207  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
-a720dee5e03923 Luke D. Jones 2024-07-13  208  		},
-a720dee5e03923 Luke D. Jones 2024-07-13  209  	},
-a720dee5e03923 Luke D. Jones 2024-07-13  210  	{
-a720dee5e03923 Luke D. Jones 2024-07-13  211  		.matches = {
-a720dee5e03923 Luke D. Jones 2024-07-13  212  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
-a720dee5e03923 Luke D. Jones 2024-07-13  213  		},
-a720dee5e03923 Luke D. Jones 2024-07-13  214  	},
-53078a736fbc60 Luke D. Jones 2025-01-11  215  	{
-53078a736fbc60 Luke D. Jones 2025-01-11  216  		.matches = {
-53078a736fbc60 Luke D. Jones 2025-01-11  217  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ProArt P16"),
-53078a736fbc60 Luke D. Jones 2025-01-11  218  		},
-53078a736fbc60 Luke D. Jones 2025-01-11  219  	},
-a720dee5e03923 Luke D. Jones 2024-07-13  220  	{
-a720dee5e03923 Luke D. Jones 2024-07-13  221  		.matches = {
-a720dee5e03923 Luke D. Jones 2024-07-13  222  			DMI_MATCH(DMI_BOARD_NAME, "GA403U"),
-a720dee5e03923 Luke D. Jones 2024-07-13  223  		},
-a720dee5e03923 Luke D. Jones 2024-07-13  224  	},
-a720dee5e03923 Luke D. Jones 2024-07-13  225  	{
-a720dee5e03923 Luke D. Jones 2024-07-13  226  		.matches = {
-a720dee5e03923 Luke D. Jones 2024-07-13  227  			DMI_MATCH(DMI_BOARD_NAME, "GU605M"),
-a720dee5e03923 Luke D. Jones 2024-07-13  228  		},
-a720dee5e03923 Luke D. Jones 2024-07-13  229  	},
-a720dee5e03923 Luke D. Jones 2024-07-13  230  	{
-a720dee5e03923 Luke D. Jones 2024-07-13  231  		.matches = {
-a720dee5e03923 Luke D. Jones 2024-07-13  232  			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
-a720dee5e03923 Luke D. Jones 2024-07-13  233  		},
-a720dee5e03923 Luke D. Jones 2024-07-13  234  	},
-a720dee5e03923 Luke D. Jones 2024-07-13  235  	{ },
-a720dee5e03923 Luke D. Jones 2024-07-13  236  };
-9d3b02ad9b1d1f Luke D. Jones 2025-08-06  237  #endif
-a720dee5e03923 Luke D. Jones 2024-07-13  238  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
