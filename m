@@ -1,234 +1,204 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15DE5695
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 20:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52B91FAC23
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 20:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754597239; cv=none; b=EFKx2dxrvKAikdhU926XupGqbHtIeR+NZhspTMrWEA62aLiEwU/t9ptOMpIvuO+07C/Gwd0pBR5WZPjJWYLNWvmch08zF/X0Ybi1uV31BpSR6HpNNRoouE7sItT+H3a1RNjZaNNBdgBKGr/mbSt/doUamtL8kJWwhC+oU91UG8o=
+	t=1754597241; cv=none; b=amEc+upyFd3l6rTMVtXH6EmmgjGMNEuxgCxjFqgbQqqgG3ubcygsz/Q4pZWVa/UAWW9Qft9eWkj3KEFX5J9M3YQ38yeMG97VUXK0620BOI3w6pIyrPWJIc/kVJN8AD7Dn/FbvoTsT4Jb1yzDCTiKsnvlAx8jlJ9PXnMHPnxQqBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754597239; c=relaxed/simple;
-	bh=zQStSsYZz2L8txTjzVe4mwfxoObD6ovBYohwfLLhQoE=;
+	s=arc-20240116; t=1754597241; c=relaxed/simple;
+	bh=7DAgnUhGZi8l5nZspvfj2NXiBYsH8ZnnzTfrxHt7Ji8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t7itMBnp8QYeU4HOpqexaoNetEuUlpSPTHt2QK8HswPaHFm3wdekGEk9VE/kb0j7pwJutkuaIhFm60YTIXWuaAjNHqwF/Eo+vWtlo1aRIrf2AeRU1g/xbSREYspUMMJNw0mQb5H9rhpZZW5eVrxSUxUAjW8QrZ3s8828R3GxH90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RlRmg/eu; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=OrqwtWOhGAKnJ6KXDgrF+1Q226Fy1JOrGPqtBt7CGoZhJwz8dma6pLmX3gZgXkDBcz6A5pICvdtR/KD69OD7+C8BJJe70EVzxuzUol5DU4KNm5Ey2vxAPg11mDE2HmuLMRckq/PCh1w342V6iurj/PB4tZmjVgdTKhbMZp871VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKnmGl/B; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RlRmg/eu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKnmGl/B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754597237; x=1786133237;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zQStSsYZz2L8txTjzVe4mwfxoObD6ovBYohwfLLhQoE=;
-  b=RlRmg/euI6+KfaYu1CPtfVWZkDz8wBkcaBMsu4fd1tVGYjT7KClvvozF
-   pjorc/DEFi5o65fif604JCECA8UyKQT2v4sjaY8b7j4zble6VzvO09qbO
-   DmtpNd5unt4RJmmGirNoKsBjbn7GEmSxn9EcFCasAOiRONLDTwZeSLi/b
-   /P0eMyvuqcrA5Os8YDceQjvYqoJeCmWi4hDx2xuBDRf4281t8+za71OpL
-   Bakvvp5zjGCTBb2vM97SeqBUQBk5sBAamDDETk1JXy1NBgLf4bs4arVZE
-   /phuoJkmX7eJ66hL1iEcWKOz7l3jCFPTcAcf/fVrWdWh5yrVuLbwhENVv
-   Q==;
-X-CSE-ConnectionGUID: h4CxAy5dTdmrVySxuAM8jA==
-X-CSE-MsgGUID: BEkOWgkzTkmcvqVpCj804Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="79498899"
+  t=1754597240; x=1786133240;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7DAgnUhGZi8l5nZspvfj2NXiBYsH8ZnnzTfrxHt7Ji8=;
+  b=OKnmGl/BWQu8+xlv/s5flJ5i6Az0efoAEoMJOsQOhXwW0nP9HvsSAjwB
+   0IS/kan/D1kWRXI+mI/MQjmZSQ/tdYn36BAqRmDmmR5OzF1YZwFhLqpza
+   wIGq+8OKTEPQGC55BFGkUIHMWfZimakXj43cMZfJ0dzittAl5hRaeo7bz
+   gofFlrOilhkuHHZ6kNHNNC6s3vqCzNmHYbhuWCRoyGA0OAWikNUJbV/t4
+   qRXmOVRgErh9NjjyY8DWqf5D9fO2rHV5+2VzUCaKV/r8/XAaggYMJTo0T
+   N2AAwew5achMmxG0XqAdPPrzxRy1ITrJnACGzf68hYuxLaPoI0LSp4/ZP
+   w==;
+X-CSE-ConnectionGUID: S5mAjRVLQ32khG+BL0isYA==
+X-CSE-MsgGUID: Et2/0Q+LRBSWN5D5rb7GAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="79498903"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="79498899"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 13:07:16 -0700
-X-CSE-ConnectionGUID: XWn+9zZoSgeNblUmjcXWBA==
-X-CSE-MsgGUID: RQZn87EtReKbDje5cShFQw==
+   d="scan'208";a="79498903"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 13:07:17 -0700
+X-CSE-ConnectionGUID: AaoCLHmPR1GzXJOUHt1rgw==
+X-CSE-MsgGUID: yDvFV7pySbSmBJlVNvTYcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="165946455"
+   d="scan'208";a="164664592"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Aug 2025 13:07:15 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2025 13:07:15 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk6tN-0003B8-0X;
+	id 1uk6tN-0003BG-0m;
 	Thu, 07 Aug 2025 20:07:13 +0000
-Date: Fri, 8 Aug 2025 04:06:29 +0800
+Date: Fri, 8 Aug 2025 04:06:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "Rob Herring (Arm)" <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3]
- drivers/net/phy/phylink.c:2097:35: error: passing 'const struct
- fwnode_handle *' to parameter of type 'struct fwnode_handle *' discards
- qualifiers
-Message-ID: <202508080438.i3cCsFjO-lkp@intel.com>
+Subject: [robh:dt-convert 390/801] Warning: Duplicate compatible
+ "brcm,bcm7445-switch-v4.0" found in schemas matching "$id":
+Message-ID: <202508080312.KaT7cvjw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Alistair,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   209015b548fb36223e01bbeb84c88f375ddd2829
-commit: 8b9a794068e9fe10f91796ee053afdbd5c01782c [3/3] Revert "ANDROID: suppress GKI configs for 32-bit builds"
-config: arm-randconfig-003-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080438.i3cCsFjO-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080438.i3cCsFjO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
+commit: 8efd9d3bc54fe6f572593a68d2e8662ce9a15abb [390/801] dt-bindings: net: Convert brcm,bcm7445-switch-v4.0 to DT schema
+config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250808/202508080312.KaT7cvjw-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080312.KaT7cvjw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080438.i3cCsFjO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080312.KaT7cvjw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/phy/phylink.c:2097:35: error: passing 'const struct fwnode_handle *' to parameter of type 'struct fwnode_handle *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2097 |         phy_fwnode = fwnode_get_phy_node(fwnode);
-         |                                          ^~~~~~
-   include/linux/phy.h:1759:65: note: passing argument to parameter 'fwnode' here
-    1759 | struct fwnode_handle *fwnode_get_phy_node(struct fwnode_handle *fwnode)
-         |                                                                 ^
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && MMU [=n]
-   Selected by [m]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=m]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && MMU [=n]
-   Selected by [m]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=m]
-
-
-vim +2097 drivers/net/phy/phylink.c
-
-9525ae83959b60 Russell King          2017-07-25  2071  
-25396f680dd625 Calvin Johnson        2021-06-11  2072  /**
-25396f680dd625 Calvin Johnson        2021-06-11  2073   * phylink_fwnode_phy_connect() - connect the PHY specified in the fwnode.
-25396f680dd625 Calvin Johnson        2021-06-11  2074   * @pl: a pointer to a &struct phylink returned from phylink_create()
-25396f680dd625 Calvin Johnson        2021-06-11  2075   * @fwnode: a pointer to a &struct fwnode_handle.
-25396f680dd625 Calvin Johnson        2021-06-11  2076   * @flags: PHY-specific flags to communicate to the PHY device driver
-25396f680dd625 Calvin Johnson        2021-06-11  2077   *
-25396f680dd625 Calvin Johnson        2021-06-11  2078   * Connect the phy specified @fwnode to the phylink instance specified
-25396f680dd625 Calvin Johnson        2021-06-11  2079   * by @pl.
-25396f680dd625 Calvin Johnson        2021-06-11  2080   *
-25396f680dd625 Calvin Johnson        2021-06-11  2081   * Returns 0 on success or a negative errno.
-25396f680dd625 Calvin Johnson        2021-06-11  2082   */
-25396f680dd625 Calvin Johnson        2021-06-11  2083  int phylink_fwnode_phy_connect(struct phylink *pl,
-a0b7955310a445 Russell King (Oracle  2023-05-12  2084) 			       const struct fwnode_handle *fwnode,
-25396f680dd625 Calvin Johnson        2021-06-11  2085  			       u32 flags)
-25396f680dd625 Calvin Johnson        2021-06-11  2086  {
-25396f680dd625 Calvin Johnson        2021-06-11  2087  	struct fwnode_handle *phy_fwnode;
-25396f680dd625 Calvin Johnson        2021-06-11  2088  	struct phy_device *phy_dev;
-25396f680dd625 Calvin Johnson        2021-06-11  2089  	int ret;
-25396f680dd625 Calvin Johnson        2021-06-11  2090  
-25396f680dd625 Calvin Johnson        2021-06-11  2091  	/* Fixed links and 802.3z are handled without needing a PHY */
-25396f680dd625 Calvin Johnson        2021-06-11  2092  	if (pl->cfg_link_an_mode == MLO_AN_FIXED ||
-25396f680dd625 Calvin Johnson        2021-06-11  2093  	    (pl->cfg_link_an_mode == MLO_AN_INBAND &&
-25396f680dd625 Calvin Johnson        2021-06-11  2094  	     phy_interface_mode_is_8023z(pl->link_interface)))
-25396f680dd625 Calvin Johnson        2021-06-11  2095  		return 0;
-25396f680dd625 Calvin Johnson        2021-06-11  2096  
-25396f680dd625 Calvin Johnson        2021-06-11 @2097  	phy_fwnode = fwnode_get_phy_node(fwnode);
-25396f680dd625 Calvin Johnson        2021-06-11  2098  	if (IS_ERR(phy_fwnode)) {
-25396f680dd625 Calvin Johnson        2021-06-11  2099  		if (pl->cfg_link_an_mode == MLO_AN_PHY)
-25396f680dd625 Calvin Johnson        2021-06-11  2100  			return -ENODEV;
-25396f680dd625 Calvin Johnson        2021-06-11  2101  		return 0;
-25396f680dd625 Calvin Johnson        2021-06-11  2102  	}
-25396f680dd625 Calvin Johnson        2021-06-11  2103  
-25396f680dd625 Calvin Johnson        2021-06-11  2104  	phy_dev = fwnode_phy_find_device(phy_fwnode);
-25396f680dd625 Calvin Johnson        2021-06-11  2105  	/* We're done with the phy_node handle */
-25396f680dd625 Calvin Johnson        2021-06-11  2106  	fwnode_handle_put(phy_fwnode);
-25396f680dd625 Calvin Johnson        2021-06-11  2107  	if (!phy_dev)
-25396f680dd625 Calvin Johnson        2021-06-11  2108  		return -ENODEV;
-25396f680dd625 Calvin Johnson        2021-06-11  2109  
-a18e6521a7d95d Russell King (Oracle  2021-11-19  2110) 	/* Use PHY device/driver interface */
-a18e6521a7d95d Russell King (Oracle  2021-11-19  2111) 	if (pl->link_interface == PHY_INTERFACE_MODE_NA) {
-a18e6521a7d95d Russell King (Oracle  2021-11-19  2112) 		pl->link_interface = phy_dev->interface;
-a18e6521a7d95d Russell King (Oracle  2021-11-19  2113) 		pl->link_config.interface = pl->link_interface;
-a18e6521a7d95d Russell King (Oracle  2021-11-19  2114) 	}
-a18e6521a7d95d Russell King (Oracle  2021-11-19  2115) 
-21d9ba5bc5516e Russell King (Oracle  2024-03-26  2116) 	if (pl->config->mac_requires_rxc)
-21d9ba5bc5516e Russell King (Oracle  2024-03-26  2117) 		flags |= PHY_F_RXC_ALWAYS_ON;
-21d9ba5bc5516e Russell King (Oracle  2024-03-26  2118) 
-25396f680dd625 Calvin Johnson        2021-06-11  2119  	ret = phy_attach_direct(pl->netdev, phy_dev, flags,
-25396f680dd625 Calvin Johnson        2021-06-11  2120  				pl->link_interface);
-25396f680dd625 Calvin Johnson        2021-06-11  2121  	phy_device_free(phy_dev);
-ce93fdb5f2ca5c Clément Léger         2023-01-31  2122  	if (ret)
-25396f680dd625 Calvin Johnson        2021-06-11  2123  		return ret;
-25396f680dd625 Calvin Johnson        2021-06-11  2124  
-25396f680dd625 Calvin Johnson        2021-06-11  2125  	ret = phylink_bringup_phy(pl, phy_dev, pl->link_config.interface);
-25396f680dd625 Calvin Johnson        2021-06-11  2126  	if (ret)
-25396f680dd625 Calvin Johnson        2021-06-11  2127  		phy_detach(phy_dev);
-25396f680dd625 Calvin Johnson        2021-06-11  2128  
-25396f680dd625 Calvin Johnson        2021-06-11  2129  	return ret;
-25396f680dd625 Calvin Johnson        2021-06-11  2130  }
-25396f680dd625 Calvin Johnson        2021-06-11  2131  EXPORT_SYMBOL_GPL(phylink_fwnode_phy_connect);
-25396f680dd625 Calvin Johnson        2021-06-11  2132  
-
-:::::: The code at line 2097 was first introduced by commit
-:::::: 25396f680dd6257096c5dc6ceb90ce57caba8de1 net: phylink: introduce phylink_fwnode_phy_connect()
-
-:::::: TO: Calvin Johnson <calvin.johnson@oss.nxp.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   Documentation/devicetree/bindings/iommu/nvidia,tegra30-smmu.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,tptcs: missing type definition
+   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,edma-reserved-slot-ranges: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/atmel,ebi.yaml: atmel,smc-page-mode: missing type definition
+   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
+   Documentation/devicetree/bindings/mmc/cavium,octeon-6130-mmc.yaml: cavium,bus-max-width: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
+   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
+   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
+   Documentation/devicetree/bindings/display/smi-sm501.yaml: edid: missing type definition
+   Documentation/devicetree/bindings/cpufreq/operating-points-v2.yaml: opp-supported-hw: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/opp/opp-v2-base.yaml: opp-supported-hw: multiple incompatible types: uint32-matrix
+   Documentation/devicetree/bindings/arm/vexpress-config.yaml: arm,vexpress-sysreg,func: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/hwmon/vexpress.yaml: arm,vexpress-sysreg,func: multiple incompatible types: phandle-array
+   Warning: Duplicate compatible "operating-points-v2" found in schemas matching "$id":
+   	http://devicetree.org/schemas/cpufreq/operating-points-v2.yaml#
+   	http://devicetree.org/schemas/opp/opp-v2.yaml#
+>> Warning: Duplicate compatible "brcm,bcm7445-switch-v4.0" found in schemas matching "$id":
+   	http://devicetree.org/schemas/net/dsa/brcm,sf2.yaml#
+   	http://devicetree.org/schemas/brcm,bcm7445-switch-v4.0.yaml#
+   Warning: Duplicate compatible "aspeed,ast2500-gfx" found in schemas matching "$id":
+   	http://devicetree.org/schemas/gpu/aspeed,ast2500-gfx.yaml#
+   	http://devicetree.org/schemas/aspeed,ast2500-gfx.yaml#
+   Warning: Duplicate compatible "ti,lm36274" found in schemas matching "$id":
+   	http://devicetree.org/schemas/leds/ti,lm36274.yaml#
+   	http://devicetree.org/schemas/mfd/ti-lmu.yaml#
+   Warning: Duplicate compatible "active-semi,act8945a" found in schemas matching "$id":
+   	http://devicetree.org/schemas/regulator/active-semi,act8945a.yaml#
+   	http://devicetree.org/schemas/mfd/active-semi,act8945a.yaml#
+   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
+   	http://devicetree.org/schemas/aspeed,ast2400-cf-fsi-master.yaml#
+   	http://devicetree.org/schemas/fsi-master.yaml#
+   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
+   	http://devicetree.org/schemas/fsi-master.yaml#
+   	http://devicetree.org/schemas/fsi-master-gpio.yaml#
+   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-sb" found in schemas matching "$id":
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-sb.yaml#
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
+   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-nb" found in schemas matching "$id":
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-nb.yaml#
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
+   Warning: Duplicate compatible "st,lis3lv02d" found in schemas matching "$id":
+   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
+   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   Warning: Duplicate compatible "st,lis302dl-spi" found in schemas matching "$id":
+   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
+   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
+   Warning: Duplicate compatible "fsl,vf610-mscm-ir" found in schemas matching "$id":
+   	http://devicetree.org/schemas/interrupt-controller/fsl,vf610-mscm-ir.yaml#
+   	http://devicetree.org/schemas/arm/freescale/fsl,vf610-mscm-ir.yaml#
+   Warning: Duplicate compatible "st" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mmc/st,sdhci.yaml#
+   	http://devicetree.org/schemas/stericsson,nomadik,src.yaml#
+   Warning: Duplicate compatible "ti,omap4-dss" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/ti/ti,omap-dss.yaml#
+   	http://devicetree.org/schemas/display/ti/ti,omap4-dss.yaml#
+   Warning: Duplicate compatible "ti,opa362" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/ti/ti,opa362.yaml#
+   	http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
+   Warning: Duplicate compatible "fsl,ls1021a-dcu" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
+   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
+   Warning: Duplicate compatible "fsl,vf610-dcu" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
+   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
+   Warning: Duplicate compatible "maxim,max77620" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mfd/maxim,max77620.yaml#
+   	http://devicetree.org/schemas/trivial-gpio.yaml#
+   Warning: Duplicate compatible "cdns,gpio-r1p02" found in schemas matching "$id":
+   	http://devicetree.org/schemas/cdns,gpio-r1p02.yaml#
+   	http://devicetree.org/schemas/gpio/cdns,gpio.yaml#
+   Warning: Duplicate compatible "brcm,bcm7346" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm3384-viper" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm7425" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm3368" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm3384" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm33843" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm6328" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm63268" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm7360" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm63168" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm6362" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm6358" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm33843-viper" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm6368" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm7362" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
+   Warning: Duplicate compatible "brcm,bcm7125" found in schemas matching "$id":
+   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
