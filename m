@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F84256C87
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 23:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9241325F963;
+	Thu,  7 Aug 2025 23:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754610641; cv=none; b=i5ElDJwk85KNxIad8/Fb1buMq42MzyXuFFuPbyn/ujE/JjhoRe+k4ltgiJIEaaiSYUoGuzg6rj7k6/xmehP3+dH+tnkl0fSFYI2fcqi+DTqirHSlCjsaNY4iBrX6A0miI8pbFAsEQ21cpuZyX4J++lh4rO3y4HsJjU1O4cPJBms=
+	t=1754610643; cv=none; b=JTjncvwnrbodSAmXSi11oCAkeuqertn0baIEEmbbO2+nUefvVfiRfocpLH3xCuiJsvfXSgehM5LRRhHwPQUBmqSze8P1Mmz7qpozbwh57ADJ+aVqogZwai6FVjXY/TWwRnsi9XfFycKP3VVQb4A8MNxh7JvjJRDCxEJMGlucwZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754610641; c=relaxed/simple;
-	bh=mek/AH27IScN7VRrPavHETSnFcLTuUZefgUFb82Ww3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HHhz4HJDdSt8L6fkgBjVWt3UfpJoEf3+vaszjZlYGgVm6DAVK34uldymN7KnjM+rebcGaUiKzJTfmB8eqV0hthamigC0KcPFtC0C2LGQi9UOsnWvB1PFEnTXjnJRwovoerig8MH0lmH/vqJBokgB1Eqih8Yyd8K47HnZ3RueJEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QjiErTMv; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1754610643; c=relaxed/simple;
+	bh=4Z7JtQR6dCs84/k9VG6Aoz/zQfjyQQr7OF2eJuuCkLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PIMdyZtiVg/h23InIKteDzOw5W0IOFJSUvP2Cu6IgZDCX669OqZWQ2ya2sc4wpL8DYZFpPfvw9YL1YokK7KIoyYvUFr4Dq+CWywL/PqIe3x3Z4oS6F+gD8mjGyp9b6tubN1BLHC3V7m0SOYuYMIKgGqusANfF+4x4tuLtksyFk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMphVxzt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QjiErTMv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMphVxzt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754610638; x=1786146638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mek/AH27IScN7VRrPavHETSnFcLTuUZefgUFb82Ww3M=;
-  b=QjiErTMv2ZJb85fvAa4aYl7cKonxjZMNNpJoENSNkh131zVAbqrUq85E
-   NYrFXaBCMW5c78tyy5F+gy+hcDzSlnJG4xweLXMT3sR4w8PLFPkpGJgo2
-   S98HeIo5Syn7tSN8mdZN4BhyXanO3LIxhXPrdiYAM5X9tkYelWJQ0wEuP
-   Tt3esUB6XXAw2vYUCCrhxHcNgc3BeorBe+yR9WjSzaO6RIb6VUKG0SEG4
-   V4+cxh6m2FgqwFcx4YYnU8jlysfCKCybt1jyJNEP6j+0OjDniYIcoW3Zo
-   XY5AnanSLAmhzTxF8lfUB4UtnK3Ze+LF09aY1453TQW05s20AO+oODe7H
-   Q==;
-X-CSE-ConnectionGUID: 0XXFGzrcTfKDef2uuB1ubg==
-X-CSE-MsgGUID: qab4aPkET9i9bxT/mG0B4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68330853"
+  t=1754610642; x=1786146642;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4Z7JtQR6dCs84/k9VG6Aoz/zQfjyQQr7OF2eJuuCkLw=;
+  b=ZMphVxztB0C/lATAtm+HcP1o23BKme8gDzi0X1Ylnj2Ev5NXKK96bDMP
+   jOYwfBZQ+ydSiEB13uZ9VhnB8XhElQpOb5CShuhRHVme9NEJH78l1I3RB
+   br+RBx8fbZpmv0JpvmiweFik5Wi2mmeTB10jTJEKkP4VKzObK/QC4HmLx
+   AAiSmq4ADNvZHotDnWExm+FxhvvYw5JmyZnaWswCGZJJgu8wNF1H7rKpK
+   HomtbWgMTnJvsrZfiJNucaazGiDLCGkFCqE1/wpSzNnTHVVBReWnpQVYo
+   D+5dstaKOs15rPE5/rUF6Snmpt05tFlqTOK4Jwu6Nwxo906DVSB8FxfeE
+   A==;
+X-CSE-ConnectionGUID: QFzh9kHwT1adtMgdBE370g==
+X-CSE-MsgGUID: THOrYvrJQmOttWlkDZnzBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68330854"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="68330853"
+   d="scan'208";a="68330854"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 16:50:37 -0700
-X-CSE-ConnectionGUID: P7Pvv+SmTE2ZyunrkGLOJg==
-X-CSE-MsgGUID: UbSsi7lcRR2uT54Hbkt9yg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 16:50:38 -0700
+X-CSE-ConnectionGUID: WrCS4nk5R3S0NpTXN6+EEQ==
+X-CSE-MsgGUID: VQgyOVilTJ+KUrML8AXtjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="165574136"
+   d="scan'208";a="165574137"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by fmviesa009.fm.intel.com with ESMTP; 07 Aug 2025 16:50:36 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukANW-0003Mk-1F;
+	id 1ukANW-0003Mm-1J;
 	Thu, 07 Aug 2025 23:50:34 +0000
-Date: Fri, 8 Aug 2025 07:50:26 +0800
+Date: Fri, 8 Aug 2025 07:50:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 4/9] freezer: Set default freeze priority for
- userspace tasks
-Message-ID: <202508080703.B19gmsMH-lkp@intel.com>
-References: <20250807121418.139765-5-zhangzihuan@kylinos.cn>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-cqe-mix 4/9] io_uring/fdinfo.c:134:7: warning:
+ variable 'cq_shift' is uninitialized when used here
+Message-ID: <202508080735.4yY5oniq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,280 +61,204 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250807121418.139765-5-zhangzihuan@kylinos.cn>
 
-Hi Zihuan,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on brauner-vfs/vfs.all linus/master v6.16 next-20250807]
-[cannot apply to tip/sched/core kees/for-next/execve]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zihuan-Zhang/freezer-Introduce-freeze_priority-field-in-task_struct/20250807-201611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250807121418.139765-5-zhangzihuan%40kylinos.cn
-patch subject: [RFC PATCH v1 4/9] freezer: Set default freeze priority for userspace tasks
-config: arm-randconfig-002-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080703.B19gmsMH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080703.B19gmsMH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-cqe-mix
+head:   ff0112fc6f064b012cc2f63d744e1103cea398fd
+commit: 36e483696f3bcd302cb45a77d0483c2727e3f396 [4/9] io_uring/fdinfo: deal with mixed sized CQEs
+config: hexagon-randconfig-002-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080735.4yY5oniq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080735.4yY5oniq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080703.B19gmsMH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080735.4yY5oniq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/fork.c:77:
-   include/linux/freezer.h: In function 'freeze_set_default_priority':
-   include/linux/freezer.h:95:55: warning: no return statement in function returning non-void [-Wreturn-type]
-      95 | static inline bool freeze_set_default_priority(struct task_struct *p, unsigned int prio) {}
-         |                                                       ^~~~~~~~~~~
-   kernel/fork.c: In function 'copy_process':
->> kernel/fork.c:2428:33: error: 'FREEZE_PRIORITY_NORMAL' undeclared (first use in this function)
-    2428 |  freeze_set_default_priority(p, FREEZE_PRIORITY_NORMAL);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:2428:33: note: each undeclared identifier is reported only once for each function it appears in
+   io_uring/fdinfo.c:69:27: warning: variable 'cq_entries' set but not used [-Wunused-but-set-variable]
+      69 |         unsigned int sq_entries, cq_entries;
+         |                                  ^
+>> io_uring/fdinfo.c:134:7: warning: variable 'cq_shift' is uninitialized when used here [-Wuninitialized]
+     134 |                 if (cq_shift)
+         |                     ^~~~~~~~
+   io_uring/fdinfo.c:128:24: note: initialize the variable 'cq_shift' to silence this warning
+     128 |                 unsigned int cq_shift;
+         |                                      ^
+         |                                       = 0
+   2 warnings generated.
 
 
-vim +/FREEZE_PRIORITY_NORMAL +2428 kernel/fork.c
+vim +/cq_shift +134 io_uring/fdinfo.c
 
-  2267	
-  2268		/*
-  2269		 * Ensure that the cgroup subsystem policies allow the new process to be
-  2270		 * forked. It should be noted that the new process's css_set can be changed
-  2271		 * between here and cgroup_post_fork() if an organisation operation is in
-  2272		 * progress.
-  2273		 */
-  2274		retval = cgroup_can_fork(p, args);
-  2275		if (retval)
-  2276			goto bad_fork_put_pidfd;
-  2277	
-  2278		/*
-  2279		 * Now that the cgroups are pinned, re-clone the parent cgroup and put
-  2280		 * the new task on the correct runqueue. All this *before* the task
-  2281		 * becomes visible.
-  2282		 *
-  2283		 * This isn't part of ->can_fork() because while the re-cloning is
-  2284		 * cgroup specific, it unconditionally needs to place the task on a
-  2285		 * runqueue.
-  2286		 */
-  2287		retval = sched_cgroup_fork(p, args);
-  2288		if (retval)
-  2289			goto bad_fork_cancel_cgroup;
-  2290	
-  2291		/*
-  2292		 * Allocate a default futex hash for the user process once the first
-  2293		 * thread spawns.
-  2294		 */
-  2295		if (need_futex_hash_allocate_default(clone_flags)) {
-  2296			retval = futex_hash_allocate_default();
-  2297			if (retval)
-  2298				goto bad_fork_core_free;
-  2299			/*
-  2300			 * If we fail beyond this point we don't free the allocated
-  2301			 * futex hash map. We assume that another thread will be created
-  2302			 * and makes use of it. The hash map will be freed once the main
-  2303			 * thread terminates.
-  2304			 */
-  2305		}
-  2306		/*
-  2307		 * From this point on we must avoid any synchronous user-space
-  2308		 * communication until we take the tasklist-lock. In particular, we do
-  2309		 * not want user-space to be able to predict the process start-time by
-  2310		 * stalling fork(2) after we recorded the start_time but before it is
-  2311		 * visible to the system.
-  2312		 */
-  2313	
-  2314		p->start_time = ktime_get_ns();
-  2315		p->start_boottime = ktime_get_boottime_ns();
-  2316	
-  2317		/*
-  2318		 * Make it visible to the rest of the system, but dont wake it up yet.
-  2319		 * Need tasklist lock for parent etc handling!
-  2320		 */
-  2321		write_lock_irq(&tasklist_lock);
-  2322	
-  2323		/* CLONE_PARENT re-uses the old parent */
-  2324		if (clone_flags & (CLONE_PARENT|CLONE_THREAD)) {
-  2325			p->real_parent = current->real_parent;
-  2326			p->parent_exec_id = current->parent_exec_id;
-  2327			if (clone_flags & CLONE_THREAD)
-  2328				p->exit_signal = -1;
-  2329			else
-  2330				p->exit_signal = current->group_leader->exit_signal;
-  2331		} else {
-  2332			p->real_parent = current;
-  2333			p->parent_exec_id = current->self_exec_id;
-  2334			p->exit_signal = args->exit_signal;
-  2335		}
-  2336	
-  2337		klp_copy_process(p);
-  2338	
-  2339		sched_core_fork(p);
-  2340	
-  2341		spin_lock(&current->sighand->siglock);
-  2342	
-  2343		rv_task_fork(p);
-  2344	
-  2345		rseq_fork(p, clone_flags);
-  2346	
-  2347		/* Don't start children in a dying pid namespace */
-  2348		if (unlikely(!(ns_of_pid(pid)->pid_allocated & PIDNS_ADDING))) {
-  2349			retval = -ENOMEM;
-  2350			goto bad_fork_core_free;
-  2351		}
-  2352	
-  2353		/* Let kill terminate clone/fork in the middle */
-  2354		if (fatal_signal_pending(current)) {
-  2355			retval = -EINTR;
-  2356			goto bad_fork_core_free;
-  2357		}
-  2358	
-  2359		/* No more failure paths after this point. */
-  2360	
-  2361		/*
-  2362		 * Copy seccomp details explicitly here, in case they were changed
-  2363		 * before holding sighand lock.
-  2364		 */
-  2365		copy_seccomp(p);
-  2366	
-  2367		init_task_pid_links(p);
-  2368		if (likely(p->pid)) {
-  2369			ptrace_init_task(p, (clone_flags & CLONE_PTRACE) || trace);
-  2370	
-  2371			init_task_pid(p, PIDTYPE_PID, pid);
-  2372			if (thread_group_leader(p)) {
-  2373				init_task_pid(p, PIDTYPE_TGID, pid);
-  2374				init_task_pid(p, PIDTYPE_PGID, task_pgrp(current));
-  2375				init_task_pid(p, PIDTYPE_SID, task_session(current));
-  2376	
-  2377				if (is_child_reaper(pid)) {
-  2378					ns_of_pid(pid)->child_reaper = p;
-  2379					p->signal->flags |= SIGNAL_UNKILLABLE;
-  2380				}
-  2381				p->signal->shared_pending.signal = delayed.signal;
-  2382				p->signal->tty = tty_kref_get(current->signal->tty);
-  2383				/*
-  2384				 * Inherit has_child_subreaper flag under the same
-  2385				 * tasklist_lock with adding child to the process tree
-  2386				 * for propagate_has_child_subreaper optimization.
-  2387				 */
-  2388				p->signal->has_child_subreaper = p->real_parent->signal->has_child_subreaper ||
-  2389								 p->real_parent->signal->is_child_subreaper;
-  2390				list_add_tail(&p->sibling, &p->real_parent->children);
-  2391				list_add_tail_rcu(&p->tasks, &init_task.tasks);
-  2392				attach_pid(p, PIDTYPE_TGID);
-  2393				attach_pid(p, PIDTYPE_PGID);
-  2394				attach_pid(p, PIDTYPE_SID);
-  2395				__this_cpu_inc(process_counts);
-  2396			} else {
-  2397				current->signal->nr_threads++;
-  2398				current->signal->quick_threads++;
-  2399				atomic_inc(&current->signal->live);
-  2400				refcount_inc(&current->signal->sigcnt);
-  2401				task_join_group_stop(p);
-  2402				list_add_tail_rcu(&p->thread_node,
-  2403						  &p->signal->thread_head);
-  2404			}
-  2405			attach_pid(p, PIDTYPE_PID);
-  2406			nr_threads++;
-  2407		}
-  2408		total_forks++;
-  2409		hlist_del_init(&delayed.node);
-  2410		spin_unlock(&current->sighand->siglock);
-  2411		syscall_tracepoint_update(p);
-  2412		write_unlock_irq(&tasklist_lock);
-  2413	
-  2414		if (pidfile)
-  2415			fd_install(pidfd, pidfile);
-  2416	
-  2417		proc_fork_connector(p);
-  2418		sched_post_fork(p);
-  2419		cgroup_post_fork(p, args);
-  2420		perf_event_fork(p);
-  2421	
-  2422		trace_task_newtask(p, clone_flags);
-  2423		uprobe_copy_process(p, clone_flags);
-  2424		user_events_fork(p, clone_flags);
-  2425	
-  2426		copy_oom_score_adj(clone_flags, p);
-  2427	
-> 2428		freeze_set_default_priority(p, FREEZE_PRIORITY_NORMAL);
-  2429		return p;
-  2430	
-  2431	bad_fork_core_free:
-  2432		sched_core_free(p);
-  2433		spin_unlock(&current->sighand->siglock);
-  2434		write_unlock_irq(&tasklist_lock);
-  2435	bad_fork_cancel_cgroup:
-  2436		cgroup_cancel_fork(p, args);
-  2437	bad_fork_put_pidfd:
-  2438		if (clone_flags & CLONE_PIDFD) {
-  2439			fput(pidfile);
-  2440			put_unused_fd(pidfd);
-  2441		}
-  2442	bad_fork_free_pid:
-  2443		if (pid != &init_struct_pid)
-  2444			free_pid(pid);
-  2445	bad_fork_cleanup_thread:
-  2446		exit_thread(p);
-  2447	bad_fork_cleanup_io:
-  2448		if (p->io_context)
-  2449			exit_io_context(p);
-  2450	bad_fork_cleanup_namespaces:
-  2451		exit_task_namespaces(p);
-  2452	bad_fork_cleanup_mm:
-  2453		if (p->mm) {
-  2454			mm_clear_owner(p->mm, p);
-  2455			mmput(p->mm);
-  2456		}
-  2457	bad_fork_cleanup_signal:
-  2458		if (!(clone_flags & CLONE_THREAD))
-  2459			free_signal_struct(p->signal);
-  2460	bad_fork_cleanup_sighand:
-  2461		__cleanup_sighand(p->sighand);
-  2462	bad_fork_cleanup_fs:
-  2463		exit_fs(p); /* blocking */
-  2464	bad_fork_cleanup_files:
-  2465		exit_files(p); /* blocking */
-  2466	bad_fork_cleanup_semundo:
-  2467		exit_sem(p);
-  2468	bad_fork_cleanup_security:
-  2469		security_task_free(p);
-  2470	bad_fork_cleanup_audit:
-  2471		audit_free(p);
-  2472	bad_fork_cleanup_perf:
-  2473		perf_event_free_task(p);
-  2474	bad_fork_sched_cancel_fork:
-  2475		sched_cancel_fork(p);
-  2476	bad_fork_cleanup_policy:
-  2477		lockdep_free_task(p);
-  2478	#ifdef CONFIG_NUMA
-  2479		mpol_put(p->mempolicy);
-  2480	#endif
-  2481	bad_fork_cleanup_delayacct:
-  2482		delayacct_tsk_free(p);
-  2483	bad_fork_cleanup_count:
-  2484		dec_rlimit_ucounts(task_ucounts(p), UCOUNT_RLIMIT_NPROC, 1);
-  2485		exit_creds(p);
-  2486	bad_fork_free:
-  2487		WRITE_ONCE(p->__state, TASK_DEAD);
-  2488		exit_task_stack_account(p);
-  2489		put_task_stack(p);
-  2490		delayed_free_task(p);
-  2491	fork_out:
-  2492		spin_lock_irq(&current->sighand->siglock);
-  2493		hlist_del_init(&delayed.node);
-  2494		spin_unlock_irq(&current->sighand->siglock);
-  2495		return ERR_PTR(retval);
-  2496	}
-  2497	
+6bf90bd8c58a30 Olivier Langlois        2024-10-13   57  
+d871198ee431d9 Jens Axboe              2025-05-13   58  static void __io_uring_show_fdinfo(struct io_ring_ctx *ctx, struct seq_file *m)
+a4ad4f748ea962 Jens Axboe              2022-05-25   59  {
+a4ad4f748ea962 Jens Axboe              2022-05-25   60  	struct io_overflow_cqe *ocqe;
+a4ad4f748ea962 Jens Axboe              2022-05-25   61  	struct io_rings *r = ctx->rings;
+3fcb9d17206e31 Xiaobing Li             2024-02-28   62  	struct rusage sq_usage;
+a4ad4f748ea962 Jens Axboe              2022-05-25   63  	unsigned int sq_mask = ctx->sq_entries - 1, cq_mask = ctx->cq_entries - 1;
+a4ad4f748ea962 Jens Axboe              2022-05-25   64  	unsigned int sq_head = READ_ONCE(r->sq.head);
+a4ad4f748ea962 Jens Axboe              2022-05-25   65  	unsigned int sq_tail = READ_ONCE(r->sq.tail);
+a4ad4f748ea962 Jens Axboe              2022-05-25   66  	unsigned int cq_head = READ_ONCE(r->cq.head);
+a4ad4f748ea962 Jens Axboe              2022-05-25   67  	unsigned int cq_tail = READ_ONCE(r->cq.tail);
+3b8fdd1dc35e39 Jens Axboe              2022-09-11   68  	unsigned int sq_shift = 0;
+a4ad4f748ea962 Jens Axboe              2022-05-25   69  	unsigned int sq_entries, cq_entries;
+7644b1a1c9a7ae Jens Axboe              2023-10-21   70  	int sq_pid = -1, sq_cpu = -1;
+3fcb9d17206e31 Xiaobing Li             2024-02-28   71  	u64 sq_total_time = 0, sq_work_time = 0;
+a4ad4f748ea962 Jens Axboe              2022-05-25   72  	unsigned int i;
+a4ad4f748ea962 Jens Axboe              2022-05-25   73  
+3b8fdd1dc35e39 Jens Axboe              2022-09-11   74  	if (ctx->flags & IORING_SETUP_SQE128)
+3b8fdd1dc35e39 Jens Axboe              2022-09-11   75  		sq_shift = 1;
+a4ad4f748ea962 Jens Axboe              2022-05-25   76  
+a4ad4f748ea962 Jens Axboe              2022-05-25   77  	/*
+a4ad4f748ea962 Jens Axboe              2022-05-25   78  	 * we may get imprecise sqe and cqe info if uring is actively running
+a4ad4f748ea962 Jens Axboe              2022-05-25   79  	 * since we get cached_sq_head and cached_cq_tail without uring_lock
+a4ad4f748ea962 Jens Axboe              2022-05-25   80  	 * and sq_tail and cq_head are changed by userspace. But it's ok since
+a4ad4f748ea962 Jens Axboe              2022-05-25   81  	 * we usually use these info when it is stuck.
+a4ad4f748ea962 Jens Axboe              2022-05-25   82  	 */
+a4ad4f748ea962 Jens Axboe              2022-05-25   83  	seq_printf(m, "SqMask:\t0x%x\n", sq_mask);
+a4ad4f748ea962 Jens Axboe              2022-05-25   84  	seq_printf(m, "SqHead:\t%u\n", sq_head);
+a4ad4f748ea962 Jens Axboe              2022-05-25   85  	seq_printf(m, "SqTail:\t%u\n", sq_tail);
+f024d3a8ded0d8 Jens Axboe              2025-04-30   86  	seq_printf(m, "CachedSqHead:\t%u\n", data_race(ctx->cached_sq_head));
+a4ad4f748ea962 Jens Axboe              2022-05-25   87  	seq_printf(m, "CqMask:\t0x%x\n", cq_mask);
+a4ad4f748ea962 Jens Axboe              2022-05-25   88  	seq_printf(m, "CqHead:\t%u\n", cq_head);
+a4ad4f748ea962 Jens Axboe              2022-05-25   89  	seq_printf(m, "CqTail:\t%u\n", cq_tail);
+f024d3a8ded0d8 Jens Axboe              2025-04-30   90  	seq_printf(m, "CachedCqTail:\t%u\n", data_race(ctx->cached_cq_tail));
+3b8fdd1dc35e39 Jens Axboe              2022-09-11   91  	seq_printf(m, "SQEs:\t%u\n", sq_tail - sq_head);
+a4ad4f748ea962 Jens Axboe              2022-05-25   92  	sq_entries = min(sq_tail - sq_head, ctx->sq_entries);
+a4ad4f748ea962 Jens Axboe              2022-05-25   93  	for (i = 0; i < sq_entries; i++) {
+a4ad4f748ea962 Jens Axboe              2022-05-25   94  		unsigned int entry = i + sq_head;
+a4ad4f748ea962 Jens Axboe              2022-05-25   95  		struct io_uring_sqe *sqe;
+3b8fdd1dc35e39 Jens Axboe              2022-09-11   96  		unsigned int sq_idx;
+a4ad4f748ea962 Jens Axboe              2022-05-25   97  
+32f5dea040ee6e Jens Axboe              2023-09-01   98  		if (ctx->flags & IORING_SETUP_NO_SQARRAY)
+32f5dea040ee6e Jens Axboe              2023-09-01   99  			break;
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  100  		sq_idx = READ_ONCE(ctx->sq_array[entry & sq_mask]);
+a4ad4f748ea962 Jens Axboe              2022-05-25  101  		if (sq_idx > sq_mask)
+a4ad4f748ea962 Jens Axboe              2022-05-25  102  			continue;
+00927931cb630b Pavel Begunkov          2022-10-11  103  		sqe = &ctx->sq_sqes[sq_idx << sq_shift];
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  104  		seq_printf(m, "%5u: opcode:%s, fd:%d, flags:%x, off:%llu, "
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  105  			      "addr:0x%llx, rw_flags:0x%x, buf_index:%d "
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  106  			      "user_data:%llu",
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  107  			   sq_idx, io_uring_get_opcode(sqe->opcode), sqe->fd,
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  108  			   sqe->flags, (unsigned long long) sqe->off,
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  109  			   (unsigned long long) sqe->addr, sqe->rw_flags,
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  110  			   sqe->buf_index, sqe->user_data);
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  111  		if (sq_shift) {
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  112  			u64 *sqeb = (void *) (sqe + 1);
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  113  			int size = sizeof(struct io_uring_sqe) / sizeof(u64);
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  114  			int j;
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  115  
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  116  			for (j = 0; j < size; j++) {
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  117  				seq_printf(m, ", e%d:0x%llx", j,
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  118  						(unsigned long long) *sqeb);
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  119  				sqeb++;
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  120  			}
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  121  		}
+3b8fdd1dc35e39 Jens Axboe              2022-09-11  122  		seq_printf(m, "\n");
+a4ad4f748ea962 Jens Axboe              2022-05-25  123  	}
+a4ad4f748ea962 Jens Axboe              2022-05-25  124  	seq_printf(m, "CQEs:\t%u\n", cq_tail - cq_head);
+a4ad4f748ea962 Jens Axboe              2022-05-25  125  	cq_entries = min(cq_tail - cq_head, ctx->cq_entries);
+36e483696f3bcd Jens Axboe              2025-08-07  126  	while (cq_head < cq_tail) {
+36e483696f3bcd Jens Axboe              2025-08-07  127  		struct io_uring_cqe *cqe;
+36e483696f3bcd Jens Axboe              2025-08-07  128  		unsigned int cq_shift;
+a4ad4f748ea962 Jens Axboe              2022-05-25  129  
+36e483696f3bcd Jens Axboe              2025-08-07  130  		cqe = &r->cqes[(cq_head & cq_mask)];
+4f731705cc1f15 Jens Axboe              2022-09-11  131  		seq_printf(m, "%5u: user_data:%llu, res:%d, flag:%x",
+36e483696f3bcd Jens Axboe              2025-08-07  132  			   cq_head & cq_mask, cqe->user_data, cqe->res,
+a4ad4f748ea962 Jens Axboe              2022-05-25  133  			   cqe->flags);
+4f731705cc1f15 Jens Axboe              2022-09-11 @134  		if (cq_shift)
+4f731705cc1f15 Jens Axboe              2022-09-11  135  			seq_printf(m, ", extra1:%llu, extra2:%llu\n",
+4f731705cc1f15 Jens Axboe              2022-09-11  136  					cqe->big_cqe[0], cqe->big_cqe[1]);
+4f731705cc1f15 Jens Axboe              2022-09-11  137  		seq_printf(m, "\n");
+36e483696f3bcd Jens Axboe              2025-08-07  138  		cq_head++;
+36e483696f3bcd Jens Axboe              2025-08-07  139  		if (cqe->flags & IORING_CQE_F_32 || ctx->flags & IORING_SETUP_CQE32)
+36e483696f3bcd Jens Axboe              2025-08-07  140  			cq_head++;
+a4ad4f748ea962 Jens Axboe              2022-05-25  141  	}
+a4ad4f748ea962 Jens Axboe              2022-05-25  142  
+d871198ee431d9 Jens Axboe              2025-05-13  143  	if (ctx->flags & IORING_SETUP_SQPOLL) {
+7644b1a1c9a7ae Jens Axboe              2023-10-21  144  		struct io_sq_data *sq = ctx->sq_data;
+ac0b8b327a5677 Penglei Jiang           2025-06-10  145  		struct task_struct *tsk;
+7644b1a1c9a7ae Jens Axboe              2023-10-21  146  
+ac0b8b327a5677 Penglei Jiang           2025-06-10  147  		rcu_read_lock();
+ac0b8b327a5677 Penglei Jiang           2025-06-10  148  		tsk = rcu_dereference(sq->thread);
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  149  		/*
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  150  		 * sq->thread might be NULL if we raced with the sqpoll
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  151  		 * thread termination.
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  152  		 */
+ac0b8b327a5677 Penglei Jiang           2025-06-10  153  		if (tsk) {
+ac0b8b327a5677 Penglei Jiang           2025-06-10  154  			get_task_struct(tsk);
+ac0b8b327a5677 Penglei Jiang           2025-06-10  155  			rcu_read_unlock();
+ac0b8b327a5677 Penglei Jiang           2025-06-10  156  			getrusage(tsk, RUSAGE_SELF, &sq_usage);
+ac0b8b327a5677 Penglei Jiang           2025-06-10  157  			put_task_struct(tsk);
+a0d45c3f596be5 Jens Axboe              2023-11-14  158  			sq_pid = sq->task_pid;
+a0d45c3f596be5 Jens Axboe              2023-11-14  159  			sq_cpu = sq->sq_cpu;
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  160  			sq_total_time = (sq_usage.ru_stime.tv_sec * 1000000
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  161  					 + sq_usage.ru_stime.tv_usec);
+3fcb9d17206e31 Xiaobing Li             2024-02-28  162  			sq_work_time = sq->work_time;
+ac0b8b327a5677 Penglei Jiang           2025-06-10  163  		} else {
+ac0b8b327a5677 Penglei Jiang           2025-06-10  164  			rcu_read_unlock();
+a4ad4f748ea962 Jens Axboe              2022-05-25  165  		}
+606559dc4fa36a Gabriel Krisman Bertazi 2024-03-08  166  	}
+a4ad4f748ea962 Jens Axboe              2022-05-25  167  
+7644b1a1c9a7ae Jens Axboe              2023-10-21  168  	seq_printf(m, "SqThread:\t%d\n", sq_pid);
+7644b1a1c9a7ae Jens Axboe              2023-10-21  169  	seq_printf(m, "SqThreadCpu:\t%d\n", sq_cpu);
+3fcb9d17206e31 Xiaobing Li             2024-02-28  170  	seq_printf(m, "SqTotalTime:\t%llu\n", sq_total_time);
+3fcb9d17206e31 Xiaobing Li             2024-02-28  171  	seq_printf(m, "SqWorkTime:\t%llu\n", sq_work_time);
+3597f2786b687a Jens Axboe              2024-10-26  172  	seq_printf(m, "UserFiles:\t%u\n", ctx->file_table.data.nr);
+d871198ee431d9 Jens Axboe              2025-05-13  173  	for (i = 0; i < ctx->file_table.data.nr; i++) {
+cb1717a7cd0fc8 Jens Axboe              2024-10-28  174  		struct file *f = NULL;
+a4ad4f748ea962 Jens Axboe              2022-05-25  175  
+cb1717a7cd0fc8 Jens Axboe              2024-10-28  176  		if (ctx->file_table.data.nodes[i])
+cb1717a7cd0fc8 Jens Axboe              2024-10-28  177  			f = io_slot_file(ctx->file_table.data.nodes[i]);
+561e3a0c40dc7e Al Viro                 2025-01-19  178  		if (f) {
+561e3a0c40dc7e Al Viro                 2025-01-19  179  			seq_printf(m, "%5u: ", i);
+561e3a0c40dc7e Al Viro                 2025-01-19  180  			seq_file_path(m, f, " \t\n\\");
+561e3a0c40dc7e Al Viro                 2025-01-19  181  			seq_puts(m, "\n");
+561e3a0c40dc7e Al Viro                 2025-01-19  182  		}
+a4ad4f748ea962 Jens Axboe              2022-05-25  183  	}
+3597f2786b687a Jens Axboe              2024-10-26  184  	seq_printf(m, "UserBufs:\t%u\n", ctx->buf_table.nr);
+d871198ee431d9 Jens Axboe              2025-05-13  185  	for (i = 0; i < ctx->buf_table.nr; i++) {
+d50f94d761a5d9 Jens Axboe              2024-10-30  186  		struct io_mapped_ubuf *buf = NULL;
+a4ad4f748ea962 Jens Axboe              2022-05-25  187  
+d50f94d761a5d9 Jens Axboe              2024-10-30  188  		if (ctx->buf_table.nodes[i])
+d50f94d761a5d9 Jens Axboe              2024-10-30  189  			buf = ctx->buf_table.nodes[i]->buf;
+d50f94d761a5d9 Jens Axboe              2024-10-30  190  		if (buf)
+9753c642a53bc4 Jens Axboe              2024-09-15  191  			seq_printf(m, "%5u: 0x%llx/%u\n", i, buf->ubuf, buf->len);
+d50f94d761a5d9 Jens Axboe              2024-10-30  192  		else
+d50f94d761a5d9 Jens Axboe              2024-10-30  193  			seq_printf(m, "%5u: <none>\n", i);
+a4ad4f748ea962 Jens Axboe              2022-05-25  194  	}
+a4ad4f748ea962 Jens Axboe              2022-05-25  195  
+a4ad4f748ea962 Jens Axboe              2022-05-25  196  	seq_puts(m, "PollList:\n");
+d871198ee431d9 Jens Axboe              2025-05-13  197  	for (i = 0; i < (1U << ctx->cancel_table.hash_bits); i++) {
+e6f89be61410ff Pavel Begunkov          2022-06-16  198  		struct io_hash_bucket *hb = &ctx->cancel_table.hbs[i];
+a4ad4f748ea962 Jens Axboe              2022-05-25  199  		struct io_kiocb *req;
+a4ad4f748ea962 Jens Axboe              2022-05-25  200  
+38513c464d3d45 Hao Xu                  2022-06-16  201  		hlist_for_each_entry(req, &hb->list, hash_node)
+a4ad4f748ea962 Jens Axboe              2022-05-25  202  			seq_printf(m, "  op=%d, task_works=%d\n", req->opcode,
+b6f58a3f4aa8db Jens Axboe              2024-11-03  203  					task_work_pending(req->tctx->task));
+a4ad4f748ea962 Jens Axboe              2022-05-25  204  	}
+a4ad4f748ea962 Jens Axboe              2022-05-25  205  
+a4ad4f748ea962 Jens Axboe              2022-05-25  206  	seq_puts(m, "CqOverflowList:\n");
+38513c464d3d45 Hao Xu                  2022-06-16  207  	spin_lock(&ctx->completion_lock);
+a4ad4f748ea962 Jens Axboe              2022-05-25  208  	list_for_each_entry(ocqe, &ctx->cq_overflow_list, list) {
+a4ad4f748ea962 Jens Axboe              2022-05-25  209  		struct io_uring_cqe *cqe = &ocqe->cqe;
+a4ad4f748ea962 Jens Axboe              2022-05-25  210  
+a4ad4f748ea962 Jens Axboe              2022-05-25  211  		seq_printf(m, "  user_data=%llu, res=%d, flags=%x\n",
+a4ad4f748ea962 Jens Axboe              2022-05-25  212  			   cqe->user_data, cqe->res, cqe->flags);
+a4ad4f748ea962 Jens Axboe              2022-05-25  213  
+a4ad4f748ea962 Jens Axboe              2022-05-25  214  	}
+a4ad4f748ea962 Jens Axboe              2022-05-25  215  	spin_unlock(&ctx->completion_lock);
+6bf90bd8c58a30 Olivier Langlois        2024-10-13  216  	napi_show_fdinfo(ctx, m);
+a4ad4f748ea962 Jens Axboe              2022-05-25  217  }
+d871198ee431d9 Jens Axboe              2025-05-13  218  
+
+:::::: The code at line 134 was first introduced by commit
+:::::: 4f731705cc1f1591e15e1c3133de8ae3843c68ff io_uring/fdinfo: get rid of unnecessary is_cqe32 variable
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
