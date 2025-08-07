@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6042528F3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 15:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE4EBA34
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 15:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754581132; cv=none; b=GdBJzq0w3spnjkK41k5z/Uf5mk4y93EfjykLDWNUXUPYlJ2LWVM7nD/PDf7xnlvTBpc2WNNbMydTXFbBWk+WoAGYBXWECC/a2K8KRmwZRgf36ZM8+MjiwIoPZybu8NTcYj6g+Ql9ZuIB+4ER/bOouo5uhlWWAsge6oL3s69LOiE=
+	t=1754581732; cv=none; b=DPxlX9mc39s940ReLxX5QRGcAnEzlhWMgewR4CU5taCCQSqZkIkJfOsV15tOjB005+GOOqxAJR0ILFBsLus7i7Kwu9moN14veeypzCkxp9U/9t7ORuQRqCTCutfRdSJh7miWIc57mHEHEsz8Ycnd0+sXOkT044WV9R5s51dx4sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754581132; c=relaxed/simple;
-	bh=3eRF/wSPltkWtWa0ZXm7VGOHoPxX8UgtMCDP5kRmpE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EvHX/eX/UMOXRcF5qmLYSzu75ouqzZZtmzRBQIpHWUM/az2M0aAbybCeNu7xAoRxABBCuRIz98PS6MYc4xIGygVs9XHtKu5BmT0R5ljBZt3ZT6eqMqwscXtzXp/oF/wYhI6nCqlLdNrwIBmxXcabxZImzmxjET1Lt+ixqVmmflQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DLj26mRI; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1754581732; c=relaxed/simple;
+	bh=t2isChxoZmZHcVZWs0H8jL1QOW+h0x2ii/7YPK7/tqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gU8dIt3oKJQsZ+0mSo4M/bZGVOrCGAZoyBFN7UfKKTkTUNF2siv4utrRZKlXvzoUFW7fpziTj6an5mg6AUobIS2iMvg5ZhtLf2qCAKI/RNrwKY+iwfNj9zpJLoM5rFMThECZk4gjAfwhkX3rl57Q/DRF4i7eaEYsbuoB6lp94jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFIrEp9B; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DLj26mRI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFIrEp9B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754581130; x=1786117130;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3eRF/wSPltkWtWa0ZXm7VGOHoPxX8UgtMCDP5kRmpE8=;
-  b=DLj26mRIHo+BExm7g/Ncno+WWwcDV0+/6bApcCvQFYRtYZfg3gIggc/0
-   2hvXtK+9w1DxCS3kMedAzozehivyJa35DpIUnUcwAI9pWZ8QHoT6axogW
-   X/w11Temzrea3vDODFhsaiBfmpIAdSaSVNzMkXcwTKmUpbmWdlySoAxN8
-   p2PID71S5XaSYN8ap/TAIbLCpV/0JNE3cVpQmoPx86u5MXQhYaBgj9Qex
-   6cWc/0LOEmedNyvSBRZQlZYn1EHdgZTyYZDPQtME7gAeNEqUjbHlJ9V78
-   WKO7fmLv9HINz2l3FgueCUhGpckefipYetA03jjyr7vvYQ6m83rLVSBB8
-   A==;
-X-CSE-ConnectionGUID: 8xAznEcBQgSHgt84jGsdbA==
-X-CSE-MsgGUID: wDYj5HcnR/yHNA2ZkW9bEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57061788"
+  t=1754581730; x=1786117730;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t2isChxoZmZHcVZWs0H8jL1QOW+h0x2ii/7YPK7/tqQ=;
+  b=WFIrEp9Bwy9S/5y66vDklufZD8AXvVoO2UiHcFylh7ZU18y16JKsB5i0
+   b+FRkxw5s67hYts9o6Pcxz2Dbbi4W+gCyk3XSwBrJnEbQcvogOSjVn0dP
+   JuBqwzR+Po2GF+iQZGCUg7KJgP+dJ4dpDHW472d0aqLB7NV1yg1q0So1Q
+   8G9Zpw5YIayAgdfY94hXXwmVahhKzxGe72EUyD0dowObsQ3KBufvuGTtX
+   NEbfG69L0jzUEwv/Y0RkIAuSbH25/ezhUhVj3UFpUyw4VMWjApeceTf47
+   +QyrGO+yNVo1DdXJV0HBTX+IFZJ2qv31A261CyXPx+dznr7WTOTVmoT/r
+   Q==;
+X-CSE-ConnectionGUID: WcGjNUvYRXq2SWgbcB8R1g==
+X-CSE-MsgGUID: rgiVb2zSSDySSQTaP7bs3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60767584"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="57061788"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 08:38:48 -0700
-X-CSE-ConnectionGUID: OCgQ/8UWT7GYyDc81fe8pg==
-X-CSE-MsgGUID: Ubt3YZ3KTbC8Pdmc0e3MAA==
+   d="scan'208";a="60767584"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 08:48:50 -0700
+X-CSE-ConnectionGUID: BY5hG06OTfOL7QAQywpv+Q==
+X-CSE-MsgGUID: +Sf8aCMDT/OsviQNwBC+Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165445379"
+   d="scan'208";a="170353220"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 07 Aug 2025 08:38:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Aug 2025 08:48:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk2hY-0002va-2q;
-	Thu, 07 Aug 2025 15:38:44 +0000
-Date: Thu, 7 Aug 2025 23:38:06 +0800
+	id 1uk2rF-0002vu-1n;
+	Thu, 07 Aug 2025 15:48:45 +0000
+Date: Thu, 7 Aug 2025 23:48:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2818/2818]
- ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field
- 'call_used' has incomplete type 'pt_solution'
-Message-ID: <202508072352.wESgcLPa-lkp@intel.com>
+To: Denis Benato <benato.denis96@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
+	mario.limonciello@amd.com, "Luke D . Jones" <luke@ljones.dev>,
+	Denis Benato <benato.denis96@gmail.com>
+Subject: Re: [PATCH v10 2/8] platform/x86: asus-armoury: move existing
+ tunings to asus-armoury module
+Message-ID: <202508072334.8n7nwIG3-lkp@intel.com>
+References: <20250806135319.1205762-3-benato.denis96@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,149 +66,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250806135319.1205762-3-benato.denis96@gmail.com>
 
-Hi Kees,
+Hi Denis,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   28f1bd4270a018b383ca1545940ec78c60948458
-commit: f72cad446f70dd9383453a5ef36ada358c589f8f [2818/2818] gcc-plugins: Reorganize gimple includes for GCC 13
-config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250807/202508072352.wESgcLPa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 5.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072352.wESgcLPa-lkp@intel.com/reproduce)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.16 next-20250807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Denis-Benato/platform-x86-asus-wmi-export-symbols-used-for-read-write-WMI/20250806-215748
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250806135319.1205762-3-benato.denis96%40gmail.com
+patch subject: [PATCH v10 2/8] platform/x86: asus-armoury: move existing tunings to asus-armoury module
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250807/202508072334.8n7nwIG3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072334.8n7nwIG3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508072352.wESgcLPa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508072334.8n7nwIG3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/stackleak_plugin.c:30:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/sancov_plugin.c:22:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from scripts/gcc-plugins/gcc-common.h:113:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
-     283 |   struct pt_solution call_used;
-         |                      ^~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
-     284 |   struct pt_solution call_clobbered;
-         |                      ^~~~~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
-    2556 |   return lhs && !is_gimple_reg (lhs);
-         |                  ^~~~~~~~~~~~~
-         |                  is_gimple_assign
-   In file included from scripts/gcc-plugins/gcc-common.h:113:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
-     283 |   struct pt_solution call_used;
-         |                      ^~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
-     284 |   struct pt_solution call_clobbered;
-         |                      ^~~~~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
-    2556 |   return lhs && !is_gimple_reg (lhs);
-         |                  ^~~~~~~~~~~~~
-         |                  is_gimple_assign
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
-    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          gimple_call_set_fndecl
-   In file included from scripts/gcc-plugins/gcc-common.h:113:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
-     283 |   struct pt_solution call_used;
-         |                      ^~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
-     284 |   struct pt_solution call_clobbered;
-         |                      ^~~~~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
-    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          gimple_call_set_fndecl
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
-    2556 |   return lhs && !is_gimple_reg (lhs);
-         |                  ^~~~~~~~~~~~~
-         |                  is_gimple_assign
-   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/stackleak_plugin.so] Error 1 shuffle=1096673560
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
-    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          gimple_call_set_fndecl
-   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/sancov_plugin.so] Error 1 shuffle=1096673560
-   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1 shuffle=1096673560
-   make[3]: Target '__build' not remade because of errors.
-   make[2]: *** [scripts/Makefile.build:503: scripts/gcc-plugins] Error 2 shuffle=1096673560
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1238: scripts] Error 2 shuffle=1096673560
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:194: __sub-make] Error 2 shuffle=1096673560
-   make: Target 'prepare' not remade because of errors.
+   In file included from drivers/platform/x86/asus-armoury.c:28:
+>> include/linux/platform_data/x86/asus-wmi.h:199:35: warning: 'asus_use_hid_led_dmi_ids' defined but not used [-Wunused-const-variable=]
+     199 | static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/asus_use_hid_led_dmi_ids +199 include/linux/platform_data/x86/asus-wmi.h
+
+ffb6ce7086ee2d Daniel Drake  2018-10-09  196  
+a720dee5e03923 Luke D. Jones 2024-07-13  197  /* To be used by both hid-asus and asus-wmi to determine which controls kbd_brightness */
+9d3b02ad9b1d1f Luke D. Jones 2025-08-06  198  #if IS_REACHABLE(CONFIG_ASUS_WMI) || IS_REACHABLE(CONFIG_HID_ASUS)
+a720dee5e03923 Luke D. Jones 2024-07-13 @199  static const struct dmi_system_id asus_use_hid_led_dmi_ids[] = {
+a720dee5e03923 Luke D. Jones 2024-07-13  200  	{
+a720dee5e03923 Luke D. Jones 2024-07-13  201  		.matches = {
+a720dee5e03923 Luke D. Jones 2024-07-13  202  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Zephyrus"),
+a720dee5e03923 Luke D. Jones 2024-07-13  203  		},
+a720dee5e03923 Luke D. Jones 2024-07-13  204  	},
+a720dee5e03923 Luke D. Jones 2024-07-13  205  	{
+a720dee5e03923 Luke D. Jones 2024-07-13  206  		.matches = {
+a720dee5e03923 Luke D. Jones 2024-07-13  207  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Strix"),
+a720dee5e03923 Luke D. Jones 2024-07-13  208  		},
+a720dee5e03923 Luke D. Jones 2024-07-13  209  	},
+a720dee5e03923 Luke D. Jones 2024-07-13  210  	{
+a720dee5e03923 Luke D. Jones 2024-07-13  211  		.matches = {
+a720dee5e03923 Luke D. Jones 2024-07-13  212  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ROG Flow"),
+a720dee5e03923 Luke D. Jones 2024-07-13  213  		},
+a720dee5e03923 Luke D. Jones 2024-07-13  214  	},
+53078a736fbc60 Luke D. Jones 2025-01-11  215  	{
+53078a736fbc60 Luke D. Jones 2025-01-11  216  		.matches = {
+53078a736fbc60 Luke D. Jones 2025-01-11  217  			DMI_MATCH(DMI_PRODUCT_FAMILY, "ProArt P16"),
+53078a736fbc60 Luke D. Jones 2025-01-11  218  		},
+53078a736fbc60 Luke D. Jones 2025-01-11  219  	},
+a720dee5e03923 Luke D. Jones 2024-07-13  220  	{
+a720dee5e03923 Luke D. Jones 2024-07-13  221  		.matches = {
+a720dee5e03923 Luke D. Jones 2024-07-13  222  			DMI_MATCH(DMI_BOARD_NAME, "GA403U"),
+a720dee5e03923 Luke D. Jones 2024-07-13  223  		},
+a720dee5e03923 Luke D. Jones 2024-07-13  224  	},
+a720dee5e03923 Luke D. Jones 2024-07-13  225  	{
+a720dee5e03923 Luke D. Jones 2024-07-13  226  		.matches = {
+a720dee5e03923 Luke D. Jones 2024-07-13  227  			DMI_MATCH(DMI_BOARD_NAME, "GU605M"),
+a720dee5e03923 Luke D. Jones 2024-07-13  228  		},
+a720dee5e03923 Luke D. Jones 2024-07-13  229  	},
+a720dee5e03923 Luke D. Jones 2024-07-13  230  	{
+a720dee5e03923 Luke D. Jones 2024-07-13  231  		.matches = {
+a720dee5e03923 Luke D. Jones 2024-07-13  232  			DMI_MATCH(DMI_BOARD_NAME, "RC71L"),
+a720dee5e03923 Luke D. Jones 2024-07-13  233  		},
+a720dee5e03923 Luke D. Jones 2024-07-13  234  	},
+a720dee5e03923 Luke D. Jones 2024-07-13  235  	{ },
+a720dee5e03923 Luke D. Jones 2024-07-13  236  };
+9d3b02ad9b1d1f Luke D. Jones 2025-08-06  237  #endif
+a720dee5e03923 Luke D. Jones 2024-07-13  238  
 
 -- 
 0-DAY CI Kernel Test Service
