@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07462204583
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 13:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C6F2367D5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 14:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754574510; cv=none; b=JAGdtP3NAx96pdSJSRmd49OpyusOGVSPMOXX9AA2XNWwRhvhx5qZE9kRhG1dxkzW6XM6vPifmXSqR+6BJppMSwTiJ2wwuAQsdzTj63oJ8D5cADA3CMdfuiK9do30icxhonHyA6a/qIXZlGkyc2r62U3AYznHM54eMsfUP52/TXc=
+	t=1754575240; cv=none; b=j/wB78QiPj8Q7rxtg4NDoznR9Nd8Isa1nSX1KCX35TdvJo2WRduKAYl8ji50aqyGF2Skt1QHRt/8cxslWR9c8IvtPueRmvbivzoLoQTbGhqCQGjBxqiPMPtcIvCvDGIHR/kc1i71NGL8fAUbbNwABdOeMg49ntXzwmvImJxQHxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754574510; c=relaxed/simple;
-	bh=o/svTjg+oG+sY86qehNYavaARP3KF338H5YCyAUFZ30=;
+	s=arc-20240116; t=1754575240; c=relaxed/simple;
+	bh=//7JnQ4tzJatL4fvtNP9ODNnR2iVUu8L7DLnTUQiQco=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qa427I29G20kJ2CLotR3z782E9wtYLzLm58so2GaW6NYew3It8f6SLd7RWbcKZTZzA07A2HTMxaXH0bzg4D6n30jSMXtANAVMbVpfwGZAji2IukyPQ6F8aOIAOb8muuMU+KyZvJWW6CMpU2wwDw0zKEi/khD7xaRqspBTFSPYck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/+ejHhv; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=N9NJZZA32x+6CcOyEExhTNvHe3KcbiETiVB+j1Wh1jnKKxzhAs3fTfh9VAnIGzAX3TEjMnQ5TO495slm4oRze5n5wV5eXCwtq/6GIsl19VvNnvsLgoj86gZQ/ZjeXN3bK/NzqHNRcA295mE0OjwmbapBXfHb9nmZvm4G4vjigJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdIyqLQT; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/+ejHhv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdIyqLQT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754574509; x=1786110509;
+  t=1754575239; x=1786111239;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/svTjg+oG+sY86qehNYavaARP3KF338H5YCyAUFZ30=;
-  b=N/+ejHhvt2bhGcNsuRYcty+hBjg3E2YAP2L/bG6vbTG3U8JDkHQPUM8H
-   nkPE/16labjz7sFcUVo8cTLViIe7y7P9V/Zdb0sUlsp0SOSQOeAkGirO1
-   KHKc557sUs9uvj5AEHlzBAuBUUN6ZTvipsDT8OVvdzKNJNO8e4LWmOjOi
-   nsvqEpjm90e8UFMC+95aB5vPhqKfq9ekDgiSTiVTEqMXSgC3QbT682Jz8
-   IOiRm+/s/nXGGSl66rOg7LD4jboMvORoydFl7MY3a6gtFyxs1gjv0Bvkn
-   JjOWLS87iYOTJZYN5hKh8q8XFZvyS/kLrvb85BeGAOkPUlWtw3zlxka/R
+  bh=//7JnQ4tzJatL4fvtNP9ODNnR2iVUu8L7DLnTUQiQco=;
+  b=WdIyqLQT4Wkgqs3CLTyna3nhRe0BopNcNlthlNgg87NXoO3T1+KXSEGk
+   Zbb+Dknn0iTH26GjjOsS2y5JeDf1Zo7o3KQD9MzMHZRS0VOf0VjVVhc92
+   Zz1Ki0tG5Xm9GDrRGdpQ0QKm1NVqHyGB1eN7jHGGWVgRFemp+G/Gfd/zz
+   /sO/rU1g6jjaBNEUWYGHaPmBu1g1fh8hTDvpFhWEplhV726ucJelRc0aj
+   Y0x+peubxmzXe4e2LWOyy3Of/W4xbWvIsd9ii5whHXIMV+mBb8pojUGfK
+   mif7I/oIEoWIEsIukOVzysUb8e9g4Wgv7pl66jtCYVZ/wE+aZGw2gwxHI
    A==;
-X-CSE-ConnectionGUID: g52bO+XNTHSDKmJg8RbwOw==
-X-CSE-MsgGUID: aCt4KEWzTReQSBX7f4APUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67605288"
+X-CSE-ConnectionGUID: KBLb+kbPTu2LXpogbUwnVQ==
+X-CSE-MsgGUID: OdMCvEqBTLKqpblT29knAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68363878"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="67605288"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 06:48:28 -0700
-X-CSE-ConnectionGUID: uHSMnaiwT+OrrNYi2v5//Q==
-X-CSE-MsgGUID: lwulQKcfQ16NzuqFi3HbSg==
+   d="scan'208";a="68363878"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 07:00:39 -0700
+X-CSE-ConnectionGUID: qgxSiOsmS3eA95rt6XoIiQ==
+X-CSE-MsgGUID: l/Wro+TNSAyyFxmvPcWuRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="170327247"
+   d="scan'208";a="202234936"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Aug 2025 06:48:27 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 Aug 2025 07:00:38 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk0ym-0002qk-2y;
-	Thu, 07 Aug 2025 13:48:24 +0000
-Date: Thu, 7 Aug 2025 21:48:10 +0800
+	id 1uk1AZ-0002rW-19;
+	Thu, 07 Aug 2025 14:00:35 +0000
+Date: Thu, 7 Aug 2025 22:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: Emil Renner Berthing <kernel@esmil.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2818/2818]
- ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21:
- warning: invalid suffix on literal; C++11 requires a space between literal
- and string macro
-Message-ID: <202508072130.PNYHXdZW-lkp@intel.com>
+Subject: [esmil:vsrv 4/7] drivers/net/ethernet/vlsi/vlsi-mac.c:202:9: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202508072138.6KPhLRF4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,78 +62,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Valdis,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   28f1bd4270a018b383ca1545940ec78c60948458
-commit: 0908fe0570df658beb3866ddcb7bc55b0fb834b0 [2818/2818] gcc-plugins: fix gcc 11 indigestion with plugins...
-config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250807/202508072130.PNYHXdZW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 5.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072130.PNYHXdZW-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux vsrv
+head:   58e54ef4640355003af8e733da39cafa53ad38a9
+commit: 17e17550692a1c7e7c8b2c8ddc155ccf02676e65 [4/7] net: vlsi: Add VLSI ethernet driver
+config: sparc-randconfig-r121-20250807 (https://download.01.org/0day-ci/archive/20250807/202508072138.6KPhLRF4-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20250807/202508072138.6KPhLRF4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508072130.PNYHXdZW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508072138.6KPhLRF4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/vlsi/vlsi-mac.c:202:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem * @@
+   drivers/net/ethernet/vlsi/vlsi-mac.c:202:9: sparse:     expected void const *
+   drivers/net/ethernet/vlsi/vlsi-mac.c:202:9: sparse:     got void [noderef] __iomem *
+>> drivers/net/ethernet/vlsi/vlsi-mac.c:214:38: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/net/ethernet/vlsi/vlsi-mac.c:554:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int volatile [usertype] *rxbase @@     got void [noderef] __iomem * @@
+   drivers/net/ethernet/vlsi/vlsi-mac.c:554:50: sparse:     expected unsigned int volatile [usertype] *rxbase
+   drivers/net/ethernet/vlsi/vlsi-mac.c:554:50: sparse:     got void [noderef] __iomem *
+>> drivers/net/ethernet/vlsi/vlsi-mac.c:805:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int volatile [usertype] *txmem @@     got void [noderef] __iomem * @@
+   drivers/net/ethernet/vlsi/vlsi-mac.c:805:49: sparse:     expected unsigned int volatile [usertype] *txmem
+   drivers/net/ethernet/vlsi/vlsi-mac.c:805:49: sparse:     got void [noderef] __iomem *
 
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/stackleak_plugin.c:30:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/sancov_plugin.c:22:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1 shuffle=1096673560
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1096673560
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1214: prepare0] Error 2 shuffle=1096673560
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1096673560
-   make: Target 'prepare' not remade because of errors.
+vim +202 drivers/net/ethernet/vlsi/vlsi-mac.c
+
+   192	
+   193		struct device *dev = kobj_to_dev(kobj);
+   194		struct vsrves01_private *db = dev_get_drvdata(dev);
+   195	
+   196		if (offset > 512)
+   197			return -1;
+   198	
+   199		if (offset + size > 512)
+   200			size = 512-offset;
+   201	
+ > 202		memcpy(buf, db->membase + offset, size);
+   203	
+   204		return size;
+   205	}
+   206	
+   207	static ssize_t vsrves01_sysfs_set_regmem(struct file *file, struct kobject *kobj,
+   208						 const struct bin_attribute *attr,
+   209						 char *buf, loff_t offset,
+   210						 size_t size)
+   211	{
+   212		struct device *dev = kobj_to_dev(kobj);
+   213		struct vsrves01_private *db = dev_get_drvdata(dev);
+ > 214		volatile uint32_t *ethmem = (void *)db->membase;
+   215		int ret = 0;
+   216	
+   217		if (offset > 512)
+   218			return -1;
+   219	
+   220		if (offset + size > 512)
+   221			size = 512-offset;
+   222	
+   223		while (size > 0) {
+   224			uint32_t value;
+   225			uint32_t addr = (unsigned)offset >> 2;
+   226			uint32_t oldvalue = ethmem[addr];
+   227	
+   228			memcpy(&value, buf, 4);
+   229	
+   230			//dprintk("RegMEM Write %d bytes, at 0x%x (0x%x) %x => %x\n", size, (unsigned)offset, addr, oldvalue, value);
+   231			if (addr == 0 && ((oldvalue&~0x81) == (value&~0x81))) {
+   232				ethmem[0] = value;
+   233				ret += 4;
+   234			} else if (addr >= 103 && addr < 120) {
+   235				ethmem[addr] = value;
+   236				ret += 4;
+   237			} else {
+   238				return ret;
+   239			}
+   240	
+   241			buf += 4;
+   242			offset +=4;
+   243			size -=4;
+   244		}
+   245	
+   246		return ret;
+   247	}
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
