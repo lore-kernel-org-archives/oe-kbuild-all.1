@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3657924DD17
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 07:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45BE2E36EC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 08:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754552966; cv=none; b=dBUsFV56Bh3WkzEyxwFSbKcIbSvAqxgEmhnrm2/9r7HVd/axOK17tXQpk2YcsnU1/xiyzrkfATGgrWbIsu8KKH/iE9m0ZUkEdvosVr3+bZMeCPKAt1MttE+UgGh30dhl3+zeM1DQDRxnoboLWZE97dgB+q63gLKyw0qnMWVZGqc=
+	t=1754553721; cv=none; b=sKEBT9m+Tc3//lYvDQAtmoM9a3o1bPED8IUtFcIhmxw10u6A5pvUyrOtn0Urbfmt/vDhK9jWSQR8Jw16NMZ+n8G0CNJKakmPefSIKdpjIE15tVUM6lGQOHUCaSQd86o/gGI4aVJCZ7CCtQyFFBYwkN0S+6A6/orxI3DXxg2jxYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754552966; c=relaxed/simple;
-	bh=zuI1C1HRVJfMkiRebwbzbuKkjROv+QYbG6sOYJiM1KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nmfIn+Bs3C4WQtnPfXWytZd+o4ew8gngG51cWwZGRRp6KrGV7cSHp26VxuuY9EVCuIiuWd9yarj83GQ9uEESxZQf3wZuCVlBO2F8CRWBn/xFB3oKVPf1iyyvxSFxgSer+seMg3YPjTjQrKSNODu1jX1SV+lEq9YF+tH4KbPz5BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0ovFJNB; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1754553721; c=relaxed/simple;
+	bh=Zxa+JbmEAoJSGyTwf3KyA0BGYHCK/FS7oXcA6RCd2dE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lJ+dHvYWkskmKMTLO3ARBsTRzvz7g2dGJvyYQVET7su73Mrh47M2LxAWLfIgOCO4F0NkTwTo0sDQ8K3NxNa3ucI83TOcU5CVr+AvV1XiNBr2elJ803mUFmZU5KttdFD7R7Z8YR1kScPcKJEfV8OdVksrRidGxvryN7RbWUGVOTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FG4xN6wv; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0ovFJNB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FG4xN6wv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754552965; x=1786088965;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zuI1C1HRVJfMkiRebwbzbuKkjROv+QYbG6sOYJiM1KQ=;
-  b=N0ovFJNBgoSzqXoX4HOtEwcHsgDJTmPjVpttldlqqop81ndVoIc5g87x
-   WScfFy+lzopXU+Oth4olTax0TTbxsUwz3EiA/cM+XhPYdPwrR8kBH19WL
-   BFaDmJ35cJWNSBKXaeuTRAEKmKwdSaERZpoD9VhQ8uR8GGENzYQXbYMHo
-   TILGvHmKQazV5pr+1MluMl4b0rFjq8XVpatu/jU+xa/hQrzVUOZe0G3Wi
-   ROOgdoKC3k/h6Me0fWheaZn91WHw6KdyOUkLHltCBvqYaxmaQI97gNcCm
-   5tmV7T3o5sLSCumCbKXItE0DYPU7e4iurfq7qPGEywBwR+Z/r7kVPhg8M
-   g==;
-X-CSE-ConnectionGUID: MbLMlVaMRy+PaZ4ZPBcb2w==
-X-CSE-MsgGUID: bV2kjIIrT6KblfgfhCVjBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56797704"
+  t=1754553720; x=1786089720;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Zxa+JbmEAoJSGyTwf3KyA0BGYHCK/FS7oXcA6RCd2dE=;
+  b=FG4xN6wv30Fx8NiY+RCM7+UMmmlEJHmFs9sRryqHPN7mc4rfvrHXik70
+   COjFlpT6u+cR5hkn3gA7dCIP1PidXXCrhanqsTMUWEjIT93mmM3vZizj7
+   HP7wb993U75Gx/LFRboGftB2ezILnD5VwbYWyGOXn4y0BqIo1AdN3FY0k
+   CEYlULGyyYrh2iP8mJUCFzR74QviB2XMXmhe2LgfmtQEpwZhsPpgC2V24
+   SJOsILnrLiAApQzUtRpW1z53k7jyYUAYSZmBd/aTkB+KeajLXKYMCYwk3
+   JjSCRtZm5U5n2TKm9PPByIjTfbvku6JC1RhQmb6ELagXZBMtMwBz0g6zi
+   Q==;
+X-CSE-ConnectionGUID: kEP0w/BCTVeTpEhqgo7w0w==
+X-CSE-MsgGUID: zzBq7G4nQbif9KnAq8BZvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68334765"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="56797704"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 00:49:24 -0700
-X-CSE-ConnectionGUID: zFWSQLVWRp6rIWqOCSweeQ==
-X-CSE-MsgGUID: 468e9o/TT3K9ahfZKP6BQQ==
+   d="scan'208";a="68334765"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 01:02:00 -0700
+X-CSE-ConnectionGUID: hgN8YCQHQbqgUC5v0+vU9Q==
+X-CSE-MsgGUID: XItPZeFnQqiOmgf/86R8PQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165355844"
+   d="scan'208";a="169251203"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 07 Aug 2025 00:49:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 07 Aug 2025 01:01:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujvMn-0002X4-0C;
-	Thu, 07 Aug 2025 07:49:01 +0000
-Date: Thu, 7 Aug 2025 15:48:31 +0800
+	id 1ujvZ5-0002Y6-2P;
+	Thu, 07 Aug 2025 08:01:40 +0000
+Date: Thu, 7 Aug 2025 15:59:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Iker Pedrosa <ikerpedrosam@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Javier Martinez Canillas <javierm@redhat.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	Iker Pedrosa <ikerpedrosam@gmail.com>
-Subject: Re: [PATCH 1/3] drm: Add driver for Sitronix ST7920 LCD displays
-Message-ID: <202508071554.hJ1Avou0-lkp@intel.com>
-References: <20250806-st7920-v1-1-64ab5a34f9a0@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt-convert 131/801] Warning: Duplicate compatible
+ "ti,omap4-dss" found in schemas matching "$id":
+Message-ID: <202508071546.h2wRUZE3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,32 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250806-st7920-v1-1-64ab5a34f9a0@gmail.com>
 
-Hi Iker,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c571cb70e1ed43ee543c70151e61a001ab2eefa2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Iker-Pedrosa/drm-Add-driver-for-Sitronix-ST7920-LCD-displays/20250806-205210
-base:   c571cb70e1ed43ee543c70151e61a001ab2eefa2
-patch link:    https://lore.kernel.org/r/20250806-st7920-v1-1-64ab5a34f9a0%40gmail.com
-patch subject: [PATCH 1/3] drm: Add driver for Sitronix ST7920 LCD displays
-config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_ST7920-0-0 (https://download.01.org/0day-ci/archive/20250807/202508071554.hJ1Avou0-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250807/202508071554.hJ1Avou0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
+commit: 8c1a9d6f1ab1d2e6fd82273221fe308a70017680 [131/801] dt-bindings: display: Convert ti/ti,omap-dss to DT schema
+config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071546.h2wRUZE3-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071546.h2wRUZE3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508071554.hJ1Avou0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508071546.h2wRUZE3-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER when selected by DRM_ST7920
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-     Selected by [y]:
-     - DRM_ST7920 [=y] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+All warnings (new ones prefixed by >>):
+
+   Documentation/devicetree/bindings/display/smi-sm501.yaml: edid: missing type definition
+   Documentation/devicetree/bindings/cpufreq/operating-points-v2.yaml: opp-supported-hw: multiple incompatible types: uint32-array
+   Documentation/devicetree/bindings/opp/opp-v2-base.yaml: opp-supported-hw: multiple incompatible types: uint32-matrix
+   Warning: Duplicate compatible "operating-points-v2" found in schemas matching "$id":
+   	http://devicetree.org/schemas/cpufreq/operating-points-v2.yaml#
+   	http://devicetree.org/schemas/opp/opp-v2.yaml#
+   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-nb" found in schemas matching "$id":
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-nb.yaml#
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
+   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-sb" found in schemas matching "$id":
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-sb.yaml#
+   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
+   Warning: Duplicate compatible "fsl,vf610-mscm-ir" found in schemas matching "$id":
+   	http://devicetree.org/schemas/interrupt-controller/fsl,vf610-mscm-ir.yaml#
+   	http://devicetree.org/schemas/arm/freescale/fsl,vf610-mscm-ir.yaml#
+>> Warning: Duplicate compatible "ti,omap4-dss" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/ti/ti,omap-dss.yaml#
+   	http://devicetree.org/schemas/display/ti/ti,omap4-dss.yaml#
+   Warning: Duplicate compatible "fsl,vf610-dcu" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
+   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
+   Warning: Duplicate compatible "fsl,ls1021a-dcu" found in schemas matching "$id":
+   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
+   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
