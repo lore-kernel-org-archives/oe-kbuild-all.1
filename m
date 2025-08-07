@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B281256C87
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 08:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADE91DD9D3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 08:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754556672; cv=none; b=NSAtxS5nPxzxcvNXofTuVrvLakicL44Ms4elRjLWlnhp3EX1Axh4oH1QdWDyRl9CU2XGbGza+VI92fQao7DDvawLLmLFyD65Fs0jU2fzvm+NDp1XrKBIRuhJGnFa2VHITEjBv9SBm44Js1ySm1KCkBcjCSgYH6Cx/kwv+/KvUdQ=
+	t=1754557103; cv=none; b=oAjt7IlpiDNooBY4dy+H5sbh7LQLZJRpK/XBnfONZ5VuJbc14VIM3NKjLRYPCoNtnKoWAGPqFGB83KtFM1SXftSN5/yBs1x5NPJz1U8qScraDyiaxrMl1/MiPylIgBdASGlHTAqM5hCOjaPU1uDOgbJ10AlsFNQBv7XhiZ60Y3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754556672; c=relaxed/simple;
-	bh=kaAu64q0Yw4Qkd8YiQoiaw2dfUiefX2UttX2elRNrXE=;
+	s=arc-20240116; t=1754557103; c=relaxed/simple;
+	bh=clRiqpkEuhaaJuOMQrWZ+AE9QGbM8IoV3tSa+5JRCRI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uIsCvQG3Z5WiVoz3lXrLvpBbsaVBAhch4qKhygokV/utT8+MTRVMRstszD+dtNjEpSWy3Ou8DB4qsLbobKSPO/QYhZFmqZkYgrQWpyNVG41A+4SgFh4UkUid6fM9t8yLpju22+IbmqbaTq5GqV7HeMrh/JzJg9ulzttWebhimo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GH0oxS5f; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=tVrCl6ArQAckNJ8Fp8y3XarEPXSuuJEpVPVTomxDQ4wtnznwPlNCLRDrZIlPJr/qZ5ewa1J2mQTrr9ZwVw8uiox9LfHafaBFLWdWEuoZ+u6EKXLVt/KTOThmBTGzp9oof7dm4iBq+8l+6r2KX95FiDzS1W/IyXT/QohW4MOqaYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a23IWToS; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GH0oxS5f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a23IWToS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754556671; x=1786092671;
+  t=1754557102; x=1786093102;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kaAu64q0Yw4Qkd8YiQoiaw2dfUiefX2UttX2elRNrXE=;
-  b=GH0oxS5f2C+QSejyPzxdGbyAavzIY3htKKVZ0k1Ew1v3RhpUpKh1ehJI
-   B7hSYtBUqSK5DSvi2Bt0E0kQtXY92NVzdlbio6kG0iZcfLzEmAjqTPMPz
-   yR+///wiseDToXva66LVtOZdM+MzVHMnNcOKC3kHmxX/oPiBBy2VrwuqA
-   pkiAJ8ONt6jcDXaNy+qclIpQB6kwg9dyfKS6/ZX0i1Y0I95lQ0XaYNjfr
-   hi943ytSsLFvJvlbR8nyZTb7FYpHkV0LGGvoUuXVLSUTrgl3mAtiHZjmZ
-   CXHmRWhf9Ox1v7PT6hxvz9KsPfKmotFLYiZL+nHCJdvY5bzhYdBlv58Ah
-   A==;
-X-CSE-ConnectionGUID: +Wdp/XVPRAulRz0E89WY9g==
-X-CSE-MsgGUID: 6IttVAuTSnucsnYqW7ozug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56783851"
+  bh=clRiqpkEuhaaJuOMQrWZ+AE9QGbM8IoV3tSa+5JRCRI=;
+  b=a23IWToSMcdyXcF6oeMlfvgqcwi7/4DqwOurWlQ0BJQvnyH9eLjvBAyV
+   vXecfiZa0VtyZjtiHNz4e10qDJJeQyn6P1Tiu9/K82GN/vB9UCGUFVsTp
+   1SS1XmjHVesq8dT83OAmv+0bODQ6xutmdcuq9a7LiN1fK2lB7vLrY7ayL
+   YR+jPxYqlgRgPzbN96/F+s9qiLBH8mcYMWmDXOntRZQdCQPMAKiprWgeK
+   C4MuGLQrK5j2WCdiZWyeohroD2Ny5iMr/RK3tDkMNjy2fQxGRdT3luTIu
+   Vq3z218bLAeMeyhn16rFiAKeNyYpDDr6imttC3cokVlq+D163LWxppG7q
+   w==;
+X-CSE-ConnectionGUID: LHMe03woRvOMEP6cXx4Vmg==
+X-CSE-MsgGUID: AmREzcDER6yT3huLVar1sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68262010"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="56783851"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 01:51:11 -0700
-X-CSE-ConnectionGUID: o1tvbOaXT+6ERJ7GLaUr7A==
-X-CSE-MsgGUID: QIqZ+yU6QeKm/TnQtvJOMA==
+   d="scan'208";a="68262010"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 01:57:52 -0700
+X-CSE-ConnectionGUID: QLp8X1R0TSGyPZ/nGDI6lg==
+X-CSE-MsgGUID: jxlRRs/cRGGL/vV1SjY+0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169469127"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 07 Aug 2025 01:51:10 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="165807882"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 07 Aug 2025 01:57:44 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujwL4-0002P1-2w;
-	Thu, 07 Aug 2025 08:51:06 +0000
-Date: Thu, 7 Aug 2025 10:50:54 +0200
+	id 1ujwRQ-0002bC-0E;
+	Thu, 07 Aug 2025 08:57:40 +0000
+Date: Thu, 7 Aug 2025 16:57:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 8/801] htmldocs: Warning: MAINTAINERS references a
- file that doesn't exist: Documentation/devicetree/bindings/arc/axs10*
-Message-ID: <202508071037.E9hvVm0s-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425):
+ Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+Message-ID: <202508071621.KlWlMETU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,29 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 632c0f9807e246d0e203d25b60335ffab87ae192 [8/801] dt-bindings: arc: Convert snps,arc-sdp to DT schema
-reproduce: (https://download.01.org/0day-ci/archive/20250807/202508071037.E9hvVm0s-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   886d2f37b79982531259490548bc83b9216ca685
+commit: 896e0d9337b5d21101a399efe927841753d47f39 [1/1] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
+config: arm64-randconfig-051-20250726 (https://download.01.org/0day-ci/archive/20250807/202508071621.KlWlMETU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071621.KlWlMETU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508071037.E9hvVm0s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508071621.KlWlMETU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/translations/zh_CN/filesystems/sysfs.txt references a file that doesn't exist: Documentation/filesystems/fuse.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/filesystems/sysfs.txt references a file that doesn't exist: Documentation/filesystems/fuse.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arc/axs10*
-   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
-   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
-   Warning: fs/fuse/Kconfig references a file that doesn't exist: file:Documentation/filesystems/fuse.rst
-   Warning: fs/fuse/dev.c references a file that doesn't exist: Documentation/filesystems/fuse.rst
-   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
