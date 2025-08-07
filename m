@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52B91FAC23
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 20:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD34227BA4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 20:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754597241; cv=none; b=amEc+upyFd3l6rTMVtXH6EmmgjGMNEuxgCxjFqgbQqqgG3ubcygsz/Q4pZWVa/UAWW9Qft9eWkj3KEFX5J9M3YQ38yeMG97VUXK0620BOI3w6pIyrPWJIc/kVJN8AD7Dn/FbvoTsT4Jb1yzDCTiKsnvlAx8jlJ9PXnMHPnxQqBM=
+	t=1754599781; cv=none; b=ZJliV4R8jASc1Zg+FzEq1nrtBFmvFJDPT6TyeDnl0Svb63q5L+UjMQzP6n8J9/qaBmD1jHcJMYQMEbtVzMpAF0urlFsyyuzlVagHlpxhXdzF1Hqiq2Xa1hukYwvDu5Hv+/aIS8PUypUnFJHFukazJ95pfy/jA0cEjUZZ49+zkUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754597241; c=relaxed/simple;
-	bh=7DAgnUhGZi8l5nZspvfj2NXiBYsH8ZnnzTfrxHt7Ji8=;
+	s=arc-20240116; t=1754599781; c=relaxed/simple;
+	bh=MlNFlkFMAxsFkVeETtQ5wuXvwsPMRC77fT0Sd4EL72I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OrqwtWOhGAKnJ6KXDgrF+1Q226Fy1JOrGPqtBt7CGoZhJwz8dma6pLmX3gZgXkDBcz6A5pICvdtR/KD69OD7+C8BJJe70EVzxuzUol5DU4KNm5Ey2vxAPg11mDE2HmuLMRckq/PCh1w342V6iurj/PB4tZmjVgdTKhbMZp871VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKnmGl/B; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=crMwovFPYyfW+36xY83+AeVd4fIoYKr32MCzRttm/50sr2BIHpYp2rx4BKXLPoOtddfAp6gq1VgG0iCKSUWTD0wSMxTqv6Us8ALrqi6wDGxsbv8ZBG4NH6tZFwNENiBNupp5USYO/i8LGmveI3koZ+lAqC6uNlwjMe4sW4wWrns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdBO8b1c; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKnmGl/B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdBO8b1c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754597240; x=1786133240;
+  t=1754599779; x=1786135779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7DAgnUhGZi8l5nZspvfj2NXiBYsH8ZnnzTfrxHt7Ji8=;
-  b=OKnmGl/BWQu8+xlv/s5flJ5i6Az0efoAEoMJOsQOhXwW0nP9HvsSAjwB
-   0IS/kan/D1kWRXI+mI/MQjmZSQ/tdYn36BAqRmDmmR5OzF1YZwFhLqpza
-   wIGq+8OKTEPQGC55BFGkUIHMWfZimakXj43cMZfJ0dzittAl5hRaeo7bz
-   gofFlrOilhkuHHZ6kNHNNC6s3vqCzNmHYbhuWCRoyGA0OAWikNUJbV/t4
-   qRXmOVRgErh9NjjyY8DWqf5D9fO2rHV5+2VzUCaKV/r8/XAaggYMJTo0T
-   N2AAwew5achMmxG0XqAdPPrzxRy1ITrJnACGzf68hYuxLaPoI0LSp4/ZP
-   w==;
-X-CSE-ConnectionGUID: S5mAjRVLQ32khG+BL0isYA==
-X-CSE-MsgGUID: Et2/0Q+LRBSWN5D5rb7GAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="79498903"
+  bh=MlNFlkFMAxsFkVeETtQ5wuXvwsPMRC77fT0Sd4EL72I=;
+  b=HdBO8b1cEj4cG0IEKX0qm0Hhyqd2CY1rBkXbzzb3gIMIcBDjp9UPSrKW
+   onmNfGZudAjAkCvBjtDFExH39qOTf3nyhDvOrxu2t8MPQ/L5vDOME4UQa
+   nHynubRy4i5SN3Iu5dDIh/dBqNgSkC5LsMjIMKXOKXJvL4yalfpk+00+k
+   05CNiD0PPiID2IItvhS0WUreyQuRVbyF3kI2j6aIiO5XKIX01ehIWkAmo
+   GNV/Zk5qAzDbLC5VBQ9F3k5VMrrrFddECvsue31ivjkOMwIlo0fvSJ+x4
+   D655fMuG1ud9pXg8d1CD3wGvl4fep7K4/WzEjmeNnmeZkCfBmzn6NsXeU
+   Q==;
+X-CSE-ConnectionGUID: Nj+P04TMTaO22sokZwGmoQ==
+X-CSE-MsgGUID: nkizqQbhSbWuvAzrfgA2eA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57026032"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="79498903"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 13:07:17 -0700
-X-CSE-ConnectionGUID: AaoCLHmPR1GzXJOUHt1rgw==
-X-CSE-MsgGUID: yDvFV7pySbSmBJlVNvTYcQ==
+   d="scan'208";a="57026032"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 13:49:37 -0700
+X-CSE-ConnectionGUID: 9z+F+qHoQ72TKEgKa+myYA==
+X-CSE-MsgGUID: CowZukt2TFmWhXTF2Mf9Ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="164664592"
+   d="scan'208";a="169617626"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2025 13:07:15 -0700
+  by orviesa004.jf.intel.com with ESMTP; 07 Aug 2025 13:49:36 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk6tN-0003BG-0m;
-	Thu, 07 Aug 2025 20:07:13 +0000
-Date: Fri, 8 Aug 2025 04:06:13 +0800
+	id 1uk7YL-0003De-1f;
+	Thu, 07 Aug 2025 20:49:33 +0000
+Date: Fri, 8 Aug 2025 04:48:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt-convert 390/801] Warning: Duplicate compatible
- "brcm,bcm7445-switch-v4.0" found in schemas matching "$id":
-Message-ID: <202508080312.KaT7cvjw-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000
+ (rockchip,rk3399-dwc3): usb@fe900000: Unevaluated properties are not allowed
+ ('#address-cells', '#size-cells', 'hub@1', 'hub@2', 'phy_type' were
+ unexpected)
+Message-ID: <202508080458.lmp31fZ5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,143 +65,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 8efd9d3bc54fe6f572593a68d2e8662ce9a15abb [390/801] dt-bindings: net: Convert brcm,bcm7445-switch-v4.0 to DT schema
-config: arc-randconfig-052-20250807 (https://download.01.org/0day-ci/archive/20250808/202508080312.KaT7cvjw-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   209015b548fb36223e01bbeb84c88f375ddd2829
+commit: 3f4adfc5870059a5912fa9a87d83064895f05037 [1/1] arm64: dts: rockchip: fix internal USB hub instability on RK3399 Puma
+config: arm64-randconfig-051-20250726 (https://download.01.org/0day-ci/archive/20250808/202508080458.lmp31fZ5-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080312.KaT7cvjw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080458.lmp31fZ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080312.KaT7cvjw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080458.lmp31fZ5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Documentation/devicetree/bindings/iommu/nvidia,tegra30-smmu.yaml: ignoring, error parsing file
-   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,tptcs: missing type definition
-   Documentation/devicetree/bindings/dma/ti,edma3-tpcc.yaml: ti,edma-reserved-slot-ranges: missing type definition
-   Documentation/devicetree/bindings/memory-controllers/atmel,ebi.yaml: atmel,smc-page-mode: missing type definition
-   Documentation/devicetree/bindings/memory-controllers/marvell,mvebu-devbus.yaml: devbus,bus-width: missing type definition
-   Documentation/devicetree/bindings/mmc/cavium,octeon-6130-mmc.yaml: cavium,bus-max-width: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: isel: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/ti,tps65217.yaml: fdim: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,short-detection-threshold-volt: missing type definition
-   Documentation/devicetree/bindings/leds/backlight/skyworks,sky81452-backlight.yaml: skyworks,current-limit-mA: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: bright-addr: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: gpio-ext: missing type definition
-   Documentation/devicetree/bindings/leds/lacie,netxbig-leds.yaml: timers: missing type definition
-   Documentation/devicetree/bindings/display/smi-sm501.yaml: edid: missing type definition
-   Documentation/devicetree/bindings/cpufreq/operating-points-v2.yaml: opp-supported-hw: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/opp/opp-v2-base.yaml: opp-supported-hw: multiple incompatible types: uint32-matrix
-   Documentation/devicetree/bindings/arm/vexpress-config.yaml: arm,vexpress-sysreg,func: multiple incompatible types: uint32-array
-   Documentation/devicetree/bindings/hwmon/vexpress.yaml: arm,vexpress-sysreg,func: multiple incompatible types: phandle-array
-   Warning: Duplicate compatible "operating-points-v2" found in schemas matching "$id":
-   	http://devicetree.org/schemas/cpufreq/operating-points-v2.yaml#
-   	http://devicetree.org/schemas/opp/opp-v2.yaml#
->> Warning: Duplicate compatible "brcm,bcm7445-switch-v4.0" found in schemas matching "$id":
-   	http://devicetree.org/schemas/net/dsa/brcm,sf2.yaml#
-   	http://devicetree.org/schemas/brcm,bcm7445-switch-v4.0.yaml#
-   Warning: Duplicate compatible "aspeed,ast2500-gfx" found in schemas matching "$id":
-   	http://devicetree.org/schemas/gpu/aspeed,ast2500-gfx.yaml#
-   	http://devicetree.org/schemas/aspeed,ast2500-gfx.yaml#
-   Warning: Duplicate compatible "ti,lm36274" found in schemas matching "$id":
-   	http://devicetree.org/schemas/leds/ti,lm36274.yaml#
-   	http://devicetree.org/schemas/mfd/ti-lmu.yaml#
-   Warning: Duplicate compatible "active-semi,act8945a" found in schemas matching "$id":
-   	http://devicetree.org/schemas/regulator/active-semi,act8945a.yaml#
-   	http://devicetree.org/schemas/mfd/active-semi,act8945a.yaml#
-   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
-   	http://devicetree.org/schemas/aspeed,ast2400-cf-fsi-master.yaml#
-   	http://devicetree.org/schemas/fsi-master.yaml#
-   Warning: Duplicate compatible "fsi-master" found in schemas matching "$id":
-   	http://devicetree.org/schemas/fsi-master.yaml#
-   	http://devicetree.org/schemas/fsi-master-gpio.yaml#
-   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-sb" found in schemas matching "$id":
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-sb.yaml#
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
-   Warning: Duplicate compatible "marvell,armada-3700-periph-clock-nb" found in schemas matching "$id":
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock-nb.yaml#
-   	http://devicetree.org/schemas/clock/marvell,armada-3700-periph-clock.yaml#
-   Warning: Duplicate compatible "st,lis3lv02d" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
-   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
-   Warning: Duplicate compatible "st,lis302dl-spi" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/accel/st,lis3lv02d.yaml#
-   	http://devicetree.org/schemas/iio/st,st-sensors.yaml#
-   Warning: Duplicate compatible "fsl,vf610-mscm-ir" found in schemas matching "$id":
-   	http://devicetree.org/schemas/interrupt-controller/fsl,vf610-mscm-ir.yaml#
-   	http://devicetree.org/schemas/arm/freescale/fsl,vf610-mscm-ir.yaml#
-   Warning: Duplicate compatible "st" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mmc/st,sdhci.yaml#
-   	http://devicetree.org/schemas/stericsson,nomadik,src.yaml#
-   Warning: Duplicate compatible "ti,omap4-dss" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/ti/ti,omap-dss.yaml#
-   	http://devicetree.org/schemas/display/ti/ti,omap4-dss.yaml#
-   Warning: Duplicate compatible "ti,opa362" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/ti/ti,opa362.yaml#
-   	http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
-   Warning: Duplicate compatible "fsl,ls1021a-dcu" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
-   Warning: Duplicate compatible "fsl,vf610-dcu" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   	http://devicetree.org/schemas/display/fsl,dcu.yaml#
-   Warning: Duplicate compatible "maxim,max77620" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mfd/maxim,max77620.yaml#
-   	http://devicetree.org/schemas/trivial-gpio.yaml#
-   Warning: Duplicate compatible "cdns,gpio-r1p02" found in schemas matching "$id":
-   	http://devicetree.org/schemas/cdns,gpio-r1p02.yaml#
-   	http://devicetree.org/schemas/gpio/cdns,gpio.yaml#
-   Warning: Duplicate compatible "brcm,bcm7346" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm3384-viper" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm7425" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm3368" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm3384" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm33843" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm6328" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm63268" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm7360" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm63168" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm6362" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm6358" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm33843-viper" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm6368" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm7362" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
-   	http://devicetree.org/schemas/mips/brcm/soc.yaml#
-   Warning: Duplicate compatible "brcm,bcm7125" found in schemas matching "$id":
-   	http://devicetree.org/schemas/mips/brcm/brcm,bcm3368.yaml#
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000 (rockchip,rk3399-dwc3): usb@fe900000:hub@1:compatible: ['usb4b4,6502', 'usb4b4,6506'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000 (rockchip,rk3399-dwc3): usb@fe900000:hub@2:compatible: ['usb4b4,6500', 'usb4b4,6504'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000 (rockchip,rk3399-dwc3): usb@fe900000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'hub@1', 'hub@2', 'phy_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000 (snps,dwc3): hub@1:compatible: ['usb4b4,6502', 'usb4b4,6506'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000 (snps,dwc3): hub@2:compatible: ['usb4b4,6500', 'usb4b4,6504'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: usb@fe900000 (snps,dwc3): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'hub@1', 'hub@2', 'phy_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: hub@1 (usb4b4,6502): compatible: ['usb4b4,6502', 'usb4b4,6506'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: hub@2 (usb4b4,6500): compatible: ['usb4b4,6500', 'usb4b4,6504'] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: fan@18 (ti,amc6821): '#cooling-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
 
 -- 
 0-DAY CI Kernel Test Service
