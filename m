@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D90157A48
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 04:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4767B72622
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 04:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754541962; cv=none; b=tavp7XrTBFvS3cRKck/UErl2gMGQwm6l2saE6APbwg1P7O+fZQ1q4QxhEzcBtJBaveIVtcP5oBGLkQQACSTiIMPT+HXbuQw0xjDnZDumYK2Tql5d3f1sveIbtyOzkkMQiWnKBjW3yn92OuX4YZQwAgWUhDkBchRVXxSNDQnRkss=
+	t=1754542076; cv=none; b=hYLDFnQ/twCFzviFXlxeT9kdyWS3oXllx2AguIsVW4m7Oa2K7Hu1FWO5rXx5MbdjiJn6SHabz5YXjnk/rv+8+sG9W0vL297ITqeAR5o6Z/JMITuEcNm5tHKwjaUOz/F4bRmuxqjtEu7XngmmpDB7Eie8UYTRxmeyQQN8rD1yjGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754541962; c=relaxed/simple;
-	bh=y4KlCdk+5pgiOMnQfj5r49PM4fycrXkrnw4MykWMmxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nJsrI0tfUYQcRbL00iDdwr73rLGEApKHk4MwSLMmp9SzHTnueZWwAXIBwj0Dgs9SIAIf8zlm5cgZEYWHC8PK1jfs2tWU/xGJnJ82AcOzq+SOXAu0I/7u6YacPnB5ZESMXC+5eushKihtVFpHC8yvPWzHDenjjTRR/wZzyzPT/wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYAbgKv9; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1754542076; c=relaxed/simple;
+	bh=S8uhD1C28G4QD9n1rwJmG4X1bAE0FEUIrxhDGAtR0Mc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RCTiWAkzheacH9eYyYoHHE3fUs/JlAfVky4Rur21W+Kvzi9Oi7n7u6Ll21Uq66pHadY9MWhB0dwcCdKWZw80fXafRA/h6q7p0ve2mta911qUavVQ4HyKxy///zjFRKguHbg/KwyLWfJ9Pbwe1he2E68mbz1k+JDDsKgYGPfIACc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MWNWTMbB; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYAbgKv9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MWNWTMbB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754541961; x=1786077961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y4KlCdk+5pgiOMnQfj5r49PM4fycrXkrnw4MykWMmxc=;
-  b=TYAbgKv9Ly2+DnylXsBAv4r0wou62kaaXwmeE6jMMlVPkVcX9vLSK8M5
-   Vh5/Kse2DitWmwMfbrBt+1+L/3Vc03LZQwO+7EPq52XjdUaRb5iDk7nuJ
-   3UR/ZUMb/L9pQTxFoVKHvJHHuFs/GXKKKv3Yb2LCuXg9iCdlXbIngvMmA
-   plRWnaeF4s4E45PJCL/RWk7pELTTDUIXbMU9EHv5nexLunzKyVMX7s+2/
-   ehNOZH6IHVDZs11DOuyAdM0LSmCtlEiA+vT9F/PUSO2745gpoIKHK//Hz
-   846rXtRMgafZAie5QoTnguV4owD+o+9wQeDu+Ci0/ECBLCIUSRP2t65Qi
-   w==;
-X-CSE-ConnectionGUID: REDvLrgWQ7q5ZXLXnFcYSA==
-X-CSE-MsgGUID: zXwyghtESaSdhBkLL7xlRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68243796"
+  t=1754542075; x=1786078075;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S8uhD1C28G4QD9n1rwJmG4X1bAE0FEUIrxhDGAtR0Mc=;
+  b=MWNWTMbB8gqlG/2LWW0mLNQSalSDSf86AZcS4jCCrOAQj44BoVPkpBsI
+   KrfMjNpcNP5W8zpRNE2VmSai20X8QKb55qztYAY13Zjck75CNYRdltTNm
+   MckjyrKGiqiLkyrlS6FEa4LC2bxaB5fsEtGDHXtpIJYqy+QbiSfvHKCOt
+   rJY6t2xQSgDdMuz4tjvsNaCBGy8hFXZ5MbC/LzJPZgmT+9h6QH9Ih10Dn
+   ORdD6oBXUWY566ZXfR4OplvCWWS0Rg6wccaDIyLC7qeE4lF14YmsiMp5y
+   KK17sO7eAiDbynfORNzjMmVFuix3VlTh/yVWj0AyCJp+P2uejLiw5dhTj
+   g==;
+X-CSE-ConnectionGUID: D7n9AU2LQC2Q1CU5yo0NnA==
+X-CSE-MsgGUID: qaQ3e23bQcuPj4/3zH1Zmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68319020"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="68243796"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 21:45:59 -0700
-X-CSE-ConnectionGUID: MTg9uMhUTZKgCZSax4O11A==
-X-CSE-MsgGUID: 6evjZ82ATGmPVueWzXp+Pw==
+   d="scan'208";a="68319020"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 21:47:55 -0700
+X-CSE-ConnectionGUID: zcteDYcYToi7GnSzrxUzMg==
+X-CSE-MsgGUID: dVttxa0kSuGMKMQc4D7MtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="165308362"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 06 Aug 2025 21:45:58 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="188621268"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa002.fm.intel.com with ESMTP; 06 Aug 2025 21:47:53 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujsVn-0002NS-1x;
-	Thu, 07 Aug 2025 04:45:55 +0000
-Date: Thu, 7 Aug 2025 12:45:25 +0800
+	id 1ujsXf-0002L9-1q;
+	Thu, 07 Aug 2025 04:47:51 +0000
+Date: Thu, 7 Aug 2025 06:47:37 +0200
 From: kernel test robot <lkp@intel.com>
-To: Liao Yuanhong <liaoyuanhong@vivo.com>, Kees Cook <kees@kernel.org>,
-	"open list:GCC PLUGINS" <linux-hardening@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, liaoyuanhong@vivo.com
-Subject: Re: [PATCH] gcc-plugins: Use swap() to simplify code
-Message-ID: <202508071233.Bf6EgGd2-lkp@intel.com>
-References: <20250806124341.382446-1-liaoyuanhong@vivo.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:bpfoom.1.5 2/17] include/linux/bpf.h:1946:50: warning:
+ statement with no effect
+Message-ID: <202508070616.I4IluiSr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,119 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250806124341.382446-1-liaoyuanhong@vivo.com>
 
-Hi Liao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kees/for-next/hardening]
-[also build test ERROR on kees/for-next/kspp kees/for-next/pstore linus/master v6.16 next-20250806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liao-Yuanhong/gcc-plugins-Use-swap-to-simplify-code/20250806-204609
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-patch link:    https://lore.kernel.org/r/20250806124341.382446-1-liaoyuanhong%40vivo.com
-patch subject: [PATCH] gcc-plugins: Use swap() to simplify code
-config: i386-randconfig-012-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071233.Bf6EgGd2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071233.Bf6EgGd2-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.1.5
+head:   56067bc9ae98ae8d75fbb2506874ef96ee0396e5
+commit: 4f870b9abac74bede0e873ae2b29091aab7bc533 [2/17] mm: introduce a bpf hook for OOM handling
+config: m68k-randconfig-2003-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070616.I4IluiSr-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070616.I4IluiSr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508071233.Bf6EgGd2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070616.I4IluiSr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/gcc-plugins/randomize_layout_plugin.c: In function 'void performance_shuffle(tree_node**, long unsigned int, ranctx*)':
->> scripts/gcc-plugins/randomize_layout_plugin.c:203:17: error: 'swap' was not declared in this scope
-     203 |                 swap(size_group[randnum], size_group[i]);
-         |                 ^~~~
-   scripts/gcc-plugins/randomize_layout_plugin.c:203:17: note: suggested alternatives:
-   In file included from /usr/include/c++/12/utility:69,
-                    from /usr/lib/gcc/x86_64-linux-gnu/12/plugin/include/system.h:244,
-                    from /usr/lib/gcc/x86_64-linux-gnu/12/plugin/include/gcc-plugin.h:28,
-                    from scripts/gcc-plugins/gcc-common.h:6,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
-   /usr/include/c++/12/bits/stl_pair.h:715:5: note:   'std::swap'
-     715 |     swap(pair<_T1, _T2>&, pair<_T1, _T2>&) = delete;
-         |     ^~~~
-   In file included from /usr/include/c++/12/bits/stl_pair.h:61:
-   /usr/include/c++/12/bits/move.h:196:5: note:   'std::swap'
-     196 |     swap(_Tp& __a, _Tp& __b)
-         |     ^~~~
-   /usr/include/c++/12/bits/move.h:196:5: note:   'std::swap'
-   scripts/gcc-plugins/randomize_layout_plugin.c:216:25: error: 'swap' was not declared in this scope
-     216 |                         swap(newtree[randnum], newtree[i]);
-         |                         ^~~~
-   scripts/gcc-plugins/randomize_layout_plugin.c:216:25: note: suggested alternatives:
-   /usr/include/c++/12/bits/stl_pair.h:715:5: note:   'std::swap'
-     715 |     swap(pair<_T1, _T2>&, pair<_T1, _T2>&) = delete;
-         |     ^~~~
-   /usr/include/c++/12/bits/move.h:196:5: note:   'std::swap'
-     196 |     swap(_Tp& __a, _Tp& __b)
-         |     ^~~~
-   /usr/include/c++/12/bits/move.h:196:5: note:   'std::swap'
-   scripts/gcc-plugins/randomize_layout_plugin.c: In function 'void full_shuffle(tree_node**, long unsigned int, ranctx*)':
-   scripts/gcc-plugins/randomize_layout_plugin.c:227:17: error: 'swap' was not declared in this scope
-     227 |                 swap(newtree[randnum], newtree[i]);
-         |                 ^~~~
-   scripts/gcc-plugins/randomize_layout_plugin.c:227:17: note: suggested alternatives:
-   /usr/include/c++/12/bits/stl_pair.h:715:5: note:   'std::swap'
-     715 |     swap(pair<_T1, _T2>&, pair<_T1, _T2>&) = delete;
-         |     ^~~~
-   /usr/include/c++/12/bits/move.h:196:5: note:   'std::swap'
-     196 |     swap(_Tp& __a, _Tp& __b)
-         |     ^~~~
-   /usr/include/c++/12/bits/move.h:196:5: note:   'std::swap'
-   make[4]: *** [scripts/gcc-plugins/Makefile:54: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1 shuffle=2972943921
-   make[4]: Target 'scripts/gcc-plugins/' not remade because of errors.
-   make[3]: *** [scripts/Makefile.build:554: scripts/gcc-plugins] Error 2 shuffle=2972943921
-   make[3]: Target 'scripts/' not remade because of errors.
-   make[2]: *** [Makefile:1258: scripts] Error 2 shuffle=2972943921
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2972943921
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2972943921
-   make: Target 'prepare' not remade because of errors.
+   In file included from mm/bpf_oom.c:8:
+   mm/bpf_oom.c: In function 'bpf_oom_struct_ops_init':
+>> include/linux/bpf.h:1946:50: warning: statement with no effect [-Wunused-value]
+    1946 | #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+         |                                                  ^~~~~~~~~~~~~~~~
+   mm/bpf_oom.c:138:16: note: in expansion of macro 'register_bpf_struct_ops'
+     138 |         return register_bpf_struct_ops(&bpf_oom_bpf_ops, bpf_oom_ops);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/swap +203 scripts/gcc-plugins/randomize_layout_plugin.c
+vim +1946 include/linux/bpf.h
 
-   190	
-   191	static void performance_shuffle(tree *newtree, unsigned long length, ranctx *prng_state)
-   192	{
-   193		unsigned long i, x, index;
-   194		struct partition_group size_group[length];
-   195		unsigned long num_groups = 0;
-   196		unsigned long randnum;
-   197	
-   198		partition_struct(newtree, length, (struct partition_group *)&size_group, &num_groups);
-   199	
-   200		/* FIXME: this group shuffle is currently a no-op. */
-   201		for (i = num_groups - 1; i > 0; i--) {
-   202			randnum = ranval(prng_state) % (i + 1);
- > 203			swap(size_group[randnum], size_group[i]);
-   204		}
-   205	
-   206		for (x = 0; x < num_groups; x++) {
-   207			for (index = size_group[x].length - 1; index > 0; index--) {
-   208				i = size_group[x].start + index;
-   209				if (DECL_BIT_FIELD_TYPE(newtree[i]))
-   210					continue;
-   211				randnum = ranval(prng_state) % (index + 1);
-   212				randnum += size_group[x].start;
-   213				// we could handle this case differently if desired
-   214				if (DECL_BIT_FIELD_TYPE(newtree[randnum]))
-   215					continue;
-   216				swap(newtree[randnum], newtree[i]);
-   217			}
-   218		}
-   219	}
-   220	
+c196906d50e360 Hou Tao          2021-10-25  1936  
+c196906d50e360 Hou Tao          2021-10-25  1937  int bpf_struct_ops_test_run(struct bpf_prog *prog, const union bpf_attr *kattr,
+c196906d50e360 Hou Tao          2021-10-25  1938  			    union bpf_attr __user *uattr);
+c196906d50e360 Hou Tao          2021-10-25  1939  #endif
+f6be98d1998541 Kui-Feng Lee     2024-01-19  1940  int bpf_struct_ops_desc_init(struct bpf_struct_ops_desc *st_ops_desc,
+f6be98d1998541 Kui-Feng Lee     2024-01-19  1941  			     struct btf *btf,
+f6be98d1998541 Kui-Feng Lee     2024-01-19  1942  			     struct bpf_verifier_log *log);
+1338b93346587a Kui-Feng Lee     2024-01-19  1943  void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map);
+1611603537a4b8 Kui-Feng Lee     2024-02-08  1944  void bpf_struct_ops_desc_release(struct bpf_struct_ops_desc *st_ops_desc);
+27ae7997a66174 Martin KaFai Lau 2020-01-08  1945  #else
+f6be98d1998541 Kui-Feng Lee     2024-01-19 @1946  #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+85d33df357b634 Martin KaFai Lau 2020-01-08  1947  static inline bool bpf_try_module_get(const void *data, struct module *owner)
+85d33df357b634 Martin KaFai Lau 2020-01-08  1948  {
+85d33df357b634 Martin KaFai Lau 2020-01-08  1949  	return try_module_get(owner);
+85d33df357b634 Martin KaFai Lau 2020-01-08  1950  }
+85d33df357b634 Martin KaFai Lau 2020-01-08  1951  static inline void bpf_module_put(const void *data, struct module *owner)
+85d33df357b634 Martin KaFai Lau 2020-01-08  1952  {
+85d33df357b634 Martin KaFai Lau 2020-01-08  1953  	module_put(owner);
+85d33df357b634 Martin KaFai Lau 2020-01-08  1954  }
+e42ac14180554f Martin KaFai Lau 2024-07-22  1955  static inline int bpf_struct_ops_supported(const struct bpf_struct_ops *st_ops, u32 moff)
+e42ac14180554f Martin KaFai Lau 2024-07-22  1956  {
+e42ac14180554f Martin KaFai Lau 2024-07-22  1957  	return -ENOTSUPP;
+e42ac14180554f Martin KaFai Lau 2024-07-22  1958  }
+85d33df357b634 Martin KaFai Lau 2020-01-08  1959  static inline int bpf_struct_ops_map_sys_lookup_elem(struct bpf_map *map,
+85d33df357b634 Martin KaFai Lau 2020-01-08  1960  						     void *key,
+85d33df357b634 Martin KaFai Lau 2020-01-08  1961  						     void *value)
+85d33df357b634 Martin KaFai Lau 2020-01-08  1962  {
+85d33df357b634 Martin KaFai Lau 2020-01-08  1963  	return -EINVAL;
+85d33df357b634 Martin KaFai Lau 2020-01-08  1964  }
+68b04864ca425d Kui-Feng Lee     2023-03-22  1965  static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+68b04864ca425d Kui-Feng Lee     2023-03-22  1966  {
+68b04864ca425d Kui-Feng Lee     2023-03-22  1967  	return -EOPNOTSUPP;
+68b04864ca425d Kui-Feng Lee     2023-03-22  1968  }
+1338b93346587a Kui-Feng Lee     2024-01-19  1969  static inline void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map)
+1338b93346587a Kui-Feng Lee     2024-01-19  1970  {
+1338b93346587a Kui-Feng Lee     2024-01-19  1971  }
+68b04864ca425d Kui-Feng Lee     2023-03-22  1972  
+
+:::::: The code at line 1946 was first introduced by commit
+:::::: f6be98d19985411ca1f3d53413d94d5b7f41c200 bpf, net: switch to dynamic registration
+
+:::::: TO: Kui-Feng Lee <thinker.li@gmail.com>
+:::::: CC: Martin KaFai Lau <martin.lau@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
