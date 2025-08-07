@@ -1,110 +1,108 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D12288DA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 01:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2A72AE68
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 01:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754530255; cv=none; b=B2RjVkaWhgspM//UYpeJvxg0N6usJ5Xat7eg2Vd7/1irWKETgmdcLbKk0VaLEOFAw1S6VbUtVHsAy2qe5fM7JKJJJhA0HF0ywAoP4uN81N9ymtsZnmjUouq1ePywIoNvVXviYlSV1zl3rpOohn9IhYfjh/goarAv7qF05UbrJDI=
+	t=1754530527; cv=none; b=QAThazPE9aY9mX8/Ubii/uU7LQTeKp3IawHM0mdY7S4eMTnwNbFy/kPgmuxEPCUyKH8QayfWEUNQrsi9xyBuK4dkevUdUigZRJ/Cl4HY0nYmkA2SnztnjnLGHmYvEuQ6NK8wPgN4Wza4z5ixwnEJF82cZXcwOYlrlEj1yDu+Tm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754530255; c=relaxed/simple;
-	bh=HMjyOSFlWe+el4KAgTKAjwuxCLUJQTYqY+39ERHTw/I=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=IJM5ARwW+yjOAI51X80h31RLFGtshC/EtJK3d6KAnJMZLqlhLvEmCyD4ywI4RREbYphZP7to+ucYxLgniIdiFrwxLsRhaOv8mb3YXNveQy2SmprpbErrq9yKfHQQoESNk651u06MRpDEtR8GHjLTqwNFq3iiLZSm7ANKvwpQJRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4by8kM5HMPzKHMvc
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 09:30:51 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id CE7671A1591
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 09:30:50 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgBHERLJAZRonmVTCw--.2916S3;
-	Thu, 07 Aug 2025 09:30:50 +0800 (CST)
-Subject: Re: [PATCH v3 1/2] lib/sbitmap: convert shallow_depth from one word
- to the whole sbitmap
-To: kernel test robot <lkp@intel.com>, Yu Kuai <yukuai1@huaweicloud.com>,
- axboe@kernel.dk, akpm@linux-foundation.org, ming.lei@redhat.com,
- dlemoal@kernel.org, jack@suse.cz
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250805073748.606294-2-yukuai1@huaweicloud.com>
- <202508061722.0vTVFHLe-lkp@intel.com>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <7d2b0108-4d16-97fb-5de9-7438414d9ca4@huaweicloud.com>
-Date: Thu, 7 Aug 2025 09:30:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1754530527; c=relaxed/simple;
+	bh=1C0AemSuhJiTUN7RIn9YFnJCBE9dYHY1hgf6TqN8Erk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pqWxIrAML7xG02UEZdhc/cno0rc1Kdc2+oKevrFDqFjhhA1MFag0BKmzp+tfCOhui6mnlFeGGAzwcqKQDiyP97AdRHlUJ1V6Zc2rT/38jNqNCRek6EieKA0oDWu4HpB8vynowosywTZe1RpMIxv0l1VVtCARfRwgWRAZefUaiY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3Nd63yo; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3Nd63yo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754530525; x=1786066525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1C0AemSuhJiTUN7RIn9YFnJCBE9dYHY1hgf6TqN8Erk=;
+  b=J3Nd63yoDe2lwOtkV9zkM8kq/yzlgX6y+LqfP8KUFpbvVak9aEpBU0AM
+   4Hzsz3tg7nNAW6me/AQ76fbBH0UTiTjgzNbghZ+rLrOGW1NDt1eW+0IF1
+   Dh/1gWsaaFojNWok55pDaGkoIIZ6vyHjurCSgLQG7cQZ9je3CSDAMyHNx
+   GzdI81qA/lvzbm+IeQGqUdQZYZi0Sjbkr9Op7ZWHCUlzC4JBrUVuJmW/1
+   aQ76dTpOvy4NckYoPN1PvRisaQ70D3L34yl8LZUJMkKXmlzX2DrAfkqKa
+   7kOVHVSV9dGCi8mIsFt4XdMJ/+CpIiO4U6Xm/HMbsyzKSQ+U05JJIYjDc
+   g==;
+X-CSE-ConnectionGUID: eAdkApKcTGqSZsHVPA16mQ==
+X-CSE-MsgGUID: +ALfdTdqQaShUeGJgB4q/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67449382"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="67449382"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 18:35:24 -0700
+X-CSE-ConnectionGUID: H82DARxcTR2ZjVIGx6TMog==
+X-CSE-MsgGUID: UBW9AfsJTZmDS8n9PJBgWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
+   d="scan'208";a="202082683"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 06 Aug 2025 18:35:23 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ujpXN-0002Fm-2F;
+	Thu, 07 Aug 2025 01:35:21 +0000
+Date: Thu, 7 Aug 2025 09:35:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC net-next v4 03/12] vsock: add netns to af_vsock core
+Message-ID: <202508070942.uCu2tZZO-lkp@intel.com>
+References: <20250805-vsock-vmtest-v4-3-059ec51ab111@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202508061722.0vTVFHLe-lkp@intel.com>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgBHERLJAZRonmVTCw--.2916S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxJrW5Cry3Aw18CF1fKF17KFg_yoW8XryrpF
-	yDCrn2gFZ5ur1rur1jqwsI9FyUJ3ZFgrnFqryF9ryjkrW2gF1jqrs0krnayr1ktF4DGF4U
-	KFW3G390gw1jq3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x
-	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
-	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
-	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
-	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
-	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZYFZUUUUU=
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250805-vsock-vmtest-v4-3-059ec51ab111@meta.com>
 
-Hi,
+Hi Bobby,
 
-ÔÚ 2025/08/06 17:41, kernel test robot Ð´µÀ:
-> All error/warnings (new ones prefixed by >>):
-> 
->     In file included from ./arch/sparc/include/generated/asm/div64.h:1,
->                      from include/linux/math.h:6,
->                      from include/linux/kernel.h:27,
->                      from include/linux/cpumask.h:11,
->                      from arch/sparc/include/asm/smp_32.h:15,
->                      from arch/sparc/include/asm/smp.h:7,
->                      from arch/sparc/include/asm/switch_to_32.h:5,
->                      from arch/sparc/include/asm/switch_to.h:7,
->                      from arch/sparc/include/asm/ptrace.h:120,
->                      from arch/sparc/include/asm/thread_info_32.h:19,
->                      from arch/sparc/include/asm/thread_info.h:7,
->                      from include/linux/thread_info.h:60,
->                      from arch/sparc/include/asm/current.h:15,
->                      from include/linux/sched.h:12,
->                      from lib/sbitmap.c:7:
->     lib/sbitmap.c: In function '__map_depth_with_shallow':
->     include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast
->       183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
->           |                                   ^~
->     lib/sbitmap.c:222:20: note: in expansion of macro 'do_div'
->       222 |         reminder = do_div(shallow_word_depth, sb->depth);
->           |                    ^~~~~~
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-/* The unnecessary pointer compare is there
-  * to check for type safety (n must be 64bit)
-  */
-# define do_div(n,base) ({
+[auto build test WARNING on dd500e4aecf25e48e874ca7628697969df679493]
 
-I didn't notice that under specific arch, do_div() will require the fist
-paramater to be 64bit.
+url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/vsock-a-per-net-vsock-NS-mode-state/20250806-130409
+base:   dd500e4aecf25e48e874ca7628697969df679493
+patch link:    https://lore.kernel.org/r/20250805-vsock-vmtest-v4-3-059ec51ab111%40meta.com
+patch subject: [PATCH RFC net-next v4 03/12] vsock: add netns to af_vsock core
+config: riscv-randconfig-002-20250807 (https://download.01.org/0day-ci/archive/20250807/202508070942.uCu2tZZO-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508070942.uCu2tZZO-lkp@intel.com/reproduce)
 
-I'll wait a bit longer for people to review the solution before I send a
-new version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508070942.uCu2tZZO-lkp@intel.com/
 
-Thanks,
-Kuai
+All warnings (new ones prefixed by >>):
 
+   net/vmw_vsock/af_vsock.c: In function 'vsock_sysctl_init_net':
+>> net/vmw_vsock/af_vsock.c:2794:1: warning: label 'err_sysctl' defined but not used [-Wunused-label]
+    err_sysctl:
+    ^~~~~~~~~~
+
+
+vim +/err_sysctl +2794 net/vmw_vsock/af_vsock.c
+
+  2791	
+  2792		return 0;
+  2793	
+> 2794	err_sysctl:
+  2795		vsock_sysctl_unregister(net);
+  2796		return -ENOMEM;
+  2797	}
+  2798	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
