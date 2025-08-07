@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9D82550AD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 13:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07462204583
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 13:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754574150; cv=none; b=nxqmGcQzg1lcz51nOtse1+VywocV+WO+xFldjz6Bn4cvIUTKAQHmvqL6te+tukh2+lZpCzDZWBtJY7sMe6icGe3xzbDCsQV7rvrQB0Bh4kJg1NPFcLB5cNtdM3d8+THcAYxnWfXj/8TI7L51PWRgqRTf0c6w/Lb9MYSLIkdzY/g=
+	t=1754574510; cv=none; b=JAGdtP3NAx96pdSJSRmd49OpyusOGVSPMOXX9AA2XNWwRhvhx5qZE9kRhG1dxkzW6XM6vPifmXSqR+6BJppMSwTiJ2wwuAQsdzTj63oJ8D5cADA3CMdfuiK9do30icxhonHyA6a/qIXZlGkyc2r62U3AYznHM54eMsfUP52/TXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754574150; c=relaxed/simple;
-	bh=bAjSJdppc8McMjTaKD0b5FWFPUhg0BMAKR03VxZT5Uw=;
+	s=arc-20240116; t=1754574510; c=relaxed/simple;
+	bh=o/svTjg+oG+sY86qehNYavaARP3KF338H5YCyAUFZ30=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HR5DAorsRnajZyR45NK9DQpvKStW2VS3bZPHM0/msTUvNYXBvHdUyBlIO3nax+lk15K4KXwgH/J4pA+ixPPqtB7ySAdrbCptFPnJNA5bJRaDaTryoum/IKWtLj29jXyE9+ZfKgiEr13yNV4Twlq2n0G+Nrhtyadbc28DEj2ghS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FzOU0K8Q; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=qa427I29G20kJ2CLotR3z782E9wtYLzLm58so2GaW6NYew3It8f6SLd7RWbcKZTZzA07A2HTMxaXH0bzg4D6n30jSMXtANAVMbVpfwGZAji2IukyPQ6F8aOIAOb8muuMU+KyZvJWW6CMpU2wwDw0zKEi/khD7xaRqspBTFSPYck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/+ejHhv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FzOU0K8Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/+ejHhv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754574149; x=1786110149;
+  t=1754574509; x=1786110509;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bAjSJdppc8McMjTaKD0b5FWFPUhg0BMAKR03VxZT5Uw=;
-  b=FzOU0K8QE6W/y6aZM5x7UppCwQHnFan6RD7uRIDgI1E+jD9CgSwmb9/V
-   oJaopssQg6HzVwsRUEylfnFHX8ZE7aR9KL+C7tBi4srUfXzGzM+sNL1cu
-   onaUWZAxgUwesgcdyxyIueEdB+aDrg0QKfUUF4bWr6DWTdM0YweMFRL7W
-   Y7g1FmASBcD2r3GUAYpItjZa1ZlGQ/y059PeNIDUtdDj7qaPpNH138lpM
-   S4UEKJ65G2OqRHBsscDx4RazVUuzNaTpyo1BZDQ3mzsXOuelNIlSee/1B
-   kc07d1jEfSu5pnL0q6+J5oyyk21w7bhe7E8s4hgraipyC7I6eL1fkU2rZ
-   w==;
-X-CSE-ConnectionGUID: zAb9YTmrS9SjIHUWdUbz4g==
-X-CSE-MsgGUID: DboPUFtDSImrb1OHstpJRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68283610"
+  bh=o/svTjg+oG+sY86qehNYavaARP3KF338H5YCyAUFZ30=;
+  b=N/+ejHhvt2bhGcNsuRYcty+hBjg3E2YAP2L/bG6vbTG3U8JDkHQPUM8H
+   nkPE/16labjz7sFcUVo8cTLViIe7y7P9V/Zdb0sUlsp0SOSQOeAkGirO1
+   KHKc557sUs9uvj5AEHlzBAuBUUN6ZTvipsDT8OVvdzKNJNO8e4LWmOjOi
+   nsvqEpjm90e8UFMC+95aB5vPhqKfq9ekDgiSTiVTEqMXSgC3QbT682Jz8
+   IOiRm+/s/nXGGSl66rOg7LD4jboMvORoydFl7MY3a6gtFyxs1gjv0Bvkn
+   JjOWLS87iYOTJZYN5hKh8q8XFZvyS/kLrvb85BeGAOkPUlWtw3zlxka/R
+   A==;
+X-CSE-ConnectionGUID: g52bO+XNTHSDKmJg8RbwOw==
+X-CSE-MsgGUID: aCt4KEWzTReQSBX7f4APUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67605288"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="68283610"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 06:42:28 -0700
-X-CSE-ConnectionGUID: j92ZH2PaSFyWfr9B+9DNJg==
-X-CSE-MsgGUID: xD8X2nqzQUSWhpyMi7QPkA==
+   d="scan'208";a="67605288"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 06:48:28 -0700
+X-CSE-ConnectionGUID: uHSMnaiwT+OrrNYi2v5//Q==
+X-CSE-MsgGUID: lwulQKcfQ16NzuqFi3HbSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="164965645"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2025 06:42:27 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="170327247"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 07 Aug 2025 06:48:27 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk0sy-0002Sx-2u;
-	Thu, 07 Aug 2025 13:42:24 +0000
-Date: Thu, 7 Aug 2025 15:41:30 +0200
+	id 1uk0ym-0002qk-2y;
+	Thu, 07 Aug 2025 13:48:24 +0000
+Date: Thu, 7 Aug 2025 21:48:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 131/801] htmldocs: Warning:
- Documentation/devicetree/bindings/display/ti/ti,dra7-dss.yaml references a
- file that doesn't exist:
- Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-Message-ID: <202508071512.6Enbv3OZ-lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2818/2818]
+ ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21:
+ warning: invalid suffix on literal; C++11 requires a space between literal
+ and string macro
+Message-ID: <202508072130.PNYHXdZW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,33 +64,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   6752ef54777b7f91fb5cae7cfac46af194c15d1b
-commit: 8c1a9d6f1ab1d2e6fd82273221fe308a70017680 [131/801] dt-bindings: display: Convert ti/ti,omap-dss to DT schema
-reproduce: (https://download.01.org/0day-ci/archive/20250807/202508071512.6Enbv3OZ-lkp@intel.com/reproduce)
+Hi Valdis,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   28f1bd4270a018b383ca1545940ec78c60948458
+commit: 0908fe0570df658beb3866ddcb7bc55b0fb834b0 [2818/2818] gcc-plugins: fix gcc 11 indigestion with plugins...
+config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250807/202508072130.PNYHXdZW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 5.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508072130.PNYHXdZW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508071512.6Enbv3OZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508072130.PNYHXdZW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.txt
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,quadfs.txt
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,flexgen.txt
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen.txt
-   Warning: Documentation/devicetree/bindings/clock/ti/ti,dra7-apll-clock.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/dpll.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,dra7-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap2-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap3-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap4-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap5-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-   Warning: Documentation/devicetree/bindings/display/tilcdc/ti,am33xx-tilcdc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/tilcdc/panel.txt
-   Warning: Documentation/devicetree/bindings/pinctrl/marvell,armada-37xx-pinctrl.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/armada3700-xtal-clock.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
+                    from scripts/gcc-plugins/gcc-common.h:9,
+                    from scripts/gcc-plugins/stackleak_plugin.c:30:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
+         |                     ^
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
+                    from scripts/gcc-plugins/gcc-common.h:9,
+                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
+         |                     ^
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
+                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
+                    from scripts/gcc-plugins/gcc-common.h:9,
+                    from scripts/gcc-plugins/sancov_plugin.c:22:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
+         |                     ^
+   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
+>> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
+     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
+         |                        ^
+   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
+   make[2]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1 shuffle=1096673560
+   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
+   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1096673560
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1214: prepare0] Error 2 shuffle=1096673560
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1096673560
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
