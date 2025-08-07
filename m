@@ -1,59 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7280A26656F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 17:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B032526C39F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 17:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754587259; cv=none; b=LDX/GE6Ar5Ln7JZ3UoNsgBFb8YeQQQ2CrZL0kv10OKfWuAL0YX5zCzuQSTczqJpl9Gkt95acbeSkZeXmQ9uA00kApolwkg23iAgFUba3PRqX9QDYvzvPuJ7EHpWwoQlYd3mbAe6UrCSb+Jv2f7/xOQy1VTMR8NpR05WI/ctNIXA=
+	t=1754587991; cv=none; b=ZObBegX4ARDea8InofS/0hWp+s0z/Ps6Zp+EWMvHBQvPGas7sPNeMXKCxlZXxYpNMGfuzBGE4/0pHBHGD9uGJWljDI/7lrtrkqt1GpE4crUIS8lcdjnJbbTaxfldGwAvB7ASqsa9nG4OZWlA6Q2ZdwsmS3N55ba84JdcXULp9wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754587259; c=relaxed/simple;
-	bh=h2RhC3X24bauyHkfhuw+QDN4TG/NflyhbHeEHJURAg4=;
+	s=arc-20240116; t=1754587991; c=relaxed/simple;
+	bh=DZ6NOr0ehfLg9BnUOTsa6g/71Hf2SIfO/iwKjdaAA7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hFW/OgiBsGSe1njkd1UpECv/nMACz8B+S7wJFId0cA2Z9UJsbwGds/p+SNNOz7qd9sM2Rvx03zvmRa/5bjSMKErCZ9a/mU4/wc9I/m2YNX2QKA9irAiOFcL1dqzHvCjkOjRn+z5n9tp1deYcZU1K0xLt5wQCsHuGOvp62cNwa1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCLzXC5S; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTdzy6xFsgW6kyKPHVM/iBgGpVJZx+piQbwggXrmQbrUlLGalnHgNQscLZHvQR0M1qDiQhYtrI0bEtZpX2tVgKjE1ubEEop6rBlI5eStOJeR5V7G7TUb8ypzXoXfcaQ6o1VxWhoDapFDgciW9vrIyyjgtu06A8eNzuxH260a3QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWXIaSWl; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCLzXC5S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWXIaSWl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754587257; x=1786123257;
+  t=1754587990; x=1786123990;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=h2RhC3X24bauyHkfhuw+QDN4TG/NflyhbHeEHJURAg4=;
-  b=mCLzXC5S3PMfg+bo42ZUAm30yFfjT6RVcdGqa6m0H2/xrNoM6xB9YXwl
-   YZIP5yR2CiM6nq+42UcqLEL4yMN4qValc1ZP6+u7udvOxCoTOyHnB7qia
-   SaLB+cCHuGh1f2Vmbd6Y1rqRDbYd8kVT44cuTsqGqoBVw/BLODRLO4fGD
-   f854wxBZanDINNaXukeSbjaRZUAsJJICwWxr8UArB3doLXOc8OLXJK4/A
-   0s9JZzhsxyjxuksbGUdbX4jF8rraxAr3h0THxRX8DIOD1LdMHhZG5csBW
-   yv2RqTUhIAPt35F1lwFuxx09l8LMyCAEkjV2hujC39l/ejE+Fez2kM1fy
-   g==;
-X-CSE-ConnectionGUID: KS/DzHaeQk6DebV60MYL4Q==
-X-CSE-MsgGUID: 1TU6TYurRHWtRNmry9hDzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67522444"
+  bh=DZ6NOr0ehfLg9BnUOTsa6g/71Hf2SIfO/iwKjdaAA7w=;
+  b=QWXIaSWlGgJqt2vegQ47cNOTvCOFpHGUgj9GFcXZFiPsX1RyJPJ0R5K/
+   y2a0Y17GLAq+S7zlXmeSlBOCUYe7RpOdJg85rWocqNUmCrFc8BcJWjV5R
+   QT98idDw79NKkp9+Q0OnF1cSkfKW2qIfEW03qVVHavKNITX7+UC2bqm/l
+   aik9S/Y5ZNLkIvyWKdvJsQH+DvOLF8gf9JkNONWkoDm5VCGr2Fh7C7sOl
+   igEPX1BBxpWBHFG/NmJykRClkvn6q2Xbljsvq46KdMVoUsjn/msw2VOGa
+   vmG5DlYzCrm5JMcje6uCJt65bS29td8++lrTYc7zISYuFGKrfX4RTngfU
+   Q==;
+X-CSE-ConnectionGUID: IJTbZjDfT6aw+pN2Cw4dIg==
+X-CSE-MsgGUID: hGrMB1RmS0OyE5mvScf+4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67524286"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="67522444"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 10:20:56 -0700
-X-CSE-ConnectionGUID: OVmvplHMQA+44uKqvBdK0w==
-X-CSE-MsgGUID: o/OHDFBfQou3Iyowp2ClHg==
+   d="scan'208";a="67524286"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 10:33:06 -0700
+X-CSE-ConnectionGUID: Mtwx5TdMQy6/jwJ7WC8qBg==
+X-CSE-MsgGUID: GbNqTIhZQ2KbqsOwRT42hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="164634784"
+   d="scan'208";a="164367144"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Aug 2025 10:20:56 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Aug 2025 10:33:02 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uk4IP-00032s-2z;
-	Thu, 07 Aug 2025 17:20:53 +0000
-Date: Fri, 8 Aug 2025 01:20:19 +0800
+	id 1uk4U2-000338-31;
+	Thu, 07 Aug 2025 17:32:59 +0000
+Date: Fri, 8 Aug 2025 01:32:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandra Winter <wintera@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC net-next 16/17] net/dibs: Move data path to dibs layer
-Message-ID: <202508080055.UMaN9R8j-lkp@intel.com>
-References: <20250806154122.3413330-17-wintera@linux.ibm.com>
+To: Menglong Dong <menglong8.dong@gmail.com>, idosch@idosch.org
+Cc: oe-kbuild-all@lists.linux.dev, dsahern@kernel.org,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	sdf@fomichev.me, kuniyu@google.com, ahmed.zaki@intel.com,
+	aleksander.lobakin@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2] net: vrf: don't down the interface when add
+ slave
+Message-ID: <202508080147.1G52KerV-lkp@intel.com>
+References: <20250807055634.113753-1-dongml2@chinatelecom.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,162 +68,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250806154122.3413330-17-wintera@linux.ibm.com>
+In-Reply-To: <20250807055634.113753-1-dongml2@chinatelecom.cn>
 
-Hi Alexandra,
+Hi Menglong,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandra-Winter/net-smc-Remove-__init-marker-from-smc_core_init/20250806-234621
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/net-vrf-don-t-down-the-interface-when-add-slave/20250807-140407
 base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250806154122.3413330-17-wintera%40linux.ibm.com
-patch subject: [RFC net-next 16/17] net/dibs: Move data path to dibs layer
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250808/202508080055.UMaN9R8j-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080055.UMaN9R8j-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250807055634.113753-1-dongml2%40chinatelecom.cn
+patch subject: [PATCH net-next v2] net: vrf: don't down the interface when add slave
+config: arc-randconfig-001-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080147.1G52KerV-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080147.1G52KerV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080055.UMaN9R8j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080147.1G52KerV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/dibs/dibs_main.c: In function 'dibs_dev_release':
-   net/dibs/dibs_main.c:129:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     129 |         kfree(dibs);
-         |         ^~~~~
-   net/dibs/dibs_main.c: In function 'dibs_dev_alloc':
-   net/dibs/dibs_main.c:136:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-     136 |         dibs = kzalloc(sizeof(*dibs), GFP_KERNEL);
-         |                ^~~~~~~
-   net/dibs/dibs_main.c:136:14: error: assignment to 'struct dibs_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     136 |         dibs = kzalloc(sizeof(*dibs), GFP_KERNEL);
-         |              ^
-   net/dibs/dibs_main.c: In function 'dibs_dev_add':
->> net/dibs/dibs_main.c:188:32: error: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     188 |         dibs->dmb_clientid_arr = kzalloc(max_dmbs, GFP_KERNEL);
-         |                                ^
---
-   net/dibs/dibs_loopback.c: In function 'dibs_lo_register_dmb':
-   net/dibs/dibs_loopback.c:64:20: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-      64 |         dmb_node = kzalloc(sizeof(*dmb_node), GFP_KERNEL);
-         |                    ^~~~~~~
->> net/dibs/dibs_loopback.c:64:18: error: assignment to 'struct dibs_lo_dmb_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      64 |         dmb_node = kzalloc(sizeof(*dmb_node), GFP_KERNEL);
-         |                  ^
->> net/dibs/dibs_loopback.c:72:28: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      72 |         dmb_node->cpu_addr = kzalloc(dmb_node->len, GFP_KERNEL |
-         |                            ^
-   net/dibs/dibs_loopback.c:109:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     109 |         kfree(dmb_node);
-         |         ^~~~~
-   net/dibs/dibs_loopback.c: In function '__dibs_lo_unregister_dmb':
->> net/dibs/dibs_loopback.c:124:9: error: implicit declaration of function 'kvfree' [-Wimplicit-function-declaration]
-     124 |         kvfree(dmb_node->cpu_addr);
+   net/core/lock_debug.c: In function 'netdev_debug_event':
+>> net/core/lock_debug.c:20:9: warning: enumeration value 'NETDEV_VRF_MASTER' not handled in switch [-Wswitch]
+      20 |         switch (cmd) {
          |         ^~~~~~
-   net/dibs/dibs_loopback.c: In function 'dibs_lo_dev_probe':
-   net/dibs/dibs_loopback.c:300:14: error: assignment to 'struct dibs_lo_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     300 |         ldev = kzalloc(sizeof(*ldev), GFP_KERNEL);
-         |              ^
 
 
-vim +188 net/dibs/dibs_main.c
+vim +/NETDEV_VRF_MASTER +20 net/core/lock_debug.c
 
-   131	
-   132	struct dibs_dev *dibs_dev_alloc(void)
-   133	{
-   134		struct dibs_dev *dibs;
-   135	
- > 136		dibs = kzalloc(sizeof(*dibs), GFP_KERNEL);
-   137		if (!dibs)
-   138			return dibs;
-   139		dibs->dev.release = dibs_dev_release;
-   140		dibs->dev.class = dibs_class;
-   141		device_initialize(&dibs->dev);
-   142	
-   143		return dibs;
-   144	}
-   145	EXPORT_SYMBOL_GPL(dibs_dev_alloc);
-   146	
-   147	static ssize_t gid_show(struct device *dev, struct device_attribute *attr,
-   148				char *buf)
-   149	{
-   150		struct dibs_dev *dibs;
-   151	
-   152		dibs = container_of(dev, struct dibs_dev, dev);
-   153	
-   154		return sysfs_emit(buf, "%pUb\n", &dibs->gid);
-   155	}
-   156	static DEVICE_ATTR_RO(gid);
-   157	
-   158	static ssize_t fabric_id_show(struct device *dev, struct device_attribute *attr,
-   159				      char *buf)
-   160	{
-   161		struct dibs_dev *dibs;
-   162		u16 fabric_id;
-   163	
-   164		dibs = container_of(dev, struct dibs_dev, dev);
-   165		fabric_id = dibs->ops->get_fabric_id(dibs);
-   166	
-   167		return sysfs_emit(buf, "0x%04x\n", fabric_id);
-   168	}
-   169	static DEVICE_ATTR_RO(fabric_id);
-   170	
-   171	static struct attribute *dibs_dev_attrs[] = {
-   172		&dev_attr_gid.attr,
-   173		&dev_attr_fabric_id.attr,
-   174		NULL,
-   175	};
-   176	
-   177	static const struct attribute_group dibs_dev_attr_group = {
-   178		.attrs = dibs_dev_attrs,
-   179	};
-   180	
-   181	int dibs_dev_add(struct dibs_dev *dibs)
-   182	{
-   183		int max_dmbs;
-   184		int i, ret;
-   185	
-   186		max_dmbs = dibs->ops->max_dmbs();
-   187		spin_lock_init(&dibs->lock);
- > 188		dibs->dmb_clientid_arr = kzalloc(max_dmbs, GFP_KERNEL);
-   189		if (!dibs->dmb_clientid_arr)
-   190			return -ENOMEM;
-   191		memset(dibs->dmb_clientid_arr, NO_DIBS_CLIENT, max_dmbs);
-   192	
-   193		ret = device_add(&dibs->dev);
-   194		if (ret)
-   195			goto free_client_arr;
-   196	
-   197		ret = sysfs_create_group(&dibs->dev.kobj, &dibs_dev_attr_group);
-   198		if (ret) {
-   199			dev_err(&dibs->dev, "sysfs_create_group failed for dibs_dev\n");
-   200			goto err_device_del;
-   201		}
-   202		mutex_lock(&dibs_dev_list.mutex);
-   203		mutex_lock(&clients_lock);
-   204		for (i = 0; i < max_client; ++i) {
-   205			if (clients[i]) {
-   206				clients[i]->ops->add_dev(dibs);
-   207				dibs_setup_forwarding(clients[i], dibs);
-   208			}
-   209		}
-   210		mutex_unlock(&clients_lock);
-   211		list_add(&dibs->list, &dibs_dev_list.list);
-   212		mutex_unlock(&dibs_dev_list.mutex);
-   213	
-   214		return 0;
-   215	
-   216	err_device_del:
-   217		device_del(&dibs->dev);
-   218	free_client_arr:
-   219		kfree(dibs->dmb_clientid_arr);
-   220		return ret;
-   221	
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  11  
+1901066aab7654 net/core/lock_debug.c     Stanislav Fomichev 2025-04-01  12  int netdev_debug_event(struct notifier_block *nb, unsigned long event,
+1901066aab7654 net/core/lock_debug.c     Stanislav Fomichev 2025-04-01  13  		       void *ptr)
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  14  {
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  15  	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  16  	struct net *net = dev_net(dev);
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  17  	enum netdev_cmd cmd = event;
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  18  
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  19  	/* Keep enum and don't add default to trigger -Werror=switch */
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04 @20  	switch (cmd) {
+22cbc1ee268b7e net/core/lock_debug.c     Jakub Kicinski     2025-04-15  21  	case NETDEV_XDP_FEAT_CHANGE:
+22cbc1ee268b7e net/core/lock_debug.c     Jakub Kicinski     2025-04-15  22  		netdev_assert_locked(dev);
+22cbc1ee268b7e net/core/lock_debug.c     Jakub Kicinski     2025-04-15  23  		fallthrough;
+cb7103298d1c5d net/core/lock_debug.c     Jakub Kicinski     2025-04-10  24  	case NETDEV_CHANGE:
+1901066aab7654 net/core/lock_debug.c     Stanislav Fomichev 2025-04-01  25  	case NETDEV_REGISTER:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  26  	case NETDEV_UP:
+1901066aab7654 net/core/lock_debug.c     Stanislav Fomichev 2025-04-01  27  		netdev_ops_assert_locked(dev);
+1901066aab7654 net/core/lock_debug.c     Stanislav Fomichev 2025-04-01  28  		fallthrough;
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  29  	case NETDEV_DOWN:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  30  	case NETDEV_REBOOT:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  31  	case NETDEV_UNREGISTER:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  32  	case NETDEV_CHANGEMTU:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  33  	case NETDEV_CHANGEADDR:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  34  	case NETDEV_PRE_CHANGEADDR:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  35  	case NETDEV_GOING_DOWN:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  36  	case NETDEV_FEAT_CHANGE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  37  	case NETDEV_BONDING_FAILOVER:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  38  	case NETDEV_PRE_UP:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  39  	case NETDEV_PRE_TYPE_CHANGE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  40  	case NETDEV_POST_TYPE_CHANGE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  41  	case NETDEV_POST_INIT:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  42  	case NETDEV_PRE_UNINIT:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  43  	case NETDEV_RELEASE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  44  	case NETDEV_NOTIFY_PEERS:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  45  	case NETDEV_JOIN:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  46  	case NETDEV_CHANGEUPPER:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  47  	case NETDEV_RESEND_IGMP:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  48  	case NETDEV_PRECHANGEMTU:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  49  	case NETDEV_CHANGEINFODATA:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  50  	case NETDEV_BONDING_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  51  	case NETDEV_PRECHANGEUPPER:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  52  	case NETDEV_CHANGELOWERSTATE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  53  	case NETDEV_UDP_TUNNEL_PUSH_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  54  	case NETDEV_UDP_TUNNEL_DROP_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  55  	case NETDEV_CHANGE_TX_QUEUE_LEN:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  56  	case NETDEV_CVLAN_FILTER_PUSH_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  57  	case NETDEV_CVLAN_FILTER_DROP_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  58  	case NETDEV_SVLAN_FILTER_PUSH_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  59  	case NETDEV_SVLAN_FILTER_DROP_INFO:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  60  	case NETDEV_OFFLOAD_XSTATS_ENABLE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  61  	case NETDEV_OFFLOAD_XSTATS_DISABLE:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  62  	case NETDEV_OFFLOAD_XSTATS_REPORT_USED:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  63  	case NETDEV_OFFLOAD_XSTATS_REPORT_DELTA:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  64  		ASSERT_RTNL();
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  65  		break;
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  66  
+be94cfdb993ff0 net/core/rtnl_net_debug.c Kuniyuki Iwashima  2025-01-15  67  	case NETDEV_CHANGENAME:
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  68  		ASSERT_RTNL_NET(net);
+be94cfdb993ff0 net/core/rtnl_net_debug.c Kuniyuki Iwashima  2025-01-15  69  		break;
+be94cfdb993ff0 net/core/rtnl_net_debug.c Kuniyuki Iwashima  2025-01-15  70  	}
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  71  
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  72  	return NOTIFY_DONE;
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  73  }
+1901066aab7654 net/core/lock_debug.c     Stanislav Fomichev 2025-04-01  74  EXPORT_SYMBOL_NS_GPL(netdev_debug_event, "NETDEV_INTERNAL");
+03fa534856593b net/core/rtnl_net_debug.c Kuniyuki Iwashima  2024-10-04  75  
 
 -- 
 0-DAY CI Kernel Test Service
