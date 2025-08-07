@@ -1,61 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09DC1DED5C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Aug 2025 09:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E331946AA;
+	Thu,  7 Aug 2025 09:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754559715; cv=none; b=S7Bkho4IUKI8ZsuKLFQp7WKF5Qok8jJ2cIESmXosEtXRrmJDkgyzYI1PVDQulAB7jsxLPAkI7l+/+w2VC+n3KiA1wdeKUoGEXkXMLEks8Q/+HIyEqJR7GyMpQKAo8KrItsOcMlcDoaJoqOJc+KAodl3Qmi2qBfbNFkPVUvUncdY=
+	t=1754560316; cv=none; b=eurCuZ8D1FcW5KgyD3GE/Urv6c66f8VPtxgEbiAkf+xuHSOti6CSWG5rPG31875SuS2dYeQSAySDIJ3o/KHx9JloGIJ/t90wTB/V2aY0BhOGgDuG5NajTO2q7XxqqAou6LbXGQeHarvxVDuIv0QiB0HNbwvdeLZhqr/xgjwp49w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754559715; c=relaxed/simple;
-	bh=35S/gsX8Z70RMuSMWutufUE27zaSM9HYCo4CaXqoGik=;
+	s=arc-20240116; t=1754560316; c=relaxed/simple;
+	bh=n3H7k+qMLSbRg64OaiKFLdUftAjzYbCeTRK1xSdD7X0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=amfHMdPy2WT6L1qpFYAEAH3w4eZ8XrIZaJtBcLcRTQnNTm/QT5cyqEAdXYvZiaA6VyGpAfOJk2FBHQMhl2taNgzaRnmpTVPz9C79J2+xQx1d9wE7R3NIyhP98zXWxMxnVi8pZPPqAwY9yDE65wn93zhKpoqf+k5WH+J3N1GROeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5EiV1WU; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=falzmVLh74cDbsSWSMvLTtF2aPXztPt6mMB7FHvzrmVuw2SfQl+CtUflpLKYjV/Kv+vg17lf1hX6W2sDbFIOfnlDGJnuLIT0uRU0XI/lRCx1YXZt9/r4vXDtpHKd4ff1oc7NNmFm9M9J83l9Vt3lg9qlOA5juM54RgQ//XpnCR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsxCYOHM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5EiV1WU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsxCYOHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754559714; x=1786095714;
+  t=1754560315; x=1786096315;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=35S/gsX8Z70RMuSMWutufUE27zaSM9HYCo4CaXqoGik=;
-  b=M5EiV1WU1+XGO0VYSecKL9gW8P4AgkFBUjHr8cR+I0vVPiNPX5c6SD8N
-   I4DHy6qpnJH+ij4TEEPciGwDjGyaudynsarMxyTdsOzoDOU4xxkbQj52A
-   DQ5+MZiRy/3oO3huWZrf5PDE2BjRo5eMXI/8Pd+th2L4tYRsbvObrmnvo
-   dc1uZgb90RUDvsTVoov9Wt0fFstHjFYsrPskjWKvVZMP4b0sbnZEZH42k
-   v3l/SRhPtFXkNLXmjjeFDHyYP84mx27SUM9PUjCjRTj4+NbNXUsRaik5V
-   dZIyc4fA6+hVVIjZXJb2vjstpO+PIzSwaGd4LcVipXqXRGotd7PK39LuX
-   w==;
-X-CSE-ConnectionGUID: 0PduxbaBRtKKYgrSMdMG3Q==
-X-CSE-MsgGUID: 7fIIrrlwQhq3VyCuXq8vPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67157353"
+  bh=n3H7k+qMLSbRg64OaiKFLdUftAjzYbCeTRK1xSdD7X0=;
+  b=JsxCYOHMRzDc1GWeoybbzKrURl/FXRS3oBbD4wUhyTcY/tFWqAl78WRz
+   uD4G6POEbBusSw8OYNlb+UIChTznmJw3TH/1IKsOgQhho8pbSlsrRfeJM
+   c6FTZlEEXsIbBLgC1aARPGx+roxPCrnyHStvtuC0pQ1aWk0RpChtH4tfr
+   56KvJmq4pQfbtxpED+5GxdFcqMzkYyAUPuirJCTivgIUlbbkKpjBkbLrW
+   Zi6oEd6AD+cXaiTaKeJe0t3Fg0uSuYxUgH7qPCy0Tio1hNHLrM+Sb4so4
+   HlHyZtGxbYrj/2CtTXbgnmG7mKlR7n39zhT7/Rkl+Oqmmb4MwD5hUYvig
+   Q==;
+X-CSE-ConnectionGUID: rxwYBa6tQg2FwFB5IpKQPQ==
+X-CSE-MsgGUID: /xPdH1PFT+ew+PABVs1Ljw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67158210"
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="67157353"
+   d="scan'208";a="67158210"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:41:53 -0700
-X-CSE-ConnectionGUID: DDuQgtmMTM6llMYHEIFtlA==
-X-CSE-MsgGUID: /aMJA6gzSpG2VULEozKqtw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:51:54 -0700
+X-CSE-ConnectionGUID: mlOgTmNPQYeh2F53+X8PqA==
+X-CSE-MsgGUID: lWtTRSKqQYqJtrrsqFfjGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="164669162"
+   d="scan'208";a="164670967"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 07 Aug 2025 02:41:52 -0700
+  by orviesa009.jf.intel.com with ESMTP; 07 Aug 2025 02:51:52 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ujx7b-0002ce-2K;
-	Thu, 07 Aug 2025 09:41:29 +0000
-Date: Thu, 7 Aug 2025 17:39:47 +0800
+	id 1ujxHq-0002eM-0K;
+	Thu, 07 Aug 2025 09:51:50 +0000
+Date: Thu, 7 Aug 2025 17:51:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Ajay Neeli <ajay.neeli@amd.com>
-Subject: [xilinx-xlnx:lkp_test 3/4]
- drivers/ufs/host/ufs-amd-versal2.c:251:23: error: implicit declaration of
- function 'zynqmp_pm_sec_read_reg'; did you mean 'zynqmp_pm_read_pggs'?
-Message-ID: <202508071714.6m6wFxNc-lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:hack/arch_timer_mmio 4/5]
+ drivers/clocksource/arm_arch_timer_mmio.c:73:4: error: call to undeclared
+ function 'writeq_relaxed'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202508071719.gt7HNCye-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,217 +65,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   bf02b5ab30f349d173dd098be46a5a01493670b3
-commit: 2a574c8da24fba5d98b9b6c5adc266ef3e3f2c2e [3/4] ufs: amd-versal2: Add AMD Versal Gen 2 UFS support
-config: arc-randconfig-002-20250807 (https://download.01.org/0day-ci/archive/20250807/202508071714.6m6wFxNc-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071714.6m6wFxNc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/arch_timer_mmio
+head:   4b341bbc18d791b6c5a6bc373d303c4d3b35434a
+commit: d094e2d0772b8f22c47c9d3e7ab908c82ade83bf [4/5] clocksource/drivers/arm_arch_timer_mmio: Switch over to standalone driver
+config: arm-axm55xx_defconfig (https://download.01.org/0day-ci/archive/20250807/202508071719.gt7HNCye-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250807/202508071719.gt7HNCye-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508071714.6m6wFxNc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508071719.gt7HNCye-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/ufs/host/ufs-amd-versal2.c: In function 'ufs_versal2_phy_init':
->> drivers/ufs/host/ufs-amd-versal2.c:251:23: error: implicit declaration of function 'zynqmp_pm_sec_read_reg'; did you mean 'zynqmp_pm_read_pggs'? [-Werror=implicit-function-declaration]
-     251 |                 ret = zynqmp_pm_sec_read_reg(PM_REGNODE_PMC_IOU_SLCR, TXRX_CFGRDY_OFFSET, &reg);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                       zynqmp_pm_read_pggs
-   drivers/ufs/host/ufs-amd-versal2.c: In function 'ufs_versal2_hce_enable_notify':
->> drivers/ufs/host/ufs-amd-versal2.c:388:23: error: implicit declaration of function 'zynqmp_pm_sec_mask_write_reg' [-Werror=implicit-function-declaration]
-     388 |                 ret = zynqmp_pm_sec_mask_write_reg(PM_REGNODE_PMC_IOU_SLCR, SRAM_CSR_OFFSET,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/host/ufs-amd-versal2.c: At top level:
->> drivers/ufs/host/ufs-amd-versal2.c:558:35: error: initialization of 'int (*)(struct ufs_hba *, enum ufs_notify_change_status,  const struct ufs_pa_layer_attr *, struct ufs_pa_layer_attr *)' from incompatible pointer type 'int (*)(struct ufs_hba *, enum ufs_notify_change_status,  struct ufs_pa_layer_attr *, struct ufs_pa_layer_attr *)' [-Werror=incompatible-pointer-types]
-     558 |         .pwr_change_notify      = ufs_versal2_pwr_change_notify,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ufs/host/ufs-amd-versal2.c:558:35: note: (near initialization for 'ufs_versal2_hba_vops.pwr_change_notify')
-   cc1: some warnings being treated as errors
+>> drivers/clocksource/arm_arch_timer_mmio.c:73:4: error: call to undeclared function 'writeq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      73 |                         writeq_relaxed(val, timer->base + CNTP_CVAL_LO);
+         |                         ^
+   drivers/clocksource/arm_arch_timer_mmio.c:84:4: error: call to undeclared function 'writeq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      84 |                         writeq_relaxed(val, timer->base + CNTV_CVAL_LO);
+         |                         ^
+   drivers/clocksource/arm_arch_timer_mmio.c:262:54: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 72057594037927935 to 4294967295 [-Wconstant-conversion]
+     262 |         clockevents_config_and_register(clk, at->rate, 0xf, CLOCKSOURCE_MASK(56));
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/clocksource.h:153:32: note: expanded from macro 'CLOCKSOURCE_MASK'
+     153 | #define CLOCKSOURCE_MASK(bits) GENMASK_ULL((bits) - 1, 0)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bits.h:89:29: note: expanded from macro 'GENMASK_ULL'
+      89 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +251 drivers/ufs/host/ufs-amd-versal2.c
+vim +/writeq_relaxed +73 drivers/clocksource/arm_arch_timer_mmio.c
 
-   234	
-   235	static int ufs_versal2_phy_init(struct ufs_hba *hba)
-   236	{
-   237		struct ufs_versal2_host *host = ufshcd_get_variant(hba);
-   238		u32 reg, time_left;
-   239		int ret;
-   240		static const struct ufshcd_dme_attr_val rmmi_attrs[] = {
-   241			{ UIC_ARG_MIB(CBREFCLKCTRL2), CBREFREFCLK_GATE_OVR_EN, DME_LOCAL },
-   242			{ UIC_ARG_MIB(CBCRCTRL), 1, DME_LOCAL },
-   243			{ UIC_ARG_MIB(CBC10DIRECTCONF2), 1, DME_LOCAL },
-   244			{ UIC_ARG_MIB(VS_MPHYCFGUPDT), 1, DME_LOCAL }
-   245		};
-   246	
-   247		/* Wait for Tx/Rx config_rdy */
-   248		time_left = TIMEOUT_MICROSEC;
-   249		do {
-   250			time_left--;
- > 251			ret = zynqmp_pm_sec_read_reg(PM_REGNODE_PMC_IOU_SLCR, TXRX_CFGRDY_OFFSET, &reg);
-   252			if (ret)
-   253				return ret;
-   254	
-   255			reg &= TX_RX_CFG_RDY_MASK;
-   256			if (!reg)
-   257				break;
-   258	
-   259			usleep_range(1, 5);
-   260		} while (time_left);
-   261	
-   262		if (!time_left) {
-   263			dev_err(hba->dev, "Tx/Rx configuration signal busy.\n");
-   264			return -ETIMEDOUT;
-   265		}
-   266	
-   267		ret = ufshcd_dwc_dme_set_attrs(hba, rmmi_attrs, ARRAY_SIZE(rmmi_attrs));
-   268		if (ret)
-   269			return ret;
-   270	
-   271		ret = reset_control_deassert(host->rstphy);
-   272		if (ret) {
-   273			dev_err(hba->dev, "ufsphy reset deassert failed, err = %d\n", ret);
-   274			return ret;
-   275		}
-   276	
-   277		/* Wait for SRAM init done */
-   278		time_left = TIMEOUT_MICROSEC;
-   279		do {
-   280			time_left--;
-   281			ret = zynqmp_pm_sec_read_reg(PM_REGNODE_PMC_IOU_SLCR, SRAM_CSR_OFFSET, &reg);
-   282			if (ret)
-   283				return ret;
-   284	
-   285			reg &= SRAM_CSR_INIT_DONE_MASK;
-   286			if (reg)
-   287				break;
-   288	
-   289			usleep_range(1, 5);
-   290		} while (time_left);
-   291	
-   292		if (!time_left) {
-   293			dev_err(hba->dev, "SRAM initialization failed.\n");
-   294			return -ETIMEDOUT;
-   295		}
-   296	
-   297		ret = ufs_versal2_setup_phy(hba);
-   298		if (ret)
-   299			return ret;
-   300	
-   301		return ufs_versal2_enable_phy(hba);
-   302	}
-   303	
-   304	static int ufs_versal2_init(struct ufs_hba *hba)
-   305	{
-   306		struct ufs_versal2_host *host;
-   307		struct device *dev = hba->dev;
-   308		struct ufs_clk_info *clki;
-   309		int ret;
-   310		u32 cal;
-   311	
-   312		host = devm_kzalloc(dev, sizeof(*host), GFP_KERNEL);
-   313		if (!host)
-   314			return -ENOMEM;
-   315	
-   316		host->hba = hba;
-   317		ufshcd_set_variant(hba, host);
-   318	
-   319		host->phy_mode = UFSHCD_DWC_PHY_MODE_ROM;
-   320	
-   321		list_for_each_entry(clki, &hba->clk_list_head, list) {
-   322			if (!strcmp(clki->name, "core"))
-   323				host->host_clk = clk_get_rate(clki->clk);
-   324		}
-   325	
-   326		host->rstc = devm_reset_control_get_exclusive(dev, "ufshc");
-   327		if (IS_ERR(host->rstc)) {
-   328			dev_err(dev, "failed to get reset ctrl: ufshc\n");
-   329			return PTR_ERR(host->rstc);
-   330		}
-   331	
-   332		host->rstphy = devm_reset_control_get_exclusive(dev, "ufsphy");
-   333		if (IS_ERR(host->rstphy)) {
-   334			dev_err(dev, "failed to get reset ctrl: ufsphy\n");
-   335			return PTR_ERR(host->rstphy);
-   336		}
-   337	
-   338		ret = zynqmp_pm_sec_read_reg(PM_REGNODE_EFUSE_CACHE, UFS_CAL_1_OFFSET, &cal);
-   339		if (ret) {
-   340			dev_err(dev, "failed to read calibration values\n");
-   341			return ret;
-   342		}
-   343	
-   344		host->attcompval0 = (u8)cal;
-   345		host->attcompval1 = (u8)(cal >> 8);
-   346		host->ctlecompval0 = (u8)(cal >> 16);
-   347		host->ctlecompval1 = (u8)(cal >> 24);
-   348	
-   349		hba->quirks |= UFSHCD_QUIRK_SKIP_DEF_UNIPRO_TIMEOUT_SETTING;
-   350	
-   351		return 0;
-   352	}
-   353	
-   354	static int ufs_versal2_hce_enable_notify(struct ufs_hba *hba,
-   355						 enum ufs_notify_change_status status)
-   356	{
-   357		struct ufs_versal2_host *host = ufshcd_get_variant(hba);
-   358		struct device *dev = hba->dev;
-   359		u32 sram_csr;
-   360		int ret;
-   361	
-   362		switch (status) {
-   363		case PRE_CHANGE:
-   364			ret = reset_control_assert(host->rstc);
-   365			if (ret) {
-   366				dev_err(hba->dev, "ufshc reset assert failed, err = %d\n", ret);
-   367				return ret;
-   368			}
-   369	
-   370			ret = reset_control_assert(host->rstphy);
-   371			if (ret) {
-   372				dev_err(hba->dev, "ufsphy reset assert failed, err = %d\n", ret);
-   373				return ret;
-   374			}
-   375	
-   376			ret = zynqmp_pm_sec_read_reg(PM_REGNODE_PMC_IOU_SLCR, SRAM_CSR_OFFSET, &sram_csr);
-   377			if (ret)
-   378				return ret;
-   379	
-   380			if (!host->phy_mode) {
-   381				sram_csr &= ~SRAM_CSR_EXT_LD_DONE_MASK;
-   382				sram_csr |= SRAM_CSR_BYPASS_MASK;
-   383			} else {
-   384				dev_err(dev, "Invalid phy-mode %d.\n", host->phy_mode);
-   385				return -EINVAL;
-   386			}
-   387	
- > 388			ret = zynqmp_pm_sec_mask_write_reg(PM_REGNODE_PMC_IOU_SLCR, SRAM_CSR_OFFSET,
-   389							   GENMASK(2, 1), sram_csr);
-   390			if (ret)
-   391				return ret;
-   392	
-   393			ret = reset_control_deassert(host->rstc);
-   394			if (ret)
-   395				dev_err(hba->dev, "ufshc reset deassert failed, err = %d\n", ret);
-   396	
-   397			break;
-   398		case POST_CHANGE:
-   399			ret = ufs_versal2_phy_init(hba);
-   400			if (ret)
-   401				dev_err(hba->dev, "Phy init failed (%d)\n", ret);
-   402	
-   403			break;
-   404		default:
-   405			ret = -EINVAL;
-   406			break;
-   407		}
-   408	
-   409		return ret;
-   410	}
-   411	
+9920c260a9b738 Marc Zyngier 2025-08-06  55  
+9920c260a9b738 Marc Zyngier 2025-08-06  56  static void arch_timer_reg_write(enum arch_timer_access access,
+9920c260a9b738 Marc Zyngier 2025-08-06  57  				 enum arch_timer_reg reg, u64 val,
+9920c260a9b738 Marc Zyngier 2025-08-06  58  				 struct clock_event_device *clk)
+9920c260a9b738 Marc Zyngier 2025-08-06  59  {
+9920c260a9b738 Marc Zyngier 2025-08-06  60  	struct arch_timer *timer = evt_to_arch_timer(clk);
+9920c260a9b738 Marc Zyngier 2025-08-06  61  
+9920c260a9b738 Marc Zyngier 2025-08-06  62  	switch (access) {
+9920c260a9b738 Marc Zyngier 2025-08-06  63  	case PHYS_ACCESS:
+9920c260a9b738 Marc Zyngier 2025-08-06  64  		switch (reg) {
+9920c260a9b738 Marc Zyngier 2025-08-06  65  		case ARCH_TIMER_REG_CTRL:
+9920c260a9b738 Marc Zyngier 2025-08-06  66  			writel_relaxed((u32)val, timer->base + CNTP_CTL);
+9920c260a9b738 Marc Zyngier 2025-08-06  67  			return;
+9920c260a9b738 Marc Zyngier 2025-08-06  68  		case ARCH_TIMER_REG_CVAL:
+9920c260a9b738 Marc Zyngier 2025-08-06  69  			/*
+9920c260a9b738 Marc Zyngier 2025-08-06  70  			 * Not guaranteed to be atomic, so the timer
+9920c260a9b738 Marc Zyngier 2025-08-06  71  			 * must be disabled at this point.
+9920c260a9b738 Marc Zyngier 2025-08-06  72  			 */
+9920c260a9b738 Marc Zyngier 2025-08-06 @73  			writeq_relaxed(val, timer->base + CNTP_CVAL_LO);
+9920c260a9b738 Marc Zyngier 2025-08-06  74  			return;
+9920c260a9b738 Marc Zyngier 2025-08-06  75  		}
+9920c260a9b738 Marc Zyngier 2025-08-06  76  		break;
+9920c260a9b738 Marc Zyngier 2025-08-06  77  	case VIRT_ACCESS:
+9920c260a9b738 Marc Zyngier 2025-08-06  78  		switch (reg) {
+9920c260a9b738 Marc Zyngier 2025-08-06  79  		case ARCH_TIMER_REG_CTRL:
+9920c260a9b738 Marc Zyngier 2025-08-06  80  			writel_relaxed((u32)val, timer->base + CNTV_CTL);
+9920c260a9b738 Marc Zyngier 2025-08-06  81  			return;
+9920c260a9b738 Marc Zyngier 2025-08-06  82  		case ARCH_TIMER_REG_CVAL:
+9920c260a9b738 Marc Zyngier 2025-08-06  83  			/* Same restriction as above */
+9920c260a9b738 Marc Zyngier 2025-08-06  84  			writeq_relaxed(val, timer->base + CNTV_CVAL_LO);
+9920c260a9b738 Marc Zyngier 2025-08-06  85  			return;
+9920c260a9b738 Marc Zyngier 2025-08-06  86  		}
+9920c260a9b738 Marc Zyngier 2025-08-06  87  		break;
+9920c260a9b738 Marc Zyngier 2025-08-06  88  	}
+9920c260a9b738 Marc Zyngier 2025-08-06  89  
+9920c260a9b738 Marc Zyngier 2025-08-06  90  	/* Should never be here */
+9920c260a9b738 Marc Zyngier 2025-08-06  91  	WARN_ON_ONCE(1);
+9920c260a9b738 Marc Zyngier 2025-08-06  92  }
+9920c260a9b738 Marc Zyngier 2025-08-06  93  
+
+:::::: The code at line 73 was first introduced by commit
+:::::: 9920c260a9b73875557f4b2e6c9f68685b9c07e8 clocksource/drivers/arm_arch_timer: Add standalone MMIO driver
+
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
