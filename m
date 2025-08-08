@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6165979DA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 22:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095232E370A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 22:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754690584; cv=none; b=MmKmVly8Or+7NshLE/4rqoDX4QGUUWv2ElsOwq5Ed2EcIE/KfCdEUeHTtBkgb1Hw1oYt4MJEaDN37Dabdhg+m5NEcGMNDIvx7dJ0XvuldeKlemAaRNpBs+Nn5wnSV4an9x1BZ29zaCuFTVsx+1dGWFa/+o/sgTPGoI24JhqdmPI=
+	t=1754691292; cv=none; b=Z4R7ectqlsG4bS/rYrYwYJL6BZnsAbnR0gY4HX1c75Z80kzoGjVNbjs20WfSKLh3fjGeqBNSmBK72eZJSnTk9VhlTRPHxzuwambqHS+OZmGj8eRdeP+RiBDWu0Ci/nsn383x+hZoMWxg5/8ew38CvrvtV87xQSehKfO583vCXeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754690584; c=relaxed/simple;
-	bh=cKvcSciDejdjd38nQ7qkzCxAQUA6XNIT6v6y55TKL2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lFdzo51lc7XPTfEKEjfH8h25G81lyclbZd+z+CqCw/Fib24xkJsNAov+Fbj8o8MM/zcp3UB02jgSRfQED1kNJA3Vw0dChxhckgRoTvDuQubVlA6zwbkErMIv/PRXbVXBJfo4VYjj5pIp0/pI+X0sG8vcXZvoFLk6m8Shktq+piI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N63Z1PWh; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1754691292; c=relaxed/simple;
+	bh=Va51qyaTkz2CTQqYFwwQTQQj1zq50RUD2yJd6Ld/8Bw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fgV459dw65NDZ+0UD69GzjjovNwJjVw5pSuZ0CfebHL4CP1kwo1ZYRAjPq6kD0yDxVJwdXG/5dwybh6QmQmgCd1DbTcY7NJf12dXv5B4hpUKwDHdSDWZnr5jnuE69Hwheap56exLn4dJ3ifQVJUL8lqS9PNKsMmP9JOcAuyYcXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fbGHDyBQ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N63Z1PWh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fbGHDyBQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754690582; x=1786226582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cKvcSciDejdjd38nQ7qkzCxAQUA6XNIT6v6y55TKL2s=;
-  b=N63Z1PWhOVV54Ak92imXppT3Cadp8PGmJ1MNOwiZOsqFdWuGMT4MnApf
-   If/3YEvejXl2atocjxc8/N0KviZS5UZ6KCCQaKTWP9ugXjcaS4xTnwNEk
-   qSDE5CDlmuOwsF8VA4/Bw/NnjtwFFWDU2hR0jtlCjbliHlh6pnpqaMh2y
-   lz0jfWsfdDNJrYqEkBIEGLf5FORURuYcgFxCrXVCpq/Fi+Ty9pw9JV0R8
-   OYHY+kP1jYWZ+PE0nTB4GcBbPY/fTjI8z3KLy+w47Qwb2ZaqWqhUQHbD0
-   i93rP1UjbfYRHIjUicd7ic7hoeuebn4icp5GbJWyWx/ZMDBo7ASGC7BN4
-   A==;
-X-CSE-ConnectionGUID: 5vVgpMZmRGSLeTx0ExQNHQ==
-X-CSE-MsgGUID: S1gJyXQ0QYaFRM0wR+ppqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="74625834"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="74625834"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 15:03:01 -0700
-X-CSE-ConnectionGUID: zWnt4Y9vT1qqmVEpWB2t1Q==
-X-CSE-MsgGUID: 4LiKqUqCSBObBtAVWBzlPA==
+  t=1754691291; x=1786227291;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Va51qyaTkz2CTQqYFwwQTQQj1zq50RUD2yJd6Ld/8Bw=;
+  b=fbGHDyBQ0Uv8JYDVM9XZAQvIJpTzuwYEPc8mLQsAvFjxKDHUmRsBrHxx
+   p7HGmT8AegrsF6dPZEvV6SHQlPpN3ksrmnpCE2wkPIgUDKYSR7gkfnoNg
+   iN5aaJHzH6BUrdADsjRuaJFIwwyRUuVH8v/phkqYJTep5Pdhe26FIwzJ2
+   +Ec0q45QrrmgkSgJ8kjhKkyoaXApMjIuDLEpNOGgh3fNt0FE5tFcP5HMV
+   dy7GytwVavJCmD6MS2wjq2h/Do5CzJPZCUMf7WIweDa/Wj2peGNbxQAzV
+   sWfD2ip97q9Ez4+XzmsoPG/7LbPj7gEg9klJ/Z+BkoNCWVriSNdqgAHPh
+   w==;
+X-CSE-ConnectionGUID: oU27gxvLS12BS0iLfv+Dxg==
+X-CSE-MsgGUID: Tj3U7TDiR/qmHqp7zRyfuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="67636577"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="67636577"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 15:14:49 -0700
+X-CSE-ConnectionGUID: JPb+1T4QTmiOEChXSiTB/A==
+X-CSE-MsgGUID: sqBD9nHuSUC7wz4ibvOLpQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="196246375"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="169879650"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Aug 2025 15:02:57 -0700
+  by orviesa004.jf.intel.com with ESMTP; 08 Aug 2025 15:14:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukVAt-0004MK-0h;
-	Fri, 08 Aug 2025 22:02:55 +0000
-Date: Sat, 9 Aug 2025 06:02:06 +0800
+	id 1ukVLt-0004MU-1R;
+	Fri, 08 Aug 2025 22:14:26 +0000
+Date: Sat, 9 Aug 2025 06:12:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>, tj@kernel.org,
-	hannes@cmpxchg.org, mkoutny@suse.com, longman@redhat.com,
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	vschneid@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lujialin4@huawei.com,
-	chenridong@huawei.com
-Subject: Re: [PATCH -next 4/4] cpuset: replace cpuset_lock() with
- guard_cpuset()
-Message-ID: <202508090557.XjdGVjX4-lkp@intel.com>
-References: <20250808092515.764820-5-chenridong@huaweicloud.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2662/2662]
+ drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to
+ restricted __le32
+Message-ID: <202508090640.BEtBteXt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,282 +62,181 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250808092515.764820-5-chenridong@huaweicloud.com>
 
-Hi Chen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250808]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cpuset-remove-redundant-CS_ONLINE-flag/20250808-174245
-base:   next-20250808
-patch link:    https://lore.kernel.org/r/20250808092515.764820-5-chenridong%40huaweicloud.com
-patch subject: [PATCH -next 4/4] cpuset: replace cpuset_lock() with guard_cpuset()
-config: x86_64-buildonly-randconfig-001-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090557.XjdGVjX4-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   9f11838de785067991187f7d0aa9b340abfba381
+commit: 97a2bb6ece556f3882263ee8df2b77f10c511311 [2662/2662] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
+config: x86_64-randconfig-121-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090640.BEtBteXt-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508090557.XjdGVjX4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508090640.BEtBteXt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508090557.XjdGVjX4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508090640.BEtBteXt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2249:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int length @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2249:33: sparse:     expected unsigned int length
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2249:33: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2250:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long addr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2250:31: sparse:     expected unsigned long long addr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2250:31: sparse:     got restricted __le64 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2376:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long virtDiskLba @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2376:27: sparse:     expected unsigned long long virtDiskLba
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2376:27: sparse:     got restricted __le64 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2377:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int numBlocks @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2377:25: sparse:     expected unsigned int numBlocks
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2377:25: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3058:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int numLba @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3058:28: sparse:     expected unsigned int numLba
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3058:28: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3062:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int sLbaHi @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3062:28: sparse:     expected unsigned int sLbaHi
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3062:28: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3064:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int sLbaLo @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3064:28: sparse:     expected unsigned int sLbaLo
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3064:28: sparse:     got restricted __le32 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3066:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short cID @@     got restricted __le16 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3066:32: sparse:     expected unsigned short cID
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3066:32: sparse:     got restricted __le16 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2095:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int length @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2095:25: sparse:     expected unsigned int length
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2095:25: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2096:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long addr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2096:23: sparse:     expected unsigned long long addr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2096:23: sparse:     got restricted __le64 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2119:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long addr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2119:23: sparse:     expected unsigned long long addr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2119:23: sparse:     got restricted __le64 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2868:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2868:36: sparse:     expected unsigned long long dataBaseAddr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2868:36: sparse:     got restricted __le64 [usertype]
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2869:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2869:41: sparse:     expected unsigned int dataBufLenDWAlign:24
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2869:41: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2874:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2874:36: sparse:     expected unsigned long long dataBaseAddr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2874:36: sparse:     got restricted __le64 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2875:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2875:41: sparse:     expected unsigned int dataBufLenDWAlign:24
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2875:41: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2964:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2964:41: sparse:     expected unsigned int dataBufLenDWAlign:24
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2964:41: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2966:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2966:36: sparse:     expected unsigned long long dataBaseAddr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2966:36: sparse:     got restricted __le64 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2971:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2971:41: sparse:     expected unsigned int dataBufLenDWAlign:24
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2971:41: sparse:     got restricted __le32 [usertype]
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2973:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2973:36: sparse:     expected unsigned long long dataBaseAddr
+   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2973:36: sparse:     got restricted __le64 [usertype]
 
-   In file included from kernel/sched/build_policy.c:65:
-   kernel/sched/syscalls.c: In function '__sched_setscheduler':
->> kernel/sched/syscalls.c:581:25: error: implicit declaration of function 'guard_cpuset' [-Werror=implicit-function-declaration]
-     581 |                         guard_cpuset();
-         |                         ^~~~~~~~~~~~
-   In file included from kernel/sched/build_policy.c:52:
-   kernel/sched/rt.c: At top level:
-   kernel/sched/rt.c:12:18: warning: 'max_rt_runtime' defined but not used [-Wunused-const-variable=]
-      12 | static const u64 max_rt_runtime = MAX_BW;
-         |                  ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +1795 drivers/scsi/linkdata/ps3stor/ps3_scsih.c
 
-
-vim +/guard_cpuset +581 kernel/sched/syscalls.c
-
-   512	
-   513	int __sched_setscheduler(struct task_struct *p,
-   514				 const struct sched_attr *attr,
-   515				 bool user, bool pi)
-   516	{
-   517		int oldpolicy = -1, policy = attr->sched_policy;
-   518		int retval, oldprio, newprio, queued, running;
-   519		const struct sched_class *prev_class, *next_class;
-   520		struct balance_callback *head;
-   521		struct rq_flags rf;
-   522		int reset_on_fork;
-   523		int queue_flags = DEQUEUE_SAVE | DEQUEUE_MOVE | DEQUEUE_NOCLOCK;
-   524		struct rq *rq;
-   525		bool cpuset_locked = false;
-   526	
-   527		/* The pi code expects interrupts enabled */
-   528		BUG_ON(pi && in_interrupt());
-   529	recheck:
-   530		/* Double check policy once rq lock held: */
-   531		if (policy < 0) {
-   532			reset_on_fork = p->sched_reset_on_fork;
-   533			policy = oldpolicy = p->policy;
-   534		} else {
-   535			reset_on_fork = !!(attr->sched_flags & SCHED_FLAG_RESET_ON_FORK);
-   536	
-   537			if (!valid_policy(policy))
-   538				return -EINVAL;
-   539		}
-   540	
-   541		if (attr->sched_flags & ~(SCHED_FLAG_ALL | SCHED_FLAG_SUGOV))
-   542			return -EINVAL;
-   543	
-   544		/*
-   545		 * Valid priorities for SCHED_FIFO and SCHED_RR are
-   546		 * 1..MAX_RT_PRIO-1, valid priority for SCHED_NORMAL,
-   547		 * SCHED_BATCH and SCHED_IDLE is 0.
-   548		 */
-   549		if (attr->sched_priority > MAX_RT_PRIO-1)
-   550			return -EINVAL;
-   551		if ((dl_policy(policy) && !__checkparam_dl(attr)) ||
-   552		    (rt_policy(policy) != (attr->sched_priority != 0)))
-   553			return -EINVAL;
-   554	
-   555		if (user) {
-   556			retval = user_check_sched_setscheduler(p, attr, policy, reset_on_fork);
-   557			if (retval)
-   558				return retval;
-   559	
-   560			if (attr->sched_flags & SCHED_FLAG_SUGOV)
-   561				return -EINVAL;
-   562	
-   563			retval = security_task_setscheduler(p);
-   564			if (retval)
-   565				return retval;
-   566		}
-   567	
-   568		/* Update task specific "requested" clamps */
-   569		if (attr->sched_flags & SCHED_FLAG_UTIL_CLAMP) {
-   570			retval = uclamp_validate(p, attr);
-   571			if (retval)
-   572				return retval;
-   573		}
-   574	
-   575		/*
-   576		 * SCHED_DEADLINE bandwidth accounting relies on stable cpusets
-   577		 * information.
-   578		 */
-   579		if (dl_policy(policy) || dl_policy(p->policy)) {
-   580			if (!cpuset_locked) {
- > 581				guard_cpuset();
-   582				cpuset_locked = true;
-   583			}
-   584		}
-   585	
-   586		/*
-   587		 * Make sure no PI-waiters arrive (or leave) while we are
-   588		 * changing the priority of the task:
-   589		 *
-   590		 * To be able to change p->policy safely, the appropriate
-   591		 * runqueue lock must be held.
-   592		 */
-   593		rq = task_rq_lock(p, &rf);
-   594		update_rq_clock(rq);
-   595	
-   596		/*
-   597		 * Changing the policy of the stop threads its a very bad idea:
-   598		 */
-   599		if (p == rq->stop) {
-   600			retval = -EINVAL;
-   601			goto unlock;
-   602		}
-   603	
-   604		retval = scx_check_setscheduler(p, policy);
-   605		if (retval)
-   606			goto unlock;
-   607	
-   608		/*
-   609		 * If not changing anything there's no need to proceed further,
-   610		 * but store a possible modification of reset_on_fork.
-   611		 */
-   612		if (unlikely(policy == p->policy)) {
-   613			if (fair_policy(policy) &&
-   614			    (attr->sched_nice != task_nice(p) ||
-   615			     (attr->sched_runtime != p->se.slice)))
-   616				goto change;
-   617			if (rt_policy(policy) && attr->sched_priority != p->rt_priority)
-   618				goto change;
-   619			if (dl_policy(policy) && dl_param_changed(p, attr))
-   620				goto change;
-   621			if (attr->sched_flags & SCHED_FLAG_UTIL_CLAMP)
-   622				goto change;
-   623	
-   624			p->sched_reset_on_fork = reset_on_fork;
-   625			retval = 0;
-   626			goto unlock;
-   627		}
-   628	change:
-   629	
-   630		if (user) {
-   631	#ifdef CONFIG_RT_GROUP_SCHED
-   632			/*
-   633			 * Do not allow real-time tasks into groups that have no runtime
-   634			 * assigned.
-   635			 */
-   636			if (rt_group_sched_enabled() &&
-   637					rt_bandwidth_enabled() && rt_policy(policy) &&
-   638					task_group(p)->rt_bandwidth.rt_runtime == 0 &&
-   639					!task_group_is_autogroup(task_group(p))) {
-   640				retval = -EPERM;
-   641				goto unlock;
-   642			}
-   643	#endif /* CONFIG_RT_GROUP_SCHED */
-   644			if (dl_bandwidth_enabled() && dl_policy(policy) &&
-   645					!(attr->sched_flags & SCHED_FLAG_SUGOV)) {
-   646				cpumask_t *span = rq->rd->span;
-   647	
-   648				/*
-   649				 * Don't allow tasks with an affinity mask smaller than
-   650				 * the entire root_domain to become SCHED_DEADLINE. We
-   651				 * will also fail if there's no bandwidth available.
-   652				 */
-   653				if (!cpumask_subset(span, p->cpus_ptr) ||
-   654				    rq->rd->dl_bw.bw == 0) {
-   655					retval = -EPERM;
-   656					goto unlock;
-   657				}
-   658			}
-   659		}
-   660	
-   661		/* Re-check policy now with rq lock held: */
-   662		if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
-   663			policy = oldpolicy = -1;
-   664			task_rq_unlock(rq, p, &rf);
-   665			goto recheck;
-   666		}
-   667	
-   668		/*
-   669		 * If setscheduling to SCHED_DEADLINE (or changing the parameters
-   670		 * of a SCHED_DEADLINE task) we need to check if enough bandwidth
-   671		 * is available.
-   672		 */
-   673		if ((dl_policy(policy) || dl_task(p)) && sched_dl_overflow(p, policy, attr)) {
-   674			retval = -EBUSY;
-   675			goto unlock;
-   676		}
-   677	
-   678		p->sched_reset_on_fork = reset_on_fork;
-   679		oldprio = p->prio;
-   680	
-   681		newprio = __normal_prio(policy, attr->sched_priority, attr->sched_nice);
-   682		if (pi) {
-   683			/*
-   684			 * Take priority boosted tasks into account. If the new
-   685			 * effective priority is unchanged, we just store the new
-   686			 * normal parameters and do not touch the scheduler class and
-   687			 * the runqueue. This will be done when the task deboost
-   688			 * itself.
-   689			 */
-   690			newprio = rt_effective_prio(p, newprio);
-   691			if (newprio == oldprio)
-   692				queue_flags &= ~DEQUEUE_MOVE;
-   693		}
-   694	
-   695		prev_class = p->sched_class;
-   696		next_class = __setscheduler_class(policy, newprio);
-   697	
-   698		if (prev_class != next_class && p->se.sched_delayed)
-   699			dequeue_task(rq, p, DEQUEUE_SLEEP | DEQUEUE_DELAYED | DEQUEUE_NOCLOCK);
-   700	
-   701		queued = task_on_rq_queued(p);
-   702		running = task_current_donor(rq, p);
-   703		if (queued)
-   704			dequeue_task(rq, p, queue_flags);
-   705		if (running)
-   706			put_prev_task(rq, p);
-   707	
-   708		if (!(attr->sched_flags & SCHED_FLAG_KEEP_PARAMS)) {
-   709			__setscheduler_params(p, attr);
-   710			p->sched_class = next_class;
-   711			p->prio = newprio;
-   712		}
-   713		__setscheduler_uclamp(p, attr);
-   714		check_class_changing(rq, p, prev_class);
-   715	
-   716		if (queued) {
-   717			/*
-   718			 * We enqueue to tail when the priority of a task is
-   719			 * increased (user space view).
-   720			 */
-   721			if (oldprio < p->prio)
-   722				queue_flags |= ENQUEUE_HEAD;
-   723	
-   724			enqueue_task(rq, p, queue_flags);
-   725		}
-   726		if (running)
-   727			set_next_task(rq, p);
-   728	
-   729		check_class_changed(rq, p, prev_class, oldprio);
-   730	
-   731		/* Avoid rq from going away on us: */
-   732		preempt_disable();
-   733		head = splice_balance_callbacks(rq);
-   734		task_rq_unlock(rq, p, &rf);
-   735	
-   736		if (pi)
-   737			rt_mutex_adjust_pi(p);
-   738	
-   739		/* Run balance callbacks after we've adjusted the PI chain: */
-   740		balance_callbacks(rq, head);
-   741		preempt_enable();
-   742	
-   743		return 0;
-   744	
-   745	unlock:
-   746		task_rq_unlock(rq, p, &rf);
-   747		return retval;
-   748	}
-   749	
+  1782	
+  1783	static void ps3_scsih_print_hw_req(struct ps3_cmd *cmd, unsigned char log_level)
+  1784	{
+  1785		struct IODT_V1 *req = NULL;
+  1786		struct ps3_pd_entry *pd_entry =
+  1787			(struct ps3_pd_entry *)cmd->io_attr.pd_entry;
+  1788		if (pd_entry == NULL)
+  1789			return;
+  1790		ps3_scsih_print_req_head(cmd, log_level);
+  1791		switch (pd_entry->dev_type) {
+  1792		case PS3_DEV_TYPE_SAS_HDD:
+  1793		case PS3_DEV_TYPE_SAS_SSD:
+  1794			req = &cmd->req_frame->hwReq.sasReqFrame;
+> 1795			LOG_LEVEL(log_level,
+  1796				  "hno:%u cmdProto:%d cmdType:%d\n"
+  1797				  "\tcmdLen:%d dataAddr:0x%llx sgeMode:%d\n"
+  1798				  "\tdirect:%d function:%d phyDiskID:%d\n"
+  1799				  "\treqFrameID:%d CmdWordType:%d cmdDir:%d\n"
+  1800				  "\tdataBufLenDWAlign:0x%x iuSrc:%d sataCtl:%d\n",
+  1801				  PS3_HOST(cmd->instance), req->protocolType,
+  1802				  req->frameType, le32_to_cpu(req->cmdLen),
+  1803				  le64_to_cpu(req->dataBaseAddr), req->dmaCfg.sgMode,
+  1804				  req->commonWord.direct, req->commonWord.function,
+  1805				  le16_to_cpu(req->commonWord.phyDiskID),
+  1806				  le16_to_cpu(req->commonWord.reqFrameID),
+  1807				  req->commonWord.type, req->cmdDir,
+  1808				  le32_to_cpu(req->dataBufLenDWAlign), req->iuSrc,
+  1809				  req->sasCtl);
+  1810			ps3_scsih_print_cdb(req->B.cdb);
+  1811			break;
+  1812		case PS3_DEV_TYPE_SATA_HDD:
+  1813		case PS3_DEV_TYPE_SATA_SSD:
+  1814			req = &cmd->req_frame->hwReq.sasReqFrame;
+  1815			LOG_LEVEL(log_level,
+  1816				  "hno:%u cmdProto:%d cmdType:%d\n"
+  1817				  "\tdataAddr:0x%llx sgeMode:%d\n"
+  1818				  "\tdirect:%d function:%d phyDiskID:%d\n"
+  1819				  "\treqFrameID:%d CmdWordType:%d cmdDir:%d\n"
+  1820				  "\tdataBufLenDWAlign:0x%x lba:0x%llx\n"
+  1821				  "\topCode:0x%llx iuSrc:%d sataCtl:%d\n",
+  1822				  PS3_HOST(cmd->instance), req->protocolType,
+  1823				  req->frameType, le64_to_cpu(req->dataBaseAddr),
+  1824				  req->dmaCfg.sgMode, req->commonWord.direct,
+  1825				  req->commonWord.function,
+  1826				  le16_to_cpu(req->commonWord.phyDiskID),
+  1827				  le16_to_cpu(req->commonWord.reqFrameID),
+  1828				  req->commonWord.type, req->cmdDir,
+  1829				  le32_to_cpu(req->dataBufLenDWAlign),
+  1830				  le64_to_cpu(req->C.lba),
+  1831				  (unsigned long long)req->C.opCode, req->iuSrc,
+  1832				  req->sataCtl);
+  1833			break;
+  1834		case PS3_DEV_TYPE_NVME_SSD:
+  1835			break;
+  1836		default:
+  1837			LOG_LEVEL(log_level, "hno:%u dev_type:%d\n",
+  1838				  PS3_HOST(cmd->instance), pd_entry->dev_type);
+  1839			break;
+  1840		}
+  1841	}
+  1842	
 
 -- 
 0-DAY CI Kernel Test Service
