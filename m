@@ -1,234 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E7D1F8908
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 06:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754633463; cv=fail; b=rIOOsszeWTb7hNFal6upFcGBbc1wJRt9ui36pGjOnYoECBCjOHv1pDlStxQiA1xdAK+E9WePMxPyV7GshPnCUZeDYXCAISBqYmd1/CsAcdkCC42vqY864VfJB4NhjJ3mZWqTv8d0UUHjZE2XxKoGp68g2YKyG4JARtddEUNLg+w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754633463; c=relaxed/simple;
-	bh=4iLgY8IcTSvxkN+8Ipg/jvqxd1Skh6ZXkUCFJCdC0Lk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=KAUDEIgSlT0Yg9BovDPrN4weHtUu4r6t2bLKJVfCzOyTSLkYU1qPZwckh84EHA4CmUGU838WH5KzIsx8nYE1jPpzi9mu1HFCmVd7WTGqFN5Aj7XPOq9ok/ZF32sGLfh63PG48O/WApCh6uLhAI0YHDreJtc3+PvVEDgRU6al9E4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlrYRAH9; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB9423C504
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 06:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754633921; cv=none; b=jmYMr1BT0UgLNx/q13aXB2sczLMAjUO3iYewNPGVCs9Y31G+W9Stom+RmK7TIGPWjHml+gu0vGtmvIVxoQUliQUUiID5efA6n75bbYvgSd+LrKjwVXMuVgktU4L4N1dbd9KkQ/Asu+RjzokTfZUZk8eARzb9wnbDuirm3SNlFwI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754633921; c=relaxed/simple;
+	bh=5jyhpgt+BDxkaxZZBWU0KD1x+ZIQgHTRC0xAKTuRQOA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Tfp3b+0EXYLCTm+is0h7Db3RlV+1GHQb0J5BoIYw4YOuSFbH0YAPkltdaD/crONIJ7xVkla+DlI93O2NNJOzZeG5F6nYhi6LK4MF6k6WpouJsbX/PqvUfdj3dTZwE+Eg6N+COA8qWq3E6q4lvuXLXc6mJ+WLUqNfkpZeOkKv9vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gClibKVq; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlrYRAH9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754633462; x=1786169462;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=4iLgY8IcTSvxkN+8Ipg/jvqxd1Skh6ZXkUCFJCdC0Lk=;
-  b=XlrYRAH9gE1DITPYtRFnzRMtpgJxo93bddGYKuGsynMsh6zLNIG6SYL1
-   qIr75iQ6PvEY2AIosxtrOuuRPeuYMtU9C4kkBodvwsJsSJ9mETEfwWzwq
-   WBWcmandT9LOWOZz52X2Hh1FaCs3RtrsII2onMUYQq3PaDKi2WvBJiUWw
-   fh8GU/9rOEq2toUYemOBJlziFq4vmGExUMIfY1HfM6em0I+V1xbUk2Iun
-   JCXvpb85uM51zmkXuRgzz74TDyhQIRhbm0sPmwboRnjq/DF6xho9EhjyG
-   LLrqVue8oyz12DyJa2C5sYnNwoBFjb+uajZonZgE8SUxG4RxanemOM6fp
-   w==;
-X-CSE-ConnectionGUID: LXfKf26jSf2U92krlVBBhQ==
-X-CSE-MsgGUID: zV4m+wMdSS6LzChbAVCf7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57110173"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="57110173"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 23:11:01 -0700
-X-CSE-ConnectionGUID: qS86rPRZQCCsmnhBWt0ckw==
-X-CSE-MsgGUID: YJuErNaNTe6UzXmAbf5OSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="165588086"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 23:11:01 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 7 Aug 2025 23:11:00 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Thu, 7 Aug 2025 23:11:00 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.68)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 7 Aug 2025 23:11:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OOg91Ya1ncZFbs3cjVDO6/wdErh17drRheCg9+4n0pjUMVbirvYcSbVhodF2HeeeXUGhrwoszz6pXQfkhuPErvB9i7ojg6cDuHZSaBxa4DXD6BV+2Pr1pTJA27DwhZ+n0xgtuOEtQxnP98XhQ3/YyR16dTjXo89u2HZe2VKB/p811UgLeJ9ic0I/PU7mbswr0CL84cKYgluHpAefeAteP1UTRGSiR5nQhM1Mx9sBTFm/z377wv9cHT9xPpHLktoP/xz3ZF/WSAubWHwQGYHcTKywMurlYxyGQRaWD7MIc2C94wdb8KQ4rh7szy3G2tIcaFivs+2jgAOzaht6izWjQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aaZ6Ek+6rzIDnTX7P5wxzrhK/3/5agObd+aG+f7dIwg=;
- b=Qug1zITRTbR7w4XdXAUN3mlWAs/KP4heHJMuHz/UFU95fcMFEED952X62K7qWPQopP3zBrY+1y+a0sNzkORuVKSs6Po0BfRgn/4bm35UofvqYRyJmXT7PdPSujLXlGJ0C5JkGCYZPcxju3hypfPWLrJgaTeO8qCPDame11S6auGMU7EW/d0x8IMW4ornpghOy6qxjZ2W4gRjteHiNYFuZDOufBP8iUSaBMS08prEBlQDxZ6UMfIxxbbD1WZwkmz6uGvJN9PBXJIhiW2U1BEH9xRBq4ESGgRM0R4wZ7SVMwnPL63r12o9jSpK4zuxMHGnTxQIOXQmdf6ck6c6JVrwig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
- by SA0PR11MB4640.namprd11.prod.outlook.com (2603:10b6:806:9b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.15; Fri, 8 Aug
- 2025 06:10:58 +0000
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a%3]) with mapi id 15.20.9009.017; Fri, 8 Aug 2025
- 06:10:58 +0000
-Date: Fri, 8 Aug 2025 14:10:49 +0800
-From: Philip Li <philip.li@intel.com>
-To: SeongJae Park <sj@kernel.org>
-CC: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, kernel test robot
-	<lkp@intel.com>, Suren Baghdasaryan <surenb@google.com>,
-	<oe-kbuild-all@lists.linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>, Vlastimil Babka
-	<vbabka@suse.cz>
-Subject: Re: [sj:mm-new 42/45] ERROR: modpost: __ex_table+0x1584 references
- non-executable section '.rodata.spk_ttyio_synth_probe.str1.4'
-Message-ID: <aJWU6RA+t1XpJLY/@rli9-mobl>
-References: <aJRS3iAcvITYGKxq@rli9-mobl>
- <20250807155805.25652-1-sj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250807155805.25652-1-sj@kernel.org>
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gClibKVq"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-459e72abdd2so9892545e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Aug 2025 23:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754633916; x=1755238716; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P7RIsXB68e0SHO66jn538SbRetR4ixeEsGHY8vTLjIc=;
+        b=gClibKVqqpk57miG+uQaU7WjXazEEjuXr5GUFIxmsJOMFjpnKKHCqDlh+EsHYL2L4A
+         A73UtRu90Z64Sl86q2nD80adV6VeYGjp4YkcHOginoneVDxWZZnNkOd1ahuguYUU3IrX
+         WLxObl+Ssx0clKbVIDVIJiBz2lxC6tubznja6UmdnJm3XeBef+q5A3BoYAUNSDvJRcau
+         ome7l1Y2LAjpPxP6pDW7Hy4xroZsNZzaT85CY5Zc1V6V7DHdLV/Xb/fxdgNnXjdPKEun
+         TyK+CgK448Utu7fk2kyBG0LrHdhLQ7vAcxwtqjQ7C1ow/l1+m+EMXCfVjL6bgCGRV1Ih
+         UBHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754633916; x=1755238716;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P7RIsXB68e0SHO66jn538SbRetR4ixeEsGHY8vTLjIc=;
+        b=Qb4vzGowpadMKmwmV0IuaOAn1k9lROQSHhQJ9cxqnDt9/7pUQh/SfZ3gkHnET8qIi+
+         IZAwEHDkN+NVLs6fQxiKTIdfHb81hCNv5ymflDUTL4qno06WT8llTo9MujKcJ6fRulYl
+         G+E5S/c46ApMj48eIp46H5Cphekn5W8SdcimTey5VYRonfcCD5hdTYvJNoovOu8/YKOL
+         YnIOG+rj9ah6tm3CyyQaJgBe4drfCiUcDOwo7YRZ5SOAlT0jpyp1GKxgEI1Co7DaMCtG
+         +Jvdnvp4HKAr7s8xnIa+xSm1frhOM6hCev2HKck0rRX+oNZyRNbvnvVYw2SALxJSjMLj
+         iYnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVyizEor3PeWvPMfqgHNdE7Db2UnhApHr2dvALoUBgv9aFikvQSE49ZaZWMmnbGWHQVSE9AcIuvtzRHaXF0@lists.linux.dev
+X-Gm-Message-State: AOJu0YyklqxcedZVVPrFWFe0fMdOl6RT3mc+2+cly9VtATyV2AIYSonx
+	AeeZR+StniE3W+gxa4xFTa5XLj0NHgczP52LTseaCyd2T9nR7RDgXTeY69ZxH3pBaMQ=
+X-Gm-Gg: ASbGnctMH73TpcoLwFh8tn/V/eQO8T1y7jfnq1QWZ51aGMccbPRn3dL2BdqMS7vu+V0
+	x72s3AwUbkYp4m6FMskogGSOdHLNQ6AX7LxTlgB3QYBJDSUvpJTKUs8bVzmqmqGnGmUjh/j3f+O
+	qdu5sZMp9qVrainPgy/mxVemYMrCZ/dA4tuZ2c2heNgWdUtkgZ3T8vHslMz8tY/gjrdBsf5ocv8
+	yqZT6L45U8R/MhoPgwUpgkHy6WHBNxr9dFojwB2TMwtpbtRob6baPCvIz98jk+TghIKKCYBZ9gj
+	5xZsIulKbJga9IAxINeq0RBcwcIoaHt42Y10N9AQnc34G/2b/ay4gJMNl4c+5BggG8mGPupBpUl
+	ALmniEYSxkNg8W7LPgIUCuMocgzk=
+X-Google-Smtp-Source: AGHT+IEDLRIQ9owcf9ThKRXWFI12UhGQS8vV/ePq5BRuHjymZcYzzH9Mcmd5jexSCMSdAkCMzo1UcA==
+X-Received: by 2002:a05:6000:2dc2:b0:3a4:d9fa:f1ed with SMTP id ffacd0b85a97d-3b900b2d7a2mr1371816f8f.13.1754633915858;
+        Thu, 07 Aug 2025 23:18:35 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e79ef4c8sm109017825e9.6.2025.08.07.23.18.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Aug 2025 23:18:35 -0700 (PDT)
+Date: Fri, 8 Aug 2025 09:18:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lokesh Gidra <lokeshgidra@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] userfaultfd: opportunistic TLB-flush batching for
+ present pages in MOVE
+Message-ID: <66de1a4d-b98b-4b37-9050-4a4ae69e2af7@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|SA0PR11MB4640:EE_
-X-MS-Office365-Filtering-Correlation-Id: de3cdd46-ba1a-439c-caae-08ddd6425796
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0DEcZ2faGZXaSAbTkt4ld/dmJxcsCkpYyG9IoMyQjaewB9uyEsA4U85gGfr7?=
- =?us-ascii?Q?aZcRo1E7dKds7HfxA4/JtUpuUV6tsUU2+ET6cYVM88QrDnaLHiuR5+BW46nA?=
- =?us-ascii?Q?16U2gEDV14KtoYyMDNDPnMqBPxh+j7A/SrEzPCAIbN8+0Hx8HAplfW5Xe+wi?=
- =?us-ascii?Q?PEvuqlAAVpNQitNwGu947qLjjT+/Dfa4jS9BydAoNuLaOfWjwiFLW53JJJuE?=
- =?us-ascii?Q?LavDWLy9aAD2/8862Jcel0RwjxLqDlaSlqE5rcfcW9chexCLPBl5wB9k9lPJ?=
- =?us-ascii?Q?8scViMWMRn5DuWbQS+fV0e+Y3uF+wmBx7M/ikkLwU3KA8FAYj0AT9hdURx/t?=
- =?us-ascii?Q?gpGScZYKJC8P0P2S3WY/9U/KYI4I/j/nYy+hvNKT5y0HYLjnEzKkfEcsAxGm?=
- =?us-ascii?Q?oZKVCtBxpEvIcfVxkcsfHxdl3OplwzLjWoFJybUSWP6vLgAw6QveOA2szxRc?=
- =?us-ascii?Q?zx4XmC8kJw5cYIYqZMENkPPuiKAd0kr16wU5NQtr4BK5dsxeuYwCSNG4vzyl?=
- =?us-ascii?Q?K2wk+HnSKycGvqK0dHZamVMdnXV7WCtgusQ6/G/w6/lhDd9qAR+FKFPtf3c6?=
- =?us-ascii?Q?MthMlX1l/VomILzoOWZOL7w+QhuZUYscfgx079Yss53nW1lbfEpy8X47BlIl?=
- =?us-ascii?Q?Rd+eydmjdG17+s/MZ12M62SEOxiKfYHue91WO+70hKKcaa0dZgnPc1GFdw8u?=
- =?us-ascii?Q?GQ/F8fzuCTbr1o9Z9ZEqfXkcmgLQUQfXnJKNL78juo6eYWv4MyR0Mpr/z8R0?=
- =?us-ascii?Q?QPewk7FjqnWN5XuZysJwmiyfs9I4P5Oi0n4wRhDpE7XqiyxlWObMg5ocqR2Z?=
- =?us-ascii?Q?UGOZbNcFzev7tGWowu+20C1LJvaVzb7szW9FmW0oQLBrwLdS0CG02JogBEgx?=
- =?us-ascii?Q?oLAsV5v3yRz+byyLWTctYMvYGAJv+AQ68ww8ZkVH2ZaAWoKirX2RQkyHfV91?=
- =?us-ascii?Q?3Qa8LYZJExIvAewF95OGnBaw+10/wpr2y9lQeTuCnZifjgScQQztFUVsL8KT?=
- =?us-ascii?Q?Jd4xHOjkhiyhnGb2h1XYGFIUhjzaJ/0KNPY1vd4tvzwzaL5Ml7hJQSnilscQ?=
- =?us-ascii?Q?nnSIo8O9wdFBGofDczKZZFqp1zZ0l5ZoUcrTtD/SkC2Ri/HumQeFgmj6Sbg+?=
- =?us-ascii?Q?rf2DvIMK1V3tjMZpfxz7C6+JrCDQKlT+redIY4WuZcRFVDp2j/0IKRuFJDBJ?=
- =?us-ascii?Q?urrf/gv59soIwC1YDpR5sY3+BtDNmC+3UP9LO+cg3hIsFoTiSPrt4qdaguey?=
- =?us-ascii?Q?B6Vzfz9RdWKJtyNu36eP0J167yiQIHB79XfYVs7rrTVPPFjkKOXJTPbG0Akp?=
- =?us-ascii?Q?Vj/9UtrBLVpsZjpMe4Ziba85ny6w8NQZDROLikev2sd4dP5CuhL1F8KFA7Ce?=
- =?us-ascii?Q?4vGFVXBEEflzOoWktV7N3uIKoi4rLy8ZVRkLz7ySnIKTb0kXAENjO/8J1aKE?=
- =?us-ascii?Q?c3YQ6NK7ejo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uzQTJBJQ+EhubYttdi4H1tuqdzgryGyBkDcgsz7d2X4DuvxakOi48sQXb5Bf?=
- =?us-ascii?Q?7fzN6e7UGJtl2HWrdCYffLetjv/Pequ5PvV5U98943R7h2qg0X2+sjGvGFDF?=
- =?us-ascii?Q?4+8JOdM8VW1hbCrTBo2Eih0iVPH/GZ5JL4XEpa22vWN5O9ZTqU6Q9GIr2l7p?=
- =?us-ascii?Q?AQ//whDckchMjquzJkBOtWc6o108bBwY27ryR0zR0mfYO1s8X9BD0XoeKGT4?=
- =?us-ascii?Q?zwZv7WgPYWtzhaw89qvWsfN/rWipwq6mb0DBRodscuNDHH1cAoFYSe0H2esB?=
- =?us-ascii?Q?IV9PrH1HO0HeWuROaQ5w8/Xr2vYaAk/VA5D/yMfN8nCmEX/4yiHtCSHs55tH?=
- =?us-ascii?Q?zoUQCmsqLkIJWOwlNTSoefEtEIhGDADJdqqYew1FB6Pgfh8wuADlbm44n1Et?=
- =?us-ascii?Q?JPIvOAoyQ12to8L6Wnx6/O9YU0g5PWqiIIAa/9cmINrT9XzL3PU4wguavsO6?=
- =?us-ascii?Q?/VYzwdFntdAcdqVwHkgoHx9DjtrjYUgpX9m8Hb31kRbeM2IydmTRT0t3RY9R?=
- =?us-ascii?Q?uqMmZbZmY4U4cleTgPeVPndX6oNJDsW3OxUcJj5Lwx9W5GGCzU12wAtQRMQG?=
- =?us-ascii?Q?hHMRouDIaG9p7fn1aEt13CP+4au70v5VIcxdptXVQz139zt/jXVZVAhOflpg?=
- =?us-ascii?Q?Z5dg+3NCIWSjDwt6xMhW8K90undMkxjBfB7Zk+ojVTcXHq1sUfuxhhpodVeX?=
- =?us-ascii?Q?xuu56g0WTcDbClQZITTjIC1ZOOV8xmi5IE9JEIFUuqjdHjHbeEMsAEGNK7r/?=
- =?us-ascii?Q?jf96t5OWJTIcSIP5xRM3gt7wSew9tu+pnjtG3TdmgSFVVNUiROYyf7bGSQ3B?=
- =?us-ascii?Q?lf2BaI7xTIMCZmQos46PaSHNH098tXO41VxDHb1CTgjO9L7IcYEeqQR1vgld?=
- =?us-ascii?Q?lVSfZjz65AGxFEHzOcvq4/w8jJnyk9cPEI91TW1JROwJf+dIWXo+6szQzDGH?=
- =?us-ascii?Q?coCRtOd3AR053WiULDOs5y3PR9FQ7l76F5jh2/Ri+so6LAGiBD05LjQrtPAD?=
- =?us-ascii?Q?qUv4DbrYE3cdAV8y0NcJmXPW0zuzCClhNM36aw0+fnBITveOehw6vZojUE3b?=
- =?us-ascii?Q?I65L3cLedywWk/LvnY1I8P9Bk3WBFJ8NeFo0BUjql8uzDhEmq5cbaBPIE/Fd?=
- =?us-ascii?Q?awzdIKZcGg2TEYxBBW0UOowuv/7GJf78C5+V7zRNx28ZCh9qqJf7eUDH84YN?=
- =?us-ascii?Q?UMxV6IF7hRD8RYDZapBhtjcGF8Im2iTuDimKNu4zOloWb9EkccnGYJLwjRJC?=
- =?us-ascii?Q?1PJWeF6bcV/WO8R822mpvxzHmhyEmSQJzUsHj/xLlEO7RF1hHdPtmZj9Zl5L?=
- =?us-ascii?Q?FZA0nuPfAq8TarLlWiebMdQxGm/QC3YvcfqALmoqfrDRAJUX+7YYFmDvmJAb?=
- =?us-ascii?Q?8y0T0jgVeSCndseTmHfiAH2aIhs16JPxJIczUPpFcNoJ1X2wG+QXKkhLpnnh?=
- =?us-ascii?Q?mwBnZoUXlPmiNRGysTrTfIBXRZ+PkgZhA6KdXHwot0l6md0X1n4QmLVNHqRl?=
- =?us-ascii?Q?8R3jGOGoAE32k4bx9+Rltu47ci+0HIcthO9ufv9nYoOmXSG0Xlt3TUZ6cFCv?=
- =?us-ascii?Q?e8v54a6MGtCKT0mZJ729jmCG6ivY4754ISuzchFn?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: de3cdd46-ba1a-439c-caae-08ddd6425796
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2025 06:10:58.4312
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KCMni6uJa7dKQj9b4KLKKfsTySZ6Y9ww/uvuXwJxVnYhb3kRdgAQm5do05MPg0QPGFHcFQgIE4JdJC+d4TLqsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4640
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250807103902.2242717-1-lokeshgidra@google.com>
 
-On Thu, Aug 07, 2025 at 08:58:05AM -0700, SeongJae Park wrote:
-> On Thu, 7 Aug 2025 15:16:46 +0800 Philip Li <philip.li@intel.com> wrote:
-> 
-> > On Wed, Aug 06, 2025 at 10:51:38PM -0700, SeongJae Park wrote:
-> > > On Wed,  6 Aug 2025 22:43:49 -0700 SeongJae Park <sj@kernel.org> wrote:
-> > > 
-> > > > On Thu, 7 Aug 2025 06:31:25 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
-> > > > 
-> > > > > +cc SJ, as his tree :)
-> > > > 
-> > > > Thank you, Lorenzo!
-> > > > 
-> > > > > 
-> > > > > On Thu, Aug 07, 2025 at 12:03:03PM +0800, kernel test robot wrote:
-> > > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git mm-new
-> > > > > 
-> > > > > Not sure why SJ isn't cc'd when it's his tree?
-> > > > > 
-> > > > > Not sure how easy it would be for the scripts to figure this out.
-> > > > 
-> > > > As people might already realized, it is Andrew's mm-new branch.  I started
-> > > > pushing Andrew's mm-{new,unstable,stable} branches to my tree for backup
-> > > > purpose, since DAMON development branch (damon/next) is using mm-new as its
-> > > > baseline.  Seems it caused confusion to kernel test robot and other people.
-> > > > Sorry about that.
-> > > > 
-> > > > kernel test robot, is there a way to mark mm-{new,unstable,stable} branches on
-> > > > my tree be ignored from your tests?  If there is no good way, I can remove the
-> > > > branches from my tree.
-> > > 
-> > > To stop more confusion first rather than waiting for the answer, I just deleted
-> > > the mm-{new,unstable,stable} branches from my tree.  I don't really depend on
-> > > those branches on my tree since I can keep fetching Andrew's tree or using my
-> > > trees outside of kernel.org.  So this is no problem for me.
-> > > 
-> > > kernel test robot, please let me know if there is a way to mark specific
-> > > branches on my tree be ignored from your tests, though, if you get a time and
-> > > have an idea.
-> > 
-> > Yes, the test bot supports this to ignore branches by pattern, for example,
-> > 
-> > 	branch_denylist: .*-wip|.*-v[0-9]*|.*-[0-9]*
-> > 	branch_denylist: mirror/.*
-> 
-> Cool.
-> 
-> > 
-> > Do you want to just ignore mm-{new,unstable,stable} branches, I can configure the
-> > repo to handle this?
-> 
-> Great, could you please do so?
+Hi Lokesh,
 
-Got it, this is configured now.
+kernel test robot noticed the following build warnings:
 
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
+url:    https://github.com/intel-lab-lkp/linux/commits/Lokesh-Gidra/userfaultfd-opportunistic-TLB-flush-batching-for-present-pages-in-MOVE/20250807-184025
+base:   6e64f4580381e32c06ee146ca807c555b8f73e24
+patch link:    https://lore.kernel.org/r/20250807103902.2242717-1-lokeshgidra%40google.com
+patch subject: [PATCH v3] userfaultfd: opportunistic TLB-flush batching for present pages in MOVE
+config: openrisc-randconfig-r071-20250808 (https://download.01.org/0day-ci/archive/20250808/202508080639.Cf7SyRwQ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508080639.Cf7SyRwQ-lkp@intel.com/
+
+smatch warnings:
+mm/userfaultfd.c:1959 move_pages() error: uninitialized symbol 'step_size'.
+
+vim +/step_size +1959 mm/userfaultfd.c
+
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1802  ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1803  		   unsigned long src_start, unsigned long len, __u64 mode)
+adef440691bab82 Andrea Arcangeli        2023-12-06  1804  {
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1805  	struct mm_struct *mm = ctx->mm;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1806  	struct vm_area_struct *src_vma, *dst_vma;
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1807  	unsigned long src_addr, dst_addr, src_end;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1808  	pmd_t *src_pmd, *dst_pmd;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1809  	long err = -EINVAL;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1810  	ssize_t moved = 0;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1811  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1812  	/* Sanitize the command parameters. */
+31defc3b01d907e Tal Zussman             2025-06-19  1813  	VM_WARN_ON_ONCE(src_start & ~PAGE_MASK);
+31defc3b01d907e Tal Zussman             2025-06-19  1814  	VM_WARN_ON_ONCE(dst_start & ~PAGE_MASK);
+31defc3b01d907e Tal Zussman             2025-06-19  1815  	VM_WARN_ON_ONCE(len & ~PAGE_MASK);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1816  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1817  	/* Does the address range wrap, or is the span zero-sized? */
+31defc3b01d907e Tal Zussman             2025-06-19  1818  	VM_WARN_ON_ONCE(src_start + len < src_start);
+31defc3b01d907e Tal Zussman             2025-06-19  1819  	VM_WARN_ON_ONCE(dst_start + len < dst_start);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1820  
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1821  	err = uffd_move_lock(mm, dst_start, src_start, &dst_vma, &src_vma);
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1822  	if (err)
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1823  		goto out;
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1824  
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1825  	/* Re-check after taking map_changing_lock */
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1826  	err = -EAGAIN;
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1827  	down_read(&ctx->map_changing_lock);
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1828  	if (likely(atomic_read(&ctx->mmap_changing)))
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1829  		goto out_unlock;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1830  	/*
+adef440691bab82 Andrea Arcangeli        2023-12-06  1831  	 * Make sure the vma is not shared, that the src and dst remap
+adef440691bab82 Andrea Arcangeli        2023-12-06  1832  	 * ranges are both valid and fully within a single existing
+adef440691bab82 Andrea Arcangeli        2023-12-06  1833  	 * vma.
+adef440691bab82 Andrea Arcangeli        2023-12-06  1834  	 */
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1835  	err = -EINVAL;
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1836  	if (src_vma->vm_flags & VM_SHARED)
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1837  		goto out_unlock;
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1838  	if (src_start + len > src_vma->vm_end)
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1839  		goto out_unlock;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1840  
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1841  	if (dst_vma->vm_flags & VM_SHARED)
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1842  		goto out_unlock;
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1843  	if (dst_start + len > dst_vma->vm_end)
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1844  		goto out_unlock;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1845  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1846  	err = validate_move_areas(ctx, src_vma, dst_vma);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1847  	if (err)
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1848  		goto out_unlock;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1849  
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1850  	for (src_addr = src_start, dst_addr = dst_start, src_end = src_start + len;
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1851  	     src_addr < src_end;) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1852  		spinlock_t *ptl;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1853  		pmd_t dst_pmdval;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1854  		unsigned long step_size;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1855  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1856  		/*
+adef440691bab82 Andrea Arcangeli        2023-12-06  1857  		 * Below works because anonymous area would not have a
+adef440691bab82 Andrea Arcangeli        2023-12-06  1858  		 * transparent huge PUD. If file-backed support is added,
+adef440691bab82 Andrea Arcangeli        2023-12-06  1859  		 * that case would need to be handled here.
+adef440691bab82 Andrea Arcangeli        2023-12-06  1860  		 */
+adef440691bab82 Andrea Arcangeli        2023-12-06  1861  		src_pmd = mm_find_pmd(mm, src_addr);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1862  		if (unlikely(!src_pmd)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1863  			if (!(mode & UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1864  				err = -ENOENT;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1865  				break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1866  			}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1867  			src_pmd = mm_alloc_pmd(mm, src_addr);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1868  			if (unlikely(!src_pmd)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1869  				err = -ENOMEM;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1870  				break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1871  			}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1872  		}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1873  		dst_pmd = mm_alloc_pmd(mm, dst_addr);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1874  		if (unlikely(!dst_pmd)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1875  			err = -ENOMEM;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1876  			break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1877  		}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1878  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1879  		dst_pmdval = pmdp_get_lockless(dst_pmd);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1880  		/*
+adef440691bab82 Andrea Arcangeli        2023-12-06  1881  		 * If the dst_pmd is mapped as THP don't override it and just
+adef440691bab82 Andrea Arcangeli        2023-12-06  1882  		 * be strict. If dst_pmd changes into TPH after this check, the
+adef440691bab82 Andrea Arcangeli        2023-12-06  1883  		 * move_pages_huge_pmd() will detect the change and retry
+adef440691bab82 Andrea Arcangeli        2023-12-06  1884  		 * while move_pages_pte() will detect the change and fail.
+adef440691bab82 Andrea Arcangeli        2023-12-06  1885  		 */
+adef440691bab82 Andrea Arcangeli        2023-12-06  1886  		if (unlikely(pmd_trans_huge(dst_pmdval))) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1887  			err = -EEXIST;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1888  			break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1889  		}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1890  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1891  		ptl = pmd_trans_huge_lock(src_pmd, src_vma);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1892  		if (ptl) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1893  			/* Check if we can move the pmd without splitting it. */
+adef440691bab82 Andrea Arcangeli        2023-12-06  1894  			if (move_splits_huge_pmd(dst_addr, src_addr, src_start + len) ||
+adef440691bab82 Andrea Arcangeli        2023-12-06  1895  			    !pmd_none(dst_pmdval)) {
+e06d03d5590ae1c Matthew Wilcox (Oracle  2024-03-26  1896) 				struct folio *folio = pmd_folio(*src_pmd);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1897  
+5beaee54a324ba1 Matthew Wilcox (Oracle  2024-03-26  1898) 				if (!folio || (!is_huge_zero_folio(folio) &&
+eb1521dad8f391d Suren Baghdasaryan      2024-01-31  1899  					       !PageAnonExclusive(&folio->page))) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1900  					spin_unlock(ptl);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1901  					err = -EBUSY;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1902  					break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1903  				}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1904  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1905  				spin_unlock(ptl);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1906  				split_huge_pmd(src_vma, src_pmd, src_addr);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1907  				/* The folio will be split by move_pages_pte() */
+adef440691bab82 Andrea Arcangeli        2023-12-06  1908  				continue;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1909  			}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1910  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1911  			err = move_pages_huge_pmd(mm, dst_pmd, src_pmd,
+adef440691bab82 Andrea Arcangeli        2023-12-06  1912  						  dst_pmdval, dst_vma, src_vma,
+adef440691bab82 Andrea Arcangeli        2023-12-06  1913  						  dst_addr, src_addr);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1914  			step_size = HPAGE_PMD_SIZE;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1915  		} else {
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1916  			long ret;
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1917  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1918  			if (pmd_none(*src_pmd)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1919  				if (!(mode & UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1920  					err = -ENOENT;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1921  					break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1922  				}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1923  				if (unlikely(__pte_alloc(mm, src_pmd))) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1924  					err = -ENOMEM;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1925  					break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1926  				}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1927  			}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1928  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1929  			if (unlikely(pte_alloc(mm, dst_pmd))) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1930  				err = -ENOMEM;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1931  				break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1932  			}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1933  
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1934  			ret = move_pages_ptes(mm, dst_pmd, src_pmd,
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1935  					      dst_vma, src_vma, dst_addr,
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1936  					      src_addr, src_end - src_addr, mode);
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1937  			if (ret > 0)
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1938  				step_size = ret;
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1939  			else
+3abf06e0c484867 Lokesh Gidra            2025-08-07  1940  				err = ret;
+
+Imagine "ret == 0".
+
+adef440691bab82 Andrea Arcangeli        2023-12-06  1941  		}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1942  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1943  		cond_resched();
+adef440691bab82 Andrea Arcangeli        2023-12-06  1944  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1945  		if (fatal_signal_pending(current)) {
+adef440691bab82 Andrea Arcangeli        2023-12-06  1946  			/* Do not override an error */
+adef440691bab82 Andrea Arcangeli        2023-12-06  1947  			if (!err || err == -EAGAIN)
+adef440691bab82 Andrea Arcangeli        2023-12-06  1948  				err = -EINTR;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1949  			break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1950  		}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1951  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1952  		if (err) {
+
+err is zero so we don't break here.
+
+adef440691bab82 Andrea Arcangeli        2023-12-06  1953  			if (err == -EAGAIN)
+adef440691bab82 Andrea Arcangeli        2023-12-06  1954  				continue;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1955  			break;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1956  		}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1957  
+adef440691bab82 Andrea Arcangeli        2023-12-06  1958  		/* Proceed to the next page */
+adef440691bab82 Andrea Arcangeli        2023-12-06 @1959  		dst_addr += step_size;
+                                                                                    ^^^^^^^^^
+Uninitialized or from the previous iteration.
+
+adef440691bab82 Andrea Arcangeli        2023-12-06  1960  		src_addr += step_size;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1961  		moved += step_size;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1962  	}
+adef440691bab82 Andrea Arcangeli        2023-12-06  1963  
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1964  out_unlock:
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1965  	up_read(&ctx->map_changing_lock);
+867a43a34ff8a38 Lokesh Gidra            2024-02-15  1966  	uffd_move_unlock(dst_vma, src_vma);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1967  out:
+31defc3b01d907e Tal Zussman             2025-06-19  1968  	VM_WARN_ON_ONCE(moved < 0);
+31defc3b01d907e Tal Zussman             2025-06-19  1969  	VM_WARN_ON_ONCE(err > 0);
+31defc3b01d907e Tal Zussman             2025-06-19  1970  	VM_WARN_ON_ONCE(!moved && !err);
+adef440691bab82 Andrea Arcangeli        2023-12-06  1971  	return moved ? moved : err;
+adef440691bab82 Andrea Arcangeli        2023-12-06  1972  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
