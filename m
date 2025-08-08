@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095232E370A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 22:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E3D1DA3D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 22:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754691292; cv=none; b=Z4R7ectqlsG4bS/rYrYwYJL6BZnsAbnR0gY4HX1c75Z80kzoGjVNbjs20WfSKLh3fjGeqBNSmBK72eZJSnTk9VhlTRPHxzuwambqHS+OZmGj8eRdeP+RiBDWu0Ci/nsn383x+hZoMWxg5/8ew38CvrvtV87xQSehKfO583vCXeU=
+	t=1754693428; cv=none; b=NZOSzcyefuFSrgUg31014K9Vb29hVnW3yC6g8gq6QHmbVdL9+gkdueMl1Tt1LESIYOf/C3KGkl1inCKfm0uBYjo+DORg6wVqsvtdsfLc9sk6T+jEfmhAzfvCy/SJZQPlhJa923q91uNBjXHQfCsDMjGajZON70tWUezviX4zOyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754691292; c=relaxed/simple;
-	bh=Va51qyaTkz2CTQqYFwwQTQQj1zq50RUD2yJd6Ld/8Bw=;
+	s=arc-20240116; t=1754693428; c=relaxed/simple;
+	bh=IMgeHccFR5OFgshX/EV7sqMgjHq4FsbdTb0K9rdqLd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fgV459dw65NDZ+0UD69GzjjovNwJjVw5pSuZ0CfebHL4CP1kwo1ZYRAjPq6kD0yDxVJwdXG/5dwybh6QmQmgCd1DbTcY7NJf12dXv5B4hpUKwDHdSDWZnr5jnuE69Hwheap56exLn4dJ3ifQVJUL8lqS9PNKsMmP9JOcAuyYcXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fbGHDyBQ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=PyKFWR80OU8yB/nIhd2p+SxB3QKNtaP89xsYYBa1+pgO0eNBeJhjUa02k5wYlVsNoSMO3RvDJgkhfxETHY0+cB+Eedj8b0qbFpzwrel65Nfb40kqfgthRRoJdwcnH6uSq1wt5tCRr1AEq/Bia5KhydCJxd3xZmPDDykhErul158=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7dg0Cyu; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fbGHDyBQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7dg0Cyu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754691291; x=1786227291;
+  t=1754693426; x=1786229426;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Va51qyaTkz2CTQqYFwwQTQQj1zq50RUD2yJd6Ld/8Bw=;
-  b=fbGHDyBQ0Uv8JYDVM9XZAQvIJpTzuwYEPc8mLQsAvFjxKDHUmRsBrHxx
-   p7HGmT8AegrsF6dPZEvV6SHQlPpN3ksrmnpCE2wkPIgUDKYSR7gkfnoNg
-   iN5aaJHzH6BUrdADsjRuaJFIwwyRUuVH8v/phkqYJTep5Pdhe26FIwzJ2
-   +Ec0q45QrrmgkSgJ8kjhKkyoaXApMjIuDLEpNOGgh3fNt0FE5tFcP5HMV
-   dy7GytwVavJCmD6MS2wjq2h/Do5CzJPZCUMf7WIweDa/Wj2peGNbxQAzV
-   sWfD2ip97q9Ez4+XzmsoPG/7LbPj7gEg9klJ/Z+BkoNCWVriSNdqgAHPh
-   w==;
-X-CSE-ConnectionGUID: oU27gxvLS12BS0iLfv+Dxg==
-X-CSE-MsgGUID: Tj3U7TDiR/qmHqp7zRyfuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="67636577"
+  bh=IMgeHccFR5OFgshX/EV7sqMgjHq4FsbdTb0K9rdqLd8=;
+  b=P7dg0CyuiOJjuCu1Yd39f4AbuSes7GR4zeigY8arQQz4Wcm5bm82Isfq
+   cXJr+JVjW5b9SiSzam9k8lYLVMJZ8rAayip/hlK2/O4jbZYeZ6i8nBIyt
+   fSsdDVRNNN//apCtzxIBP4Y+kKJuUGbkFvafMuMwQxIkPI2CSaVNaaKOR
+   zlSdKynxGKrtkcgFm99OZfAlG9AdXfdIaMTegGNSelVoISbDFsJZLUZmO
+   o5vGohFR0zmDmEdqnr6bJdaxsN8Xq9ItORihOpljGIfwLXB353NZKtqNK
+   gTn87ve8dOwfDP9tnyEKvLqsIlFiM8FZOd4xYFa7B6oNvfxWsHEgLcLVJ
+   A==;
+X-CSE-ConnectionGUID: 891Ipa9kQJy6HPTBM4L08w==
+X-CSE-MsgGUID: dhfB87rvSOuenJJCF46tIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="56970809"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="67636577"
+   d="scan'208";a="56970809"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 15:14:49 -0700
-X-CSE-ConnectionGUID: JPb+1T4QTmiOEChXSiTB/A==
-X-CSE-MsgGUID: sqBD9nHuSUC7wz4ibvOLpQ==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 15:50:25 -0700
+X-CSE-ConnectionGUID: CODSSb9wQLiRlk7TI5Y8Jg==
+X-CSE-MsgGUID: 9R0dXaCBRNaWAsBVTmiBrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="169879650"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 08 Aug 2025 15:14:48 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="169883648"
+Received: from unknown (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa004.jf.intel.com with ESMTP; 08 Aug 2025 15:50:25 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukVLt-0004MU-1R;
-	Fri, 08 Aug 2025 22:14:26 +0000
-Date: Sat, 9 Aug 2025 06:12:26 +0800
+	id 1ukVuo-0002hD-2L;
+	Fri, 08 Aug 2025 22:50:22 +0000
+Date: Sat, 9 Aug 2025 00:49:40 +0200
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2662/2662]
- drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to
- restricted __le32
-Message-ID: <202508090640.BEtBteXt-lkp@intel.com>
+Subject: [android-common:android14-6.1 2/2]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425):
+ 'local-mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202508090023.gTl8uf0V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,180 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   9f11838de785067991187f7d0aa9b340abfba381
-commit: 97a2bb6ece556f3882263ee8df2b77f10c511311 [2662/2662] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
-config: x86_64-randconfig-121-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090640.BEtBteXt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508090640.BEtBteXt-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   c750dc582629811994978507b7055b679be149f0
+commit: 92bc4b7810ed97a7fa9d5d461a33a67b9af3d617 [2/2] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
+config: arm64-randconfig-2051-20250808 (https://download.01.org/0day-ci/archive/20250809/202508090023.gTl8uf0V-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project faa4c4c2dc804c31845d8f036345fac00e016f2d)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508090023.gTl8uf0V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508090640.BEtBteXt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508090023.gTl8uf0V-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le64
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le16
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1795:17: sparse: sparse: cast to restricted __le32
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le16
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le32
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1815:17: sparse: sparse: cast to restricted __le64
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2249:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int length @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2249:33: sparse:     expected unsigned int length
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2249:33: sparse:     got restricted __le32 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2250:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long addr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2250:31: sparse:     expected unsigned long long addr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2250:31: sparse:     got restricted __le64 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2376:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long virtDiskLba @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2376:27: sparse:     expected unsigned long long virtDiskLba
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2376:27: sparse:     got restricted __le64 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2377:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int numBlocks @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2377:25: sparse:     expected unsigned int numBlocks
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2377:25: sparse:     got restricted __le32 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3058:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int numLba @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3058:28: sparse:     expected unsigned int numLba
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3058:28: sparse:     got restricted __le32 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3062:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int sLbaHi @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3062:28: sparse:     expected unsigned int sLbaHi
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3062:28: sparse:     got restricted __le32 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3064:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int sLbaLo @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3064:28: sparse:     expected unsigned int sLbaLo
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3064:28: sparse:     got restricted __le32 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3066:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short cID @@     got restricted __le16 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3066:32: sparse:     expected unsigned short cID
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:3066:32: sparse:     got restricted __le16 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2095:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int length @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2095:25: sparse:     expected unsigned int length
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2095:25: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2096:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long addr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2096:23: sparse:     expected unsigned long long addr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2096:23: sparse:     got restricted __le64 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2119:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long addr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2119:23: sparse:     expected unsigned long long addr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2119:23: sparse:     got restricted __le64 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2868:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2868:36: sparse:     expected unsigned long long dataBaseAddr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2868:36: sparse:     got restricted __le64 [usertype]
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2869:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2869:41: sparse:     expected unsigned int dataBufLenDWAlign:24
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2869:41: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2874:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2874:36: sparse:     expected unsigned long long dataBaseAddr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2874:36: sparse:     got restricted __le64 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2875:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2875:41: sparse:     expected unsigned int dataBufLenDWAlign:24
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2875:41: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2964:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2964:41: sparse:     expected unsigned int dataBufLenDWAlign:24
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2964:41: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2966:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2966:36: sparse:     expected unsigned long long dataBaseAddr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2966:36: sparse:     got restricted __le64 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2971:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int dataBufLenDWAlign:24 @@     got restricted __le32 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2971:41: sparse:     expected unsigned int dataBufLenDWAlign:24
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2971:41: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2973:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long dataBaseAddr @@     got restricted __le64 [usertype] @@
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2973:36: sparse:     expected unsigned long long dataBaseAddr
-   drivers/scsi/linkdata/ps3stor/ps3_scsih.c:2973:36: sparse:     got restricted __le64 [usertype]
-
-vim +1795 drivers/scsi/linkdata/ps3stor/ps3_scsih.c
-
-  1782	
-  1783	static void ps3_scsih_print_hw_req(struct ps3_cmd *cmd, unsigned char log_level)
-  1784	{
-  1785		struct IODT_V1 *req = NULL;
-  1786		struct ps3_pd_entry *pd_entry =
-  1787			(struct ps3_pd_entry *)cmd->io_attr.pd_entry;
-  1788		if (pd_entry == NULL)
-  1789			return;
-  1790		ps3_scsih_print_req_head(cmd, log_level);
-  1791		switch (pd_entry->dev_type) {
-  1792		case PS3_DEV_TYPE_SAS_HDD:
-  1793		case PS3_DEV_TYPE_SAS_SSD:
-  1794			req = &cmd->req_frame->hwReq.sasReqFrame;
-> 1795			LOG_LEVEL(log_level,
-  1796				  "hno:%u cmdProto:%d cmdType:%d\n"
-  1797				  "\tcmdLen:%d dataAddr:0x%llx sgeMode:%d\n"
-  1798				  "\tdirect:%d function:%d phyDiskID:%d\n"
-  1799				  "\treqFrameID:%d CmdWordType:%d cmdDir:%d\n"
-  1800				  "\tdataBufLenDWAlign:0x%x iuSrc:%d sataCtl:%d\n",
-  1801				  PS3_HOST(cmd->instance), req->protocolType,
-  1802				  req->frameType, le32_to_cpu(req->cmdLen),
-  1803				  le64_to_cpu(req->dataBaseAddr), req->dmaCfg.sgMode,
-  1804				  req->commonWord.direct, req->commonWord.function,
-  1805				  le16_to_cpu(req->commonWord.phyDiskID),
-  1806				  le16_to_cpu(req->commonWord.reqFrameID),
-  1807				  req->commonWord.type, req->cmdDir,
-  1808				  le32_to_cpu(req->dataBufLenDWAlign), req->iuSrc,
-  1809				  req->sasCtl);
-  1810			ps3_scsih_print_cdb(req->B.cdb);
-  1811			break;
-  1812		case PS3_DEV_TYPE_SATA_HDD:
-  1813		case PS3_DEV_TYPE_SATA_SSD:
-  1814			req = &cmd->req_frame->hwReq.sasReqFrame;
-  1815			LOG_LEVEL(log_level,
-  1816				  "hno:%u cmdProto:%d cmdType:%d\n"
-  1817				  "\tdataAddr:0x%llx sgeMode:%d\n"
-  1818				  "\tdirect:%d function:%d phyDiskID:%d\n"
-  1819				  "\treqFrameID:%d CmdWordType:%d cmdDir:%d\n"
-  1820				  "\tdataBufLenDWAlign:0x%x lba:0x%llx\n"
-  1821				  "\topCode:0x%llx iuSrc:%d sataCtl:%d\n",
-  1822				  PS3_HOST(cmd->instance), req->protocolType,
-  1823				  req->frameType, le64_to_cpu(req->dataBaseAddr),
-  1824				  req->dmaCfg.sgMode, req->commonWord.direct,
-  1825				  req->commonWord.function,
-  1826				  le16_to_cpu(req->commonWord.phyDiskID),
-  1827				  le16_to_cpu(req->commonWord.reqFrameID),
-  1828				  req->commonWord.type, req->cmdDir,
-  1829				  le32_to_cpu(req->dataBufLenDWAlign),
-  1830				  le64_to_cpu(req->C.lba),
-  1831				  (unsigned long long)req->C.opCode, req->iuSrc,
-  1832				  req->sataCtl);
-  1833			break;
-  1834		case PS3_DEV_TYPE_NVME_SSD:
-  1835			break;
-  1836		default:
-  1837			LOG_LEVEL(log_level, "hno:%u dev_type:%d\n",
-  1838				  PS3_HOST(cmd->instance), pd_entry->dev_type);
-  1839			break;
-  1840		}
-  1841	}
-  1842	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: wifi@0,0 (pci14e4,4425): 'local-mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: wifi@0,0 (pci14e4,4425): 'local-mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: wifi@0,0 (pci14e4,4425): 'local-mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: wifi@0,0 (pci14e4,4425): 'local-mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: wifi@0,0 (pci14e4,4425): 'local-mac-address' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
