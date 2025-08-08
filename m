@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D2B17AE11
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 03:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37259DDAD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 03:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754622794; cv=none; b=KREj8ZOhJVTsTSx3K26NlvWuA5Hnp1XwVp2cuEgUd61fwwfuyjK73ySOGo3YBD/evGgmgnro88R51yZZraGnff5ZvWkE11ecxiZdyy4OWVIwoatxPLiSnidVKLpRGmFyCkCgXROBywP74tTXP8wllxIScGiGzLZ5GuOeAIgoIAc=
+	t=1754624161; cv=none; b=BB4PC8QmLKGY4vLVlJMLFarODCKd9gI+r8kRF2RNUOe2GaQahyJwgS1NWviA964d4Ny89qF2C0zJznCBYjrguQVawlwHM+y25jXIRK8qhwiIMVI4pOY0LPutI9iixGGX1UmWL1PQlWLOxBoO8ipxEKwQVKMMes6m+NRVLDOscdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754622794; c=relaxed/simple;
-	bh=mBgdIHP/BNpyyXUnQA/pf0EX5yT8L8uxrN/rTMFS4xE=;
+	s=arc-20240116; t=1754624161; c=relaxed/simple;
+	bh=2eeo3AcKELFcwxsQkPJ5smawUztIIXb8mi5xTh6jwFg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D2uKGtrZyadm4xrgJdbYKsZkUZWcVe7pi23ve462vGD51bhEyVTQAmcpKwcegfqg1kLKIJmXSxNeUTkOdryj6bPp8dfD3mlrBwKr9yOHtxdR7STeFHmwmdyGnWzxT8TZ/BjM1DFl16E9AB2L5aLraceHUMWCZiIl15YzTaKcVDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EC90drIO; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=JL1qN/oYFqTK4CCjvWa1YzH/YF2NYJtYrboEkxhYFByRk29UgpI1xG0oLF6lbw4+fDGvQK7/38O58z6zforsBqhMvXccsYQX7yA65HBQOLJdrWiFuMBHj8oirz7huMys4rnvFNsEsF29pXrgO8ZlEj4BhWZcWytT1aaRgYHxALw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwWRv5DL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EC90drIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwWRv5DL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754622792; x=1786158792;
+  t=1754624159; x=1786160159;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mBgdIHP/BNpyyXUnQA/pf0EX5yT8L8uxrN/rTMFS4xE=;
-  b=EC90drIOWL0iKnh4rjl2fKPkjQ4buY466KSwdn/kw1beFWfHZAg0WiV+
-   ekCGuHYPsxERdSiMq+z4T8MS4ayvZTWGszlkYLZQ9QfZ11ry27PA7Fwo0
-   /4T60m6eSkwAqGn/AJLY1L4T15/P6dlCfVWlqxE6JMNShyUN8sH3Zkzsz
-   xOBS6gUDS5gB8aCIX8A3Q5mdRfwaTuZcjVDPd6oKy4D/hFt7+aErcd2vQ
-   4q3wbLT+VkgAG1wyTbUmX2yR+xAU2OuNAcqtaDDY0rHKCb/V4PxjGU4X3
-   e/Zmbh4QtCcjsIos26NBttcxNE//41KyNXc0LK6UwA8atAy71PbRhHIaA
-   A==;
-X-CSE-ConnectionGUID: Oqzzdh3CR02sH4QX/FXDlQ==
-X-CSE-MsgGUID: ROD87At/Qw+6LpiZHPB5SA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60776969"
+  bh=2eeo3AcKELFcwxsQkPJ5smawUztIIXb8mi5xTh6jwFg=;
+  b=OwWRv5DLlb/mQ0tanbH1Me9n/L8NzppxDsSdxlan4cjD7NlJASCKT28h
+   pv1hmd3ZUeNta/GLJa074NGaJdSsN5fCzDTF5jKJNFE3mjLEbtkhDamUn
+   9Tts94nWfReGmMQMmEdfiFrkmqTIHQOsxrb1G3fBalY0T76qTch/IVM0Z
+   XFkK71S+wgaL5vDH1U3ZD1saqSHLXbo8a4rehyadVHsle1vpSAW3syqLi
+   +88KvqoL2g4LS9Xl6tu+gWCe1RSaZ4aPy53uJN9UQ4UbZAFz52rgEwFZE
+   eRqRZTzQ5jc4cQF1G8vGtn/QrYm7z5SMQTga0rCIs7MwJSJjs8tCLRC2C
+   Q==;
+X-CSE-ConnectionGUID: K2t10GroR92tIeUVkvPrIA==
+X-CSE-MsgGUID: t6cyUo1sTiGtuPzAtVsy5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57110839"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="60776969"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 20:13:12 -0700
-X-CSE-ConnectionGUID: NnGQOpB8T1yocizuK9IG0g==
-X-CSE-MsgGUID: C6pArgNuQnuK1Tx/xAJFMg==
+   d="scan'208";a="57110839"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 20:35:58 -0700
+X-CSE-ConnectionGUID: +A61NkWHRfqhiLxAV5YA9A==
+X-CSE-MsgGUID: xMzfIYRfTbK8JhnV9B5jGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="196215384"
+   d="scan'208";a="164449015"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 07 Aug 2025 20:13:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 Aug 2025 20:35:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukDXR-0003Uo-1t;
-	Fri, 08 Aug 2025 03:13:02 +0000
-Date: Fri, 8 Aug 2025 11:11:51 +0800
+	id 1ukDtb-0003W0-0Z;
+	Fri, 08 Aug 2025 03:35:55 +0000
+Date: Fri, 8 Aug 2025 11:34:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [linux-next:master 12985/13338]
- arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: /gpio-fsi: failed
- to match any schema with compatible: ['aspeed,ast2500-cf-fsi-master']
-Message-ID: <202508081129.slkPlp47-lkp@intel.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+Message-ID: <202508081101.hx7Fc3HV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,186 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b7d4e259682caccb51a25283655f2c8f02e32d23
-commit: 7f640cf1001b0b61008ad25b2e37444602265a47 [12985/13338] ARM: dts: aspeed: Drop "fsi-master" compatibles
-config: arm-randconfig-051-20250805 (https://download.01.org/0day-ci/archive/20250808/202508081129.slkPlp47-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508081129.slkPlp47-lkp@intel.com/reproduce)
+Hi Darrick,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6e64f4580381e32c06ee146ca807c555b8f73e24
+commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
+date:   9 months ago
+config: arm-randconfig-001-20250808 (https://download.01.org/0day-ci/archive/20250808/202508081101.hx7Fc3HV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508081101.hx7Fc3HV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508081129.slkPlp47-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508081101.hx7Fc3HV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: pca9555@21 (nxp,pca9555): '#address-cells', '#size-cells', 'gpio@0', 'gpio@1', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: pca9555@22 (nxp,pca9555): '#address-cells', '#size-cells', 'gpio@0', 'gpio@1', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: pca9555@23 (nxp,pca9555): '#address-cells', '#size-cells', 'gpio@0', 'gpio@1', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: pca9555@24 (nxp,pca9555): '#address-cells', '#size-cells', 'gpio@0', 'gpio@1', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: pca9555@25 (nxp,pca9555): '#address-cells', '#size-cells', 'gpio@0', 'gpio@1', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: /gpio-fsi: failed to match any schema with compatible: ['aspeed,ast2500-cf-fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: leds (gpio-leds): 'attention', 'bmc_err', 'hdd_fault', 'plt_fault', 'sys_boot_status', 'sys_err' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /gpio-fsi: failed to match any schema with compatible: ['fsi-master-gpio']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: pca9552@60 (nxp,pca9552): 'gpio@0', 'gpio@1', 'gpio@10', 'gpio@11', 'gpio@12', 'gpio@13', 'gpio@14', 'gpio@15', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7', 'gpio@8', 'gpio@9' do not match any of the regexes: '^led@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca955x.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /ahb/apb/bus@1e78a000/i2c@140/ir35221@28: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /ahb/apb/bus@1e78a000/i2c@140/ir35221@29: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /ahb/apb/bus@1e78a000/i2c@140/ir35221@2d: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: leds (gpio-leds): 'fan0', 'fan1', 'fan2', 'fan3', 'fan4', 'front-fault', 'front-id', 'power-button' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /gpio-fsi: failed to match any schema with compatible: ['fsi-master-gpio']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: leds (gpio-leds): 'attention', 'fault', 'identify', 'power' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /gpio-fsi: failed to match any schema with compatible: ['aspeed,ast2500-cf-fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: /ahb/apb/pwm-tacho-controller@1e786000: failed to match any schema with compatible: ['aspeed,ast2400-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: lpc@1e789000 (aspeed,ast2400-lpc-v2): reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: lpc@1e789000 (aspeed,ast2400-lpc-v2): lpc-snoop@90: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2400-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2400-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: /ahb/apb/bus@1e78a000/i2c@40/rtc@68: failed to match any schema with compatible: ['dallas,ds3231']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: leds (gpio-leds): 'heartbeat', 'identify', 'power' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: /gpio-fsi: failed to match any schema with compatible: ['aspeed,ast2400-cf-fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['ibm,fsi-master-hub']
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: leds (gpio-leds): 'fault', 'identify', 'power' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /gpio-fsi: failed to match any schema with compatible: ['aspeed,ast2500-cf-fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca955x.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /ahb/apb/bus@1e78a000/i2c@140/ir35221@70: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /ahb/apb/bus@1e78a000/i2c@140/ir35221@71: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /ahb/apb/bus@1e78a000/i2c@180/ir35221@70: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /ahb/apb/bus@1e78a000/i2c@180/ir35221@71: failed to match any schema with compatible: ['infineon,ir35221']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: pca9552@60 (nxp,pca9552): 'gpio@0', 'gpio@1', 'gpio@10', 'gpio@11', 'gpio@12', 'gpio@13', 'gpio@14', 'gpio@15', 'gpio@2', 'gpio@3', 'gpio@4', 'gpio@5', 'gpio@6', 'gpio@7', 'gpio@8', 'gpio@9' do not match any of the regexes: '^led@[0-9a-f]$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/nxp,pca955x.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /ahb/apb/bus@1e78a000/i2c@400/ucd90160@64: failed to match any schema with compatible: ['ti,ucd90160']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: leds (gpio-leds): 'fan0', 'fan1', 'fan2', 'fan3', 'front-fault', 'front-id', 'front-power', 'power-button', 'rear-fault', 'rear-id', 'rear-power' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /gpio-fsi: failed to match any schema with compatible: ['fsi-master-gpio']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/bus@1e78a000/i2c@40/ucd90160@64: failed to match any schema with compatible: ['ti,ucd90160']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/bus@1e78a000/i2c@300/power-brick@6a: failed to match any schema with compatible: ['delta,dps800']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/bus@1e78a000/i2c@300/power-brick@30: failed to match any schema with compatible: ['delta,dps800']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: leds (gpio-leds): 'attention', 'hdd_fault', 'plt_fault', 'sys_boot_status' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /gpio-fsi: failed to match any schema with compatible: ['fsi-master-gpio']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /gpio-fsi/cfam@0,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@1' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: occ@1 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /gpio-fsi/cfam@0,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: sbefifo@2400 (ibm,p9-sbefifo): '#address-cells', '#size-cells', 'occ@2' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/fsi/ibm,p9-sbefifo.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: occ@2 (ibm,p9-occ): 'reg' does not match any of the regexes: '^pinctrl-[0-9]+$'
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/semaphore.h:11,
+                    from fs/xfs/xfs_linux.h:24,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/xfs_super.c:7:
+   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:133:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     133 |         XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,         3);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:136:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     136 |         XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused,      6);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
