@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AB520ED;
-	Fri,  8 Aug 2025 00:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0192A320F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Aug 2025 00:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754611324; cv=none; b=iTnVFmXb5qc24eyb66c7RG6d4HRkqFK/xp+RKbBjxKiYLOrHFn2XvKkb4+9VTt7Ms7/VJ7uWqhJV5zRCvpqOtXQb599+rJRCJ90zurylUvCAjNitq2G/bI8AumZzv3XCsPcLF+ZIg9tmM+dUMYASn1nu3hMEPmOE43mARIvyEro=
+	t=1754613181; cv=none; b=GqgQLDrRQkkVn9XlSIXrwD1Ax143c3ZYYsR3vezIv1aIJ980V6cDjMH1XBGIgEOu7zkfydnZlGPAhy1OThfJ37QDNeKat0xEgtfKqtzbl1ToELdqPGEj6VTTplr3v6wDXIk6mG3bPO15fvmPdc2U0bo4Is7LWx89Z9Q78KazyBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754611324; c=relaxed/simple;
-	bh=OVvKRnCZPCkUikFXoenXFVKIrczw+FKb6AEftfO2P4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=STxYd34+yHSIEnSiQ5oPsssPt8cT5LsFPdMuOmgpPYZE8C41BRNNutvsqGZxAfaGkoGVAE/lmvfQ4H8EYpvJuLDyoPH0asadfTNs6PpqdZNkW4Y/BUykW5/DufYy9H7XvxC6GtqCOufougqEf94+wsFZHOlmsPQ6AAQgX6wqOds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhVniutn; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1754613181; c=relaxed/simple;
+	bh=tQNkifgP6qzQiJz2MRPWncBVg60SYpOqwqCb6DNEMoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QFgvDhNe0j9Eryez7BYf2INAJ1QcuYvtP3P337RTSjxhW3p1EJNBe0Uc8qorN/RL9m6PY8XHc3QY0flzsChc/7UTPkhc8n2o9miq9wCpvwrfuqcUlWvCLBq/J9nNCWtWGlciNwnVicQNwU2my2hyxtgJA1xJru/e8LpHcjBf5po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHi8U3E/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhVniutn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHi8U3E/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754611323; x=1786147323;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OVvKRnCZPCkUikFXoenXFVKIrczw+FKb6AEftfO2P4w=;
-  b=GhVniutntO7O1vzG948mOEMMSVl9vWick/3Qpr5W0mNmO2ENrrDeQImA
-   qHHzi1zNTyPO2tphcmG17Vf42jkwPDdZYvpTqh2O+QyxHyjZW5lJVYc1M
-   HOoN1dHtS4VFlu43FeBtdyKq67a00108lQxAuVVpgQ0MlqortBxIzu3Fm
-   +UFAOl9hy2CwkK6csdSjwjC6DrQ0nGPWzWo6C2dYUnpZP+tpEdmW4/2N1
-   ndzlEmtRhVFEcOV5XFb6E3Po4nJ7Yi0piA/ERcAxunM14HDX0g0ikGzVj
-   8E6I5oKzSu/gKoGeD1VZFP2LJKuUw/Q1ohO+rcHX5hNeyOqTnigqiq/9/
-   w==;
-X-CSE-ConnectionGUID: 13FYdBsqR5q0C+RAMwFvcw==
-X-CSE-MsgGUID: HubPRFgSRaWGGQSihACzFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="74414986"
+  t=1754613180; x=1786149180;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tQNkifgP6qzQiJz2MRPWncBVg60SYpOqwqCb6DNEMoo=;
+  b=FHi8U3E/ZnP9kkvFkVl/mDo5NJ6Yw7BaADSvtugMh96yRzZ20Tf8d/6e
+   c/7kcxQLRAw8proPbuNfhvu0NkkpNUhSH1YAgPoxns0kc2IlVgrrlsGj8
+   EJGRehVS+qSL5Ug6PJCQD/UoLW6N/CAagLynNg6hnsU2PDksXBcujfIEI
+   SZ518DeBw9R5y5ntlUfnb9hv9uZZxBg6j5+Rej+lSJBSRiJFoDllKVNx5
+   1Gxt6bGvs5vlVTjRaoLSX15lzC9oXLa1fRx2OqoMfwM0sxyBSXqo8vlQC
+   dRBo0DC/UT80KrxTwJ7t6GGh1i28m698EY5+xo8TZbPo+Cn4GvNcNZvTv
+   A==;
+X-CSE-ConnectionGUID: 9kniVWBQQxuw1gA+hJ8SXw==
+X-CSE-MsgGUID: NnRE5OE9TaS2uGB+AEHuWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="67655814"
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="74414986"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 17:02:00 -0700
-X-CSE-ConnectionGUID: K9G9rRQIT+mYRaMSHQtB3w==
-X-CSE-MsgGUID: q4VJ23B+QR6CUoOx9V79fQ==
+   d="scan'208";a="67655814"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 17:32:58 -0700
+X-CSE-ConnectionGUID: Vo8t14XsSymLomKCuJkBfQ==
+X-CSE-MsgGUID: Z3dcMzkNTWaRB46TnHSISQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="202356501"
+   d="scan'208";a="170451417"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 07 Aug 2025 17:01:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 07 Aug 2025 17:32:57 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukAYS-0003NS-0k;
-	Fri, 08 Aug 2025 00:01:52 +0000
-Date: Fri, 8 Aug 2025 08:00:51 +0800
+	id 1ukB2U-0003Oc-32;
+	Fri, 08 Aug 2025 00:32:54 +0000
+Date: Fri, 8 Aug 2025 08:32:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>, David Wu <david.wu@rock-chips.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net] net: stmmac: rk: put the PHY clock on remove
-Message-ID: <202508080746.BIDlKMy5-lkp@intel.com>
-References: <E1ujwIY-007qKa-Ka@rmk-PC.armlinux.org.uk>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1712/1712] mm/memory.c:1546:10: error:
+ implicit declaration of function 'hugetlb_insert_hugepage_pte_by_pa'; did
+ you mean 'hugetlb_insert__hugepage_pte_by_pa'?
+Message-ID: <202508080851.7XV55Lp7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,50 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1ujwIY-007qKa-Ka@rmk-PC.armlinux.org.uk>
 
-Hi Russell,
+Hi Weilong,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-rk-put-the-PHY-clock-on-remove/20250807-165054
-base:   net/main
-patch link:    https://lore.kernel.org/r/E1ujwIY-007qKa-Ka%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net] net: stmmac: rk: put the PHY clock on remove
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20250808/202508080746.BIDlKMy5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7b8dea265e72c3037b6b1e54d5ab51b7e14f328b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080746.BIDlKMy5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   748957057cef2d3b3e35d749c9a1ade66e2b5e73
+commit: 18f49509eef01d1ee6ed81899298994f2f88dd2a [1712/1712] ascend: share_pool: Use remap_pfn_range to share kva to uva
+config: arm64-randconfig-001-20250705 (https://download.01.org/0day-ci/archive/20250808/202508080851.7XV55Lp7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250808/202508080851.7XV55Lp7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508080746.BIDlKMy5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508080851.7XV55Lp7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1774:6: error: use of undeclared identifier 'plat'
-    1774 |         if (plat->phy_node && bsp_priv->integrated_phy)
-         |             ^~~~
-   1 error generated.
+   mm/memory.c: In function 'vm_insert_page':
+>> mm/memory.c:1546:10: error: implicit declaration of function 'hugetlb_insert_hugepage_pte_by_pa'; did you mean 'hugetlb_insert__hugepage_pte_by_pa'? [-Werror=implicit-function-declaration]
+    1546 |   return hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, addr,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |          hugetlb_insert__hugepage_pte_by_pa
+   cc1: some warnings being treated as errors
 
 
-vim +/plat +1774 drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
+vim +1546 mm/memory.c
 
-  1765	
-  1766	static void rk_gmac_remove(struct platform_device *pdev)
-  1767	{
-  1768		struct rk_priv_data *bsp_priv = get_stmmac_bsp_priv(&pdev->dev);
-  1769	
-  1770		stmmac_dvr_remove(&pdev->dev);
-  1771	
-  1772		rk_gmac_powerdown(bsp_priv);
-  1773	
-> 1774		if (plat->phy_node && bsp_priv->integrated_phy)
-  1775			clk_put(bsp_priv->clk_phy);
-  1776	}
-  1777	
+  1504	
+  1505	/**
+  1506	 * vm_insert_page - insert single page into user vma
+  1507	 * @vma: user vma to map to
+  1508	 * @addr: target user address of this page
+  1509	 * @page: source kernel page
+  1510	 *
+  1511	 * This allows drivers to insert individual pages they've allocated
+  1512	 * into a user vma.
+  1513	 *
+  1514	 * The page has to be a nice clean _individual_ kernel allocation.
+  1515	 * If you allocate a compound page, you need to have marked it as
+  1516	 * such (__GFP_COMP), or manually just split the page up yourself
+  1517	 * (see split_page()).
+  1518	 *
+  1519	 * NOTE! Traditionally this was done with "remap_pfn_range()" which
+  1520	 * took an arbitrary page protection parameter. This doesn't allow
+  1521	 * that. Your vma protection will have to be set up correctly, which
+  1522	 * means that if you want a shared writable mapping, you'd better
+  1523	 * ask for a shared writable mapping!
+  1524	 *
+  1525	 * The page does not need to be reserved.
+  1526	 *
+  1527	 * Usually this function is called from f_op->mmap() handler
+  1528	 * under mm->mmap_sem write-lock, so it can change vma->vm_flags.
+  1529	 * Caller must set VM_MIXEDMAP on vma if it wants to call this
+  1530	 * function from other places, for example from page-fault handler.
+  1531	 */
+  1532	int vm_insert_page(struct vm_area_struct *vma, unsigned long addr,
+  1533				struct page *page)
+  1534	{
+  1535		if (addr < vma->vm_start || addr >= vma->vm_end)
+  1536			return -EFAULT;
+  1537		if (!page_count(page))
+  1538			return -EINVAL;
+  1539		if (!(vma->vm_flags & VM_MIXEDMAP)) {
+  1540			BUG_ON(down_read_trylock(&vma->vm_mm->mmap_sem));
+  1541			BUG_ON(vma->vm_flags & VM_PFNMAP);
+  1542			vma->vm_flags |= VM_MIXEDMAP;
+  1543		}
+  1544	
+  1545		if (sp_check_hugepage(page))
+> 1546			return hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, addr,
+  1547						vma->vm_page_prot, page_to_phys(page));
+  1548		else
+  1549			return insert_page(vma, addr, page, vma->vm_page_prot);
+  1550	}
+  1551	EXPORT_SYMBOL(vm_insert_page);
+  1552	
 
 -- 
 0-DAY CI Kernel Test Service
