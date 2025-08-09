@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58027276058
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 15:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F6E185E7F;
+	Sat,  9 Aug 2025 15:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754753448; cv=none; b=NNtXfSH5W8NT5SfE7rQMZeHvELcU19OVW5CFO15OWgLJib5UhFPJJVqm+M/lV6TU0GLpyBcg0n7hVj9JPhujda53KSYUVpyndWvFv3Eeqi8ipYj3GwAxC0TxxhjLKHa9E8ij8NXxXDDjbRt3ah+uV2PMmpM2jKkDRXjSS4fluHw=
+	t=1754755109; cv=none; b=W+Mp+TqGd2w7loBdLkBRSSjKwYiJfpg1dLYYaxukZecGvV/jdBNOiXHdk6JWHWS3isfJ24A/9j9AM73hKABUC4BUJMLa/ST5BNKS2N0iue3atkprYAwknHkIDf6t/3CDVXHuV3Ia0iQsVrq4DQoCZE4yD04BAWRmflRXMm2KqUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754753448; c=relaxed/simple;
-	bh=f+HK2VJeFXZ66mzCW414RG/x+xWx9dy0RDZzXGAwlCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvBCT4O1cfpQTFdVMnopl98+wW7b2a815IXEj3smf7FiSx2TXv3wjF7zat7I0vHBMJUI1kkuE+2ljKhzjfi8XHQunaDIAxMVlc6yvAb/8OHx4osAo4RqXl6xfudKCsNmncB/kZBTOYJK/AHB+ZxEpz2yPZQEs/UZZ5PAv0aV6B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xp8IVI8k; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1754755109; c=relaxed/simple;
+	bh=8oMqUQcCj7807xg8q4FugL5aneXJXllnEIM5FfRg0kA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iNeFgNVrFP18i+eWRMSeVAAD1uDDYZL8BSt4qiDRJXIcEuNRb65tDQJjAIC7/k+8C4bhOcnvNuGV3DZRqbRc1rObTPwyexiQayuDFCamF/Uny2ve0hyFNQEU9c5hyEWPFkY84bOXssRUAoNKv56PMPrHKvyVep1ISmJM5nLejkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=co06f0tl; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xp8IVI8k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="co06f0tl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754753447; x=1786289447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f+HK2VJeFXZ66mzCW414RG/x+xWx9dy0RDZzXGAwlCY=;
-  b=Xp8IVI8kFWQP7J3c4RV+XReMqPeIA1kD7B8mwvIcloqrRBosMMFV52X4
-   1hQBaJJDUiYnDBZsszkK6fSlH09bNiBQ9GDKa3ZVzwncrZvwvG57PwOFU
-   bbMja3nS9SaHY7ZsuRFodiRONoru9N78+ttRjUIjE1Q2TU7OlX5rPBp5P
-   hxYBsvs1VjqppluNFAogN5X0jMwigmvQTOvnoBazXqStnRFCRXXUCL09i
-   SZQCyf5iAUUCk31TAL+iFx06tuXIi5a2bpWnqJtbnXGFK53STK0wgHI1P
-   +gOmrLJw/F2ik4mDdyiotRA+h7sAYV7ZyJPveQNgqZNweurkCZp1O+nkv
-   w==;
-X-CSE-ConnectionGUID: hGa7+0RaSuSbkZ9wWyL0Ww==
-X-CSE-MsgGUID: y0dvD8ZXQLqZ2bs1PX4M8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="60705365"
+  t=1754755108; x=1786291108;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8oMqUQcCj7807xg8q4FugL5aneXJXllnEIM5FfRg0kA=;
+  b=co06f0tlZn8l2hbaWjCA3Mh9A5iO0FQqhd6pMy4TydP2BLWR/bXYTJYS
+   kEm4JkUJzew0MXY6PKQoMRrORfMa1nWSPTFqRZBS0zHrRJlwYZ3PGtZlg
+   2H30x+kwnNB0bmUKXLxdIKtTjYrZGdNOz1+3mQgGFMZOWXaNUExU+nldd
+   QIbFLsLrm6BhLTSxZOfeUhEqapuxuIeFlhLsOO9LsiBsadyTjf3Ms+Nwo
+   5KWqu0TQzPOoYFCaFWJQCwK536JPp5zwpZCO4KQSiUNL213NxxeJdnswM
+   ULR01lOaPsU9AAp5yrMg7NiRhojwPgrsE3tS/0TJyDsqD5YhopfSVLf9P
+   Q==;
+X-CSE-ConnectionGUID: 6RR24PiLSlyGvqZ/wpwIOQ==
+X-CSE-MsgGUID: gsndcvgNTz2z8m1fUGNpOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="60876413"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="60705365"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 08:30:46 -0700
-X-CSE-ConnectionGUID: c2puHhK8QJmT48DZsOS8mw==
-X-CSE-MsgGUID: AoMsAoP3SJ+p0V26BtRxXg==
+   d="scan'208";a="60876413"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 08:58:27 -0700
+X-CSE-ConnectionGUID: cXeVYyzCStqPMSUY3n7Xag==
+X-CSE-MsgGUID: A5IBsZwxTgmXkbVaIOoWlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165965915"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Aug 2025 08:30:43 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="170913817"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by orviesa005.jf.intel.com with ESMTP; 09 Aug 2025 08:58:26 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uklWq-0004sC-1a;
-	Sat, 09 Aug 2025 15:30:40 +0000
-Date: Sat, 9 Aug 2025 23:29:56 +0800
+	id 1uklxf-0002pb-1S;
+	Sat, 09 Aug 2025 15:58:23 +0000
+Date: Sat, 9 Aug 2025 17:57:32 +0200
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Richard Hughes <rhughes@redhat.com>, linux-i2c@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: misc: Add Intel USBIO bridge driver
-Message-ID: <202508092329.U0OxBRAh-lkp@intel.com>
-References: <20250809102326.6032-2-hansg@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:to_build 21/21] drivers/mfd/ezx-pcap.c:197:11:
+ error: call to undeclared function 'gpio_get_value'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202508091701.AhFNLKOZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,39 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250809102326.6032-2-hansg@kernel.org>
 
-Hi Hans,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus brgl/gpio/for-next andi-shyti/i2c/i2c-host linus/master v6.16 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/usb-misc-Add-Intel-USBIO-bridge-driver/20250809-182506
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250809102326.6032-2-hansg%40kernel.org
-patch subject: [PATCH 1/3] usb: misc: Add Intel USBIO bridge driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250809/202508092329.U0OxBRAh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508092329.U0OxBRAh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to_build
+head:   c0a2b3cd5b78ddb721e53baf675d7164a118bc2d
+commit: c0a2b3cd5b78ddb721e53baf675d7164a118bc2d [21/21] gpiolib: turn off legacy interface by default
+config: sparc64-randconfig-2005-20250809 (https://download.01.org/0day-ci/archive/20250809/202508091701.AhFNLKOZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7d886fab74d4037d654d02bed24dd97c0ba863d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508091701.AhFNLKOZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508092329.U0OxBRAh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508091701.AhFNLKOZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/usb/misc/usbio.c:132 struct member 'nr_gpio_banks' not described in 'usbio_device'
->> Warning: drivers/usb/misc/usbio.c:132 struct member 'gpios' not described in 'usbio_device'
->> Warning: drivers/usb/misc/usbio.c:132 struct member 'nr_i2c_buses' not described in 'usbio_device'
->> Warning: drivers/usb/misc/usbio.c:132 struct member 'i2cs' not described in 'usbio_device'
->> Warning: drivers/usb/misc/usbio.c:132 struct member 'nr_spi_buses' not described in 'usbio_device'
->> Warning: drivers/usb/misc/usbio.c:132 struct member 'spis' not described in 'usbio_device'
+>> drivers/mfd/ezx-pcap.c:197:11: error: call to undeclared function 'gpio_get_value'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     197 |         } while (gpio_get_value(pdata->gpio));
+         |                  ^
+   drivers/mfd/ezx-pcap.c:197:11: note: did you mean 'gpiod_get_value'?
+   include/linux/gpio/consumer.h:117:5: note: 'gpiod_get_value' declared here
+     117 | int gpiod_get_value(const struct gpio_desc *desc);
+         |     ^
+   1 error generated.
+
+
+vim +/gpio_get_value +197 drivers/mfd/ezx-pcap.c
+
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  170  
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  171  static void pcap_isr_work(struct work_struct *work)
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  172  {
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  173  	struct pcap_chip *pcap = container_of(work, struct pcap_chip, isr_work);
+334a41ce9b753e Jingoo Han                2013-07-30  174  	struct pcap_platform_data *pdata = dev_get_platdata(&pcap->spi->dev);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  175  	u32 msr, isr, int_sel, service;
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  176  	int irq;
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  177  
+b1148fd46c248c Daniel Ribeiro            2009-06-23  178  	do {
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  179  		ezx_pcap_read(pcap, PCAP_REG_MSR, &msr);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  180  		ezx_pcap_read(pcap, PCAP_REG_ISR, &isr);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  181  
+25985edcedea63 Lucas De Marchi           2011-03-30  182  		/* We can't service/ack irqs that are assigned to port 2 */
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  183  		if (!(pdata->config & PCAP_SECOND_PORT)) {
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  184  			ezx_pcap_read(pcap, PCAP_REG_INT_SEL, &int_sel);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  185  			isr &= ~int_sel;
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  186  		}
+b1148fd46c248c Daniel Ribeiro            2009-06-23  187  
+b1148fd46c248c Daniel Ribeiro            2009-06-23  188  		ezx_pcap_write(pcap, PCAP_REG_MSR, isr | msr);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  189  		ezx_pcap_write(pcap, PCAP_REG_ISR, isr);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  190  
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  191  		service = isr & ~msr;
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  192  		for (irq = pcap->irq_base; service; service >>= 1, irq++) {
+73a6839fdb7f3f Thomas Gleixner           2011-03-25  193  			if (service & 1)
+83d9b7e3955d32 Sebastian Andrzej Siewior 2022-02-11  194  				generic_handle_irq_safe(irq);
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  195  		}
+b1148fd46c248c Daniel Ribeiro            2009-06-23  196  		ezx_pcap_write(pcap, PCAP_REG_MSR, pcap->msr);
+59ee93a528b94e Arnd Bergmann             2012-08-05 @197  	} while (gpio_get_value(pdata->gpio));
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  198  }
+13a09f93d2bf3a Daniel Ribeiro            2009-05-28  199  
+
+:::::: The code at line 197 was first introduced by commit
+:::::: 59ee93a528b94ef4e81a08db252b0326feff171f ARM: pxa: remove irq_to_gpio from ezx-pcap driver
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 0-DAY CI Kernel Test Service
