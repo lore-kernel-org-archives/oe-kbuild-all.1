@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433FD2BE03B;
-	Sat,  9 Aug 2025 16:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DB72BE65A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 17:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754758464; cv=none; b=icc5M9K0psnKf/bNoxKfiu49ISmOFWJlj04WPGBEDY6IZchA3twcR1A7l/2xNIoCKV0Iq74YNwJHdvOggz3bP9zJ+YtXJhK79hV/PM2cwE2ffCDclbJw6WLGb/CrPaWxdX0H6i4QDnUrVf4JY7Sa0Qyukmnc37DPnW3TYxgiiOo=
+	t=1754759705; cv=none; b=C1HIiRvkoXWfxmPS3wrZoedvhTvICSActkjlFpXU2YNXOrXuQWmsadOy1Xhrv98jS2L7Cf2slVdROVVR9AEX93cLxkIxdkwezat+2N3k9mMS/yzMbpbQaZQ4drHDtAkmxSBreQD/YKZaEOknZYj/4FPwgA6N6B22BFfkgbVtoIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754758464; c=relaxed/simple;
-	bh=1RsuJTMoFXnfPBziGUUj5wDoFHK6icPOtl/VMggGH1E=;
+	s=arc-20240116; t=1754759705; c=relaxed/simple;
+	bh=EKwmNvXGq4jGxkDfb8FV5j3ls0LBberwsTvG2zDmb+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AjfRW6TmviDjlM1iVYK0uo7oSjvniREWdVrUlLnArejZ2mznxsGNuVrN7fbXCn2Dfah4HQI45UKwXyn03a0zPfoeWrTNsA22CVuZNzMe6QXTyB2cfglX8WFJhp0Wwcw1c1Rd7O2pMHWqAL3Oo3oTxl2FeEHxeNHBWsdLV2/hBfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4PUKx6X; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ZbvSuy56LIed9zcn0arbZzPyc3u/zXDexjDVeXLUpi4bUVPGrtzhDXHVav+I23o6cOWTSIGVeb/HI1zdujgF8DIPp1mDoggquJ3EkPKx7vG9gOtmIIt7Hd38t9GeDYEaXLP8ktPR5coh2CasALgVp/hNgcGRftCrvjfIeEnWkbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnDAK1w6; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4PUKx6X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnDAK1w6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754758462; x=1786294462;
+  t=1754759703; x=1786295703;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1RsuJTMoFXnfPBziGUUj5wDoFHK6icPOtl/VMggGH1E=;
-  b=K4PUKx6XwlxF/gMzQmc0S6XTOYNYDvyCtjGDeBWrqGVbwgUQu0pB9Z4/
-   /XtFYfQviXPlghr8IfSgtKPBHwXG3FBEhnRcDYvKMEKjtFi/PXS99Cfbx
-   7ytvQQSgmHMYXQsvRaDS1HRyNOpsqBIV3fBeC0PzIekctF4V7zPQIyOXT
-   4C18D/wChBEMqpEiHYA7g2KMfO1nU45BvqYBSqeEMG7fIRLmyjrB/xV5n
-   JSxt8jcFt8UkqxsT6BKdOPXNFYdiQ73w6QfSjSAd5k1MrUVS9yD0mQWcV
-   jAB7X6T9cCGjmcKd09FnyH6mDRZmNMLGUdAS0/W2Xe+1JufMXyM8r9JUR
+  bh=EKwmNvXGq4jGxkDfb8FV5j3ls0LBberwsTvG2zDmb+s=;
+  b=AnDAK1w6bAb47u6JvBVwD632c2WtGP0hU6rcCkY/XyRTyKLHYqocjpV4
+   KPE/qJiMKTbJIX2ytxbo/Darxx/K/y6MQ/QPTY3Nz9Gr6qDFR+kpbZig0
+   ssrEMwQebZtyhQJ6i9QglBync2ynMQiHjTQJJB+sxP/vtSbh0HBe8zdi2
+   xgagjIb0S0TKdHFkE38BC8oc3aaSuCnUgFeRcy/0Zt3HJQjUFPPVRyAvH
+   BufVBeO4THEXxxXJS8MXpfL5RTmq5LUvgLjpbptFBvcfHNYdCtA909gnd
+   2wCyDM3dNIa1zl95dLuTFXtsKz9H/cafKgMTW97cVM12I9DnGxmbF+I+L
    g==;
-X-CSE-ConnectionGUID: 9tn8f0LcR+aXWMl2erxYYg==
-X-CSE-MsgGUID: fsFRzVauRm69MXYkobahaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="68158205"
+X-CSE-ConnectionGUID: IRaxSCL5Qyyyj1MSJJDdRg==
+X-CSE-MsgGUID: i6r47iuiQrq9qBXHokbWig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="56952093"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="68158205"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 09:54:21 -0700
-X-CSE-ConnectionGUID: p+nN522HQN2/jgwZFdTozA==
-X-CSE-MsgGUID: afexTkLKTjyPqv6mWWLScg==
+   d="scan'208";a="56952093"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 10:15:03 -0700
+X-CSE-ConnectionGUID: iVZ9KTOAQ6q3XywZVluS2A==
+X-CSE-MsgGUID: 14VP4FPJR9iVxpXlx5STKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165209539"
+   d="scan'208";a="165874954"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 09 Aug 2025 09:54:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 Aug 2025 10:15:02 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukmpl-0004wO-0R;
-	Sat, 09 Aug 2025 16:54:17 +0000
-Date: Sun, 10 Aug 2025 00:53:06 +0800
+	id 1ukn9n-0004xK-1q;
+	Sat, 09 Aug 2025 17:14:59 +0000
+Date: Sun, 10 Aug 2025 01:14:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 43/47] net/sunrpc/svcsock.c:1294:11: warning:
- format specifies type 'int' but the argument has type 'unsigned long'
-Message-ID: <202508100051.Rvyh7vD8-lkp@intel.com>
+To: stephen.smalley.work@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ssmalley-selinuxns:working-selinuxns 4/42]
+ include/linux/rcupdate.h:541:11: error: dereferencing pointer to incomplete
+ type 'struct selinux_policy'
+Message-ID: <202508100112.MimdLqFi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,87 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   78cea35b7fffda7d71482e5881bcd3e4a30b0acb
-commit: 562305ff2066e7dd88d087577f23fab6b6a76b2d [43/47] sunrpc: fix pr_notice in svc_tcp_sendto() to show correct length
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250810/202508100051.Rvyh7vD8-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508100051.Rvyh7vD8-lkp@intel.com/reproduce)
+tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
+head:   5ae6bb1e8738f77faaddd063db4fe0af6b588e3a
+commit: e17b52704f6838291c5bf253589b40d1f5cd0d13 [4/42] selinux: dynamically allocate selinux namespace
+config: parisc-randconfig-r122-20250809 (https://download.01.org/0day-ci/archive/20250810/202508100112.MimdLqFi-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250810/202508100112.MimdLqFi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508100051.Rvyh7vD8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508100112.MimdLqFi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/sunrpc/svcsock.c:1294:11: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
-    1291 |         pr_notice("rpc-srv/tcp: %s: %s %d when sending %d bytes - shutting down socket\n",
-         |                                                        ~~
-         |                                                        %lu
-    1292 |                   xprt->xpt_server->sv_name,
-    1293 |                   (sent < 0) ? "got error" : "sent",
-    1294 |                   sent, xdr->len + sizeof(marker));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:577:36: note: expanded from macro 'pr_notice'
-     577 |         printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
-         |                                   ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:514:60: note: expanded from macro 'printk'
-     514 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:486:19: note: expanded from macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/sched/signal.h:5,
+                    from security/selinux/hooks.c:29:
+   security/selinux/hooks.c: In function 'selinux_state_free':
+>> include/linux/rcupdate.h:541:11: error: dereferencing pointer to incomplete type 'struct selinux_policy'
+     ((typeof(*p) __force __kernel *)(p)); \
+              ^
+   include/linux/rcupdate.h:743:2: note: in expansion of macro '__rcu_dereference_protected'
+     __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:7795:12: note: in expansion of macro 'rcu_dereference_protected'
+      policy = rcu_dereference_protected(state->policy,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1294 net/sunrpc/svcsock.c
+vim +541 include/linux/rcupdate.h
 
-  1255	
-  1256	/**
-  1257	 * svc_tcp_sendto - Send out a reply on a TCP socket
-  1258	 * @rqstp: completed svc_rqst
-  1259	 *
-  1260	 * xpt_mutex ensures @rqstp's whole message is written to the socket
-  1261	 * without interruption.
-  1262	 *
-  1263	 * Returns the number of bytes sent, or a negative errno.
-  1264	 */
-  1265	static int svc_tcp_sendto(struct svc_rqst *rqstp)
-  1266	{
-  1267		struct svc_xprt *xprt = rqstp->rq_xprt;
-  1268		struct svc_sock	*svsk = container_of(xprt, struct svc_sock, sk_xprt);
-  1269		struct xdr_buf *xdr = &rqstp->rq_res;
-  1270		rpc_fraghdr marker = cpu_to_be32(RPC_LAST_STREAM_FRAGMENT |
-  1271						 (u32)xdr->len);
-  1272		int sent;
-  1273	
-  1274		svc_tcp_release_ctxt(xprt, rqstp->rq_xprt_ctxt);
-  1275		rqstp->rq_xprt_ctxt = NULL;
-  1276	
-  1277		mutex_lock(&xprt->xpt_mutex);
-  1278		if (svc_xprt_is_dead(xprt))
-  1279			goto out_notconn;
-  1280		sent = svc_tcp_sendmsg(svsk, rqstp, marker);
-  1281		trace_svcsock_tcp_send(xprt, sent);
-  1282		if (sent < 0 || sent != (xdr->len + sizeof(marker)))
-  1283			goto out_close;
-  1284		mutex_unlock(&xprt->xpt_mutex);
-  1285		return sent;
-  1286	
-  1287	out_notconn:
-  1288		mutex_unlock(&xprt->xpt_mutex);
-  1289		return -ENOTCONN;
-  1290	out_close:
-  1291		pr_notice("rpc-srv/tcp: %s: %s %d when sending %d bytes - shutting down socket\n",
-  1292			  xprt->xpt_server->sv_name,
-  1293			  (sent < 0) ? "got error" : "sent",
-> 1294			  sent, xdr->len + sizeof(marker));
-  1295		svc_xprt_deferred_close(xprt);
-  1296		mutex_unlock(&xprt->xpt_mutex);
-  1297		return -EAGAIN;
-  1298	}
-  1299	
+76c8eaafe4f061 Paul E. McKenney        2021-04-21  522  
+24ba53017e188e Chun-Hung Tseng         2021-09-15  523  #define __rcu_access_pointer(p, local, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  524  ({ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  525  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  526) 	rcu_check_sparse(p, space); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  527  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  528  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  529  #define __rcu_dereference_check(p, local, c, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  530  ({ \
+ac59853c06993a Pranith Kumar           2014-11-13  531  	/* Dependency order vs. p above. */ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  532  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  533  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  534) 	rcu_check_sparse(p, space); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  535  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  536  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  537  #define __rcu_dereference_protected(p, local, c, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  538  ({ \
+f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  539  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  540) 	rcu_check_sparse(p, space); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28 @541  	((typeof(*p) __force __kernel *)(p)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  542  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  543  #define __rcu_dereference_raw(p, local) \
+995f1405610bd8 Paul E. McKenney        2016-07-01  544  ({ \
+995f1405610bd8 Paul E. McKenney        2016-07-01  545  	/* Dependency order vs. p above. */ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  546  	typeof(p) local = READ_ONCE(p); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  547  	((typeof(*p) __force __kernel *)(local)); \
+995f1405610bd8 Paul E. McKenney        2016-07-01  548  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  549  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  550  
+
+:::::: The code at line 541 was first introduced by commit
+:::::: ca5ecddfa8fcbd948c95530e7e817cee9fb43a3d rcu: define __rcu address space modifier for sparse
+
+:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
