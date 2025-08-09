@@ -1,152 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic311-21.consmr.mail.sg3.yahoo.com (sonic311-21.consmr.mail.sg3.yahoo.com [106.10.244.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943CD1E7C05
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 20:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA14D24BBE4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 21:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.244.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754772200; cv=none; b=ki2M0WcOHZ9MZHI8pYZKvcWMQEPe/kTcic3UBqikAXKti1L1+tRnJ5iWhfc3T1qa6qguAVupi1GsiE/w0ihsNQtJlIdjLYdkHlDo8fX4xoU/ADZ/lyMvjVfh6EAkUns91GYWu8FrcYgpXZOPxyH5G+KoonPZ3Sha+l5BTPnW7dY=
+	t=1754774089; cv=none; b=r4Ei4WBwWawx/6kg115eBCTwM1sVRog4o7dAbv1gjneu64firICLhk3q2Xa+QLPTGuFALnaJN/vKUVV2z8XdHWUwTa9xG9h4Gyfm8oM2hEJeGo27aLXLpR1V47Q+DkfhPyGr1kbJnlmvjqdK659KYbWRJbwKBpXGPN5sFWfv3Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754772200; c=relaxed/simple;
-	bh=NSs6xrL1UwU1QPCJSa1WmL7/mxWjgpVgYiPo66iskVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nhPfIiMZlv94cohS3tEMyevdhqGaYIlRIAwdHClpgnlotnjYKOojPZp7t3ZCxAvzF+xuiaHMx3gHz2RooMdaa6jeVccAJWWxIlozxRKRBW5RP7Chj+F9QN/jkqjQrfOearLGyPxU1weibcbZphX5vGpgza0umV46OCuRVbUJi94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E54LkJzz; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754774089; c=relaxed/simple;
+	bh=d0Yjtt3IzlqKcHROs78kHofsMlGTuJ7ll+LtvZtLsjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=D78ybCAWWQDaleZlUluXKyEwHASFfLGGU2JUL7oBNO/S/gPWjB/ifHOow6t0lPloUZ9ft9AGZKJvZKnbuX66Fg7+Cm4d+HhQv7S5iAR2gPO4fRINaJhFhtse/t2/PMViF74WwX+qWIlEXvlHzCv2kIXuR4I8LLiETdv036eTdsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=EBFrWwR3; arc=none smtp.client-ip=106.10.244.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E54LkJzz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754772199; x=1786308199;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NSs6xrL1UwU1QPCJSa1WmL7/mxWjgpVgYiPo66iskVA=;
-  b=E54LkJzzMsvdUPaOYjgGhCXXLbvm8ok6hSRa6S1e4CZOlwxPpFNGWmmV
-   9VdXFDilwED69u+5iTD+2xmMlVFC7samIMIMcZdQ7MFi/q31Vq6tJQiXg
-   xMHk3r5l2gfUerSoVC2qByc82yRev8vcjU2D/I4vZSweiR0UvN2JCYtT5
-   5Jn8KTWrztYY3/5I7V5MCs9AqvdVbNdXskzKh8QXviikAK27A5n1kv4uu
-   fNCihUAhS8iB6ayhAL6ENDrLajCW33ybHev1C7yQTjOQrJw9lohZXKX6A
-   R2v0OyjN3SC8eGyLh1osCwcnY7/3Oi+GVIdySQoPa7ivlaOWRDD3ReBha
-   Q==;
-X-CSE-ConnectionGUID: Z5/qllNZRdmwCm1KR1H4+g==
-X-CSE-MsgGUID: y0EKfVXxR1qXcP2u8RTkWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="74667016"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="74667016"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 13:43:15 -0700
-X-CSE-ConnectionGUID: TgCrpu6+TeSxatyF0JncZA==
-X-CSE-MsgGUID: Q7VDqkSOSSqOrybxbM+Yqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165998592"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Aug 2025 13:43:13 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ukqOk-000532-0P;
-	Sat, 09 Aug 2025 20:42:47 +0000
-Date: Sun, 10 Aug 2025 04:42:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] svcrdma: Introduce Receive buffer arenas
-Message-ID: <202508100416.aCwCI003-lkp@intel.com>
-References: <20250808184648.120866-1-cel@kernel.org>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="EBFrWwR3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1754774085; bh=+ykyPREPuo21LV5KP7vBGJIecoZNQK65w4laRFBAxUo=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=EBFrWwR3eFJKcCMVuxYic1P7jbOpSiIdNOK5+KdLyAN7U64Qj6n/MadFYNrDA1DxLsm43xxaOt8GMi0tCpIsMBReCg18WPN+fGWz9ibJyBGBzIBOX59H55a7U2EoYC3Yg6xvGL5iuO83gV5QnZeZfoRIjc7XnAUEOFN+kCmB9OahBffuxvGCnLhkxqashm9bygnC+KXuvRCw0TU6+XdTN1fVYueAvYgO2ku/0ykDBDICcjGjcCtF6NoghgkKstXwmlcmWL/402DZwQysc11Hu9zapS1ywf5iw8ZgAidLXjW2h+UIVitATztCo38ZUKLKqDaztiUBuMzdaTmGPPBZxQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1754774085; bh=QfpUTzRREv5v8dyoAy4rIC0wF0FpWulQy53hPRxMCtM=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=cbuFDMfl0/BZ1QfROD+rJ92XYCuIybmEXikGz5CB6ThTJwT/vbxCuXEZo+AXWR1QKxEKsWFGu1f7hQtDbQkw5tboe8O/gzZT3Ub/YGX7pPSiJSmNxOPUI3ecsUJJtKCXeEBoN96zYYC9ogjJnvY7NQl2PkTTYkFuvadvI6J2DtKMMuBBcIDEROncH8RnOyQxszQA2x0yHKOBjPF9H24ncbDGLMLRBFMhCz5VIStMj9Gv4TKhYfl2c+FKTUMtWeQfQkmUvFw/4m7akhD3uEw7ceJ0auMUPzxN9jBkMKnLhkFDmNn6vJCwAgKdK1hWLWUVN7Bqbq3rJMaJN+9kd7zbbQ==
+X-YMail-OSG: .zwCfjgVM1mDn5NwRxL.9Geo041SjG.__aX.GjsF37GhlpoTanX6ltexlztkJtq
+ XBYNvaqTp31Xqo4PqIoU9N0GLhr87k1qDOKlP94ULYs322_7N4CFcMYMPllbP1M3TjkHtg9piuFP
+ v1LaqzexHlhHnngUmRDTy8X8SQEm_VRpEgIchawlevlyhmVeg5i0GGTWuV3eG7KrVEFEOsV8mTuy
+ FwdRV1U7D.jHeWIXmJjzAxPkwEnOHUUM0zKrP8.MhXkwJBZRDcgC5mPHgHHbRci1sTcvLklW7neE
+ gcsKhmujIE1z0KEt.oAseFux6xceP3gQH9aGQDgceJBCZ0m0r4q9u_n9cLgZAJhh6uQyzwrpEftf
+ Edwu47ikKAGeW1uVIvi1JIwT4syjvG3YRBmMuO59n2OvOJSZq9aNBnVrCIRq2LY9pxI9aYB0B.n7
+ Jh9doPGkmaN5n31rZNMtQ8GivPCFT2I1zOUgVAgVozRr0A205RKGKdw3tS3ReZF3rfM6TAuULTyj
+ R5OvuwS7KBAxMscKF72qhF3LCbTDsa4nhMZZKS9rOxSIlcqAIpH0yls_FjW_kghsa.VB6aomtKtS
+ chxgKlYlDxnZ4.bmRupiovD6SRruOod6PIQdBEuW47vlA3l6HgieXjKpCLAdpbSa0x1XcvbXKrkp
+ vrNm1AF3IluKSppDKZ9SIi0ukMExD.6ybyvSR6dKrxEwEwrb7Uy3lqZ7NUM2h1u3VPz8H4aPmMsY
+ 2jDGuUvEXTRyMQSq2I125MgUFGDWGujiLrbunkSo72sXXvFx8uaG9W53N_DFO50WVxeqKZ4q9NZV
+ z3cWzggSyAs2K8MOfaxyz2srarqsa0ijW7ViytBJa.gjRtVQD3kNytxJy7IRwBg1jkizPaO9Ir_F
+ Gi3bqvoUrwpOEaj27_dC.uxt24lTB_RWtWTzYWwnxHbCZwo2d7O3PaSpdRT24ugFTwX6wbQWKgZ0
+ n85d8X2Jq5KIs13J0J1DUuYueiXPBxwNwbgd_TvZinUY1GRtRTciDovqzirbADUt5QQyNDn5Bu8l
+ _awokpjRaBSTxnxpzOCO0ApAw4XoLBHH24nfsvaKQ7lH5i_I.Zcz6fI3ry7R94EgBcIfnd10Um08
+ vtj6h1eK7M8h4XpqdpdGQqiQyGsX7whxqWWv4dHWa2jeq0SZEThyb5oe_6n2pp.75Pdb4hMLJq97
+ Gq5_E6qhk1jhxHoFGR4DJN9o28CTMHfV4aepUk8cpaz_jGg5sC4a9rsbNctKEImk.sgR8q5WWHZq
+ 848GOjpcd0FXEuxEzRIwB70KH83rYepJueW_4K32hkaCceh9Dsi5_X5DSE_59QmLbOT2y_EPOx.E
+ Jw36O9cMd8a594DSxUQv8ONKzkuLVxxpM.rgEZz4ArKLE2U5L3t4jT8i8m6WYhF5Z359bR9SLlFP
+ 7u_K5WEzpkyZtUgp.CsZPTE7Gsmv59LL.e2oMO9aCNwPXLbnzp0gY3JGFAMAXgEtjJcSBnx2sChu
+ L3pIHjRgHXi1ZtALZSH5VqlsoOOShGGL8c3rc4P22SSWMmpOuL7wikrsu5jlYOfOv_x93qfH5zQH
+ pGKVvkmIVFvF4nw9dvXHi3n0gtqcFGU4OH0RQrGp.ru1v1WSVIbSZtK2a7b6F45jKv2irNI.9Hzy
+ 7ncJuvC_zCTvaxBLXDABOu0zKJJE2kenMVDZutPP3r2OarD795WSIquLYXAf2dQGjb7a7u1YXJ8H
+ L08T2CBogJCY.1HJYAv4lxDscxYwb7Q0UYJiMTPkl5LB9WaTWDiU2hQU47uRNovkJiaRoKsWe7FK
+ Hx8DVKBrngQ29_E63bwjpnVZyt41e_RWCW.NNl2IeNqISsxo2MhdlEOCUaZYv5kRO0mRp0DzQh8h
+ 04diF_T1adXMJtxzhM9x_CgsO1oIZCwzNc9VVBjbw1d2tjCumIkCBfIC2nIUGMPrdDzRKnNvzaAq
+ UMqJmRYJfGBMGKSeGQUsn4_61dtq4Hl_FfKxPS3o6mM9h4EsSCT1veB9iL27ugMuZjWGPo1svtjA
+ RHQgdMwSzwO1xOt28bv4.ZmJvsfbvusbzglAeesgWAKyUNaHu2a1sjnGmjmlixaWMHfJGGW6Y9WJ
+ lMK668PiYVGaoxtE.gIzTmMcnv4s8ubop959ureaqFnTI53nSLmFpS80rPA9E10uPbz2Jiy1eseE
+ aALM1Xwq93uIeq3DIuDQ7PsupFBcAirwMtYP4CXRRqMnI_B2AaY1PuZDhFBotvRznx7c0PNGO3UN
+ OvTdV6lMucAKkCalUnYiKsZ8eJV10SUYurxtkL_wBvhsMigST0_jMocFU3ozU6taVV4h4Lqo6fgL
+ bBrAjSsQL1h9pM_risZoSynbOWK8JRxAP_k1Tlw--
+X-Sonic-MF: <sumanth.gavini@yahoo.com>
+X-Sonic-ID: a3d1a8a2-68b3-4579-8586-96106a1df016
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.sg3.yahoo.com with HTTP; Sat, 9 Aug 2025 21:14:45 +0000
+Received: by hermes--production-ne1-9495dc4d7-psbrp (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ad8551e2f6b02f307823b0a83dc795a2;
+          Sat, 09 Aug 2025 20:54:25 +0000 (UTC)
+From: Sumanth Gavini <sumanth.gavini@yahoo.com>
+To: axboe@kernel.dk,
+	asml.silence@gmail.com,
+	lkp@intel.com
+Cc: Sumanth Gavini <sumanth.gavini@yahoo.com>,
+	io-uring@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	oe-kbuild-all@lists.linux.dev,
+	John Garry <john.g.garry@oracle.com>
+Subject: [PATCH v2 6.6] io_uring/rw: ensure reissue path is correctly handled for IOPOLL
+Date: Sat,  9 Aug 2025 15:54:18 -0500
+Message-ID: <20250809205420.214099-1-sumanth.gavini@yahoo.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aJeVj4yXt4F01nPb@f5c43a121a53>
+References: <aJeVj4yXt4F01nPb@f5c43a121a53>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250808184648.120866-1-cel@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Chuck,
+commit bcb0fda3c2da9fe4721d3e73d80e778c038e7d27 upstream.
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+The IOPOLL path posts CQEs when the io_kiocb is marked as completed,
+so it cannot rely on the usual retry that non-IOPOLL requests do for
+read/write requests.
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v6.16 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If -EAGAIN is received and the request should be retried, go through
+the normal completion path and let the normal flush logic catch it and
+reissue it, like what is done for !IOPOLL reads or writes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/svcrdma-Introduce-Receive-buffer-arenas/20250809-025410
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250808184648.120866-1-cel%40kernel.org
-patch subject: [RFC PATCH] svcrdma: Introduce Receive buffer arenas
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250810/202508100416.aCwCI003-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508100416.aCwCI003-lkp@intel.com/reproduce)
+Fixes: d803d123948f ("io_uring/rw: handle -EAGAIN retry at IO completion time")
+Reported-by: John Garry <john.g.garry@oracle.com>
+Link: https://lore.kernel.org/io-uring/2b43ccfa-644d-4a09-8f8f-39ad71810f41@oracle.com/
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Sumanth Gavini <sumanth.gavini@yahoo.com>
+---
+Changes in v2:
+- Removed the extra space before commit-id in message, No codes changes
+- Link to v1:https://lore.kernel.org/all/20250809182636.209767-1-sumanth.gavini@yahoo.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508100416.aCwCI003-lkp@intel.com/
+---
+ io_uring/rw.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-All errors (new ones prefixed by >>):
-
-   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c: In function 'svc_rdma_recv_ctxt_alloc':
->> net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:136:40: error: passing argument 4 of 'rpcrdma_pool_alloc_buffer' from incompatible pointer type [-Wincompatible-pointer-types]
-     136 |                                        &ctxt->rc_recv_sge.addr))
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                        |
-         |                                        u64 * {aka long long unsigned int *}
-   In file included from net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:107:
-   net/sunrpc/xprtrdma/pool.h:23:61: note: expected 'dma_addr_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-      23 |                                void **cpu_addr, dma_addr_t *dma_addr);
-         |                                                 ~~~~~~~~~~~~^~~~~~~~
-
-
-vim +/rpcrdma_pool_alloc_buffer +136 net/sunrpc/xprtrdma/svc_rdma_recvfrom.c
-
-   119	
-   120	static struct svc_rdma_recv_ctxt *
-   121	svc_rdma_recv_ctxt_alloc(struct svcxprt_rdma *rdma)
-   122	{
-   123		int node = ibdev_to_node(rdma->sc_cm_id->device);
-   124		struct svc_rdma_recv_ctxt *ctxt;
-   125		unsigned long pages;
-   126	
-   127		pages = svc_serv_maxpages(rdma->sc_xprt.xpt_server);
-   128		ctxt = kzalloc_node(struct_size(ctxt, rc_pages, pages),
-   129				    GFP_KERNEL, node);
-   130		if (!ctxt)
-   131			goto fail0;
-   132		ctxt->rc_maxpages = pages;
-   133	
-   134		if (!rpcrdma_pool_alloc_buffer(rdma->sc_recv_pool, GFP_KERNEL,
-   135					       &ctxt->rc_recv_buf,
- > 136					       &ctxt->rc_recv_sge.addr))
-   137			goto fail1;
-   138	
-   139		svc_rdma_recv_cid_init(rdma, &ctxt->rc_cid);
-   140		pcl_init(&ctxt->rc_call_pcl);
-   141		pcl_init(&ctxt->rc_read_pcl);
-   142		pcl_init(&ctxt->rc_write_pcl);
-   143		pcl_init(&ctxt->rc_reply_pcl);
-   144	
-   145		ctxt->rc_recv_wr.next = NULL;
-   146		ctxt->rc_recv_wr.wr_cqe = &ctxt->rc_cqe;
-   147		ctxt->rc_recv_wr.sg_list = &ctxt->rc_recv_sge;
-   148		ctxt->rc_recv_wr.num_sge = 1;
-   149		ctxt->rc_cqe.done = svc_rdma_wc_receive;
-   150		ctxt->rc_recv_sge.length = rdma->sc_max_req_size;
-   151		ctxt->rc_recv_sge.lkey = rdma->sc_pd->local_dma_lkey;
-   152		svc_rdma_cc_init(rdma, &ctxt->rc_cc);
-   153		return ctxt;
-   154	
-   155	fail1:
-   156		kfree(ctxt);
-   157	fail0:
-   158		return NULL;
-   159	}
-   160	
-
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index 4ff3442ac2ee..6a84c4a39ce9 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -326,11 +326,10 @@ static void io_complete_rw_iopoll(struct kiocb *kiocb, long res)
+ 	if (kiocb->ki_flags & IOCB_WRITE)
+ 		io_req_end_write(req);
+ 	if (unlikely(res != req->cqe.res)) {
+-		if (res == -EAGAIN && io_rw_should_reissue(req)) {
++		if (res == -EAGAIN && io_rw_should_reissue(req))
+ 			req->flags |= REQ_F_REISSUE | REQ_F_PARTIAL_IO;
+-			return;
+-		}
+-		req->cqe.res = res;
++		else
++			req->cqe.res = res;
+ 	}
+ 
+ 	/* order with io_iopoll_complete() checking ->iopoll_completed */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
