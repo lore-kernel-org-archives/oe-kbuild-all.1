@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067CE21CC55
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 18:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71622E36F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 18:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754764177; cv=none; b=Nh++O6XnbyunlelEeYsBGYaXFIiX7rzie9I0q8eusK/qCrQRtsetrEYSJlScX5VK2voBCGPMmzH4FLEI9LWGnkry5QYr1BvBDErMNSa/vkQ2VMPgFYIiwjxt5H9rvZ/kLHBS8LyVajhNpJI6AfLdgZh0zJTS2p1vLjWoM+cpOkE=
+	t=1754764713; cv=none; b=bHya7OLmaRdKzOkaqyvGly32puj0RQf7QfQCDKc/rvL3isX5BjigzFEaiZUevVt7D/YHcIl4YpzUFavdForsm4zyuTJ2Ms2E8VCsZZ5TZdmdMlrorg5JERvq/E5QMf5+JyyMTWZH61uld9PHAaWCZfRAShB0gceVW+04Lb81rmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754764177; c=relaxed/simple;
-	bh=A27DwkfBTmZLXH7cp4awk20HtDvmeAn+fmBUXgedoAM=;
+	s=arc-20240116; t=1754764713; c=relaxed/simple;
+	bh=Pg7cw1XLjS2Nh21PSgWKG2Aoc3IYRQzlw5Lbmzk0rk8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jCniv7tplpmxfzQt3zx0YTmRxPhcGQVYkjZQTKEtNbahD6aW2P292tv+rHuMD43hao2cvRzIu0JH9BZLFsI7yLxTkaN9QvoNah25q/AWfsWR6A00x5jrxlCGwNIJcf+ctwBtmbSTGhhGxiPI3pJ0l5B9Hri8cRLcF1pqhHLlfGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bkpG4ZCB; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition:In-Reply-To; b=d3APo+j8PGZCHA/KwR9Fxa3sU2TlYjtmG61ZMEDHMi7dtZ+8Ob7rUkFomYh2HFIyau5lE/gKG1/j5dSi8GgYeqsUroep7kz3nfvjVa8uaxX8O+3TkOxznzw9sp2MTHgfcScytao5ZT9KqY4Jv+9g9QXPld0ECDkAal/GNYBuOJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZSbJMZM; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bkpG4ZCB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZSbJMZM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754764176; x=1786300176;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A27DwkfBTmZLXH7cp4awk20HtDvmeAn+fmBUXgedoAM=;
-  b=bkpG4ZCB7iTlJxwvHy0vIRnZUNZMhwJRpkr3egMnDiahDYaJtRPEp5/L
-   omgPbDVp5Leyc57r4dRyUfHX4i6ZIZNQZAY2ps4ut4DmZILWG0Y7kpUPr
-   5/na3KdH38g7OwTQfXcjd72BDwDIG7MZ7JMMtxk/83704Inih8Qpb599W
-   jTRxb0Jvv/3eKRnjycdjAUjyvDsac7iXbR35OOgIdpp25YHUtJr7myWU2
-   WmrdfauR4Zj+97slBTRfkeNHpkGlryvymVLwh+zNqDdpSj612Hx2gOyuQ
-   DveXY8b5kv7npMkc3w9S473VeHVHHqCyVRkbpxBi59kIkDIwn/UvClEyO
-   g==;
-X-CSE-ConnectionGUID: xpN/U1sNTFmUUzP5Ns3fiA==
-X-CSE-MsgGUID: eUIqkttxT52tsQwzgIqLsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="57038933"
+  t=1754764712; x=1786300712;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Pg7cw1XLjS2Nh21PSgWKG2Aoc3IYRQzlw5Lbmzk0rk8=;
+  b=WZSbJMZMlyr1IMqpgTRMgANCQv+AoCceW0D0spKgXQI+pRzk5Ic/kjWo
+   wvW+J4FYjurI1IqzbhyuTdligG0U4XOLlO7hZyv93P0gcYD3k/JxZXCWX
+   IvPZ1NSQU9szqJ+IGe1FPKyApD8Q7JU6ueBYArTphxoOxXmIXiNKHbom7
+   JNhLl6EmV2rR4Vq3eTyVpbcYFYoUU6zZhAmxXLXFeVBS/G8gI6Gw3RMrh
+   oofsyp08N0/DfPy/eJ3TI+5Z4eK6ex/cD4scVz6DJadJRoJ3Odt1WGuF6
+   7iGclP0i/HNxV1OP8WK7RKNags/X7M0QJlb/diOMW3c1UHqAk9m2UXk+Q
+   w==;
+X-CSE-ConnectionGUID: gzbwxRIPRjySXesXBRTp0A==
+X-CSE-MsgGUID: zSRd9JQZQEeKFm55WhcKLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="59689588"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57038933"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 11:29:36 -0700
-X-CSE-ConnectionGUID: M7BlC/tkQJ+P8odu8eDqEA==
-X-CSE-MsgGUID: YI1XhZT3SFmmtHcFblItyA==
+   d="scan'208";a="59689588"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 11:38:31 -0700
+X-CSE-ConnectionGUID: HXBgOSi2TNm7IFMA8+T9Vw==
+X-CSE-MsgGUID: Tazj4xElRxCxo0NCE676tA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="196551180"
+   d="scan'208";a="165463994"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 09 Aug 2025 11:29:34 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 09 Aug 2025 11:38:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukoJG-0004zw-1s;
-	Sat, 09 Aug 2025 18:29:00 +0000
-Date: Sun, 10 Aug 2025 02:27:23 +0800
+	id 1ukoSa-00050K-1Q;
+	Sat, 09 Aug 2025 18:38:28 +0000
+Date: Sun, 10 Aug 2025 02:38:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Simek <monstr@monstr.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: arch/mips/boot/dts/xilfpga/nexys4ddr.dtb:
- interrupt-controller@10200000 (xlnx,xps-intc-1.00.a): #interrupt-cells: 2
- was expected
-Message-ID: <202508100230.lbLbquJt-lkp@intel.com>
+To: Sumanth Gavini <sumanth.gavini@yahoo.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.6] io_uring/rw: ensure reissue path is correctly
+ handled for IOPOLL
+Message-ID: <aJeVj4yXt4F01nPb@f5c43a121a53>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,42 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250809182636.209767-1-sumanth.gavini@yahoo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   561c80369df0733ba0574882a1635287b20f9de2
-commit: 7ce3c2713b45e349468fd5f9166f376ad9a361e3 dt-bindings: interrupt-controller: Add missing Xilinx INTC binding
-date:   2 weeks ago
-config: mips-randconfig-052-20250810 (https://download.01.org/0day-ci/archive/20250810/202508100230.lbLbquJt-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508100230.lbLbquJt-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508100230.lbLbquJt-lkp@intel.com/
+Thanks for your patch.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dts:17.9-20.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   xlnx,rx-ping-pong: size (4) error for type flag
-   xlnx,tx-ping-pong: size (4) error for type flag
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: /: failed to match any schema with compatible: ['digilent,nexys4ddr']
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: / (digilent,nexys4ddr): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: / (digilent,nexys4ddr): 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: interrupt-controller@10200000 (xlnx,xps-intc-1.00.a): #interrupt-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/xlnx,intc.yaml#
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: gpio@10600000 (xlnx,xps-gpio-1.00.a): #gpio-cells: 2 was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml#
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: gpio@10600000 (xlnx,xps-gpio-1.00.a): Unevaluated properties are not allowed ('#gpio-cells' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml#
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): 'device_type', 'mdio', 'xlnx,duplex', 'xlnx,include-global-buffers', 'xlnx,include-internal-loopback', 'xlnx,include-mdio', 'xlnx,instance', 'xlnx,s-axi-id-width', 'xlnx,use-internal' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/xlnx,emaclite.yaml#
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): xlnx,rx-ping-pong: 1 is not of type 'boolean'
-   	from schema $id: http://devicetree.org/schemas/net/xlnx,emaclite.yaml#
-   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): xlnx,tx-ping-pong: 1 is not of type 'boolean'
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.6] io_uring/rw: ensure reissue path is correctly handled for IOPOLL
+Link: https://lore.kernel.org/stable/20250809182636.209767-1-sumanth.gavini%40yahoo.com
+
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
