@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DB72BE65A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 17:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D3B2E36F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 17:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754759705; cv=none; b=C1HIiRvkoXWfxmPS3wrZoedvhTvICSActkjlFpXU2YNXOrXuQWmsadOy1Xhrv98jS2L7Cf2slVdROVVR9AEX93cLxkIxdkwezat+2N3k9mMS/yzMbpbQaZQ4drHDtAkmxSBreQD/YKZaEOknZYj/4FPwgA6N6B22BFfkgbVtoIQ=
+	t=1754761542; cv=none; b=sEKzdWTwYHTEiKuvLdsryDICHsbLhJNMkmzwdcR2aY2GpLc18rFJtkRl8hYjz196hwSKtysAy6B6sBBb67rzKx1giLgsFK9vNmiKb/vU+ZzvOQZk9s9wuW/3KzEWWvkFr3ZtIKUjwqAxhKTZNuXTuCxrweFxuHJV6dVracMNV50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754759705; c=relaxed/simple;
-	bh=EKwmNvXGq4jGxkDfb8FV5j3ls0LBberwsTvG2zDmb+s=;
+	s=arc-20240116; t=1754761542; c=relaxed/simple;
+	bh=MnScHLFAB0qTKchnHKfYlInQC6GE+Qe7WYudhJAOg6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZbvSuy56LIed9zcn0arbZzPyc3u/zXDexjDVeXLUpi4bUVPGrtzhDXHVav+I23o6cOWTSIGVeb/HI1zdujgF8DIPp1mDoggquJ3EkPKx7vG9gOtmIIt7Hd38t9GeDYEaXLP8ktPR5coh2CasALgVp/hNgcGRftCrvjfIeEnWkbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnDAK1w6; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Xu1XeRV3vrskOK+i9fNnAROegdLGniJfLXubBlz4Ir124hQ/xj8n9lZPsREH1TuJr8v4VTty+/ZAwkj4AGf3pGmWN1mQXvJZPucGTNOdnX2cne39B1WGJjvnW6UnqpJawbuYenHpTtVLQ+yKJebFVBSHZQZ62szf0WY2uHyBMzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ketlY8YA; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnDAK1w6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ketlY8YA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754759703; x=1786295703;
+  t=1754761542; x=1786297542;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EKwmNvXGq4jGxkDfb8FV5j3ls0LBberwsTvG2zDmb+s=;
-  b=AnDAK1w6bAb47u6JvBVwD632c2WtGP0hU6rcCkY/XyRTyKLHYqocjpV4
-   KPE/qJiMKTbJIX2ytxbo/Darxx/K/y6MQ/QPTY3Nz9Gr6qDFR+kpbZig0
-   ssrEMwQebZtyhQJ6i9QglBync2ynMQiHjTQJJB+sxP/vtSbh0HBe8zdi2
-   xgagjIb0S0TKdHFkE38BC8oc3aaSuCnUgFeRcy/0Zt3HJQjUFPPVRyAvH
-   BufVBeO4THEXxxXJS8MXpfL5RTmq5LUvgLjpbptFBvcfHNYdCtA909gnd
-   2wCyDM3dNIa1zl95dLuTFXtsKz9H/cafKgMTW97cVM12I9DnGxmbF+I+L
-   g==;
-X-CSE-ConnectionGUID: IRaxSCL5Qyyyj1MSJJDdRg==
-X-CSE-MsgGUID: i6r47iuiQrq9qBXHokbWig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="56952093"
+  bh=MnScHLFAB0qTKchnHKfYlInQC6GE+Qe7WYudhJAOg6E=;
+  b=ketlY8YAiluPpvACOCwDtPtC78yO+R1PPG1uB6unBGI3X00csHT9Dt9f
+   RCll5MtOebAs9xtyQ2ruLMBAryr0vQ+mpM2LCnToSJ8VJiN+s6M1aBacm
+   AnASCUUxeZWPefgsiTdTWS+BOAoM5fdEnCds9KwrQEuIktJSkKKtSkmP9
+   HwPDK8/zC9UOKyfr9AW7WXAYpBT34YuHd0HRwyfsG1lBCAOH1LVXYQa8J
+   D1FP1d+uDH8jOANU+8/Z7zvLUwi698Hgt0bKxjjSIkAfmPvTMaHglPf2y
+   Xf2aQKsHMMm20M7O7uZZCQxW4cUT8CAqQ+Dxe4qLy2hiuL1iwPbh98jdN
+   w==;
+X-CSE-ConnectionGUID: WqVW33q4RdSKizxwq+vuhw==
+X-CSE-MsgGUID: Ahr6Ki0KRPWoPzAIA8bY4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="56111954"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="56952093"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 10:15:03 -0700
-X-CSE-ConnectionGUID: iVZ9KTOAQ6q3XywZVluS2A==
-X-CSE-MsgGUID: 14VP4FPJR9iVxpXlx5STKg==
+   d="scan'208";a="56111954"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 10:45:41 -0700
+X-CSE-ConnectionGUID: 2c2gWQFSTy2KIvGLR29LaQ==
+X-CSE-MsgGUID: FitKN/jDRlWb8PhMjh+40g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165874954"
+   d="scan'208";a="166360259"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 09 Aug 2025 10:15:02 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Aug 2025 10:45:39 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukn9n-0004xK-1q;
-	Sat, 09 Aug 2025 17:14:59 +0000
-Date: Sun, 10 Aug 2025 01:14:10 +0800
+	id 1ukndR-0004yY-0G;
+	Sat, 09 Aug 2025 17:45:37 +0000
+Date: Sun, 10 Aug 2025 01:44:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: stephen.smalley.work@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ssmalley-selinuxns:working-selinuxns 4/42]
- include/linux/rcupdate.h:541:11: error: dereferencing pointer to incomplete
- type 'struct selinux_policy'
-Message-ID: <202508100112.MimdLqFi-lkp@intel.com>
+To: Michal Simek <monstr@monstr.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: gpio@10600000
+ (xlnx,xps-gpio-1.00.a): 'clocks' is a required property
+Message-ID: <202508100133.koF3RLp4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +65,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
-head:   5ae6bb1e8738f77faaddd063db4fe0af6b588e3a
-commit: e17b52704f6838291c5bf253589b40d1f5cd0d13 [4/42] selinux: dynamically allocate selinux namespace
-config: parisc-randconfig-r122-20250809 (https://download.01.org/0day-ci/archive/20250810/202508100112.MimdLqFi-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250810/202508100112.MimdLqFi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   561c80369df0733ba0574882a1635287b20f9de2
+commit: d03b53c9139352b744ed007bf562bd35517bacff dt-bindings: gpio: gpio-xilinx: Mark clocks as required property
+date:   8 weeks ago
+config: mips-randconfig-052-20250810 (https://download.01.org/0day-ci/archive/20250810/202508100133.koF3RLp4-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508100133.koF3RLp4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508100112.MimdLqFi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508100133.koF3RLp4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/sched/signal.h:5,
-                    from security/selinux/hooks.c:29:
-   security/selinux/hooks.c: In function 'selinux_state_free':
->> include/linux/rcupdate.h:541:11: error: dereferencing pointer to incomplete type 'struct selinux_policy'
-     ((typeof(*p) __force __kernel *)(p)); \
-              ^
-   include/linux/rcupdate.h:743:2: note: in expansion of macro '__rcu_dereference_protected'
-     __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/selinux/hooks.c:7795:12: note: in expansion of macro 'rcu_dereference_protected'
-      policy = rcu_dereference_protected(state->policy,
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +541 include/linux/rcupdate.h
-
-76c8eaafe4f061 Paul E. McKenney        2021-04-21  522  
-24ba53017e188e Chun-Hung Tseng         2021-09-15  523  #define __rcu_access_pointer(p, local, space) \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  524  ({ \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  525  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-423a86a610cad1 Joel Fernandes (Google  2018-12-12  526) 	rcu_check_sparse(p, space); \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  527  	((typeof(*p) __force __kernel *)(local)); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  528  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  529  #define __rcu_dereference_check(p, local, c, space) \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  530  ({ \
-ac59853c06993a Pranith Kumar           2014-11-13  531  	/* Dependency order vs. p above. */ \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  532  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  533  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
-423a86a610cad1 Joel Fernandes (Google  2018-12-12  534) 	rcu_check_sparse(p, space); \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  535  	((typeof(*p) __force __kernel *)(local)); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  536  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  537  #define __rcu_dereference_protected(p, local, c, space) \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  538  ({ \
-f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  539  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
-423a86a610cad1 Joel Fernandes (Google  2018-12-12  540) 	rcu_check_sparse(p, space); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28 @541  	((typeof(*p) __force __kernel *)(p)); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  542  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  543  #define __rcu_dereference_raw(p, local) \
-995f1405610bd8 Paul E. McKenney        2016-07-01  544  ({ \
-995f1405610bd8 Paul E. McKenney        2016-07-01  545  	/* Dependency order vs. p above. */ \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  546  	typeof(p) local = READ_ONCE(p); \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  547  	((typeof(*p) __force __kernel *)(local)); \
-995f1405610bd8 Paul E. McKenney        2016-07-01  548  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  549  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  550  
-
-:::::: The code at line 541 was first introduced by commit
-:::::: ca5ecddfa8fcbd948c95530e7e817cee9fb43a3d rcu: define __rcu address space modifier for sparse
-
-:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+dtcheck warnings: (new ones prefixed by >>)
+   xlnx,rx-ping-pong: size (4) error for type flag
+   xlnx,tx-ping-pong: size (4) error for type flag
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: /: failed to match any schema with compatible: ['digilent,nexys4ddr']
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: / (digilent,nexys4ddr): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: / (digilent,nexys4ddr): 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: /interrupt-controller@10200000: failed to match any schema with compatible: ['xlnx,xps-intc-1.00.a']
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: gpio@10600000 (xlnx,xps-gpio-1.00.a): #gpio-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml#
+>> arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: gpio@10600000 (xlnx,xps-gpio-1.00.a): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: gpio@10600000 (xlnx,xps-gpio-1.00.a): Unevaluated properties are not allowed ('#gpio-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): 'device_type', 'mdio', 'xlnx,duplex', 'xlnx,include-global-buffers', 'xlnx,include-internal-loopback', 'xlnx,include-mdio', 'xlnx,instance', 'xlnx,s-axi-id-width', 'xlnx,use-internal' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/xlnx,emaclite.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): xlnx,rx-ping-pong: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/net/xlnx,emaclite.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): xlnx,tx-ping-pong: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/net/xlnx,emaclite.yaml#
+   arch/mips/boot/dts/xilfpga/nexys4ddr.dtb: ethernet@10e00000 (xlnx,xps-ethernetlite-3.00.a): 'clocks' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
