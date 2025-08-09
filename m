@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71622E36F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 18:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF2327605A;
+	Sat,  9 Aug 2025 19:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754764713; cv=none; b=bHya7OLmaRdKzOkaqyvGly32puj0RQf7QfQCDKc/rvL3isX5BjigzFEaiZUevVt7D/YHcIl4YpzUFavdForsm4zyuTJ2Ms2E8VCsZZ5TZdmdMlrorg5JERvq/E5QMf5+JyyMTWZH61uld9PHAaWCZfRAShB0gceVW+04Lb81rmo=
+	t=1754768517; cv=none; b=fGN/NCelJZltwJWid43B/yKeI1ToBmy/6m/PHt7F+7KfGPui6hnjGfcXVKSp0L0FkYiEj/SCVbGfWzdzd8pB1fuavom9rGSiPDxmO+Cz03d2YqOp2ld3tf/tMAtyjE2sweCgHRHh46RxttiFQ4D/6KZXYXvCahHK2gddmBtOmcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754764713; c=relaxed/simple;
-	bh=Pg7cw1XLjS2Nh21PSgWKG2Aoc3IYRQzlw5Lbmzk0rk8=;
+	s=arc-20240116; t=1754768517; c=relaxed/simple;
+	bh=06Kjz4k4lavK7HKHl+Pl1kS3zK+LVKSZHsr67K/P29g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=d3APo+j8PGZCHA/KwR9Fxa3sU2TlYjtmG61ZMEDHMi7dtZ+8Ob7rUkFomYh2HFIyau5lE/gKG1/j5dSi8GgYeqsUroep7kz3nfvjVa8uaxX8O+3TkOxznzw9sp2MTHgfcScytao5ZT9KqY4Jv+9g9QXPld0ECDkAal/GNYBuOJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZSbJMZM; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=u2jOD05idWxbAL/sELGFlVUYaF4M1azQ9CzJrd5Mz8n1iYih143oppSEfwmm/IWhf92kGXliPw1SDTKE53FyUxJA21JE9Kp3tVQePXMLFMl5MZAhjaQz61IAzbDkHcqrjAYwoEVMaJETwPIVKLbcaag366erZTtJYGyMkkih1BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lrmTWifE; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZSbJMZM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lrmTWifE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754764712; x=1786300712;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Pg7cw1XLjS2Nh21PSgWKG2Aoc3IYRQzlw5Lbmzk0rk8=;
-  b=WZSbJMZMlyr1IMqpgTRMgANCQv+AoCceW0D0spKgXQI+pRzk5Ic/kjWo
-   wvW+J4FYjurI1IqzbhyuTdligG0U4XOLlO7hZyv93P0gcYD3k/JxZXCWX
-   IvPZ1NSQU9szqJ+IGe1FPKyApD8Q7JU6ueBYArTphxoOxXmIXiNKHbom7
-   JNhLl6EmV2rR4Vq3eTyVpbcYFYoUU6zZhAmxXLXFeVBS/G8gI6Gw3RMrh
-   oofsyp08N0/DfPy/eJ3TI+5Z4eK6ex/cD4scVz6DJadJRoJ3Odt1WGuF6
-   7iGclP0i/HNxV1OP8WK7RKNags/X7M0QJlb/diOMW3c1UHqAk9m2UXk+Q
-   w==;
-X-CSE-ConnectionGUID: gzbwxRIPRjySXesXBRTp0A==
-X-CSE-MsgGUID: zSRd9JQZQEeKFm55WhcKLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="59689588"
+  t=1754768516; x=1786304516;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=06Kjz4k4lavK7HKHl+Pl1kS3zK+LVKSZHsr67K/P29g=;
+  b=lrmTWifEDlGh72mv+TcT1z8dga2tiwqNQ1M17Ofb+R5+GdZYbx/FFuOu
+   mOAXPiwCv+Ee3u7/OHuOqMVOgrNzDnH7hPw+RFCcJGcUucZM9TzaXDjsf
+   hcwH3du9pC/0xyCW/NeQeH+N4tUAihZXL60zGW/Uh5imLMQHRnx5tL9le
+   A+V3YB11gM6uRBtFGDzTAdreR4Vx5s8RshREFdZeigRvezkynDkeT5P9s
+   XBX0Kk4IRwVS6Vn6rBGjS9QGkbkEWjQQZ/jo23YQBIsp66b8LrR+jTUdM
+   wiJHKCdWZqnHMdonzjpx9xkaAts3MsruI3tqL2gprOY4u3zymahRIHeuk
+   A==;
+X-CSE-ConnectionGUID: 9ITbp5BDSfm0Y8GYaCdltw==
+X-CSE-MsgGUID: RgXuoaBLRTOurV3or7DdFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="57003106"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="59689588"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 11:38:31 -0700
-X-CSE-ConnectionGUID: HXBgOSi2TNm7IFMA8+T9Vw==
-X-CSE-MsgGUID: Tazj4xElRxCxo0NCE676tA==
+   d="scan'208";a="57003106"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 12:41:55 -0700
+X-CSE-ConnectionGUID: iO5wYnCDQYu33ub9GsimoQ==
+X-CSE-MsgGUID: /OKTt80pTkKEbSvIQti18w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165463994"
+   d="scan'208";a="202765763"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Aug 2025 11:38:30 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 Aug 2025 12:41:53 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukoSa-00050K-1Q;
-	Sat, 09 Aug 2025 18:38:28 +0000
-Date: Sun, 10 Aug 2025 02:38:07 +0800
+	id 1ukpQu-00051g-0M;
+	Sat, 09 Aug 2025 19:41:01 +0000
+Date: Sun, 10 Aug 2025 03:40:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumanth Gavini <sumanth.gavini@yahoo.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.6] io_uring/rw: ensure reissue path is correctly
- handled for IOPOLL
-Message-ID: <aJeVj4yXt4F01nPb@f5c43a121a53>
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-new 72/77] arch/um/include/asm/kasan.h:29:2: error: UML
+ does not work in KASAN_INLINE mode with STATIC_LINK enabled!
+Message-ID: <202508100304.92cGHfSj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +63,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250809182636.209767-1-sumanth.gavini@yahoo.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   53c448023185717d0ed56b5546dc2be405da92ff
+commit: 5594d8bbb347972a06d703063bb65cccc8820c84 [72/77] kasan: introduce ARCH_DEFER_KASAN and unify static key across modes
+config: um-randconfig-002-20250810 (https://download.01.org/0day-ci/archive/20250810/202508100304.92cGHfSj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508100304.92cGHfSj-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508100304.92cGHfSj-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:260:
+   In file included from include/linux/kasan.h:21:
+>> arch/um/include/asm/kasan.h:29:2: error: UML does not work in KASAN_INLINE mode with STATIC_LINK enabled!
+      29 | #error UML does not work in KASAN_INLINE mode with STATIC_LINK enabled!
+         |  ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/um/kernel/asm-offsets.c:1:
+   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
+   In file included from include/linux/audit.h:13:
+   In file included from include/linux/ptrace.h:7:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     116 |                         (set1->sig[1] == set2->sig[1]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 6.6] io_uring/rw: ensure reissue path is correctly handled for IOPOLL
-Link: https://lore.kernel.org/stable/20250809182636.209767-1-sumanth.gavini%40yahoo.com
 
-Please ignore this mail if the patch is not relevant for upstream.
+vim +29 arch/um/include/asm/kasan.h
+
+    27	
+    28	#if defined(CONFIG_STATIC_LINK) && defined(CONFIG_KASAN_INLINE)
+  > 29	#error UML does not work in KASAN_INLINE mode with STATIC_LINK enabled!
+    30	#endif
+    31	#else
+    32	static inline void kasan_init(void) { }
+    33	#endif /* CONFIG_KASAN */
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
