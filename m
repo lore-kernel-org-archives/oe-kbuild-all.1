@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047C72E36F9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 01:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6431BDCF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 04:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754788316; cv=none; b=OMXFuJIas8+ayJwJimUQ9/oANp67biFkMjZXNjObVaaVNYOqc2AFk3NTyUP7j1qsxD3lfLPhFBlmU24+WnWouWI/5rlyhDyr+4bM6n3itptmT4EXrOC2GTleS8zs4RUlZ68ADZkD61xI+TwagIuY705QKQGluqTRo5jPcq1FMrQ=
+	t=1754801625; cv=none; b=r7JX1PD/pMR/zOF/L4GM7BYexwLSWYHudXXn7kWkawt0NsdPXsURHu3wKo03oNeecK5Fz9a5d6qVamxxOGTENXug3AwdXdegq42Kkd+0h2XKoC/F8KDw2VKOwjvCT+kr3sD7pbGy3Y6rx6npLUAOwfzIfn1GQW9XRf2sh6X/hZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754788316; c=relaxed/simple;
-	bh=+m+9rJeXT6qe6ISTLKYrJd/E1LMpsQr2UUbQJrfcqjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vddpy2mP94tDQ5OUGOG+oHsWqKSStlBgzqRWhojQz09edm3F6zw2b8niz21ueZs0l4N6i3xC6Kl6cWyWEmVUBwc3s3LBs0DaN3LSGZzu/0Ee/+/IReZnZJjXdBqgH3C058fpzcKnl/KMmQTJhdsWOwxDz29MOweONb/+BXJpBYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6kq+vwM; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1754801625; c=relaxed/simple;
+	bh=3lGbStlu8yMmhRhoMabgr57jQSN1KJvUT8IV+PChT00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gtUNqx2UDbvDHBNr/pFKv0qk3a8/qWvikcBKJnIqM3SG2A6/VHQKlmt1YpQItLw7Q6vlWuX+DE6YD5x4otp8JylUA/AhTDDompVkoQX6Pe2oq7VTbWkGo7Yd2+NzlglOVG2Z7d7JEwvggF1iHtoDWwu4eXJgV0vH3RmxHXk/B8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxJbrZCJ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6kq+vwM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxJbrZCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754788314; x=1786324314;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+m+9rJeXT6qe6ISTLKYrJd/E1LMpsQr2UUbQJrfcqjw=;
-  b=i6kq+vwM2EfQL8vYzwuVyEfH+5tQcMAv+nkublA4JoPZV+CuG5zw39qJ
-   onNnQ1MOn0Am3VFKcthp0LQ3pJEoqNl6bmlJKFoeZij5bsj0L0mofqGO2
-   0ou1xlvklq3FcrATX28IzPgjyOxuPuaooBbRKA8MvMCJcY+C49GrGbQ2N
-   YFIqoV89J4Ooc5PEZzuqQ4ZFB0EycSerh1PjaV0Vz63Skn1ztDnShIycW
-   S35nww9yvWHOjaOp/m6f7+/5Ly8hVwgSt1FEsCCUrKINV66ssoge6Z4bF
-   kITRuCj5ZxsPn0CMt88pOZogkb2XEorQLD4AkXYMvI7bRrxTPOXMu1Jpe
+  t=1754801623; x=1786337623;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3lGbStlu8yMmhRhoMabgr57jQSN1KJvUT8IV+PChT00=;
+  b=DxJbrZCJNoIha3IyR0U8bOA2cMgQi5/o+suVNqj7bihpsE1KunKv3NjS
+   qU8aOlA07+iVQ3bZ/DEUzpVREd8IpWmheyhwE5R/H0buzOSUu4YOX4wf6
+   g/O+zqu4nTYPN1yJ6F3kHciCnwIOu7NeCFYYx9Up6M5wm/eOOLBXT1e8w
+   dBBizs9qKWvNLWzG+igrgEIW2dy7Ok8BtHVWfuZESD4GFKjH5zg+B9DSP
+   ehL+1XwGtEyBe4cxJxkZQNqYsxB8HjevE94jzGOn/drdOYjTSUXEELIIp
+   yRdYOpyvb/2GfVvqavyN8dn+FJScXgmhhgtLwJtT1kxjh1BqYFb4zbyVo
    Q==;
-X-CSE-ConnectionGUID: O+nm4MQvRh+EHkaeblcLpw==
-X-CSE-MsgGUID: D2QDicj3StCUDxtD8Xx0yA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="74537632"
+X-CSE-ConnectionGUID: wSpxRjVTTESqjnTwUqLK2w==
+X-CSE-MsgGUID: 2s5okV1MQkyUVE4rI/WZUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="60937693"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="74537632"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 18:11:53 -0700
-X-CSE-ConnectionGUID: bLluVhJYR0SKoDM1dGXi/A==
-X-CSE-MsgGUID: 7xEXDZ0rRcmRejBkMA2vcw==
+   d="scan'208";a="60937693"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 21:53:42 -0700
+X-CSE-ConnectionGUID: x47SEqisQNKcU/UXGw+X3w==
+X-CSE-MsgGUID: vN/EfR04RhGvXrtVCgkhUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="189308836"
+   d="scan'208";a="169862035"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Aug 2025 18:11:52 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Aug 2025 21:53:36 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ukubG-00056k-1z;
-	Sun, 10 Aug 2025 01:11:50 +0000
-Date: Sun, 10 Aug 2025 09:11:38 +0800
+	id 1uky3p-0005AC-2A;
+	Sun, 10 Aug 2025 04:53:33 +0000
+Date: Sun, 10 Aug 2025 12:52:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.1.6 5/15] mm/bpf_memcontrol.c:45:27: sparse:
- sparse: symbol 'bpf_mem_cgroup_events' was not declared. Should it be
- static?
-Message-ID: <202508100917.DoB0QKxp-lkp@intel.com>
+To: Menglong Dong <menglong8.dong@gmail.com>, alexei.starovoitov@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, mingo@redhat.com, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, ast@kernel.org, daniel@iogearbox.net,
+	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, jani.nikula@intel.com, simona.vetter@ffwll.ch,
+	tzimmermann@suse.de, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH tip 2/3] sched: make migrate_enable/migrate_disable inline
+Message-ID: <202508101230.2KBZa0Ql-lkp@intel.com>
+References: <20250810030442.246974-3-dongml2@chinatelecom.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +71,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250810030442.246974-3-dongml2@chinatelecom.cn>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.1.6
-head:   4449fabc436d3de0b6d9ba42227e052e65bbcc97
-commit: f7034fc1e787ba50200ff0b3c5d41582e95f7983 [5/15] mm: introduce bpf kfuncs to deal with memcg pointers
-config: openrisc-randconfig-r121-20250810 (https://download.01.org/0day-ci/archive/20250810/202508100917.DoB0QKxp-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250810/202508100917.DoB0QKxp-lkp@intel.com/reproduce)
+Hi Menglong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/arch-add-the-macro-COMPILE_OFFSETS-to-all-the-asm-offsets-c/20250810-110846
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20250810030442.246974-3-dongml2%40chinatelecom.cn
+patch subject: [PATCH tip 2/3] sched: make migrate_enable/migrate_disable inline
+config: arc-randconfig-001-20250810 (https://download.01.org/0day-ci/archive/20250810/202508101230.2KBZa0Ql-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508101230.2KBZa0Ql-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508100917.DoB0QKxp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508101230.2KBZa0Ql-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/bpf_memcontrol.c:45:27: sparse: sparse: symbol 'bpf_mem_cgroup_events' was not declared. Should it be static?
->> mm/bpf_memcontrol.c:67:18: sparse: sparse: symbol 'bpf_mem_cgroup_flush_stats' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:37:9: sparse: sparse: context imbalance in 'bpf_get_mem_cgroup' - different lock contexts for basic block
+All warnings (new ones prefixed by >>):
 
-vim +/bpf_mem_cgroup_events +45 mm/bpf_memcontrol.c
+>> kernel/sched/core.c:2385:6: warning: no previous prototype for '__migrate_enable' [-Wmissing-prototypes]
+    void __migrate_enable(void)
+         ^~~~~~~~~~~~~~~~
 
-    44	
-  > 45	__bpf_kfunc unsigned long bpf_mem_cgroup_events(struct mem_cgroup *memcg, int event)
-    46	{
-    47	
-    48		if (event < 0 || event >= NR_VM_EVENT_ITEMS)
-    49			return (unsigned long)-1;
-    50	
-    51		return memcg_events(memcg, event);
-    52	}
-    53	
-    54	__bpf_kfunc unsigned long bpf_mem_cgroup_usage(struct mem_cgroup *memcg, bool swap)
-    55	{
-    56		return mem_cgroup_usage(memcg, swap);
-    57	}
-    58	
-    59	__bpf_kfunc unsigned long bpf_mem_cgroup_page_state(struct mem_cgroup *memcg, int idx)
-    60	{
-    61		if (idx < 0 || idx >= MEMCG_NR_STAT)
-    62			return (unsigned long)-1;
-    63	
-    64		return memcg_page_state(memcg, idx);
-    65	}
-    66	
-  > 67	__bpf_kfunc void bpf_mem_cgroup_flush_stats(struct mem_cgroup *memcg)
-    68	{
-    69		mem_cgroup_flush_stats(memcg);
-    70	}
-    71	
+
+vim +/__migrate_enable +2385 kernel/sched/core.c
+
+  2384	
+> 2385	void __migrate_enable(void)
+  2386	{
+  2387		struct task_struct *p = current;
+  2388		struct affinity_context ac = {
+  2389			.new_mask  = &p->cpus_mask,
+  2390			.flags     = SCA_MIGRATE_ENABLE,
+  2391		};
+  2392	
+  2393		__set_cpus_allowed_ptr(p, &ac);
+  2394	}
+  2395	EXPORT_SYMBOL_GPL(__migrate_enable);
+  2396	
 
 -- 
 0-DAY CI Kernel Test Service
