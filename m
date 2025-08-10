@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448B61684AC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 07:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8AA33DF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 09:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754811287; cv=none; b=J8b1stOAblRhfhbKOZ7ZOE6ZahwdA6XvGPKQgCgMbnjIIQk6Ut1RchRE0A5eXhpkIuqzoJhh4vFppUzytWXES8u77laqUcYeOvjeaiBUwE378ADmVY3FmBKnxUKzNny/hqEKWw8RE+BYM7MUn1YuYiddsV9ztbRH0VYojkBRw7E=
+	t=1754819405; cv=none; b=HkLAoIxpdVoItriWmuGdc1j/0C+NMIag4Qmus8QSLMFDa44kzKk5IXKVEmI9pOOyuxKfw3T5/SES3NVifZwricswUDM9xfUDrYXEtNe4Qgf6B4z8EFajJLa2lwIU7nPTrvv2G7SrwoMef8mkxWSSSgTxnWUB377g+40B2JOa9rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754811287; c=relaxed/simple;
-	bh=1cnftV9ZF3Q0R7+yHIXJwFiDFygelUCOChgiGCzpd9o=;
+	s=arc-20240116; t=1754819405; c=relaxed/simple;
+	bh=S5iYfEFmgkv1YdH2jyiFWAX3ClrOAVHmKPAAv0Mx9lg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mEM3CznIa71QcyKWFM7lE89Ns+YF0T2Z8OY5fdiHSU0i4WiZL2ly3NjFJZ23CBIIrYktsJC6rgyNFWiOwYWjo88uiLiX/Otp3FQEQnQuVOq+xjd7GuWYQGLs3PBGGH0DxexNqb6q9TFhfQ66t2oZFm695LIMDabN3wK08JfIDVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fS/ADF9i; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=cAUHpWBY22jGpucl7ro2To/WrjSQue1eh0E1CMIwCKEySNbpXhe4gRrtDYUpa4qrKFrdwbXwRYl+D/KdUkGgKqkQOXzjoV5WPSblMklzEKmBROZV86IeTk1w7CWJrlctC/1I3323exC7M4nMfCvsB9l8GFUdWItzV8AjLyQo2aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ez1RxXOE; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fS/ADF9i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ez1RxXOE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754811286; x=1786347286;
+  t=1754819404; x=1786355404;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1cnftV9ZF3Q0R7+yHIXJwFiDFygelUCOChgiGCzpd9o=;
-  b=fS/ADF9iJrwY9VJdcDR0jyCPhBUDJKWHmrXFFL04VFhAOR0C1N98q1Bq
-   wlNTDtmu6adOjqOqoYSw6WfFXUbWCueTi/gGRkILsBU4OGsiWyWccsPgQ
-   Qze9jbIhnh1LDaxgJN6QkstO3+uIGQwV2Xm/k3VauTpAm2GVLt/fsOzkd
-   uekgG7iECekrLk9qq1SK/ai/N7WYsXU9h7jbtHy1d9Vhaw3bwrWJwRhds
-   SsZv/p/ALLshBvpJwivQPMqGAbsxrrCX4vuqHOBa59+d7hSLW0t0tJsjb
-   TNdY8LNc1pCaLaTBM/hmjAjZoFv4xJwY4Dn2nodFtOcNoLxrOy0xzPWzG
-   Q==;
-X-CSE-ConnectionGUID: T0I5UDmeQaantqs4VobqeA==
-X-CSE-MsgGUID: aM2AwiPoSTqPwP4nYozFkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="60895635"
+  bh=S5iYfEFmgkv1YdH2jyiFWAX3ClrOAVHmKPAAv0Mx9lg=;
+  b=Ez1RxXOEZCg60tC1P6moA9oQT0xgr3GNgZYg8LX3CsCOq/jMeOH9vqhC
+   NfQOVDBoKbfHQXp7E832b6Xax7XcEBQWMdgnaNEeapp5123Y9nYGGLnqV
+   EkE4Th/lIOk0giwa7JaJY/SrrnOc3zOVqrgmrvsava0c9kUBc3E7mHNTP
+   B4H8LUHHzGNxs1FG1Qqpg0OVxserXdstYTUUyMOgiQrFypiidV0vdIW1h
+   6Lo0o7IRmlOVAbVHMQ025f98FjK71MXqs1uZdfclVgnD1+CgcxOCTHYC8
+   LoTjaWLT1nV8B/Blp+2C64wM5W3pikbCvABFdOmRRa+E9C+ZXGNhW61Me
+   A==;
+X-CSE-ConnectionGUID: bZq42jpgQP6tfVebSNzDkA==
+X-CSE-MsgGUID: Vz5io9p2SnaFPklSl762LQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="74549300"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="60895635"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 00:34:42 -0700
-X-CSE-ConnectionGUID: TZqLbC++SD+IeYgbQNusng==
-X-CSE-MsgGUID: FtxuO/2zTHWGCFX0FSdDiQ==
+   d="scan'208";a="74549300"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 02:50:03 -0700
+X-CSE-ConnectionGUID: WpdJDaenSfWkgqXhx9TUEQ==
+X-CSE-MsgGUID: gtmWuhJYSYahXYGG2Rz1bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="196470041"
+   d="scan'208";a="165985762"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Aug 2025 00:34:41 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 Aug 2025 02:50:00 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ul0ZP-0005Cu-1J;
-	Sun, 10 Aug 2025 07:34:27 +0000
-Date: Sun, 10 Aug 2025 15:33:04 +0800
+	id 1ul2gc-0005FM-0w;
+	Sun, 10 Aug 2025 09:49:54 +0000
+Date: Sun, 10 Aug 2025 17:49:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexjlzheng@gmail.com, brauner@kernel.org, djwong@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jinliang Zheng <alexjlzheng@tencent.com>
-Subject: Re: [PATCH 4/4] iomap: don't abandon the whole thing with
- iomap_folio_state
-Message-ID: <202508101530.0ER4QBD7-lkp@intel.com>
-References: <20250810044806.3433783-5-alexjlzheng@tencent.com>
+To: Tiwei Bie <tiwei.bie@linux.dev>, richard@nod.at,
+	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-um@lists.infradead.org,
+	linux-kernel@vger.kernel.org, benjamin@sipsolutions.net,
+	arnd@arndb.de, tiwei.btw@antgroup.com, tiwei.bie@linux.dev
+Subject: Re: [PATCH v2 06/10] um: Define timers on a per-CPU basis
+Message-ID: <202508101712.K4PzKDp3-lkp@intel.com>
+References: <20250810055136.897712-7-tiwei.bie@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,40 +65,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250810044806.3433783-5-alexjlzheng@tencent.com>
+In-Reply-To: <20250810055136.897712-7-tiwei.bie@linux.dev>
 
-Hi,
+Hi Tiwei,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master next-20250808]
-[cannot apply to v6.16]
+[auto build test WARNING on uml/next]
+[also build test WARNING on linus/master next-20250808]
+[cannot apply to uml/fixes arnd-asm-generic/master v6.16]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alexjlzheng-gmail-com/iomap-make-sure-iomap_adjust_read_range-are-aligned-with-block_size/20250810-125014
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250810044806.3433783-5-alexjlzheng%40tencent.com
-patch subject: [PATCH 4/4] iomap: don't abandon the whole thing with iomap_folio_state
-config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20250810/202508101530.0ER4QBD7-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508101530.0ER4QBD7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiwei-Bie/um-Stop-tracking-virtual-CPUs-via-mm_cpumask/20250810-135542
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+patch link:    https://lore.kernel.org/r/20250810055136.897712-7-tiwei.bie%40linux.dev
+patch subject: [PATCH v2 06/10] um: Define timers on a per-CPU basis
+config: um-randconfig-001-20250810 (https://download.01.org/0day-ci/archive/20250810/202508101712.K4PzKDp3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250810/202508101712.K4PzKDp3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508101530.0ER4QBD7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508101712.K4PzKDp3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   xtensa-linux-ld: fs/iomap/buffered-io.o: in function `zero_user_segments':
-   buffered-io.c:(.text+0x538): undefined reference to `__moddi3'
->> xtensa-linux-ld: buffered-io.c:(.text+0x5c2): undefined reference to `__moddi3'
-   xtensa-linux-ld: buffered-io.c:(.text+0x607): undefined reference to `__moddi3'
-   xtensa-linux-ld: fs/iomap/buffered-io.o: in function `iomap_read_inline_data':
-   buffered-io.c:(.text+0xfa7): undefined reference to `__moddi3'
+>> Warning: arch/um/os-Linux/time.c:90 function parameter 'cpu' not described in 'os_timer_disable'
 
 -- 
 0-DAY CI Kernel Test Service
