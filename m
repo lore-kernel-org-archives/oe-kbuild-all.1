@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205A11EBFE0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 18:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC0970808
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 20:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754851345; cv=none; b=QqZXYNyWnBnUfBq0LWVACcOdyAgu9ZbPxboLXjuRvq+tbc0AtK7jP4ePcm4OkZ4vSQGhqVKYTNZ2qlqNHv6TyzXggH/pMFTHqg7Wr+JdZK9BXTWmvQUceo053vUGN3jbR2DJMV107R8osWivbNgeaxOgIPGnjImwsbV4SBcuPpM=
+	t=1754858199; cv=none; b=nNb4dBjc8uiJkIu+IgmN+hvWblxeFNKzMqiqGgygh2F6n1WTPj2CU9Ufhpqxm4pew3Wi1vwSLrk7BCnn5tSUTQgWvg0mh3FO28iwZqMvjDo0iRfhX8ThnmoWADDeIS6yaX+zHHwAZVTXWqu9wU6KKl0JNoTdymIKzD0C/9eoA2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754851345; c=relaxed/simple;
-	bh=/r/SmwmUuTHUq0Ns2O8AHbMfP7mSsVRuh+vn7s8VWd4=;
+	s=arc-20240116; t=1754858199; c=relaxed/simple;
+	bh=iY1IaOTqg7LoRtu2vaSgiR2RnoORHzLeVjHSbxIg92o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Da3B8X6ufw1p5/oKtEnAmM+oBovANt7oAD+ejxGZiYqrSfmajWXFVJshTz5CmBaVnWOmVON+fE+GYplcK25y1r71/VyJZn5Ok7U+/5UFgxOSl9PWdPuyWqnKokVkQRsfq4cEkWU8h+AWZZZ0FMBvJzkFeH8xcOBEzS/gEyBU/kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpkGtSJ6; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=i5ahRDy0+jwUesA66GABroVI6by3geOg6Ny+CkO8ajNqdz2sVOfKYyDTcSDiA3ggAgIzzna+pLRjDMyPlP8D8xAG2R6c5vAuq4HOUiVz+sJjnOAsYFi1JmHydVbC4q+iPZuHPrZHt2yN/Sv2fRS0I9wv+EUzJ2qvBFdvjskzz8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eC4ZTGhp; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpkGtSJ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eC4ZTGhp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754851344; x=1786387344;
+  t=1754858198; x=1786394198;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/r/SmwmUuTHUq0Ns2O8AHbMfP7mSsVRuh+vn7s8VWd4=;
-  b=MpkGtSJ6zzj1z4n80A+RrasOwCxnn0oybsRvf643YVYxusgMgTNJMLa1
-   WHqFtXg3EulZSwwOyLN353uoR9Kx5EWOQWmZVaNVQFUi60AzLUCcb/jI8
-   hzxVBINcZDXWHARL42GIl2rHc1cRZ/crqWzV0bk2McLKb8Qmhot/oiQQO
-   7RVxCwjXqkys+MdtvIl9Bay4WZjMattd7guTqErJeVvC9NTUA06oiS5yU
-   EEgh4oTpDbxq2/n6CFzA1zQJHAvYeFzqvRxLhTY96Pnw2LULsgIwHS/FN
-   ALD3IR/SKmqoZ9MziE2RPxt+P3eSGJ0WT/2vx4cgIdnr0iUj8EirJ+oLM
-   w==;
-X-CSE-ConnectionGUID: CCoPSpjbTvCOTa3GirEp8A==
-X-CSE-MsgGUID: B4Smo+HkTz6KJybvUXKDdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="68566858"
+  bh=iY1IaOTqg7LoRtu2vaSgiR2RnoORHzLeVjHSbxIg92o=;
+  b=eC4ZTGhpi1m6666yDSHpSq9S2hiSEA/bI0jzYdHlXxZsWvV47fLsgbmr
+   dF1jOCb04SBmZ+ZmpgvJypG8RbG6b3jiuoEavssRM0Q9c86u/kZTzB4y9
+   GmGRSddMvkq3ZdJVOgLxlELLQEtODE+/Zy6rK3BFVnBcoUVHLDAkqBbpj
+   po2HuKLK+K+u1s7rEbQxcU5MMqolJfVf+DDktOLV0QOZLlNKUO+TOQZd7
+   qKeCqhA6nhUnxZiarY5ClmfU5qtUO7bLIHfn4SgdgtRjj15C0iiZAyj8N
+   iM7xIIFntpMIUy8YouRKAjkUzi6MqonJPvPVSWSmux3ExPspFPVaeRBfj
+   g==;
+X-CSE-ConnectionGUID: yCxOvgjrTTmKSWJ/wAEyZA==
+X-CSE-MsgGUID: gKjOLtuxTJWCZRJGLdhc2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="56829079"
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="68566858"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 11:42:24 -0700
-X-CSE-ConnectionGUID: m3egPRzVR+Kd2F4I02gqwA==
-X-CSE-MsgGUID: 0VfUI+g1T3SfPMOTjwvrhQ==
+   d="scan'208";a="56829079"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2025 13:36:38 -0700
+X-CSE-ConnectionGUID: iI/claFVRZiN6pa2YDx7Rw==
+X-CSE-MsgGUID: 2GMs9HlEQF60Oz4fMcTWSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="196561755"
+   d="scan'208";a="166110034"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Aug 2025 11:42:22 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 Aug 2025 13:36:36 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ulAzf-0005PK-2o;
-	Sun, 10 Aug 2025 18:42:11 +0000
-Date: Mon, 11 Aug 2025 02:41:15 +0800
+	id 1ulCln-0005R2-02;
+	Sun, 10 Aug 2025 20:36:03 +0000
+Date: Mon, 11 Aug 2025 04:34:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Lukas Wunner <lukas@wunner.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.16/zen-sauce 5/31] kernel/irq/proc.c:348:26: warning:
- 'sprintf' may write a terminating nul past the end of the destination
-Message-ID: <202508110242.JcX5w974-lkp@intel.com>
+Subject: [l1k:aer_reset_v1 8/9]
+ drivers/net/ethernet/intel/ice/ice_main.c:5765:9: error: implicit
+ declaration of function 'pci_update_current_state'; did you mean
+ 'pci_bus_set_current_state'?
+Message-ID: <202508110416.tnArFNMS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +64,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.16/zen-sauce
-head:   08d11019f3924f192e1a68d7d2007f8ec7bdf889
-commit: bbb5a430ae315840d98fda2561e462829f1182df [5/31] ZEN: Restore CONFIG_OPTIMIZE_FOR_PERFORMANCE_O3
-config: sparc-randconfig-r073-20250811 (https://download.01.org/0day-ci/archive/20250811/202508110242.JcX5w974-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508110242.JcX5w974-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux aer_reset_v1
+head:   8662972f7327af599ea9fc6299a7b539db1cb461
+commit: f522276bfd4031fcf8dbd92dd71111c68ba6f9aa [8/9] ice: Fix enable_cnt imbalance on PCIe error recovery
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20250811/202508110416.tnArFNMS-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508110416.tnArFNMS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508110242.JcX5w974-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508110416.tnArFNMS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/irq/proc.c: In function 'init_irq_proc':
->> kernel/irq/proc.c:348:26: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     348 |         sprintf(name, "%u", irq);
-         |                          ^
-   In function 'register_irq_proc',
-       inlined from 'init_irq_proc' at kernel/irq/proc.c:436:3:
-   kernel/irq/proc.c:348:9: note: 'sprintf' output between 2 and 11 bytes into a destination of size 10
-     348 |         sprintf(name, "%u", irq);
+   drivers/net/ethernet/intel/ice/ice_main.c: In function 'ice_pci_err_slot_reset':
+>> drivers/net/ethernet/intel/ice/ice_main.c:5765:9: error: implicit declaration of function 'pci_update_current_state'; did you mean 'pci_bus_set_current_state'? [-Wimplicit-function-declaration]
+    5765 |         pci_update_current_state(pci_dev, PCI_D0);
          |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         pci_bus_set_current_state
+>> drivers/net/ethernet/intel/ice/ice_main.c:5765:34: error: 'pci_dev' undeclared (first use in this function)
+    5765 |         pci_update_current_state(pci_dev, PCI_D0);
+         |                                  ^~~~~~~
+   drivers/net/ethernet/intel/ice/ice_main.c:5765:34: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/sprintf +348 kernel/irq/proc.c
+vim +5765 drivers/net/ethernet/intel/ice/ice_main.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  327  
-2c6927a38f65b5 Yinghai Lu      2008-08-19  328  void register_irq_proc(unsigned int irq, struct irq_desc *desc)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  329  {
-95c2b175346548 Ben Hutchings   2015-09-26  330  	static DEFINE_MUTEX(register_lock);
-c1a80386965e9f Thomas Gleixner 2017-06-20  331  	void __maybe_unused *irqp = (void *)(unsigned long) irq;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  332  	char name [MAX_NAMELEN];
-^1da177e4c3f41 Linus Torvalds  2005-04-16  333  
-95c2b175346548 Ben Hutchings   2015-09-26  334  	if (!root_irq_dir || (desc->irq_data.chip == &no_irq_chip))
-^1da177e4c3f41 Linus Torvalds  2005-04-16  335  		return;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  336  
-95c2b175346548 Ben Hutchings   2015-09-26  337  	/*
-95c2b175346548 Ben Hutchings   2015-09-26  338  	 * irq directories are registered only when a handler is
-95c2b175346548 Ben Hutchings   2015-09-26  339  	 * added, not when the descriptor is created, so multiple
-95c2b175346548 Ben Hutchings   2015-09-26  340  	 * tasks might try to register at the same time.
-95c2b175346548 Ben Hutchings   2015-09-26  341  	 */
-659ff9c9d77b8a Thomas Gleixner 2025-04-29  342  	guard(mutex)(&register_lock);
-95c2b175346548 Ben Hutchings   2015-09-26  343  
-95c2b175346548 Ben Hutchings   2015-09-26  344  	if (desc->dir)
-659ff9c9d77b8a Thomas Gleixner 2025-04-29  345  		return;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  346  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  347  	/* create /proc/irq/1234 */
-47af06c9d31fe5 Andy Shevchenko 2025-05-09 @348  	sprintf(name, "%u", irq);
-08678b0841267c Yinghai Lu      2008-08-19  349  	desc->dir = proc_mkdir(name, root_irq_dir);
-c82a43d40b9320 Cyrill Gorcunov 2009-10-26  350  	if (!desc->dir)
-659ff9c9d77b8a Thomas Gleixner 2025-04-29  351  		return;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  352  
-
-:::::: The code at line 348 was first introduced by commit
-:::::: 47af06c9d31fe558493de4e04f9a07847dc4992f genirq: Consistently use '%u' format specifier for unsigned int variables
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+  5752	
+  5753	/**
+  5754	 * ice_pci_err_slot_reset - a PCI slot reset has just happened
+  5755	 * @pdev: PCI device information struct
+  5756	 *
+  5757	 * Called to determine if the driver can recover from the PCI slot reset by
+  5758	 * using a register read to determine if the device is recoverable.
+  5759	 */
+  5760	static pci_ers_result_t ice_pci_err_slot_reset(struct pci_dev *pdev)
+  5761	{
+  5762		struct ice_pf *pf = pci_get_drvdata(pdev);
+  5763		u32 reg;
+  5764	
+> 5765		pci_update_current_state(pci_dev, PCI_D0);
+  5766		pci_set_master(pdev);
+  5767		pci_restore_state(pdev);
+  5768		pci_save_state(pdev);
+  5769		pci_wake_from_d3(pdev, false);
+  5770	
+  5771		/* Check for life */
+  5772		reg = rd32(&pf->hw, GLGEN_RTRIG);
+  5773		if (!reg)
+  5774			return PCI_ERS_RESULT_RECOVERED;
+  5775		else
+  5776			return PCI_ERS_RESULT_DISCONNECT;
+  5777	}
+  5778	
 
 -- 
 0-DAY CI Kernel Test Service
