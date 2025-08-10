@@ -1,129 +1,130 @@
-Received: from sonic311-21.consmr.mail.sg3.yahoo.com (sonic311-21.consmr.mail.sg3.yahoo.com [106.10.244.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA14D24BBE4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Aug 2025 21:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.244.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165B2101E6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 00:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774089; cv=none; b=r4Ei4WBwWawx/6kg115eBCTwM1sVRog4o7dAbv1gjneu64firICLhk3q2Xa+QLPTGuFALnaJN/vKUVV2z8XdHWUwTa9xG9h4Gyfm8oM2hEJeGo27aLXLpR1V47Q+DkfhPyGr1kbJnlmvjqdK659KYbWRJbwKBpXGPN5sFWfv3Uw=
+	t=1754785221; cv=none; b=CMqTxeFVNOw8TfUn/mggnfCxjFSd4bgJ/Oc452RJQ5hHnhibs4gZjMlK03UqTxsEU9oQJldCQcRo18PAs5ial3W/bamn5PQk2yaQRh5Y+nSePvkd6gJ8rXVCGWrUaqTR0eSihlFkndA1Bw66OyYNAsy/mRXxh3KyJyGQJk5FIu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774089; c=relaxed/simple;
-	bh=d0Yjtt3IzlqKcHROs78kHofsMlGTuJ7ll+LtvZtLsjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D78ybCAWWQDaleZlUluXKyEwHASFfLGGU2JUL7oBNO/S/gPWjB/ifHOow6t0lPloUZ9ft9AGZKJvZKnbuX66Fg7+Cm4d+HhQv7S5iAR2gPO4fRINaJhFhtse/t2/PMViF74WwX+qWIlEXvlHzCv2kIXuR4I8LLiETdv036eTdsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=EBFrWwR3; arc=none smtp.client-ip=106.10.244.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1754785221; c=relaxed/simple;
+	bh=Yu3/TIsfaw8eta+0x7toQmHRIySyi8f8Rt+H3p/7MpA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C3psOksUudmk6Al9t56kDPzS8YTLvzSDbPCd1DeCoxw2KR75NhaJRLczj+VqqUyucvtiMfl/Xb7GVWFweQGcZadXakTyXqwG8PDOSO8wJct5AKpz7VxzqVT5OGPGY5hVDfAsiP0P8uCWsAxZ/kwEPRsItq6MzkDjoU69TGB+4zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNyukv4B; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="EBFrWwR3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1754774085; bh=+ykyPREPuo21LV5KP7vBGJIecoZNQK65w4laRFBAxUo=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=EBFrWwR3eFJKcCMVuxYic1P7jbOpSiIdNOK5+KdLyAN7U64Qj6n/MadFYNrDA1DxLsm43xxaOt8GMi0tCpIsMBReCg18WPN+fGWz9ibJyBGBzIBOX59H55a7U2EoYC3Yg6xvGL5iuO83gV5QnZeZfoRIjc7XnAUEOFN+kCmB9OahBffuxvGCnLhkxqashm9bygnC+KXuvRCw0TU6+XdTN1fVYueAvYgO2ku/0ykDBDICcjGjcCtF6NoghgkKstXwmlcmWL/402DZwQysc11Hu9zapS1ywf5iw8ZgAidLXjW2h+UIVitATztCo38ZUKLKqDaztiUBuMzdaTmGPPBZxQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1754774085; bh=QfpUTzRREv5v8dyoAy4rIC0wF0FpWulQy53hPRxMCtM=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=cbuFDMfl0/BZ1QfROD+rJ92XYCuIybmEXikGz5CB6ThTJwT/vbxCuXEZo+AXWR1QKxEKsWFGu1f7hQtDbQkw5tboe8O/gzZT3Ub/YGX7pPSiJSmNxOPUI3ecsUJJtKCXeEBoN96zYYC9ogjJnvY7NQl2PkTTYkFuvadvI6J2DtKMMuBBcIDEROncH8RnOyQxszQA2x0yHKOBjPF9H24ncbDGLMLRBFMhCz5VIStMj9Gv4TKhYfl2c+FKTUMtWeQfQkmUvFw/4m7akhD3uEw7ceJ0auMUPzxN9jBkMKnLhkFDmNn6vJCwAgKdK1hWLWUVN7Bqbq3rJMaJN+9kd7zbbQ==
-X-YMail-OSG: .zwCfjgVM1mDn5NwRxL.9Geo041SjG.__aX.GjsF37GhlpoTanX6ltexlztkJtq
- XBYNvaqTp31Xqo4PqIoU9N0GLhr87k1qDOKlP94ULYs322_7N4CFcMYMPllbP1M3TjkHtg9piuFP
- v1LaqzexHlhHnngUmRDTy8X8SQEm_VRpEgIchawlevlyhmVeg5i0GGTWuV3eG7KrVEFEOsV8mTuy
- FwdRV1U7D.jHeWIXmJjzAxPkwEnOHUUM0zKrP8.MhXkwJBZRDcgC5mPHgHHbRci1sTcvLklW7neE
- gcsKhmujIE1z0KEt.oAseFux6xceP3gQH9aGQDgceJBCZ0m0r4q9u_n9cLgZAJhh6uQyzwrpEftf
- Edwu47ikKAGeW1uVIvi1JIwT4syjvG3YRBmMuO59n2OvOJSZq9aNBnVrCIRq2LY9pxI9aYB0B.n7
- Jh9doPGkmaN5n31rZNMtQ8GivPCFT2I1zOUgVAgVozRr0A205RKGKdw3tS3ReZF3rfM6TAuULTyj
- R5OvuwS7KBAxMscKF72qhF3LCbTDsa4nhMZZKS9rOxSIlcqAIpH0yls_FjW_kghsa.VB6aomtKtS
- chxgKlYlDxnZ4.bmRupiovD6SRruOod6PIQdBEuW47vlA3l6HgieXjKpCLAdpbSa0x1XcvbXKrkp
- vrNm1AF3IluKSppDKZ9SIi0ukMExD.6ybyvSR6dKrxEwEwrb7Uy3lqZ7NUM2h1u3VPz8H4aPmMsY
- 2jDGuUvEXTRyMQSq2I125MgUFGDWGujiLrbunkSo72sXXvFx8uaG9W53N_DFO50WVxeqKZ4q9NZV
- z3cWzggSyAs2K8MOfaxyz2srarqsa0ijW7ViytBJa.gjRtVQD3kNytxJy7IRwBg1jkizPaO9Ir_F
- Gi3bqvoUrwpOEaj27_dC.uxt24lTB_RWtWTzYWwnxHbCZwo2d7O3PaSpdRT24ugFTwX6wbQWKgZ0
- n85d8X2Jq5KIs13J0J1DUuYueiXPBxwNwbgd_TvZinUY1GRtRTciDovqzirbADUt5QQyNDn5Bu8l
- _awokpjRaBSTxnxpzOCO0ApAw4XoLBHH24nfsvaKQ7lH5i_I.Zcz6fI3ry7R94EgBcIfnd10Um08
- vtj6h1eK7M8h4XpqdpdGQqiQyGsX7whxqWWv4dHWa2jeq0SZEThyb5oe_6n2pp.75Pdb4hMLJq97
- Gq5_E6qhk1jhxHoFGR4DJN9o28CTMHfV4aepUk8cpaz_jGg5sC4a9rsbNctKEImk.sgR8q5WWHZq
- 848GOjpcd0FXEuxEzRIwB70KH83rYepJueW_4K32hkaCceh9Dsi5_X5DSE_59QmLbOT2y_EPOx.E
- Jw36O9cMd8a594DSxUQv8ONKzkuLVxxpM.rgEZz4ArKLE2U5L3t4jT8i8m6WYhF5Z359bR9SLlFP
- 7u_K5WEzpkyZtUgp.CsZPTE7Gsmv59LL.e2oMO9aCNwPXLbnzp0gY3JGFAMAXgEtjJcSBnx2sChu
- L3pIHjRgHXi1ZtALZSH5VqlsoOOShGGL8c3rc4P22SSWMmpOuL7wikrsu5jlYOfOv_x93qfH5zQH
- pGKVvkmIVFvF4nw9dvXHi3n0gtqcFGU4OH0RQrGp.ru1v1WSVIbSZtK2a7b6F45jKv2irNI.9Hzy
- 7ncJuvC_zCTvaxBLXDABOu0zKJJE2kenMVDZutPP3r2OarD795WSIquLYXAf2dQGjb7a7u1YXJ8H
- L08T2CBogJCY.1HJYAv4lxDscxYwb7Q0UYJiMTPkl5LB9WaTWDiU2hQU47uRNovkJiaRoKsWe7FK
- Hx8DVKBrngQ29_E63bwjpnVZyt41e_RWCW.NNl2IeNqISsxo2MhdlEOCUaZYv5kRO0mRp0DzQh8h
- 04diF_T1adXMJtxzhM9x_CgsO1oIZCwzNc9VVBjbw1d2tjCumIkCBfIC2nIUGMPrdDzRKnNvzaAq
- UMqJmRYJfGBMGKSeGQUsn4_61dtq4Hl_FfKxPS3o6mM9h4EsSCT1veB9iL27ugMuZjWGPo1svtjA
- RHQgdMwSzwO1xOt28bv4.ZmJvsfbvusbzglAeesgWAKyUNaHu2a1sjnGmjmlixaWMHfJGGW6Y9WJ
- lMK668PiYVGaoxtE.gIzTmMcnv4s8ubop959ureaqFnTI53nSLmFpS80rPA9E10uPbz2Jiy1eseE
- aALM1Xwq93uIeq3DIuDQ7PsupFBcAirwMtYP4CXRRqMnI_B2AaY1PuZDhFBotvRznx7c0PNGO3UN
- OvTdV6lMucAKkCalUnYiKsZ8eJV10SUYurxtkL_wBvhsMigST0_jMocFU3ozU6taVV4h4Lqo6fgL
- bBrAjSsQL1h9pM_risZoSynbOWK8JRxAP_k1Tlw--
-X-Sonic-MF: <sumanth.gavini@yahoo.com>
-X-Sonic-ID: a3d1a8a2-68b3-4579-8586-96106a1df016
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.sg3.yahoo.com with HTTP; Sat, 9 Aug 2025 21:14:45 +0000
-Received: by hermes--production-ne1-9495dc4d7-psbrp (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ad8551e2f6b02f307823b0a83dc795a2;
-          Sat, 09 Aug 2025 20:54:25 +0000 (UTC)
-From: Sumanth Gavini <sumanth.gavini@yahoo.com>
-To: axboe@kernel.dk,
-	asml.silence@gmail.com,
-	lkp@intel.com
-Cc: Sumanth Gavini <sumanth.gavini@yahoo.com>,
-	io-uring@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	oe-kbuild-all@lists.linux.dev,
-	John Garry <john.g.garry@oracle.com>
-Subject: [PATCH v2 6.6] io_uring/rw: ensure reissue path is correctly handled for IOPOLL
-Date: Sat,  9 Aug 2025 15:54:18 -0500
-Message-ID: <20250809205420.214099-1-sumanth.gavini@yahoo.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aJeVj4yXt4F01nPb@f5c43a121a53>
-References: <aJeVj4yXt4F01nPb@f5c43a121a53>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNyukv4B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754785219; x=1786321219;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yu3/TIsfaw8eta+0x7toQmHRIySyi8f8Rt+H3p/7MpA=;
+  b=RNyukv4Bet06qt713UicZCKNLrQffZudG2hcGBr8kY6g1Vdnp66vva6/
+   hBTw0AZ0B1FtqR7oMBD8SFoBIRg+AV4Zq/JMcK4dQbjcdVwvhzBH5GGh3
+   rdarW6ZYOyY8KC033YsPMWQFwaA/LnG89fouDRtP0uvWhOQ9IGxzEMiWA
+   T6eDyFrQC/UB489P0y6CVQ5BXwdjswW8PK9CeLT4JMFgwy+lhjt5spgeT
+   kADp8+/niE18WlBIJpSXosKtY/moDrFTvxiFVQBvzfG2HUdejZZ+wQUkp
+   5zfLiqDiiponTl54ssScPlZMxZA4thtVFMKoPGr+lMe3CU7QCQ9zkfIS7
+   g==;
+X-CSE-ConnectionGUID: T92wawX5TtGAZrSCiQFvPA==
+X-CSE-MsgGUID: LRZja+iiSjWvYBvGG6F5BA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11516"; a="68457232"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="68457232"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2025 17:20:18 -0700
+X-CSE-ConnectionGUID: /zRJEk8/SnC8qdNqk4z4TA==
+X-CSE-MsgGUID: uYBqjVq/T3WvtPihRBdrDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="165501820"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Aug 2025 17:20:15 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uktmy-00056K-2w;
+	Sun, 10 Aug 2025 00:19:58 +0000
+Date: Sun, 10 Aug 2025 08:19:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans de Goede <hansg@kernel.org>,
+	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Richard Hughes <rhughes@redhat.com>, linux-i2c@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/3] usb: misc: Add Intel USBIO bridge driver
+Message-ID: <202508100706.TBcpUB9u-lkp@intel.com>
+References: <20250809102326.6032-2-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250809102326.6032-2-hansg@kernel.org>
 
-commit bcb0fda3c2da9fe4721d3e73d80e778c038e7d27 upstream.
+Hi Hans,
 
-The IOPOLL path posts CQEs when the io_kiocb is marked as completed,
-so it cannot rely on the usual retry that non-IOPOLL requests do for
-read/write requests.
+kernel test robot noticed the following build warnings:
 
-If -EAGAIN is received and the request should be retried, go through
-the normal completion path and let the normal flush logic catch it and
-reissue it, like what is done for !IOPOLL reads or writes.
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus brgl/gpio/for-next andi-shyti/i2c/i2c-host linus/master v6.16 next-20250808]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: d803d123948f ("io_uring/rw: handle -EAGAIN retry at IO completion time")
-Reported-by: John Garry <john.g.garry@oracle.com>
-Link: https://lore.kernel.org/io-uring/2b43ccfa-644d-4a09-8f8f-39ad71810f41@oracle.com/
-Signed-off-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Sumanth Gavini <sumanth.gavini@yahoo.com>
----
-Changes in v2:
-- Removed the extra space before commit-id in message, No codes changes
-- Link to v1:https://lore.kernel.org/all/20250809182636.209767-1-sumanth.gavini@yahoo.com/
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/usb-misc-Add-Intel-USBIO-bridge-driver/20250809-182506
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20250809102326.6032-2-hansg%40kernel.org
+patch subject: [PATCH 1/3] usb: misc: Add Intel USBIO bridge driver
+config: loongarch-randconfig-r052-20250810 (https://download.01.org/0day-ci/archive/20250810/202508100706.TBcpUB9u-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
----
- io_uring/rw.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508100706.TBcpUB9u-lkp@intel.com/
 
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 4ff3442ac2ee..6a84c4a39ce9 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -326,11 +326,10 @@ static void io_complete_rw_iopoll(struct kiocb *kiocb, long res)
- 	if (kiocb->ki_flags & IOCB_WRITE)
- 		io_req_end_write(req);
- 	if (unlikely(res != req->cqe.res)) {
--		if (res == -EAGAIN && io_rw_should_reissue(req)) {
-+		if (res == -EAGAIN && io_rw_should_reissue(req))
- 			req->flags |= REQ_F_REISSUE | REQ_F_PARTIAL_IO;
--			return;
--		}
--		req->cqe.res = res;
-+		else
-+			req->cqe.res = res;
- 	}
- 
- 	/* order with io_iopoll_complete() checking ->iopoll_completed */
+cocci warnings: (new ones prefixed by >>)
+>> drivers/usb/misc/usbio.c:661:19-21: WARNING !A || A && B is equivalent to !A || B
+
+vim +661 drivers/usb/misc/usbio.c
+
+   647	
+   648	static int usbio_match_device_ids(struct acpi_device *adev, void *data)
+   649	{
+   650		struct usbio_match_ids_walk_data *wd = data;
+   651		unsigned int id = 0;
+   652		char *uid;
+   653	
+   654		if (!acpi_match_device_ids(adev, wd->hids)) {
+   655			uid = acpi_device_uid(adev);
+   656			if (uid)
+   657				for (int i = 0; i < strlen(uid); i++)
+   658					if (!kstrtouint(&uid[i], 10, &id))
+   659						break;
+   660	
+ > 661			if (!uid || (uid && wd->id == (u8)id)) {
+   662				wd->adev = adev;
+   663				return 1;
+   664			}
+   665		}
+   666	
+   667		return 0;
+   668	}
+   669	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
