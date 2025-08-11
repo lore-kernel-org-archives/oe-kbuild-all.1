@@ -1,352 +1,140 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0835267B90
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 05:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD08C29B8D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 06:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754889186; cv=none; b=nK7N7SJGJSCoQ0Y9/ldk0PzBcp7MeL6ioU/fohxUd4B75EcHZMIroi031YIJhBcH0t+b++RfxTtCeFUD1QydEzdwkK+E6ZlSOwHg+ClpT+g0uJhWI/2fG5I6BTq/zayyaA3YIB1PuopOcyjM/X/VgVIjIie7O90goR7O9eNJgZU=
+	t=1754894693; cv=none; b=WlBuC0o1ZRsMZh773a4oN38m2ox9eJ//uuPCYfrqBc4LxoxbYd+rczVElK4G9LcmHCHb1FD6OTrqjGKMLeQjiq7tGWHeQb/Omr1ziTha7jeuXHCS5Pbis2aOH5weUWi8aohYB7hSt3uZF2Ds5xWyomJ4K2DDhRRHgIdzeEPYpek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754889186; c=relaxed/simple;
-	bh=PIwwitFtwncqFPfcdRZIKPpYKpLCCzKFD8DtmlOxBq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KODBe5vGJMd+MiSxezF9pCgaa+ZkqgHe/3i/bwftOfrsuldY7iKEw3UHZ4icp+cPpCv7zyIFhtrDjl6vRmGGbI0KNqisJHMmkhpYVI6UOPcGgYyrRXu0OaqGB6PLtDLUW8fDPAJJwnnXtZjc1AH5ZYkM/RoVBQIoHv3T3a2B/xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DfoNgwBZ; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1754894693; c=relaxed/simple;
+	bh=7kIyHm3ycPuG2bNrjYRzZ1oN8R/OB4JGUGBpwgvDkA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=JsLQzY02NfbxqaFP06InbJ3bP1YlHvGcyk/XCOr/D0Sj+U40TKvXqpQoMdHnNyY97lxgQOFNW5XzD/cevZYuqTl8lpzsLnZ5UhbD8N7UktPodfvrRFp1PRcAP+Wyv8KhIjCeuJcmrfo/ZRDOEi5FJ6jDE0tLbL7lhTl+4dBAkXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V1BXWpBs; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DfoNgwBZ"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b7825e2775so3501210f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 22:13:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V1BXWpBs"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b782cca9a0so2581285f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Aug 2025 23:44:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1754889182; x=1755493982; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vb8TTR8hEV4g8/OZKd8Ib45/HtKzsxAgCrIb4ECPQpQ=;
-        b=DfoNgwBZDy0iI+J4yXze7EuNqaWPQ1/PTV9r6RFRP0WkG1nP8mkMDHSwGeOZ+7UrDd
-         w9RsyAxG+bJUFgZFoSaN5IQtjD4fgHb3fUpb3P43rtZ2gp2tXv9GyExu29EXp47yUcju
-         qZzlYWeMWn13G8QI6PDwZd5Bx9F4xCzmfzW1m/27ieRO0L0pY0m3UTtIsQZ6cAoMOKEo
-         jc9TDQeeAhE71gmwFkWRLKwSB3ZRProA1td7+WIDGY5hboa5HcqZBip0r/kOt347RIdM
-         pZzt1sNZzjjE1fJK8i6EAyuFn8sEh+amt44GTdRTuJXZ9M6b9RU5KdcyhuUaBp3sneBU
-         3pDA==
+        d=linaro.org; s=google; t=1754894690; x=1755499490; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fZcBQa+R8YkEhAHCj4vRCxBH8Jc3hxrLrNZ+LWWKYcs=;
+        b=V1BXWpBsiv9XQsazi1QkOkzBGk04Wbg/u7beBYArhNYZgAMQcc3np5oeKB7UQqGfw2
+         29EtLfktpFOLF50HW3jLvxrzaWQSbsZKy2385FTelaaCutXGtMPTWj5QZUx11fIUzTUq
+         WEvyl1vgLB1WPr4YQdf8hsuOK5yF2uiev+wc5LgFu+itA9aRw3ntWp48F9K4Cuc26vNQ
+         DQ5wLqbpO1Fv2VxGdj4Zg03uxMXJ9lbDReaMXD3tPZjzeSSrPsnFYJ1kgU+zk6XKCSG4
+         /VUNteHz78IAMV3AJ4I46ZUxGpu0mhTy7enUA2jEJd/qJHEFtc+/uAF4Bqb2kQLQL/gF
+         8gkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754889182; x=1755493982;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vb8TTR8hEV4g8/OZKd8Ib45/HtKzsxAgCrIb4ECPQpQ=;
-        b=tpunL6H8nsTOl9pgLm2MqJWvUV1cWG2KcSVY3tbwXvjjie3P4rU+Ea4dPyM2nGUJDZ
-         couUc7ibQDb3e0qGBX1p4+sKZe1nmP4iZXlbXAk9cogMAO6jyxlIEayPVz3YCQwvzWkn
-         Z4Vb0tWTfz5M8kpnGyc+1CtJuQPvRVw3Bqq1+HAxT9bl2zI/OAudVufFjVGvGaTlkkJT
-         z0emmLD9cQvBfIOIkbx0NZ6FSYj2qQ9kanuEd0S0LVUUa7BIosGyp2PaHmZ6E5RvZW7n
-         Fs1lGOpZmk9yK8OrUoFcGBBSPwwlk7ewUhtunFCgR5SjX7lPfuE6QjKTqBCnQQO7RsMu
-         BUqg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxSbDPyHoe+BPxB6Bfwnaag4az2a5nUuTu3cRmyk89jzkGuyVgrSPLkHG7xIvtS+h5rXwXAeL4okHvmtgL@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLiPQxIA6Kha2mRQxfWaiCK8Cp6q1jAoZbJ6JSL5oZGGNpA/ND
-	b5uWPVrbK0F8qE8YZ32qB2mc5+ja4d8QgPmWSb0WV6WMs3QLTzo117YEQpEwoEKNN38=
-X-Gm-Gg: ASbGncsA9qscBfcFZXcCwU7NX+/IUAa1q7TgG1fybKP0Kq5XzU7VcqDSBsNyS633ped
-	5bal0kzqzudP1JkmUzJSQCSJcFNZPsx5n8hbEoY8CtmfH+GirwPoMvWvxcmBxGTpq71peErwOdH
-	lKI95nzfJb/0dHwp6jiTZmX3jXhYXU1nhwjpX6yKPtwROr0ZVRJg8ywSj3FspgZYKTPyGje7XcB
-	xOPvlQwBqhSudvEgdkU/Uksw89t84cWaQBAJGHEIs/lbgNj7bcCq4G9/2Z1fSU9TVgmNFPZOJ1+
-	tc1QYX/hgTVGZBiQ31Bzuk+MPu+2bULsWXri7WRF5UuFCUJRulp1ce4Q1BX/Mp4a/7RG9xm3NpV
-	uet0FNrL62jSEy/OQUCIkOOUotF7/63RsasJrZPfeiShPGXmTqQ==
-X-Google-Smtp-Source: AGHT+IFKQD8ittXWrLC6YuswuaOnCmUXG2xzj+kqw3dWt9bjIcY4BtzEHfllyjeXwpMnr8JDTBP58w==
-X-Received: by 2002:a05:6000:2484:b0:3b8:d337:cc12 with SMTP id ffacd0b85a97d-3b900b4d924mr8913434f8f.22.1754889181995;
-        Sun, 10 Aug 2025 22:13:01 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8f911sm25810756b3a.47.2025.08.10.22.12.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Aug 2025 22:13:01 -0700 (PDT)
-Message-ID: <c51f8f46-38e6-42e2-ad8c-7ee7538711d3@suse.com>
-Date: Mon, 11 Aug 2025 14:42:55 +0930
+        d=1e100.net; s=20230601; t=1754894690; x=1755499490;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fZcBQa+R8YkEhAHCj4vRCxBH8Jc3hxrLrNZ+LWWKYcs=;
+        b=r47A8OuBAZJiathhqiud/8+OfCJs3tTKQkagSHr4hATXD5mjsdRYjmlg9MYixjoiIa
+         BJqZZXwfJjlF/P3aFzr/EK3dB2cZqoBenEFL6UbfqkKjQ2j7e4pICE+ZBUDrdEvMXy4R
+         xdHiC33+XmfdZtKb27CIDxaoSe9lRWSVuqxxOu53j75SM8OUAeR0kktK1bwHUPq2dllM
+         crSei26IHX3IhfwcHhLjMzYvGfnulJ2GYEX4oD3lCtw1Cwxnbp51sCWcaCR22L/WOS9v
+         uEPr2HEoyvAe5SVOLTqNkWLG/cERn7kr3km0Xqn9+I5caFKzGmnljEH8ZnSDzZ4tLeyL
+         bdrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWlhkngoWux9C2q8bxWogZ5iqJREx4ctPgi7IlxSR68/LOM2E/Q+Sa80nRka3G6TBxeg5n0PRRs+q77bKdc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbzO1BF8heoDCCH1aeAzzJ3R8vLYBoSJzpqIIwv/BlMyBHHqAr
+	ikx1GatqyY0ZGaZ7U/nwIGRoIm6gOrxitbBOgxSDFTSliC+1pFxFe9xrKOX3Biw9lOk=
+X-Gm-Gg: ASbGncs9UZF0F/F670CyVpb7sdo4toc/9Pl65VzYw3xdFiW9RijSR85+bhl5ahKZ/e8
+	6W8ymyDYzehT45c4AG3sUpUs47d+yDVw1pLThonCCCJoPo5IfzQlbHUb3ed63hh1WWoxym6h8nr
+	TVtSmDVyIwoMuvmcaVqSSfJDeLBNU19/i5Ic7KAuaThNfyGMN0xjHezO1lflBSv3bizbVumLXBl
+	4SxsRNHh2nn+gikTpm89ToiNgbaaiQ/SozonmKMYlI5x1++eFsmSgEPGQAB01oamW2+ym6N1Hkx
+	fAfkVjuhoZcU40LXLgtBgJIHSK7mGZE0eVipZzY9EenMAU+2sjx09xXIwte4YddurjnBGk0FbUB
+	weB85AHOhvLKG1/pCgH0EuIOwNlamEbGb
+X-Google-Smtp-Source: AGHT+IGQ97PWWN8i6rks22T0ROMqYjiWyzFQh1ABqQuYfuq3vlH80S/7fcfwj183qBQeOoLh/RfHWw==
+X-Received: by 2002:a05:6000:22c8:b0:3b7:8154:aa36 with SMTP id ffacd0b85a97d-3b90092ba41mr9504145f8f.7.1754894690121;
+        Sun, 10 Aug 2025 23:44:50 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b8e0846777sm29635596f8f.48.2025.08.10.23.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Aug 2025 23:44:49 -0700 (PDT)
+Date: Mon, 11 Aug 2025 09:44:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dmitry Antipov <dmantipov@yandex.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Chi Zhiling <chizhiling@kylinos.cn>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	syzbot+db4326df1b9af04f68fc@syzkaller.appspotmail.com
+Subject: Re: [PATCH 2/2] media: xc2028: hold the device if firmware loading
+ is in progress
+Message-ID: <202508090831.5eRXcWv2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] btrfs: use blocksize to check if compression is making
- things larger
-To: kernel test robot <lkp@intel.com>, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <14db816c702a3567faa0cd5efe2110b6ebfba970.1754871148.git.wqu@suse.com>
- <202508111239.5dVvTsGq-lkp@intel.com>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
- Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
- fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
- 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
- V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
- rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
- cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
- qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
- /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
- o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
- JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
-In-Reply-To: <202508111239.5dVvTsGq-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250806075409.210489-2-dmantipov@yandex.ru>
+
+Hi Dmitry,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/media-xc2028-hold-the-device-if-firmware-loading-is-in-progress/20250806-160542
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250806075409.210489-2-dmantipov%40yandex.ru
+patch subject: [PATCH 2/2] media: xc2028: hold the device if firmware loading is in progress
+config: sparc-randconfig-r073-20250809 (https://download.01.org/0day-ci/archive/20250809/202508090831.5eRXcWv2-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508090831.5eRXcWv2-lkp@intel.com/
+
+smatch warnings:
+drivers/media/tuners/xc2028.c:1342 xc2028_dvb_release() warn: variable dereferenced before check 'priv' (see line 1335)
+
+vim +/priv +1342 drivers/media/tuners/xc2028.c
+
+194ced7a5a99b30 drivers/media/tuners/tuner-xc2028.c        Max Kellermann        2016-08-09  1326  static void xc2028_dvb_release(struct dvb_frontend *fe)
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1327  {
+215b95baf969c6f drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-23  1328  	struct xc2028_data *priv = fe->tuner_priv;
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1329  
+7e28adb2497f6b8 drivers/media/video/tuner-xc2028.c         Harvey Harrison       2008-04-08  1330  	tuner_dbg("%s called\n", __func__);
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1331  
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1332  	mutex_lock(&xc2028_list_mutex);
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1333  
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1334  	/* wait for request_firmware_nowait() if scheduled */
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06 @1335  	if (priv->state == XC2028_WAITING_FIRMWARE)
+                                                                                                            ^^^^^^^^^^^
+priv can be NULL when this is called from xc2028_attach().
 
 
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1336  		wait_for_completion(&priv->fwload);
+01c647c99112a50 drivers/media/tuners/xc2028.c              Dmitry Antipov        2025-08-06  1337  
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1338  	/* only perform final cleanup if this is the last instance */
+22a1e7783e173ab drivers/media/tuners/tuner-xc2028.c        Takashi Iwai          2016-11-17  1339  	if (hybrid_tuner_report_instance_count(priv) == 1)
+de3fe21ba2fdc07 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  1340  		free_firmware(priv);
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1341  
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18 @1342  	if (priv)
+                                                                                                            ^^^^
+Checked too late.
 
-在 2025/8/11 14:30, kernel test robot 写道:
-> Hi Qu,
-> 
-> kernel test robot noticed the following build errors:
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1343  		hybrid_tuner_release_state(priv);
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1344  
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1345  	mutex_unlock(&xc2028_list_mutex);
+aa501be989f5df5 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  1346  
+c663d03590a882f drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-04-18  1347  	fe->tuner_priv = NULL;
+701672eb7387390 drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-07-18  1348  }
 
-That patch has an explicit dependency after the "---" line.
-
-If there is a way to tell the bot for any dependency, I can definitely 
-add such tag in the future.
-
-Thanks,
-Qu
-
-> 
-> [auto build test ERROR on kdave/for-next]
-> [also build test ERROR on linus/master v6.17-rc1 next-20250808]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-use-blocksize-to-check-if-compression-is-making-things-larger/20250811-081450
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-> patch link:    https://lore.kernel.org/r/14db816c702a3567faa0cd5efe2110b6ebfba970.1754871148.git.wqu%40suse.com
-> patch subject: [PATCH] btrfs: use blocksize to check if compression is making things larger
-> config: riscv-randconfig-002-20250811 (https://download.01.org/0day-ci/archive/20250811/202508111239.5dVvTsGq-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508111239.5dVvTsGq-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508111239.5dVvTsGq-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> fs/btrfs/zstd.c:402:24: error: use of undeclared identifier 'inode'
->       402 |         const u32 blocksize = inode->root->fs_info->sectorsize;
->           |                               ^~~~~
->     1 error generated.
-> --
->>> fs/btrfs/zlib.c:150:24: error: use of undeclared identifier 'inode'
->       150 |         const u32 blocksize = inode->root->fs_info->sectorsize;
->           |                               ^~~~~
->     1 error generated.
-> 
-> 
-> vim +/inode +402 fs/btrfs/zstd.c
-> 
->     386	
->     387	int zstd_compress_folios(struct list_head *ws, struct address_space *mapping,
->     388				 u64 start, struct folio **folios, unsigned long *out_folios,
->     389				 unsigned long *total_in, unsigned long *total_out)
->     390	{
->     391		struct workspace *workspace = list_entry(ws, struct workspace, list);
->     392		zstd_cstream *stream;
->     393		int ret = 0;
->     394		int nr_folios = 0;
->     395		struct folio *in_folio = NULL;  /* The current folio to read. */
->     396		struct folio *out_folio = NULL; /* The current folio to write to. */
->     397		unsigned long tot_in = 0;
->     398		unsigned long tot_out = 0;
->     399		unsigned long len = *total_out;
->     400		const unsigned long nr_dest_folios = *out_folios;
->     401		const u64 orig_end = start + len;
->   > 402		const u32 blocksize = inode->root->fs_info->sectorsize;
->     403		unsigned long max_out = nr_dest_folios * PAGE_SIZE;
->     404		unsigned int cur_len;
->     405	
->     406		workspace->params = zstd_get_btrfs_parameters(workspace->req_level, len);
->     407		*out_folios = 0;
->     408		*total_out = 0;
->     409		*total_in = 0;
->     410	
->     411		/* Initialize the stream */
->     412		stream = zstd_init_cstream(&workspace->params, len, workspace->mem,
->     413				workspace->size);
->     414		if (unlikely(!stream)) {
->     415			struct btrfs_inode *inode = BTRFS_I(mapping->host);
->     416	
->     417			btrfs_err(inode->root->fs_info,
->     418		"zstd compression init level %d failed, root %llu inode %llu offset %llu",
->     419				  workspace->req_level, btrfs_root_id(inode->root),
->     420				  btrfs_ino(inode), start);
->     421			ret = -EIO;
->     422			goto out;
->     423		}
->     424	
->     425		/* map in the first page of input data */
->     426		ret = btrfs_compress_filemap_get_folio(mapping, start, &in_folio);
->     427		if (ret < 0)
->     428			goto out;
->     429		cur_len = btrfs_calc_input_length(in_folio, orig_end, start);
->     430		workspace->in_buf.src = kmap_local_folio(in_folio, offset_in_folio(in_folio, start));
->     431		workspace->in_buf.pos = 0;
->     432		workspace->in_buf.size = cur_len;
->     433	
->     434		/* Allocate and map in the output buffer */
->     435		out_folio = btrfs_alloc_compr_folio();
->     436		if (out_folio == NULL) {
->     437			ret = -ENOMEM;
->     438			goto out;
->     439		}
->     440		folios[nr_folios++] = out_folio;
->     441		workspace->out_buf.dst = folio_address(out_folio);
->     442		workspace->out_buf.pos = 0;
->     443		workspace->out_buf.size = min_t(size_t, max_out, PAGE_SIZE);
->     444	
->     445		while (1) {
->     446			size_t ret2;
->     447	
->     448			ret2 = zstd_compress_stream(stream, &workspace->out_buf,
->     449					&workspace->in_buf);
->     450			if (unlikely(zstd_is_error(ret2))) {
->     451				struct btrfs_inode *inode = BTRFS_I(mapping->host);
->     452	
->     453				btrfs_warn(inode->root->fs_info,
->     454	"zstd compression level %d failed, error %d root %llu inode %llu offset %llu",
->     455					   workspace->req_level, zstd_get_error_code(ret2),
->     456					   btrfs_root_id(inode->root), btrfs_ino(inode),
->     457					   start);
->     458				ret = -EIO;
->     459				goto out;
->     460			}
->     461	
->     462			/* Check to see if we are making it bigger */
->     463			if (tot_in + workspace->in_buf.pos > blocksize * 2 &&
->     464					tot_in + workspace->in_buf.pos <
->     465					tot_out + workspace->out_buf.pos) {
->     466				ret = -E2BIG;
->     467				goto out;
->     468			}
->     469	
->     470			/* We've reached the end of our output range */
->     471			if (workspace->out_buf.pos >= max_out) {
->     472				tot_out += workspace->out_buf.pos;
->     473				ret = -E2BIG;
->     474				goto out;
->     475			}
->     476	
->     477			/* Check if we need more output space */
->     478			if (workspace->out_buf.pos == workspace->out_buf.size) {
->     479				tot_out += PAGE_SIZE;
->     480				max_out -= PAGE_SIZE;
->     481				if (nr_folios == nr_dest_folios) {
->     482					ret = -E2BIG;
->     483					goto out;
->     484				}
->     485				out_folio = btrfs_alloc_compr_folio();
->     486				if (out_folio == NULL) {
->     487					ret = -ENOMEM;
->     488					goto out;
->     489				}
->     490				folios[nr_folios++] = out_folio;
->     491				workspace->out_buf.dst = folio_address(out_folio);
->     492				workspace->out_buf.pos = 0;
->     493				workspace->out_buf.size = min_t(size_t, max_out,
->     494								PAGE_SIZE);
->     495			}
->     496	
->     497			/* We've reached the end of the input */
->     498			if (workspace->in_buf.pos >= len) {
->     499				tot_in += workspace->in_buf.pos;
->     500				break;
->     501			}
->     502	
->     503			/* Check if we need more input */
->     504			if (workspace->in_buf.pos == workspace->in_buf.size) {
->     505				tot_in += workspace->in_buf.size;
->     506				kunmap_local(workspace->in_buf.src);
->     507				workspace->in_buf.src = NULL;
->     508				folio_put(in_folio);
->     509				start += cur_len;
->     510				len -= cur_len;
->     511				ret = btrfs_compress_filemap_get_folio(mapping, start, &in_folio);
->     512				if (ret < 0)
->     513					goto out;
->     514				cur_len = btrfs_calc_input_length(in_folio, orig_end, start);
->     515				workspace->in_buf.src = kmap_local_folio(in_folio,
->     516								 offset_in_folio(in_folio, start));
->     517				workspace->in_buf.pos = 0;
->     518				workspace->in_buf.size = cur_len;
->     519			}
->     520		}
->     521		while (1) {
->     522			size_t ret2;
->     523	
->     524			ret2 = zstd_end_stream(stream, &workspace->out_buf);
->     525			if (unlikely(zstd_is_error(ret2))) {
->     526				struct btrfs_inode *inode = BTRFS_I(mapping->host);
->     527	
->     528				btrfs_err(inode->root->fs_info,
->     529	"zstd compression end level %d failed, error %d root %llu inode %llu offset %llu",
->     530					  workspace->req_level, zstd_get_error_code(ret2),
->     531					  btrfs_root_id(inode->root), btrfs_ino(inode),
->     532					  start);
->     533				ret = -EIO;
->     534				goto out;
->     535			}
->     536			if (ret2 == 0) {
->     537				tot_out += workspace->out_buf.pos;
->     538				break;
->     539			}
->     540			if (workspace->out_buf.pos >= max_out) {
->     541				tot_out += workspace->out_buf.pos;
->     542				ret = -E2BIG;
->     543				goto out;
->     544			}
->     545	
->     546			tot_out += PAGE_SIZE;
->     547			max_out -= PAGE_SIZE;
->     548			if (nr_folios == nr_dest_folios) {
->     549				ret = -E2BIG;
->     550				goto out;
->     551			}
->     552			out_folio = btrfs_alloc_compr_folio();
->     553			if (out_folio == NULL) {
->     554				ret = -ENOMEM;
->     555				goto out;
->     556			}
->     557			folios[nr_folios++] = out_folio;
->     558			workspace->out_buf.dst = folio_address(out_folio);
->     559			workspace->out_buf.pos = 0;
->     560			workspace->out_buf.size = min_t(size_t, max_out, PAGE_SIZE);
->     561		}
->     562	
->     563		if (tot_out >= tot_in) {
->     564			ret = -E2BIG;
->     565			goto out;
->     566		}
->     567	
->     568		ret = 0;
->     569		*total_in = tot_in;
->     570		*total_out = tot_out;
->     571	out:
->     572		*out_folios = nr_folios;
->     573		if (workspace->in_buf.src) {
->     574			kunmap_local(workspace->in_buf.src);
->     575			folio_put(in_folio);
->     576		}
->     577		return ret;
->     578	}
->     579	
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
