@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFF62E2DCB;
-	Mon, 11 Aug 2025 18:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB7E1F875A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 19:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754938620; cv=none; b=kDN58pbFM48wD6WFVXCb9dGfyYX5GTAGWLOGFuO3nBpRPTq5O3hjSgpV8w4VAtKVsEVXGqlzeYHOiI93Ty6gkFtiG67TEcZn8YhAUw68Cylck/weQPS965r17aHVz5Rpx7iMyWrQK35WoKV0O6dEfKGi59xjKB67lh4AORrrrPY=
+	t=1754941591; cv=none; b=n+z32pLBZxOxWl+AttO1LNsDSVjCnvErKbOYFwyndOtdBo9rhohw2oxX9hRJPJ87BPvoe/68Z0R9Mzub0HpmG+Q5xzhah/xvH2KOTLviTtSo0V49e+GnVX/IUT8Lx4+N2hFhPeQeIav1ndYK9heFxlw7LBfvaEbejr7DpMyW2nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754938620; c=relaxed/simple;
-	bh=/1h1FXQ8wlbSgFHXbQzagekP6WBsykBAbMExF88232A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M8kdyZtotZhaNpaVc6UvjFN2dqzgn0PXkO2Z3BOAOSbpE4nXrgGOG3GozpvkaTpV+cXh5FJuVLtbLAAE/zov2I52N4fZ9Rs87HgArJYwCg1/dxgTvpXgTab31W5f7XeywycUWqTzqZN2JmUGkmIABFu7PKpnjQSyRtOnnFdW9/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pnnj7TI2; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1754941591; c=relaxed/simple;
+	bh=X38fE7W7bsZL89rHdVjpVxhc9jXaumwchY+zKCycGQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P8QThivtwDVV1MRgaJWqBKZ69J6gDXLTLaN1Gg9zu3jFWJarn/KETK2EdRJwMKo4aZTu2UC1OFiXzMa8OwFjsI89J8MbsF46I7Hb553MIxO0K8jmP6ItE1EnhJWh3fngGPQ+D/XZg9wWsN5fx5R/bsH51dSj3qutlri/LFUPjRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FmvMWZj2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pnnj7TI2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FmvMWZj2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754938619; x=1786474619;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/1h1FXQ8wlbSgFHXbQzagekP6WBsykBAbMExF88232A=;
-  b=Pnnj7TI22M/wvUQDA78sBsJeug6tdbnzc6tMcoEMXCDeXuZ+/1PX66TL
-   nt95+jNkA1Cpq9bO3VPBo8c6nSHglAJfv9ynUxQ2x0SL+lGfZeH1+ClFZ
-   WH1Y+mJEuF+AVYPA94khQZJSKKDHdj42M+3Z+gHdhHFBYQTLfNYzch+zA
-   lL7GsI2mjIHmk3Gk8ItKBa1ZGF48M5dQt3sNCryzJebeaEC10dYrs9ld9
-   CQNDL6WG0bIY4JQ0pEk+tv69Xwwr4CytfMXEE0gDjbE0KgPAI7fW0WFUU
-   gMSKZ6INDw43vm6bl8Hy8G6GX2Ljik8ejShDnWjNaHGD9yJJPbLzyhhAF
-   Q==;
-X-CSE-ConnectionGUID: ETPgZq3BQdKtmtWyIFOISA==
-X-CSE-MsgGUID: kI8y4SAKRjGLhzSz6JJ0/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57344998"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="57344998"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 11:56:58 -0700
-X-CSE-ConnectionGUID: vpWZx5ZjTIuthikuHuwiLg==
-X-CSE-MsgGUID: gJZTJWVSR5qvoV1h6E7NgA==
+  t=1754941589; x=1786477589;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X38fE7W7bsZL89rHdVjpVxhc9jXaumwchY+zKCycGQ4=;
+  b=FmvMWZj2l1Tbc9/Dczl78d3i2agAci1y8DheyMy05rjH2rXumeqt7ncu
+   tusgq8RuODaTcUw/lYHs4jStPzfLyxlmiix2HnzQ4P16aG8xzhjdqhcKF
+   J7AHHgrJ3irsk5oxELXLAr9aVqB2fljjOegEGcAYDRhZ8UKjDD75We/Ml
+   BZqIUuvJ0D05amJKgphQIUf7zmTHZNCaiy5ukq5AdZxh7L7JEHVqVM1Ta
+   IYRiqJUk1yZbpQfkquB0tBoKEMVX/hR42jnn85sumO9NvPdMnQLvCvG9L
+   jGHzri2WlyQN+9uoV1zouNHhUR+2MhSjcHFtXibEHJJBUn1HmlmQtlnfo
+   w==;
+X-CSE-ConnectionGUID: sFzJMXxbTY6B2wfcIhx1VQ==
+X-CSE-MsgGUID: XNw9jTEQRN++cpm9uxG67g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="67914368"
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="67914368"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 12:46:27 -0700
+X-CSE-ConnectionGUID: WSkOC3kKR4Ou8RVbWnrH9A==
+X-CSE-MsgGUID: toZaCvTOTEyqA3wpkEn3mg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
-   d="scan'208";a="165192786"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 11 Aug 2025 11:56:53 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="166390527"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Aug 2025 12:46:26 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ulXhL-00069Y-0y;
-	Mon, 11 Aug 2025 18:56:44 +0000
-Date: Tue, 12 Aug 2025 02:55:55 +0800
+	id 1ulYTQ-000371-27;
+	Mon, 11 Aug 2025 19:46:24 +0000
+Date: Mon, 11 Aug 2025 21:46:19 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dominique Martinet via B4 Relay <devnull+asmadeus.codewreck.org@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Maximilian Bosch <maximilian@mbosch.me>,
-	Ryan Lahfa <ryan@lahfa.xyz>, Christian Theune <ct@flyingcircus.io>,
-	Arnout Engelen <arnout@bzzt.net>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Dominique Martinet <asmadeus@codewreck.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] iov_iter: iterate_folioq: fix handling of offset >=
- folio size
-Message-ID: <202508120250.Eooq2ydr-lkp@intel.com>
-References: <20250811-iot_iter_folio-v1-1-d9c223adf93c@codewreck.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 0/1]
+ drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype
+ for '__arm_lpae_unmap_pages'
+Message-ID: <202508112105.kASzXA5p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,108 +62,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250811-iot_iter_folio-v1-1-d9c223adf93c@codewreck.org>
 
-Hi Dominique,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet-via-B4-Relay/iov_iter-iterate_folioq-fix-handling-of-offset-folio-size/20250811-154319
-base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
-patch link:    https://lore.kernel.org/r/20250811-iot_iter_folio-v1-1-d9c223adf93c%40codewreck.org
-patch subject: [PATCH 1/2] iov_iter: iterate_folioq: fix handling of offset >= folio size
-config: i386-buildonly-randconfig-002-20250811 (https://download.01.org/0day-ci/archive/20250812/202508120250.Eooq2ydr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508120250.Eooq2ydr-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   3b6fab0ff24f7108c71a4d9c12567455cb2a5a81
+commit: 528a0fb681c600db04e9700fac40c21cc208773e [0/1] ANDROID: iommu/io-pgtable: Add unmap_pages_walk() operation
+config: i386-buildonly-randconfig-2004-20250811 (https://download.01.org/0day-ci/archive/20250811/202508112105.kASzXA5p-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508112105.kASzXA5p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508120250.Eooq2ydr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508112105.kASzXA5p-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from lib/iov_iter.c:14:
->> include/linux/iov_iter.h:171:7: warning: variable 'remain' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     171 |                 if (skip >= fsize)
-         |                     ^~~~~~~~~~~~~
-   include/linux/iov_iter.h:190:7: note: uninitialized use occurs here
-     190 |                 if (remain)
-         |                     ^~~~~~
-   include/linux/iov_iter.h:171:3: note: remove the 'if' if its condition is always false
-     171 |                 if (skip >= fsize)
-         |                 ^~~~~~~~~~~~~~~~~~
-     172 |                         goto next;
-         |                         ~~~~~~~~~
-   include/linux/iov_iter.h:163:22: note: initialize the variable 'remain' to silence this warning
-     163 |                 size_t part, remain, consumed;
-         |                                    ^
-         |                                     = 0
-   1 warning generated.
+   drivers/iommu/io-pgtable-arm-common.c:143:5: warning: no previous prototype for '__arm_lpae_map' [-Wmissing-prototypes]
+     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
+         |     ^~~~~~~~~~~~~~
+   drivers/iommu/io-pgtable-arm-common.c:264:5: warning: no previous prototype for 'arm_lpae_map_pages' [-Wmissing-prototypes]
+     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype for '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
+     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
+         |        ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/io-pgtable-arm-common.c:493:13: warning: no previous prototype for 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
+     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/io-pgtable-arm-common.c:529:8: warning: no previous prototype for 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
+     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
+         |        ^~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/io-pgtable-arm-common.c:536:8: warning: no previous prototype for 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
+     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +171 include/linux/iov_iter.h
+vim +/__arm_lpae_unmap_pages +471 drivers/iommu/io-pgtable-arm-common.c
 
-   143	
-   144	/*
-   145	 * Handle ITER_FOLIOQ.
-   146	 */
-   147	static __always_inline
-   148	size_t iterate_folioq(struct iov_iter *iter, size_t len, void *priv, void *priv2,
-   149			      iov_step_f step)
-   150	{
-   151		const struct folio_queue *folioq = iter->folioq;
-   152		unsigned int slot = iter->folioq_slot;
-   153		size_t progress = 0, skip = iter->iov_offset;
-   154	
-   155		if (slot == folioq_nr_slots(folioq)) {
-   156			/* The iterator may have been extended. */
-   157			folioq = folioq->next;
-   158			slot = 0;
-   159		}
-   160	
-   161		do {
-   162			struct folio *folio = folioq_folio(folioq, slot);
-   163			size_t part, remain, consumed;
-   164			size_t fsize;
-   165			void *base;
-   166	
-   167			if (!folio)
-   168				break;
-   169	
-   170			fsize = folioq_folio_size(folioq, slot);
- > 171			if (skip >= fsize)
-   172				goto next;
-   173			base = kmap_local_folio(folio, skip);
-   174			part = umin(len, PAGE_SIZE - skip % PAGE_SIZE);
-   175			remain = step(base, progress, part, priv, priv2);
-   176			kunmap_local(base);
-   177			consumed = part - remain;
-   178			len -= consumed;
-   179			progress += consumed;
-   180			skip += consumed;
-   181			if (skip >= fsize) {
-   182	next:
-   183				skip = 0;
-   184				slot++;
-   185				if (slot == folioq_nr_slots(folioq) && folioq->next) {
-   186					folioq = folioq->next;
-   187					slot = 0;
-   188				}
-   189			}
-   190			if (remain)
-   191				break;
-   192		} while (len);
-   193	
-   194		iter->folioq_slot = slot;
-   195		iter->folioq = folioq;
-   196		iter->iov_offset = skip;
-   197		iter->count -= progress;
-   198		return progress;
-   199	}
-   200	
+   469	
+   470	
+ > 471	size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
+   472				      size_t pgsize, size_t pgcount,
+   473				      struct iommu_iotlb_gather *gather,
+   474				      struct io_pgtable_walker *walker)
+   475	{
+   476		struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+   477		struct io_pgtable_cfg *cfg = &data->iop.cfg;
+   478		arm_lpae_iopte *ptep = data->pgd;
+   479		long iaext = (s64)iova >> cfg->ias;
+   480	
+   481		if (WARN_ON(!pgsize || (pgsize & cfg->pgsize_bitmap) != pgsize || !pgcount))
+   482			return 0;
+   483	
+   484		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
+   485			iaext = ~iaext;
+   486		if (WARN_ON(iaext))
+   487			return 0;
+   488	
+   489		return __arm_lpae_unmap(data, gather, iova, pgsize, pgcount,
+   490					data->start_level, ptep, walker);
+   491	}
+   492	
+   493	phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+   494					  unsigned long iova)
+   495	{
+   496		struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+   497		arm_lpae_iopte pte, *ptep = data->pgd;
+   498		int lvl = data->start_level;
+   499	
+   500		do {
+   501			/* Valid IOPTE pointer? */
+   502			if (!ptep)
+   503				return 0;
+   504	
+   505			/* Grab the IOPTE we're interested in */
+   506			ptep += ARM_LPAE_LVL_IDX(iova, lvl, data);
+   507			pte = READ_ONCE(*ptep);
+   508	
+   509			/* Valid entry? */
+   510			if (!pte)
+   511				return 0;
+   512	
+   513			/* Leaf entry? */
+   514			if (iopte_leaf(pte, lvl, data->iop.fmt))
+   515				goto found_translation;
+   516	
+   517			/* Take it to the next level */
+   518			ptep = iopte_deref(pte, data);
+   519		} while (++lvl < ARM_LPAE_MAX_LEVELS);
+   520	
+   521		/* Ran out of page tables to walk */
+   522		return 0;
+   523	
+   524	found_translation:
+   525		iova &= (ARM_LPAE_BLOCK_SIZE(lvl, data) - 1);
+   526		return iopte_to_paddr(pte, data) | iova;
+   527	}
+   528	
+   529	size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
+   530				    size_t pgsize, size_t pgcount,
+   531				    struct iommu_iotlb_gather *gather)
+   532	{
+   533		return __arm_lpae_unmap_pages(ops, iova, pgsize, pgcount, gather, NULL);
+   534	}
+   535	
+ > 536	size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
+   537					 size_t pgsize, size_t pgcount,
+   538					 struct iommu_iotlb_gather *gather,
+   539					 struct io_pgtable_walker *walker)
+   540	{
+   541		return __arm_lpae_unmap_pages(ops, iova, pgsize, pgcount, gather, walker);
+   542	}
+   543	
 
 -- 
 0-DAY CI Kernel Test Service
