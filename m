@@ -1,132 +1,431 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B052472B5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 08:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B6B2DEA69
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 09:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754902520; cv=none; b=UnXi14sEaMa49GOvLgqOp5t3+ivayI1KcagiFCOtrKt/tSqbndipAAg3eR8g/zUsmV310HUNwIVGvLEjTLOG76i6K0yrbkcVz/94b8TGmF+uogeCs0C2o/Q4fTtzZ+xCOSqX5VJ7AAjM/yw1WVGSZemJ07IenYSgNt/YojJNHDs=
+	t=1754904601; cv=none; b=YRFJTCQVDMULaYkdcXLQ6FTszpm95cU0xHiHrYGak6dvHVVAczPQphIvF4nGvbUjynX60HCUfmDLwjz0wf+sF4E/S2XSk9wIu6ghdG0Gc6ybInYfVqkdLwYbuqfC/EHEfDPMAlKFYtCHt9JP48oB2uB6T7+zfSkmHaogUW8S2dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754902520; c=relaxed/simple;
-	bh=9TpHCUtQbpYeE5hC40i0PLb1CG+a9lfcbDOK9kxG3Eg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cfOhzXm+bJ+CvLmOVPwFGGhTiInuDn2lGf82gEGhPZ5ouU3OG/W97AufW4EXQ82VOUU7slE/9rAp9HqHYBHfx1FY6bVchZWUyoRcWxdhpK2iBNkCj4FT89kDtYvlWu3DStz6PkGFlbX5rj6mzR2qVMDtHOc63ZJnb3Gr6S5mtyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5393776550aso3469816e0c.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 01:55:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754902517; x=1755507317;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CK1AgXEDVnnCjp/WETSt1mjlEj20pRVnTyOEAVLwD9Y=;
-        b=X9eMcSPGmt0PaagVECsIHIt20vRVo1MM+yZg6A3/vyBRqTcQe5OiqRM+sR9kuhQlLP
-         9ZI81kQrh4TdBD0/1JrNIQ1NjNc86Oibba1KUYwQMdWtZx2EZ0/rHIkFox4DSXgyronl
-         k9D5dRleng0ySmgq9VySNXbTURYRNYIVmdckYxov1pScBz7tDTN64Z/49c5neKW0FsVX
-         2KUN2qea3xLYmEw5t3DrD86jS891p8KRadRkpr7V/I2Js9Hl91B2pgY0ZYQbONRq8nzy
-         W2fk4AGs4j7d00p2te/GiOPKjShi6sN7a2w+ZEd7cUzs4TN27+SpBJHygDpmxM/pMVMK
-         Ne+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUZWxcRcZbayUAorwxBbS1hVX1+I1bMgtFwb4BZ+hE5KdI/WRkXq7D3xa0GAopilt/mOIcHEUi9Nsw9I/tS@lists.linux.dev
-X-Gm-Message-State: AOJu0YxO3UDP83zDzDMzw2yPp0EdZ6JIlH6iVIjSPWtz0Gg5G83mgrxi
-	b0PCNcYxMpJ5CFhrrR/aOIXM6mjtm6wGNDWvQ5shyna7sUDG1Mvvp1b8MTEiQy+I
-X-Gm-Gg: ASbGncsVuINrX5hkXmQa68fP2vEiyO+VvP7GyXb1GtGmCvrfcR1XPRFhtk17B8zeh6w
-	ftaJstBLFrmXxCzvoT4+tb2EGK7c7TDRgd7irBaQJ8T+t/UubDCkFOzHH1X1KUKmXW1GJW6uPR4
-	79nL24LgpLRddqLtATXiqyVogRrJ6Bzw6pckjk/88LSe4DIgF1eO8wYoL9GpEY1mrsB865PcEjR
-	EqBqmLRZcwP1unLHHdc0qnzUBI5y3TEVJNsuauBa8nBBSZoUPRLVuB3zpOzYovH6fJ2XcWih0hP
-	kF1d3EWU9ANgo4RuiIt+F2Xh7HMvTLKUmdbKZzGjl7QXuYsuh48336Ph5853MynDYS3G67GyvXV
-	gesZPSJKmMYlsdlO9qZZhpsEfYNy6uqp3szwEvTe/lYY4+k47Cqo5Uxq4kWlK1Rm+PmRiuKg=
-X-Google-Smtp-Source: AGHT+IGCJ0iQOsEa8SIyrhFqiWZLhqKiYQvE8pQkxepatiALLrFQhfNnH9/9GidtqRbKV2h1jFqEMA==
-X-Received: by 2002:a05:6122:3c8f:b0:539:5cff:8070 with SMTP id 71dfb90a1353d-53a52eecc45mr4152053e0c.9.1754902516740;
-        Mon, 11 Aug 2025 01:55:16 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-539b028c565sm2593649e0c.16.2025.08.11.01.55.16
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Aug 2025 01:55:16 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-500006b3efdso3893078137.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Aug 2025 01:55:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUsEFsTbCi2v1FFQdo7g7MSgMRKHDqWV4Im8ONEtF9+GFfsdyio9WHVnAjjr6kVocOAQp12aQXnNLrzFzYe@lists.linux.dev
-X-Received: by 2002:a05:6102:160a:b0:4fc:1987:fc84 with SMTP id
- ada2fe7eead31-5060f4b66f2mr4026964137.21.1754902515854; Mon, 11 Aug 2025
- 01:55:15 -0700 (PDT)
+	s=arc-20240116; t=1754904601; c=relaxed/simple;
+	bh=W2RMgwHAL98OwBeCwRpryc4MZkaGeJuhoxrGSwImZ3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s4uS1DhAhDecijP5U8A2mgPASKShn86PHdGV7LG33/24mxTB7dWXycMLFmsuGMkPZcjwXiSBsfmvE0Xt+1edF82jUsdXRWvcMau+2TTUOPchRM9C1OZBuvVGxzv8odFIizbDfKhzt05G2pbs6P3SaH9dUxMLKdeVNwkPxE1eT0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7pPVZRm; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7pPVZRm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754904600; x=1786440600;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W2RMgwHAL98OwBeCwRpryc4MZkaGeJuhoxrGSwImZ3o=;
+  b=Q7pPVZRmlI+a9eV/aMnlYCLbFec5U5JtY5M9VXPX7hsmKhQfTNohTVTJ
+   y0xXsAI9XLF+gENtDEsXmpl0YgtdKlEqSzPmY2QA3oSnAPfsSPfepxMGa
+   z0GEho9iyvn4N5OG27ISA1IQbhqKPS+m2DCRKG1tjavYJtUoZv0aPRtqC
+   a8oRuKdYObDiJhiEvAIMFZtdFSOnm/rKx5YYSkLhQ7tETRh8qsoh0Dah0
+   IMt50/X+cHzOKCet+m7YetOq7e/s0WgENUq1llIQYRbGg6TU9vxuuJI4B
+   rs0yYMJiykAkRepoZDlp+RKoep2aio9xT6vFcsrInRbweQXghvnTZFXJ1
+   Q==;
+X-CSE-ConnectionGUID: oKmf+B6ERFKKFNTKNSIfqg==
+X-CSE-MsgGUID: a+n4Qs4KQQakNY2ma0dpxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="44737994"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="44737994"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 02:29:59 -0700
+X-CSE-ConnectionGUID: /RQGRFNUSVWAPSuKsoNbDA==
+X-CSE-MsgGUID: Pw+mz+e5Q4O3+17jeR02mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; 
+   d="scan'208";a="203060898"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 11 Aug 2025 02:29:57 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ulOqR-0005ii-04;
+	Mon, 11 Aug 2025 09:29:38 +0000
+Date: Mon, 11 Aug 2025 17:26:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1755/1755]
+ include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used
+Message-ID: <202508111715.dtfREBaW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250805073748.606294-2-yukuai1@huaweicloud.com>
- <202508061722.0vTVFHLe-lkp@intel.com> <7d2b0108-4d16-97fb-5de9-7438414d9ca4@huaweicloud.com>
-In-Reply-To: <7d2b0108-4d16-97fb-5de9-7438414d9ca4@huaweicloud.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 Aug 2025 10:55:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWieP=Tk=Qgii=6mrpZNd5Mp4epSGufs5QD26tLg4joMA@mail.gmail.com>
-X-Gm-Features: Ac12FXwhwvPoKhEjbebgA6PlT3FuvJCiQC1n7jaXfuYXxfXS72nh_AEZ8FaZLf0
-Message-ID: <CAMuHMdWieP=Tk=Qgii=6mrpZNd5Mp4epSGufs5QD26tLg4joMA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] lib/sbitmap: convert shallow_depth from one word
- to the whole sbitmap
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: kernel test robot <lkp@intel.com>, axboe@kernel.dk, akpm@linux-foundation.org, 
-	ming.lei@redhat.com, dlemoal@kernel.org, jack@suse.cz, 
-	oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com, 
-	johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kuai,
+Hi Zhang,
 
-On Thu, 7 Aug 2025 at 23:37, Yu Kuai <yukuai1@huaweicloud.com> wrote:
-> =E5=9C=A8 2025/08/06 17:41, kernel test robot =E5=86=99=E9=81=93:
-> > All error/warnings (new ones prefixed by >>):
-> >
-> >     In file included from ./arch/sparc/include/generated/asm/div64.h:1,
-> >                      from include/linux/math.h:6,
-> >                      from include/linux/kernel.h:27,
-> >                      from include/linux/cpumask.h:11,
-> >                      from arch/sparc/include/asm/smp_32.h:15,
-> >                      from arch/sparc/include/asm/smp.h:7,
-> >                      from arch/sparc/include/asm/switch_to_32.h:5,
-> >                      from arch/sparc/include/asm/switch_to.h:7,
-> >                      from arch/sparc/include/asm/ptrace.h:120,
-> >                      from arch/sparc/include/asm/thread_info_32.h:19,
-> >                      from arch/sparc/include/asm/thread_info.h:7,
-> >                      from include/linux/thread_info.h:60,
-> >                      from arch/sparc/include/asm/current.h:15,
-> >                      from include/linux/sched.h:12,
-> >                      from lib/sbitmap.c:7:
-> >     lib/sbitmap.c: In function '__map_depth_with_shallow':
-> >     include/asm-generic/div64.h:183:35: warning: comparison of distinct=
- pointer types lacks a cast
-> >       183 |         (void)(((typeof((n)) *)0) =3D=3D ((uint64_t *)0)); =
- \
-> >           |                                   ^~
-> >     lib/sbitmap.c:222:20: note: in expansion of macro 'do_div'
-> >       222 |         reminder =3D do_div(shallow_word_depth, sb->depth);
-> >           |                    ^~~~~~
->
-> /* The unnecessary pointer compare is there
->   * to check for type safety (n must be 64bit)
->   */
-> # define do_div(n,base) ({
->
-> I didn't notice that under specific arch, do_div() will require the fist
-> paramater to be 64bit.
+FYI, the error/warning still remains.
 
-do_div() is strictly meant for a 64-by-32 div/mod operation.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a7892155ca524e224cb2da85c85cc1bd4303179d
+commit: 1811840c2cdebd0820818392a8217ffbd1be5c67 [1755/1755] mm/sharepool: Fix sharepool node id invalid when using sp_alloc
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250811/202508111715.dtfREBaW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250811/202508111715.dtfREBaW-lkp@intel.com/reproduce)
 
-Gr{oetje,eeting}s,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508111715.dtfREBaW-lkp@intel.com/
 
-                        Geert
+All warnings (new ones prefixed by >>):
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+   kernel/fork.c:741:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
+     741 | void __init __weak arch_task_cache_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:826:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
+     826 | int __weak arch_dup_task_struct(struct task_struct *dst,
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c: In function 'dup_task_struct':
+   kernel/fork.c:845:27: warning: variable 'stack_vm_area' set but not used [-Wunused-but-set-variable]
+     845 |         struct vm_struct *stack_vm_area;
+         |                           ^~~~~~~~~~~~~
+   In file included from include/linux/sched/signal.h:7,
+                    from include/linux/sched/cputime.h:5,
+                    from kernel/fork.c:23:
+   include/linux/signal.h: In function 'sigemptyset':
+   include/linux/signal.h:180:29: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     180 |         case 2: set->sig[1] = 0;
+         |                 ~~~~~~~~~~~~^~~
+   include/linux/signal.h:181:9: note: here
+     181 |         case 1: set->sig[0] = 0;
+         |         ^~~~
+   In file included from kernel/fork.c:31:
+   include/linux/mempolicy.h: At top level:
+>> include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:36,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:15,
+                    from kernel/fork.c:14:
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from '__mmput' at kernel/fork.c:1074:3,
+       inlined from 'mmput_async_fn' at kernel/fork.c:1104:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   In file included from include/linux/spinlock.h:82,
+                    from include/linux/mmzone.h:9,
+                    from include/linux/gfp.h:6:
+   kernel/fork.c: In function 'mmput_async_fn':
+   kernel/fork.c:939:44: note: object 'mmlist_lock' of size 4
+     939 | __cacheline_aligned_in_smp DEFINE_SPINLOCK(mmlist_lock);
+         |                                            ^~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from '__mmput' at kernel/fork.c:1074:3,
+       inlined from 'mmput_async_fn' at kernel/fork.c:1104:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/fork.c: In function 'mmput_async_fn':
+   kernel/fork.c:939:44: note: object 'mmlist_lock' of size 4
+     939 | __cacheline_aligned_in_smp DEFINE_SPINLOCK(mmlist_lock);
+         |                                            ^~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from '__mmput' at kernel/fork.c:1074:3,
+       inlined from 'mmput' at kernel/fork.c:1094:3,
+       inlined from 'mmput' at kernel/fork.c:1086:6:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/fork.c: In function 'mmput':
+   kernel/fork.c:939:44: note: object 'mmlist_lock' of size 4
+     939 | __cacheline_aligned_in_smp DEFINE_SPINLOCK(mmlist_lock);
+         |                                            ^~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from '__mmput' at kernel/fork.c:1074:3,
+       inlined from 'mmput' at kernel/fork.c:1094:3,
+       inlined from 'mmput' at kernel/fork.c:1086:6:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/fork.c: In function 'mmput':
+   kernel/fork.c:939:44: note: object 'mmlist_lock' of size 4
+     939 | __cacheline_aligned_in_smp DEFINE_SPINLOCK(mmlist_lock);
+--
+   kernel/exit.c:1677:13: warning: no previous prototype for 'abort' [-Wmissing-prototypes]
+    1677 | __weak void abort(void)
+         |             ^~~~~
+   In file included from kernel/exit.c:37:
+>> include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+--
+   In file included from include/linux/shmem_fs.h:7,
+                    from kernel/umh.c:29:
+>> include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:36,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:10,
+                    from kernel/umh.c:4:
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'proc_cap_handler' at kernel/umh.c:668:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   In file included from include/linux/spinlock.h:82,
+                    from include/linux/seqlock.h:36,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:11:
+   kernel/umh.c: In function 'proc_cap_handler':
+   kernel/umh.c:41:24: note: object 'umh_sysctl_lock' of size 4
+      41 | static DEFINE_SPINLOCK(umh_sysctl_lock);
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'proc_cap_handler' at kernel/umh.c:668:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/umh.c: In function 'proc_cap_handler':
+   kernel/umh.c:41:24: note: object 'umh_sysctl_lock' of size 4
+      41 | static DEFINE_SPINLOCK(umh_sysctl_lock);
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'proc_cap_handler' at kernel/umh.c:701:3:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/umh.c: In function 'proc_cap_handler':
+   kernel/umh.c:41:24: note: object 'umh_sysctl_lock' of size 4
+      41 | static DEFINE_SPINLOCK(umh_sysctl_lock);
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'proc_cap_handler' at kernel/umh.c:701:3:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/umh.c: In function 'proc_cap_handler':
+   kernel/umh.c:41:24: note: object 'umh_sysctl_lock' of size 4
+      41 | static DEFINE_SPINLOCK(umh_sysctl_lock);
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+--
+   In file included from kernel/workqueue.c:39:
+>> include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:36,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from kernel/workqueue.c:28:
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'pool_mayday_timeout' at kernel/workqueue.c:2003:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   In file included from include/linux/spinlock.h:82,
+                    from include/linux/ipc.h:5,
+                    from include/uapi/linux/sem.h:5,
+                    from include/linux/sem.h:5,
+                    from include/linux/sched.h:15,
+                    from kernel/workqueue.c:29:
+   kernel/workqueue.c: In function 'pool_mayday_timeout':
+   kernel/workqueue.c:302:24: note: object 'wq_mayday_lock' of size 4
+     302 | static DEFINE_SPINLOCK(wq_mayday_lock); /* protects wq->maydays list */
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'pool_mayday_timeout' at kernel/workqueue.c:2003:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/workqueue.c: In function 'pool_mayday_timeout':
+   kernel/workqueue.c:302:24: note: object 'wq_mayday_lock' of size 4
+     302 | static DEFINE_SPINLOCK(wq_mayday_lock); /* protects wq->maydays list */
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock_irq' at include/linux/spinlock_api_smp.h:129:2,
+       inlined from 'spin_lock_irq' at include/linux/spinlock.h:354:2,
+       inlined from 'rescuer_thread' at kernel/workqueue.c:2461:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/workqueue.c: In function 'rescuer_thread':
+   kernel/workqueue.c:302:24: note: object 'wq_mayday_lock' of size 4
+     302 | static DEFINE_SPINLOCK(wq_mayday_lock); /* protects wq->maydays list */
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock_irq' at include/linux/spinlock_api_smp.h:129:2,
+       inlined from 'spin_lock_irq' at include/linux/spinlock.h:354:2,
+       inlined from 'rescuer_thread' at kernel/workqueue.c:2461:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   kernel/workqueue.c: In function 'rescuer_thread':
+   kernel/workqueue.c:302:24: note: object 'wq_mayday_lock' of size 4
+     302 | static DEFINE_SPINLOCK(wq_mayday_lock); /* protects wq->maydays list */
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+..
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+vim +/__do_mbind +329 include/linux/mempolicy.h
+
+   328	
+ > 329	static long __do_mbind(unsigned long start, unsigned long len,
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
