@@ -1,213 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9B71FF7C5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 19:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7822A2F0679
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 20:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755027239; cv=none; b=SpaKTaxsDBLyxMcRa47200+8OpXnXMplk2xSPH6yIAFEerH8wxT040XIyMwPECVuSVb3RxqiYeZbYQqbkOSpoMxvMuXig7nwAUfI606rjNRlNjpJxjHJtv6msFGTwefp5EQ90YDkhwQIi6PpsURH6LXFt4flSKDIiv5mUQ0v3Yw=
+	t=1755031828; cv=none; b=bYD1vLUyU37cVfyS4zsNN47rNVgeIzxx0yGt6CE7eRSUoHrLMKGSoLl1P3s/kBhDO4iErvf7kzSdn2v+Xk2UKo4eoHXVM/wMhvxewaQc8eWB7A1BA0GV2c/B8WSD86DkCCP/AhTyOsF7beo8eyS1cBG0O/taLRw9Hbq9fFGZzZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755027239; c=relaxed/simple;
-	bh=VySwjMdlo+nOUKddBx76mLafpU1XCtMKAz86W64Ctw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fMsbzFqBFd4TCBs0dxH4XD4OB1vQ20XlwKIZZINIHu+8m+iSoG2Ahb30mumO9J2kHFD+qGpsQr38+Rxsv3tuJF1/S5FLpy4cLblQpzcVsGRAGA184MhkOd3e27bg494hMsQo5W4H7/jMmUFVmLKnoAY7VS90SJENpaVMKbcc6AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwBUCy4W; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755031828; c=relaxed/simple;
+	bh=TB5K/tPK//9eu4Cg6VoBnKMQMx5mYfydMrgcHI/KPTg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AhHIjxDQ9N0/wwIRZhkp+rfhXVBzAc+kv+b4GSnsK+3prw1mW+PbhzqWHMjBS1eG29l052clvqNlMk6vQfoR2+J3/llNhk37ziEzyWx9huzYrsZiQPodcedSh/adcneCVRexw0FjVkJLWVxDi839tA+db7jbCn7NIoUL7wqs/TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KRl/iJEE; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwBUCy4W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755027234; x=1786563234;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VySwjMdlo+nOUKddBx76mLafpU1XCtMKAz86W64Ctw0=;
-  b=hwBUCy4WK0O6mSmhYucOSxC6Ol4m26LqR9WpM+FPbr9zgL+iJ355k9ef
-   Xoja1nwO43zvwuC7lRzJ/rdm/D7T1mLnsC0QA8hwgN84uKNZeeuCEo8IQ
-   sDKql23PgKpaZBpfOr7qyxQu+gIh+ijO/HipGiL1prDt+7iMzSvzO6r4Y
-   mrVG0meWUC9icZy3S1SNB+YtYkrT2jCAVTKASPQDlUaVZ27GWa6rk1rbK
-   +O5tce6ay9uFRbTy5viPvrqg/p6WmxrhA3zb0x2q9Mv6CNfa610r7Azpt
-   NULiVMEbynkrJ0UxMuB2SFIIHtB5e0DrFIYajQ/mP99LgztKLRJZ/fhAt
-   Q==;
-X-CSE-ConnectionGUID: r6aLp/wLQjmQCXn0FkIyiQ==
-X-CSE-MsgGUID: WaAsJwW7T/GQOZhMQgMCJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67578605"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="67578605"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 12:33:54 -0700
-X-CSE-ConnectionGUID: fFjR6MZORASIUC67OeAcsw==
-X-CSE-MsgGUID: CzmW9BtAQWSYfB8pa3qPoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="171608984"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa005.jf.intel.com with ESMTP; 12 Aug 2025 12:33:53 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uluko-0003M7-1S;
-	Tue, 12 Aug 2025 19:33:50 +0000
-Date: Tue, 12 Aug 2025 21:33:06 +0200
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1] kernel/cgroup/cpuset.c:3826:
- warning: Excess function parameter 'work' description in
- 'cpuset_handle_hotplug'
-Message-ID: <202508122142.RYzGEcrA-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KRl/iJEE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755031825;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=i7YvdQwB8rttbhsO1577uV1RViiXcc8diXFNbqrfJYg=;
+	b=KRl/iJEEiqwz+B+lRRT1HPFp9XNmDt2aM9zex7hJU+W28TGCHkXXyD1TGe6lVJw6hPXI7U
+	FHNKXmJX7zcaiUj/G96Bk5xWrzhjAUohszDdL6QltRVGsrJgSGslEWrKR4QP6Cedt8SQYj
+	D8qwYysvnAa6i5MWpGqYuIQLkMXOm4U=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-99-d4QGXWD4OdSxrB0sJeEx6g-1; Tue, 12 Aug 2025 16:50:24 -0400
+X-MC-Unique: d4QGXWD4OdSxrB0sJeEx6g-1
+X-Mimecast-MFC-AGG-ID: d4QGXWD4OdSxrB0sJeEx6g_1755031823
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3b79ad7b8a5so3790877f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 13:50:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755031823; x=1755636623;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=i7YvdQwB8rttbhsO1577uV1RViiXcc8diXFNbqrfJYg=;
+        b=j6D6sasvyoy8348PK1CwnWk3seCeS7BLgwDOhozQkLoQFeAO4Yx1kmoRW+x59cuXPa
+         TRC3Z2lrJaliIbuLPChzSBCT8tL0eA721ZC5rsolYJ9ogfuk3Z/OnsnURttfFq66DbDu
+         vG8gwtM4I70pT6E5KI/6K32K1z60ELazv9FP+2bHUFXDBxZHruGQ7v7/8tgyv1DH2Pgw
+         mGVseE0cmZOfV4vLBaNpeL6wGHi5JpNDR+sTucB2vFYqvaYaX5vR4HmoFhNzJiLyX8NM
+         5/wRq62NuQ327sewjLtiqJgDWLd2a4c5eVM0lNrVyPBAHVb0k8nh0voUB8q1y91lsR7s
+         VkkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDDn1Y3sp/xtOp2/w738ktCnClro8vp7rjtW3QxHYRVqW4kqmDMa5AQqFDAhKLspualov493BRIYOxWp8H@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9brJ3zY6KwzZS62VjQT7DqkTwkz7lOYIPeOptOpPA1kayY3g6
+	R29aPBYLp2g8RoEFNFywY1UtW7gNFay9OHvcXFbUf3mdDVWOCSDxRUuDozAQBEkueKs6PUSFciR
+	rHARWt6odAE/UBZk6kcE1RUAiXL/cr467kHVwx8ZMfbrrT6ffhiBsaJIM6fmh67V1umQ=
+X-Gm-Gg: ASbGnct6rAE8IwTUpnkS8cWj8Nw8WXFe6N+L3f4HZsNTfiArYGQvUasoQZS+Yl8HtCC
+	61dTN6QnXFMK3yk2rI3uAJGiI6RdcV95X5UCPjm2VKD5jybHdvhj4LZcEH0edAAZB3YdjNZM3Ue
+	+l4zTmQkfxe/mkPdiB1RhFZKfvKGzxG3JKQ9p3S46p1gQjs/cd5/OTcr/UB/8w4ItzP+5hdoLH+
+	sWLcQFpaSF4LpnhSAJv65RGag4Mc+O+Cb3id7wLhbkRXqeQX53epwUGoo9H4JcBZOts6IDPym08
+	RGB/vHKyf6YJQc0VGINgwpRH3ng9qHOwSJLxiAgdukIrEbD8HguieoBlqkI/q9vvSHYxBUBAfXg
+	LIHnjavSdT9JoaKzUWYwwVPcETwd8Roohj2PNg1TYftnfMxbvPaceRr4AeNg02J7dS1o=
+X-Received: by 2002:a5d:5d86:0:b0:3b9:13e4:9693 with SMTP id ffacd0b85a97d-3b917edd49amr261527f8f.52.1755031822695;
+        Tue, 12 Aug 2025 13:50:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHSNykJv7Lvbr5f90XjicFITMJaQbu0/2nFACy0ZV5jZlmNVRbBlprfnnGCdefBalsMmuBo+w==
+X-Received: by 2002:a5d:5d86:0:b0:3b9:13e4:9693 with SMTP id ffacd0b85a97d-3b917edd49amr261518f8f.52.1755031822271;
+        Tue, 12 Aug 2025 13:50:22 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f30:cb00:c425:8b4b:d9ad:eee0? (p200300d82f30cb00c4258b4bd9adeee0.dip0.t-ipconnect.de. [2003:d8:2f30:cb00:c425:8b4b:d9ad:eee0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3b9eddsm45439761f8f.22.2025.08.12.13.50.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Aug 2025 13:50:21 -0700 (PDT)
+Message-ID: <0c96fa0e-6f7e-4cca-8d57-f3e3786d44fa@redhat.com>
+Date: Tue, 12 Aug 2025 22:50:20 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [akpm-mm:mm-new 101/118] arch/powerpc/mm/ptdump/shared.c:70:1:
+ error: use of 'pgtable_level' with tag type that does not match previous
+ declaration
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+References: <202508130304.5FJqRz2c-lkp@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ g3eXuA==
+Organization: Red Hat
+In-Reply-To: <202508130304.5FJqRz2c-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: zNKQu0ooOvuYfP26Uk3tww9RfcU-XSktxqvfT25L-vg_1755031823
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   d47451aad0fea82f126ecf4c9f2d03f89088e3f2
-commit: 0b74ac200f7764c7eae335774f70c6c9f014c132 [0/1] BACKPORT: FROMGIT: cgroup/cpuset: Make cpuset hotplug processing synchronous
-config: i386-buildonly-randconfig-2003-20250812 (https://download.01.org/0day-ci/archive/20250812/202508122142.RYzGEcrA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508122142.RYzGEcrA-lkp@intel.com/reproduce)
+On 12.08.25 21:18, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   33ad02f876604ac2990e510480b0ab3a03cf892e
+> commit: 627bf62489a6d9a45f6d6f83edd0cb6c0ee610c0 [101/118] mm/rmap: convert "enum rmap_level" to "enum pgtable_level"
+> config: powerpc-randconfig-001-20250812 (https://download.01.org/0day-ci/archive/20250813/202508130304.5FJqRz2c-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130304.5FJqRz2c-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508130304.5FJqRz2c-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from arch/powerpc/mm/ptdump/shared.c:10:
+>     arch/powerpc/mm/ptdump/ptdump.h:14:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
+>        14 | struct pgtable_level {
+>           | ^
+>     include/linux/pgtable.h:1961:6: note: previous use is here
+>      1961 | enum pgtable_level {
+>           |      ^
+>     In file included from arch/powerpc/mm/ptdump/shared.c:10:
+>     arch/powerpc/mm/ptdump/ptdump.h:20:8: error: use of 'pgtable_level' with tag type that does not match previous declaration
+>        20 | extern struct pgtable_level pg_level[5];
+>           |        ^
+>     include/linux/pgtable.h:1961:6: note: previous use is here
+>      1961 | enum pgtable_level {
+>           |      ^
+>>> arch/powerpc/mm/ptdump/shared.c:70:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
+>        70 | struct pgtable_level pg_level[5] = {
+>           | ^
+>     include/linux/pgtable.h:1961:6: note: previous use is here
+>      1961 | enum pgtable_level {
+>           |      ^
+>     3 errors generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508122142.RYzGEcrA-lkp@intel.com/
+Huh, I cross compiled this on a bunch of ppc configs, but maybe not emough.
 
-All warnings (new ones prefixed by >>):
+No, on the branch I submitted that did not exist.
 
->> kernel/cgroup/cpuset.c:3826: warning: Excess function parameter 'work' description in 'cpuset_handle_hotplug'
-
-
-vim +3826 kernel/cgroup/cpuset.c
-
-b1aac8bb824c65 kernel/cpuset.c        Paul Jackson     2006-09-29  3805  
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3806  /**
-0b74ac200f7764 kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3807   * cpuset_handle_hotplug - handle CPU/memory hot{,un}plug for a cpuset
-05f76ae95e7114 kernel/cgroup/cpuset.c Cai Xinchen      2023-08-02  3808   * @work: unused
-956db3ca0606e7 kernel/cpuset.c        Cliff Wickman    2008-02-07  3809   *
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3810   * This function is called after either CPU or memory configuration has
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3811   * changed and updates cpuset accordingly.  The top_cpuset is always
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3812   * synchronized to cpu_active_mask and N_MEMORY, which is necessary in
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3813   * order to make cpusets transparent (of no affect) on systems that are
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3814   * actively using CPU hotplug but making no active use of cpusets.
-956db3ca0606e7 kernel/cpuset.c        Cliff Wickman    2008-02-07  3815   *
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3816   * Non-root cpusets are only affected by offlining.  If any CPUs or memory
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3817   * nodes have been taken down, cpuset_hotplug_update_tasks() is invoked on
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3818   * all descendants.
-7ddf96b02fe8dd kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3819   *
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3820   * Note that CPU offlining during suspend is ignored.  We don't modify
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3821   * cpusets across suspend/resume cycles at all.
-0b74ac200f7764 kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3822   *
-0b74ac200f7764 kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3823   * CPU / memory hotplug is handled synchronously.
-956db3ca0606e7 kernel/cpuset.c        Cliff Wickman    2008-02-07  3824   */
-0b74ac200f7764 kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3825  static void cpuset_handle_hotplug(void)
-b1aac8bb824c65 kernel/cpuset.c        Paul Jackson     2006-09-29 @3826  {
-5c5cc62321d9df kernel/cpuset.c        Li Zefan         2013-06-09  3827  	static cpumask_t new_cpus;
-5c5cc62321d9df kernel/cpuset.c        Li Zefan         2013-06-09  3828  	static nodemask_t new_mems;
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3829  	bool cpus_updated, mems_updated;
-b8d1b8ee93df8f kernel/cgroup/cpuset.c Waiman Long      2017-08-17  3830  	bool on_dfl = is_in_v2_mode();
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3831  	struct tmpmasks tmp, *ptmp = NULL;
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3832  
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3833  	if (on_dfl && !alloc_cpumasks(NULL, &tmp))
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3834  		ptmp = &tmp;
-b1aac8bb824c65 kernel/cpuset.c        Paul Jackson     2006-09-29  3835  
-0b74ac200f7764 kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3836  	lockdep_assert_cpus_held();
-111cd11bbc5485 kernel/cgroup/cpuset.c Juri Lelli       2023-05-08  3837  	mutex_lock(&cpuset_mutex);
-956db3ca0606e7 kernel/cpuset.c        Cliff Wickman    2008-02-07  3838  
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3839  	/* fetch the available cpus/mems and find out which changed how */
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3840  	cpumask_copy(&new_cpus, cpu_active_mask);
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3841  	new_mems = node_states[N_MEMORY];
-b450129554213a kernel/cpuset.c        Paul Jackson     2008-02-07  3842  
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3843  	/*
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3844  	 * If subparts_cpus is populated, it is likely that the check below
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3845  	 * will produce a false positive on cpus_updated when the cpu list
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3846  	 * isn't changed. It is extra work, but it is better to be safe.
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3847  	 */
-7e88291beefbb7 kernel/cpuset.c        Li Zefan         2014-07-09  3848  	cpus_updated = !cpumask_equal(top_cpuset.effective_cpus, &new_cpus);
-7e88291beefbb7 kernel/cpuset.c        Li Zefan         2014-07-09  3849  	mems_updated = !nodes_equal(top_cpuset.effective_mems, new_mems);
-b450129554213a kernel/cpuset.c        Paul Jackson     2008-02-07  3850  
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3851  	/*
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3852  	 * In the rare case that hotplug removes all the cpus in subparts_cpus,
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3853  	 * we assumed that cpus are updated.
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3854  	 */
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3855  	if (!cpus_updated && top_cpuset.nr_subparts_cpus)
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3856  		cpus_updated = true;
-15d428e6fe77ff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3857  
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3858  	/* synchronize cpus_allowed to cpu_active_mask */
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3859  	if (cpus_updated) {
-8447a0fee97443 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3860  		spin_lock_irq(&callback_lock);
-7e88291beefbb7 kernel/cpuset.c        Li Zefan         2014-07-09  3861  		if (!on_dfl)
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3862  			cpumask_copy(top_cpuset.cpus_allowed, &new_cpus);
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3863  		/*
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3864  		 * Make sure that CPUs allocated to child partitions
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3865  		 * do not show up in effective_cpus. If no CPU is left,
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3866  		 * we clear the subparts_cpus & let the child partitions
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3867  		 * fight for the CPUs again.
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3868  		 */
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3869  		if (top_cpuset.nr_subparts_cpus) {
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3870  			if (cpumask_subset(&new_cpus,
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3871  					   top_cpuset.subparts_cpus)) {
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3872  				top_cpuset.nr_subparts_cpus = 0;
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3873  				cpumask_clear(top_cpuset.subparts_cpus);
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3874  			} else {
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3875  				cpumask_andnot(&new_cpus, &new_cpus,
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3876  					       top_cpuset.subparts_cpus);
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3877  			}
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3878  		}
-1344ab9c2991b4 kernel/cpuset.c        Li Zefan         2014-07-09  3879  		cpumask_copy(top_cpuset.effective_cpus, &new_cpus);
-8447a0fee97443 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3880  		spin_unlock_irq(&callback_lock);
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3881  		/* we don't mess with cpumasks of tasks in top_cpuset */
-7ddf96b02fe8dd kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3882  	}
-7ddf96b02fe8dd kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3883  
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3884  	/* synchronize mems_allowed to N_MEMORY */
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3885  	if (mems_updated) {
-8447a0fee97443 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3886  		spin_lock_irq(&callback_lock);
-7e88291beefbb7 kernel/cpuset.c        Li Zefan         2014-07-09  3887  		if (!on_dfl)
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3888  			top_cpuset.mems_allowed = new_mems;
-1344ab9c2991b4 kernel/cpuset.c        Li Zefan         2014-07-09  3889  		top_cpuset.effective_mems = new_mems;
-8447a0fee97443 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3890  		spin_unlock_irq(&callback_lock);
-d66393e54e0a9d kernel/cpuset.c        Tejun Heo        2014-02-13  3891  		update_tasks_nodemask(&top_cpuset);
-b1aac8bb824c65 kernel/cpuset.c        Paul Jackson     2006-09-29  3892  	}
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3893  
-111cd11bbc5485 kernel/cgroup/cpuset.c Juri Lelli       2023-05-08  3894  	mutex_unlock(&cpuset_mutex);
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3895  
-5c5cc62321d9df kernel/cpuset.c        Li Zefan         2013-06-09  3896  	/* if cpus or mems changed, we need to propagate to descendants */
-5c5cc62321d9df kernel/cpuset.c        Li Zefan         2013-06-09  3897  	if (cpus_updated || mems_updated) {
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3898  		struct cpuset *cs;
-492eb21b98f88e kernel/cpuset.c        Tejun Heo        2013-08-08  3899  		struct cgroup_subsys_state *pos_css;
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3900  
-fc560a26accea9 kernel/cpuset.c        Tejun Heo        2013-01-07  3901  		rcu_read_lock();
-492eb21b98f88e kernel/cpuset.c        Tejun Heo        2013-08-08  3902  		cpuset_for_each_descendant_pre(cs, pos_css, &top_cpuset) {
-ec903c0c858e49 kernel/cpuset.c        Tejun Heo        2014-05-13  3903  			if (cs == &top_cpuset || !css_tryget_online(&cs->css))
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3904  				continue;
-fc560a26accea9 kernel/cpuset.c        Tejun Heo        2013-01-07  3905  			rcu_read_unlock();
-b1aac8bb824c65 kernel/cpuset.c        Paul Jackson     2006-09-29  3906  
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3907  			cpuset_hotplug_update_tasks(cs, ptmp);
-7ddf96b02fe8dd kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3908  
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3909  			rcu_read_lock();
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3910  			css_put(&cs->css);
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3911  		}
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3912  		rcu_read_unlock();
-388afd8549dc8b kernel/cpuset.c        Li Zefan         2013-06-09  3913  	}
-8d03394877ecdf kernel/cpuset.c        Tejun Heo        2013-01-07  3914  
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3915  	/* rebuild sched domains if cpus_allowed has changed */
-50e76632339d46 kernel/cgroup/cpuset.c Peter Zijlstra   2017-09-07  3916  	if (cpus_updated || force_rebuild) {
-50e76632339d46 kernel/cgroup/cpuset.c Peter Zijlstra   2017-09-07  3917  		force_rebuild = false;
-0b74ac200f7764 kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3918  		rebuild_sched_domains_cpuslocked();
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3919  	}
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3920  
-4b842da276a8a1 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3921  	free_cpumasks(NULL, ptmp);
-50e76632339d46 kernel/cgroup/cpuset.c Peter Zijlstra   2017-09-07  3922  }
-deb7aa308ea264 kernel/cpuset.c        Tejun Heo        2013-01-07  3923  
-
-:::::: The code at line 3826 was first introduced by commit
-:::::: b1aac8bb824c658ddebd296b088a8bff5029c288 [PATCH] cpuset: hotunplug cpus and mems in all cpusets
-
-:::::: TO: Paul Jackson <pj@sgi.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+Probably due to the rebase.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+
+David / dhildenb
+
