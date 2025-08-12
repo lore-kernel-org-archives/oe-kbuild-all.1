@@ -1,58 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD012E5B23
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 08:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2F72E92C7;
+	Tue, 12 Aug 2025 09:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754988972; cv=none; b=dqE1fNvO3wOde1NDakd4Da5rUxTkRhBWdCJupTE/+gh2pw+QpBzlqnbpXpdMdGU/Dlh/1rYhKiJ3cj2sDQCzbKx6u6/C77A7T4jB4v6k/dvWeOFko+IGm82WbNa3u/YC9JMR+PiBJAorPzVY3szYYMDlZUfQKT9ZgMyo8YfjMII=
+	t=1754992619; cv=none; b=d4/5hc+YjOu74j/D8+lirC8tIl/bXiEtmXWQVxu8ybEjL0KsFYJE2Fymq2FcQIbSvJV4p+OPOMbgI6p5C0i5ROOxS8CrujJ1za6qk1NQFlBVOrQLXiVog2SQV5hUwB55VwFho5Rr+jQ4lglhk01kk3yfU1u30DwZMMwYEnGFG1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754988972; c=relaxed/simple;
-	bh=1QPCgQAGU7UKvmaGYCvExO+zjKgIxkTWb1R53VE67Go=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GDq2dZS5OD4L4t8PnGQpxK9Go815X+cMkTkbSopFTlk8SXROisgYaaGBJlD2lpFXbf2J44q8moprL2ZBjFDTeLQkEWqcl4P+rKek4yPqO63TPm4POO6Nd2MTGkC7bd3J6aX3Evcls0Ioa2eqzIGnRndUeQQdnjKopLiFNsvtXy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KGh7rFad; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1754992619; c=relaxed/simple;
+	bh=kZ2l5x950PA0cR5I+Bh1ES8Lujux+bvQVQOPWBN9iz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJ/oH0NxfVBLA7WKFoiOgp2dosVl+couVRngO8jmBE8FJue+Dci9gPfll+ZlsJOKYBuvHVH35Y7kfVENf1/FOEQ/FbPwVSEjGzTcq75Q5DSrRogFN8cjxywHJG1jslwbl950tXQHGENwCfovy1DrK3fVjuNlLgR+q1rtWc1r9iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxOupTQL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGh7rFad"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxOupTQL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754988969; x=1786524969;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1QPCgQAGU7UKvmaGYCvExO+zjKgIxkTWb1R53VE67Go=;
-  b=KGh7rFadNVu+4GQk00gAUKkCMM518w1OevxkxJ9WovV9QIoS04G0GpmB
-   s1iZnWlVmtEd6mg8eHQrDM7G8NbDX/d2cEWotUkJyWuAwZ8EXlIHZ2+sQ
-   G7UHOd0L8AUhNA5Ij7t1jUU2wzGb7dABIZ7PNGm2/Af10D8GG9p3g5sST
-   uBNd31zCRlYSo862Ak9yunRdm3zV43+DD/ewmSVitX3Wrv/QAe+ZMknbz
-   iBzFJPiiSrcRWBvFhW2dzhJM19xhf5cE2TfvrFfLLsxVIY3+vSYzbUvBW
-   bSZjG5Sg8A9xBrX18Vvjxh9WWqOLFSugfwnegQ0J5OCSxw42WFn+Q4mBL
-   A==;
-X-CSE-ConnectionGUID: 0/p2AQjtTjyKNvoQFiH1RQ==
-X-CSE-MsgGUID: cVsll44+TuW5Bfoe9ocnow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="67963782"
+  t=1754992618; x=1786528618;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kZ2l5x950PA0cR5I+Bh1ES8Lujux+bvQVQOPWBN9iz0=;
+  b=fxOupTQLXW2woqAZkKM0GBwShs4XLJcDPFw47AGMJq5WzEIdlU9dQtHW
+   2IshLG/RJl8NERSSxDS+7ak3LzN7i6p7LITkYOywXozbzaL9BWfqcISVN
+   3+zJAzE3XNbJWfs5ClFN0ZJmgL04pI6bXZFkaTBPYCWSt81yXQztSAcO5
+   thFs+H0Xh6GbE0lSIuk17hTUa0tQ4xshAgPrZN6GBneXlSkyHVgmeF8cQ
+   k/b9QX7ppc/7gXjaAPP5ZBtml0rrcWUL8+7WA1GY7PX8JuOkjHnCTKzMe
+   l1nm1MEEFQxy4zbXzKOrouRBdSAe4JotS963EqNE99k1QTPPu0uNzMg1A
+   Q==;
+X-CSE-ConnectionGUID: 5UnZoEevT/6i3cTlAAkTmQ==
+X-CSE-MsgGUID: pG+PQvGZRsmT6aK2bf0F/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="67968761"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="67963782"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 01:56:09 -0700
-X-CSE-ConnectionGUID: H0R788ClRs672ajhlzYkfA==
-X-CSE-MsgGUID: I+Yf6FBhRPSOrsbTAHFMcQ==
+   d="scan'208";a="67968761"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 02:56:58 -0700
+X-CSE-ConnectionGUID: RkPC6m94SoKqMbnl2CRniA==
+X-CSE-MsgGUID: 9h5Ou5W5QQuC4liiIRCzig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="166940177"
+   d="scan'208";a="165655966"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Aug 2025 01:56:08 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 Aug 2025 02:56:54 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ulkmz-0006bT-2C;
-	Tue, 12 Aug 2025 08:55:42 +0000
-Date: Tue, 12 Aug 2025 16:51:11 +0800
+	id 1ullk8-0006eW-2k;
+	Tue, 12 Aug 2025 09:56:39 +0000
+Date: Tue, 12 Aug 2025 17:55:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2669/2669] kernel/sched/debug.c:102:12: warning:
- no previous prototype for function 'is_prefer_numa'
-Message-ID: <202508121611.xU3A9CdS-lkp@intel.com>
+To: ~_xllx_ <_xllx_@git.sr.ht>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH linux] of: resolves TODO for copy_from_slice
+Message-ID: <202508121650.l7ZSniGd-lkp@intel.com>
+References: <175489428990.9320.6825335165759789458-0@git.sr.ht>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,44 +71,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <175489428990.9320.6825335165759789458-0@git.sr.ht>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   263cf8eeb5316aeebd9d692e9966df029f65889f
-commit: 0f22304e62d360fce47988586d599e33895ccb01 [2669/2669] sched: Support NUMA parallel scheduling for multiple processes
-config: x86_64-buildonly-randconfig-001-20250812 (https://download.01.org/0day-ci/archive/20250812/202508121611.xU3A9CdS-lkp@intel.com/config)
+Hi ~_xllx_,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linux/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/_xllx_/of-resolves-TODO-for-copy_from_slice/20250811-144924
+base:   linux/master
+patch link:    https://lore.kernel.org/r/175489428990.9320.6825335165759789458-0%40git.sr.ht
+patch subject: [PATCH linux] of: resolves TODO for copy_from_slice
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250812/202508121650.l7ZSniGd-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508121611.xU3A9CdS-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508121650.l7ZSniGd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508121611.xU3A9CdS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508121650.l7ZSniGd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:73:
->> kernel/sched/debug.c:102:12: warning: no previous prototype for function 'is_prefer_numa' [-Wmissing-prototypes]
-     102 | int __weak is_prefer_numa(void)
-         |            ^
-   kernel/sched/debug.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | int __weak is_prefer_numa(void)
-         | ^
-         | static 
-   In file included from kernel/sched/build_utility.c:105:
-   kernel/sched/isolation.c:134:46: error: use of undeclared identifier 'setup_max_cpus'
-     134 |         if (first_cpu >= nr_cpu_ids || first_cpu >= setup_max_cpus) {
-         |                                                     ^
-   1 warning and 1 error generated.
-
-
-vim +/is_prefer_numa +102 kernel/sched/debug.c
-
-   101	
- > 102	int __weak is_prefer_numa(void)
-   103	{
-   104		return 0;
-   105	}
-   106	
+>> error[E0080]: evaluation of constant value failed
+   --> rust/doctests_kernel_generated.rs:6978:11
+   |
+   6978 |          (of::DeviceId::new(c_str!("test,device")), ())
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation panicked: copy_from_slice: source slice length does not match destination slice length
+   |
+   note: inside `rust_doctest_kernel_alloc_kbox_rs_7::kernel::of::DeviceId::new`
+   --> rust/kernel/of.rs:42:9
+   |
+   42   |         of.compatible.copy_from_slice(src);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the failure occurred here
+--
+>> error[E0080]: evaluation of constant value failed
+   --> samples/rust/rust_driver_platform.rs:88:7
+   |
+   88 |     [(of::DeviceId::new(c_str!("test,rust-device")), Info(42))]
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation panicked: copy_from_slice: source slice length does not match destination slice length
+   |
+   note: inside `kernel::of::DeviceId::new`
+   --> rust/kernel/of.rs:42:9
+   |
+   42 |         of.compatible.copy_from_slice(src);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the failure occurred here
 
 -- 
 0-DAY CI Kernel Test Service
