@@ -1,41 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC7B2E764E;
-	Tue, 12 Aug 2025 10:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901712EB5D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 11:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754995782; cv=none; b=tMh5RGaNexWkSgELVxemLEBGoMpNz3Ki3d0n9lzlp6cmSrEsjY2KvTWb7QOuWv7NDUzBIyXSAudhmPImnWeA/LvwPFttk5IruwjypcYRCf/2Cf2pPM8+bk4H7SxU0WUcDoNIincs2+omkP068N9jJl5T/Yp+uS6+BJkclIkrBxw=
+	t=1754997762; cv=none; b=DQxdzin3Q516y6wzQdZ4ImifrdcqlgY259Iv0EdpRqQ3o8nC/F5bZnsXtz8oZ37ulkF9TMaFgY0JVTf0giDToCmTbVCgUr9hOJBAiZNHmjXSJ8YKmcttFMnnWgmqoCvqQgDLgrMOB1dCGIHCK59J0IcsUWP3u07lST9xNBSYd4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754995782; c=relaxed/simple;
-	bh=p/Zaq5uBu0sHxfa/r1xHQ9y/wu57zAnoWogo2D3Eo4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fhz2OdyoSAEM16M9cCbPRILOK/9Th2tazRGPP4dyJRIK+ZuulB6hFUYta2V+XXphuqNkwNBzIiUsyn9mPIaa1/WlvKdHB6Qa+UPeb0/t8RMcEJbNmL2HPEzIug0bLOYOtU/ESAPZBYKMr2bt47hpe+14s9EndEVnwBADfZT4eog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=h5oCWpFB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754997762; c=relaxed/simple;
+	bh=XbA/AqyXgXyjgrw/SXWZDKMf+TLl7GQQf/RTrfGGGlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FdsBuXHLNKpwObBMqJ3z1PfTbdEF0hJ/EmZWvlPfnMHb7g4NYELJ+6EGXjH8stxrqBBSpjuebdn3YU9lsdmnfZS08486GxgMcEMcaw5Du0M+UuxxId+Y4H9iM2VghEBJG5X+zovhPGsZrviukeHgkk61DrHeeAQd9mVAeTqdteY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLztIlkS; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h5oCWpFB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 669C2C4CEF0;
-	Tue, 12 Aug 2025 10:49:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1754995781;
-	bh=p/Zaq5uBu0sHxfa/r1xHQ9y/wu57zAnoWogo2D3Eo4k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h5oCWpFBm4+ERkUDRWnb722caLv2yuyQEUl14dQbCsQevgcS5qBxujZoT1gsRQ4oP
-	 4cY5Zx48tLGMfvw7LyWgzmHiGQyaW8SF2bYX/voBJQ5uGj+eYfS4Ms+nJvoEPa/PRT
-	 +pyxOztEX0Gxca/9QrwMQkl6UOGIbQdcqc3iiD9k=
-Date: Tue, 12 Aug 2025 12:49:33 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sumanth Gavini <sumanth.gavini@yahoo.com>
-Cc: axboe@kernel.dk, asml.silence@gmail.com, lkp@intel.com,
-	io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, oe-kbuild-all@lists.linux.dev,
-	John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH v2 6.6] io_uring/rw: ensure reissue path is correctly
- handled for IOPOLL
-Message-ID: <2025081248-kinswoman-deserving-59c0@gregkh>
-References: <aJeVj4yXt4F01nPb@f5c43a121a53>
- <20250809205420.214099-1-sumanth.gavini@yahoo.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLztIlkS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754997760; x=1786533760;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XbA/AqyXgXyjgrw/SXWZDKMf+TLl7GQQf/RTrfGGGlo=;
+  b=aLztIlkSv+Y3dm4ueRCfIKErUCBzFH1w7FF6aGENiG8kqiUsJtKkiWdx
+   qZGC58JQUiuXeCZ+zVnhrNfZdp6idggcGgVu8R6y5BFMnzZ8Vn+duvBPM
+   fOuK5cH5+BFKuTHR8FQBnxobE7aZyqLGt8eK57sh/zGX//ufo8FreO+iP
+   PwXM4y96+iyh47wHPFoW88clljoWAPn0xPBRxjQcs6dAWibpNOAeVdZjl
+   3Fj3Py5pUknpRQaijnLDTL9qvpDewlnf918vIzSOL2bp1wHXg6oNlS3zH
+   vLrgPi6LsPUAbFXn7nrCxIVTJcJJnt61L3JjxW0kQaLdFRrz+Pm99PGDO
+   g==;
+X-CSE-ConnectionGUID: A7dX/9AYT4iZBmh9jwlWRQ==
+X-CSE-MsgGUID: gQofjc6oSJuloLKHnGw72A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="68724117"
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="68724117"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 04:22:39 -0700
+X-CSE-ConnectionGUID: Xdag2dgKQXKGsM79NB0+7Q==
+X-CSE-MsgGUID: oTE4Ksz5SByvKgth7V7Flw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
+   d="scan'208";a="171421142"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Aug 2025 04:22:39 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uln4p-0006iq-2h;
+	Tue, 12 Aug 2025 11:22:18 +0000
+Date: Tue, 12 Aug 2025 19:20:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-desktop 0/3] ERROR: modpost:
+ vmlinux: local symbol 'set_task_cpu' was exported
+Message-ID: <202508121919.IOK6dlpQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,33 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250809205420.214099-1-sumanth.gavini@yahoo.com>
 
-On Sat, Aug 09, 2025 at 03:54:18PM -0500, Sumanth Gavini wrote:
-> commit bcb0fda3c2da9fe4721d3e73d80e778c038e7d27 upstream.
-> 
-> The IOPOLL path posts CQEs when the io_kiocb is marked as completed,
-> so it cannot rely on the usual retry that non-IOPOLL requests do for
-> read/write requests.
-> 
-> If -EAGAIN is received and the request should be retried, go through
-> the normal completion path and let the normal flush logic catch it and
-> reissue it, like what is done for !IOPOLL reads or writes.
-> 
-> Fixes: d803d123948f ("io_uring/rw: handle -EAGAIN retry at IO completion time")
-> Reported-by: John Garry <john.g.garry@oracle.com>
-> Link: https://lore.kernel.org/io-uring/2b43ccfa-644d-4a09-8f8f-39ad71810f41@oracle.com/
-> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Sumanth Gavini <sumanth.gavini@yahoo.com>
-> ---
-> Changes in v2:
-> - Removed the extra space before commit-id in message, No codes changes
-> - Link to v1:https://lore.kernel.org/all/20250809182636.209767-1-sumanth.gavini@yahoo.com/
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   057e7ec2a313d49a0a9835e14a9e1c9c0f7cdb48
+commit: c05e84a239bffd0a739f4237a6b6c13c3735252d [0/3] Merge bf76f23aa1c1 ("Merge tag 'sched-core-2025-07-28' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip") into android-mainline
+config: x86_64-buildonly-randconfig-002-20250812 (https://download.01.org/0day-ci/archive/20250812/202508121919.IOK6dlpQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508121919.IOK6dlpQ-lkp@intel.com/reproduce)
 
-We can not take patches ONLY for older kernel trees and not newer ones,
-otherwise you will have a regression when moving to a newer one.  I've
-dropped this now, please submit for all relevant trees.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508121919.IOK6dlpQ-lkp@intel.com/
 
-thanks,
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-greg k-h
+>> ERROR: modpost: vmlinux: local symbol 'set_task_cpu' was exported
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
