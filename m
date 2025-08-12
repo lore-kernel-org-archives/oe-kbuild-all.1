@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A338D2BE050
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 00:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CEB1E32D3;
+	Tue, 12 Aug 2025 01:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754956865; cv=none; b=uCiayFRcWKTX61puMC74cItv0pCkKEqIOIhZXSQlZODBXAcYDrFgMkjuEPocytGQBIGxhHok6noEQ0zcXY3rzavRS4ijRozvDxjsK0zwyDLdb4B/KsQNZcpod72H4uszcIaI/j+4hEU2UBP9ISMauQ9FcAjVJ6VNK+REzYcMjXc=
+	t=1754963873; cv=none; b=ocX+9+FKx6rFRkIvKdqOIn9YZKsjDZUGEsvZj1csulycKIRZ7OearIczQbAzfJfrF3sQ4p4rCTTJ39auLXsc7v3ElloZNOWVIKxUwKqltIboATuaVvibozjjIKKG8NZa9Ll+xxsXr1Tyrk3OFjORSro1O3UUdm22k7jDDf5g5pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754956865; c=relaxed/simple;
-	bh=0BsARfXFOK9iv+i6XDSueazUUe1YJAx4E+RY8y9T6UQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cnBKvtQ8bZAYuC5cnCuWg+QS9mLqH/Nm4PORPrQAHfoDgIuIgGxmNe0MEMk/v8Cbf5GR6Ucmhauelsi6mDefBedDxmjRzecBPb2Cquc6owQSpciBjDLevAPjAJBpwmVHFpeJEFlJwerulRpmeNgmUpoL6+HU3VBAbTACoye46jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1zPaFgg; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1754963873; c=relaxed/simple;
+	bh=Qx071dDd7KP7Mdv3hH4EvJNOeYH7CLLLCfN3/r8YVSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MDgoojCusANE6GAxqvwmlnEMAA8DeI26Vc0FfxBV/hq8m0huzstpOqbVun1znAoRqdF0wW/M1luq6ryQEDzfoVzfycuHTYcg11GLMSVWUePTuUYKLritSY2H1PWeAk+O0bpxv9B7JTCtZ3QbvNNSli7hsP5wqEc2cysIm1jSQvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONKGH043; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1zPaFgg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONKGH043"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754956864; x=1786492864;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0BsARfXFOK9iv+i6XDSueazUUe1YJAx4E+RY8y9T6UQ=;
-  b=K1zPaFggAMheRJVjc7kgwSXuS97lXuZfyoYFLG8glX5ymcmx8r3b9GYj
-   v15zscCzR/R8WI0o/bivj4HJYtCrBP7RfIWoWqUKwlDNAW/a89/cYuTMM
-   29ZjaMlG1tBRpXpYpCNhYrUv9Wg0dnqNYslRTlOCUVOkMThJoCIrRjObT
-   SoI3hkI9LsUKv1uveSI3EZLW8kkg/LrxUTkDHTq7+CWkQC5qzwsHMiDKi
-   utESC2gBLa/QQjYO7G9f3wZ2Q3EaQefKOKBI9QCU7N4Nc3/UJWChsJMGb
-   UqeWDeBTiFSTCEC0mVCEnBONeuk//S3sddaKrml5QLES5xuyyTSf5ztBn
+  t=1754963871; x=1786499871;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qx071dDd7KP7Mdv3hH4EvJNOeYH7CLLLCfN3/r8YVSI=;
+  b=ONKGH043t2rWhq2x+6BOxDDmxSAMGxM0kegEk6LZX7jd74O6iY2IMWd8
+   mid3nVmKEiWOyr2z6pLG66Z22OI/nX8r8VryWzj8YRkgLrxVo5Y7f8t+0
+   jUXg/7jcLMQJ+et8A7ZtA3j+vrbuVU99UXcV5cRcmLq8pRW5ljs7VBiKw
+   o4vW9NFzmZYts0QL1UpnNiK9QY/Y7zirag5Iu3Myg8SomZQ2TYpVUij4+
+   wazG2zuOdOh/Be/5Mu+uLNdWPSWzrEVg4Cwv5XMmssP1HlQGfRgb1ZL6K
+   N8dqkOg+ESrR0jEjlDuiKjNs8K2MkKoUBBmXkscwaniF6wwiFGhMXIPb2
    A==;
-X-CSE-ConnectionGUID: c8RluFjJS9SR++qxci12Eg==
-X-CSE-MsgGUID: //tHN85vRBSmdPtRDa7C+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="82659504"
+X-CSE-ConnectionGUID: RtdOoGwkRDOlphhc1olBoQ==
+X-CSE-MsgGUID: K55/AFrrTIKIYyxi27frOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57130208"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="82659504"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 17:01:03 -0700
-X-CSE-ConnectionGUID: /+F4pJ2/QBmrReRdHnf/fA==
-X-CSE-MsgGUID: S5LZyq5LS2SfK3Kxq//CzA==
+   d="scan'208";a="57130208"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2025 18:57:51 -0700
+X-CSE-ConnectionGUID: jHVKlFXGRmuO+2fTRzHUOA==
+X-CSE-MsgGUID: I0KYCu56Siqb1Y0OWzZh4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="166842144"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Aug 2025 17:01:01 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="166446122"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Aug 2025 18:57:49 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ulcRm-0006Iu-2l;
-	Tue, 12 Aug 2025 00:00:58 +0000
-Date: Tue, 12 Aug 2025 08:00:09 +0800
+	id 1uleGp-0003CJ-1u;
+	Tue, 12 Aug 2025 01:57:47 +0000
+Date: Tue, 12 Aug 2025 03:57:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Leo L. Schwab" <ewhac@ewhac.org>, Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
-	"Leo L. Schwab" <ewhac@ewhac.org>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: lg-g15 - Add support for Logitech G13.
-Message-ID: <202508120615.TGJUom52-lkp@intel.com>
-References: <20250810225617.1006272-2-ewhac@ewhac.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/umh-h 9/10]
+ drivers/block/drbd/drbd_nl.c:383:8: error: call to undeclared function
+ 'call_usermodehelper'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202508120340.IMBXzPpp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,89 +63,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250810225617.1006272-2-ewhac@ewhac.org>
 
-Hi Leo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.17-rc1 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-L-Schwab/HID-lg-g15-Add-support-for-Logitech-G13/20250811-070633
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20250810225617.1006272-2-ewhac%40ewhac.org
-patch subject: [PATCH] HID: lg-g15 - Add support for Logitech G13.
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250812/202508120615.TGJUom52-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508120615.TGJUom52-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/umh-h
+head:   a1a2ca5277223b8a92db92f3f53fdafe0c462675
+commit: d2f44a17dab4dab7e29a9fbde3594789beb8fcd8 [9/10] modules/kmod: remove transitive include of umh.h
+config: i386-buildonly-randconfig-2003-20250812 (https://download.01.org/0day-ci/archive/20250812/202508120340.IMBXzPpp-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250812/202508120340.IMBXzPpp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508120615.TGJUom52-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508120340.IMBXzPpp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/hid/hid-lg-g15.c: In function 'lg_g13_event':
->> drivers/hid/hid-lg-g15.c:703:68: error: 'struct led_classdev' has no member named 'brightness_hw_changed'
-     703 |                 (!!TEST_BIT(rep->keybits, 23)) ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
-         |                                                                    ^
+>> drivers/block/drbd/drbd_nl.c:383:8: error: call to undeclared function 'call_usermodehelper'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     383 |         ret = call_usermodehelper(drbd_usermode_helper, argv, envp, UMH_WAIT_PROC);
+         |               ^
+>> drivers/block/drbd/drbd_nl.c:383:62: error: use of undeclared identifier 'UMH_WAIT_PROC'
+     383 |         ret = call_usermodehelper(drbd_usermode_helper, argv, envp, UMH_WAIT_PROC);
+         |                                                                     ^
+   drivers/block/drbd/drbd_nl.c:425:8: error: call to undeclared function 'call_usermodehelper'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     425 |         ret = call_usermodehelper(drbd_usermode_helper, argv, envp, UMH_WAIT_PROC);
+         |               ^
+   drivers/block/drbd/drbd_nl.c:425:62: error: use of undeclared identifier 'UMH_WAIT_PROC'
+     425 |         ret = call_usermodehelper(drbd_usermode_helper, argv, envp, UMH_WAIT_PROC);
+         |                                                                     ^
+   4 errors generated.
 
 
-vim +703 drivers/hid/hid-lg-g15.c
+vim +/call_usermodehelper +383 drivers/block/drbd/drbd_nl.c
 
-   665	
-   666	static int lg_g13_event(struct lg_g15_data *g15, u8 const *data)
-   667	{
-   668		struct g13_input_report const * const rep = (struct g13_input_report *) data;
-   669		int i, val;
-   670		bool hw_brightness_changed;
-   671	
-   672		/*
-   673		 * Main macropad and menu keys.
-   674		 * Emit key events defined for each bit position.
-   675		 */
-   676		for (i = 0;  i < ARRAY_SIZE(g13_keys_for_bits);  ++i) {
-   677			if (g13_keys_for_bits[i]) {
-   678				val = TEST_BIT(rep->keybits, i);
-   679				input_report_key(g15->input, g13_keys_for_bits[i], val);
-   680			}
-   681		}
-   682		input_sync(g15->input);
-   683	
-   684		/*
-   685		 * Joystick.
-   686		 * Emit button and deflection events.
-   687		 */
-   688		for (i = 0;  i < ARRAY_SIZE(g13_keys_for_bits_js);  ++i) {
-   689			if (g13_keys_for_bits_js[i]) {
-   690				val = TEST_BIT(rep->keybits, i + 33);
-   691				input_report_key(g15->input_js, g13_keys_for_bits_js[i], val);
-   692			}
-   693		}
-   694		input_report_abs(g15->input_js, ABS_X, rep->joy_x);
-   695		input_report_abs(g15->input_js, ABS_Y, rep->joy_y);
-   696		input_sync(g15->input_js);
-   697	
-   698		/*
-   699		 * Bit 23 of keybits[] reports the current backlight on/off state.  If
-   700		 * it has changed from the last cached value, apply an update.
-   701		 */
-   702		hw_brightness_changed =
- > 703			(!!TEST_BIT(rep->keybits, 23)) ^ (g15->leds[0].cdev.brightness_hw_changed > 0);
-   704		if (hw_brightness_changed) {
-   705			led_classdev_notify_brightness_hw_changed(
-   706				&g15->leds[0].cdev,
-   707				TEST_BIT(rep->keybits, 23) ? LED_FULL : LED_OFF);
-   708		}
-   709	
-   710		return 0;
-   711	}
-   712	
+b411b3637fa71f Philipp Reisner     2009-09-25  353  
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  354  int drbd_khelper(struct drbd_device *device, char *cmd)
+6b75dced005c7f Philipp Reisner     2011-03-16  355  {
+6b75dced005c7f Philipp Reisner     2011-03-16  356  	char *envp[] = { "HOME=/",
+6b75dced005c7f Philipp Reisner     2011-03-16  357  			"TERM=linux",
+6b75dced005c7f Philipp Reisner     2011-03-16  358  			"PATH=/sbin:/usr/sbin:/bin:/usr/bin",
+6b75dced005c7f Philipp Reisner     2011-03-16  359  			 (char[20]) { }, /* address family */
+6b75dced005c7f Philipp Reisner     2011-03-16  360  			 (char[60]) { }, /* address */
+6b75dced005c7f Philipp Reisner     2011-03-16  361  			NULL };
+0982368bfd5964 Lars Ellenberg      2016-06-14  362  	char mb[14];
+8ab761e17efa75 Greg Kroah-Hartman  2017-08-29  363  	char *argv[] = {drbd_usermode_helper, cmd, mb, NULL };
+a6b32bc3cebd3f Andreas Gruenbacher 2011-05-31  364  	struct drbd_connection *connection = first_peer_device(device)->connection;
+6b75dced005c7f Philipp Reisner     2011-03-16  365  	struct sib_info sib;
+6b75dced005c7f Philipp Reisner     2011-03-16  366  	int ret;
+6b75dced005c7f Philipp Reisner     2011-03-16  367  
+bde89a9e151b48 Andreas Gruenbacher 2011-05-30  368  	if (current == connection->worker.task)
+bde89a9e151b48 Andreas Gruenbacher 2011-05-30  369  		set_bit(CALLBACK_PENDING, &connection->flags);
+6f3465ed82b109 Lars Ellenberg      2012-07-30  370  
+0982368bfd5964 Lars Ellenberg      2016-06-14  371  	snprintf(mb, 14, "minor-%d", device_to_minor(device));
+bde89a9e151b48 Andreas Gruenbacher 2011-05-30  372  	setup_khelper_env(connection, envp);
+6b75dced005c7f Philipp Reisner     2011-03-16  373  
+1090c056c5eb6d Lars Ellenberg      2010-07-19  374  	/* The helper may take some time.
+1090c056c5eb6d Lars Ellenberg      2010-07-19  375  	 * write out any unsynced meta data changes now */
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  376  	drbd_md_sync(device);
+1090c056c5eb6d Lars Ellenberg      2010-07-19  377  
+8ab761e17efa75 Greg Kroah-Hartman  2017-08-29  378  	drbd_info(device, "helper command: %s %s %s\n", drbd_usermode_helper, cmd, mb);
+3b98c0c2093d1f Lars Ellenberg      2011-03-07  379  	sib.sib_reason = SIB_HELPER_PRE;
+3b98c0c2093d1f Lars Ellenberg      2011-03-07  380  	sib.helper_name = cmd;
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  381  	drbd_bcast_event(device, &sib);
+a29728463b254c Andreas Gruenbacher 2014-07-31  382  	notify_helper(NOTIFY_CALL, device, connection, cmd, 0);
+8ab761e17efa75 Greg Kroah-Hartman  2017-08-29 @383  	ret = call_usermodehelper(drbd_usermode_helper, argv, envp, UMH_WAIT_PROC);
+b411b3637fa71f Philipp Reisner     2009-09-25  384  	if (ret)
+d01801710265cf Andreas Gruenbacher 2011-07-03  385  		drbd_warn(device, "helper command: %s %s %s exit code %u (0x%x)\n",
+8ab761e17efa75 Greg Kroah-Hartman  2017-08-29  386  				drbd_usermode_helper, cmd, mb,
+b411b3637fa71f Philipp Reisner     2009-09-25  387  				(ret >> 8) & 0xff, ret);
+b411b3637fa71f Philipp Reisner     2009-09-25  388  	else
+d01801710265cf Andreas Gruenbacher 2011-07-03  389  		drbd_info(device, "helper command: %s %s %s exit code %u (0x%x)\n",
+8ab761e17efa75 Greg Kroah-Hartman  2017-08-29  390  				drbd_usermode_helper, cmd, mb,
+b411b3637fa71f Philipp Reisner     2009-09-25  391  				(ret >> 8) & 0xff, ret);
+3b98c0c2093d1f Lars Ellenberg      2011-03-07  392  	sib.sib_reason = SIB_HELPER_POST;
+3b98c0c2093d1f Lars Ellenberg      2011-03-07  393  	sib.helper_exit_code = ret;
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  394  	drbd_bcast_event(device, &sib);
+a29728463b254c Andreas Gruenbacher 2014-07-31  395  	notify_helper(NOTIFY_RESPONSE, device, connection, cmd, ret);
+b411b3637fa71f Philipp Reisner     2009-09-25  396  
+bde89a9e151b48 Andreas Gruenbacher 2011-05-30  397  	if (current == connection->worker.task)
+bde89a9e151b48 Andreas Gruenbacher 2011-05-30  398  		clear_bit(CALLBACK_PENDING, &connection->flags);
+c2ba686f353972 Lars Ellenberg      2012-06-14  399  
+b411b3637fa71f Philipp Reisner     2009-09-25  400  	if (ret < 0) /* Ignore any ERRNOs we got. */
+b411b3637fa71f Philipp Reisner     2009-09-25  401  		ret = 0;
+b411b3637fa71f Philipp Reisner     2009-09-25  402  
+b411b3637fa71f Philipp Reisner     2009-09-25  403  	return ret;
+b411b3637fa71f Philipp Reisner     2009-09-25  404  }
+b411b3637fa71f Philipp Reisner     2009-09-25  405  
+
+:::::: The code at line 383 was first introduced by commit
+:::::: 8ab761e17efa75449db2d71dc6fabf96d110588c drbd: rename "usermode_helper" to "drbd_usermode_helper"
+
+:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
