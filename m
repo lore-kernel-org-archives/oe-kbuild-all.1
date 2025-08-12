@@ -1,220 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED6D279915
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 17:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6939017993;
+	Tue, 12 Aug 2025 18:07:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755021034; cv=none; b=ezHoaQWqNmZN+ziRXv/bL7DTRRLNEBGkbCgbJ7FwMr8Cb2RPoy7/F6n08pCQJIj3/DAaMVaxTZUTpJ8bbNiPhSy1UPflllm0te7HVubgKvIMJwdOFYU885w/VjymPaQju7AyJEivQHMz1FG1M1eqPV74B3fV1Hw0P5fgA+VFp3c=
+	t=1755022063; cv=none; b=qjZGQSCqFUTlCt9IBXVWWVqvnN3ryaYY0S9QWf8R0RAWX2pgh8qREOb26J+fjNiuLqEoF2c3I+bL8cDMYlWo/HkbUDsIu7aY/7lXJKPRgnQ8h2g7rXFSHx/4LUv+CyyRE/cDqd30YW1xqbz5rxtwxXlo/hXba8vxRLwBz0O90s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755021034; c=relaxed/simple;
-	bh=0uMa3KKItLsfxoH0GEwOYR0lxjuPO0dy/8Zmk4UX3jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WI2tYILL2herHUavGS/0X24/y5DExkChjdMHgme75VxjlllKM78tU0X3ms4sjV3kTg9EwRg0gP4pRdYb+nFsJUdjpWiAfRpvmIZOf4efl/Rsc0bjD6feSXdZZRAJfmty2XG5s5E29aFrLF2x6ctsqVbx9gCq9+Y/f9tkYNWKHd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6sWPB2H; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755022063; c=relaxed/simple;
+	bh=7tVlMxBxSUqDkQ/YT+j6av2beaKwd8lQaB291K7ue9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUGbgWL1vRK+gMgRq7DeeT0JkdsfCHHmtPNfaf2khm3G8xfhnDTjnkrZ2cklIjg6PAlBHkVecGzhuTEqrATAZkpRnUzZt/kDsnfo8jrCwWanlhDPYwEQNRZgc24aZVs5HEUb0ljS/dF1So2iv47i9gu9FbHb8MIO92wbWTN1R14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MMw++2i9; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6sWPB2H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755021033; x=1786557033;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0uMa3KKItLsfxoH0GEwOYR0lxjuPO0dy/8Zmk4UX3jc=;
-  b=Y6sWPB2HgHxxznXDs7poKrlJYQ5DpavfFcf1wkAA5FjRqFRv5tpc3Y65
-   yMbEmf3Sx8rkNhVA4B7pESHmfdaip3+PDOKvSEh4jU2D5FP09SFhdHl3H
-   YkaBbALBWAH3itcIfmA5SD4BoDxWVkecAqMxgqkauFu6q4IcOc/jie0KX
-   bI7TUVUtem+23ZVNjT8MIWmk8Sb0fHlFaTle+oOHO0HKrMsr7uW3DilF4
-   Fu2YfT11ycBFGq3rk/UMDqmrS1KYauTec7/SnqHRHxwzS3PTAxOQPvhpb
-   GgYRlS+xMOod0BQb+kPulfeph5X0DadyhqVJJmgkn5j8MIkohhv9Ibmye
-   Q==;
-X-CSE-ConnectionGUID: GmMZq9oASGK6NrVrp2SLPQ==
-X-CSE-MsgGUID: QW8mrF+2Sr+EdtIn8cDO9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="61148559"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="61148559"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 10:50:32 -0700
-X-CSE-ConnectionGUID: F+i7UBK9TsyUYV+sW1+GbQ==
-X-CSE-MsgGUID: NqWk1UERQXuJjGz+olCOUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="203441377"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 12 Aug 2025 10:50:31 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ult8j-0007Bh-3D;
-	Tue, 12 Aug 2025 17:50:27 +0000
-Date: Wed, 13 Aug 2025 01:45:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [glemco:staging_rv_hybrid_automata 16/21]
- kernel/trace/rv/monitors/nomiss/nomiss.c:147:2: error: call to undeclared
- function 'check_trace_callback_type_sys_enter'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202508130126.1UHPvAE7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MMw++2i9"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b46ec4d5d0aso1819858a12.2;
+        Tue, 12 Aug 2025 11:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755022062; x=1755626862; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7tVlMxBxSUqDkQ/YT+j6av2beaKwd8lQaB291K7ue9Y=;
+        b=MMw++2i986U161RSqHFGiZkXH2MsPVHFY/R4vksy91fYD3rbZYsCwbDZx6WaZJzU73
+         WLtLABMHnBti3EBKsk/gnKVpnFImxsf4UWBVTnzaRaUdR11U0b1e/F0RWE6EoPTahbJb
+         AGC2hj/PO3IRbDcoMubkkyS3efsDliTslnVQDFbXydNYczUvoJZd8liHt+/BA32WlYMw
+         opMYFdZgyxgbLWH2JbIWpoHtjw1DA9q585EwnfhacnpsG6OPu6OYcbz0IcWtB7rceTTh
+         z35pTYdFrTIICX8DaRCwRHOG7JAHy0/C3aSSw6jAQ0X6yeDPbaA6/4CNIBHLSpQuVsAX
+         Uq0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755022062; x=1755626862;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7tVlMxBxSUqDkQ/YT+j6av2beaKwd8lQaB291K7ue9Y=;
+        b=BC4HJBWv2FvBp++8e7zuMNKmY/Y8Z8yEnua8tijvQdvjeAj4iAkfxsso48VXtPMDjk
+         Bo4RZ2u/+MBdF2rSEi/G37QjOo5a+rck96kZ6h8lBMDX5FxxVlcq+THBNcon1sJWpaZA
+         4/aUhRwgYnKBfH0Iyboqifu+c+zH54lICIa0mXV24cH4VrY2LfvmQoiyALVTBj8aiNWZ
+         4I8kfks/9eFlmsIPK+6fvcezObhpEH6yIdpP0qkjsnxpa2FDB4MYY6kayPiT8JFYcpLX
+         Q6Xls9eXdrSzbD+Ge1rPKdoaGeg5cdgwusq8XfQvb2dsTKE5vKLmZWk5Tot4A+duNROg
+         8xSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2bJeU5XuYDkAHcH8l37Mrs9s6+DaJYmKtf90hIzYIAy3z36SSpYOsM9G2FqAKFnCDuUgl@lists.linux.dev, AJvYcCWz/vawvCKMEWH7wPEFRk8/EW9CNxJaFdNiQ3+Q1kQoi05uVM8BgUyJUFd2l1pUD20Fr6YFmAGFlYqv5tQ4rw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxxuiIVyPLJBTKOPwFvRIhwJ4ChuA7AbuQKtmDQhnxEkotpaVxu
+	2/KopQMMND7Hu7iLeQAGfT2xVwLg/UmpivQ1pskH6gp95dcHUnqW+dX8
+X-Gm-Gg: ASbGncsrNA3WmYnJZmFJD8WVMFq1p2JIwrrh4Z8v3KdEE8dcacC1MOHa7kYhj1Ihq75
+	C76JSVaiJIJfzouhJlIPG7JypPQ0/wNJ2kWTe3DQFBZmsEq0A3mJt5xFcP881zWfTT0Ttze+ovF
+	ReiNZeUTJZEwR/iAwZ2RDCglHdfo6/SQR/MyemdyTifRLazoRr+rPAAU+JTqRH4MvGOmjmUvv0i
+	HtY3nOxalcIAuHfpH3jIKHDKJvV7jMBzyoasVVtdRPLKwJ8xGS5DLIip7fqmGr9XN6cevNs1euX
+	ZYxnKh/XvqOm99AnZYGc436yUhdSHsPgg+Zntca9/fiYq4U7+1GNdWGLtlX5cnWHthpbcLc5pZE
+	IQgtFFH+JVm89wwtdeXF+08PphQIGcA==
+X-Google-Smtp-Source: AGHT+IH2eAbhw6s8RrO6LOuLceoPWy7RgMZVatbE8YimrP9qcp0B/w2fFg+C1Bb2gud7MsEdF4yB8g==
+X-Received: by 2002:a17:903:2447:b0:240:9006:1523 with SMTP id d9443c01a7336-2430d0b1ea3mr2286925ad.10.1755022061514;
+        Tue, 12 Aug 2025 11:07:41 -0700 (PDT)
+Received: from fedora ([2405:201:5501:4085:eece:e0ff:6b68:de2e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e89a077csm305678965ad.138.2025.08.12.11.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Aug 2025 11:07:40 -0700 (PDT)
+Date: Tue, 12 Aug 2025 23:38:06 +0530
+From: Ritvik Gupta <ritvikfoss@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v4] rust: kernel: introduce `unsafe_precondition_assert!`
+ macro
+Message-ID: <aJuDBtpYijOBQUJa@fedora>
+References: <20250808192005.209188-1-ritvikfoss@gmail.com>
+ <202508122341.rb7U1Q2P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202508122341.rb7U1Q2P-lkp@intel.com>
 
-tree:   https://gitlab.com/glemco/linux staging_rv_hybrid_automata
-head:   623e09375a6cff536c784032b69fda43074355dd
-commit: 43ecf0f94d82b0905099a8b48ef926ede7635d25 [16/21] rv: Add deadline monitors
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250813/202508130126.1UHPvAE7-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130126.1UHPvAE7-lkp@intel.com/reproduce)
+If someone's referring to it in the future, this was doctest issue.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508130126.1UHPvAE7-lkp@intel.com/
+It’s actually the second time I’ve hit it.
+On my end, this error wasn't occurring when compiling the kernel.
 
-All errors (new ones prefixed by >>):
+What I was missing:
+1. Enable `Kernel Hacking > Kernel Testing and Coverage > KUnit`
+2. Enable Doctest in `Rust hacking > Doctests for the 'kernel' crate`
 
->> kernel/trace/rv/monitors/nomiss/nomiss.c:147:2: error: call to undeclared function 'check_trace_callback_type_sys_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     147 |         rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
-         |         ^
-   include/rv/instrumentation.h:18:3: note: expanded from macro 'rv_attach_trace_probe'
-      18 |                 check_trace_callback_type_##tp(rv_handler);                             \
-         |                 ^
-   <scratch space>:30:1: note: expanded from here
-      30 | check_trace_callback_type_sys_enter
-         | ^
-   kernel/trace/rv/monitors/nomiss/nomiss.c:147:2: note: did you mean 'check_trace_callback_type_event_sor'?
-   include/rv/instrumentation.h:18:3: note: expanded from macro 'rv_attach_trace_probe'
-      18 |                 check_trace_callback_type_##tp(rv_handler);                             \
-         |                 ^
-   <scratch space>:30:1: note: expanded from here
-      30 | check_trace_callback_type_sys_enter
-         | ^
-   kernel/trace/rv/monitors/sor/sor_trace.h:8:1: note: 'check_trace_callback_type_event_sor' declared here
-       8 | DEFINE_EVENT(event_da_monitor_id, event_sor,
-         | ^
-   include/linux/tracepoint.h:608:2: note: expanded from macro 'DEFINE_EVENT'
-     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:481:2: note: expanded from macro 'DECLARE_TRACE_EVENT'
-     481 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:270:2: note: expanded from macro '__DECLARE_TRACE'
-     270 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
-         |         ^
-   include/linux/tracepoint.h:260:2: note: expanded from macro '__DECLARE_TRACE_COMMON'
-     260 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
-         |         ^
-   <scratch space>:76:1: note: expanded from here
-      76 | check_trace_callback_type_event_sor
-         | ^
->> kernel/trace/rv/monitors/nomiss/nomiss.c:147:2: error: call to undeclared function 'register_trace_sys_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     147 |         rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
-         |         ^
-   include/rv/instrumentation.h:19:13: note: expanded from macro 'rv_attach_trace_probe'
-      19 |                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
-         |                           ^
-   <scratch space>:31:1: note: expanded from here
-      31 | register_trace_sys_enter
-         | ^
-   kernel/trace/rv/monitors/nomiss/nomiss.c:147:2: note: did you mean 'register_trace_event_sor'?
-   include/rv/instrumentation.h:19:13: note: expanded from macro 'rv_attach_trace_probe'
-      19 |                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
-         |                           ^
-   <scratch space>:31:1: note: expanded from here
-      31 | register_trace_sys_enter
-         | ^
-   kernel/trace/rv/monitors/sor/sor_trace.h:8:1: note: 'register_trace_event_sor' declared here
-       8 | DEFINE_EVENT(event_da_monitor_id, event_sor,
-         | ^
-   include/linux/tracepoint.h:608:2: note: expanded from macro 'DEFINE_EVENT'
-     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:481:2: note: expanded from macro 'DECLARE_TRACE_EVENT'
-     481 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:270:2: note: expanded from macro '__DECLARE_TRACE'
-     270 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
-         |         ^
-   include/linux/tracepoint.h:241:2: note: expanded from macro '__DECLARE_TRACE_COMMON'
-     241 |         register_trace_##name(void (*probe)(data_proto), void *data)    \
-         |         ^
-   <scratch space>:70:1: note: expanded from here
-      70 | register_trace_event_sor
-         | ^
->> kernel/trace/rv/monitors/nomiss/nomiss.c:159:2: error: call to undeclared function 'unregister_trace_sys_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     159 |         rv_detach_trace_probe("nomiss", sys_enter, handle_syscall);
-         |         ^
-   include/rv/instrumentation.h:28:3: note: expanded from macro 'rv_detach_trace_probe'
-      28 |                 unregister_trace_##tp(rv_handler, NULL);                                \
-         |                 ^
-   <scratch space>:42:1: note: expanded from here
-      42 | unregister_trace_sys_enter
-         | ^
-   kernel/trace/rv/monitors/nomiss/nomiss.c:159:2: note: did you mean 'unregister_trace_event_sor'?
-   include/rv/instrumentation.h:28:3: note: expanded from macro 'rv_detach_trace_probe'
-      28 |                 unregister_trace_##tp(rv_handler, NULL);                                \
-         |                 ^
-   <scratch space>:42:1: note: expanded from here
-      42 | unregister_trace_sys_enter
-         | ^
-   kernel/trace/rv/monitors/sor/sor_trace.h:8:1: note: 'unregister_trace_event_sor' declared here
-       8 | DEFINE_EVENT(event_da_monitor_id, event_sor,
-         | ^
-   include/linux/tracepoint.h:608:2: note: expanded from macro 'DEFINE_EVENT'
-     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:481:2: note: expanded from macro 'DECLARE_TRACE_EVENT'
-     481 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:270:2: note: expanded from macro '__DECLARE_TRACE'
-     270 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
-         |         ^
-   include/linux/tracepoint.h:254:2: note: expanded from macro '__DECLARE_TRACE_COMMON'
-     254 |         unregister_trace_##name(void (*probe)(data_proto), void *data)  \
-         |         ^
-   <scratch space>:74:1: note: expanded from here
-      74 | unregister_trace_event_sor
-         | ^
-   3 errors generated.
-
-
-vim +/check_trace_callback_type_sys_enter +147 kernel/trace/rv/monitors/nomiss/nomiss.c
-
-   136	
-   137	static int enable_nomiss(void)
-   138	{
-   139		int retval;
-   140	
-   141		retval = da_monitor_init();
-   142		if (retval)
-   143			return retval;
-   144	
-   145		rv_attach_trace_probe("nomiss", sched_dl_throttle, handle_dl_throttle);
-   146		rv_attach_trace_probe("nomiss", sched_switch, handle_sched_switch);
- > 147		rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
-   148		rv_attach_trace_probe("nomiss", sched_process_exit, handle_exit);
-   149	
-   150		return 0;
-   151	}
-   152	
-   153	static void disable_nomiss(void)
-   154	{
-   155		rv_nomiss.enabled = 0;
-   156	
-   157		rv_detach_trace_probe("nomiss", sched_dl_throttle, handle_dl_throttle);
-   158		rv_detach_trace_probe("nomiss", sched_switch, handle_sched_switch);
- > 159		rv_detach_trace_probe("nomiss", sys_enter, handle_syscall);
-   160		rv_detach_trace_probe("nomiss", sched_process_exit, handle_exit);
-   161	
-   162		da_monitor_destroy();
-   163	}
-   164	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I can now reproduce capture the issue locally.
+Won't happen again :)
