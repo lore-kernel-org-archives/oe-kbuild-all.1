@@ -1,194 +1,204 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C10528C02D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 20:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BE02F0661
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 21:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755032252; cv=none; b=kmfXtdflbzt4ebLwpjK26SBNcjMi/JBQ9DImnRIAUQSEsCDiWFO+nAOMnYRDIuTkMHeoA2p3fc1JE/z1536Y5qIMkVRTYa4yf23cnoeSJZfO0x9aBczrRncD+XJR1gMRiGTTTumeCJf2orsNwsmL6Ij7LnO3+V0M9aw1LMUS06U=
+	t=1755035060; cv=none; b=O/HpGvqdEov0dEmCNuevgDlKixys7f9exfbT5qQzc1POh83lSCFGMYdBo0+2scvX/dGmihmr5u7NoHwHPmAbpEUZFJ9v8BKP17zmTQuTQkqT2vPtpAAEIq36GVGO7AJUhY9ea+UGG9ombVLwzu/Tpyal1veLDMR6YJsam4iQ6MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755032252; c=relaxed/simple;
-	bh=bx4l8NAsbj7POKDVuwU9/31Dv8sSccK+JhWF2EwNC8g=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=K6p9ndsAbYLpnjAFXN1Uly42ci30Te02mxrp31M7ZTAGOPMIuZWrT2RPjVSYaVR2jJt8M3Zb1ORaPWi2p7uutv4KNyKMJ8MrfAtqES7QUaF7u/CAfc8deUYmdM5VI0xiH/BJFcepA7bODazlF3r+JxMvwhnYQqXWqvVDHbbBxCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QrgpPL/q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755035060; c=relaxed/simple;
+	bh=eoDl0UhLZxXqlEgK/BGbWjv2t2FsHBhcY4vSqgbfj+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fkx3H70lW+Nncjft3937JR1r6yWLeehxxjTdaEn5AS/+Gn/BjUep5cK50IxLqwDxC8nyTW8uzCfbbaIOfrZRsDtKROLd6G89qAFAzZUWwcj1jucGX5ZPScOQ2MaN+L5Qf7m+EABuD1eCA57+SO8F2QzQJCCd0+4Hu37dSgLiv48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eiqFBeoN; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QrgpPL/q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755032249;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=0MdgtvTf0GppffJVf7+x8IwG9neJu2jI9si12zBjn6Y=;
-	b=QrgpPL/qrvsuB4GaiK8HAJITRaODm0P72aZEcF2XC+/ZfuvfWOLBz8cULNJLQsGxpmLIwT
-	APU4gtxS+S3qfgOK7VXbGa5bL26Q61+HobIo1U26FoZ9N4DxkIetYvvN3nOnW48Zl1go3Q
-	lWYewYRzltIUClJVO+Ztl1NmWspnHng=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-50-wGT_Q_XOOOazx4mrVDyL7w-1; Tue, 12 Aug 2025 16:57:28 -0400
-X-MC-Unique: wGT_Q_XOOOazx4mrVDyL7w-1
-X-Mimecast-MFC-AGG-ID: wGT_Q_XOOOazx4mrVDyL7w_1755032247
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-458bf93f729so30947525e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 13:57:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755032247; x=1755637047;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0MdgtvTf0GppffJVf7+x8IwG9neJu2jI9si12zBjn6Y=;
-        b=kvelFRub9nCpB5LKRKU9FU1BkQxfApVE8HfxlU7ZnvvLFJmWLGGHKYfZDO/m5cFbyi
-         Od1DT7MExzMNkmdHr6phAKm0ROlQ6owEPD8Z7MqxGuzlxbq0s1Fxz5up0dT9/omhSrhL
-         9Y82T/2pWb0DcenGn7U+AHDkqyLpjwwEWniyHlUOQkBWdEQpDMEJo2AN4i8BQY9O6yFB
-         39CYUug+Th2Bh33fRt14wUUCNQiDDeoQ36iI2RA9kMzouziURrge2rWdOu0YBj6nz7ur
-         sBz3zL8CdU4vGkkz2Uwk04zHMT50E/C9gdB5kQ7nh9UeUVN/Qu15kxCL1Ec2t0kMqwSR
-         CDxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDt8DQNb2yZ6obuFpfHw1gCwGNHH05D/Z0Uh8xEIW0M8E04Bnrwi7hqjE9W+LyAcdl6xsrjg3PNgMWH5jS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7glL4RIm3jdfHhC9L/GR/gQwL8w8hKPmArn32e+iLKIFQWkpG
-	Aqs+/mNbcM6jyOUqbvAE7/sbXEGZ0TtqIoxu1g4mcWxHFDafsqPRmbEQ6HDrdROvIOiqJ0X5WUv
-	0MwiKZtSnv3unBsQlutN9eQZ0TVidFMjy49LQP+Zlk8RPQoQGU5YNzNq5mU7VzwU+OME=
-X-Gm-Gg: ASbGncvjoWiX6HbENaez8bkOfWKTqJIbIO6aLKnbsc6Yri2rLAgGHmm45cybKQTxt6q
-	4kYG8SbZRxF1tJ+3UXymSvEcw1Jo8FK91VKf9OfbFfaq0D1vumC9fYcGCow48EOJl8xe7/U8jLO
-	xiiaL/n2+2LQmmwbSWLiIp06ZchDQc99DGl607qvhQaAtbFV6Kza0X8vYMdJDYmnHE5ag+RML4J
-	dRPQU8Owg/ieCopmnOh67QtrXOAda4oyjDxkyXszZcjCHwk5Hk0BAlCwWMM4RUV4RFfE+jwzfDO
-	V6oh/xdMffF3uWBPPEdcZphUBbOp0jPJ0CQXx1m59MBWU7sRLlEc91QUNVj22cNMIPZhqtWdUaG
-	Ci44v1CLo6xFoz9MUGaU8RYyrcIACpgz3sS8BDVGzstBP28pdYKyilypokeLGPCUAV7k=
-X-Received: by 2002:a05:600c:1c92:b0:43d:9d5:474d with SMTP id 5b1f17b1804b1-45a165051e5mr5065405e9.0.1755032246882;
-        Tue, 12 Aug 2025 13:57:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFswYwIbgttuhXqb8QMDI1keoza2GfmCEcOaefby30ent32meTCCjqsOciMD6knuT2QlVpEA==
-X-Received: by 2002:a05:600c:1c92:b0:43d:9d5:474d with SMTP id 5b1f17b1804b1-45a165051e5mr5065245e9.0.1755032246477;
-        Tue, 12 Aug 2025 13:57:26 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f30:cb00:c425:8b4b:d9ad:eee0? (p200300d82f30cb00c4258b4bd9adeee0.dip0.t-ipconnect.de. [2003:d8:2f30:cb00:c425:8b4b:d9ad:eee0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a16de5f27sm1701335e9.13.2025.08.12.13.57.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Aug 2025 13:57:19 -0700 (PDT)
-Message-ID: <522f31cc-f250-4883-8832-0d26ebf5210b@redhat.com>
-Date: Tue, 12 Aug 2025 22:57:18 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiqFBeoN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755035058; x=1786571058;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eoDl0UhLZxXqlEgK/BGbWjv2t2FsHBhcY4vSqgbfj+M=;
+  b=eiqFBeoNS104+kQOjGRBPqELCRFatrttAe9ExeMDc6lrKcn3PlkMxUlm
+   23p00n6JGdVR1BVvOKh98o/lemcXETV32JkhnQtgs+QYS/4ri5Z233OdA
+   45b+Q9IlFrRtQMN1boeXP+LM5nPJ63dMi0fsfeB4Pv+Nxk+RyH5LtiSjI
+   n8J6wx7H9g/Ebb4Ruwtp3MdjHF8YmE4qa3V+9kbC7op/eGnnh/ORDb0GJ
+   fuTQl9Rr/6oSpxELg1n0455bj07jQaVsTY/98kTdoDZrta5u/n7daqkIb
+   edIANdE6sOHZEOl+edlUDWsHRPUCJI9xk8erKa2e4dQjZbFPa1KE9c50f
+   Q==;
+X-CSE-ConnectionGUID: fpn7CvVaQJ2OIxHSU9SFfA==
+X-CSE-MsgGUID: 0xfSFA+oTK6PcTUmxrSIXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="74768899"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="74768899"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 14:44:17 -0700
+X-CSE-ConnectionGUID: xAKyajtJRvCsWV3hlnWMNw==
+X-CSE-MsgGUID: wQK3y5/YSz2mrhgE8yrvlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="166186134"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 12 Aug 2025 14:44:15 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ulwmY-0009L6-01;
+	Tue, 12 Aug 2025 21:43:52 +0000
+Date: Wed, 13 Aug 2025 05:43:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1] include/linux/compiler.h:166:45:
+ error: '__UNIQUE_ID_y_616' undeclared; did you mean '__UNIQUE_ID_x_615'?
+Message-ID: <202508130540.XSqFrizd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-new 101/118] arch/powerpc/mm/ptdump/shared.c:70:1:
- error: use of 'pgtable_level' with tag type that does not match previous
- declaration
-From: David Hildenbrand <david@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202508130304.5FJqRz2c-lkp@intel.com>
- <0c96fa0e-6f7e-4cca-8d57-f3e3786d44fa@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <0c96fa0e-6f7e-4cca-8d57-f3e3786d44fa@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: aw9XK7n7Ul4s2WcZ6AvymuouGGzd0L0--VMQi_4NaWU_1755032247
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12.08.25 22:50, David Hildenbrand wrote:
-> On 12.08.25 21:18, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
->> head:   33ad02f876604ac2990e510480b0ab3a03cf892e
->> commit: 627bf62489a6d9a45f6d6f83edd0cb6c0ee610c0 [101/118] mm/rmap: convert "enum rmap_level" to "enum pgtable_level"
->> config: powerpc-randconfig-001-20250812 (https://download.01.org/0day-ci/archive/20250813/202508130304.5FJqRz2c-lkp@intel.com/config)
->> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130304.5FJqRz2c-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202508130304.5FJqRz2c-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>      In file included from arch/powerpc/mm/ptdump/shared.c:10:
->>      arch/powerpc/mm/ptdump/ptdump.h:14:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
->>         14 | struct pgtable_level {
->>            | ^
->>      include/linux/pgtable.h:1961:6: note: previous use is here
->>       1961 | enum pgtable_level {
->>            |      ^
->>      In file included from arch/powerpc/mm/ptdump/shared.c:10:
->>      arch/powerpc/mm/ptdump/ptdump.h:20:8: error: use of 'pgtable_level' with tag type that does not match previous declaration
->>         20 | extern struct pgtable_level pg_level[5];
->>            |        ^
->>      include/linux/pgtable.h:1961:6: note: previous use is here
->>       1961 | enum pgtable_level {
->>            |      ^
->>>> arch/powerpc/mm/ptdump/shared.c:70:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
->>         70 | struct pgtable_level pg_level[5] = {
->>            | ^
->>      include/linux/pgtable.h:1961:6: note: previous use is here
->>       1961 | enum pgtable_level {
->>            |      ^
->>      3 errors generated.
-> 
-> Huh, I cross compiled this on a bunch of ppc configs, but maybe not emough.
-> 
-> No, on the branch I submitted that did not exist.
-> 
-> Probably due to the rebase.
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   2b955c7a0f73c8231e78434f2e0333cb6a7ea426
+commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [1/1] ANDROID: Update proxy-exec logic from v14 to v18
+config: arm64-randconfig-002-20250813 (https://download.01.org/0day-ci/archive/20250813/202508130540.XSqFrizd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130540.XSqFrizd-lkp@intel.com/reproduce)
 
-Ehm, no, Andrew, could it be that you accidentally dropped the ppc patch 
-from mm-new. I can spot all but that patch in there:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508130540.XSqFrizd-lkp@intel.com/
 
-https://lkml.kernel.org/r/20250811112631.759341-7-david@redhat.com
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/blk-crypto.h:127,
+                    from include/linux/blk-crypto-profile.h:10,
+                    from include/linux/mmc/host.h:19,
+                    from drivers/mmc/host/mmci.c:23:
+   include/linux/blkdev.h:1776:24: error: field 'req_list' has incomplete type
+    1776 |         struct rq_list req_list;
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+>> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_616' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_615'?
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   drivers/mmc/host/mmci.c: At top level:
+   drivers/mmc/host/mmci.c:53:21: warning: 'fmax' defined but not used [-Wunused-variable]
+      53 | static unsigned int fmax = 515633;
+         |                     ^~~~
+
+
+vim +166 include/linux/compiler.h
+
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
-Cheers,
-
-David / dhildenb
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
