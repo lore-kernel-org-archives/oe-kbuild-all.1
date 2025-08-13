@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8112E7184
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 13:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8178B2EA499;
+	Wed, 13 Aug 2025 13:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755090737; cv=none; b=oIm0zkTtVn0MaSr4hzit/WRbKDtCXWspTD1CPnBgpO0cdNizLnn47dYj1tPIVXlcxlHoRfr5MhSb/F6YOCHVGgtxPRw48VXhHsPOdCKWPGRp0VMxN0PDRXecpf5mhpBy6H3QSt/wio7AENNoGwwR+tppoDY8a8F6iVN7C11irM8=
+	t=1755092352; cv=none; b=J18O9I8N2iGvkj/cUokg2Ah5LtYFi4hR4R5Aj4/jFTI1tZB1WEgcfV8fDEI9pO7PHWbZXCTWG+ofrUp2GreZpg19svkL6dIy8D0wNpUHzbyX1S4uT4giWBHls/W5zkMGFfVmQxacSKGqi8VLXa4VCzCNQb+T60MfCferwxtI34M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755090737; c=relaxed/simple;
-	bh=lwmwo2xIekjaLFzx/m1DZwokrVax9xwiba8s1bIWHxM=;
+	s=arc-20240116; t=1755092352; c=relaxed/simple;
+	bh=ey8eSMdRLAlmFC09vuKwkFOnHkFG0NstFyZA4ySXPNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hLM1XxVUx/IgmwzODmEkd0YOtmRKGglchghO0gSDalu/lzOuZqKMI0U5rk+Rp6eJQOEeqhD4z5fomNyk8+ccJr2Xq2jdOQyQHH0MoQeJK7wHmWEoCnJ9RTbOk88cp/+d4HLChyBaTtS6Fys6iNX9TWpPIbhnUK74LpqO7xTa0P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1Wikz1a; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=pqplpefDW02Odnb8JCz/VsNiFoE68axEUd2BUe2PNgbZd1Cfh44901f440rPWxx+bgt5lK5PS/gc0bHTeyJijQhNd2xyKilseMaNtGW7MK/kBQxuWp0VguMxhSi8TmIz1lDHCBXmkd5eTRxz6euasS6Y4oqiH43YFkz2oPp+xAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYxs+i2k; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1Wikz1a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYxs+i2k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755090735; x=1786626735;
+  t=1755092350; x=1786628350;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lwmwo2xIekjaLFzx/m1DZwokrVax9xwiba8s1bIWHxM=;
-  b=Y1Wikz1aC/I5cyI4W3pxrUH/iYRIjpzTD1X8hiEKPvRtvMlcex3keewm
-   EEbKzTxhlLni2b4JjnYa+JVcBLmNo682r+3kpAbPEnvVlzHwzFH+m77ZF
-   O8Fb7tF8xpcaha4OIbSggZGDUyZE7NFbd+1/f0X2aNEe0G8rvOLHA1/S2
-   Az8y8sw6GpWHU+bI6ec7Y3KMbE6Es5Jrd+cTVXLqtnxQCRI8Thjdv+ScN
-   92cbRY7yycDO6eelXszjCgY+ApKL4xBsMjQaECqwLcBg7NE2USxpheFNH
-   xdBwSM3xWcxnII1ITiKkxVIeQi6paFnyf/Ms46zWWDk6AlhHdd2ZV63ly
-   g==;
-X-CSE-ConnectionGUID: pMYz3TNGToGoxHKDEvNmWw==
-X-CSE-MsgGUID: +nxDdU/lTzOBas53l5w4mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="56592883"
+  bh=ey8eSMdRLAlmFC09vuKwkFOnHkFG0NstFyZA4ySXPNo=;
+  b=UYxs+i2kBqxwP8qZpHre+ecAP5Sk3vD8JwP3JfOjVk10ypKvx00FTfS1
+   YLzqIWfsWS/9DFpMhMDQAyoeK+5jA8KMNRMPHbkrSPFBirV1d0J7+wI7u
+   MujYKV93BnU8dvBV4RRCY1kquENp/EvBc+ReN/BR0fYtXLEvAU0105VcS
+   yKArPAdgPxeRcixQiSpOSdJIqeHDMjyQHHybb2CJD1TAH5wnpaGWFBo3y
+   /d8Kh+PLRLQDl5dQQ9sz2FGVnEFnPWB4FvlwQdmUaUV73X17ZeMDtitRf
+   2rprDY/AXPtF73lelCpsOxslpwQTzsts3S5RfAvB16OdLBG2WGCJBB9OH
+   w==;
+X-CSE-ConnectionGUID: LL2OnvSNQ2imF43jUdDj2Q==
+X-CSE-MsgGUID: 4EPWexdiS9CFwaRjrSfZMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67659877"
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="56592883"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 06:12:14 -0700
-X-CSE-ConnectionGUID: KvtlWUcjR0KDDef9qED0Fg==
-X-CSE-MsgGUID: fZqK+LtoQH2ti7I+bz0Sug==
+   d="scan'208";a="67659877"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 06:39:10 -0700
+X-CSE-ConnectionGUID: 6KWxgs+yQ02+qcBirhtOmg==
+X-CSE-MsgGUID: w3KQMHZORJOS1da0gFH+uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="170918463"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 13 Aug 2025 06:12:13 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="165660598"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 13 Aug 2025 06:39:09 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umBH1-00003r-0r;
-	Wed, 13 Aug 2025 13:12:11 +0000
-Date: Wed, 13 Aug 2025 15:11:21 +0200
+	id 1umBgK-0009wo-1d;
+	Wed, 13 Aug 2025 13:38:31 +0000
+Date: Wed, 13 Aug 2025 21:34:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 1606/2153] include/linux/kern_levels.h:5:25:
- warning: format '%lu' expects argument of type 'long unsigned int', but
- argument 4 has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202508131547.Z7lYWSmb-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>
+Subject: [akpm-mm:mm-new 123/137] arch/s390/mm/mmap.c:188:3: error: call to
+ undeclared function 'mm_flag_set'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202508132154.feFNDPyq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,253 +66,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   43c3c17f0c805882d1b48818b1085747a68c80ec
-commit: ea594d2ccb6d05a769defa933a8740542fe1332b [1606/2153] smb3: fix for slab out of bounds on mount to ksmbd
-config: arm-pxa_defconfig (https://download.01.org/0day-ci/archive/20250813/202508131547.Z7lYWSmb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508131547.Z7lYWSmb-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   694c8e78f486b09137ee3efadae044d01aba971b
+commit: 70fd92efa9e96967353bb39665bac8f5276aaaae [123/137] mm: convert arch-specific code to mm_flags_*() accessors
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20250813/202508132154.feFNDPyq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508132154.feFNDPyq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508131547.Z7lYWSmb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508132154.feFNDPyq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/pagemap.h:8,
-                    from fs/smb/client/smb2ops.c:8:
-   fs/smb/client/smb2ops.c: In function 'parse_server_interfaces':
->> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:135:25: note: in definition of macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ^~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:693:19: note: in expansion of macro 'KERN_DEBUG'
-     693 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   fs/smb/client/cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_once'
-      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
-         |                 ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
-      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
-         |                 ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/once_lite.h:31:25: note: in expansion of macro 'printk'
-      31 |                         func(__VA_ARGS__);                              \
-         |                         ^~~~
-   include/linux/once_lite.h:11:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
-      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/printk.h:653:9: note: in expansion of macro 'DO_ONCE_LITE'
-     653 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   include/linux/printk.h:670:9: note: in expansion of macro 'printk_once'
-     670 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:670:21: note: in expansion of macro 'KERN_ERR'
-     670 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                     ^~~~~~~~
-   fs/smb/client/cifs_debug.h:68:17: note: in expansion of macro 'pr_err_once'
-      68 |                 pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__);        \
-         |                 ^~~~~~~
-   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
-      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
-         |                 ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:135:25: note: in definition of macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ^~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:693:19: note: in expansion of macro 'KERN_DEBUG'
-     693 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   fs/smb/client/cifs_debug.h:70:17: note: in expansion of macro 'pr_debug_once'
-      70 |                 pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);              \
-         |                 ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
-      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
-         |                 ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   In file included from fs/smb/client/smb2ops.c:23:
-   fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      15 | #define pr_fmt(fmt) "CIFS: " fmt
-         |                     ^~~~~~~~
-   include/linux/printk.h:751:49: note: in expansion of macro 'pr_fmt'
-     751 |                 __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);    \
-         |                                                 ^~~~~~
-   fs/smb/client/cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_ratelimited'
-      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
-         |                 ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
-      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-         |                 ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:708:17: note: in expansion of macro 'printk'
-     708 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
---
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/pagemap.h:8,
-                    from smb2ops.c:8:
-   smb2ops.c: In function 'parse_server_interfaces':
->> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:135:25: note: in definition of macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ^~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:693:19: note: in expansion of macro 'KERN_DEBUG'
-     693 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_once'
-      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
-         |                 ^~~~~~~~~
-   cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
-      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
-         |                 ^~~~~~~~~~~~~
-   smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/once_lite.h:31:25: note: in expansion of macro 'printk'
-      31 |                         func(__VA_ARGS__);                              \
-         |                         ^~~~
-   include/linux/once_lite.h:11:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
-      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/printk.h:653:9: note: in expansion of macro 'DO_ONCE_LITE'
-     653 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   include/linux/printk.h:670:9: note: in expansion of macro 'printk_once'
-     670 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:670:21: note: in expansion of macro 'KERN_ERR'
-     670 |         printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                     ^~~~~~~~
-   cifs_debug.h:68:17: note: in expansion of macro 'pr_err_once'
-      68 |                 pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__);        \
-         |                 ^~~~~~~
-   cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
-      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
-         |                 ^~~~~~~~~~~~~
-   smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:135:25: note: in definition of macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ^~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:693:19: note: in expansion of macro 'KERN_DEBUG'
-     693 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   cifs_debug.h:70:17: note: in expansion of macro 'pr_debug_once'
-      70 |                 pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);              \
-         |                 ^~~~~~~~~
-   cifs_debug.h:77:17: note: in expansion of macro 'cifs_dbg_func'
-      77 |                 cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);          \
-         |                 ^~~~~~~~~~~~~
-   smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   In file included from smb2ops.c:23:
-   cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      15 | #define pr_fmt(fmt) "CIFS: " fmt
-         |                     ^~~~~~~~
-   include/linux/printk.h:751:49: note: in expansion of macro 'pr_fmt'
-     751 |                 __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);    \
-         |                                                 ^~~~~~
-   cifs_debug.h:65:17: note: in expansion of macro 'pr_debug_ratelimited'
-      65 |                 pr_debug_ ## ratefunc("%s: " fmt,                       \
-         |                 ^~~~~~~~~
-   cifs_debug.h:79:17: note: in expansion of macro 'cifs_dbg_func'
-      79 |                 cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-         |                 ^~~~~~~~~~~~~
-   smb2ops.c:777:25: note: in expansion of macro 'cifs_dbg'
-     777 |                         cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-         |                         ^~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:708:17: note: in expansion of macro 'printk'
-     708 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                 ^~~~~~
-   include/linux/printk.h:722:9: note: in expansion of macro 'printk_ratelimited'
+>> arch/s390/mm/mmap.c:188:3: error: call to undeclared function 'mm_flag_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     188 |                 mm_flag_set(MMF_TOPDOWN, mm);
+         |                 ^
+   arch/s390/mm/mmap.c:188:3: note: did you mean 'mm_flags_set'?
+   include/linux/mm.h:740:20: note: 'mm_flags_set' declared here
+     740 | static inline void mm_flags_set(int flag, struct mm_struct *mm)
+         |                    ^
+   1 error generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +/mm_flag_set +188 arch/s390/mm/mmap.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   167	
+   168	/*
+   169	 * This function, called very early during the creation of a new
+   170	 * process VM image, sets up which VM layout function to use:
+   171	 */
+   172	void arch_pick_mmap_layout(struct mm_struct *mm, struct rlimit *rlim_stack)
+   173	{
+   174		unsigned long random_factor = 0UL;
+   175	
+   176		if (current->flags & PF_RANDOMIZE)
+   177			random_factor = arch_mmap_rnd();
+   178	
+   179		/*
+   180		 * Fall back to the standard layout if the personality
+   181		 * bit is set, or if the expected stack growth is unlimited:
+   182		 */
+   183		if (mmap_is_legacy(rlim_stack)) {
+   184			mm->mmap_base = mmap_base_legacy(random_factor);
+   185			mm_flags_clear(MMF_TOPDOWN, mm);
+   186		} else {
+   187			mm->mmap_base = mmap_base(random_factor, rlim_stack);
+ > 188			mm_flag_set(MMF_TOPDOWN, mm);
+   189		}
+   190	}
+   191	
 
 -- 
 0-DAY CI Kernel Test Service
