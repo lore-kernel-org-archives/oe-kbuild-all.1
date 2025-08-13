@@ -1,61 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587B428727D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 16:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18151E2858
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 17:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755103579; cv=none; b=tImyDXOdKkUnRuVrj5XpiXlIwcUyZCwZcS5jn+6Vv8Qf6MiKSjROKh54hqcDHXDPGnxg7EL3Qp890qkxM+tHqyqL3G9zzHqtgiUmEVQpuGwWxztC6Kh0DyMaGrInyWEULSL6mXaVwvFYLvl4GtGT1UDumuaJuC5NC2x13bQUtEI=
+	t=1755105491; cv=none; b=V1tq55iOjNdMSg6Z5yBCNhxWU2whUzHDkXcucuAHyAWBjuu39do/TvZBtlKzen/tkSXl2riZd9x0rnw78QO1ogpjUWOsCTit+elJMGz4qrwy7HHKT8X5ZmITKvvlFpED+eXBblh1F0S+lLH8hbrrd6ik1KkZzYiWzhXm+kzo2JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755103579; c=relaxed/simple;
-	bh=/UEAokjol+Hf5eY+metAgjUehvO3ytMnBIyvoKdFd04=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e9x+vnehRQ9zwDzHsWlTC++dgAxn90ZgNMdzIr8nWJPNg94ScShjpS1YyHFFoIoAz8QVNwcqFRUMXARr7FFUegcafAS1WSK3e06T04TRdXkXG1W3L42DeNAsgvfJ3YinEbGf68yy1by1pFceqNSAun6Fdp/a2v2wYJgW81ddjHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9L6saUs; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1755105491; c=relaxed/simple;
+	bh=WV0Vo+K02OhsbWV4KFB/mzIPWVvcS25gBWrGy1wIQZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=slhw5OJ3qFxL3jshWR95rgPJ3Bhgw4ZBy4tOnvnEzn/eElB2+UfELrDzOqlKlagXHf4geh0bfutqbbZOVZpJcKJjeE7iYBP9EBYCzu8JcXtf65b+tr4coCSnkgTHcD9QJ+KxB3TyekFgFBqQuzgjKHQbxDNqUSNpbkWVzUprxH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jMFkEZ/J; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9L6saUs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jMFkEZ/J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755103578; x=1786639578;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/UEAokjol+Hf5eY+metAgjUehvO3ytMnBIyvoKdFd04=;
-  b=d9L6saUs/ppxlc+IoZdejFqePuS3R95jcn/Qb7cG1fOiGQHdeP+fIg6x
-   eAsJ8Dql/08WSyokNi3/0Gh95JUa0Y2iOyhGV/BG8HPilbG5FwRVpA7So
-   2rvNRrzzViIsManG0Pz/JCv8npfrOlCl90XnntqXCro4rj8S6aLvBLW54
-   qgN9BC5s3tmYz/7RJ+vow7EIAd5YbSsBvLTQ71VR2cTN7D7cSO4lA0qPe
-   WcQJxKhVWslQZVQc/XogS5oPWFjMl3O9FYGESjS1pGPz99EfkuJxSaMrv
-   t6CoKMPvKkw8OfGMPZhGUmTlvy4JgftbK6HTcaEiajqLUGebnO98p17Us
-   w==;
-X-CSE-ConnectionGUID: eNopGWDgRXCldgHFKZJUdg==
-X-CSE-MsgGUID: 9byWqPtHR8KkFKtnj21P6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57311679"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="57311679"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 09:46:17 -0700
-X-CSE-ConnectionGUID: lSyK4q++TLG3QL/wfv8dbQ==
-X-CSE-MsgGUID: WMqr1yQtRciRoxpnUuZFAw==
+  t=1755105489; x=1786641489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WV0Vo+K02OhsbWV4KFB/mzIPWVvcS25gBWrGy1wIQZE=;
+  b=jMFkEZ/JjB1SkWFkkwPE2LwPHQHWumDA0/vWbMYT2E2ZEqvgCV8w9Nel
+   GzKGyXMYroBo4ic3LGdE5+Vk2mXt+z/XuUCSFDctBKrZFiKmu6ngf+8kZ
+   Utd/ufNyRTuxyd8vJxJnrUXcNTVENF80pCUfLMYYhs+KqtVyWjsgcOKbM
+   GAytMRXKJyg+S+GaQKH16hXPl6h2dV5zc+rUTVI8Wy3KSBa/kQZREIim5
+   hsP4F3/plGHzVubUL0MZpW4zRYN13mUTyQAklC54Suj3nEosR9YnVV7wy
+   k/ysjES897bVMx3deD9EUi5ja4hysmGtSssXOMEsy76boPjNi8sM+oHdG
+   A==;
+X-CSE-ConnectionGUID: mfROuGS6TayCKrWG3g5FCQ==
+X-CSE-MsgGUID: 4DnFCrLjRsepGmRHlopLkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67683604"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="67683604"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 10:18:09 -0700
+X-CSE-ConnectionGUID: SLv3rjliRGejYsPzB8JYLQ==
+X-CSE-MsgGUID: So1G6vd/Qpa6singFRjHbQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="166773813"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="171857712"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 13 Aug 2025 09:46:14 -0700
+  by orviesa005.jf.intel.com with ESMTP; 13 Aug 2025 10:18:04 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umEc1-000A8G-0C;
-	Wed, 13 Aug 2025 16:46:06 +0000
-Date: Thu, 14 Aug 2025 00:45:15 +0800
+	id 1umF6W-000A9U-3B;
+	Wed, 13 Aug 2025 17:17:44 +0000
+Date: Thu, 14 Aug 2025 01:16:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Qiang Zhao <qiang.zhao@nxp.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [akpm-mm:mm-new 120/137] include/linux/mm.h:727:16: sparse: sparse:
- incorrect type in argument 2 (different modifiers)
-Message-ID: <202508140032.Qirn8BZ3-lkp@intel.com>
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] ASoc: fsl: fsl_qmc_audio: Ensure audio channels
+ are ordered in TDM bus
+Message-ID: <202508140002.NBrWOZJL-lkp@intel.com>
+References: <8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,300 +74,250 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy@csgroup.eu>
 
-Hi Lorenzo,
+Hi Christophe,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   694c8e78f486b09137ee3efadae044d01aba971b
-commit: 6d303e2d299eaeb3bfd39c8d8c7f79cc474db83b [120/137] mm: convert core mm to mm_flags_*() accessors
-config: microblaze-randconfig-r131-20250813 (https://download.01.org/0day-ci/archive/20250814/202508140032.Qirn8BZ3-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250814/202508140032.Qirn8BZ3-lkp@intel.com/reproduce)
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.17-rc1 next-20250813]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/soc-fsl-qmc-Only-set-completion-interrupt-when-needed/20250812-193812
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH v2 2/4] ASoc: fsl: fsl_qmc_audio: Ensure audio channels are ordered in TDM bus
+config: powerpc64-randconfig-r073-20250813 (https://download.01.org/0day-ci/archive/20250814/202508140002.NBrWOZJL-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140002.NBrWOZJL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508140032.Qirn8BZ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508140002.NBrWOZJL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/oom_kill.c: note: in included file (through include/linux/rculist.h, include/linux/sched/signal.h, include/linux/oom.h):
-   include/linux/rcupdate.h:871:25: sparse: sparse: context imbalance in 'find_lock_task_mm' - wrong count at exit
-   mm/oom_kill.c: note: in included file (through include/linux/oom.h):
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/oom_kill.c:223:28: sparse: sparse: context imbalance in 'oom_badness' - unexpected unlock
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/oom_kill.c:403:9: sparse: sparse: context imbalance in 'dump_task' - unexpected unlock
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   include/linux/mm.h:732:39: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:732:39: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:732:39: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
-   mm/oom_kill.c: note: in included file (through include/linux/rculist.h, include/linux/sched/signal.h, include/linux/oom.h):
-   include/linux/rcupdate.h:871:25: sparse: sparse: context imbalance in '__oom_kill_process' - unexpected unlock
-   mm/oom_kill.c: note: in included file (through include/linux/oom.h):
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/oom_kill.c:1241:20: sparse: sparse: context imbalance in '__se_sys_process_mrelease' - unexpected unlock
---
-   mm/gup.c: note: in included file:
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
---
-   mm/memory.c: note: in included file (through arch/microblaze/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/memory.c:1329:9: sparse: sparse: context imbalance in 'copy_pte_range' - unexpected unlock
-   mm/memory.c:2224:16: sparse: sparse: context imbalance in '__get_locked_pte' - different lock contexts for basic block
-   mm/memory.c:2331:9: sparse: sparse: context imbalance in 'insert_page' - unexpected unlock
-   mm/memory.c:2616:9: sparse: sparse: context imbalance in 'insert_pfn' - unexpected unlock
-   mm/memory.c:3154:17: sparse: sparse: context imbalance in 'apply_to_pte_range' - unexpected unlock
-   mm/memory.c:3787:42: sparse: sparse: context imbalance in 'wp_page_copy' - different lock contexts for basic block
-   mm/memory.c:3826:19: sparse: sparse: context imbalance in 'finish_mkwrite_fault' - different lock contexts for basic block
-   mm/memory.c:3857:17: sparse: sparse: context imbalance in 'wp_pfn_shared' - unexpected unlock
-   mm/memory.c:3883:17: sparse: sparse: context imbalance in 'wp_page_shared' - unexpected unlock
-   mm/memory.c:4049:19: sparse: sparse: context imbalance in 'do_wp_page' - different lock contexts for basic block
-   mm/memory.c:4311:9: sparse: sparse: context imbalance in 'remove_device_exclusive_entry' - different lock contexts for basic block
-   mm/memory.c:4337:19: sparse: sparse: context imbalance in 'pte_marker_clear' - different lock contexts for basic block
-   mm/memory.c:4582:12: sparse: sparse: context imbalance in 'do_swap_page' - unexpected unlock
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/memory.c:5240:9: sparse: sparse: context imbalance in 'do_anonymous_page' - different lock contexts for basic block
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/memory.c:5470:12: sparse: sparse: context imbalance in 'finish_fault' - different lock contexts for basic block
-   mm/memory.c:5842:9: sparse: sparse: context imbalance in 'do_fault' - different lock contexts for basic block
-   mm/memory.c:5971:17: sparse: sparse: context imbalance in 'do_numa_page' - unexpected unlock
-   mm/memory.c:6174:34: sparse: sparse: context imbalance in 'handle_pte_fault' - unexpected unlock
-   mm/memory.c:6655:5: sparse: sparse: context imbalance in 'follow_pfnmap_start' - different lock contexts for basic block
-   mm/memory.c:6741:28: sparse: sparse: context imbalance in 'follow_pfnmap_end' - unexpected unlock
---
-   mm/mmap.c: note: in included file (through arch/microblaze/include/asm/cacheflush.h, include/linux/cacheflush.h, include/linux/highmem.h, ...):
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
->> include/linux/mm.h:742:23: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:742:23: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:742:23: sparse:     got unsigned long [noderef] *
---
-   mm/mprotect.c: note: in included file (through include/linux/pagewalk.h):
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
---
-   mm/rmap.c: note: in included file:
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
-   mm/rmap.c: note: in included file (through include/linux/ksm.h):
-   include/linux/rmap.h:951:26: sparse: sparse: context imbalance in 'folio_referenced_one' - unexpected unlock
-   include/linux/rmap.h:951:26: sparse: sparse: context imbalance in 'try_to_unmap_one' - unexpected unlock
-   include/linux/rmap.h:951:26: sparse: sparse: context imbalance in 'try_to_migrate_one' - unexpected unlock
---
-   mm/vma.c: note: in included file (through arch/microblaze/include/asm/cacheflush.h, include/linux/cacheflush.h, include/linux/highmem.h, ...):
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
->> include/linux/mm.h:727:16: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long const volatile *addr @@     got unsigned long const [noderef] * @@
-   include/linux/mm.h:727:16: sparse:     expected unsigned long const volatile *addr
-   include/linux/mm.h:727:16: sparse:     got unsigned long const [noderef] *
+All warnings (new ones prefixed by >>):
 
-vim +727 include/linux/mm.h
+   sound/soc/fsl/fsl_qmc_audio.c:888:39: error: no member named 'qmc_chans' in 'struct qmc_dai'
+     888 |                 ret = qmc_chan_get_ts_info(qmc_dai->qmc_chans[i], &ts_info);
+         |                                            ~~~~~~~  ^
+>> sound/soc/fsl/fsl_qmc_audio.c:900:21: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     899 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
+         |                                                                                                     ~~~
+         |                                                                                                     %d
+     900 |                                 qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
+         |                                                 ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   sound/soc/fsl/fsl_qmc_audio.c:900:38: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     899 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
+         |                                                                                                                ~~~
+         |                                                                                                                %d
+     900 |                                 qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
+         |                                                                  ^~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   sound/soc/fsl/fsl_qmc_audio.c:905:21: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     904 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
+         |                                                                                                     ~~~
+         |                                                                                                     %d
+     905 |                                 qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
+         |                                                 ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   sound/soc/fsl/fsl_qmc_audio.c:905:38: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     904 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
+         |                                                                                                                ~~~
+         |                                                                                                                %d
+     905 |                                 qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
+         |                                                                  ^~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   4 warnings and 1 error generated.
 
-5e31275cc997f8 Suren Baghdasaryan 2023-02-27  724  
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  725  static inline bool mm_flags_test(int flag, const struct mm_struct *mm)
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  726  {
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12 @727  	return test_bit(flag, ACCESS_PRIVATE(&mm->_flags, __mm_flags));
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  728  }
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  729  
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  730  static inline bool mm_flags_test_and_set(int flag, struct mm_struct *mm)
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  731  {
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  732  	return test_and_set_bit(flag, ACCESS_PRIVATE(&mm->_flags, __mm_flags));
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  733  }
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  734  
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  735  static inline bool mm_flags_test_and_clear(int flag, struct mm_struct *mm)
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  736  {
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  737  	return test_and_clear_bit(flag, ACCESS_PRIVATE(&mm->_flags, __mm_flags));
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  738  }
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  739  
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  740  static inline void mm_flags_set(int flag, struct mm_struct *mm)
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  741  {
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12 @742  	set_bit(flag, ACCESS_PRIVATE(&mm->_flags, __mm_flags));
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  743  }
-34e1a4ccaed274 Lorenzo Stoakes    2025-08-12  744  
 
-:::::: The code at line 727 was first introduced by commit
-:::::: 34e1a4ccaed27416e7c6cd5ec43d9f3f41bf107b mm: add bitmap mm->flags field
+vim +900 sound/soc/fsl/fsl_qmc_audio.c
 
-:::::: TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   789	
+   790	static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *np,
+   791				       struct qmc_dai *qmc_dai,
+   792				       struct snd_soc_dai_driver *qmc_soc_dai_driver)
+   793	{
+   794		struct qmc_chan_ts_info ts_info;
+   795		struct qmc_chan_info info;
+   796		unsigned long rx_fs_rate;
+   797		unsigned long tx_fs_rate;
+   798		int prev_last_rx_ts = 0;
+   799		int prev_last_tx_ts = 0;
+   800		unsigned int nb_tx_ts;
+   801		unsigned int nb_rx_ts;
+   802		unsigned int i;
+   803		int last_rx_ts;
+   804		int last_tx_ts;
+   805		int count;
+   806		u32 val;
+   807		int ret;
+   808	
+   809		qmc_dai->dev = qmc_audio->dev;
+   810	
+   811		ret = of_property_read_u32(np, "reg", &val);
+   812		if (ret) {
+   813			dev_err(qmc_audio->dev, "%pOF: failed to read reg\n", np);
+   814			return ret;
+   815		}
+   816		qmc_dai->id = val;
+   817	
+   818		qmc_dai->name = devm_kasprintf(qmc_audio->dev, GFP_KERNEL, "%s.%d",
+   819					       np->parent->name, qmc_dai->id);
+   820		if (!qmc_dai->name)
+   821			return -ENOMEM;
+   822	
+   823		count = qmc_chan_count_phandles(np, "fsl,qmc-chan");
+   824		if (count < 0)
+   825			return dev_err_probe(qmc_audio->dev, count,
+   826					     "dai %d get number of QMC channel failed\n", qmc_dai->id);
+   827		if (!count)
+   828			return dev_err_probe(qmc_audio->dev, -EINVAL,
+   829					     "dai %d no QMC channel defined\n", qmc_dai->id);
+   830	
+   831		qmc_dai->chans = devm_kcalloc(qmc_audio->dev, count, sizeof(*qmc_dai->chans), GFP_KERNEL);
+   832		if (!qmc_dai->chans)
+   833			return -ENOMEM;
+   834	
+   835		for (i = 0; i < count; i++) {
+   836			qmc_dai->chans[i].qmc_chan = devm_qmc_chan_get_byphandles_index(qmc_audio->dev, np,
+   837											"fsl,qmc-chan", i);
+   838			if (IS_ERR(qmc_dai->chans[i].qmc_chan)) {
+   839				return dev_err_probe(qmc_audio->dev, PTR_ERR(qmc_dai->chans[i].qmc_chan),
+   840						     "dai %d get QMC channel %d failed\n", qmc_dai->id, i);
+   841			}
+   842	
+   843			ret = qmc_chan_get_info(qmc_dai->chans[i].qmc_chan, &info);
+   844			if (ret) {
+   845				dev_err(qmc_audio->dev, "dai %d get QMC %d channel info failed %d\n",
+   846					qmc_dai->id, i, ret);
+   847				return ret;
+   848			}
+   849	
+   850			if (info.mode != QMC_TRANSPARENT) {
+   851				dev_err(qmc_audio->dev, "dai %d QMC chan %d mode %d is not QMC_TRANSPARENT\n",
+   852					qmc_dai->id, i, info.mode);
+   853				return -EINVAL;
+   854			}
+   855	
+   856			/*
+   857			 * All channels must have the same number of Tx slots and the
+   858			 * same numbers of Rx slots.
+   859			 */
+   860			if (i == 0) {
+   861				nb_tx_ts = info.nb_tx_ts;
+   862				nb_rx_ts = info.nb_rx_ts;
+   863				tx_fs_rate = info.tx_fs_rate;
+   864				rx_fs_rate = info.rx_fs_rate;
+   865			} else {
+   866				if (nb_tx_ts != info.nb_tx_ts) {
+   867					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent number of Tx timeslots (%u instead of %u)\n",
+   868						qmc_dai->id, i, info.nb_tx_ts, nb_tx_ts);
+   869					return -EINVAL;
+   870				}
+   871				if (nb_rx_ts != info.nb_rx_ts) {
+   872					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent number of Rx timeslots (%u instead of %u)\n",
+   873						qmc_dai->id, i, info.nb_rx_ts, nb_rx_ts);
+   874					return -EINVAL;
+   875				}
+   876				if (tx_fs_rate != info.tx_fs_rate) {
+   877					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent Tx frame sample rate (%lu instead of %lu)\n",
+   878						qmc_dai->id, i, info.tx_fs_rate, tx_fs_rate);
+   879					return -EINVAL;
+   880				}
+   881				if (rx_fs_rate != info.rx_fs_rate) {
+   882					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent Rx frame sample rate (%lu instead of %lu)\n",
+   883						qmc_dai->id, i, info.rx_fs_rate, rx_fs_rate);
+   884					return -EINVAL;
+   885				}
+   886			}
+   887	
+ > 888			ret = qmc_chan_get_ts_info(qmc_dai->qmc_chans[i], &ts_info);
+   889			if (ret) {
+   890				dev_err(qmc_audio->dev, "dai %d get QMC %d channel TS info failed %d\n",
+   891					qmc_dai->id, i, ret);
+   892				return ret;
+   893			}
+   894	
+   895			last_rx_ts = fls64(ts_info.rx_ts_mask);
+   896			last_tx_ts = fls64(ts_info.rx_ts_mask);
+   897	
+   898			if (prev_last_rx_ts > last_rx_ts) {
+   899				dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
+ > 900					qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
+   901				return -EINVAL;
+   902			}
+   903			if (prev_last_tx_ts > last_tx_ts) {
+   904				dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
+   905					qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
+   906				return -EINVAL;
+   907			}
+   908	
+   909			prev_last_rx_ts = last_rx_ts;
+   910			prev_last_tx_ts = last_tx_ts;
+   911		}
+   912	
+   913		qmc_dai->nb_chans_avail = count;
+   914		qmc_dai->nb_tx_ts = nb_tx_ts * count;
+   915		qmc_dai->nb_rx_ts = nb_rx_ts * count;
+   916	
+   917		qmc_soc_dai_driver->id = qmc_dai->id;
+   918		qmc_soc_dai_driver->name = qmc_dai->name;
+   919	
+   920		qmc_soc_dai_driver->playback.channels_min = 0;
+   921		qmc_soc_dai_driver->playback.channels_max = 0;
+   922		if (nb_tx_ts) {
+   923			qmc_soc_dai_driver->playback.channels_min = 1;
+   924			qmc_soc_dai_driver->playback.channels_max = count > 1 ? count : nb_tx_ts;
+   925		}
+   926		qmc_soc_dai_driver->playback.formats = qmc_audio_formats(nb_tx_ts,
+   927									 count > 1);
+   928	
+   929		qmc_soc_dai_driver->capture.channels_min = 0;
+   930		qmc_soc_dai_driver->capture.channels_max = 0;
+   931		if (nb_rx_ts) {
+   932			qmc_soc_dai_driver->capture.channels_min = 1;
+   933			qmc_soc_dai_driver->capture.channels_max = count > 1 ? count : nb_rx_ts;
+   934		}
+   935		qmc_soc_dai_driver->capture.formats = qmc_audio_formats(nb_rx_ts,
+   936									count > 1);
+   937	
+   938		qmc_soc_dai_driver->playback.rates = snd_pcm_rate_to_rate_bit(tx_fs_rate);
+   939		qmc_soc_dai_driver->playback.rate_min = tx_fs_rate;
+   940		qmc_soc_dai_driver->playback.rate_max = tx_fs_rate;
+   941		qmc_soc_dai_driver->capture.rates = snd_pcm_rate_to_rate_bit(rx_fs_rate);
+   942		qmc_soc_dai_driver->capture.rate_min = rx_fs_rate;
+   943		qmc_soc_dai_driver->capture.rate_max = rx_fs_rate;
+   944	
+   945		qmc_soc_dai_driver->ops = &qmc_dai_ops;
+   946	
+   947		return 0;
+   948	}
+   949	
 
 -- 
 0-DAY CI Kernel Test Service
