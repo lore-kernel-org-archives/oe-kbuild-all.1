@@ -1,95 +1,59 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72521140E5F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 14:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CF135959
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 14:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755094642; cv=none; b=fnZe6ykwj2EHo0VzH115ohbmDSKVMVDofn28lAY+eX/vugyCe6e9Fq8jsz/dMlmhIdp3t31OFFMOZfpr4sfosz8+QbfcXJL99fpvlMKvVFHXZSuikdOBuWGMfCU42yPNxur3zLnmZvuLVvuT8eNp6aQQ47XEMQ6RVJ9iMKE0o6w=
+	t=1755094810; cv=none; b=N6sjY38uB7FGgsUDdnIpDv7R1xiQcW1kuJovOQsIGOeOvSFG5lUBlEHHSTJ058B/zF/5XIFcFLlGQ1+4QgXA6Nl8qHetdqJQncrG+H2hJ/u6JGgaZLSSyHQR7wMKlXHJcoXajTIPGWlIdWZMXh+t6rUeYRqg6PMr4iuP+ycjDvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755094642; c=relaxed/simple;
-	bh=1mSZldsWdWCxke6BuMqVOJ3P1vSpvBSc28O3RhuVlno=;
+	s=arc-20240116; t=1755094810; c=relaxed/simple;
+	bh=OszWjN20HCKEjd/z5EVAwmJHTBoXH0de7wbm6/6mCBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=C1zXlbclfzZYWFFJci3uZubQ25sbtSSg7TeMKVhBS84/6N1ybANN9Tb2C+Hp1D/SbknoqMgdSotfNEQFVu9wWhdhLAtIi7vLWSK4Gkk3b3WeqeS1+pz7YkdByoVH54Jd01e3EThx8lcCL6DljBuOb4G3IF9lJ6PZAR05rBHp8oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T9u0KzD0; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=lVlmLx+Ff9CkFocXgjD/ByHVeBZhZUnPujXmTSl/HytBfwrPiCe0ZVAwyV41Qh45h+hEQ+mmWXZZNAYNv71bIp3kLEOyC+UHfee7FBot0TtGIdUhlMUKcYJ5LdhTtZ6+K6w7cI3fsFxpzb4sSbcUiibM630biyKVEvuPIHkHv74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wl45+a+d; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T9u0KzD0"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-459ddf8acf1so56334005e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 07:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755094636; x=1755699436; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xFS6u4c/Ebcc668GacdL60NXtwjSwFQiJomUL8MmBtI=;
-        b=T9u0KzD0ciz1M7pmajrUP8LnjjujtP0stgNCQCN9aQ6Zidzf+ofWuVarlsWwDliNiV
-         4fvAhzHDYA7Y1vGtFjK7GYYHcQl4RXet30U+QNzqf/hYNPAecaRTuzkS6QJ3tpbiX4EB
-         +XPWop4cj+qgsDgj2Bww3sSLgBcFVMrwrzGgClIXbxfRGXEWNaPJVYwiy2UaCdcGeXQa
-         0VqU+HvQFJSOV5tkPMRrvSHs61+IQL+MX24XFPeqRY7VDORwASt+YY2WqobZqjC2xSlu
-         Iv9tl+wZ0amxNKz7MacyfgyEUJO/Wryk8SpLS/2OOX9Qr1YXyL2VuBsNsKzDBsSNFDGU
-         T7gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755094636; x=1755699436;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xFS6u4c/Ebcc668GacdL60NXtwjSwFQiJomUL8MmBtI=;
-        b=mVBCrATScei87o2ymkKEua3lyAr/6DxaE5J97vWptZ74A4BftwjM6rEuJgLz9tHlUa
-         lgsusEdSmIgtfJx4/qpivbtDjcpmppWXbKfWivTqIrCm5hJCgRRYzdAT5TpMKMQpmr8x
-         Y1baDYUyjgUnFGQiKrdSy4duwcJivEZq00/V1jUcaq8cZ+6mypCe3ne6bdD2zZHnoSZp
-         mC63INSjJbMeFrdXPOZDBZoZRY0sNT/xufiYeSxvz6cOjJ52iRQel1ZWMM9ZOwRw9G3t
-         CCwh/L9ONYCdTMgFUJcxzK8eOiBcTSvoZp5QwnXvBOI5QCXppJWOicK8sCIHa4L++5pk
-         GBwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWO6xWDAVSkLC9yoySifMZ2dfR0y0fQNWkNzhEmMSWZyoULkqf0A5UUkzJEmrTrgTyzFQmX2sNeYTqETj3x@lists.linux.dev
-X-Gm-Message-State: AOJu0YwABZ8dQm9QcjUqQ/ovbH1S4BbnfSRC+8caddu0rGSmCdglyJaS
-	V53EoYHOGfBJp+bx7a24zCCD8HKPNG48FCYJFnaoHkw0nFjzrzMLH+rkXOGov3bGU18=
-X-Gm-Gg: ASbGncsVl1dOHSDuRqhZxcO5fbe0v6/7nbXRIKAHbG1B7T+gpmBifuHLjjFOr2+2lx+
-	EnOkOBpruanpa+8AVUuHsuLvz9xveOOh+yxmH0UQTE/dwdYt2dRltEKBxGdZnSGpAQtFJ9YlTVZ
-	2fHADV+nwxUnm6idEdtdsIzs/Uuymt6Jni+z1pawmih+VQqTe3vkmNZNX93KHcnSccfXaUgofqE
-	sxtC5rHrv7EQnrKYGeoS2caxZrb/Pa7sNc7uyxuKEymZP/jfZP43C5pAZS9Oa6FAtum8GFqPGvJ
-	3WP+ejZIeFy235R9/t7HSCkU+6ohB4ddRN+8d72dKeObRFegA+HnZI5Ax4vZ7WurmbOvd4sU98K
-	kFkFRz4zpKBR8Xo0HIBxHuxlBERV5rdXMsKriRohAbrA=
-X-Google-Smtp-Source: AGHT+IFQVKMSuayh/HxTBQ1FEx8ZnIBjMw+kNTZelmm0ds2gq+mUAt7QOMh3QsWj7BFZNdcmdXCzEw==
-X-Received: by 2002:a05:600c:19cf:b0:458:bfe1:4a91 with SMTP id 5b1f17b1804b1-45a166350a2mr26900635e9.20.1755094636463;
-        Wed, 13 Aug 2025 07:17:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c4534b3sm47750500f8f.47.2025.08.13.07.17.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 07:17:16 -0700 (PDT)
-Date: Wed, 13 Aug 2025 17:17:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v4 12/15] pinctrl: allow to mark pin functions as
- requestable GPIOs
-Message-ID: <202508132044.XYcvSpm4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wl45+a+d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755094809; x=1786630809;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OszWjN20HCKEjd/z5EVAwmJHTBoXH0de7wbm6/6mCBo=;
+  b=Wl45+a+dYG4xwqFkdVSi0xNu6Rf9v73NujXXG+3UjXylURuTDRSFK4qW
+   5Cd0BxKSQqAr1sFejVZz0N1JascBWB9XMbtGMVWYnGiYoSXXsDmf1kR2R
+   mDJPLa2hrJS7OcqxFJ10CCbyZe+VPyv5s80tNmLsizGrlxjXNDJrW/qb/
+   K8AfAwvs8nAqVQ3NYc6jJSb1xA7ZB0gdQNf8/yGF8IonJDJ2tf66Gauwa
+   0/e0toa2S8NtZXOj1CoMW4V0hVd20QZPMqSNmuFBQih2yNcEdL/sHQ+J7
+   +14frraggqGpZvC9u7kUGyrUNhdrtacwz8+TWhJ9NhRS+bbvqZ283HyCk
+   w==;
+X-CSE-ConnectionGUID: 2thmUXdfQVyHQuR1oI0Tag==
+X-CSE-MsgGUID: UJjMZL3PRWOS4VFCaeETeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="82824486"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="82824486"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 07:20:01 -0700
+X-CSE-ConnectionGUID: q2VYw8xXRqa9alBRb1iH+g==
+X-CSE-MsgGUID: ljb97+VGR6qDujtr19yjgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="166857027"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 13 Aug 2025 07:20:00 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umCK5-0009yo-1I;
+	Wed, 13 Aug 2025 14:19:31 +0000
+Date: Wed, 13 Aug 2025 22:18:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 354/354]
+ drivers/gpu/drm/mediatek/mtk_dp_v2.c:3140:6: warning: no previous prototype
+ for 'mtk_mt8189_dp_phy_set_param_v2'
+Message-ID: <202508132240.DpnF1cCE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -98,58 +62,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64@linaro.org>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/devres-provide-devm_kmemdup_const/20250812-170336
-base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
-patch link:    https://lore.kernel.org/r/20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64%40linaro.org
-patch subject: [PATCH v4 12/15] pinctrl: allow to mark pin functions as requestable GPIOs
-config: um-randconfig-r072-20250813 (https://download.01.org/0day-ci/archive/20250813/202508132044.XYcvSpm4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   db867ccf596a910b85bab8c6052afe59fa921727
+commit: 4f86e88a0ffae9bb2d46965fad019e9bcedbeccc [354/354] CHROMIUM: drm/mediatek: mt8189: porting driver for dptx
+config: arm-randconfig-002-20250813 (https://download.01.org/0day-ci/archive/20250813/202508132240.DpnF1cCE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508132240.DpnF1cCE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508132044.XYcvSpm4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508132240.DpnF1cCE-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/pinmux.c:96 pinmux_can_be_used_for_gpio() warn: variable dereferenced before check 'desc' (see line 92)
+All warnings (new ones prefixed by >>):
 
-vim +/desc +96 drivers/pinctrl/pinmux.c
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2530:6: warning: no previous prototype for 'mtk_dp_dsc_support_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_support_v2(struct mtk_dp *mtk_dp)
+         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2538:6: warning: no previous prototype for 'mtk_dp_dsc_enable_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_enable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
+         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2568:6: warning: no previous prototype for 'mtk_dp_dsc_disable_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_disable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
+         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2598:6: warning: no previous prototype for 'mtk_dp_set_chunk_size_v2' [-Wmissing-prototypes]
+    void mtk_dp_set_chunk_size_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id,
+         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2617:6: warning: no previous prototype for 'mtk_dp_dsc_set_param_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_set_param_v2(struct mtk_dp *mtk_dp,
+         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2643:6: warning: no previous prototype for 'mtk_dp_dsc_set_pps_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_set_pps_v2(struct mtk_dp *mtk_dp,
+         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2663:6: warning: no previous prototype for 'mtk_dp_dsc_pps_send_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_pps_send_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
+         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2669:6: warning: no previous prototype for 'mtk_dp_dsc_parse_pps_param_v2' [-Wmissing-prototypes]
+    void mtk_dp_dsc_parse_pps_param_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id, u8 *pps)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3078:6: warning: no previous prototype for 'mtk_dp_phy_flip_enable_v2' [-Wmissing-prototypes]
+    void mtk_dp_phy_flip_enable_v2(struct mtk_dp *mtk_dp)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3096:6: warning: no previous prototype for 'mtk_dp_phy_flip_disable_v2' [-Wmissing-prototypes]
+    void mtk_dp_phy_flip_disable_v2(struct mtk_dp *mtk_dp)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/mediatek/mtk_dp_v2.c:3140:6: warning: no previous prototype for 'mtk_mt8189_dp_phy_set_param_v2' [-Wmissing-prototypes]
+    void mtk_mt8189_dp_phy_set_param_v2(struct mtk_dp *mtk_dp)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c: In function 'mtk_dp_video_config_v2':
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3713:5: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+     u8 data;
+        ^~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c: At top level:
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4391:6: warning: no previous prototype for 'mtk_dp_hdcp_atomic_check' [-Wmissing-prototypes]
+    void mtk_dp_hdcp_atomic_check(struct mtk_dp *mtk_dp, enum dp_encoder_id id,
+         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4705:11: warning: initialized field overwritten [-Woverride-init]
+     .reset = drm_atomic_helper_connector_reset,
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4705:11: note: (near initialization for 'mtk_dp_con_funcs.reset')
 
-7cc4e6b0e4ddf6 Andy Shevchenko     2023-11-29   88  bool pinmux_can_be_used_for_gpio(struct pinctrl_dev *pctldev, unsigned int pin)
-472a61e777fe78 Stefan Wahren       2019-08-14   89  {
-472a61e777fe78 Stefan Wahren       2019-08-14   90  	struct pin_desc *desc = pin_desc_get(pctldev, pin);
-472a61e777fe78 Stefan Wahren       2019-08-14   91  	const struct pinmux_ops *ops = pctldev->desc->pmxops;
-6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  @92  	const struct pinctrl_setting_mux *mux_setting = desc->mux_setting;
-                                                                                                        ^^^^^^^^^^^^^^^^^
-Patch adds a new dereference.
 
-6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12   93  	bool func_is_gpio = false;
-472a61e777fe78 Stefan Wahren       2019-08-14   94  
-472a61e777fe78 Stefan Wahren       2019-08-14   95  	/* Can't inspect pin, assume it can be used */
-6ba2fd391ac58c Alexandre Torgue    2019-12-04  @96  	if (!desc || !ops)
-                                                            ^^^^^
-The old code assumed desc could be NULL.
+vim +/mtk_mt8189_dp_phy_set_param_v2 +3140 drivers/gpu/drm/mediatek/mtk_dp_v2.c
 
-472a61e777fe78 Stefan Wahren       2019-08-14   97  		return true;
-472a61e777fe78 Stefan Wahren       2019-08-14   98  
-5a3e85c3c397c7 Mukesh Ojha         2024-10-15   99  	guard(mutex)(&desc->mux_lock);
-6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  100  	if (mux_setting && ops->function_is_gpio)
-6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  101  		func_is_gpio = ops->function_is_gpio(pctldev, mux_setting->func);
-6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  102  
-6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  103  	if (ops->strict && desc->mux_usecount && !func_is_gpio)
-472a61e777fe78 Stefan Wahren       2019-08-14  104  		return false;
-472a61e777fe78 Stefan Wahren       2019-08-14  105  
-472a61e777fe78 Stefan Wahren       2019-08-14  106  	return !(ops->strict && !!desc->gpio_owner);
-472a61e777fe78 Stefan Wahren       2019-08-14  107  }
+  3139	
+> 3140	void mtk_mt8189_dp_phy_set_param_v2(struct mtk_dp *mtk_dp)
+  3141	{
+  3142		int i;
+  3143	
+  3144		PHY_WRITE_4BYTE(mtk_dp,
+  3145				mtk_dp->data->phyd_ana_glb_offset
+  3146				+ DP_PHY_GLB_FORCE_CTRL_00,
+  3147				mtk_dp->data->patch_phy_settings[0]);
+  3148	
+  3149		for (i = 0; i < 4; i++) {
+  3150			PHY_WRITE_4BYTE(mtk_dp,
+  3151					mtk_dp->data->phyd_ana_lan_offset[i]
+  3152					+ DP_PHY_LANE_TX_2,
+  3153					mtk_dp->data->patch_phy_settings[1]);
+  3154		}
+  3155	
+  3156		PHY_WRITE_4BYTE(mtk_dp,
+  3157				mtk_dp->data->phyd_dig_glb_offset
+  3158				+ DP_PHY_DIG_GLB_DA_REG_00,
+  3159				mtk_dp->data->patch_phy_settings[2]);
+  3160		PHY_WRITE_4BYTE(mtk_dp,
+  3161				mtk_dp->data->phyd_dig_glb_offset
+  3162				+ DP_PHY_DIG_GLB_DA_REG_01,
+  3163				mtk_dp->data->patch_phy_settings[3]);
+  3164		PHY_WRITE_4BYTE(mtk_dp,
+  3165				mtk_dp->data->phyd_dig_glb_offset
+  3166				+ DP_PHY_DIG_GLB_DA_REG_02,
+  3167				mtk_dp->data->patch_phy_settings[4]);
+  3168		PHY_WRITE_4BYTE(mtk_dp,
+  3169				mtk_dp->data->phyd_dig_glb_offset
+  3170				+ DP_PHY_DIG_GLB_DA_REG_03,
+  3171				mtk_dp->data->patch_phy_settings[5]);
+  3172	
+  3173		for (i = 0; i < 4; i++) {
+  3174			PHY_WRITE_4BYTE(mtk_dp,
+  3175					mtk_dp->data->phyd_dig_lan_offset[i] + DRIVING_PARAM_3,
+  3176					mtk_dp->data->txfir_settings[0]);
+  3177			PHY_WRITE_4BYTE(mtk_dp,
+  3178					mtk_dp->data->phyd_dig_lan_offset[i] + DRIVING_PARAM_4,
+  3179					mtk_dp->data->txfir_settings[1]);
+  3180			PHY_WRITE_4BYTE(mtk_dp,
+  3181					mtk_dp->data->phyd_dig_lan_offset[i] + DRIVING_PARAM_5,
+  3182					mtk_dp->data->txfir_settings[2]);
+  3183			PHY_WRITE_4BYTE(mtk_dp,
+  3184					mtk_dp->data->phyd_dig_lan_offset[i] + DRIVING_PARAM_6,
+  3185					mtk_dp->data->txfir_settings[3]);
+  3186			PHY_WRITE_4BYTE(mtk_dp,
+  3187					mtk_dp->data->phyd_dig_lan_offset[i] + DRIVING_PARAM_7,
+  3188					mtk_dp->data->txfir_settings[4]);
+  3189			PHY_WRITE_4BYTE(mtk_dp,
+  3190					mtk_dp->data->phyd_dig_lan_offset[i] + DRIVING_PARAM_8,
+  3191					mtk_dp->data->txfir_settings[5]);
+  3192		}
+  3193	}
+  3194	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
