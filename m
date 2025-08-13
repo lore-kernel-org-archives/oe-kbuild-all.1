@@ -1,71 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18151E2858
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 17:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A5529BD9A;
+	Wed, 13 Aug 2025 17:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755105491; cv=none; b=V1tq55iOjNdMSg6Z5yBCNhxWU2whUzHDkXcucuAHyAWBjuu39do/TvZBtlKzen/tkSXl2riZd9x0rnw78QO1ogpjUWOsCTit+elJMGz4qrwy7HHKT8X5ZmITKvvlFpED+eXBblh1F0S+lLH8hbrrd6ik1KkZzYiWzhXm+kzo2JE=
+	t=1755107948; cv=none; b=J0hHXEPEIugqYbfiBYzkRIN2GRrhqciSSoIu9ce/8XHRIDW3fTCd2b9lkykXzh7+YB5VtU7HO6+0oGz0Fd56UHG74yQ3tsIH7yRnVQA1NucqfdSpW56FRqGR1F12S1BWz3eYrbCsJ2oFMwagTD4mMn31HQ8sdusfSHNUlCy/wiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755105491; c=relaxed/simple;
-	bh=WV0Vo+K02OhsbWV4KFB/mzIPWVvcS25gBWrGy1wIQZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=slhw5OJ3qFxL3jshWR95rgPJ3Bhgw4ZBy4tOnvnEzn/eElB2+UfELrDzOqlKlagXHf4geh0bfutqbbZOVZpJcKJjeE7iYBP9EBYCzu8JcXtf65b+tr4coCSnkgTHcD9QJ+KxB3TyekFgFBqQuzgjKHQbxDNqUSNpbkWVzUprxH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jMFkEZ/J; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1755107948; c=relaxed/simple;
+	bh=vOeA+IRs2WkICsEroFKXn3XPbpj/6Pk8zU4tiVJa5iU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gX3CPy+xnc+HfQxW7uQgURnJXLZPUFzFRa6T2CLO79DwLVyFDicX3zYJBe6Ivi4La5EyE3NtPE5wDJ73NrbMZNpttyyGxZ/YXq3ltIlU1aDIOnxy+vuEZtHi2Z5zMIxliH9pRdlQM2pRS8vs8+2tKgqYq/xmWysfuyFn1P9NKWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cB3zKZOY; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jMFkEZ/J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cB3zKZOY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755105489; x=1786641489;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WV0Vo+K02OhsbWV4KFB/mzIPWVvcS25gBWrGy1wIQZE=;
-  b=jMFkEZ/JjB1SkWFkkwPE2LwPHQHWumDA0/vWbMYT2E2ZEqvgCV8w9Nel
-   GzKGyXMYroBo4ic3LGdE5+Vk2mXt+z/XuUCSFDctBKrZFiKmu6ngf+8kZ
-   Utd/ufNyRTuxyd8vJxJnrUXcNTVENF80pCUfLMYYhs+KqtVyWjsgcOKbM
-   GAytMRXKJyg+S+GaQKH16hXPl6h2dV5zc+rUTVI8Wy3KSBa/kQZREIim5
-   hsP4F3/plGHzVubUL0MZpW4zRYN13mUTyQAklC54Suj3nEosR9YnVV7wy
-   k/ysjES897bVMx3deD9EUi5ja4hysmGtSssXOMEsy76boPjNi8sM+oHdG
-   A==;
-X-CSE-ConnectionGUID: mfROuGS6TayCKrWG3g5FCQ==
-X-CSE-MsgGUID: 4DnFCrLjRsepGmRHlopLkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67683604"
+  t=1755107947; x=1786643947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vOeA+IRs2WkICsEroFKXn3XPbpj/6Pk8zU4tiVJa5iU=;
+  b=cB3zKZOYSHvFE1VG7kEwO2FybY/POFdNuUfbAhXfv2rq2uEwCH4oQfaO
+   SQEyj63L3pe2AWHBdOdN2mDeJgLr6Iysd18WPkGsiOnenDf1J90yu14Ri
+   Tt4dFDzCt7+aOgoN+gdaUF/SWvwJTahfZGXBNv9PRHBStebEDKynquHd+
+   YEp7aLruZWw7UjPm+QB8EMi7NmCArKHMf1St7cvdU2i6o6kBGbJkybbEV
+   beagO1jNZYAJeCr78fsvtKY9OOwTfE9BIVGOKQJV3mQT1RwWQgs+YsO+e
+   wW8v9LvoOVUkj/2fkEYQ1ubjRtlf+tRh3nN7YYRvbKS61IBb5jzhxbG1L
+   w==;
+X-CSE-ConnectionGUID: 8qO3kSfNRSmPUYqaLeQGOQ==
+X-CSE-MsgGUID: MOe8mqBFRp+7+qLR3k1VJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68793439"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="67683604"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 10:18:09 -0700
-X-CSE-ConnectionGUID: SLv3rjliRGejYsPzB8JYLQ==
-X-CSE-MsgGUID: So1G6vd/Qpa6singFRjHbQ==
+   d="scan'208";a="68793439"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 10:59:06 -0700
+X-CSE-ConnectionGUID: j7xmGq33RKipnwWnaM0fLA==
+X-CSE-MsgGUID: Pc5yatR4SMKg9zBTxgi/Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="171857712"
+   d="scan'208";a="166033963"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 13 Aug 2025 10:18:04 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Aug 2025 10:59:04 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umF6W-000A9U-3B;
-	Wed, 13 Aug 2025 17:17:44 +0000
-Date: Thu, 14 Aug 2025 01:16:58 +0800
+	id 1umFkc-000ABW-1V;
+	Wed, 13 Aug 2025 17:59:02 +0000
+Date: Thu, 14 Aug 2025 01:57:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Qiang Zhao <qiang.zhao@nxp.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] ASoc: fsl: fsl_qmc_audio: Ensure audio channels
- are ordered in TDM bus
-Message-ID: <202508140002.NBrWOZJL-lkp@intel.com>
-References: <8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy@csgroup.eu>
+To: Kees Cook <kees@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: arch/arm/include/asm/stacktrace.h:48:21: error: call to undeclared
+ function 'in_entry_text'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202508140127.RW2381Lq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,250 +63,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy@csgroup.eu>
 
-Hi Christophe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.17-rc1 next-20250813]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/soc-fsl-qmc-Only-set-completion-interrupt-when-needed/20250812-193812
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v2 2/4] ASoc: fsl: fsl_qmc_audio: Ensure audio channels are ordered in TDM bus
-config: powerpc64-randconfig-r073-20250813 (https://download.01.org/0day-ci/archive/20250814/202508140002.NBrWOZJL-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   91325f31afc1026de28665cf1a7b6e157fa4d39d
+commit: a8f0b1f8ef628bd1003eed650862836e97b89fdd kstack_erase: Support Clang stack depth tracking
+date:   3 weeks ago
+config: arm-randconfig-002-20250814 (https://download.01.org/0day-ci/archive/20250814/202508140127.RW2381Lq-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140002.NBrWOZJL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140127.RW2381Lq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508140002.NBrWOZJL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508140127.RW2381Lq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/fsl/fsl_qmc_audio.c:888:39: error: no member named 'qmc_chans' in 'struct qmc_dai'
-     888 |                 ret = qmc_chan_get_ts_info(qmc_dai->qmc_chans[i], &ts_info);
-         |                                            ~~~~~~~  ^
->> sound/soc/fsl/fsl_qmc_audio.c:900:21: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     899 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
-         |                                                                                                     ~~~
-         |                                                                                                     %d
-     900 |                                 qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
-         |                                                 ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   sound/soc/fsl/fsl_qmc_audio.c:900:38: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     899 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
-         |                                                                                                                ~~~
-         |                                                                                                                %d
-     900 |                                 qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
-         |                                                                  ^~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   sound/soc/fsl/fsl_qmc_audio.c:905:21: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     904 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
-         |                                                                                                     ~~~
-         |                                                                                                     %d
-     905 |                                 qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
-         |                                                 ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   sound/soc/fsl/fsl_qmc_audio.c:905:38: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     904 |                         dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
-         |                                                                                                                ~~~
-         |                                                                                                                %d
-     905 |                                 qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
-         |                                                                  ^~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   4 warnings and 1 error generated.
+   In file included from kernel/kstack_erase.c:13:
+   In file included from include/linux/kstack_erase.h:16:
+>> arch/arm/include/asm/stacktrace.h:48:21: error: call to undeclared function 'in_entry_text'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      48 |                 frame->ex_frame = in_entry_text(frame->pc);
+         |                                   ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:22:
+>> arch/arm/include/asm/sections.h:14:20: error: static declaration of 'in_entry_text' follows non-static declaration
+      14 | static inline bool in_entry_text(unsigned long addr)
+         |                    ^
+   arch/arm/include/asm/stacktrace.h:48:21: note: previous implicit declaration is here
+      48 |                 frame->ex_frame = in_entry_text(frame->pc);
+         |                                   ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:36:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/kstack_erase.c:14:
 
 
-vim +900 sound/soc/fsl/fsl_qmc_audio.c
+vim +/in_entry_text +48 arch/arm/include/asm/stacktrace.h
 
-   789	
-   790	static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *np,
-   791				       struct qmc_dai *qmc_dai,
-   792				       struct snd_soc_dai_driver *qmc_soc_dai_driver)
-   793	{
-   794		struct qmc_chan_ts_info ts_info;
-   795		struct qmc_chan_info info;
-   796		unsigned long rx_fs_rate;
-   797		unsigned long tx_fs_rate;
-   798		int prev_last_rx_ts = 0;
-   799		int prev_last_tx_ts = 0;
-   800		unsigned int nb_tx_ts;
-   801		unsigned int nb_rx_ts;
-   802		unsigned int i;
-   803		int last_rx_ts;
-   804		int last_tx_ts;
-   805		int count;
-   806		u32 val;
-   807		int ret;
-   808	
-   809		qmc_dai->dev = qmc_audio->dev;
-   810	
-   811		ret = of_property_read_u32(np, "reg", &val);
-   812		if (ret) {
-   813			dev_err(qmc_audio->dev, "%pOF: failed to read reg\n", np);
-   814			return ret;
-   815		}
-   816		qmc_dai->id = val;
-   817	
-   818		qmc_dai->name = devm_kasprintf(qmc_audio->dev, GFP_KERNEL, "%s.%d",
-   819					       np->parent->name, qmc_dai->id);
-   820		if (!qmc_dai->name)
-   821			return -ENOMEM;
-   822	
-   823		count = qmc_chan_count_phandles(np, "fsl,qmc-chan");
-   824		if (count < 0)
-   825			return dev_err_probe(qmc_audio->dev, count,
-   826					     "dai %d get number of QMC channel failed\n", qmc_dai->id);
-   827		if (!count)
-   828			return dev_err_probe(qmc_audio->dev, -EINVAL,
-   829					     "dai %d no QMC channel defined\n", qmc_dai->id);
-   830	
-   831		qmc_dai->chans = devm_kcalloc(qmc_audio->dev, count, sizeof(*qmc_dai->chans), GFP_KERNEL);
-   832		if (!qmc_dai->chans)
-   833			return -ENOMEM;
-   834	
-   835		for (i = 0; i < count; i++) {
-   836			qmc_dai->chans[i].qmc_chan = devm_qmc_chan_get_byphandles_index(qmc_audio->dev, np,
-   837											"fsl,qmc-chan", i);
-   838			if (IS_ERR(qmc_dai->chans[i].qmc_chan)) {
-   839				return dev_err_probe(qmc_audio->dev, PTR_ERR(qmc_dai->chans[i].qmc_chan),
-   840						     "dai %d get QMC channel %d failed\n", qmc_dai->id, i);
-   841			}
-   842	
-   843			ret = qmc_chan_get_info(qmc_dai->chans[i].qmc_chan, &info);
-   844			if (ret) {
-   845				dev_err(qmc_audio->dev, "dai %d get QMC %d channel info failed %d\n",
-   846					qmc_dai->id, i, ret);
-   847				return ret;
-   848			}
-   849	
-   850			if (info.mode != QMC_TRANSPARENT) {
-   851				dev_err(qmc_audio->dev, "dai %d QMC chan %d mode %d is not QMC_TRANSPARENT\n",
-   852					qmc_dai->id, i, info.mode);
-   853				return -EINVAL;
-   854			}
-   855	
-   856			/*
-   857			 * All channels must have the same number of Tx slots and the
-   858			 * same numbers of Rx slots.
-   859			 */
-   860			if (i == 0) {
-   861				nb_tx_ts = info.nb_tx_ts;
-   862				nb_rx_ts = info.nb_rx_ts;
-   863				tx_fs_rate = info.tx_fs_rate;
-   864				rx_fs_rate = info.rx_fs_rate;
-   865			} else {
-   866				if (nb_tx_ts != info.nb_tx_ts) {
-   867					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent number of Tx timeslots (%u instead of %u)\n",
-   868						qmc_dai->id, i, info.nb_tx_ts, nb_tx_ts);
-   869					return -EINVAL;
-   870				}
-   871				if (nb_rx_ts != info.nb_rx_ts) {
-   872					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent number of Rx timeslots (%u instead of %u)\n",
-   873						qmc_dai->id, i, info.nb_rx_ts, nb_rx_ts);
-   874					return -EINVAL;
-   875				}
-   876				if (tx_fs_rate != info.tx_fs_rate) {
-   877					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent Tx frame sample rate (%lu instead of %lu)\n",
-   878						qmc_dai->id, i, info.tx_fs_rate, tx_fs_rate);
-   879					return -EINVAL;
-   880				}
-   881				if (rx_fs_rate != info.rx_fs_rate) {
-   882					dev_err(qmc_audio->dev, "dai %d QMC chan %d inconsistent Rx frame sample rate (%lu instead of %lu)\n",
-   883						qmc_dai->id, i, info.rx_fs_rate, rx_fs_rate);
-   884					return -EINVAL;
-   885				}
-   886			}
-   887	
- > 888			ret = qmc_chan_get_ts_info(qmc_dai->qmc_chans[i], &ts_info);
-   889			if (ret) {
-   890				dev_err(qmc_audio->dev, "dai %d get QMC %d channel TS info failed %d\n",
-   891					qmc_dai->id, i, ret);
-   892				return ret;
-   893			}
-   894	
-   895			last_rx_ts = fls64(ts_info.rx_ts_mask);
-   896			last_tx_ts = fls64(ts_info.rx_ts_mask);
-   897	
-   898			if (prev_last_rx_ts > last_rx_ts) {
-   899				dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
- > 900					qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
-   901				return -EINVAL;
-   902			}
-   903			if (prev_last_tx_ts > last_tx_ts) {
-   904				dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
-   905					qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
-   906				return -EINVAL;
-   907			}
-   908	
-   909			prev_last_rx_ts = last_rx_ts;
-   910			prev_last_tx_ts = last_tx_ts;
-   911		}
-   912	
-   913		qmc_dai->nb_chans_avail = count;
-   914		qmc_dai->nb_tx_ts = nb_tx_ts * count;
-   915		qmc_dai->nb_rx_ts = nb_rx_ts * count;
-   916	
-   917		qmc_soc_dai_driver->id = qmc_dai->id;
-   918		qmc_soc_dai_driver->name = qmc_dai->name;
-   919	
-   920		qmc_soc_dai_driver->playback.channels_min = 0;
-   921		qmc_soc_dai_driver->playback.channels_max = 0;
-   922		if (nb_tx_ts) {
-   923			qmc_soc_dai_driver->playback.channels_min = 1;
-   924			qmc_soc_dai_driver->playback.channels_max = count > 1 ? count : nb_tx_ts;
-   925		}
-   926		qmc_soc_dai_driver->playback.formats = qmc_audio_formats(nb_tx_ts,
-   927									 count > 1);
-   928	
-   929		qmc_soc_dai_driver->capture.channels_min = 0;
-   930		qmc_soc_dai_driver->capture.channels_max = 0;
-   931		if (nb_rx_ts) {
-   932			qmc_soc_dai_driver->capture.channels_min = 1;
-   933			qmc_soc_dai_driver->capture.channels_max = count > 1 ? count : nb_rx_ts;
-   934		}
-   935		qmc_soc_dai_driver->capture.formats = qmc_audio_formats(nb_rx_ts,
-   936									count > 1);
-   937	
-   938		qmc_soc_dai_driver->playback.rates = snd_pcm_rate_to_rate_bit(tx_fs_rate);
-   939		qmc_soc_dai_driver->playback.rate_min = tx_fs_rate;
-   940		qmc_soc_dai_driver->playback.rate_max = tx_fs_rate;
-   941		qmc_soc_dai_driver->capture.rates = snd_pcm_rate_to_rate_bit(rx_fs_rate);
-   942		qmc_soc_dai_driver->capture.rate_min = rx_fs_rate;
-   943		qmc_soc_dai_driver->capture.rate_max = rx_fs_rate;
-   944	
-   945		qmc_soc_dai_driver->ops = &qmc_dai_ops;
-   946	
-   947		return 0;
-   948	}
-   949	
+2335c9cb831faba Jinjie Ruan      2024-06-27  35  
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  36  static __always_inline
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  37  void arm_get_current_stackframe(struct pt_regs *regs, struct stackframe *frame)
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  38  {
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  39  		frame->fp = frame_pointer(regs);
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  40  		frame->sp = regs->ARM_sp;
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  41  		frame->lr = regs->ARM_lr;
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  42  		frame->pc = regs->ARM_pc;
+fed240d9c974381 Masami Hiramatsu 2021-10-21  43  #ifdef CONFIG_KRETPROBES
+fed240d9c974381 Masami Hiramatsu 2021-10-21  44  		frame->kr_cur = NULL;
+fed240d9c974381 Masami Hiramatsu 2021-10-21  45  		frame->tsk = current;
+fed240d9c974381 Masami Hiramatsu 2021-10-21  46  #endif
+752ec621ef5c307 Li Huafei        2022-08-26  47  #ifdef CONFIG_UNWINDER_FRAME_POINTER
+752ec621ef5c307 Li Huafei        2022-08-26 @48  		frame->ex_frame = in_entry_text(frame->pc);
+752ec621ef5c307 Li Huafei        2022-08-26  49  #endif
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  50  }
+9865f1d46a68a5f Nikolay Borisov  2014-06-03  51  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: 752ec621ef5c30777958cc5eb5f1cf394f7733f4 ARM: 9234/1: stacktrace: Avoid duplicate saving of exception PC value
+
+:::::: TO: Li Huafei <lihuafei1@huawei.com>
+:::::: CC: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
