@@ -1,71 +1,71 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565E12BEC57
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 05:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB93CA6F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 06:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755063501; cv=none; b=Bo17kLgWsqfM6te0qjFgHoDBhv0mAl9ea5gqVJqsbSFF4pjeZYXDeIXjSL8Pho9C2GJtsN0tHC8iRaEtzf9uOPh4TS8WADeocQ3FYjX6Kp9UeoTiS0SK2m5Fy+SmwJ/dpRA4vupGLID0Ahf0qbpJlA7rsVe/YcDk3EtnOBiJH6k=
+	t=1755065560; cv=none; b=ubuvkGdKvkJGFwxmr4cDHYE6rwWb7/uf5f+wem9rkH8NOPYsTD6DLmxDmcpkpfpy8zwaT5V7E7fPrTVegWnJoRbZUje45J2TAdshLBqRSxN1CCjuFYHraDWtx/uVA180CoaVjPTSdJJSEjkZQjPuvBXkFRhZaQLl/QLRjCjfPG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755063501; c=relaxed/simple;
-	bh=c5Ei5s0bbyGnWWYKgHHqCrmJYLgM0IPx3Azf26D17aY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oKg6Zs7aar6iKx3CdyrHdev6z03h2LfcE2FICzTtgzaesM0DXa4YdeG9zWqgak4m/LVgkpL3WK98+An8CEmaGrJpMP3vudIhzSftK37pDP0xHDkSSt9mddxq79ZXKedUfMfrTkVzC8Kbm6aBhnspXDypyNvMpJdwChYUy1f5PjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zvxkpnHI; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755065560; c=relaxed/simple;
+	bh=WEjIl95UqMxFbzW3h7AnyHICcK65Ko5Swc2ymIiErOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/zVDRb7Dewh3wuA06XfA+7TEVuR9180BYSECM1Vhu/UUphRtC0PY7OX1fax8Wzu9jG2JnoO6u2GfLk6df5PvPbQYqy5+x8yItsIVeXj4OBS/aCdh7SdEAC6egyj+xrjK4kDzdx9Pis0bHeFh7VRud3lLGapxtHpGVev1ulpoSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bizJYult; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zvxkpnHI"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-459ddf83023so37585295e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Aug 2025 22:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755063496; x=1755668296; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kF2LKwxp97OVBAZMUUlNOfxaXKM458RyHFBvfI0CATw=;
-        b=zvxkpnHIuGeDaC8wW5jeGQSot1cKsiHIRZJIViKNZ3rssXtLsf3zUt5/hhYrwFqfyN
-         rdgmJaQMjagsktlHXoCAnfDrzLMwHwQMY2dXzvKfxHqdk0e/DaYA/bWcjXdWitfVXw/i
-         TzJ5mczS+MBiZ8dBIKriyy8NhEQrpjuh9E9dA/i1l2sdz+lrRWQmUp0wL3XsUcYXT64d
-         2A54CQUrUuP0bLbqlhaiNTES0Y6bEsjK4M7nSccMpfcnhr+ppww0mOFctOfKSmjEytVk
-         tsX593VFcwAxr+NSJzRzTCWyN9BvVXYo/CqnQvSdXdljO7gcxC6AEabcLLgImN0ZlUoN
-         yLMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755063496; x=1755668296;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kF2LKwxp97OVBAZMUUlNOfxaXKM458RyHFBvfI0CATw=;
-        b=Y0rdK0rOqn7YKF0sYuulqlXyAhjlYRCTqWLvem8UCBo3iGvJzpKuzLbORAjcZU5ILx
-         1ZI70Bgrd6n4QrOV7d/1aEeU6DBeLQ463kqzPYLSrdEqPCWjbRl6UO60fTdB/yhXspU2
-         JXV5VTRmDqSsb6hMVkXCATIHNoxYVtm3LnNatwrYfDA3CrXTBiEQXucb4XKpFlv85/2y
-         OeW4vhhlDzvlCkd/+GSEyeFH/3qTOthhrgqflw8SNQ2ktZLqSRS3KDADqI9iMMWDBFhC
-         C+FV1Pba2Wf+qG6ZUrWwPRWJgEdEXggrkQVSSlLTWshKhNT2XhHWwzbf5s6kcEaLAmEt
-         aPRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPIQfZLa5oWiGzWg6vKzp18gRZtrAGgoaKdpUf81NfLt6D4zQ+z/EnCGaQgVkO4RogshCc7IygkLiM3tMm@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLvX6P+50ZSEZnkQ2vGPZFoVVFnogUcjIXMhpbg1Bz68/IFq9W
-	o3eyyySZv7SR1VgEDev16iD67R7enCoaiBEbXaK1MqhlwWKTloNmm/Cj1t4FbLW0FBQ=
-X-Gm-Gg: ASbGnctmb3Vr+XNQX3ZM5TS5cq2d5/uYG+jDpDAKh6XO5wDpNLo1uP9qM2nWzRnB6Qk
-	s4HK0XzQK3CTJSK+24VAeoTh9Mo5rOUR5hgit1Z5GRnPdjB6/EcjJnwGxUr3DPeBETP6GBaXvbL
-	da+bXP/UGx5gen2VYgWWj9uWdCRb4RPApt706IUvqpqAGmJzp5WmGDg8WyLpKG4V1kZhXRwYdPC
-	4/cxZBicc3gYMyNM/C0yLeirsL/OkV/mOkAgDVBYdIjrN9HTXJbbhxXoR6p7PJDHHePbbeMuLqY
-	ae5LoU8ywtbFy2YQNjqxpo0GmPDW2XJS5Bxr0zMaaR9fW2IOYhsutWP1qWrpfrR8N01bR5b4NLa
-	wh+PHYt5p2ttsRibLrBACoalAzrrM+I1faT0/u7GB9iY=
-X-Google-Smtp-Source: AGHT+IGuTo0nTJ9LBGNpaB6IU5jAOCfl2vTZ90KYEs8NHOIO4CnW1bAUkIEy5pCEMXW6pogviXiuqQ==
-X-Received: by 2002:a05:600c:c490:b0:459:e440:61c7 with SMTP id 5b1f17b1804b1-45a1660c711mr13210325e9.31.1755063496537;
-        Tue, 12 Aug 2025 22:38:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a16df1cf8sm13762145e9.24.2025.08.12.22.38.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 22:38:16 -0700 (PDT)
-Date: Wed, 13 Aug 2025 08:09:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Logan Gunthorpe <logang@deltatee.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Kelvin Cao <kelvin.cao@microchip.com>,
-	George Ge <george.ge@microchip.com>, Christoph Hellwig <hch@lst.de>
-Subject: [sbates130272-p2pmem:switchtec-dma-v9 2/3]
- drivers/dma/switchtec_dma.c:429 switchtec_dma_cleanup_completed() error:
- uninitialized symbol 'i'.
-Message-ID: <202508130828.LQq27XRK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bizJYult"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755065559; x=1786601559;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WEjIl95UqMxFbzW3h7AnyHICcK65Ko5Swc2ymIiErOo=;
+  b=bizJYultk4hx2GcnHqXgi5CQADoKALH/lzSZYqPKzEe2knnJGDoZg4LL
+   puLj4BebYcDP6jLiLb6sZMpBSNFGqsu8rB5a2/zO/GkiDzbOnV/U7/eND
+   r99C/WHXKsOPhgMLd4oHBgfKYDtEcHPsnccpybWZDUsQdrPPBYhDGLuxN
+   H4efe4wUR+hJQj9/FCJjMEMzMj5Yao1hNlrHYaOZfnfIFZBjl5JzDBA2g
+   uKT4S43GSw+7AlJbHo5e57LhScynTMFVztI5pX+ltcHlf68L/g6/3SQ2U
+   vRRgIDu6jvm+i+uEtjIhFIxY3wMpKuE9KQhMsWj6b5hZTkcfRH9yLNmBn
+   A==;
+X-CSE-ConnectionGUID: Gr1ULHEhTTSPvVAtCVK3Wg==
+X-CSE-MsgGUID: Lsj9ZVGNR/myo3A5qgTX0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67955598"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="67955598"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 23:12:38 -0700
+X-CSE-ConnectionGUID: +WW94DxgSR+S6rEfDZyLDQ==
+X-CSE-MsgGUID: bYLOqADlRSeTUjYPXRWrFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="170591939"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 12 Aug 2025 23:12:33 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1um4is-0009aq-1w;
+	Wed, 13 Aug 2025 06:12:30 +0000
+Date: Wed, 13 Aug 2025 14:12:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeremy Linton <jeremy.linton@arm.com>,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org,
+	mingo@redhat.com, acme@kernel.org, namhyung@kernel.org,
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com,
+	kan.liang@linux.intel.com, thiago.bauermann@linaro.org,
+	broonie@kernel.org, yury.khrustalev@arm.com,
+	kristina.martsenko@arm.com, liaochang1@huawei.com,
+	catalin.marinas@arm.com, will@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Steve Capper <steve.capper@arm.com>
+Subject: Re: [PATCH v5 5/7] arm64: uprobes: Add GCS support to uretprobes
+Message-ID: <202508131334.FfoZQ27h-lkp@intel.com>
+References: <20250811141010.741989-6-jeremy.linton@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,91 +74,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250811141010.741989-6-jeremy.linton@arm.com>
 
-tree:   https://github.com/sbates130272/linux-p2pmem.git switchtec-dma-v9
-head:   9c53658085c7c2f6dd1707ba385702659ec58ddf
-commit: 969ba8a3fe0ed09d888d754bd416c6e96f3366ba [2/3] dmaengine: switchtec-dma: Implement hardware initialization and cleanup
-config: i386-randconfig-141-20250813 (https://download.01.org/0day-ci/archive/20250813/202508130828.LQq27XRK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi Jeremy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master v6.17-rc1 next-20250812]
+[cannot apply to acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Linton/arm64-probes-Break-ret-out-from-bl-blr/20250811-221529
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20250811141010.741989-6-jeremy.linton%40arm.com
+patch subject: [PATCH v5 5/7] arm64: uprobes: Add GCS support to uretprobes
+config: arm64-randconfig-r111-20250813 (https://download.01.org/0day-ci/archive/20250813/202508131334.FfoZQ27h-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250813/202508131334.FfoZQ27h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508130828.LQq27XRK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508131334.FfoZQ27h-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/switchtec_dma.c:429 switchtec_dma_cleanup_completed() error: uninitialized symbol 'i'.
+All errors (new ones prefixed by >>):
 
-vim +/i +429 drivers/dma/switchtec_dma.c
+   arch/arm64/kernel/probes/uprobes.c: In function 'arch_uretprobe_hijack_return_addr':
+>> arch/arm64/kernel/probes/uprobes.c:171:33: error: implicit declaration of function 'get_user_gcs'; did you mean 'put_user_gcs'? [-Werror=implicit-function-declaration]
+     171 |                 gcs_ret_vaddr = get_user_gcs((unsigned long __user *)gcspr, &err);
+         |                                 ^~~~~~~~~~~~
+         |                                 put_user_gcs
+   cc1: some warnings being treated as errors
 
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  397  static void
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  398  switchtec_dma_cleanup_completed(struct switchtec_dma_chan *swdma_chan)
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  399  {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  400  	struct device *chan_dev = &swdma_chan->dma_chan.dev->device;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  401  	struct switchtec_dma_desc *desc;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  402  	struct switchtec_dma_hw_ce *ce;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  403  	struct dmaengine_result res;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  404  	int tail, cid, se_idx, i;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  405  	__le16 phase_tag;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  406  	u32 sts_code;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  407  	__le32 *p;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  408  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  409  	do {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  410  		spin_lock_bh(&swdma_chan->complete_lock);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  411  		if (!swdma_chan->comp_ring_active) {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  412  			spin_unlock_bh(&swdma_chan->complete_lock);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  413  			break;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  414  		}
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  415  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  416  		ce = &swdma_chan->hw_cq[swdma_chan->cq_tail];
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  417  		/*
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  418  		 * phase_tag is updated by hardware, ensure the value is
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  419  		 * not from the cache
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  420  		 */
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  421  		phase_tag = smp_load_acquire(&ce->phase_tag);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  422  		if (le16_to_cpu(phase_tag) == swdma_chan->phase_tag) {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  423  			spin_unlock_bh(&swdma_chan->complete_lock);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  424  			break;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  425  		}
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  426  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  427  		cid = le16_to_cpu(ce->cid);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  428  		se_idx = cid & (SWITCHTEC_DMA_SQ_SIZE - 1);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05 @429  		desc = swdma_chan->desc_ring[i];
-                                                                                             ^
-uninitialized.  s/i/se_idx/?
 
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  430  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  431  		tail = swdma_chan->tail;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  432  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  433  		res.residue = desc->orig_size - le32_to_cpu(ce->cpl_byte_cnt);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  434  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  435  		sts_code = le32_to_cpu(ce->sts_code);
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  436  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  437  		if (!(sts_code & SWITCHTEC_CE_SC_MASK)) {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  438  			res.result = DMA_TRANS_NOERROR;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  439  		} else {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  440  			if (sts_code & SWITCHTEC_CE_SC_D_RD_CTO)
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  441  				res.result = DMA_TRANS_READ_FAILED;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  442  			else
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  443  				res.result = DMA_TRANS_WRITE_FAILED;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  444  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  445  			dev_err(chan_dev, "CID 0x%04x failed, SC 0x%08x\n", cid,
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  446  				(u32)(sts_code & SWITCHTEC_CE_SC_MASK));
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  447  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  448  			p = (__le32 *)ce;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  449  			for (i = 0; i < sizeof(*ce) / 4; i++) {
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  450  				dev_err(chan_dev, "CE DW%d: 0x%08x\n", i,
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  451  					le32_to_cpu(*p));
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  452  				p++;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  453  			}
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  454  		}
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  455  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  456  		desc->completed = true;
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  457  
-969ba8a3fe0ed0 Logan Gunthorpe 2025-08-05  458  		swdma_chan->cq_tail++;
+vim +171 arch/arm64/kernel/probes/uprobes.c
+
+   157	
+   158	unsigned long
+   159	arch_uretprobe_hijack_return_addr(unsigned long trampoline_vaddr,
+   160					  struct pt_regs *regs)
+   161	{
+   162		unsigned long orig_ret_vaddr;
+   163		unsigned long gcs_ret_vaddr;
+   164		int err = 0;
+   165		u64 gcspr;
+   166	
+   167		orig_ret_vaddr = procedure_link_pointer(regs);
+   168	
+   169		if (task_gcs_el0_enabled(current)) {
+   170			gcspr = read_sysreg_s(SYS_GCSPR_EL0);
+ > 171			gcs_ret_vaddr = get_user_gcs((unsigned long __user *)gcspr, &err);
+   172			if (err) {
+   173				force_sig(SIGSEGV);
+   174				goto out;
+   175			}
+   176	
+   177			/*
+   178			 * If the LR and GCS return addr don't match, then some kind of PAC
+   179			 * signing or control flow occurred since entering the probed function.
+   180			 * Likely because the user is attempting to retprobe on an instruction
+   181			 * that isn't a function boundary or inside a leaf function. Explicitly
+   182			 * abort this retprobe because it will generate a GCS exception.
+   183			 */
+   184			if (gcs_ret_vaddr != orig_ret_vaddr) {
+   185				orig_ret_vaddr = -1;
+   186				goto out;
+   187			}
+   188	
+   189			put_user_gcs(trampoline_vaddr, (unsigned long __user *)gcspr, &err);
+   190			if (err) {
+   191				force_sig(SIGSEGV);
+   192				goto out;
+   193			}
+   194		}
+   195	
+   196		/* Replace the return addr with trampoline addr */
+   197		procedure_link_pointer_set(regs, trampoline_vaddr);
+   198	
+   199	out:
+   200		return orig_ret_vaddr;
+   201	}
+   202	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
