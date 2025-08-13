@@ -1,123 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877922690D9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 05:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9D62BE05E;
+	Wed, 13 Aug 2025 05:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755062955; cv=none; b=Qm1wDcteksY6HXpENPmcXwwJlLWvWXY41e2Fq2Zxb7CXh5qJCXEDbaejKasQXdrtPisHWokWCBtW6NN8z00SE6NvhP1geq1UsArRKB/ziQmnOwwkDHN095Fi9fGkJEj1nb/3TrDgZhgGklBw1mRY6PMtyNFmQnjhmIcm6R0Odco=
+	t=1755063289; cv=none; b=pKEfZvimQKHdLRhQ9M19R5icGFlwJ2eORG+1K3p/1hpwavC5CzKpv4eRnq4lBOybM9KR2a00qtPQN7DE2Q+vgr6PiVUvvrKeFconSbTtZqRwyMwxcK+JdgrVJW+Oiurf1tu78HfrS5CFClox521f6Z1mA4LwgDhbDltrfLpBx9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755062955; c=relaxed/simple;
-	bh=fzWYBMK/OhEzUR0OeVrMk7K4XEW2COPHiastw+y3Eto=;
+	s=arc-20240116; t=1755063289; c=relaxed/simple;
+	bh=FDQ2bMLRusEapD25iBwCb7gdZGFnPUtA5/Dgwn3dckg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZJmgakXvwa0x9We6DRnvm4jihjlU8FR3IkLwa1KfNb9/r7wAOKq/BKVmzKowlFNdw7uSnyV972Gy//8Q71Zwkn2c/XZWU9QAvb9ZCfLdOn63z8gHgbcaS/i6WwjQcuRFMDySa5GPfx2eAhpzeOPbdwuEYRBTBjP6q2NJJabKYbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O65NI7r4; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=s79BqjhmUI4UPooyBzt9NO3Vz8BWSEjPDECZcVBYiPKFTEoelUdU0uG4PeLLfnRVHNOzNEUPuzf4ZS7Y7j0xFepnJETmzNVVaV/NTsb0CVk7TQN1Mq0A3OIWqaz04mlc1cxSvvlAHNa4w10HGpfWdV1ys3w/0nHHQ5gEVwxleqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=egPHiuC/; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O65NI7r4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755062954; x=1786598954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fzWYBMK/OhEzUR0OeVrMk7K4XEW2COPHiastw+y3Eto=;
-  b=O65NI7r4rUNahgejlmdA5ctReltiIas8C7GuoJaBT7epBjNRMAewkE/Z
-   EQuQEloGlpr5EMINCvzojPl3+xduq3zgJJIsBwhONsItluuFLsBkmC7AG
-   GE1ZjSeIoXaUBd6Efwc9wOxrM0p1/E2P3qzDag+lp2OgrWdy2CbpjywVo
-   P7F6/J0Gb6uCXL+2MrX6GctHhr/QXLSLhsLukr8td+/SYHwqxALaZnwYE
-   wivuPGkKNJcZlyG9J51NWm92DnY+2kDI5lEtJyIZF1REmVIJDDJu7tqAq
-   CYRVzjmFZICRhKq+52mD7/pztr5wZqAtbQKr/O94XOZVt8DF+G48tbzFt
-   Q==;
-X-CSE-ConnectionGUID: wVFKNd2FSaaVcgpxBfNIMg==
-X-CSE-MsgGUID: 9dxfZv9pQnmrdiB9Vd942A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57426694"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="57426694"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 22:29:13 -0700
-X-CSE-ConnectionGUID: KS3zIHNBRk2WVamOpA5XGQ==
-X-CSE-MsgGUID: dHj8Oq1oR4yMD7KBhfAQ5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="171630531"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Aug 2025 22:29:12 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1um42f-0009Yq-1h;
-	Wed, 13 Aug 2025 05:29:00 +0000
-Date: Wed, 13 Aug 2025 13:28:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCHv6 6/8] blk-mq-dma: add support for mapping integrity
- metadata
-Message-ID: <202508131303.nL4SARD7-lkp@intel.com>
-References: <20250812135210.4172178-7-kbusch@meta.com>
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="egPHiuC/"
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id 1CB7814C2D3;
+	Wed, 13 Aug 2025 07:34:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1755063287;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XjWBHGXAcgSV563xYk+j+40WjifMEzSXGjNe9KQBgLk=;
+	b=egPHiuC/UC4UD4nFojr3h+78xh94q0eLp3Zq21uBe8/LCpwZK5VBHhPh9biDCwsjmCVJnC
+	CFyJ0T1fh3cJfPengyIw1VXIKESumJNM2n9UFWGwG0KkXgd34hp2B/yF1MQZjSAYiQ/d60
+	8PWe6PSIJFyJHf2TRZISebDIzWprvPBpvm55mgMY+d3Ib8JIirsbnKbO7ECSm+j9b5DenO
+	NJa+UHGLhlCaA8/WWL7kOYYRzgNKmLAq/YaBH5oieeCCQGoPB7YE+okWPLuEmWJhY6T4Rj
+	zmwT6YJssNSgb9Sb+7caUlK2ahGNWZaFZgv6Trd5sguwsYKpqxLITSfw0KCw1g==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 2a270480;
+	Wed, 13 Aug 2025 05:34:40 +0000 (UTC)
+Date: Wed, 13 Aug 2025 14:34:25 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Dominique Martinet via B4 Relay <devnull+asmadeus.codewreck.org@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Maximilian Bosch <maximilian@mbosch.me>,
+	Ryan Lahfa <ryan@lahfa.xyz>, Christian Theune <ct@flyingcircus.io>,
+	Arnout Engelen <arnout@bzzt.net>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] iov_iter: iterate_folioq: fix handling of offset >=
+ folio size
+Message-ID: <aJwj4dQ3b599qKHn@codewreck.org>
+References: <20250811-iot_iter_folio-v1-1-d9c223adf93c@codewreck.org>
+ <202508120250.Eooq2ydr-lkp@intel.com>
+ <20250813051633.GA3895812@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250812135210.4172178-7-kbusch@meta.com>
+In-Reply-To: <20250813051633.GA3895812@ax162>
 
-Hi Keith,
+Nathan Chancellor wrote on Tue, Aug 12, 2025 at 10:16:33PM -0700:
+> >    1 warning generated.
+> 
+> I see this in -next now, should remain be zero initialized or is there
+> some other fix that is needed?
 
-kernel test robot noticed the following build warnings:
+A zero-initialization is fine, I sent a v2 with zero-initialization
+fixed yesterday:
+https://lkml.kernel.org/r/20250812-iot_iter_folio-v2-1-f99423309478@codewreck.org
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.17-rc1 next-20250812]
-[cannot apply to linux-nvme/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+(and I'll send a v3 with the goto replaced with a bigger if later today
+as per David's request)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-mq-dma-create-blk_map_iter-type/20250812-222130
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20250812135210.4172178-7-kbusch%40meta.com
-patch subject: [PATCHv6 6/8] blk-mq-dma: add support for mapping integrity metadata
-config: csky-randconfig-001-20250813 (https://download.01.org/0day-ci/archive/20250813/202508131303.nL4SARD7-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508131303.nL4SARD7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508131303.nL4SARD7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> block/blk-mq-dma.c:10:13: warning: '__blk_map_iter_next' defined but not used [-Wunused-function]
-      10 | static bool __blk_map_iter_next(struct blk_map_iter *iter)
-         |             ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/__blk_map_iter_next +10 block/blk-mq-dma.c
-
-     9	
-  > 10	static bool __blk_map_iter_next(struct blk_map_iter *iter)
-    11	{
-    12		if (iter->iter.bi_size)
-    13			return true;
-    14		if (!iter->bio || !iter->bio->bi_next)
-    15			return false;
-    16	
-    17		iter->bio = iter->bio->bi_next;
-    18		if (iter->is_integrity) {
-    19			iter->iter = bio_integrity(iter->bio)->bip_iter;
-    20			iter->bvecs = bio_integrity(iter->bio)->bip_vec;
-    21		} else {
-    22			iter->iter = iter->bio->bi_iter;
-    23			iter->bvecs = iter->bio->bi_io_vec;
-    24		}
-    25		return true;
-    26	}
-    27	
-
+I assume Andrew will pick it up eventually?
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dominique Martinet | Asmadeus
