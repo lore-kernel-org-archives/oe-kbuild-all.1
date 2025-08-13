@@ -1,85 +1,148 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613F12E7BA5;
-	Wed, 13 Aug 2025 10:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1B02F4A06
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 10:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755080806; cv=none; b=r1h5/Xj4dXmCKyf+p+Ey1TT8AQryrT4BkHdRZm7mkiL+X0gFpViX1yx1nLfnjPGzNzCrZdWS1IKQrzych5sE3bXc03yVvlilrCrOJFVwwf7T2NEV1W/oZUuDKGprtzUy5hMhu8WF7EPsGYjUkWalnBPfHtLOZqNrcaI7dxY+iR0=
+	t=1755081547; cv=none; b=pu7HUekoagCtfpxgUB2FphX3uI4lxV5/P3edzPNXJjxRYA/HHtxIVYAC1XrQoYo5NcceVfvzjYBZ69ooLuhXqow4ShAFvMhptyCHKVfbCaeWA4F4dexYYae92J1gsC3t0kpA5+2XJ77vLQz5Ms6gbZ/rA7sCeZ/h4QfV22CuGOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755080806; c=relaxed/simple;
-	bh=cxNTLaWlz+Z+DXUaU3TccjMca52ZIUFzpc6xyx86tzY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C0qKuii1NxBIsElp2PtJUm7jdBgaZvuRLHH9MITb4fFCDO31hZZRt6pUMrU5HVbymRm4Jl3PR65oeyKnsv5Lpyi3UDwB0lsU5J7RSNoONMOoVEitwvSkRCGkihyaZe4s19OywfP03nLTmDPjDWjAOQ5PT5qFkixlikJSmIjjTEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=f8mVD5J9; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1755081547; c=relaxed/simple;
+	bh=mJUvygBYNkfECl5DVxHgQ9AQ7K1SaDqDeE5QeO0UqsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h1foIC0NToNNTqo3ZkL3+XCvhwrxFSTjHu8wlX/DPfy8V0js4kudefSFX2jp3hrEmxnPx0VE/K9jXvLct+UwWOViPM/tEJ2l3mFwHUORv9HHFMSbU4UaSIL9zYwQMjP6dUgePfZAukAQbqF6bl3ZzE6UW8lliWQgSKt3NrszHXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IycHsv1M; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="f8mVD5J9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/igN/4vZBSgdq1C5WsUcG5wcK51bFeRFJTKMj+Q+1cU=; b=f8mVD5J9jFpgHazX+M4wRz6VTg
-	06OffFNxGS9eeenKOyJDu31FyTLSF2oPFG2gYMRQUJFC/OhT+mcn8zZVDbPDMRomyhAe/YxPnL7Sf
-	0W+HLYiwUdZielZbVU85KOVFRN2Aw/0QikGcAjSjaob3eSRynkVLYlAVEF8MsT30StEXktETyvJAM
-	qQe6t/V5vt4x7WDanAkKUJ85fxPOuoMkUbnhaDWTI+rcIAW1fsM1nXyzYe1CEbTULhsFk7LB9/J9L
-	69Y9/UAfnomA9vmLNzdyCj4qgMBSZK9z2CSlmPAyO20izELtwz/xtiDWNxPJ+tESbn2gu4t9yQqpR
-	SYqxkeNw==;
-Received: from [223.233.74.188] (helo=[192.168.1.12])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1um8gi-00Dcgg-50; Wed, 13 Aug 2025 12:26:32 +0200
-Message-ID: <5d949644-6a4a-3b94-8794-27c2b5cfd976@igalia.com>
-Date: Wed, 13 Aug 2025 15:56:22 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IycHsv1M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755081546; x=1786617546;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mJUvygBYNkfECl5DVxHgQ9AQ7K1SaDqDeE5QeO0UqsM=;
+  b=IycHsv1ME5v7qPwkLrQ7qcuUm2odr50KyU4zPhEQF2WqQqLX0CmbEEHU
+   0lzjjP1Mk015aLrY1Na5F4m/U0tYp+Z0XwujZcdv1ndZQw+UDfQCUdd22
+   xzGZaKA8vfxxafcf+TEC8pW0MOG2lRXue02zMwP3Q7FzQYsFk9q7xpGju
+   T6hWecmmeR5Vk5MStPO/kUWhJsTgVZyminxfq3gh+pMA1/KhTAV3cu1Zc
+   3Fg9tR5hoUVSnRkohxP1SfKWOTXw9np9LkPm7zBBL5DvVeFuHCLNCClVL
+   c5tTaS9jGFzI6cGjrb++fE8WWAQ3ZVGXcXqeP77f3e3cY4XRFrTvU4OCp
+   Q==;
+X-CSE-ConnectionGUID: fn1Cq5jgTYivFChuoMdp8w==
+X-CSE-MsgGUID: ASrK827dT+enwFSiMK9lzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="56580147"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="56580147"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 03:39:05 -0700
+X-CSE-ConnectionGUID: ROlTToPzTz+u3aV+CSlYBw==
+X-CSE-MsgGUID: snFWUJ15QomJYAOQqn24xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="190145465"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Aug 2025 03:39:04 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1um8so-00002l-0F;
+	Wed, 13 Aug 2025 10:39:02 +0000
+Date: Wed, 13 Aug 2025 12:38:23 +0200
+From: kernel test robot <lkp@intel.com>
+To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [pali:cifs 18/21] fs/smb/client/reparse.c:399:30: warning: unused
+ variable 'cifs_sb'
+Message-ID: <202507232241.nmhX4WWd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v7 3/4] treewide: Replace 'get_task_comm()' with
- 'strscpy_pad()'
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Bhupesh <bhupesh@igalia.com>,
- akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev,
- kernel-dev@igalia.com, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, oliver.sang@intel.com, laoar.shao@gmail.com,
- pmladek@suse.com, rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
- arnaldo.melo@gmail.com, alexei.starovoitov@gmail.com,
- andrii.nakryiko@gmail.com, mirq-linux@rere.qmqm.pl, peterz@infradead.org,
- willy@infradead.org, david@redhat.com, viro@zeniv.linux.org.uk,
- keescook@chromium.org, ebiederm@xmission.com, brauner@kernel.org,
- jack@suse.cz, mingo@redhat.com, juri.lelli@redhat.com, bsegall@google.com,
- mgorman@suse.de
-References: <20250811064609.918593-4-bhupesh@igalia.com>
- <202508111835.JFL8DgKY-lkp@intel.com>
- <6b5c92c4-2170-8ce9-3c9f-45c0e1893e03@igalia.com>
- <aJoE_tzAGE4krB5y@black.igk.intel.com>
-From: Bhupesh Sharma <bhsharma@igalia.com>
-In-Reply-To: <aJoE_tzAGE4krB5y@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+head:   26ef98c6708ac92c515a4592138345359222b847
+commit: 6b988dfe26bcb2e050b20f8903ef09be4fdf467b [18/21] cifs: Create native Window socket file compatible also with WSL subsystem
+config: riscv-randconfig-2001-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232241.nmhX4WWd-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232241.nmhX4WWd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507232241.nmhX4WWd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   fs/smb/client/reparse.c: In function 'create_native_socket':
+>> fs/smb/client/reparse.c:399:30: warning: unused variable 'cifs_sb' [-Wunused-variable]
+     399 |         struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+         |                              ^~~~~~~
+>> fs/smb/client/reparse.c:398:22: warning: unused variable 'xattr_mode_val' [-Wunused-variable]
+     398 |         const __le64 xattr_mode_val = cpu_to_le64(mode);
+         |                      ^~~~~~~~~~~~~~
 
 
-On 8/11/25 8:28 PM, Andy Shevchenko wrote:
-> On Mon, Aug 11, 2025 at 08:19:08PM +0530, Bhupesh Sharma wrote:
->> On 8/11/25 4:55 PM, kernel test robot wrote:
->> As mentioned in the accompanying cover letter, this patchset is based on
->> 'linux-next/master' (the exact sha-id used for rebase is:
->> b1549501188cc9eba732c25b033df7a53ccc341f ).
-> Instead of getting false positive reports and this rather unneeded reply from
-> you, use --base parameter when formatting patch series. It will help all,
-> including CIs and bots.
->
+vim +/cifs_sb +399 fs/smb/client/reparse.c
 
-Sure, will include it in next version. Waiting for further reviews on 
-this v7.
+   381	
+   382	static int create_native_socket(const unsigned int xid, struct inode *inode,
+   383					struct dentry *dentry, struct cifs_tcon *tcon,
+   384					const char *full_path, umode_t mode)
+   385	{
+   386		struct reparse_data_buffer buf = {
+   387			.ReparseTag = cpu_to_le32(IO_REPARSE_TAG_AF_UNIX),
+   388			.ReparseDataLength = cpu_to_le16(0),
+   389		};
+   390		struct cifs_open_info_data data = {
+   391			.reparse_point = true,
+   392			.reparse = { .tag = IO_REPARSE_TAG_AF_UNIX, .buf = &buf, },
+   393		};
+   394		struct kvec iov = {
+   395			.iov_base = &buf,
+   396			.iov_len = sizeof(buf),
+   397		};
+ > 398		const __le64 xattr_mode_val = cpu_to_le64(mode);
+ > 399		struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
+   400		struct inode *new;
+   401		int rc = 0;
+   402	
+   403		new = tcon->ses->server->ops->create_reparse_inode(
+   404					     &data, inode->i_sb, xid,
+   405					     tcon, full_path, false, &iov, NULL);
+   406		if (!IS_ERR(new))
+   407			d_instantiate(dentry, new);
+   408		else
+   409			rc = PTR_ERR(new);
+   410	
+   411		/*
+   412		 * Try to set also optional WSL EA $LXMOD but ignore errors.
+   413		 * WSL socket and native Win32/NT sockets uses same reparse point
+   414		 * tag IO_REPARSE_TAG_AF_UNIX. WSL subsystem additionally requires
+   415		 * EA $LXMOD to be set with the S_IFSOCK value. So setting this EA
+   416		 * allows native socket to be recognized also by WSL subsystem.
+   417		 * Note that setting of both EAs and reparse points is not supported
+   418		 * by NTFS filesystem on Windows 8 / Windows Server 2012 and always
+   419		 * fails. So ignore failures from this set_EA call.
+   420		 */
+   421	#ifdef CONFIG_CIFS_XATTR
+   422		if (!rc && tcon->ses->server->ops->set_EA &&
+   423		    (le32_to_cpu(tcon->fsAttrInfo.Attributes) & FILE_SUPPORTS_EXTENDED_ATTRIBUTES))
+   424			tcon->ses->server->ops->set_EA(xid, tcon, full_path,
+   425						       true /* open reparse point */,
+   426						       SMB2_WSL_XATTR_MODE,
+   427						       &xattr_mode_val,
+   428						       SMB2_WSL_XATTR_MODE_SIZE,
+   429						       cifs_sb->local_nls, cifs_sb);
+   430	#endif
+   431	
+   432		cifs_free_open_info(&data);
+   433		return rc;
+   434	}
+   435	
 
-Thanks.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
