@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DC52D12E3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 06:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B2B2BF3DB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 06:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755068219; cv=none; b=R/hAYLDWqwN2ExWytjzMaK6WyagLaVCmKfS7UUxSM7YQpM8EeZykA8CE+GIiP3pp08FoX4nnS3sIvhJg0f8upu+AElZOUEyhPDFjqrQk7DmjpCoPnvZurzeUHxu8fcfhfBrOwbpaX6CWRFlc64N5uhXUjjNcl+aWuiUKhC9jMFI=
+	t=1755068221; cv=none; b=nmUMsggBQYYQhcx0G3okrwLOxs2GPKrx5o8zUL8hkvuRHxn8577L6By3pgBgpszkRpdGZ4tjNSJkPL16eulfyRsdkvnIGbWSVgmjj8TGF8aO9ca0d3nX5R1lndgmmUGX+FgSXDczZMK4mNJKVPrfUCq7Uy+vkZTi46I2TodFJ7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755068219; c=relaxed/simple;
-	bh=Fd5muvCfFnfdCiDH6Qo4YFV9xIGOtRJbHcghkUgIl3k=;
+	s=arc-20240116; t=1755068221; c=relaxed/simple;
+	bh=Ksomw2Q9ljZl5FKvogwRpqujuwAMI0Zqn6xno75f7Yc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B5jvyNMSjztPF3giy8DZlNYkFDiAutgQHWcGUgxEYyL42GdNsCV+dmNuw4xOiZpcLFlUnAYFgNhxskgEr+HObbTOeyMQIHFPSY4BFA3dhEf8mVBIq+VZTQ6ZdNUKbD3ClpmmyuJuBCSNoMszucCh8DUI9kqQq6a6nclpCpn74eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AULa/tvQ; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=SKrtHgRIiLukhjQUXAOd3BKXOvSY+9PozK5IWz8gRTqNr7fmsLamb5W9bQRJHk5776kCJYE842a6uoy7j159xpaAxKApQzNKXdMwGz5KJrHVfp1mg+ccgFkFRfVIlkqITmsJ8v1325sLWWagOCA4pf4bm06I6lPur+iuUUeJpDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g77qS4VJ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AULa/tvQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g77qS4VJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755068218; x=1786604218;
+  t=1755068220; x=1786604220;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fd5muvCfFnfdCiDH6Qo4YFV9xIGOtRJbHcghkUgIl3k=;
-  b=AULa/tvQ86TWMuN4/+p8jqf46CZnMgbsAzaMowqM+Qjs1vBjd6Q0l23h
-   i95agu1/MrjQJGUeVfKC9zvJWxwJQmCvf9ip1O3jAdiiz3+LZ02brJaNi
-   tEfpbGYAAI5uqdVVz8Cfxi+HLu+TIlfdlpAfSXgDZYvLhZqk25cenTvCy
-   M28ZpSKfI/tcELggRJMGK6WcT2gGgCbHeaHkEXjxw7emNuYfrtr9WAy8+
-   RWMRxSNVD32H6dCe7ohP11ESeAo6GAOdqRFEiQxXrb4b1ZVBvatCgXEfu
-   I/t5Q7i/1EPaY8QQZ5uiNlokzsPZUqrSK9TSoeBogtds4EYrDKaC0kBdY
-   w==;
-X-CSE-ConnectionGUID: kQ6Dvo9XRCicyGABz8gwsw==
-X-CSE-MsgGUID: x57GOz14TN2RpQRj4TNA9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67619773"
+  bh=Ksomw2Q9ljZl5FKvogwRpqujuwAMI0Zqn6xno75f7Yc=;
+  b=g77qS4VJ+rdD9wbxZeaV3+MHnAjtAcjYCD+kFyaz6YWjAqvsuLFN0jpU
+   vLqnQjRo58+5fGunrYH01hpjoYDPQWip1Tc5k7SXtaX/sYGol25/IxQPO
+   6sfHtm7leifp/PVM1dYaNK9igTtOOnH/OLQ6QUmMUWBvxCo5qnu0UbyH2
+   1txeRuQvGf7r4hwQzPxO3Hsnbs3/tkXygg5eK8IsHoMMmxYcY3KRAgHOR
+   Y+Wz/364BnEmS4cp3gsxf7X3bfzqKKcRbQCkUEqCPHWVD5hZPJdpyNbHz
+   OMHMdP6M4aNe77rRIG/uPjafDjr72K6YlgdUErks+SG9Tpg6fALOI1Qqa
+   Q==;
+X-CSE-ConnectionGUID: WYF4K9lOTXex60RTPgK8lg==
+X-CSE-MsgGUID: Z9U5aSPEQ02GE8+DJqMALQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67619783"
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="67619773"
+   d="scan'208";a="67619783"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 23:56:39 -0700
-X-CSE-ConnectionGUID: Vci90qSOSG2Awp9rsSxLXw==
-X-CSE-MsgGUID: 7O19JFbjSoi+rbWkSbS4sQ==
+X-CSE-ConnectionGUID: j1CrRfstQXa4LKiDGhfGJg==
+X-CSE-MsgGUID: C9nyp4WsSa+Z0FKHPWOTmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="171650881"
+   d="scan'208";a="171650880"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by fmviesa004.fm.intel.com with ESMTP; 12 Aug 2025 23:56:35 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1um5PV-0009dI-0Z;
+	id 1um5PV-0009dG-0V;
 	Wed, 13 Aug 2025 06:56:33 +0000
 Date: Wed, 13 Aug 2025 14:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 1606/2153] fs/smb/client/cifs_debug.h:15:21:
- warning: format '%lu' expects argument of type 'long unsigned int', but
- argument 5 has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202508131441.o27616Pa-lkp@intel.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>
+Subject: [linux-next:master 1286/1649]
+ arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: /npu@fdab0000: failed to
+ match any schema with compatible: ['rockchip,rk3588-rknn-core']
+Message-ID: <202508131428.tYcAx1Pp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,209 +64,220 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   43c3c17f0c805882d1b48818b1085747a68c80ec
-commit: ea594d2ccb6d05a769defa933a8740542fe1332b [1606/2153] smb3: fix for slab out of bounds on mount to ksmbd
-config: arm-randconfig-004-20250813 (https://download.01.org/0day-ci/archive/20250813/202508131441.o27616Pa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508131441.o27616Pa-lkp@intel.com/reproduce)
+head:   2674d1eadaa2fd3a918dfcdb6d0bb49efe8a8bb9
+commit: a31dfc060a747f08705ace36d8de006bc13318fa [1286/1649] arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588-base
+config: arm64-randconfig-051-20250812 (https://download.01.org/0day-ci/archive/20250813/202508131428.tYcAx1Pp-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508131428.tYcAx1Pp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508131441.o27616Pa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508131428.tYcAx1Pp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-                     ^~~~~~
-   include/linux/printk.h:135:11: note: in definition of macro 'no_printk'
-      _printk(fmt, ##__VA_ARGS__);  \
-              ^~~
-   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
-    #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
-                       ^~~~~~~~
-   include/linux/printk.h:693:12: note: in expansion of macro 'KERN_DEBUG'
-     no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-               ^~~~~~~~~~
-   fs/smb/client/cifs_debug.h:65:3: note: in expansion of macro 'pr_debug_once'
-      pr_debug_ ## ratefunc("%s: " fmt,   \
-      ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:77:3: note: in expansion of macro 'cifs_dbg_func'
-      cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);  \
-      ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:4: note: in expansion of macro 'cifs_dbg'
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-       ^~~~~~~~
-   fs/smb/client/smb2ops.c:777:46: note: format string is defined here
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-                                               ~~^
-                                               %u
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/pagemap.h:8,
-                    from fs/smb/client/smb2ops.c:8:
-   include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^~~~~~
-   include/linux/printk.h:486:11: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-              ^~~~
-   include/linux/once_lite.h:31:4: note: in expansion of macro 'printk'
-       func(__VA_ARGS__);    \
-       ^~~~
-   include/linux/once_lite.h:11:2: note: in expansion of macro 'DO_ONCE_LITE_IF'
-     DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-     ^~~~~~~~~~~~~~~
-   include/linux/printk.h:653:2: note: in expansion of macro 'DO_ONCE_LITE'
-     DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-     ^~~~~~~~~~~~
-   include/linux/printk.h:670:2: note: in expansion of macro 'printk_once'
-     printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-     ^~~~~~~~~~~
-   include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-    #define KERN_ERR KERN_SOH "3" /* error conditions */
-                     ^~~~~~~~
-   include/linux/printk.h:670:14: note: in expansion of macro 'KERN_ERR'
-     printk_once(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-                 ^~~~~~~~
-   fs/smb/client/cifs_debug.h:68:3: note: in expansion of macro 'pr_err_once'
-      pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__); \
-      ^~~~~~~
-   fs/smb/client/cifs_debug.h:77:3: note: in expansion of macro 'cifs_dbg_func'
-      cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);  \
-      ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:4: note: in expansion of macro 'cifs_dbg'
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-       ^~~~~~~~
-   fs/smb/client/smb2ops.c:777:46: note: format string is defined here
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-                                               ~~^
-                                               %u
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/pagemap.h:8,
-                    from fs/smb/client/smb2ops.c:8:
-   include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^~~~~~
-   include/linux/printk.h:135:11: note: in definition of macro 'no_printk'
-      _printk(fmt, ##__VA_ARGS__);  \
-              ^~~
-   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
-    #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
-                       ^~~~~~~~
-   include/linux/printk.h:693:12: note: in expansion of macro 'KERN_DEBUG'
-     no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-               ^~~~~~~~~~
-   fs/smb/client/cifs_debug.h:70:3: note: in expansion of macro 'pr_debug_once'
-      pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);  \
-      ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:77:3: note: in expansion of macro 'cifs_dbg_func'
-      cifs_dbg_func(once, type, fmt, ##__VA_ARGS__);  \
-      ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:4: note: in expansion of macro 'cifs_dbg'
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-       ^~~~~~~~
-   fs/smb/client/smb2ops.c:777:46: note: format string is defined here
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-                                               ~~^
-                                               %u
-   In file included from fs/smb/client/smb2ops.c:23:
->> fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    #define pr_fmt(fmt) "CIFS: " fmt
-                        ^~~~~~~~
-   include/linux/printk.h:751:35: note: in expansion of macro 'pr_fmt'
-      __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__); \
-                                      ^~~~~~
-   fs/smb/client/cifs_debug.h:65:3: note: in expansion of macro 'pr_debug_ratelimited'
-      pr_debug_ ## ratefunc("%s: " fmt,   \
-      ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:79:3: note: in expansion of macro 'cifs_dbg_func'
-      cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__); \
-      ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:4: note: in expansion of macro 'cifs_dbg'
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-       ^~~~~~~~
-   fs/smb/client/smb2ops.c:777:46: note: format string is defined here
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-                                               ~~^
-                                               %u
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/pagemap.h:8,
-                    from fs/smb/client/smb2ops.c:8:
-   include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^~~~~~
-   include/linux/printk.h:486:11: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-              ^~~~
-   include/linux/printk.h:708:3: note: in expansion of macro 'printk'
-      printk(fmt, ##__VA_ARGS__);    \
-      ^~~~~~
-   include/linux/printk.h:722:2: note: in expansion of macro 'printk_ratelimited'
-     printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-    #define KERN_ERR KERN_SOH "3" /* error conditions */
-                     ^~~~~~~~
-   include/linux/printk.h:722:21: note: in expansion of macro 'KERN_ERR'
-     printk_ratelimited(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-                        ^~~~~~~~
-   fs/smb/client/cifs_debug.h:68:3: note: in expansion of macro 'pr_err_ratelimited'
-      pr_err_ ## ratefunc("VFS: " fmt, ##__VA_ARGS__); \
-      ^~~~~~~
-   fs/smb/client/cifs_debug.h:79:3: note: in expansion of macro 'cifs_dbg_func'
-      cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__); \
-      ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:4: note: in expansion of macro 'cifs_dbg'
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-       ^~~~~~~~
-   fs/smb/client/smb2ops.c:777:46: note: format string is defined here
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-                                               ~~^
-                                               %u
-   In file included from fs/smb/client/smb2ops.c:23:
-   fs/smb/client/cifs_debug.h:15:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    #define pr_fmt(fmt) "CIFS: " fmt
-                        ^~~~~~~~
-   include/linux/printk.h:751:35: note: in expansion of macro 'pr_fmt'
-      __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__); \
-                                      ^~~~~~
-   fs/smb/client/cifs_debug.h:70:3: note: in expansion of macro 'pr_debug_ratelimited'
-      pr_debug_ ## ratefunc(fmt, ##__VA_ARGS__);  \
-      ^~~~~~~~~
-   fs/smb/client/cifs_debug.h:79:3: note: in expansion of macro 'cifs_dbg_func'
-      cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__); \
-      ^~~~~~~~~~~~~
-   fs/smb/client/smb2ops.c:777:4: note: in expansion of macro 'cifs_dbg'
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-       ^~~~~~~~
-   fs/smb/client/smb2ops.c:777:46: note: format string is defined here
-       cifs_dbg(VFS, "%s: invalid Next pointer %lu > %zd\n",
-                                               ~~^
-                                               %u
-
-
-vim +15 fs/smb/client/cifs_debug.h
-
-a0a3036b81f1f6 fs/cifs/cifs_debug.h Joe Perches 2020-04-14  14  
-a0a3036b81f1f6 fs/cifs/cifs_debug.h Joe Perches 2020-04-14 @15  #define pr_fmt(fmt) "CIFS: " fmt
-a0a3036b81f1f6 fs/cifs/cifs_debug.h Joe Perches 2020-04-14  16  
-
-:::::: The code at line 15 was first introduced by commit
-:::::: a0a3036b81f1f66fa3333559ecfe18f5bbfa5076 cifs: Standardize logging output
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1410.7-1418.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb2-v10.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts:626.7-634.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1112.7-1119.4: Warning (avoid_unnecessary_addr_size): /usb@fc000000/port: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1127.7-1134.4: Warning (avoid_unnecessary_addr_size): /usb@fc400000/port: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1112.7-1119.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts:1127.7-1134.4: Warning (graph_child_address): /usb@fc400000/port: graph node has single child node 'endpoint', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1186.7-1194.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5t.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5t.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5t.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1172.7-1180.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-roc-pc.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-wifi.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar-ethernet-switch.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: pcie-ep@fe150000 (rockchip,rk3588-pcie-ep): Unevaluated properties are not allowed ('vpcie3v3-supply' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/rockchip-dw-pcie-ep.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /npu@fdab0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /npu@fdac0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou-haikou-video-demo.dtb: /npu@fdad0000: failed to match any schema with compatible: ['rockchip,rk3588-rknn-core']
 
 -- 
 0-DAY CI Kernel Test Service
