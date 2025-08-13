@@ -1,63 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBF22BB17
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 01:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBC81DE2A5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 02:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755048643; cv=none; b=K8BB89miDACUGuQPn7muwd+/2Upv2DLprezvbgiRuvTXe6YOQ8aBbW5rAM8MoXVTN/FFRrHvypLUyG6cfERoICbnL4d7TguYMG+4ifIX8W6qVwA1Qmhwb1B7VIfi/O3f0IYAwtubqSyMo36wkX+JB+xrsegYZezFl8kUT2mjPBE=
+	t=1755051904; cv=none; b=aP3YqYB72Vx02cB9IQEp9U5viR55X95DLAZ92q472k9rOmDjaA5Nf4WhbiIIC04KJ1CN8MfZdwIHHPzBoeftrc49BSjJEQzWD8hFBkoqOu5KpXMfg5efRZrm/SGXPOAItf67xLOkRcA6qQk8eEgFUwjAeQJSNNWyjfmLcDY8lA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755048643; c=relaxed/simple;
-	bh=00kgvQ3E3mMUK4/2JuryhLdEXJ7T8Tc5ujqXa2qhFU8=;
+	s=arc-20240116; t=1755051904; c=relaxed/simple;
+	bh=TO08Bxdjs6CXgwQaNnTK3VsCDBnZs98H7CvXOF1PSiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t0NqfgetsGLbYffXkt7UYGde2/GPM2LFYImrS9ey4xYa1yUKR+KUbK9yz1i0m+kTVw1ZJrHx9f/4+C4pbIgbuq9qpHfPdZUpONubH4KJCZHUdYCTi95F9mNfIQBwMJQ3ZeQf18hjZGoO0WuPE1z9L7jglLJRL/dARq8ZgCyQw48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEKnXw2T; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ujoH+TSzvkWSWNSf6VbXzxCkle0ATtR7NtJ5q9naIZHx3u7MVR+HFeYW02s3RXXx2u1nS+PqitOD7Y3XYkp9fnMIqahqyF31zHqrxl4/jwJkVx00+j1B2EsLJMl/pr0LnWoVpCbHmRl/NV3VWaXsQnJrPqfv6dr/Ev6OzyHU5T0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+bRCs5L; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEKnXw2T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+bRCs5L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755048641; x=1786584641;
+  t=1755051903; x=1786587903;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=00kgvQ3E3mMUK4/2JuryhLdEXJ7T8Tc5ujqXa2qhFU8=;
-  b=nEKnXw2TI93l3pr2yxDJEd37GHrI+uaz4IiQPxcXCA7akMXe2et2pF1R
-   ggIey+02Q6+k30BTK71P4ABH9at7RBbuwPAyj1ifPYUjjTAOgrEdJxero
-   mbtU3r07i0HWluUiz3uwdD+z/iUxGFQscVu25rTDVDBj8nd0HrFyPpmv1
-   FnNeHjBBTu7dKqfMUsA1AWlEQ0gleR/kBc/vluvA9FiuZgqSRNfFt3gXp
-   GG2NOaM6ZZ3iC5QO5lJJ1fi8E7ybChzgGIGj4XQrn09eLvQk4zn+Dg1GY
-   pMh1bHdGydXetrbWD17tt2xNlFwHGF2PSG6PjzDZTXBiPc6vrv8Rl7eC7
-   w==;
-X-CSE-ConnectionGUID: NfCQs2BJSduytcvqAgV2TQ==
-X-CSE-MsgGUID: nE+RnXihSrGjUJ0dy804og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57397572"
+  bh=TO08Bxdjs6CXgwQaNnTK3VsCDBnZs98H7CvXOF1PSiw=;
+  b=K+bRCs5LzNAQRvW3E5KpMo8i6rjdDW3FbhcxbVCoQo96bBPAv9Fj9qvO
+   OCowivAueK2zfhn+0fukleJ4EZ9ztYPbll1ztj6/5SluRwFiewgSzWG+v
+   QFhu96KO04BHLAR5PL6YbS/9XNT6FKdUiWaYjm2wUSJU8PemiZv7VHfTp
+   E1uFXlGq9mcWpq1RG1nfp6cmDk3xXXAp4QE0Ie+y2a0zm4sotRDHqzPn/
+   rHcNz/6Bi65Cq3MgDLeW4RQ8y63AOl8zAaWme/wYK9vUrWnal3Spt6DCG
+   DG/ECi0nBe9/ijhiHbQH9RYc2z7HT3h5p7kOhhODeR/rcX3ax9VaxMFK/
+   Q==;
+X-CSE-ConnectionGUID: albG0UazTQSINLL69VdMJg==
+X-CSE-MsgGUID: SydWBH/XTn23T+3B8WEjCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57416213"
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="57397572"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 18:30:39 -0700
-X-CSE-ConnectionGUID: ZNLe2exQT++nQgiXoeHG6w==
-X-CSE-MsgGUID: iyl/+SfOTQKjgNISXYJB7A==
+   d="scan'208";a="57416213"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 19:25:02 -0700
+X-CSE-ConnectionGUID: R7Jgn4tkRgOyjuOYDP9Yvw==
+X-CSE-MsgGUID: 3weZF238QHG4vGIuMOZAOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="170544406"
+   d="scan'208";a="165571477"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 12 Aug 2025 18:30:35 -0700
+  by orviesa010.jf.intel.com with ESMTP; 12 Aug 2025 19:24:55 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1um0JS-0009RE-2C;
-	Wed, 13 Aug 2025 01:30:07 +0000
-Date: Wed, 13 Aug 2025 09:28:55 +0800
+	id 1um1Aa-0009T2-1I;
+	Wed, 13 Aug 2025 02:24:52 +0000
+Date: Wed, 13 Aug 2025 10:23:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Smirnov <asmirnou@pinefeat.co.uk>, mchehab@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Aliaksandr Smirnou <support@pinefeat.co.uk>
-Subject: Re: [PATCH v2 2/2] media/i2c: Pinefeat cef168 lens control board
- driver
-Message-ID: <202508130917.FKIv8K4Z-lkp@intel.com>
-References: <20250811213102.15703-3-aliaksandr.smirnou@gmail.com>
+To: Balbir Singh <balbirs@nvidia.com>, dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Francois Dugast <francois.dugast@intel.com>
+Subject: Re: [v3 10/11] gpu/drm/nouveau: add THP migration support
+Message-ID: <202508130923.0VGA41Zv-lkp@intel.com>
+References: <20250812024036.690064-11-balbirs@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,180 +83,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250811213102.15703-3-aliaksandr.smirnou@gmail.com>
+In-Reply-To: <20250812024036.690064-11-balbirs@nvidia.com>
 
-Hi Alexander,
+Hi Balbir,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 2b38afce25c4e1b8f943ff4f0a2b51d6c40f2ed2]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Smirnov/dt-bindings-Pinefeat-cef168-lens-control-board/20250812-053441
-base:   2b38afce25c4e1b8f943ff4f0a2b51d6c40f2ed2
-patch link:    https://lore.kernel.org/r/20250811213102.15703-3-aliaksandr.smirnou%40gmail.com
-patch subject: [PATCH v2 2/2] media/i2c: Pinefeat cef168 lens control board driver
-config: arm64-randconfig-r132-20250813 (https://download.01.org/0day-ci/archive/20250813/202508130917.FKIv8K4Z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250813/202508130917.FKIv8K4Z-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-zone_device-support-large-zone-device-private-folios/20250812-105145
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250812024036.690064-11-balbirs%40nvidia.com
+patch subject: [v3 10/11] gpu/drm/nouveau: add THP migration support
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250813/202508130923.0VGA41Zv-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130923.0VGA41Zv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508130917.FKIv8K4Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508130923.0VGA41Zv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/i2c/cef168.c:37:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] @@
-   drivers/media/i2c/cef168.c:37:13: sparse:     expected unsigned short [usertype] val
-   drivers/media/i2c/cef168.c:37:13: sparse:     got restricted __le16 [usertype]
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:76:32: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:77:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:78:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:79:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:80:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
-   drivers/media/i2c/cef168.c:81:39: sparse: sparse: cast to restricted __le16
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
->> drivers/media/i2c/cef168.c:133:30: sparse: sparse: cast to restricted __le32
+All errors (new ones prefixed by >>):
 
-vim +37 drivers/media/i2c/cef168.c
+   In file included from <command-line>:
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_vma':
+>> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_706' declared with attribute error: max((1<<((16 + __pte_index_size)-16)), max) signedness error
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
+     553 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:811:23: note: in expansion of macro 'max'
+     811 |                 max = max(HPAGE_PMD_NR, max);
+         |                       ^~~
+--
+   In file included from <command-line>:
+   nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_vma':
+>> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_706' declared with attribute error: max((1<<((16 + __pte_index_size)-16)), max) signedness error
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
+     553 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^~~~~~~~~~~~~
+   nouveau/nouveau_dmem.c:811:23: note: in expansion of macro 'max'
+     811 |                 max = max(HPAGE_PMD_NR, max);
+         |                       ^~~
 
-    31	
-    32	static int cef168_i2c_write(struct cef168_device *cef168_dev, u8 cmd, u16 val)
-    33	{
-    34		struct i2c_client *client = v4l2_get_subdevdata(&cef168_dev->sd);
-    35		int retry, ret;
-    36	
-  > 37		val = cpu_to_le16(val);
-    38		char tx_data[4] = { cmd, (val & 0xff), (val >> 8) };
-    39	
-    40		tx_data[3] = crc8(cef168_crc8_table, tx_data, 3, CRC8_INIT_VALUE);
-    41	
-    42		for (retry = 0; retry < 3; retry++) {
-    43			ret = i2c_master_send(client, tx_data, sizeof(tx_data));
-    44			if (ret == sizeof(tx_data))
-    45				return 0;
-    46			else if (ret != -EIO && ret != -EREMOTEIO)
-    47				break;
-    48		}
-    49	
-    50		dev_err(&client->dev, "I2C write fail after %d retries, ret=%d\n",
-    51			retry, ret);
-    52		return -EIO;
-    53	}
-    54	
-    55	static int cef168_i2c_read(struct cef168_device *cef168_dev,
-    56				   struct cef168_data *rx_data)
-    57	{
-    58		struct i2c_client *client = v4l2_get_subdevdata(&cef168_dev->sd);
-    59	
-    60		int ret = i2c_master_recv(client, (char *)rx_data,
-    61					  sizeof(struct cef168_data));
-    62		if (ret != sizeof(struct cef168_data)) {
-    63			dev_err(&client->dev, "I2C read fail, ret=%d\n", ret);
-    64			return -EIO;
-    65		}
-    66	
-    67		u8 computed_crc = crc8(cef168_crc8_table, (const u8 *)rx_data,
-    68				       sizeof(struct cef168_data) - 1, CRC8_INIT_VALUE);
-    69		if (computed_crc != rx_data->crc8) {
-    70			dev_err(&client->dev,
-    71				"CRC mismatch calculated=0x%02X read=0x%02X\n",
-    72				computed_crc, rx_data->crc8);
-    73			return -EIO;
-    74		}
-    75	
-  > 76		rx_data->moving_time = le16_to_cpu(rx_data->moving_time);
-    77		rx_data->focus_position_min = le16_to_cpu(rx_data->focus_position_min);
-    78		rx_data->focus_position_max = le16_to_cpu(rx_data->focus_position_max);
-    79		rx_data->focus_position_cur = le16_to_cpu(rx_data->focus_position_cur);
-    80		rx_data->focus_distance_min = le16_to_cpu(rx_data->focus_distance_min);
-    81		rx_data->focus_distance_max = le16_to_cpu(rx_data->focus_distance_max);
-    82	
-    83		return 0;
-    84	}
-    85	
-    86	static int cef168_set_ctrl(struct v4l2_ctrl *ctrl)
-    87	{
-    88		struct cef168_device *dev = to_cef168(ctrl);
-    89		u8 cmd;
-    90	
-    91		switch (ctrl->id) {
-    92		case V4L2_CID_FOCUS_ABSOLUTE:
-    93			return cef168_i2c_write(dev, INP_SET_FOCUS, ctrl->val);
-    94		case V4L2_CID_FOCUS_RELATIVE:
-    95			cmd = ctrl->val < 0 ? INP_SET_FOCUS_N : INP_SET_FOCUS_P;
-    96			return cef168_i2c_write(dev, cmd, abs(ctrl->val));
-    97		case V4L2_CID_IRIS_ABSOLUTE:
-    98			return cef168_i2c_write(dev, INP_SET_APERTURE, ctrl->val);
-    99		case V4L2_CID_IRIS_RELATIVE:
-   100			cmd = ctrl->val < 0 ? INP_SET_APERTURE_N : INP_SET_APERTURE_P;
-   101			return cef168_i2c_write(dev, cmd, abs(ctrl->val));
-   102		case CEF168_V4L2_CID_CUSTOM(calibrate):
-   103			return cef168_i2c_write(dev, INP_CALIBRATE, 0);
-   104			return 0;
-   105		}
-   106	
-   107		return -EINVAL;
-   108	}
-   109	
-   110	static int cef168_get_ctrl(struct v4l2_ctrl *ctrl)
-   111	{
-   112		struct cef168_device *dev = to_cef168(ctrl);
-   113		int rval;
-   114	
-   115		if (ctrl->id != V4L2_CID_FOCUS_ABSOLUTE &&
-   116		    ctrl->id != CEF168_V4L2_CID_CUSTOM(data) &&
-   117		    ctrl->id != CEF168_V4L2_CID_CUSTOM(focus_range) &&
-   118		    ctrl->id != CEF168_V4L2_CID_CUSTOM(lens_id))
-   119			return -EINVAL;
-   120	
-   121		struct cef168_data data;
-   122	
-   123		rval = cef168_i2c_read(dev, &data);
-   124		if (rval < 0)
-   125			return rval;
-   126	
-   127		switch (ctrl->id) {
-   128		case V4L2_CID_FOCUS_ABSOLUTE:
-   129			ctrl->val = data.focus_position_cur;
-   130			return 0;
-   131		case CEF168_V4L2_CID_CUSTOM(focus_range):
-   132			ctrl->p_new.p_u32[0] =
- > 133				(u32)le32_to_cpu(((u32)data.focus_position_min << 16) |
-   134						 data.focus_position_max);
-   135			return 0;
-   136		case CEF168_V4L2_CID_CUSTOM(lens_id):
-   137			ctrl->p_new.p_u8[0] = data.lens_id;
-   138			return 0;
-   139		case CEF168_V4L2_CID_CUSTOM(data):
-   140			memcpy(ctrl->p_new.p_u8, &data, sizeof(data));
-   141			return 0;
-   142		}
-   143	
-   144		return -EINVAL;
-   145	}
-   146	
+
+vim +/__compiletime_assert_706 +572 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
 
 -- 
 0-DAY CI Kernel Test Service
