@@ -1,58 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7737B11CA0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 14:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72521140E5F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 14:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755094460; cv=none; b=CA0kwgSECDnrZlf4yAL0K/06CYBA6+/FHUG+NvJXC+NW6RzUJ/1TA2Fgn8Dtugvvx/8Evhy/3xvP9rZJ1vQSK/cloFIrXfGq67nsikLdoEXAaW3xKpdSv6aHNVwaMpmfJrpGPAYFKkNcegBUNswsPdGjzaTvlm+6o/L3meEPj/c=
+	t=1755094642; cv=none; b=fnZe6ykwj2EHo0VzH115ohbmDSKVMVDofn28lAY+eX/vugyCe6e9Fq8jsz/dMlmhIdp3t31OFFMOZfpr4sfosz8+QbfcXJL99fpvlMKvVFHXZSuikdOBuWGMfCU42yPNxur3zLnmZvuLVvuT8eNp6aQQ47XEMQ6RVJ9iMKE0o6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755094460; c=relaxed/simple;
-	bh=rPRA00G+9OO4khN8XuoDRNhIb+1+3uurPCXSweqh/bo=;
+	s=arc-20240116; t=1755094642; c=relaxed/simple;
+	bh=1mSZldsWdWCxke6BuMqVOJ3P1vSpvBSc28O3RhuVlno=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aBPG3nKatxU5BB4rHmxOgsOj5nNsUjtl7BS0e3LEB5bvhch9d4R0Sb5o7EIwh8uRpvqjEvxIjsZQZ0Dkd+4ZtFFf1LwE0sqho0ra5JLQwy0oMsetsgct8aErF9nd4qTkh/scGiMNmUxf/58SKyloUQy4V+/cNLnxEjFk9tbI5QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nx+YhOqK; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=C1zXlbclfzZYWFFJci3uZubQ25sbtSSg7TeMKVhBS84/6N1ybANN9Tb2C+Hp1D/SbknoqMgdSotfNEQFVu9wWhdhLAtIi7vLWSK4Gkk3b3WeqeS1+pz7YkdByoVH54Jd01e3EThx8lcCL6DljBuOb4G3IF9lJ6PZAR05rBHp8oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T9u0KzD0; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nx+YhOqK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755094459; x=1786630459;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rPRA00G+9OO4khN8XuoDRNhIb+1+3uurPCXSweqh/bo=;
-  b=nx+YhOqKnp8IPxaJw36Vk/tEgaeORp3CEYG1DQYoXu83ZCMzerRx/yL/
-   awQQrDaiqVoCitbYY97/RURaVX+MEvkwDa1f93Omt3Qogu/ctuA5T/Y+I
-   4jIFldAllHBhBCe2wvIJe0lRZezaBWu5ek0GobCU5oqBg5c+LuE9SzNi+
-   JMJI3c00Cigt9nZ2Tmcv/pRrqI3cSiuwKwaYQfMuMru4EIJjzf0k5OzfS
-   t6baXuuO9LRysOCIzBOHj5DxDzNrHymNZoKs0RUPmDmTiNhmrJfqpuFL5
-   Gwt6Qy8GRS3j5P7CYZLdS2qgou0BbM16d1h5ZbxtngKG51psieIV0/Y1K
-   g==;
-X-CSE-ConnectionGUID: iNQgV3uzToKwxfU4oh3Q1A==
-X-CSE-MsgGUID: V8h7Y4TFSkqFromX62y67A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67993219"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="67993219"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 07:14:18 -0700
-X-CSE-ConnectionGUID: SWQrRuHkSNOtAAMdnVjjCQ==
-X-CSE-MsgGUID: WVbgzWD4S++jNOyNYA5CMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
-   d="scan'208";a="167278218"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Aug 2025 07:14:17 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1umCF4-00004F-2W;
-	Wed, 13 Aug 2025 14:14:14 +0000
-Date: Wed, 13 Aug 2025 16:13:34 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2677/2677] include/linux/mmzone.h:1788:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202508131659.0270cXvQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T9u0KzD0"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-459ddf8acf1so56334005e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Aug 2025 07:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755094636; x=1755699436; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xFS6u4c/Ebcc668GacdL60NXtwjSwFQiJomUL8MmBtI=;
+        b=T9u0KzD0ciz1M7pmajrUP8LnjjujtP0stgNCQCN9aQ6Zidzf+ofWuVarlsWwDliNiV
+         4fvAhzHDYA7Y1vGtFjK7GYYHcQl4RXet30U+QNzqf/hYNPAecaRTuzkS6QJ3tpbiX4EB
+         +XPWop4cj+qgsDgj2Bww3sSLgBcFVMrwrzGgClIXbxfRGXEWNaPJVYwiy2UaCdcGeXQa
+         0VqU+HvQFJSOV5tkPMRrvSHs61+IQL+MX24XFPeqRY7VDORwASt+YY2WqobZqjC2xSlu
+         Iv9tl+wZ0amxNKz7MacyfgyEUJO/Wryk8SpLS/2OOX9Qr1YXyL2VuBsNsKzDBsSNFDGU
+         T7gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755094636; x=1755699436;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xFS6u4c/Ebcc668GacdL60NXtwjSwFQiJomUL8MmBtI=;
+        b=mVBCrATScei87o2ymkKEua3lyAr/6DxaE5J97vWptZ74A4BftwjM6rEuJgLz9tHlUa
+         lgsusEdSmIgtfJx4/qpivbtDjcpmppWXbKfWivTqIrCm5hJCgRRYzdAT5TpMKMQpmr8x
+         Y1baDYUyjgUnFGQiKrdSy4duwcJivEZq00/V1jUcaq8cZ+6mypCe3ne6bdD2zZHnoSZp
+         mC63INSjJbMeFrdXPOZDBZoZRY0sNT/xufiYeSxvz6cOjJ52iRQel1ZWMM9ZOwRw9G3t
+         CCwh/L9ONYCdTMgFUJcxzK8eOiBcTSvoZp5QwnXvBOI5QCXppJWOicK8sCIHa4L++5pk
+         GBwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWO6xWDAVSkLC9yoySifMZ2dfR0y0fQNWkNzhEmMSWZyoULkqf0A5UUkzJEmrTrgTyzFQmX2sNeYTqETj3x@lists.linux.dev
+X-Gm-Message-State: AOJu0YwABZ8dQm9QcjUqQ/ovbH1S4BbnfSRC+8caddu0rGSmCdglyJaS
+	V53EoYHOGfBJp+bx7a24zCCD8HKPNG48FCYJFnaoHkw0nFjzrzMLH+rkXOGov3bGU18=
+X-Gm-Gg: ASbGncsVl1dOHSDuRqhZxcO5fbe0v6/7nbXRIKAHbG1B7T+gpmBifuHLjjFOr2+2lx+
+	EnOkOBpruanpa+8AVUuHsuLvz9xveOOh+yxmH0UQTE/dwdYt2dRltEKBxGdZnSGpAQtFJ9YlTVZ
+	2fHADV+nwxUnm6idEdtdsIzs/Uuymt6Jni+z1pawmih+VQqTe3vkmNZNX93KHcnSccfXaUgofqE
+	sxtC5rHrv7EQnrKYGeoS2caxZrb/Pa7sNc7uyxuKEymZP/jfZP43C5pAZS9Oa6FAtum8GFqPGvJ
+	3WP+ejZIeFy235R9/t7HSCkU+6ohB4ddRN+8d72dKeObRFegA+HnZI5Ax4vZ7WurmbOvd4sU98K
+	kFkFRz4zpKBR8Xo0HIBxHuxlBERV5rdXMsKriRohAbrA=
+X-Google-Smtp-Source: AGHT+IFQVKMSuayh/HxTBQ1FEx8ZnIBjMw+kNTZelmm0ds2gq+mUAt7QOMh3QsWj7BFZNdcmdXCzEw==
+X-Received: by 2002:a05:600c:19cf:b0:458:bfe1:4a91 with SMTP id 5b1f17b1804b1-45a166350a2mr26900635e9.20.1755094636463;
+        Wed, 13 Aug 2025 07:17:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c4534b3sm47750500f8f.47.2025.08.13.07.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 07:17:16 -0700 (PDT)
+Date: Wed, 13 Aug 2025 17:17:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Sean Wang <sean.wang@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	NXP S32 Linux Team <s32@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Tony Lindgren <tony@atomide.com>,
+	Haojian Zhuang <haojian.zhuang@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v4 12/15] pinctrl: allow to mark pin functions as
+ requestable GPIOs
+Message-ID: <202508132044.XYcvSpm4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,87 +98,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64@linaro.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   68aa2d920fc92a9e4c2f8f5b7c4036f653b54a47
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [2677/2677] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-2004-20250813 (https://download.01.org/0day-ci/archive/20250813/202508131659.0270cXvQ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508131659.0270cXvQ-lkp@intel.com/reproduce)
+Hi Bartosz,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/devres-provide-devm_kmemdup_const/20250812-170336
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250812-pinctrl-gpio-pinfuncs-v4-12-bb3906c55e64%40linaro.org
+patch subject: [PATCH v4 12/15] pinctrl: allow to mark pin functions as requestable GPIOs
+config: um-randconfig-r072-20250813 (https://download.01.org/0day-ci/archive/20250813/202508132044.XYcvSpm4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508131659.0270cXvQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508132044.XYcvSpm4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/pinctrl/pinmux.c:96 pinmux_can_be_used_for_gpio() warn: variable dereferenced before check 'desc' (see line 92)
 
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      18 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      65 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      80 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      96 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     132 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     173 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     183 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     215 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     223 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     261 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     294 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=3142720614
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=3142720614
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=3142720614
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=3142720614
-   make: Target 'prepare' not remade because of errors.
+vim +/desc +96 drivers/pinctrl/pinmux.c
 
+7cc4e6b0e4ddf6 Andy Shevchenko     2023-11-29   88  bool pinmux_can_be_used_for_gpio(struct pinctrl_dev *pctldev, unsigned int pin)
+472a61e777fe78 Stefan Wahren       2019-08-14   89  {
+472a61e777fe78 Stefan Wahren       2019-08-14   90  	struct pin_desc *desc = pin_desc_get(pctldev, pin);
+472a61e777fe78 Stefan Wahren       2019-08-14   91  	const struct pinmux_ops *ops = pctldev->desc->pmxops;
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  @92  	const struct pinctrl_setting_mux *mux_setting = desc->mux_setting;
+                                                                                                        ^^^^^^^^^^^^^^^^^
+Patch adds a new dereference.
 
-vim +1788 include/linux/mmzone.h
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12   93  	bool func_is_gpio = false;
+472a61e777fe78 Stefan Wahren       2019-08-14   94  
+472a61e777fe78 Stefan Wahren       2019-08-14   95  	/* Can't inspect pin, assume it can be used */
+6ba2fd391ac58c Alexandre Torgue    2019-12-04  @96  	if (!desc || !ops)
+                                                            ^^^^^
+The old code assumed desc could be NULL.
 
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+472a61e777fe78 Stefan Wahren       2019-08-14   97  		return true;
+472a61e777fe78 Stefan Wahren       2019-08-14   98  
+5a3e85c3c397c7 Mukesh Ojha         2024-10-15   99  	guard(mutex)(&desc->mux_lock);
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  100  	if (mux_setting && ops->function_is_gpio)
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  101  		func_is_gpio = ops->function_is_gpio(pctldev, mux_setting->func);
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  102  
+6dd5ffb25d7e35 Bartosz Golaszewski 2025-08-12  103  	if (ops->strict && desc->mux_usecount && !func_is_gpio)
+472a61e777fe78 Stefan Wahren       2019-08-14  104  		return false;
+472a61e777fe78 Stefan Wahren       2019-08-14  105  
+472a61e777fe78 Stefan Wahren       2019-08-14  106  	return !(ops->strict && !!desc->gpio_owner);
+472a61e777fe78 Stefan Wahren       2019-08-14  107  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
