@@ -1,149 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223BC207669
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 01:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2104418B12
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 02:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755136157; cv=none; b=YBxOBOFzUNUzUu3tvu/f3cMtGSIYQgEFXJgiQ4W+5SjxBAUHysq5urEiEpF4IcnJxnSPFm8oFZCBEx89qVGWos43/M0ZYMu0BRVKka6uHzjZDfcP81YcjIQce6YLO847vl5Aui3gE2be1D3boNWIGVduRwMrOECq61lSyPRAgEc=
+	t=1755138905; cv=none; b=YDSsGj0MwJjixBqKYPCbHaWPbY9BCmVy4W24S771wuWkfqELw4KuyOg29yzYLFUxb5X/icufY8n1Qaxzvd+mjq7ItklX3POrqp9AYSBglILN05psqT39PHOct2uYzim73uWd7bJ2vvrX7FyCbtgbqYDMH5ch32iAtP0oOZVBtYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755136157; c=relaxed/simple;
-	bh=J0f7jznvQxCb1ZCzCxenoWjKTQzy+impl3uvcAhBj+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=GZU60ynx18H2uj/vf1NckJ5FXWeh5OQApY+dlGv0SPgA4x8j4bp973r7fU1GAOTtIE7C3RgmP17Ig7iuwjzHPHNMmja2i9vQizke5Bo0Kfs/ATj4Tpq69K9zeb4oVNz00XAQ2/f8sJXPsMAUgZAJezU7Ph32ADmYodWsPMJDib4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YWPkM8xu; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755138905; c=relaxed/simple;
+	bh=N60bDnLAPN5Wh5Oy9gmeS9fn7pMQZpwWNCI3T53BA0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sPtFPtAhfOLG1NJeL25YrxiH79BVleMZelKUQKmV2TRd0/mUw36feUjW3OQZEDDp2gAR6DLpwGUWGuy0iHwahNwvrE5ZBO6mi9xCOBy3rBFoQxhStvWqkzNivCviQPrS6JREcfrWH7xKSN26z0PqjJqnpqzmsyyJzC0kP0FJXz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ei3sAEzz; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YWPkM8xu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755136153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gBpanxhbqI21t9pFqkIgl/M2izwxvVZJUia4TaZFCL4=;
-	b=YWPkM8xulp07tL1IXI7GfJZJKcKOCQXhqdqhiaHDLLm7vMfsfKE8Pt7O9gBkYN4irgvl8v
-	vyvQ9itLV2VPQZvskGEcqaigT+1AJBRvQxlin0kfVLe4UXRrrcoD5z4f+F3el0lHaPC6ma
-	L0zoN5WGzNBFS9XZxlLRnRAYjsotqwo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-65-V-0R8Vr-N4ilyGmgzzB-SA-1; Wed,
- 13 Aug 2025 21:49:12 -0400
-X-MC-Unique: V-0R8Vr-N4ilyGmgzzB-SA-1
-X-Mimecast-MFC-AGG-ID: V-0R8Vr-N4ilyGmgzzB-SA_1755136151
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 77DC1195608A;
-	Thu, 14 Aug 2025 01:49:11 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.89])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 414181955F16;
-	Thu, 14 Aug 2025 01:49:09 +0000 (UTC)
-Date: Thu, 14 Aug 2025 09:49:06 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ei3sAEzz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755138903; x=1786674903;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N60bDnLAPN5Wh5Oy9gmeS9fn7pMQZpwWNCI3T53BA0Y=;
+  b=Ei3sAEzzcB/G8OfiatIrKQlTF/bd+yv96FZIgkwTAXwl4lW4vNBwlvq1
+   ZXmG7V4iHJ0kEacDup402N+Uo8pHh74cgkNKwciT7ZWQQ7eRHWe7NxVcm
+   6KHt3ksaf5Zn66hB6+y7vsSeZ0hzFzdrimpd6c0WKfSmtTnyzLen62OtO
+   uhnced3YoLybr+LbJ+QFpDqZxgdciKdJtuOHvkpLhBpZUWihSfpC64VxV
+   MAHXKbe/Q+/xDRjmewF9DwbrWrF8t7S9DVQksUZgkn54e5b6KXVEmosHK
+   xoEg0iqn3DWKFKT9S5PgTLmLYobBN/uKf+c4rCU/N/oxH+RqIrRfIQgPt
+   w==;
+X-CSE-ConnectionGUID: RdBNO/B7QLuKkbqNC1Zj5g==
+X-CSE-MsgGUID: l2HzYA3sSrqhNZq4Z9HxNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68148945"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="68148945"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 19:35:02 -0700
+X-CSE-ConnectionGUID: ob8R+3A6QH6rynjocKYNBg==
+X-CSE-MsgGUID: 4aoZMx1rRzSX/VRCnB05/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="197631370"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa002.jf.intel.com with ESMTP; 13 Aug 2025 19:35:01 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umNnu-0000Al-31;
+	Thu, 14 Aug 2025 02:34:58 +0000
+Date: Thu, 14 Aug 2025 04:34:33 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 12/12] mm/kasan: make kasan=on|off take effect for all
- three modes
-Message-ID: <aJ1Akg7jMytAChgp@MiWiFi-R3L-srv>
-References: <20250812124941.69508-13-bhe@redhat.com>
- <202508131826.n8gKkeXB-lkp@intel.com>
+Subject: [android-common:android14-6.1-2025-01 1/1] net/core/scm.c:95:8:
+ error: no member named 'inflight' in 'struct scm_fp_list'
+Message-ID: <202508140419.RQyxsN9J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202508131826.n8gKkeXB-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5XX86K1Y57TAIV-VpUV-YlLGCcCaVqlooJH12W-Rzt4_1755136151
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 08/13/25 at 06:23pm, kernel test robot wrote:
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on powerpc/next]
-> [also build test ERROR on powerpc/fixes jcmvbkbc-xtensa/xtensa-for-next linus/master v6.17-rc1]
-> [cannot apply to akpm-mm/mm-everything next-20250813]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-kasan-add-conditional-checks-in-functions-to-return-directly-if-kasan-is-disabled/20250812-205253
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> patch link:    https://lore.kernel.org/r/20250812124941.69508-13-bhe%40redhat.com
-> patch subject: [PATCH v2 12/12] mm/kasan: make kasan=on|off take effect for all three modes
-> config: um-randconfig-001-20250813 (https://download.01.org/0day-ci/archive/20250813/202508131826.n8gKkeXB-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508131826.n8gKkeXB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508131826.n8gKkeXB-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/static_key.h:1,
->                     from include/linux/alloc_tag.h:15,
->                     from include/linux/percpu.h:5,
->                     from include/linux/percpu_counter.h:14,
->                     from include/linux/mm_types.h:21,
->                     from include/linux/mmzone.h:22,
->                     from include/linux/gfp.h:7,
->                     from include/linux/umh.h:4,
->                     from include/linux/kmod.h:9,
->                     from include/linux/module.h:17,
->                     from arch/um/kernel/mem.c:7:
->    arch/um/kernel/mem.c: In function 'arch_mm_preinit':
-> >> arch/um/kernel/mem.c:65:31: error: 'kasan_flag_enabled' undeclared (first use in this function); did you mean 'kasan_hw_tags_enabled'?
->       65 |         static_branch_enable(&kasan_flag_enabled);
->          |                               ^~~~~~~~~~~~~~~~~~
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-01
+head:   c8d465512cdf4115614f49004b013741d7fbabeb
+commit: 022a11b9bd5dda54a6d3c981fdffc001fb751b4c [1/1] UPSTREAM: af_unix: Link struct unix_edge when queuing skb.
+config: x86_64-buildonly-randconfig-2004-20250813 (https://download.01.org/0day-ci/archive/20250814/202508140419.RQyxsN9J-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140419.RQyxsN9J-lkp@intel.com/reproduce)
 
-Thanks for reporting this error. I reproduced it and fix it with below
-change. While this change should be appended into patch 11.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508140419.RQyxsN9J-lkp@intel.com/
 
-It's because CONFIG_KASAN is unset, the static key kasan_flag_enabled
-enabling is added in arch_mm_preinit() which is not in CONFIG_KASAN scope.  
-So here wrap it up within CONFIG_KASAN ifdeffery scope.
+All errors (new ones prefixed by >>):
 
-And also move the kasan_arg_disabled chekcing before kasan_flag_enabled
-enabling because kasan_init() is called before main(). So in
-kasan_init(), kernel parameter kasan=on|off hasn't been parsed.
+>> net/core/scm.c:95:8: error: no member named 'inflight' in 'struct scm_fp_list'
+      95 |                 fpl->inflight = false;
+         |                 ~~~  ^
+   net/core/scm.c:96:8: error: no member named 'edges' in 'struct scm_fp_list'
+      96 |                 fpl->edges = NULL;
+         |                 ~~~  ^
+   net/core/scm.c:97:24: error: no member named 'vertices' in 'struct scm_fp_list'
+      97 |                 INIT_LIST_HEAD(&fpl->vertices);
+         |                                 ~~~  ^
+   net/core/scm.c:386:12: error: no member named 'inflight' in 'struct scm_fp_list'
+     386 |                 new_fpl->inflight = false;
+         |                 ~~~~~~~  ^
+   net/core/scm.c:387:12: error: no member named 'edges' in 'struct scm_fp_list'
+     387 |                 new_fpl->edges = NULL;
+         |                 ~~~~~~~  ^
+   net/core/scm.c:388:28: error: no member named 'vertices' in 'struct scm_fp_list'
+     388 |                 INIT_LIST_HEAD(&new_fpl->vertices);
+         |                                 ~~~~~~~  ^
+   6 errors generated.
 
-diff --git a/arch/um/kernel/mem.c b/arch/um/kernel/mem.c
-index d62f494e0808..2395ca33112a 100644
---- a/arch/um/kernel/mem.c
-+++ b/arch/um/kernel/mem.c
-@@ -26,9 +26,6 @@
- int kasan_um_is_ready;
- void kasan_init(void)
- {
--
--	if (kasan_arg_disabled)
--		return;
- 	/*
- 	 * kasan_map_memory will map all of the required address space and
- 	 * the host machine will allocate physical memory as necessary.
-@@ -65,8 +62,12 @@ static unsigned long brk_end;
- 
- void __init arch_mm_preinit(void)
- {
-+
-+#ifdef CONFIG_KASAN
- 	/* Safe to call after jump_label_init(). Enables KASAN. */
--	static_branch_enable(&kasan_flag_enabled);
-+	if (!kasan_arg_disabled)
-+		static_branch_enable(&kasan_flag_enabled);
-+#endif
- 
- 	/* clear the zero-page */
- 	memset(empty_zero_page, 0, PAGE_SIZE);
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
+
+vim +95 net/core/scm.c
+
+    68	
+    69	static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
+    70	{
+    71		int *fdp = (int*)CMSG_DATA(cmsg);
+    72		struct scm_fp_list *fpl = *fplp;
+    73		struct file **fpp;
+    74		int i, num;
+    75	
+    76		num = (cmsg->cmsg_len - sizeof(struct cmsghdr))/sizeof(int);
+    77	
+    78		if (num <= 0)
+    79			return 0;
+    80	
+    81		if (num > SCM_MAX_FD)
+    82			return -EINVAL;
+    83	
+    84		if (!fpl)
+    85		{
+    86			fpl = kmalloc(sizeof(struct scm_fp_list), GFP_KERNEL_ACCOUNT);
+    87			if (!fpl)
+    88				return -ENOMEM;
+    89			*fplp = fpl;
+    90			fpl->count = 0;
+    91			fpl->count_unix = 0;
+    92			fpl->max = SCM_MAX_FD;
+    93			fpl->user = NULL;
+    94	#if IS_ENABLED(CONFIG_UNIX)
+  > 95			fpl->inflight = false;
+    96			fpl->edges = NULL;
+    97			INIT_LIST_HEAD(&fpl->vertices);
+    98	#endif
+    99		}
+   100		fpp = &fpl->fp[fpl->count];
+   101	
+   102		if (fpl->count + num > fpl->max)
+   103			return -EINVAL;
+   104	
+   105		/*
+   106		 *	Verify the descriptors and increment the usage count.
+   107		 */
+   108	
+   109		for (i=0; i< num; i++)
+   110		{
+   111			int fd = fdp[i];
+   112			struct file *file;
+   113	
+   114			if (fd < 0 || !(file = fget_raw(fd)))
+   115				return -EBADF;
+   116			/* don't allow io_uring files */
+   117			if (io_is_uring_fops(file)) {
+   118				fput(file);
+   119				return -EINVAL;
+   120			}
+   121			if (unix_get_socket(file))
+   122				fpl->count_unix++;
+   123	
+   124			*fpp++ = file;
+   125			fpl->count++;
+   126		}
+   127	
+   128		if (!fpl->user)
+   129			fpl->user = get_uid(current_user());
+   130	
+   131		return num;
+   132	}
+   133	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
