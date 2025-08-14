@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA830AAD1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 17:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D6B21ADA3;
+	Thu, 14 Aug 2025 17:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755192776; cv=none; b=WD0S2NfmZ/5SmjnMU42hJbduJ8oJcsFZyqrQAr/PzEvImdYjZocGIqXJBm8PKMk7bqEEjYRTMiuJrcLfmOZF4unxeI/nqHI3JoGDEl1VGctEFNpAL+rdY7O+DLiC8Tai5I5ydd/vF9ZT6VqEWMuF+UM0bP5nCfyGhafotfDolkA=
+	t=1755192956; cv=none; b=IsfWSV+b48C6aHyUJPCgCDF/PJrn1OOhdyPZo/3OV1cCjkS/wiyj0Ksdn+Dc5oZTRzccFViZXntCVDMEqhfnaILMks1y6IhlobhooJjFXdW55qvHRkFGrOzVg+DuIbwkFEqwLMqhkj3ztYnHIs7ADOLH2XnNAmJISM6CJFbb07Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755192776; c=relaxed/simple;
-	bh=u33CFwapfPQUW3dtVpinqRmLyB1TsBLW+OfUhOqS9lM=;
+	s=arc-20240116; t=1755192956; c=relaxed/simple;
+	bh=vA7dghHcirnitTg5uFoDQb2W7/JU6CZNCJaXQRZsIsw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NlnO3fOqV6U+9uISVDOIqysbDHC8XrnjYAz2z1B5+PHbEhbIc6BYLfk7afjJLf36oDXENAPj40TXHTeMOIUR4sIbFmjF4W4B3s7YCgexLHtR38oYnvm8/SI0GeBFRImYALSa9oHflVVfX/7J6+qVncsPMbA4Ne73Tfze6WLpwFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3EZ1mQm; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=mSV95dAGTTARda/VHtcvf1ZMplxgc0CIP/m+qJE1Kf1r8ucNEj/9wCNKTWHHiBWo0Q9KpEFw/KZfArju4/K6a3KadaAvVrzuGHhTXy1bCJYGUKkWi7JTUEFdA7+BAOiF0Psiwu+2jo9gnERDXY9LIEWektLBKmTAHmu0iPcp1YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HD12aJ5/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3EZ1mQm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HD12aJ5/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755192775; x=1786728775;
+  t=1755192953; x=1786728953;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u33CFwapfPQUW3dtVpinqRmLyB1TsBLW+OfUhOqS9lM=;
-  b=d3EZ1mQmiFBiC8yiOtvVGc4HYckz5U4JNRSJbQkGCnR2Xivn/FbrpVvI
-   rk7VknftQGUzpvcv31MUhfx3wh6r35ZtPTbQo9KuDt2JrooJKR5M8f7lt
-   HHomn47dw/1nTWkd4DUvOdRSBtNyff6yvtZH0aiDOIrQ45NPO5k6aH7Kz
-   ix0sZNMhqnfYWaMGhvtyZHAJ6cpvw1WhwOE+ypQK05w2o8w7dm5L9MSjn
-   elddpyxRPb54A0d7GX828c0VH8vqvB0zBVAaphq4fbuTU7WYo+mM82Vgu
-   mVkXICoCqzElby50GTnRzLqGJlDXhY/tYzEo07/n6vo8emWy1/2/7KLcH
-   g==;
-X-CSE-ConnectionGUID: R9KFqEwQQC2iZ/ftwF3XKg==
-X-CSE-MsgGUID: Cm2USw8fRqiruxur1lfuHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68217338"
+  bh=vA7dghHcirnitTg5uFoDQb2W7/JU6CZNCJaXQRZsIsw=;
+  b=HD12aJ5/PEHklUF9Tpaw8agPIzgtOqJ/Wx+XQvHmYFitXDfgcRuVK8Cm
+   7vqOx2BvqSdQpP2k4gWmx0Nzk+p0bCbsrH3smYU9+uTzwaCg26A8aP6+J
+   60ZpOq/i9FVoagWsrTHybo3Ju/pev4th1QbiSK1KC4L2A0N2ipMvRIkos
+   pyjiazozoD8tcF8t421150H6fEOSxQ0Hj0bVGJBhj5pUf3oVwo4oLa/c5
+   0GNtOnHHimvbKRU1uK1p+CFHUJHiGXUE/xC1zoeM2BcB9sMsc7q9TA+ai
+   4HIjNwz80Ruggrn6xO2/DPUrhjOBbsVuxaKYg3d/PtgPJMFs9TEo9LEYB
+   w==;
+X-CSE-ConnectionGUID: 8pLdKv5CS1SWheeGzR1qBA==
+X-CSE-MsgGUID: 58wrywnNR6qh5hTZGLU5Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68217569"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="68217338"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:32:54 -0700
-X-CSE-ConnectionGUID: 3eO+YrmBRP+Z+Pteg2Svyw==
-X-CSE-MsgGUID: Rvz2JtC2Rnu4WGwRxfIg5g==
+   d="scan'208";a="68217569"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:35:53 -0700
+X-CSE-ConnectionGUID: sZUuxG5XTLa/2vSs51xUlw==
+X-CSE-MsgGUID: sx2H6YTPQ0eqW601HqXdlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="197664046"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Aug 2025 10:32:54 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="167630701"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 14 Aug 2025 10:35:51 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umbop-0000J9-2a;
-	Thu, 14 Aug 2025 17:32:51 +0000
-Date: Thu, 14 Aug 2025 19:32:00 +0200
+	id 1umbrh-000BDN-0k;
+	Thu, 14 Aug 2025 17:35:49 +0000
+Date: Fri, 15 Aug 2025 01:34:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 4/4]
- arch/arm64/kvm/hyp/nvhe/switch.c:391:5: warning: no previous prototype for
- function '__pkvm_register_hyp_panic_notifier'
-Message-ID: <202508141942.Fs8FOjug-lkp@intel.com>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Subject: [sailus-media-tree:devel 2/2] drivers/media/i2c/ov2735.c:938:17:
+ error: call to undeclared function 'devm_v4l2_sensor_clk_get'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202508150159.xbzqi1vt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,39 +66,162 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   125206b4d7d6898a8a5d0c088a5ba75114266b81
-commit: 4b5a009cd21622260e1f19afbd0ff7440102b6d8 [4/4] ANDROID: KVM: arm64: Introduce a hyp panic module notifier
-config: arm64-randconfig-2002-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141942.Fs8FOjug-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7d886fab74d4037d654d02bed24dd97c0ba863d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141942.Fs8FOjug-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git devel
+head:   7b1c48d7d525ee84c4dc79d6810171873b954c92
+commit: 7b1c48d7d525ee84c4dc79d6810171873b954c92 [2/2] media: i2c: add ov2735 image sensor driver
+config: x86_64-randconfig-071-20250814 (https://download.01.org/0day-ci/archive/20250815/202508150159.xbzqi1vt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150159.xbzqi1vt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141942.Fs8FOjug-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150159.xbzqi1vt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/switch.c:391:5: warning: no previous prototype for function '__pkvm_register_hyp_panic_notifier' [-Wmissing-prototypes]
-     391 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/switch.c:391:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     391 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
-         | ^
-         | static 
-   1 warning generated.
+>> drivers/media/i2c/ov2735.c:938:17: error: call to undeclared function 'devm_v4l2_sensor_clk_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     938 |         ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+         |                        ^
+>> drivers/media/i2c/ov2735.c:938:15: error: incompatible integer to pointer conversion assigning to 'struct clk *' from 'int' [-Wint-conversion]
+     938 |         ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +/__pkvm_register_hyp_panic_notifier +391 arch/arm64/kvm/hyp/nvhe/switch.c
+vim +/devm_v4l2_sensor_clk_get +938 drivers/media/i2c/ov2735.c
 
-   389	
-   390	static void (*hyp_panic_notifier)(struct user_pt_regs *regs);
- > 391	int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
-   392	{
-   393		return cmpxchg(&hyp_panic_notifier, NULL, cb) ? -EBUSY : 0;
-   394	}
-   395	
+   908	
+   909	static int ov2735_probe(struct i2c_client *client)
+   910	{
+   911		struct ov2735 *ov2735;
+   912		unsigned int xclk_freq;
+   913		int ret;
+   914	
+   915		ov2735 = devm_kzalloc(&client->dev, sizeof(*ov2735), GFP_KERNEL);
+   916		if (!ov2735)
+   917			return -ENOMEM;
+   918	
+   919		ov2735->dev = &client->dev;
+   920	
+   921		v4l2_i2c_subdev_init(&ov2735->sd, client, &ov2735_subdev_ops);
+   922		ov2735->sd.internal_ops = &ov2735_internal_ops;
+   923	
+   924		ov2735->cci = devm_cci_regmap_init_i2c(client, 8);
+   925		if (IS_ERR(ov2735->cci))
+   926			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->cci),
+   927					     "failed to initialize CCI\n");
+   928	
+   929		/* Set Current page to 0 */
+   930		ov2735->current_page = 0;
+   931	
+   932		ret = devm_mutex_init(ov2735->dev, &ov2735->page_lock);
+   933		if (ret)
+   934			return dev_err_probe(ov2735->dev, ret,
+   935					     "Failed to initialize lock\n");
+   936	
+   937		/* Get system clock (xvclk) */
+ > 938		ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+   939		if (IS_ERR(ov2735->xclk))
+   940			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->xclk),
+   941					     "failed to get xclk\n");
+   942	
+   943		xclk_freq = clk_get_rate(ov2735->xclk);
+   944		if (xclk_freq != OV2735_XCLK_FREQ)
+   945			return dev_err_probe(ov2735->dev, -EINVAL,
+   946					     "xclk frequency not supported: %u Hz\n",
+   947					     xclk_freq);
+   948	
+   949		ret = ov2735_get_regulators(ov2735);
+   950		if (ret)
+   951			return dev_err_probe(ov2735->dev, ret,
+   952					     "failed to get regulators\n");
+   953	
+   954		ret = ov2735_parse_endpoint(ov2735);
+   955		if (ret)
+   956			return dev_err_probe(ov2735->dev, ret,
+   957					     "failed to parse endpoint configuration\n");
+   958	
+   959		ov2735->reset_gpio = devm_gpiod_get_optional(ov2735->dev,
+   960							     "reset", GPIOD_OUT_LOW);
+   961		if (IS_ERR(ov2735->reset_gpio))
+   962			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->reset_gpio),
+   963					     "failed to get reset GPIO\n");
+   964	
+   965		ov2735->enable_gpio = devm_gpiod_get_optional(ov2735->dev,
+   966							      "enable", GPIOD_OUT_LOW);
+   967		if (IS_ERR(ov2735->enable_gpio))
+   968			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->enable_gpio),
+   969					     "failed to get enable GPIO\n");
+   970	
+   971		ret = ov2735_power_on(ov2735->dev);
+   972		if (ret)
+   973			return ret;
+   974	
+   975		ret = ov2735_identify_module(ov2735);
+   976		if (ret)
+   977			goto error_power_off;
+   978	
+   979		ret = ov2735_init_controls(ov2735);
+   980		if (ret)
+   981			goto error_power_off;
+   982	
+   983		/* Initialize subdev */
+   984		ov2735->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+   985		ov2735->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+   986		ov2735->pad.flags = MEDIA_PAD_FL_SOURCE;
+   987	
+   988		ret = media_entity_pads_init(&ov2735->sd.entity, 1, &ov2735->pad);
+   989		if (ret) {
+   990			dev_err_probe(ov2735->dev, ret, "failed to init entity pads\n");
+   991			goto error_handler_free;
+   992		}
+   993	
+   994		ov2735->sd.state_lock = ov2735->handler.lock;
+   995		ret = v4l2_subdev_init_finalize(&ov2735->sd);
+   996		if (ret) {
+   997			dev_err_probe(ov2735->dev, ret, "subdev init error\n");
+   998			goto error_media_entity;
+   999		}
+  1000	
+  1001		ret = devm_pm_runtime_get_noresume(ov2735->dev);
+  1002		if (ret) {
+  1003			dev_err_probe(ov2735->dev, ret,
+  1004				      "failed to get runtime PM noresume\n");
+  1005			goto error_subdev_cleanup;
+  1006		}
+  1007	
+  1008		ret = devm_pm_runtime_set_active_enabled(ov2735->dev);
+  1009		if (ret) {
+  1010			dev_err_probe(ov2735->dev, ret,
+  1011				      "failed to set runtime PM active+enabled\n");
+  1012			goto error_subdev_cleanup;
+  1013		}
+  1014	
+  1015		ret = v4l2_async_register_subdev_sensor(&ov2735->sd);
+  1016		if (ret) {
+  1017			dev_err_probe(ov2735->dev, ret,
+  1018				      "failed to register ov2735 sub-device\n");
+  1019			goto error_subdev_cleanup;
+  1020		}
+  1021	
+  1022		return 0;
+  1023	
+  1024	error_subdev_cleanup:
+  1025		v4l2_subdev_cleanup(&ov2735->sd);
+  1026	
+  1027	error_media_entity:
+  1028		media_entity_cleanup(&ov2735->sd.entity);
+  1029	
+  1030	error_handler_free:
+  1031		v4l2_ctrl_handler_free(ov2735->sd.ctrl_handler);
+  1032	
+  1033	error_power_off:
+  1034		ov2735_power_off(ov2735->dev);
+  1035	
+  1036		return ret;
+  1037	}
+  1038	
 
 -- 
 0-DAY CI Kernel Test Service
