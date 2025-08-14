@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961421E4A4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 16:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81492FD1AF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 16:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755188693; cv=none; b=fzVOGnGOOzjt4Rg36R5regW8NVBkO0AeObMBIdmU5VieJ3+J1H3dOXQW74YusPYkDnY2W2uMxe6sJKAfUuryuqYQEmOel6dpuEK2bG6//fiyW2JsNs2f/PHALeu2qi3ZTe93Y9lX49lX/x+pPizC4XB4Co7FejbZ4et/PzhVqFg=
+	t=1755189810; cv=none; b=RCSfUCKMqaXgyKD29f3kcGWBYWIqVzRUkiOXkLcH5nEEOOkZA1cIMc7M99/VXjO75el5a5f/F63WhTfieieQHn2WjoEbY1AYmx3e0dmXkjH5VmXrU1dEKjHvQIh0iR3suaRT6W43lbgWhmuPEWX95gBuXdYImaQ5dl3YDkfJfVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755188693; c=relaxed/simple;
-	bh=5dc/qRwCdGpH9V1eAKoZGG4tQHMjIHTEMoI8FyzeGeg=;
+	s=arc-20240116; t=1755189810; c=relaxed/simple;
+	bh=V/V8x5Yj1AM29W+XG4Ia7BrZ22Eq80Zzcod8uJy+NB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T9+VEjsFkNfd3BSyB7qAx/79ZU+GCopjLJi2k3nLmJXo6Fa70znLpu1c8QFCFh0DoyU2ea7PLAipfjMVQ1+51Fv1mSpCFJOCzHZS2XyD5S+Phui++cZmOfNYm/aubXFK7JOUVMhPiTfuHq9zOqMbFF6/wnsu9kLB/YVQLa/Gbwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkhtEEKT; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=Mr9RQ6N1IXNGz1/lSWt/iHcpy3zlufLfQTdTsbWHGwddPt4bmx74q5CQ2YLw+R2ETAShlj+0m/25me/knm+hg3jLWDZRT/dzy1fjXL0c1PoxxZeXltU9ycTGLiAKID2SnDeZgu0JuuKAhYsWQIsI1ztFjtp+xN/d+IpQSIoNO3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DF0YiWGT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkhtEEKT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DF0YiWGT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755188691; x=1786724691;
+  t=1755189808; x=1786725808;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5dc/qRwCdGpH9V1eAKoZGG4tQHMjIHTEMoI8FyzeGeg=;
-  b=OkhtEEKTlzBOg3F0HiNPFstS3OsLGxD5CFqzQLCEfee6FupuF1tuQO5q
-   PQkFTiPtqaCDW4bxtvRm+P663+dGW1c5yjqHVaFjZD5fZkkY/LKSAQv6T
-   JIvVd/yrf4cv+DMKEzerOECDMF6eKqz3m/sg/m/RnD1y6o1V1xmDAoIZk
-   DVCDfDfSmGO7R60hJsv9GC78/Cvg077zpaXmMugoCrIeqOQ+JLkKddHhC
-   bxgMJguYim9t/X+9IbTv1258WP6FENB6GeQNYQRJB/YMbb1C8UnRPK/5u
-   fNhfZsXzJA27wUECaGt7Q9bVCePH7+i8k/0tTxjRJkIaVeaO6+f7hEduA
+  bh=V/V8x5Yj1AM29W+XG4Ia7BrZ22Eq80Zzcod8uJy+NB4=;
+  b=DF0YiWGTrvR2+9eyLgmF4TjX1eilL7an8fT/3RpUKchxlwZ55ZZuQ/hn
+   jzUuEB28NV7g5h01TFNYdvCsInSFn7RlZ6EhUIVtLQeXnjKgr7nd+11H6
+   HDAlodTXHCkjqaz+3BnyFjOYAuTUQ1HVBXPj+uW9FZKHEr+8xPEiOVw9D
+   AfOKMMKkCe5UfmyJjL9iUPD2pvoHKxgerV69kvr5CPImlT5lbYbTSZ8vJ
+   kLDYaQA8THQtAqdqNGuQoaHNNNvVmQdfnDwEaLntWYiyO7iwsgoMTBUiH
+   Pel6mUgs9ryHaHuaBeulyQQe+9YvClY8pV2u/oTtKojXY+6MnLG9YOLiE
    A==;
-X-CSE-ConnectionGUID: B6oIqFOxSbmz8YQaHykODw==
-X-CSE-MsgGUID: QZxLhqLCRtuv0BxXpOAszA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57624913"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="57624913"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 09:24:51 -0700
-X-CSE-ConnectionGUID: 6+uTb5sqS++SAiMBWmprpg==
-X-CSE-MsgGUID: s1UqzQ7iSfqquUCPTjgtlQ==
+X-CSE-ConnectionGUID: rfC0c4iESyCs7iKPJ/XWiw==
+X-CSE-MsgGUID: L9duySwVQLqWLWOVVV/Cng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="74962781"
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
+   d="scan'208";a="74962781"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 09:43:23 -0700
+X-CSE-ConnectionGUID: 4IfJCuIgTfa7eSnYVENcyw==
+X-CSE-MsgGUID: jiBgOoSDRHWZgCD2Uct1+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="172019093"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Aug 2025 09:24:50 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
+   d="scan'208";a="203988727"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 14 Aug 2025 09:43:21 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umakx-0000Ih-2M;
-	Thu, 14 Aug 2025 16:24:47 +0000
-Date: Thu, 14 Aug 2025 18:24:04 +0200
+	id 1umb2s-000B9c-2G;
+	Thu, 14 Aug 2025 16:43:18 +0000
+Date: Fri, 15 Aug 2025 00:42:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 4/4] arch/arm64/kvm/at.c:736:38:
- warning: variable 'px' set but not used
-Message-ID: <202508141848.IQrz3W9n-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2679/2679] arch/arm64/kernel/bpf-rvi.c:8:6:
+ warning: no previous prototype for function 'bpf_arm64_cpu_have_feature'
+Message-ID: <202508150054.NTqDP4S0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,150 +62,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   125206b4d7d6898a8a5d0c088a5ba75114266b81
-commit: d6a01a2dc760c8350fa182a6afd69fabab131f73 [4/4] KVM: arm64: nv: Add SW walker for AT S1 emulation
-config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141848.IQrz3W9n-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141848.IQrz3W9n-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
+commit: 225346eb8c1a1c9cc44f816da80a5c12a0e93cba [2679/2679] bpf-rvi: arm64: Add bpf_arm64_cpu_have_feature() kfunc
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150054.NTqDP4S0-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150054.NTqDP4S0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141848.IQrz3W9n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150054.NTqDP4S0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/at.c: In function 'handle_at_slow':
->> arch/arm64/kvm/at.c:736:38: warning: variable 'px' set but not used [-Wunused-but-set-variable]
-     bool perm_fail, ur, uw, ux, pr, pw, px;
-                                         ^~
-   arch/arm64/kvm/at.c: In function '__kvm_at_s1e2':
-   arch/arm64/kvm/at.c:973:22: warning: variable 'mmu' set but not used [-Wunused-but-set-variable]
-      struct kvm_s2_mmu *mmu;
-                         ^~~
+>> arch/arm64/kernel/bpf-rvi.c:8:6: warning: no previous prototype for function 'bpf_arm64_cpu_have_feature' [-Wmissing-prototypes]
+       8 | bool bpf_arm64_cpu_have_feature(unsigned int num)
+         |      ^
+   arch/arm64/kernel/bpf-rvi.c:8:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+       8 | bool bpf_arm64_cpu_have_feature(unsigned int num)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/px +736 arch/arm64/kvm/at.c
+vim +/bpf_arm64_cpu_have_feature +8 arch/arm64/kernel/bpf-rvi.c
 
-   733	
-   734	static u64 handle_at_slow(struct kvm_vcpu *vcpu, u32 op, u64 vaddr)
-   735	{
- > 736		bool perm_fail, ur, uw, ux, pr, pw, px;
-   737		struct s1_walk_result wr = {};
-   738		struct s1_walk_info wi = {};
-   739		int ret, idx;
-   740	
-   741		ret = setup_s1_walk(vcpu, op, &wi, &wr, vaddr);
-   742		if (ret)
-   743			goto compute_par;
-   744	
-   745		if (wr.level == S1_MMU_DISABLED)
-   746			goto compute_par;
-   747	
-   748		idx = srcu_read_lock(&vcpu->kvm->srcu);
-   749	
-   750		ret = walk_s1(vcpu, &wi, &wr, vaddr);
-   751	
-   752		srcu_read_unlock(&vcpu->kvm->srcu, idx);
-   753	
-   754		if (ret)
-   755			goto compute_par;
-   756	
-   757		/* FIXME: revisit when adding indirect permission support */
-   758		/* AArch64.S1DirectBasePermissions() */
-   759		if (wi.regime != TR_EL2) {
-   760			switch (FIELD_GET(PTE_USER | PTE_RDONLY, wr.desc)) {
-   761			case 0b00:
-   762				pr = pw = true;
-   763				ur = uw = false;
-   764				break;
-   765			case 0b01:
-   766				pr = pw = ur = uw = true;
-   767				break;
-   768			case 0b10:
-   769				pr = true;
-   770				pw = ur = uw = false;
-   771				break;
-   772			case 0b11:
-   773				pr = ur = true;
-   774				pw = uw = false;
-   775				break;
-   776			}
-   777	
-   778			switch (wr.APTable) {
-   779			case 0b00:
-   780				break;
-   781			case 0b01:
-   782				ur = uw = false;
-   783				break;
-   784			case 0b10:
-   785				pw = uw = false;
-   786				break;
-   787			case 0b11:
-   788				pw = ur = uw = false;
-   789				break;
-   790			}
-   791	
-   792			/* We don't use px for anything yet, but hey... */
-   793			px = !((wr.desc & PTE_PXN) || wr.PXNTable || uw);
-   794			ux = !((wr.desc & PTE_UXN) || wr.UXNTable);
-   795	
-   796			if (op == OP_AT_S1E1RP || op == OP_AT_S1E1WP) {
-   797				bool pan;
-   798	
-   799				pan = *vcpu_cpsr(vcpu) & PSR_PAN_BIT;
-   800				pan &= ur || uw;
-   801				pw &= !pan;
-   802				pr &= !pan;
-   803			}
-   804		} else {
-   805			ur = uw = ux = false;
-   806	
-   807			if (!(wr.desc & PTE_RDONLY)) {
-   808				pr = pw = true;
-   809			} else {
-   810				pr = true;
-   811				pw = false;
-   812			}
-   813	
-   814			if (wr.APTable & BIT(1))
-   815				pw = false;
-   816	
-   817			/* XN maps to UXN */
-   818			px = !((wr.desc & PTE_UXN) || wr.UXNTable);
-   819		}
-   820	
-   821		perm_fail = false;
-   822	
-   823		switch (op) {
-   824		case OP_AT_S1E1RP:
-   825		case OP_AT_S1E1R:
-   826		case OP_AT_S1E2R:
-   827			perm_fail = !pr;
-   828			break;
-   829		case OP_AT_S1E1WP:
-   830		case OP_AT_S1E1W:
-   831		case OP_AT_S1E2W:
-   832			perm_fail = !pw;
-   833			break;
-   834		case OP_AT_S1E0R:
-   835			perm_fail = !ur;
-   836			break;
-   837		case OP_AT_S1E0W:
-   838			perm_fail = !uw;
-   839			break;
-   840		default:
-   841			BUG();
-   842		}
-   843	
-   844		if (perm_fail)
-   845			fail_s1_walk(&wr, ESR_ELx_FSC_PERM_L(wr.level), false, false);
-   846	
-   847	compute_par:
-   848		return compute_par_s1(vcpu, &wr, wi.regime);
-   849	}
-   850	
+     7	
+   > 8	bool bpf_arm64_cpu_have_feature(unsigned int num)
+     9	{
+    10		return cpu_have_feature(num);
+    11	}
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
