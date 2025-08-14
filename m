@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C541A08AF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 23:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB86AF4FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 23:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755213620; cv=none; b=joM5mVX29a471SfqXbSufF5Ohf0WYUwjSLFFC6i+XObhVIOH6UtlZC29JfV3HFpBL7rbixfhJ6YWNbuCZeuf+b+0xeMxvh7oSi1xhaZWwiyHS68rEDj6ZLPo8NO+MmpyYtFJ7knRWKJgwneTFLYgMv15jvTtWt2P+N9YXcE56NE=
+	t=1755214365; cv=none; b=tyROK+sbgkr/grkQCjaxWdTYL/bhGaQ6LaMnUqEy9CfRqRpM1VvGnwTOp9N8t+7L4o2msVrAQZT8c37a+s6cy85hpP5Ft2YvawJBYHMICT+S3epCl2hjU51Y+r34B17Xt4mS/vcEdYBbandWir6lWzUpo5oNBoBd8iEDhljtqBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755213620; c=relaxed/simple;
-	bh=bjlspsgALF1F+mbj7U4jz3KDVtpTC45ftjBYFPRr2L4=;
+	s=arc-20240116; t=1755214365; c=relaxed/simple;
+	bh=FH67/qUUqTYNTLZvcooVyYTz2bQjmCKBZliGOmY6lbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=glxL+H+A74QhjrCsGspPebaWF0KxWdjkzYfinPiG33gVr4unmtPinJNseQz8anCFwbrRNQu2n/PAu4V/8X5PlUHB8YjTkseTZAj1h+ulTHaTdxTQUtFs/TWGqnZUKXfRK/BsHj+XToOYchEiYFhl4DGovZq2ndzvx4ucRRgZzVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AScLWcX6; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=KzVDO7ogRuA+s4+QrgjF7ymodyA9aYgzuYM9U5bHxABxqp1lRZBtPPjMUf6queopgzi+uC/bAWQOW5JEtofjn/9k+Hq3YibTAAIacEfoswR+ndmQHlHSaNg3rjKuLE/JL76Qpm9LpwLWBIG9OPW6mGX5LA2OvriBmF/xB6oLbxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WtlOAnS7; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AScLWcX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WtlOAnS7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755213618; x=1786749618;
+  t=1755214363; x=1786750363;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bjlspsgALF1F+mbj7U4jz3KDVtpTC45ftjBYFPRr2L4=;
-  b=AScLWcX6cn55LfIikBp8O4kL3KXoQBL3e6t9al5ZKXd/bwFW4zqEzXto
-   6VwFpIItz08AwIwILPt4LNHxT/RhZaE5V4vXUuvL9VkTsKsBBRm7wjhir
-   P31ISLCdJHrSxFsLAIpkDOwiFrHhPus8J2As8rOmNDEGKW6eGqMQlzYYY
-   KIPm0yRz73lW5KkyGmKKPgq3C8MZc6ZNXODtTZ/Gt0RffTOO8+VaVCnuL
-   Joirum6WKE7bi68scRs6hHVYg3pjMOL/3a1jchassZtFk8q/LmRhks97E
-   FTWog/IZefgU+6Tcfe4kjQMgPtbTwJM//ZrbaF52ZH9dvx8hH6AfbwWnr
-   Q==;
-X-CSE-ConnectionGUID: Xrq9BZWWTPSwfRG+90Lzuw==
-X-CSE-MsgGUID: YSAbw6FZR5uN1wKtLWVBCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="45118715"
+  bh=FH67/qUUqTYNTLZvcooVyYTz2bQjmCKBZliGOmY6lbA=;
+  b=WtlOAnS7KfkKhInA/WtKfUT2bAkRB1Mz3tgvcrhNbp8MWzM3+1JJOxR7
+   YmAc1Eut7irqB59Ip/cch4UrYdpPcD/4K9e5ESpmamxKpSaTbP5H6KwZJ
+   5jwp60uLyGen1owA36BiN7Twt83IiE0GCIjGqbe6Pt5PFL03AaEvzyaZP
+   xHxi3NneT4J2usv6wf3CXQx72j7/hecA1acKt8FHHAPRSXP/oXHCKI3Rt
+   HWTQZvdpacRIoymfoj7lpuQfiA+lT81X6xo7vZGIwRL6X3PijgNd4qufe
+   TrHoDA6enlPJyb85oJZFv0vlVsGiBNMPLgPNibZ6rOKTKCa7m6JgmNEn1
+   w==;
+X-CSE-ConnectionGUID: 4wp66yLqTCWodU8TheA7EA==
+X-CSE-MsgGUID: 4WBPXymzTw6owe+k5Gv4lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="74993707"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="45118715"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 16:20:18 -0700
-X-CSE-ConnectionGUID: 0O7QwIayRnK5PCidRywGQg==
-X-CSE-MsgGUID: l2jVIG0MSBmNuAliBjqZ5g==
+   d="scan'208";a="74993707"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 16:32:42 -0700
+X-CSE-ConnectionGUID: h74xcjlxRjGnchpebGO5uA==
+X-CSE-MsgGUID: fNF9epJWR4OezYKKR/mQcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="171079805"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Aug 2025 16:20:15 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="172108953"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 14 Aug 2025 16:32:41 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umhEy-0000Mp-2z;
-	Thu, 14 Aug 2025 23:20:12 +0000
-Date: Fri, 15 Aug 2025 01:20:00 +0200
+	id 1umhQs-000BNc-0k;
+	Thu, 14 Aug 2025 23:32:34 +0000
+Date: Fri, 15 Aug 2025 07:31:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 456/456]
- drivers/net/ethernet/intel/ice/ice_txrx_lib.c:359: warning: Excess function
- parameter 'first_idx' description in 'ice_finalize_xdp_rx'
-Message-ID: <202508150142.XhkcaCRb-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2679/2679] kernel/bpf-rvi/common_kfuncs.c:97:18:
+ warning: no previous prototype for function 'bpf_seq_file_append'
+Message-ID: <202508150748.bPjkF4cw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +62,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   e61c4ff0d66782e41c3eebfc98cb8ea51f6fad45
-commit: a9ed3db251b108581cb7a5de94be6f8c949506c6 [456/456] ice: fix W=1 headers mismatch
-config: i386-buildonly-randconfig-2003-20250814 (https://download.01.org/0day-ci/archive/20250815/202508150142.XhkcaCRb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150142.XhkcaCRb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
+commit: 1afa15e45da121993a15941b08fef5e3d58f40e5 [2679/2679] bpf-rvi: Add bpf_seq_file_append() kfunc
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150748.bPjkF4cw-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150748.bPjkF4cw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150142.XhkcaCRb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150748.bPjkF4cw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/ice/ice_txrx_lib.c:359: warning: Excess function parameter 'first_idx' description in 'ice_finalize_xdp_rx'
---
->> drivers/net/ethernet/intel/ice/ice_txrx.c:986: warning: Function parameter or member 'rx_buf' not described in 'ice_construct_skb'
+   kernel/bpf-rvi/common_kfuncs.c:20:32: warning: no previous prototype for function 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
+      20 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
+         |                                ^
+   kernel/bpf-rvi/common_kfuncs.c:20:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      20 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
+         |             ^
+         |             static 
+   kernel/bpf-rvi/common_kfuncs.c:29:35: warning: no previous prototype for function 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
+      29 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
+         |                                   ^
+   kernel/bpf-rvi/common_kfuncs.c:29:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      29 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
+         |             ^
+         |             static 
+   kernel/bpf-rvi/common_kfuncs.c:34:17: warning: no previous prototype for function 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
+      34 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
+         |                 ^
+   kernel/bpf-rvi/common_kfuncs.c:34:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      34 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
+         |             ^
+         |             static 
+   kernel/bpf-rvi/common_kfuncs.c:48:17: warning: no previous prototype for function 'bpf_pidns_last_pid' [-Wmissing-prototypes]
+      48 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
+         |                 ^
+   kernel/bpf-rvi/common_kfuncs.c:48:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      48 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
+         |             ^
+         |             static 
+   kernel/bpf-rvi/common_kfuncs.c:77:18: warning: no previous prototype for function 'bpf_si_memswinfo' [-Wmissing-prototypes]
+      77 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
+         |                  ^
+   kernel/bpf-rvi/common_kfuncs.c:77:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      77 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
+         |             ^
+         |             static 
+   kernel/bpf-rvi/common_kfuncs.c:87:27: warning: no previous prototype for function 'bpf_page_counter_read' [-Wmissing-prototypes]
+      87 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
+         |                           ^
+   kernel/bpf-rvi/common_kfuncs.c:87:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      87 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
+         |             ^
+         |             static 
+>> kernel/bpf-rvi/common_kfuncs.c:97:18: warning: no previous prototype for function 'bpf_seq_file_append' [-Wmissing-prototypes]
+      97 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
+         |                  ^
+   kernel/bpf-rvi/common_kfuncs.c:97:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      97 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
+         |             ^
+         |             static 
+   7 warnings generated.
 
 
-vim +359 drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+vim +/bpf_seq_file_append +97 kernel/bpf-rvi/common_kfuncs.c
 
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  347  
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  348  /**
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  349   * ice_finalize_xdp_rx - Bump XDP Tx tail and/or flush redirect map
-eb087cd828648d Maciej Fijalkowski     2021-08-19  350   * @xdp_ring: XDP ring
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  351   * @xdp_res: Result of the receive batch
-a9ed3db251b108 Jesse Brandeburg       2023-03-13  352   * @first_idx: index to write from caller
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  353   *
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  354   * This function bumps XDP Tx tail and/or flush redirect map, and
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  355   * should be called when a batch of packets has been processed in the
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  356   * napi loop.
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04  357   */
-eb087cd828648d Maciej Fijalkowski     2021-08-19  358  void ice_finalize_xdp_rx(struct ice_tx_ring *xdp_ring, unsigned int xdp_res)
-0891d6d4b1fe1b Krzysztof Kazimierczak 2019-11-04 @359  {
-
-:::::: The code at line 359 was first introduced by commit
-:::::: 0891d6d4b1fe1becf1a77353b03449955820084b ice: Move common functions to ice_txrx_lib.c
-
-:::::: TO: Krzysztof Kazimierczak <krzysztof.kazimierczak@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+    91	
+    92	/*
+    93	 * Stat related kfuncs
+    94	 */
+    95	
+    96	/* Moving src's content to the end of dst. Reference: seq_vprintf. */
+  > 97	__bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
+    98	{
+    99		/*
+   100		 * ->count: length of content
+   101		 * ->size: available buffer space
+   102		 * i.e. seq_printf(dst, "%s", src->buf)
+   103		 */
+   104		if (dst->count < dst->size)
+   105			if (src->count < dst->size - dst->count) {
+   106				memmove(dst->buf + dst->count, src->buf, src->count);
+   107				dst->count += src->count;
+   108			}
+   109	}
+   110	
 
 -- 
 0-DAY CI Kernel Test Service
