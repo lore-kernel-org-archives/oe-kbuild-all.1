@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B839214A62B;
-	Thu, 14 Aug 2025 03:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558E51E47A5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 05:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755143446; cv=none; b=eXoTi6YlNWYynuva++jWxyUJUr74N6sWNFho51tXYoHifvwq462uaZXM4rMAzA0MYdejWTRPDIda1d+dl55AEdBfpiiEkemAvaGUgo5DUAJFKTh9T4jxoXD+/AYT8SNOBlQRiWPUMYJBU9fzFfgmEUMaKLAbu9pKt7q0nGRuPN8=
+	t=1755148397; cv=none; b=bQGvbYU51i8tOG17gHC3XPco7kv7fUIfDGVMpeLj8nhAf7wAnfCn8FHxeyynO346qYwRyvEVS+qn8ZDyK0LilqLfY6ZOaoDe+dv6qcTnkz/9Z5CBqZyVCtpjoiAg33qPBmjvxmAgEhNYznSXmEOAjOCXfxHHo/9ORaYKsW6/3kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755143446; c=relaxed/simple;
-	bh=ism4DX/0tvtC7UUo4wckL9jSeiXUZ1Nq7Lv7Sj8l4Rg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TbgI3obAuQw3LnXHVzrOA7ybLXbGQMWp1IUfGhpjWgDwvV3dpCq1FyPAIwspVAIBY1K8yiLHrEpZB7p1KqWvcYxQ/dzB+g4Rp76Utmc9cUxqr82tvyRfyotpFO5HgNzlUrxNlzJFENLfna51y+8cfzXp8Bp7TGg+nLNneqcNh4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkSiKz8+; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1755148397; c=relaxed/simple;
+	bh=Av0y0TbczPA4bhFK7N/z+roJvjV+xjUbL8RGsVxPHDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f2rj7Z/5XLToKctO6gYAFXqjTwQXTBy0a3V+BPU/HOYnazUlFvAPSaSNN4xlS7fD0OiOzdZwUfgofqARZDGaZ87ueqeXbmuQvmMuTYiBdwIMzVhHrz5xdHyXsy3F2Tm+vPkXBOv2TvaikOa78h++E7/paZKkdPq4bMHStQXT53s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5gEYAlf; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkSiKz8+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5gEYAlf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755143445; x=1786679445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ism4DX/0tvtC7UUo4wckL9jSeiXUZ1Nq7Lv7Sj8l4Rg=;
-  b=ZkSiKz8+oZAGOI7NNqt6eELpGCyuE1X2irtEKGhQhtJGdMg1x0fyJmPh
-   4dvW3Ks50x7ejWAGpbOSW0GkpD92TLkL4j51ySmbPawjqK7IwOhrlW8Y1
-   BD02HR0a2fnraL3YZzvHrsP9YBsjQ/yv2ayorwQP9Sw/BaRp2ZTUJ8FqI
-   uYmhv3sAhy8mlGzB1ciZtzq7A30vw125to55YZDccLYsVC4fRm76hnrlm
-   XKcdwZJijXTIbmf78W9yHWiQGrTiCjNn8GH38Xu+FQse97O5c8nf9mSiK
-   fXUOFo2GLe3Z9uRTp75dIj8v825OaDaRFX9CD9AgRQuJnCWfz6birik/V
-   g==;
-X-CSE-ConnectionGUID: ctgM0i1uQCaqnUZ8zbskNA==
-X-CSE-MsgGUID: dbMCDDL3TOeRkCvNTTTUGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68056386"
+  t=1755148392; x=1786684392;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Av0y0TbczPA4bhFK7N/z+roJvjV+xjUbL8RGsVxPHDA=;
+  b=V5gEYAlf+UqNoqnPpuQxEDOnIN/HCMNuwopFkVe/of6KF9FlRTsyl14r
+   s2TQZVPFsfNraAU2u43JIEcrenEhiD4WTEg04Zh9QsZ9Ntq7n9Qv92TdX
+   HqU9XottAORTDxmo/vQmlrKr8UbMGd8emOT7WFDxOhmc5lJIP01mk4RG5
+   ghQ4iV3qXs8FJHUzf3SXmuNtqIMbWP4FV447/4Avq79pfH4vwDNQdWZyf
+   ZhpxbxqbbPEnHqZRPuX6bxXcal1BFCmetPk15vQoFSz9AW2WvmX4R2KjY
+   hDXJKrMlq/7hpwjIM79anpdA/Ktb3s4W8N0+BfYM9oQvHefEPBwHOSnOp
+   w==;
+X-CSE-ConnectionGUID: kOpAJIfPQhyyUkkBZHCmxg==
+X-CSE-MsgGUID: fzdtfpv0Tyu6jud6VDH/UQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="74907677"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="68056386"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 20:50:44 -0700
-X-CSE-ConnectionGUID: lLI0kl0bRriL7Ccik4xtbQ==
-X-CSE-MsgGUID: v4wETOxZQ2yzmtln7ND2fw==
+   d="scan'208";a="74907677"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 22:13:11 -0700
+X-CSE-ConnectionGUID: M3LEpexBSuCesmH1RakKdQ==
+X-CSE-MsgGUID: xySxNTZMQ4K40wHieQc9aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="165871159"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 13 Aug 2025 20:50:41 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="170798558"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Aug 2025 22:13:10 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umOz8-000AYe-0X;
-	Thu, 14 Aug 2025 03:50:38 +0000
-Date: Thu, 14 Aug 2025 11:49:54 +0800
+	id 1umQGy-0000Ch-1y;
+	Thu, 14 Aug 2025 05:13:08 +0000
+Date: Thu, 14 Aug 2025 07:12:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
-	Christian Loehle <christian.loehle@arm.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Avri Altman <Avri.Altman@sandisk.com>
-Subject: Re: [PATCH v7 1/2] mmc: core: Add infrastructure for undervoltage
- handling
-Message-ID: <202508141139.psCBtuQz-lkp@intel.com>
-References: <20250813103309.3810728-2-o.rempel@pengutronix.de>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1755/1755]
+ arch/x86/kernel/cpu/mce/inject.o: warning: objtool: missing symbol for
+ section .exit.text
+Message-ID: <202508140732.YsbP7fHB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,67 +62,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250813103309.3810728-2-o.rempel@pengutronix.de>
 
-Hi Oleksij,
+Hi Borislav,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on ulf-hansson-mmc-mirror/next v6.17-rc1 next-20250813]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/mmc-core-add-undervoltage-handler-for-MMC-eMMC-devices/20250813-193625
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250813103309.3810728-2-o.rempel%40pengutronix.de
-patch subject: [PATCH v7 1/2] mmc: core: Add infrastructure for undervoltage handling
-config: x86_64-buildonly-randconfig-002-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141139.psCBtuQz-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   8723dc57de6371f9cc8764e15d4cc9e57ae592ee
+commit: 9b6ab4a9bac22d947d324eed3f0cfd938dde959d [1755/1755] x86/mce-inject: Reset injection struct after injection
+config: x86_64-buildonly-randconfig-2004-20250811 (https://download.01.org/0day-ci/archive/20250814/202508140732.YsbP7fHB-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141139.psCBtuQz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140732.YsbP7fHB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141139.psCBtuQz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508140732.YsbP7fHB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mmc/core/core.c:1412:6: warning: unused variable 'ret' [-Wunused-variable]
-    1412 |         int ret;
-         |             ^~~
-   1 warning generated.
-
-
-vim +/ret +1412 drivers/mmc/core/core.c
-
-  1400	
-  1401	/**
-  1402	 * mmc_handle_undervoltage - Handle an undervoltage event on the MMC bus
-  1403	 * @host: The MMC host that detected the undervoltage condition
-  1404	 *
-  1405	 * This function is called when an undervoltage event is detected on one of
-  1406	 * the MMC regulators.
-  1407	 *
-  1408	 * Returns: 0 on success or a negative error code on failure.
-  1409	 */
-  1410	int mmc_handle_undervoltage(struct mmc_host *host)
-  1411	{
-> 1412		int ret;
-  1413	
-  1414		/* Stop the host to prevent races with card removal */
-  1415		__mmc_stop_host(host);
-  1416	
-  1417		if (!host->bus_ops || !host->bus_ops->handle_undervoltage)
-  1418			return 0;
-  1419	
-  1420		dev_warn(mmc_dev(host), "%s: Undervoltage detected, initiating emergency stop\n",
-  1421			 mmc_hostname(host));
-  1422	
-  1423		return host->bus_ops->handle_undervoltage(host);
-  1424	}
-  1425	
+>> arch/x86/kernel/cpu/mce/inject.o: warning: objtool: missing symbol for section .exit.text
 
 -- 
 0-DAY CI Kernel Test Service
