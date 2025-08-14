@@ -1,98 +1,186 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B163341AA;
-	Thu, 14 Aug 2025 01:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9470618DB37
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 01:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755134107; cv=none; b=t7Rhzg9ZA1cDuGZ0mfJhW27FM4BmLRGjinQ0trunmAPOrWd51Csz9tWf1NMnfoH1muvqgCZRELCJB9DjuSRlP27TOtnlDx7gmvfDtuxuaJMzS50QoCUPTKt2248qD89srGL9IIPe2RU68SQ8QFQbfSI7WebxPJggjNf8FxnCVoA=
+	t=1755135001; cv=none; b=BeVXWERDcBiUdgosfGWMfCrQqSccOWKkcJ+6JLs7qD6h/NTIDzeY7/3f5o78YgUBs2mC/tKmwrwazCds/gN+rHTcufE4tP84FouE6/G0qQWhbpMSHs3a3PO7Hqyrea0swb7b41kGd428S1nGX1IKH9HRG9mcl0dOB/lFP+cJsi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755134107; c=relaxed/simple;
-	bh=y9PO2PO6nPeVBRQUafPLj9FIxNajLXqS18P2UUJjTFc=;
+	s=arc-20240116; t=1755135001; c=relaxed/simple;
+	bh=3VkT9E4XBhRWbvkK0sDCx/571uI6vNHf5bmry1joc7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=T7F1Nc4HqLhv0lVl1eNXtwRVAWgXZuZ0w2rrtzmIXm87pJlyrjPor31HKVWbU/1aONuMgS5dOz3pbEs54YRtLu/GHE6DdU6XpJUybC/QEDw8oOA+npS6Rz6L84xmZQkcQLb5E65gacCWEbBJahRsgAijavvbqV43GrFWChOQa4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=tPycMhMr; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Disposition; b=sHJMrzoacsxWck1rR24O3lyHut/qsBOe0NYxe9dlvC9qilOEpDV+pO197AzX5iu47Kf64keYTkUT+TiBEE2nH43BzeahQ93eFbmwOHefpddFUNPFPsyDuuwBwAoiWGmybB8reSPSAgo6fvLJoNtT52uAqxEnFMRIXbLHjgkmPro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmhfvvCS; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="tPycMhMr"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 468D714C2D3;
-	Thu, 14 Aug 2025 03:14:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1755134096;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=VSS/GzTf7mRkzo4sO438c/imKZ2sgMqL0KjQB+0sB9s=;
-	b=tPycMhMr7X0wubaDHNZnMqB/VEiz0UUE8omXCbl8cVPraMQEqlPqNl3No+vWVKYafyfuSA
-	xhjW37XOoQV3q0j5uHaXh7YYbCRG3IZ+tEUlLhY8SaSBmV/WqNdlGIekaFWtvKennOmXOg
-	0jP8VHStgbUj1JeXRD4kB6OG5m1l26zOxuPZDjMXERijZSNrQI3moAFxCHhbi/gpYqBfCC
-	2bzC09Ecy/3pG2mjK78rVDFpscJKNFoOvRfr4bJcTgSUHhKrooXlVZISs1Qm35JZT+XjI1
-	2qZyXvNOntTkDnzLDvryfNjAjjTCBnXfmst23VvZ/ZElMoQUN43e9Adp+48JMQ==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 5e52dd40;
-	Thu, 14 Aug 2025 01:14:49 +0000 (UTC)
-Date: Thu, 14 Aug 2025 10:14:34 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	Dominique Martinet via B4 Relay <devnull+asmadeus.codewreck.org@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Maximilian Bosch <maximilian@mbosch.me>,
-	Ryan Lahfa <ryan@lahfa.xyz>, Christian Theune <ct@flyingcircus.io>,
-	Arnout Engelen <arnout@bzzt.net>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] iov_iter: iterate_folioq: fix handling of offset >=
- folio size
-Message-ID: <aJ04ej2P3ZXiBjOG@codewreck.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmhfvvCS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755134999; x=1786670999;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3VkT9E4XBhRWbvkK0sDCx/571uI6vNHf5bmry1joc7M=;
+  b=NmhfvvCSMiHUVIfyGfzuAuCPwocZi/jQdHSH4RtHZlmp1senyJ7n+Vf4
+   iUhF+I3/EpGe5ai/OG2oihHDnvDlUn0W2Pw7feugGwkjCDbnJGt2CbZHy
+   /311oDJvHNbiSXs4b2FLg1kmdOvzMKVChHrpN21b3b9bD08TVMjLS1vgf
+   vATzGS/izCjzA0fpQ88igi0Udiapu9+n1XSrfmlB8ZKWl8bsT+z95GEWY
+   smV9RnTbgbSVueDqHOOaUPDuI5++eL/rYmOeT4Wi9bVg9DQIZzfCN/CgQ
+   IjqU9OTYtHeMlSN7vWVxzIyiHz0TIaCx4hkcjdiCZZwzUpZUxJ0YuDr0A
+   g==;
+X-CSE-ConnectionGUID: O1niDEC0TZCnOMu67cjR6w==
+X-CSE-MsgGUID: wjwStpFgTHqG+B2gXuBf+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57347264"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="57347264"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 18:29:58 -0700
+X-CSE-ConnectionGUID: QVuvywOQQHG8zSLrlYo7tg==
+X-CSE-MsgGUID: 1bzHm3+XTDGeUQPMG4aqZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="166120824"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 13 Aug 2025 18:29:57 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umMmx-0000A3-0K;
+	Thu, 14 Aug 2025 01:29:55 +0000
+Date: Thu, 14 Aug 2025 03:29:24 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2025-01 1/1] net/core/scm.c:95:8:
+ error: no member named 'edges' in 'struct scm_fp_list'
+Message-ID: <202508140307.H1RgNpX5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f389ac0d-de77-4443-9302-3d8895e39daf@paulmck-laptop>
- <aJyYp-3VA9kJ5YMd@smile.fi.intel.com>
 
-Andy Shevchenko wrote on Wed, Aug 13, 2025 at 04:52:39PM +0300:
-> > I actually test with W=1 too, but somehow this warning doesn't show up
-> > in my build, I'm not quite sure why :/
-> > (even if I try clang like the test robot... But there's plenty of
-> > other warnings all around everywhere else, so I agree this is all way
-> > too manual)
-> 
-> Depends on your config, last few releases I was specifically targetting x86
-> defconfigs (32- and 64-bit) to be build with `make W=1`. There are a couple of
-> changes that are still pending, but otherwise it builds with GCC and clang.
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-01
+head:   c8d465512cdf4115614f49004b013741d7fbabeb
+commit: 84a59c9eb1a6b72ceb8c0f639a75c10a9c5d8bc7 [1/1] UPSTREAM: af_unix: Allocate struct unix_edge for each inflight AF_UNIX fd.
+config: x86_64-buildonly-randconfig-2004-20250813 (https://download.01.org/0day-ci/archive/20250814/202508140307.H1RgNpX5-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140307.H1RgNpX5-lkp@intel.com/reproduce)
 
-I meant it the other way around: the warning isn't showing up on master
-+ these patches for my config.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508140307.H1RgNpX5-lkp@intel.com/
 
-But now I double-checked, 'CC=clang make W=1' doesn't actually use
-clang, I should have tried 'make CC=clang W=1'...
-And, yeah, it just doesn't show up with gcc so I'll know it's better to
-check both compilers...
+All errors (new ones prefixed by >>):
 
-Paul E. McKenney wrote on Wed, Aug 13, 2025 at 04:04:19PM -0700:
-> > I hope this to happen sooner as it broke my builds too (I always do now `make W=1`
-> > and suggest all developers should follow).
-> 
-> This build failure is showing up in my testing as well.
-> 
-> In the service of preventing bisection issues, would it be possible to
-> fold the fix into the original patch?
+>> net/core/scm.c:95:8: error: no member named 'edges' in 'struct scm_fp_list'
+      95 |                 fpl->edges = NULL;
+         |                 ~~~  ^
+   net/core/scm.c:96:24: error: no member named 'vertices' in 'struct scm_fp_list'
+      96 |                 INIT_LIST_HEAD(&fpl->vertices);
+         |                                 ~~~  ^
+   net/core/scm.c:385:12: error: no member named 'edges' in 'struct scm_fp_list'
+     385 |                 new_fpl->edges = NULL;
+         |                 ~~~~~~~  ^
+   net/core/scm.c:386:28: error: no member named 'vertices' in 'struct scm_fp_list'
+     386 |                 INIT_LIST_HEAD(&new_fpl->vertices);
+         |                                 ~~~~~~~  ^
+   4 errors generated.
 
-Andrew just picked v3 up, so there won't be any such problem, and -next
-will stop failing after today's update
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +95 net/core/scm.c
+
+    68	
+    69	static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
+    70	{
+    71		int *fdp = (int*)CMSG_DATA(cmsg);
+    72		struct scm_fp_list *fpl = *fplp;
+    73		struct file **fpp;
+    74		int i, num;
+    75	
+    76		num = (cmsg->cmsg_len - sizeof(struct cmsghdr))/sizeof(int);
+    77	
+    78		if (num <= 0)
+    79			return 0;
+    80	
+    81		if (num > SCM_MAX_FD)
+    82			return -EINVAL;
+    83	
+    84		if (!fpl)
+    85		{
+    86			fpl = kmalloc(sizeof(struct scm_fp_list), GFP_KERNEL_ACCOUNT);
+    87			if (!fpl)
+    88				return -ENOMEM;
+    89			*fplp = fpl;
+    90			fpl->count = 0;
+    91			fpl->count_unix = 0;
+    92			fpl->max = SCM_MAX_FD;
+    93			fpl->user = NULL;
+    94	#if IS_ENABLED(CONFIG_UNIX)
+  > 95			fpl->edges = NULL;
+    96			INIT_LIST_HEAD(&fpl->vertices);
+    97	#endif
+    98		}
+    99		fpp = &fpl->fp[fpl->count];
+   100	
+   101		if (fpl->count + num > fpl->max)
+   102			return -EINVAL;
+   103	
+   104		/*
+   105		 *	Verify the descriptors and increment the usage count.
+   106		 */
+   107	
+   108		for (i=0; i< num; i++)
+   109		{
+   110			int fd = fdp[i];
+   111			struct file *file;
+   112	
+   113			if (fd < 0 || !(file = fget_raw(fd)))
+   114				return -EBADF;
+   115			/* don't allow io_uring files */
+   116			if (io_is_uring_fops(file)) {
+   117				fput(file);
+   118				return -EINVAL;
+   119			}
+   120			if (unix_get_socket(file))
+   121				fpl->count_unix++;
+   122	
+   123			*fpp++ = file;
+   124			fpl->count++;
+   125		}
+   126	
+   127		if (!fpl->user)
+   128			fpl->user = get_uid(current_user());
+   129	
+   130		return num;
+   131	}
+   132	
 
 -- 
-Dominique Martinet | Asmadeus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
