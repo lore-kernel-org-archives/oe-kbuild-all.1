@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF55678F2B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 18:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CADE78F2B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 18:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755196055; cv=none; b=d3l+lkOPIT/VRmGuVYW0IzOjf09mBGlHPs0CpHFLxyTYhL81g7eso6Xa5ndkx7HHucN7hAprym44AV+egI2+RfGeTOBJauk2hGRPYs7ntyLG+00nz5n8lwaSU0okhuWf8dGTONLZpxl9+s9/j3DRR/Boknu+7cVGTDjwgr/io8c=
+	t=1755196081; cv=none; b=H8D0avVL5bMLHjeYjRy0muNvNR5VSX25jQ7/OJnY6wv8/AXFIFWpuTDicWmkhRyf1JG19V91RFuelv5BiCtXHurm+Dtrf0jXY9lOfOW90BcnoatI10yGtbSPwaYfcZyn7aVj8RDE3uP8Q3htji1DpS0aOf4VeG1j0jbmyoA5I6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755196055; c=relaxed/simple;
-	bh=KyxJBaDRQmYmb9wEO8EAXLQ968kIHdlkpxN7jhH+4hU=;
+	s=arc-20240116; t=1755196081; c=relaxed/simple;
+	bh=4LOcyNMxg3RR2edrFBFXAJeZckWpOhzm/4KWytcjma0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uSlCppushwfE2xvEDWntzfBjZ4dWnJPxvDWktvO0agB87DVgXp+nn13cTuhVOcl7ddYLrWjhL3gO+UYY1An3exuB8gFE6z8Exk3qOcLH/lA3AT4oobbkrGFNrol+QI9n1ry/jN8eJjEZMLZ1KW71Ss89kBoJaTePgq7PT1RMdxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIEDVcu1; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=PIMLKosPOl6bPXmdwF4CdRLVqYKmSXDL2Y97FpSYiAEi5czyw6hdxkxbE5FBJAT0FN9z1NnE/s/oKceOYnDNCLlQu3I4hq8Q8kWfmdovtcK1/Z58JCOwz9ki0HIZe6hbEYoRJEqkFlBqty04kkoNi9bcP854tb/v10rUZdBRx2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HA9Z/0Os; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIEDVcu1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HA9Z/0Os"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755196054; x=1786732054;
+  t=1755196079; x=1786732079;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KyxJBaDRQmYmb9wEO8EAXLQ968kIHdlkpxN7jhH+4hU=;
-  b=aIEDVcu1h+rnxUQVQSVHNXFV0QR2pPHWjoSqwxJl/YPm+OJ+yudhnmOh
-   gc2mpxC8/XKRbNuWZnzBnMhuIqwL/jskQUzhIBD4EbN2ZJiUCdV9peXbn
-   kwid8ROUgdh9nnI+mNnX77jm0kyaSnxPDc+E9duoqK6Kwi9J6/rOwlHBY
-   sbUI6RMVZ4wn7fInNekd2uyfUH84O7P4ktJXMTFLR+dMFhdCKNgCMF0TP
-   xX4rYcTZfbmIUHZ5m8VTKG3bWWNFKsL1vxNMitSiB/zgU4QK6c3bj+YWn
-   3yQD2ST9k1+WZOBAECZ0fsnHkLd877pRHLrRZ0lmwZ2UhcVttK2y12Zw8
-   Q==;
-X-CSE-ConnectionGUID: RSE9Up8WSgi93N5NhI4rBw==
-X-CSE-MsgGUID: MrO2Gs41Q8alszD8peqYxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="80100188"
+  bh=4LOcyNMxg3RR2edrFBFXAJeZckWpOhzm/4KWytcjma0=;
+  b=HA9Z/0OsTp3AVwRjwzNAbRKabMwFtEpRIytLcmfWtn55qKmn/Qrnwa1r
+   CAoF/UVNIPVEd+SOu+ZwBRCv1tk1X7/2Wze/wo8EXaznDPYMeVYPc9dk2
+   lashgmKIqXSYW+/BNVKHLTaELCpWcXVUYDVTqA8SUrm+FH/zeHHtqlSp5
+   e3D88FGrxKznsOy1vwDTWR8vxt2va6JsIA5dxSJFYCixvPebQuTbtxVU9
+   lEIx/iBDKrSDYABGhfFxKCa30DF3CitINZdkaCK/U8LqchmJ+z0iq/pE9
+   IpuTHjNRcc2ZcONUKrqmzWpZF9WsbAn4+K1wg9rB0h6rkLbC9MaB6O1fj
+   A==;
+X-CSE-ConnectionGUID: By40QsE/Q26zdeUJHhVdJA==
+X-CSE-MsgGUID: iy/iWtSCSJ2dZYDqOi5yeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57594439"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="80100188"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 11:27:34 -0700
-X-CSE-ConnectionGUID: K0R3rqgfTTGTfUFr4oGTyw==
-X-CSE-MsgGUID: izaDUrkyTeKkav1I70OEZA==
+   d="scan'208";a="57594439"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 11:27:59 -0700
+X-CSE-ConnectionGUID: bhY2NJqIQcu68nYR8E6gqg==
+X-CSE-MsgGUID: 88oAQg4JTH6Bk0yx1yl6Uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="166046483"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 14 Aug 2025 11:27:32 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="204006903"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa001.jf.intel.com with ESMTP; 14 Aug 2025 11:27:58 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umcfi-000BEk-09;
-	Thu, 14 Aug 2025 18:27:30 +0000
-Date: Fri, 15 Aug 2025 02:27:26 +0800
+	id 1umcg7-0000Jn-10;
+	Thu, 14 Aug 2025 18:27:55 +0000
+Date: Thu, 14 Aug 2025 20:26:55 +0200
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2679/2679] arch/arm64/kernel/bpf-rvi.c:28:25:
- warning: no previous prototype for function 'bpf_arch_flags'
-Message-ID: <202508150218.QwK6mXQc-lkp@intel.com>
+Subject: [android-common:android16-6.12 4/4] arch/arm64/kvm/mmu.c:378:
+ warning: Function parameter or struct member 'addr' not described in
+ '___unmap_stage2_range'
+Message-ID: <202508142037.RSHP64l2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +63,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
-commit: 34f3240c8b4a8e1f0531d169c96420eef2e0c8ac [2679/2679] bpf-rvi: arm64: Add bpf_arch_flags kunc for arm64
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150218.QwK6mXQc-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150218.QwK6mXQc-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   125206b4d7d6898a8a5d0c088a5ba75114266b81
+commit: fcc111df8789eb3964c040712266abb15c823476 [4/4] ANDROID: KVM: arm64: Unshare pages from __unmap_stage2_range()
+config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142037.RSHP64l2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142037.RSHP64l2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150218.QwK6mXQc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142037.RSHP64l2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kernel/bpf-rvi.c:14:6: warning: no previous prototype for function 'bpf_arm64_cpu_have_feature' [-Wmissing-prototypes]
-      14 | bool bpf_arm64_cpu_have_feature(unsigned int num)
-         |      ^
-   arch/arm64/kernel/bpf-rvi.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      14 | bool bpf_arm64_cpu_have_feature(unsigned int num)
-         | ^
-         | static 
->> arch/arm64/kernel/bpf-rvi.c:28:25: warning: no previous prototype for function 'bpf_arch_flags' [-Wmissing-prototypes]
-      28 | __bpf_kfunc const char *bpf_arch_flags(enum arch_flags_type t, int i)
-         |                         ^
-   arch/arm64/kernel/bpf-rvi.c:28:19: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      28 | __bpf_kfunc const char *bpf_arch_flags(enum arch_flags_type t, int i)
-         |                   ^
-         |                   static 
-   2 warnings generated.
+>> arch/arm64/kvm/mmu.c:378: warning: Function parameter or struct member 'addr' not described in '___unmap_stage2_range'
+>> arch/arm64/kvm/mmu.c:378: warning: expecting prototype for __unmap_stage2_range(). Prototype was for ___unmap_stage2_range() instead
 
 
-vim +/bpf_arch_flags +28 arch/arm64/kernel/bpf-rvi.c
+vim +378 arch/arm64/kvm/mmu.c
 
-    27	
-  > 28	__bpf_kfunc const char *bpf_arch_flags(enum arch_flags_type t, int i)
-    29	{
-    30		switch (t) {
-    31		case ARM64_HWCAP:
-    32			return hwcap_str[i];
-    33		case ARM64_HWCAP_SIZE:
-    34			return (void *)ARRAY_SIZE(hwcap_str);
-    35		case ARM64_COMPAT_HWCAP:
-    36			return compat_hwcap_str[i];
-    37		case ARM64_COMPAT_HWCAP_SIZE:
-    38			return (void *)ARRAY_SIZE(compat_hwcap_str);
-    39		case ARM64_COMPAT_HWCAP2:
-    40			return compat_hwcap2_str[i];
-    41		case ARM64_COMPAT_HWCAP2_SIZE:
-    42			return (void *)ARRAY_SIZE(compat_hwcap2_str);
-    43		default:
-    44			return NULL;
-    45		}
-    46	}
-    47	
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  339  
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  340  /*
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  341   * Unmapping vs dcache management:
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  342   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  343   * If a guest maps certain memory pages as uncached, all writes will
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  344   * bypass the data cache and go directly to RAM.  However, the CPUs
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  345   * can still speculate reads (not writes) and fill cache lines with
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  346   * data.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  347   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  348   * Those cache lines will be *clean* cache lines though, so a
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  349   * clean+invalidate operation is equivalent to an invalidate
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  350   * operation, because no cache lines are marked dirty.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  351   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  352   * Those clean cache lines could be filled prior to an uncached write
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  353   * by the guest, and the cache coherent IO subsystem would therefore
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  354   * end up writing old data to disk.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  355   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  356   * This is why right after unmapping a page/section and invalidating
+52bae936f0e7be arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  357   * the corresponding TLBs, we flush to make sure the IO subsystem will
+52bae936f0e7be arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  358   * never hit in the cache.
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  359   *
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  360   * This is all avoided on systems that have ARM64_HAS_STAGE2_FWB, as
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  361   * we then fully enforce cacheability of RAM, no matter what the guest
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  362   * does.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  363   */
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  364  /**
+ffd9eaffa34d79 arch/arm64/kvm/mmu.c Randy Dunlap     2024-01-17  365   * __unmap_stage2_range -- Clear stage2 page table entries to unmap a range
+c9c0279cc02b4e arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  366   * @mmu:   The KVM stage-2 MMU pointer
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  367   * @start: The intermediate physical base address of the range to unmap
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  368   * @size:  The size of the area to unmap
+c9c0279cc02b4e arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  369   * @may_block: Whether or not we are permitted to block
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  370   *
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  371   * Clear a range of stage-2 mappings, lowering the various ref-counts.  Must
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  372   * be called while holding mmu_lock (unless for freeing the stage2 pgd before
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  373   * destroying the VM), otherwise another faulting VCPU may come in and mess
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  374   * with things behind our backs.
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  375   */
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  376  
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  377  static int ___unmap_stage2_range(struct kvm_s2_mmu *mmu, u64 addr, u64 size)
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11 @378  {
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  379  	if (!is_protected_kvm_enabled())
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  380  		return kvm_pgtable_stage2_unmap(mmu->pgt, addr, size);
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  381  
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  382  	return pkvm_unmap_range(kvm_s2_mmu_to_kvm(mmu), addr, addr + size);
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  383  }
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  384  
+
+:::::: The code at line 378 was first introduced by commit
+:::::: 80a72f6ae4aa66b8fb00a1c8a0d61f054d618003 ANDROID: KVM: amr64: Pass kvm_s2_mmu struct from stage2_apply_range()
+
+:::::: TO: Quentin Perret <qperret@google.com>
+:::::: CC: Keir Fraser <keirf@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
