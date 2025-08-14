@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8502B3002C7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 13:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C1A2EA72D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 13:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755176923; cv=none; b=p9rbiNbHImpYdYo2xxwZynFRv5Nh/61NnWgSi27EaEiE+pZmhDfK2H0FLm+vbYNzGyN7vLNY6nNsoObyBEmE8ymDde5mVsZusHDxwbeQ2ASub1zkQOWycYfqz5FIuNk3w64LZZ8UvYg96nLAn0r/hWpU9NA5pOrxcH+n8efALa8=
+	t=1755177771; cv=none; b=ZlsUhVAtXASyAeoxdyi1MjujpwoyJWenuhQeeZIVOid4I8JSMy5DTX55GrU5O7+qveCa+RCsjCnti1K5VA95wvF2EaSMoQ0FLu/CmKdH3rxZEvnYj8M5jqRb6gqiqGKzIKxbGYTgNU3SLm6uOrTip/Q7JkSCzSv0Lc/5r3HEqbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755176923; c=relaxed/simple;
-	bh=4uPCNWSiTBZ1PS5aFIKGfaSKYh9II/lqlJ8kMPz10Oc=;
+	s=arc-20240116; t=1755177771; c=relaxed/simple;
+	bh=wPKAg9nHnOuAh/csqFy2+nDMmaeM2ljp2o7z7gieg0I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IxrALM7Qm6BvW06xwNeZX+thql9tUIRAv7C76ipxaCo8trBjtRh9tIF3sCegjpqSXKU0qAhyqtr5efW9o8WYnQHs9641WSbPYUzhJHMR9FbOZnUT5KBTkdxOgSeqha/Lpabb7Q75JCtLcVVnfB6i9P+5kdnsR1H6fXxxqcoa8yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaFjSGk4; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=btE+bS8azMbM5NhBToBZlgIv8xpQDmYwXCaXwgDkin5qsKR//fPNSL57W4cjS+TzmpbcLF56piZOS4ee6emCVyo3o54zb10J9Z9koEX05KEafY3aZ1JBP3ZovJnjysEp3ywjU9NXjgTFCdYLy/wZeNpjIQVHbwxTTCQxP0d2t/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hz4NV7LB; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaFjSGk4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hz4NV7LB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755176920; x=1786712920;
+  t=1755177770; x=1786713770;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4uPCNWSiTBZ1PS5aFIKGfaSKYh9II/lqlJ8kMPz10Oc=;
-  b=kaFjSGk4Qq2oGeuWJYVCP1r1QZuW74V6AAqCYPTR6UqUBUvQflCLItbS
-   uvyBxKqoDuTKKAymmMC0Q+kvMEsmUzST6X1n0wFlL0F7JbWcY+gLXgcBI
-   kFoLkwpA/o8YdjDbfJbAcewEmtNQMRAHC8T/clGkI0SSbpgMQIh8LW4jV
-   y+jP9fMsp0nkSrWqOwAME8ZMl9rp4neCpBoHTnHVyecETcpEnZycAZfMn
-   J+KTfIp9FthrdFdBLPn6wKKv9UZyaIcoDCvhsFP3eybs6pfcVwfkuIXfl
-   oYwuv2AB5WyTHLvePZAyIwwC/O6p5nEKNfVKl6e41eUpvS3/MwEIHEztc
-   A==;
-X-CSE-ConnectionGUID: 0/9M2+xXRDqgT8CQefMAPQ==
-X-CSE-MsgGUID: QBtEM7/VRa+0KCaL1SFf+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="61117518"
+  bh=wPKAg9nHnOuAh/csqFy2+nDMmaeM2ljp2o7z7gieg0I=;
+  b=Hz4NV7LBxvmhDvhrNdl684WhoWRhsxtMH0/IMYTk2Vc2Juop2TxCwBrN
+   /8v2RgPSsUX60XGhnf9ebCdCFj3Kmj3gvyKD/sqcfr4Xjy9jzI9QEBJoH
+   ox4r5HznAX1CUvSnut7sg33ZvpL3X4OTpI2qafTkoNAYFj16aKnr856Z2
+   cpBFwyuTHkpi5+7HWu3TbKwkEPRb5cvW6us2kX0Pnp/0TtYps80bdcTGm
+   4jBF/dpOGuf4qEvJVywRh5lBpm28YdIJf8xDVu2QJ8iTtoHb30SBJ77NJ
+   hyd6dTsd4NIF8tcgDqPyxn0deEZmDzEOnIZZxHWBtg0ZeEPpL7iF2ydrR
+   Q==;
+X-CSE-ConnectionGUID: DcbPkkc8Rtq+BF9xeuM8cg==
+X-CSE-MsgGUID: JyMfXTbOTz+EuFukEA7clw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68572829"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="61117518"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:08:39 -0700
-X-CSE-ConnectionGUID: ud6SN2wOQKCZDIB8IioLyw==
-X-CSE-MsgGUID: Dh6zsf2fQl6iiNwTP3Mcnw==
+   d="scan'208";a="68572829"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:22:49 -0700
+X-CSE-ConnectionGUID: aKAgQ1tIQpqCa8qogGg9CQ==
+X-CSE-MsgGUID: 9X14NVIrRTKKkGxCGcuzbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="171214547"
+   d="scan'208";a="167017349"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 14 Aug 2025 06:08:37 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 Aug 2025 06:22:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umXh5-000Aya-0X;
-	Thu, 14 Aug 2025 13:08:35 +0000
-Date: Thu, 14 Aug 2025 21:08:28 +0800
+	id 1umXuT-000Ayy-0r;
+	Thu, 14 Aug 2025 13:22:29 +0000
+Date: Thu, 14 Aug 2025 21:20:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2679/2679] kernel/sched/cpuacct.c:412:18:
- warning: no previous prototype for function 'bpf_cpuacct_kcpustat_cpu_fetch'
-Message-ID: <202508142117.RpbHh5Ge-lkp@intel.com>
+To: Jesse Taube <jesse@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_support_v1 32/59]
+ arch/riscv/kernel/kgdb.c:38:38: warning: passing argument 3 of 'get_insn'
+ makes pointer from integer without a cast
+Message-ID: <202508142145.ZHFolVUw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +63,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
-commit: 6ed308fc1d6f486c9e3c171b6b80c1c5f0f57df6 [2679/2679] bpf-rvi: cpuacct: Add bpf_cpuacct_kcpustat_cpu_fetch kfunc
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250814/202508142117.RpbHh5Ge-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142117.RpbHh5Ge-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v1
+head:   a186d4c58325610367072323cfc9a7d5cccc2fb9
+commit: 87868b1826434a428632177d565fce3d8ebe43dd [32/59] riscv: Add insn.c, consolidate instruction decoding
+config: riscv-randconfig-r062-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142145.ZHFolVUw-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142145.ZHFolVUw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508142117.RpbHh5Ge-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142145.ZHFolVUw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:61:
->> kernel/sched/cpuacct.c:412:18: warning: no previous prototype for function 'bpf_cpuacct_kcpustat_cpu_fetch' [-Wmissing-prototypes]
-     412 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
-         |                  ^
-   kernel/sched/cpuacct.c:412:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     412 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
-         |             ^
-         |             static 
-   In file included from kernel/sched/build_utility.c:73:
-   kernel/sched/debug.c:102:12: warning: no previous prototype for function 'is_prefer_numa' [-Wmissing-prototypes]
-     102 | int __weak is_prefer_numa(void)
-         |            ^
-   kernel/sched/debug.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | int __weak is_prefer_numa(void)
-         | ^
-         | static 
-   In file included from kernel/sched/build_utility.c:113:
-   kernel/sched/bpf_sched.c:186:17: warning: no previous prototype for function 'bpf_sched_entity_is_task' [-Wmissing-prototypes]
-     186 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
-         |                 ^
-   kernel/sched/bpf_sched.c:186:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     186 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
-         |             ^
-         |             static 
-   kernel/sched/bpf_sched.c:194:33: warning: no previous prototype for function 'bpf_sched_entity_to_task' [-Wmissing-prototypes]
-     194 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
-         |                                 ^
-   kernel/sched/bpf_sched.c:194:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     194 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
-         |             ^
-         |             static 
-   kernel/sched/bpf_sched.c:202:18: warning: no previous prototype for function 'bpf_sched_tag_of_entity' [-Wmissing-prototypes]
-     202 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
-         |                  ^
-   kernel/sched/bpf_sched.c:202:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     202 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
-         |             ^
-         |             static 
-   kernel/sched/bpf_sched.c:213:17: warning: no previous prototype for function 'bpf_sched_set_task_prefer_nid' [-Wmissing-prototypes]
-     213 | __bpf_kfunc int bpf_sched_set_task_prefer_nid(struct task_struct *task, int nid)
-         |                 ^
-   kernel/sched/bpf_sched.c:213:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     213 | __bpf_kfunc int bpf_sched_set_task_prefer_nid(struct task_struct *task, int nid)
-         |             ^
-         |             static 
-   6 warnings generated.
+   arch/riscv/kernel/kgdb.c: In function 'do_single_step':
+>> arch/riscv/kernel/kgdb.c:38:38: warning: passing argument 3 of 'get_insn' makes pointer from integer without a cast [-Wint-conversion]
+      38 |         error = get_insn(regs, addr, stepped_opcode);
+         |                                      ^~~~~~~~~~~~~~
+         |                                      |
+         |                                      unsigned int
+   In file included from arch/riscv/kernel/kgdb.c:14:
+   arch/riscv/include/asm/insn.h:555:54: note: expected 'ulong *' {aka 'long unsigned int *'} but argument is of type 'unsigned int'
+     555 | int get_insn(struct pt_regs *regs, ulong epc, ulong *r_insn);
+         |                                               ~~~~~~~^~~~~~
 
 
-vim +/bpf_cpuacct_kcpustat_cpu_fetch +412 kernel/sched/cpuacct.c
+vim +/get_insn +38 arch/riscv/kernel/kgdb.c
 
-   410	
-   411	#ifdef CONFIG_BPF_RVI
- > 412	__bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
-   413							struct cpuacct *ca, int cpu)
-   414	{
-   415		memcpy(dst, per_cpu_ptr(ca->cpustat, cpu), sizeof(struct kernel_cpustat));
-   416	}
-   417	
+    25	
+    26	static int do_single_step(struct pt_regs *regs)
+    27	{
+    28		/* Determine where the target instruction will send us to */
+    29		unsigned long addr, insn;
+    30		int error = get_insn(regs, regs->epc, &insn);
+    31	
+    32		if (error)
+    33			return error;
+    34	
+    35		addr = get_step_address(regs, insn);
+    36	
+    37		/* Store the op code in the stepped address */
+  > 38		error = get_insn(regs, addr, stepped_opcode);
+    39		if (error)
+    40			return error;
+    41	
+    42		stepped_address = addr;
+    43	
+    44		/* Replace the op code with the break instruction */
+    45		error = copy_to_kernel_nofault((void *)stepped_address,
+    46					   arch_kgdb_ops.gdb_bpt_instr,
+    47					   BREAK_INSTR_SIZE);
+    48		/* Flush and return */
+    49		if (!error) {
+    50			flush_icache_range(addr, addr + BREAK_INSTR_SIZE);
+    51			kgdb_single_step = 1;
+    52			atomic_set(&kgdb_cpu_doing_single_step,
+    53				   raw_smp_processor_id());
+    54		} else {
+    55			stepped_address = 0;
+    56			stepped_opcode = 0;
+    57		}
+    58		return error;
+    59	}
+    60	
 
 -- 
 0-DAY CI Kernel Test Service
