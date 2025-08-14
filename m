@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D8C1CDFAC;
-	Thu, 14 Aug 2025 19:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7CE1CDFAC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 19:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755199946; cv=none; b=dRFs5KGuCFyFXKIIWprsqKbZzEDsj8ZnJeb+/8KBKkko+2U/Qod5IeIIxLm5gfpT8YGng4U3g4UABTiUOZz199xIyeK1OGJPHvcJoDPirQhSL4giG4ZVORtlsJ4Lc4SDDFP6M8p9y7Q0wbXPbUEuMDUjw0tQ5qUHIas/goJeV8g=
+	t=1755199984; cv=none; b=jPGE6ZkpQf9uCTn6kgKeKh74uk5Gq1x5wYyr9NJDg/P+90plOlYm4I+eFz0mFbX48dl1tyL+mkuEYWPFisdtqS2MUoM0CLEqLuQf1CGqoeHskDU7wU/Qe5ROUj6lKbdfKcDMCsOH2sRpY3Fy00DDomhHTfWTBQzhw36pPIuDvYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755199946; c=relaxed/simple;
-	bh=sYNHy3au3eJJGLyMM/KY+GBcda4zdf0KZ+o9Rn0lDjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZi2ECAFOhZjWWezQr5kXRwyXhAW34v4+nRIRpcmAaNq8IXQ8Oal1dMFUGSFb2eC7Ga2ytDKMOjtXYtOTlTodXi4JtlcD+gZunAxVhYfXgJ0/6EwaJQsC6Hbr4pxiHZ4/FPgZ6m7RsFkKd9Hq/3VDOxV8z66cxnnucrx+1wp48c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JK0IFjMb; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1755199984; c=relaxed/simple;
+	bh=wKM8YEXbYFesxFUfi8uFvttzReM7JRmVdNSPrOl6QMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NtsAzpXX2DP8yVyZAyB4ZLx4UYeur51ub5xUyfUnCteURHF8seqASVLKSH9m5+hUsIyg1vmbfTsf8Qyq2skE6Qt/wTfUBmScfdTre4ler93/g+7+yzNeVMDj/ph6tf6V3aFJj5lFa/VNjLZqsgDFRw2kami5X1xQtD/QyU4ENk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pzqi1PB/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JK0IFjMb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pzqi1PB/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755199945; x=1786735945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sYNHy3au3eJJGLyMM/KY+GBcda4zdf0KZ+o9Rn0lDjo=;
-  b=JK0IFjMbwybg34jFwfT0lDsJt7NLwAkhgjhHigNvrYlovYWqWP6ZONmA
-   zJm18srtuVPPLiIupYgU8Sh1+MOZCChUcCC13lc5ciYwF9eB58UKLm/pI
-   016PKHaCjQ7ZJqHHlBpdrrwuHhR2rTpptZA7Ml4YgE16IhshmXJyYAD15
-   RsToZpz3lQK4eSNls1NkqkPRpvY023Uo8VQ18lzVf9V8vb1q+KBzq1N4F
-   HXGbJLaaG808Z4XjssL6GTmQdFhCyEdvExJFrmYQOePDqWnMtCIG0+COn
-   ZEycuAcZfiJ19Y933nf4sAgLxecB93F3KIuuKqGcDTShs7O3XoIPxhTn6
-   g==;
-X-CSE-ConnectionGUID: QanCejUtRKeTBi5TqY5ATg==
-X-CSE-MsgGUID: ldhG5sHGS0uESxZO8NBBdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68226980"
+  t=1755199983; x=1786735983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wKM8YEXbYFesxFUfi8uFvttzReM7JRmVdNSPrOl6QMo=;
+  b=Pzqi1PB/QRxgXVn/vlsXmM6XRB/qmRBWH+c4T4fHZUpw7VmrRqBn8Ppb
+   vr0es4RrRJmxFn6cV3+bFsaajoe7VIIF+Yu4dbbfRjzV8h+GUtye4FlYl
+   /4apGrrfvCQPD0MuSKJ/7Fg8fSHbiNjAw0IHZgKwAJAqC2vsvIUIzGAuX
+   x4ChrvMy4OGIH4dsuXfonPfldtBuqRwAUIiudNK4eVCupMLMU4BOkIBNr
+   LKTVXTy7X4yOegpKfy/tlEsyry9kOnx4YLGzWwjw06OrMKEQepM4I7Iaj
+   BiVolq9RvyI325O5lXgCp5BKgEM9slcUZdkS3xHg1+RvlrVJeK11ANGH/
+   w==;
+X-CSE-ConnectionGUID: uq5jvAGPSs2/8p8+XJPLuQ==
+X-CSE-MsgGUID: xzWqoGGSS2i8RQALsJHEBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="75096716"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="68226980"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 12:32:23 -0700
-X-CSE-ConnectionGUID: Zw1G2UnqTsuBfPLENwqAVA==
-X-CSE-MsgGUID: EWHfKfNOQs+XEJGaMZISwQ==
+   d="scan'208";a="75096716"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 12:33:02 -0700
+X-CSE-ConnectionGUID: AN70Biy2QciTjxhHCToEjA==
+X-CSE-MsgGUID: EMWNslBxTH+taqrUJzkbZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="166807007"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 14 Aug 2025 12:32:19 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="166056552"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa010.jf.intel.com with ESMTP; 14 Aug 2025 12:33:01 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umdgP-000BGs-08;
-	Thu, 14 Aug 2025 19:32:17 +0000
-Date: Fri, 15 Aug 2025 03:31:56 +0800
+	id 1umdh4-0000K7-3C;
+	Thu, 14 Aug 2025 19:32:58 +0000
+Date: Thu, 14 Aug 2025 21:32:17 +0200
 From: kernel test robot <lkp@intel.com>
-To: Xiandong Wang <xiandong.wang@mediatek.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Houlong Wei <houlong.wei@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, sirius.wang@mediatek.com,
-	vince-wl.liu@mediatek.com, jh.hsu@mediatek.com,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	Xiandong Wang <xiandong.wang@mediatek.com>
-Subject: Re: [PATCH v1 2/4] [v1,02/04]mailbox: mtk-cmdq: Add cmdq driver for
- mt8189
-Message-ID: <202508150338.bTVJvFtV-lkp@intel.com>
-References: <20250814070401.13432-2-xiandong.wang@mediatek.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 4/4]
+ arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous
+ prototype for 'module_handle_host_perm_fault'
+Message-ID: <202508142158.drQA7g6C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,63 +62,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814070401.13432-2-xiandong.wang@mediatek.com>
 
-Hi Xiandong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on linus/master v6.17-rc1 next-20250814]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiandong-Wang/mailbox-mtk-cmdq-Add-cmdq-driver-for-mt8189/20250814-152237
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20250814070401.13432-2-xiandong.wang%40mediatek.com
-patch subject: [PATCH v1 2/4] [v1,02/04]mailbox: mtk-cmdq: Add cmdq driver for mt8189
-config: x86_64-buildonly-randconfig-004-20250815 (https://download.01.org/0day-ci/archive/20250815/202508150338.bTVJvFtV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150338.bTVJvFtV-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   125206b4d7d6898a8a5d0c088a5ba75114266b81
+commit: 0a901ecd7f9ffbc4169811c90a0f26ed1ee1df7a [4/4] ANDROID: KVM: arm64: Rework pKVM module fault handler
+config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142158.drQA7g6C-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142158.drQA7g6C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150338.bTVJvFtV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142158.drQA7g6C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/mailbox/mtk-cmdq-mailbox.c:781:3: error: field designator 'mminfra_offset' does not refer to any field in type 'const struct gce_plat'
-     781 |         .mminfra_offset = 0x40000000, /* 1GB */
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mailbox/mtk-cmdq-mailbox.c:784:3: error: field designator 'dma_mask_bit' does not refer to any field in type 'const struct gce_plat'
-     784 |         .dma_mask_bit = 35,
-         |         ~^~~~~~~~~~~~~~~~~
->> drivers/mailbox/mtk-cmdq-mailbox.c:785:3: error: field designator 'secure_thread_nr' does not refer to any field in type 'const struct gce_plat'
-     785 |         .secure_thread_nr = 2,
-         |         ~^~~~~~~~~~~~~~~~~~~~
->> drivers/mailbox/mtk-cmdq-mailbox.c:786:3: error: field designator 'secure_thread_min' does not refer to any field in type 'const struct gce_plat'
-     786 |         .secure_thread_min = 8,
-         |         ~^~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:86:6: warning: no previous prototype for '__pkvm_unmask_serror' [-Wmissing-prototypes]
+    void __pkvm_unmask_serror(void)
+         ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:22: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_WFx]  = handle_pvm_entry_wfx,
+                         ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:22: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_HVC64]  = handle_pvm_entry_hvc64,
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:24: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_SYS64]  = handle_pvm_entry_sys64,
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:24: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_pvm_entry_iabt,
+                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:27: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_pvm_entry_dabt,
+                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:27: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:481:22: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_WFx]  = handle_pvm_exit_wfx,
+                         ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:481:22: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_HVC64]  = handle_pvm_exit_hvc64,
+                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:482:24: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:483:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_SYS64]  = handle_pvm_exit_sys64,
+                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:483:24: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:484:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_pvm_exit_iabt,
+                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:484:27: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_pvm_exit_dabt,
+                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:27: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:494:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_vm_exit_abt,
+                              ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:494:27: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:495:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_vm_exit_abt,
+                              ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:495:27: note: (near initialization for 'exit_hyp_vm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: In function 'handle_host_hcall':
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:1821:32: error: passing argument 1 of 'handle_host_dynamic_hcall' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+                                   ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:26:51: note: expected 'struct kvm_cpu_context *' but argument is of type 'struct user_pt_regs *'
+    handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:23:
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:31:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +781 drivers/mailbox/mtk-cmdq-mailbox.c
+vim +/module_handle_host_perm_fault +31 arch/arm64/kvm/hyp/include/nvhe/modules.h
 
-   777	
-   778	static const struct gce_plat gce_plat_mt8189 = {
-   779		.thread_nr = 32,
-   780		.shift = 3,
- > 781		.mminfra_offset = 0x40000000, /* 1GB */
-   782		.control_by_sw = false,
-   783		.sw_ddr_en = true,
- > 784		.dma_mask_bit = 35,
- > 785		.secure_thread_nr = 2,
- > 786		.secure_thread_min = 8,
-   787		.gce_num = 2
-   788	};
-   789	
+    14	
+    15	#ifdef CONFIG_MODULES
+    16	int __pkvm_init_module(void *module_init);
+    17	int __pkvm_register_hcall(unsigned long hfn_hyp_va);
+    18	int handle_host_dynamic_hcall(struct user_pt_regs *regs, int id);
+    19	void __pkvm_close_module_registration(void);
+    20	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr);
+    21	#else
+    22	static inline int __pkvm_init_module(void *module_init) { return -EOPNOTSUPP; }
+    23	static inline int
+    24	__pkvm_register_hcall(unsigned long hfn_hyp_va) { return -EOPNOTSUPP; }
+    25	static inline int
+    26	handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+    27	{
+    28		return HCALL_UNHANDLED;
+    29	}
+    30	static inline void __pkvm_close_module_registration(void) { }
+  > 31	bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
 
 -- 
 0-DAY CI Kernel Test Service
