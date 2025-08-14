@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C6A1FCF7C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 17:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD84212B0C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 17:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755191650; cv=none; b=mi6VPK0agnIyBcUmjgHagpcXSplx75SEgMvpWDtBpRa943CL89AfCyDsbCMuzIF1nXTqrayb8fjo1uL1PmZJ9Cb0YNYhTnwIlrNRne+7gvvRSf3XSsPH5Dt9XnG2Px7k16wu+fV9sckAoajxvOFFrKw+aIb7WpKNM4NCmv2lKZw=
+	t=1755191996; cv=none; b=ZrrZBk4AWkH6DabR8zPhDB+vdAtswXvlxAkB/UGwFe7pbowvB0NdZ5FXrSeCAFInCJjzXnGrZYzArMg1Wyfwz/CWV+rcZjsjcGOM7HDHNK+TVSejsb4cO639BzvEmEujMDbG6XfLkKnFiCs2FUeMiR7wAM7PlNuppmBqmMzjiGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755191650; c=relaxed/simple;
-	bh=h/58/5MXICwzyfsFuQ9Y0uqap0n58/cHEw9OZRYyX6c=;
+	s=arc-20240116; t=1755191996; c=relaxed/simple;
+	bh=cYJk3lRPUN9EO9teftknbkyrMqbi+7Q+2LGs5MPUGnk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YqXzSk+fPiit9d1UQAqwH+VlTaP/PmDDSlizf7t6oB3O/PnqI9cw9tH9hFGHr0IVh4mlyOq+nhZZ/R8R0N9hhzEqISSVECVPtQK0UVN/9ElO8G/yLAqSD2R3yKK9S0hY2Cp6uY8JYPwHr+Tj7wk3+tkgxq+9sFUDa0PizDa9cXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Plrfvixu; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=NV7iEVuGYyQFayR9IXCf3LwJt7nUg3yM+wSVZB6mSpIkiQUqADF35RDrENHO5QGiSwOOl9dqNJpSdFyJdtG107AqCOEAV7BpGwVdc0qbd0BMiR3kppO/lTnl8dhNyQntKpaT4u2sA5cS9hQq16BLIEKOfz//3aMLu00o95okf6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHYjm+qL; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Plrfvixu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHYjm+qL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755191649; x=1786727649;
+  t=1755191995; x=1786727995;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h/58/5MXICwzyfsFuQ9Y0uqap0n58/cHEw9OZRYyX6c=;
-  b=PlrfvixuE5gWZI4Lajwm+F8i7Nwu434pJtYVD3o33p6mifKcHSWEPPfg
-   35HJU8+j1YK08WkrXOzR0aP2AMhx6Bnwd/kicSobXbe9Zt8USHuj+E2yU
-   qn10xS9iWSqmi8A4OIY2/hR57EnTuNe9ccbNJcnmW33q4ei5fIoo+MLOQ
-   zmjgP6fNbpu98iXt8bsbwsxCmHnqObEo2sH6ry+NAexBYXaKhtLL79B4G
-   nc5WdcaKQZVEGro17lEsEVg/IDeCRzpPm4XAdHL1eAYr+lcfar7AZIjke
-   NXmCxUYP1FmZZT+d/QNjqeaNrW/gtYybalBr2W6bX5jKhof2NeYgnbskZ
-   A==;
-X-CSE-ConnectionGUID: IY1WJrarTgOnYS8mX4dJkA==
-X-CSE-MsgGUID: OUmpuojAS16z5Mz27ZcJQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68119889"
+  bh=cYJk3lRPUN9EO9teftknbkyrMqbi+7Q+2LGs5MPUGnk=;
+  b=oHYjm+qL9F0QktXLKGfEwZDsrK3VC3kYBpwHb6NPOZtWaCu3wNMWMW6C
+   KnJznDaYsRpavqSepSSRMW8aw4US0umqB+7aMzjUD4s3BtQeW4mrDh4ED
+   NatOqHFQOr86OKp9mJQySOWHnhRbUP+PkYcnBdIGG45SDS3QVEAPPoOp9
+   CgU/FmIX1zrr2oDGLpO3q3RTKaw1dD+wAZAguzCXzZqYQ9t8ExfRCYUK3
+   TXYClLIM2W3aEYFaLSEczVXl3CyZ54hKCWC3PDmhNQOIjeZWiWRNtigOW
+   gmGT09nZwP8k0mEei98UOrMwqf0JGXcvWavG78vtZ+HbGYdrtH55ByRF1
+   w==;
+X-CSE-ConnectionGUID: zf3PpiDPSeSGC2PMnkrkNw==
+X-CSE-MsgGUID: vkgLEykLSpOQR1AfsBqhpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57441911"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="68119889"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:14:07 -0700
-X-CSE-ConnectionGUID: LwuhYWvAQYaVyxWVzZhbKA==
-X-CSE-MsgGUID: U8o2N6z/QLW3FMZ9H8mONA==
+   d="scan'208";a="57441911"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:19:54 -0700
+X-CSE-ConnectionGUID: ANnK8i8HRHKesrEjR1Si5w==
+X-CSE-MsgGUID: qpNnBUSfQRKcU+GA2MA+gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="167176945"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Aug 2025 10:14:05 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="165998182"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa006.jf.intel.com with ESMTP; 14 Aug 2025 10:19:53 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umbWd-000BC8-1c;
-	Thu, 14 Aug 2025 17:14:03 +0000
-Date: Fri, 15 Aug 2025 01:13:13 +0800
+	id 1umbcE-0000Ix-3A;
+	Thu, 14 Aug 2025 17:19:50 +0000
+Date: Thu, 14 Aug 2025 19:19:29 +0200
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2679/2679] kernel/bpf-rvi/common_kfuncs.c:24:35:
- warning: no previous prototype for function 'bpf_task_active_pid_ns'
-Message-ID: <202508150150.V6YiO7Tg-lkp@intel.com>
+Subject: [android-common:android16-6.12 4/4]
+ arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for
+ '__hyp_trace_find_event_name'
+Message-ID: <202508141913.yZUjsGZO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
-commit: ef015dbb4151c10d0415045f9d0fcf3dc85063d7 [2679/2679] bpf-rvi: pidns: Add for_each_task_in_pidns and loadavg-related kfuncs
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150150.V6YiO7Tg-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150150.V6YiO7Tg-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   125206b4d7d6898a8a5d0c088a5ba75114266b81
+commit: 12aaf60a831904372fbd91490acdeb2c4ab3cf78 [4/4] ANDROID: KVM: arm64: Allow registration of pKVM module hyp events
+config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141913.yZUjsGZO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141913.yZUjsGZO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150150.V6YiO7Tg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508141913.yZUjsGZO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf-rvi/common_kfuncs.c:15:32: warning: no previous prototype for function 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
-      15 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
-         |                                ^
-   kernel/bpf-rvi/common_kfuncs.c:15:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      15 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
-         |             ^
-         |             static 
->> kernel/bpf-rvi/common_kfuncs.c:24:35: warning: no previous prototype for function 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
-      24 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-         |                                   ^
-   kernel/bpf-rvi/common_kfuncs.c:24:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      24 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-         |             ^
-         |             static 
->> kernel/bpf-rvi/common_kfuncs.c:29:17: warning: no previous prototype for function 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
-      29 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-         |                 ^
-   kernel/bpf-rvi/common_kfuncs.c:29:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      29 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-         |             ^
-         |             static 
->> kernel/bpf-rvi/common_kfuncs.c:43:17: warning: no previous prototype for function 'bpf_pidns_last_pid' [-Wmissing-prototypes]
-      43 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-         |                 ^
-   kernel/bpf-rvi/common_kfuncs.c:43:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      43 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-         |             ^
-         |             static 
-   4 warnings generated.
+>> arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for '__hyp_trace_find_event_name' [-Wmissing-prototypes]
+    struct hyp_event *__hyp_trace_find_event_name(const char *name,
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:247:19: warning: no previous prototype for 'hyp_trace_find_event_name' [-Wmissing-prototypes]
+    struct hyp_event *hyp_trace_find_event_name(const char *name)
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bpf_task_active_pid_ns +24 kernel/bpf-rvi/common_kfuncs.c
+vim +/__hyp_trace_find_event_name +235 arch/arm64/kvm/hyp_events.c
 
-    19	
-    20	/*
-    21	 * Loadavg related kfuncs
-    22	 */
-    23	
-  > 24	__bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-    25	{
-    26		return task_active_pid_ns(task);
-    27	}
-    28	
-  > 29	__bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-    30	{
-    31		struct pid_iter iter = {};
-    32		u32 nr_running = 0, nr_threads = 0;
-    33	
-    34		for_each_task_in_pidns(iter, ns) {
-    35			nr_threads++;
-    36			if (task_is_running(iter.task))
-    37				nr_running++;
-    38		}
-    39	
-    40		return (u64)nr_running << 32 | nr_threads;
-    41	}
-    42	
-  > 43	__bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-    44	{
-    45		return idr_get_cursor(&ns->idr) - 1;
-    46	}
-    47	
+   231	
+   232	#define nr_events(__start, __stop) \
+   233		(((unsigned long)__stop - (unsigned long)__start) / sizeof(*__start))
+   234	
+ > 235	struct hyp_event *__hyp_trace_find_event_name(const char *name,
+   236						      struct hyp_event *start,
+   237						      struct hyp_event *end)
+   238	{
+   239		for (; start < end; start++) {
+   240			if (!strncmp(name, start->name, HYP_EVENT_NAME_MAX))
+   241				return start;
+   242		}
+   243	
+   244		return NULL;
+   245	}
+   246	
+ > 247	struct hyp_event *hyp_trace_find_event_name(const char *name)
+   248	{
+   249		struct hyp_event_table *table;
+   250		struct hyp_event *event =
+   251			__hyp_trace_find_event_name(name, __hyp_events_start,
+   252						    __hyp_events_end);
+   253	
+   254		if (event)
+   255			return event;
+   256	
+   257		rcu_read_lock();
+   258		table = rcu_dereference(mod_event_tables.tables);
+   259	
+   260		for (int i = 0; i < mod_event_tables.nr_tables; i++) {
+   261			struct hyp_event *end = table->start + table->nr_events;
+   262	
+   263			event = __hyp_trace_find_event_name(name, table->start, end);
+   264			if (event)
+   265				break;
+   266		}
+   267	
+   268		rcu_read_unlock();
+   269	
+   270		return event;
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
