@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08592EA72D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 13:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC8C2FE064
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 13:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755177815; cv=none; b=Boyf8j4uxfi31StKI7GmVA2fEN+7+sP9Cqv0LM/gjbQyOYAk3ZRdclsiJUp6Oc0uOrV7GiO8bl42C3jWATzKEBbeqVk4jlPaN2we9KwpQtTnJffjjJhzYUBSY1ZWPgT3wwGldnx9C+ZIPsTTwP78I7wPcErQr8Lm+y3iWXGJ67Q=
+	t=1755177909; cv=none; b=eNoMqVH6hlafzToZvZPOPfOvGzrod22Rt+rJvRx5gp4DEshH0t3cYsZ7mI2ejjWfA2ZTwWzL1UFCg5gLLR5891GyAFB3l+MtTxqhgw4mvPr50FGJFWU/RQypvejMLev3MvG8jIW2k7qzDG1/DaLhGjtTQ8AW5I6Znu/8v5RbEhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755177815; c=relaxed/simple;
-	bh=jlhCiNQYoMuLPyi9d3EsG+Utr7GMn93F8TRm84M8hbg=;
+	s=arc-20240116; t=1755177909; c=relaxed/simple;
+	bh=GYeszblfLXC9AxCoOxVYlC5jMxyPUQ/zm1wXlnd8Ir4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U7ye/xH3VrfsJrfu/yY6I+7RvD9nc0xjS4DArR2RuZ7/P4dOy60GuldGMEcHdo1VTfgSjm1LfnVLq9aKrqj6iiWKjhpC93brH6OTmOF1V3x03vqDNIuhU5Drf9DbUzjHzAeFt+QcFmBwtGf6ZmG9o3SIbY6n0GV62NBFITb+fKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mqy63/AM; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=cHpIjDiwJM3mFFsqsVT4U7VnX5s2QmYBk3P6Qkor21xYWQKwhNnlGf/XGrvydhRmhnVS8oSx59+59maEX9ueZrzj+W2t4+ZXB6p6PH1pwZb6+kfEtq8w2jMvksEKDhvcJznDmBoxhUIPx00fv5TcMA03NoxUVr/9jZk9cEhR7oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MAXdwbqb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mqy63/AM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MAXdwbqb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755177814; x=1786713814;
+  t=1755177908; x=1786713908;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jlhCiNQYoMuLPyi9d3EsG+Utr7GMn93F8TRm84M8hbg=;
-  b=Mqy63/AMKcoDz9zFKYw/J8W/Rt3viRRz9G2jyowOJc1gUfDQxlpjuByI
-   hu4VMh0OPlurzl1wZ5McTROCoMEwXQ0sc7A3DgjzzFEXhFvBfHbaBXIt2
-   wlqDIP5UYGOzn8JUlAJnYoezVYCYDjxw0/xZOU7kD7628wOZaRqzvQ4Ki
-   r32p6fFL+9i6JnC+65tX0QbDqWeJ983Gm7ns/t+KgETAydOD8vo787wRl
-   mIt0GyOEqWbyalqXYwVdpmWCVKO3kOOJurWPujEPu/kFUGIYEXaBz/enp
-   I0GCkdpTBsSALyQn5qZSlovkLKjli8PKMeTzxDBPbL4xYPTEbFgUTJdcM
+  bh=GYeszblfLXC9AxCoOxVYlC5jMxyPUQ/zm1wXlnd8Ir4=;
+  b=MAXdwbqbc/nCkDnS6jUfsrAv78yc1KdcUdsoK1UzkwZhfJp+ZpaT8qvP
+   /5ZMqoCgK+2qo5rD+TGUe9gvDIUbvTSN1vWqLuHixjbvSmcEL6ZPbF4ed
+   SIkBBEzUKxBIgC5SAWHaa1bsREh6U3D0KGrmJ1RwaRemIU0obRbygZwHX
+   yaHEb9/6JS/6nPj4/MpUDa3s/HUvaR/dRGMRe4x2kkhFRab+88sdTmHLM
+   dMU4l13pTwM9z+/V3E0feYm3GwcTdlrzj3a2Imu61RfNmVXWjnLBay4dh
+   AeGYDQZ2ZzonWVni2kaIEwlEx6rdTzGk7svNKmlphxqAbt1m4YPLHtfCp
    A==;
-X-CSE-ConnectionGUID: tZZG/FPQTsCqirFGcq7S2w==
-X-CSE-MsgGUID: bMjKQUHpSn6hILVX++SHEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57639021"
+X-CSE-ConnectionGUID: 6iqBh1JyQoOkBWD43CfZrQ==
+X-CSE-MsgGUID: VcrcVqs0RiiBVM7UZW3E3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57414861"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="57639021"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:23:34 -0700
-X-CSE-ConnectionGUID: TfWQdTXkRGe92+JwareA5g==
-X-CSE-MsgGUID: MpDnsqMCTvmaBHnR7YJKig==
+   d="scan'208";a="57414861"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:25:07 -0700
+X-CSE-ConnectionGUID: SSBRO4SjT3Wl32uwQZFDQw==
+X-CSE-MsgGUID: uPd1JJq9Rh+Gj/3SOLHiwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="171986588"
+   d="scan'208";a="167126683"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Aug 2025 06:23:32 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 14 Aug 2025 06:25:05 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umXun-000Az0-0c;
-	Thu, 14 Aug 2025 13:22:53 +0000
-Date: Thu, 14 Aug 2025 21:21:16 +0800
+	id 1umXx1-000Az8-1A;
+	Thu, 14 Aug 2025 13:25:03 +0000
+Date: Thu, 14 Aug 2025 21:21:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:cpuid 4/4] arch/x86/kernel/kvm.c:899:31: sparse: sparse:
- non-ANSI function declaration of function 'kvm_para_tsc_khz'
-Message-ID: <202508142107.YBvHBW1o-lkp@intel.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Alok Tiwari <alok.a.tiwari@oracle.com>,
+	Pranjal Shrivastava <praan@google.com>
+Subject: drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:305:47: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202508142105.Jb5Smjsg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +65,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/dwmw2/linux cpuid
-head:   09e5e1c389ad0e1f5d843d548d4239221fc96a8e
-commit: 73038303178dd4d4f847ffe024b87b4a2a0930a5 [4/4] x86/kvm: Obtain TSC frequency from CPUID if present
-config: x86_64-randconfig-122-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142107.YBvHBW1o-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142107.YBvHBW1o-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0cc53520e68bea7fb80fdc6bdf8d226d1b6a98d9
+commit: 32b2d3a57e26804ca96d82a222667ac0fa226cb7 iommu/tegra241-cmdqv: Add IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV support
+date:   5 weeks ago
+config: arm64-randconfig-r112-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142105.Jb5Smjsg-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
+reproduce: (https://download.01.org/0day-ci/archive/20250814/202508142105.Jb5Smjsg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508142107.YBvHBW1o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142105.Jb5Smjsg-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/kvm.c:899:31: sparse: sparse: non-ANSI function declaration of function 'kvm_para_tsc_khz'
-   arch/x86/kernel/kvm.c:72:1: sparse: sparse: symbol '__pcpu_scope_steal_time' was not declared. Should it be static?
+>> drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:305:47: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
+   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:305:47: sparse:     expected restricted __le64
+   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:305:47: sparse:     got unsigned long long
 
-vim +/kvm_para_tsc_khz +899 arch/x86/kernel/kvm.c
+vim +305 drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
 
-   898	
- > 899	unsigned int kvm_para_tsc_khz()
-   900	{
-   901		u32 base = kvm_cpuid_base();
-   902	
-   903		if (cpuid_eax(base) >= (base | KVM_CPUID_TIMING_INFO))
-   904			return cpuid_eax(base | KVM_CPUID_TIMING_INFO);
-   905	
-   906		return 0;
-   907	}
-   908	
+   297	
+   298	static void tegra241_vintf_user_handle_error(struct tegra241_vintf *vintf)
+   299	{
+   300		struct iommufd_viommu *viommu = &vintf->vsmmu.core;
+   301		struct iommu_vevent_tegra241_cmdqv vevent_data;
+   302		int i;
+   303	
+   304		for (i = 0; i < LVCMDQ_ERR_MAP_NUM_64; i++)
+ > 305			vevent_data.lvcmdq_err_map[i] =
+   306				readq_relaxed(REG_VINTF(vintf, LVCMDQ_ERR_MAP_64(i)));
+   307	
+   308		iommufd_viommu_report_event(viommu, IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV,
+   309					    &vevent_data, sizeof(vevent_data));
+   310	}
+   311	
 
 -- 
 0-DAY CI Kernel Test Service
