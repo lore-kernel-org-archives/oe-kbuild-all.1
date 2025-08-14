@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E078E1EEA55
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 18:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449533597B;
+	Thu, 14 Aug 2025 19:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755197417; cv=none; b=u98PrK/OPmiTHHGy4AKTJpthfcGSjijuPRIVrMe5nxwe0sNtUjoi0qwUXr0RASgt019j1qnWKdIOC2Q4kbghT0XQWyEGlZFIX7gx/7gXO+POTvl6kCWQZUhF1OJ1BPOZLn8uKJtXoA6kCQeq8qUgJ7F8TeTMHno6kfznxtO16M8=
+	t=1755199946; cv=none; b=mn/iaVMSWi/YxgJOKN+oEiiCdHL14+8n74Bz3LW/hXxnS2MrnkCd5y3ekglLBuLLOkeXtXxd6rjA8KtHAA4ViowXgT2W16YGa8ZVPi/HIRJQimutk+c8asI9I1aCL2mUQNREWoMcZVH1TzohLN2oL5W15S0bp1Bv0XqYJGfBl0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755197417; c=relaxed/simple;
-	bh=pOMFQitSEGf+fgwVa18wEeXHCeOhAsoN0Xcf/CqaXxI=;
+	s=arc-20240116; t=1755199946; c=relaxed/simple;
+	bh=4g1Kzv+qcaRABcpccRnABJeryu1o3YSf777DqZOXLrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fWvJy1PqES0KHnGbE9yQHGv7J2jbeGuH5MLf43Y7tJASGQbLbvsqpAgLQ/M+yEPTgAEO0zUp65bDXvbIi0znYSn/b4/KzE8qfTihqOQfUNb2qRm7QvT4GVqtvinKybCvvTSfRyQ/P0FhOhKSxTjtGOWnVR8i9/npgwngy6zUw+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3JVKi7s; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=ZqNtobpVsJqnJ7YV4CtWqwxrQjd4xCSRVf+IjjPo56kJc4lxhIoO8LOxPx4qFbBvj4LP4QBlZokgQTFEYPpvJ/CQCEU4IaPxJIe7QGpeviJMif2g9dJF/VnHIxy9S/40W7/76cmN7lgPf5RiWUwYDjPJ/G2o47RgF5YRPoPF8xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQ8ZtUyL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3JVKi7s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQ8ZtUyL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755197416; x=1786733416;
+  t=1755199941; x=1786735941;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pOMFQitSEGf+fgwVa18wEeXHCeOhAsoN0Xcf/CqaXxI=;
-  b=a3JVKi7scit0sardqFbPmnlVpg2wArjVDTWq9jfTTiO6BKzQsRNYKeon
-   FLpDrvaMbyMZO5yeOz6vU8kaeb36EwlWpDa8NLdSI63uIEVBrSjS0w4th
-   mOsHOzKLq7yDUvyeR1ewnSPI2eNi5Zeq3P/Ksu6sc/1qnyrLpyA9hnEkQ
-   HFFpV+QkxU7Vk2c+jJFOjbVzdr0Ud84HghQp60FcHiMffwT1GTcl9HI1G
-   AWM8a2looIsEaYezS5x11/nM5A9pPr2VzYhJDyZcu0zl0LUxntFBl2wHy
-   JmEZ0rVkYppyksHMkPCjt0xjnBKaJo3RwnEiTa0yxm5SpFm1Cwqg5OOhd
-   g==;
-X-CSE-ConnectionGUID: sEbWmy+hQ0+7vrXiJWmRfg==
-X-CSE-MsgGUID: bQutgc6uTbqf/UzzLDCzHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57388059"
+  bh=4g1Kzv+qcaRABcpccRnABJeryu1o3YSf777DqZOXLrk=;
+  b=lQ8ZtUyLJe8+HVHgglWQqG669bunZQ9HDELi3mUtfjy9MaFw1o6YiY43
+   Abhj6OzME3PzKdSe1EeI/4Zp92kjGbsLzMje/MREqh7d8oR7vlmIgZGJ9
+   xUVCbdYhsBUmORe3300/7eHpU7EgjtEIy9ZcHEgtj3h6k1Qu5lTA1pgfE
+   HrW9skJJKnRs7RWaeLIn44mgdyrsLZT3hLggG334yGGx8/8vn9UNa2W82
+   qxZutim3iNsPrAOsuDnfypk+iMsA0VHEqUjryMFADPOfuKocyHFncY9q4
+   cmX346ZAf72Yk6i0Uj3JOuB4em6J4Soo0oTXhN8K15iGSv/FH9WxD3ED/
+   w==;
+X-CSE-ConnectionGUID: p3d4cDbWSWerSHYYsZSCfg==
+X-CSE-MsgGUID: Qi5yEuUhTpWyy1fsNDWhbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68226977"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="57388059"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 11:50:16 -0700
-X-CSE-ConnectionGUID: NDvdW4meQJ23uxjm27m8Cw==
-X-CSE-MsgGUID: AonkmeHsQ4G1j92yI9AOEQ==
+   d="scan'208";a="68226977"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 12:32:21 -0700
+X-CSE-ConnectionGUID: 2KzvbGrgRGCHjMVLqHiVYg==
+X-CSE-MsgGUID: UT5PAdj0Q5uVv3/XmOJaJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="172060704"
+   d="scan'208";a="166807008"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Aug 2025 11:50:14 -0700
+  by orviesa007.jf.intel.com with ESMTP; 14 Aug 2025 12:32:19 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umd1g-000BFo-0M;
-	Thu, 14 Aug 2025 18:50:12 +0000
-Date: Fri, 15 Aug 2025 02:49:41 +0800
+	id 1umdgP-000BGv-0C;
+	Thu, 14 Aug 2025 19:32:17 +0000
+Date: Fri, 15 Aug 2025 03:31:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2679/2679] kernel/sched/cpuacct.c:417:17:
- warning: no previous prototype for function 'bpf_task_ca_cpuusage'
-Message-ID: <202508150236.ujeyp9cP-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ceph-devel@vger.kernel.org
+Subject: [ceph-client:tls-tracing-only 7/10]
+ include/linux/blog/blog_ser.h:115:16: error: static assertion failed due to
+ requirement 'sizeof (null_str.str) == sizeof(unsigned long)': null_str.str
+ size must match unsigned long for proper alignment
+Message-ID: <202508150308.8w4wxpk9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +65,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
-commit: 00c32c5569d488b6c90f1695175577e35c17c21c [2679/2679] bpf-rvi: cpuacct: Add bpf_task_ca_cpuusage() kfunc
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150236.ujeyp9cP-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150236.ujeyp9cP-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git tls-tracing-only
+head:   6b738aa5f6bb2343f8277d318ff1e9ea9289212c
+commit: 4dbfb9232bb3bff162418ee08fe5379af0bcab48 [7/10] phase I
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150308.8w4wxpk9-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150308.8w4wxpk9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150236.ujeyp9cP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150308.8w4wxpk9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:61:
->> kernel/sched/cpuacct.c:417:17: warning: no previous prototype for function 'bpf_task_ca_cpuusage' [-Wmissing-prototypes]
-     417 | __bpf_kfunc u64 bpf_task_ca_cpuusage(struct task_struct *p)
-         |                 ^
-   kernel/sched/cpuacct.c:417:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     417 | __bpf_kfunc u64 bpf_task_ca_cpuusage(struct task_struct *p)
-         |             ^
-         |             static 
-   kernel/sched/cpuacct.c:424:18: warning: no previous prototype for function 'bpf_cpuacct_kcpustat_cpu_fetch' [-Wmissing-prototypes]
-     424 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
-         |                  ^
-   kernel/sched/cpuacct.c:424:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     424 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
-         |             ^
-         |             static 
-   In file included from kernel/sched/build_utility.c:73:
-   kernel/sched/debug.c:102:12: warning: no previous prototype for function 'is_prefer_numa' [-Wmissing-prototypes]
-     102 | int __weak is_prefer_numa(void)
-         |            ^
-   kernel/sched/debug.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | int __weak is_prefer_numa(void)
-         | ^
-         | static 
-   In file included from kernel/sched/build_utility.c:113:
-   kernel/sched/bpf_sched.c:186:17: warning: no previous prototype for function 'bpf_sched_entity_is_task' [-Wmissing-prototypes]
-     186 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
-         |                 ^
-   kernel/sched/bpf_sched.c:186:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     186 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
-         |             ^
-         |             static 
-   kernel/sched/bpf_sched.c:194:33: warning: no previous prototype for function 'bpf_sched_entity_to_task' [-Wmissing-prototypes]
-     194 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
-         |                                 ^
-   kernel/sched/bpf_sched.c:194:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     194 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
-         |             ^
-         |             static 
-   kernel/sched/bpf_sched.c:202:18: warning: no previous prototype for function 'bpf_sched_tag_of_entity' [-Wmissing-prototypes]
-     202 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
-         |                  ^
-   kernel/sched/bpf_sched.c:202:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     202 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
-         |             ^
-         |             static 
-   kernel/sched/bpf_sched.c:213:17: warning: no previous prototype for function 'bpf_sched_set_task_prefer_nid' [-Wmissing-prototypes]
-     213 | __bpf_kfunc int bpf_sched_set_task_prefer_nid(struct task_struct *task, int nid)
-         |                 ^
-   kernel/sched/bpf_sched.c:213:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     213 | __bpf_kfunc int bpf_sched_set_task_prefer_nid(struct task_struct *task, int nid)
-         |             ^
-         |             static 
-   7 warnings generated.
+   In file included from lib/blog/blog_core.c:13:
+   In file included from include/linux/blog/blog.h:17:
+>> include/linux/blog/blog_ser.h:115:16: error: static assertion failed due to requirement 'sizeof (null_str.str) == sizeof(unsigned long)': null_str.str size must match unsigned long for proper alignment
+     115 |         static_assert(sizeof(null_str.str) == sizeof(unsigned long),
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/blog/blog_ser.h:115:37: note: expression evaluates to '8 == 4'
+     115 |         static_assert(sizeof(null_str.str) == sizeof(unsigned long),
+         |                       ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
 
 
-vim +/bpf_task_ca_cpuusage +417 kernel/sched/cpuacct.c
+vim +115 include/linux/blog/blog_ser.h
 
-   416	
- > 417	__bpf_kfunc u64 bpf_task_ca_cpuusage(struct task_struct *p)
-   418	{
-   419		if (!p)
-   420			return 0;
-   421		return cpuusage_read(task_css(p, cpuacct_cgrp_id), NULL);
-   422	}
-   423	
+   111	
+   112	static inline size_t write_null_str(char *dst)
+   113	{
+   114		*(union null_str_u *)dst = null_str;
+ > 115		static_assert(sizeof(null_str.str) == sizeof(unsigned long),
+   116		             "null_str.str size must match unsigned long for proper alignment");
+   117		return __builtin_strlen(null_str.str);
+   118	}
+   119	
 
 -- 
 0-DAY CI Kernel Test Service
