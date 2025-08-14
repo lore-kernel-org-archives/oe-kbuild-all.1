@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CB32D4B47
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 10:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3914428EA72
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 11:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755168021; cv=none; b=YjstJ4pJA4QEN9aN4gIL/yZ1lou5j/3uYe05XANi5CEZYRH/3LNv2Qjc/LvD8v9G3KsF5SPwGm4SfaSGItOPbE+jRj+1Hwi3pdPkUXnCgfwQvr022lp2n1G46WmNjEgEBoheZlfS+JbmmSehNdKf1Imj5hKIu9Er+7nUpFWedI4=
+	t=1755170280; cv=none; b=DLj9q1pXuU0FRJ7+SzPtqImaPjiKDtZ7NlDn2oOAPKW6lit/fROwlzSxKyEytBMWuYjF7z6MwzMRa/u/4mkfgnJ3WaDr9uEtlKw/bwX5fPmk+v3Ue+giy2t/S1jYotRnlQKAb1L3QumWza/jMGcWoyqcMHn8v+LsuobxhVUvSGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755168021; c=relaxed/simple;
-	bh=qgfwGSZfEbkniLqHKgCT8fgNudcnf/OobMNwSIUdZLE=;
+	s=arc-20240116; t=1755170280; c=relaxed/simple;
+	bh=u+qdBBggu949YYeAXuPAdch6Q5KtVzYL2Kf6ivZ279E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sYBCAGLil6LQsmJ6/wV8VS0zLgSW0jx7mdhp3RfnkAUx7pCcftuZvZRHbZ1JO8/XKwR+l/NXvti9FzyiR7mN8bH08XtNJA6tkbTttFF7U75mXPDSADvj1mxFTu1saJRxdT4rSVPS2ZCSPPM9aD2q7keOSlcOUx4XThyFv2O3vPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGYZR0db; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition:In-Reply-To; b=uyQDdD63DNQynQRvBfrjt0PKkbFichCkuoKpBrnRXBWAiLa0nc9GOIwu+/Y86V9OlzMexX/Ll1WWsoiOC+SB9woQ17BwN/bY1purAmPuXrWobi6zSdcxGZHRsuJDa1mCI5A1ioIYXkZjW2n3IBX+hlGE/54M3UNGJ7mmFBOvrYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2mHGj/a; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGYZR0db"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2mHGj/a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755168020; x=1786704020;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qgfwGSZfEbkniLqHKgCT8fgNudcnf/OobMNwSIUdZLE=;
-  b=IGYZR0dbLmFgtDeo1H00F5uLD6UQZ9Hihp/HQg6Wd05oebBlcILvTu4n
-   gqfUpxDOzqkpwxAcOiV8QF0rZCa5BqISa9QOjHq2r7ErCSj35YBV/hrLR
-   Daebx6Dz8tkXctU572+HQQpvMzARbV39LpbIQ31ThofoE/yDHPeTTlYu3
-   03PaSg+cclv59pZMyWG0TA1KMPzhS78AdSgHylmRkM0PUqH0+/6mWpkDz
-   mGCSxXMIWFj5PKo000pa6rlJjKKusgOzh8wyyTmta1P4r95wWaTCtFuNm
-   VGjHItUmSf4aVyRAHHBOVhggBaDhc01mVnrOlRoXC14oLOReUolz8qg/V
+  t=1755170279; x=1786706279;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=u+qdBBggu949YYeAXuPAdch6Q5KtVzYL2Kf6ivZ279E=;
+  b=l2mHGj/aWuOqqp+d94qgmzg4oXpWwzx0qo/cxu8poVut5iG8n7VHnhS5
+   H4txRUmu5LrIS8Fmv19h5KJ3cHHZ6DX0HMGbAjfN/gnx1nsRlUrhAFUnn
+   QUs9YhQM+VeaA9NvubRMNX1eQNGKn4ke8BmBfyBJTK9bwsqOgxzEU3PNF
+   Y4qC5Q1Om9Ay19kqxW89yLAfpflcvil9Wxb/fvP4om4TVoj1qWMwS/wjq
+   DI+aXTA/sMcGTaSsAPyx39IrrLktA3J6HsR63HVM8S5cRkU/hDayuFSSR
+   rdTwdCnakxhIDn0P3+jLSrcrNNgAo5jXQurfyX4OZjTUj+9pwG21AXXun
    g==;
-X-CSE-ConnectionGUID: eBDpfF5vRu6jw05m/pZ9Pg==
-X-CSE-MsgGUID: uDUNciomR6yWFdhHeCJZ+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57383963"
+X-CSE-ConnectionGUID: 4bTjyPB8SNy7eWcK4KK0Ag==
+X-CSE-MsgGUID: HLYSwTtPQUm3lOEgtB6kvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="80060325"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="57383963"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 03:40:20 -0700
-X-CSE-ConnectionGUID: 23PtKySTRtWxjmbbTauNRA==
-X-CSE-MsgGUID: ywXMU6qyR52yYxydnP2uFQ==
+   d="scan'208";a="80060325"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 04:17:59 -0700
+X-CSE-ConnectionGUID: hoea9W1VS2GCgKxT3PXAvQ==
+X-CSE-MsgGUID: ciQ5X1nSRuuvIZkAQIKw6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="197719795"
+   d="scan'208";a="171192526"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 14 Aug 2025 03:40:17 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Aug 2025 04:17:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umVNX-000ArQ-1j;
-	Thu, 14 Aug 2025 10:40:15 +0000
-Date: Thu, 14 Aug 2025 18:39:17 +0800
+	id 1umVxz-000AtM-2R;
+	Thu, 14 Aug 2025 11:17:55 +0000
+Date: Thu, 14 Aug 2025 19:17:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raul E Rangel <rrangel@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Petr Mladek <pmladek@suse.com>
-Subject: init/main.c:753:(.init.text+0x7e): relocation truncated to fit:
- R_ARC_S25W_PCREL against symbol `__st_r13_to_r16' defined in .text section
- in ../lib/gcc/arc-linux/8.5.0/libgcc.a(_millicodethunk_st.o)
-Message-ID: <202508141854.NCR7LIB7-lkp@intel.com>
+To: yangshiguang1011@163.com
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] mm: slub: avoid wake up kswapd in set_track_prepare
+Message-ID: <aJ3F338VexFiaW9o@1a863d778a0f>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250814111641.380629-2-yangshiguang1011@163.com>
 
-Hi Raul,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0cc53520e68bea7fb80fdc6bdf8d226d1b6a98d9
-commit: 17b655759e83fd5e28931a0ece96fa9c2ab718e7 init: Don't proxy `console=` to earlycon
-date:   11 months ago
-config: arc-randconfig-r113-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141854.NCR7LIB7-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250814/202508141854.NCR7LIB7-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141854.NCR7LIB7-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-All errors (new ones prefixed by >>):
-
-   init/main.o: in function `do_early_param':
->> init/main.c:753:(.init.text+0x7e): relocation truncated to fit: R_ARC_S25W_PCREL against symbol `__st_r13_to_r16' defined in .text section in ../lib/gcc/arc-linux/8.5.0/libgcc.a(_millicodethunk_st.o)
-
-
-vim +753 init/main.c
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  749  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  750  /* Check for early params. */
-ecc8617053e0a9 Luis R. Rodriguez 2015-03-30  751  static int __init do_early_param(char *param, char *val,
-ecc8617053e0a9 Luis R. Rodriguez 2015-03-30  752  				 const char *unused, void *arg)
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @753  {
-914dcaa84c53f2 Rusty Russell     2010-08-11  754  	const struct obs_kernel_param *p;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  755  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  756  	for (p = __setup_start; p < __setup_end; p++) {
-17b655759e83fd Raul E Rangel     2024-09-11  757  		if (p->early && parameq(param, p->str)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  758  			if (p->setup_func(val) != 0)
-ea676e846a8171 Andrew Morton     2013-04-29  759  				pr_warn("Malformed early option '%s'\n", param);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  760  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  761  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  762  	/* We accept everything at this stage. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  763  	return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  764  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  765  
-
-:::::: The code at line 753 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] mm: slub: avoid wake up kswapd in set_track_prepare
+Link: https://lore.kernel.org/stable/20250814111641.380629-2-yangshiguang1011%40163.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
