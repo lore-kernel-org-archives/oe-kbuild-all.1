@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD84212B0C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 17:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA830AAD1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 17:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755191996; cv=none; b=ZrrZBk4AWkH6DabR8zPhDB+vdAtswXvlxAkB/UGwFe7pbowvB0NdZ5FXrSeCAFInCJjzXnGrZYzArMg1Wyfwz/CWV+rcZjsjcGOM7HDHNK+TVSejsb4cO639BzvEmEujMDbG6XfLkKnFiCs2FUeMiR7wAM7PlNuppmBqmMzjiGw=
+	t=1755192776; cv=none; b=WD0S2NfmZ/5SmjnMU42hJbduJ8oJcsFZyqrQAr/PzEvImdYjZocGIqXJBm8PKMk7bqEEjYRTMiuJrcLfmOZF4unxeI/nqHI3JoGDEl1VGctEFNpAL+rdY7O+DLiC8Tai5I5ydd/vF9ZT6VqEWMuF+UM0bP5nCfyGhafotfDolkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755191996; c=relaxed/simple;
-	bh=cYJk3lRPUN9EO9teftknbkyrMqbi+7Q+2LGs5MPUGnk=;
+	s=arc-20240116; t=1755192776; c=relaxed/simple;
+	bh=u33CFwapfPQUW3dtVpinqRmLyB1TsBLW+OfUhOqS9lM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NV7iEVuGYyQFayR9IXCf3LwJt7nUg3yM+wSVZB6mSpIkiQUqADF35RDrENHO5QGiSwOOl9dqNJpSdFyJdtG107AqCOEAV7BpGwVdc0qbd0BMiR3kppO/lTnl8dhNyQntKpaT4u2sA5cS9hQq16BLIEKOfz//3aMLu00o95okf6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHYjm+qL; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=NlnO3fOqV6U+9uISVDOIqysbDHC8XrnjYAz2z1B5+PHbEhbIc6BYLfk7afjJLf36oDXENAPj40TXHTeMOIUR4sIbFmjF4W4B3s7YCgexLHtR38oYnvm8/SI0GeBFRImYALSa9oHflVVfX/7J6+qVncsPMbA4Ne73Tfze6WLpwFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3EZ1mQm; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHYjm+qL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3EZ1mQm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755191995; x=1786727995;
+  t=1755192775; x=1786728775;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cYJk3lRPUN9EO9teftknbkyrMqbi+7Q+2LGs5MPUGnk=;
-  b=oHYjm+qL9F0QktXLKGfEwZDsrK3VC3kYBpwHb6NPOZtWaCu3wNMWMW6C
-   KnJznDaYsRpavqSepSSRMW8aw4US0umqB+7aMzjUD4s3BtQeW4mrDh4ED
-   NatOqHFQOr86OKp9mJQySOWHnhRbUP+PkYcnBdIGG45SDS3QVEAPPoOp9
-   CgU/FmIX1zrr2oDGLpO3q3RTKaw1dD+wAZAguzCXzZqYQ9t8ExfRCYUK3
-   TXYClLIM2W3aEYFaLSEczVXl3CyZ54hKCWC3PDmhNQOIjeZWiWRNtigOW
-   gmGT09nZwP8k0mEei98UOrMwqf0JGXcvWavG78vtZ+HbGYdrtH55ByRF1
-   w==;
-X-CSE-ConnectionGUID: zf3PpiDPSeSGC2PMnkrkNw==
-X-CSE-MsgGUID: vkgLEykLSpOQR1AfsBqhpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57441911"
+  bh=u33CFwapfPQUW3dtVpinqRmLyB1TsBLW+OfUhOqS9lM=;
+  b=d3EZ1mQmiFBiC8yiOtvVGc4HYckz5U4JNRSJbQkGCnR2Xivn/FbrpVvI
+   rk7VknftQGUzpvcv31MUhfx3wh6r35ZtPTbQo9KuDt2JrooJKR5M8f7lt
+   HHomn47dw/1nTWkd4DUvOdRSBtNyff6yvtZH0aiDOIrQ45NPO5k6aH7Kz
+   ix0sZNMhqnfYWaMGhvtyZHAJ6cpvw1WhwOE+ypQK05w2o8w7dm5L9MSjn
+   elddpyxRPb54A0d7GX828c0VH8vqvB0zBVAaphq4fbuTU7WYo+mM82Vgu
+   mVkXICoCqzElby50GTnRzLqGJlDXhY/tYzEo07/n6vo8emWy1/2/7KLcH
+   g==;
+X-CSE-ConnectionGUID: R9KFqEwQQC2iZ/ftwF3XKg==
+X-CSE-MsgGUID: Cm2USw8fRqiruxur1lfuHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68217338"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="57441911"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:19:54 -0700
-X-CSE-ConnectionGUID: ANnK8i8HRHKesrEjR1Si5w==
-X-CSE-MsgGUID: qpNnBUSfQRKcU+GA2MA+gw==
+   d="scan'208";a="68217338"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:32:54 -0700
+X-CSE-ConnectionGUID: 3eO+YrmBRP+Z+Pteg2Svyw==
+X-CSE-MsgGUID: Rvz2JtC2Rnu4WGwRxfIg5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="165998182"
+   d="scan'208";a="197664046"
 Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa006.jf.intel.com with ESMTP; 14 Aug 2025 10:19:53 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 Aug 2025 10:32:54 -0700
 Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umbcE-0000Ix-3A;
-	Thu, 14 Aug 2025 17:19:50 +0000
-Date: Thu, 14 Aug 2025 19:19:29 +0200
+	id 1umbop-0000J9-2a;
+	Thu, 14 Aug 2025 17:32:51 +0000
+Date: Thu, 14 Aug 2025 19:32:00 +0200
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android16-6.12 4/4]
- arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for
- '__hyp_trace_find_event_name'
-Message-ID: <202508141913.yZUjsGZO-lkp@intel.com>
+ arch/arm64/kvm/hyp/nvhe/switch.c:391:5: warning: no previous prototype for
+ function '__pkvm_register_hyp_panic_notifier'
+Message-ID: <202508141942.Fs8FOjug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,70 +65,37 @@ Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android16-6.12
 head:   125206b4d7d6898a8a5d0c088a5ba75114266b81
-commit: 12aaf60a831904372fbd91490acdeb2c4ab3cf78 [4/4] ANDROID: KVM: arm64: Allow registration of pKVM module hyp events
-config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141913.yZUjsGZO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141913.yZUjsGZO-lkp@intel.com/reproduce)
+commit: 4b5a009cd21622260e1f19afbd0ff7440102b6d8 [4/4] ANDROID: KVM: arm64: Introduce a hyp panic module notifier
+config: arm64-randconfig-2002-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141942.Fs8FOjug-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7d886fab74d4037d654d02bed24dd97c0ba863d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141942.Fs8FOjug-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141913.yZUjsGZO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508141942.Fs8FOjug-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for '__hyp_trace_find_event_name' [-Wmissing-prototypes]
-    struct hyp_event *__hyp_trace_find_event_name(const char *name,
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:247:19: warning: no previous prototype for 'hyp_trace_find_event_name' [-Wmissing-prototypes]
-    struct hyp_event *hyp_trace_find_event_name(const char *name)
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/switch.c:391:5: warning: no previous prototype for function '__pkvm_register_hyp_panic_notifier' [-Wmissing-prototypes]
+     391 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/switch.c:391:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     391 | int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/__hyp_trace_find_event_name +235 arch/arm64/kvm/hyp_events.c
+vim +/__pkvm_register_hyp_panic_notifier +391 arch/arm64/kvm/hyp/nvhe/switch.c
 
-   231	
-   232	#define nr_events(__start, __stop) \
-   233		(((unsigned long)__stop - (unsigned long)__start) / sizeof(*__start))
-   234	
- > 235	struct hyp_event *__hyp_trace_find_event_name(const char *name,
-   236						      struct hyp_event *start,
-   237						      struct hyp_event *end)
-   238	{
-   239		for (; start < end; start++) {
-   240			if (!strncmp(name, start->name, HYP_EVENT_NAME_MAX))
-   241				return start;
-   242		}
-   243	
-   244		return NULL;
-   245	}
-   246	
- > 247	struct hyp_event *hyp_trace_find_event_name(const char *name)
-   248	{
-   249		struct hyp_event_table *table;
-   250		struct hyp_event *event =
-   251			__hyp_trace_find_event_name(name, __hyp_events_start,
-   252						    __hyp_events_end);
-   253	
-   254		if (event)
-   255			return event;
-   256	
-   257		rcu_read_lock();
-   258		table = rcu_dereference(mod_event_tables.tables);
-   259	
-   260		for (int i = 0; i < mod_event_tables.nr_tables; i++) {
-   261			struct hyp_event *end = table->start + table->nr_events;
-   262	
-   263			event = __hyp_trace_find_event_name(name, table->start, end);
-   264			if (event)
-   265				break;
-   266		}
-   267	
-   268		rcu_read_unlock();
-   269	
-   270		return event;
-   271	}
-   272	
+   389	
+   390	static void (*hyp_panic_notifier)(struct user_pt_regs *regs);
+ > 391	int __pkvm_register_hyp_panic_notifier(void (*cb)(struct user_pt_regs *regs))
+   392	{
+   393		return cmpxchg(&hyp_panic_notifier, NULL, cb) ? -EBUSY : 0;
+   394	}
+   395	
 
 -- 
 0-DAY CI Kernel Test Service
