@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DCB2248BE;
-	Thu, 14 Aug 2025 06:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05403242910
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 06:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755151878; cv=none; b=nKPxdi6BEgN11pjiD6YJ+JHQ4RpCjsPPsnuTU18EZyU8Aid0LSaQiYn6Z2q9MoZ2dD++4mOCC/XGse4jYHoL9KwCHm5+lGpZu6ZQkpg2AYVowNZMNYZjiqEt/G8IE93hB3j11953i+wUYHLxx13e2S2CKs342LPOSbb4uRSzTkA=
+	t=1755152839; cv=none; b=ilz5/ADKb3xPsaFhLt0xA4waZfkNJtQjDYuMR0V1+iBMpOB3EfLAbo+Z63q8Pzcl8w451wiAtOJK8yzJpa5HuvlVpkAZt/xhlVTFhplgRBrYDK5YDO8HPLygczfNa/AQEDiTmO+qX5mqfxxXEjr2Djlp4XRgyF7IMzFQ5BO5s30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755151878; c=relaxed/simple;
-	bh=Vqzf3jYO0hk0HCapcZuofsufNC86hpZ+tKxzV8FJKXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ptAhG2aq5oBpOoDGx+dIgtNGlh9swpFXn+scEp5wrKBQs4jVVzD7Oeu3cv5Y/TylZ54rrmPDHr1ubOXAMndM+krtoBP4pFXrBd0QyyGsDha6kdM8gRtCXs5tlFPw7usS361r0ysJ7mNYnhq9dn/GVmsSIixeDUZAVRE+1Clfrgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgDs7Ro2; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1755152839; c=relaxed/simple;
+	bh=7C2qXLNIBZ6eia/1W6IjTf5fHo1xJNSXNElLkOznFdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j73/0UnVKZrvEg9ac4CFVwLWQ8D7RW+nOIqIjTbLu7WVZIe4o0pMnWDZ3DE8gc3E3L480dYqby1JNA8yFbKGHYb3h/nZ/xHAgDLj4Speyhm38g1a3ZEVzkqD5HzF+n47v7QvWWe5JEqCwfAu7mnQXUSO8a2JN0B2lcIPDUpvlIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG0ijTwW; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgDs7Ro2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG0ijTwW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755151877; x=1786687877;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vqzf3jYO0hk0HCapcZuofsufNC86hpZ+tKxzV8FJKXA=;
-  b=hgDs7Ro2dYvKmk50U2me5ySHJcfsm7GIISMN77lhYe5aIrnjszEUjEP0
-   FRGffot9IS6/GDYFteGUKvmdL2XgwdjG9zURkPQ9jYD0PNA+lJlUk0oV9
-   HNOeqFZ/d12YU1GjR+hfttjfB+KTYjUKPJ/SsKzmCxzEhwyc2wNvifEo8
-   AfQVgbhk9JX1Sd5Y6YinavSpRnT0BYBpbqSN2rJJiR5exgsAx+Zxcg+Qa
-   /EWLDG2jgupKjuSJTtOCmKb8PJ8p/dIGOzzMAS5vcl+KmMFz4MNop4VbA
-   bS7vET7uhe+Dlma1CYRJE8afkr+BfCqbhEuFlCj81CqlYal+WngATP7DT
+  t=1755152838; x=1786688838;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7C2qXLNIBZ6eia/1W6IjTf5fHo1xJNSXNElLkOznFdA=;
+  b=nG0ijTwWIozueZP9L1dLEdEj6bSsUmpJeKZFXe5pnhzdx3Y5LffuETXP
+   o+MNrQjodDPSurM3Yh02el26tQ2Ia6wyqh/pdJW4q0S9mvwvR5N5Ifz+v
+   onTd+EJ1TdMkXt7NS57S0zk/g5eSINU7Syn8B5gf0nyajPeJWgYoz2AH0
+   tEyYIQ2sCSBjDsQuQg/f2IMkuF+QBYV7JXyT7yZJuD0HUV7j9/tWZi5RF
+   QjZUI4TyCjAZIbGfLHWarbXECJOaqAWp3MB7vUwhbIcVtddcjkSbWo6mn
+   Y+/2TP16LfISZhZg6JpWoB2H2Bv9xXQ1x6TYDMbFAkZ2+quzpMs88lG5x
    A==;
-X-CSE-ConnectionGUID: pWTHoMbtRui07dVa/chLPw==
-X-CSE-MsgGUID: JBk9eZN+R/a6eOLsgoAuFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67730424"
+X-CSE-ConnectionGUID: DbR6eWizQOSsUXc2ZXuzZg==
+X-CSE-MsgGUID: zvgEjhfFTZO+t1go3n5WUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57327891"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="67730424"
+   d="scan'208";a="57327891"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 23:11:16 -0700
-X-CSE-ConnectionGUID: 5rSQ3uN0RRuIMibDI9x1nQ==
-X-CSE-MsgGUID: D9uRtprpR96Rh5SG/weQzQ==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 23:27:11 -0700
+X-CSE-ConnectionGUID: Zk7z/qHCTD2YF91fhOt6KQ==
+X-CSE-MsgGUID: 17rxyqDiSZSzZwKelRmI3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="197531409"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Aug 2025 23:11:14 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="197536124"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Aug 2025 23:27:08 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umRBA-0000DH-0f;
-	Thu, 14 Aug 2025 06:11:12 +0000
-Date: Thu, 14 Aug 2025 08:10:24 +0200
+	id 1umRQY-000AeS-0E;
+	Thu, 14 Aug 2025 06:27:06 +0000
+Date: Thu, 14 Aug 2025 14:26:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Subject: [linux-next:master 2350/2527] Warning: fs/ceph/mds_client.c:2703
- function parameter 'path_info' not described in 'ceph_mdsc_build_path'
-Message-ID: <202508140809.TGOyvOA3-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] netfilter: nft_payload: Use csum_replace4()
+ instead of opencoding
+Message-ID: <202508141336.K6vIBjy1-lkp@intel.com>
+References: <e98467a942d65d2dc45dcf8ff809b43d4a3769eb.1754992552.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +72,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <e98467a942d65d2dc45dcf8ff809b43d4a3769eb.1754992552.git.christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   931e46dcbc7e6035a90e9c4a27a84b660e083f0a
-commit: 7128e41a490709c759fde32898eade197acd0978 [2350/2527] ceph: fix race condition validating r_parent before applying state
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250814/202508140809.TGOyvOA3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140809.TGOyvOA3-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/netfilter-nft_payload-Use-csum_replace4-instead-of-opencoding/20250812-183440
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/e98467a942d65d2dc45dcf8ff809b43d4a3769eb.1754992552.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH net-next] netfilter: nft_payload: Use csum_replace4() instead of opencoding
+config: x86_64-randconfig-122-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141336.K6vIBjy1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141336.K6vIBjy1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508140809.TGOyvOA3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508141336.K6vIBjy1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/netfilter/nft_payload.c:687:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] from @@     got restricted __wsum [usertype] fsum @@
+   net/netfilter/nft_payload.c:687:28: sparse:     expected restricted __be32 [usertype] from
+   net/netfilter/nft_payload.c:687:28: sparse:     got restricted __wsum [usertype] fsum
+>> net/netfilter/nft_payload.c:687:34: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] to @@     got restricted __wsum [usertype] tsum @@
+   net/netfilter/nft_payload.c:687:34: sparse:     expected restricted __be32 [usertype] to
+   net/netfilter/nft_payload.c:687:34: sparse:     got restricted __wsum [usertype] tsum
+>> net/netfilter/nft_payload.c:687:28: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] from @@     got restricted __wsum [usertype] fsum @@
+   net/netfilter/nft_payload.c:687:28: sparse:     expected restricted __be32 [usertype] from
+   net/netfilter/nft_payload.c:687:28: sparse:     got restricted __wsum [usertype] fsum
+>> net/netfilter/nft_payload.c:687:34: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] to @@     got restricted __wsum [usertype] tsum @@
+   net/netfilter/nft_payload.c:687:34: sparse:     expected restricted __be32 [usertype] to
+   net/netfilter/nft_payload.c:687:34: sparse:     got restricted __wsum [usertype] tsum
 
->> Warning: fs/ceph/mds_client.c:2703 function parameter 'path_info' not described in 'ceph_mdsc_build_path'
+vim +687 net/netfilter/nft_payload.c
+
+   684	
+   685	static inline void nft_csum_replace(__sum16 *sum, __wsum fsum, __wsum tsum)
+   686	{
+ > 687		csum_replace4(sum, fsum, tsum);
+   688		if (*sum == 0)
+   689			*sum = CSUM_MANGLED_0;
+   690	}
+   691	
 
 -- 
 0-DAY CI Kernel Test Service
