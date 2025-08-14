@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987831F8BD6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 12:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8502B3002C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 13:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755174466; cv=none; b=qiSA8YQ99z1+spYZ873ayoltveI5TebUXxjJ4xK2vyTBXObbIWw45Z7ECByxtv1xyXlijSYJky2qgdpk5i8M6u5NPuurdYqFq83Ur3CwlpC1xjQZ0ZM42AA+/E9jir+TQO7QKFa0Z6KEzQll5uMf5KvMPlMIpnmrx3lEPkCapWY=
+	t=1755176923; cv=none; b=p9rbiNbHImpYdYo2xxwZynFRv5Nh/61NnWgSi27EaEiE+pZmhDfK2H0FLm+vbYNzGyN7vLNY6nNsoObyBEmE8ymDde5mVsZusHDxwbeQ2ASub1zkQOWycYfqz5FIuNk3w64LZZ8UvYg96nLAn0r/hWpU9NA5pOrxcH+n8efALa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755174466; c=relaxed/simple;
-	bh=biwFhqTN1ju0khqVHe8CmfBiWv+FqESizasbjOaEUsk=;
+	s=arc-20240116; t=1755176923; c=relaxed/simple;
+	bh=4uPCNWSiTBZ1PS5aFIKGfaSKYh9II/lqlJ8kMPz10Oc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ExK2DeE3j1AtABVeWBvSmDWEWXb29aDmy0pwCOQeQfXY2mGyf4k3rJn4o7Bqnae6jgr/IRrkPFxMOJ7VIBIEnjzCUUkS+r90qjvkjAht2WlQf1oitGR+hEhHDP/PJNmWwSTP243f57G/EA7P0iZol031wNSNcp+HefUSDmACpkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StA0/ZaL; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=IxrALM7Qm6BvW06xwNeZX+thql9tUIRAv7C76ipxaCo8trBjtRh9tIF3sCegjpqSXKU0qAhyqtr5efW9o8WYnQHs9641WSbPYUzhJHMR9FbOZnUT5KBTkdxOgSeqha/Lpabb7Q75JCtLcVVnfB6i9P+5kdnsR1H6fXxxqcoa8yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaFjSGk4; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StA0/ZaL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaFjSGk4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755174465; x=1786710465;
+  t=1755176920; x=1786712920;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=biwFhqTN1ju0khqVHe8CmfBiWv+FqESizasbjOaEUsk=;
-  b=StA0/ZaLuSSEgQgycKk91ZCwOywcvHfPfoKosA3fxeX8zKZNcqhG4W8c
-   360HLHOplRT1OwDr66by/KWdUBSOLBwPjvf+rY+Upjhcd2s0C9uRxA3vT
-   fuYHgWWQevRhQvp2lyp3UttCxcw3MlWjIaNEj2skprVOysXoz3IVDJ1eM
-   1VDr5KbBESjMlswLDzkZ1HDiGP6wsDAX0JYkN9FVfQ+uBtK8SGqbDsfjD
-   /iZr00dGOG0Gv2cHySbFDcENchDB2mf4s6H+7Yf4t8E8CrisvDLyBbBn2
-   JhcGuTOrpKF4walSbAoLRXMbBCofk9O8TlBpOJ0ap2cxWabhiAav4pO4x
-   Q==;
-X-CSE-ConnectionGUID: gms6hPppTZ+WGZm3eXxVVw==
-X-CSE-MsgGUID: RkV02aQwRoqg+6g1agN4yA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57555327"
+  bh=4uPCNWSiTBZ1PS5aFIKGfaSKYh9II/lqlJ8kMPz10Oc=;
+  b=kaFjSGk4Qq2oGeuWJYVCP1r1QZuW74V6AAqCYPTR6UqUBUvQflCLItbS
+   uvyBxKqoDuTKKAymmMC0Q+kvMEsmUzST6X1n0wFlL0F7JbWcY+gLXgcBI
+   kFoLkwpA/o8YdjDbfJbAcewEmtNQMRAHC8T/clGkI0SSbpgMQIh8LW4jV
+   y+jP9fMsp0nkSrWqOwAME8ZMl9rp4neCpBoHTnHVyecETcpEnZycAZfMn
+   J+KTfIp9FthrdFdBLPn6wKKv9UZyaIcoDCvhsFP3eybs6pfcVwfkuIXfl
+   oYwuv2AB5WyTHLvePZAyIwwC/O6p5nEKNfVKl6e41eUpvS3/MwEIHEztc
+   A==;
+X-CSE-ConnectionGUID: 0/9M2+xXRDqgT8CQefMAPQ==
+X-CSE-MsgGUID: QBtEM7/VRa+0KCaL1SFf+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="61117518"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="57555327"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 05:27:44 -0700
-X-CSE-ConnectionGUID: dCi5zX/fT4e/sEPTzIpgLA==
-X-CSE-MsgGUID: rv90sch/Ql+EeNUigSRfxg==
+   d="scan'208";a="61117518"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:08:39 -0700
+X-CSE-ConnectionGUID: ud6SN2wOQKCZDIB8IioLyw==
+X-CSE-MsgGUID: Dh6zsf2fQl6iiNwTP3Mcnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="167555008"
+   d="scan'208";a="171214547"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Aug 2025 05:27:42 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Aug 2025 06:08:37 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umX2y-000Awo-1T;
-	Thu, 14 Aug 2025 12:27:21 +0000
-Date: Thu, 14 Aug 2025 20:25:12 +0800
+	id 1umXh5-000Aya-0X;
+	Thu, 14 Aug 2025 13:08:35 +0000
+Date: Thu, 14 Aug 2025 21:08:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 2221/2527]
- arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36
- (silabs,si5341): 'clock-output-names' does not match any of the regexes:
- '^out@[0-9]$', '^pinctrl-[0-9]+$', '^vddo[0-9]-supply$'
-Message-ID: <202508142038.M8MuVqEP-lkp@intel.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2679/2679] kernel/sched/cpuacct.c:412:18:
+ warning: no previous prototype for function 'bpf_cpuacct_kcpustat_cpu_fetch'
+Message-ID: <202508142117.RpbHh5Ge-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,89 +62,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   931e46dcbc7e6035a90e9c4a27a84b660e083f0a
-commit: b02011c8c61f1e61d6b4edf6a9e24620c965d376 [2221/2527] dt-bindings: clock: Convert silabs,si5341 to DT schema
-config: arm64-randconfig-051-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142038.M8MuVqEP-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142038.M8MuVqEP-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
+commit: 6ed308fc1d6f486c9e3c171b6b80c1c5f0f57df6 [2679/2679] bpf-rvi: cpuacct: Add bpf_cpuacct_kcpustat_cpu_fetch kfunc
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250814/202508142117.RpbHh5Ge-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142117.RpbHh5Ge-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508142038.M8MuVqEP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142117.RpbHh5Ge-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): 'clock-output-names' does not match any of the regexes: '^out@[0-9]$', '^pinctrl-[0-9]+$', '^vddo[0-9]-supply$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): out@0: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): out@2: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): out@3: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): out@4: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): out@5: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: clock-generator@36 (silabs,si5341): out@6: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): 'clock-output-names' does not match any of the regexes: '^out@[0-9]$', '^pinctrl-[0-9]+$', '^vddo[0-9]-supply$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): out@0: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): out@2: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): out@3: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): out@4: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): out@5: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revB.dtb: clock-generator@36 (silabs,si5341): out@6: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): 'clock-output-names' does not match any of the regexes: '^out@[0-9]$', '^pinctrl-[0-9]+$', '^vddo[0-9]-supply$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): out@0: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): out@2: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): out@3: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): out@4: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): out@5: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: clock-generator@36 (silabs,si5341): out@6: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): 'clock-output-names' does not match any of the regexes: '^out@[0-9]$', '^pinctrl-[0-9]+$', '^vddo[0-9]-supply$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): out@0: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): out@2: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): out@3: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): out@6: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): out@7: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu106-revA.dtb: clock-generator@36 (silabs,si5341): out@9: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): 'clock-output-names' does not match any of the regexes: '^out@[0-9]$', '^pinctrl-[0-9]+$', '^vddo[0-9]-supply$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): out@0: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): out@2: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): out@3: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): out@5: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): out@6: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/silabs,si5341.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: clock-generator@36 (silabs,si5341): out@9: 'always-on' does not match any of the regexes: '^pinctrl-[0-9]+$'
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_utility.c:61:
+>> kernel/sched/cpuacct.c:412:18: warning: no previous prototype for function 'bpf_cpuacct_kcpustat_cpu_fetch' [-Wmissing-prototypes]
+     412 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
+         |                  ^
+   kernel/sched/cpuacct.c:412:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     412 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
+         |             ^
+         |             static 
+   In file included from kernel/sched/build_utility.c:73:
+   kernel/sched/debug.c:102:12: warning: no previous prototype for function 'is_prefer_numa' [-Wmissing-prototypes]
+     102 | int __weak is_prefer_numa(void)
+         |            ^
+   kernel/sched/debug.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     102 | int __weak is_prefer_numa(void)
+         | ^
+         | static 
+   In file included from kernel/sched/build_utility.c:113:
+   kernel/sched/bpf_sched.c:186:17: warning: no previous prototype for function 'bpf_sched_entity_is_task' [-Wmissing-prototypes]
+     186 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
+         |                 ^
+   kernel/sched/bpf_sched.c:186:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     186 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
+         |             ^
+         |             static 
+   kernel/sched/bpf_sched.c:194:33: warning: no previous prototype for function 'bpf_sched_entity_to_task' [-Wmissing-prototypes]
+     194 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
+         |                                 ^
+   kernel/sched/bpf_sched.c:194:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     194 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
+         |             ^
+         |             static 
+   kernel/sched/bpf_sched.c:202:18: warning: no previous prototype for function 'bpf_sched_tag_of_entity' [-Wmissing-prototypes]
+     202 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
+         |                  ^
+   kernel/sched/bpf_sched.c:202:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     202 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
+         |             ^
+         |             static 
+   kernel/sched/bpf_sched.c:213:17: warning: no previous prototype for function 'bpf_sched_set_task_prefer_nid' [-Wmissing-prototypes]
+     213 | __bpf_kfunc int bpf_sched_set_task_prefer_nid(struct task_struct *task, int nid)
+         |                 ^
+   kernel/sched/bpf_sched.c:213:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     213 | __bpf_kfunc int bpf_sched_set_task_prefer_nid(struct task_struct *task, int nid)
+         |             ^
+         |             static 
+   6 warnings generated.
+
+
+vim +/bpf_cpuacct_kcpustat_cpu_fetch +412 kernel/sched/cpuacct.c
+
+   410	
+   411	#ifdef CONFIG_BPF_RVI
+ > 412	__bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
+   413							struct cpuacct *ca, int cpu)
+   414	{
+   415		memcpy(dst, per_cpu_ptr(ca->cpustat, cpu), sizeof(struct kernel_cpustat));
+   416	}
+   417	
 
 -- 
 0-DAY CI Kernel Test Service
