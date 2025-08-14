@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D6B21ADA3;
-	Thu, 14 Aug 2025 17:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3E53074A3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 17:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755192956; cv=none; b=IsfWSV+b48C6aHyUJPCgCDF/PJrn1OOhdyPZo/3OV1cCjkS/wiyj0Ksdn+Dc5oZTRzccFViZXntCVDMEqhfnaILMks1y6IhlobhooJjFXdW55qvHRkFGrOzVg+DuIbwkFEqwLMqhkj3ztYnHIs7ADOLH2XnNAmJISM6CJFbb07Y=
+	t=1755192958; cv=none; b=Qnvq+jOW+66m0OnPvuQ+uQQq6HZP1Yp6SGqoWUN/VgIzC0M8a4ovmzXiu1URSm6GAbaqofWhj7NWIhYlyCaFPFeru/0vtJgkt6J0YbpaDGNxmn/ur/V9Mgeu1WKsU5LsHvSqqiXj509iSB1kAeT3VjCoVMY7VGSU5oXDn0NJJks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755192956; c=relaxed/simple;
-	bh=vA7dghHcirnitTg5uFoDQb2W7/JU6CZNCJaXQRZsIsw=;
+	s=arc-20240116; t=1755192958; c=relaxed/simple;
+	bh=bI7J9Hiwp/Ns+uHOXC16jsm9HZ3H4cqjwVHPm85ECQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mSV95dAGTTARda/VHtcvf1ZMplxgc0CIP/m+qJE1Kf1r8ucNEj/9wCNKTWHHiBWo0Q9KpEFw/KZfArju4/K6a3KadaAvVrzuGHhTXy1bCJYGUKkWi7JTUEFdA7+BAOiF0Psiwu+2jo9gnERDXY9LIEWektLBKmTAHmu0iPcp1YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HD12aJ5/; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=gErziTVcoLt8slNVirbJAThBMQulRAs8eZmnhJtwm0xt5sVaybB+OB/MoESBv88YdJzvRmhuTW66fTiXAH7F19CATeClCn1lCS8tc4ze3I4UWr8lTGZhu9bqIyS8c1Gnk26UBZnazBniVIgxZTuIE0VcsvtfH4yiAfhfMlewUbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBC45Kds; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HD12aJ5/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBC45Kds"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755192953; x=1786728953;
+  t=1755192954; x=1786728954;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vA7dghHcirnitTg5uFoDQb2W7/JU6CZNCJaXQRZsIsw=;
-  b=HD12aJ5/PEHklUF9Tpaw8agPIzgtOqJ/Wx+XQvHmYFitXDfgcRuVK8Cm
-   7vqOx2BvqSdQpP2k4gWmx0Nzk+p0bCbsrH3smYU9+uTzwaCg26A8aP6+J
-   60ZpOq/i9FVoagWsrTHybo3Ju/pev4th1QbiSK1KC4L2A0N2ipMvRIkos
-   pyjiazozoD8tcF8t421150H6fEOSxQ0Hj0bVGJBhj5pUf3oVwo4oLa/c5
-   0GNtOnHHimvbKRU1uK1p+CFHUJHiGXUE/xC1zoeM2BcB9sMsc7q9TA+ai
-   4HIjNwz80Ruggrn6xO2/DPUrhjOBbsVuxaKYg3d/PtgPJMFs9TEo9LEYB
-   w==;
-X-CSE-ConnectionGUID: 8pLdKv5CS1SWheeGzR1qBA==
-X-CSE-MsgGUID: 58wrywnNR6qh5hTZGLU5Ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68217569"
+  bh=bI7J9Hiwp/Ns+uHOXC16jsm9HZ3H4cqjwVHPm85ECQM=;
+  b=KBC45Kds+UbjQ6tY28oAjVlA2+giySylZAwhJ45U7hpVfa7ZL/kJr8WN
+   ii34MeM3uI1kMzt6Rb55LZoHCZiR7A0U5f4shtgGDvlPypDQEv1EElSy6
+   x3etHuiTR2C56tag3Jz1JuGaAb9QiZir3fF6Jbr2ZXz5SFCENEy3jAjlT
+   rDCMs0++cVl7nwMg+b7ehGteVM7bgfhU1ufQwpnz+c8ELFSDFgqAb8Vzx
+   dg6XT5bJjAHRtbD8tUpEDMzEqsxMPwcD8PaifzgvgTTQch04ybJdQy212
+   Z/N9Ed9EpsIix6LgvznHoAsTR/PaxNWcImzkLVjqFtRkeNBPXdsHbgWsX
+   g==;
+X-CSE-ConnectionGUID: W6NvjGcgSsSDwDkA/LKy4Q==
+X-CSE-MsgGUID: ESVyQFA7T8erq8sQlpe4QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57470728"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="68217569"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:35:53 -0700
-X-CSE-ConnectionGUID: sZUuxG5XTLa/2vSs51xUlw==
-X-CSE-MsgGUID: sx2H6YTPQ0eqW601HqXdlQ==
+   d="scan'208";a="57470728"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 10:35:53 -0700
+X-CSE-ConnectionGUID: ZQDIa0doSPy85J4c94/eiA==
+X-CSE-MsgGUID: 9biQ/pcTSNST3iAabiggvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="167630701"
+   d="scan'208";a="167181999"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Aug 2025 10:35:51 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 14 Aug 2025 10:35:51 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umbrh-000BDN-0k;
+	id 1umbrh-000BDI-0c;
 	Thu, 14 Aug 2025 17:35:49 +0000
-Date: Fri, 15 Aug 2025 01:34:48 +0800
+Date: Fri, 15 Aug 2025 01:35:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-Subject: [sailus-media-tree:devel 2/2] drivers/media/i2c/ov2735.c:938:17:
- error: call to undeclared function 'devm_v4l2_sensor_clk_get'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202508150159.xbzqi1vt-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
+Subject: [ceph-client:tls-tracing-only 3/10]
+ include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to
+ integer of different size
+Message-ID: <202508150113.GIrq0aJ3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,162 +63,987 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   7b1c48d7d525ee84c4dc79d6810171873b954c92
-commit: 7b1c48d7d525ee84c4dc79d6810171873b954c92 [2/2] media: i2c: add ov2735 image sensor driver
-config: x86_64-randconfig-071-20250814 (https://download.01.org/0day-ci/archive/20250815/202508150159.xbzqi1vt-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150159.xbzqi1vt-lkp@intel.com/reproduce)
+Hi Alex,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://github.com/ceph/ceph-client.git tls-tracing-only
+head:   6b738aa5f6bb2343f8277d318ff1e9ea9289212c
+commit: 3dac114cfe81186e593e112c055893cbf9f6ec00 [3/10] fs/ceph: using bout instead of dout
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150113.GIrq0aJ3-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150113.GIrq0aJ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150159.xbzqi1vt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150113.GIrq0aJ3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/ov2735.c:938:17: error: call to undeclared function 'devm_v4l2_sensor_clk_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     938 |         ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
-         |                        ^
->> drivers/media/i2c/ov2735.c:938:15: error: incompatible integer to pointer conversion assigning to 'struct clk *' from 'int' [-Wint-conversion]
-     938 |         ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
-         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/sh/include/asm/bug.h:112,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/sh/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/ceph/ceph_san_logger.h:5,
+                    from include/linux/ceph/ceph_debug.h:9,
+                    from fs/ceph/super.c:3:
+   include/linux/ceph/ceph_san_ser.h: In function 'write_null_str':
+   include/linux/build_bug.h:78:41: error: static assertion failed: "null_str.str size must match unsigned long for proper alignment"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:116:5: note: in expansion of macro 'static_assert'
+     116 |     static_assert(sizeof(null_str.str) == sizeof(unsigned long),
+         |     ^~~~~~~~~~~~~
+   fs/ceph/super.c: In function 'ceph_parse_new_source':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:306:9: note: in expansion of macro 'bout'
+     306 |         bout("using %s entity name", opts->name);
+         |         ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:325:9: note: in expansion of macro 'bout'
+     325 |         bout("file system (mds namespace) '%s'\n", fsopt->mds_namespace);
+         |         ^~~~
+   fs/ceph/super.c: In function 'ceph_parse_source':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:356:9: note: in expansion of macro 'bout'
+     356 |         bout("'%s'\n", dev_name);
+         |         ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:183:94: note: in expansion of macro '___ceph_san_ser1'
+     183 | #define ___ceph_san_ser2(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser1(__buffer, __args))
+         |                                                                                              ^~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser2'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:380:9: note: in expansion of macro 'bout'
+     380 |         bout("device name '%.*s'\n", (int)(dev_name_end - dev_name), dev_name);
+         |         ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:382:17: note: in expansion of macro 'bout'
+     382 |                 bout("server path '%s'\n", fsopt->server_path);
+         |                 ^~~~
+   fs/ceph/super.c: In function 'ceph_parse_mount_param':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:184:58: note: in expansion of macro '__ceph_san_ser_type'
+     184 | #define ___ceph_san_ser3(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser2(__buffer, __args))
+         |                                                          ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser3'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:428:9: note: in expansion of macro 'bout'
+     428 |         bout("%s: fs_parse '%s' token %d\n",__func__, param->key, token);
+         |         ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:183:58: note: in expansion of macro '__ceph_san_ser_type'
+     183 | #define ___ceph_san_ser2(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser1(__buffer, __args))
+         |                                                          ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:184:94: note: in expansion of macro '___ceph_san_ser2'
+     184 | #define ___ceph_san_ser3(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser2(__buffer, __args))
+         |                                                                                              ^~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser3'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:428:9: note: in expansion of macro 'bout'
+     428 |         bout("%s: fs_parse '%s' token %d\n",__func__, param->key, token);
+         |         ^~~~
+   fs/ceph/super.c: In function 'destroy_mount_options':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:634:9: note: in expansion of macro 'bout'
+     634 |         bout("destroy_mount_options %p\n", args);
+         |         ^~~~
+   fs/ceph/super.c: In function 'destroy_fs_client':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:898:9: note: in expansion of macro 'boutc'
+     898 |         boutc(fsc->client, "%p\n", fsc);
+         |         ^~~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:183:58: note: in expansion of macro '__ceph_san_ser_type'
+     183 | #define ___ceph_san_ser2(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser1(__buffer, __args))
+         |                                                          ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser2'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:913:9: note: in expansion of macro 'bout'
+     913 |         bout("%s: %p done\n", __func__, fsc);
+         |         ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:183:94: note: in expansion of macro '___ceph_san_ser1'
+     183 | #define ___ceph_san_ser2(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser1(__buffer, __args))
+         |                                                                                              ^~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser2'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:913:9: note: in expansion of macro 'bout'
+     913 |         bout("%s: %p done\n", __func__, fsc);
+         |         ^~~~
+   fs/ceph/super.c: In function 'open_root_dentry':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1069:9: note: in expansion of macro 'boutc'
+    1069 |         boutc(cl, "opening '%s'\n", path);
+         |         ^~~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1095:17: note: in expansion of macro 'boutc'
+    1095 |                 boutc(cl, "success, root dentry is %p\n", root);
+         |                 ^~~~~
+   fs/ceph/super.c: In function 'ceph_real_mount':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1159:9: note: in expansion of macro 'boutc'
+    1159 |         boutc(cl, "mount start %p\n", fsc);
+         |         ^~~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1182:17: note: in expansion of macro 'boutc'
+    1182 |                 boutc(cl, "mount opening path '%s'\n", path);
+         |                 ^~~~~
+   fs/ceph/super.c: In function 'ceph_set_super':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1213:9: note: in expansion of macro 'boutc'
+    1213 |         boutc(cl, "%p\n", s);
+         |         ^~~~~
+   fs/ceph/super.c: In function 'ceph_compare_super':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1250:9: note: in expansion of macro 'boutc'
+    1250 |         boutc(cl, "%p\n", sb);
+         |         ^~~~~
+   fs/ceph/super.c: In function 'ceph_get_tree':
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:1347:17: note: in expansion of macro 'bout'
+    1347 |                 bout("get_sb got existing client %p\n", fsc);
+         |                 ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:186:5: note: in expansion of macro '__CEPH_SAN_LOG'
+     186 |     __CEPH_SAN_LOG(0, 0, fmt, ##__VA_ARGS__)
+         |     ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:69:17: note: in expansion of macro 'CEPH_SAN_LOG'
+      69 |                 CEPH_SAN_LOG(fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~
+   fs/ceph/super.c:1349:17: note: in expansion of macro 'bout'
+    1349 |                 bout("get_sb using new client %p\n", fsc);
+         |                 ^~~~
+>> include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:185:58: note: in expansion of macro '__ceph_san_ser_type'
+     185 | #define ___ceph_san_ser4(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser3(__buffer, __args))
+         |                                                          ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser4'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1361:9: note: in expansion of macro 'boutc'
+    1361 |         boutc(fsc->client, "root %p inode %p ino %llx.%llx\n", res,
+         |         ^~~~~
+   include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:184:58: note: in expansion of macro '__ceph_san_ser_type'
+     184 | #define ___ceph_san_ser3(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser2(__buffer, __args))
+         |                                                          ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:185:94: note: in expansion of macro '___ceph_san_ser3'
+     185 | #define ___ceph_san_ser4(__buffer, __t, __args...)      (__ceph_san_ser_type(__buffer, __t), ___ceph_san_ser3(__buffer, __args))
+         |                                                                                              ^~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser4'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+      36 | #define ___ceph_san_apply(__fn, __n) ___ceph_san_concat(__fn, __n)
+         |                                      ^~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:214:42: note: in expansion of macro '___ceph_san_apply'
+     214 | #define ___ceph_san_ser(__buffer, ...)   ___ceph_san_apply(___ceph_san_ser, ceph_san_narg(__VA_ARGS__))(__buffer, ##__VA_ARGS__)
+         |                                          ^~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:215:34: note: in expansion of macro '___ceph_san_ser'
+     215 | #define ceph_san_ser(...)        ___ceph_san_ser(__VA_ARGS__)
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:179:17: note: in expansion of macro 'ceph_san_ser'
+     179 |                 ceph_san_ser(___buffer, ##__VA_ARGS__);\
+         |                 ^~~~~~~~~~~~
+   include/linux/ceph/ceph_san_logger.h:193:9: note: in expansion of macro '__CEPH_SAN_LOG'
+     193 |         __CEPH_SAN_LOG(0, __client_id, fmt, ##__VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:74:17: note: in expansion of macro 'CEPH_SAN_LOG_CLIENT'
+      74 |                 CEPH_SAN_LOG_CLIENT(client, fmt, ##__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~
+   fs/ceph/super.c:1361:9: note: in expansion of macro 'boutc'
+    1361 |         boutc(fsc->client, "root %p inode %p ino %llx.%llx\n", res,
+         |         ^~~~~
+   fs/ceph/super.c: In function 'ceph_kill_sb':
+   include/linux/ceph/ceph_san_ser.h:157:93: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |                                                                                             ^
+   include/linux/printk.h:479:33: note: in definition of macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:550:9: note: in expansion of macro 'printk'
+     550 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:157:10: note: in expansion of macro 'pr_err'
+     157 |         (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+         |          ^~~~~~
+   include/linux/ceph/ceph_san_ser.h:182:50: note: in expansion of macro '__ceph_san_ser_type'
+     182 | #define ___ceph_san_ser1(__buffer, __t)         (__ceph_san_ser_type(__buffer, __t))
+         |                                                  ^~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_san_ser.h:35:38: note: in expansion of macro '___ceph_san_ser1'
+      35 | #define ___ceph_san_concat(__a, __b) __a ## __b
+         |                                      ^~~
+   include/linux/ceph/ceph_san_ser.h:36:38: note: in expansion of macro '___ceph_san_concat'
+..
 
 
-vim +/devm_v4l2_sensor_clk_get +938 drivers/media/i2c/ov2735.c
+vim +157 include/linux/ceph/ceph_san_ser.h
 
-   908	
-   909	static int ov2735_probe(struct i2c_client *client)
-   910	{
-   911		struct ov2735 *ov2735;
-   912		unsigned int xclk_freq;
-   913		int ret;
-   914	
-   915		ov2735 = devm_kzalloc(&client->dev, sizeof(*ov2735), GFP_KERNEL);
-   916		if (!ov2735)
-   917			return -ENOMEM;
-   918	
-   919		ov2735->dev = &client->dev;
-   920	
-   921		v4l2_i2c_subdev_init(&ov2735->sd, client, &ov2735_subdev_ops);
-   922		ov2735->sd.internal_ops = &ov2735_internal_ops;
-   923	
-   924		ov2735->cci = devm_cci_regmap_init_i2c(client, 8);
-   925		if (IS_ERR(ov2735->cci))
-   926			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->cci),
-   927					     "failed to initialize CCI\n");
-   928	
-   929		/* Set Current page to 0 */
-   930		ov2735->current_page = 0;
-   931	
-   932		ret = devm_mutex_init(ov2735->dev, &ov2735->page_lock);
-   933		if (ret)
-   934			return dev_err_probe(ov2735->dev, ret,
-   935					     "Failed to initialize lock\n");
-   936	
-   937		/* Get system clock (xvclk) */
- > 938		ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
-   939		if (IS_ERR(ov2735->xclk))
-   940			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->xclk),
-   941					     "failed to get xclk\n");
-   942	
-   943		xclk_freq = clk_get_rate(ov2735->xclk);
-   944		if (xclk_freq != OV2735_XCLK_FREQ)
-   945			return dev_err_probe(ov2735->dev, -EINVAL,
-   946					     "xclk frequency not supported: %u Hz\n",
-   947					     xclk_freq);
-   948	
-   949		ret = ov2735_get_regulators(ov2735);
-   950		if (ret)
-   951			return dev_err_probe(ov2735->dev, ret,
-   952					     "failed to get regulators\n");
-   953	
-   954		ret = ov2735_parse_endpoint(ov2735);
-   955		if (ret)
-   956			return dev_err_probe(ov2735->dev, ret,
-   957					     "failed to parse endpoint configuration\n");
-   958	
-   959		ov2735->reset_gpio = devm_gpiod_get_optional(ov2735->dev,
-   960							     "reset", GPIOD_OUT_LOW);
-   961		if (IS_ERR(ov2735->reset_gpio))
-   962			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->reset_gpio),
-   963					     "failed to get reset GPIO\n");
-   964	
-   965		ov2735->enable_gpio = devm_gpiod_get_optional(ov2735->dev,
-   966							      "enable", GPIOD_OUT_LOW);
-   967		if (IS_ERR(ov2735->enable_gpio))
-   968			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->enable_gpio),
-   969					     "failed to get enable GPIO\n");
-   970	
-   971		ret = ov2735_power_on(ov2735->dev);
-   972		if (ret)
-   973			return ret;
-   974	
-   975		ret = ov2735_identify_module(ov2735);
-   976		if (ret)
-   977			goto error_power_off;
-   978	
-   979		ret = ov2735_init_controls(ov2735);
-   980		if (ret)
-   981			goto error_power_off;
-   982	
-   983		/* Initialize subdev */
-   984		ov2735->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-   985		ov2735->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-   986		ov2735->pad.flags = MEDIA_PAD_FL_SOURCE;
-   987	
-   988		ret = media_entity_pads_init(&ov2735->sd.entity, 1, &ov2735->pad);
-   989		if (ret) {
-   990			dev_err_probe(ov2735->dev, ret, "failed to init entity pads\n");
-   991			goto error_handler_free;
-   992		}
-   993	
-   994		ov2735->sd.state_lock = ov2735->handler.lock;
-   995		ret = v4l2_subdev_init_finalize(&ov2735->sd);
-   996		if (ret) {
-   997			dev_err_probe(ov2735->dev, ret, "subdev init error\n");
-   998			goto error_media_entity;
-   999		}
-  1000	
-  1001		ret = devm_pm_runtime_get_noresume(ov2735->dev);
-  1002		if (ret) {
-  1003			dev_err_probe(ov2735->dev, ret,
-  1004				      "failed to get runtime PM noresume\n");
-  1005			goto error_subdev_cleanup;
-  1006		}
-  1007	
-  1008		ret = devm_pm_runtime_set_active_enabled(ov2735->dev);
-  1009		if (ret) {
-  1010			dev_err_probe(ov2735->dev, ret,
-  1011				      "failed to set runtime PM active+enabled\n");
-  1012			goto error_subdev_cleanup;
-  1013		}
-  1014	
-  1015		ret = v4l2_async_register_subdev_sensor(&ov2735->sd);
-  1016		if (ret) {
-  1017			dev_err_probe(ov2735->dev, ret,
-  1018				      "failed to register ov2735 sub-device\n");
-  1019			goto error_subdev_cleanup;
-  1020		}
-  1021	
-  1022		return 0;
-  1023	
-  1024	error_subdev_cleanup:
-  1025		v4l2_subdev_cleanup(&ov2735->sd);
-  1026	
-  1027	error_media_entity:
-  1028		media_entity_cleanup(&ov2735->sd.entity);
-  1029	
-  1030	error_handler_free:
-  1031		v4l2_ctrl_handler_free(ov2735->sd.ctrl_handler);
-  1032	
-  1033	error_power_off:
-  1034		ov2735_power_off(ov2735->dev);
-  1035	
-  1036		return ret;
-  1037	}
-  1038	
+03cd9c6e3aa393 Alex Markuze 2025-05-15  112  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  113  static inline size_t write_null_str(char *dst)
+03cd9c6e3aa393 Alex Markuze 2025-05-15  114  {
+03cd9c6e3aa393 Alex Markuze 2025-05-15  115  	*(union null_str_u *)dst = null_str;
+03cd9c6e3aa393 Alex Markuze 2025-05-15 @116      static_assert(sizeof(null_str.str) == sizeof(unsigned long),
+03cd9c6e3aa393 Alex Markuze 2025-05-15  117                   "null_str.str size must match unsigned long for proper alignment");
+03cd9c6e3aa393 Alex Markuze 2025-05-15  118      return __builtin_strlen(null_str.str);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  119  }
+03cd9c6e3aa393 Alex Markuze 2025-05-15  120  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  121  static inline size_t strscpy_n(char *dst, const char *src)
+03cd9c6e3aa393 Alex Markuze 2025-05-15  122  {
+03cd9c6e3aa393 Alex Markuze 2025-05-15  123  	size_t count = 0;
+03cd9c6e3aa393 Alex Markuze 2025-05-15  124  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  125  	while (count < STR_MAX_SIZE - 1) {
+03cd9c6e3aa393 Alex Markuze 2025-05-15  126  		dst[count] = src[count];
+03cd9c6e3aa393 Alex Markuze 2025-05-15  127  		if (src[count] == '\0')
+03cd9c6e3aa393 Alex Markuze 2025-05-15  128  			goto out;
+03cd9c6e3aa393 Alex Markuze 2025-05-15  129  		count++;
+03cd9c6e3aa393 Alex Markuze 2025-05-15  130  	}
+03cd9c6e3aa393 Alex Markuze 2025-05-15  131  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  132      dst[count] = '\0';
+03cd9c6e3aa393 Alex Markuze 2025-05-15  133      pr_err("strscpy_n: string truncated, exceeded max size %d\n", STR_MAX_SIZE);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  134  out:
+03cd9c6e3aa393 Alex Markuze 2025-05-15  135  	return count + 1;
+03cd9c6e3aa393 Alex Markuze 2025-05-15  136  }
+03cd9c6e3aa393 Alex Markuze 2025-05-15  137  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  138  static inline ssize_t __strscpy(char *dst, const char *src)
+03cd9c6e3aa393 Alex Markuze 2025-05-15  139  {
+03cd9c6e3aa393 Alex Markuze 2025-05-15  140  	if (src != NULL)
+03cd9c6e3aa393 Alex Markuze 2025-05-15  141  		return strscpy_n(dst, src);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  142  	return write_null_str(dst);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  143  }
+03cd9c6e3aa393 Alex Markuze 2025-05-15  144  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  145  static inline void* strscpy_n_update(char *dst, const char *src, const char *file, int line)
+03cd9c6e3aa393 Alex Markuze 2025-05-15  146  {
+03cd9c6e3aa393 Alex Markuze 2025-05-15  147      ssize_t ret = __strscpy(dst, src);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  148      if (!(unlikely(ret > 0 && ret < STR_MAX_SIZE))) {
+03cd9c6e3aa393 Alex Markuze 2025-05-15  149          panic("strscpy_n_update: ret = %zd at %s:%d :: %s < - %s\n", ret, file, line, dst, src);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  150      }
+03cd9c6e3aa393 Alex Markuze 2025-05-15  151      return dst + round_up(ret, 4);
+03cd9c6e3aa393 Alex Markuze 2025-05-15  152  }
+03cd9c6e3aa393 Alex Markuze 2025-05-15  153  
+03cd9c6e3aa393 Alex Markuze 2025-05-15  154  #define __ceph_san_ser_type(__buffer, __t)                          \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  155      (__builtin_choose_expr((IS_DYNAMIC_CHAR_PTR((__t)) || IS_STATIC_CHAR_ARRAY((__t))),               \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  156          /* For static arrays (like __func__), just save pointer */   \
+03cd9c6e3aa393 Alex Markuze 2025-05-15 @157          (pr_err("DYNAMIC_PTR: %s:%d: saving pointer %llx\n", kbasename(__FILE__), __LINE__, (unsigned long long)(__t)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  158           *(void **)(__buffer) = __suppress_cast_warning(void *, (__t)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  159           (__buffer) = (void *)((char *)(__buffer) + sizeof(void *))), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  160      __builtin_choose_expr(IS_STR((__t)),               \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  161          ((__buffer) = (void *)strscpy_n_update((__buffer), char_ptr(__t), kbasename(__FILE__), __LINE__)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  162      __builtin_choose_expr(IS_STR_ARRAY((__t)),               \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  163          /* For dynamic arrays, save NULL and string bytes */         \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  164           ((__buffer) = (void *)strscpy_n_update((__buffer), char_ptr(__t), kbasename(__FILE__), __LINE__)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  165      __builtin_choose_expr(sizeof((__t)) == 1,                         \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  166          (*(uint32_t *)(__buffer) = __suppress_cast_warning(uint32_t, (__t)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  167           /*pr_err("SERIALIZING_U8: %s:%d: saving uint8_t %u\n", kbasename(__FILE__), __LINE__, (__t)),*/ \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  168           (__buffer) = (void *)((char *)(__buffer) + 4)),            \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  169      __builtin_choose_expr(sizeof((__t)) == 2, /* we have no way to differentiate u16 and u32 in deserialization */                        \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  170          (*(uint32_t *)(__buffer) = __suppress_cast_warning(uint32_t, (__t)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  171           (__buffer) = (void *)((char *)(__buffer) + 4)),            \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  172      __builtin_choose_expr(sizeof((__t)) == 4,                         \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  173          (*(uint32_t *)(__buffer) = __suppress_cast_warning(uint32_t, (__t)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  174           (__buffer) = (void *)((char *)(__buffer) + 4)),            \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  175      __builtin_choose_expr(sizeof((__t)) == 8,                         \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  176          (*(uint64_t *)(__buffer) = __suppress_cast_warning(uint64_t, (__t)), \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  177           (__buffer) = (void *)((char *)(__buffer) + 8)),            \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  178          (pr_err("UNSUPPORTED_TYPE: %s:%d: unsupported type size %s\n", kbasename(__FILE__), __LINE__, #__t)) \
+03cd9c6e3aa393 Alex Markuze 2025-05-15  179      ))))))))
+03cd9c6e3aa393 Alex Markuze 2025-05-15  180  
+
+:::::: The code at line 157 was first introduced by commit
+:::::: 03cd9c6e3aa393317477ee1312797da66d21a1a6 ceph_san code
+
+:::::: TO: Alex Markuze <amarkuze@redhat.com>
+:::::: CC: Alex Markuze <amarkuze@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
