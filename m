@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAAD286881
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 09:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4D2318130
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 10:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755164270; cv=none; b=jYltTHAxvS+FIvieKwJqwaf94lJpACc1AKpANQ/G5dZoPUAO2LtfCCe67cNDb/ZvtYJoQ/p0IlG9cjatyKmSI2exLFZ6E33LBe9YNqqz4LPWCEPbKsTEUtIx4qMRq/GVy/wtQTZwRal++cJrMvvjGe+tBmpj43NXGFCPrr3E3a0=
+	t=1755166739; cv=none; b=uRtK7dMinXLquoR616+NDBU9T7Hr6yzg0S4H9WBJQsm01cFpjYg1JAdsgNtK6t+1CS1ECz5buflppk/EpsbriG2LKjdet1dZdInKtwsC5Ht+mSOVix3LaYX/lAuCLEeFUASCumP1mrEXGXhOvQh71ksg9im+R7NmJ7Cp0ZlPBc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755164270; c=relaxed/simple;
-	bh=t7IQUP4ZiipKfHSPC1wlKZWKpfwiSw94izwc7MSbdgM=;
+	s=arc-20240116; t=1755166739; c=relaxed/simple;
+	bh=VyTlNZkKgWToVFeMn9FWj07qB5T77KPRbYpNN4mIpHI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JPP++NnQLEsEC5A009Th1eQgeQlGTT3/CO7qDWHQd755kRy19VYZTjpKDgxhfnl9HsTb7irkOmlQlNYzp9fMQ0d/bKvxW/O63ej1DL0z8o2M6kSg74A3whfwySLK7zIdRwchAS+bMyaz9OYyyo+qwd6Oe+5WQIKsC1wzU6o8X08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KZkuB+7+; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=OeWu7bSgYhaEJg8OaKRZJ1mNZsiEnc5UzHUBaA3JAVa0pIHZwQVJJmsbZGFu54Oho/AHLuvIGiPIiQYazEoJnsspxAUyZepuuYkfMiWGey7+r/tMleiDawymAsCpQLcuCJuM6LllKU6CMgQlM4Zlqlcy4s0WOvmyKKmMYiB0SdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=miEFiBIr; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZkuB+7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miEFiBIr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755164269; x=1786700269;
+  t=1755166738; x=1786702738;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t7IQUP4ZiipKfHSPC1wlKZWKpfwiSw94izwc7MSbdgM=;
-  b=KZkuB+7+xEAw4zqi9V6BTtKDlr44bPzsPg8A0d1XrtBoNY04UiZB8LlN
-   C5caCZZjXeN1XGmPOnZF0qo0X8kIUdBekY4IRXRZaxt66NQnuY71A1tsX
-   RvSp8VHVeRpcqSDW+jlfjsNQp220ZbyDziRAHyoeAap2aeEoEJJcXIpJt
-   UmhbJ1O9GUNJB6v6lGh7snpF0JQZbnkjrShKK2SVTawyMhpabaBj/E2YR
-   EobwcIJvuh9seioZm7R91KMiWH3AL/9i6dU7TgPL4XnTAdR6ZvU8424UL
-   5NsatNz0MN4Sz3ZfCMGeY+MixkdULbHNekfJBdo5yTwqGqB+r2SmaoGbO
+  bh=VyTlNZkKgWToVFeMn9FWj07qB5T77KPRbYpNN4mIpHI=;
+  b=miEFiBIr/BvPghcI+Pw9WfbdvAgPJLRQGwjsIcfrDhhlZHDKHp8AD0f3
+   iW8gaWZAQVUDTmR4Ppm4xQkRcjDDNcpxS8RCsb9RCu2arlxSvi/v3qlTv
+   cteI+AaRL+YwZAJjEjMeuH6s0Ubuwl1V98qzbaVZVpIsbRaqQBvq4i0qw
+   dmYVa8QisO3v7p97BsI4j7kDSdId1dyBz1RBD40+AK9bZ9082W/p162Nh
+   bMhfVhP6sIrdw4+p+gpcNlczd/EOwmnXQIprQCvgJ41UaBVcPhHEDwYNM
+   ROmKM+LRBUVuDKS4KX+AOhV7lm910IgOtzjvarpV9wDZo3mVDmj5IZwpP
    Q==;
-X-CSE-ConnectionGUID: iuoS2/rXTzC27Cjk5Mx7Og==
-X-CSE-MsgGUID: BwP44XmuSm2/agBZUDBwYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="56684026"
+X-CSE-ConnectionGUID: gyop0ioSTKGSsgCPsMe4bw==
+X-CSE-MsgGUID: xHw8X3Z1SkeEGdPVWvKtOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="74930111"
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="56684026"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 02:37:48 -0700
-X-CSE-ConnectionGUID: RO6fpDvrSxWMWrRznSjPlw==
-X-CSE-MsgGUID: c7DIUuJCS8WNijd8ihKMdQ==
+   d="scan'208";a="74930111"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 03:18:57 -0700
+X-CSE-ConnectionGUID: 52gQhU3bQl6/LXtCItma5w==
+X-CSE-MsgGUID: j766apnhSOyWpIoJNSzHpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
-   d="scan'208";a="170950603"
+   d="scan'208";a="165943558"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 14 Aug 2025 02:37:47 -0700
+  by orviesa010.jf.intel.com with ESMTP; 14 Aug 2025 03:18:56 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umUP2-000Aoi-2H;
-	Thu, 14 Aug 2025 09:37:44 +0000
-Date: Thu, 14 Aug 2025 17:37:12 +0800
+	id 1umV2r-000AqS-2r;
+	Thu, 14 Aug 2025 10:18:53 +0000
+Date: Thu, 14 Aug 2025 18:18:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yuntao Liu <liuyuntao12@huawei.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2678/2678] include/linux/fortify-string.h:57:33:
- warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a
- region of size 64
-Message-ID: <202508141753.fScbJysb-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2679/2679] block/genhd.c:100:6: warning: no
+ previous prototype for 'part_stat_read_all'
+Message-ID: <202508142059.0te3dxlW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,97 +62,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Guo,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
-commit: f04c0f3eb9b49427c273cd3e4d5a2ff895855b4b [2678/2678] make OPTIMIZE_INLINING config editable
-config: arm64-randconfig-004-20250814 (https://download.01.org/0day-ci/archive/20250814/202508141753.fScbJysb-lkp@intel.com/config)
+commit: 89fa7dcff5e533bd14396601f40c388cfb6c1e59 [2679/2679] bpf-rvi: block: Add diskstats iterator target
+config: arm64-randconfig-004-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142059.0te3dxlW-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508141753.fScbJysb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508142059.0te3dxlW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508141753.fScbJysb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142059.0te3dxlW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:294,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from kernel/padata.c:14:
-   In function 'bitmap_copy',
-       inlined from 'cpumask_copy' at include/linux/cpumask.h:740:2,
-       inlined from '__padata_set_cpumasks' at kernel/padata.c:709:2:
->> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a region of size 64 [-Wstringop-overread]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
-     648 |         __underlying_##op(p, q, __fortify_size);                        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
-     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/bitmap.h:268:17: note: in expansion of macro 'memcpy'
-     268 |                 memcpy(dst, src, len);
-         |                 ^~~~~~
-   kernel/padata.c: In function '__padata_set_cpumasks':
-   kernel/padata.c:692:48: note: source object 'pcpumask' of size [0, 64]
-     692 |                                  cpumask_var_t pcpumask,
-         |                                  ~~~~~~~~~~~~~~^~~~~~~~
-   In function 'bitmap_copy',
-       inlined from 'cpumask_copy' at include/linux/cpumask.h:740:2,
-       inlined from '__padata_set_cpumasks' at kernel/padata.c:709:2:
->> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a region of size 64 [-Wstringop-overread]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
-     648 |         __underlying_##op(p, q, __fortify_size);                        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
-     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/bitmap.h:268:17: note: in expansion of macro 'memcpy'
-     268 |                 memcpy(dst, src, len);
-         |                 ^~~~~~
-   kernel/padata.c: In function '__padata_set_cpumasks':
-   kernel/padata.c:692:48: note: source object 'pcpumask' of size [0, 64]
-     692 |                                  cpumask_var_t pcpumask,
-         |                                  ~~~~~~~~~~~~~~^~~~~~~~
+>> block/genhd.c:100:6: warning: no previous prototype for 'part_stat_read_all' [-Wmissing-prototypes]
+     100 | void part_stat_read_all(struct block_device *part, struct disk_stats *stat)
+         |      ^~~~~~~~~~~~~~~~~~
 
 
-vim +/__builtin_memcpy +57 include/linux/fortify-string.h
+vim +/part_stat_read_all +100 block/genhd.c
 
-78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
-78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
-78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
-78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
-78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
-78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
-78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
-78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
-78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
-78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
-78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
-a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
-a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
-a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
-78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
-78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
-
-:::::: The code at line 57 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
-
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    99	
+ > 100	void part_stat_read_all(struct block_device *part, struct disk_stats *stat)
+   101	{
+   102		int cpu;
+   103	
+   104		memset(stat, 0, sizeof(struct disk_stats));
+   105		for_each_possible_cpu(cpu) {
+   106			struct disk_stats *ptr = per_cpu_ptr(part->bd_stats, cpu);
+   107			int group;
+   108	
+   109			for (group = 0; group < NR_STAT_GROUPS; group++) {
+   110				stat->nsecs[group] += ptr->nsecs[group];
+   111				stat->sectors[group] += ptr->sectors[group];
+   112				stat->ios[group] += ptr->ios[group];
+   113				stat->merges[group] += ptr->merges[group];
+   114			}
+   115	
+   116			stat->io_ticks += ptr->io_ticks;
+   117		}
+   118	}
+   119	
 
 -- 
 0-DAY CI Kernel Test Service
