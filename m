@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FE32253E1;
-	Fri, 15 Aug 2025 05:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DA6253F00
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 06:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755236132; cv=none; b=IPWMa7i8iBp7UB18xIXL7k7HlfAuYXegOWdKfWdpS4eWovfQVe8497KM50jmxr1hZokuMwN7GC/eyE4h/LbBZhnT4TxSwvTG4I/isUZM+Vlh/6M5hMNjrqGmwOE7qRnkMbmy53zicZBOU78PadZpJ2fhlMHT71xRDBg74fC8DNU=
+	t=1755237958; cv=none; b=Qe3cAFs6O0H6UNBRNyC1mtbpoeALMJbSnf60Ph9ZZjIkhnuiibkdafmOHgC7WJCbTPsJUtuyOAnt07n4EUo/9BK0UkPP2yWO+jfznfOXJYs/vOVJRXe1L0gqqlGIpN4So3QIkSf+hJI/svDuvKA2Uzz/UuDIx3SGDuQRLo9lZKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755236132; c=relaxed/simple;
-	bh=b/hPbzL/KwmxnKdeia+zSNTzACLuSN3/z2c6A+Whs/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bsg1Q9cxCO+YdY+2j/RhXvxSai+25r34GzGNeWxA9knj26BJebmFNFnd6Q5jXh/BPUkgjQRcniO3lBaz+d9eSTu7yA5jbC+XN7XejepJ8ALR2nkF93l05DP/laMpb6eAepbOgNsRul23MqM5xDS/Y5+tqCqDBpg6CJ1kopZPgcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTJwmn6h; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1755237958; c=relaxed/simple;
+	bh=LBiAoKn0CwXipnStHcCoT1au5162yaJtR8KzRfSKBtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nSxYLaIy2bWUcx5cAJ5hbR6j0wUn+6UuTlGTH2JQgHnUESQXaIit2MrGG2FPs7slL4l9kncyjqvh8K0leFXB5Z+NYwgcUD7YlSLo952JLmXB83FBvw9sDMmGXDOB+s7z+6Xfi7B6IA8DzoRMEVtRRDJo6kqzt/mJE4H0MNGYp6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQlNVCvS; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTJwmn6h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQlNVCvS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755236130; x=1786772130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b/hPbzL/KwmxnKdeia+zSNTzACLuSN3/z2c6A+Whs/s=;
-  b=YTJwmn6h9h/upPUthTceKUIbmIE/rJn2tmbiabEFllxyPvhknFU9AqD/
-   w2rXST2UUA5yFFjuzeQGxvwUyizSgVcGKW/iDiwoJ3t6zmge7N4sIQT5R
-   p86EpQF9LugL03xHRVb9FDBgDLIabtDkRhhLCGUCt+Di+e+dQKZ/apJWe
-   +WnJ4Dkj2QSkrcEll67FMW6L03LGG41pmYXjrVjKvt38kjPRBr3yeTOOD
-   +17ii/PPZuTC6Iw4C+OoG5F3ceto4w+SBPWt70qCpb33+kllN8ZvHvn3I
-   KpKagzyGPiSjxQXuEgbVvg7c3pRGlP3HW6BSWAOUDtnbxXKNV8E3RoSgD
-   w==;
-X-CSE-ConnectionGUID: E7E2jmnXTCCrcgJxJAKKBA==
-X-CSE-MsgGUID: ssVP5juaTTqrQTzd3YYSMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="82995300"
+  t=1755237957; x=1786773957;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LBiAoKn0CwXipnStHcCoT1au5162yaJtR8KzRfSKBtU=;
+  b=XQlNVCvS/l4v5UI3t1+nX4moobBJ34DsfrAK9KM1zZM7TxMI0rgaBsUf
+   JvCa50m4NQk0liLmRAqLhnutP5P6sONifXa4H0RzzqscbIlpk9ikZXRS/
+   BVDFhXkS+H4y3KhOuC6nP3wj/EAdHU3GadepjK+bppVX99c2dpHEWSG6x
+   iH0wRBl+KkrZMb7tqG3GIwia2FNfxNXD0o2i6KKcIk2/BOBKM02tkBGkW
+   +C0bnTGXFsjsaNh21TsFoYKEYPmAibpysEfc9wUbDk1On+vmywBnZz0mb
+   VEbvUfJ00NWQBF3UvE/+qFV7yf8bdYnHUf3uma2ynk87Mtje6lz/32e27
+   A==;
+X-CSE-ConnectionGUID: nI0PI5iERv++GMaT8r2NyQ==
+X-CSE-MsgGUID: 0Tv3mjrMSZmqqlwtxcX3mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="60189527"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="82995300"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 22:35:30 -0700
-X-CSE-ConnectionGUID: tnXbuFHASJa5T+IvKPaWkQ==
-X-CSE-MsgGUID: NHhgg+8mQ9+yjzBPmk4reg==
+   d="scan'208";a="60189527"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 23:05:56 -0700
+X-CSE-ConnectionGUID: gGmisOQxQ3OVdmevx3Y7Tw==
+X-CSE-MsgGUID: siKOLZb4RdyRltKwM5Hsdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="166915489"
+   d="scan'208";a="167754944"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 14 Aug 2025 22:35:29 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Aug 2025 23:05:55 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umn66-000Bbo-2X;
-	Fri, 15 Aug 2025 05:35:26 +0000
-Date: Fri, 15 Aug 2025 13:33:05 +0800
+	id 1umnZZ-000Bd2-0A;
+	Fri, 15 Aug 2025 06:05:53 +0000
+Date: Fri, 15 Aug 2025 14:05:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vernon Yang <vernon2gm@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/7] mm: memory: add ptep_clear_flush_range function
-Message-ID: <202508151338.3rHqeTte-lkp@intel.com>
-References: <20250814113813.4533-3-vernon2gm@gmail.com>
+To: "Lucien.Jheng" <lucienzx159@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
+Subject: ERROR: modpost: "clk_restore_context"
+ [drivers/net/phy/air_en8811h.ko] undefined!
+Message-ID: <202508151334.H4LiEA89-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814113813.4533-3-vernon2gm@gmail.com>
 
-Hi Vernon,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.17-rc1 next-20250814]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vernon-Yang/mm-memory-replace-single-operation-with-multi-operation-in-wp/20250814-195529
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250814113813.4533-3-vernon2gm%40gmail.com
-patch subject: [RFC PATCH 2/7] mm: memory: add ptep_clear_flush_range function
-config: arm-randconfig-002-20250815 (https://download.01.org/0day-ci/archive/20250815/202508151338.3rHqeTte-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151338.3rHqeTte-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d7ee5bdce7892643409dea7266c34977e651b479
+commit: 6b9c9def95cb402374730d51a1f44927f467b774 net: phy: air_en8811h: Introduce resume/suspend and clk_restore_context to ensure correct CKO settings after network interface reinitialization.
+date:   6 weeks ago
+config: m68k-randconfig-r052-20250815 (https://download.01.org/0day-ci/archive/20250815/202508151334.H4LiEA89-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151334.H4LiEA89-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508151338.3rHqeTte-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508151334.H4LiEA89-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> mm/pgtable-generic.c:120:3: error: call to undeclared function 'flush_tlb_mm_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     120 |                 flush_tlb_mm_range(vma->vm_mm, address, address + nr * PAGE_SIZE,
-         |                 ^
-   1 error generated.
-
-
-vim +/flush_tlb_mm_range +120 mm/pgtable-generic.c
-
-   104	
-   105	void ptep_clear_flush_range(struct vm_area_struct *vma, unsigned long address,
-   106				    pte_t *ptep, unsigned int nr)
-   107	{
-   108		struct mm_struct *mm = (vma)->vm_mm;
-   109		bool accessible = false;
-   110		pte_t pte;
-   111		int i;
-   112	
-   113		for (i = 0; i < nr; i++) {
-   114			pte = ptep_get_and_clear(mm, address + i * PAGE_SIZE, ptep + i);
-   115			if (!accessible && pte_accessible(mm, pte))
-   116				accessible = true;
-   117		}
-   118	
-   119		if (accessible) {
- > 120			flush_tlb_mm_range(vma->vm_mm, address, address + nr * PAGE_SIZE,
-   121					   PAGE_SHIFT, false);
-   122		}
-   123	}
-   124	#endif
-   125	
+>> ERROR: modpost: "clk_restore_context" [drivers/net/phy/air_en8811h.ko] undefined!
+>> ERROR: modpost: "clk_save_context" [drivers/net/phy/air_en8811h.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
