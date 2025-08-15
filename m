@@ -1,140 +1,167 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BF1227B95
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 19:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310E1266A7;
+	Fri, 15 Aug 2025 19:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755285351; cv=none; b=logc+/WmeSv2uBTlbbkRNptJ+ZdCDHaZBEgean6r79H62hUPhs9oMqQssezWZBKs5uH84U+JnXBaJT7IHBn0zuDQAVIJ+wgWGZfQhcgSC7pte+nhMxU4URqTTqfHGMa38KKURrAwBGbb0OEieZI5lJDy2S3Zvn0rBEVSiYlRnYE=
+	t=1755286946; cv=none; b=dzP90QVsqXbnUFripgrOqxOi+SaS34K0TRsCmNbKPYoNKC+Nw7IpKnJNahkxvAAfTIu3BNn3iJcLHpsD+r8nUh9DrUQ2qZIcddml26bBxQeCH2K1zlkULlldFclhXes2He2WOyCKkaR9nVgp2ILhRW3hYAOQMksIp0OwY4R8Jzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755285351; c=relaxed/simple;
-	bh=lSj71HO5GzYbckw7cBnMW50k4sxnSp1OOCtqeugcrA8=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nG41mfedJj5uUQAhSE41i/EKWVXBw8kFUJ9odSvQHkGRBbYGjGVB+4/LvAY42YXIjK693+2djH8tYlDsWyGwKF7CZNIS3eRWfAVtfKmCSvLN7U2OAcZo7LupEOLHyiCr70GLgUzOkLPd4TpEGqRzAWnpi1ap8Ba9r4+oqb2T4cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qam94Wjc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755286946; c=relaxed/simple;
+	bh=YDsRt9bglz4Anx9o16eNjIEM/0DTi7m+ySfvYxn5EfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HnNk/pI/hxNqzyLCJPYwUG0CayQ6t72WGGcEB84Mx3mDf5WrXbl7YMS/aMZQyGoCcvx01Wj61sbzGsZ9SVgzPn4Z2rbPiUbGMSR3aks2KgBH8Y78TWULHzsCV9p/KhbHYikdrHIh7QyzaWVQ+tJ9XXNQRxtqNUJkYrRVdYKuhyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cuxGZJKM; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qam94Wjc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755285348;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=INM/nkZzXvOTsRuMaWEN8yu2b6nIHVl1/NxBWD2ETvA=;
-	b=Qam94Wjc0kKcWVxlBxWki5maei5bjgh3EVtNFUy9ZSpSII3yABaCU6Lkomer9rzoVfI0P7
-	DtY5AhaF8s+sXc3UGn58jb7qs5DZzOBfKK8n77wT5S12Um37zB61K55uG57Ss6TTzHSs4J
-	9I+BTMSEVjZnes0I6iZCeAbZq4RC0fE=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-435-1g46u5NNMq-oww6IU5RYvg-1; Fri, 15 Aug 2025 15:15:47 -0400
-X-MC-Unique: 1g46u5NNMq-oww6IU5RYvg-1
-X-Mimecast-MFC-AGG-ID: 1g46u5NNMq-oww6IU5RYvg_1755285347
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70a9f5b3601so52467976d6.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 12:15:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755285347; x=1755890147;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=INM/nkZzXvOTsRuMaWEN8yu2b6nIHVl1/NxBWD2ETvA=;
-        b=Df9fmn81DM5qk5KtWrzFdevVA9CKZawmftlvyS511E6LcNb0PbQNXwlI+2tVlrQ0ya
-         e2CmVTsMw/FbUB8zqRnH03dN2ggxebHbba5pYDFrd2nLRJOLMtk9CWI+u95nGELuCReS
-         84FoktYKj0JDFW3DbfP5voU2VxgyrFUBWOs5aVSTXQnMcHPjB0zLPhFFwInaQMepXGIm
-         DVxiFnTY3skDq4Z50Zxlqzk+BTPCMgA2blZCkCzh6ZJxWpYVKspERBrI54jHnsgforbZ
-         WoZW4ppsy73ivP0mpqNnUgZtVpTeiJja6xCthVcuE7KEr9J/S6GT12cawNi7ly+G2FbD
-         cP2A==
-X-Gm-Message-State: AOJu0YxwTfUajCZpEJuKaAM2lg+Ql2NCv4nrZE5GMSeNAyGOZc47eG3R
-	WcY902FwcwJ3NJPYMqTxIheHIq5TRraOL4qVZF3k+bscyakswH3+Tq3ba7CF7rTH2kdhy529L+M
-	U4ZD8nmdifZGottAItZUSO+fKzkY+mRjuMtPNGHrahMxOF9Nmkge40B74F8nmNJqoFjU=
-X-Gm-Gg: ASbGnctYKPviEm/PmhAzaKi66KewjE0fNpktbm7xv/Bsd738Qff0OpNbggTqAziyCxu
-	3bHpJkAvdwAlfrd1JZK5VoOC43Y3az6kGNaoctGYw5INpeOaiLflKX8Q+fgc7bRhWlHC8vFk6WH
-	j9xZm6ACZWnh3F0J1dBVtIIV1krx8M3+YShljF2OTPbzKMexSZAqB5poMfX6D4og2PgG2hkaU61
-	y03qG4ZMNjTeSTuLrnsLRYqqUJGSdOx2Q26OvjxWjo3h7lS6k2DztjAIA5bQYBAis9+aNWoEIoi
-	ldxwRSDJa2t8uM/0xzKZtcbUi2bzQNKcIn8L0wrLmaUWHVON8kXiE1gElpUKg080Bjsg69Kcc1M
-	ERE4QMQUdrg==
-X-Received: by 2002:a05:6214:2522:b0:707:48b3:132 with SMTP id 6a1803df08f44-70bb04c04femr2029896d6.0.1755285346262;
-        Fri, 15 Aug 2025 12:15:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6iyDjW6RyozXA8YvlziiALssSDGwSrln6G47qwGj99VGsN/w0n7YA7sGWwplO+Ka5maXxjQ==
-X-Received: by 2002:a05:6214:2522:b0:707:48b3:132 with SMTP id 6a1803df08f44-70bb04c04femr2029486d6.0.1755285345832;
-        Fri, 15 Aug 2025 12:15:45 -0700 (PDT)
-Received: from ?IPV6:2601:188:c180:4250:ecbe:130d:668d:951d? ([2601:188:c180:4250:ecbe:130d:668d:951d])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70bae08c0f9sm7904296d6.11.2025.08.15.12.15.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Aug 2025 12:15:45 -0700 (PDT)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <15b47a34-ea8a-4a07-bc1e-5ba886010721@redhat.com>
-Date: Fri, 15 Aug 2025 15:15:44 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cuxGZJKM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755286946; x=1786822946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YDsRt9bglz4Anx9o16eNjIEM/0DTi7m+ySfvYxn5EfU=;
+  b=cuxGZJKMrqpxJUfXxHVMLZOS4uhGRJOvFuRyKS6tLyQXEp7lVsWTOW3y
+   Eo3zAEZiAQwsHUskXfCR0w1UjSZMdQqqhRSCTXoBeUS0XUgalexC47OA5
+   kZxHR1htHadSmU96K2BXHH1dM6hl5d2T0e5Th7U1SicaBONA5K0FTAtgE
+   ge6b+/IHgHxaQGmCU3r4J7jmeJjLEEG4J9qpqlsDFYE3ve8rLaE1x3i6y
+   WJVMe25r/+kNGCpVzYZKw/5SzGHCAiNUCRdElBqkOyHBkOmx+C1rUX3F5
+   qMGc/vCZq60hoPxhWlcfIcbuj4zu7bAz9e87aXME/6J+5eqGLnuYUtVwy
+   w==;
+X-CSE-ConnectionGUID: CuZfxgogTbei3VIG5yh0Yg==
+X-CSE-MsgGUID: m++0fQTrRWKKmAS1nlF5rA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57685498"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="57685498"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 12:42:25 -0700
+X-CSE-ConnectionGUID: 3A+4LzdVQeqfhJbHIKn5JQ==
+X-CSE-MsgGUID: 4y8wzIq5QBWJuYXceU6FTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="197940588"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2025 12:42:23 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1un0Jh-000CHo-12;
+	Fri, 15 Aug 2025 19:42:21 +0000
+Date: Sat, 16 Aug 2025 03:41:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Raghavendra K T <raghavendra.kt@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH V3 03/17] mm: Scan the mm and create a migration list
+Message-ID: <202508160305.4N7h8utZ-lkp@intel.com>
+References: <20250814153307.1553061-4-raghavendra.kt@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [-next v2 3/4] cpuset: separate tmpmasks and cpuset allocation
- logic
-To: Chen Ridong <chenridong@huaweicloud.com>,
- kernel test robot <lkp@intel.com>, tj@kernel.org, hannes@cmpxchg.org,
- mkoutny@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
- linux-kernel@vger.kernel.org, lujialin4@huawei.com, chenridong@huawei.com,
- christophe.jaillet@wanadoo.fr
-References: <20250813082904.1091651-4-chenridong@huaweicloud.com>
- <202508140524.S2O4D57k-lkp@intel.com>
- <bd043822-29b2-49f4-864d-6658741f572c@huaweicloud.com>
-In-Reply-To: <bd043822-29b2-49f4-864d-6658741f572c@huaweicloud.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QVrXKLclCwankgPBDrMcCd-Wxg9tMvY2tQ61bMwGvQs_1755285347
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814153307.1553061-4-raghavendra.kt@amd.com>
+
+Hi Raghavendra,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 038d61fd642278bab63ee8ef722c50d10ab01e8f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raghavendra-K-T/mm-Add-kscand-kthread-for-PTE-A-bit-scan/20250814-233829
+base:   038d61fd642278bab63ee8ef722c50d10ab01e8f
+patch link:    https://lore.kernel.org/r/20250814153307.1553061-4-raghavendra.kt%40amd.com
+patch subject: [RFC PATCH V3 03/17] mm: Scan the mm and create a migration list
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250816/202508160305.4N7h8utZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160305.4N7h8utZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160305.4N7h8utZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/kscand.c:194:20: warning: variable 'mm' set but not used [-Wunused-but-set-variable]
+     194 |         struct mm_struct *mm;
+         |                           ^
+   1 warning generated.
 
 
-On 8/14/25 8:44 PM, Chen Ridong wrote:
->
-> On 2025/8/14 5:28, kernel test robot wrote:
->> Hi Chen,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on tj-cgroup/for-next]
->> [also build test WARNING on linus/master v6.17-rc1 next-20250813]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cpuset-remove-redundant-CS_ONLINE-flag/20250813-164651
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
->> patch link:    https://lore.kernel.org/r/20250813082904.1091651-4-chenridong%40huaweicloud.com
->> patch subject: [-next v2 3/4] cpuset: separate tmpmasks and cpuset allocation logic
->> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250814/202508140524.S2O4D57k-lkp@intel.com/config)
->> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250814/202508140524.S2O4D57k-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202508140524.S2O4D57k-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> Warning: kernel/cgroup/cpuset.c:422 function parameter 'pmasks' not described in 'alloc_cpumasks'
-> Hi all,
->
-> Thank you for the warning about the comment issue - I will fix it in the next version.
->
-> I will be appreciate if you can review this patch. If you have any feedback, I can update the entire
-> series together.
->
-Sorry for not responding to this patch. It looked reasonable to me. I 
-did miss the error in the comment though. Fortunately it was caught by 
-the test robot.
+vim +/mm +194 mm/kscand.c
 
-Cheers,
-Longman
+   186	
+   187	static int hot_vma_idle_pte_entry(pte_t *pte,
+   188					 unsigned long addr,
+   189					 unsigned long next,
+   190					 struct mm_walk *walk)
+   191	{
+   192		struct page *page;
+   193		struct folio *folio;
+ > 194		struct mm_struct *mm;
+   195		struct vm_area_struct *vma;
+   196		struct kscand_migrate_info *info;
+   197		struct kscand_scanctrl *scanctrl = walk->private;
+   198		int srcnid;
+   199	
+   200		scanctrl->address = addr;
+   201		pte_t pteval = ptep_get(pte);
+   202	
+   203		if (!pte_present(pteval))
+   204			return 0;
+   205	
+   206		if (pte_none(pteval))
+   207			return 0;
+   208	
+   209		vma = walk->vma;
+   210		mm = vma->vm_mm;
+   211	
+   212		page = pte_page(*pte);
+   213	
+   214	
+   215		folio = page_folio(page);
+   216		folio_get(folio);
+   217	
+   218		if (!is_valid_folio(folio)) {
+   219			folio_put(folio);
+   220			return 0;
+   221		}
+   222		folio_set_idle(folio);
+   223		page_idle_clear_pte_refs(page, pte, walk);
+   224		srcnid = folio_nid(folio);
+   225	
+   226	
+   227		if (!folio_test_lru(folio)) {
+   228			folio_put(folio);
+   229			return 0;
+   230		}
+   231	
+   232		if (!kscand_eligible_srcnid(srcnid)) {
+   233			folio_put(folio);
+   234			return 0;
+   235		}
+   236		if (!folio_test_idle(folio) &&
+   237			(folio_test_young(folio) || folio_test_referenced(folio))) {
+   238	
+   239			/* XXX: Leaking memory. TBD: consume info */
+   240	
+   241			info = kzalloc(sizeof(struct kscand_migrate_info), GFP_NOWAIT);
+   242			if (info && scanctrl) {
+   243				info->pfn = folio_pfn(folio);
+   244				info->address = addr;
+   245				list_add_tail(&info->migrate_node, &scanctrl->scan_list);
+   246			}
+   247		}
+   248	
+   249		folio_put(folio);
+   250		return 0;
+   251	}
+   252	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
