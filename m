@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB86AF4FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Aug 2025 23:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6323CA5E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 00:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755214365; cv=none; b=tyROK+sbgkr/grkQCjaxWdTYL/bhGaQ6LaMnUqEy9CfRqRpM1VvGnwTOp9N8t+7L4o2msVrAQZT8c37a+s6cy85hpP5Ft2YvawJBYHMICT+S3epCl2hjU51Y+r34B17Xt4mS/vcEdYBbandWir6lWzUpo5oNBoBd8iEDhljtqBM=
+	t=1755218114; cv=none; b=CA1LbYknR9YMxN9IdOm1SdmjDPps9J85iarYYuRHLMgu1zjnG9JVoQSwhrtSJ0ckiaR1KkHlg7AoWjpqQSavKvgDPicOKKlH5+4+pd5iT7gj4ymKB79Svdmm013i9+7aamfzMmu2ya9eyG3qV8/d+T41vz/5UMD0KFgUei9vhqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755214365; c=relaxed/simple;
-	bh=FH67/qUUqTYNTLZvcooVyYTz2bQjmCKBZliGOmY6lbA=;
+	s=arc-20240116; t=1755218114; c=relaxed/simple;
+	bh=artMFXdGVR8o/HQI6Q4fO8ENrHYYfNiZswpBEMgm3Sc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KzVDO7ogRuA+s4+QrgjF7ymodyA9aYgzuYM9U5bHxABxqp1lRZBtPPjMUf6queopgzi+uC/bAWQOW5JEtofjn/9k+Hq3YibTAAIacEfoswR+ndmQHlHSaNg3rjKuLE/JL76Qpm9LpwLWBIG9OPW6mGX5LA2OvriBmF/xB6oLbxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WtlOAnS7; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=SDQKhd8FziCzIgOAUige8OGsA2zqZ0js4BuPeFB98UkItJrm/GS0tSWUaaa96Ss8EZ68++AQot6P9HHhHD+SbyWgKH0/Acak3BzoZbzK67Dj8/78Jeo54S44GAnZprtyyRRxi6Kek3oijigwbCzdiwjaH50+y5YGVi32SwiTFHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSZnDTks; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WtlOAnS7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSZnDTks"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755214363; x=1786750363;
+  t=1755218112; x=1786754112;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FH67/qUUqTYNTLZvcooVyYTz2bQjmCKBZliGOmY6lbA=;
-  b=WtlOAnS7KfkKhInA/WtKfUT2bAkRB1Mz3tgvcrhNbp8MWzM3+1JJOxR7
-   YmAc1Eut7irqB59Ip/cch4UrYdpPcD/4K9e5ESpmamxKpSaTbP5H6KwZJ
-   5jwp60uLyGen1owA36BiN7Twt83IiE0GCIjGqbe6Pt5PFL03AaEvzyaZP
-   xHxi3NneT4J2usv6wf3CXQx72j7/hecA1acKt8FHHAPRSXP/oXHCKI3Rt
-   HWTQZvdpacRIoymfoj7lpuQfiA+lT81X6xo7vZGIwRL6X3PijgNd4qufe
-   TrHoDA6enlPJyb85oJZFv0vlVsGiBNMPLgPNibZ6rOKTKCa7m6JgmNEn1
-   w==;
-X-CSE-ConnectionGUID: 4wp66yLqTCWodU8TheA7EA==
-X-CSE-MsgGUID: 4WBPXymzTw6owe+k5Gv4lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="74993707"
+  bh=artMFXdGVR8o/HQI6Q4fO8ENrHYYfNiZswpBEMgm3Sc=;
+  b=mSZnDTksw97WjBEr+XVEIlaYrI5zjDva9qyOAMRFKIO10t2JnyE6BEiu
+   moKcXDExCNlsYzs4PtWsAGkjPUPoBTTmXOA6/YRl3Sm8hOQaSV/7I6x3l
+   zH4YVuZDCqxT7OcqcZRTol/ugmx2Y/nxfTQ2UIJnFbajD2iBHbzb48Yh0
+   bfK2YmPgz+dWaSKqAHjVvb/iemsMGHtdYFd4FXkPmIA/Dy0pCqVSU+JTX
+   Rw4n1IIJ5xeULDCz/kOhybAoekB8fXL8v6AKBg5mpOOd115zm16zNNA8Y
+   4jD3PImRiYmqcSsb34NCcw4KY/OHw57K17pKA5i9kjdb/xEBYyXONMGNf
+   A==;
+X-CSE-ConnectionGUID: Lx1UJ0rGTiCt/lnMI6MQVA==
+X-CSE-MsgGUID: SxqJqeK8Q/mTBjP7MfAGpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68923171"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="74993707"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 16:32:42 -0700
-X-CSE-ConnectionGUID: h74xcjlxRjGnchpebGO5uA==
-X-CSE-MsgGUID: fNF9epJWR4OezYKKR/mQcA==
+   d="scan'208";a="68923171"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 17:35:11 -0700
+X-CSE-ConnectionGUID: 7169570VSHKljB+2CW+1BA==
+X-CSE-MsgGUID: qkMw5imzSAGi1jih2UjA+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="172108953"
+   d="scan'208";a="190595179"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Aug 2025 16:32:41 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 Aug 2025 17:35:10 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umhQs-000BNc-0k;
-	Thu, 14 Aug 2025 23:32:34 +0000
-Date: Fri, 15 Aug 2025 07:31:53 +0800
+	id 1umiPU-000BP6-0p;
+	Fri, 15 Aug 2025 00:35:08 +0000
+Date: Fri, 15 Aug 2025 08:34:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2679/2679] kernel/bpf-rvi/common_kfuncs.c:97:18:
- warning: no previous prototype for function 'bpf_seq_file_append'
-Message-ID: <202508150748.bPjkF4cw-lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 2205/2527]
+ arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: mdss@ae00000
+ (qcom,sc8180x-mdss): $nodename:0: 'mdss@ae00000' does not match
+ '^display-subsystem@[0-9a-f]+$'
+Message-ID: <202508150833.qVOkjjn0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,94 +64,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   43d8c124ec4624389b14d42595e5f0195e3e5a1d
-commit: 1afa15e45da121993a15941b08fef5e3d58f40e5 [2679/2679] bpf-rvi: Add bpf_seq_file_append() kfunc
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508150748.bPjkF4cw-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150748.bPjkF4cw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   931e46dcbc7e6035a90e9c4a27a84b660e083f0a
+commit: 26d30515eaa31ca6702db07ef46544a365f303dc [2205/2527] dt-bindings: display/msm: describe MDSS on SC8180X
+config: arm64-randconfig-051-20250814 (https://download.01.org/0day-ci/archive/20250815/202508150833.qVOkjjn0-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150833.qVOkjjn0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150748.bPjkF4cw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150833.qVOkjjn0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   kernel/bpf-rvi/common_kfuncs.c:20:32: warning: no previous prototype for function 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
-      20 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
-         |                                ^
-   kernel/bpf-rvi/common_kfuncs.c:20:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      20 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
-         |             ^
-         |             static 
-   kernel/bpf-rvi/common_kfuncs.c:29:35: warning: no previous prototype for function 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
-      29 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-         |                                   ^
-   kernel/bpf-rvi/common_kfuncs.c:29:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      29 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-         |             ^
-         |             static 
-   kernel/bpf-rvi/common_kfuncs.c:34:17: warning: no previous prototype for function 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
-      34 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-         |                 ^
-   kernel/bpf-rvi/common_kfuncs.c:34:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      34 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-         |             ^
-         |             static 
-   kernel/bpf-rvi/common_kfuncs.c:48:17: warning: no previous prototype for function 'bpf_pidns_last_pid' [-Wmissing-prototypes]
-      48 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-         |                 ^
-   kernel/bpf-rvi/common_kfuncs.c:48:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      48 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-         |             ^
-         |             static 
-   kernel/bpf-rvi/common_kfuncs.c:77:18: warning: no previous prototype for function 'bpf_si_memswinfo' [-Wmissing-prototypes]
-      77 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
-         |                  ^
-   kernel/bpf-rvi/common_kfuncs.c:77:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      77 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
-         |             ^
-         |             static 
-   kernel/bpf-rvi/common_kfuncs.c:87:27: warning: no previous prototype for function 'bpf_page_counter_read' [-Wmissing-prototypes]
-      87 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
-         |                           ^
-   kernel/bpf-rvi/common_kfuncs.c:87:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      87 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
-         |             ^
-         |             static 
->> kernel/bpf-rvi/common_kfuncs.c:97:18: warning: no previous prototype for function 'bpf_seq_file_append' [-Wmissing-prototypes]
-      97 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-         |                  ^
-   kernel/bpf-rvi/common_kfuncs.c:97:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      97 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-         |             ^
-         |             static 
-   7 warnings generated.
-
-
-vim +/bpf_seq_file_append +97 kernel/bpf-rvi/common_kfuncs.c
-
-    91	
-    92	/*
-    93	 * Stat related kfuncs
-    94	 */
-    95	
-    96	/* Moving src's content to the end of dst. Reference: seq_vprintf. */
-  > 97	__bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-    98	{
-    99		/*
-   100		 * ->count: length of content
-   101		 * ->size: available buffer space
-   102		 * i.e. seq_printf(dst, "%s", src->buf)
-   103		 */
-   104		if (dst->count < dst->size)
-   105			if (src->count < dst->size - dst->count) {
-   106				memmove(dst->buf + dst->count, src->buf, src->count);
-   107				dst->count += src->count;
-   108			}
-   109	}
-   110	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc8180x.dtsi:2641.31-2686.5: Warning (simple_bus_reg): /soc@0/phy@88ee000: simple-bus unit address format error, expected "88ed000"
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: mdss@ae00000 (qcom,sc8180x-mdss): $nodename:0: 'mdss@ae00000' does not match '^display-subsystem@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: mdss@ae00000 (qcom,sc8180x-mdss): dsi@ae94000:compatible: ['qcom,mdss-dsi-ctrl'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: mdss@ae00000 (qcom,sc8180x-mdss): dsi@ae96000:compatible: ['qcom,mdss-dsi-ctrl'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: mdss@ae00000 (qcom,sc8180x-mdss): Unevaluated properties are not allowed ('dsi-phy@ae94400', 'dsi-phy@ae96400', 'mdp@ae01000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: mdp@ae01000 (qcom,sc8180x-dpu): $nodename:0: 'mdp@ae01000' does not match '^display-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: panel (edp-panel): 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc8180x.dtsi:2641.31-2686.5: Warning (simple_bus_reg): /soc@0/phy@88ee000: simple-bus unit address format error, expected "88ed000"
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: mdss@ae00000 (qcom,sc8180x-mdss): $nodename:0: 'mdss@ae00000' does not match '^display-subsystem@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: mdss@ae00000 (qcom,sc8180x-mdss): dsi@ae94000:compatible: ['qcom,mdss-dsi-ctrl'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: mdss@ae00000 (qcom,sc8180x-mdss): dsi@ae96000:compatible: ['qcom,mdss-dsi-ctrl'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: mdss@ae00000 (qcom,sc8180x-mdss): Unevaluated properties are not allowed ('dsi-phy@ae94400', 'dsi-phy@ae96400', 'mdp@ae01000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: mdp@ae01000 (qcom,sc8180x-dpu): $nodename:0: 'mdp@ae01000' does not match '^display-controller@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: panel (edp-panel): 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-edp.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
