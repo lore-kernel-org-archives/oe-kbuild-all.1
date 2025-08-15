@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB66D319855
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 12:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E193009D2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 12:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755260045; cv=none; b=MfIcJaiGa4m21e4FQxRUVxubYjrFg5iLwglwmlNF6xkYAkApqek0qkWRKD7nDf2ISbPJG/dDNydEMCcqv5U4OJ0GT61N154ofGUuj8mwewDJbU4YVmIbGhWph+Dw/ocyV4+dA4EoLM8kKBiLK5a/sckewYyTl3fcNpIenfGh+js=
+	t=1755260659; cv=none; b=iCDnh8hEhCLf3OaNpbTrDU0fPn+ceBqo0RsYCXbdaXH+VkTj20byYdA7+PW/Iq4SPTruyhgko5P4OatoI0k44Nhgt0ywEP5ZnzFlplC3BBuunfw2kungp9ybfOU3VpE83JhgaKsYcWMu29rgg09115jOl1s+EIOoRpv/Yon2vOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755260045; c=relaxed/simple;
-	bh=T+MUcc0TF1k6RY2B2D1kJ57oFPsM6eL0h0xlI5C9PVo=;
+	s=arc-20240116; t=1755260659; c=relaxed/simple;
+	bh=j3VWF1UseoZEG8mpMD4BASAnx08WjqII5tx6UBWw3Cw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eJGaaDuBK8FScvud+hD9uli8TsqDys4nhVRtpaOSPgkM1BwfksaivB8w9mg/5pLw+F8tttkbjmGtn7ubIMJZCRZ5cOWvP9nDMYx+xeES+QUAhAqsFTgbMvGv96Fl2RsKvk+93ibYORT8YE5wEtF5mscFlgf4SqbegS5ChwJrweU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/wyTtSk; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=SphVUQff+amE69zQb7sG0MtA7Xa6JzIYLmoKIvSC4g/fsj20/Gs8rsQZLb4fW1NF9jRuoT+yx1d/yS2AtYVIbaxw797E9Be3GzGAyVdYqsTlGgtTzFZF10IalKvvomYF0ko4oACJ4Cb+oh2n1Wa2HCPf2kqSQ5/DTgr39hn/E3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kc8bguf5; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/wyTtSk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kc8bguf5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755260044; x=1786796044;
+  t=1755260657; x=1786796657;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T+MUcc0TF1k6RY2B2D1kJ57oFPsM6eL0h0xlI5C9PVo=;
-  b=E/wyTtSkSVinYcx23KY3e2nRT01a2R0LdFOCjjaGHzM3PlWyYHtFZ9P+
-   dSIJst8Ep1F1oNaBDeQ547ZhQn2bi1BbfwCARYD0reE5KKnlZOooQtcIY
-   Z0gxrcpQ7jpuxHMrftwBzY6frICxDQpZ6geJkbibwj6oQuya2GX+5R8h+
-   ivi5r7CHGaNeiIgRDyNLfvMqrHGK+iYo3kZPFgX86jP/uiKlDBa6QcUem
-   uR/cRLSF1rOLw47OzyxvLNLgWKV6NzFdA/JjxgSNyFzpvRWpktch5wI9T
-   V7MsM9Ncf2gxjunhAwzAukHeLeWBvdsuk3p3PhYmCWi9oqKlIun7cdgPY
-   A==;
-X-CSE-ConnectionGUID: j9JuOXupTYCZcMlt4TjE7Q==
-X-CSE-MsgGUID: A90zSsoZRyG1wNaMbkHyNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="75029967"
+  bh=j3VWF1UseoZEG8mpMD4BASAnx08WjqII5tx6UBWw3Cw=;
+  b=kc8bguf59npCe7HJiqpUarTv+SZ3/a8RYWYMQmj6QI4PEogylDI26qhv
+   /5019ZzsasmFoGbwZfcNFRDu87zIla4lXvkZlaOeQ62VD3rFGpiUYB3RR
+   YhOhq5vTwKCzLkLQNiWgSwfm3JjhmrXdslrX0dUCuZNdenwWH3+TZFaSh
+   I35nAhseeLwVlFgBSAq2z9hVRHpyXWnfuofyq9bsx5pXHwMcG3UTvF9j2
+   S+Qj9BRlKLTFhafPoarkm3zALa2GkISKT8Opg7oV9Lv54LFVBfBVS29H5
+   bv1uQWY+Son9P0Z93rHNrXzRZtpAEvl0CrzH/xW8YWKvOu9cQTKvNY94e
+   Q==;
+X-CSE-ConnectionGUID: KuvvAk56T0S6bhD2Y/yYVw==
+X-CSE-MsgGUID: Go7jtGiURL6sLNr/X4grgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57690138"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="75029967"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 05:14:03 -0700
-X-CSE-ConnectionGUID: TNuxSH0TSy2YM5i7nBX93g==
-X-CSE-MsgGUID: gMazRyZRRWGTgVo/GTcp9g==
+   d="scan'208";a="57690138"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 05:24:16 -0700
+X-CSE-ConnectionGUID: 85x5RQDpQwWJAFQzxkXvSQ==
+X-CSE-MsgGUID: yuZglviPSXCfappjvVsJNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="171248102"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 15 Aug 2025 05:14:02 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="172340429"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 15 Aug 2025 05:24:15 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umtJo-0000WV-09;
-	Fri, 15 Aug 2025 12:14:00 +0000
-Date: Fri, 15 Aug 2025 14:13:13 +0200
+	id 1umtTg-000BxG-2J;
+	Fri, 15 Aug 2025 12:24:12 +0000
+Date: Fri, 15 Aug 2025 20:23:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 457/457]
- include/trace/stages/init.h:2:23: warning: 'str__sound__trace_system_name'
- defined but not used
-Message-ID: <202508151456.XV4YkvP7-lkp@intel.com>
+To: Greg Ungerer <gerg@uclinux.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:armnommu 3/3] include/linux/compiler_types.h:572:38:
+ error: call to '__compiletime_assert_547' declared with attribute error:
+ BUILD_BUG_ON failed: sizeof(priv_tbl->probs) % 16
+Message-ID: <202508152015.U8E8Ryjx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,184 +64,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   e61c4ff0d66782e41c3eebfc98cb8ea51f6fad45
-commit: 326690739d7832afafaf37bcfa89516e671db0f6 [457/457] ANDROID: sound: usb: add vendor hook for cpu suspend support
-config: i386-buildonly-randconfig-2001-20250815 (https://download.01.org/0day-ci/archive/20250815/202508151456.XV4YkvP7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151456.XV4YkvP7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
+head:   037916143d9bf6331f9834e99f8da416960ac8da
+commit: 037916143d9bf6331f9834e99f8da416960ac8da [3/3] ARM: versatile: support configuring versatile machine for no-MMU
+config: arm-randconfig-r073-20250815 (https://download.01.org/0day-ci/archive/20250815/202508152015.U8E8Ryjx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508152015.U8E8Ryjx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508151456.XV4YkvP7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508152015.U8E8Ryjx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sound.h:18,
-                    from drivers/android/vendor_hooks.c:75:
->> include/trace/stages/init.h:2:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/usb.h:25,
-                    from drivers/android/vendor_hooks.c:74:
-   include/trace/stages/init.h:2:23: warning: 'str__usb__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/delayacct.h:74,
-                    from drivers/android/vendor_hooks.c:73:
-   include/trace/stages/init.h:2:23: warning: 'str__delayacct__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/suspend.h:26,
-                    from drivers/android/vendor_hooks.c:72:
-   include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/compaction.h:20,
-                    from drivers/android/vendor_hooks.c:71:
-   include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/regmap.h:24,
-                    from drivers/android/vendor_hooks.c:70:
-   include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
-   Depends on [n]: DMADEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DMA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE
-   Depends on [n]: NET [=n] && INET [=n] && NETFILTER [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   In file included from <command-line>:
+   drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c: In function 'rkvdec_vp9_start':
+>> include/linux/compiler_types.h:572:38: error: call to '__compiletime_assert_547' declared with attribute error: BUILD_BUG_ON failed: sizeof(priv_tbl->probs) % 16
+     572 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:553:4: note: in definition of macro '__compiletime_assert'
+     553 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:572:2: note: in expansion of macro '_compiletime_assert'
+     572 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |  ^~~~~~~~~~~~~~~~
+   drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c:1010:2: note: in expansion of macro 'BUILD_BUG_ON'
+    1010 |  BUILD_BUG_ON(sizeof(priv_tbl->probs) % 16); /* ensure probs size is 128-bit aligned */
+         |  ^~~~~~~~~~~~
+--
+   In file included from <command-line>:
+   rkvdec-vp9.c: In function 'rkvdec_vp9_start':
+>> include/linux/compiler_types.h:572:38: error: call to '__compiletime_assert_547' declared with attribute error: BUILD_BUG_ON failed: sizeof(priv_tbl->probs) % 16
+     572 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:553:4: note: in definition of macro '__compiletime_assert'
+     553 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:572:2: note: in expansion of macro '_compiletime_assert'
+     572 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |  ^~~~~~~~~~~~~~~~
+   rkvdec-vp9.c:1010:2: note: in expansion of macro 'BUILD_BUG_ON'
+    1010 |  BUILD_BUG_ON(sizeof(priv_tbl->probs) % 16); /* ensure probs size is 128-bit aligned */
+         |  ^~~~~~~~~~~~
 
 
-vim +/str__sound__trace_system_name +2 include/trace/stages/init.h
+vim +/__compiletime_assert_547 +572 include/linux/compiler_types.h
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
 
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+:::::: The code at line 572 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
