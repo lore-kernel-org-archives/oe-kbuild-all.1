@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CF223A989;
-	Fri, 15 Aug 2025 14:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F52267B07
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 15:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755268985; cv=none; b=c39W0tS01BXU7n84Rr9FMxuOfroRL0RTgGiRT0G4B20jLtnN5Ptnt4Xv3o9IRk5EpEWy6CCyREVSL7WjZxErUwvYy+0F1K16QjY75cimTuwaCTvj+fnjkpeffTjH9AL3aApjF6H3hs/iHpReFURcYSSAkr4YriNGjPDIhoExlxM=
+	t=1755271336; cv=none; b=jE/UdFcbLaiVsdVnDNuoKOH3teFNX2mWedPY9UuNCavERyFqXAbZ/YWCHZAURp1kvmY6qJrsUiX5XsaV2XkndHTLL4joXYGc1CPFHEOmAsqU4mMQKdQ5KZCvw6lwKoxXnZrmYxh2V1X/jAWpVTz8AHRRawV3yIGp2K63bWRKn/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755268985; c=relaxed/simple;
-	bh=PDbt4o4k4p5SM1Gt0+Fj01ep6nfTfi7vRmc73604jks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o9oiZ+lv3CLt5fR/8qrEKHOxW6TcpMg8omufU/JekJV2VhoYCcrqZ9nlV45CnFjt8VnqCmkhJQdPK/yrsix6Jgl1xLJ5pMQv+0vFu6+pPIxDMT2WpHFhaeuAuxOH2KP0uAuKuXuwYWr8XTJ7ILIK9Hdj3ChQAQBSl4mx2o3PG+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhpAWIDx; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1755271336; c=relaxed/simple;
+	bh=Ja3tA4Esaji8JG2gAtTp1sTRlHup51DzDwZBspZnn7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KtdZ1ZxopoL9bMBJclIJbxM9UpKW9+jxTYJ/EaqngC+yMqZigjjSdR+pkbkVatX/QMTencXIvJfUo8GZVf3AajBQIQfv9FujC8l+/yuLYu09euR4OthLSq281BdVMg9rAvCnj8D56v8S2P+nt3m2WR5T69D2qobd/boJaBX0cdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9CNzKuE; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhpAWIDx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9CNzKuE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755268984; x=1786804984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PDbt4o4k4p5SM1Gt0+Fj01ep6nfTfi7vRmc73604jks=;
-  b=hhpAWIDx9MR1A1zuIo7dMr6EX6iFZUkTDou2nb1SD+ofwUGDQRl6suKU
-   lmICYfnc0qwfQFQY4/gp1PbJrF7HwnagJQQKHV2bZisq3S0zNsMkSSi7y
-   JUCjfAaGGyfBrjV17sYXEXsbapSgyO9D+LsWMfn8bf914G1eLIOQ8p//+
-   ahNTaxs+QosGAKruC8J7N02DNLrtWnojNj9e11yElZc7it3ByZV1sOZs0
-   e924cbu1/8L03tefDqCHV664r7Jd4Opldv3YrS4GfLXGZ1h0NvQ2/XBkq
-   49CIzu+f+fUo2bbdmjK8aIw34McuUdhKuHWyeEHIpLFwSIUocjMmSKJLS
+  t=1755271334; x=1786807334;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ja3tA4Esaji8JG2gAtTp1sTRlHup51DzDwZBspZnn7U=;
+  b=Z9CNzKuExObGYgfnvNGt56sS/XfuTRg+P51To+ESA9JvFDbn4xqSg0vM
+   9lE7mBhoJGLU7smRQGFdHCn1ypOQJUcBfb53+nSUmAgj7+y7rIij8avjK
+   XFzKVbukucDkUOgKkr54GXczDDQW3wyCqyNyD7PQX2i3R3Btz6AB4luF0
+   mrA2OHMfpy0ik/74OioYjWv5Fk+H5xnbngqzQeOyKrgxYc/hACnSxyose
+   sMJIKlwzaStJcjO07oKO5tugu8r/SMtsbXZ1InVX/0vBa0Nt57vqeBNUe
+   XHEzRVmkS28Np9+3cG6oC1ZvF0jDICnr+ZVqkxIDc5DktCJF+ktPo5ePo
    g==;
-X-CSE-ConnectionGUID: 4jhcnF6DSJej02dZEazGVw==
-X-CSE-MsgGUID: sDRZYwCxQa+ROHiJAtCgBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57697497"
+X-CSE-ConnectionGUID: jMI2mMLPTTevTZ/oLnr+Jw==
+X-CSE-MsgGUID: cOVL8ckITD+S5pSG3eCKmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="75160351"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="57697497"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 07:43:04 -0700
-X-CSE-ConnectionGUID: HDI3bAhtQse1u7hHErNCdw==
-X-CSE-MsgGUID: WIzvz/EGQqij0YcCFKnAdw==
+   d="scan'208";a="75160351"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 08:22:13 -0700
+X-CSE-ConnectionGUID: 85Eku46DSlim2kwyC8QT1A==
+X-CSE-MsgGUID: SnAsHdi8R6GxfUrKtcMhwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="167378577"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Aug 2025 07:43:02 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="166525278"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 15 Aug 2025 08:22:13 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umvdw-000C2G-15;
-	Fri, 15 Aug 2025 14:42:58 +0000
-Date: Fri, 15 Aug 2025 22:41:59 +0800
+	id 1umwFu-0000XX-2P;
+	Fri, 15 Aug 2025 15:22:10 +0000
+Date: Fri, 15 Aug 2025 17:21:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Willem Grant <willemgrant@mailfence.com>, linux-fbdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Willem Grant <willemgrant@mailfence.com>
-Subject: Re: [PATCH] Cleared out formatting warnings/errors for
- drivers/staging/sm750fb
-Message-ID: <202508152258.xosReYAn-lkp@intel.com>
-References: <20250815011754.18078-1-willemgrant@mailfence.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2667/2667]
+ arch/arm64/kernel/cpufeature.c:2129:13: warning: 'enable_pseudo_nmi' defined
+ but not used
+Message-ID: <202508151728.CMPxXZsv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,151 +62,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250815011754.18078-1-willemgrant@mailfence.com>
 
-Hi Willem,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-[also build test WARNING on staging/staging-next staging/staging-linus linus/master v6.17-rc1 next-20250815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Willem-Grant/Cleared-out-formatting-warnings-errors-for-drivers-staging-sm750fb/20250815-092113
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250815011754.18078-1-willemgrant%40mailfence.com
-patch subject: [PATCH] Cleared out formatting warnings/errors for drivers/staging/sm750fb
-config: arm-randconfig-002-20250815 (https://download.01.org/0day-ci/archive/20250815/202508152258.xosReYAn-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508152258.xosReYAn-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   54d96ebb93c9ff0573fe16586a47778ebe26de32
+commit: c6ce2becb89528f83c1ad3c0607ad05baecebc0a [2667/2667] arm64/cpufeature: Fix pseudo nmi identifier undeclaration complilation error
+config: arm64-randconfig-2004-20250811 (https://download.01.org/0day-ci/archive/20250815/202508151728.CMPxXZsv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151728.CMPxXZsv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508152258.xosReYAn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508151728.CMPxXZsv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/staging/sm750fb/sm750.c:543:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-     543 |                 red = gray;
-         |                 ^
-   drivers/staging/sm750fb/sm750.c:540:2: note: previous statement is here
-     540 |         if (info->var.grayscale)
-         |         ^
->> drivers/staging/sm750fb/sm750.c:541:7: warning: unused variable 'gray' [-Wunused-variable]
-     541 |                 int gray = (red * 77 + green * 151 + blue * 28) >> 8;
-         |                     ^~~~
-   drivers/staging/sm750fb/sm750.c:543:9: error: use of undeclared identifier 'gray'; did you mean 'igrab'?
-     543 |                 red = gray;
-         |                       ^~~~
-         |                       igrab
-   include/linux/fs.h:3313:23: note: 'igrab' declared here
-    3313 | extern struct inode * igrab(struct inode *);
-         |                       ^
-   drivers/staging/sm750fb/sm750.c:544:11: error: use of undeclared identifier 'gray'; did you mean 'igrab'?
-     544 |                 green = gray;
-         |                         ^~~~
-         |                         igrab
-   include/linux/fs.h:3313:23: note: 'igrab' declared here
-    3313 | extern struct inode * igrab(struct inode *);
-         |                       ^
-   drivers/staging/sm750fb/sm750.c:545:10: error: use of undeclared identifier 'gray'; did you mean 'igrab'?
-     545 |                 blue = gray;
-         |                        ^~~~
-         |                        igrab
-   include/linux/fs.h:3313:23: note: 'igrab' declared here
-    3313 | extern struct inode * igrab(struct inode *);
-         |                       ^
-   drivers/staging/sm750fb/sm750.c:794:19: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     794 |                 g_fbmode[index] = g_def_fbmode;
-         |                 ~~~~~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:27: note: variable 'g_fbmode' declared const here
-      36 | static const char * const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/sm750fb/sm750.c:796:20: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     796 |                         g_fbmode[index] = g_fbmode[0];
-         |                         ~~~~~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:27: note: variable 'g_fbmode' declared const here
-      36 | static const char * const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/sm750fb/sm750.c:957:17: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     957 |                                 g_fbmode[0] = opt;
-         |                                 ~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:27: note: variable 'g_fbmode' declared const here
-      36 | static const char * const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/sm750fb/sm750.c:961:17: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     961 |                                 g_fbmode[1] = opt;
-         |                                 ~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:27: note: variable 'g_fbmode' declared const here
-      36 | static const char * const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 7 errors generated.
+>> arch/arm64/kernel/cpufeature.c:2129:13: warning: 'enable_pseudo_nmi' defined but not used [-Wunused-variable]
+    2129 | static bool enable_pseudo_nmi;
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +/if +543 drivers/staging/sm750fb/sm750.c
+vim +/enable_pseudo_nmi +2129 arch/arm64/kernel/cpufeature.c
 
-   517	
-   518	static int lynxfb_ops_setcolreg(unsigned int regno,
-   519					unsigned int red,
-   520					unsigned int green,
-   521					unsigned int blue,
-   522					unsigned int transp,
-   523					struct fb_info *info)
-   524	{
-   525		struct lynxfb_par *par;
-   526		struct lynxfb_crtc *crtc;
-   527		struct fb_var_screeninfo *var;
-   528		int ret;
-   529	
-   530		par = info->par;
-   531		crtc = &par->crtc;
-   532		var = &info->var;
-   533		ret = 0;
-   534	
-   535		if (regno > 256) {
-   536			pr_err("regno = %d\n", regno);
-   537			return -EINVAL;
-   538		}
-   539	
-   540		if (info->var.grayscale)
- > 541			int gray = (red * 77 + green * 151 + blue * 28) >> 8;
-   542	
- > 543			red = gray;
-   544			green = gray;
-   545			blue = gray;
-   546	
-   547		if (var->bits_per_pixel == 8 &&
-   548		    info->fix.visual == FB_VISUAL_PSEUDOCOLOR) {
-   549			red >>= 8;
-   550			green >>= 8;
-   551			blue >>= 8;
-   552			ret = hw_sm750_set_col_reg(crtc, regno, red, green, blue);
-   553			goto exit;
-   554		}
-   555	
-   556		if (info->fix.visual == FB_VISUAL_TRUECOLOR && regno < 256) {
-   557			u32 val;
-   558	
-   559			if (var->bits_per_pixel == 16 ||
-   560			    var->bits_per_pixel == 32 ||
-   561			    var->bits_per_pixel == 24) {
-   562				val = chan_to_field(red, &var->red);
-   563				val |= chan_to_field(green, &var->green);
-   564				val |= chan_to_field(blue, &var->blue);
-   565				par->pseudo_palette[regno] = val;
-   566				goto exit;
-   567			}
-   568		}
-   569	
-   570		ret = -EINVAL;
-   571	
-   572	exit:
-   573		return ret;
-   574	}
-   575	
+3e6c69a058deaa5 Mark Brown     2019-12-09  2127  
+f72387e1f8bc992 Mark Brown     2022-11-03  2128  #if IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) || IS_ENABLED(CONFIG_ARM64_NMI)
+bc3c03ccb4641fb Julien Thierry 2019-01-31 @2129  static bool enable_pseudo_nmi;
+f72387e1f8bc992 Mark Brown     2022-11-03  2130  #endif
+bc3c03ccb4641fb Julien Thierry 2019-01-31  2131  
+
+:::::: The code at line 2129 was first introduced by commit
+:::::: bc3c03ccb4641fb940b27a0d369431876923a8fe arm64: Enable the support of pseudo-NMIs
+
+:::::: TO: Julien Thierry <julien.thierry@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
