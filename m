@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E86E3019BD;
-	Fri, 15 Aug 2025 13:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E211F37D3;
+	Fri, 15 Aug 2025 14:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755265081; cv=none; b=E/mRX1Stk9WGwlOdh4Utbbz0n3VU46eKjt/zmd5/ZHvwAlrSw4QIR+V2HCKeQZ869K1wLnJBNvLsZQAPX0myNQ6Kyji/tHs7PP2sMmzh0CzAgLkaArm9O+vkjwyx3705deQdI0qCMcsD9opQSgWQ2TWF0L6IPGDxY/j/BM7N5SU=
+	t=1755266411; cv=none; b=lhCgQ3P0AaEy05BhCMiJQ7sT+TI3yCaQw2zgUv3SFtCeuyqtkmZUFar28SSqCpAY90OlrbRsVpNOJWP8l2hzMMnk++FfSLN/uA9y/ir/ap+MAImlSMsfL+VjSR/w739QHhdybMXUrJ2CevRhySOK/QgU2uO+OsMcwZysF6Gh8Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755265081; c=relaxed/simple;
-	bh=m8hv0RZV9Mr6fM2+lzlOFczAMuNvVzSER5/ae08maD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jXFBX+2cdq9jQe/EvglX+ofuKaHUI6IiHl/k+lAOyqpLLGIurqyyejGbJP4/1+G10XO9bYVkBrXjJk1GMFSAJlS9I3rrdpp6NPBc5AJC2yZThaQfmZO/nCtniRomxFoacq42RZRCDewd1lEZxhG0i3/EKw6NS8mXBLHX7joRRuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NdDc8q3o; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1755266411; c=relaxed/simple;
+	bh=LvI5XJFvMx8itZDzTZcg34YZDZmfWXqpnHQ/l0ZAdiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KdvzXR5YXqLi7/EiMNs8VDP1W2yomUnYtf/Ab2hYFCL4Gvq6OecbHXiHq4lHo4lMLP/hSFwBHtUwLbYsYEfsdsayxleRqZpg968kCfAQHKnR6bzaQL72GDUMO/ocikCHosPNxHo93/9NoAn5nE6UNezV48dMJyptaao+GZxFeW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFlqIt2i; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NdDc8q3o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFlqIt2i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755265080; x=1786801080;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m8hv0RZV9Mr6fM2+lzlOFczAMuNvVzSER5/ae08maD0=;
-  b=NdDc8q3oy0eDiQMQc+y+ltkU4P47OJNj4fvoTm47t9SVDK+cOvy6w4a7
-   cx3Pe/sAUuEs60YYyhpja8JKJiYWCp6OOf11VOdXlAsQQVl4GnDIdteKx
-   YO6do5OzD58pmasdzvqnGHoNsvrmNE1+QzXEwwpMrTMG8fRZtNFiHsK+D
-   6HA4wnTgxx1J6cqwTmPSYJyUcLzWHYLlzxwksPHok4SIj9kK3cGz+WBPo
-   dSFFGTeEp6OZSPFE/D56Wevx1pPx/FRhcIj4uOYdf9Rmq9PNb34kLRGDj
-   mZgGeNjICfhzKDi2tAf5vA/m8LbUAtYgOk1ADraXP8JGNLaVdGwkjTaWe
-   Q==;
-X-CSE-ConnectionGUID: 5IqPYUXhSVe0ZhZuZrrOHw==
-X-CSE-MsgGUID: hdo33j7aTm6ywObyPV49yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57446400"
+  t=1755266410; x=1786802410;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LvI5XJFvMx8itZDzTZcg34YZDZmfWXqpnHQ/l0ZAdiU=;
+  b=iFlqIt2iq8dUrWpSqcS6KMVJS11njzJHbhJUYpoE8AlOYLlxBNDXZYKQ
+   h6d2zcXSC51fu1CyVEQXxMyn39SsLvsoTKvfeiPNKSFlkVjNbd8QThvzr
+   6unVZ7+nR4wNj8eh9OBk5gb5y0qeE7s2JIr04icsR/3+NuXhYdNi7dyFI
+   IAjXzeAOfLeHBq6IBRHKQhc/I0Ilyng7J6iqn+v6HNMGoGnjrRjHr3KA8
+   ftp47w634TPup9yjcSzvYGa4Y+DG6dHUSDk6UeSaKVDLRnJQPjOC4KMG6
+   E4wKcIgtJSS7djWtjxHHKqzGF9vX5iCkspwHbghGFDeUzyGdWo8hz6oNR
+   w==;
+X-CSE-ConnectionGUID: 8dGXSMjeQCKufMDz1gyqfQ==
+X-CSE-MsgGUID: MEW3P4z+ScqKLng3KTmaPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="56796245"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="57446400"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 06:37:56 -0700
-X-CSE-ConnectionGUID: IT/YsOgCQruB9ihR5M9s8g==
-X-CSE-MsgGUID: nCHOfA5MQUqHXyHV6YakUQ==
+   d="scan'208";a="56796245"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 07:00:09 -0700
+X-CSE-ConnectionGUID: RQgg06yDRO+b5DIvlSZAyQ==
+X-CSE-MsgGUID: ANbp42CRQ+SDXjzsGKcDbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="204196499"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Aug 2025 06:37:53 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="167833151"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa010.fm.intel.com with ESMTP; 15 Aug 2025 07:00:08 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umuco-000BzQ-2i;
-	Fri, 15 Aug 2025 13:37:45 +0000
-Date: Fri, 15 Aug 2025 21:37:23 +0800
+	id 1umuyT-0000X5-35;
+	Fri, 15 Aug 2025 14:00:05 +0000
+Date: Fri, 15 Aug 2025 15:59:11 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org
-Cc: oe-kbuild-all@lists.linux.dev, tzungbi@kernel.org, dawidn@google.com,
-	chrome-platform@lists.linux.dev, akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] platform/chrome: Protect cros_ec_device lifecycle
- with ref_proxy
-Message-ID: <202508152116.hQq8Sw2Y-lkp@intel.com>
-References: <20250814091020.1302888-3-tzungbi@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 1320/2770]
+ arch/mips/boot/dts/ralink/mt7628a.dtsi:42.21-133.5: Warning
+ (avoid_unnecessary_addr_size): /palmbus@10000000/pinmux@60: unnecessary
+ #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or
+ "ranges" property
+Message-ID: <202508151551.ingWk0yV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +64,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814091020.1302888-3-tzungbi@kernel.org>
 
-Hi Tzung-Bi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on chrome-platform/for-next]
-[also build test WARNING on chrome-platform/for-firmware-next akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything linus/master v6.17-rc1 next-20250815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/lib-Add-ref_proxy-module/20250814-172126
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250814091020.1302888-3-tzungbi%40kernel.org
-patch subject: [PATCH 2/3] platform/chrome: Protect cros_ec_device lifecycle with ref_proxy
-config: sparc64-randconfig-r113-20250815 (https://download.01.org/0day-ci/archive/20250815/202508152116.hQq8Sw2Y-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce: (https://download.01.org/0day-ci/archive/20250815/202508152116.hQq8Sw2Y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1357b2649c026b51353c84ddd32bc963e8999603
+commit: c072d2b49507420edd57ba3d87690ab81ef5273a [1320/2770] scripts/dtc: Update to upstream version v1.7.2-35-g52f07dcca47c
+config: mips-omega2p_defconfig (https://download.01.org/0day-ci/archive/20250815/202508151551.ingWk0yV-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4f15debe13af14e0fd668ee4861aff6dbc5283df)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151551.ingWk0yV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508152116.hQq8Sw2Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508151551.ingWk0yV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/ref_proxy.c:167:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __rcu * @@     got void * @@
-   lib/ref_proxy.c:167:16: sparse:     expected void [noderef] __rcu *
-   lib/ref_proxy.c:167:16: sparse:     got void *
-   lib/ref_proxy.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
-   include/linux/srcu.h:373:9: sparse: sparse: context imbalance in 'ref_proxy_put' - unexpected unlock
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/mips/boot/dts/ralink/mt7628a.dtsi:42.21-133.5: Warning (avoid_unnecessary_addr_size): /palmbus@10000000/pinmux@60: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
 
-vim +167 lib/ref_proxy.c
+vim +42 arch/mips/boot/dts/ralink/mt7628a.dtsi
 
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  152  
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  153  /**
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  154   * ref_proxy_get() - Get the resource.
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  155   * @proxy: The pointer of struct ref_proxy.
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  156   *
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  157   * This tries to de-reference to the resource and enters a RCU critical
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  158   * section.
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  159   *
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  160   * Return: The pointer to the resource.  NULL if the resource has gone.
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  161   */
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  162  void __rcu *ref_proxy_get(struct ref_proxy *proxy)
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  163  {
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  164  	struct ref_proxy_provider *rpp = proxy->rpp;
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  165  
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  166  	proxy->idx = srcu_read_lock(&rpp->srcu);
-f2304a9508b177 Tzung-Bi Shih 2025-08-14 @167  	return rcu_dereference(rpp->ref);
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  168  }
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  169  EXPORT_SYMBOL(ref_proxy_get);
-f2304a9508b177 Tzung-Bi Shih 2025-08-14  170  
+9ea34af728f720 Stefan Roese       2019-05-27   3  
+7d4ad2e71d175b Harvey Hunt        2017-08-21   4  / {
+7d4ad2e71d175b Harvey Hunt        2017-08-21   5  	#address-cells = <1>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21   6  	#size-cells = <1>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21   7  	compatible = "ralink,mt7628a-soc";
+7d4ad2e71d175b Harvey Hunt        2017-08-21   8  
+7d4ad2e71d175b Harvey Hunt        2017-08-21   9  	cpus {
+7d4ad2e71d175b Harvey Hunt        2017-08-21  10  		#address-cells = <1>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  11  		#size-cells = <0>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  12  
+7d4ad2e71d175b Harvey Hunt        2017-08-21  13  		cpu@0 {
+7d4ad2e71d175b Harvey Hunt        2017-08-21  14  			compatible = "mti,mips24KEc";
+7d4ad2e71d175b Harvey Hunt        2017-08-21  15  			device_type = "cpu";
+7d4ad2e71d175b Harvey Hunt        2017-08-21  16  			reg = <0>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  17  		};
+7d4ad2e71d175b Harvey Hunt        2017-08-21  18  	};
+7d4ad2e71d175b Harvey Hunt        2017-08-21  19  
+7d4ad2e71d175b Harvey Hunt        2017-08-21  20  	cpuintc: interrupt-controller {
+7d4ad2e71d175b Harvey Hunt        2017-08-21  21  		#address-cells = <0>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  22  		#interrupt-cells = <1>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  23  		interrupt-controller;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  24  		compatible = "mti,cpu-interrupt-controller";
+7d4ad2e71d175b Harvey Hunt        2017-08-21  25  	};
+7d4ad2e71d175b Harvey Hunt        2017-08-21  26  
+7d4ad2e71d175b Harvey Hunt        2017-08-21  27  	palmbus@10000000 {
+7d4ad2e71d175b Harvey Hunt        2017-08-21  28  		compatible = "palmbus";
+7d4ad2e71d175b Harvey Hunt        2017-08-21  29  		reg = <0x10000000 0x200000>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  30  		ranges = <0x0 0x10000000 0x1FFFFF>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  31  
+7d4ad2e71d175b Harvey Hunt        2017-08-21  32  		#address-cells = <1>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  33  		#size-cells = <1>;
+7d4ad2e71d175b Harvey Hunt        2017-08-21  34  
+232085d118ff46 Sergio Paracuellos 2025-02-24  35  		sysc: syscon@0 {
+0e029c91a7ec02 Ezra Buehler       2025-06-24  36  			compatible = "ralink,mt7628-sysc", "ralink,mt7688-sysc", "syscon";
+380f072c57a590 Stefan Roese       2019-05-27  37  			reg = <0x0 0x60>;
+232085d118ff46 Sergio Paracuellos 2025-02-24  38  			#clock-cells = <1>;
+232085d118ff46 Sergio Paracuellos 2025-02-24  39  			#reset-cells = <1>;
+380f072c57a590 Stefan Roese       2019-05-27  40  		};
+380f072c57a590 Stefan Roese       2019-05-27  41  
+380f072c57a590 Stefan Roese       2019-05-27 @42  		pinmux: pinmux@60 {
+
+:::::: The code at line 42 was first introduced by commit
+:::::: 380f072c57a590d7593050b8533d88e18b6a7daa MIPS: ralink: mt7628a.dtsi: Add pinmux DT node
+
+:::::: TO: Stefan Roese <sr@denx.de>
+:::::: CC: Paul Burton <paul.burton@mips.com>
 
 -- 
 0-DAY CI Kernel Test Service
