@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3430E78F43
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 00:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0326B8821
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 01:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755219397; cv=none; b=hjbRkXXL+/nVh0QwlRW/QGtCfWkTanMO+3ANu0ilbR4RDayHALT5DzAdh82P9ABV+c/8qWPEu59/JcjWmMUaLktbXumwEPSyXORpFb0K4pKl8b9u3tRcjTJZqk2777/hHWJ0sT6q19I6+jxP76+0ygm2qoWYkFwrnllljxKHKp0=
+	t=1755220766; cv=none; b=WPJ63CMO5aEpfRo/VeO/T2CpDfRg56OAaXViMMacKw7vy2BBmONKWcw9EKG07jVmmNcNr2X1fk9TifiOe62wiY2LWHSCWPFvK2gZ3qX92rjIG8cYhna+0cOtHRiuEly7+563Hhzx3ucLjgR2Yjcjm/WxAL39Dru4XB9RXKGcI7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755219397; c=relaxed/simple;
-	bh=xoDKpjg/cdNxNdfq2QnkW28yt214Y5Nb4kpr6qiRtXk=;
+	s=arc-20240116; t=1755220766; c=relaxed/simple;
+	bh=IGDyp8ndptNGRx//s5VQ5D4TMbcupkHM0HbbwXTosBc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SWJoKFWTjgrc0XpBPojbqxApbnzuhFZMqgxrbaUKKv93+wPN4befsR6akh3/91gxp4tAY8MpyFoRsxz3qNzaOXW0pNMbn8zjOXW2YjWlhBP4PhOdDZNpw4oEO4rQsk7MPzT/FidmWYAphStu99uesbNaOAxPLH4uhA0ChxOjMpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9AG4pvr; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=rj/8x/WgyC81J4ZNb+Z35TCMPnywXCdECeiLNPXQj1BvBwmXNZMPyi3oCzOO/XRdVvXY/crY7L1w/j/trxLNWjMkM9DEokKtiagTNsbHA4DIBwJhCRZ3JDI/XxZM55KQtrd6b/VwB6hJENb0twJjJ5iIBNV3gYomzu7viKAFpPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0ji9cft; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9AG4pvr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0ji9cft"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755219395; x=1786755395;
+  t=1755220764; x=1786756764;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xoDKpjg/cdNxNdfq2QnkW28yt214Y5Nb4kpr6qiRtXk=;
-  b=X9AG4pvrtWE+pnZZk6k/CqpDTU1L7tqIxIYd4flW8Q9RtujNJv88Cxy5
-   8rqU+nHQgrggm2lYfXjJL2sG9MUieP6uBXT0akmEzt6qvdTwj+9bn8SAc
-   Kt8qwAIPOja7Ynw3jmtoWd/BK9ZE7S9wxW12+085AY2R0JT8qvnBEnaRw
-   F8wk5MgPD6j0Mh3edmDlfzlm1ggp35sQQw9RYMEohocAXKbJWR+OBiQmD
-   2ZukgUcbPdKtThN+XqngPtR8DqFfaCaascq91zOHVyMkU/TjWuSQ47KTY
-   P7z2T+qdDooUgx3E89R9VHOMDCoFT6cPSm0kZk5Q16g5Rijr/8uvF37de
-   w==;
-X-CSE-ConnectionGUID: xr46oVxDQ/iJHf+2FVn1FA==
-X-CSE-MsgGUID: eJ6uA0BsTj6i+TOVTxKDXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57618344"
+  bh=IGDyp8ndptNGRx//s5VQ5D4TMbcupkHM0HbbwXTosBc=;
+  b=K0ji9cftqhNzbbO5QPhqawhayQFy1JGXorPoBtVNtQMnuM3DtTwOdkwY
+   s2pQWtzpGwAuWJCsSfOV0NXwG3EDl7cFvyXYEGHzlufqNytqBEyCf/Cp0
+   cFKrSlRn75ooW5vavKxyhKjNaG7S2xCIQwZZ2hOnR9Vk0dwqEj0dFcPVZ
+   njWI1qQcFf0usyl6z+E7tLHYpBhtNcleveIjxqNRxktdIdsontG0kyq8K
+   MoYLKuSU90cQwc1BHmpDw3ugaW2Gofc8eDK3EFFYcpVBsqb0ae0NE8ZRx
+   O4tliDe2TiQOVNMhj6cy38eprgO1v2ubAQjxxPhA+KaEUVlwEewMzpZiJ
+   g==;
+X-CSE-ConnectionGUID: L6aMELM1QY6k3jbKcv6OSQ==
+X-CSE-MsgGUID: ChE4RVvPQEeymLNwt9JiHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="61179665"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="57618344"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 17:56:34 -0700
-X-CSE-ConnectionGUID: Xf/+rf1VTK+q2qFw0xhMVA==
-X-CSE-MsgGUID: +MKboVB2Q0ah2YEUBdrl7A==
+   d="scan'208";a="61179665"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 18:19:24 -0700
+X-CSE-ConnectionGUID: ZVAk343mQl6Nvut/RiPdDA==
+X-CSE-MsgGUID: o0ZTpd90T9iCaiQJKYOahA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="167247912"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Aug 2025 17:56:32 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="171028097"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 14 Aug 2025 18:19:22 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umik9-000BPW-2t;
-	Fri, 15 Aug 2025 00:56:29 +0000
-Date: Fri, 15 Aug 2025 08:55:50 +0800
+	id 1umj6G-0000OB-0q;
+	Fri, 15 Aug 2025 01:19:20 +0000
+Date: Fri, 15 Aug 2025 03:18:40 +0200
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Subject: drivers/net/wireless/ralink/rt2x00/rt2800soc.c:247:undefined
- reference to `rt2x00lib_resume'
-Message-ID: <202508150853.IfS01nJn-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 4/4] arch/arm64/kvm/pkvm.c:756:5:
+ warning: no previous prototype for 'pkvm_enable_smc_forwarding'
+Message-ID: <202508150322.iHehrRYf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,194 +62,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   24ea63ea387714634813359e2c8e0e6c36952f73
-commit: 7f6109086c9e7bbc78ff936dac45626870455c76 wifi: rt2800: move 2x00soc to 2800soc
-date:   3 weeks ago
-config: sparc64-randconfig-r121-20250814 (https://download.01.org/0day-ci/archive/20250815/202508150853.IfS01nJn-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250815/202508150853.IfS01nJn-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0b5aee52ee031640b7194c3a35ce6ba10f188e21
+commit: 128144da229a1de12ebe5bca87f607aa348c6ba9 [4/4] ANDROID: KVM: arm64: Add smc64 trap handling for protected guests
+config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250815/202508150322.iHehrRYf-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150322.iHehrRYf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150853.IfS01nJn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508150322.iHehrRYf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2x00mmio.o: in function `rt2x00mmio_rxdone':
->> drivers/net/wireless/ralink/rt2x00/rt2x00mmio.c:58:(.text+0x1ac): undefined reference to `rt2x00queue_get_entry'
->> sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2x00mmio.c:75:(.text+0x220): undefined reference to `rt2x00lib_dmastart'
->> sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2x00mmio.c:76:(.text+0x228): undefined reference to `rt2x00lib_dmadone'
->> sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2x00mmio.c:81:(.text+0x234): undefined reference to `rt2x00lib_rxdone'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_txstatus_pending':
->> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1203:(.text+0x5dac): undefined reference to `rt2x00queue_get_entry'
->> sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1203:(.text+0x5dbc): undefined reference to `rt2x00queue_get_entry'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_sta_add':
->> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1914:(.text+0x6dc0): undefined reference to `rt2x00lib_get_bssidx'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_conf_tx':
->> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:12159:(.text+0xbaf8): undefined reference to `rt2x00mac_conf_tx'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_txstatus_timeout':
-   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1185:(.text+0xc00c): undefined reference to `rt2x00queue_get_entry'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_txdone_nostatus':
->> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1233:(.text+0xc0f0): undefined reference to `rt2x00lib_txdone_noinfo'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1225:(.text+0xc108): undefined reference to `rt2x00queue_get_entry'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_txdone_entry':
->> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1112:(.text+0xe64c): undefined reference to `rt2x00lib_txdone_nomatch'
->> sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1115:(.text+0xe72c): undefined reference to `rt2x00lib_txdone'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_txdone':
-   drivers/net/wireless/ralink/rt2x00/rt2800lib.c:1142:(.text+0xe890): undefined reference to `rt2x00queue_get_entry'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_validate_eeprom':
->> drivers/net/wireless/ralink/rt2x00/rt2800lib.c:11014:(.text+0x189b4): undefined reference to `rt2x00lib_set_mac_address'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800mmio.o: in function `rt2800mmio_get_dma_done':
->> drivers/net/wireless/ralink/rt2x00/rt2800mmio.c:45:(.text+0x654): undefined reference to `rt2x00queue_get_entry'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800mmio.o: in function `rt2800mmio_pretbtt_tasklet':
->> drivers/net/wireless/ralink/rt2x00/rt2800mmio.c:217:(.text+0x83c): undefined reference to `rt2x00lib_pretbtt'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800mmio.o: in function `rt2800mmio_tbtt_tasklet':
->> drivers/net/wireless/ralink/rt2x00/rt2800mmio.c:229:(.text+0x8c8): undefined reference to `rt2x00lib_beacondone'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800mmio.o: in function `rt2800mmio_kick_queue':
-   drivers/net/wireless/ralink/rt2x00/rt2800mmio.c:466:(.text+0x1b7c): undefined reference to `rt2x00queue_get_entry'
->> sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800mmio.c:473:(.text+0x1be0): undefined reference to `rt2x00queue_get_entry'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o: in function `rt2x00soc_resume':
->> drivers/net/wireless/ralink/rt2x00/rt2800soc.c:247:(.text+0x98): undefined reference to `rt2x00lib_resume'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o: in function `rt2x00soc_suspend':
->> drivers/net/wireless/ralink/rt2x00/rt2800soc.c:239:(.text+0xc4): undefined reference to `rt2x00lib_suspend'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o: in function `rt2x00soc_remove':
->> drivers/net/wireless/ralink/rt2x00/rt2800soc.c:228:(.text+0x128): undefined reference to `rt2x00lib_remove_dev'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o: in function `rt2x00soc_probe':
->> drivers/net/wireless/ralink/rt2x00/rt2800soc.c:205:(.text+0x758): undefined reference to `rt2x00lib_probe_dev'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:drivers/net/wireless/ralink/rt2x00/rt2800soc.c:251:(.rodata+0x480): undefined reference to `rt2x00mac_tx'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x488): undefined reference to `rt2x00mac_start'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x490): undefined reference to `rt2x00mac_stop'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x4b0): undefined reference to `rt2x00mac_add_interface'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x4c0): undefined reference to `rt2x00mac_remove_interface'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x4c8): undefined reference to `rt2x00mac_config'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x4d0): undefined reference to `rt2x00mac_bss_info_changed'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x500): undefined reference to `rt2x00mac_configure_filter'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x518): undefined reference to `rt2x00mac_set_key'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x558): undefined reference to `rt2x00mac_sw_scan_start'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x560): undefined reference to `rt2x00mac_sw_scan_complete'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x568): undefined reference to `rt2x00mac_get_stats'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x618): undefined reference to `rt2x00mac_rfkill_poll'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x628): undefined reference to `rt2x00mac_flush'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x668): undefined reference to `rt2x00mac_get_ringparam'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x670): undefined reference to `rt2x00mac_tx_frames_pending'
-   sparc64-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800soc.o:(.rodata+0x6f8): undefined reference to `rt2x00mac_reconfig_complete'
+>> arch/arm64/kvm/pkvm.c:756:5: warning: no previous prototype for 'pkvm_enable_smc_forwarding' [-Wmissing-prototypes]
+    int pkvm_enable_smc_forwarding(struct file *kvm_file)
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/mm.c:17:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:49:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+    int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+                                             ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/mm.c:19:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:36:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:37:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+    bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:38:6: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+    bool module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:21:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:49:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+    int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+                                             ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:23:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:36:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:37:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+    bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:38:6: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+    bool module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2357:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+    int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages)
+                                             ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2357:5: error: conflicting types for '__pkvm_host_donate_sglist_hyp'
+    int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages)
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:21:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:49:5: note: previous declaration of '__pkvm_host_donate_sglist_hyp' was here
+    int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:7:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c: In function '__pkvm_host_donate_sglist_hyp':
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2366:71: error: dereferencing pointer to incomplete type 'struct pkvm_sglist_page'
+      WARN_ON(__hyp_check_page_state_range((u64)sglist, nr_pages * sizeof(*sglist),
+                                                                          ^~~~~~~
+   include/asm-generic/bug.h:123:25: note: in definition of macro 'WARN_ON'
+     int __ret_warn_on = !!(condition);    \
+                            ^~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/include/nvhe/gfp.h:7,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:18:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2370:36: error: invalid use of undefined type 'struct pkvm_sglist_page'
+      u64 phys = hyp_pfn_to_phys(sglist[p].pfn);
+                                       ^
+   arch/arm64/kvm/hyp/include/nvhe/memory.h:79:46: note: in definition of macro 'hyp_pfn_to_phys'
+    #define hyp_pfn_to_phys(pfn) ((phys_addr_t)((pfn) << PAGE_SHIFT))
+                                                 ^~~
+   In file included from include/linux/string.h:12,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/alloc_tag.h:13,
+                    from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:7:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2373:43: error: invalid use of undefined type 'struct pkvm_sglist_page'
+      if (check_shl_overflow(PAGE_SIZE, sglist[p].order, &size)) {
+                                              ^
+   include/linux/overflow.h:200:9: note: in definition of macro 'check_shl_overflow'
+     typeof(s) _s = s;      \
+            ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2373:43: error: invalid use of undefined type 'struct pkvm_sglist_page'
+      if (check_shl_overflow(PAGE_SIZE, sglist[p].order, &size)) {
+                                              ^
+   include/linux/overflow.h:200:17: note: in definition of macro 'check_shl_overflow'
+     typeof(s) _s = s;      \
+                    ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2395:36: error: invalid use of undefined type 'struct pkvm_sglist_page'
+      size_t size = PAGE_SIZE << sglist[p].order;
+                                       ^
+   In file included from arch/arm64/kvm/hyp/include/nvhe/gfp.h:7,
+                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:18:
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2396:36: error: invalid use of undefined type 'struct pkvm_sglist_page'
+      u64 phys = hyp_pfn_to_phys(sglist[p].pfn);
+                                       ^
+   arch/arm64/kvm/hyp/include/nvhe/memory.h:79:46: note: in definition of macro 'hyp_pfn_to_phys'
+    #define hyp_pfn_to_phys(pfn) ((phys_addr_t)((pfn) << PAGE_SHIFT))
+                                                 ^~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2408:34: error: invalid use of undefined type 'struct pkvm_sglist_page'
+        phys = hyp_pfn_to_phys(sglist[p].pfn);
+                                     ^
+   arch/arm64/kvm/hyp/include/nvhe/memory.h:79:46: note: in definition of macro 'hyp_pfn_to_phys'
+    #define hyp_pfn_to_phys(pfn) ((phys_addr_t)((pfn) << PAGE_SHIFT))
+                                                 ^~~
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:2409:31: error: invalid use of undefined type 'struct pkvm_sglist_page'
+        size = PAGE_SIZE << sglist[p].order;
+                                  ^
+--
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:24:
+   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:49:42: warning: 'struct pkvm_sglist_page' declared inside parameter list will not be visible outside of this definition or declaration
+    int __pkvm_host_donate_sglist_hyp(struct pkvm_sglist_page *sglist, size_t nr_pages);
+                                             ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:25:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:36:6: warning: no previous prototype for 'module_handle_host_perm_fault' [-Wmissing-prototypes]
+    bool module_handle_host_perm_fault(struct user_pt_regs *regs, u64 esr, u64 addr) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:37:6: warning: no previous prototype for 'module_handle_host_smc' [-Wmissing-prototypes]
+    bool module_handle_host_smc(struct user_pt_regs *regs) { return false; }
+         ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/include/nvhe/modules.h:38:6: warning: no previous prototype for 'module_handle_guest_smc' [-Wmissing-prototypes]
+    bool module_handle_guest_smc(struct arm_smccc_1_2_regs *regs, struct arm_smccc_1_2_regs *res,
+         ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:77:6: warning: no previous prototype for '__pkvm_unmask_serror' [-Wmissing-prototypes]
+    void __pkvm_unmask_serror(void)
+         ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:22: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_WFx]  = handle_pvm_entry_wfx,
+                         ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:22: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_HVC64]  = handle_pvm_entry_hvc64,
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:24: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_SYS64]  = handle_pvm_entry_sys64,
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:24: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_pvm_entry_iabt,
+                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:27: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_pvm_entry_dabt,
+                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:27: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:22: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_WFx]  = handle_pvm_exit_wfx,
+                         ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:22: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_HVC64]  = handle_pvm_exit_hvc64,
+                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:24: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:24: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_SYS64]  = handle_pvm_exit_sys64,
+                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:24: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_pvm_exit_iabt,
+                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:27: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_pvm_exit_dabt,
+                              ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:27: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_IABT_LOW]  = handle_vm_exit_abt,
+                              ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:27: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:27: warning: initialized field overwritten [-Woverride-init]
+     [ESR_ELx_EC_DABT_LOW]  = handle_vm_exit_abt,
+                              ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:27: note: (near initialization for 'exit_hyp_vm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: In function 'handle_host_hcall':
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:1982:32: error: passing argument 1 of 'handle_host_dynamic_hcall' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
+                                   ^~~~~~~~~~~~~~~~
+   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:25:
+   arch/arm64/kvm/hyp/include/nvhe/modules.h:31:51: note: expected 'struct kvm_cpu_context *' but argument is of type 'struct user_pt_regs *'
+    handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
+                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +247 drivers/net/wireless/ralink/rt2x00/rt2800soc.c
+vim +/pkvm_enable_smc_forwarding +756 arch/arm64/kvm/pkvm.c
 
-   173	
-   174	static int rt2x00soc_probe(struct platform_device *pdev, const struct rt2x00_ops *ops)
-   175	{
-   176		struct ieee80211_hw *hw;
-   177		struct rt2x00_dev *rt2x00dev;
-   178		int retval;
-   179	
-   180		hw = ieee80211_alloc_hw(sizeof(struct rt2x00_dev), ops->hw);
-   181		if (!hw) {
-   182			rt2x00_probe_err("Failed to allocate hardware\n");
-   183			return -ENOMEM;
-   184		}
-   185	
-   186		platform_set_drvdata(pdev, hw);
-   187	
-   188		rt2x00dev = hw->priv;
-   189		rt2x00dev->dev = &pdev->dev;
-   190		rt2x00dev->ops = ops;
-   191		rt2x00dev->hw = hw;
-   192		rt2x00dev->irq = platform_get_irq(pdev, 0);
-   193		rt2x00dev->name = pdev->dev.driver->name;
-   194	
-   195		rt2x00dev->clk = clk_get(&pdev->dev, NULL);
-   196		if (IS_ERR(rt2x00dev->clk))
-   197			rt2x00dev->clk = NULL;
-   198	
-   199		rt2x00_set_chip_intf(rt2x00dev, RT2X00_CHIP_INTF_SOC);
-   200	
-   201		retval = rt2x00soc_alloc_reg(rt2x00dev);
-   202		if (retval)
-   203			goto exit_free_device;
-   204	
- > 205		retval = rt2x00lib_probe_dev(rt2x00dev);
-   206		if (retval)
-   207			goto exit_free_reg;
-   208	
-   209		return 0;
-   210	
-   211	exit_free_reg:
-   212		rt2x00soc_free_reg(rt2x00dev);
-   213	
-   214	exit_free_device:
-   215		ieee80211_free_hw(hw);
-   216	
-   217		return retval;
-   218	}
-   219	
-   220	static void rt2x00soc_remove(struct platform_device *pdev)
-   221	{
-   222		struct ieee80211_hw *hw = platform_get_drvdata(pdev);
-   223		struct rt2x00_dev *rt2x00dev = hw->priv;
-   224	
-   225		/*
-   226		 * Free all allocated data.
-   227		 */
- > 228		rt2x00lib_remove_dev(rt2x00dev);
-   229		rt2x00soc_free_reg(rt2x00dev);
-   230		ieee80211_free_hw(hw);
-   231	}
-   232	
-   233	#ifdef CONFIG_PM
-   234	static int rt2x00soc_suspend(struct platform_device *pdev, pm_message_t state)
-   235	{
-   236		struct ieee80211_hw *hw = platform_get_drvdata(pdev);
-   237		struct rt2x00_dev *rt2x00dev = hw->priv;
-   238	
- > 239		return rt2x00lib_suspend(rt2x00dev);
-   240	}
-   241	
-   242	static int rt2x00soc_resume(struct platform_device *pdev)
-   243	{
-   244		struct ieee80211_hw *hw = platform_get_drvdata(pdev);
-   245		struct rt2x00_dev *rt2x00dev = hw->priv;
-   246	
- > 247		return rt2x00lib_resume(rt2x00dev);
-   248	}
-   249	#endif /* CONFIG_PM */
-   250	
- > 251	static const struct ieee80211_ops rt2800soc_mac80211_ops = {
-   252		.add_chanctx = ieee80211_emulate_add_chanctx,
-   253		.remove_chanctx = ieee80211_emulate_remove_chanctx,
-   254		.change_chanctx = ieee80211_emulate_change_chanctx,
-   255		.switch_vif_chanctx = ieee80211_emulate_switch_vif_chanctx,
-   256		.tx			= rt2x00mac_tx,
-   257		.wake_tx_queue		= ieee80211_handle_wake_tx_queue,
-   258		.start			= rt2x00mac_start,
-   259		.stop			= rt2x00mac_stop,
-   260		.add_interface		= rt2x00mac_add_interface,
-   261		.remove_interface	= rt2x00mac_remove_interface,
-   262		.config			= rt2x00mac_config,
-   263		.configure_filter	= rt2x00mac_configure_filter,
-   264		.set_key		= rt2x00mac_set_key,
-   265		.sw_scan_start		= rt2x00mac_sw_scan_start,
-   266		.sw_scan_complete	= rt2x00mac_sw_scan_complete,
-   267		.get_stats		= rt2x00mac_get_stats,
-   268		.get_key_seq		= rt2800_get_key_seq,
-   269		.set_rts_threshold	= rt2800_set_rts_threshold,
-   270		.sta_add		= rt2800_sta_add,
-   271		.sta_remove		= rt2800_sta_remove,
-   272		.bss_info_changed	= rt2x00mac_bss_info_changed,
-   273		.conf_tx		= rt2800_conf_tx,
-   274		.get_tsf		= rt2800_get_tsf,
-   275		.rfkill_poll		= rt2x00mac_rfkill_poll,
-   276		.ampdu_action		= rt2800_ampdu_action,
-   277		.flush			= rt2x00mac_flush,
-   278		.get_survey		= rt2800_get_survey,
-   279		.get_ringparam		= rt2x00mac_get_ringparam,
-   280		.tx_frames_pending	= rt2x00mac_tx_frames_pending,
-   281		.reconfig_complete	= rt2x00mac_reconfig_complete,
-   282	};
-   283	
+   755	
+ > 756	int pkvm_enable_smc_forwarding(struct file *kvm_file)
+   757	{
+   758		struct kvm *host_kvm;
+   759	
+   760		if (!file_is_kvm(kvm_file))
+   761			return -EINVAL;
+   762	
+   763		if (!kvm_get_kvm_safe(kvm_file->private_data))
+   764			return -EINVAL;
+   765	
+   766		host_kvm = kvm_file->private_data;
+   767		if (!host_kvm)
+   768			return -EINVAL;
+   769	
+   770		host_kvm->arch.pkvm.smc_forwarded = true;
+   771	
+   772		return 0;
+   773	}
+   774	
 
 -- 
 0-DAY CI Kernel Test Service
