@@ -1,64 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A7921C195;
-	Fri, 15 Aug 2025 20:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1024EA8D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 20:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755288248; cv=none; b=MT83VmRL7YJxNT53B//zls0RTev9YM+oSdUDMjHUFBE4sVQmIahjNZgoSq2yv602dYWnRYcZGr5fHwoICFf/qfA1AkYAA8F5qoIOb4dPbdgCKQ+zKrmyk6DO5BNsZ4HYhXLjkuvKih63pKum5B9YatAPgqCuxen7Fa9dQ2glcnc=
+	t=1755288554; cv=none; b=laNmcyqi+PI6JJo2lFpBjZqSvKGv7TM5SHerOnPmrcOIHzIvMo9nklZg7nw5TWulOWxTTmmnVEfgj/FLktm3DAbnKINhCGGKPeZIDxQolfpcqfwsxKnjR2IL6c0ziP04C946Rep7nFLf8LL9iqPup3RvmYLk/IQSb8UYvbKnqCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755288248; c=relaxed/simple;
-	bh=KdoNFM0JyALmDBeXeK9bjvyngTHO5qk2sJ3MRHhIr5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e2KGvfEMNCBSwPhrQCwwdNKXDJ2LXzrjXSd/0il+YdWce6JrxYc4xM8tWNUlFL8IGUIwk+mPxPOV+tKEVXmR0ZRChBI2KRtpwberGPuAvR+I5D8X7m5Ha624454FaATMNvUdHqNlz6Uc+46G47GWrHi4+JufSFoea6/H3uVv+UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJb3AlOk; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755288554; c=relaxed/simple;
+	bh=/Wd3VWrcxK8FwJXvQ5m6mCq7KGk0k1mu0fT1fG6PFM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Lq3KpkJUbM1GbaXp2nq/YA1lvg92kl60XoFGjn3TaPgSVr18TLHhqCee1f2UZexOVQ+7dV6PDHD4yfOkdeXjDwMPgs++CiSGCjRnUyZDaOOnCYFw3NL77q/xktzZIVpeUC7eSmuErjVC+HOOhEKdTxPwtnDDuvlAIZjHEqIF/5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bQfsvmTI; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJb3AlOk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755288247; x=1786824247;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KdoNFM0JyALmDBeXeK9bjvyngTHO5qk2sJ3MRHhIr5Y=;
-  b=IJb3AlOkwuwTKo2lScWfnVce0Lqy6O0lB2Cr+LTB74a86UVpLM27/C0o
-   stH6XifF8Ezm2BreCe5VF4z0pP3h4vBbScP6QOrDb+YW4Ykg0zd0TwhGV
-   IkP6ZbdkdTPWS6IAyqlO4RGSXGqvnGXCoa+FKn2xyjaNl+8F6pQeYdwjM
-   Xay4SXTjdriMdwl+/wRIQzO3wbYSf3vz8qd3BcY4Az0D8vYP4FHrlW5nS
-   b6pa/7O4EHkWW6l1TuIA31mS0oel9Xois5NynKc+XXdhZCwKY8I+2sD8A
-   Cotzu+2FIjnBLRL2A6uwTreYJV4XOstgxTZZlYVmTAGfnWxZ33ob3M6fP
-   g==;
-X-CSE-ConnectionGUID: 3bJy63rUS/2Pijq7DOIG7Q==
-X-CSE-MsgGUID: olT3s80/Q1W+yuLZsczkUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57716991"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57716991"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 13:04:06 -0700
-X-CSE-ConnectionGUID: p62lv+19RGmetwWyYZhq1A==
-X-CSE-MsgGUID: ipz8qSBhSIme0DYb3mWaXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167048938"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 15 Aug 2025 13:04:02 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1un0eZ-000CIy-2g;
-	Fri, 15 Aug 2025 20:03:57 +0000
-Date: Sat, 16 Aug 2025 04:03:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kbusch@kernel.org,
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-	alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH 2/8] net/handshake: Make handshake_req_cancel public
-Message-ID: <202508160354.iNoLUr4h-lkp@intel.com>
-References: <20250815050210.1518439-3-alistair.francis@wdc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bQfsvmTI"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45a1b05a49cso14687425e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 13:09:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755288551; x=1755893351; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XC4l4mvdQjWt2PoJZYyU2f3QEIu7DJPU13DPmLDyyPM=;
+        b=bQfsvmTIEGe46YLVOChQONF8P4QkzaQS39FczQAYVDSr6XQIb5KGg6/4YN934OMUCF
+         iD5KRlDiy19ADKeSyZZ8JnvoquUO5ITu3EdXyief5MB9IlDzdWS/YTOR9brf1T35JcPI
+         dimGsqMvEIj34+1BnfpzBo24g5nzYmoIG0ivYNpwqDMYLCQgn7UDHp31KEcbwieRL6/Y
+         V2Bj8eGlLuJtqH81f+aYqmqOh6YWwLS+x1/yGa9kngZjWogNNYUoM2Lo4S/4uGOb/DIR
+         6F6wOUaPCFlrG+UxVr/EUXXv8XcxDe6j3QCBqPirYNGBIptME6XwWGHyC0R2zeaei6JM
+         JHQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755288551; x=1755893351;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XC4l4mvdQjWt2PoJZYyU2f3QEIu7DJPU13DPmLDyyPM=;
+        b=ZfdyowiuNGOXHDibMDWc0ZWhVzJW3Hy2TjV9vMJ/lqZw9XaplXwg1bmsOLvRxOuqgJ
+         GXuNaJA+EzaQ3wRmoeUd/L+6WfqY1zZW1GdI2x7K8yhsX5Eyh6TXSYw1R9OKHcSAgWYl
+         LdD1Yl7ceVF2embG7FZY6w3j5OL4Qq4hk3BW2BNhx8kAnwPfS3YY8w2j434inzpKxAOu
+         Dy7aJ8hFCjbnqu/vNBmnCU3xagaYlbfwOFMints3s1OMdGhCYPUaMmF/yaReCRaDX2dn
+         XG6SURkkcFg21ZQc3TJW9lrnwPHMzkWRDlgJUJchEgPYzkycqvOe4G25LH+Qbae+6YOO
+         1WQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZd+lt75gBvxYmLbLIg+9VRKDcqLn8Vaq4GRD8hq2Tzphm7yQ5sLCN/4PVweOAZFNd4k8QCOlNM+x9xfDi@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgmSGqbfVVX+3mR2+MUAx2OZaSbKulbRrc2VP7mMFyYSns3h6p
+	xd0WA+mLWMxzVYsT2Vn7wGIzOa5uvU6Z4f7mkVLjTqot9CnVesRokIWmwYHGsf5CE6E=
+X-Gm-Gg: ASbGnctW1/8CZSxD7+MKqVponYFm7YbHiNxzDy53yez/0iiLA17dBd9IBbQ8B5lzEYe
+	X2A0EdrERpCA7sdtnuLy5Zp62nqJxtz7xwQUw1yvEjXuJ9f3wA5VLYFymjAXwTZwq5AnvMHjYII
+	H1TrOQ94EGKJdmJAiL7NyXLn7LP2AP4bf8b1v6Fg/dW51viDuHaJjFMUFy4Zt22l6DBRwQOEGAz
+	iM9AIYye1zas7L5ZON1y3h0mTzv3dM0WLPe4fjwWRF3Fu9tooG1rpwK8RyxHjP+3xL5MMuBOCAj
+	uLJBzZa5++tv+bZIj1J4uTwZ7gp8wj9iQUlcYbzSDm7QydqJH4m5BogyPr/yssE+5KbULwCTlmX
+	LzA5boCFAzfKqAEDiBCSDxXvYnDQrDodYn2suzRZZp51UB+0KUKGLsQ==
+X-Google-Smtp-Source: AGHT+IGhuVTiJcVFFUbkMVwzNjTaUppuw+1a82sarMkViJSYWfUMqP33QuclrNy9kxu30LwUrpEXkQ==
+X-Received: by 2002:a05:600c:3596:b0:458:add2:d4b4 with SMTP id 5b1f17b1804b1-45a21803ebdmr32166485e9.12.1755288549720;
+        Fri, 15 Aug 2025 13:09:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb68079336sm2955638f8f.53.2025.08.15.13.09.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 13:09:09 -0700 (PDT)
+Date: Fri, 15 Aug 2025 23:09:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Gustavo Sousa <gustavo.sousa@intel.com>
+Subject: [drm-i915:for-linux-next 11/18]
+ drivers/gpu/drm/i915/i915_switcheroo.c:21 i915_switcheroo_set_state() warn:
+ variable dereferenced before check 'i915' (see line 18)
+Message-ID: <202508160035.hmzuKiww-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,60 +73,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250815050210.1518439-3-alistair.francis@wdc.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on net/main net-next/main linus/master linux-nvme/for-next v6.17-rc1 next-20250815]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20250815-130804
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250815050210.1518439-3-alistair.francis%40wdc.com
-patch subject: [PATCH 2/8] net/handshake: Make handshake_req_cancel public
-config: arm-mps2_defconfig (https://download.01.org/0day-ci/archive/20250816/202508160354.iNoLUr4h-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160354.iNoLUr4h-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/i915/kernel for-linux-next
+head:   63e0b17ae79a4365e874d7e2ff3816db2e6d55b5
+commit: d2e184f8e16ab85876ddcc0779358fbfe5162414 [11/18] drm/i915/switcheroo: pass display to HAS_DISPLAY()
+config: i386-randconfig-141-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160035.hmzuKiww-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508160354.iNoLUr4h-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508160035.hmzuKiww-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/i915/i915_switcheroo.c:21 i915_switcheroo_set_state() warn: variable dereferenced before check 'i915' (see line 18)
+drivers/gpu/drm/i915/i915_switcheroo.c:55 i915_switcheroo_can_switch() warn: variable dereferenced before check 'i915' (see line 48)
 
->> net/handshake/request.c:312:6: warning: no previous prototype for function 'handshake_req_cancel' [-Wmissing-prototypes]
-     312 | bool handshake_req_cancel(struct sock *sk)
-         |      ^
-   net/handshake/request.c:312:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     312 | bool handshake_req_cancel(struct sock *sk)
-         | ^
-         | static 
-   1 warning generated.
+vim +/i915 +21 drivers/gpu/drm/i915/i915_switcheroo.c
 
+63bf8301aac492 Jani Nikula       2019-10-04  14  static void i915_switcheroo_set_state(struct pci_dev *pdev,
+63bf8301aac492 Jani Nikula       2019-10-04  15  				      enum vga_switcheroo_state state)
+63bf8301aac492 Jani Nikula       2019-10-04  16  {
+63bf8301aac492 Jani Nikula       2019-10-04  17  	struct drm_i915_private *i915 = pdev_to_i915(pdev);
+d2e184f8e16ab8 Jani Nikula       2025-08-06 @18  	struct intel_display *display = i915->display;
+                                                                                        ^^^^^^^^^^^^^
+Patch adds a dereference
 
-vim +/handshake_req_cancel +312 net/handshake/request.c
+63bf8301aac492 Jani Nikula       2019-10-04  19  	pm_message_t pmm = { .event = PM_EVENT_SUSPEND };
+63bf8301aac492 Jani Nikula       2019-10-04  20  
+63bf8301aac492 Jani Nikula       2019-10-04 @21  	if (!i915) {
+                                                            ^^^^^
+Checked too late.
 
-3b3009ea8abb71 Chuck Lever 2023-04-17  300  
-3b3009ea8abb71 Chuck Lever 2023-04-17  301  /**
-3b3009ea8abb71 Chuck Lever 2023-04-17  302   * handshake_req_cancel - Cancel an in-progress handshake
-3b3009ea8abb71 Chuck Lever 2023-04-17  303   * @sk: socket on which there is an ongoing handshake
-3b3009ea8abb71 Chuck Lever 2023-04-17  304   *
-3b3009ea8abb71 Chuck Lever 2023-04-17  305   * Request cancellation races with request completion. To determine
-3b3009ea8abb71 Chuck Lever 2023-04-17  306   * who won, callers examine the return value from this function.
-3b3009ea8abb71 Chuck Lever 2023-04-17  307   *
-3b3009ea8abb71 Chuck Lever 2023-04-17  308   * Return values:
-3b3009ea8abb71 Chuck Lever 2023-04-17  309   *   %true - Uncompleted handshake request was canceled
-3b3009ea8abb71 Chuck Lever 2023-04-17  310   *   %false - Handshake request already completed or not found
-3b3009ea8abb71 Chuck Lever 2023-04-17  311   */
-3b3009ea8abb71 Chuck Lever 2023-04-17 @312  bool handshake_req_cancel(struct sock *sk)
+63bf8301aac492 Jani Nikula       2019-10-04  22  		dev_err(&pdev->dev, "DRM not initialized, aborting switch.\n");
+63bf8301aac492 Jani Nikula       2019-10-04  23  		return;
+63bf8301aac492 Jani Nikula       2019-10-04  24  	}
+d2e184f8e16ab8 Jani Nikula       2025-08-06  25  	if (!HAS_DISPLAY(display)) {
+a273e95721e968 Thomas Zimmermann 2023-01-16  26  		dev_err(&pdev->dev, "Device state not initialized, aborting switch.\n");
+a273e95721e968 Thomas Zimmermann 2023-01-16  27  		return;
+a273e95721e968 Thomas Zimmermann 2023-01-16  28  	}
+63bf8301aac492 Jani Nikula       2019-10-04  29  
+63bf8301aac492 Jani Nikula       2019-10-04  30  	if (state == VGA_SWITCHEROO_ON) {
+f54efb6ad03322 Jani Nikula       2020-04-02  31  		drm_info(&i915->drm, "switched on\n");
+63bf8301aac492 Jani Nikula       2019-10-04  32  		i915->drm.switch_power_state = DRM_SWITCH_POWER_CHANGING;
+63bf8301aac492 Jani Nikula       2019-10-04  33  		/* i915 resume handler doesn't set to D0 */
+63bf8301aac492 Jani Nikula       2019-10-04  34  		pci_set_power_state(pdev, PCI_D0);
+b8d65b8a5aea33 Jani Nikula       2021-11-11  35  		i915_driver_resume_switcheroo(i915);
+63bf8301aac492 Jani Nikula       2019-10-04  36  		i915->drm.switch_power_state = DRM_SWITCH_POWER_ON;
+63bf8301aac492 Jani Nikula       2019-10-04  37  	} else {
+f54efb6ad03322 Jani Nikula       2020-04-02  38  		drm_info(&i915->drm, "switched off\n");
+63bf8301aac492 Jani Nikula       2019-10-04  39  		i915->drm.switch_power_state = DRM_SWITCH_POWER_CHANGING;
+b8d65b8a5aea33 Jani Nikula       2021-11-11  40  		i915_driver_suspend_switcheroo(i915, pmm);
+63bf8301aac492 Jani Nikula       2019-10-04  41  		i915->drm.switch_power_state = DRM_SWITCH_POWER_OFF;
+63bf8301aac492 Jani Nikula       2019-10-04  42  	}
+63bf8301aac492 Jani Nikula       2019-10-04  43  }
+63bf8301aac492 Jani Nikula       2019-10-04  44  
+63bf8301aac492 Jani Nikula       2019-10-04  45  static bool i915_switcheroo_can_switch(struct pci_dev *pdev)
+63bf8301aac492 Jani Nikula       2019-10-04  46  {
+63bf8301aac492 Jani Nikula       2019-10-04  47  	struct drm_i915_private *i915 = pdev_to_i915(pdev);
+d2e184f8e16ab8 Jani Nikula       2025-08-06 @48  	struct intel_display *display = i915->display;
+                                                                                        ^^^^^^^^^^^^^
+Dereference
+
+63bf8301aac492 Jani Nikula       2019-10-04  49  
+63bf8301aac492 Jani Nikula       2019-10-04  50  	/*
+63bf8301aac492 Jani Nikula       2019-10-04  51  	 * FIXME: open_count is protected by drm_global_mutex but that would lead to
+63bf8301aac492 Jani Nikula       2019-10-04  52  	 * locking inversion with the driver load path. And the access here is
+63bf8301aac492 Jani Nikula       2019-10-04  53  	 * completely racy anyway. So don't bother with locking for now.
+63bf8301aac492 Jani Nikula       2019-10-04  54  	 */
+d2e184f8e16ab8 Jani Nikula       2025-08-06 @55  	return i915 && HAS_DISPLAY(display) && atomic_read(&i915->drm.open_count) == 0;
+                                                               ^^^^
+The old code assumed that i915 could be NULL.
+
+63bf8301aac492 Jani Nikula       2019-10-04  56  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
