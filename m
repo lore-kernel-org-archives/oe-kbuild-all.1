@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE978227B9F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63701DFE0B;
+	Fri, 15 Aug 2025 16:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755273505; cv=none; b=KpTX9QKvgQ3Avzfim4izAv6aOmOn+qIWQv2j7zcWHox4th2dvlaH0U140kb4r9D/pOKlKyjy5ymAviVeg9d6GD4GQxdXhpQKgwDOniFSWzzbJXHdP4PxdKnaKMHVYNtaKg8R/olkP7OV6wHbgZ+LYRUJJ0CYdTNrgIRNOWrWBVs=
+	t=1755275335; cv=none; b=aBZ26C+Bz/Gch+Np3vbKGwySyMtAkwLE6WXKEKtmbQ2x3g434hLIliLTDv3B/t5q2DPSSNW+ZG2Ur870FrcO5rVGSNYbs+fdN+B8jD+Mypoxl3zEke2+DjBxiXlWPzvr81hwj7x5UCwDBdAdTVCYcbNY9RfythQfeZHiymf5O2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755273505; c=relaxed/simple;
-	bh=XQ/iFyHNMkCWYZKS+i71kLZ1Op99/vqT1IDBTAnWRQs=;
+	s=arc-20240116; t=1755275335; c=relaxed/simple;
+	bh=j3856BigBgLUANAmyzUYbpW2sqlTdCYRbnaDKaDtuZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=id8Ev0Z7BoKFFuirF0SUHphKylV+7zgfZ/EGslFQuvLufd98TUs6oWc4D0qnqMpe/rHNNL0qb3FL3pBhHJyzb3IpE0oVwGCZu4Z4YQp8i0T0cQ5FkfBLWLwLmdWvJPjZPjFJr07cBfHJAWFxp0FerwUoDVPbXsVRBBYU0bLDpbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQe4FcUg; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=KrHuZrrw71z2q5hlh9P5XFTQLSwJ8B5ugPDD6MXUSTsUemzJvvtwadrXGtgL/8r1gtJ/ZwER3NkPWE0+3LskOviXfWe/99Y5zOMqi0DgfoaRv5AE/WMY83WLrAQAbJSXxx7KumK+FZOhhJsH5Zis3p3v+3gvFlnl9d+fZnUZMiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHy4kDBc; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQe4FcUg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHy4kDBc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755273504; x=1786809504;
+  t=1755275334; x=1786811334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XQ/iFyHNMkCWYZKS+i71kLZ1Op99/vqT1IDBTAnWRQs=;
-  b=IQe4FcUg9zVsZnq0siTKbs6VdJvyWp0ywRD6QbDsHa3uW4InO8jnW47s
-   4nWHAAatifJ6LH0XVYPuV5zQoZ+OVLQlXiBZoKxIyej2go0293+Z+zkWh
-   Sxunc8ofcuotRnp0rxCIj9MlVGEDz+F4kwriCGnr7I+d8/tOUbcKleEF3
-   A5XIQDHD2ldUlFMBNrkME+7toY6KU2H6TYccvfkNRf0ri0FU79lWIJi02
-   UW82THbWagGzRcIhyAxFJdu3MJkF9TyXd5zNrbGjdw75jAvos2EQAhd0a
-   QjiuiG6u+f9givuU3SUIgbrULXNsdNbvncytiXYigfEcvGsVl7Y5fBjmb
+  bh=j3856BigBgLUANAmyzUYbpW2sqlTdCYRbnaDKaDtuZE=;
+  b=AHy4kDBcjngjtZRU3qSTuaCu056bTmEMy7NT8Jm5Boq128nAUvCbxYbE
+   TSGyoCUtNSRCBkifSBa8dXlrgmwn3HmZrEP0teSaJHIqUngyICKvG/n1o
+   xvUDnVSadnBEn9rB9piQ9S3aZe1WOyi9wSNW3BVqYNF4S/pTA7TzkBBIn
+   Qa6yxj471LxX64cCTBSlVBJaC2iF29nDROweJupkOgRRC6A2ML9Rvc+u7
+   fY9sgQ2ahRnATC2ceRytg/vbWaoYqI7eTOkig4GB+sT4Lrs2dsj5VDgOE
+   qSD4ddCi4pK3TbN2iCasRWhNOemFoYatjooT7JGcoGlpvCW9+BsdodPeK
    Q==;
-X-CSE-ConnectionGUID: dYsB8S+3R4qnBUS0w2B/CQ==
-X-CSE-MsgGUID: yLQcW0CRQSmrUZXAbtfJKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="75044681"
-X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="75044681"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 08:58:24 -0700
-X-CSE-ConnectionGUID: Md17WAtES9WNkMa1DHWhhQ==
-X-CSE-MsgGUID: ekloOqS6TTyXCQStpHndeQ==
+X-CSE-ConnectionGUID: Miilr1BbS2Cz2XUALyGWAQ==
+X-CSE-MsgGUID: aKK/lIsMSTSS/tzaD5lTUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57508220"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="57508220"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 09:28:53 -0700
+X-CSE-ConnectionGUID: XxoD0pLJR6KHBjNY1tr6MQ==
+X-CSE-MsgGUID: X9NPm4lnQQ6lNmH2dg31xw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="167294115"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="204225110"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Aug 2025 08:58:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Aug 2025 09:28:52 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umwoV-000C5C-1G;
-	Fri, 15 Aug 2025 15:58:00 +0000
-Date: Fri, 15 Aug 2025 23:56:01 +0800
+	id 1umxIO-000C7U-2A;
+	Fri, 15 Aug 2025 16:28:48 +0000
+Date: Sat, 16 Aug 2025 00:28:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2680/2680]
- drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype
- for function 'ps3_hba_qos_waitq_poll'
-Message-ID: <202508152350.rU9jJByp-lkp@intel.com>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: [brauner-github:vfs-6.18.iomap 1/1] fs/iomap/direct-io.c:281:29:
+ error: call to undeclared function 'largest_zero_folio'; ISO C99 and later
+ do not support implicit function declarations
+Message-ID: <202508160053.vMCqzF47-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,214 +66,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi openeuler-ci-bot,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   54d96ebb93c9ff0573fe16586a47778ebe26de32
-commit: 663a9a1c191fd26f1d8cb44edb6e0e50dd0536b2 [2680/2680] !14287 [OLK-6.6] SCSI: Support Linkdata HBA/RAID Controllers
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508152350.rU9jJByp-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508152350.rU9jJByp-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git vfs-6.18.iomap
+head:   5589673e8d8d31ff2cec82181676c510e5afdb8d
+commit: 5589673e8d8d31ff2cec82181676c510e5afdb8d [1/1] iomap: use largest_zero_folio() in iomap_dio_zero()
+config: hexagon-randconfig-001-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160053.vMCqzF47-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160053.vMCqzF47-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508152350.rU9jJByp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160053.vMCqzF47-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for function 'ps3_qos_cmd_waitq_get' [-Werror,-Wmissing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:210:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     210 | struct qos_wait_queue *
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for function 'ps3_qos_vd_cmdword_get' [-Werror,-Wmissing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for function 'ps3_qos_exclusive_cmdword_get' [-Werror,-Wmissing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for function 'ps3_qos_tg_decision' [-Werror,-Wmissing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for function 'ps3_qos_all_pd_rc_get' [-Werror,-Wmissing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clean' [-Werror,-Wmissing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for function 'ps3_qos_pd_waitq_ratio_update' [-Werror,-Wmissing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for function 'ps3_hba_qos_decision' [-Werror,-Wmissing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for function 'ps3_hba_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for function 'ps3_cmd_waitq_abort' [-Werror,-Wmissing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for function 'ps3_hba_qos_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for function 'ps3_hba_qos_vd_init' [-Werror,-Wmissing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for function 'ps3_hba_qos_vd_reset' [-Werror,-Wmissing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for function 'ps3_hba_qos_waitq_poll' [-Werror,-Wmissing-prototypes]
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for function 'ps3_raid_qos_decision' [-Werror,-Wmissing-prototypes]
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for function 'ps3_qos_mgrq_resend' [-Werror,-Wmissing-prototypes]
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for function 'ps3_raid_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for function 'ps3_raid_qos_waitq_abort' [-Werror,-Wmissing-prototypes]
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
---
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1958:1: error: unused function 'ps3_scsih_dev_id_get' [-Werror,-Wunused-function]
-    1958 | ps3_scsih_dev_id_get(const struct scsi_cmnd *s_cmd)
-         | ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:21:27: error: unused variable 'PS3_INTERRUPT_CMD_DISABLE_ALL_MASK' [-Werror,-Wunused-const-variable]
-      21 | static const unsigned int PS3_INTERRUPT_CMD_DISABLE_ALL_MASK = 0x02;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:22:27: error: unused variable 'PS3_INTERRUPT_CMD_ENABLE_MSIX' [-Werror,-Wunused-const-variable]
-      22 | static const unsigned int PS3_INTERRUPT_CMD_ENABLE_MSIX = 0x01;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:23:27: error: unused variable 'PS3_INTERRUPT_MASK_DISABLE' [-Werror,-Wunused-const-variable]
-      23 | static const unsigned int PS3_INTERRUPT_MASK_DISABLE = 0x00000002;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:24:27: error: unused variable 'PS3_INTERRUPT_STATUS_EXIST_IRQ' [-Werror,-Wunused-const-variable]
-      24 | static const unsigned int PS3_INTERRUPT_STATUS_EXIST_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:25:27: error: unused variable 'PS3_INTERRUPT_CLEAR_IRQ' [-Werror,-Wunused-const-variable]
-      25 | static const unsigned int PS3_INTERRUPT_CLEAR_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:27:27: error: unused variable 'PS3_SSD_IOPS_MSIX_VECTORS' [-Werror,-Wunused-const-variable]
-      27 | static const unsigned int PS3_SSD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:28:27: error: unused variable 'PS3_HDD_IOPS_MSIX_VECTORS' [-Werror,-Wunused-const-variable]
-      28 | static const unsigned int PS3_HDD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   7 errors generated.
---
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_driver_log.c:41:19: error: unused function 'time_for_log' [-Werror,-Wunused-function]
-      41 | static inline int time_for_log(char *buff, int buf_len)
-         |                   ^~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_driver_log.c:65:19: error: unused function 'time_for_file_name' [-Werror,-Wunused-function]
-      65 | static inline int time_for_file_name(char *buff, int buf_len)
-         |                   ^~~~~~~~~~~~~~~~~~
+>> fs/iomap/direct-io.c:281:29: error: call to undeclared function 'largest_zero_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     281 |         struct folio *zero_folio = largest_zero_folio();
+         |                                    ^
+   fs/iomap/direct-io.c:281:29: note: did you mean 'is_zero_folio'?
+   include/linux/mm.h:1926:20: note: 'is_zero_folio' declared here
+    1926 | static inline bool is_zero_folio(const struct folio *folio)
+         |                    ^
+>> fs/iomap/direct-io.c:281:16: error: incompatible integer to pointer conversion initializing 'struct folio *' with an expression of type 'int' [-Wint-conversion]
+     281 |         struct folio *zero_folio = largest_zero_folio();
+         |                       ^            ~~~~~~~~~~~~~~~~~~~~
    2 errors generated.
 
 
-vim +/ps3_hba_qos_waitq_poll +3023 drivers/scsi/linkdata/ps3stor/ps3_qos.c
+vim +/largest_zero_folio +281 fs/iomap/direct-io.c
 
-97a2bb6ece556f liujie_answer 2024-12-24  3022  
-97a2bb6ece556f liujie_answer 2024-12-24 @3023  void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-97a2bb6ece556f liujie_answer 2024-12-24  3024  {
-97a2bb6ece556f liujie_answer 2024-12-24  3025  	if (!ps3_qos_tg_notify_timeout(instance)) {
-97a2bb6ece556f liujie_answer 2024-12-24  3026  		if (!ps3_qos_vd_notify_timeout(instance))
-97a2bb6ece556f liujie_answer 2024-12-24  3027  			ps3_qos_pd_notify_timeout(instance);
-97a2bb6ece556f liujie_answer 2024-12-24  3028  	}
-97a2bb6ece556f liujie_answer 2024-12-24  3029  }
-97a2bb6ece556f liujie_answer 2024-12-24  3030  
-
-:::::: The code at line 3023 was first introduced by commit
-:::::: 97a2bb6ece556f3882263ee8df2b77f10c511311 SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
-
-:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
-:::::: CC: liujie_answer <liujie5@linkdatatechnology.com>
+   275	
+   276	static int iomap_dio_zero(const struct iomap_iter *iter, struct iomap_dio *dio,
+   277			loff_t pos, unsigned len)
+   278	{
+   279		struct inode *inode = file_inode(dio->iocb->ki_filp);
+   280		struct bio *bio;
+ > 281		struct folio *zero_folio = largest_zero_folio();
+   282		int nr_vecs = max(1, i_blocksize(inode) / folio_size(zero_folio));
+   283	
+   284		if (!len)
+   285			return 0;
+   286	
+   287		/*
+   288		 * This limit shall never be reached as most filesystems have a
+   289		 * maximum blocksize of 64k.
+   290		 */
+   291		if (WARN_ON_ONCE(nr_vecs > BIO_MAX_VECS))
+   292			return -EINVAL;
+   293	
+   294		bio = iomap_dio_alloc_bio(iter, dio, nr_vecs,
+   295					  REQ_OP_WRITE | REQ_SYNC | REQ_IDLE);
+   296		fscrypt_set_bio_crypt_ctx(bio, inode, pos >> inode->i_blkbits,
+   297					  GFP_KERNEL);
+   298		bio->bi_iter.bi_sector = iomap_sector(&iter->iomap, pos);
+   299		bio->bi_private = dio;
+   300		bio->bi_end_io = iomap_dio_bio_end_io;
+   301	
+   302		while (len > 0) {
+   303			unsigned int io_len = min(len, folio_size(zero_folio));
+   304	
+   305			bio_add_folio_nofail(bio, zero_folio, io_len, 0);
+   306			len -= io_len;
+   307		}
+   308		iomap_dio_submit_bio(iter, dio, bio, pos);
+   309	
+   310		return 0;
+   311	}
+   312	
 
 -- 
 0-DAY CI Kernel Test Service
