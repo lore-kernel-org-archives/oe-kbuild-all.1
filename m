@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926AC28399
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 22:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3CC241679
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 22:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755295878; cv=none; b=QSDUoqM4fZR+WKzKPq42ULouUE90Vc78hXhdFB1hQ2E/kBRVXG1syVHDm2loVtBI9izUGG9RpWyfJwTP7lyHGOmUVSW2mRlXvQ0b3zdlQVc5e4nVOVm0qqCvJpsDEXt3TrBRHcRVK14GyfXLYEmprboUcukWsvK1zUQE4+I71NU=
+	t=1755296538; cv=none; b=bnfHAfFuMsnZoa1Vh1lZZRo1knXqThOypzUhF3gO+KYPgARB7g/46gCabCSpPCvud1yNiQQ94Wd/ihbDJJ3XmcQGGBHO9A0bGf1Ag8wDq4T9mBTTLFiDGFYsEeqhHJd0u/niXS/fLTJpOjmChPuHE5qmCh3K6ro7OE7UkA7y97c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755295878; c=relaxed/simple;
-	bh=N+WrTNcHQ0P5ti7vUtV5WQ78Ecbx58aCD+fTlR+qbaE=;
+	s=arc-20240116; t=1755296538; c=relaxed/simple;
+	bh=TeEGfSKzr+KmtWRzPC6KJMmkfkypd4UeCO1XCcPIS0I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ewoSIC8zScuXloNzQ1aPeHCCIVkH6Fx/Ncrgi1bXBx4smW2MCGu8ENg2y4tBV3iaEwcRp9iHSM3D4ql0K2kODm/KRE0oZsWpzO0xyRAGCdB2OffOcjwjhYURRZTmfL21jZgZXOaeYvN0VRD2ShPpuRMWW2CqrIYmIb/SUdX/iIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nRmwO4hP; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=AnY4OsscnWyMiatBuuUE27UzcW8dzuHPfjCSixEYSiJikQ1L08fL/kIAYaB3dOKFn3l8xQeft/1Z1kekRw1URrbpgLySF/9hPThSQ9NbnGuJoX1Fl63I9mRorV0qUMkkZEqtcV5kAYvPyB+WpViSeHJlkMhxd757xHMANGwNj8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mdrqzUWQ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nRmwO4hP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mdrqzUWQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755295875; x=1786831875;
+  t=1755296537; x=1786832537;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N+WrTNcHQ0P5ti7vUtV5WQ78Ecbx58aCD+fTlR+qbaE=;
-  b=nRmwO4hPw4LvazZJYoAyBN7BMRXX34PxYfJUb3TGPVOfMD72dUubC2pL
-   /1Ea+vNEXvejAvbMAZ9FpPYD8zUZAZfu2pdCp5TgjQrdKvxjFURpdzCeS
-   tJNeped2dUXCgtNJmscrKpt43Fa5iRRmqDK+5GaV+J7RhK7u6PRG7xqLQ
-   NssYVQvOlytpDOb/wcFC/eAWTVcDEhcS43uXq1Kl3+XT3PusnZFatDSJw
-   1mE8T17fETY68uivHcteaOjOvRvbp/fWRLXiVipMnJqQCki8qeNVI/uNG
-   hRYvs43cf2VWcyUODIUjHqgVxBg74g2ofQb92b/3DJc3CZesGtaUMSKC9
-   A==;
-X-CSE-ConnectionGUID: UbbxkNKbTu+MwK8oxTMRKQ==
-X-CSE-MsgGUID: 846zFIq8Q5SSSgSbMuNv+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="80198197"
+  bh=TeEGfSKzr+KmtWRzPC6KJMmkfkypd4UeCO1XCcPIS0I=;
+  b=mdrqzUWQIyZKT6nm3UXPBm0sw7flez+7ay2NUS39cht0a06AxB/nhC+8
+   f3i4wjJPcFkuhPOgK3jNSF7DThQ7RQKDeWFpkmK7f7d+v4pAGyfnUc0q/
+   65gPErP9HYxOlRBhcB/5rVqCrqbcC5G6PgZsL59zeDuK095IoGYACBvi5
+   sfmhlsoROing9pojeCMZYKNGLjnfrjR/jq+Hkuw8H6Xn4O2+qKM2NGpb/
+   9VV4907Cu4823+5Y85wwlBddxvWrvLXbW2auiSRCz4FY1hrN4XF8ngEH3
+   y846vCgyCmWo0eG4WgCah6VPw0fefgR8JOBDe+q79IiFE9uumch4WNQwX
+   Q==;
+X-CSE-ConnectionGUID: QwVSDVY/Q1KsshUdyWdTug==
+X-CSE-MsgGUID: XfRqOE6vSYO/e+hhH42AFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="83047359"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="80198197"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 15:11:15 -0700
-X-CSE-ConnectionGUID: AEU7k+6mQ2CW/zkJJhxc7w==
-X-CSE-MsgGUID: C57F5CWpQ/OR0hCKf83UwQ==
+   d="scan'208";a="83047359"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 15:22:16 -0700
+X-CSE-ConnectionGUID: /lwnOXLbQCiOLdprM5CaVQ==
+X-CSE-MsgGUID: bJhFJxx/TVOjE9GhFE6p+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="171302577"
+   d="scan'208";a="171552395"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Aug 2025 15:11:14 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Aug 2025 15:22:15 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un2dj-000CO8-2b;
-	Fri, 15 Aug 2025 22:11:11 +0000
-Date: Sat, 16 Aug 2025 06:10:15 +0800
+	id 1un2oO-000COQ-35;
+	Fri, 15 Aug 2025 22:22:12 +0000
+Date: Sat, 16 Aug 2025 06:21:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:new 5/6] lib/group_cpus.c:151:26: warning: variable 'ncpus'
- is uninitialized when used here
-Message-ID: <202508160628.Zf1UaDDq-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2681/2681] kismet: WARNING: unmet direct
+ dependencies detected for PTP_1588_CLOCK when selected by SXE_VF
+Message-ID: <202508160631.1oinAOzI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,169 +62,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux new
-head:   4fc7e1084415908a0081790114aa1ad051a3d0ad
-commit: 0abf2932250e37f9522170b6458f134869f76039 [5/6] group_cpus: don't call cpumask_weight() prematurely
-config: riscv-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160628.Zf1UaDDq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160628.Zf1UaDDq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   54d96ebb93c9ff0573fe16586a47778ebe26de32
+commit: dd013ad487534c1838afc2f55efdb5daec15aace [2681/2681] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
+config: arm64-kismet-CONFIG_PTP_1588_CLOCK-CONFIG_SXE_VF-0-0 (https://download.01.org/0day-ci/archive/20250816/202508160631.1oinAOzI-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250816/202508160631.1oinAOzI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508160628.Zf1UaDDq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160631.1oinAOzI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> lib/group_cpus.c:151:26: warning: variable 'ncpus' is uninitialized when used here [-Wuninitialized]
-     151 |                 node_groups[n].ncpus = ncpus;
-         |                                        ^~~~~
-   lib/group_cpus.c:145:17: note: initialize the variable 'ncpus' to silence this warning
-     145 |                 unsigned ncpus;
-         |                               ^
-         |                                = 0
-   1 warning generated.
-
-
-vim +/ncpus +151 lib/group_cpus.c
-
-f7b3ea8cf72f3d Ming Lei   2022-12-27  116  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  117  /*
-f7b3ea8cf72f3d Ming Lei   2022-12-27  118   * Allocate group number for each node, so that for each node:
-f7b3ea8cf72f3d Ming Lei   2022-12-27  119   *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  120   * 1) the allocated number is >= 1
-f7b3ea8cf72f3d Ming Lei   2022-12-27  121   *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  122   * 2) the allocated number is <= active CPU number of this node
-f7b3ea8cf72f3d Ming Lei   2022-12-27  123   *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  124   * The actual allocated total groups may be less than @numgrps when
-f7b3ea8cf72f3d Ming Lei   2022-12-27  125   * active total CPU number is less than @numgrps.
-f7b3ea8cf72f3d Ming Lei   2022-12-27  126   *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  127   * Active CPUs means the CPUs in '@cpu_mask AND @node_to_cpumask[]'
-f7b3ea8cf72f3d Ming Lei   2022-12-27  128   * for each node.
-f7b3ea8cf72f3d Ming Lei   2022-12-27  129   */
-f7b3ea8cf72f3d Ming Lei   2022-12-27  130  static void alloc_nodes_groups(unsigned int numgrps,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  131  			       cpumask_var_t *node_to_cpumask,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  132  			       const struct cpumask *cpu_mask,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  133  			       const nodemask_t nodemsk,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  134  			       struct cpumask *nmsk,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  135  			       struct node_groups *node_groups)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  136  {
-f7b3ea8cf72f3d Ming Lei   2022-12-27  137  	unsigned n, remaining_ncpus = 0;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  138  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  139  	for (n = 0; n < nr_node_ids; n++) {
-f7b3ea8cf72f3d Ming Lei   2022-12-27  140  		node_groups[n].id = n;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  141  		node_groups[n].ncpus = UINT_MAX;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  142  	}
-f7b3ea8cf72f3d Ming Lei   2022-12-27  143  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  144  	for_each_node_mask(n, nodemsk) {
-f7b3ea8cf72f3d Ming Lei   2022-12-27  145  		unsigned ncpus;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  146  
-0abf2932250e37 Yury Norov 2025-08-14  147  		if (!cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]))
-f7b3ea8cf72f3d Ming Lei   2022-12-27  148  			continue;
-0abf2932250e37 Yury Norov 2025-08-14  149  
-0abf2932250e37 Yury Norov 2025-08-14  150  		remaining_ncpus += cpumask_weight(nmsk);
-f7b3ea8cf72f3d Ming Lei   2022-12-27 @151  		node_groups[n].ncpus = ncpus;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  152  	}
-f7b3ea8cf72f3d Ming Lei   2022-12-27  153  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  154  	numgrps = min_t(unsigned, remaining_ncpus, numgrps);
-f7b3ea8cf72f3d Ming Lei   2022-12-27  155  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  156  	sort(node_groups, nr_node_ids, sizeof(node_groups[0]),
-f7b3ea8cf72f3d Ming Lei   2022-12-27  157  	     ncpus_cmp_func, NULL);
-f7b3ea8cf72f3d Ming Lei   2022-12-27  158  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  159  	/*
-f7b3ea8cf72f3d Ming Lei   2022-12-27  160  	 * Allocate groups for each node according to the ratio of this
-f7b3ea8cf72f3d Ming Lei   2022-12-27  161  	 * node's nr_cpus to remaining un-assigned ncpus. 'numgrps' is
-f7b3ea8cf72f3d Ming Lei   2022-12-27  162  	 * bigger than number of active numa nodes. Always start the
-f7b3ea8cf72f3d Ming Lei   2022-12-27  163  	 * allocation from the node with minimized nr_cpus.
-f7b3ea8cf72f3d Ming Lei   2022-12-27  164  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  165  	 * This way guarantees that each active node gets allocated at
-f7b3ea8cf72f3d Ming Lei   2022-12-27  166  	 * least one group, and the theory is simple: over-allocation
-f7b3ea8cf72f3d Ming Lei   2022-12-27  167  	 * is only done when this node is assigned by one group, so
-f7b3ea8cf72f3d Ming Lei   2022-12-27  168  	 * other nodes will be allocated >= 1 groups, since 'numgrps' is
-f7b3ea8cf72f3d Ming Lei   2022-12-27  169  	 * bigger than number of numa nodes.
-f7b3ea8cf72f3d Ming Lei   2022-12-27  170  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  171  	 * One perfect invariant is that number of allocated groups for
-f7b3ea8cf72f3d Ming Lei   2022-12-27  172  	 * each node is <= CPU count of this node:
-f7b3ea8cf72f3d Ming Lei   2022-12-27  173  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  174  	 * 1) suppose there are two nodes: A and B
-f7b3ea8cf72f3d Ming Lei   2022-12-27  175  	 * 	ncpu(X) is CPU count of node X
-f7b3ea8cf72f3d Ming Lei   2022-12-27  176  	 * 	grps(X) is the group count allocated to node X via this
-f7b3ea8cf72f3d Ming Lei   2022-12-27  177  	 * 	algorithm
-f7b3ea8cf72f3d Ming Lei   2022-12-27  178  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  179  	 * 	ncpu(A) <= ncpu(B)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  180  	 * 	ncpu(A) + ncpu(B) = N
-f7b3ea8cf72f3d Ming Lei   2022-12-27  181  	 * 	grps(A) + grps(B) = G
-f7b3ea8cf72f3d Ming Lei   2022-12-27  182  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  183  	 * 	grps(A) = max(1, round_down(G * ncpu(A) / N))
-f7b3ea8cf72f3d Ming Lei   2022-12-27  184  	 * 	grps(B) = G - grps(A)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  185  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  186  	 * 	both N and G are integer, and 2 <= G <= N, suppose
-f7b3ea8cf72f3d Ming Lei   2022-12-27  187  	 * 	G = N - delta, and 0 <= delta <= N - 2
-f7b3ea8cf72f3d Ming Lei   2022-12-27  188  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  189  	 * 2) obviously grps(A) <= ncpu(A) because:
-f7b3ea8cf72f3d Ming Lei   2022-12-27  190  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  191  	 * 	if grps(A) is 1, then grps(A) <= ncpu(A) given
-f7b3ea8cf72f3d Ming Lei   2022-12-27  192  	 * 	ncpu(A) >= 1
-f7b3ea8cf72f3d Ming Lei   2022-12-27  193  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  194  	 * 	otherwise,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  195  	 * 		grps(A) <= G * ncpu(A) / N <= ncpu(A), given G <= N
-f7b3ea8cf72f3d Ming Lei   2022-12-27  196  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  197  	 * 3) prove how grps(B) <= ncpu(B):
-f7b3ea8cf72f3d Ming Lei   2022-12-27  198  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  199  	 * 	if round_down(G * ncpu(A) / N) == 0, vecs(B) won't be
-f7b3ea8cf72f3d Ming Lei   2022-12-27  200  	 * 	over-allocated, so grps(B) <= ncpu(B),
-f7b3ea8cf72f3d Ming Lei   2022-12-27  201  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  202  	 * 	otherwise:
-f7b3ea8cf72f3d Ming Lei   2022-12-27  203  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  204  	 * 	grps(A) =
-f7b3ea8cf72f3d Ming Lei   2022-12-27  205  	 * 		round_down(G * ncpu(A) / N) =
-f7b3ea8cf72f3d Ming Lei   2022-12-27  206  	 * 		round_down((N - delta) * ncpu(A) / N) =
-f7b3ea8cf72f3d Ming Lei   2022-12-27  207  	 * 		round_down((N * ncpu(A) - delta * ncpu(A)) / N)	 >=
-f7b3ea8cf72f3d Ming Lei   2022-12-27  208  	 * 		round_down((N * ncpu(A) - delta * N) / N)	 =
-f7b3ea8cf72f3d Ming Lei   2022-12-27  209  	 * 		cpu(A) - delta
-f7b3ea8cf72f3d Ming Lei   2022-12-27  210  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  211  	 * 	then:
-f7b3ea8cf72f3d Ming Lei   2022-12-27  212  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  213  	 * 	grps(A) - G >= ncpu(A) - delta - G
-f7b3ea8cf72f3d Ming Lei   2022-12-27  214  	 * 	=>
-f7b3ea8cf72f3d Ming Lei   2022-12-27  215  	 * 	G - grps(A) <= G + delta - ncpu(A)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  216  	 * 	=>
-f7b3ea8cf72f3d Ming Lei   2022-12-27  217  	 * 	grps(B) <= N - ncpu(A)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  218  	 * 	=>
-f7b3ea8cf72f3d Ming Lei   2022-12-27  219  	 * 	grps(B) <= cpu(B)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  220  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  221  	 * For nodes >= 3, it can be thought as one node and another big
-f7b3ea8cf72f3d Ming Lei   2022-12-27  222  	 * node given that is exactly what this algorithm is implemented,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  223  	 * and we always re-calculate 'remaining_ncpus' & 'numgrps', and
-f7b3ea8cf72f3d Ming Lei   2022-12-27  224  	 * finally for each node X: grps(X) <= ncpu(X).
-f7b3ea8cf72f3d Ming Lei   2022-12-27  225  	 *
-f7b3ea8cf72f3d Ming Lei   2022-12-27  226  	 */
-f7b3ea8cf72f3d Ming Lei   2022-12-27  227  	for (n = 0; n < nr_node_ids; n++) {
-f7b3ea8cf72f3d Ming Lei   2022-12-27  228  		unsigned ngroups, ncpus;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  229  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  230  		if (node_groups[n].ncpus == UINT_MAX)
-f7b3ea8cf72f3d Ming Lei   2022-12-27  231  			continue;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  232  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  233  		WARN_ON_ONCE(numgrps == 0);
-f7b3ea8cf72f3d Ming Lei   2022-12-27  234  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  235  		ncpus = node_groups[n].ncpus;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  236  		ngroups = max_t(unsigned, 1,
-f7b3ea8cf72f3d Ming Lei   2022-12-27  237  				 numgrps * ncpus / remaining_ncpus);
-f7b3ea8cf72f3d Ming Lei   2022-12-27  238  		WARN_ON_ONCE(ngroups > ncpus);
-f7b3ea8cf72f3d Ming Lei   2022-12-27  239  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  240  		node_groups[n].ngroups = ngroups;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  241  
-f7b3ea8cf72f3d Ming Lei   2022-12-27  242  		remaining_ncpus -= ncpus;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  243  		numgrps -= ngroups;
-f7b3ea8cf72f3d Ming Lei   2022-12-27  244  	}
-f7b3ea8cf72f3d Ming Lei   2022-12-27  245  }
-f7b3ea8cf72f3d Ming Lei   2022-12-27  246  
-
-:::::: The code at line 151 was first introduced by commit
-:::::: f7b3ea8cf72f3d6060fe08e461805181e7450a13 genirq/affinity: Move group_cpus_evenly() into lib/
-
-:::::: TO: Ming Lei <ming.lei@redhat.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK when selected by SXE_VF
+   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
+     Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
+     Selected by [y]:
+     - SXE_VF [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 || ARM64 [=y]) && PCI [=y]
+     Selected by [m]:
+     - SXE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 || ARM64 [=y]) && PCI [=y]
+   
+   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
+     Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
+     Selected by [y]:
+     - ARM64 [=y]
 
 -- 
 0-DAY CI Kernel Test Service
