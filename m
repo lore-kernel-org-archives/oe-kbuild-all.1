@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310E1266A7;
-	Fri, 15 Aug 2025 19:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FF913FEE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 19:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755286946; cv=none; b=dzP90QVsqXbnUFripgrOqxOi+SaS34K0TRsCmNbKPYoNKC+Nw7IpKnJNahkxvAAfTIu3BNn3iJcLHpsD+r8nUh9DrUQ2qZIcddml26bBxQeCH2K1zlkULlldFclhXes2He2WOyCKkaR9nVgp2ILhRW3hYAOQMksIp0OwY4R8Jzk=
+	t=1755287736; cv=none; b=jvfjE1mpEHvfM2JtqD3HfMfyosUmHy3ejiYyUn/yY1nEzJ8aou44rvyLs3dohfSfGH1wVNP0LD02azE3VTX2OOLgDJMmxHWWHFZNJBGsuSnn+nJHTigG/SaZAAd4lN4jJY2Dhkk7tIjLCMgGWh3b59zwWJOCBLVcYtYqAujzwj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755286946; c=relaxed/simple;
-	bh=YDsRt9bglz4Anx9o16eNjIEM/0DTi7m+ySfvYxn5EfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HnNk/pI/hxNqzyLCJPYwUG0CayQ6t72WGGcEB84Mx3mDf5WrXbl7YMS/aMZQyGoCcvx01Wj61sbzGsZ9SVgzPn4Z2rbPiUbGMSR3aks2KgBH8Y78TWULHzsCV9p/KhbHYikdrHIh7QyzaWVQ+tJ9XXNQRxtqNUJkYrRVdYKuhyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cuxGZJKM; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1755287736; c=relaxed/simple;
+	bh=ebzX6OeGgNPLX84H/SphJZXgNpMF7NbJZyVahdpPPlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=j44LXtH6e4D5Y7NdqP+SMEDlOJieRGQ6/qxptQ5Zz7o7BgngqZYLDHj4PvA6jH7j0bvY4AofEH5QGPoAb2dWt5v8OF6/nT5FQxuFRkDZTTnvTQ9naMSbCFWn4DiHIuWw0xD3Bjx1PSuLcQEJ4aL+JhByVb7zlE6s5NgKwf1wxSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ew9u5DQ0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cuxGZJKM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ew9u5DQ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755286946; x=1786822946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YDsRt9bglz4Anx9o16eNjIEM/0DTi7m+ySfvYxn5EfU=;
-  b=cuxGZJKMrqpxJUfXxHVMLZOS4uhGRJOvFuRyKS6tLyQXEp7lVsWTOW3y
-   Eo3zAEZiAQwsHUskXfCR0w1UjSZMdQqqhRSCTXoBeUS0XUgalexC47OA5
-   kZxHR1htHadSmU96K2BXHH1dM6hl5d2T0e5Th7U1SicaBONA5K0FTAtgE
-   ge6b+/IHgHxaQGmCU3r4J7jmeJjLEEG4J9qpqlsDFYE3ve8rLaE1x3i6y
-   WJVMe25r/+kNGCpVzYZKw/5SzGHCAiNUCRdElBqkOyHBkOmx+C1rUX3F5
-   qMGc/vCZq60hoPxhWlcfIcbuj4zu7bAz9e87aXME/6J+5eqGLnuYUtVwy
-   w==;
-X-CSE-ConnectionGUID: CuZfxgogTbei3VIG5yh0Yg==
-X-CSE-MsgGUID: m++0fQTrRWKKmAS1nlF5rA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57685498"
+  t=1755287734; x=1786823734;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ebzX6OeGgNPLX84H/SphJZXgNpMF7NbJZyVahdpPPlE=;
+  b=ew9u5DQ04KxAPkupfkbscj7UAjjTLxL1EbL8rXfK6UT5QBcrMvP/7h3A
+   u8oR9FEKh1G5+7KNue7pd+vSLFpCFgM5x+2glx/7IAEmTkk7cbdQ+8M6p
+   BbR++1faAFrsG8Obz+vnQcJc8eCPWFC40qZts2phnjP63HxqS4dmN17AM
+   fMUbXUKtOsNLHTyElcbJCU5V0QEfjkeXxGRwbjHqJ3jbL3YgE+WkAHS8d
+   FmEi38anCbqbctJAdcdTdQ7fUj8kVRNlIimk3qjemMOnbQLkgiFwRRSvc
+   9qcjeoe8CMm9+hSvOgKAaGMN0ZaF1aw2Cx3y+pjBV8e1ZM/LKM9Y+HGdD
+   A==;
+X-CSE-ConnectionGUID: r9nGfn9ZRJiCskx4TDp1Ug==
+X-CSE-MsgGUID: XGidn8hBQ8qUs5bcLjYw/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57326007"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57685498"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 12:42:25 -0700
-X-CSE-ConnectionGUID: 3A+4LzdVQeqfhJbHIKn5JQ==
-X-CSE-MsgGUID: 4y8wzIq5QBWJuYXceU6FTQ==
+   d="scan'208";a="57326007"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 12:55:30 -0700
+X-CSE-ConnectionGUID: KN5Y0V+mS+G6MSTzAkOKKw==
+X-CSE-MsgGUID: 5kLS2scpRL2ieX4xTtUvqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="197940588"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2025 12:42:23 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="167464362"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa009.fm.intel.com with ESMTP; 15 Aug 2025 12:55:29 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un0Jh-000CHo-12;
-	Fri, 15 Aug 2025 19:42:21 +0000
-Date: Sat, 16 Aug 2025 03:41:56 +0800
+	id 1un0WM-0000Zj-35;
+	Fri, 15 Aug 2025 19:55:26 +0000
+Date: Fri, 15 Aug 2025 21:54:26 +0200
 From: kernel test robot <lkp@intel.com>
-To: Raghavendra K T <raghavendra.kt@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH V3 03/17] mm: Scan the mm and create a migration list
-Message-ID: <202508160305.4N7h8utZ-lkp@intel.com>
-References: <20250814153307.1553061-4-raghavendra.kt@amd.com>
+To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3121/3121] arch/arm64/kvm/reset.c:102:20: error:
+ implicit declaration of function 'sve_max_virtualisable_vl'
+Message-ID: <202508152110.zhlXpUfJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,105 +61,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814153307.1553061-4-raghavendra.kt@amd.com>
 
-Hi Raghavendra,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 038d61fd642278bab63ee8ef722c50d10ab01e8f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raghavendra-K-T/mm-Add-kscand-kthread-for-PTE-A-bit-scan/20250814-233829
-base:   038d61fd642278bab63ee8ef722c50d10ab01e8f
-patch link:    https://lore.kernel.org/r/20250814153307.1553061-4-raghavendra.kt%40amd.com
-patch subject: [RFC PATCH V3 03/17] mm: Scan the mm and create a migration list
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250816/202508160305.4N7h8utZ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160305.4N7h8utZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ba1cb5cd91532ae2be2a0db5d153889580453f5f
+commit: 68da302c8ae30331c8917f1dc7b0f1682f696d71 [3121/3121] arm64/sve: Put system wide vector length information into structs
+config: arm64-randconfig-2001-20250814 (https://download.01.org/0day-ci/archive/20250815/202508152110.zhlXpUfJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508152110.zhlXpUfJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508160305.4N7h8utZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508152110.zhlXpUfJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/kscand.c:194:20: warning: variable 'mm' set but not used [-Wunused-but-set-variable]
-     194 |         struct mm_struct *mm;
-         |                           ^
-   1 warning generated.
+   arch/arm64/kvm/reset.c: In function 'kvm_arm_init_sve':
+>> arch/arm64/kvm/reset.c:102:20: error: implicit declaration of function 'sve_max_virtualisable_vl' [-Werror=implicit-function-declaration]
+      kvm_sve_max_vl = sve_max_virtualisable_vl();
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/mm +194 mm/kscand.c
+vim +/sve_max_virtualisable_vl +102 arch/arm64/kvm/reset.c
 
-   186	
-   187	static int hot_vma_idle_pte_entry(pte_t *pte,
-   188					 unsigned long addr,
-   189					 unsigned long next,
-   190					 struct mm_walk *walk)
-   191	{
-   192		struct page *page;
-   193		struct folio *folio;
- > 194		struct mm_struct *mm;
-   195		struct vm_area_struct *vma;
-   196		struct kscand_migrate_info *info;
-   197		struct kscand_scanctrl *scanctrl = walk->private;
-   198		int srcnid;
-   199	
-   200		scanctrl->address = addr;
-   201		pte_t pteval = ptep_get(pte);
-   202	
-   203		if (!pte_present(pteval))
-   204			return 0;
-   205	
-   206		if (pte_none(pteval))
-   207			return 0;
-   208	
-   209		vma = walk->vma;
-   210		mm = vma->vm_mm;
-   211	
-   212		page = pte_page(*pte);
-   213	
-   214	
-   215		folio = page_folio(page);
-   216		folio_get(folio);
-   217	
-   218		if (!is_valid_folio(folio)) {
-   219			folio_put(folio);
-   220			return 0;
-   221		}
-   222		folio_set_idle(folio);
-   223		page_idle_clear_pte_refs(page, pte, walk);
-   224		srcnid = folio_nid(folio);
-   225	
-   226	
-   227		if (!folio_test_lru(folio)) {
-   228			folio_put(folio);
-   229			return 0;
-   230		}
-   231	
-   232		if (!kscand_eligible_srcnid(srcnid)) {
-   233			folio_put(folio);
-   234			return 0;
-   235		}
-   236		if (!folio_test_idle(folio) &&
-   237			(folio_test_young(folio) || folio_test_referenced(folio))) {
-   238	
-   239			/* XXX: Leaking memory. TBD: consume info */
-   240	
-   241			info = kzalloc(sizeof(struct kscand_migrate_info), GFP_NOWAIT);
-   242			if (info && scanctrl) {
-   243				info->pfn = folio_pfn(folio);
-   244				info->address = addr;
-   245				list_add_tail(&info->migrate_node, &scanctrl->scan_list);
-   246			}
-   247		}
-   248	
-   249		folio_put(folio);
-   250		return 0;
-   251	}
-   252	
+    98	
+    99	int kvm_arm_init_sve(void)
+   100	{
+   101		if (system_supports_sve()) {
+ > 102			kvm_sve_max_vl = sve_max_virtualisable_vl();
+   103	
+   104			/*
+   105			 * The get_sve_reg()/set_sve_reg() ioctl interface will need
+   106			 * to be extended with multiple register slice support in
+   107			 * order to support vector lengths greater than
+   108			 * SVE_VL_ARCH_MAX:
+   109			 */
+   110			if (WARN_ON(kvm_sve_max_vl > SVE_VL_ARCH_MAX))
+   111				kvm_sve_max_vl = SVE_VL_ARCH_MAX;
+   112	
+   113			/*
+   114			 * Don't even try to make use of vector lengths that
+   115			 * aren't available on all CPUs, for now:
+   116			 */
+   117			if (kvm_sve_max_vl < sve_max_vl())
+   118				pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
+   119					kvm_sve_max_vl);
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
