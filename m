@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5080221FAE;
-	Fri, 15 Aug 2025 03:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95541922FB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 04:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755229767; cv=none; b=LA/vLiTU4CD7yjpQcx+PwlAwY2nZrMRFlyRZ8hQ1n7vu7IvnrSgxmVL2AhL4HN2TyU8C2KYETqDwFHuL5TaKISWVx/rdu6lM/MpO55m/u2H/mnCtoQNdlCHmgWNI1VcSmyiQvTraAIyCikEziHsSqu1/ZJG9sbg/tEOHbSNA/GM=
+	t=1755230419; cv=none; b=hIkr/VXjgsTVsAZ7oV7WIlEkrMH7w5QpAHPLGb4RyN5cZEK7lDMf1s3cHWI51DEXiy5qYAjhupuvemzcGwZJsq1ojd+isVol3BOehrxBXw8KiIlzDG5+oFJTByUGKWl/icCBMHFoFMK9PgIwajPa8e4L4/kbADCR0tScBIlzeHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755229767; c=relaxed/simple;
-	bh=l4iplhoglaXFKgg0/GPISAxQBnSA5jM1Eg/0eFalrP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C+KM7byDOuL4NhsVpiEJbQ83CxVV8tjKSoEUPKg1ge/m1MP4pFhYy8jvDmiFxZ40QeArf6S7klFORBPQdzdr4S9Oum9ZxiWM4eAF9E8YOmsAXGJvmHrmuJlfmogGz8Fw6Izjhp+oarJltMaFh1Ccj+T5F8Ncp5XLSM5L6XGs+NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6S6kN5w; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1755230419; c=relaxed/simple;
+	bh=Wxx5L2dbVxlj+9VvYgIg1CtgSCLKGLMSFDQRhJv3P/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eqO89reEGpY3hbERfM6iNtWx6mKywyZeqMjbNGnh/ajxvRUgC0r0/7/u1S2KHNVQU5DVhr8WBqHOKVS/ln+W5Xf6gvNiXjGkPebasivUFH9uZvkZOpc3tlR3rEc5NgsNshmUvTmxh1WqMuNS9L2vsRaxCx47AeQLfxTCp/SHWdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lh2d12Yo; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6S6kN5w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lh2d12Yo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755229765; x=1786765765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l4iplhoglaXFKgg0/GPISAxQBnSA5jM1Eg/0eFalrP0=;
-  b=b6S6kN5wB3VIB5WybdFdPUCCCJvk1G07EGnV2QypNVFwSZF81bO97scK
-   z6HL70N/VOzMntg/qGxDMzko7+iahMh+owwqTHq84W74EjQRuzMk8ztox
-   laRe9V4oG/JK4HjbYhBl0br62wy4DRZW2EHaU0wsRuZzrRssLBpep/scT
-   QXGFaxbFZ6hiwOWlJjhAB293OUIP+SRT3VAMeivHWT8BzAMONC7sCFGFU
-   ec0ghCsHzEZtmvJzZ90OhYsn+UuVGQeChbtr3Wz0jVMy+VkFCyZY1sC+a
-   na21gWIV+TFIQ1sRSPkbEWb9S4x1iwhH0Xz6f47AEio7+aBdYKgOJMzx2
-   g==;
-X-CSE-ConnectionGUID: VyTAVpPLTBKd85a/B9m0dQ==
-X-CSE-MsgGUID: NE7dfAvXR7ClcOpCD8tsJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="68642025"
+  t=1755230418; x=1786766418;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Wxx5L2dbVxlj+9VvYgIg1CtgSCLKGLMSFDQRhJv3P/0=;
+  b=Lh2d12Yoz8hA2l3cJ4UfStAbuWWAiwjJ3d31x+YXcmPTK5m8ItMSALYT
+   X6RZpetzQ/E9zzRbeMtpe6rpOgNTdA9qlLQL7t6tyAUc6DSTtNqBlyi7n
+   WUW5Xe3xbFbaIS8hODkoDU3eOFAfo95M/k1IGaMP66G8an+DTTW1mDdFD
+   RFaRCh02qdQrpAXZ7TvjJQvZobsd4bPyZjg4pdEyXKtEQ5oZrrUNBeCx9
+   PxxVDf5A/Yw3uswLwdjZS9G5vDnCeCiM88H9/LxyVIZMgUcrGHLPZscvq
+   n/oawTWZnrEvRUHCW7qB+jj9VV9xneidrjRUSYvP073Dpe4U8KGHieHfP
+   w==;
+X-CSE-ConnectionGUID: JntWZXWJTfGmUlDhBRyvzQ==
+X-CSE-MsgGUID: blxkmGSvTa2oDJc49gIPDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="75124777"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="68642025"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 20:49:25 -0700
-X-CSE-ConnectionGUID: EXUlgcz4QfeBkRBTKTot6g==
-X-CSE-MsgGUID: NmJGOVEjQqOMaByOkMKOkA==
+   d="scan'208";a="75124777"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 21:00:17 -0700
+X-CSE-ConnectionGUID: KbjBNDQ6THSG+NZHusvvXw==
+X-CSE-MsgGUID: X+WpeFpCT+GIWTfqUVnOXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="172257323"
+   d="scan'208";a="167186545"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 14 Aug 2025 20:49:24 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 Aug 2025 21:00:16 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umlRD-000BWS-1w;
-	Fri, 15 Aug 2025 03:49:11 +0000
-Date: Fri, 15 Aug 2025 11:47:50 +0800
+	id 1umlbs-000BWo-1F;
+	Fri, 15 Aug 2025 04:00:09 +0000
+Date: Fri, 15 Aug 2025 11:58:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>, netfilter-devel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Florian Westphal <fw@strlen.de>
-Subject: Re: [PATCH nf-next] netfilter: ctnetlink: remove refcounting in
- dying list dumping
-Message-ID: <202508151104.eDVcRAdD-lkp@intel.com>
-References: <20250814162307.26029-1-fw@strlen.de>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:new 4/5] lib/group_cpus.c:24:17: error: implicit declaration
+ of function 'for_each_cpu_and_andnot_from'; did you mean
+ 'for_each_cpu_andnot'?
+Message-ID: <202508151130.pQr7nUAl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +62,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814162307.26029-1-fw@strlen.de>
 
-Hi Florian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on linus/master v6.17-rc1 next-20250814]
-[cannot apply to nf-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-ctnetlink-remove-refcounting-in-dying-list-dumping/20250815-003116
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20250814162307.26029-1-fw%40strlen.de
-patch subject: [PATCH nf-next] netfilter: ctnetlink: remove refcounting in dying list dumping
-config: hexagon-randconfig-001-20250815 (https://download.01.org/0day-ci/archive/20250815/202508151104.eDVcRAdD-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151104.eDVcRAdD-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux new
+head:   27da1bc692ded269f7cd2aff5dc30a2d0ecc09e8
+commit: 76c06f98eb6ec33fd7bdfb7c08a2a7a9907d23e2 [4/5] group_cpus: simplify inner loop in grp_spread_init_one()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250815/202508151130.pQr7nUAl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151130.pQr7nUAl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508151104.eDVcRAdD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508151130.pQr7nUAl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/netfilter/nf_conntrack_netlink.c:1785:16: warning: unused variable 'last_id' [-Wunused-variable]
-    1785 |         unsigned long last_id = ctx->last_id;
-         |                       ^~~~~~~
-   1 warning generated.
+   lib/group_cpus.c: In function 'grp_spread_init_one':
+>> lib/group_cpus.c:24:17: error: implicit declaration of function 'for_each_cpu_and_andnot_from'; did you mean 'for_each_cpu_andnot'? [-Wimplicit-function-declaration]
+      24 |                 for_each_cpu_and_andnot_from(sibl, nmsk, siblmsk) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 for_each_cpu_andnot
+>> lib/group_cpus.c:24:66: error: expected ';' before '{' token
+      24 |                 for_each_cpu_and_andnot_from(sibl, nmsk, siblmsk) {
+         |                                                                  ^~
+         |                                                                  ;
 
 
-vim +/last_id +1785 net/netfilter/nf_conntrack_netlink.c
+vim +24 lib/group_cpus.c
 
-  1780	
-  1781	static int
-  1782	ctnetlink_dump_dying(struct sk_buff *skb, struct netlink_callback *cb)
-  1783	{
-  1784		struct ctnetlink_list_dump_ctx *ctx = (void *)cb->ctx;
-> 1785		unsigned long last_id = ctx->last_id;
-  1786	#ifdef CONFIG_NF_CONNTRACK_EVENTS
-  1787		const struct net *net = sock_net(skb->sk);
-  1788		struct nf_conntrack_net_ecache *ecache_net;
-  1789		struct nf_conntrack_tuple_hash *h;
-  1790		struct hlist_nulls_node *n;
-  1791	#endif
-  1792	
-  1793		if (ctx->done)
-  1794			return 0;
-  1795	
-  1796		ctx->last_id = 0;
-  1797	
+    13	
+    14	static void grp_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+    15					unsigned int cpus_per_grp)
+    16	{
+    17		const struct cpumask *siblmsk;
+    18		int cpu, sibl;
+    19	
+    20		for_each_cpu(cpu, nmsk) {
+    21			/* If the cpu has siblings, use them first */
+    22			siblmsk = topology_sibling_cpumask(cpu);
+    23			sibl = cpu;
+  > 24			for_each_cpu_and_andnot_from(sibl, nmsk, siblmsk) {
+    25				__cpumask_set_cpu(sibl, irqmsk);
+    26				if (--cpus_per_grp)
+    27					return;
+    28				cpu = sibl + 1;
+    29			}
+    30		}
+    31	}
+    32	
 
 -- 
 0-DAY CI Kernel Test Service
