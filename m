@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5827E1B87C0;
-	Fri, 15 Aug 2025 21:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926AC28399
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 22:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755294640; cv=none; b=iYcD58sq5v7ZLneG/EON1usGyLjdV7Jx8LmQilVYFiTc9eBMMH1fvRKI0I61FMgPaBDehbJHZ7Gm+GWSuSg6Qw78dqtIfMf/Iyn5wWIpovERgiogCng7sGSY3D1DHsxD1xYIyv0LUSGxk1hZ5CafCH3zhaCfFSboGBiCWUdvgzE=
+	t=1755295878; cv=none; b=QSDUoqM4fZR+WKzKPq42ULouUE90Vc78hXhdFB1hQ2E/kBRVXG1syVHDm2loVtBI9izUGG9RpWyfJwTP7lyHGOmUVSW2mRlXvQ0b3zdlQVc5e4nVOVm0qqCvJpsDEXt3TrBRHcRVK14GyfXLYEmprboUcukWsvK1zUQE4+I71NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755294640; c=relaxed/simple;
-	bh=FX31Dr4raEflRkKyJdaMBZxQojI+0lLRSkT9HNPz+84=;
+	s=arc-20240116; t=1755295878; c=relaxed/simple;
+	bh=N+WrTNcHQ0P5ti7vUtV5WQ78Ecbx58aCD+fTlR+qbaE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FGALvwU32OksDPSjpa1Qp2NdCOWRUCJ3WIWjeuBNd3MpKtqytBl1JfGVPGV5M8ymg0HUPR7cs36lRH/MC5SS2bpFkBN0sPfLCrD2Y9BY2EiBuW7f2YxCPC3ZErML7hD3A80r3m+JDND/wcvOQCJeQYq6+czD0AxqsVhyL5jgYos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=agBVXIn3; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ewoSIC8zScuXloNzQ1aPeHCCIVkH6Fx/Ncrgi1bXBx4smW2MCGu8ENg2y4tBV3iaEwcRp9iHSM3D4ql0K2kODm/KRE0oZsWpzO0xyRAGCdB2OffOcjwjhYURRZTmfL21jZgZXOaeYvN0VRD2ShPpuRMWW2CqrIYmIb/SUdX/iIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nRmwO4hP; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="agBVXIn3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nRmwO4hP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755294638; x=1786830638;
+  t=1755295875; x=1786831875;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FX31Dr4raEflRkKyJdaMBZxQojI+0lLRSkT9HNPz+84=;
-  b=agBVXIn3ibj+z/rWlke7EyRsKPh09eMVPxoQxJfB6Rb6AjP3YnlvzAyF
-   eLRBEGtAxOS55QXSpJ5IqNcAKIvwxzO08VmaU/isN9cBiupV9Z/uF4R0R
-   4QiyKmj03Ibpq3z4cyQ1j6sRL3+ZatbisR3noeZ6WJZZLK7IbUi8q3O+G
-   lWFIUZBePf43x7UaRJTyC+/IUaXgFZUodLjKOXfTXzb6Ho4OEizy7d3KP
-   JTxs3D22TxueVHJkMPTpzLch3JQ+FOuX+37F81I+LMKJR21mrQAfyaEXV
-   Kb/NMuP8QCypiVIaEh8N71dG1tVkdhFj/ncECDATHi3045t8INTqmBoXz
-   g==;
-X-CSE-ConnectionGUID: 4OSOEnxJSTCVplRU0Zx84w==
-X-CSE-MsgGUID: j7a5dP2TTZeFmXWAwzaJTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="68708490"
+  bh=N+WrTNcHQ0P5ti7vUtV5WQ78Ecbx58aCD+fTlR+qbaE=;
+  b=nRmwO4hPw4LvazZJYoAyBN7BMRXX34PxYfJUb3TGPVOfMD72dUubC2pL
+   /1Ea+vNEXvejAvbMAZ9FpPYD8zUZAZfu2pdCp5TgjQrdKvxjFURpdzCeS
+   tJNeped2dUXCgtNJmscrKpt43Fa5iRRmqDK+5GaV+J7RhK7u6PRG7xqLQ
+   NssYVQvOlytpDOb/wcFC/eAWTVcDEhcS43uXq1Kl3+XT3PusnZFatDSJw
+   1mE8T17fETY68uivHcteaOjOvRvbp/fWRLXiVipMnJqQCki8qeNVI/uNG
+   hRYvs43cf2VWcyUODIUjHqgVxBg74g2ofQb92b/3DJc3CZesGtaUMSKC9
+   A==;
+X-CSE-ConnectionGUID: UbbxkNKbTu+MwK8oxTMRKQ==
+X-CSE-MsgGUID: 846zFIq8Q5SSSgSbMuNv+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="80198197"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="68708490"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 14:50:38 -0700
-X-CSE-ConnectionGUID: kw0e7wfFQlOJjfunyDBo6w==
-X-CSE-MsgGUID: ouj59SOhQemMmR6Nwkesbg==
+   d="scan'208";a="80198197"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 15:11:15 -0700
+X-CSE-ConnectionGUID: AEU7k+6mQ2CW/zkJJhxc7w==
+X-CSE-MsgGUID: C57F5CWpQ/OR0hCKf83UwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167914046"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Aug 2025 14:50:36 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="171302577"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 15 Aug 2025 15:11:14 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un2Jl-0000aF-2b;
-	Fri, 15 Aug 2025 21:50:33 +0000
-Date: Fri, 15 Aug 2025 23:50:14 +0200
+	id 1un2dj-000CO8-2b;
+	Fri, 15 Aug 2025 22:11:11 +0000
+Date: Sat, 16 Aug 2025 06:10:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Bischoff <Sascha.Bischoff@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Oliver Upton <oliver.upton@linux.dev>,
-	Timothy Hayes <timothy.hayes@arm.com>
-Subject: arch/arm64/kvm/vgic/vgic-mmio.c:1094:3: warning: variable 'len' is
- used uninitialized whenever 'if' condition is false
-Message-ID: <202508152354.FWDol8gs-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:new 5/6] lib/group_cpus.c:151:26: warning: variable 'ncpus'
+ is uninitialized when used here
+Message-ID: <202508160628.Zf1UaDDq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,70 +62,169 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d0efc9e4276cda07c2f76652d240b165c30b05b8
-commit: c017e49ed1381001ba7a6521daae8f968b11cf09 KVM: arm64: gic-v5: Support GICv3 compat
-date:   5 weeks ago
-config: arm64-randconfig-2002-20250814 (https://download.01.org/0day-ci/archive/20250815/202508152354.FWDol8gs-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7d886fab74d4037d654d02bed24dd97c0ba863d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508152354.FWDol8gs-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux new
+head:   4fc7e1084415908a0081790114aa1ad051a3d0ad
+commit: 0abf2932250e37f9522170b6458f134869f76039 [5/6] group_cpus: don't call cpumask_weight() prematurely
+config: riscv-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160628.Zf1UaDDq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160628.Zf1UaDDq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508152354.FWDol8gs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160628.Zf1UaDDq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/vgic/vgic-mmio.c:1094:3: warning: variable 'len' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1094 |                 BUG_ON(1);
-         |                 ^~~~~~~~~
-   include/asm-generic/bug.h:71:36: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:47:23: note: expanded from macro 'unlikely'
-      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/vgic/vgic-mmio.c:1102:12: note: uninitialized use occurs here
-    1102 |                                        len, &io_device->dev);
-         |                                        ^~~
-   arch/arm64/kvm/vgic/vgic-mmio.c:1094:3: note: remove the 'if' if its condition is always true
-    1094 |                 BUG_ON(1);
-         |                 ^
-   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                ^
-   arch/arm64/kvm/vgic/vgic-mmio.c:1084:18: note: initialize the variable 'len' to silence this warning
-    1084 |         unsigned int len;
-         |                         ^
-         |                          = 0
+>> lib/group_cpus.c:151:26: warning: variable 'ncpus' is uninitialized when used here [-Wuninitialized]
+     151 |                 node_groups[n].ncpus = ncpus;
+         |                                        ^~~~~
+   lib/group_cpus.c:145:17: note: initialize the variable 'ncpus' to silence this warning
+     145 |                 unsigned ncpus;
+         |                               ^
+         |                                = 0
    1 warning generated.
 
 
-vim +1094 arch/arm64/kvm/vgic/vgic-mmio.c
+vim +/ncpus +151 lib/group_cpus.c
 
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1079  
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1080  int vgic_register_dist_iodev(struct kvm *kvm, gpa_t dist_base_address,
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1081  			     enum vgic_type type)
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1082  {
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1083  	struct vgic_io_device *io_device = &kvm->arch.vgic.dist_iodev;
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1084  	unsigned int len;
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1085  
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1086  	switch (type) {
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1087  	case VGIC_V2:
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1088  		len = vgic_v2_init_dist_iodev(io_device);
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1089  		break;
-ed9b8cefa91695 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2015-12-01  1090  	case VGIC_V3:
-ed9b8cefa91695 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2015-12-01  1091  		len = vgic_v3_init_dist_iodev(io_device);
-ed9b8cefa91695 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2015-12-01  1092  		break;
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26  1093  	default:
-fb848db39661a1 virt/kvm/arm/vgic/vgic-mmio.c Andre Przywara 2016-04-26 @1094  		BUG_ON(1);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  116  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  117  /*
+f7b3ea8cf72f3d Ming Lei   2022-12-27  118   * Allocate group number for each node, so that for each node:
+f7b3ea8cf72f3d Ming Lei   2022-12-27  119   *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  120   * 1) the allocated number is >= 1
+f7b3ea8cf72f3d Ming Lei   2022-12-27  121   *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  122   * 2) the allocated number is <= active CPU number of this node
+f7b3ea8cf72f3d Ming Lei   2022-12-27  123   *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  124   * The actual allocated total groups may be less than @numgrps when
+f7b3ea8cf72f3d Ming Lei   2022-12-27  125   * active total CPU number is less than @numgrps.
+f7b3ea8cf72f3d Ming Lei   2022-12-27  126   *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  127   * Active CPUs means the CPUs in '@cpu_mask AND @node_to_cpumask[]'
+f7b3ea8cf72f3d Ming Lei   2022-12-27  128   * for each node.
+f7b3ea8cf72f3d Ming Lei   2022-12-27  129   */
+f7b3ea8cf72f3d Ming Lei   2022-12-27  130  static void alloc_nodes_groups(unsigned int numgrps,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  131  			       cpumask_var_t *node_to_cpumask,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  132  			       const struct cpumask *cpu_mask,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  133  			       const nodemask_t nodemsk,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  134  			       struct cpumask *nmsk,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  135  			       struct node_groups *node_groups)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  136  {
+f7b3ea8cf72f3d Ming Lei   2022-12-27  137  	unsigned n, remaining_ncpus = 0;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  138  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  139  	for (n = 0; n < nr_node_ids; n++) {
+f7b3ea8cf72f3d Ming Lei   2022-12-27  140  		node_groups[n].id = n;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  141  		node_groups[n].ncpus = UINT_MAX;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  142  	}
+f7b3ea8cf72f3d Ming Lei   2022-12-27  143  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  144  	for_each_node_mask(n, nodemsk) {
+f7b3ea8cf72f3d Ming Lei   2022-12-27  145  		unsigned ncpus;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  146  
+0abf2932250e37 Yury Norov 2025-08-14  147  		if (!cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]))
+f7b3ea8cf72f3d Ming Lei   2022-12-27  148  			continue;
+0abf2932250e37 Yury Norov 2025-08-14  149  
+0abf2932250e37 Yury Norov 2025-08-14  150  		remaining_ncpus += cpumask_weight(nmsk);
+f7b3ea8cf72f3d Ming Lei   2022-12-27 @151  		node_groups[n].ncpus = ncpus;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  152  	}
+f7b3ea8cf72f3d Ming Lei   2022-12-27  153  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  154  	numgrps = min_t(unsigned, remaining_ncpus, numgrps);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  155  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  156  	sort(node_groups, nr_node_ids, sizeof(node_groups[0]),
+f7b3ea8cf72f3d Ming Lei   2022-12-27  157  	     ncpus_cmp_func, NULL);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  158  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  159  	/*
+f7b3ea8cf72f3d Ming Lei   2022-12-27  160  	 * Allocate groups for each node according to the ratio of this
+f7b3ea8cf72f3d Ming Lei   2022-12-27  161  	 * node's nr_cpus to remaining un-assigned ncpus. 'numgrps' is
+f7b3ea8cf72f3d Ming Lei   2022-12-27  162  	 * bigger than number of active numa nodes. Always start the
+f7b3ea8cf72f3d Ming Lei   2022-12-27  163  	 * allocation from the node with minimized nr_cpus.
+f7b3ea8cf72f3d Ming Lei   2022-12-27  164  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  165  	 * This way guarantees that each active node gets allocated at
+f7b3ea8cf72f3d Ming Lei   2022-12-27  166  	 * least one group, and the theory is simple: over-allocation
+f7b3ea8cf72f3d Ming Lei   2022-12-27  167  	 * is only done when this node is assigned by one group, so
+f7b3ea8cf72f3d Ming Lei   2022-12-27  168  	 * other nodes will be allocated >= 1 groups, since 'numgrps' is
+f7b3ea8cf72f3d Ming Lei   2022-12-27  169  	 * bigger than number of numa nodes.
+f7b3ea8cf72f3d Ming Lei   2022-12-27  170  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  171  	 * One perfect invariant is that number of allocated groups for
+f7b3ea8cf72f3d Ming Lei   2022-12-27  172  	 * each node is <= CPU count of this node:
+f7b3ea8cf72f3d Ming Lei   2022-12-27  173  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  174  	 * 1) suppose there are two nodes: A and B
+f7b3ea8cf72f3d Ming Lei   2022-12-27  175  	 * 	ncpu(X) is CPU count of node X
+f7b3ea8cf72f3d Ming Lei   2022-12-27  176  	 * 	grps(X) is the group count allocated to node X via this
+f7b3ea8cf72f3d Ming Lei   2022-12-27  177  	 * 	algorithm
+f7b3ea8cf72f3d Ming Lei   2022-12-27  178  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  179  	 * 	ncpu(A) <= ncpu(B)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  180  	 * 	ncpu(A) + ncpu(B) = N
+f7b3ea8cf72f3d Ming Lei   2022-12-27  181  	 * 	grps(A) + grps(B) = G
+f7b3ea8cf72f3d Ming Lei   2022-12-27  182  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  183  	 * 	grps(A) = max(1, round_down(G * ncpu(A) / N))
+f7b3ea8cf72f3d Ming Lei   2022-12-27  184  	 * 	grps(B) = G - grps(A)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  185  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  186  	 * 	both N and G are integer, and 2 <= G <= N, suppose
+f7b3ea8cf72f3d Ming Lei   2022-12-27  187  	 * 	G = N - delta, and 0 <= delta <= N - 2
+f7b3ea8cf72f3d Ming Lei   2022-12-27  188  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  189  	 * 2) obviously grps(A) <= ncpu(A) because:
+f7b3ea8cf72f3d Ming Lei   2022-12-27  190  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  191  	 * 	if grps(A) is 1, then grps(A) <= ncpu(A) given
+f7b3ea8cf72f3d Ming Lei   2022-12-27  192  	 * 	ncpu(A) >= 1
+f7b3ea8cf72f3d Ming Lei   2022-12-27  193  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  194  	 * 	otherwise,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  195  	 * 		grps(A) <= G * ncpu(A) / N <= ncpu(A), given G <= N
+f7b3ea8cf72f3d Ming Lei   2022-12-27  196  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  197  	 * 3) prove how grps(B) <= ncpu(B):
+f7b3ea8cf72f3d Ming Lei   2022-12-27  198  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  199  	 * 	if round_down(G * ncpu(A) / N) == 0, vecs(B) won't be
+f7b3ea8cf72f3d Ming Lei   2022-12-27  200  	 * 	over-allocated, so grps(B) <= ncpu(B),
+f7b3ea8cf72f3d Ming Lei   2022-12-27  201  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  202  	 * 	otherwise:
+f7b3ea8cf72f3d Ming Lei   2022-12-27  203  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  204  	 * 	grps(A) =
+f7b3ea8cf72f3d Ming Lei   2022-12-27  205  	 * 		round_down(G * ncpu(A) / N) =
+f7b3ea8cf72f3d Ming Lei   2022-12-27  206  	 * 		round_down((N - delta) * ncpu(A) / N) =
+f7b3ea8cf72f3d Ming Lei   2022-12-27  207  	 * 		round_down((N * ncpu(A) - delta * ncpu(A)) / N)	 >=
+f7b3ea8cf72f3d Ming Lei   2022-12-27  208  	 * 		round_down((N * ncpu(A) - delta * N) / N)	 =
+f7b3ea8cf72f3d Ming Lei   2022-12-27  209  	 * 		cpu(A) - delta
+f7b3ea8cf72f3d Ming Lei   2022-12-27  210  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  211  	 * 	then:
+f7b3ea8cf72f3d Ming Lei   2022-12-27  212  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  213  	 * 	grps(A) - G >= ncpu(A) - delta - G
+f7b3ea8cf72f3d Ming Lei   2022-12-27  214  	 * 	=>
+f7b3ea8cf72f3d Ming Lei   2022-12-27  215  	 * 	G - grps(A) <= G + delta - ncpu(A)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  216  	 * 	=>
+f7b3ea8cf72f3d Ming Lei   2022-12-27  217  	 * 	grps(B) <= N - ncpu(A)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  218  	 * 	=>
+f7b3ea8cf72f3d Ming Lei   2022-12-27  219  	 * 	grps(B) <= cpu(B)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  220  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  221  	 * For nodes >= 3, it can be thought as one node and another big
+f7b3ea8cf72f3d Ming Lei   2022-12-27  222  	 * node given that is exactly what this algorithm is implemented,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  223  	 * and we always re-calculate 'remaining_ncpus' & 'numgrps', and
+f7b3ea8cf72f3d Ming Lei   2022-12-27  224  	 * finally for each node X: grps(X) <= ncpu(X).
+f7b3ea8cf72f3d Ming Lei   2022-12-27  225  	 *
+f7b3ea8cf72f3d Ming Lei   2022-12-27  226  	 */
+f7b3ea8cf72f3d Ming Lei   2022-12-27  227  	for (n = 0; n < nr_node_ids; n++) {
+f7b3ea8cf72f3d Ming Lei   2022-12-27  228  		unsigned ngroups, ncpus;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  229  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  230  		if (node_groups[n].ncpus == UINT_MAX)
+f7b3ea8cf72f3d Ming Lei   2022-12-27  231  			continue;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  232  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  233  		WARN_ON_ONCE(numgrps == 0);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  234  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  235  		ncpus = node_groups[n].ncpus;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  236  		ngroups = max_t(unsigned, 1,
+f7b3ea8cf72f3d Ming Lei   2022-12-27  237  				 numgrps * ncpus / remaining_ncpus);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  238  		WARN_ON_ONCE(ngroups > ncpus);
+f7b3ea8cf72f3d Ming Lei   2022-12-27  239  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  240  		node_groups[n].ngroups = ngroups;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  241  
+f7b3ea8cf72f3d Ming Lei   2022-12-27  242  		remaining_ncpus -= ncpus;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  243  		numgrps -= ngroups;
+f7b3ea8cf72f3d Ming Lei   2022-12-27  244  	}
+f7b3ea8cf72f3d Ming Lei   2022-12-27  245  }
+f7b3ea8cf72f3d Ming Lei   2022-12-27  246  
 
-:::::: The code at line 1094 was first introduced by commit
-:::::: fb848db39661a1243f6ae939ef7e9251a765b972 KVM: arm/arm64: vgic-new: Add GICv2 MMIO handling framework
+:::::: The code at line 151 was first introduced by commit
+:::::: f7b3ea8cf72f3d6060fe08e461805181e7450a13 genirq/affinity: Move group_cpus_evenly() into lib/
 
-:::::: TO: Andre Przywara <andre.przywara@arm.com>
-:::::: CC: Christoffer Dall <christoffer.dall@linaro.org>
+:::::: TO: Ming Lei <ming.lei@redhat.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
