@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC30725D527
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 02:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37190286D7D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 02:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755225631; cv=none; b=gwvdTQjXkXjgZEkZZhiwi0vCUpEQahQ+D6cjlHbsHriy8A44qVgBY87SWkdfvB7EiYNJmr+clC26Sp7lp7qz2PI7UVTxxE+SH2fyj8ZcXoYL7ex3DWqtimLRK3ht1xevYHeh3cFWVyPgmg2KYtOZz72aRZdn5HuiPVSS9muDGUo=
+	t=1755225795; cv=none; b=MzfHHAYfweyVGSiJhg3aDise0v5Yzar8H9O4TTYsz2CHFUq6aWn0fe4iB+a8CoxtGBOQLdsB+SGqHNCKThL4ZZrKMIIq96hkhjbI71DXYfy66u2SETFs/zQwli95HXT/uOBZCMWl4uzcBuPgUB7eHnqZrldQz1jVA2yRANcXzoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755225631; c=relaxed/simple;
-	bh=0z6+JUj8QTUD1XoM9tH7r6mlwZQGqL4fzEtREB6Mx+Q=;
+	s=arc-20240116; t=1755225795; c=relaxed/simple;
+	bh=f+5WkI+FihDR9KRkaGU9HnhUL9AMJEFjMq/Sin5AXq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e1Dry+cGZjxoVffgx5yocAmiSc9VBcMXOtVwjA7BLQ/gyLBjFtYLILYZGZ2c34FCJXYL6IbmbQdxG6N0rkrVqieRnUMO/2gkYdgR/Ls8TXpdgqPeDRlkKMI9+HaaZSWpUz76wZldEBatUBcX8Fqh3+4EMnyH0305baX5VhOXNGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyHJJIrc; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition:In-Reply-To; b=PqI8tKwfAcL23aRBDmQA8xF/uoGxBFYBr/IisGv3v4EEALfnbJYJl1kYE+ZZLKj/6Bo5mO/p7l21/cqCrswFSw9C56YhVIdw3lyU/Mv8Y1JamUOmudGx7oCBUkQAVmY3DMAVr+RrIPonWCiaCOHiV9fGuYIGekpsYQjFW8Qt+mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B00ptY9R; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyHJJIrc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B00ptY9R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755225629; x=1786761629;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0z6+JUj8QTUD1XoM9tH7r6mlwZQGqL4fzEtREB6Mx+Q=;
-  b=fyHJJIrcEw2ySuoQaQ1QXFXL6OLWZ05jn/7QpCtsVyk4S7XJX23nN6IA
-   NneOeUZLk9nCajlgIMWCDoGhThQn/jPiaArYVHBl6dJF6pE6d7DvEXjm+
-   CH20oQlvpEBUlQlprpbMlVvmS/o8kCfsejuAp97V8IqV8o7XrRGOXkcCp
-   P3KGeo89vMHrFjZNb6EndOBzStlxa7HaADT17OLV0xT30/s2VuWDM4GYM
-   Mn3DBTAl8gmHJDNesLpCJmkU1l8dEIaUy2gafQKrqsinzsPJoJmUEpYIK
-   dNKrIoCHjn6Izw5+oBLuuOGNYkO0+D5BnWmS892m3vBbq6sNm0nH+Bn6+
-   A==;
-X-CSE-ConnectionGUID: Cr0pzS+3RG67mKvmC5GIgg==
-X-CSE-MsgGUID: q531ms5pShKx1sKfUefehQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57508225"
+  t=1755225794; x=1786761794;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=f+5WkI+FihDR9KRkaGU9HnhUL9AMJEFjMq/Sin5AXq8=;
+  b=B00ptY9RFN7+occIa+FUUz52DlOhTcA37FUp76snGVildFaTPPtChDHW
+   8XqpDMDmwLhrvEOQ7f2nx2Ob1CIL5eISNb3ZJ4vZHvaiJDvAOcQIHIP40
+   IftdjbYbgyBdzvJxLN3oD5XTHXRsXJD+fHXsjs0EHDF+tG59pleWlBa3g
+   4l/ncF8RivwaQjbmSfdVcNWVYCBkyySb641TAhkVT63pNQFVSdDr40FZU
+   13nngIgKCSBpYglmsprHrBdO/X3X45mVEUkGonjc3dUK1sgxm4GMFWca1
+   QgheCUSRv2ZRPGz1AF6pQbIx7ioWvZJTN/u48A0b2VZi2a/ogGOprt/MK
+   w==;
+X-CSE-ConnectionGUID: 4VkWuRuYQy2RQi8g/tfmTQ==
+X-CSE-MsgGUID: mmDJJiFYSzuZpmuQeNWyMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="82987838"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="57508225"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 19:40:29 -0700
-X-CSE-ConnectionGUID: nd6DCoZvRVGs0G5xf9B+uw==
-X-CSE-MsgGUID: Lmd3jrYSQ52MGL2enRoafA==
+   d="scan'208";a="82987838"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 19:43:13 -0700
+X-CSE-ConnectionGUID: GkLv4YFuT8G8/NuXxMRREg==
+X-CSE-MsgGUID: RY1h14kMTPSeg3m2CWEbjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="167165978"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa008.jf.intel.com with ESMTP; 14 Aug 2025 19:40:27 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="204096761"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 14 Aug 2025 19:43:12 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umkMj-0000Ox-0k;
-	Fri, 15 Aug 2025 02:40:25 +0000
-Date: Fri, 15 Aug 2025 04:40:23 +0200
+	id 1umkPI-000BTA-0Q;
+	Fri, 15 Aug 2025 02:43:06 +0000
+Date: Fri, 15 Aug 2025 10:42:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/1] kernel/module.c:4789:6: warning:
- no previous prototype for 'android_debug_for_each_module'
-Message-ID: <202508150401.T2I4BEVS-lkp@intel.com>
+To: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] usb: typec: maxim_contaminant: disable low power
+ mode when reading comparator values
+Message-ID: <aJ6ertd5AjU7OuCh@1a863d778a0f>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,55 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250814-fix-upstream-contaminant-v1-1-801ce8089031@google.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   7801f8b27aa77497b7759fbac0387747b42485ad
-commit: b2df67a932b5cbd6535de9f1a6e63004992ad014 [0/1] ANDROID: android: Create debug_symbols driver
-config: i386-buildonly-randconfig-2003-20250815 (https://download.01.org/0day-ci/archive/20250815/202508150401.T2I4BEVS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508150401.T2I4BEVS-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508150401.T2I4BEVS-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> kernel/module.c:4789:6: warning: no previous prototype for 'android_debug_for_each_module' [-Wmissing-prototypes]
-    4789 | void android_debug_for_each_module(int (*fn)(const char *mod_name, void *mod_addr, void *data),
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/module.c:4809:6: warning: no previous prototype for 'module_layout' [-Wmissing-prototypes]
-    4809 | void module_layout(struct module *mod,
-         |      ^~~~~~~~~~~~~
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-
-
-vim +/android_debug_for_each_module +4789 kernel/module.c
-
-  4787	
-  4788	#ifdef CONFIG_ANDROID_DEBUG_SYMBOLS
-> 4789	void android_debug_for_each_module(int (*fn)(const char *mod_name, void *mod_addr, void *data),
-  4790		void *data)
-  4791	{
-  4792		struct module *module;
-  4793		preempt_disable();
-  4794		list_for_each_entry_rcu(module, &modules, list) {
-  4795			if (fn(module->name, module->core_layout.base, data))
-  4796				goto out;
-  4797		}
-  4798	out:
-  4799		preempt_enable();
-  4800	}
-  4801	EXPORT_SYMBOL_NS_GPL(android_debug_for_each_module, MINIDUMP);
-  4802	#endif
-  4803	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 1/2] usb: typec: maxim_contaminant: disable low power mode when reading comparator values
+Link: https://lore.kernel.org/stable/20250814-fix-upstream-contaminant-v1-1-801ce8089031%40google.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
