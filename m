@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ABB23D7F6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Aug 2025 06:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC7326D4E3;
+	Fri, 15 Aug 2025 06:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755239880; cv=none; b=UJOOk4selTFF05SwN7Q2hNLsD8lzuFGt0qEP9qtx3CNOy5URw1YOhoYdYw2Sq5rDj1xsObSky7WxTiBsMqfu4vv5ME6SwklwwMreyiQiWWy2aEbRRr+Gw8j+DSBLKFgvYNBi9890cWp2ls9WbDuEnzosSBLvvmnnMXNFHan9Flo=
+	t=1755240484; cv=none; b=sJpjsy1mce2xqUjAkkB1c1M13fcvdsETrudN7b+DmmUiN2uc9rnAxk38AVYb5lsDabyQgDHk4mZaJyq6ngzgV8s2Oon9Z5OcqyXglniEJjqHyoKwTAbpNILqvbung4sj2QOuTzYlvhTCiw/7IfsqwE6lgsS6O5shNW+j3eLMyXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755239880; c=relaxed/simple;
-	bh=/ZVgsKXSRSyobtTi9YT0Zs2HqjqFqBGe/PclV/ibYwA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rRtYqnTCuMSzG5AAQRKv/8RbvduTkyQwP49lQCcbOwhSscY6uC8RiYKL4dsA2erDBnWX6Jv6oBlE3VgjMrJtCVWTKlGV2ude4QQowFe65NTfJgk48m2AogmQRmpmCmbb7VhCUFqzDTKWL9SLCVAI/3OKi1RmKztqg5zzGl+r8Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aE0pyCN2; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1755240484; c=relaxed/simple;
+	bh=JoZn79aBzPPrDDr0xHM5IQgwaowZCOkP1rtnzUXddyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QDvvssa/gQqr/ysPJDyIMLJ4EL+95OIB8XQE8bZtt/Kb1M/hMDG2ydS7gzaqeiRCVvrfrGU88210I8f00z1oXHEZDQaGRF7QG2qHdwkSJyVqdZsWHk0Wto4w0NJUcFEKFK8twFole8qkkWgkohQ17+QBB2wEoaDIw0T45CsIOMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kU0zIpuF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aE0pyCN2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kU0zIpuF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755239879; x=1786775879;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/ZVgsKXSRSyobtTi9YT0Zs2HqjqFqBGe/PclV/ibYwA=;
-  b=aE0pyCN2p19EZTjY3eI2ZAD/o1MDS7O2PQKOe7qAv81/2x9t8iKfoEmt
-   b4gbTi8MySLBf4Pzq6lnNAHp5LdzXA8yHcnWOlpXoyyI39mNEg8kcQuDT
-   IccV+/mZsRfRPTvjOfJIzfbu7Pmdn/iHsKTM50t6kuAGBSjL0tn8Z+LAM
-   ZOMQi8lbc6qGGPn/eLcUJyqG7bb5F1GyvSjhZkOKembHslZPRURQzjoa7
-   5mmZ/pADfl1zvXuSn+FXklxiiCOvHsgeyXHRL3brWoEBy8/MK/qpbxskN
-   BvZamznKG7Pr3gAfFW84qVznSx649RHzBB8tDlWzOFWiASEo2vN9glXK/
-   Q==;
-X-CSE-ConnectionGUID: VEDQ724eQru4BeXLbTJ4fw==
-X-CSE-MsgGUID: wKeiyWZCRYOfXXDo5qsNVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="61195828"
+  t=1755240482; x=1786776482;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JoZn79aBzPPrDDr0xHM5IQgwaowZCOkP1rtnzUXddyI=;
+  b=kU0zIpuFbQc8r+vVMKXSkFK2GjUakMFtkRwD+wCaR9LxHorXJ82hzKvt
+   YKUSQGoiRKo2uHABhwZwv//UwGteiHgfFQVDUg4kKjN8no1N8QK3FKjC3
+   JPiJcjEpyq1wxhYOrpfN1itypElITKn4XOEWSzWvoGWwhacIuYvYVQNiT
+   wQ/FmzmVQtpvZEfh7ho56QXTcEmCIyp1lDHbIxgEhwyjdWTSTLrRmeQRL
+   udGdi6uL6ZxhScR451v3a9q/7XQC4dljLRhSlJbaj6YJJ5eTw4mdbTtoL
+   gA2rlPTQO28E0D+egg2pC/NlQ3QswufaUbWjeedAHSITLW3F6muJN/9ZA
+   A==;
+X-CSE-ConnectionGUID: ovOQmZ1ZS9yrCINLMKRtnw==
+X-CSE-MsgGUID: u31sYK83Q1a9d8hNcE7jIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57714255"
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="61195828"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 23:37:58 -0700
-X-CSE-ConnectionGUID: 8znj3svlQjeL+nrbMCV4Aw==
-X-CSE-MsgGUID: xXxf5FqbRVKOBVM1zr+0sg==
+   d="scan'208";a="57714255"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 23:48:01 -0700
+X-CSE-ConnectionGUID: q5kEDUGMRySi7HKMbuH4gA==
+X-CSE-MsgGUID: nDLocVRPTjaBabj3cOv3kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
-   d="scan'208";a="171192972"
+   d="scan'208";a="171083464"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 14 Aug 2025 23:37:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 14 Aug 2025 23:47:59 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1umo4Z-000Be4-25;
-	Fri, 15 Aug 2025 06:37:55 +0000
-Date: Fri, 15 Aug 2025 14:37:13 +0800
+	id 1umoEG-000Bea-1u;
+	Fri, 15 Aug 2025 06:47:56 +0000
+Date: Fri, 15 Aug 2025 14:47:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1] mm/vmscan.c:4372:6:
- warning: no previous prototype for function 'isolate_folio'
-Message-ID: <202508151434.U8fdug4a-lkp@intel.com>
+To: Qinxin Xia <xiaqinxin@huawei.com>, will@kernel.org,
+	robin.murphy@arm.com, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, xiaqinxin@huawei.com, yangyicong@huawei.com,
+	wangzhou1@hisilicon.com, prime.zeng@hisilicon.com,
+	xuwei5@huawei.com, fanghao11@huawei.com,
+	jonathan.cameron@huawei.com, linuxarm@huawei.com
+Subject: Re: [PATCH 1/2] iommu/debug: Add IOMMU page table dump debug facility
+Message-ID: <202508151456.FmgCiCK4-lkp@intel.com>
+References: <20250814093005.2040511-2-xiaqinxin@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,73 +67,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250814093005.2040511-2-xiaqinxin@huawei.com>
 
-Hi yipeng,
+Hi Qinxin,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   bc369e4e2456396e99b80b3d33769263f3b611f4
-commit: 0e47a7391b3e2e57c4769f14a7be0ba7b56b10ca [1/1] ANDROID: mm: export isolate_folio and reclaim_pages
-config: i386-randconfig-141-20250815 (https://download.01.org/0day-ci/archive/20250815/202508151434.U8fdug4a-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151434.U8fdug4a-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.17-rc1 next-20250814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qinxin-Xia/iommu-debug-Add-IOMMU-page-table-dump-debug-facility/20250814-173720
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250814093005.2040511-2-xiaqinxin%40huawei.com
+patch subject: [PATCH 1/2] iommu/debug: Add IOMMU page table dump debug facility
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250815/202508151456.FmgCiCK4-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250815/202508151456.FmgCiCK4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508151434.U8fdug4a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508151456.FmgCiCK4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/vmscan.c:4372:6: warning: no previous prototype for function 'isolate_folio' [-Wmissing-prototypes]
-    4372 | bool isolate_folio(struct lruvec *lruvec, struct folio *folio, struct scan_control *sc)
-         |      ^
-   mm/vmscan.c:4372:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4372 | bool isolate_folio(struct lruvec *lruvec, struct folio *folio, struct scan_control *sc)
-         | ^
-         | static 
-   1 warning generated.
+>> mm/io_ptdump_debugfs.c:14:13: warning: no previous prototype for 'io_ptdump_debugfs_register' [-Wmissing-prototypes]
+      14 | void __init io_ptdump_debugfs_register(const char *name)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/isolate_folio +4372 mm/vmscan.c
+vim +/io_ptdump_debugfs_register +14 mm/io_ptdump_debugfs.c
 
-  4371	
-> 4372	bool isolate_folio(struct lruvec *lruvec, struct folio *folio, struct scan_control *sc)
-  4373	{
-  4374		bool success;
-  4375	
-  4376		/* swap constrained */
-  4377		if (!(sc->gfp_mask & __GFP_IO) &&
-  4378		    (folio_test_dirty(folio) ||
-  4379		     (folio_test_anon(folio) && !folio_test_swapcache(folio))))
-  4380			return false;
-  4381	
-  4382		/* raced with release_pages() */
-  4383		if (!folio_try_get(folio))
-  4384			return false;
-  4385	
-  4386		/* raced with another isolation */
-  4387		if (!folio_test_clear_lru(folio)) {
-  4388			folio_put(folio);
-  4389			return false;
-  4390		}
-  4391	
-  4392		/* see the comment on MAX_NR_TIERS */
-  4393		if (!folio_test_referenced(folio))
-  4394			set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS, 0);
-  4395	
-  4396		/* for shrink_folio_list() */
-  4397		folio_clear_reclaim(folio);
-  4398		folio_clear_referenced(folio);
-  4399	
-  4400		success = lru_gen_del_folio(lruvec, folio, true);
-  4401		VM_WARN_ON_ONCE_FOLIO(!success, folio);
-  4402	
-  4403		return true;
-  4404	}
-  4405	EXPORT_SYMBOL_GPL(isolate_folio);
-  4406	
+    13	
+  > 14	void __init io_ptdump_debugfs_register(const char *name)
 
 -- 
 0-DAY CI Kernel Test Service
