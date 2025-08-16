@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242BB3176F0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 06:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7171421D58B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 07:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755325193; cv=none; b=PgfEVEyvZ3oDvPvaFodzfbdhhvB6Z0LBaTpuCU+y0jSkEngFsAxYJ5K5o9shHKtxLn2w2AwRMII1KCyHe31N9F0OwOrBFyy4gSrtFo4J4KW0viqg9CHmS72wiKieDUS1a/YAofGIVa0EPq5GMFXmoGyYwyXdyui6IHYOJDns1vw=
+	t=1755328972; cv=none; b=Aua1NhtZmitQzSVI7WWswg9wCW/SrDMHhrms2KmGRL6lnklWGJqohTNs70utLYWkuFUD7TvQeFuTHStklSR9bk8ByYEU6C1vrl6TdL6jbxA+iXyTXdODjlYvoqNg2lA/HulaJWuyynvnyOvvKuun98L4d6R0sDJ9sNFoSVSldOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755325193; c=relaxed/simple;
-	bh=XAImJRbLuDCZBLdVKc7PTLA/GoDmdvD0v1Jy4ERuqt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ahySTkK423wsIhxS17/63uaYrnOZ/JShSDLVvjwYGchJdhwRRWq7YPrOmSihDYyEHzxo286SKbbUP4LB8CMaoGdMzBZt4Vudak/0XNvJgwfBkBXwwrEhDkb9UAP3B9ncuSNwrd3gfj98QUROS3CFSWYpzX9KCiIVXzyeFYhBmvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7wl8tlN; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1755328972; c=relaxed/simple;
+	bh=RktG3mJqHtP7HemL3r/r9u2zJXZn1GV5rAd1YQbSD60=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y5DPzKohvW7p3n8oi2Vo+VkePY0zCazXJfdFH37jqRpgXoxxcfk5YVhdJqqz9N/PuvkqhTWUso9d7CM1f5IIvBvnROMdsdpjIfAcdyzOQ89nIXAJHZ3XHNKnDgnWut7EOeDN1jzTf0m1ScmCF42/Ra9Vxgm+hB9VE1ddEpb70PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MhP7xOm5; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7wl8tlN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MhP7xOm5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755325192; x=1786861192;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XAImJRbLuDCZBLdVKc7PTLA/GoDmdvD0v1Jy4ERuqt8=;
-  b=V7wl8tlNm0wuWOsRKSQ1aL5LMpUVxku4pIqpQ42stAsO8HlMLwsCWMun
-   /SfRXg0bfqJOdcCVTIvlCokE0uNrS4ofUw0XKAONlazugnRHWRsKqr8KD
-   iMgstikEmAqaZoCoSQEXoJXEgNRt+/AfsIJ5aCCNoBIYu009+Z6Gk7rJj
-   4tKhK2aTJs+cBbqAIsRJZE1na7JSN1htqDb1mmf2s26dBGbm4q3s9utlh
-   gjiB7RwQAH/Q79pfuxXiqdEUF69TDd7Z9PxTre1ZOfHKpYuv5ur96ocyv
-   5eDualCJ/9wbw6zP1Ndyg/B2d/oEO0biWu0LDulp3RXvRMKrKGh/nNl78
+  t=1755328971; x=1786864971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RktG3mJqHtP7HemL3r/r9u2zJXZn1GV5rAd1YQbSD60=;
+  b=MhP7xOm5XWBxVyEv0QX+kwKM2aIjxJDbcjZSWKK8/6+HNH+isiOnqy4V
+   EA45u7zgbihF3IXFoGqzsnuL/19tgBKiz/7dkB/ZPX1WkBb4O+yKx+f/B
+   bx/gppjbsIwtiMNzI4CZjHBZmtTVe+kFCYNqo037VLy8CaDD+XuNNAtHk
+   7LC8ieEjzsYw4jWmiGiht+rR4M7nmjd0Lxj3WVzjLJRbrjjpWO4BVFAX0
+   E/ptvQiQALGzZ5jPyYP5QFnRZDxbRE7zoAH5ido+IsELMkdEoCM3z7QKM
+   y5ah7IWjPhSgCKhBXgWUAy9m83BvudiTazTBhlnkzCjq1LgVhrL4Xifm+
    Q==;
-X-CSE-ConnectionGUID: 59rBJlmeTT2e+RqduqsT5g==
-X-CSE-MsgGUID: QwCxmlvMQPGLz3JRu+x5sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="68237644"
+X-CSE-ConnectionGUID: O/GLfvCzSeW6MTjKoZiIDg==
+X-CSE-MsgGUID: R9WqthOvSauPs7J32stTrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57350580"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="68237644"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 23:19:51 -0700
-X-CSE-ConnectionGUID: UK6rxyrpTvmix/YKQ7n8tQ==
-X-CSE-MsgGUID: lKNL3a1cSaC/rrvM3391ow==
+   d="scan'208";a="57350580"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 00:22:50 -0700
+X-CSE-ConnectionGUID: ySHHbVpPQRCbMrfyeMv0Zw==
+X-CSE-MsgGUID: NuP/qYHYTZuGYdpC79nLdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="204336557"
+   d="scan'208";a="190888765"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Aug 2025 23:19:51 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 16 Aug 2025 00:22:47 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unAGZ-000CdY-2a;
-	Sat, 16 Aug 2025 06:19:47 +0000
-Date: Sat, 16 Aug 2025 14:18:51 +0800
+	id 1unBFU-000CfM-2t;
+	Sat, 16 Aug 2025 07:22:44 +0000
+Date: Sat, 16 Aug 2025 15:22:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
-Subject: [linux-next:master 1828/2770] ld:
- drivers/net/ethernet/stmicro/stmmac/dwmac-intel.o:undefined reference to
- `stmmac_simple_pm_ops'
-Message-ID: <202508161406.RwQuZBkA-lkp@intel.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, linux-hyperv@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	Tianyu Lan <tiala@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>, Li Tian <litian@redhat.com>,
+	Philipp Rudo <prudo@redhat.com>
+Subject: Re: [PATCH] x86/hyperv: Fix kdump on Azure CVMs
+Message-ID: <202508161430.0GC3nT8J-lkp@intel.com>
+References: <20250815133725.1591863-1-vkuznets@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +69,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250815133725.1591863-1-vkuznets@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1357b2649c026b51353c84ddd32bc963e8999603
-commit: 062b428017332adf8cee09612db2ae0495b4eb4e [1828/2770] net: stmmac: intel: convert to suspend()/resume() methods
-config: x86_64-randconfig-006-20250712 (https://download.01.org/0day-ci/archive/20250816/202508161406.RwQuZBkA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161406.RwQuZBkA-lkp@intel.com/reproduce)
+Hi Vitaly,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on linus/master v6.17-rc1]
+[cannot apply to next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vitaly-Kuznetsov/x86-hyperv-Fix-kdump-on-Azure-CVMs/20250815-214053
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20250815133725.1591863-1-vkuznets%40redhat.com
+patch subject: [PATCH] x86/hyperv: Fix kdump on Azure CVMs
+config: arm64-randconfig-003-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161430.0GC3nT8J-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161430.0GC3nT8J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508161406.RwQuZBkA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508161430.0GC3nT8J-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld: drivers/net/ethernet/stmicro/stmmac/dwmac-intel.o:(.data+0x320): undefined reference to `stmmac_simple_pm_ops'
+   drivers/hv/vmbus_drv.c: In function 'hv_kexec_handler':
+>> drivers/hv/vmbus_drv.c:2786:2: error: implicit declaration of function 'hv_ivm_clear_host_access' [-Werror=implicit-function-declaration]
+     hv_ivm_clear_host_access();
+     ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/hv_ivm_clear_host_access +2786 drivers/hv/vmbus_drv.c
+
+  2778	
+  2779	static void hv_kexec_handler(void)
+  2780	{
+  2781		hv_stimer_global_cleanup();
+  2782		vmbus_initiate_unload(false);
+  2783		/* Make sure conn_state is set as hv_synic_cleanup checks for it */
+  2784		mb();
+  2785		cpuhp_remove_state(hyperv_cpuhp_online);
+> 2786		hv_ivm_clear_host_access();
+  2787	};
+  2788	
 
 -- 
 0-DAY CI Kernel Test Service
