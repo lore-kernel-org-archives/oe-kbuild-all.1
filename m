@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9012E8882
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 13:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B7B2E8885
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 15:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755351844; cv=none; b=RWLMQKPuumgGnBi/kUNXJ7WHTFiGFAjS7cZpKVW6fuJJU5Hddom37trdgn/hA3ETdjSa1gpgjt6xUFOnN/TDJLOJU7mJ/D6yUaGI63XNZfsT4Dj/V3G78/JCuHOhA4xAJoTC0VKJD+ii6hxIT8pRXzIiGvATqoZp77lNNS4VF3s=
+	t=1755356785; cv=none; b=fd9JoTLjs9hDQY9DpUJDKoWa7d1pvEmv+NG3UmPt0q3GdNrDw40JIqUCuJyMKBDUPeAuvnSjmt0rCAayOQ+jrfoMENpSn8/jQrrFEW1Hr4QbRrgEYKELiRUwUkRN/hvsOe/l6gYiF6Qjfg+oTcbspKe0c8QH2whOzzBzMTTiQtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755351844; c=relaxed/simple;
-	bh=ew/x/ZJghIPOZr/hNDQKiC5O4se2m/ZLk5BqAjTWchc=;
+	s=arc-20240116; t=1755356785; c=relaxed/simple;
+	bh=LVIqfHpGAkZ3VJ3ksj8lX+KLUKB1XQlFCrxytoMXIzc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FJ5mMJ5pbqBFAaJF/kFrgCVluueWJxBmCo0inIzEGB09+LdDgMoqtgXW75yb33pcYVMyUNiu7SXZXyZWw9nvfF83AtjbXkhquYBmT85zCwy1GCcrIClKAywCpp34G/m2qP+OURPsNTtEWDGFG3b+t16/tKYX6pVcZh3CBk8sZxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfICsQFQ; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=V1kOP8EWdqv7bte6Kd049y9Ci5FvfGGWO+MKVFfpJLinYrSSm7/UI7y7TOC1myejQp46iRdN6z5y+KkM8qOPInxns6oCXUpAITbpIGv6mElTDS1KWmOn3cRjQxtHD3hJuHWFG6CdBtNpWEHVvrJbXYYWNGvZ3iLDNyiAW58wWcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMqFj4vW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfICsQFQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMqFj4vW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755351842; x=1786887842;
+  t=1755356784; x=1786892784;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ew/x/ZJghIPOZr/hNDQKiC5O4se2m/ZLk5BqAjTWchc=;
-  b=jfICsQFQQQhv6lKoOo+tzbViW/zbQc+oxnlzcxzs3lFdoBZFmgRNWviN
-   rwH8fB+kBaX+dNRL6qfEspkE+6ljMIIF2/pLROfJwZNHoPK56TFEp2N5R
-   mCU+mt2NENLvG3L134XV9wgeRhO/wC9MZ+pNSHS1voukYG4ehEPcjW2Wm
-   nMj68FkAol22pLGRdiR8Ot4xXexrlqnA2/zMaNVzjaMG+gUvsm8tm4Qwj
-   6CzhGjTT7DQB+Fw0P8+sITOwZvwYMe1O1pZnZOWXES8oEt1f5EqXChP8z
-   RxoH8Cir4op+Eod7GnptyStDp72xb4uKAPctYQW8S8wW75dMQf47tg1zs
-   g==;
-X-CSE-ConnectionGUID: oM5We5GKT26OGJ6nC/9MXw==
-X-CSE-MsgGUID: 9DqXwI4sSWGFkb8SKeYluQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57751263"
+  bh=LVIqfHpGAkZ3VJ3ksj8lX+KLUKB1XQlFCrxytoMXIzc=;
+  b=UMqFj4vWWVZip/lG0XgZ2M99M8Elmmqo8UOBB2DPfUa6SsLefAa1IX/R
+   Va01XzA5sRgVUjFxYwsb+fFo3ELpqvdMPK30SSWjboexgTgZm8F/7oXQW
+   p/B2DGtSFtjV/0lk2A6wK8FoFqyvKxdJX+9yEn8GkM0QyFubu+32tyd9x
+   mmGr987nxHUGqYQq8cgE9b7FqJZ6J3n+NVN3QRY0rOX+4+ONpK/PDQZFO
+   ONEn3QIAPBxplhms1H/+TdE67efKn3pj+YA66JPp2VZKbaPDP00zV08hn
+   Hqhu89QyfN7oVuB7PFG+ZPTi8CNcXvkvzib7od8c3J0zwgizgASMyxEOg
+   A==;
+X-CSE-ConnectionGUID: 0tQgBf+oQlW6VwVTfOBeuw==
+X-CSE-MsgGUID: AdQuioK6Sy6NZ5wHHRl4Dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="68251059"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57751263"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 06:43:58 -0700
-X-CSE-ConnectionGUID: YcDl6OoVTaOHKeug47uO9Q==
-X-CSE-MsgGUID: 27u263uGTUi1Mw4n6uS5kw==
+   d="scan'208";a="68251059"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 08:06:23 -0700
+X-CSE-ConnectionGUID: lTlUmUBFQjyfxUpa8Qdapg==
+X-CSE-MsgGUID: amnT8i/cSR2XxvPFtoBhkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167596288"
+   d="scan'208";a="166714589"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2025 06:43:56 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Aug 2025 08:06:22 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unHCM-000CtM-01;
-	Sat, 16 Aug 2025 13:43:54 +0000
-Date: Sat, 16 Aug 2025 21:43:12 +0800
+	id 1unIU8-000Cx4-00;
+	Sat, 16 Aug 2025 15:06:20 +0000
+Date: Sat, 16 Aug 2025 23:05:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Reza Amini <reza.amini@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Krunoslav Kovac <krunoslav.kovac@amd.com>,
-	Roman Li <roman.li@amd.com>
-Subject: [agd5f:drm-next 103/178]
- drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c:447:1:
- warning: the frame size of 1160 bytes is larger than 1024 bytes
-Message-ID: <202508162145.k9AB15wi-lkp@intel.com>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [smfrench-smb3:ksmbd-for-next-next 2/14] include/net/sock.h:384:45:
+ error: 'struct sock_common' has no member named 'skc_v6_daddr'; did you mean
+ 'skc_daddr'?
+Message-ID: <202508162204.UWDTOsPn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,194 +63,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   d2fa0ec6e0aea6ffbd41939d0c7671db16991ca4
-commit: e63e9f8b3d1c5d17fa4db9241905a8baf1e4bda8 [103/178] drm/amd/display: Fixing hubp programming of 3dlut fast load
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250816/202508162145.k9AB15wi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508162145.k9AB15wi-lkp@intel.com/reproduce)
+tree:   https://github.com/smfrench/smb3-kernel.git ksmbd-for-next-next
+head:   f184d74e19d18053ee92af900754bc5d86663ec8
+commit: d22fdf2aab15d2daa8395b379ce8dc7781d4557f [2/14] ksmbd: extend the connection limiting mechanism to support IPv6
+config: s390-randconfig-002-20250816 (https://download.01.org/0day-ci/archive/20250816/202508162204.UWDTOsPn-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508162204.UWDTOsPn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508162145.k9AB15wi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508162204.UWDTOsPn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c: In function 'dcn10_log_hubp_states':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c:447:1: warning: the frame size of 1160 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     447 | }
-         | ^
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c: In function 'dcn10_log_color_state':
-   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c:608:1: warning: the frame size of 1440 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     608 | }
-         | ^
+   In file included from fs/smb/server/connection.h:11,
+                    from fs/smb/server/transport_tcp.c:12:
+   fs/smb/server/transport_tcp.c: In function 'alloc_transport':
+>> include/net/sock.h:384:45: error: 'struct sock_common' has no member named 'skc_v6_daddr'; did you mean 'skc_daddr'?
+     384 | #define sk_v6_daddr             __sk_common.skc_v6_daddr
+         |                                             ^~~~~~~~~~~~
+   fs/smb/server/transport_tcp.c:89:59: note: in expansion of macro 'sk_v6_daddr'
+      89 |                 memcpy(&conn->inet6_addr, &client_sk->sk->sk_v6_daddr, 16);
+         |                                                           ^~~~~~~~~~~
+   fs/smb/server/transport_tcp.c: In function 'ksmbd_kthread_fn':
+>> include/net/sock.h:384:45: error: 'struct sock_common' has no member named 'skc_v6_daddr'; did you mean 'skc_daddr'?
+     384 | #define sk_v6_daddr             __sk_common.skc_v6_daddr
+         |                                             ^~~~~~~~~~~~
+   fs/smb/server/transport_tcp.c:260:60: note: in expansion of macro 'sk_v6_daddr'
+     260 |                                 if (memcmp(&client_sk->sk->sk_v6_daddr,
+         |                                                            ^~~~~~~~~~~
 
 
-vim +447 drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c
+vim +384 include/net/sock.h
 
-233dcd2092f9f9 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Tony Cheng          2017-08-03  293  
-46659a83e4662e drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nicholas Kazlauskas 2018-08-15  294  static void dcn10_log_hubp_states(struct dc *dc, void *log_ctx)
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  295  {
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  296  	struct dc_context *dc_ctx = dc->ctx;
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  297  	struct resource_pool *pool = dc->res_pool;
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  298  	int i;
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  299  
-ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  300) 	DTN_INFO(
-ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  301) 		"HUBP:  format  addr_hi  width  height  rot  mir  sw_mode  dcc_en  blank_en  clock_en  ttu_dis  underflow   min_ttu_vblank       qos_low_wm      qos_high_wm\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  302  	for (i = 0; i < pool->pipe_count; i++) {
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  303  		struct hubp *hubp = pool->hubps[i];
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  304  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(hubp)->state);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  305  
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  306  		hubp->funcs->hubp_read_state(hubp);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  307  
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  308  		if (!s->blank_en) {
-ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  309) 			DTN_INFO("[%2d]:  %5xh  %6xh  %5d  %6d  %2xh  %2xh  %6xh  %6d  %8d  %8d  %7d  %8xh",
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  310  					hubp->inst,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  311  					s->pixel_format,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  312  					s->inuse_addr_hi,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  313  					s->viewport_width,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  314  					s->viewport_height,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  315  					s->rotation_angle,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  316  					s->h_mirror_en,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  317  					s->sw_mode,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  318  					s->dcc_en,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  319  					s->blank_en,
-ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  320) 					s->clock_en,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  321  					s->ttu_disable,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  322  					s->underflow_status);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  323  			DTN_INFO_MICRO_SEC(s->min_ttu_vblank);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  324  			DTN_INFO_MICRO_SEC(s->qos_level_low_wm);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  325  			DTN_INFO_MICRO_SEC(s->qos_level_high_wm);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  326  			DTN_INFO("\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  327  		}
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  328  	}
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  329  
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  330  	DTN_INFO("\n=======HUBP FL======\n");
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  331  	char pLabels[18][50] = {
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  332  		"inst", "Enabled ", "Done ", "adr_mode ", "width ", "mpc_width ",
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  333  		"tmz", "xbar_sel_R", "xbar_sel_G", "xbar_sel_B", "adr_hi ",
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  334  		"adr_low", "REFCYC", "Bias", "Scale", "Mode",
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  335  		"Format", "prefetch"};
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  336  
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  337  	for (i = 0; i < pool->pipe_count; i++) {
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  338  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  339  		struct dcn_fl_regs_st *fl_regs = &s->fl_regs;
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  340  		struct _vcs_dpi_display_dlg_regs_st *dlg_regs = &s->dlg_attr;
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  341  
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  342  		if (!s->blank_en) {
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  343  			uint32_t values[] = {
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  344  					pool->hubps[i]->inst,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  345  					fl_regs->lut_enable,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  346  					fl_regs->lut_done,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  347  					fl_regs->lut_addr_mode,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  348  					fl_regs->lut_width,
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  349  					fl_regs->lut_mpc_width,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  350  					fl_regs->lut_tmz,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  351  					fl_regs->lut_crossbar_sel_r,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  352  					fl_regs->lut_crossbar_sel_g,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  353  					fl_regs->lut_crossbar_sel_b,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  354  					fl_regs->lut_addr_hi,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  355  					fl_regs->lut_addr_lo,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  356  					fl_regs->refcyc_3dlut_group,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  357  					fl_regs->lut_fl_bias,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  358  					fl_regs->lut_fl_scale,
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  359  					fl_regs->lut_fl_mode,
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  360  					fl_regs->lut_fl_format,
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  361  					dlg_regs->dst_y_prefetch};
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  362  
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  363  			int num_elements = 18;
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  364  
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  365  			for (int j = 0; j < num_elements; j++)
-e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  366  				DTN_INFO("%s \t %8xh\n", pLabels[j], values[j]);
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  367  		}
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  368  	}
-0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  369  
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  370  	DTN_INFO("\n=========RQ========\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  371  	DTN_INFO("HUBP:  drq_exp_m  prq_exp_m  mrq_exp_m  crq_exp_m  plane1_ba  L:chunk_s  min_chu_s  meta_ch_s"
-b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  372  		"  min_m_c_s  dpte_gr_s  mpte_gr_s  swath_hei  pte_row_h  C:chunk_s  min_chu_s  meta_ch_s"
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  373  		"  min_m_c_s  dpte_gr_s  mpte_gr_s  swath_hei  pte_row_h\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  374  	for (i = 0; i < pool->pipe_count; i++) {
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  375  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  376  		struct _vcs_dpi_display_rq_regs_st *rq_regs = &s->rq_regs;
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  377  
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  378  		if (!s->blank_en)
-b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  379  			DTN_INFO("[%2d]:  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh\n",
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  380  				pool->hubps[i]->inst, rq_regs->drq_expansion_mode, rq_regs->prq_expansion_mode, rq_regs->mrq_expansion_mode,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  381  				rq_regs->crq_expansion_mode, rq_regs->plane1_base_address, rq_regs->rq_regs_l.chunk_size,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  382  				rq_regs->rq_regs_l.min_chunk_size, rq_regs->rq_regs_l.meta_chunk_size,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  383  				rq_regs->rq_regs_l.min_meta_chunk_size, rq_regs->rq_regs_l.dpte_group_size,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  384  				rq_regs->rq_regs_l.mpte_group_size, rq_regs->rq_regs_l.swath_height,
-b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  385  				rq_regs->rq_regs_l.pte_row_height_linear, rq_regs->rq_regs_c.chunk_size, rq_regs->rq_regs_c.min_chunk_size,
-b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  386  				rq_regs->rq_regs_c.meta_chunk_size, rq_regs->rq_regs_c.min_meta_chunk_size,
-b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  387  				rq_regs->rq_regs_c.dpte_group_size, rq_regs->rq_regs_c.mpte_group_size,
-b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  388  				rq_regs->rq_regs_c.swath_height, rq_regs->rq_regs_c.pte_row_height_linear);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  389  	}
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  390  
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  391  	DTN_INFO("========DLG========\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  392  	DTN_INFO("HUBP:  rc_hbe     dlg_vbe    min_d_y_n  rc_per_ht  rc_x_a_s "
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  393  			"  dst_y_a_s  dst_y_pf   dst_y_vvb  dst_y_rvb  dst_y_vfl  dst_y_rfl  rf_pix_fq"
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  394  			"  vratio_pf  vrat_pf_c  rc_pg_vbl  rc_pg_vbc  rc_mc_vbl  rc_mc_vbc  rc_pg_fll"
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  395  			"  rc_pg_flc  rc_mc_fll  rc_mc_flc  pr_nom_l   pr_nom_c   rc_pg_nl   rc_pg_nc "
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  396  			"  mr_nom_l   mr_nom_c   rc_mc_nl   rc_mc_nc   rc_ld_pl   rc_ld_pc   rc_ld_l  "
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  397  			"  rc_ld_c    cha_cur0   ofst_cur1  cha_cur1   vr_af_vc0  ddrq_limt  x_rt_dlay"
-00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  398  			"  x_rp_dlay  x_rr_sfl  rc_td_grp\n");
-00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  399  
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  400  	for (i = 0; i < pool->pipe_count; i++) {
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  401  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  402  		struct _vcs_dpi_display_dlg_regs_st *dlg_regs = &s->dlg_attr;
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  403  
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  404  		if (!s->blank_en)
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  405  			DTN_INFO("[%2d]:  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh"
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  406  				"  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh"
-00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  407  				"  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh %xh\n",
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  408  				pool->hubps[i]->inst, dlg_regs->refcyc_h_blank_end, dlg_regs->dlg_vblank_end, dlg_regs->min_dst_y_next_start,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  409  				dlg_regs->refcyc_per_htotal, dlg_regs->refcyc_x_after_scaler, dlg_regs->dst_y_after_scaler,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  410  				dlg_regs->dst_y_prefetch, dlg_regs->dst_y_per_vm_vblank, dlg_regs->dst_y_per_row_vblank,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  411  				dlg_regs->dst_y_per_vm_flip, dlg_regs->dst_y_per_row_flip, dlg_regs->ref_freq_to_pix_freq,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  412  				dlg_regs->vratio_prefetch, dlg_regs->vratio_prefetch_c, dlg_regs->refcyc_per_pte_group_vblank_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  413  				dlg_regs->refcyc_per_pte_group_vblank_c, dlg_regs->refcyc_per_meta_chunk_vblank_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  414  				dlg_regs->refcyc_per_meta_chunk_vblank_c, dlg_regs->refcyc_per_pte_group_flip_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  415  				dlg_regs->refcyc_per_pte_group_flip_c, dlg_regs->refcyc_per_meta_chunk_flip_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  416  				dlg_regs->refcyc_per_meta_chunk_flip_c, dlg_regs->dst_y_per_pte_row_nom_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  417  				dlg_regs->dst_y_per_pte_row_nom_c, dlg_regs->refcyc_per_pte_group_nom_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  418  				dlg_regs->refcyc_per_pte_group_nom_c, dlg_regs->dst_y_per_meta_row_nom_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  419  				dlg_regs->dst_y_per_meta_row_nom_c, dlg_regs->refcyc_per_meta_chunk_nom_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  420  				dlg_regs->refcyc_per_meta_chunk_nom_c, dlg_regs->refcyc_per_line_delivery_pre_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  421  				dlg_regs->refcyc_per_line_delivery_pre_c, dlg_regs->refcyc_per_line_delivery_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  422  				dlg_regs->refcyc_per_line_delivery_c, dlg_regs->chunk_hdl_adjust_cur0, dlg_regs->dst_y_offset_cur1,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  423  				dlg_regs->chunk_hdl_adjust_cur1, dlg_regs->vready_after_vcount0, dlg_regs->dst_y_delta_drq_limit,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  424  				dlg_regs->xfc_reg_transfer_delay, dlg_regs->xfc_reg_precharge_delay,
-00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  425  				dlg_regs->xfc_reg_remote_surface_flip_latency, dlg_regs->refcyc_per_tdlut_group);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  426  	}
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  427  
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  428  	DTN_INFO("========TTU========\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  429  	DTN_INFO("HUBP:  qos_ll_wm  qos_lh_wm  mn_ttu_vb  qos_l_flp  rc_rd_p_l  rc_rd_l    rc_rd_p_c"
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  430  			"  rc_rd_c    rc_rd_c0   rc_rd_pc0  rc_rd_c1   rc_rd_pc1  qos_lf_l   qos_rds_l"
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  431  			"  qos_lf_c   qos_rds_c  qos_lf_c0  qos_rds_c0 qos_lf_c1  qos_rds_c1\n");
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  432  	for (i = 0; i < pool->pipe_count; i++) {
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  433  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  434  		struct _vcs_dpi_display_ttu_regs_st *ttu_regs = &s->ttu_attr;
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  435  
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  436  		if (!s->blank_en)
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  437  			DTN_INFO("[%2d]:  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh\n",
-a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  438  				pool->hubps[i]->inst, ttu_regs->qos_level_low_wm, ttu_regs->qos_level_high_wm, ttu_regs->min_ttu_vblank,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  439  				ttu_regs->qos_level_flip, ttu_regs->refcyc_per_req_delivery_pre_l, ttu_regs->refcyc_per_req_delivery_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  440  				ttu_regs->refcyc_per_req_delivery_pre_c, ttu_regs->refcyc_per_req_delivery_c, ttu_regs->refcyc_per_req_delivery_cur0,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  441  				ttu_regs->refcyc_per_req_delivery_pre_cur0, ttu_regs->refcyc_per_req_delivery_cur1,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  442  				ttu_regs->refcyc_per_req_delivery_pre_cur1, ttu_regs->qos_level_fixed_l, ttu_regs->qos_ramp_disable_l,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  443  				ttu_regs->qos_level_fixed_c, ttu_regs->qos_ramp_disable_c, ttu_regs->qos_level_fixed_cur0,
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  444  				ttu_regs->qos_ramp_disable_cur0, ttu_regs->qos_level_fixed_cur1, ttu_regs->qos_ramp_disable_cur1);
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  445  	}
-34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  446  	DTN_INFO("\n");
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29 @447  }
-0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  448  
+4dc6dc7162c08b Eric Dumazet             2009-07-15  364  
+68835aba4d9b74 Eric Dumazet             2010-11-30  365  #define sk_dontcopy_begin	__sk_common.skc_dontcopy_begin
+68835aba4d9b74 Eric Dumazet             2010-11-30  366  #define sk_dontcopy_end		__sk_common.skc_dontcopy_end
+4dc6dc7162c08b Eric Dumazet             2009-07-15  367  #define sk_hash			__sk_common.skc_hash
+5080546682bae3 Eric Dumazet             2013-10-02  368  #define sk_portpair		__sk_common.skc_portpair
+05dbc7b59481ca Eric Dumazet             2013-10-03  369  #define sk_num			__sk_common.skc_num
+05dbc7b59481ca Eric Dumazet             2013-10-03  370  #define sk_dport		__sk_common.skc_dport
+5080546682bae3 Eric Dumazet             2013-10-02  371  #define sk_addrpair		__sk_common.skc_addrpair
+5080546682bae3 Eric Dumazet             2013-10-02  372  #define sk_daddr		__sk_common.skc_daddr
+5080546682bae3 Eric Dumazet             2013-10-02  373  #define sk_rcv_saddr		__sk_common.skc_rcv_saddr
+^1da177e4c3f41 Linus Torvalds           2005-04-16  374  #define sk_family		__sk_common.skc_family
+^1da177e4c3f41 Linus Torvalds           2005-04-16  375  #define sk_state		__sk_common.skc_state
+^1da177e4c3f41 Linus Torvalds           2005-04-16  376  #define sk_reuse		__sk_common.skc_reuse
+055dc21a1d1d21 Tom Herbert              2013-01-22  377  #define sk_reuseport		__sk_common.skc_reuseport
+9fe516ba3fb29b Eric Dumazet             2014-06-27  378  #define sk_ipv6only		__sk_common.skc_ipv6only
+26abe14379f8e2 Eric W. Biederman        2015-05-08  379  #define sk_net_refcnt		__sk_common.skc_net_refcnt
+^1da177e4c3f41 Linus Torvalds           2005-04-16  380  #define sk_bound_dev_if		__sk_common.skc_bound_dev_if
+^1da177e4c3f41 Linus Torvalds           2005-04-16  381  #define sk_bind_node		__sk_common.skc_bind_node
+8feaf0c0a5488b Arnaldo Carvalho de Melo 2005-08-09  382  #define sk_prot			__sk_common.skc_prot
+07feaebfcc10cd Eric W. Biederman        2007-09-12  383  #define sk_net			__sk_common.skc_net
+efe4208f47f907 Eric Dumazet             2013-10-03 @384  #define sk_v6_daddr		__sk_common.skc_v6_daddr
+efe4208f47f907 Eric Dumazet             2013-10-03  385  #define sk_v6_rcv_saddr	__sk_common.skc_v6_rcv_saddr
+33cf7c90fe2f97 Eric Dumazet             2015-03-11  386  #define sk_cookie		__sk_common.skc_cookie
+70da268b569d32 Eric Dumazet             2015-10-08  387  #define sk_incoming_cpu		__sk_common.skc_incoming_cpu
+8e5eb54d303b7c Eric Dumazet             2015-10-08  388  #define sk_flags		__sk_common.skc_flags
+ed53d0ab761f5c Eric Dumazet             2015-10-08  389  #define sk_rxhash		__sk_common.skc_rxhash
+efe4208f47f907 Eric Dumazet             2013-10-03  390  
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  391  	__cacheline_group_begin(sock_write_rx);
+43f51df4172955 Eric Dumazet             2021-11-15  392  
+9115e8cd2a0c6e Eric Dumazet             2016-12-03  393  	atomic_t		sk_drops;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  394  	__s32			sk_peek_off;
+9115e8cd2a0c6e Eric Dumazet             2016-12-03  395  	struct sk_buff_head	sk_error_queue;
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  396  	struct sk_buff_head	sk_receive_queue;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  397  	/*
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  398  	 * The backlog queue is special, it is always used with
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  399  	 * the per-socket spinlock held and requires low latency
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  400  	 * access. Therefore we special case it's implementation.
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  401  	 * Note : rmem_alloc is in this structure to fill a hole
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  402  	 * on 64bit arches, not because its logically part of
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  403  	 * backlog.
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  404  	 */
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  405  	struct {
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  406  		atomic_t	rmem_alloc;
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  407  		int		len;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  408  		struct sk_buff	*head;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  409  		struct sk_buff	*tail;
+fa438ccfdfd3f6 Eric Dumazet             2007-03-04  410  	} sk_backlog;
+b178bb3dfc30d9 Eric Dumazet             2010-11-16  411  #define sk_rmem_alloc sk_backlog.rmem_alloc
+2c8c56e15df3d4 Eric Dumazet             2014-11-11  412  
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  413  	__cacheline_group_end(sock_write_rx);
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  414  
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  415  	__cacheline_group_begin(sock_read_rx);
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  416  	/* early demux fields */
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  417  	struct dst_entry __rcu	*sk_rx_dst;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  418  	int			sk_rx_dst_ifindex;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  419  	u32			sk_rx_dst_cookie;
+5d4cc87414c5d1 Eric Dumazet             2024-02-16  420  
 
-:::::: The code at line 447 was first introduced by commit
-:::::: 0a93dc7f595f43b621277ecfc05a44ed0c719a5f drm/amd/display: add rq/dlg/ttu to dtn log
+:::::: The code at line 384 was first introduced by commit
+:::::: efe4208f47f907b86f528788da711e8ab9dea44d ipv6: make lookups simpler and faster
 
-:::::: TO: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
