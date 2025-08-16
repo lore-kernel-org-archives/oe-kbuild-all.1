@@ -1,63 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B697028C039
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 10:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CED1DA21
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 10:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755339063; cv=none; b=OGxMDkIFCbO8FhmIGUe5bfeu5V9r7JBLS7Fn2v9K0tDCW7SkFpzjNIsqVdDxoUmH2/EMY6jeh1fUFFTRBUezjEZ8bKYr8prpJm3Vq49zPzLjl79ZsMOnQ/VidkcyHz8XQF2yiugJrAxxdR87T1wBAz0AAL/KhNerFe+mCe5dehA=
+	t=1755340115; cv=none; b=bv6QUAWDBn0/DzbI0QvBXMvUuFmy7/OeTs5+fUueLU4YT+l8jpvKFrHr7pA8+eujVonb/5Eg+bn3OZzd3Qk7TLySuy3nZcb/tQZe6h8faMd2eu2TCJGGe7tJg0b+eAZU14Z7CSJsGbspX3himzekpuN1ZChqylzM2hXNWscwSX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755339063; c=relaxed/simple;
-	bh=axqTjNFlmphNfFORcQmFtJ3vQU2+7Fg2Z26+WcSA7r0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUkxdyQ6kFhikg9qRUNSJGsKKl31Zn1ADdHDQWTTRuTpw0TZIWd2IyvOlg1izf412GV/EEOUj2woRJ2BZWu4KGrUm/GrUVeDMvV0MgfJ5jHqL6IYhqViyIrB/GRL+XmeamufKE6bcPrbgyIkuG+B5bdZeMGq252vAb5haxiN8Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T79D3kzH; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755340115; c=relaxed/simple;
+	bh=M27dDn9ubdQQdmD+XfPR8sXcJOZh8/obVDeIaeOJP/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=dCRRojiZ1J/R4Ke3Iee8IEwWtfe5jt4kPv6xOafxbG+f2W1wbTyJsFwJfo56o0w2V6AOp+9OYEFMRbaJuUCURGs2k01y+RHs8TSJ5reh/I9QauTmeVUNC7SCz4tcPO5nnB6vE1rey/lZSwVMMjZbQUDsPHKydseRLCPA4nNype8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TFt9/dTz; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T79D3kzH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755339062; x=1786875062;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=axqTjNFlmphNfFORcQmFtJ3vQU2+7Fg2Z26+WcSA7r0=;
-  b=T79D3kzH+sTdIZFCORWXnle2/olgx1WJG6mdbeyrR52kWJmXIb1Ke4Li
-   8349VcXxqfSh4HnLBttKqqKwczm13AhUndNPvuTINqjpKMvGi6OCdNtSG
-   SZL4Ini/19mFPK4tnoHZHxLKkVPdA0MHUGXTvvOgCRcrCiGhNHxTaIj0J
-   NAnKzCNf4lPn+NNsgbgJNMM8xIEG+485gjuPe0qJgokT+hJY5p2JxaCum
-   ZWAkVFSMa8ex+AGDHge3gfLSduT/9NbRNCU+gRZ5H/xJE8wY7HIiIw9vT
-   CWQhbI+jZ1reHkCuXmzm2NuDpqBHg/dezvC4JyVaw8TRrRl3BgLoPeXgT
-   w==;
-X-CSE-ConnectionGUID: PS2A4joVR7GOc2VNPXGxXQ==
-X-CSE-MsgGUID: Fyr5nMcpRSmezXRVDPuz1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="61274086"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="61274086"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 03:11:02 -0700
-X-CSE-ConnectionGUID: wf4JgEWbQZ+I66zReqgvtg==
-X-CSE-MsgGUID: 6b3a/uRcR8iSvvHTBhGd8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="198044644"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Aug 2025 03:10:59 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1unDro-000Cnw-2d;
-	Sat, 16 Aug 2025 10:10:39 +0000
-Date: Sat, 16 Aug 2025 18:10:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Bertschinger <tahbertschinger@gmail.com>,
-	io-uring@vger.kernel.org, axboe@kernel.dk,
-	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Bertschinger <tahbertschinger@gmail.com>
-Subject: Re: [PATCH 6/6] io_uring: add support for IORING_OP_OPEN_BY_HANDLE_AT
-Message-ID: <202508161702.2Ey3J7m9-lkp@intel.com>
-References: <20250814235431.995876-7-tahbertschinger@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TFt9/dTz"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b9a342e8ffso1942231f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 03:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755340111; x=1755944911; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oXh81VKf/4Dbcz4RJiYvjkoUvnAUmKw8U6C7gKFu26o=;
+        b=TFt9/dTzDrjlqDvfVypfU/WGwbDxMEFjFpP54Qu+vobAomznYAxtQbz/5mav3Ff+J3
+         KVkdwc+MUmIDrciBWT9HyHj7yn26+76VR8wALaFNdaAhncYj+ZGY7Fj4KcHgkUUhixHq
+         Nej9tPW6louaW22Lq/QFGjtVbqsrkIv+x9RxTc54s4T67hrLfxhZz9R7LM+qV+/+Wi/K
+         Ol8LCwVLw4FFLd77wMyOAkdjorR6BWYf9OKjykbEeS+zgHI1bFHBCC0qId0yQkaczDN4
+         CieHR4P7t/gEonsC1N2vh7VbLgF5r3DwbS1Mdp8efYyO8IV+8H7tmXKdgTMHMsfF8oKr
+         B7vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755340111; x=1755944911;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oXh81VKf/4Dbcz4RJiYvjkoUvnAUmKw8U6C7gKFu26o=;
+        b=EU2JZvGpBWjrfysOvcclS3081INdI8AQpwcKiGbVY2WneOWzDgsHx5ePk7LavcG6Tg
+         FdIwhxtPufxU8QdW39Kj7ub4cJ6KmMX32TIKnN+nSukPCP2trrkLAyJi07QADLXsZzOU
+         2uQolb+KAJXw2d867q8KDSm5Esm/Qkhkk8/LsDV0QxsecHuYOLOTyspCurl1NmgVfXPh
+         feU/KPqkS+cmyKfZF5Kb3v2mrzfdOkUYF+gpl73UXAPqI6LOZ+ouMI3HuqhA0197KQ5f
+         pvE+yDsPuhKLZpwQHxFPlVyuwQJr+6YDZknC5vsrXN+3kxSkuvS16sqBdE3SG8sqPXRj
+         ybuA==
+X-Forwarded-Encrypted: i=1; AJvYcCU70ZaGFVzl5pHiPqllit3U63MgeEbXOQL+iRJ8bVX+NPMA3eB8PqufuIrDgiA+/cwSbrTSO7PajEqrSjp6@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywb0byyXa+8oLwqThQjJ8Ik1E2jZxrjvTioIFJb8dl4D6sousbK
+	h/Gj3Df7zbStQeYTI+LFY+USJT/eyVYLP57CyJvjsqV4sDXAf1jc8B4sxCIKn7+SC6w=
+X-Gm-Gg: ASbGncuxb6rZZ3I6k8yvqtL06K2Vz99DR55mcyu21RCbwyxXtA5flsFAMF4Asxw5qeE
+	NUvnLlIE9CnGwETDxiuJaFj8BRVh0kmEDeF+11RHeF/FdFHaUK/r1Rj3wgZdTECKzMDNS0+aRMG
+	zzWUy3Oi5wWBcSj8bA0NJpBPUm4um4HcDlEDFfj4gEF0qqaPQqth6RYuKWq9INyzFf3I7CB6d8N
+	qtIel2i+yxHkA7vzcwMUHuHrHuMEiwE+TDhFiu/eMs8AikXDOSQx3UqSlweh4x6Fzw/Y1TlVWDY
+	sQtRvE/YGgzBsNvzb8YbN52yHv8U+fpwtzJ9T3kokrTHr4V2khRFObp1QxwOefOFlqp+8UCxUmf
+	uJ8+kjJd4YJkZCt8sgdKsULMni/4Lbsgzm0cOfWSRt04=
+X-Google-Smtp-Source: AGHT+IGficK1F5saavRVPWTAr0TpxR29hX57+5MvmQ1Uy0vcX036uC8t1FcIRPlsb5Lhb78Ct3ryAg==
+X-Received: by 2002:a05:6000:2f84:b0:3b8:d337:cc2d with SMTP id ffacd0b85a97d-3ba508eb0b2mr7593550f8f.18.1755340111506;
+        Sat, 16 Aug 2025 03:28:31 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb676c971bsm5185226f8f.32.2025.08.16.03.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 03:28:31 -0700 (PDT)
+Date: Sat, 16 Aug 2025 13:28:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Biju <biju.das.au@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod
+ clocks
+Message-ID: <202508160958.ounSAlER-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,85 +79,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814235431.995876-7-tahbertschinger@gmail.com>
+In-Reply-To: <20250814124832.76266-3-biju.das.jz@bp.renesas.com>
 
-Hi Thomas,
+Hi Biju,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.17-rc1 next-20250815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Bertschinger/fhandle-create-helper-for-name_to_handle_at-2/20250815-075417
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250814235431.995876-7-tahbertschinger%40gmail.com
-patch subject: [PATCH 6/6] io_uring: add support for IORING_OP_OPEN_BY_HANDLE_AT
-config: parisc-randconfig-r132-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161702.2Ey3J7m9-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250816/202508161702.2Ey3J7m9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju/clk-renesas-rzv2h-Refactor-rzv2h_cpg_fixed_mod_status_clk_register/20250814-205111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+patch link:    https://lore.kernel.org/r/20250814124832.76266-3-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH 2/4] clk: renesas: rzv2h: Add support for parent mod clocks
+config: hexagon-randconfig-r072-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160958.ounSAlER-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508161702.2Ey3J7m9-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508160958.ounSAlER-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/clk/renesas/rzv2h-cpg.c:875 rzv2h_cpg_register_mod_clk() warn: passing zero to 'PTR_ERR'
 
-   hppa-linux-ld: io_uring/openclose.o: in function `io_name_to_handle_at':
-   io_uring/openclose.c:241:(.text+0x870): undefined reference to `do_name_to_handle_at'
-   hppa-linux-ld: io_uring/openclose.o: in function `io_open_by_handle_at':
->> io_uring/openclose.c:287:(.text+0x990): undefined reference to `__do_handle_open'
+vim +/PTR_ERR +875 drivers/clk/renesas/rzv2h-cpg.c
 
+dd22e56217495e Lad Prabhakar 2024-07-29  770  static void __init
+dd22e56217495e Lad Prabhakar 2024-07-29  771  rzv2h_cpg_register_mod_clk(const struct rzv2h_mod_clk *mod,
+dd22e56217495e Lad Prabhakar 2024-07-29  772  			   struct rzv2h_cpg_priv *priv)
+dd22e56217495e Lad Prabhakar 2024-07-29  773  {
+dd22e56217495e Lad Prabhakar 2024-07-29  774  	struct mod_clock *clock = NULL;
+dd22e56217495e Lad Prabhakar 2024-07-29  775  	struct device *dev = priv->dev;
+dd22e56217495e Lad Prabhakar 2024-07-29  776  	struct clk_init_data init;
+dd22e56217495e Lad Prabhakar 2024-07-29  777  	struct clk *parent, *clk;
+dd22e56217495e Lad Prabhakar 2024-07-29  778  	const char *parent_name;
+dd22e56217495e Lad Prabhakar 2024-07-29  779  	unsigned int id;
+dd22e56217495e Lad Prabhakar 2024-07-29  780  	int ret;
+dd22e56217495e Lad Prabhakar 2024-07-29  781  
+dd22e56217495e Lad Prabhakar 2024-07-29  782  	id = GET_MOD_CLK_ID(priv->num_core_clks, mod->on_index, mod->on_bit);
+dd22e56217495e Lad Prabhakar 2024-07-29  783  	WARN_DEBUG(id >= priv->num_core_clks + priv->num_mod_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  784  	WARN_DEBUG(mod->parent >= priv->num_core_clks + priv->num_mod_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  785  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
+dd22e56217495e Lad Prabhakar 2024-07-29  786  
+dd22e56217495e Lad Prabhakar 2024-07-29  787  	parent = priv->clks[mod->parent];
+dd22e56217495e Lad Prabhakar 2024-07-29  788  	if (IS_ERR(parent)) {
+dd22e56217495e Lad Prabhakar 2024-07-29  789  		clk = parent;
+dd22e56217495e Lad Prabhakar 2024-07-29  790  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  791  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  792  
+dd22e56217495e Lad Prabhakar 2024-07-29  793  	clock = devm_kzalloc(dev, sizeof(*clock), GFP_KERNEL);
+dd22e56217495e Lad Prabhakar 2024-07-29  794  	if (!clock) {
+dd22e56217495e Lad Prabhakar 2024-07-29  795  		clk = ERR_PTR(-ENOMEM);
+dd22e56217495e Lad Prabhakar 2024-07-29  796  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  797  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  798  
+dd22e56217495e Lad Prabhakar 2024-07-29  799  	init.name = mod->name;
+dd22e56217495e Lad Prabhakar 2024-07-29  800  	init.ops = &rzv2h_mod_clock_ops;
+dd22e56217495e Lad Prabhakar 2024-07-29  801  	init.flags = CLK_SET_RATE_PARENT;
+dd22e56217495e Lad Prabhakar 2024-07-29  802  	if (mod->critical)
+dd22e56217495e Lad Prabhakar 2024-07-29  803  		init.flags |= CLK_IS_CRITICAL;
+dd22e56217495e Lad Prabhakar 2024-07-29  804  
+dd22e56217495e Lad Prabhakar 2024-07-29  805  	parent_name = __clk_get_name(parent);
+dd22e56217495e Lad Prabhakar 2024-07-29  806  	init.parent_names = &parent_name;
+dd22e56217495e Lad Prabhakar 2024-07-29  807  	init.num_parents = 1;
+dd22e56217495e Lad Prabhakar 2024-07-29  808  
+dd22e56217495e Lad Prabhakar 2024-07-29  809  	clock->on_index = mod->on_index;
+dd22e56217495e Lad Prabhakar 2024-07-29  810  	clock->on_bit = mod->on_bit;
+dd22e56217495e Lad Prabhakar 2024-07-29  811  	clock->mon_index = mod->mon_index;
+dd22e56217495e Lad Prabhakar 2024-07-29  812  	clock->mon_bit = mod->mon_bit;
+03108a2614ecab Lad Prabhakar 2024-12-02  813  	clock->no_pm = mod->no_pm;
+899e7ede4c19c6 Lad Prabhakar 2025-05-09  814  	clock->ext_clk_mux_index = mod->ext_clk_mux_index;
+dd22e56217495e Lad Prabhakar 2024-07-29  815  	clock->priv = priv;
+dd22e56217495e Lad Prabhakar 2024-07-29  816  	clock->hw.init = &init;
+9b6e63a777ea5f Biju Das      2024-12-13  817  	clock->mstop_data = mod->mstop_data;
+dd22e56217495e Lad Prabhakar 2024-07-29  818  
+dd22e56217495e Lad Prabhakar 2024-07-29  819  	ret = devm_clk_hw_register(dev, &clock->hw);
+dd22e56217495e Lad Prabhakar 2024-07-29  820  	if (ret) {
+dd22e56217495e Lad Prabhakar 2024-07-29  821  		clk = ERR_PTR(ret);
+dd22e56217495e Lad Prabhakar 2024-07-29  822  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  823  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  824  
+dd22e56217495e Lad Prabhakar 2024-07-29  825  	priv->clks[id] = clock->hw.clk;
+18610e6bf54faa Biju Das      2025-08-14  826  	if (mod->child_name) {
+18610e6bf54faa Biju Das      2025-08-14  827  		WARN_DEBUG(mod->child >= priv->num_core_clks);
+18610e6bf54faa Biju Das      2025-08-14  828  		WARN_DEBUG(PTR_ERR(priv->clks[mod->child]) != -ENOENT);
+18610e6bf54faa Biju Das      2025-08-14  829  
+18610e6bf54faa Biju Das      2025-08-14  830  		clk = rzv2h_cpg_mod_status_clk_register(priv, mod->child_name, mod->name, 1, 1,
+18610e6bf54faa Biju Das      2025-08-14  831  							FIXED_MOD_CONF_PACK(mod->mon_index,
+18610e6bf54faa Biju Das      2025-08-14  832  									    mod->mon_bit));
+18610e6bf54faa Biju Das      2025-08-14  833  		if (IS_ERR_OR_NULL(clk))
+18610e6bf54faa Biju Das      2025-08-14  834  			goto fail;
 
-vim +287 io_uring/openclose.c
+This isn't how IS_ERR_OR_NULL() is supposed to work...  :(  The NULL should
+be treated like success, it shouldn't print an error message, unless it's
+something like:
 
-   266	
-   267	int io_open_by_handle_at(struct io_kiocb *req, unsigned int issue_flags)
-   268	{
-   269		struct io_open *open = io_kiocb_to_cmd(req, struct io_open);
-   270		struct file *file;
-   271		bool fixed = !!open->file_slot;
-   272		int ret;
-   273	
-   274		/*
-   275		 * Always try again if we aren't supposed to block, because there is no
-   276		 * way of preventing the FS implementation from blocking.
-   277		 */
-   278		if (issue_flags & IO_URING_F_NONBLOCK)
-   279			return -EAGAIN;
-   280	
-   281		if (!fixed) {
-   282			ret = __get_unused_fd_flags(open->how.flags, open->nofile);
-   283			if (ret < 0)
-   284				goto err;
-   285		}
-   286	
- > 287		file = __do_handle_open(open->dfd, open->ufh, open->how.flags);
-   288	
-   289		if (IS_ERR(file)) {
-   290			if (!fixed)
-   291				put_unused_fd(ret);
-   292			ret = PTR_ERR(file);
-   293			goto err;
-   294		}
-   295	
-   296		if (!fixed)
-   297			fd_install(ret, file);
-   298		else
-   299			ret = io_fixed_fd_install(req, issue_flags, file,
-   300						  open->file_slot);
-   301	
-   302	err:
-   303		if (ret < 0)
-   304			req_set_fail(req);
-   305		io_req_set_res(req, ret, 0);
-   306		return IOU_COMPLETE;
-   307	}
-   308	
+	WARN_ON_ONCE(!clk); // rzv2h_cpg_mod_status_clk_register() is buggy
+
+I have written a blog about how how IS_ERR_OR_NULL() is supposed to work:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+18610e6bf54faa Biju Das      2025-08-14  835  		priv->clks[mod->child] = clk;
+18610e6bf54faa Biju Das      2025-08-14  836  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  837  
+9b6e63a777ea5f Biju Das      2024-12-13  838  	/*
+9b6e63a777ea5f Biju Das      2024-12-13  839  	 * Ensure the module clocks and MSTOP bits are synchronized when they are
+9b6e63a777ea5f Biju Das      2024-12-13  840  	 * turned ON by the bootloader. Enable MSTOP bits for module clocks that were
+9b6e63a777ea5f Biju Das      2024-12-13  841  	 * turned ON in an earlier boot stage.
+9b6e63a777ea5f Biju Das      2024-12-13  842  	 */
+9b6e63a777ea5f Biju Das      2024-12-13  843  	if (clock->mstop_data != BUS_MSTOP_NONE &&
+9b6e63a777ea5f Biju Das      2024-12-13  844  	    !mod->critical && rzv2h_mod_clock_is_enabled(&clock->hw)) {
+9b6e63a777ea5f Biju Das      2024-12-13  845  		rzv2h_mod_clock_mstop_enable(priv, clock->mstop_data);
+9b6e63a777ea5f Biju Das      2024-12-13  846  	} else if (clock->mstop_data != BUS_MSTOP_NONE && mod->critical) {
+9b6e63a777ea5f Biju Das      2024-12-13  847  		unsigned long mstop_mask = FIELD_GET(BUS_MSTOP_BITS_MASK, clock->mstop_data);
+9b6e63a777ea5f Biju Das      2024-12-13  848  		u16 mstop_index = FIELD_GET(BUS_MSTOP_IDX_MASK, clock->mstop_data);
+69ac2acd209a15 Biju Das      2025-02-22  849  		atomic_t *mstop = &priv->mstop_count[mstop_index * 16];
+9b6e63a777ea5f Biju Das      2024-12-13  850  		unsigned long flags;
+9b6e63a777ea5f Biju Das      2024-12-13  851  		unsigned int i;
+9b6e63a777ea5f Biju Das      2024-12-13  852  		u32 val = 0;
+9b6e63a777ea5f Biju Das      2024-12-13  853  
+9b6e63a777ea5f Biju Das      2024-12-13  854  		/*
+9b6e63a777ea5f Biju Das      2024-12-13  855  		 * Critical clocks are turned ON immediately upon registration, and the
+9b6e63a777ea5f Biju Das      2024-12-13  856  		 * MSTOP counter is updated through the rzv2h_mod_clock_enable() path.
+9b6e63a777ea5f Biju Das      2024-12-13  857  		 * However, if the critical clocks were already turned ON by the initial
+9b6e63a777ea5f Biju Das      2024-12-13  858  		 * bootloader, synchronize the atomic counter here and clear the MSTOP bit.
+9b6e63a777ea5f Biju Das      2024-12-13  859  		 */
+9b6e63a777ea5f Biju Das      2024-12-13  860  		spin_lock_irqsave(&priv->rmw_lock, flags);
+9b6e63a777ea5f Biju Das      2024-12-13  861  		for_each_set_bit(i, &mstop_mask, 16) {
+9b6e63a777ea5f Biju Das      2024-12-13  862  			if (atomic_read(&mstop[i]))
+9b6e63a777ea5f Biju Das      2024-12-13  863  				continue;
+9b6e63a777ea5f Biju Das      2024-12-13  864  			val |= BIT(i) << 16;
+9b6e63a777ea5f Biju Das      2024-12-13  865  			atomic_inc(&mstop[i]);
+9b6e63a777ea5f Biju Das      2024-12-13  866  		}
+9b6e63a777ea5f Biju Das      2024-12-13  867  		if (val)
+9b6e63a777ea5f Biju Das      2024-12-13  868  			writel(val, priv->base + CPG_BUS_MSTOP(mstop_index));
+9b6e63a777ea5f Biju Das      2024-12-13  869  		spin_unlock_irqrestore(&priv->rmw_lock, flags);
+9b6e63a777ea5f Biju Das      2024-12-13  870  	}
+9b6e63a777ea5f Biju Das      2024-12-13  871  
+dd22e56217495e Lad Prabhakar 2024-07-29  872  	return;
+dd22e56217495e Lad Prabhakar 2024-07-29  873  
+dd22e56217495e Lad Prabhakar 2024-07-29  874  fail:
+dd22e56217495e Lad Prabhakar 2024-07-29 @875  	dev_err(dev, "Failed to register module clock %s: %ld\n",
+dd22e56217495e Lad Prabhakar 2024-07-29  876  		mod->name, PTR_ERR(clk));
+dd22e56217495e Lad Prabhakar 2024-07-29  877  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
