@@ -1,141 +1,115 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9611291C17
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 16:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4B21A8F97;
+	Sat, 16 Aug 2025 17:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755363287; cv=none; b=t5Rns6MNP8r3swL5yK+3/TrmrrRwj5Wevzhjc2NLa8vjJVZqEn5lGS7c0btGpSHRwOFb6Yw1EjSvpornvhmTl5yjFR8yclM6+OoOFUJvVJ0k8+DIvQHHgNwY9dTewFYk4a+1aL2V+at2yB9OdVo/Ppm+ipDEaDGqyRVFuMAawtk=
+	t=1755366216; cv=none; b=mQvs1ym9qy4SPt175I/vos6IXCErInr90TIZM1kFzsD2xgt8McfaLQvashhQmBZXbI+jspuCCVRocfDHaOCByaa+/cYx7MLb8OfpeQ1eFcFa/5kM6RDsgX0hDfolF4CGeYB0QjluMZB9RQlurDonyzrgOd5oJLp02GSKU5nRotU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755363287; c=relaxed/simple;
-	bh=GQ+UFqRbdccCi5+27Ol1ffouzYJRDm4X1t3l4SneLfU=;
-	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
-	 Content-Type; b=I3jO0Hg5+C1D5baGzJeRo1CgFNlnfITmoEqKYhd7ePrmPa//tb0dG7BQa6SKQIhv7P9MdNqjn4urnxjGtX5+/YNkcZjmmESSk2R3CoTxvl3/z0umpVAI14YbucJzqMgdMJup+5xrqBwZoAA2o3iceRfh1xmooYF0TnSh+K5NuSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=sExSQF6K; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
+	s=arc-20240116; t=1755366216; c=relaxed/simple;
+	bh=Y4+5jv9bJIBFZQ94IeivVBSbqAYFaK3hmZElluVcB6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYp+tGRjxntRbkYNAGylPAK1f8C2rI6ebb9uw2syOCz4Vu9nVk8QccBou0r76E4afphakR0tVKXlvW8oIax34OXjTb2jKQ2toASbpemqBvqmfS//UFd6CLUW4HP++18OtbjqSyQdax7gbRXQkCLxsOxwhYsajpKaa0bYw8lfxPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9wS06PJ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="sExSQF6K"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24457f53d2eso33584385ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 09:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1755363284; x=1755968084; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5PStuBj2AcAChrvd5pu9DC77ZtNW23zxXAJXUaaX2ZY=;
-        b=sExSQF6KRQgSLj45P9c5G154hs/5mZbhRZphiZ14zO9NNVkVU7QfZmOW5r589C/Mku
-         7UyUaAN7ZPuhB8CEDzxqQkbFWx/3B3P8n5CvMrdiQwVlDJz8nif+Lc8wv0EwnI6fQoNN
-         twWNils4pfX+OGIW9564jigt7Py1+Ax/3xk3fKLwb8vvc+lU8iR3LkvgNs7cYn7YTYZO
-         8jmZMRB14FgGEK7DIBsUvhZZw1+PhN3/VHfWQwrtkZzO9+Kr4hR/DAxnt+2qabxsx9LV
-         fEgucvKWVWIud7w9L5HGdCpw86yRraScxLntyFICVZ6nUKJjt2mezd1Dwpl62Ukwcr8k
-         CjBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755363284; x=1755968084;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5PStuBj2AcAChrvd5pu9DC77ZtNW23zxXAJXUaaX2ZY=;
-        b=g+rBDUhPtEzvbO95RLN944Q0hsypwpAm8PK3Lq0Ixidw0qwYIB0QWeB70IqJdC1LOk
-         EFFNKQhnFjLN6wqQPvnEc0mAYmGXy3C9YvUIsB2LXDS8v5N1C4xB+3tSs63IRvnN2TUb
-         Ktax2/K2J9RO4MYYV98QKRCUl/naApdeO2KUmSqdBqYjTbO/i0a/GgC95XC6zJyDm83o
-         wH3UWiPNNndCxaM75L/6ybuIRGkV3a+wO2KBzwkkRcFY6w44+CmaqYF68YMElxhJokIx
-         hvN4G+KHS2LmXVGplaUQIzOESGc+kMjEzcsl/sjNpen13/uCjoVHN5wqIa42rJrv7JAD
-         M2ew==
-X-Forwarded-Encrypted: i=1; AJvYcCWtrTyXWvlOklKNrH/dd1xjSbLWZnH6X23wnb3L7h/GPfAl9KyzRLrBMGlx5/9bLRHywesL+aQ+XbAk2nmw@lists.linux.dev
-X-Gm-Message-State: AOJu0YztGkMrqw52/IWoQREK3Z9qQPB5P077Y5Qn9qD5r48QlAggYPlR
-	1P32gKouaW1N15i6Zpaz1Jm7VKsv6XCQpkXw2T+6AalXCy2a59/6AeVUHkOpBUJr/WQ=
-X-Gm-Gg: ASbGncuhJ8vyTXyeb8XDmWBT+XxQ2H5EayIvc4zyXA/OrrjRuzne6PFlP1KOpUuMziI
-	fs+DU4Ykxbt2Fw2DtC/V50s2QPKxfbApq5V3fT7iMjIlOJiorhITQjf+TDzwf1+mVLcW5rRacOc
-	tpmDqGwjCf+eeU7xb55YtijMz3vqo28l5O1/MX2jU/S7nXsYQ3GSLwKHbEj+xZydEhX9B453Q19
-	EcCbG5CYi+KI5POTuxH930X+QSNjy4L2H+eUnAvOfeNiPlqAHVbM7mZw+AE7p1k/Tb+csyEvITR
-	uXcfqrEHJbn0asWYtBVLjjdWC4Jrfad0mrEfH080el5jFf9OxituOPDPdZjR13kMVIqqEHId4OJ
-	ppk4eduSIIvtHH4eTiXI91RdW3Sps5wwyUs4=
-X-Google-Smtp-Source: AGHT+IFWyojqKjTT+MeJ+qpupih1PIDLwvSVceT7ZwRfAsyAkrnPrucAznG7NFXOKYitLar8FDpanA==
-X-Received: by 2002:a17:902:d485:b0:242:c66f:9f75 with SMTP id d9443c01a7336-2446d9827b2mr84535435ad.55.1755363284187;
-        Sat, 16 Aug 2025 09:54:44 -0700 (PDT)
-Received: from localhost ([192.184.165.199])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2446ca9d9a7sm39190095ad.23.2025.08.16.09.54.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 09:54:43 -0700 (PDT)
-Date: Sat, 16 Aug 2025 09:54:43 -0700 (PDT)
-X-Google-Original-Date: Sat, 16 Aug 2025 09:54:36 PDT (-0700)
-Subject:     Re: mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2 (different address spaces)
-In-Reply-To: <20250816161928.GU222315@ZenIV>
-CC: lkp@intel.com, cleger@rivosinc.com, oe-kbuild-all@lists.linux.dev,
-  linux-kernel@vger.kernel.org, alexghiti@rivosinc.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: viro@zeniv.linux.org.uk
-Message-ID: <mhng-9C57C767-A1FB-4547-9651-A430DA137E67@Palmers-Mini.rwc.dabbelt.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9wS06PJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755366214; x=1786902214;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y4+5jv9bJIBFZQ94IeivVBSbqAYFaK3hmZElluVcB6I=;
+  b=O9wS06PJDYTtStLWB6b+FbXhSUcfg8vcaVbXC4aWITU5nCHt3Zc0A5GJ
+   zu18m85ZgJym1KLIH3eFty6MrXmhG2yju4FCd7SFc6Fmp1YxTCeP8aO9t
+   xlzI/7SV/k2sqa/GnLKWlWmRGnijoAO5k+ZCcWO437X2ptyvNG47u0gel
+   pAWyw6Tg8fREql0lFeuuWSIQlgaGKBCHCM6jCGzPaqA20MlygG/Qk7s/M
+   Wz6xUOEPG51KcGNDC77nGVSXaFOQSFzn8xugqVAIjjfebrTsehkNoE7f6
+   09GIzal6G1r/0d9lWYNOjogmmoETj0tYNpPcCoLGlMsbGrQkfVrdSESDq
+   A==;
+X-CSE-ConnectionGUID: BD/kOtJjT5abOxhUnjjB3g==
+X-CSE-MsgGUID: CYtX4ms0Q5Wx9il2ZW3+VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57729993"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="57729993"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 10:43:34 -0700
+X-CSE-ConnectionGUID: u5fyoiCRSxqNtJTZgcMK7g==
+X-CSE-MsgGUID: +IACfkfOQvyRdCq6GHi/iA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="167621159"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2025 10:43:31 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1unKvy-000D3o-2K;
+	Sat, 16 Aug 2025 17:43:20 +0000
+Date: Sun, 17 Aug 2025 01:42:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Harry Yoo <harry.yoo@oracle.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] mm/migrate: Fix NULL movable_ops if CONFIG_ZSMALLOC=m
+Message-ID: <202508170118.0VFEAq7Q-lkp@intel.com>
+References: <20250816072149.1952348-1-chenhuacai@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250816072149.1952348-1-chenhuacai@loongson.cn>
 
-On Sat, 16 Aug 2025 09:19:28 PDT (-0700), viro@zeniv.linux.org.uk wrote:
-> On Sat, Aug 16, 2025 at 05:28:29PM +0800, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   dfd4b508c8c6106083698a0dd5e35aecc7c48725
->> commit: ca1a66cdd685030738cf077e3955fdedfe39fbb9 riscv: uaccess: do not do misaligned accesses in get/put_user()
->> date:   2 months ago
->> config: riscv-randconfig-r122-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/config)
->> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
->> reproduce: (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202508161713.RWu30Lv1-lkp@intel.com/
->>
->> sparse warnings: (new ones prefixed by >>)
->>    WARNING: invalid argument to '-march': '_zacas_zabha'
->> >> mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long [usertype] * @@
->>    mm/maccess.c:41:17: sparse:     expected void const [noderef] __user *from
->>    mm/maccess.c:41:17: sparse:     got unsigned long long [usertype] *
->> >> mm/maccess.c:43:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned int [usertype] * @@
->>    mm/maccess.c:43:17: sparse:     expected void const [noderef] __user *from
->>    mm/maccess.c:43:17: sparse:     got unsigned int [usertype] *
->> >> mm/maccess.c:45:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned short [usertype] * @@
->>    mm/maccess.c:45:17: sparse:     expected void const [noderef] __user *from
->>    mm/maccess.c:45:17: sparse:     got unsigned short [usertype] *
->> >> mm/maccess.c:46:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
->>    mm/maccess.c:46:9: sparse:     expected void const [noderef] __user *from
->>    mm/maccess.c:46:9: sparse:     got unsigned char [usertype] *
->> >> mm/maccess.c:73:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] * @@
->>    mm/maccess.c:73:17: sparse:     expected void [noderef] __user *to
->>    mm/maccess.c:73:17: sparse:     got unsigned long long [usertype] *
->> >> mm/maccess.c:75:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned int [usertype] * @@
->>    mm/maccess.c:75:17: sparse:     expected void [noderef] __user *to
->>    mm/maccess.c:75:17: sparse:     got unsigned int [usertype] *
->> >> mm/maccess.c:77:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned short [usertype] * @@
->>    mm/maccess.c:77:17: sparse:     expected void [noderef] __user *to
->>    mm/maccess.c:77:17: sparse:     got unsigned short [usertype] *
->> >> mm/maccess.c:78:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
->>    mm/maccess.c:78:9: sparse:     expected void [noderef] __user *to
->>    mm/maccess.c:78:9: sparse:     got unsigned char [usertype] *
->>    mm/maccess.c:98:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
->>    mm/maccess.c:98:17: sparse:     expected void const [noderef] __user *from
->>    mm/maccess.c:98:17: sparse:     got unsigned char [usertype] *
->
-> ... and that clearly has fuck-all to do with mm/maccess.c.
+Hi Huacai,
 
-Ya, sorry, looks like something's just broken on the RISC-V side of 
-things.  We lost the __user annotations when moving around the 
-misaligned access handling.
+kernel test robot noticed the following build errors:
 
-> The problem is in
-> #define __get_kernel_nofault(dst, src, type, err_label)                 \
->         __get_user_nocheck(*((type *)(dst)), (type *)(src), err_label)
->
-> Make that
->         __get_user_nocheck(*((type *)(dst)), (__force __user type *)(src), err_label)
-> and similar in
-> #define __put_kernel_nofault(dst, src, type, err_label)                 \
->         __put_user_nocheck(*((type *)(src)), (type *)(dst), err_label)
-> (cast also on the second argument) and see how much noise will go away.
+[auto build test ERROR on akpm-mm/mm-everything]
 
-Thanks, I'll go clean it up.
+url:    https://github.com/intel-lab-lkp/linux/commits/Huacai-Chen/mm-migrate-Fix-NULL-movable_ops-if-CONFIG_ZSMALLOC-m/20250816-152326
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250816072149.1952348-1-chenhuacai%40loongson.cn
+patch subject: [PATCH V2] mm/migrate: Fix NULL movable_ops if CONFIG_ZSMALLOC=m
+config: arm-randconfig-003-20250817 (https://download.01.org/0day-ci/archive/20250817/202508170118.0VFEAq7Q-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508170118.0VFEAq7Q-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508170118.0VFEAq7Q-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/migrate.c:58:42: error: too few arguments provided to function-like macro invocation
+      58 | EXPORT_SYMBOL_GPL_FOR_MODULES(movable_ops);
+         |                                          ^
+   include/linux/export.h:94:9: note: macro 'EXPORT_SYMBOL_GPL_FOR_MODULES' defined here
+      94 | #define EXPORT_SYMBOL_GPL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
+         |         ^
+>> mm/migrate.c:58:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      58 | EXPORT_SYMBOL_GPL_FOR_MODULES(movable_ops);
+         | ^
+         | int
+   2 errors generated.
+
+
+vim +58 mm/migrate.c
+
+    57	
+  > 58	EXPORT_SYMBOL_GPL_FOR_MODULES(movable_ops);
+    59	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
