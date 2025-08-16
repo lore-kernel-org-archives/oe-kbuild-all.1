@@ -1,64 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6714D286A9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 00:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689741537A7;
+	Sat, 16 Aug 2025 02:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755305871; cv=none; b=bQDz1e0gX/uJlhgqg1meFN0MUwr7xFUVwLO97UkMqY0YOUVWf84hpZ0i+Rp0UA08oEXhTOa1fnV7ZTQrZH0uwncH9Jubv+a+jra+LuaMq+XjqUOviz3ABGWfYqdc7TF4C/19lWaD6TLlwj5xyGh1WPDXMmbwDWLEhJKAYVDlwHQ=
+	t=1755310945; cv=none; b=DFiETzbLHYjQXT6ij5LixT2z0cdbLKMW+meuEOjBQ7oEuQT8UeNxpJvJJC42o0MInFT6SDdpVV+RaDWllea5HZpgTll5kHh99lhRFTGoCawSLts9OylsFvKG6NjNe4hk877+7eGzaIWWsdElWsEX265lzYw9hELVqONLEOD8gaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755305871; c=relaxed/simple;
-	bh=ukMsMQdY1esdd5Vpb3YVrIGo9PLgslhipI1hpV6tqTI=;
+	s=arc-20240116; t=1755310945; c=relaxed/simple;
+	bh=zN4OcRDdLbpY1W3ggye7Zz0tj5nwJJ/VPiLjEbQYupo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pf5U3zW728Bs8o4qE7Uxc3Ih7W1XzuYNSSYj380tQJwQozfBhE9PuB4ZOKRt5ZM19WI9GeOsFivWOaZJQEVNZEKnRQ9SAHSwU+LKW5893aa9A5NZeG/r1DM9asrs3DKtg35+sT1eEhDooRlTM/yggwuuNzNjyDrl7yePJSkUbAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwCKealJ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=NxVpdPwOLTUAGEukBjfTi3CofuZQbdK39ymB37AhmX6h3teMkK9WbyOAtTFVqv9CDfSlNxLq+Ac/KKg3wTqSaZHZ91EQApqzxJNKFv8Yt53CLZ4PAtJG8vITAHgxXQvoD+dMwbOheE1BL4NM6D3KwdjcRFOytiETRtZDLiqzAs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmBvt+b5; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwCKealJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmBvt+b5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755305868; x=1786841868;
+  t=1755310944; x=1786846944;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ukMsMQdY1esdd5Vpb3YVrIGo9PLgslhipI1hpV6tqTI=;
-  b=hwCKealJMOmpr8+4dE/8pwnKpCqTvPsrIN1FKG98hfMM52tkUefXtYcW
-   lHsrJbSimKhXrmjdYSlIMrwqEaeMmXyscdIpTWpSOR4NUUUwFg8bf/ikm
-   78DQ0BEYSj/ECu4Nt0WBXxproDJvgCclwi1Mv7CjP43xzuJIFJGetjjTs
-   wansdtA00b8IT3JnUqOxx7qIR9FQpfMalnFE/C1eAfr1bJtcyoqK+qliQ
-   PXZX8OIJLv4QFDl2TbJXA2sSXT8x5vu1XtYX9lwFwQVbGe5RKP8FBTB/b
-   puR7AyjxDKGA9kzJ8/Eh18wZIO90WVoOWLx2oj/Eb5BEfZ4X5AX8Tepdm
-   w==;
-X-CSE-ConnectionGUID: PH/6+1rDTOqkSMVILvCH8w==
-X-CSE-MsgGUID: 0Qs+jIIjRtChvpoOUHadJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57536992"
+  bh=zN4OcRDdLbpY1W3ggye7Zz0tj5nwJJ/VPiLjEbQYupo=;
+  b=DmBvt+b53LM9KBB8VhWnLbI099Aj8P9Km/WOLKOIJ0TIxHCDMy4XG5A+
+   rC/nbvtgMZUpYWF/TjFK1vZbAGbjQwpJh00urG6ZALeUFBbRJFWBpv2U5
+   oL0EUKrx/J+d6loUy5/JTJt+GggC57P+aiZXAGoPdumx2bixF2D2kVNcR
+   38depreYBYIKQnSed0Cva770Vrjt/erOSu8qRt30AuCGD/GCdN87mHhpb
+   i7bptCza8XxzsJuSKMPkQ0p6Foa0eLigzeQ1UoFBCRYcGn/LYwD6BKvfb
+   M5ArQDzP+iY1OfjRucq9y+YoPLhAkswVoW8dtzryNFOgwJbCsjM4jhdMF
+   Q==;
+X-CSE-ConnectionGUID: mLUrTCHnStuV4tgoebS9Ag==
+X-CSE-MsgGUID: m1D/4dt2TI+xzOpOJrO+HA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="80208662"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57536992"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 17:57:47 -0700
-X-CSE-ConnectionGUID: vZYKcPdgTbm2DrN25iXXQA==
-X-CSE-MsgGUID: lD6nAVcHT767qK3gjbyk/g==
+   d="scan'208";a="80208662"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 19:22:23 -0700
+X-CSE-ConnectionGUID: D7Z5p0x8T36LSycCTd3p+Q==
+X-CSE-MsgGUID: 8P41UBWLSDWEaWegFqvdyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="166750340"
+   d="scan'208";a="172355567"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 15 Aug 2025 17:57:44 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Aug 2025 19:22:15 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un5Er-000CSm-1S;
-	Sat, 16 Aug 2025 00:57:41 +0000
-Date: Sat, 16 Aug 2025 08:57:28 +0800
+	id 1un6Yf-000CVY-21;
+	Sat, 16 Aug 2025 02:22:13 +0000
+Date: Sat, 16 Aug 2025 10:21:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: 2564278112@qq.com, alex.williamson@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
-	airlied@gmail.com, simona@ffwll.ch, sunil.khatri@amd.com,
-	alexandre.f.demers@gmail.com, boyuan.zhang@amd.com,
-	jiangwang@kylinos.cn, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/amdgpu: Fixed an issue where audio did not turn off
- properly after unplugging HDMI
-Message-ID: <202508160829.jfFPh4YJ-lkp@intel.com>
-References: <tencent_E5B1CAABB0320691EB730CDB19E55EA85E05@qq.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
+	alex.hung@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
+	pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+	jadahl@redhat.com, sebastian.wick@redhat.com,
+	shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
+	mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
+	victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+	quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+	quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+	sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+	louis.chauvet@bootlin.com, mcanal@igalia.com
+Subject: Re: [PATCH V11 28/47] drm/amd/display: Add support for sRGB EOTF in
+ BLND block
+Message-ID: <202508161043.tvyKbLyZ-lkp@intel.com>
+References: <20250815035047.3319284-29-alex.hung@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,88 +75,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_E5B1CAABB0320691EB730CDB19E55EA85E05@qq.com>
+In-Reply-To: <20250815035047.3319284-29-alex.hung@amd.com>
 
-Hi,
+Hi Alex,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on linus/master v6.17-rc1 next-20250815]
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on linus/master v6.17-rc1 next-20250815]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/2564278112-qq-com/drm-amdgpu-Fixed-an-issue-where-audio-did-not-turn-off-properly-after-unplugging-HDMI/20250815-164929
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Hung/drm-Add-helper-for-conversion-from-signed-magnitude/20250815-120435
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/tencent_E5B1CAABB0320691EB730CDB19E55EA85E05%40qq.com
-patch subject: [PATCH] drm/amdgpu: Fixed an issue where audio did not turn off properly after unplugging HDMI
-config: x86_64-buildonly-randconfig-002-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160829.jfFPh4YJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160829.jfFPh4YJ-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250815035047.3319284-29-alex.hung%40amd.com
+patch subject: [PATCH V11 28/47] drm/amd/display: Add support for sRGB EOTF in BLND block
+config: arm64-randconfig-002-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161043.tvyKbLyZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161043.tvyKbLyZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508160829.jfFPh4YJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508161043.tvyKbLyZ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c: In function 'dce_v6_0_encoder_mode_set':
->> drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:3271:38: error: implicit declaration of function 'amdgpu_connector_edid'; did you mean 'amdgpu_connector_add'? [-Werror=implicit-function-declaration]
-    3271 |         if (drm_detect_monitor_audio(amdgpu_connector_edid(connector))) {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-         |                                      amdgpu_connector_add
->> drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:3271:38: warning: passing argument 1 of 'drm_detect_monitor_audio' makes pointer from integer without a cast [-Wint-conversion]
-    3271 |         if (drm_detect_monitor_audio(amdgpu_connector_edid(connector))) {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                      |
-         |                                      int
-   In file included from drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:26:
-   include/drm/drm_edid.h:443:50: note: expected 'const struct edid *' but argument is of type 'int'
-     443 | bool drm_detect_monitor_audio(const struct edid *edid);
-         |                               ~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c: In function 'dce_v6_0_encoder_disable':
-   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:3341:46: warning: passing argument 1 of 'drm_detect_monitor_audio' makes pointer from integer without a cast [-Wint-conversion]
-    3341 |                 if (drm_detect_monitor_audio(amdgpu_connector_edid(connector)))
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                              |
-         |                                              int
-   include/drm/drm_edid.h:443:50: note: expected 'const struct edid *' but argument is of type 'int'
-     443 | bool drm_detect_monitor_audio(const struct edid *edid);
-         |                               ~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:1295:35: warning: variable 'blend_lut' is uninitialized when used here [-Wuninitialized]
+    1295 |                 return __set_input_tf(NULL, tf, blend_lut, blend_size);
+         |                                                 ^~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:1276:39: note: initialize the variable 'blend_lut' to silence this warning
+    1276 |         const struct drm_color_lut *blend_lut;
+         |                                              ^
+         |                                               = NULL
+   1 warning generated.
 
 
-vim +3271 drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+vim +/blend_lut +1295 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c
 
-  3250	
-  3251	static void dce_v6_0_encoder_mode_set(struct drm_encoder *encoder,
-  3252				  struct drm_display_mode *mode,
-  3253				  struct drm_display_mode *adjusted_mode)
-  3254	{
-  3255		struct amdgpu_encoder *amdgpu_encoder = to_amdgpu_encoder(encoder);
-  3256		struct drm_connector *connector;
-  3257		struct amdgpu_connector *amdgpu_connector = NULL;
-  3258		amdgpu_encoder->pixel_clock = adjusted_mode->clock;
-  3259	
-  3260		/* need to call this here rather than in prepare() since we need some crtc info */
-  3261		amdgpu_atombios_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
-  3262		connector = amdgpu_get_connector_for_encoder_init(encoder);
-  3263		amdgpu_connector = to_amdgpu_connector(connector);
-  3264		if (!amdgpu_connector) {
-  3265			DRM_ERROR("Couldn't find encoder's connector\n");
-  3266		}
-  3267	
-  3268		/* set scaler clears this on some chips */
-  3269		dce_v6_0_set_interleave(encoder->crtc, mode);
-  3270	
-> 3271		if (drm_detect_monitor_audio(amdgpu_connector_edid(connector))) {
-  3272			dce_v6_0_afmt_enable(encoder, true);
-  3273			dce_v6_0_afmt_setmode(encoder, adjusted_mode);
-  3274		}
-  3275	}
-  3276	
+  1272	
+  1273		struct dc_transfer_func *tf = &dc_plane_state->blend_tf;
+  1274		struct drm_colorop *colorop = colorop_state->colorop;
+  1275		struct drm_device *drm = colorop->dev;
+  1276		const struct drm_color_lut *blend_lut;
+  1277		uint32_t blend_size = 0;
+  1278	
+  1279		if (colorop->type != DRM_COLOROP_1D_CURVE &&
+  1280		    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+  1281			return -EINVAL;
+  1282	
+  1283		if (colorop_state->bypass) {
+  1284			tf->type = TF_TYPE_BYPASS;
+  1285			tf->tf = TRANSFER_FUNCTION_LINEAR;
+  1286			return 0;
+  1287		}
+  1288	
+  1289		drm_dbg(drm, "Blend colorop with ID: %d\n", colorop->base.id);
+  1290	
+  1291		if (colorop->type == DRM_COLOROP_1D_CURVE) {
+  1292			tf->type = TF_TYPE_DISTRIBUTED_POINTS;
+  1293			tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+  1294			tf->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
+> 1295			return __set_input_tf(NULL, tf, blend_lut, blend_size);
+  1296		}
+  1297	
+  1298		return -EINVAL;
+  1299	}
+  1300	
 
 -- 
 0-DAY CI Kernel Test Service
