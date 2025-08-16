@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048DC54654
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 22:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCAB1EEF9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 22:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755382660; cv=none; b=unnp4w3Kc9kCvsVdQxx5F9HvMDhOJSeF8AfsjPHnWSt/S4/Nzu34vcTUJXTM9N5ezQyrNCSDSb/yUzbCgneZX8FMFEMTe7oRcZm8A4yLly7qRwb83QbReAoLPCQplSSgLz1+pAR4lo9kpGbQCtMXzzBBwRbfkGDVRWixpo6yDDU=
+	t=1755384499; cv=none; b=cdsm1VTempaKsbTl8USLmKbr+AM3oZDRGnzOYlYk82QZaplFhTNP/aE/Qs15dziT4Gtw0BqN3RzE0UvTu+Z1zSV0XITC3NYPJRVlDvWOW7V7ZRgqcMogyJnZY5dsn5i6iDvXcOP/jqQpOYwlrxsAlYMgUQ1SH7Tw2S4t1b6zlaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755382660; c=relaxed/simple;
-	bh=wANpPIadOdANsUKKsPCv1zoHmpUFBmlgyzn+RnA4xDs=;
+	s=arc-20240116; t=1755384499; c=relaxed/simple;
+	bh=5i5WTltE0LTaPow7EWW925OtjvCAV1jK3xX22g0MAno=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kk9z6bKzEI/0HAcOcftRPOt/eyR9uvRz79W2zanh0hd0eXFiRV50zt8iV6qo8Qo6BN0UQ2g9x0TdTMPrflqUFkFFfhSJEIrzDYCE0njTfon+aia5AAwPe0dO0uPqo3TXb4NxE6ziSFRdPOmONf0SMzh3tqPHwY8DkeLLH76o9AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMA94kIc; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=cDnRKy8EnWYaO2NVamJmyqpHDvVuFMKsM5Ez8zT9F1zh0aQLxznaJlXsbgr7BMLZcX6+ff/9gw4o75FS5rOnKaRQojIwxwzp4s9wFRZ7Hob72H9+dA269IqawccFJoyfckU4Sjk5rxBvOyZ6EjQCHUhmPFOudU2ieXJlwaytTtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJCBdXyh; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMA94kIc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJCBdXyh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755382657; x=1786918657;
+  t=1755384497; x=1786920497;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wANpPIadOdANsUKKsPCv1zoHmpUFBmlgyzn+RnA4xDs=;
-  b=IMA94kIcJduXN9YYyNZPHpmz2wpnJQsNFaC9vQiH7xy7QlalATOMkC2K
-   O8KKbWYKpdoxU4N65+NSpNhhLiIEzD8emF5bAogW7RMdwN2See2A4eBcd
-   Pg0Np78QSItM80ZbOPNrKOKFcYeD2If4spk2cbacd+phENqiiMHuiBEXp
-   G7F3PEDvORXNrgvu3OOxQxb8uTBarEjjDJ5fxbRIWDta5a+oW3lxqMw+F
-   wp1zm616OJ4G65dIRMuAolgrtgpJ+vODLw5XuzP/Y2M4YFNxS5NPoBi0j
-   6e5PZBTppoD6za1JDMPc/Teh5XcgN87B7Q8JR8Uw5+hBgehzWK67itvNL
-   A==;
-X-CSE-ConnectionGUID: 9FFa7Tq8TTWY68v1r4CrnA==
-X-CSE-MsgGUID: fGua/WXFR+2mLCVKXUB4Sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57374846"
+  bh=5i5WTltE0LTaPow7EWW925OtjvCAV1jK3xX22g0MAno=;
+  b=UJCBdXyhj3IbXnyn4/zluTfroq3lY3R+otZ4n/JwQWu1Lv1Sq97oyUfe
+   7EUWkvpdCfZL/Fab7e3ZtjYipZwJ4gVpoowg5j6YLdo4YBA7b3pS4ixUR
+   KR8dp+7qpb739MU7al9iZiD+gFsnJ0/EcT29awP9Xth5SjfE9HvE0R7KU
+   xAGalSKvoAw3Zxv+lebuYkGiSYZo2pBUW37s503Dq2NtiQXeV2zssZkfA
+   WrRli7Uz20u+yk0OiVmb3GIO8hgjRCwRv+E4LRuA+gjGPIjIBLaMU7ELD
+   BTP6+HWyeq5pyTGxIfQneT3Dbh9uomhmd6gCpir6EwkGdpkvnisaCacq3
+   w==;
+X-CSE-ConnectionGUID: qBndM1ARTra9Q4znnj36HQ==
+X-CSE-MsgGUID: O565XWCCTGyw8YIzZNKDWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="45231113"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57374846"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 15:17:34 -0700
-X-CSE-ConnectionGUID: sPEAwkZEQJyAu+9BcLAdJA==
-X-CSE-MsgGUID: NTBCmlAoScS8Q5ni4Qtc0g==
+   d="scan'208";a="45231113"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 15:48:15 -0700
+X-CSE-ConnectionGUID: 48eyqC9VTnCAzjV9IidVNA==
+X-CSE-MsgGUID: 5ZgYzjqTShWjJRuRQNqhkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="171470271"
+   d="scan'208";a="166497670"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Aug 2025 15:17:33 -0700
+  by orviesa010.jf.intel.com with ESMTP; 16 Aug 2025 15:48:14 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unPD1-000DDg-36;
-	Sat, 16 Aug 2025 22:17:12 +0000
-Date: Sun, 17 Aug 2025 06:16:28 +0800
+	id 1unPgs-000DEh-0T;
+	Sat, 16 Aug 2025 22:48:03 +0000
+Date: Sun, 17 Aug 2025 06:47:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zhengchuan <zhengchuan@huawei.com>
+To: Anup Patel <apatel@ventanamicro.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1730/1730]
- include/linux/uaccess.h:112:17: warning: 'cap' may be used uninitialized
-Message-ID: <202508170634.ZcEKprEO-lkp@intel.com>
+Subject: [avpatel:riscv_sbi_mpxy_mailbox_v10 6/35]
+ arch/riscv/kvm/vcpu_sbi.c:510:2-3: Unneeded semicolon
+Message-ID: <202508170600.IQl81MZe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,282 +62,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Paolo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   bb7bded3da5e82ce40450cdb7a128c41403bf330
-commit: 5694b2e450d4ad76c3314ad8ac73025bc616930e [1730/1730] kvm: make KVM_CAP_ENABLE_CAP_VM architecture agnostic
-config: arm64-randconfig-001-20250714 (https://download.01.org/0day-ci/archive/20250817/202508170634.ZcEKprEO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508170634.ZcEKprEO-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_sbi_mpxy_mailbox_v10
+head:   903cf9d73fcec79f309cb9c5da05aa0ded51c178
+commit: a5f4688f447f8f3de0163efadae6525140e12e28 [6/35] RISC-V: KVM: Introduce optional ONE_REG callbacks for SBI extensions
+config: riscv-randconfig-r052-20250817 (https://download.01.org/0day-ci/archive/20250817/202508170600.IQl81MZe-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508170634.ZcEKprEO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508170600.IQl81MZe-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+cocci warnings: (new ones prefixed by >>)
+>> arch/riscv/kvm/vcpu_sbi.c:510:2-3: Unneeded semicolon
+   arch/riscv/kvm/vcpu_sbi.c:464:2-3: Unneeded semicolon
 
-All warnings (new ones prefixed by >>):
+vim +510 arch/riscv/kvm/vcpu_sbi.c
 
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'kvm_dying_cpu' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3447:2:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'raw_spinlock_t[1]' {aka 'struct raw_spinlock[1]'} [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:515:1: note: in expansion of macro '__CMPXCHG_CASE'
-     515 | __CMPXCHG_CASE(w,  , acq_4,  a, "memory")
-         | ^~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_dying_cpu':
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:97:28: note: object 'kvm_count_lock' of size 4
-      97 | static DEFINE_RAW_SPINLOCK(kvm_count_lock);
-         |                            ^~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:59:48: note: in definition of macro 'DEFINE_RAW_SPINLOCK'
-      59 | #define DEFINE_RAW_SPINLOCK(x)  raw_spinlock_t x = __RAW_SPIN_LOCK_UNLOCKED(x)
-         |                                                ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'hardware_disable_all' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3465:2:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'raw_spinlock_t[1]' {aka 'struct raw_spinlock[1]'} [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:515:1: note: in expansion of macro '__CMPXCHG_CASE'
-     515 | __CMPXCHG_CASE(w,  , acq_4,  a, "memory")
-         | ^~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function 'hardware_disable_all':
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:97:28: note: object 'kvm_count_lock' of size 4
-      97 | static DEFINE_RAW_SPINLOCK(kvm_count_lock);
-         |                            ^~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:59:48: note: in definition of macro 'DEFINE_RAW_SPINLOCK'
-      59 | #define DEFINE_RAW_SPINLOCK(x)  raw_spinlock_t x = __RAW_SPIN_LOCK_UNLOCKED(x)
-         |                                                ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'hardware_disable_all' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3465:2:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'raw_spinlock_t[1]' {aka 'struct raw_spinlock[1]'} [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:515:1: note: in expansion of macro '__CMPXCHG_CASE'
-     515 | __CMPXCHG_CASE(w,  , acq_4,  a, "memory")
-         | ^~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function 'hardware_disable_all':
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:97:28: note: object 'kvm_count_lock' of size 4
-      97 | static DEFINE_RAW_SPINLOCK(kvm_count_lock);
-         |                            ^~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:59:48: note: in definition of macro 'DEFINE_RAW_SPINLOCK'
-      59 | #define DEFINE_RAW_SPINLOCK(x)  raw_spinlock_t x = __RAW_SPIN_LOCK_UNLOCKED(x)
-         |                                                ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'hardware_enable_all' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3474:2,
-       inlined from 'kvm_create_vm' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:688:6:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'raw_spinlock_t[1]' {aka 'struct raw_spinlock[1]'} [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:515:1: note: in expansion of macro '__CMPXCHG_CASE'
-     515 | __CMPXCHG_CASE(w,  , acq_4,  a, "memory")
-         | ^~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_create_vm':
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:97:28: note: object 'kvm_count_lock' of size 4
-      97 | static DEFINE_RAW_SPINLOCK(kvm_count_lock);
-         |                            ^~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:59:48: note: in definition of macro 'DEFINE_RAW_SPINLOCK'
-      59 | #define DEFINE_RAW_SPINLOCK(x)  raw_spinlock_t x = __RAW_SPIN_LOCK_UNLOCKED(x)
-         |                                                ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'hardware_enable_all' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3474:2,
-       inlined from 'kvm_create_vm' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:688:6:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'raw_spinlock_t[1]' {aka 'struct raw_spinlock[1]'} [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:515:1: note: in expansion of macro '__CMPXCHG_CASE'
-     515 | __CMPXCHG_CASE(w,  , acq_4,  a, "memory")
-         | ^~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_create_vm':
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:97:28: note: object 'kvm_count_lock' of size 4
-      97 | static DEFINE_RAW_SPINLOCK(kvm_count_lock);
-         |                            ^~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:59:48: note: in definition of macro 'DEFINE_RAW_SPINLOCK'
-      59 | #define DEFINE_RAW_SPINLOCK(x)  raw_spinlock_t x = __RAW_SPIN_LOCK_UNLOCKED(x)
-         |                                                ^
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3097:7:
->> include/linux/uaccess.h:112:17: warning: 'cap' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3094:39: note: 'cap' declared here
-    3094 |                 struct kvm_enable_cap cap;
-         |                                       ^~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3106:7:
-   include/linux/uaccess.h:112:17: warning: 'kvm_userspace_mem' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3103:52: note: 'kvm_userspace_mem' declared here
-    3103 |                 struct kvm_userspace_memory_region kvm_userspace_mem;
-         |                                                    ^~~~~~~~~~~~~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3117:7:
-   include/linux/uaccess.h:112:17: warning: 'log' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3114:38: note: 'log' declared here
-    3114 |                 struct kvm_dirty_log log;
-         |                                      ^~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3127:7:
-   include/linux/uaccess.h:112:17: warning: 'zone' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3124:48: note: 'zone' declared here
-    3124 |                 struct kvm_coalesced_mmio_zone zone;
-         |                                                ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3136:7:
-   include/linux/uaccess.h:112:17: warning: 'zone' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3133:48: note: 'zone' declared here
-    3133 |                 struct kvm_coalesced_mmio_zone zone;
-         |                                                ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3146:7:
-   include/linux/uaccess.h:112:17: warning: 'data' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3143:34: note: 'data' declared here
-    3143 |                 struct kvm_irqfd data;
-         |                                  ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3155:7:
-   include/linux/uaccess.h:112:17: warning: 'data' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3152:38: note: 'data' declared here
-    3152 |                 struct kvm_ioeventfd data;
-         |                                      ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'kvm_vm_ioctl' at arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3165:7:
-   include/linux/uaccess.h:112:17: warning: 'msi' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'kvm_vm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3162:32: note: 'msi' declared here
-    3162 |                 struct kvm_msi msi;
-         |                                ^~~
-
-
-vim +/cap +112 include/linux/uaccess.h
-
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-d597580d373774 Al Viro        2017-03-20  124  #ifdef INLINE_COPY_TO_USER
-d597580d373774 Al Viro        2017-03-20  125  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  126  _copy_to_user(void __user *to, const void *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  127  {
-9c5f6908de03a4 Al Viro        2017-06-29  128  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  129  	if (access_ok(to, n)) {
-9c5f6908de03a4 Al Viro        2017-06-29  130  		kasan_check_read(from, n);
-d597580d373774 Al Viro        2017-03-20  131  		n = raw_copy_to_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  132  	}
-d597580d373774 Al Viro        2017-03-20  133  	return n;
-d597580d373774 Al Viro        2017-03-20  134  }
-d597580d373774 Al Viro        2017-03-20  135  #else
-d597580d373774 Al Viro        2017-03-20  136  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  137  _copy_to_user(void __user *, const void *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  138  #endif
-d597580d373774 Al Viro        2017-03-20  139  
-d597580d373774 Al Viro        2017-03-20  140  static __always_inline unsigned long __must_check
-d597580d373774 Al Viro        2017-03-20  141  copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  142  {
-b0377fedb65280 Al Viro        2017-06-29  143  	if (likely(check_copy_size(to, n, false)))
-d597580d373774 Al Viro        2017-03-20 @144  		n = _copy_from_user(to, from, n);
-d597580d373774 Al Viro        2017-03-20  145  	return n;
-d597580d373774 Al Viro        2017-03-20  146  }
-d597580d373774 Al Viro        2017-03-20  147  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+   478	
+   479	int kvm_riscv_vcpu_get_reg_sbi(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
+   480	{
+   481		unsigned long __user *uaddr =
+   482				(unsigned long __user *)(unsigned long)reg->addr;
+   483		unsigned long reg_num = reg->id & ~(KVM_REG_ARCH_MASK |
+   484						    KVM_REG_SIZE_MASK |
+   485						    KVM_REG_RISCV_SBI_STATE);
+   486		const struct kvm_vcpu_sbi_extension *ext;
+   487		unsigned long reg_subtype;
+   488		void *reg_val;
+   489		u64 data64;
+   490		u32 data32;
+   491		u16 data16;
+   492		u8 data8;
+   493		int ret;
+   494	
+   495		switch (KVM_REG_SIZE(reg->id)) {
+   496		case 1:
+   497			reg_val = &data8;
+   498			break;
+   499		case 2:
+   500			reg_val = &data16;
+   501			break;
+   502		case 4:
+   503			reg_val = &data32;
+   504			break;
+   505		case 8:
+   506			reg_val = &data64;
+   507			break;
+   508		default:
+   509			return -EINVAL;
+ > 510		};
+   511	
+   512		reg_subtype = reg_num & KVM_REG_RISCV_SUBTYPE_MASK;
+   513		reg_num &= ~KVM_REG_RISCV_SUBTYPE_MASK;
+   514	
+   515		ext = kvm_vcpu_sbi_find_ext_withstate(vcpu, reg_subtype);
+   516		if (!ext || !ext->get_state_reg)
+   517			return -EINVAL;
+   518	
+   519		ret = ext->get_state_reg(vcpu, reg_num, KVM_REG_SIZE(reg->id), reg_val);
+   520		if (ret)
+   521			return ret;
+   522	
+   523		if (copy_to_user(uaddr, reg_val, KVM_REG_SIZE(reg->id)))
+   524			return -EFAULT;
+   525	
+   526		return 0;
+   527	}
+   528	
 
 -- 
 0-DAY CI Kernel Test Service
