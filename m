@@ -1,45 +1,63 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C18D23AE9A;
-	Sat, 16 Aug 2025 16:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AD62EA14B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 16:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755361173; cv=none; b=QU/0DMma6U0CVPdSrJ/vcKzbZkpYmGMVLSCZhldosmgMCT+Ydo4OvTDfhoKEPmlpl5godxLqKfy5CQ+t4CU63U5X00UjMG8Tuzvm9iiCmWvD3ZhnzMefGAwDUEqNJpqnENdfuodIsAgYz05OoO5IxOjt49Nqczv6j2wdIA/oHaI=
+	t=1755361858; cv=none; b=qiw6db3F2SMLFsOS1/lEXFlNcu8zH4qhl3LfokHAZJ9p3RydlikUCpDgjFhkex42i8vddox2lWgWGzEYICz0gr99mmb75Jo1daJ/3QSxTUhSQXWN3pT2ObSBkl4IoMSlrDdWWl0WKy+AZyAKSJs8Yiw6nhCeL/pIB33hoPhpX4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755361173; c=relaxed/simple;
-	bh=Ni2SRH/sEDhvrFuOT45BGG3k0SQyoGEYTroBGvv4mYM=;
+	s=arc-20240116; t=1755361858; c=relaxed/simple;
+	bh=ZFfAo8apibsWsI1omhLl8iawazNCfUYxTJ6h2jfQBZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ftXNGtrwEg5+TLPDHyuvehdFzDCJ6fRMCx9mZ3NnQnGho/r5mmGzAbcYMLHTuv5bri56/5HVzQwM0kOV6CXNtUI12sqrN2SD5c7EQFjAPPBIgQAQFlJCmK/b51+Hg43496Ht4wxsvze4uwV/Hr5xL4URLzpSKH4Y2T10uG2FwiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Ym15RQhy; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q04Dv76WMbpOZfapM64wjHU2EP3u66KPOybprqDScJ06fBB4qkzuSAJQZO/4+32p/CZT3QQTS2A7gQVBYEeXNNsx7cM3PBDq3wuWjT/FB3Mt8+SYFSYJ79gXkxYaEeDmD8SNB0Y8HEWEwi4ZIjJIEbeZJPieKUbFAICus31lgLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9dQUkx9; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Ym15RQhy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=f5QcBb6a20Y9E3CIcIoL/CJ0bYUe2BW+pmQoB69q1kY=; b=Ym15RQhycP0LhykE7wVg8EhWcE
-	lBMX41EIHNNOQV41ziQD+32Ylj9ebcsWijBpTCUp0vvroiP5ue7HHrYcgaUghfiPzs3SeTg9exd9l
-	QxeQbBPUPA4d5hHgAfZYmUdS5K6SsXV6AzG6fjxtVf+f4d8wzVqfGqvWtlO6BqFYNoCwBHPvInWuX
-	k0SFtvCxuK/S/hqD4uSA2rTdb4VCtMWnTpcR4RQ1troXLGGQG/lKXWe88JOrOGcIH1wdB3dZhvFpt
-	0hKxsWeEfXFiB5R9Vi3o8RO1utNqaJ9dpG9dQ8UfLJnBM/SN5LMH9f1cEr0BmG2Q7NqzrmAlYFg6E
-	KDZQLeLQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1unJcu-0000000GO1B-3coH;
-	Sat, 16 Aug 2025 16:19:28 +0000
-Date: Sat, 16 Aug 2025 17:19:28 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: kernel test robot <lkp@intel.com>
-Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2
- (different address spaces)
-Message-ID: <20250816161928.GU222315@ZenIV>
-References: <202508161713.RWu30Lv1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9dQUkx9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755361856; x=1786897856;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZFfAo8apibsWsI1omhLl8iawazNCfUYxTJ6h2jfQBZY=;
+  b=H9dQUkx9Xefw1Xz80U6ABqHd4CpCXLD9u2cXheUIHpAzOXWRusQJSF13
+   o9gwt9C/tSryD0eVdkN4BQQ0g2teauc/CpoPMvgnCmEl2klvAVa1vxjjJ
+   pcWOg49wPelEABiSTzOpo9VLdRJvTFgSuK3RsV2esPkSwb2DRuwW06VqE
+   p04uehK9e5rB5hyOe63XM/6yKLH7MkRdGcgdQsR40tyedGD4YBIIn2Pv7
+   z9BbIlkvWWdiMS7zwU7G8Ur0bOMXRqv+9GcT6B1kYxaFk74iw+B7vXyFw
+   6r4yZBRAKv+Pf806ozw1MXOr+CysCudQd71YIilj1fm/XKVDfThyJEi8Z
+   Q==;
+X-CSE-ConnectionGUID: zU3SEAVESVqBLlAKyLL6nw==
+X-CSE-MsgGUID: zxzZ+6GgSW69d+SfJZSRrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="69020222"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="69020222"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 09:30:56 -0700
+X-CSE-ConnectionGUID: PZSfjvSKRIqbKzG5XmYmLA==
+X-CSE-MsgGUID: CK+ohIFiTxO5RXZQZAbzeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="167481802"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 16 Aug 2025 09:30:52 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1unJnu-000D0S-1k;
+	Sat, 16 Aug 2025 16:30:50 +0000
+Date: Sun, 17 Aug 2025 00:30:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiang Gao <gxxa03070307@gmail.com>, akpm@linux-foundation.org,
+	david@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, gaoxiang17 <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH] mm/cma: print total and used pages in cma_alloc()
+Message-ID: <202508170014.PK57XSd7-lkp@intel.com>
+References: <20250816042842.3959315-1-gxxa03070307@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,61 +66,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508161713.RWu30Lv1-lkp@intel.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20250816042842.3959315-1-gxxa03070307@gmail.com>
 
-On Sat, Aug 16, 2025 at 05:28:29PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   dfd4b508c8c6106083698a0dd5e35aecc7c48725
-> commit: ca1a66cdd685030738cf077e3955fdedfe39fbb9 riscv: uaccess: do not do misaligned accesses in get/put_user()
-> date:   2 months ago
-> config: riscv-randconfig-r122-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-> reproduce: (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508161713.RWu30Lv1-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    WARNING: invalid argument to '-march': '_zacas_zabha'
-> >> mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long [usertype] * @@
->    mm/maccess.c:41:17: sparse:     expected void const [noderef] __user *from
->    mm/maccess.c:41:17: sparse:     got unsigned long long [usertype] *
-> >> mm/maccess.c:43:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned int [usertype] * @@
->    mm/maccess.c:43:17: sparse:     expected void const [noderef] __user *from
->    mm/maccess.c:43:17: sparse:     got unsigned int [usertype] *
-> >> mm/maccess.c:45:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned short [usertype] * @@
->    mm/maccess.c:45:17: sparse:     expected void const [noderef] __user *from
->    mm/maccess.c:45:17: sparse:     got unsigned short [usertype] *
-> >> mm/maccess.c:46:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
->    mm/maccess.c:46:9: sparse:     expected void const [noderef] __user *from
->    mm/maccess.c:46:9: sparse:     got unsigned char [usertype] *
-> >> mm/maccess.c:73:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] * @@
->    mm/maccess.c:73:17: sparse:     expected void [noderef] __user *to
->    mm/maccess.c:73:17: sparse:     got unsigned long long [usertype] *
-> >> mm/maccess.c:75:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned int [usertype] * @@
->    mm/maccess.c:75:17: sparse:     expected void [noderef] __user *to
->    mm/maccess.c:75:17: sparse:     got unsigned int [usertype] *
-> >> mm/maccess.c:77:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned short [usertype] * @@
->    mm/maccess.c:77:17: sparse:     expected void [noderef] __user *to
->    mm/maccess.c:77:17: sparse:     got unsigned short [usertype] *
-> >> mm/maccess.c:78:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
->    mm/maccess.c:78:9: sparse:     expected void [noderef] __user *to
->    mm/maccess.c:78:9: sparse:     got unsigned char [usertype] *
->    mm/maccess.c:98:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
->    mm/maccess.c:98:17: sparse:     expected void const [noderef] __user *from
->    mm/maccess.c:98:17: sparse:     got unsigned char [usertype] *
+Hi Xiang,
 
-... and that clearly has fuck-all to do with mm/maccess.c.
-The problem is in
-#define __get_kernel_nofault(dst, src, type, err_label)                 \
-        __get_user_nocheck(*((type *)(dst)), (type *)(src), err_label)
+kernel test robot noticed the following build errors:
 
-Make that
-        __get_user_nocheck(*((type *)(dst)), (__force __user type *)(src), err_label)
-and similar in
-#define __put_kernel_nofault(dst, src, type, err_label)                 \
-        __put_user_nocheck(*((type *)(src)), (type *)(dst), err_label)
-(cast also on the second argument) and see how much noise will go away.
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiang-Gao/mm-cma-print-total-and-used-pages-in-cma_alloc/20250816-122940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250816042842.3959315-1-gxxa03070307%40gmail.com
+patch subject: [PATCH] mm/cma: print total and used pages in cma_alloc()
+config: arm-randconfig-002-20250816 (https://download.01.org/0day-ci/archive/20250817/202508170014.PK57XSd7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508170014.PK57XSd7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508170014.PK57XSd7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   mm/cma.c: In function 'cma_get_used_pages':
+>> mm/cma.c:784:26: error: 'struct cma' has no member named 'bitmap'
+     784 |  used = bitmap_weight(cma->bitmap, (int)cma_bitmap_maxno(cma));
+         |                          ^~
+>> mm/cma.c:784:41: error: too few arguments to function 'cma_bitmap_maxno'
+     784 |  used = bitmap_weight(cma->bitmap, (int)cma_bitmap_maxno(cma));
+         |                                         ^~~~~~~~~~~~~~~~
+   In file included from mm/cma.c:34:
+   mm/cma.h:77:29: note: declared here
+      77 | static inline unsigned long cma_bitmap_maxno(struct cma *cma,
+         |                             ^~~~~~~~~~~~~~~~
+
+
+vim +784 mm/cma.c
+
+   778	
+   779	static unsigned long cma_get_used_pages(struct cma *cma)
+   780	{
+   781		unsigned long used;
+   782	
+   783		spin_lock_irq(&cma->lock);
+ > 784		used = bitmap_weight(cma->bitmap, (int)cma_bitmap_maxno(cma));
+   785		spin_unlock_irq(&cma->lock);
+   786	
+   787		return used << cma->order_per_bit;
+   788	}
+   789	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
