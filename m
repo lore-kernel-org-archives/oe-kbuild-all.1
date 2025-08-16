@@ -1,129 +1,104 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106D11F0E2E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 10:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFA116CD33
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 10:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755340348; cv=none; b=ZY1zXS8rMIqXnSNfd0M09+mallCNIcTaLNkNYojZCnwsBf6ODw+mp3Kmj1v6PCB/wSRtsLBeGIWZ5RMZFzLkPUJEKfUHOlblzd6/jywulyutT7Ljzw0I9KDnn7SUTMpgZEo6W7un5RKN9DXzfmDrBU3wuK6/b8i61IRIdaD806k=
+	t=1755341566; cv=none; b=rbBlbyq4Bwp48VTSlST2gtw8h4QgA/NnAcACkmPncK4s4vmvG3ACOrKA9FBmS89sBlaANLOmg5KPSN+oOOXAhxeLHF9xLbsVn/A1xeA7Ion0fgc93xXM/rkp3FEdChBtstp//YIawlINDNjjq4WFgoa1ZgTlECAMPgI3zz9suQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755340348; c=relaxed/simple;
-	bh=Pft0D6mYn1gxE273jevOaCLhviwhjfDQQ8yjtwOCjbU=;
+	s=arc-20240116; t=1755341566; c=relaxed/simple;
+	bh=Z2MuxVgorsAafhddRcA5fWJnCHZBFT4gDBBNNe+FwoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=eQcqzUkxZzs/w1DvyV8geoJoWq0SU1kXukLMoPBsQ59v8ghW1X4LMuIMYjn7Yc1F128VNlHAQqnRzR0VLSlsD2dhV7Rjneoe937G04rJbVDxIKsuSPMqx0uk3XDUQbNIc7z5mFiCc67dLl7h1xyjQac5BApHBFJVREYTJigOJg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TyUSn3I4; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=P9Yqt/XHOYa4tzfqogAcLXwTEnCQ2n7WwiFpld7lvGYHi0UXbqrq0kshFJrxgb13otZOdYxsYxqygcuo8EOXclM3x/9iMIMXAjxx6wPID3wJbagNrn+cgiiqQMc6kNZ2UNbxWVFi005OZXTjkWJoEO/Z6lRQWnMzsGs8/HY9uF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lh06qrKA; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TyUSn3I4"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3b9e415a68eso1568017f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 03:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755340345; x=1755945145; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6neuYc8gZEraymLFwxc1gK2y9cQvAvqgKFVYEp/43fw=;
-        b=TyUSn3I4wAGsvUZDxdP/i8zMklEtHZ6K3vbcnbWykhU4FeNfIZCgTOlRppFbP0BhLk
-         7rggUX4FwoZNRO/WXd2gQNpYiCq2IXRxZ3wXmT1Jf+o431QEEdeC2ObAcXRmyhKoghZc
-         nRLb4+2YOpuWKyBb9gcQXCoUT9J2hBJIGFa+CvN9zMv8wjlNbHROxt0VynRDGVGFvHKu
-         dFJXxvPaKzBpHz8Fw9K+7mo3EKo6lPpUT7ukYqCJX3V166OrGZIQFlqfklhLozZBBb0c
-         H7ZVu4zDTVrBMePiL3+GAU1RateDcA2/UP+tkI1baUiXI4jP68ZqEEM+ZxkrjVYXeOdO
-         vJGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755340345; x=1755945145;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6neuYc8gZEraymLFwxc1gK2y9cQvAvqgKFVYEp/43fw=;
-        b=LY+xyeVeKiIzI6A+tEtXs9qnelpOmJERZ1yh7FEw4pxGOw6IHxhq+4L47OTcRM/Byj
-         yI62zKaAzJN9pMa/jzYa/WWVX+UabOrhD9yS9yL/7TQSKOxNWEc2Ox8FepC87lrd4th6
-         RnkRTSNZxLvO6G+iAG+OTx+reoR4OY1hi1/RXQgZYm4wo4AI1yg5cwOjjrEleKFxtHVW
-         UgnVbD6EjJ6vkDEkBn0HxfPuaLg4YeRMGwsFfzSCqjaDyH4XgrDez7zKoTGcQpxbRwHE
-         ejiSRJG4OzlOoWXwztTzIk76RyQVcY33S7DSi4qxHYEArFmgjH3sisZMd4+aBJ7Dx+Yo
-         l3nA==
-X-Forwarded-Encrypted: i=1; AJvYcCXakoP46Yrvjm2RMM6XTZQoe+PxALD/v1MI83ZXGEenX/ggk6BTaGX1SKTYUUobY+NXW6ZalATCoT7Tpfz6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAuo01IvpxOpepV0MjwZawYtIdR+p64toQjsNgL4KiYceX36X7
-	N9MJTHtBOXXOgqhvzifLIBqB9lpt0PzfPGXP0Tau5th7d6T0e0DgkHqB9jX5Pu58nIk=
-X-Gm-Gg: ASbGncu261XKEvT73mhttGgbWv5M6EaLVtaa/qTR/KZYsxNdr3S0GNPmkwBsgcbkhJW
-	VzTr1D9Y/SO2vTAVsDi2K/jUOWndTxtKjoqWD7uO1mSpEynEsGqZx6k5/lp/t/FlH2Ml5GgBT2Q
-	4F1EZXRW+Z2rS7yyjJ8Wrq5lYUDkzgoL3zmB3ZSyTlrGQiaQvRxv3+c89pT8jZex85YLK2svJk+
-	U4uvW9uV4xgOaNY+R1dHLsMJbyG/XRSN4yFUrEXIUJsb2NTV8K7fYhPtU5okuiufKSU610ALI7z
-	Gd+kxGIvVPXOJ0EeZofyZ18uKBEGjw33vfRsnnfrM3v0I+TphhKTY3EwJiIpmOGr7D4tXqrLjC4
-	yYECyU6BblkW+ajPZqSjspwCqWSo=
-X-Google-Smtp-Source: AGHT+IHAnFs9UneWAmPfL3Wz0z6TEUSaBJgX0v41HAMyqMGMLN60ShzpFjC9lI8eUnUV8SafBAymaQ==
-X-Received: by 2002:a05:6000:2285:b0:3b8:f8e6:867b with SMTP id ffacd0b85a97d-3bb68545ebbmr4510434f8f.31.1755340345363;
-        Sat, 16 Aug 2025 03:32:25 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb652f75aesm5243990f8f.23.2025.08.16.03.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 03:32:25 -0700 (PDT)
-Date: Sat, 16 Aug 2025 13:32:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 4/9] ovl: Create ovl_casefold() to support casefolded
- strncmp()
-Message-ID: <202508161416.sbuLMXuI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lh06qrKA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755341564; x=1786877564;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Z2MuxVgorsAafhddRcA5fWJnCHZBFT4gDBBNNe+FwoY=;
+  b=lh06qrKAO782Vi74XFbjYlM0Md3tdw9vTPC4DwgDyKrd+4r5Cy6H5LOV
+   CsnLToCYfJ816P32v3jMKLHHRkjCnFia+rzj6p/4PieMc4yQ+PmebFK7q
+   5NNgv6pZ44QQIZ6SPE5pIFSMTY+w6vbCL0z46DslSFxY2T63jq9NQG8Qa
+   cfYJ3QNNZ+oy0OL5JEfCaa5kgfpzAsm8nw74d/BcQjfSmNgQzlAijqbA4
+   J3pPCJiYm3RU+Kyxs1BEbKFwa9Be70G9bXKWjZGhGDDwCJJJGUse+v0RR
+   BsKglclg/umivuN0ipX8Y+vffhgvLXZiOuKKaQOmfGcbeLXPycsjEdR1N
+   w==;
+X-CSE-ConnectionGUID: vgvQovCrRoGjGkf/049IbA==
+X-CSE-MsgGUID: KsHN/1ejRI6Q32TJo/Ic2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="68732323"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="68732323"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 03:52:43 -0700
+X-CSE-ConnectionGUID: ISUnCNK9QT6AhXVgkDgYbQ==
+X-CSE-MsgGUID: PMh/00SISaaFLg+JFVei5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="166687100"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Aug 2025 03:52:41 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1unEWd-000CpM-23;
+	Sat, 16 Aug 2025 10:52:39 +0000
+Date: Sat, 16 Aug 2025 18:52:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dongsheng Yang <dongsheng.yang@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Mikulas Patocka <mpatocka@redhat.com>
+Subject: [linux-next:master 2532/2770]
+ drivers/md/dm-pcache/backing_dev.c:134:26: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202508161838.BV3mincB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250814-tonyk-overlayfs-v5-4-c5b80a909cbd@igalia.com>
 
-Hi André,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/fs-Create-sb_encoding-helper/20250815-013213
-base:   0cc53520e68bea7fb80fdc6bdf8d226d1b6a98d9
-patch link:    https://lore.kernel.org/r/20250814-tonyk-overlayfs-v5-4-c5b80a909cbd%40igalia.com
-patch subject: [PATCH v5 4/9] ovl: Create ovl_casefold() to support casefolded strncmp()
-config: alpha-randconfig-r071-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161416.sbuLMXuI-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1357b2649c026b51353c84ddd32bc963e8999603
+commit: 6fb8fbbaf147fe4153177320ee354c457605800a [2532/2770] dm-pcache: add persistent cache target in device-mapper
+config: riscv-randconfig-r132-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161838.BV3mincB-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce: (https://download.01.org/0day-ci/archive/20250816/202508161838.BV3mincB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508161416.sbuLMXuI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508161838.BV3mincB-lkp@intel.com/
 
-New smatch warnings:
-fs/overlayfs/readdir.c:82 ovl_casefold() warn: variable dereferenced before check 'dst' (see line 80)
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/md/dm-pcache/backing_dev.c:134:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted blk_status_t [usertype] bi_status @@
+   drivers/md/dm-pcache/backing_dev.c:134:26: sparse:     expected int ret
+   drivers/md/dm-pcache/backing_dev.c:134:26: sparse:     got restricted blk_status_t [usertype] bi_status
 
-vim +/dst +82 fs/overlayfs/readdir.c
+vim +134 drivers/md/dm-pcache/backing_dev.c
 
-3f345b5617fb37 André Almeida  2025-08-14  72  static int ovl_casefold(struct unicode_map *map, const char *str, int len, char **dst)
-3f345b5617fb37 André Almeida  2025-08-14  73  {
-3f345b5617fb37 André Almeida  2025-08-14  74  	const struct qstr qstr = { .name = str, .len = len };
-3f345b5617fb37 André Almeida  2025-08-14  75  	int cf_len;
-3f345b5617fb37 André Almeida  2025-08-14  76  
-3f345b5617fb37 André Almeida  2025-08-14  77  	if (!IS_ENABLED(CONFIG_UNICODE) || !map || is_dot_dotdot(str, len))
-3f345b5617fb37 André Almeida  2025-08-14  78  		return 0;
-3f345b5617fb37 André Almeida  2025-08-14  79  
-3f345b5617fb37 André Almeida  2025-08-14 @80  	*dst = kmalloc(NAME_MAX, GFP_KERNEL);
-3f345b5617fb37 André Almeida  2025-08-14  81  
-3f345b5617fb37 André Almeida  2025-08-14 @82  	if (dst) {
-
-s/dst/*dst/
-
-3f345b5617fb37 André Almeida  2025-08-14  83  		cf_len = utf8_casefold(map, &qstr, *dst, NAME_MAX);
-3f345b5617fb37 André Almeida  2025-08-14  84  
-3f345b5617fb37 André Almeida  2025-08-14  85  		if (cf_len > 0)
-3f345b5617fb37 André Almeida  2025-08-14  86  			return cf_len;
-3f345b5617fb37 André Almeida  2025-08-14  87  	}
-3f345b5617fb37 André Almeida  2025-08-14  88  
-3f345b5617fb37 André Almeida  2025-08-14  89  	kfree(*dst);
-3f345b5617fb37 André Almeida  2025-08-14  90  	return 0;
-3f345b5617fb37 André Almeida  2025-08-14  91  }
+   127	
+   128	static void backing_dev_bio_end(struct bio *bio)
+   129	{
+   130		struct pcache_backing_dev_req *backing_req = bio->bi_private;
+   131		struct pcache_backing_dev *backing_dev = backing_req->backing_dev;
+   132		unsigned long flags;
+   133	
+ > 134		backing_req->ret = bio->bi_status;
+   135	
+   136		spin_lock_irqsave(&backing_dev->complete_lock, flags);
+   137		list_move_tail(&backing_req->node, &backing_dev->complete_list);
+   138		queue_work(BACKING_DEV_TO_PCACHE(backing_dev)->task_wq, &backing_dev->req_complete_work);
+   139		spin_unlock_irqrestore(&backing_dev->complete_lock, flags);
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
