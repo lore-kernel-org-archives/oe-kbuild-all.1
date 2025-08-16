@@ -1,59 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFED634
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 15:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C18D23AE9A;
+	Sat, 16 Aug 2025 16:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755358705; cv=none; b=aIbeuBQo3nJyQLCy+FzzOHuPifyc9pv5IB7H6r5PatoWmAQdsP2Ji7QljCHFj42rYPWEX5Ls8BMe09IKdc5cGI45hm91Os1Eb0F230ZvliakUJFPl9wpn/9gwRkJwwy2d0TKLZIoRMz+nIu+r3DGNUYXe55b20+4dB6fbkd1N1k=
+	t=1755361173; cv=none; b=QU/0DMma6U0CVPdSrJ/vcKzbZkpYmGMVLSCZhldosmgMCT+Ydo4OvTDfhoKEPmlpl5godxLqKfy5CQ+t4CU63U5X00UjMG8Tuzvm9iiCmWvD3ZhnzMefGAwDUEqNJpqnENdfuodIsAgYz05OoO5IxOjt49Nqczv6j2wdIA/oHaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755358705; c=relaxed/simple;
-	bh=F5toXI1VO3GEzl1uxjf0VuSz9SuudRE68r8taQqIM8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MP6Q5PrnuGTZNeNuFPEvQrAWlSLIkPqF1vzpUXtvWodlNiqVuCAX3akrqt7cmMWbQNaEJPvmYlFAYKtqEbj1aHy2palt+xS8UxhSc7psY9B6la+iGHOc6ujOLeMklt9BYu92ZB5pR8TI439TNcjXDYJG4veJch9oPRuxFvFYCqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UiRjR9Iv; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755361173; c=relaxed/simple;
+	bh=Ni2SRH/sEDhvrFuOT45BGG3k0SQyoGEYTroBGvv4mYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftXNGtrwEg5+TLPDHyuvehdFzDCJ6fRMCx9mZ3NnQnGho/r5mmGzAbcYMLHTuv5bri56/5HVzQwM0kOV6CXNtUI12sqrN2SD5c7EQFjAPPBIgQAQFlJCmK/b51+Hg43496Ht4wxsvze4uwV/Hr5xL4URLzpSKH4Y2T10uG2FwiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Ym15RQhy; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiRjR9Iv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755358703; x=1786894703;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F5toXI1VO3GEzl1uxjf0VuSz9SuudRE68r8taQqIM8c=;
-  b=UiRjR9IvnjlSbZFI9uluq4ytFF4s/xs4qFRkkc8/4yEslBz8w26WNcHu
-   5YnIW20vwqy1FSXV2VLL6XXS50BXowzSLjYrWtRmgWNEgvt/hGCfUKC/R
-   NnOm9ybJKhKrvaYPJBNoI+weVt9arJdXVlq4kE0Gw9M4s7ULcxYymDU//
-   OETeQuF+Qu6wrAr+5oP3isZWA49Q+LvZn+Mnh6MVqdN7QKv703eHQ0k1f
-   axrRZ9vNAAF8N4osfUsePc0eymSw+xfk7GmkCQerc3zYZkjUrkdxHo9Ai
-   U0JSjpvtaJfZHzrwRMzpf7wEParxcebhY0eIEBiYWpRBNS/I53Sla/eZ6
-   g==;
-X-CSE-ConnectionGUID: 4nglRHPCS6qlobt2TLsnCA==
-X-CSE-MsgGUID: d8TF1Xp9RCa64aWJLFfAVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57721287"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57721287"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 08:38:22 -0700
-X-CSE-ConnectionGUID: i0AvjxMMSDSMoXYnrH0XdA==
-X-CSE-MsgGUID: oX7sJsBQQZC+mRiVezLd3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167608420"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2025 08:38:21 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1unIyd-000Cy0-0Y;
-	Sat, 16 Aug 2025 15:38:07 +0000
-Date: Sat, 16 Aug 2025 23:37:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:dev 11/11] kernel/rcu/rcu.h:679:20: error: static
- declaration of 'show_rcu_tasks_trace_gp_kthread' follows non-static
- declaration
-Message-ID: <202508162343.JKejG89v-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Ym15RQhy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=f5QcBb6a20Y9E3CIcIoL/CJ0bYUe2BW+pmQoB69q1kY=; b=Ym15RQhycP0LhykE7wVg8EhWcE
+	lBMX41EIHNNOQV41ziQD+32Ylj9ebcsWijBpTCUp0vvroiP5ue7HHrYcgaUghfiPzs3SeTg9exd9l
+	QxeQbBPUPA4d5hHgAfZYmUdS5K6SsXV6AzG6fjxtVf+f4d8wzVqfGqvWtlO6BqFYNoCwBHPvInWuX
+	k0SFtvCxuK/S/hqD4uSA2rTdb4VCtMWnTpcR4RQ1troXLGGQG/lKXWe88JOrOGcIH1wdB3dZhvFpt
+	0hKxsWeEfXFiB5R9Vi3o8RO1utNqaJ9dpG9dQ8UfLJnBM/SN5LMH9f1cEr0BmG2Q7NqzrmAlYFg6E
+	KDZQLeLQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1unJcu-0000000GO1B-3coH;
+	Sat, 16 Aug 2025 16:19:28 +0000
+Date: Sat, 16 Aug 2025 17:19:28 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: kernel test robot <lkp@intel.com>
+Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: Re: mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2
+ (different address spaces)
+Message-ID: <20250816161928.GU222315@ZenIV>
+References: <202508161713.RWu30Lv1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,80 +48,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202508161713.RWu30Lv1-lkp@intel.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   2ad3ef4260e9bd8628025b35fa2613c7e4e7720f
-commit: 2ad3ef4260e9bd8628025b35fa2613c7e4e7720f [11/11] rcu: Re-implement RCU Tasks Trace in terms of SRCU-fast
-config: arc-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508162343.JKejG89v-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508162343.JKejG89v-lkp@intel.com/reproduce)
+On Sat, Aug 16, 2025 at 05:28:29PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   dfd4b508c8c6106083698a0dd5e35aecc7c48725
+> commit: ca1a66cdd685030738cf077e3955fdedfe39fbb9 riscv: uaccess: do not do misaligned accesses in get/put_user()
+> date:   2 months ago
+> config: riscv-randconfig-r122-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+> reproduce: (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508161713.RWu30Lv1-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    WARNING: invalid argument to '-march': '_zacas_zabha'
+> >> mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long [usertype] * @@
+>    mm/maccess.c:41:17: sparse:     expected void const [noderef] __user *from
+>    mm/maccess.c:41:17: sparse:     got unsigned long long [usertype] *
+> >> mm/maccess.c:43:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned int [usertype] * @@
+>    mm/maccess.c:43:17: sparse:     expected void const [noderef] __user *from
+>    mm/maccess.c:43:17: sparse:     got unsigned int [usertype] *
+> >> mm/maccess.c:45:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned short [usertype] * @@
+>    mm/maccess.c:45:17: sparse:     expected void const [noderef] __user *from
+>    mm/maccess.c:45:17: sparse:     got unsigned short [usertype] *
+> >> mm/maccess.c:46:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+>    mm/maccess.c:46:9: sparse:     expected void const [noderef] __user *from
+>    mm/maccess.c:46:9: sparse:     got unsigned char [usertype] *
+> >> mm/maccess.c:73:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] * @@
+>    mm/maccess.c:73:17: sparse:     expected void [noderef] __user *to
+>    mm/maccess.c:73:17: sparse:     got unsigned long long [usertype] *
+> >> mm/maccess.c:75:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned int [usertype] * @@
+>    mm/maccess.c:75:17: sparse:     expected void [noderef] __user *to
+>    mm/maccess.c:75:17: sparse:     got unsigned int [usertype] *
+> >> mm/maccess.c:77:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned short [usertype] * @@
+>    mm/maccess.c:77:17: sparse:     expected void [noderef] __user *to
+>    mm/maccess.c:77:17: sparse:     got unsigned short [usertype] *
+> >> mm/maccess.c:78:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
+>    mm/maccess.c:78:9: sparse:     expected void [noderef] __user *to
+>    mm/maccess.c:78:9: sparse:     got unsigned char [usertype] *
+>    mm/maccess.c:98:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+>    mm/maccess.c:98:17: sparse:     expected void const [noderef] __user *from
+>    mm/maccess.c:98:17: sparse:     got unsigned char [usertype] *
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508162343.JKejG89v-lkp@intel.com/
+... and that clearly has fuck-all to do with mm/maccess.c.
+The problem is in
+#define __get_kernel_nofault(dst, src, type, err_label)                 \
+        __get_user_nocheck(*((type *)(dst)), (type *)(src), err_label)
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/torture.c:41:
->> kernel/rcu/rcu.h:679:20: error: static declaration of 'show_rcu_tasks_trace_gp_kthread' follows non-static declaration
-    static inline void show_rcu_tasks_trace_gp_kthread(void) {}
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/tracepoint.h:20,
-                    from include/trace/events/rcu.h:8,
-                    from kernel/rcu/rcu.h:14,
-                    from kernel/torture.c:41:
-   include/linux/rcupdate_trace.h:136:6: note: previous declaration of 'show_rcu_tasks_trace_gp_kthread' was here
-    void show_rcu_tasks_trace_gp_kthread(void);
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from kernel/rcu/update.c:50:
->> kernel/rcu/rcu.h:679:20: error: static declaration of 'show_rcu_tasks_trace_gp_kthread' follows non-static declaration
-    static inline void show_rcu_tasks_trace_gp_kthread(void) {}
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/rcu/update.c:46:
-   include/linux/rcupdate_trace.h:136:6: note: previous declaration of 'show_rcu_tasks_trace_gp_kthread' was here
-    void show_rcu_tasks_trace_gp_kthread(void);
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/rcu/update.c:656:
-   kernel/rcu/tasks.h: In function 'rcu_tasks_trace_suppress_unused':
->> kernel/rcu/tasks.h:1465:2: error: implicit declaration of function 'show_rcu_tasks_generic_gp_kthread'; did you mean 'show_rcu_tasks_classic_gp_kthread'? [-Werror=implicit-function-declaration]
-     show_rcu_tasks_generic_gp_kthread(NULL, NULL);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     show_rcu_tasks_classic_gp_kthread
->> kernel/rcu/tasks.h:1471:2: error: implicit declaration of function 'rcu_tasks_torture_stats_print_generic'; did you mean 'rcu_tasks_trace_torture_stats_print'? [-Werror=implicit-function-declaration]
-     rcu_tasks_torture_stats_print_generic(NULL, NULL, NULL, NULL);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     rcu_tasks_trace_torture_stats_print
-   cc1: some warnings being treated as errors
-
-
-vim +/show_rcu_tasks_trace_gp_kthread +679 kernel/rcu/rcu.h
-
-3d54f7983f3e6a Paul E. McKenney 2017-05-03  665  
-27c0f1448389ba Paul E. McKenney 2020-09-15  666  #if !defined(CONFIG_TINY_RCU) && defined(CONFIG_TASKS_RCU)
-27c0f1448389ba Paul E. McKenney 2020-09-15  667  void show_rcu_tasks_classic_gp_kthread(void);
-27c0f1448389ba Paul E. McKenney 2020-09-15  668  #else
-27c0f1448389ba Paul E. McKenney 2020-09-15  669  static inline void show_rcu_tasks_classic_gp_kthread(void) {}
-27c0f1448389ba Paul E. McKenney 2020-09-15  670  #endif
-27c0f1448389ba Paul E. McKenney 2020-09-15  671  #if !defined(CONFIG_TINY_RCU) && defined(CONFIG_TASKS_RUDE_RCU)
-27c0f1448389ba Paul E. McKenney 2020-09-15  672  void show_rcu_tasks_rude_gp_kthread(void);
-27c0f1448389ba Paul E. McKenney 2020-09-15  673  #else
-27c0f1448389ba Paul E. McKenney 2020-09-15  674  static inline void show_rcu_tasks_rude_gp_kthread(void) {}
-27c0f1448389ba Paul E. McKenney 2020-09-15  675  #endif
-27c0f1448389ba Paul E. McKenney 2020-09-15  676  #if !defined(CONFIG_TINY_RCU) && defined(CONFIG_TASKS_TRACE_RCU)
-27c0f1448389ba Paul E. McKenney 2020-09-15  677  void show_rcu_tasks_trace_gp_kthread(void);
-27c0f1448389ba Paul E. McKenney 2020-09-15  678  #else
-27c0f1448389ba Paul E. McKenney 2020-09-15 @679  static inline void show_rcu_tasks_trace_gp_kthread(void) {}
-27c0f1448389ba Paul E. McKenney 2020-09-15  680  #endif
-27c0f1448389ba Paul E. McKenney 2020-09-15  681  
-
-:::::: The code at line 679 was first introduced by commit
-:::::: 27c0f1448389baf7f309b69e62d4b531c9395e88 rcutorture: Make grace-period kthread report match RCU flavor being tested
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Make that
+        __get_user_nocheck(*((type *)(dst)), (__force __user type *)(src), err_label)
+and similar in
+#define __put_kernel_nofault(dst, src, type, err_label)                 \
+        __put_user_nocheck(*((type *)(src)), (type *)(dst), err_label)
+(cast also on the second argument) and see how much noise will go away.
