@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A993009CE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 18:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC63815C15F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 18:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755368105; cv=none; b=HRt7mOZj3dUAIofUcQGAtcC7sED6Ao5DPM+AzoyNXeWfNbIzXuVkrsXo3G8GucZNklQwNFNtmBcjK+g8+WdTbVS6RCxiXVHJveLOGbP98Qje9yuet+5zJAYxxB5Ljj5LLIl2aph+9iezz7DXy5xINa3ADSt/3OxsN6DQnmBUJR8=
+	t=1755368886; cv=none; b=Ganl8u7tq+cZIdTksnxcOjD515fvYWD6O2bnUnFVecQi9bbocSE/zd9kUbd0A8+mogBLoOflyV6CUpanNc1O7SPbYob1Ema7ZnHlo1ClctUGz7qgoWUZwTE0S+NWjmeIHOa+Iot5LG4RM7lc5wjjis/j7yXTRB2bL6hzX4dC6Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755368105; c=relaxed/simple;
-	bh=rWI6IshLucmadkLI60Ojz9rvR1swCy3K5RS2qjR9g4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gw0OVNQA0gRCFVibWzVT/lyfx0ZJ9ZoAdW3jfulNWqE37yBmUFm9TFPE8SvrdfDCC+i04CwBTWGoKu4NMrUooqarU9cawb5Cj4uLhHmsI3MDvGrvQZB1q3gJzzfxUEYCls3IC/oWsowOhda+HLx/1SXKIX8Sk2iRPPqJvdX3+ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGr45UL3; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1755368886; c=relaxed/simple;
+	bh=IVd9A1kE//dOaklHCTLifVQNjQF1deSXaBXPTo1bjiA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qgIMi3t6ovPZPuVS89FeugR5ppym4upMBIqLvPYh0XGupGP0Pyd+1HJB7pyNUCkoL8IussiSg90VqPhXOkQDf43siWprkL6DV94y0xIAO8nzyJKUpUSNbdjmjrwKgAZ1pSxhrn6SGNmLvyRM751m5vSIoIkkROAVMck0nzhfU/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3P4FWPT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGr45UL3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3P4FWPT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755368104; x=1786904104;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rWI6IshLucmadkLI60Ojz9rvR1swCy3K5RS2qjR9g4w=;
-  b=aGr45UL3AHmWB+ZTsCjr7PQVAqLoKVQnIUTFV37mIEW8+uHV2qU7TGtP
-   AjLb5gauyZkD2g6Y7D9956JkYbKPuIvo4DvBwNh+W+1XnuvpR3Pjco4yV
-   8DSeKtuzcJcF+K/yp/cjDH9bUDGIA8v9c1XD/ailqMguH6gvBtOOoWHji
-   hmLkhwIQeuRyCKto2FeevtSMvuw0Y9AUcc6i0VqqibuhGYfIMhKQ8yr51
-   Te2mE8GdkvKpFTgGaXBTis3P45KD1YSYdMaTLP3LcVaEqvVlnM1GpKA5Z
-   KwzL/iB9kFfFImQEgc7gLt0s2CngGbnOHBnFkYhyuvT00NfaYUHL9AfMO
-   w==;
-X-CSE-ConnectionGUID: 8Ut2+xZIR96blHlalfJiZA==
-X-CSE-MsgGUID: Wrl7695bS+mQJhTksBbdOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="61489701"
+  t=1755368885; x=1786904885;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IVd9A1kE//dOaklHCTLifVQNjQF1deSXaBXPTo1bjiA=;
+  b=l3P4FWPT4hngsWpSZUr7WDSq6i09mwt7oGHX4emWGTc7aWbuTXoUWNVy
+   kobk/AYh1IKqz/BSk2Ejwnxwu9jdpcTT+i2DfjnRexDMd9DgF3sft6PVr
+   aCekgkqs1AuOU9qnFJ77JqxERoRWcSaKA58RAIKXrtRg7/cdOT8o/jleR
+   YsnptJtgWdh49uA03aZ9DENf/fJ1czsIDrKjnSCoseo0taSWIrCTYnOu1
+   g3+bzuY2Mu/aM3aoJ14KXn/4746M+frtX0Ba6ZtBSbmn5+bqCzYvrB2WW
+   0xv5z05fM4LrtYBd/J3+KR38nhSb1idDCnrbKW8MXp22DROH25PdAgFex
+   Q==;
+X-CSE-ConnectionGUID: 8OppylsARluICHmuUQrydA==
+X-CSE-MsgGUID: thpx/gvCRNu8L7DEQWjnFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="57731062"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="61489701"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 11:15:04 -0700
-X-CSE-ConnectionGUID: q6yTj+6cTpSsKBsmDGKmkw==
-X-CSE-MsgGUID: dzSWC1ArS8a113n/8DzCfQ==
+   d="scan'208";a="57731062"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 11:28:05 -0700
+X-CSE-ConnectionGUID: LsQLs44LSP67R1jklPSBSw==
+X-CSE-MsgGUID: cTovjDaxROSpWGqfj1j8qA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="166427772"
+   d="scan'208";a="204415074"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 16 Aug 2025 11:15:00 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Aug 2025 11:28:04 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unLQf-000D5M-34;
-	Sat, 16 Aug 2025 18:14:57 +0000
-Date: Sun, 17 Aug 2025 02:14:25 +0800
+	id 1unLdI-000D5k-28;
+	Sat, 16 Aug 2025 18:28:00 +0000
+Date: Sun, 17 Aug 2025 02:27:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mykyta Yatsenko <mykyta.yatsenko5@gmail.com>, bpf@vger.kernel.org,
-	ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net,
-	kafai@meta.com, kernel-team@meta.com, eddyz87@gmail.com,
-	memxor@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, Mykyta Yatsenko <yatsenko@meta.com>
-Subject: Re: [PATCH bpf-next v2 3/4] bpf: task work scheduling kfuncs
-Message-ID: <202508170152.F0lX7DFM-lkp@intel.com>
-References: <20250815192156.272445-4-mykyta.yatsenko5@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:ethos-v3 5/5] drivers/accel/ethosu/ethosu_drv.c:210:9: error:
+ implicit declaration of function 'FIELD_GET'
+Message-ID: <202508170258.0PD98SOg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,117 +61,277 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250815192156.272445-4-mykyta.yatsenko5@gmail.com>
 
-Hi Mykyta,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mykyta-Yatsenko/bpf-bpf-task-work-plumbing/20250816-032308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250815192156.272445-4-mykyta.yatsenko5%40gmail.com
-patch subject: [PATCH bpf-next v2 3/4] bpf: task work scheduling kfuncs
-config: riscv-randconfig-r122-20250816 (https://download.01.org/0day-ci/archive/20250817/202508170152.F0lX7DFM-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce: (https://download.01.org/0day-ci/archive/20250817/202508170152.F0lX7DFM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git ethos-v3
+head:   74531049aaf7feda960f5e7d701a417dd7620b2c
+commit: 74531049aaf7feda960f5e7d701a417dd7620b2c [5/5] renaming
+config: xtensa-randconfig-r073-20250817 (https://download.01.org/0day-ci/archive/20250817/202508170258.0PD98SOg-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508170258.0PD98SOg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508170152.F0lX7DFM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508170258.0PD98SOg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/helpers.c:2471:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2501:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3367:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3367:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3367:17: sparse:     got char *
-   kernel/bpf/helpers.c:3368:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3368:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3368:17: sparse:     got char *
-   kernel/bpf/helpers.c:3407:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3407:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3407:17: sparse:     got char *
-   kernel/bpf/helpers.c:3461:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3461:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3461:17: sparse:     got char *
-   kernel/bpf/helpers.c:3493:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3493:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3493:17: sparse:     got char *
-   kernel/bpf/helpers.c:3526:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3526:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3526:17: sparse:     got char *
-   kernel/bpf/helpers.c:3576:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3576:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3576:17: sparse:     got char *
-   kernel/bpf/helpers.c:3580:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3580:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3580:25: sparse:     got char *
-   kernel/bpf/helpers.c:3620:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3620:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3620:17: sparse:     got char *
-   kernel/bpf/helpers.c:3624:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3624:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3624:25: sparse:     got char *
-   kernel/bpf/helpers.c:3666:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3666:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3666:25: sparse:     got char *
-   kernel/bpf/helpers.c:3669:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3669:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3669:25: sparse:     got char *
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
->> kernel/bpf/helpers.c:3856:27: sparse: sparse: cast removes address space '__rcu' of expression
-   kernel/bpf/helpers.c:2965:18: sparse: sparse: context imbalance in 'bpf_rcu_read_lock' - wrong count at exit
-   kernel/bpf/helpers.c:2970:18: sparse: sparse: context imbalance in 'bpf_rcu_read_unlock' - unexpected unlock
+All error/warnings (new ones prefixed by >>):
 
-vim +/__rcu +3856 kernel/bpf/helpers.c
+   drivers/accel/ethosu/ethosu_drv.c: In function 'ethosu_is_u65':
+>> drivers/accel/ethosu/ethosu_drv.c:210:9: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     return FIELD_GET(ID_ARCH_MAJOR_MASK, ethosudev->npu_info.id) == 1;
+            ^~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/accel/ethosu/ethosu_drv.c:10:
+   drivers/accel/ethosu/ethosu_drv.c: In function 'ethosu_init':
+>> drivers/accel/ethosu/ethosu_drv.c:328:3: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
+      "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                      ^~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:327:2: note: in expansion of macro 'dev_info'
+     dev_info(ethosudev->base.dev,
+     ^~~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:328:3: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
+      "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                      ^~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:327:2: note: in expansion of macro 'dev_info'
+     dev_info(ethosudev->base.dev,
+     ^~~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:328:3: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'int' [-Wformat=]
+      "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                      ^~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:327:2: note: in expansion of macro 'dev_info'
+     dev_info(ethosudev->base.dev,
+     ^~~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:328:3: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'int' [-Wformat=]
+      "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                      ^~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:327:2: note: in expansion of macro 'dev_info'
+     dev_info(ethosudev->base.dev,
+     ^~~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:328:3: warning: format '%ld' expects argument of type 'long int', but argument 7 has type 'int' [-Wformat=]
+      "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                      ^~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:327:2: note: in expansion of macro 'dev_info'
+     dev_info(ethosudev->base.dev,
+     ^~~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:328:3: warning: format '%ld' expects argument of type 'long int', but argument 8 has type 'int' [-Wformat=]
+      "Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                      ^~~~~~~
+   drivers/accel/ethosu/ethosu_drv.c:327:2: note: in expansion of macro 'dev_info'
+     dev_info(ethosudev->base.dev,
+     ^~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/accel/ethosu/ethosu_gem.c: In function 'feat_matrix_length':
+>> drivers/accel/ethosu/ethosu_gem.c:222:3: error: a label can only be part of a statement and a declaration is not a statement
+      u32 element_size = BIT((fm->precision >> 1) & 0x3);
+      ^~~
+   drivers/accel/ethosu/ethosu_gem.c: In function 'ethosu_gem_cmdstream_copy_and_validate':
+   drivers/accel/ethosu/ethosu_gem.c:393:4: error: a label can only be part of a statement and a declaration is not a statement
+       u64 srclen = dma_length(info, &st.dma, &st.dma.src);
+       ^~~
+>> drivers/accel/ethosu/ethosu_gem.c:394:4: error: expected expression before 'u64'
+       u64 dstlen = dma_length(info, &st.dma, &st.dma.dst);
+       ^~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:5,
+                    from include/linux/dma-buf.h:21,
+                    from include/drm/drm_gem.h:38,
+                    from include/drm/drm_gem_dma_helper.h:7,
+                    from drivers/accel/ethosu/ethosu_gem.h:8,
+                    from drivers/accel/ethosu/ethosu_gem.c:10:
+>> drivers/accel/ethosu/ethosu_gem.c:400:44: error: 'dstlen' undeclared (first use in this function); did you mean 'strlen'?
+         st.dma.dst.region, st.dma.dst.offset, dstlen);
+                                               ^~~~~~
+   include/linux/dev_printk.h:110:23: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                          ^~~~~~~~~~~
+   drivers/accel/ethosu/ethosu_gem.c:398:4: note: in expansion of macro 'dev_info'
+       dev_info(ddev->dev, "cmd: DMA SRC:%d:0x%llx+0x%llx DST:%d:0x%llx+0x%llx\n",
+       ^~~~~~~~
+   drivers/accel/ethosu/ethosu_gem.c:400:44: note: each undeclared identifier is reported only once for each function it appears in
+         st.dma.dst.region, st.dma.dst.offset, dstlen);
+                                               ^~~~~~
+   include/linux/dev_printk.h:110:23: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                          ^~~~~~~~~~~
+   drivers/accel/ethosu/ethosu_gem.c:398:4: note: in expansion of macro 'dev_info'
+       dev_info(ddev->dev, "cmd: DMA SRC:%d:0x%llx+0x%llx DST:%d:0x%llx+0x%llx\n",
+       ^~~~~~~~
 
-  3838	
-  3839	static struct bpf_task_work_context *bpf_task_work_context_acquire(struct bpf_task_work *tw,
-  3840									   struct bpf_map *map)
-  3841	{
-  3842		struct bpf_task_work_context *ctx, *old_ctx;
-  3843		enum bpf_task_work_state state;
-  3844		struct bpf_task_work_context __force __rcu **ppc =
-  3845			(struct bpf_task_work_context __force __rcu **)&tw->ctx;
-  3846	
-  3847		/* ctx pointer is RCU protected */
-  3848		rcu_read_lock_trace();
-  3849		ctx = rcu_dereference(*ppc);
-  3850		if (!ctx) {
-  3851			ctx = bpf_task_work_context_alloc();
-  3852			if (!ctx) {
-  3853				rcu_read_unlock_trace();
-  3854				return ERR_PTR(-ENOMEM);
-  3855			}
-> 3856			old_ctx = unrcu_pointer(cmpxchg(ppc, NULL, RCU_INITIALIZER(ctx)));
-  3857			/*
-  3858			 * If ctx is set by another CPU, release allocated memory.
-  3859			 * Do not fail, though, attempt stealing the work
-  3860			 */
-  3861			if (old_ctx) {
-  3862				bpf_mem_free(&bpf_global_ma, ctx);
-  3863				ctx = old_ctx;
-  3864			}
-  3865		}
-  3866		state = cmpxchg(&ctx->state, BPF_TW_STANDBY, BPF_TW_PENDING);
-  3867		/*
-  3868		 * We can unlock RCU, because task work scheduler (this codepath)
-  3869		 * now owns the ctx or returning an error
-  3870		 */
-  3871		rcu_read_unlock_trace();
-  3872		if (state != BPF_TW_STANDBY)
-  3873			return ERR_PTR(-EBUSY);
-  3874		return ctx;
-  3875	}
-  3876	
+
+vim +/FIELD_GET +210 drivers/accel/ethosu/ethosu_drv.c
+
+   207	
+   208	static bool ethosu_is_u65(const struct ethosu_device *ethosudev)
+   209	{
+ > 210		return FIELD_GET(ID_ARCH_MAJOR_MASK, ethosudev->npu_info.id) == 1;
+   211	}
+   212	
+   213	#define AXI_LIMIT_CFG 0x1f3f0002
+   214	
+   215	static int ethosu_reset(struct ethosu_device *ethosudev)
+   216	{
+   217		int ret;
+   218		u32 reg;
+   219	
+   220		writel_relaxed(RESET_PENDING_CSL, ethosudev->regs + NPU_REG_RESET);
+   221		ret = readl_poll_timeout(ethosudev->regs + NPU_REG_STATUS, reg,
+   222					 !FIELD_GET(STATUS_RESET_STATUS, reg),
+   223					 USEC_PER_MSEC, USEC_PER_SEC);
+   224		if (ret)
+   225			return ret;
+   226	
+   227		if (!FIELD_GET(PROT_ACTIVE_CSL, readl_relaxed(ethosudev->regs + NPU_REG_PROT))) {
+   228			dev_warn(ethosudev->base.dev, "Could not reset to non-secure mode (PROT = %x)\n",
+   229				 readl_relaxed(ethosudev->regs + NPU_REG_PROT));
+   230		}
+   231	
+   232		if (ethosu_is_u65(ethosudev)) {
+   233			/* Assign region 2 to AXI M0, everything else to AXI M1*/
+   234			writel_relaxed(0x0000aa8a, ethosudev->regs + NPU_REG_REGIONCFG);
+   235			writel_relaxed(AXI_LIMIT_CFG, ethosudev->regs + NPU_REG_AXILIMIT0);
+   236			writel_relaxed(AXI_LIMIT_CFG, ethosudev->regs + NPU_REG_AXILIMIT1);
+   237			writel_relaxed(AXI_LIMIT_CFG, ethosudev->regs + NPU_REG_AXILIMIT2);
+   238			writel_relaxed(AXI_LIMIT_CFG, ethosudev->regs + NPU_REG_AXILIMIT3);
+   239		}
+   240	
+   241		if (ethosudev->sram)
+   242			memset_io(ethosudev->sram, 0, ethosudev->npu_info.sram_size);
+   243	
+   244		return 0;
+   245	}
+   246	
+   247	static int ethosu_device_resume(struct device *dev)
+   248	{
+   249		struct ethosu_device *ethosudev = dev_get_drvdata(dev);
+   250		int ret;
+   251	
+   252		ret = clk_prepare_enable(ethosudev->core_clk);
+   253		if (ret)
+   254			return ret;
+   255	
+   256		ret = clk_prepare_enable(ethosudev->apb_clk);
+   257		if (ret)
+   258			goto err_disable_core_clk;
+   259	
+   260		ret = ethosu_reset(ethosudev);
+   261		if (!ret)
+   262			return 0;
+   263	
+   264	err_disable_core_clk:
+   265		clk_disable_unprepare(ethosudev->core_clk);
+   266		return ret;
+   267	}
+   268	
+   269	static int ethosu_device_suspend(struct device *dev)
+   270	{
+   271		struct ethosu_device *ethosudev = dev_get_drvdata(dev);
+   272	
+   273		clk_disable_unprepare(ethosudev->apb_clk);
+   274		clk_disable_unprepare(ethosudev->core_clk);
+   275		return 0;
+   276	}
+   277	
+   278	static int ethosu_sram_init(struct ethosu_device *ethosudev)
+   279	{
+   280		ethosudev->npu_info.sram_size = 0;
+   281	
+   282		ethosudev->srampool = of_gen_pool_get(ethosudev->base.dev->of_node, "sram", 0);
+   283		if (!ethosudev->srampool)
+   284			return 0;
+   285	
+   286		ethosudev->npu_info.sram_size = gen_pool_size(ethosudev->srampool);
+   287	
+   288		ethosudev->sram = (void __iomem *)gen_pool_dma_alloc(ethosudev->srampool,
+   289								    ethosudev->npu_info.sram_size,
+   290								    &ethosudev->sramphys);
+   291		if (!ethosudev->sram) {
+   292			dev_err(ethosudev->base.dev, "failed to allocate from SRAM pool\n");
+   293			return -ENOMEM;
+   294		}
+   295	
+   296		return 0;
+   297	}
+   298	
+   299	static int ethosu_init(struct ethosu_device *ethosudev)
+   300	{
+   301		int ret;
+   302		u32 id, config;
+   303	
+   304		ret = devm_pm_runtime_enable(ethosudev->base.dev);
+   305		if (ret)
+   306			return ret;
+   307	
+   308		ret = pm_runtime_resume_and_get(ethosudev->base.dev);
+   309		if (ret)
+   310			return ret;
+   311	
+   312		pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+   313		pm_runtime_use_autosuspend(ethosudev->base.dev);
+   314	
+   315		/* If PM is disabled, we need to call ethosu_device_resume() manually. */
+   316		if (!IS_ENABLED(CONFIG_PM)) {
+   317			ret = ethosu_device_resume(ethosudev->base.dev);
+   318			if (ret)
+   319				return ret;
+   320		}
+   321	
+   322		ethosudev->npu_info.id = id = readl_relaxed(ethosudev->regs + NPU_REG_ID);
+   323		ethosudev->npu_info.config = config = readl_relaxed(ethosudev->regs + NPU_REG_CONFIG);
+   324	
+   325		ethosu_sram_init(ethosudev);
+   326	
+   327		dev_info(ethosudev->base.dev,
+ > 328			"Ethos-U NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs, %dKB SRAM\n",
+   329			FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+   330			FIELD_GET(ID_ARCH_MINOR_MASK, id),
+   331			FIELD_GET(ID_ARCH_PATCH_MASK, id),
+   332			FIELD_GET(ID_VER_MAJOR_MASK, id),
+   333			FIELD_GET(ID_VER_MINOR_MASK, id),
+   334			FIELD_GET(CONFIG_CMD_STREAM_VER_MASK, config),
+   335			1 << FIELD_GET(CONFIG_MACS_PER_CC_MASK, config),
+   336			ethosudev->npu_info.sram_size / 1024);
+   337	
+   338		return 0;
+   339	}
+   340	
 
 -- 
 0-DAY CI Kernel Test Service
