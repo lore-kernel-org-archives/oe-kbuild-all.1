@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E7C284B41;
-	Sat, 16 Aug 2025 13:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9012E8882
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 13:44:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755351841; cv=none; b=VIKm610eG+uxAlaa2Zj5LYddKAGszSFvJsYXE/CEsBwtxWNHja/1LCrcOrXMbe9D5e8xEEeS7EBpfJTW1eOoNkM3Pd55Jycr7SElDt4pbOQ9KmvY8RNwQc83sCyX0ToMIBekhwGZCRO1l86fQx7oP801iP88XvCrPI5B/GWXkl8=
+	t=1755351844; cv=none; b=RWLMQKPuumgGnBi/kUNXJ7WHTFiGFAjS7cZpKVW6fuJJU5Hddom37trdgn/hA3ETdjSa1gpgjt6xUFOnN/TDJLOJU7mJ/D6yUaGI63XNZfsT4Dj/V3G78/JCuHOhA4xAJoTC0VKJD+ii6hxIT8pRXzIiGvATqoZp77lNNS4VF3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755351841; c=relaxed/simple;
-	bh=VV2QJjio7uE0vENLycOvxOfOF6YRpQTwyeQtD8MJnlw=;
+	s=arc-20240116; t=1755351844; c=relaxed/simple;
+	bh=ew/x/ZJghIPOZr/hNDQKiC5O4se2m/ZLk5BqAjTWchc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YPLJvdutITZVOCHEzE4u2U3k4gVc5l1+QxqhpcwDP6bEC249Eq0iSSXqGkHZAqCUWsv4yNwdJ/ROkRNoI8jykG1muvfSLoF2KYjZQR9himdwzoRbvBf0HGwtBL7s4BGmjlvcMQHaWD7z9z4mIEesBxVAK6564SHK3CICcs7NF5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zm1VE5dr; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=FJ5mMJ5pbqBFAaJF/kFrgCVluueWJxBmCo0inIzEGB09+LdDgMoqtgXW75yb33pcYVMyUNiu7SXZXyZWw9nvfF83AtjbXkhquYBmT85zCwy1GCcrIClKAywCpp34G/m2qP+OURPsNTtEWDGFG3b+t16/tKYX6pVcZh3CBk8sZxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfICsQFQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zm1VE5dr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfICsQFQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755351838; x=1786887838;
+  t=1755351842; x=1786887842;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VV2QJjio7uE0vENLycOvxOfOF6YRpQTwyeQtD8MJnlw=;
-  b=Zm1VE5drnc9eewM4Rhsv0XI2FksBpBLMnsz/JG4qoHW9MeZhVmn1pdaR
-   sa8Xnsc0Pw7OJHPEIxSTO3SUYdttI1IH4YknMnsGog9Nv4a/gaHmAil5B
-   vv6bBla0O+qqPNgzvl+EMYHwK7/XM7BgMtHFNTNC9/QqQKps3Vuyp1D/q
-   JtPCB1FR48xNAMPBxRPoAYgTqyXNrOimdeO/CRiGEoxgxD7VGv62MSESW
-   nmaAe3p/vTp2p4jT1gvxt0YQrhFq9lnhQZj/PKkSRcF/kd/Cxxs3jFzZc
-   oC4F7I4igF7dRIjGqbfW1T867kJclvaSwKN2t/ym8IRtK8gJmPzgTWAM3
-   Q==;
-X-CSE-ConnectionGUID: /txEHp8jRqmFzM3SsMoLow==
-X-CSE-MsgGUID: 7bsljiY5Sf+PyY4NeOjHjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57751262"
+  bh=ew/x/ZJghIPOZr/hNDQKiC5O4se2m/ZLk5BqAjTWchc=;
+  b=jfICsQFQQQhv6lKoOo+tzbViW/zbQc+oxnlzcxzs3lFdoBZFmgRNWviN
+   rwH8fB+kBaX+dNRL6qfEspkE+6ljMIIF2/pLROfJwZNHoPK56TFEp2N5R
+   mCU+mt2NENLvG3L134XV9wgeRhO/wC9MZ+pNSHS1voukYG4ehEPcjW2Wm
+   nMj68FkAol22pLGRdiR8Ot4xXexrlqnA2/zMaNVzjaMG+gUvsm8tm4Qwj
+   6CzhGjTT7DQB+Fw0P8+sITOwZvwYMe1O1pZnZOWXES8oEt1f5EqXChP8z
+   RxoH8Cir4op+Eod7GnptyStDp72xb4uKAPctYQW8S8wW75dMQf47tg1zs
+   g==;
+X-CSE-ConnectionGUID: oM5We5GKT26OGJ6nC/9MXw==
+X-CSE-MsgGUID: 9DqXwI4sSWGFkb8SKeYluQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57751263"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57751262"
+   d="scan'208";a="57751263"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 06:43:57 -0700
-X-CSE-ConnectionGUID: X32Qgd1WQXqluwaJYySPhg==
-X-CSE-MsgGUID: i7nUz5nLR3iJBt071bZcOQ==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 06:43:58 -0700
+X-CSE-ConnectionGUID: YcDl6OoVTaOHKeug47uO9Q==
+X-CSE-MsgGUID: 27u263uGTUi1Mw4n6uS5kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167596285"
+   d="scan'208";a="167596288"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by fmviesa009.fm.intel.com with ESMTP; 16 Aug 2025 06:43:56 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unHCM-000CtO-05;
+	id 1unHCM-000CtM-01;
 	Sat, 16 Aug 2025 13:43:54 +0000
-Date: Sat, 16 Aug 2025 21:43:19 +0800
+Date: Sat, 16 Aug 2025 21:43:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:arm/kvm_page_fault 4/8] arch/arm64/kvm/mmu.c:1491:43:
- error: use of undeclared identifier 'memslot'; did you mean 'memset'?
-Message-ID: <202508162106.qmE93AoZ-lkp@intel.com>
+To: Reza Amini <reza.amini@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Krunoslav Kovac <krunoslav.kovac@amd.com>,
+	Roman Li <roman.li@amd.com>
+Subject: [agd5f:drm-next 103/178]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c:447:1:
+ warning: the frame size of 1160 bytes is larger than 1024 bytes
+Message-ID: <202508162145.k9AB15wi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,409 +65,194 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux arm/kvm_page_fault
-head:   2985b2d78ea170d1acbd1d34f265422fe65b6d54
-commit: 7396e81dba236f710532b18c5e262217c3cbd2d8 [4/8] KVM: arm64: Introduce "struct kvm_page_fault"
-config: arm64-randconfig-002-20250816 (https://download.01.org/0day-ci/archive/20250816/202508162106.qmE93AoZ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508162106.qmE93AoZ-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   d2fa0ec6e0aea6ffbd41939d0c7671db16991ca4
+commit: e63e9f8b3d1c5d17fa4db9241905a8baf1e4bda8 [103/178] drm/amd/display: Fixing hubp programming of 3dlut fast load
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250816/202508162145.k9AB15wi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508162145.k9AB15wi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508162106.qmE93AoZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508162145.k9AB15wi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/mmu.c:1491:43: error: use of undeclared identifier 'memslot'; did you mean 'memset'?
-    1491 |         bool logging_active = memslot_is_logging(memslot);
-         |                                                  ^~~~~~~
-         |                                                  memset
-   arch/arm64/include/asm/string.h:43:14: note: 'memset' declared here
-      43 | extern void *memset(void *, int, __kernel_size_t);
-         |              ^
->> arch/arm64/kvm/mmu.c:1491:43: error: incompatible pointer types passing 'void *(void *, int, __size_t)' (aka 'void *(void *, int, unsigned long)') to parameter of type 'struct kvm_memory_slot *' [-Werror,-Wincompatible-pointer-types]
-    1491 |         bool logging_active = memslot_is_logging(memslot);
-         |                                                  ^~~~~~~
-   arch/arm64/kvm/mmu.c:163:56: note: passing argument to parameter 'memslot' here
-     163 | static bool memslot_is_logging(struct kvm_memory_slot *memslot)
-         |                                                        ^
->> arch/arm64/kvm/mmu.c:1535:39: error: no member named 'hva' in 'struct kvm_page_fault'
-    1535 |         vma = vma_lookup(current->mm, fault->hva);
-         |                                       ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1537:56: error: no member named 'hva' in 'struct kvm_page_fault'
-    1537 |                 kvm_err("Failed to find VMA for hva 0x%lx\n", fault->hva);
-         |                                                               ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1550:46: error: no member named 'hva' in 'struct kvm_page_fault'
-    1550 |                 vma_shift = get_vma_page_shift(vma, fault->hva);
-         |                                                     ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1564:62: error: no member named 'hva' in 'struct kvm_page_fault'
-    1564 |                 if (fault_supports_stage2_huge_mapping(fault->slot, fault->hva, PMD_SIZE))
-         |                                                                     ~~~~~  ^
->> arch/arm64/kvm/mmu.c:1579:13: error: no member named 'nested' in 'struct kvm_page_fault'
-    1579 |         if (fault->nested) {
-         |             ~~~~~  ^
->> arch/arm64/kvm/mmu.c:1584:3: error: use of undeclared identifier 'ipa'
-    1584 |                 ipa = kvm_s2_trans_output(nested);
-         |                 ^~~
->> arch/arm64/kvm/mmu.c:1584:29: error: use of undeclared identifier 'nested'
-    1584 |                 ipa = kvm_s2_trans_output(nested);
-         |                                           ^~~~~~
-   arch/arm64/kvm/mmu.c:1591:40: error: use of undeclared identifier 'nested'
-    1591 |                 max_map_size = min(kvm_s2_trans_size(nested), max_map_size);
-         |                                                      ^~~~~~
-   arch/arm64/kvm/mmu.c:1643:35: error: no member named 'hva' in 'struct kvm_page_fault'
-    1643 |                 kvm_send_hwpoison_signal(fault->hva, vma_shift);
-         |                                          ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1704:13: error: no member named 'nested' in 'struct kvm_page_fault'
-    1704 |         if (fault->nested) {
-         |             ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1705:44: error: no member named 'nested' in 'struct kvm_page_fault'
-    1705 |                 writable &= kvm_s2_trans_writable(fault->nested);
-         |                                                   ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1706:37: error: no member named 'nested' in 'struct kvm_page_fault'
-    1706 |                 if (!kvm_s2_trans_readable(fault->nested))
-         |                                            ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1709:42: error: no member named 'nested' in 'struct kvm_page_fault'
-    1709 |                 prot |= kvm_encode_nested_level(fault->nested);
-         |                                                 ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1728:19: error: no member named 'hva' in 'struct kvm_page_fault'
-    1728 |                                                                    fault->hva, &fault->pfn,
-         |                                                                    ~~~~~  ^
->> arch/arm64/kvm/mmu.c:1740:27: error: use of undeclared identifier 'pfn'
-    1740 |                         sanitise_mte_tags(kvm, pfn, vma_pagesize);
-         |                                                ^~~
-   arch/arm64/kvm/mmu.c:1759:15: error: no member named 'nested' in 'struct kvm_page_fault'
-    1759 |                    (!fault->nested || kvm_s2_trans_executable(fault->nested))) {
-         |                      ~~~~~  ^
-   arch/arm64/kvm/mmu.c:1759:56: error: no member named 'nested' in 'struct kvm_page_fault'
-    1759 |                    (!fault->nested || kvm_s2_trans_executable(fault->nested))) {
-         |                                                               ~~~~~  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c: In function 'dcn10_log_hubp_states':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c:447:1: warning: the frame size of 1160 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     447 | }
+         | ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c: In function 'dcn10_log_color_state':
+   drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c:608:1: warning: the frame size of 1440 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     608 | }
+         | ^
 
 
-vim +1491 arch/arm64/kvm/mmu.c
+vim +447 drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn10/dcn10_hwseq.c
 
-2a8dfab26677ae arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1479  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1480  static int user_mem_abort(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1481  {
-ffd1b63a586096 arch/arm64/kvm/mmu.c Will Deacon         2020-09-30  1482  	int ret = 0;
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1483  	bool writable, force_pte = false;
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1484  	bool mte_allowed, is_vma_cacheable;
-8cc9dc1ae4fb07 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1485  	bool s2_force_noncacheable = false, vfio_allow_any_uc = false;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1486  	unsigned long mmu_seq;
-ad361f093c1e31 arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1487  	struct kvm *kvm = vcpu->kvm;
-ad361f093c1e31 arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1488  	struct vm_area_struct *vma;
-1559b7583ff6ed virt/kvm/arm/mmu.c   James Morse         2019-12-17  1489  	short vma_shift;
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1490  	void *memcache;
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15 @1491  	bool logging_active = memslot_is_logging(memslot);
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1492  	long vma_pagesize, fault_granule;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1493  	enum kvm_pgtable_prot prot = KVM_PGTABLE_PROT_R;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1494  	struct kvm_pgtable *pgt;
-216887f79d9878 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1495  	vm_flags_t vm_flags;
-e279c25d78d672 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1496  	enum kvm_pgtable_walk_flags flags = KVM_PGTABLE_WALK_HANDLE_FAULT | KVM_PGTABLE_WALK_SHARED;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1497  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1498  	if (fault->is_perm)
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1499  		fault_granule = kvm_vcpu_trap_get_perm_fault_granule(vcpu);
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1500  	VM_BUG_ON(fault->write && fault->exec);
-d0e22b4ac3ba23 virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1501  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1502  	if (fault->is_perm && !fault->write && !fault->exec) {
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1503  		kvm_err("Unexpected L2 read permission error\n");
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1504  		return -EFAULT;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1505  	}
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1506  
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1507  	if (!is_protected_kvm_enabled())
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1508  		memcache = &vcpu->arch.mmu_page_cache;
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1509  	else
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1510  		memcache = &vcpu->arch.pkvm_memcache;
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1511  
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1512  	/*
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1513  	 * Permission faults just need to update the existing leaf entry,
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1514  	 * and so normally don't require allocations from the memcache. The
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1515  	 * only exception to this is when dirty logging is enabled at runtime
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1516  	 * and a write fault needs to collapse a block entry into a table.
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1517  	 */
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1518  	if (!fault->is_perm || (logging_active && fault->write)) {
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1519  		int min_pages = kvm_mmu_cache_min_pages(vcpu->arch.hw_mmu);
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1520  
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1521  		if (!is_protected_kvm_enabled())
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1522  			ret = kvm_mmu_topup_memory_cache(memcache, min_pages);
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1523  		else
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1524  			ret = topup_hyp_memcache(memcache, min_pages);
-157dbc4a321f5b arch/arm64/kvm/mmu.c Sebastian Ott       2025-05-05  1525  
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1526  		if (ret)
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1527  			return ret;
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1528  	}
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1529  
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1530  	/*
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1531  	 * Let's check if we will get back a huge page backed by hugetlbfs, or
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1532  	 * get block mapping for device MMIO region.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1533  	 */
-89154dd5313f77 arch/arm64/kvm/mmu.c Michel Lespinasse   2020-06-08  1534  	mmap_read_lock(current->mm);
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15 @1535  	vma = vma_lookup(current->mm, fault->hva);
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1536  	if (unlikely(!vma)) {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1537  		kvm_err("Failed to find VMA for hva 0x%lx\n", fault->hva);
-89154dd5313f77 arch/arm64/kvm/mmu.c Michel Lespinasse   2020-06-08  1538  		mmap_read_unlock(current->mm);
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1539  		return -EFAULT;
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1540  	}
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1541  
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1542  	/*
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1543  	 * logging_active is guaranteed to never be true for VM_PFNMAP
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1544  	 * memslots.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1545  	 */
-db14091d8f7585 arch/arm64/kvm/mmu.c Vincent Donnefort   2025-05-21  1546  	if (logging_active) {
-a80868f3985548 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1547  		force_pte = true;
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1548  		vma_shift = PAGE_SHIFT;
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1549  	} else {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1550  		vma_shift = get_vma_page_shift(vma, fault->hva);
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1551  	}
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1552  
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1553  	switch (vma_shift) {
-faf000397e7f10 arch/arm64/kvm/mmu.c Gavin Shan          2020-11-03  1554  #ifndef __PAGETABLE_PMD_FOLDED
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1555  	case PUD_SHIFT:
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1556  		if (fault_supports_stage2_huge_mapping(fault->slot, fault->hva, PUD_SIZE))
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1557  			break;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1558  		fallthrough;
-faf000397e7f10 arch/arm64/kvm/mmu.c Gavin Shan          2020-11-03  1559  #endif
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1560  	case CONT_PMD_SHIFT:
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1561  		vma_shift = PMD_SHIFT;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1562  		fallthrough;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1563  	case PMD_SHIFT:
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1564  		if (fault_supports_stage2_huge_mapping(fault->slot, fault->hva, PMD_SIZE))
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1565  			break;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1566  		fallthrough;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1567  	case CONT_PTE_SHIFT:
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1568  		vma_shift = PAGE_SHIFT;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1569  		force_pte = true;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1570  		fallthrough;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1571  	case PAGE_SHIFT:
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1572  		break;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1573  	default:
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1574  		WARN_ONCE(1, "Unknown vma_shift %d", vma_shift);
-a80868f3985548 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1575  	}
-a80868f3985548 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1576  
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1577  	vma_pagesize = 1UL << vma_shift;
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1578  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15 @1579  	if (fault->nested) {
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1580  		unsigned long max_map_size;
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1581  
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1582  		max_map_size = force_pte ? PAGE_SIZE : PUD_SIZE;
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1583  
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14 @1584  		ipa = kvm_s2_trans_output(nested);
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1585  
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1586  		/*
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1587  		 * If we're about to create a shadow stage 2 entry, then we
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1588  		 * can only create a block mapping if the guest stage 2 page
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1589  		 * table uses at least as big a mapping.
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1590  		 */
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1591  		max_map_size = min(kvm_s2_trans_size(nested), max_map_size);
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1592  
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1593  		/*
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1594  		 * Be careful that if the mapping size falls between
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1595  		 * two host sizes, take the smallest of the two.
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1596  		 */
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1597  		if (max_map_size >= PMD_SIZE && max_map_size < PUD_SIZE)
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1598  			max_map_size = PMD_SIZE;
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1599  		else if (max_map_size >= PAGE_SIZE && max_map_size < PMD_SIZE)
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1600  			max_map_size = PAGE_SIZE;
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1601  
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1602  		force_pte = (max_map_size == PAGE_SIZE);
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1603  		vma_pagesize = min(vma_pagesize, (long)max_map_size);
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1604  	}
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1605  
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1606  	/*
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1607  	 * Both the canonical IPA and fault IPA must be hugepage-aligned to
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1608  	 * ensure we find the right PFN and lay down the mapping in the right
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1609  	 * place.
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1610  	 */
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1611  	if (vma_pagesize == PMD_SIZE || vma_pagesize == PUD_SIZE) {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1612  		fault->fault_ipa &= ~(vma_pagesize - 1);
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1613  		fault->ipa &= ~(vma_pagesize - 1);
-1d8c3c23a6bc15 arch/arm64/kvm/mmu.c Oliver Upton        2024-08-22  1614  	}
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1615  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1616  	fault->gfn = fault->ipa >> PAGE_SHIFT;
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1617  	mte_allowed = kvm_vma_mte_allowed(vma);
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1618  
-8c47ce3e1d2c28 arch/arm64/kvm/mmu.c Ankit Agrawal       2024-02-24  1619  	vfio_allow_any_uc = vma->vm_flags & VM_ALLOW_ANY_UNCACHED;
-8c47ce3e1d2c28 arch/arm64/kvm/mmu.c Ankit Agrawal       2024-02-24  1620  
-216887f79d9878 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1621  	vm_flags = vma->vm_flags;
-216887f79d9878 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1622  
-2a8dfab26677ae arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1623  	is_vma_cacheable = kvm_vma_is_cacheable(vma);
-2a8dfab26677ae arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1624  
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1625  	/* Don't use the VMA after the unlock -- it may have vanished */
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1626  	vma = NULL;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1627  
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1628  	/*
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1629  	 * Read mmu_invalidate_seq so that KVM can detect if the results of
-85c7869e30b770 arch/arm64/kvm/mmu.c Sean Christopherson 2024-10-10  1630  	 * vma_lookup() or __kvm_faultin_pfn() become stale prior to
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1631  	 * acquiring kvm->mmu_lock.
-10ba2d17d29729 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1632  	 *
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1633  	 * Rely on mmap_read_unlock() for an implicit smp_rmb(), which pairs
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1634  	 * with the smp_wmb() in kvm_mmu_invalidate_end().
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1635  	 */
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1636  	mmu_seq = vcpu->kvm->mmu_invalidate_seq;
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1637  	mmap_read_unlock(current->mm);
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1638  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1639  	fault->pfn = __kvm_faultin_pfn(fault->slot, fault->gfn,
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1640  				       fault->write ? FOLL_WRITE : 0,
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1641  				       &writable, &fault->page);
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1642  	if (fault->pfn == KVM_PFN_ERR_HWPOISON) {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1643  		kvm_send_hwpoison_signal(fault->hva, vma_shift);
-196f878a7ac2e7 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1644  		return 0;
-196f878a7ac2e7 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1645  	}
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1646  	if (is_error_noslot_pfn(fault->pfn))
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1647  		return -EFAULT;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1648  
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1649  	/*
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1650  	 * Check if this is non-struct page memory PFN, and cannot support
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1651  	 * CMOs. It could potentially be unsafe to access as cachable.
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1652  	 */
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1653  	if (vm_flags & (VM_PFNMAP | VM_MIXEDMAP) && !pfn_is_map_memory(fault->pfn)) {
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1654  		if (is_vma_cacheable) {
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1655  			/*
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1656  			 * Whilst the VMA owner expects cacheable mapping to this
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1657  			 * PFN, hardware also has to support the FWB and CACHE DIC
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1658  			 * features.
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1659  			 *
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1660  			 * ARM64 KVM relies on kernel VA mapping to the PFN to
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1661  			 * perform cache maintenance as the CMO instructions work on
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1662  			 * virtual addresses. VM_PFNMAP region are not necessarily
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1663  			 * mapped to a KVA and hence the presence of hardware features
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1664  			 * S2FWB and CACHE DIC are mandatory to avoid the need for
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1665  			 * cache maintenance.
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1666  			 */
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1667  			if (!kvm_supports_cacheable_pfnmap())
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1668  				return -EFAULT;
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1669  		} else {
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1670  			/*
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1671  			 * If the page was identified as device early by looking at
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1672  			 * the VMA flags, vma_pagesize is already representing the
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1673  			 * largest quantity we can map.  If instead it was mapped
-85c7869e30b770 arch/arm64/kvm/mmu.c Sean Christopherson 2024-10-10  1674  			 * via __kvm_faultin_pfn(), vma_pagesize is set to PAGE_SIZE
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1675  			 * and must not be upgraded.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1676  			 *
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1677  			 * In both cases, we don't let transparent_hugepage_adjust()
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1678  			 * change things at the last minute.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1679  			 */
-8cc9dc1ae4fb07 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1680  			s2_force_noncacheable = true;
-0c67288e0c8bc1 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1681  		}
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1682  	} else if (logging_active && !fault->write) {
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1683  		/*
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1684  		 * Only actually map the page as writable if this was a write
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1685  		 * fault.
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1686  		 */
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1687  		writable = false;
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1688  	}
-b88657674d39fc arch/arm/kvm/mmu.c   Kim Phillips        2014-06-26  1689  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1690  	if (fault->exec && s2_force_noncacheable)
-6d674e28f642e3 virt/kvm/arm/mmu.c   Marc Zyngier        2019-12-11  1691  		return -ENOEXEC;
-6d674e28f642e3 virt/kvm/arm/mmu.c   Marc Zyngier        2019-12-11  1692  
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1693  	/*
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1694  	 * Potentially reduce shadow S2 permissions to match the guest's own
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1695  	 * S2. For exec faults, we'd only reach this point if the guest
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1696  	 * actually allowed it (see kvm_s2_handle_perm_fault).
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1697  	 *
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1698  	 * Also encode the level of the original translation in the SW bits
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1699  	 * of the leaf entry as a proxy for the span of that translation.
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1700  	 * This will be retrieved on TLB invalidation from the guest and
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1701  	 * used to limit the invalidation scope if a TTL hint or a range
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1702  	 * isn't provided.
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1703  	 */
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1704  	if (fault->nested) {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1705  		writable &= kvm_s2_trans_writable(fault->nested);
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1706  		if (!kvm_s2_trans_readable(fault->nested))
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1707  			prot &= ~KVM_PGTABLE_PROT_R;
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1708  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1709  		prot |= kvm_encode_nested_level(fault->nested);
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1710  	}
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1711  
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1712  	kvm_fault_lock(kvm);
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1713  	pgt = vcpu->arch.hw_mmu->pgt;
-9c30fc615daa3e arch/arm64/kvm/mmu.c Fuad Tabba          2024-04-23  1714  	if (mmu_invalidate_retry(kvm, mmu_seq)) {
-9c30fc615daa3e arch/arm64/kvm/mmu.c Fuad Tabba          2024-04-23  1715  		ret = -EAGAIN;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1716  		goto out_unlock;
-9c30fc615daa3e arch/arm64/kvm/mmu.c Fuad Tabba          2024-04-23  1717  	}
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1718  
-3f58bf63455588 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1719  	/*
-0529c9021252a5 arch/arm64/kvm/mmu.c Suzuki K Poulose    2020-05-07  1720  	 * If we are not forced to use page mapping, check if we are
-0529c9021252a5 arch/arm64/kvm/mmu.c Suzuki K Poulose    2020-05-07  1721  	 * backed by a THP and thus use block mapping if possible.
-3f58bf63455588 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1722  	 */
-8cc9dc1ae4fb07 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1723  	if (vma_pagesize == PAGE_SIZE && !(force_pte || s2_force_noncacheable)) {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1724  		if (fault->is_perm && fault_granule > PAGE_SIZE)
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1725  			vma_pagesize = fault_granule;
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1726  		else
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1727  			vma_pagesize = transparent_hugepage_adjust(kvm, fault->slot,
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1728  								   fault->hva, &fault->pfn,
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1729  								   &fault->fault_ipa);
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1730  
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1731  		if (vma_pagesize < 0) {
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1732  			ret = vma_pagesize;
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1733  			goto out_unlock;
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1734  		}
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1735  	}
-a9c0e12ebee56e virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1736  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1737  	if (!fault->is_perm && !s2_force_noncacheable && kvm_has_mte(kvm)) {
-d89585fbb30869 arch/arm64/kvm/mmu.c Peter Collingbourne 2022-11-03  1738  		/* Check the VMM hasn't introduced a new disallowed VMA */
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1739  		if (mte_allowed) {
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1740  			sanitise_mte_tags(kvm, pfn, vma_pagesize);
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1741  		} else {
-9f03db6673598f arch/arm64/kvm/mmu.c Marc Zyngier        2021-06-22  1742  			ret = -EFAULT;
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1743  			goto out_unlock;
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1744  		}
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1745  	}
-3f58bf63455588 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1746  
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1747  	if (writable)
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1748  		prot |= KVM_PGTABLE_PROT_W;
-a9c0e12ebee56e virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1749  
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1750  	if (fault->exec)
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1751  		prot |= KVM_PGTABLE_PROT_X;
-a9c0e12ebee56e virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1752  
-8cc9dc1ae4fb07 arch/arm64/kvm/mmu.c Ankit Agrawal       2025-07-05  1753  	if (s2_force_noncacheable) {
-8c47ce3e1d2c28 arch/arm64/kvm/mmu.c Ankit Agrawal       2024-02-24  1754  		if (vfio_allow_any_uc)
-8c47ce3e1d2c28 arch/arm64/kvm/mmu.c Ankit Agrawal       2024-02-24  1755  			prot |= KVM_PGTABLE_PROT_NORMAL_NC;
-8c47ce3e1d2c28 arch/arm64/kvm/mmu.c Ankit Agrawal       2024-02-24  1756  		else
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1757  			prot |= KVM_PGTABLE_PROT_DEVICE;
-fd276e71d1e7b7 arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1758  	} else if (cpus_have_final_cap(ARM64_HAS_CACHE_DIC) &&
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1759  		   (!fault->nested || kvm_s2_trans_executable(fault->nested))) {
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1760  		prot |= KVM_PGTABLE_PROT_X;
-8c47ce3e1d2c28 arch/arm64/kvm/mmu.c Ankit Agrawal       2024-02-24  1761  	}
-a15f693935a9f1 virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1762  
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1763  	/*
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1764  	 * Under the premise of getting a FSC_PERM fault, we just need to relax
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1765  	 * permissions only if vma_pagesize equals fault_granule. Otherwise,
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1766  	 * kvm_pgtable_stage2_map() should be called to change block size.
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1767  	 */
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1768  	if (fault->is_perm && vma_pagesize == fault_granule) {
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1769  		/*
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1770  		 * Drop the SW bits in favour of those stored in the
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1771  		 * PTE, which will be preserved.
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1772  		 */
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1773  		prot &= ~KVM_NV_GUEST_MAP_SZ;
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1774  		ret = KVM_PGT_FN(kvm_pgtable_stage2_relax_perms)(pgt, fault->fault_ipa, prot, flags);
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1775  	} else {
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1776  		ret = KVM_PGT_FN(kvm_pgtable_stage2_map)(pgt, fault->fault_ipa, vma_pagesize,
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1777  					     __pfn_to_phys(fault->pfn), prot,
-e279c25d78d672 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1778  					     memcache, flags);
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1779  	}
-b1a3a94812b95f arch/arm64/kvm/mmu.c Marc Zyngier        2024-06-14  1780  
-9c30fc615daa3e arch/arm64/kvm/mmu.c Fuad Tabba          2024-04-23  1781  out_unlock:
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1782  	kvm_release_faultin_page(kvm, fault->page, !!ret, writable);
-fce886a6020734 arch/arm64/kvm/mmu.c Quentin Perret      2024-12-18  1783  	kvm_fault_unlock(kvm);
-ad361f093c1e31 arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1784  
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1785  	/* Mark the page dirty only if the fault is handled successfully */
-28991c91d577c3 arch/arm64/kvm/mmu.c Sean Christopherson 2024-10-10  1786  	if (writable && !ret)
-7396e81dba236f arch/arm64/kvm/mmu.c Sean Christopherson 2025-08-15  1787  		mark_page_dirty_in_slot(kvm, fault->slot, fault->gfn);
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1788  
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1789  	return ret != -EAGAIN ? ret : 0;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1790  }
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1791  
+233dcd2092f9f9 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Tony Cheng          2017-08-03  293  
+46659a83e4662e drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nicholas Kazlauskas 2018-08-15  294  static void dcn10_log_hubp_states(struct dc *dc, void *log_ctx)
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  295  {
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  296  	struct dc_context *dc_ctx = dc->ctx;
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  297  	struct resource_pool *pool = dc->res_pool;
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  298  	int i;
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  299  
+ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  300) 	DTN_INFO(
+ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  301) 		"HUBP:  format  addr_hi  width  height  rot  mir  sw_mode  dcc_en  blank_en  clock_en  ttu_dis  underflow   min_ttu_vblank       qos_low_wm      qos_high_wm\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  302  	for (i = 0; i < pool->pipe_count; i++) {
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  303  		struct hubp *hubp = pool->hubps[i];
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  304  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(hubp)->state);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  305  
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  306  		hubp->funcs->hubp_read_state(hubp);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  307  
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  308  		if (!s->blank_en) {
+ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  309) 			DTN_INFO("[%2d]:  %5xh  %6xh  %5d  %6d  %2xh  %2xh  %6xh  %6d  %8d  %8d  %7d  %8xh",
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  310  					hubp->inst,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  311  					s->pixel_format,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  312  					s->inuse_addr_hi,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  313  					s->viewport_width,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  314  					s->viewport_height,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  315  					s->rotation_angle,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  316  					s->h_mirror_en,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  317  					s->sw_mode,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  318  					s->dcc_en,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  319  					s->blank_en,
+ae8cf9774e3a60 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Leo (Hanghong  Ma   2019-09-06  320) 					s->clock_en,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  321  					s->ttu_disable,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  322  					s->underflow_status);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  323  			DTN_INFO_MICRO_SEC(s->min_ttu_vblank);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  324  			DTN_INFO_MICRO_SEC(s->qos_level_low_wm);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  325  			DTN_INFO_MICRO_SEC(s->qos_level_high_wm);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  326  			DTN_INFO("\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  327  		}
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  328  	}
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  329  
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  330  	DTN_INFO("\n=======HUBP FL======\n");
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  331  	char pLabels[18][50] = {
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  332  		"inst", "Enabled ", "Done ", "adr_mode ", "width ", "mpc_width ",
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  333  		"tmz", "xbar_sel_R", "xbar_sel_G", "xbar_sel_B", "adr_hi ",
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  334  		"adr_low", "REFCYC", "Bias", "Scale", "Mode",
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  335  		"Format", "prefetch"};
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  336  
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  337  	for (i = 0; i < pool->pipe_count; i++) {
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  338  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  339  		struct dcn_fl_regs_st *fl_regs = &s->fl_regs;
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  340  		struct _vcs_dpi_display_dlg_regs_st *dlg_regs = &s->dlg_attr;
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  341  
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  342  		if (!s->blank_en) {
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  343  			uint32_t values[] = {
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  344  					pool->hubps[i]->inst,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  345  					fl_regs->lut_enable,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  346  					fl_regs->lut_done,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  347  					fl_regs->lut_addr_mode,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  348  					fl_regs->lut_width,
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  349  					fl_regs->lut_mpc_width,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  350  					fl_regs->lut_tmz,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  351  					fl_regs->lut_crossbar_sel_r,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  352  					fl_regs->lut_crossbar_sel_g,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  353  					fl_regs->lut_crossbar_sel_b,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  354  					fl_regs->lut_addr_hi,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  355  					fl_regs->lut_addr_lo,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  356  					fl_regs->refcyc_3dlut_group,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  357  					fl_regs->lut_fl_bias,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  358  					fl_regs->lut_fl_scale,
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  359  					fl_regs->lut_fl_mode,
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  360  					fl_regs->lut_fl_format,
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  361  					dlg_regs->dst_y_prefetch};
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  362  
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  363  			int num_elements = 18;
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  364  
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  365  			for (int j = 0; j < num_elements; j++)
+e63e9f8b3d1c5d drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Reza Amini          2025-07-14  366  				DTN_INFO("%s \t %8xh\n", pLabels[j], values[j]);
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  367  		}
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  368  	}
+0ae0b670124bbd drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Yihan Zhu           2025-05-27  369  
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  370  	DTN_INFO("\n=========RQ========\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  371  	DTN_INFO("HUBP:  drq_exp_m  prq_exp_m  mrq_exp_m  crq_exp_m  plane1_ba  L:chunk_s  min_chu_s  meta_ch_s"
+b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  372  		"  min_m_c_s  dpte_gr_s  mpte_gr_s  swath_hei  pte_row_h  C:chunk_s  min_chu_s  meta_ch_s"
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  373  		"  min_m_c_s  dpte_gr_s  mpte_gr_s  swath_hei  pte_row_h\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  374  	for (i = 0; i < pool->pipe_count; i++) {
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  375  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  376  		struct _vcs_dpi_display_rq_regs_st *rq_regs = &s->rq_regs;
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  377  
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  378  		if (!s->blank_en)
+b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  379  			DTN_INFO("[%2d]:  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh\n",
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  380  				pool->hubps[i]->inst, rq_regs->drq_expansion_mode, rq_regs->prq_expansion_mode, rq_regs->mrq_expansion_mode,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  381  				rq_regs->crq_expansion_mode, rq_regs->plane1_base_address, rq_regs->rq_regs_l.chunk_size,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  382  				rq_regs->rq_regs_l.min_chunk_size, rq_regs->rq_regs_l.meta_chunk_size,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  383  				rq_regs->rq_regs_l.min_meta_chunk_size, rq_regs->rq_regs_l.dpte_group_size,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  384  				rq_regs->rq_regs_l.mpte_group_size, rq_regs->rq_regs_l.swath_height,
+b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  385  				rq_regs->rq_regs_l.pte_row_height_linear, rq_regs->rq_regs_c.chunk_size, rq_regs->rq_regs_c.min_chunk_size,
+b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  386  				rq_regs->rq_regs_c.meta_chunk_size, rq_regs->rq_regs_c.min_meta_chunk_size,
+b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  387  				rq_regs->rq_regs_c.dpte_group_size, rq_regs->rq_regs_c.mpte_group_size,
+b9c1c67aeb8805 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-06-05  388  				rq_regs->rq_regs_c.swath_height, rq_regs->rq_regs_c.pte_row_height_linear);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  389  	}
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  390  
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  391  	DTN_INFO("========DLG========\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  392  	DTN_INFO("HUBP:  rc_hbe     dlg_vbe    min_d_y_n  rc_per_ht  rc_x_a_s "
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  393  			"  dst_y_a_s  dst_y_pf   dst_y_vvb  dst_y_rvb  dst_y_vfl  dst_y_rfl  rf_pix_fq"
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  394  			"  vratio_pf  vrat_pf_c  rc_pg_vbl  rc_pg_vbc  rc_mc_vbl  rc_mc_vbc  rc_pg_fll"
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  395  			"  rc_pg_flc  rc_mc_fll  rc_mc_flc  pr_nom_l   pr_nom_c   rc_pg_nl   rc_pg_nc "
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  396  			"  mr_nom_l   mr_nom_c   rc_mc_nl   rc_mc_nc   rc_ld_pl   rc_ld_pc   rc_ld_l  "
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  397  			"  rc_ld_c    cha_cur0   ofst_cur1  cha_cur1   vr_af_vc0  ddrq_limt  x_rt_dlay"
+00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  398  			"  x_rp_dlay  x_rr_sfl  rc_td_grp\n");
+00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  399  
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  400  	for (i = 0; i < pool->pipe_count; i++) {
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  401  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  402  		struct _vcs_dpi_display_dlg_regs_st *dlg_regs = &s->dlg_attr;
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  403  
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  404  		if (!s->blank_en)
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  405  			DTN_INFO("[%2d]:  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh"
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  406  				"  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh"
+00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  407  				"  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh %xh\n",
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  408  				pool->hubps[i]->inst, dlg_regs->refcyc_h_blank_end, dlg_regs->dlg_vblank_end, dlg_regs->min_dst_y_next_start,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  409  				dlg_regs->refcyc_per_htotal, dlg_regs->refcyc_x_after_scaler, dlg_regs->dst_y_after_scaler,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  410  				dlg_regs->dst_y_prefetch, dlg_regs->dst_y_per_vm_vblank, dlg_regs->dst_y_per_row_vblank,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  411  				dlg_regs->dst_y_per_vm_flip, dlg_regs->dst_y_per_row_flip, dlg_regs->ref_freq_to_pix_freq,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  412  				dlg_regs->vratio_prefetch, dlg_regs->vratio_prefetch_c, dlg_regs->refcyc_per_pte_group_vblank_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  413  				dlg_regs->refcyc_per_pte_group_vblank_c, dlg_regs->refcyc_per_meta_chunk_vblank_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  414  				dlg_regs->refcyc_per_meta_chunk_vblank_c, dlg_regs->refcyc_per_pte_group_flip_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  415  				dlg_regs->refcyc_per_pte_group_flip_c, dlg_regs->refcyc_per_meta_chunk_flip_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  416  				dlg_regs->refcyc_per_meta_chunk_flip_c, dlg_regs->dst_y_per_pte_row_nom_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  417  				dlg_regs->dst_y_per_pte_row_nom_c, dlg_regs->refcyc_per_pte_group_nom_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  418  				dlg_regs->refcyc_per_pte_group_nom_c, dlg_regs->dst_y_per_meta_row_nom_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  419  				dlg_regs->dst_y_per_meta_row_nom_c, dlg_regs->refcyc_per_meta_chunk_nom_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  420  				dlg_regs->refcyc_per_meta_chunk_nom_c, dlg_regs->refcyc_per_line_delivery_pre_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  421  				dlg_regs->refcyc_per_line_delivery_pre_c, dlg_regs->refcyc_per_line_delivery_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  422  				dlg_regs->refcyc_per_line_delivery_c, dlg_regs->chunk_hdl_adjust_cur0, dlg_regs->dst_y_offset_cur1,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  423  				dlg_regs->chunk_hdl_adjust_cur1, dlg_regs->vready_after_vcount0, dlg_regs->dst_y_delta_drq_limit,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  424  				dlg_regs->xfc_reg_transfer_delay, dlg_regs->xfc_reg_precharge_delay,
+00c391102abc13 drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c   Aurabindo Pillai    2024-03-20  425  				dlg_regs->xfc_reg_remote_surface_flip_latency, dlg_regs->refcyc_per_tdlut_group);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  426  	}
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  427  
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  428  	DTN_INFO("========TTU========\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  429  	DTN_INFO("HUBP:  qos_ll_wm  qos_lh_wm  mn_ttu_vb  qos_l_flp  rc_rd_p_l  rc_rd_l    rc_rd_p_c"
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  430  			"  rc_rd_c    rc_rd_c0   rc_rd_pc0  rc_rd_c1   rc_rd_pc1  qos_lf_l   qos_rds_l"
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  431  			"  qos_lf_c   qos_rds_c  qos_lf_c0  qos_rds_c0 qos_lf_c1  qos_rds_c1\n");
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  432  	for (i = 0; i < pool->pipe_count; i++) {
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  433  		struct dcn_hubp_state *s = &(TO_DCN10_HUBP(pool->hubps[i])->state);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  434  		struct _vcs_dpi_display_ttu_regs_st *ttu_regs = &s->ttu_attr;
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  435  
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  436  		if (!s->blank_en)
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  437  			DTN_INFO("[%2d]:  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh  %8xh\n",
+a3cb1c1c8e5e49 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Nikola Cornij       2018-04-23  438  				pool->hubps[i]->inst, ttu_regs->qos_level_low_wm, ttu_regs->qos_level_high_wm, ttu_regs->min_ttu_vblank,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  439  				ttu_regs->qos_level_flip, ttu_regs->refcyc_per_req_delivery_pre_l, ttu_regs->refcyc_per_req_delivery_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  440  				ttu_regs->refcyc_per_req_delivery_pre_c, ttu_regs->refcyc_per_req_delivery_c, ttu_regs->refcyc_per_req_delivery_cur0,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  441  				ttu_regs->refcyc_per_req_delivery_pre_cur0, ttu_regs->refcyc_per_req_delivery_cur1,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  442  				ttu_regs->refcyc_per_req_delivery_pre_cur1, ttu_regs->qos_level_fixed_l, ttu_regs->qos_ramp_disable_l,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  443  				ttu_regs->qos_level_fixed_c, ttu_regs->qos_ramp_disable_c, ttu_regs->qos_level_fixed_cur0,
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  444  				ttu_regs->qos_ramp_disable_cur0, ttu_regs->qos_level_fixed_cur1, ttu_regs->qos_ramp_disable_cur1);
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  445  	}
+34cb6b3860a4ae drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-04-11  446  	DTN_INFO("\n");
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29 @447  }
+0a93dc7f595f43 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c Dmytro Laktyushkin  2018-03-29  448  
 
-:::::: The code at line 1491 was first introduced by commit
-:::::: 15a49a44fc36209e1112e9b8451d653cd07f17a8 KVM: arm: page logging 2nd stage fault handling
+:::::: The code at line 447 was first introduced by commit
+:::::: 0a93dc7f595f43b621277ecfc05a44ed0c719a5f drm/amd/display: add rq/dlg/ttu to dtn log
 
-:::::: TO: Mario Smarduch <m.smarduch@samsung.com>
-:::::: CC: Christoffer Dall <christoffer.dall@linaro.org>
+:::::: TO: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
