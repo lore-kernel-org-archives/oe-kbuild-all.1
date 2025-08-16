@@ -1,124 +1,133 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B245D1BC3F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 00:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F368211C;
+	Sat, 16 Aug 2025 00:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755303694; cv=none; b=PqhMfqQSkRBUGaqGOlIx2lw1pDJjzcA+6dU4x9tkBqztWw3SZoOhx+uDZQZDEKkfdN+1UPB4nHw/7KLXSN0agQwzJXhbY4Qp9+d9g3d2NoT6H9S8fs21ZYxwKcxArZB4OVs41OFefP97kjrXnrMa/9n7brJn2pBfzYVNnKo4gQA=
+	t=1755304583; cv=none; b=pIRY3yfriRyoi4Z3j7yd7Iyr7f/5aJa9us1G/mtR1t89sXmYlowjZuHPA/t4mazgJVERuhj8g6Pp5ZCCLlhxdmRKlMQcDlIujEMXf1GEgSmhWMQ9guXmfIFIXzVYuvuAG7tznfSV7HO90om75rCJLSMxH/AoeeSB8s2oK7jPzwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755303694; c=relaxed/simple;
-	bh=whir1zdGiHIN02BGkjkiwOncIcFAOkCAozZd0GwWNP0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EUnlhX7swKLdkjgqkAZXtnXR1eoPpr9BtH6qOmrS7u/Lg03fAyJmI5Fs7Z1MEG103TK1rSuKBoZHjE3QIDGl2joYTkHLUsSOFCGsvLbSYed4Qwn1cHSuujmi4g4zdDZXSjQFhRaU558Hp6nh09p0r/3iavKgscVtzQYc87/t4Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c3fmB2hHLzYQtLj
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 08:21:30 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.75])
-	by mail.maildlp.com (Postfix) with ESMTP id EE79B1A0B8F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 08:21:28 +0800 (CST)
-Received: from [10.67.109.79] (unknown [10.67.109.79])
-	by APP2 (Coremail) with SMTP id Syh0CgD3A7YEz59on7ATDw--.30859S2;
-	Sat, 16 Aug 2025 08:21:25 +0800 (CST)
-Message-ID: <2f4b260d-a4a7-458f-966c-17fab945fc37@huaweicloud.com>
-Date: Sat, 16 Aug 2025 08:21:23 +0800
+	s=arc-20240116; t=1755304583; c=relaxed/simple;
+	bh=YDxjULu7qEyWirbAvD6wzbjz+KYgzH+G9EhzWARCC7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hGUwkL9/6ODqbv79yhfj9ebW3AU+jXYkbsL5FSd6en8D1RpPAq5t6dazXxQ5NfXxKlhpxYBgcPo7a7WFgWMhL6gX0KUBHFX1BrSr64/oHUVKS8NzMswuK75rfecbIGGzqIdhWY4aBooB/TGvkodBgHY/OlOJ3p0fh4gOReTuUaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/1idiUP; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/1idiUP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755304582; x=1786840582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YDxjULu7qEyWirbAvD6wzbjz+KYgzH+G9EhzWARCC7o=;
+  b=l/1idiUPnxUiPFg4qvfwIdJboxMSBmjtt5GSENONRX9NdqqdRfAsTj+F
+   5ATEbgDh3jYRiEVqGapJ2hYSGEXa7eZnSDYnMRsHZpEb+C9vARzM7ikpQ
+   Un20YaJ9rpw8iStGIyWnGieMWIvaBPhPYrJESSDvmJSgGLbGqy9LAqmQ2
+   Ejte9BjRmlcb7zb18CkHWYiUVbUdYoFPA2C2U4or2fliDhaWKz4XuThhg
+   M0lbJ+3UhafH46r/94tIyFBv2BHCxxpDQMlskyHHav83r9XDTXbo2gznY
+   wi85CAKb8Q0VYoQbw9W5yyCXXpUpUyRnYMehyT01Ux/fyG8/G8E1Uyxmk
+   Q==;
+X-CSE-ConnectionGUID: dY+PRqCoQxqrn/UvkTI4Aw==
+X-CSE-MsgGUID: iDzqRX9lSruvQhi75sY6Pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="68715614"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="68715614"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 17:36:21 -0700
+X-CSE-ConnectionGUID: QUhMb4KfTNKGb2SROBTq1A==
+X-CSE-MsgGUID: EXyFp8Q3T1ulfYyXeBEHvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="172467174"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 15 Aug 2025 17:36:18 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1un4u8-000CSG-01;
+	Sat, 16 Aug 2025 00:36:16 +0000
+Date: Sat, 16 Aug 2025 08:35:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
+	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH 4/6] hwmon: ltc4283-hwmon: Add support for the LTC4283
+ Swap Controller
+Message-ID: <202508160822.04pfkosr-lkp@intel.com>
+References: <20250814-ltc4283-support-v1-4-88b2cef773f2@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [-next v2 3/4] cpuset: separate tmpmasks and cpuset allocation
- logic
-To: Waiman Long <llong@redhat.com>, kernel test robot <lkp@intel.com>,
- tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
- linux-kernel@vger.kernel.org, lujialin4@huawei.com, chenridong@huawei.com,
- christophe.jaillet@wanadoo.fr
-References: <20250813082904.1091651-4-chenridong@huaweicloud.com>
- <202508140524.S2O4D57k-lkp@intel.com>
- <bd043822-29b2-49f4-864d-6658741f572c@huaweicloud.com>
- <15b47a34-ea8a-4a07-bc1e-5ba886010721@redhat.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <15b47a34-ea8a-4a07-bc1e-5ba886010721@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:Syh0CgD3A7YEz59on7ATDw--.30859S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFWfCryUtF1rWw47Kw4xXrb_yoW8Kr1fpF
-	W8Xa90yFs8Xr1xGan2gw1vvF1jgan5Jry5Wwn8Gr1UZFZFvF1UWr4I9r45WFnFg3ZagFyS
-	yFZxWFySvw1UuaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
-	v3UUUUU
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814-ltc4283-support-v1-4-88b2cef773f2@analog.com>
+
+Hi Nuno,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9703c672af8dd3573c76ce509dfff26bf6c4768d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dt-binbings-mfd-Add-bindings-for-the-LTC4283-Swap-Controller/20250814-190311
+base:   9703c672af8dd3573c76ce509dfff26bf6c4768d
+patch link:    https://lore.kernel.org/r/20250814-ltc4283-support-v1-4-88b2cef773f2%40analog.com
+patch subject: [PATCH 4/6] hwmon: ltc4283-hwmon: Add support for the LTC4283 Swap Controller
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250816/202508160822.04pfkosr-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160822.04pfkosr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160822.04pfkosr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/ltc4283-hwmon.c:579:10: warning: result of comparison of constant 65536 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+     579 |         if (tmp == BIT(16))
+         |             ~~~ ^  ~~~~~~~
+   1 warning generated.
 
 
+vim +579 drivers/hwmon/ltc4283-hwmon.c
 
-On 2025/8/16 3:15, Waiman Long wrote:
-> 
-> On 8/14/25 8:44 PM, Chen Ridong wrote:
->>
->> On 2025/8/14 5:28, kernel test robot wrote:
->>> Hi Chen,
->>>
->>> kernel test robot noticed the following build warnings:
->>>
->>> [auto build test WARNING on tj-cgroup/for-next]
->>> [also build test WARNING on linus/master v6.17-rc1 next-20250813]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:   
->>> https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cpuset-remove-redundant-CS_ONLINE-flag/20250813-164651
->>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
->>> patch link:    https://lore.kernel.org/r/20250813082904.1091651-4-chenridong%40huaweicloud.com
->>> patch subject: [-next v2 3/4] cpuset: separate tmpmasks and cpuset allocation logic
->>> config: x86_64-defconfig
->>> (https://download.01.org/0day-ci/archive/20250814/202508140524.S2O4D57k-lkp@intel.com/config)
->>> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
->>> reproduce (this is a W=1 build):
->>> (https://download.01.org/0day-ci/archive/20250814/202508140524.S2O4D57k-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202508140524.S2O4D57k-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>):
->>>
->>>>> Warning: kernel/cgroup/cpuset.c:422 function parameter 'pmasks' not described in 'alloc_cpumasks'
->> Hi all,
->>
->> Thank you for the warning about the comment issue - I will fix it in the next version.
->>
->> I will be appreciate if you can review this patch. If you have any feedback, I can update the entire
->> series together.
->>
-> Sorry for not responding to this patch. It looked reasonable to me. I did miss the error in the
-> comment though. Fortunately it was caught by the test robot.
-> 
-> Cheers,
-> Longman
-
-Thank you for your feedback.
+   570	
+   571	static int __ltc4283_hwmon_write_in_history(struct ltc4283_hwmon *st,
+   572						    u32 reg, long lowest, u32 fs)
+   573	{
+   574		__be16 __raw;
+   575		u16 tmp;
+   576		int ret;
+   577	
+   578		tmp = DIV_ROUND_CLOSEST(BIT(16) * lowest, fs);
+ > 579		if (tmp == BIT(16))
+   580			tmp = U16_MAX;
+   581	
+   582		__raw = cpu_to_be16(tmp);
+   583	
+   584		ret = regmap_bulk_write(st->map, reg, &__raw, sizeof(__raw));
+   585		if (ret)
+   586			return ret;
+   587	
+   588		tmp = 0;
+   589		return regmap_bulk_write(st->map, reg + 1,  &tmp, sizeof(tmp));
+   590	}
+   591	
 
 -- 
-Best regards,
-Ridong
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
