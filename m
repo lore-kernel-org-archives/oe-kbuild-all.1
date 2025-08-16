@@ -1,73 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C28482EB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 00:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8425213AF2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 00:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755304587; cv=none; b=Vsdk5t3lcD/hrKzn26JEp6XrWSytH7LC99rDyqwbTiNYG0h0WuB0fRftD+DU9CoQ5Yrs4k4lIEmi4Oa31sZNN2v8gmH3IPBllKOVDF0/lo7tFhWS6D8v2DnnPGgqKLSYFSBEW+1FHvxCk59NaWFqCakUh/XM9qRPhcdUzfTO+Hw=
+	t=1755305870; cv=none; b=G9FsqP6Db5vjGiF2vZBRGKvPWNhE92dnxIGWeXStxQRwbwQ9OdKtdHUHz0114RsrDz+aVnCOb0o2LwXhNkf+NmXZH2uXuAi3WBGlBqUWXi0aq89sdKVeDSOCXNmb0MGo75X+OF6e6seTXkJC9IhvQ4CaWOOLaVN9GkyyKUXIMYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755304587; c=relaxed/simple;
-	bh=benNazeuPaouG/+e8wLXd4fxOv6Us5y+9Sh2v9/dsfc=;
+	s=arc-20240116; t=1755305870; c=relaxed/simple;
+	bh=4yRdPc9V0nuMMCwNQ2HPQxK9Z42aO6f3cMEDFSNO1+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R+kyY821p98y/Rr/Fq/6IL3NZ8CAahEkcnQtg3KFe6K56wywT2ZO7yE8e8RgEeunwLKNTR8Qete/TeIl+X+eh4DsJpfL4PxGUIOPEfAyZwYolsF7n1iHcS0y2YNyPVOXKDrPU3E7PK0oGZNE0t5JaR+ibIgDmMhPq9d/jKFhZaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJOdlNAh; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=oh2X2m3KwoAMvzR00RSIAgVpwDjisDbMEHR3fFAhwAjLpJy6DMRegCnjmrs6/beUbBjNHa3vYQPrpDbxZR8Hrqets2qmEZrtHzwSl0O8KDdhL6UO0LKs/xL5NNjv8q7Gro/TQnB6yCc/22uXvGC8bWLckQgCM74HYi16w/wSiW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XtogsBDV; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJOdlNAh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XtogsBDV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755304585; x=1786840585;
+  t=1755305868; x=1786841868;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=benNazeuPaouG/+e8wLXd4fxOv6Us5y+9Sh2v9/dsfc=;
-  b=mJOdlNAhAO+1VHVjjrYso7JmNsr0Sy+pQ5kYpBEqkgozEhGIYaoiy2Ln
-   RI7ynZ9Ffvv2LoR5vQoSHiIZexSlSAixki6lmuzJSMLJOOm2e/c8uEF0h
-   BxPZscGOx97/ukND+ymEAwtnRcA+YFS7x/3Sd56Vk4MV1K+SYaWIMdxmP
-   vsEbtMcIqYTeSMJLbf3ge+8CKkYyfVY9pCG4UeIrYvQnEzqB1ozKAu3/Y
-   lpVIHFwbbCavonCLDKZDeK08cgAvGDJqUXm2Sq6RanJYlxF59oDM4yyl9
-   X2ClZH+dpin719Q+FSpvS3Qw3rbz1hweO4UBUI0RtNSFokRUkG9Rj1Il+
-   w==;
-X-CSE-ConnectionGUID: rE9w9MmxSYCaZl0cBY0GWA==
-X-CSE-MsgGUID: ulH/1oXWREGtGsqMrblzcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="61465030"
+  bh=4yRdPc9V0nuMMCwNQ2HPQxK9Z42aO6f3cMEDFSNO1+Q=;
+  b=XtogsBDVpcJDOLdfB48pbKn6mCv41aUiXoG8bIVv2aixOp83v6weQHAE
+   YQhhtbfOBJdhj58bfsc36RIVb9dqHSU+3UAPhoa4qCijgfmo5Wu5UIQRl
+   FPIIF60Xvdjp/dCWLBpGxGMzL7s7M8Y49gKDyFt7RiJUx8jOUyPdUqTI3
+   yEcnQVVN2WXlbc5uYomXmguUvv0TsiKtaSH0Mx2mlhleQxc5eqVUV3p4+
+   oGdjIdXwnBLXr9nukYiYML9hZx8LJ2WGPeAwNlhA06WRJc0KetDSpg6Ay
+   I9z0Ax53o49d8FcpEjRVdBxLxkRBEXSwEGJadjBxt51FIRBH3Dhj/aIkE
+   A==;
+X-CSE-ConnectionGUID: eQ/OQyJkSRqBo3YfqEDV8Q==
+X-CSE-MsgGUID: bJ/LHOZcSdyzxDHVQsd0Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57536983"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="61465030"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 17:36:25 -0700
-X-CSE-ConnectionGUID: XsfJWJHDRiucVH5KSe51BA==
-X-CSE-MsgGUID: NSRhkyfJQCqWWqVNaOYoEA==
+   d="scan'208";a="57536983"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 17:57:45 -0700
+X-CSE-ConnectionGUID: ZNfZxbMcR1S4D5xE0QuGTg==
+X-CSE-MsgGUID: 0OScScgjQIa7s+TsDBG+WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="166309080"
+   d="scan'208";a="197985617"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 15 Aug 2025 17:36:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2025 17:57:43 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un4u8-000CSI-05;
-	Sat, 16 Aug 2025 00:36:16 +0000
-Date: Sat, 16 Aug 2025 08:35:49 +0800
+	id 1un5Er-000CSo-1V;
+	Sat, 16 Aug 2025 00:57:41 +0000
+Date: Sat, 16 Aug 2025 08:57:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se, jernej.skrabec@gmail.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
-	kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
-	hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
-	dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
-	dianders@chromium.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v4 08/13] drm/bridge: analogix_dp: Add new API
- analogix_dp_finish_probe()
-Message-ID: <202508160857.yC3oMucJ-lkp@intel.com>
-References: <20250814104753.195255-9-damon.ding@rock-chips.com>
+To: Huacai Chen <chenhuacai@loongson.cn>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Harry Yoo <harry.yoo@oracle.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/migrate: Fix NULL movable_ops if CONFIG_ZSMALLOC=m
+Message-ID: <202508160823.9dRNF1Rc-lkp@intel.com>
+References: <20250815090539.1578484-1-chenhuacai@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,66 +68,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814104753.195255-9-damon.ding@rock-chips.com>
+In-Reply-To: <20250815090539.1578484-1-chenhuacai@loongson.cn>
 
-Hi Damon,
+Hi Huacai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on rockchip/for-next linus/master v6.17-rc1 next-20250815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250814-185009
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250814104753.195255-9-damon.ding%40rock-chips.com
-patch subject: [PATCH v4 08/13] drm/bridge: analogix_dp: Add new API analogix_dp_finish_probe()
-config: x86_64-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160857.yC3oMucJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160857.yC3oMucJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Huacai-Chen/mm-migrate-Fix-NULL-movable_ops-if-CONFIG_ZSMALLOC-m/20250815-170745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250815090539.1578484-1-chenhuacai%40loongson.cn
+patch subject: [PATCH] mm/migrate: Fix NULL movable_ops if CONFIG_ZSMALLOC=m
+config: sparc-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160823.9dRNF1Rc-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160823.9dRNF1Rc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508160857.yC3oMucJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160823.9dRNF1Rc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `analogix_dp_finish_probe':
->> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1700: undefined reference to `devm_of_dp_aux_populate_bus'
+   sparc-linux-ld: mm/zsmalloc.o: in function `zs_init':
+>> mm/zsmalloc.c:2250:(.init.text+0x8): undefined reference to `zsmalloc_mops'
+>> sparc-linux-ld: mm/zsmalloc.c:2250:(.init.text+0xc): undefined reference to `zsmalloc_mops'
 
 
-vim +1700 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+vim +2250 mm/zsmalloc.c
 
-  1695	
-  1696	int analogix_dp_finish_probe(struct analogix_dp_device *dp)
-  1697	{
-  1698		int ret;
-  1699	
-> 1700		ret = devm_of_dp_aux_populate_bus(&dp->aux, analogix_dp_aux_done_probing);
-  1701		if (ret) {
-  1702			/*
-  1703			 * If devm_of_dp_aux_populate_bus() returns -ENODEV, the done_probing() will
-  1704			 * not be called because there are no EP devices. Then the callback function
-  1705			 * analogix_dp_aux_done_probing() will be called directly in order to support
-  1706			 * the other valid DT configurations.
-  1707			 *
-  1708			 * NOTE: The devm_of_dp_aux_populate_bus() is allowed to return -EPROBE_DEFER.
-  1709			 */
-  1710			if (ret != -ENODEV) {
-  1711				dev_err(dp->dev, "failed to populate aux bus\n");
-  1712				return ret;
-  1713			}
-  1714	
-  1715			return analogix_dp_aux_done_probing(&dp->aux);
-  1716		}
-  1717	
-  1718		return 0;
-  1719	}
-  1720	EXPORT_SYMBOL_GPL(analogix_dp_finish_probe);
-  1721	
+  2246	
+  2247	static int __init zs_init(void)
+  2248	{
+  2249	#ifdef CONFIG_MIGRATION
+> 2250		movable_ops[MOVABLE_ZSMALLOC] = &zsmalloc_mops;
+  2251	#endif
+  2252	#ifdef CONFIG_ZPOOL
+  2253		zpool_register_driver(&zs_zpool_driver);
+  2254	#endif
+  2255		zs_stat_init();
+  2256		return 0;
+  2257	}
+  2258	
 
 -- 
 0-DAY CI Kernel Test Service
