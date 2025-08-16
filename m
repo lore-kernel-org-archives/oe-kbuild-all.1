@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0550D1FAC23
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 05:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA30C1E7C34
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 06:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755323919; cv=none; b=lMHFf6uqDP8UT0sBd+GR9OdX24EOKXlMlljei+PkSHE7g+NI3FP1/YeC2M2a4A7jEkVcTBSuA0KF9MGdosZJeJHXnqXEOfMW8uUQESSiPQBC2rwfntv9SUmFvvz4GxGOU+bGLIOOEW5kdWYk3YSTtOdx68CtUTuo+cLi31Det34=
+	t=1755324531; cv=none; b=fA5okO2EUe7bvMqAXOAGRaZzIBsplZW5VDNircnhNZaHzvSOtoyAjxqTqM8Yo2RH2LNLKG/zfdXQulIcqWqJ3w2V+QlbwwjlGONclf+MOtpplb7potzkCZI4/jL8leq8bn8lflBcHmer4yiiCe1x4b/oFvoHt5rht1yMUZKU5Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755323919; c=relaxed/simple;
-	bh=gCT3Vy/InXFik2JESebYvEoHergxHzILaLortPdjdEk=;
+	s=arc-20240116; t=1755324531; c=relaxed/simple;
+	bh=qbL8O855HI0Ou1SUTpSZ0V+tPTgKUGTXO3+Jt8bd+Vk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cMsM0T68Mpru8TjNxpoXDIFs3EoxcMVyJL1Cre+wlFVpQ4QV1VrU5t58D6ZQy6W7bVD2SoJTbhm7e0KWeljHe+X0OLbKbt42CdGr77S2QTQPfTjcJn/W5PbNky/iSGzHFhMQtINUM1qFnYUJhhj5JurPy+1LwPNhv3p1qbFZCtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CfnaU+KM; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozWz9oCtQQKtJek5igM2R2tGXvgdPj9rajnncgu9juFmfKpBWIH+NUZTMjIZsrCdn90/f0mrN56bhrUjACRuAZwNk0WgW6YI7nF4JksUxAHHJWih0lDzJVVPUPYbQkqVfUCXvoRWS4zxOneuca/jy1PKNvWfIHsziVp9lapGCv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a4D5VkeZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CfnaU+KM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a4D5VkeZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755323917; x=1786859917;
+  t=1755324530; x=1786860530;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gCT3Vy/InXFik2JESebYvEoHergxHzILaLortPdjdEk=;
-  b=CfnaU+KMUI5wxxEI92CqOlFuQ6LI1ExESQz3rCtqKhNxXwbSVNLLgpY9
-   b78KyB+MRgpPaYyYR9Vuqg0Bym/msWTjpE4PxT3vVFD8Kue4RDZWNf0N8
-   cvgiqM/V/QNBg0JQPN2DjisZGDFbid5AxbffP1DYrMliyj6SSSbn5M4+U
-   KOtOKn1Tast4UvJWj8M9Ub7u6eBxbwvJgWztSpfg+uNNJbpYBFItodrzH
-   vW0PuC3/YAfsK4XwxfGMWhV8Up/NrE2bN1uS8PvCeebJTe9NLvTbmhzvh
-   Gt3BGaKYNr5MtgBps0UzJv6dvSoynUIb2ayTvwgIuGzfwmMlzXAVakc5b
-   w==;
-X-CSE-ConnectionGUID: /7AgYcDkQ0Sm/YKg/oFzeA==
-X-CSE-MsgGUID: ZVrth41OSn2SCmFdUVlIiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57782710"
+  bh=qbL8O855HI0Ou1SUTpSZ0V+tPTgKUGTXO3+Jt8bd+Vk=;
+  b=a4D5VkeZ5CjFEo5ncq3Xf1XgP2cCrdBwLYosSBt3tdmIK1mrqKppnmbp
+   es5Mw0dGc4PkwvbMGNtIP8wX4+2P05eT5xda7Wf8luGPu6NeSsAm70hmv
+   qvLuADoPTxFaxg0RSfDkJ9rpKERqdT5jHGX392A2i5bEHBlNmIU03qdTe
+   P2Hw6s/e9KvcgHEstP/LVGfJUQyCJq4v6zyvONjohk0CB0jMCo30xFaPC
+   R6F72NYPv8+quq4NxK7ZLlgcsr7EAteMxuS4tVLkN4aVBuXCYad2/zXI2
+   d10BPc5k5Hqmu5IMVmNsobNQjkaXeaBb7gyIc1I8SaZe72vTIonP+exZY
+   g==;
+X-CSE-ConnectionGUID: 3U4QPgm1RpGzUhHgMj3m2A==
+X-CSE-MsgGUID: ZHknWbAGSbm9ZojCIaVRng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57348634"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57782710"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 22:58:36 -0700
-X-CSE-ConnectionGUID: QUjKVCBASXajz5+TmQybjw==
-X-CSE-MsgGUID: j7G5cbBBTFG13/GWLTPRIQ==
+   d="scan'208";a="57348634"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 23:08:49 -0700
+X-CSE-ConnectionGUID: jcvO77pPTF20GK90scXW2A==
+X-CSE-MsgGUID: UkdH731VSL+rj13Ggd5Cyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="172377014"
+   d="scan'208";a="190881227"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Aug 2025 22:58:34 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 15 Aug 2025 23:08:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1un9vz-000Ccm-1M;
-	Sat, 16 Aug 2025 05:58:31 +0000
-Date: Sat, 16 Aug 2025 13:58:05 +0800
+	id 1unA5u-000CdA-0n;
+	Sat, 16 Aug 2025 06:08:46 +0000
+Date: Sat, 16 Aug 2025 14:08:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qianfeng Rong <rongqianfeng@vivo.com>, Jakub Kicinski <kuba@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	"open list:NETRONOME ETHERNET DRIVERS" <oss-drivers@corigine.com>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Qianfeng Rong <rongqianfeng@vivo.com>
-Subject: Re: [PATCH v2 2/3] nfp: flower: use vmalloc_array() to simplify code
-Message-ID: <202508161307.IWBBnNXY-lkp@intel.com>
-References: <20250814102100.151942-3-rongqianfeng@vivo.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] x86/bhyve: Detect FreeBSD Bhyve hypervisor
+Message-ID: <202508161302.GCL9hvvA-lkp@intel.com>
+References: <febd320e77386415b761d14fed7772b395b387bc.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,157 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814102100.151942-3-rongqianfeng@vivo.com>
+In-Reply-To: <febd320e77386415b761d14fed7772b395b387bc.camel@infradead.org>
 
-Hi Qianfeng,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tnguy-next-queue/dev-queue]
-[also build test WARNING on tnguy-net-queue/dev-queue net-next/main net/main linus/master v6.17-rc1 next-20250815]
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on tip/master linus/master v6.17-rc1 next-20250815]
+[cannot apply to bp/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qianfeng-Rong/eth-intel-use-vmalloc_array-to-simplify-code/20250814-183400
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20250814102100.151942-3-rongqianfeng%40vivo.com
-patch subject: [PATCH v2 2/3] nfp: flower: use vmalloc_array() to simplify code
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250816/202508161307.IWBBnNXY-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161307.IWBBnNXY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/x86-bhyve-Detect-FreeBSD-Bhyve-hypervisor/20250815-210544
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/febd320e77386415b761d14fed7772b395b387bc.camel%40infradead.org
+patch subject: [PATCH v3] x86/bhyve: Detect FreeBSD Bhyve hypervisor
+config: x86_64-randconfig-073-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161302.GCL9hvvA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161302.GCL9hvvA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508161307.IWBBnNXY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508161302.GCL9hvvA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/vmalloc.h:5,
-                    from drivers/net/ethernet/netronome/nfp/flower/metadata.c:8:
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c: In function 'nfp_flower_metadata_init':
->> include/linux/stddef.h:24:42: warning: 'vmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-      24 | #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-         |                                          ^
-   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
-     239 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/vmalloc.h:192:33: note: in expansion of macro 'alloc_hooks'
-     192 | #define vmalloc_array(...)      alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:17: note: in expansion of macro 'vmalloc_array'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                 ^~~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/main.h:29:41: note: in expansion of macro 'sizeof_field'
-      29 | #define NFP_FL_STATS_ELEM_RS            sizeof_field(struct nfp_fl_stats_id, \
-         |                                         ^~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:31: note: in expansion of macro 'NFP_FL_STATS_ELEM_RS'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:24:42: note: earlier argument should specify number of elements, later size of each element
-      24 | #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-         |                                          ^
-   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
-     239 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/vmalloc.h:192:33: note: in expansion of macro 'alloc_hooks'
-     192 | #define vmalloc_array(...)      alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:17: note: in expansion of macro 'vmalloc_array'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                 ^~~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/main.h:29:41: note: in expansion of macro 'sizeof_field'
-      29 | #define NFP_FL_STATS_ELEM_RS            sizeof_field(struct nfp_fl_stats_id, \
-         |                                         ^~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:31: note: in expansion of macro 'NFP_FL_STATS_ELEM_RS'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                               ^~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:24:42: warning: 'vmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-      24 | #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-         |                                          ^
-   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
-     243 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/vmalloc.h:192:33: note: in expansion of macro 'alloc_hooks'
-     192 | #define vmalloc_array(...)      alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:17: note: in expansion of macro 'vmalloc_array'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                 ^~~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/main.h:29:41: note: in expansion of macro 'sizeof_field'
-      29 | #define NFP_FL_STATS_ELEM_RS            sizeof_field(struct nfp_fl_stats_id, \
-         |                                         ^~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:31: note: in expansion of macro 'NFP_FL_STATS_ELEM_RS'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:24:42: note: earlier argument should specify number of elements, later size of each element
-      24 | #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-         |                                          ^
-   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
-     243 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/vmalloc.h:192:33: note: in expansion of macro 'alloc_hooks'
-     192 | #define vmalloc_array(...)      alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:17: note: in expansion of macro 'vmalloc_array'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                 ^~~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/main.h:29:41: note: in expansion of macro 'sizeof_field'
-      29 | #define NFP_FL_STATS_ELEM_RS            sizeof_field(struct nfp_fl_stats_id, \
-         |                                         ^~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:31: note: in expansion of macro 'NFP_FL_STATS_ELEM_RS'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                               ^~~~~~~~~~~~~~~~~~~~
->> include/linux/stddef.h:24:42: warning: 'vmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-      24 | #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-         |                                          ^
-   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
-     246 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/vmalloc.h:192:33: note: in expansion of macro 'alloc_hooks'
-     192 | #define vmalloc_array(...)      alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:17: note: in expansion of macro 'vmalloc_array'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                 ^~~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/main.h:29:41: note: in expansion of macro 'sizeof_field'
-      29 | #define NFP_FL_STATS_ELEM_RS            sizeof_field(struct nfp_fl_stats_id, \
-         |                                         ^~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:31: note: in expansion of macro 'NFP_FL_STATS_ELEM_RS'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:24:42: note: earlier argument should specify number of elements, later size of each element
-      24 | #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-         |                                          ^
-   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
-     246 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/vmalloc.h:192:33: note: in expansion of macro 'alloc_hooks'
-     192 | #define vmalloc_array(...)      alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-         |                                 ^~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:17: note: in expansion of macro 'vmalloc_array'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                 ^~~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/main.h:29:41: note: in expansion of macro 'sizeof_field'
-      29 | #define NFP_FL_STATS_ELEM_RS            sizeof_field(struct nfp_fl_stats_id, \
-         |                                         ^~~~~~~~~~~~
-   drivers/net/ethernet/netronome/nfp/flower/metadata.c:567:31: note: in expansion of macro 'NFP_FL_STATS_ELEM_RS'
-     567 |                 vmalloc_array(NFP_FL_STATS_ELEM_RS,
-         |                               ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/bhyve.c: In function 'bhyve_features':
+>> arch/x86/kernel/cpu/bhyve.c:40:29: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
+      40 |         if (bhyve_cpuid_max < bhyve_cpuid_base | CPUID_BHYVE_FEATURES)
+         |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
 
 
-vim +24 include/linux/stddef.h
+vim +40 arch/x86/kernel/cpu/bhyve.c
 
-3876488444e712 Denys Vlasenko 2015-03-09  17  
-4229a470175be1 Kees Cook      2018-01-10  18  /**
-e7f18c22e6bea2 Kees Cook      2021-08-19  19   * sizeof_field() - Report the size of a struct field in bytes
-4229a470175be1 Kees Cook      2018-01-10  20   *
-4229a470175be1 Kees Cook      2018-01-10  21   * @TYPE: The structure containing the field of interest
-4229a470175be1 Kees Cook      2018-01-10  22   * @MEMBER: The field to return the size of
-4229a470175be1 Kees Cook      2018-01-10  23   */
-4229a470175be1 Kees Cook      2018-01-10 @24  #define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-4229a470175be1 Kees Cook      2018-01-10  25  
+    37	
+    38	static uint32_t bhyve_features(void)
+    39	{
+  > 40		if (bhyve_cpuid_max < bhyve_cpuid_base | CPUID_BHYVE_FEATURES)
+    41			return 0;
+    42	
+    43		return cpuid_eax(bhyve_cpuid_base | CPUID_BHYVE_FEATURES);
+    44	}
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
