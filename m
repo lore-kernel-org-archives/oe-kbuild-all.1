@@ -1,193 +1,268 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F3622FDEC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 09:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1C710E3;
+	Sat, 16 Aug 2025 10:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755336521; cv=none; b=b7JjAC0PnlGHHc+zs5dUdA9XiZHZm0UC87Xg+fMvOzgl3OZieDUIWKI6+7kMeeXmT5TtBBcwe8Jj7zglbNXulJXqaTWEV0W5yoJzdTh82WHkqs/AecsTM45OMvvb3MjW7J3PEL/Lp6BFKQ/bp/qNqfK0PcwJaQYbGwlx/WUyZFQ=
+	t=1755338572; cv=none; b=MFwTknjpDxRye/xTMQY31zvt6UPYpezElTcJCkUpZt87oL6AT2AUdSshCpEHpvMMEjdt29koyf2mSB68pQeYpkd0GElm9hk7phoO4RwE6Ei/73s7QAAo0FYfgdYcbzHPI8xKeEkTkUqp2MEdG3FVHFm5Coz0qTVr/Wsi4zAv9w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755336521; c=relaxed/simple;
-	bh=Rn9UConvvnSANKtYygpj4VC/hkURXLINnkb5ZsYqGlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KtAK1aLjJcBrxVjsA5zuEaJhFf+veD7DXC6utGzV5jmvPBH1U74ebcKB7YqEMCfIkypiwZfDn1DKVGjhSi3NZpspCLdWit2X6eXJHlgKNneKjTDRCO0RM3N7NWJ/y1GrW0JIBfG0oyKcMWQQG1WRkIZi9enTGrgs8pwsMlwYGzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRWxEgvG; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755338572; c=relaxed/simple;
+	bh=VuiPBXQ22lseM4os8mxj8uNO0UUQTf2gEqPele8VL5E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MLNrL5xAw2lkqr3DRRUIey5hlpVrf5j69cbKb8YE4sShbP85SfJK/a/OeV9tnsS4IcvI44/CqgQkvl86cSxJYk6GJH79OmAz2CyMG/rS/BVhP2qWAwrKnv36Sx+K663QCqsWhhNXTUYeNSc4hiCwiA4TWH6PbmxKgvHA6UsrCQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Np5DpHm8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRWxEgvG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755336519; x=1786872519;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rn9UConvvnSANKtYygpj4VC/hkURXLINnkb5ZsYqGlw=;
-  b=TRWxEgvGTORVP55Q30WH/uMSB36MzO7wpqU4SPcubFOriQ8gV+2p7zdH
-   2ju1042iRIPGh/rNbEXzM5uU4SiN3avpsrKLAm40bKKbZozcOTLuYULoV
-   vbqOsTuFqIN/epoI0ifl79vytseE9mn829/Zmb2fghkxjz74Q652JqALg
-   RS4JvlIVJFUonM3MiDY0q8kaGsszpOxpeqOz13wYPWEcHZmPVP9MO9Ati
-   nkIVBX/0HEwdEJOQGAP5RztPXCmfHeLJAcsiMlDroSYjxq2x7cqty5jkm
-   je/gXTjok4gaFjm6M16m6HB4pqY94YiJPtdZhwKlQt+dJMk56SsCxy5CF
-   g==;
-X-CSE-ConnectionGUID: PFXvnD2hTtCfN1FULv97tA==
-X-CSE-MsgGUID: X31pD3diQeSFKb/ybvLEPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57353216"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57353216"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 02:28:38 -0700
-X-CSE-ConnectionGUID: 4J00drCaQ5+PqMTVmQOv9g==
-X-CSE-MsgGUID: XHhYQworS32YIkR1WP400g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167102001"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Aug 2025 02:28:36 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1unDDF-000CmW-32;
-	Sat, 16 Aug 2025 09:28:33 +0000
-Date: Sat, 16 Aug 2025 17:28:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2
- (different address spaces)
-Message-ID: <202508161713.RWu30Lv1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Np5DpHm8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55344C4CEEF;
+	Sat, 16 Aug 2025 10:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755338572;
+	bh=VuiPBXQ22lseM4os8mxj8uNO0UUQTf2gEqPele8VL5E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Np5DpHm8hu4QckqtMcPAXjceEmhgVPuTvHa4vT9m8oaaFq8DbLWhnYXvY6d8pb62g
+	 Sh60kAnyj3m8WogjMkYDAa9dwyBOmgK6npZ+lqIRbOHjYdTQVJb+Zb7rEJjz0p95+T
+	 3g9p2ldwUikZurxf1Fl54ZKe0V8uJ+PUdyBqFl9s18GFqFstPDcEezmwJXG96M6itl
+	 gnpePXCHcaiZGNIcZyta+yNwla4EUel80Otc+AxL+cMQK+QKgbAx5OOg5wZXG0682j
+	 Y1YLVQqpJDhiIMLYSiTGTaP6pSwoXj6MKbNMqWBrkGpDeDK1DYuX/j56r8URrB4sqh
+	 DNeyRd9Pr4jqQ==
+Date: Sat, 16 Aug 2025 11:02:43 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Ben Collins <bcollins@watter.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] iio: mcp9600: Recognize chip id for mcp9601
+Message-ID: <20250816110243.06fbf7fb@jic23-huawei>
+In-Reply-To: <202508161646.PDl6V4EU-lkp@intel.com>
+References: <20250815164627.22002-4-bcollins@watter.com>
+	<202508161646.PDl6V4EU-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dfd4b508c8c6106083698a0dd5e35aecc7c48725
-commit: ca1a66cdd685030738cf077e3955fdedfe39fbb9 riscv: uaccess: do not do misaligned accesses in get/put_user()
-date:   2 months ago
-config: riscv-randconfig-r122-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce: (https://download.01.org/0day-ci/archive/20250816/202508161713.RWu30Lv1-lkp@intel.com/reproduce)
+On Sat, 16 Aug 2025 16:46:12 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508161713.RWu30Lv1-lkp@intel.com/
+> Hi Ben,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on jic23-iio/togreg]
+> [also build test WARNING on linus/master v6.17-rc1 next-20250815]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Collins/dt-bindings-iio-mcp9600-Add-compatible-for-microchip-mcp9601/20250816-005705
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20250815164627.22002-4-bcollins%40watter.com
+> patch subject: [PATCH 3/5] iio: mcp9600: Recognize chip id for mcp9601
+> config: riscv-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161646.PDl6V4EU-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161646.PDl6V4EU-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508161646.PDl6V4EU-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from include/linux/regulator/consumer.h:35:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:27:
+>    In file included from include/linux/kernel_stat.h:8:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:12:
+>    In file included from arch/riscv/include/asm/io.h:136:
+>    include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>      820 |         insl(addr, buffer, count);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+>      106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+>          |                                          ~~~~~~~~~~ ^
+>    In file included from drivers/iio/temperature/mcp9600.c:13:
+>    In file included from include/linux/i2c.h:19:
+>    In file included from include/linux/regulator/consumer.h:35:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:27:
+>    In file included from include/linux/kernel_stat.h:8:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:12:
+>    In file included from arch/riscv/include/asm/io.h:136:
+>    include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>      829 |         outsb(addr, buffer, count);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+>      118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+>          |                                            ~~~~~~~~~~ ^
+>    In file included from drivers/iio/temperature/mcp9600.c:13:
+>    In file included from include/linux/i2c.h:19:
+>    In file included from include/linux/regulator/consumer.h:35:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:27:
+>    In file included from include/linux/kernel_stat.h:8:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:12:
+>    In file included from arch/riscv/include/asm/io.h:136:
+>    include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>      838 |         outsw(addr, buffer, count);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+>      119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+>          |                                            ~~~~~~~~~~ ^
+>    In file included from drivers/iio/temperature/mcp9600.c:13:
+>    In file included from include/linux/i2c.h:19:
+>    In file included from include/linux/regulator/consumer.h:35:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:27:
+>    In file included from include/linux/kernel_stat.h:8:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:12:
+>    In file included from arch/riscv/include/asm/io.h:136:
+>    include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>      847 |         outsl(addr, buffer, count);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+>      120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+>          |                                            ~~~~~~~~~~ ^
+>    In file included from drivers/iio/temperature/mcp9600.c:13:
+>    In file included from include/linux/i2c.h:19:
+>    In file included from include/linux/regulator/consumer.h:35:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:13:
+>    In file included from include/linux/cgroup.h:27:
+>    In file included from include/linux/kernel_stat.h:8:
+>    In file included from include/linux/interrupt.h:11:
+>    In file included from include/linux/hardirq.h:11:
+>    In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+>    In file included from include/asm-generic/hardirq.h:17:
+>    In file included from include/linux/irq.h:20:
+>    In file included from include/linux/io.h:12:
+>    In file included from arch/riscv/include/asm/io.h:136:
+>    include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>     1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+>          |                                                   ~~~~~~~~~~ ^
+> >> drivers/iio/temperature/mcp9600.c:440:53: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]  
+>      440 |                                 "Expected id %02x, but device responded with %02\n",
+>          |                                                                              ~~~^
+>    include/linux/dev_printk.h:156:62: note: expanded from macro 'dev_warn'
+>      156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+>          |                                                                     ^~~
+>    include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+>       19 | #define dev_fmt(fmt) fmt
+>          |                      ^~~
+>    include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+>      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+>          |                              ^~~
+> >> drivers/iio/temperature/mcp9600.c:441:26: warning: data argument not used by format string [-Wformat-extra-args]  
+>      440 |                                 "Expected id %02x, but device responded with %02\n",
+>          |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      441 |                                  chip_info->chip_id, dev_id);
+>          |                                                      ^
+>    include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+>      156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+>          |                                                                     ~~~     ^
+>    include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+>      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+>          |                              ~~~    ^
+>    drivers/iio/temperature/mcp9600.c:428:22: warning: unused variable 'ret' [-Wunused-variable]
+>      428 |         int ch_sel, dev_id, ret;
+>          |                             ^~~
+>    10 warnings generated.
+> 
+> 
+> vim +/x0a +440 drivers/iio/temperature/mcp9600.c
+> 
+>    422	
+>    423	static int mcp9600_probe(struct i2c_client *client)
+>    424	{
+>    425		const struct mcp_chip_info *chip_info = i2c_get_match_data(client);
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long [usertype] * @@
-   mm/maccess.c:41:17: sparse:     expected void const [noderef] __user *from
-   mm/maccess.c:41:17: sparse:     got unsigned long long [usertype] *
->> mm/maccess.c:43:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned int [usertype] * @@
-   mm/maccess.c:43:17: sparse:     expected void const [noderef] __user *from
-   mm/maccess.c:43:17: sparse:     got unsigned int [usertype] *
->> mm/maccess.c:45:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned short [usertype] * @@
-   mm/maccess.c:45:17: sparse:     expected void const [noderef] __user *from
-   mm/maccess.c:45:17: sparse:     got unsigned short [usertype] *
->> mm/maccess.c:46:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
-   mm/maccess.c:46:9: sparse:     expected void const [noderef] __user *from
-   mm/maccess.c:46:9: sparse:     got unsigned char [usertype] *
->> mm/maccess.c:73:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] * @@
-   mm/maccess.c:73:17: sparse:     expected void [noderef] __user *to
-   mm/maccess.c:73:17: sparse:     got unsigned long long [usertype] *
->> mm/maccess.c:75:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned int [usertype] * @@
-   mm/maccess.c:75:17: sparse:     expected void [noderef] __user *to
-   mm/maccess.c:75:17: sparse:     got unsigned int [usertype] *
->> mm/maccess.c:77:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned short [usertype] * @@
-   mm/maccess.c:77:17: sparse:     expected void [noderef] __user *to
-   mm/maccess.c:77:17: sparse:     got unsigned short [usertype] *
->> mm/maccess.c:78:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
-   mm/maccess.c:78:9: sparse:     expected void [noderef] __user *to
-   mm/maccess.c:78:9: sparse:     got unsigned char [usertype] *
-   mm/maccess.c:98:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
-   mm/maccess.c:98:17: sparse:     expected void const [noderef] __user *from
-   mm/maccess.c:98:17: sparse:     got unsigned char [usertype] *
+Probably a false positive as I don't think we can probe without something matching and hence
+that not being NULL but an error check on that match is still a nice to have and should
+resolve this build warning.  Note there is very little chance a compiler could ever figure
+out if this can be NULL or not so it's a reasonable warning!
 
-vim +41 mm/maccess.c
+Jonathan
 
-eab0c6089b6897 Christoph Hellwig    2020-06-08  15  
-e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  16  /*
-e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  17   * The below only uses kmsan_check_memory() to ensure uninitialized kernel
-e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  18   * memory isn't leaked.
-e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  19   */
-fe557319aa06c2 Christoph Hellwig    2020-06-17  20  #define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)	\
-b58294ead14cde Christoph Hellwig    2020-06-08  21  	while (len >= sizeof(type)) {					\
-b58294ead14cde Christoph Hellwig    2020-06-08  22  		__get_kernel_nofault(dst, src, type, err_label);	\
-e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  23  		kmsan_check_memory(src, sizeof(type));			\
-b58294ead14cde Christoph Hellwig    2020-06-08  24  		dst += sizeof(type);					\
-b58294ead14cde Christoph Hellwig    2020-06-08  25  		src += sizeof(type);					\
-b58294ead14cde Christoph Hellwig    2020-06-08  26  		len -= sizeof(type);					\
-b58294ead14cde Christoph Hellwig    2020-06-08  27  	}
-b58294ead14cde Christoph Hellwig    2020-06-08  28  
-fe557319aa06c2 Christoph Hellwig    2020-06-17  29  long copy_from_kernel_nofault(void *dst, const void *src, size_t size)
-b58294ead14cde Christoph Hellwig    2020-06-08  30  {
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  31  	unsigned long align = 0;
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  32  
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  33  	if (!IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS))
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  34  		align = (unsigned long)dst | (unsigned long)src;
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  35  
-fe557319aa06c2 Christoph Hellwig    2020-06-17  36  	if (!copy_from_kernel_nofault_allowed(src, size))
-2a71e81d321987 Christoph Hellwig    2020-06-08  37  		return -ERANGE;
-b58294ead14cde Christoph Hellwig    2020-06-08  38  
-b58294ead14cde Christoph Hellwig    2020-06-08  39  	pagefault_disable();
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  40  	if (!(align & 7))
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @41  		copy_from_kernel_nofault_loop(dst, src, size, u64, Efault);
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  42  	if (!(align & 3))
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @43  		copy_from_kernel_nofault_loop(dst, src, size, u32, Efault);
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  44  	if (!(align & 1))
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @45  		copy_from_kernel_nofault_loop(dst, src, size, u16, Efault);
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @46  	copy_from_kernel_nofault_loop(dst, src, size, u8, Efault);
-b58294ead14cde Christoph Hellwig    2020-06-08  47  	pagefault_enable();
-b58294ead14cde Christoph Hellwig    2020-06-08  48  	return 0;
-b58294ead14cde Christoph Hellwig    2020-06-08  49  Efault:
-b58294ead14cde Christoph Hellwig    2020-06-08  50  	pagefault_enable();
-b58294ead14cde Christoph Hellwig    2020-06-08  51  	return -EFAULT;
-b58294ead14cde Christoph Hellwig    2020-06-08  52  }
-fe557319aa06c2 Christoph Hellwig    2020-06-17  53  EXPORT_SYMBOL_GPL(copy_from_kernel_nofault);
-b58294ead14cde Christoph Hellwig    2020-06-08  54  
-fe557319aa06c2 Christoph Hellwig    2020-06-17  55  #define copy_to_kernel_nofault_loop(dst, src, len, type, err_label)	\
-b58294ead14cde Christoph Hellwig    2020-06-08  56  	while (len >= sizeof(type)) {					\
-b58294ead14cde Christoph Hellwig    2020-06-08  57  		__put_kernel_nofault(dst, src, type, err_label);	\
-e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  58  		instrument_write(dst, sizeof(type));			\
-b58294ead14cde Christoph Hellwig    2020-06-08  59  		dst += sizeof(type);					\
-b58294ead14cde Christoph Hellwig    2020-06-08  60  		src += sizeof(type);					\
-b58294ead14cde Christoph Hellwig    2020-06-08  61  		len -= sizeof(type);					\
-b58294ead14cde Christoph Hellwig    2020-06-08  62  	}
-b58294ead14cde Christoph Hellwig    2020-06-08  63  
-fe557319aa06c2 Christoph Hellwig    2020-06-17  64  long copy_to_kernel_nofault(void *dst, const void *src, size_t size)
-b58294ead14cde Christoph Hellwig    2020-06-08  65  {
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  66  	unsigned long align = 0;
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  67  
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  68  	if (!IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS))
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  69  		align = (unsigned long)dst | (unsigned long)src;
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  70  
-b58294ead14cde Christoph Hellwig    2020-06-08  71  	pagefault_disable();
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  72  	if (!(align & 7))
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @73  		copy_to_kernel_nofault_loop(dst, src, size, u64, Efault);
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  74  	if (!(align & 3))
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @75  		copy_to_kernel_nofault_loop(dst, src, size, u32, Efault);
-2423de2e6f4d86 Arnd Bergmann        2021-08-11  76  	if (!(align & 1))
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @77  		copy_to_kernel_nofault_loop(dst, src, size, u16, Efault);
-fe557319aa06c2 Christoph Hellwig    2020-06-17 @78  	copy_to_kernel_nofault_loop(dst, src, size, u8, Efault);
-b58294ead14cde Christoph Hellwig    2020-06-08  79  	pagefault_enable();
-b58294ead14cde Christoph Hellwig    2020-06-08  80  	return 0;
-b58294ead14cde Christoph Hellwig    2020-06-08  81  Efault:
-b58294ead14cde Christoph Hellwig    2020-06-08  82  	pagefault_enable();
-b58294ead14cde Christoph Hellwig    2020-06-08  83  	return -EFAULT;
-b58294ead14cde Christoph Hellwig    2020-06-08  84  }
-ca79a00bb9a899 Sabyrzhan Tasbolatov 2024-10-16  85  EXPORT_SYMBOL_GPL(copy_to_kernel_nofault);
-b58294ead14cde Christoph Hellwig    2020-06-08  86  
 
-:::::: The code at line 41 was first introduced by commit
-:::::: fe557319aa06c23cffc9346000f119547e0f289a maccess: rename probe_kernel_{read,write} to copy_{from,to}_kernel_nofault
+>    426		struct iio_dev *indio_dev;
+>    427		struct mcp9600_data *data;
+>    428		int ch_sel, dev_id, ret;
+>    429	
+>    430		dev_id = i2c_smbus_read_byte_data(client, MCP9600_DEVICE_ID);
+>    431		if (dev_id < 0)
+>    432			return dev_err_probe(&client->dev, dev_id,
+>    433					     "Failed to read device ID\n");
+>    434	
+>    435		switch (dev_id) {
+>    436		case MCP9600_DEVICE_ID_MCP9600:
+>    437		case MCP9600_DEVICE_ID_MCP9601:
+>    438			if (dev_id != chip_info->chip_id)
+>    439				dev_warn(&client->dev,
+>  > 440					"Expected id %02x, but device responded with %02\n",
+>  > 441					 chip_info->chip_id, dev_id);  
+>    442			break;
+>    443	
+>    444		default:
+>    445			dev_warn(&client->dev, "Unknown id %x, using %x\n", dev_id,
+>    446				 chip_info->chip_id);
+>    447		}
+>    448	
+>    449		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+>    450		if (!indio_dev)
+>    451			return -ENOMEM;
+>    452	
+>    453		data = iio_priv(indio_dev);
+>    454		data->client = client;
+>    455	
+>    456		ch_sel = mcp9600_probe_alerts(indio_dev);
+>    457		if (ch_sel < 0)
+>    458			return ch_sel;
+>    459	
+>    460		indio_dev->info = &mcp9600_info;
+>    461		indio_dev->name = chip_info->chip_name;
+>    462		indio_dev->modes = INDIO_DIRECT_MODE;
+>    463		indio_dev->channels = mcp9600_channels[ch_sel];
+>    464		indio_dev->num_channels = ARRAY_SIZE(mcp9600_channels[ch_sel]);
+>    465	
+>    466		return devm_iio_device_register(&client->dev, indio_dev);
+>    467	}
+>    468	
+> 
 
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
