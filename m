@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A510123A9B3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 12:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1543433F3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Aug 2025 12:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755347936; cv=none; b=McA5PaPoQPSYEVPfTA6mM2pUE5XycjslCc6jAdjEQxVwu2Kzrxr809K7U0JVu+pL7Rmz42Y2qOVmebz8sfD4CclZ7XxcjSl3cA8vpm+a/GXjLc75At8H1r7Yi+xyy1Y1nPgIW9pt5mr+niFMKiRiBQQdqXsxdKLixbQxQ7HehIE=
+	t=1755348511; cv=none; b=bdAAGQ85eT05LZeaL6EOTqAcCy76tYlpZUSy6tO2UzTk8RNP8vM/CBMP+efPZ8fjvfUBl5p4zD4j/bsVkBd7WJ7ZFZBuCVZAYBLVYRe1/+fSY3F/n2ymRJ3FjHemLQefF4Qh2SJFTuexs/wj9+47bLORtoB147v/1rWDY+g0jdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755347936; c=relaxed/simple;
-	bh=9Ff9XpXiB0v1ne2KOkPiaqcFp1+8SqSRbJO7Ur2WlXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ITWPFRB3GBFBGnEFNOH3lN816ECBrcb68Q7jQuoMiWkYl9NQ4bo6Am03YR4pM0E8A/rKndHgD0j0tkJyDeaZhrcQ2qURQ8Dc2iF004JEtyoBEifLsJ303TjHa4cWPckmjjizWPO+OScOva12tbvnUHoE5Nxum7FGopC0+uOMteg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEJQoFsg; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1755348511; c=relaxed/simple;
+	bh=yDvcaA9X0JJfj+qhGE6PQ32qQvwSGKog2fLwSlq5KV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uXwGIEFacu1InIQTW6s+ebnItlU1YD3y5JkXeo5Ih/XYem8XR5d8NV3zZmdcqsoHYzRhxiiWWCnfHW5o2jcpEOw2i1cLkcAjDQnXRZsHb6+gWPE525qbTcY2VNrAKYCcmLRDjgyBPVerP45psfWe0EVtuItoQRKDl0kn5ACjNwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIJE/yCE; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEJQoFsg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIJE/yCE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755347934; x=1786883934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9Ff9XpXiB0v1ne2KOkPiaqcFp1+8SqSRbJO7Ur2WlXo=;
-  b=HEJQoFsggjhccBTQa+GG85VOKixp0M6J/9vmLS1CprXSexOtnas5jYke
-   HIuzqky2grAeqqo0LE626wN4NHHtgH7hYMShGo2acGU6dgmGH4EF3181Z
-   6QT8awX04vaIP+AEODYW/e/VxaQkBYeNv9VHyEaRkHhsIOZ3N3w1Hi2+i
-   +7y3m9VU6+KBV18plpYn3G+AsOYTNBSKKcMsDpaR/2s18Nq3gbqiHHch+
-   g6u9oVEpSqUdVzXBbOTn8PH08/EyOki3Kt15QeKPhfW2j2JmTTSaMEoW5
-   3TzieTvbxOwt07B8W+jH/uMMuAwO96ox/p2sC5h8MACovjRWE8elvM5Lm
-   A==;
-X-CSE-ConnectionGUID: zv5L6GtmTRmcpD51K5gkZA==
-X-CSE-MsgGUID: K8qnMR82QoKQs4c/G/gzmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57791384"
+  t=1755348510; x=1786884510;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yDvcaA9X0JJfj+qhGE6PQ32qQvwSGKog2fLwSlq5KV8=;
+  b=RIJE/yCE6Aid9e1Dp/uFwSELmRDS61CPOtEkUicBCO8kWS0MtuOmJxKr
+   opbBjCoBg+gmjzUEt2JlQpgE+eduBSOybOr3zM/Bc7FPZWQkUaDxuQRQD
+   zUdWVKlbtUEO4dOfmtK+KPkZbWSTo5jTCagB3eu2IjR7paaW4YfuC9/GV
+   ilhhTpfHcHTlBErvGoBvR/3RAYB9Ip3SRQ73GYDi+udBC+HEBTyC222oO
+   WdRdKaVbNUbJsEDYOuWVWvTivZz0mbFBpj5s91FsUuR9GJZOWH+XMuw3Z
+   qKZHjyKMcWgx3WAjLzoc7UgKWhsmE5JBW1vz1Ck4bYimvSnv1rMudeBgm
+   g==;
+X-CSE-ConnectionGUID: PyhgQY+ZTdq7AMeMJRtSPg==
+X-CSE-MsgGUID: 6hfa+dHRQ5GBiwdSn+9N7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="61276846"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57791384"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 05:38:54 -0700
-X-CSE-ConnectionGUID: tUtM56dmQgmETyjyvMS6iA==
-X-CSE-MsgGUID: F2DpgUMHRCyHS+sAVqky4w==
+   d="scan'208";a="61276846"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2025 05:48:30 -0700
+X-CSE-ConnectionGUID: u6x51sPXRMSUoECfjUcLjA==
+X-CSE-MsgGUID: 0GW5CUfPR5i8IdoP7jG56Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="166827334"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Aug 2025 05:38:52 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="171653302"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa004.jf.intel.com with ESMTP; 16 Aug 2025 05:48:29 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unGBM-000Cs8-2m;
-	Sat, 16 Aug 2025 12:38:49 +0000
-Date: Sat, 16 Aug 2025 20:38:24 +0800
+	id 1unGKg-0000jn-1e;
+	Sat, 16 Aug 2025 12:48:26 +0000
+Date: Sat, 16 Aug 2025 14:48:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ethan Ferguson <ethan.ferguson@zetier.com>, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com
-Cc: oe-kbuild-all@lists.linux.dev, yuezhang.mo@sony.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ethan Ferguson <ethan.ferguson@zetier.com>
-Subject: Re: [PATCH 1/1] exfat: Add support for FS_IOC_{GET,SET}FSLABEL
-Message-ID: <202508162026.aFXpZAKm-lkp@intel.com>
-References: <20250815171056.103751-2-ethan.ferguson@zetier.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1]
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51:
+ warning: 'DCEC' directive output may be truncated writing 4 bytes into a
+ region of size between 0 and 53
+Message-ID: <202508161401.D5Xj0ins-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +63,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250815171056.103751-2-ethan.ferguson@zetier.com>
 
-Hi Ethan,
+Hi Hans,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 37816488247ddddbc3de113c78c83572274b1e2e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Ferguson/exfat-Add-support-for-FS_IOC_-GET-SET-FSLABEL/20250816-011428
-base:   37816488247ddddbc3de113c78c83572274b1e2e
-patch link:    https://lore.kernel.org/r/20250815171056.103751-2-ethan.ferguson%40zetier.com
-patch subject: [PATCH 1/1] exfat: Add support for FS_IOC_{GET,SET}FSLABEL
-config: nios2-randconfig-r121-20250816 (https://download.01.org/0day-ci/archive/20250816/202508162026.aFXpZAKm-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250816/202508162026.aFXpZAKm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   3f3a5c5e782d183bab668b1bd992e6812494f798
+commit: 056f2821b631df2b94d3b017fd1e1eef918ed98d [1/1] media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
+config: x86_64-buildonly-randconfig-2001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161401.D5Xj0ins-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161401.D5Xj0ins-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508162026.aFXpZAKm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508161401.D5Xj0ins-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/exfat/super.c:656:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short const [usertype] *ucs1 @@     got restricted __le16 * @@
-   fs/exfat/super.c:656:28: sparse:     expected unsigned short const [usertype] *ucs1
-   fs/exfat/super.c:656:28: sparse:     got restricted __le16 *
+All warnings (new ones prefixed by >>):
 
-vim +656 fs/exfat/super.c
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_cec_adap_transmit':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+         |                                                   ^~~~
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:9: note: 'snprintf' output between 13 and 72 bytes into a destination of size 61
+    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1015 |                  port->direction, port->port.port,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1016 |                  cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   639	
-   640	int exfat_write_volume_label(struct super_block *sb)
-   641	{
-   642		int ret;
-   643		struct exfat_sb_info *sbi = EXFAT_SB(sb);
-   644		struct buffer_head *bh;
-   645		struct exfat_dentry *ep;
-   646	
-   647		ret = exfat_get_volume_label_ptrs(sb, &bh, &ep);
-   648		if (ret < 0)
-   649			goto cleanup;
-   650	
-   651		mutex_lock(&sbi->s_lock);
-   652		memcpy(ep->dentry.volume_label.volume_label, sbi->volume_label,
-   653					sizeof(sbi->volume_label));
-   654	
-   655		ep->dentry.volume_label.char_count =
- > 656			UniStrnlen(ep->dentry.volume_label.volume_label,
-   657					EXFAT_VOLUME_LABEL_LEN);
-   658		mutex_unlock(&sbi->s_lock);
-   659	
-   660	cleanup:
-   661		if (bh) {
-   662			exfat_update_bh(bh, true);
-   663			brelse(bh);
-   664		}
-   665	
-   666		return ret;
-   667	}
-   668	
+
+vim +/DCEC +1014 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+
+  1000	
+  1001	static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+  1002					    u32 signal_free_time, struct cec_msg *msg)
+  1003	{
+  1004		struct extron_port *port = cec_get_drvdata(adap);
+  1005		char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+  1006		char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
+  1007		unsigned int i;
+  1008	
+  1009		if (port->disconnected)
+  1010			return -ENODEV;
+  1011		buf[0] = 0;
+  1012		for (i = 0; i < msg->len - 1; i++)
+  1013			sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
+> 1014		snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+  1015			 port->direction, port->port.port,
+  1016			 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+  1017		return extron_send_and_wait(port->extron, port, cmd, NULL);
+  1018	}
+  1019	
 
 -- 
 0-DAY CI Kernel Test Service
