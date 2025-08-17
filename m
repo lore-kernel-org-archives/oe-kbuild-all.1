@@ -1,68 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D521F83CC7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Aug 2025 10:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7750199949
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Aug 2025 16:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755425790; cv=none; b=buqsWnhzmAFrkBMNGilRLlEXuIWaHn8MbE9JEpNAVos84I/SffuBdBlk1uJ7wxdag3NpeIFkPpKGk1PiZdN5R8CbHtY3JZtmVA9J+aff91ZmpAZyyhY1KE00cGxJnHZ0035j5ZvEKzkEBvCCs3JLMivpPNX88mPbE5fT4BR2N70=
+	t=1755448932; cv=none; b=INvk7+/FYzeOl9wb/YoG1YrzIL6eDD+X5vbEEbSLQWsEnUTr9ACmfETJAjb7mCcGGYSmtAUe98nG3+q0/r5eyp9l20CG5Ci1JqWV9InsOc+g80vm1UN01Xwr8hq98LsLZ3S0oNH+GOJHdyS1nRG3p6atUngwLzkLBnC1/ViLqBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755425790; c=relaxed/simple;
-	bh=+A14c1W+X+e9ckEeG7fLA+HMWihm8ocOrIT9CAvB0SA=;
+	s=arc-20240116; t=1755448932; c=relaxed/simple;
+	bh=QWgCoWJrR5NFT6aL6VO54bITTwUvigoqeC4mg4I/Gkw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nRQGuaG8q1RhE3kJ6t2AANvJVqND3yzPS4esRNLaJcMFbdwZr7wldIgI9NHf+5MgCeQFKd0762u3ffTfFGrILFRrPuALSRNe9tWojHigJtBlGaModKs+naAyFICQlDXgblb2nzRviNUlh3SUb3yW0V0cZ9egncHu7BSu3H3lTRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nC1S9mxC; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdnt3VQRO/Pd8XMGwvzBb398U+UJABEtJ6OLWjpTrp2ROpEPAmRvpnYTNZDm1zy16tUUkg4vrKXEzrIOG9yzzWk9JSU6USASDITrvgjvFARNymS6t6TXCXNaLvkmoJfBWZWRcrhL8eA77ofmhsfxmhKAam5ACex1fUihyagLwf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crqAcGrm; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nC1S9mxC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crqAcGrm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755425788; x=1786961788;
+  t=1755448931; x=1786984931;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+A14c1W+X+e9ckEeG7fLA+HMWihm8ocOrIT9CAvB0SA=;
-  b=nC1S9mxCmxxSUD37U/vwY0JEoTRFjzfilt53HEF0HwXkDEMjuW1kdQBo
-   TlXnVykvrVvEKBevK6E46pxiX3foWQ64iknVibrlJGqZZWT07BjEnZ5oK
-   ncSnv041Nfa5OyRC9hU2AAliwR1PTFLKvxb+8Xd1GkMESNw4xi26OdkNd
-   Q5P0a8nPB2n25RAMPPkaB/CMtflgkeF8TgUF+pZRqOY8RCDkK0eXahWcc
-   le3w0HYJ/7gOcbBzqHBLZfpfw/iaXwtIi7f4niE2DLOqJET3Hl1qexRcB
-   soneRN8qLVyFs8032CY0yCDet+ug8wXtXdfHyh2IwwRK5BfYpw/lZqgm8
-   Q==;
-X-CSE-ConnectionGUID: sCJBS7p0Qha5g6hEAmvN1w==
-X-CSE-MsgGUID: PM2zddnWQru3o+oFg1KLaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="61511057"
+  bh=QWgCoWJrR5NFT6aL6VO54bITTwUvigoqeC4mg4I/Gkw=;
+  b=crqAcGrmLtf1WZln8qRKQYF0tBvLbV8RcT5WeGCtqzd0bioTMqLQt3W3
+   3dfMpzqskBhBNjwkHkI71PNeCQs0DxCjnewOjWD3AHWCcy2wm/jtTpQR/
+   IHDFzErFi4vbnGtRnsUb5HpZP6XbdsjuNq94G43A/pY1W4T8YJRX6tj5P
+   wOCv6gxj/99R/N/lrcN2y+DwHPNFffFbTIH1nwiQGO/rpkIBgx2u23wrB
+   oYIRFBtWS2I00TWnYi9TiPnytj5wIVVQLmE+2vc+b+NtrnzZGrjJEarhZ
+   ICBjokpOvbbnDuAmXOPTLcfJlqiBJF/LnEzAKKtVnFh+HY3OZP7+Z4Dse
+   w==;
+X-CSE-ConnectionGUID: A6YX4fpIS4mn+LvpTdB3Bw==
+X-CSE-MsgGUID: DCRzD2aHT0OCkxHcLjDWUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="83115182"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="61511057"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 03:16:28 -0700
-X-CSE-ConnectionGUID: +9d8gx9kSNufnReCk+lhMw==
-X-CSE-MsgGUID: krM7rEmbTX6xWVFMAnBwOw==
+   d="scan'208";a="83115182"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 09:42:10 -0700
+X-CSE-ConnectionGUID: 8ti7B3NmTNWk55AJh58HjQ==
+X-CSE-MsgGUID: BrV/uw3YQgiYFDiHHedDgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="166847320"
+   d="scan'208";a="198401547"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Aug 2025 03:16:24 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Aug 2025 09:42:07 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unaQz-000DT9-0i;
-	Sun, 17 Aug 2025 10:16:20 +0000
-Date: Sun, 17 Aug 2025 18:15:37 +0800
+	id 1ungSA-000DcJ-38;
+	Sun, 17 Aug 2025 16:41:57 +0000
+Date: Mon, 18 Aug 2025 00:41:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Harry Yoo <harry.yoo@oracle.com>, Minchan Kim <minchan@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3] mm/migrate: Fix NULL movable_ops if CONFIG_ZSMALLOC=m
-Message-ID: <202508171758.8m5jQYdz-lkp@intel.com>
-References: <20250817083534.2398601-1-chenhuacai@loongson.cn>
+To: Alexander Kurz <akurz@blala.de>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexander Kurz <akurz@blala.de>
+Subject: Re: [PATCH 6/6] Input: mc13783-pwrbutton: add OF support
+Message-ID: <202508180010.aF8jhqrQ-lkp@intel.com>
+References: <20250817102751.29709-7-akurz@blala.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,42 +72,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250817083534.2398601-1-chenhuacai@loongson.cn>
+In-Reply-To: <20250817102751.29709-7-akurz@blala.de>
 
-Hi Huacai,
+Hi Alexander,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes robh/for-next linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huacai-Chen/mm-migrate-Fix-NULL-movable_ops-if-CONFIG_ZSMALLOC-m/20250817-163814
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250817083534.2398601-1-chenhuacai%40loongson.cn
-patch subject: [PATCH V3] mm/migrate: Fix NULL movable_ops if CONFIG_ZSMALLOC=m
-config: x86_64-buildonly-randconfig-002-20250817 (https://download.01.org/0day-ci/archive/20250817/202508171758.8m5jQYdz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508171758.8m5jQYdz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Kurz/Input-mc13783-pwrbutton-fix-irq-mixup/20250817-182649
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20250817102751.29709-7-akurz%40blala.de
+patch subject: [PATCH 6/6] Input: mc13783-pwrbutton: add OF support
+config: arm-randconfig-001-20250817 (https://download.01.org/0day-ci/archive/20250818/202508180010.aF8jhqrQ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508180010.aF8jhqrQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508171758.8m5jQYdz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508180010.aF8jhqrQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   mm/zsmalloc.c: In function 'zs_init':
->> mm/zsmalloc.c:2249:13: warning: unused variable 'rc' [-Wunused-variable]
-    2249 |         int rc;
-         |             ^~
-
-
-vim +/rc +2249 mm/zsmalloc.c
-
-  2246	
-  2247	static int __init zs_init(void)
-  2248	{
-> 2249		int rc;
-  2250	
+>> WARNING: modpost: vmlinux: section mismatch in reference: mc13783_pwrbutton_probe+0x243 (section: .text.mc13783_pwrbutton_probe) -> mc13xxx_pwrbutton_probe_dt (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
