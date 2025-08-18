@@ -1,115 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D26F27146F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 07:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9427113AD3F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 08:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755503850; cv=none; b=kE7LT2T3wXp9gwCeLON8tXBKSitTlZu3ejAmdd5+JSRdbvNlLICSHA9zzVtdSWlJdbhy0EB741vw/mEzSdAlTkZOSSMnvMQRebJx6J62Lff0f8R3+xirjz0zWW8uHyWKaFPojEt7LuwRaFWtPVfSJ1wGiBDd/qp1TICwNIDGqsI=
+	t=1755504432; cv=none; b=vGwLbX+qFLx/WpdZRKkSd4pGpIMnEZmZMuiKJCWIELYkvgG4g4HGNbL1VJ2rlEJjbczf/E4SkpsoXqzTdn8Bzkp9/AIo4qYdXKTBR1rGXtLpcx0ZTvUNVCwYeuT247UTHmZDPTw1u3eq50tNCIz/7cdsGuOnOdBcxCOGJoRVNw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755503850; c=relaxed/simple;
-	bh=UYGkkspU+B63sm92wMSzq+haWmbUPgKrQyQjqaa8St0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CxIsZnasRcYk07V50v7O3U659zssmP9jo3tfTwpp3OFOfWyoJHwiePJ7J0jQbx0BZAZhMOFNUOoKA3as5s25Z0/il6onR4rbhYdUHHiUdrmH5tMkSG+HyuiogTg/HWPbSfsLJhAk26tYb/ov/3PROZdOxswGDFzURKVrxM6cScg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IpX+3PHp; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755504432; c=relaxed/simple;
+	bh=GeRmeBnspDWFz8RBxlv470wgjPvwTzUFuzHg0zUu7lE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ngLD0EjNQIi6jNfwM/OlusZ1WLHgECFGoBb1BYKt36Zj5f5qTeg9DhM4LpzDnsylLMmCQJ/ftvqWNm8oBNvWsliBa4nkuKDUpO5Q8by5zp5lA2v3V+7/sRK3Pc3NEvWwO/XLBe+UUELpy8R5gAWQew3EqeneNlkPai0mT+1ZpeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h+HI+hUr; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IpX+3PHp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755503848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EnLNVOy+1JPODpJ3Yc7eupS4dHoP80nfXVqFC6FlADI=;
-	b=IpX+3PHpdBjDGnmuoTCTjzZAulx3+QEB1Sg5hGHsWtu4du2XEInP/7YbE2OQIQa4/YRmwc
-	xVojIbxjw1dQ/H2Pbn4Ci6fAhwBhEsY46XWbIJ+Vb+tbRS4coGUUCSg8obJcglkZNyNkj4
-	T0gXx4/+UqaOb1YTeilZ5y9khb7kRTM=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-468-yITsVGIQPGi6d4LGpgZuaQ-1; Mon, 18 Aug 2025 03:57:27 -0400
-X-MC-Unique: yITsVGIQPGi6d4LGpgZuaQ-1
-X-Mimecast-MFC-AGG-ID: yITsVGIQPGi6d4LGpgZuaQ_1755503846
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7e864817cb8so1409137185a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 00:57:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h+HI+hUr"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9edf0e4efso2710128f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 01:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755504428; x=1756109228; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vr63C9F7Vxwf9wbtxAedaNNw3W1EQmWq9TQaBSm9Lp4=;
+        b=h+HI+hUrF7lue+sY76xqgJhMGKgwEA8tJ/ZKaGxKItjWv4wA3Tz3CcbQVPc1IZT9oi
+         wxT7OP1wqZMd3CwXnQFQJw7I2lvvwJ7RN17mFOCl6SJQD2PUqa9u21SdxOQYp2+cbcjs
+         S5QBP3zuMhEe3rlgVLOo/Hf4sznXMl/fPOOnCuu7GI3/qeBSlnHvRKx0DM/VAiQhDsLq
+         d+Rji/Mza8VKFOJMRgE9zXyri5pZ4gwqRAEPd88Nw0xaEctagiYGTnjPlTlU1xYxhdGw
+         /Ch8UEtzAUSc//qc9Y7JbxUE0mfNY64Pb1U12flBmOmOkH4+vihX0r+7C7Z5WIy7ZZ+U
+         QATg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755503846; x=1756108646;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EnLNVOy+1JPODpJ3Yc7eupS4dHoP80nfXVqFC6FlADI=;
-        b=nRCIubEltkf9wdAhI9mou7TSyCII3Y2l6aSKcjQAfJeY6OcNph62p6g6kfhF4z1LEH
-         yuMIgsZdfSskQOiH7tsJG3QKDsrR2cy/30yaVyGgcIXgXAaWF3RnJrSFmMJXKEsVAeyK
-         5nNz5DGVeGUxKBlZ2FM8NtGG2rsBjXHO7F4Km3VlOEfbYvM1yYAaZBoxpqqwal0B1hPs
-         1adpOsRykPh+vbzUizh9M1T0hpMRYouRcBO37+FrxjmZ1nptol07QClbyOLis5RkhklO
-         N5Gh88T2TJR5s8yRy9C64/usPIlGMBvD0iUMyBQ9FcOU7LUfLiksHkMIYWO11c9O22b1
-         zVGQ==
-X-Gm-Message-State: AOJu0YxvLVgwV3RDHHOn2PUKdFLARTCoHcUnBkTJOvLAk7vGwegH19tO
-	6Y6J8HBBIwFLhxG4l5gOPkIhefxpKf0gDA+q+FCc9SSZL2yv+yvbRSywDMoun8/zg5ohY3B8wyC
-	TtB5ka6gfQdysM23/F60trlj/VUT086CEbfvOkIE8uIXCrNsgxRYoH0wPLmqQJImnekc=
-X-Gm-Gg: ASbGncsQATt2YSy2ftnkl75pFqZ5msmt+6aB3YUWPTw0/lPSKh7MZWlHO0bqQl4+XTC
-	iMkOeuxdBRmT2Qtec7I85Yp+k8R61NeYOG5G4rx4Aa2mVgRjvhbrX88j45eUoHfVGMD6XfflG+M
-	7DSSYBxSApyxCE9sqnOfvCZ7+b3TZeNfpj15tS3SAnIEDCsTY2zmFNB6acemGLBbvrXZ9tkZuEx
-	7zX2r1BR+R426LUXFBzB4YOmqslp1fjYQZCR5540TRGPor2Jh7kjNpHu2LpPeJ3Zuct7u71oLon
-	9SICPP9IQIumaPJ0e/7fOX7tInpDbDq5WTc=
-X-Received: by 2002:a05:620a:8395:b0:7e8:8fb7:fe8 with SMTP id af79cd13be357-7e88fb710acmr709375185a.11.1755503846505;
-        Mon, 18 Aug 2025 00:57:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGz+Y7q7Cu1RnQ2whkcwKktuyquYKEHgUyH2v14hpiHFQmIn3M88eiXtWwjcl0ERF/6wn9BUA==
-X-Received: by 2002:a05:620a:8395:b0:7e8:8fb7:fe8 with SMTP id af79cd13be357-7e88fb710acmr709373685a.11.1755503846133;
-        Mon, 18 Aug 2025 00:57:26 -0700 (PDT)
-Received: from fedora (g3.ign.cz. [91.219.240.17])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e020b3dsm545707985a.12.2025.08.18.00.57.23
+        d=1e100.net; s=20230601; t=1755504428; x=1756109228;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vr63C9F7Vxwf9wbtxAedaNNw3W1EQmWq9TQaBSm9Lp4=;
+        b=JFRwvyKio+gXlt6T2ftkxP84FS4oBguGQE4YHL/z4p0jxbjK4AKyZdFvyQRoOaM7Bd
+         jlT2/iywN1lAHbBukvgst7BBPzwdG6dmSe/633wwd5qMOiZGupaS8eILIUpFzzYHKpSC
+         XAwkJbkxBMgSgQjtCVEsu0/SGJugKASgHqU/45zjkZOeFB5AlpUWAXR7P7qWqMNtBMVr
+         VJOsdOJlI60BumPZqjCK/baB73uVxwmuJdwNLrFZAbz6zLS4UYuWTOyLpG5Zkbtg5aaD
+         kDShV7W9KMjjtqt7iNzyhggWkJEfB43drpq2KIkSda3Rg0UcGpPAB/tRJcmApToNlvM1
+         uA/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXdyH6PTk/6wjKO+jKqTM1IlXar41Wmj1Tt+lRyIUXEl7ZNF5IkduNWkImHbhsNYJtTSB8u+YLHBGaJJxjX@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWml8x+3lGDB6SHkTYLeQX6bI7mgbvIfODC75XhEqaBwd+Iblz
+	cpcWivlBZbhs5h4jIzZx9tAZN+9sZRmRORhVpna+W7u30rbtUhe6R+n4zxmnfDof7XM=
+X-Gm-Gg: ASbGncv4Vtlcnnv+UHSLNkZ5jDrVRxHr2LUwxQDFzGOJij+Hz+c5u0oSsWklFADivEM
+	Dx1i6NF68Bshb+pyEsvho0mXxXZ4sOK3xQCoMfQdyOxVPqcu076pxvit7S1KofuSKbL0dn0g5hj
+	68FnRzrcJTl4iq7Saq3eoSpB7WVOsbneHgR3fbAEIsYY1ZGFt4TvoTkZo3duQ07WxTHEDKCvSKN
+	sBvKGEsrzrOOA1gGAV6p309mWp+wNWBzYS5ByINwqSr5Sm31lHZajW+ReJgVdxOinfdzCm+iRq1
+	kkxSB6UBFlVpmohISOf+gIT4nWoLHHuuRscRTbzqk/wuKH4ykcnCqN1QgUCJhcZPNeVfxDpizHl
+	wl3Ydv799LLtOhnbfwTEK9ugJgWw=
+X-Google-Smtp-Source: AGHT+IHSz876FI/cLGK0ny07sWb75lsaIEn5nq7yEaH+NsoKBv5Qv/xqepawaWIvQIhO6c4cAml83Q==
+X-Received: by 2002:a5d:5f48:0:b0:3b7:b3f2:f8c3 with SMTP id ffacd0b85a97d-3bb69699cd7mr8936286f8f.57.1755504427832;
+        Mon, 18 Aug 2025 01:07:07 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb5d089e07sm11841541f8f.0.2025.08.18.01.07.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 00:57:25 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: kernel test robot <lkp@intel.com>, linux-hyperv@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, Nuno Das Neves
- <nunodasneves@linux.microsoft.com>, Tianyu Lan <tiala@microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>, Li Tian <litian@redhat.com>,
- Philipp Rudo <prudo@redhat.com>
-Subject: Re: [PATCH] x86/hyperv: Fix kdump on Azure CVMs
-In-Reply-To: <202508161430.0GC3nT8J-lkp@intel.com>
-References: <20250815133725.1591863-1-vkuznets@redhat.com>
- <202508161430.0GC3nT8J-lkp@intel.com>
-Date: Mon, 18 Aug 2025 09:57:21 +0200
-Message-ID: <87frdpm59a.fsf@redhat.com>
+        Mon, 18 Aug 2025 01:07:07 -0700 (PDT)
+Date: Mon, 18 Aug 2025 11:07:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Gustavo Sousa <gustavo.sousa@intel.com>
+Subject: Re: [drm-i915:for-linux-next 11/18]
+ drivers/gpu/drm/i915/i915_switcheroo.c:21 i915_switcheroo_set_state() warn:
+ variable dereferenced before check 'i915' (see line 18)
+Message-ID: <aKLfKK7DpMxMBFrG@stanley.mountain>
+References: <202508160035.hmzuKiww-lkp@intel.com>
+ <6be63b523eafadf77d38d8319a011951c283bf9e@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: aZL8hIwo0eb3QpEOmGDJ8xBuuQT1gs8V8CLfdWnf5Aw_1755503846
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6be63b523eafadf77d38d8319a011951c283bf9e@intel.com>
 
-kernel test robot <lkp@intel.com> writes:
+On Mon, Aug 18, 2025 at 10:18:14AM +0300, Jani Nikula wrote:
+> On Fri, 15 Aug 2025, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > tree:   https://gitlab.freedesktop.org/drm/i915/kernel for-linux-next
+> > head:   63e0b17ae79a4365e874d7e2ff3816db2e6d55b5
+> > commit: d2e184f8e16ab85876ddcc0779358fbfe5162414 [11/18] drm/i915/switcheroo: pass display to HAS_DISPLAY()
+> > config: i386-randconfig-141-20250815 (https://download.01.org/0day-ci/archive/20250816/202508160035.hmzuKiww-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202508160035.hmzuKiww-lkp@intel.com/
+> 
+> Side note, this triplet of tags leads to checkpatch warning:
+> 
+> WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be immediately
+> followed by Closes: with a URL to the report
+> 
 
-> Hi Vitaly,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on tip/x86/core]
-> [also build test ERROR on linus/master v6.17-rc1]
-> [cannot apply to next-20250815]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vitaly-Kuznetsov/x86-hyperv-Fix-kdump-on-Azure-CVMs/20250815-214053
-> base:   tip/x86/core
-> patch link:    https://lore.kernel.org/r/20250815133725.1591863-1-vkuznets%40redhat.com
-> patch subject: [PATCH] x86/hyperv: Fix kdump on Azure CVMs
-> config: arm64-randconfig-003-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161430.0GC3nT8J-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 8.5.0
+It's hard to know what to do about that...  There is only one link but
+both zero day and I rely on Reported-by tags to justify our saleries..
 
-Rats, I completely forgot about ARM, will add a stub to
-arch/arm64/include/asm/mshyperv.h in v2.
-
--- 
-Vitaly
+regards,
+dan carpenter
 
