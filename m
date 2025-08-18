@@ -1,78 +1,75 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC262D8382
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 08:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8637E1FFC49
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 08:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505175; cv=none; b=VQCgZNnhF88Yaz9nXCXAqbWge/uavTLOU3kGCFrBCG3cUF/LTQxnaBB6KhGeJSNl4fK9Xf7eULJmZSYjjvLiIEJCoBHu2Rtx5IFcUU9o+hb7RFrFq4sPiM88R1dG0q2I2KcKuXgvDeLn8RAF7Kdpp0jyEJjn8cvViW8mOgXtOiA=
+	t=1755505362; cv=none; b=nYtoPTHYclaGxjv0jLkQnJS3x0FCHcCtWfNdl3I2eQ2ygYdqDIzTOfCcQdmf/bIuyIoNuCXt3kaVrI84whaoPB8D5RSWhQW9uUpvG76ysHL7rHzsm2tk3A6fsV28YKuReWb/fm1sSaR4QFjFSH13X9wGKrTUV2G6eCRimMmze2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505175; c=relaxed/simple;
-	bh=rN/UTNEkHE3uBRZLBThrHpULRHST6ls2EaemSZgDm2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ciqCNECIFrOtMhZnVeNzBqARO6JJx5Uhr70rfMltcS0w683Vmjt228xWAC3KlPEZdFkBiVW9L7e8PDbCUywakAqOTigLGkWmvLGBfWqOZeCqeR3yBuNqc+AdMvx9pvEZ+N65h7sUvxRZt//8OwitFKxqZEEEQ5TrAnSzT4JHKVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iL7p4ygx; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755505362; c=relaxed/simple;
+	bh=HHKSAd/Mjx/o01GkdkMFhWBqYzjpMHK11Lxy/trHy2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=RDzHmuqpnv2YpKfJ0hZYKCUohfe6ldvfkwGgUn24ZIujjnh+KrwwzrduwZ0FOzHnyJQyGPvGjHyL25HU/9jiorDiDTWApPbUZ8PBtf1oCaYcJFum9/rF71o4w+kFz79jmkqH6BbKG1SWJLj6dSVZfyK0Kr6ruGuOOFLKd8/qSsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xabs3th9; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iL7p4ygx"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45a286135c8so6090765e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 01:19:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xabs3th9"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45a1abf5466so20526415e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 01:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755505172; x=1756109972; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NeEY3uW9vGqD0NjAylwhSwOYu+Sb02hS8tqOcGAgYnw=;
-        b=iL7p4ygxQcD9MyWDrajUjHtTqB1WpnDLyH9VVZuVL0QsOkxeWT2xaNt0faYbiiAnMq
-         gyt1GidPoETcWh6W0kM+oo3/Fsg3T9B2aGCRmW2TV+1At6MdI+87SVmUtwvU7LUsVoX+
-         0yhGsHiR37PEiYY/OXOQ3pxSJVv5RMeiHnjiq4bO9z1k3c32qSoX0tTwM6VboGBUU0yi
-         GwiUz8SBPGTNojnrOBedXDJmzsD3Q9S2nfsNmHDANJVCJO+cevAlOPY+oCvPYbd0De3n
-         kewRUm3NqmYd3HHZW3pdAbrQJSEVmqRXS2WmKAMacbuMsfYdLdryzNkEBx0hipDM8fS1
-         ++0g==
+        d=linaro.org; s=google; t=1755505359; x=1756110159; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DfM3OUic4SP+kzMyP8kHHqITaKkedG37VBt2aK4wKj0=;
+        b=Xabs3th912Zh4GrEtOPFKm04s1EYP91Z4ULMTZG2+146xvk4r8knf6fyFNZIIQcL6f
+         qvTA78h0KL7iHy5OLGzAqSHXYzgunGXFT2CUj8yOC2xuIlAX+GNAsFf4+iNpeFOrqQ04
+         ylNm2AbFopwu7MOC1TSFsz1klMFNImuy15bxasHBnN3+nER4it4VQQckRknf/V+xznAJ
+         4IGqNDgMr/G5sItERLWt+oD59A3LcoIVgFAGqvzRNNpTEOFvUSeBAhzaXm5lrDp2Be16
+         KKw1iZ/5l6sIiZ762RvzSrg9EtLiGBOiPykFdzjTCb2at3WG6UgN5ZKnyU8hiRlBtWnO
+         ZUhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755505172; x=1756109972;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NeEY3uW9vGqD0NjAylwhSwOYu+Sb02hS8tqOcGAgYnw=;
-        b=BNmVl/O8cPL4cBngCL2asBG7g0OU0fDex6hT9IASqIT5inUPwv3MXeNxz+qVWwIs0I
-         zjTVLDXPTMvZHfcbpKcBzlhOVmtBzcIKu58YhnsnT0DMqMFaEf991bTr+5OKvKVsct87
-         Ny6d90mF2dC7ZTdFWPwf8P29jMIPodWqU41gEvoS4m4rZHDk5byxxIBpG6XpJDPVEKK8
-         ZfnWjlDjdfNFSng3e7LwTEII7dWp/pX6MXOErx29V1vrVRIbYHg+AkjEWwanCOOccUEK
-         MQF7J73FTSemaDX3O6DXoHUz/a/OhjP13ec25KKU+95tAq3V93ddNlq+pn+/NvnY1ioK
-         fE7g==
-X-Forwarded-Encrypted: i=1; AJvYcCU81EuJ+JO1WuoNAFukcIWcDWNcyKPeViQXCAN7kIPO0a2ZTpTOW6Jo+axXNnN56K4UL5vBU5F2aTTF7IHm@lists.linux.dev
-X-Gm-Message-State: AOJu0YzU+Qd8FU2CQlr0BdC34NZemdF5Wgi5nff+ee5hH3b2SV4yP3rv
-	LXvJBW/rVyjO7SsOlr6kBPjnP8HoWm4YF73s4lbjpNICWHRe0zPQ4Jn4
-X-Gm-Gg: ASbGnctH7F/Vf1tMcvZX15VkDdTzH+aU0DcJKPqq5cJqDGa/+37enD5R5N/fXAfyNHe
-	xEiw4ht2QjWOhuuahx4agZQYPQh7Z4tlaw4LBMdZp2AkUSU3prJ/6IYB8JfvCwte4czCb50t/V6
-	bSugVL2jhdLbf0TBLiHNPqHCSf9js9GaoKXti941ttdVZFcfXuueTjP4gsiipzqODI28+/j/3kd
-	1iKXFPPwsueFu2TbFDHpQN8Zzl/YUc59ar7GDTv/Nil9Ug77o7255jfzyTmOkuPQIU4fovaa7nm
-	ZYOvDWyE7eRkuDJWCwdbdvtGKn3St0hS4vTkbxsTdjT3NhoSYapNJ4ylTMgPSO12h+beLvcLHxR
-	1fuoRsOjsXfMCcHlE5zHt1Jkv4vUw5tQAuw==
-X-Google-Smtp-Source: AGHT+IE4/Ywx353cazJs7pIfC+EI2xfVHZUjR2nORVtwe0LInZT9u8RV5DJbXw9M+U8k4EAA8VWZXA==
-X-Received: by 2002:a05:600c:4ed0:b0:456:1146:5c01 with SMTP id 5b1f17b1804b1-45a1b6bde0bmr122268245e9.12.1755505172119;
-        Mon, 18 Aug 2025 01:19:32 -0700 (PDT)
-Received: from mail.gmail.com ([2a04:ee41:4:b2de:1ac0:4dff:fe0f:3782])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a25c13696sm104998905e9.25.2025.08.18.01.19.31
+        d=1e100.net; s=20230601; t=1755505359; x=1756110159;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DfM3OUic4SP+kzMyP8kHHqITaKkedG37VBt2aK4wKj0=;
+        b=pyK1hEiOMN8H/Sdzpgeadhl9zB8Yi5F+ILox2BSoaDyL479fi151vGdlyjdY3GdSFG
+         ED04YNn45mMgIyXnrzCg+QIunSVaUf/fGQsrulCYlxQjqd7o01W2esZH0PY0xX+PxbQ2
+         Oryw+/02AehX/hfdCj20aem4ckz3NCdZB3HP1s036N4LZOYEZpTNgOsSRFEjeMYd2kSN
+         VsuMEf9MrJzTBgsDJPgKKrP2BAxUriSKGNmL41KCZpxJgx8fHjBv1+9ey+bB5dD/jFsT
+         JvlJL+50vw+Jm7Tmk7iUELUm8jhTmNVsft1ronfDnm/rlWtvKbtAsn9FVWHLF8LjgnSP
+         bSeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUumEbOttMdb7yY4U8qeiIas329rzTC7pqcyV6C9t6XGen8xaS1mLZIuDdkv1stiG5CR2btb/dA1KVTNGKi@lists.linux.dev
+X-Gm-Message-State: AOJu0YzzdutmKlsTzfM6QK/QYHr0s2XpEb1SiLIRc5AdtnmZyaEzg7t1
+	YnLTCznPkh2C2fQqrEA+rELbcgDc+aubYmva2yq42EguNT1ZqZ0JIDbAbvw/LzXSCdQ=
+X-Gm-Gg: ASbGncs3MW7kz/11pIQPML8HhdC+blcgt3tDFci8h9c/DJFplHs/Hr5s0JDxTBLG+2s
+	ZJw9RUpFpUTOADgFzLTEWi53YsYMQ28VJe48elyAxJNg3j1SN4lsHH429mle8MNv8W3fV1/doib
+	wMnNpKgG78lwYl9nnCbP9OwPmQuI/BEe/HG8xrRbPNeTxMzstqJIWbm4FgsoYZ6oOWjWMF/KzvW
+	vjX4ZiutKnQE47kOmdZnBtsqLSOU7bU7OClI4MRyOt1tKfMFiBETpDKqHNycEUDNgxcPKGJJTmL
+	KC4Y98jWE7MSYxs3iuFI0e68djnTQfFyTjxdFb6cKKg07SpmoJAUdI2Mq2cdOg8bTmTP8mVGWXf
+	Ma9vmZZ4d28VAdtR9Rvo8D0rI+mJVA4AblDaXHSlXqI4=
+X-Google-Smtp-Source: AGHT+IGwnL7IszKslS4RMmOckl7pctBDP8Ycuqwcw2vG42+4+Q5iaY+TBsZa0MdI4VtsEKOZ6UKuug==
+X-Received: by 2002:a05:600c:35d3:b0:458:bf15:689c with SMTP id 5b1f17b1804b1-45a1b65c6c6mr115855795e9.2.1755505358701;
+        Mon, 18 Aug 2025 01:22:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a22210ab4sm122737435e9.3.2025.08.18.01.22.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 01:19:31 -0700 (PDT)
-Date: Mon, 18 Aug 2025 08:24:12 +0000
-From: Anton Protopopov <a.s.protopopov@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Anton Protopopov <aspsk@isovalent.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Quentin Monnet <qmo@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 bpf-next 05/11] bpf: support instructions arrays with
- constants blinding
-Message-ID: <aKLjLFSXImtu89rT@mail.gmail.com>
-References: <20250816180631.952085-6-a.s.protopopov@gmail.com>
- <202508171315.5y3oPyC2-lkp@intel.com>
+        Mon, 18 Aug 2025 01:22:38 -0700 (PDT)
+Date: Mon, 18 Aug 2025 11:22:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Chris Morgan <macroalpha82@gmail.com>,
+	linux-rockchip@lists.infradead.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, broonie@kernel.org, lee@kernel.org,
+	lgirdwood@gmail.com, sre@kernel.org, heiko@sntech.de,
+	conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH V6 3/5] power: supply: bq257xx: Add support for BQ257XX
+ charger
+Message-ID: <202508181503.GrRD2T4C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,36 +78,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508171315.5y3oPyC2-lkp@intel.com>
+In-Reply-To: <20250812214300.123129-4-macroalpha82@gmail.com>
 
-On 25/08/17 01:50PM, kernel test robot wrote:
-> Hi Anton,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on bpf-next/master]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Protopopov/bpf-fix-the-return-value-of-push_stack/20250817-020411
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20250816180631.952085-6-a.s.protopopov%40gmail.com
-> patch subject: [PATCH v1 bpf-next 05/11] bpf: support instructions arrays with constants blinding
-> config: sparc-randconfig-001-20250817 (https://download.01.org/0day-ci/archive/20250817/202508171315.5y3oPyC2-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508171315.5y3oPyC2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508171315.5y3oPyC2-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    sparc64-linux-ld: kernel/bpf/core.o: in function `bpf_jit_blind_constants':
-> >> core.c:(.text+0x8064): undefined reference to `bpf_insn_array_adjust'
+Hi Chris,
 
-This is because the bpf_insn_array_adjust() is enabled with CONFIG_BPF_SYSCALL.
-Will add the corresponding check in v2.
+kernel test robot noticed the following build warnings:
 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-mfd-ti-bq25703a-Add-TI-BQ25703A-Charger/20250813-054704
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250812214300.123129-4-macroalpha82%40gmail.com
+patch subject: [PATCH V6 3/5] power: supply: bq257xx: Add support for BQ257XX charger
+config: parisc-randconfig-r072-20250818 (https://download.01.org/0day-ci/archive/20250818/202508181503.GrRD2T4C-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508181503.GrRD2T4C-lkp@intel.com/
+
+smatch warnings:
+drivers/power/supply/bq257xx_charger.c:392 bq25703_hw_init() warn: potential ! vs ~ typo
+
+vim +392 drivers/power/supply/bq257xx_charger.c
+
+7f3b6f1e51a925 Chris Morgan 2025-08-12  365  static int bq25703_hw_init(struct bq257xx_chg *pdata)
+7f3b6f1e51a925 Chris Morgan 2025-08-12  366  {
+7f3b6f1e51a925 Chris Morgan 2025-08-12  367  	struct regmap *regmap = pdata->bq->regmap;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  368  	int ret = 0;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  369  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  370  	regmap_update_bits(regmap, BQ25703_CHARGE_OPTION_0,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  371  			   BQ25703_WDTMR_ADJ_MASK,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  372  			   FIELD_PREP(BQ25703_WDTMR_ADJ_MASK,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  373  			   BQ25703_WDTMR_DISABLE));
+7f3b6f1e51a925 Chris Morgan 2025-08-12  374  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  375  	ret = pdata->chip->bq257xx_set_ichg(pdata, pdata->ichg_max);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  376  	if (ret)
+7f3b6f1e51a925 Chris Morgan 2025-08-12  377  		return ret;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  378  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  379  	ret = pdata->chip->bq257xx_set_vbatreg(pdata, pdata->vbat_max);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  380  	if (ret)
+7f3b6f1e51a925 Chris Morgan 2025-08-12  381  		return ret;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  382  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  383  	ret = bq25703_set_min_vsys(pdata, pdata->vsys_min);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  384  	if (ret)
+7f3b6f1e51a925 Chris Morgan 2025-08-12  385  		return ret;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  386  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  387  	ret = pdata->chip->bq257xx_set_iindpm(pdata, pdata->iindpm_max);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  388  	if (ret)
+7f3b6f1e51a925 Chris Morgan 2025-08-12  389  		return ret;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  390  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  391  	regmap_update_bits(regmap, BQ25703_CHARGE_OPTION_0,
+7f3b6f1e51a925 Chris Morgan 2025-08-12 @392  			   BQ25703_EN_LWPWR, !BQ25703_EN_LWPWR);
+
+Yeah.  This really looks like it should be bitwise negate ~ instead of
+logical negate !.
+
+7f3b6f1e51a925 Chris Morgan 2025-08-12  393  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  394  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  395  			   BQ25703_ADC_CONV_EN, BQ25703_ADC_CONV_EN);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  396  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  397  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  398  			   BQ25703_ADC_START, BQ25703_ADC_START);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  399  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  400  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  401  			   BQ25703_ADC_FULL_SCALE, BQ25703_ADC_FULL_SCALE);
+7f3b6f1e51a925 Chris Morgan 2025-08-12  402  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  403  	regmap_update_bits(regmap, BQ25703_ADC_OPTION,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  404  			   BQ25703_ADC_CH_MASK,
+7f3b6f1e51a925 Chris Morgan 2025-08-12  405  			   (BQ25703_ADC_CMPIN_EN | BQ25703_ADC_VBUS_EN |
+7f3b6f1e51a925 Chris Morgan 2025-08-12  406  			   BQ25703_ADC_PSYS_EN | BQ25703_ADC_IIN_EN |
+7f3b6f1e51a925 Chris Morgan 2025-08-12  407  			   BQ25703_ADC_IDCHG_EN | BQ25703_ADC_ICHG_EN |
+7f3b6f1e51a925 Chris Morgan 2025-08-12  408  			   BQ25703_ADC_VSYS_EN | BQ25703_ADC_VBAT_EN));
+7f3b6f1e51a925 Chris Morgan 2025-08-12  409  
+7f3b6f1e51a925 Chris Morgan 2025-08-12  410  	return ret;
+7f3b6f1e51a925 Chris Morgan 2025-08-12  411  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
