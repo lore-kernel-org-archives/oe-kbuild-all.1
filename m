@@ -1,61 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2045CDF1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 00:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2E7192598
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 00:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755475351; cv=none; b=OAaZ/XlaqGh8P7YqWXDNZhfaRzZlOWGXVQpjjn2LSZtAjbRyFr7r8Zl9grLtesBuoZpcFWWdRhTl3ORZ2b/Ohs4OJ7YJ37ZZgMJrerDDGOy/T3530EIT6+imy0GvpS0rM2nLdRUDkrqwsaokczEkIt/Uy+pSAAnLx4VtrznP8ds=
+	t=1755476077; cv=none; b=rl7IewlV4q8zUyWo/kjGlTZierXzJ0DMQrRDspSe7EpxZ9WWgzChz5x1HGa8CJAr7bGCcG1s3jguAEc/w+YNWs8THOD3tPFq6bPpO0R1TVnam5qinnA5N4jkd5kLa3R92d8BbjNY4sDfYmbAlJcbqKJArmJ1vxG/5JaUbXwQfmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755475351; c=relaxed/simple;
-	bh=9II7IW9PrETb2OGmq6IN1gC5JB4G6FHnozlS/CXyEys=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LigaKo9GfbEf+NuLfk21+AAAL0DI9fpIm0afNqhCHe3PiomeP0Wr0NyZtmTx39z/U4dAagvJ5o7fAp2d3DxBErWWQJlyFYymIB5p/AV0xltmjyzTQ6Re0ZNiLiZF9PzDLrELjRU9rLqWS4Ezfcb25LHbu8KN7iRgZtX5o9shPuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUb05gSj; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1755476077; c=relaxed/simple;
+	bh=cXw8V/2WdskHtmRrZ40s0eLq9HPcJIsdXKFvs+zG3Fs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oyui+V/3hLelixBkBqXYp+w8sC/AddAu333QEB0tUof5JdFSS3JXi+77HEONSdr3VagW/KC5PKEb/m1z16wQyNXOPsXL5fyhtQSTab6AtRORAMJgwkJUeRjFMQUzv21P5v9uF1gt/VdzGpnE9EofSujsz8fRDIzBNpbpCNPgPQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bx018vEm; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUb05gSj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bx018vEm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755475350; x=1787011350;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9II7IW9PrETb2OGmq6IN1gC5JB4G6FHnozlS/CXyEys=;
-  b=LUb05gSjcrlM9jxalbI9ct+VGn4BAK/YNy8Rd4pXiqbN+lPX4hM98aan
-   JWoU33Kb13S+0lNEk314AMU6XJpISk2YJbb36SasXu/h9kbGk3JMN0Kmf
-   ++rsnNL/ty6SST5R+FJ7RWDRxvk3nFVo69Ob06ZwWQzoaDRgXinPK+qUz
-   kyQfjEecRwqxnMm8RUhDhkTzVypsj3gX2o0S4BlX4SWdf/onazcTx4VU1
-   L7IjyNtUC6kgPM45Fb8Ja/PiI62bpQ+8quLWIHXDG3r3+GmXKFOLLbXQZ
-   WznbK9JuWsC9i1ajSny/UhvUkmBrZwKSoO6dGoyC/HscOJnWRsnwuL2D6
-   Q==;
-X-CSE-ConnectionGUID: 51Ge9RNDQ9mibKBDJZ56NQ==
-X-CSE-MsgGUID: lpKhghYUQCGxl/VJXkv9jQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="68298074"
+  t=1755476075; x=1787012075;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cXw8V/2WdskHtmRrZ40s0eLq9HPcJIsdXKFvs+zG3Fs=;
+  b=bx018vEmHl50ZXFMeQgVNbXwm+4v72Ab3CKyaZ8E36rp2LyfVXcNJ7//
+   PeJGNwQPMQaVW7jaPrvyzEwvHAI41WgQd+UuqrQu+r88jNyPWI7QBNa1s
+   GZHPS8rshW6o4wVf03C1UIw1LV37NWBFFp/x06OlcP3lhUvFZ0krduTME
+   Am3zS3kskAqgy+x0GChKgptqrQ0O5/SAQHBG+VZoYYr++IOJYQIlL3yXy
+   GNnWpQFQh+/loIRdd4G3/MdyM0X75pnoaP05HUn/haBkXJMCDBS01zuGY
+   KFagaoi4XLGKsiGWheMzAhu38X7Y7uSOl2uUXEjfQnDoIPMOhESkRT8sa
+   A==;
+X-CSE-ConnectionGUID: /aoc6921TXuoT9Iopi0BEA==
+X-CSE-MsgGUID: 844X6cQ6T2+cDqfaajvBvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="68409216"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="68298074"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 17:02:28 -0700
-X-CSE-ConnectionGUID: AcqKu4zWTuu/j4mrxnzl3A==
-X-CSE-MsgGUID: qhYIpKksSbeUA2+kUez+Ag==
+   d="scan'208";a="68409216"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 17:14:34 -0700
+X-CSE-ConnectionGUID: rPkKLnjSQ5CNumytd/zTcA==
+X-CSE-MsgGUID: Yli3IW/hTpGQPtHWPRWhLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167051874"
+   d="scan'208";a="168250450"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 17 Aug 2025 17:02:27 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Aug 2025 17:14:28 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1unnKR-000Dmy-34;
-	Mon, 18 Aug 2025 00:02:23 +0000
-Date: Mon, 18 Aug 2025 08:02:14 +0800
+	id 1unnW6-000DnH-1M;
+	Mon, 18 Aug 2025 00:14:26 +0000
+Date: Mon, 18 Aug 2025 08:13:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Jon Hunter <jonathanh@nvidia.com>
-Subject: [tip:timers/clocksource 18/24] decompress.c:undefined reference to
- `__decompress'
-Message-ID: <202508180750.eB80Lf6D-lkp@intel.com>
+To: Yeoreum Yun <yeoreum.yun@arm.com>, ryabinin.a.a@gmail.com,
+	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+	vincenzo.frascino@arm.com, corbet@lwn.net, catalin.marinas@arm.com,
+	will@kernel.org, akpm@linux-foundation.org,
+	scott@os.amperecomputing.com, jhubbard@nvidia.com,
+	pankaj.gupta@amd.com, leitao@debian.org, kaleshsingh@google.com,
+	maz@kernel.org, broonie@kernel.org, oliver.upton@linux.dev,
+	james.morse@arm.com, ardb@kernel.org,
+	hardevsinh.palaniya@siliconsignals.io, david@redhat.com,
+	yang@os.amperecomputing.com
+Cc: oe-kbuild-all@lists.linux.dev, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org, Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: Re: [PATCH v3 1/2] kasan/hw-tags: introduce kasan.write_only option
+Message-ID: <202508180747.PxkbPnyA-lkp@intel.com>
+References: <20250816110018.4055617-2-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +74,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250816110018.4055617-2-yeoreum.yun@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/clocksource
-head:   7b098309ced7709c0a502b5eb9f54bd1f26fc6c6
-commit: ed1d4c331f9f161788903885ce9ddfd665bdbe18 [18/24] clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
-config: powerpc-randconfig-001-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180750.eB80Lf6D-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508180750.eB80Lf6D-lkp@intel.com/reproduce)
+Hi Yeoreum,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yeoreum-Yun/kasan-hw-tags-introduce-kasan-write_only-option/20250816-190300
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250816110018.4055617-2-yeoreum.yun%40arm.com
+patch subject: [PATCH v3 1/2] kasan/hw-tags: introduce kasan.write_only option
+config: arm64-randconfig-r053-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180747.PxkbPnyA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508180747.PxkbPnyA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508180750.eB80Lf6D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508180747.PxkbPnyA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: arch/powerpc/boot/wrapper.a(decompress.o): in function `partial_decompress':
->> decompress.c:(.text+0x1ec): undefined reference to `__decompress'
+   mm/kasan/hw_tags.c: In function 'kasan_enable_hw_tags':
+>> mm/kasan/hw_tags.c:433:21: warning: comparison between 'enum kasan_arg_mode' and 'enum kasan_arg_write_only' [-Wenum-compare]
+     433 |  if (kasan_arg_mode == KASAN_ARG_WRITE_ONLY_ON &&
+         |                     ^~
+   mm/kasan/hw_tags.c:435:18: warning: comparison between 'enum kasan_arg_mode' and 'enum kasan_arg_write_only' [-Wenum-compare]
+     435 |   kasan_arg_mode == KASAN_ARG_WRITE_ONLY_OFF;
+         |                  ^~
+>> mm/kasan/hw_tags.c:435:18: warning: statement with no effect [-Wunused-value]
+     435 |   kasan_arg_mode == KASAN_ARG_WRITE_ONLY_OFF;
+         |   ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +433 mm/kasan/hw_tags.c
+
+   423	
+   424	void kasan_enable_hw_tags(void)
+   425	{
+   426		if (kasan_arg_mode == KASAN_ARG_MODE_ASYNC)
+   427			hw_enable_tag_checks_async();
+   428		else if (kasan_arg_mode == KASAN_ARG_MODE_ASYMM)
+   429			hw_enable_tag_checks_asymm();
+   430		else
+   431			hw_enable_tag_checks_sync();
+   432	
+ > 433		if (kasan_arg_mode == KASAN_ARG_WRITE_ONLY_ON &&
+   434		    hw_enable_tag_checks_write_only()) {
+ > 435			kasan_arg_mode == KASAN_ARG_WRITE_ONLY_OFF;
+   436			kasan_flag_write_only = false;
+   437			pr_warn_once("System doesn't support write-only option. Disable it\n");
+   438		}
+   439	}
+   440	
 
 -- 
 0-DAY CI Kernel Test Service
