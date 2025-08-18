@@ -1,134 +1,312 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEACD342CB5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 16:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDD835950
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 17:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755535473; cv=none; b=tpRNaHOyW/2hGO3GEgZxxCty/+Mh5/Gj23aZ9KDObXETvoUH70qO385Wh9exWP8+gIv1faZn7i8BNPXZ490PKC3BZmNK/EBYDq+/Nnv+Y3rFMsemk+NhDX7/pkwhulAdTDoXUMtrIgCo+RV0Xvk+Ghe0/vb4IJRXVBUxxyXa/wA=
+	t=1755539685; cv=none; b=osWAgLq2yp2X20I1048GTL+77iHBRUt4TYAUiFo7eIPNdub2yy/x6CvPTrLuoKify/5PP1IRdBBmLSLf1lSqPGgpUEJ0dNyZjb4WuC4aa+KnTIYO33KZP0kwfbc6VUR1h/XeGQKXFbNALZEsn0b//dCfWHW1QZzT70o83X43h78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755535473; c=relaxed/simple;
-	bh=W+yWOa78ur7kDA7cAC6tnGCPDi7CF0UB82ia9uRgOAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EGA1gDJhgJokgkILP0cJXdmPTnQ/SLobp1wrlAPNy67j7UTD9F04S2jLbE34jrAF+rqvFbTgoeHyUyhs6ItElgs7Chq6S0NeRtVddMSr836FwQuiL3tKzekY5fsb0SuLlwOdpam/OPgmn0R/rREYq+0Ig7kt7m2jGqVv7p2BGus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpzp9iqG; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755539685; c=relaxed/simple;
+	bh=4UfdMxEyxlruQZf/vdJYpocF1XFBaF82GRXtjF6ld5c=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=fDh2cR5Zu7/XFF+ysB+3manqwk+PP/7nXLIRYe2pKUfoVU0e1ZcMtOf4RV8/tUNqqKNCoeZ/cH2qPEKfX9RALsYk8ubm9Jdl4Gy5asjvvVl1KjKuqXFbWj4KukJoFRSCVHDMvTRXmALNzNXj/XiYIJ6Ki71O63xzqeSHshTA9sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=iLq3Zfs/; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpzp9iqG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755535472; x=1787071472;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W+yWOa78ur7kDA7cAC6tnGCPDi7CF0UB82ia9uRgOAQ=;
-  b=lpzp9iqGWFtSLJXUBB7xRNJzPhMVgjWPOJsJuiXtQf3ywrOQVLPzXJup
-   4C3XKd1v5T5OGcqMcljicF42wmr09j7IY0h9B5J6TOQ+C8PEvJntvlLn3
-   1PdXPSgZLUmCrc6GPeqzcbbYcfL1R6we7CCfeO/ssk/a6HgVg8skheF2y
-   iCJV7aZNaKGzKMLj2w9YYIm/ZBQsVCoH9Ep/i6Z/1WlKvNN03mAI6UJFn
-   sbUiI/VgrHzgd1BmqlachVJezuXIdwmvPzOEBZXSsgu7ldYS7J0XgcDc2
-   OotKSD1IWy2526rmXad8EeyX5ZVO3Wk1wEnX5v63zhc7cQCpe0JA9Cuju
-   A==;
-X-CSE-ConnectionGUID: CV+YmThIRpatBPI70KYcNw==
-X-CSE-MsgGUID: tb9BRoN/QTSe09ox0O4LdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="68368060"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="68368060"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 09:44:31 -0700
-X-CSE-ConnectionGUID: 5PTAXDPHRoiD+tzbtS9ZQQ==
-X-CSE-MsgGUID: 4BO8effSS/icw+s9RhRrhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="172825040"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Aug 2025 09:44:30 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uo2yC-00017D-05;
-	Mon, 18 Aug 2025 16:44:28 +0000
-Date: Mon, 18 Aug 2025 18:43:55 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2687/2687]
- drivers/net/ethernet/linkdata/sxe/base/trace/sxe_trace.c:3: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202508181837.76nFHKea-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="iLq3Zfs/"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b47475cf8eeso794273a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 10:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1755539683; x=1756144483; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YSRATe9INt3QQOiQQe+F807dmA0P+MskJFDfwXpHBjo=;
+        b=iLq3Zfs/QDYrZO1kPdCl9xaI0JDFxtx0N0Zza79staHaH3iKvc+Gqflm1Zm3aWhSKZ
+         QR/dV+QglZt3PB6H0iEw7CYA4+J2h3Pxcl3UuqsQ8xm9xRP0cc7YfEmADzH+2Yzw9bii
+         bqky3EmEoVKkJM0XuOe1o3rEPUNFbR1h6sjsqdkvvifIYEU+HRcsIXYuc7HZZaIZTAjE
+         G1wKU23bF/poGI6Hgk4yq3ccemkvyamBzjAQBsuXFBZghGwyJpQJ/O0SHiSv7P421e63
+         VmFKBq8cSX/TlnygT+LE3U5jwPyKlKQjklv6XLxPBh1Fi3/IcYHtmFdCXXBH/Aig+PC3
+         Ebow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755539683; x=1756144483;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YSRATe9INt3QQOiQQe+F807dmA0P+MskJFDfwXpHBjo=;
+        b=YduzPde0U+2eLlzpQRj77N2HelOKuKKSUhEvXUgLE5wspQGuA/kVC6lF0mHxjLKly7
+         XqPqWLCNtogNirckFeh0HiizZiXAOB6hoc4m95OiZEYsNJQANces1r+JsKC/dGmZY+yf
+         G0rd/eGdaM0ju2PgjFtW/VnF48m1KO5F6MKYcz9SFhtTQ4ewSFGLOS+r95BT0WQI4d++
+         /KQB/V4nlDm2Esu12YiTuVIW+kNncazvDl5R0ls0axf9GqEN/zJP00MPFQwT/Wg8+REG
+         gTnT0gFjpO1p+JEQAqO0JTUDLKgjfRD9vXNO1eyOYxLVaVrPjZBGWvZIpHvChxuwT3qb
+         ulng==
+X-Forwarded-Encrypted: i=1; AJvYcCXQhc/sifL52zVh+7mLsOXnjTFxaRTqwb3LX1tFGQW+V0He5IJb8xF090WuMuJZePbMP03KafDIWjcGK0aq@lists.linux.dev
+X-Gm-Message-State: AOJu0YywyvwHTp2W0dIsn0vJ9CyTPZLMNHYFCe40eAtphXu0ugk4fXWw
+	+IuiRdC1cEw9x2ocVNis29LoOzAHVCXxx4vmLKX3JrNISowKlR7VFiS1NKqoU0lnDyI=
+X-Gm-Gg: ASbGncvaB3b5AFAUkIvQV09gyrxkLaMTucyYrAnTWK2Z5PbYaRh52VT2rM9iJW4Cywz
+	bgSOiA0XQMKt2hOEFOs+neGQjKdabPotWbCnakWLsh2Mi74YBgoWua9aPQ9UG6v/bDdQB1M3kOP
+	ojiOkfKYvM9KleAKQV/yFioRhbSGKDhHMfuWzhEVInEklLEjYy+psHPBmKwURFnexJ7hEXStViz
+	a4WtCVOqqypPR5TWP1KLXw6O82QzkUlf8frjjbNNs6gfKJT9/LqlAeq+3Xp5erLArfmeFS+eftJ
+	5LO+IYyEk6J99WKH0Mo3lpSbE1KOQCLEreFbj914gCKTqLRuMLUmPG2TGgLjjRwhSrA3CGBgBMZ
+	A/WgsZTp00UefR9zH3htgZpgiIXdmN85VE/0=
+X-Google-Smtp-Source: AGHT+IGkERqTLGM15EoPueauLracKSRTVqIwvP49Jxytu0k7eJU/J0BvVRZqy4jwBQB37C9KxjRCjg==
+X-Received: by 2002:a17:903:1107:b0:23f:c945:6081 with SMTP id d9443c01a7336-2446d8b1f8emr185499735ad.31.1755539682980;
+        Mon, 18 Aug 2025 10:54:42 -0700 (PDT)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2446d50f88asm85574975ad.87.2025.08.18.10.54.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 10:54:42 -0700 (PDT)
+Date: Mon, 18 Aug 2025 10:54:42 -0700 (PDT)
+X-Google-Original-Date: Mon, 18 Aug 2025 10:54:27 PDT (-0700)
+Subject:     Re: kernel/trace/rv/monitors/sleep/sleep.c:130:7: error: use of undeclared identifier '__NR_clock_nanosleep'
+In-Reply-To: <9ee2ad87e78a87d0d4ff0aee6fc7cf01c21f7cf7.camel@redhat.com>
+CC: lkp@intel.com, namcao@linutronix.de, llvm@lists.linux.dev,
+  oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, rostedt@goodmis.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: gmonaco@redhat.com
+Message-ID: <mhng-BE7B7DA7-1D39-49CF-9A6D-7AEBFE5CD2FC@Palmers-Mini.rwc.dabbelt.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi liujie_answer,
+On Mon, 18 Aug 2025 00:42:20 PDT (-0700), gmonaco@redhat.com wrote:
+> On Sat, 2025-08-16 at 02:37 +0800, kernel test robot wrote:
+>> tree:  
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git ma
+>> ster
+>> head:   ee94b00c1a648530333d9734200be7a45e6e00cd
+>> commit: f74f8bb246cf22f27752977da62079cb615f55b2 rv: Add rtapp_sleep
+>> monitor
+>> date:   5 weeks ago
+>> config: riscv-randconfig-001-20250816
+>> (https://download.01.org/0day-ci/archive/20250816/202508160204.SsFyNf
+>> o6-lkp@intel.com/config)
+>> compiler: clang version 22.0.0git
+>> (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef3152
+>> 4fa1d9f3f)
+>> reproduce (this is a W=1 build):
+>> (https://download.01.org/0day-ci/archive/20250816/202508160204.SsFyNf
+>> o6-lkp@intel.com/reproduce)
+>> 
+>> If you fix the issue in a separate patch/commit (i.e. not just a new
+>> version of
+>> the same patch/commit), kindly add following tags
+>> > Reported-by: kernel test robot <lkp@intel.com>
+>> > Closes:
+>> > https://lore.kernel.org/oe-kbuild-all/202508160204.SsFyNfo6-lkp@intel.com/
+>> 
+>
+> Palmer, this issue is what you fix in
+> https://lore.kernel.org/lkml/20250804194518.97620-2-palmer@dabbelt.com/
+> , right?
 
-FYI, the error/warning still remains.
+Yes.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   dc90c923fed4944f134644261022885c12631518
-commit: dd013ad487534c1838afc2f55efdb5daec15aace [2687/2687] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-config: x86_64-buildonly-randconfig-2002-20250818 (https://download.01.org/0day-ci/archive/20250818/202508181837.76nFHKea-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508181837.76nFHKea-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508181837.76nFHKea-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/linkdata/sxe/base/trace/sxe_trace.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ipsec.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debug.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/base/log/sxe_log.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_pci.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_host_cli.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_host_hdc.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_dcb.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ptp.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_monitor.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_dcb_nl.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
-..
-
-
-vim +3 drivers/net/ethernet/linkdata/sxe/base/trace/sxe_trace.c
-
-   > 3	 * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
-     4	 *
-     5	 * @file: sxe_trace.c
-     6	 * @author: Linkdata
-     7	 * @date: 2025.02.16
-     8	 * @brief:
-     9	 * @note:
-    10	 */
-    11	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>> All errors (new ones prefixed by >>):
+>> 
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:804:2: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>      804 |         insb(addr, buffer, count);
+>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>    arch/riscv/include/asm/io.h:104:53: note: expanded from macro
+>> 'insb'
+>>      104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE +
+>> (addr), buffer, count)
+>>          |                                          ~~~~~~~~~~ ^
+>>    In file included from kernel/trace/rv/monitors/sleep/sleep.c:2:
+>>    In file included from include/linux/ftrace.h:10:
+>>    In file included from include/linux/trace_recursion.h:5:
+>>    In file included from include/linux/interrupt.h:11:
+>>    In file included from include/linux/hardirq.h:11:
+>>    In file included from
+>> ./arch/riscv/include/generated/asm/hardirq.h:1:
+>>    In file included from include/asm-generic/hardirq.h:17:
+>>    In file included from include/linux/irq.h:20:
+>>    In file included from include/linux/io.h:12:
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:812:2: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>      812 |         insw(addr, buffer, count);
+>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>    arch/riscv/include/asm/io.h:105:53: note: expanded from macro
+>> 'insw'
+>>      105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE +
+>> (addr), buffer, count)
+>>          |                                          ~~~~~~~~~~ ^
+>>    In file included from kernel/trace/rv/monitors/sleep/sleep.c:2:
+>>    In file included from include/linux/ftrace.h:10:
+>>    In file included from include/linux/trace_recursion.h:5:
+>>    In file included from include/linux/interrupt.h:11:
+>>    In file included from include/linux/hardirq.h:11:
+>>    In file included from
+>> ./arch/riscv/include/generated/asm/hardirq.h:1:
+>>    In file included from include/asm-generic/hardirq.h:17:
+>>    In file included from include/linux/irq.h:20:
+>>    In file included from include/linux/io.h:12:
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:820:2: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>      820 |         insl(addr, buffer, count);
+>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>    arch/riscv/include/asm/io.h:106:53: note: expanded from macro
+>> 'insl'
+>>      106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE +
+>> (addr), buffer, count)
+>>          |                                          ~~~~~~~~~~ ^
+>>    In file included from kernel/trace/rv/monitors/sleep/sleep.c:2:
+>>    In file included from include/linux/ftrace.h:10:
+>>    In file included from include/linux/trace_recursion.h:5:
+>>    In file included from include/linux/interrupt.h:11:
+>>    In file included from include/linux/hardirq.h:11:
+>>    In file included from
+>> ./arch/riscv/include/generated/asm/hardirq.h:1:
+>>    In file included from include/asm-generic/hardirq.h:17:
+>>    In file included from include/linux/irq.h:20:
+>>    In file included from include/linux/io.h:12:
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:829:2: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>      829 |         outsb(addr, buffer, count);
+>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>>    arch/riscv/include/asm/io.h:118:55: note: expanded from macro
+>> 'outsb'
+>>      118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE +
+>> (addr), buffer, count)
+>>          |                                            ~~~~~~~~~~ ^
+>>    In file included from kernel/trace/rv/monitors/sleep/sleep.c:2:
+>>    In file included from include/linux/ftrace.h:10:
+>>    In file included from include/linux/trace_recursion.h:5:
+>>    In file included from include/linux/interrupt.h:11:
+>>    In file included from include/linux/hardirq.h:11:
+>>    In file included from
+>> ./arch/riscv/include/generated/asm/hardirq.h:1:
+>>    In file included from include/asm-generic/hardirq.h:17:
+>>    In file included from include/linux/irq.h:20:
+>>    In file included from include/linux/io.h:12:
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:838:2: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>      838 |         outsw(addr, buffer, count);
+>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>>    arch/riscv/include/asm/io.h:119:55: note: expanded from macro
+>> 'outsw'
+>>      119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE +
+>> (addr), buffer, count)
+>>          |                                            ~~~~~~~~~~ ^
+>>    In file included from kernel/trace/rv/monitors/sleep/sleep.c:2:
+>>    In file included from include/linux/ftrace.h:10:
+>>    In file included from include/linux/trace_recursion.h:5:
+>>    In file included from include/linux/interrupt.h:11:
+>>    In file included from include/linux/hardirq.h:11:
+>>    In file included from
+>> ./arch/riscv/include/generated/asm/hardirq.h:1:
+>>    In file included from include/asm-generic/hardirq.h:17:
+>>    In file included from include/linux/irq.h:20:
+>>    In file included from include/linux/io.h:12:
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:847:2: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>      847 |         outsl(addr, buffer, count);
+>>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>>    arch/riscv/include/asm/io.h:120:55: note: expanded from macro
+>> 'outsl'
+>>      120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE +
+>> (addr), buffer, count)
+>>          |                                            ~~~~~~~~~~ ^
+>>    In file included from kernel/trace/rv/monitors/sleep/sleep.c:2:
+>>    In file included from include/linux/ftrace.h:10:
+>>    In file included from include/linux/trace_recursion.h:5:
+>>    In file included from include/linux/interrupt.h:11:
+>>    In file included from include/linux/hardirq.h:11:
+>>    In file included from
+>> ./arch/riscv/include/generated/asm/hardirq.h:1:
+>>    In file included from include/asm-generic/hardirq.h:17:
+>>    In file included from include/linux/irq.h:20:
+>>    In file included from include/linux/io.h:12:
+>>    In file included from arch/riscv/include/asm/io.h:136:
+>>    include/asm-generic/io.h:1175:55: warning: performing pointer
+>> arithmetic on a null pointer has undefined behavior [-Wnull-pointer-
+>> arithmetic]
+>>     1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL :
+>> PCI_IOBASE + port;
+>>          |                                                  
+>> ~~~~~~~~~~ ^
+>> > > kernel/trace/rv/monitors/sleep/sleep.c:130:7: error: use of
+>> > > undeclared identifier '__NR_clock_nanosleep'
+>>      130 |         case __NR_clock_nanosleep:
+>>          |              ^~~~~~~~~~~~~~~~~~~~
+>> > > kernel/trace/rv/monitors/sleep/sleep.c:141:7: error: use of
+>> > > undeclared identifier '__NR_futex'
+>>      141 |         case __NR_futex:
+>>          |              ^~~~~~~~~~
+>>    7 warnings and 2 errors generated.
+>> 
+>> 
+>> vim +/__NR_clock_nanosleep +130
+>> kernel/trace/rv/monitors/sleep/sleep.c
+>> 
+>>    120	
+>>    121	static void handle_sys_enter(void *data, struct pt_regs
+>> *regs, long id)
+>>    122	{
+>>    123		struct ltl_monitor *mon;
+>>    124		unsigned long args[6];
+>>    125		int op, cmd;
+>>    126	
+>>    127		mon = ltl_get_monitor(current);
+>>    128	
+>>    129		switch (id) {
+>>  > 130		case __NR_clock_nanosleep:
+>>    131	#ifdef __NR_clock_nanosleep_time64
+>>    132		case __NR_clock_nanosleep_time64:
+>>    133	#endif
+>>    134			syscall_get_arguments(current, regs, args);
+>>    135			ltl_atom_set(mon,
+>> LTL_NANOSLEEP_CLOCK_MONOTONIC, args[0] == CLOCK_MONOTONIC);
+>>    136			ltl_atom_set(mon, LTL_NANOSLEEP_CLOCK_TAI,
+>> args[0] == CLOCK_TAI);
+>>    137			ltl_atom_set(mon,
+>> LTL_NANOSLEEP_TIMER_ABSTIME, args[1] == TIMER_ABSTIME);
+>>    138			ltl_atom_update(current,
+>> LTL_CLOCK_NANOSLEEP, true);
+>>    139			break;
+>>    140	
+>>  > 141		case __NR_futex:
+>>    142	#ifdef __NR_futex_time64
+>>    143		case __NR_futex_time64:
+>>    144	#endif
+>>    145			syscall_get_arguments(current, regs, args);
+>>    146			op = args[1];
+>>    147			cmd = op & FUTEX_CMD_MASK;
+>>    148	
+>>    149			switch (cmd) {
+>>    150			case FUTEX_LOCK_PI:
+>>    151			case FUTEX_LOCK_PI2:
+>>    152				ltl_atom_update(current,
+>> LTL_FUTEX_LOCK_PI, true);
+>>    153				break;
+>>    154			case FUTEX_WAIT:
+>>    155			case FUTEX_WAIT_BITSET:
+>>    156			case FUTEX_WAIT_REQUEUE_PI:
+>>    157				ltl_atom_update(current,
+>> LTL_FUTEX_WAIT, true);
+>>    158				break;
+>>    159			}
+>>    160			break;
+>>    161		}
+>>    162	}
+>>    163	
