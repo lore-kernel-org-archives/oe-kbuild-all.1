@@ -1,58 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B78E277CAE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 06:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DBE38DF9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 07:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755500099; cv=none; b=mGoxL5O3diSpG1uohOA9JsENkJgL9QNQbc9NcuZoMdDK3nfvo6Zk2kNaDAF34UoVSkGlklP+ADnDCc5Ikyal0HrAlJVIHIoWJ1SFRUneV9PU9xQCpgY4+V8vgtKeOeX9gatirPrFrBpAihTnv8kZEUCk0FB01CoNif4ixmNxqNo=
+	t=1755501461; cv=none; b=Epxxt2QQuLqKWjKm00ZKbnXgIyvShKV1Pw/+IwyAkrbTUiaysQICepgVwtaycNqVVwAVg9S9iTLL37moYnZcCWaK7WHfLUsQXwE/IRVsBlMjKoFfXDrFVsVSLaxlN+88td0BFbOlqhbIgdtYDafYp7nKsauC/cvYoERPOOY1mEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755500099; c=relaxed/simple;
-	bh=Gdt71NQMRvpYIrZzc94pOE8mGSEZooDfHubZ+/iyHBk=;
+	s=arc-20240116; t=1755501461; c=relaxed/simple;
+	bh=GRtOJJ4TU25SLYLaBruGe/0cKnzINtKI69UBlywJ0HU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rPUnhnjX+2Wqzueru2fhwD7mEhCcQB3nxIqep6bcz3rVaXNlA8gKKN9S3FeBscIv1PJlf6k3/Sfj2x9B18gQ/vkQSXWZwJbwRzN3dvIfKCU/1Xj+KU3HXuH07SjTFuNt61rRl1db9WA3c/rIbOnYKTLoiq/34MC4oy9dO3nDPdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgmSmdiJ; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=cEx8j9qZphYyBUsa4f6cabqstVD97n43d0lRY2um21KTASMmBeavsEXplpLLoFD9YLDrdIeN2wDRKBvo0/qhIMBWDMWpzmYYD+fESCyyGZ3HZPeSJk7rxUg6H7BW25LfZthWFei+ZkPlHiFGUAlNrLwlRGVjMfX2eSgQXLff2aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YXtVAONB; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgmSmdiJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755500097; x=1787036097;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gdt71NQMRvpYIrZzc94pOE8mGSEZooDfHubZ+/iyHBk=;
-  b=WgmSmdiJLkwF1Bq6cnvTtpkC02LYykcsrpwUXbaCPrUwPRZmr/qOWNUW
-   Zh9+aM1aOEfy8zRIez2zcWf2z0efuAL8F6xOr+xhNZ9+nYae0y+Li4SLE
-   0cJQJ9InkFFW3LDXOlvcQK5L1VdgjyfZAmkZD2NIiT6yI+sp46WpScg76
-   xgGBpESZa1qkxrIM9xHJ2rzX7/vfwYNaeU8GIkN+zL//UwroRFENLUDZl
-   IXM+uhsiqmO7IgCSBp0720Xy26C6HFre7lpzD7tIqkgUjpLxfN/Z8HM/z
-   IvURTmB6DWk+uRf7PTGT+xeu75OFtKgXtNo2DnNDk+t/cj/AJfffRi/Fg
-   g==;
-X-CSE-ConnectionGUID: /T6GVheQRF2LSME/RzYUpA==
-X-CSE-MsgGUID: jp38py/ISgORpON1G1asEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="56923576"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="56923576"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 23:54:57 -0700
-X-CSE-ConnectionGUID: Kk8uiPoKQF24hjJzO1T9sA==
-X-CSE-MsgGUID: Vn0ST9h9Q6OBf4jA09zeAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="171727362"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Aug 2025 23:54:55 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1untld-00012J-2b;
-	Mon, 18 Aug 2025 06:54:53 +0000
-Date: Mon, 18 Aug 2025 08:54:37 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2687/2687] mm/madvise.c:297:6: warning: no
- previous prototype for function 'force_swapin_vma'
-Message-ID: <202508180823.hOEzzv8k-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YXtVAONB"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b9e415a68fso3607854f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 00:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755501455; x=1756106255; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=00HmFiTKWlOUviqLOmDiviucp/G1KSLyabeRXjoLhH4=;
+        b=YXtVAONBqoKUsIb04tj2uhRnCd+1qPwoGBHsxefnRYzgoQKGJpW1ptUvJFiEMyzDwF
+         kWuU53RLHHwyIT1zfkZpAyqAqwLvFI4DU3eADO7/jaXxUjlEHKAelMoA60eO4v6LvT8I
+         UlFl0FT4MXwXlTV5w/6u61yQjNAl1g5lW3GRLevMqmIBY7VwFMy5vZkkTWD7m0vc7Em/
+         bsimejr+66cVNoOMUB6+xAepHr44yhNln2Iuq+63qfpU6ntUd+Ojs1XrB4M/goTpYqtW
+         2t8u/rWwAK3IW5jm3XOecATu28Jb6NDUbOTI2RQmtu66XE2cnCvjL9HKCNhwlTFCmpGA
+         CM5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755501455; x=1756106255;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=00HmFiTKWlOUviqLOmDiviucp/G1KSLyabeRXjoLhH4=;
+        b=nwfPw/2wBNawPGffor1yWSOWiipTjeal39PRffVbDWUhkxQndUUzedsX/GHlOrMqhx
+         vxlbEuGQ1E8sjWBmRMJVXxbmPCe8NYV71sSYG7SWKDSEBKeIAzs34nKegsdxYCG3hpoU
+         4JPnDVvzg6UlZGWX+OtfISwK+c6AXo6cYTgpD+eT6vL14x4C5qeSfT2sfOP/keogfkqZ
+         ngy/FwvghKIBkuJVqOTkP3CTRaPtMEKuRnIs19Cg2laPNFemNNPP/7vQYGz3rXh1ZzVK
+         2KLj/CvpJmpOJx2x9KLRiZxzptMM4NqFk4wzurLfSMAWxH/KpLnzfLLPE51KDKjv+9Vv
+         XmVg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/jb/Ez2MTJS7gTV6v3ORYz7YIIs1DfKv+LIN+V1YU1O+5AztXo3J+55vWNx08cCoZRxpfWOrIRK3hfDfs@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCr793I2XL88aT3vnfsdHA61uYNYiQOYagTLVfqCv6UP7W9I5u
+	nAfxnrm10hbF77pneFB7FuglFzZVBuwXu7TPmfZfI7j4ZkVTcjdG+9sMKqLRqeF3opM=
+X-Gm-Gg: ASbGnctCaVfnUyNaHR5kHdQoCMA6A00fRctJPHviWjjIsjvaJ+LcBfuOSFotMLw6Ktt
+	lcWUoF7kGmWiVt2fwk+hZRoYnwU6WRexQ4wazl5jQshjIQc3zzvUpTyUoxJFfqQiUf2pCah0lMw
+	ttvU2U8KMFZ/SwTF4pcoRj/w6H0t6JkHaUtNHMXbfna/zHT2R9s59g3gbPSK1FQ2IiwhZo48xK7
+	YODOrQtYKRKKs6bbwYl+GBjlkE2oDx/phUM/FiqiuENA4QscePD+y8rS2z7woIbJ22Ulk7hxLcs
+	f4NNePrBfikMsdbC3pCr/4JMz3CLvsTVGPQYZ5/3uhxeWUz//XQH3XUpQSHLc+ilc/KLNkXTq9G
+	ZrV5QEoX8iKJqEia2W+8YFNhPNTEFJdBuS8MYLGpjHFQ=
+X-Google-Smtp-Source: AGHT+IHyrx5So2JkHy8B3V9n10eIVkllRTMcnOfbIYL9Fak+QjG/0EyC3RMUePQ7ZAM0RE6YfPigZA==
+X-Received: by 2002:a05:6000:250c:b0:3b7:8473:31c3 with SMTP id ffacd0b85a97d-3bb6646e10amr7831271f8f.9.1755501455230;
+        Mon, 18 Aug 2025 00:17:35 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb67c902dbsm11683675f8f.47.2025.08.18.00.17.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 00:17:34 -0700 (PDT)
+Date: Mon, 18 Aug 2025 10:17:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Guodong Xu <guodong@riscstar.com>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	duje@dujemihanovic.xyz
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Elder <elder@riscstar.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	Guodong Xu <guodong@riscstar.com>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Subject: Re: [PATCH v4 4/8] dmaengine: mmp_pdma: Add operations structure for
+ controller abstraction
+Message-ID: <202508181040.az8RxLrG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,73 +86,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250815-working_dma_0701_v2-v4-4-62145ab6ea30@riscstar.com>
 
-Hi Liu,
+Hi Guodong,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   08d6c0b8f95e9c676bd9bc28b12d198df722218e
-commit: 92a0eb9bde6c03412b39f9f3d20968c091ea3b46 [2687/2687] memcg: introduce per-memcg swapin interface
-config: x86_64-buildonly-randconfig-2003-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180823.hOEzzv8k-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508180823.hOEzzv8k-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Guodong-Xu/dt-bindings-dma-Add-SpacemiT-K1-PDMA-controller/20250815-132049
+base:   062b3e4a1f880f104a8d4b90b767788786aa7b78
+patch link:    https://lore.kernel.org/r/20250815-working_dma_0701_v2-v4-4-62145ab6ea30%40riscstar.com
+patch subject: [PATCH v4 4/8] dmaengine: mmp_pdma: Add operations structure for controller abstraction
+config: parisc-randconfig-r072-20250818 (https://download.01.org/0day-ci/archive/20250818/202508181040.az8RxLrG-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508180823.hOEzzv8k-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508181040.az8RxLrG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/dma/mmp_pdma.c:546 mmp_pdma_prep_memcpy() warn: variable dereferenced before check 'dchan' (see line 542)
+drivers/dma/mmp_pdma.c:712 mmp_pdma_prep_dma_cyclic() warn: variable dereferenced before check 'dchan' (see line 708)
 
-   In file included from mm/madvise.c:9:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2181:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/madvise.c:21:
-   include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/madvise.c:297:6: warning: no previous prototype for function 'force_swapin_vma' [-Wmissing-prototypes]
-     297 | void force_swapin_vma(struct vm_area_struct *vma)
-         |      ^
-   mm/madvise.c:297:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     297 | void force_swapin_vma(struct vm_area_struct *vma)
-         | ^
-         | static 
-   4 warnings generated.
+vim +/dchan +546 drivers/dma/mmp_pdma.c
+
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  536  static struct dma_async_tx_descriptor *
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  537  mmp_pdma_prep_memcpy(struct dma_chan *dchan,
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  538  		     dma_addr_t dma_dst, dma_addr_t dma_src,
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  539  		     size_t len, unsigned long flags)
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  540  {
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  541  	struct mmp_pdma_chan *chan;
+918da7ee50b22b Guodong Xu       2025-08-15 @542  	struct mmp_pdma_device *pdev = to_mmp_pdma_dev(dchan->device);
+                                                                                                       ^^^^^^^^^^^^^
+The patch adds a new dereference
+
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  543  	struct mmp_pdma_desc_sw *first = NULL, *prev = NULL, *new;
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  544  	size_t copy = 0;
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  545  
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03 @546  	if (!dchan)
+                                                            ^^^^^^
+But the old existing code assumed dchan could be NULL
+
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  547  		return NULL;
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  548  
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  549  	if (!len)
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  550  		return NULL;
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  551  
+c8acd6aa6bed3c Zhangfei Gao     2012-09-03  552  	chan = to_mmp_pdma_chan(dchan);
+
+[ snip ]
+
+2b7f65b11d87f9 Joe Perches      2013-11-17  701  static struct dma_async_tx_descriptor *
+2b7f65b11d87f9 Joe Perches      2013-11-17  702  mmp_pdma_prep_dma_cyclic(struct dma_chan *dchan,
+2b7f65b11d87f9 Joe Perches      2013-11-17  703  			 dma_addr_t buf_addr, size_t len, size_t period_len,
+2b7f65b11d87f9 Joe Perches      2013-11-17  704  			 enum dma_transfer_direction direction,
+31c1e5a1350ae8 Laurent Pinchart 2014-08-01  705  			 unsigned long flags)
+50440d74aae318 Daniel Mack      2013-08-21  706  {
+50440d74aae318 Daniel Mack      2013-08-21  707  	struct mmp_pdma_chan *chan;
+918da7ee50b22b Guodong Xu       2025-08-15 @708  	struct mmp_pdma_device *pdev = to_mmp_pdma_dev(dchan->device);
+                                                                                                       ^^^^^^^^^^^^^
 
 
-vim +/force_swapin_vma +297 mm/madvise.c
+50440d74aae318 Daniel Mack      2013-08-21  709  	struct mmp_pdma_desc_sw *first = NULL, *prev = NULL, *new;
+50440d74aae318 Daniel Mack      2013-08-21  710  	dma_addr_t dma_src, dma_dst;
+50440d74aae318 Daniel Mack      2013-08-21  711  
+50440d74aae318 Daniel Mack      2013-08-21 @712  	if (!dchan || !len || !period_len)
+                                                            ^^^^^^
+Same.
 
-   280	
-   281	#ifdef CONFIG_MEMCG_SWAP_QOS
-   282	void force_swapin_vma(struct vm_area_struct *vma)
-   283	{
-   284		struct file *file = vma->vm_file;
-   285	
-   286		if (!can_madv_lru_vma(vma))
-   287			return;
-   288	
-   289		if (!file) {
-   290			walk_page_vma(vma, &swapin_walk_ops, vma);
-   291			lru_add_drain();
-   292		} else if (shmem_mapping(file->f_mapping))
-   293			shmem_swapin_range(vma, vma->vm_start,
-   294				vma->vm_end, file->f_mapping);
-   295	}
-   296	#else
- > 297	void force_swapin_vma(struct vm_area_struct *vma)
-   298	{
-   299	}
-   300	#endif
-   301	
+
+50440d74aae318 Daniel Mack      2013-08-21  713  		return NULL;
+50440d74aae318 Daniel Mack      2013-08-21  714  
+50440d74aae318 Daniel Mack      2013-08-21  715  	/* the buffer length must be a multiple of period_len */
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
