@@ -1,195 +1,143 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2070.outbound.protection.outlook.com [40.107.92.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F57275861;
-	Mon, 18 Aug 2025 06:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755498799; cv=fail; b=r0kTcyM3uGugvHk74HOvqvXeWi00Nd+D8MZ7t3dixGf0zq/2bmWgAuuS7Fob5iV69VhU5mr97v+uy8v2CBfJr/mDsYOrLFSdesaBGmoQflWDkl2ywBuucdXG0i8qaJvQYd+7Gj7mfEXYwdcWJokEBBXteLv6Fvk4fxfnc6m+36I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755498799; c=relaxed/simple;
-	bh=7Pg2UrnKMkJJeynysk9dKqKMTP1S7w7ixoER9YF4s9M=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Txiyg7rgb7xrUEdJLpPeCb64PzSAmCizI1HsxPlGxOnUG6ko91lzxBPG9mUUWlMtrAJFLl+V2YSn5QouBikw+8snV1CEhO3nIpJwhZysNakz11UHccx1TQKHrcZfsrJuT4QyQMym5dfps8FV+t83branw71M8NUnzM1f+zRKg80=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2zH+oSYE; arc=fail smtp.client-ip=40.107.92.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AD7275AF3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 06:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755498855; cv=none; b=a/CCCLUdmHOsure3wflBkli+C47pIZ2Wh7Pzlf5BCMjCU8mIC6F4Cpy7M+wZz1pLLLP00jHizc35tSYqOPIvRFUBwDXCiE1sA/HKpmwZccyJHOhGlWARu6R0D4m34p+SSU8uPE59moKaE7CjPV8spfybvUNAoT08T9Cfo5yOFms=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755498855; c=relaxed/simple;
+	bh=jCGii2UgR1DubFjNhVV24kwwJVQu4mE/TURwvMamQJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UWwdkEaCTS0ZiPZfbQRrFFCVIeTTJyzeTCD5QWmjR5vD7cF838ECHcML/oJtRtdVkxaqxGaMgGNxZ6Q/VzYoPqgBo6Z0CrHyZQyQJgHvibANkg6iPxEL2qLrMKNpbKkLjItV5ao86g1vg2dV7CJhnd/XHVcy4S1ogGDvPYNydkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XqwF+zDh; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2zH+oSYE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Un/0U/HoQoRHIys0buoFfMzFRdWeUkfiNJt29L+FdJ0KPP6ET5naAcnYlK3utH/qWC5DsB8lx3ccXI4ptksEMA6ZUeo29xBmtJoKVSZHhKk9Fue/u+f8RvdHNMiRkZOCMm2zcCdtGpCbvl4Owq/fdZ3/R+CDOvK+8aXjgYF5lX7ddQhk9khpbNFWBqxcgkGzhBUTlEiJSPKH3H/AgvmBAItyL+OzbojyacaXbYTLTrHwjLjPV8VDYqDKifE6PgwpKq0lYTGpVf+SiAvCl6Qi8RauAArqaJqHJrMbqVWzpRosqZtUAKNDzHCCYCCvHrOk5jcHFlwjoQxW85lNaPEvlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kJcLsiGdUghDt9b2X8u1jAQMtu92la/qGx061U8uDtE=;
- b=HjIRjfWOcjhOrqdH9HWCU4co+DGxwLuDX/LQKRFpVKohJIxSQLVjj4m0uwBNfbahfTy1N5Thl4KkizZLAybMGlRjXfW9JQmNgImLDfZaBY/6iD+k4S16pEKmcZXGtZzVeUeuDbefhQjv1e/gXZACwqNUDOCBuvIWY9IF4QyAohtSOZwbBhyX0ZAHrJu2qoHgxIs6i8BwUi89LCWuy57HEpfxjUCJNStM9hQZCSCqgV02Za1YjE4wn2Cypm18ASoACtCtTEMXdbrhIoKPQUdCJiWd5SWyLW65qcb4vQa6AKMwerUVQLwZUseHyHxguFGfbWoA802sj6SIF6I9ID1hVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=arndb.de smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kJcLsiGdUghDt9b2X8u1jAQMtu92la/qGx061U8uDtE=;
- b=2zH+oSYE+tqIwa47aE+FhTf4vlCV4pC3MAMdFHImWJRmO3FJ/MeD+pgWrkKm3L+L1x55ZIbTwJ6cniWOavQkaEonboOO8TEOvxRT0Wm+PHKpZgCwUmN5r6vpSh1Rzy1Z+Xv21r6UCsHYYTQI0LsSMwZuw9VHd/nCJjPzVo3EXvQ=
-Received: from MW4PR03CA0064.namprd03.prod.outlook.com (2603:10b6:303:b6::9)
- by CY8PR12MB7491.namprd12.prod.outlook.com (2603:10b6:930:92::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
- 2025 06:33:11 +0000
-Received: from SJ1PEPF000026C8.namprd04.prod.outlook.com
- (2603:10b6:303:b6:cafe::37) by MW4PR03CA0064.outlook.office365.com
- (2603:10b6:303:b6::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.19 via Frontend Transport; Mon,
- 18 Aug 2025 06:33:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF000026C8.mail.protection.outlook.com (10.167.244.105) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9052.8 via Frontend Transport; Mon, 18 Aug 2025 06:33:10 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Aug
- 2025 01:33:06 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Aug
- 2025 01:33:06 -0500
-Received: from xhdnipung41x.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 18 Aug 2025 01:33:02 -0500
-From: Nipun Gupta <nipun.gupta@amd.com>
-To: <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <nikhil.agarwal@amd.com>
-CC: <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
-	<oe-kbuild-all@lists.linux.dev>, <robin.murphy@arm.com>, <krzk@kernel.org>,
-	<tglx@linutronix.de>, <maz@kernel.org>, <linux@weissschuh.net>,
-	<chenqiuji666@gmail.com>, <peterz@infradead.org>, <robh@kernel.org>,
-	<abhijit.gangurde@amd.com>, <nathan@kernel.org>, Nipun Gupta
-	<nipun.gupta@amd.com>, kernel test robot <lkp@intel.com>
-Subject: [PATCH 2/2] vfio/cdx: update driver to build without CONFIG_GENERIC_MSI_IRQ
-Date: Mon, 18 Aug 2025 12:02:44 +0530
-Message-ID: <20250818063244.1242634-2-nipun.gupta@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250818063244.1242634-1-nipun.gupta@amd.com>
-References: <20250818063244.1242634-1-nipun.gupta@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XqwF+zDh"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b9e41669d6so2985294f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Aug 2025 23:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755498850; x=1756103650; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vboU5xoEehUgMZFt48gs99Sfg/+NXyB1MrQfEX3BN2Q=;
+        b=XqwF+zDhEtBVet8FpBdvci94MyI6A7hVmLFlDsfRCSpytenRJaryXo6lkRiHOLTNsa
+         c+5EuUJW+obLk8Lv+wW58ClIgSSr7G32kyxJeLhQUQTZp1wdFHNITzdHQrxP8cYEHEHa
+         2dhqmzDQyQjwkNpah4u2rJwBi3sr/V1RUv12ylaZzf6tOF3cFQw5ZILf2CGcEr7TeF5s
+         mTHvTHBmX6usFNPyrXMLfjECaJcNnqIU4opBSxNxbcdy5oTDPjTnmRMUsIOi2EnsD/nd
+         uT+kigsnXB5zRJlTmbVzcPWAnniNlPnfb9JIs21wExbLVhCgy34qO5vUPY9Yx4OaHC3u
+         XiWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755498850; x=1756103650;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vboU5xoEehUgMZFt48gs99Sfg/+NXyB1MrQfEX3BN2Q=;
+        b=AJ9YVOBedQGYXVgDvU6UTvZLBmbjfhfatnAoA/45LXuc+uqbAtL1P5gRTLMg5nxQuc
+         2qVFhFgQGRUUvT9vzHQvtPXOhutoY+PgsNWxiebrMO34ibWd8C4DSrV+F7VtLeDtHz1u
+         eOne7H9kGzTiIbcqQEMx/Hfmqa6JZJGbAz7WaPEa9nF4YWgywStBeOiCwoiL4pbBJmmd
+         nxLg8O+jylb7BMK+YVSIsbNsTq9NrVSBtT1OPa0bS6NdSLnCT4FWfc2KxXreOma0IRbj
+         MYW+ShVG3xtn9x6EKyHWxeq9Xwn9ujEKoyENQP+nIvvBnADbvrTJDZ+0nPc/E7wHl5M5
+         ZaDg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8S4oPuJ8oWNx5lBfzTfz5M8Vh1AKIyS3rKqLWgEvXKhQL82aAZ7tpVX23iVeaVZJYvHIq9pPDFcPQxnhb@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVsYhT3+d0Pe3EFG+4zOcnS17BzUuLrytP/2TrkOajz84VlZ3k
+	5FN4FWE4SiurQDlZb8ucN+pjVKo9v0uZM3ypl0gOY/FNjKqMU51iJfTXVkJ+gIQuNyFD0g4fiT7
+	PC+Ta
+X-Gm-Gg: ASbGncsmYuP5guP98TKkn5WfgGOGBqVVP8jubuL56N6nad2mAdowbpetiDuT+tMfuZS
+	TN5DrrJjSfRqJjhEzlMNpQOtlmh6LJUDqQADBiJCswRdA7mCyY49IiIGzIlTCBg1JEHCCcWbvMo
+	noVbkWwM9aKSNZ+d/DojFUeKn8daDBY4muopoq1tGJrDcnk8kDlFWMZv5icVnZf37VFLfuf3efU
+	lJn43mtZIiNblj67x/AlYbLUadvUo7xjplna1+34KLCqJquaPMzBLTti1stVRDdlr+Zrezo2A4M
+	MJ2CAWw7KkcIVut+iOY4S9Ee9Lia/SqSjERBwMda962vSnWAuzSJXvJIdXFe0r4/LUAyQl6mKp2
+	3oTeC6N5OXiSWhMTH1DDAafUWVSUwwm9WAEOpxuxQ5xw=
+X-Google-Smtp-Source: AGHT+IEcL9XvpvVrTZJabDptBXonFfKX8kZQE+VLqoofN9e3zCBpLdnrziNE+gZOjAV0cFhS0TiOPg==
+X-Received: by 2002:a05:6000:3102:b0:3a5:298a:3207 with SMTP id ffacd0b85a97d-3bc6a28004bmr5124234f8f.48.1755498850198;
+        Sun, 17 Aug 2025 23:34:10 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a22210a65sm118913085e9.6.2025.08.17.23.34.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 23:34:09 -0700 (PDT)
+Date: Mon, 18 Aug 2025 09:34:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Zong Jiang <quic_zongjian@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-serial@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [tty:tty-testing 8/24] drivers/tty/serial/qcom_geni_serial.c:274
+ get_port_from_line() error: Calling ida_alloc_range() with a 'max' argument
+ which is a power of 2. -1 missing?
+Message-ID: <202508180815.R2nDyajs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C8:EE_|CY8PR12MB7491:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a3c3b76-6c7e-4158-c0ca-08ddde2119ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|7416014|376014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Lh6THWuzwJyjGE6Fkn+8Vs9BFarePlZFVsSjcwITIMD62qfFhd/WtJvH3wGA?=
- =?us-ascii?Q?C7lL1Z8DiC9PKpdhhe+mNC9aBchh+PVTcYrsvfloKYDGDdcPU2rdHHdFyaiU?=
- =?us-ascii?Q?ZvSKI45Soq5GQ05zqD+QKPzHnauMPJA2+OHuar47ealli1OLSPTAar1QhdfZ?=
- =?us-ascii?Q?Ycp7+IymD4hRgqF3O+E9jYQibRzrnIs1oKucJdgADXG6CBqKN8V4v/Fijq9Y?=
- =?us-ascii?Q?xcANeUHe3p6XpKNtY9Ho/CqWj6Eby1sfet/JE2FeF8kEapXR3kK3ychsLHFX?=
- =?us-ascii?Q?e4eMXdeXRZw2BBUh+7D5buAxVwwxgNGUg5O4EXSzlp11yIMpG+oJt0mgfCC1?=
- =?us-ascii?Q?kZCqpSVlVllw9LhdfWTXA+dAdZpY1BSOp7PgxpM7TxB+gPNcQg1ZAeZeUJR6?=
- =?us-ascii?Q?Vw77tgrFguRuRfzbGzXAO1SlWgIofkiV3sZaTXLlCCTnregkuZFzclc/iGEu?=
- =?us-ascii?Q?O+Y/pdZM2utWQ53mGtyYmn4rqv1BryE5FB9VRj8sEakuW88xavtnwlXqA8Uk?=
- =?us-ascii?Q?q5vg9QEleEWvlgKjEYf62gdQNInnpYfOF+WpH1yrBye4OiHiSBqCmUUzT5UY?=
- =?us-ascii?Q?EwXoWxxs5fVWzSdkA2zpNnVid4iI3tmYxrYOFyvrmGKWccPd3VHRHh4O0ITp?=
- =?us-ascii?Q?lhAGhOVI0cgOLQioMJQsxKy9fU0S8sB925JLmGB8qla1FxL8BFANLwp0D6+U?=
- =?us-ascii?Q?nfsl22X8tNuIevMpylxlehv9y1iA9IJSk0s58E/nofcPEkuaQN5mXrLllC3u?=
- =?us-ascii?Q?KAef8d4tZUe4CHQk+0vuaDtABuksPp7ukNVM85WUZfXTdsD2347rCiBmYFsS?=
- =?us-ascii?Q?9zCv+IrqmNAxZQrigCZ3ZP6jKYJHgbBv2w4joVJi2XccHzEvwAZtoBmFh0+u?=
- =?us-ascii?Q?FwS5e+kWBLiMju2uL0XKjZ78ZKxMpABN68NII3gx2wBRCCZZgjsRQYdzxCl1?=
- =?us-ascii?Q?+OWPfjPSxXuegtP5wVcP9gLwRec+hfeeNuBqxGJh7Zj9ysv5fIz3i6uZ+Ns9?=
- =?us-ascii?Q?UMxIvz/aFPDt8JRdQIjTMeYtbDlDjJX6KIeqraRyAAopfXjtwCqe9DrJL28t?=
- =?us-ascii?Q?vsMmv/XbqoN5Ct5r3NJ10m9QXGNMifHlMlAm8OROrDhp1+UxLYClsuCKK9En?=
- =?us-ascii?Q?zr7mN9pokgWmWxzucRzflPsREADADYv2hKvAl7UOszfaE0HGku2DpIU8udau?=
- =?us-ascii?Q?xJXpnLj3uy1Un5XFvUpoZwEpKU7ffnV8PL6NlI2EDQkKCghDJ+s1guRA3V8V?=
- =?us-ascii?Q?Dg9ajzPNtT2OqslNdlG8Sl9Q7mI9ogI2VFLEcM5QpNI+M4EBeRGS8CTG2IPd?=
- =?us-ascii?Q?IZ6BnGpps89uP9Uh/pmBwGRroLYiDy1X5yc2oll5ZIiwqgwmoorVrLGlga6g?=
- =?us-ascii?Q?KbSgvbuR3JpFqpDKeUhiOzdUsSJyUwP7WSO+5e9MG4kbDwOfImwxdnuqRLiR?=
- =?us-ascii?Q?sEnb9901VsvJn2OS54NJ3fmCxvOWCrcpl6nzKBCPrgbS/8LcSnB2OxteCjhm?=
- =?us-ascii?Q?/rdD3j9HzgcX/J1xfzCodjYk91hqr7cG8x4CiVu0VHdPoeqWc82LFE3hnQ?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(7416014)(376014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 06:33:10.5434
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a3c3b76-6c7e-4158-c0ca-08ddde2119ed
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000026C8.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7491
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Define dummy MSI related APIs in VFIO CDX driver to build the
-driver without enabling CONFIG_GENERIC_MSI_IRQ flag.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+head:   7cd9f5d6c5a3f31d2b282d31ddc4d78ff83a5c08
+commit: 9391ab1ed9b3fe0d1af7d7858d9bf42f476628c8 [8/24] serial: qcom-geni: Make UART port count configurable via Kconfig
+config: parisc-randconfig-r072-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180815.R2nDyajs-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202508070308.opy5dIFX-lkp@intel.com/
-Reviewed-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
-Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
----
- drivers/vfio/cdx/Makefile  |  6 +++++-
- drivers/vfio/cdx/private.h | 14 ++++++++++++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508180815.R2nDyajs-lkp@intel.com/
 
-diff --git a/drivers/vfio/cdx/Makefile b/drivers/vfio/cdx/Makefile
-index df92b320122a..7dc7bdcdcaa9 100644
---- a/drivers/vfio/cdx/Makefile
-+++ b/drivers/vfio/cdx/Makefile
-@@ -5,4 +5,8 @@
- 
- obj-$(CONFIG_VFIO_CDX) += vfio-cdx.o
- 
--vfio-cdx-objs := main.o intr.o
-+vfio-cdx-objs := main.o
-+
-+ifdef CONFIG_GENERIC_MSI_IRQ
-+obj-$(CONFIG_VFIO_CDX) += intr.o
-+endif
-diff --git a/drivers/vfio/cdx/private.h b/drivers/vfio/cdx/private.h
-index dc56729b3114..0482a1516439 100644
---- a/drivers/vfio/cdx/private.h
-+++ b/drivers/vfio/cdx/private.h
-@@ -38,11 +38,25 @@ struct vfio_cdx_device {
- 	u8			config_msi;
- };
- 
-+#ifdef CONFIG_GENERIC_MSI_IRQ
- int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
- 			    u32 flags, unsigned int index,
- 			    unsigned int start, unsigned int count,
- 			    void *data);
- 
- void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev);
-+#else
-+static int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
-+				   u32 flags, unsigned int index,
-+				   unsigned int start, unsigned int count,
-+				   void *data)
-+{
-+	return 0;
-+}
-+
-+static void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev)
-+{
-+}
-+#endif
- 
- #endif /* VFIO_CDX_PRIVATE_H */
+New smatch warnings:
+drivers/tty/serial/qcom_geni_serial.c:274 get_port_from_line() error: Calling ida_alloc_range() with a 'max' argument which is a power of 2. -1 missing?
+
+Old smatch warnings:
+drivers/tty/serial/qcom_geni_serial.c:1931 qcom_geni_serial_probe() warn: missing unwind goto?
+
+vim +/max +274 drivers/tty/serial/qcom_geni_serial.c
+
+c3e7966c60745f Zong Jiang                  2025-08-12  260  static struct qcom_geni_serial_port *get_port_from_line(int line, bool console, struct device *dev)
+c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  261  {
+8a8a66a1a18a1d Girish Mahadevan            2018-07-13  262  	struct qcom_geni_serial_port *port;
+9391ab1ed9b3fe Zong Jiang                  2025-08-12  263  	int nr_ports = console ? GENI_UART_CONS_PORTS : CONFIG_SERIAL_QCOM_GENI_UART_PORTS;
+8a8a66a1a18a1d Girish Mahadevan            2018-07-13  264  
+a53be6945f5123 Viken Dadhaniya             2025-03-27  265  	if (console) {
+a53be6945f5123 Viken Dadhaniya             2025-03-27  266  		if (line < 0 || line >= nr_ports)
+a53be6945f5123 Viken Dadhaniya             2025-03-27  267  			return ERR_PTR(-ENXIO);
+a53be6945f5123 Viken Dadhaniya             2025-03-27  268  
+a53be6945f5123 Viken Dadhaniya             2025-03-27  269  		port = &qcom_geni_console_port;
+a53be6945f5123 Viken Dadhaniya             2025-03-27  270  	} else {
+a53be6945f5123 Viken Dadhaniya             2025-03-27  271  		int max_alias_num = of_alias_get_highest_id("serial");
+a53be6945f5123 Viken Dadhaniya             2025-03-27  272  
+8a8a66a1a18a1d Girish Mahadevan            2018-07-13  273  		if (line < 0 || line >= nr_ports)
+a53be6945f5123 Viken Dadhaniya             2025-03-27 @274  			line = ida_alloc_range(&port_ida, max_alias_num + 1, nr_ports, GFP_KERNEL);
+
+ida_alloc_range() range parameters are inclusive so this should be
+
+	ida_alloc_range(&port_ida, max_alias_num + 1, nr_ports - 1, GFP_KERNEL);
+
+a53be6945f5123 Viken Dadhaniya             2025-03-27  275  		else
+a53be6945f5123 Viken Dadhaniya             2025-03-27  276  			line = ida_alloc_range(&port_ida, line, nr_ports, GFP_KERNEL);
+
+same here
+
+a53be6945f5123 Viken Dadhaniya             2025-03-27  277  
+a53be6945f5123 Viken Dadhaniya             2025-03-27  278  		if (line < 0)
+c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  279  			return ERR_PTR(-ENXIO);
+8a8a66a1a18a1d Girish Mahadevan            2018-07-13  280  
+c3e7966c60745f Zong Jiang                  2025-08-12  281  		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+c3e7966c60745f Zong Jiang                  2025-08-12  282  		if (!port)
+c3e7966c60745f Zong Jiang                  2025-08-12  283  			return ERR_PTR(-ENOMEM);
+c3e7966c60745f Zong Jiang                  2025-08-12  284  
+c3e7966c60745f Zong Jiang                  2025-08-12  285  		port->uport.iotype = UPIO_MEM;
+c3e7966c60745f Zong Jiang                  2025-08-12  286  		port->uport.ops = &qcom_geni_uart_pops;
+c3e7966c60745f Zong Jiang                  2025-08-12  287  		port->uport.flags = UPF_BOOT_AUTOCONF;
+c3e7966c60745f Zong Jiang                  2025-08-12  288  		port->uport.line = line;
+a53be6945f5123 Viken Dadhaniya             2025-03-27  289  	}
+8a8a66a1a18a1d Girish Mahadevan            2018-07-13  290  	return port;
+c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  291  }
+
 -- 
-2.34.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
