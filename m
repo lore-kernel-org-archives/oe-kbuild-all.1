@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA7E225413;
-	Mon, 18 Aug 2025 13:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CBB34AAE2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 14:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755524622; cv=none; b=FShI22zP98E3qTPaTFOJl76np0E+nMedyiaihfi+oD0nvQ85X8zaMON4Q6TeDiLd6PZhs2pF6H78a/NbWBl/5EQOYd2tG+AU48WsZ0WPsWA24h7d8v8MGak+m77EdWebnFndzfqeZ6e+bI45UD3nvbBE5LUkkdsSkVHbYABe3Lg=
+	t=1755525684; cv=none; b=pr1ReolIneEVd+HE6BMLSzCKPumejDN0tycJjxgtTB1ytuI1+PD9XdwksU1WHhahX5dKNtbY37LnYLj7HdF84mkHWlxVjBh1dvJYiQtM8AqFv46I+4k3ipJbccwkeSEbv4HBgnDmBOpyaSL6ehYRVkQC8Pe6Y4smtX3QYtReYe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755524622; c=relaxed/simple;
-	bh=YlUI847c1ljwtyOmYzO2xGlFoqndiw/0Vuz7F4sMuF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oyZLBC7LGbd0tl2dyoRZ35Z1dWsxrMyoE+uIuVhXcEA7i5DbwcIAR1ekwvA+lXO4z9rTWxa9RsJdHej5o7TBt4TNMixZBjUFXlgr+KY0/A41l42WGPeiPH1FGzeICUxAF4GTfVb1EVwuG2KuMFzjesSSPaoStABJ6hIsHKmqqZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kiRnEJ7G; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1755525684; c=relaxed/simple;
+	bh=hvFoMvLubmqx1ErxLewPksN/ccc4nDDAGhkIU3ai/Zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u5M2mz9sFxJf9fs59X0bfgoih2U2LcQ1GOewFv9/pKRwQh4R4yW+47qiMh6Ok+YAVklABMMbBO/XzabzRDlETVXuo0uA4RdiJaLDS/a9z6Bao4Y3EIfVVWu+BgVs29DjodXMV97sC3P/FCfGCxMVOKRRbHv8uOJ+iuEmAiKxzCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lGOlZ01o; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kiRnEJ7G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lGOlZ01o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755524620; x=1787060620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YlUI847c1ljwtyOmYzO2xGlFoqndiw/0Vuz7F4sMuF0=;
-  b=kiRnEJ7GyD7kWtc1yk4MKe2vO/J96pcyOd0ff/FuE6QyDrPTZqEK5Ssf
-   r/fq3HqQ+QPT8Ap+puEs1jD8zizuVKIk1ieMmURm7Ht2forbW6fAS+XY6
-   7XInuvBUQWiocAciSmgFPqxGV8NgqQVhQRNy+8lyCsWdv6BHbs3N7U04f
-   M8qCQldziUm7ybYLAGycRl8pUWgXGiF4zj4zunMdMLWX1laYbQvQCFepR
-   p6HXHPFvtg7tq/1G/8eMAktNNQTcLe19mf0ldK9MJBpekBIOZSbhxe8PC
-   RrttoYlv7vWOW3oxlTJudR+KGN+JwQqgcsh/qtHnINchkqeOrWCR6zgXF
+  t=1755525682; x=1787061682;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hvFoMvLubmqx1ErxLewPksN/ccc4nDDAGhkIU3ai/Zk=;
+  b=lGOlZ01opcCK4W4iw07OwFIzfxE7ot1YA8r4ztImfsZ38VHTz9kdVJFu
+   70cRgJ5zdgMYx3dRAyjjlpibAGXqiyFyp7EVI+rGTC919j0WikfNEoZBV
+   zN6D6iFdKfEc89e2u3Cz81jLDzCBFLrlnyaAN4HBp2dKjGa1nRt2xAASt
+   DGLTlxtq82l8hnHHLQLjWA6xC9Z0lY9OcpbuSV00grKRmQ8wBfqtVVfvU
+   /YbxggbDPhCw3l5xhmwkZV+KGh4tHcob9oN8RUTYigA3W3rn9Risp+tsB
+   Q/sXPUximnl0nb4g298L0BqL2JKTdgfa8nkzQEsdNKegXitHJrFHP1RnL
    Q==;
-X-CSE-ConnectionGUID: dGsvgT0pTGOsCE6htVotbg==
-X-CSE-MsgGUID: UcFfsH3gSlWdaMeUrsL0Ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57894528"
+X-CSE-ConnectionGUID: rg/NOAdWRpiBgKhmE/wb4g==
+X-CSE-MsgGUID: P0IJ/GnWT8aWBTZq6DBbCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="56776217"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="57894528"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 06:43:40 -0700
-X-CSE-ConnectionGUID: ZjwLrrQUQ7ahWNTixEZUeA==
-X-CSE-MsgGUID: 42Pg1+28S1+iQUxNyHZgCQ==
+   d="scan'208";a="56776217"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 07:01:21 -0700
+X-CSE-ConnectionGUID: T/PoWHmtTx+aXho8HdZttA==
+X-CSE-MsgGUID: WCbXw01ETeGsm6sGEgQdVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="171814469"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 18 Aug 2025 06:43:38 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="172008123"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa004.jf.intel.com with ESMTP; 18 Aug 2025 07:01:21 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uo098-000F55-3A;
-	Mon, 18 Aug 2025 13:43:34 +0000
-Date: Mon, 18 Aug 2025 21:43:26 +0800
+	id 1uo0QI-00015n-1o;
+	Mon, 18 Aug 2025 14:01:18 +0000
+Date: Mon, 18 Aug 2025 16:00:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Mohammed Guermoud <mohammed.guermoud@gmail.com>, marvin24@gmx.de,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mohammed Guermoud <mohammed.guermoud@gmail.com>
-Subject: Re: [PATCH] staging: nvec: Silence unused argument warning in
- NVEC_PHD macro
-Message-ID: <202508182005.4PiKxXcN-lkp@intel.com>
-References: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2687/2687]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_ethtool.c:299:21:
+ warning: variable 'netdev' set but not used
+Message-ID: <202508181604.dgmSZq8P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,75 +62,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
 
-Hi Mohammed,
+Hi Bennie,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohammed-Guermoud/staging-nvec-Silence-unused-argument-warning-in-NVEC_PHD-macro/20250818-032647
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250817192425.12983-1-mohammed.guermoud%40gmail.com
-patch subject: [PATCH] staging: nvec: Silence unused argument warning in NVEC_PHD macro
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20250818/202508182005.4PiKxXcN-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508182005.4PiKxXcN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   dc90c923fed4944f134644261022885c12631518
+commit: 2d861e6888256771288076b36aa9beba46c7af67 [2687/2687] Net: nebula_matrix: fix ci compile nbl_ethtool.c warning
+config: x86_64-buildonly-randconfig-2002-20250818 (https://download.01.org/0day-ci/archive/20250818/202508181604.dgmSZq8P-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508181604.dgmSZq8P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508182005.4PiKxXcN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508181604.dgmSZq8P-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/nvec/nvec_ps2.c:80:51: error: invalid operands to binary expression ('void' and 'int')
-      80 |                         NVEC_PHD("ps/2 mouse reply: ", &msg[4], msg[1] - 2);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/staging/nvec/nvec_ps2.c:31:66: note: expanded from macro 'NVEC_PHD'
-      31 | #define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
-         |                                                            ~~~~~~^~~
-   drivers/staging/nvec/nvec_ps2.c:84:52: error: invalid operands to binary expression ('void' and 'int')
-      84 |                         NVEC_PHD("unhandled mouse event: ", msg, msg[1] + 2);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/staging/nvec/nvec_ps2.c:31:66: note: expanded from macro 'NVEC_PHD'
-      31 | #define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
-         |                                                            ~~~~~~^~~
-   2 errors generated.
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_ethtool.c:7:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_ethtool.h:10:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.h:10:
+   In file included from include/linux/mm.h:2247:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_ethtool.c:299:21: warning: variable 'netdev' set but not used [-Wunused-but-set-variable]
+     299 |         struct net_device *netdev;
+         |                            ^
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_ethtool.c:1666:36: warning: variable 'net_resource_mgt' set but not used [-Wunused-but-set-variable]
+    1666 |         struct nbl_serv_net_resource_mgt *net_resource_mgt;
+         |                                           ^
+   3 warnings generated.
 
 
-vim +80 drivers/staging/nvec/nvec_ps2.c
+vim +/netdev +299 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_ethtool.c
 
-32890b98308613 Marc Dietrich       2011-05-19  62  
-32890b98308613 Marc Dietrich       2011-05-19  63  static int nvec_ps2_notifier(struct notifier_block *nb,
-32890b98308613 Marc Dietrich       2011-05-19  64  			     unsigned long event_type, void *data)
-32890b98308613 Marc Dietrich       2011-05-19  65  {
-32890b98308613 Marc Dietrich       2011-05-19  66  	int i;
-0df8f51eed5067 Ben Marsh           2016-03-10  67  	unsigned char *msg = data;
-32890b98308613 Marc Dietrich       2011-05-19  68  
-32890b98308613 Marc Dietrich       2011-05-19  69  	switch (event_type) {
-32890b98308613 Marc Dietrich       2011-05-19  70  	case NVEC_PS2_EVT:
-1e46e6273bc62d Julian Andres Klode 2011-09-27  71  		for (i = 0; i < msg[1]; i++)
-1e46e6273bc62d Julian Andres Klode 2011-09-27  72  			serio_interrupt(ps2_dev.ser_dev, msg[2 + i], 0);
-0eedab704ed93d Marc Dietrich       2011-12-26  73  		NVEC_PHD("ps/2 mouse event: ", &msg[2], msg[1]);
-32890b98308613 Marc Dietrich       2011-05-19  74  		return NOTIFY_STOP;
-32890b98308613 Marc Dietrich       2011-05-19  75  
-32890b98308613 Marc Dietrich       2011-05-19  76  	case NVEC_PS2:
-0eedab704ed93d Marc Dietrich       2011-12-26  77  		if (msg[2] == 1) {
-32890b98308613 Marc Dietrich       2011-05-19  78  			for (i = 0; i < (msg[1] - 2); i++)
-32890b98308613 Marc Dietrich       2011-05-19  79  				serio_interrupt(ps2_dev.ser_dev, msg[i + 4], 0);
-0eedab704ed93d Marc Dietrich       2011-12-26 @80  			NVEC_PHD("ps/2 mouse reply: ", &msg[4], msg[1] - 2);
-32890b98308613 Marc Dietrich       2011-05-19  81  		}
-32890b98308613 Marc Dietrich       2011-05-19  82  
-0eedab704ed93d Marc Dietrich       2011-12-26  83  		else if (msg[1] != 2) /* !ack */
-0eedab704ed93d Marc Dietrich       2011-12-26  84  			NVEC_PHD("unhandled mouse event: ", msg, msg[1] + 2);
-32890b98308613 Marc Dietrich       2011-05-19  85  		return NOTIFY_STOP;
-32890b98308613 Marc Dietrich       2011-05-19  86  	}
-32890b98308613 Marc Dietrich       2011-05-19  87  
-32890b98308613 Marc Dietrich       2011-05-19  88  	return NOTIFY_DONE;
-32890b98308613 Marc Dietrich       2011-05-19  89  }
-32890b98308613 Marc Dietrich       2011-05-19  90  
+bad535d287c9c1 Bennie Yan 2024-09-24  293  
+2d861e68882567 Bennie Yan 2024-11-19  294  static void nbl_serv_adjust_interrpt_param(struct nbl_service_mgt *serv_mgt, bool ethtool)
+bad535d287c9c1 Bennie Yan 2024-09-24  295  {
+bad535d287c9c1 Bennie Yan 2024-09-24  296  	struct nbl_serv_net_resource_mgt *net_resource_mgt;
+bad535d287c9c1 Bennie Yan 2024-09-24  297  	struct nbl_serv_ring_mgt *ring_mgt;
+bad535d287c9c1 Bennie Yan 2024-09-24  298  	struct nbl_dispatch_ops *disp_ops;
+bad535d287c9c1 Bennie Yan 2024-09-24 @299  	struct net_device *netdev;
+bad535d287c9c1 Bennie Yan 2024-09-24  300  	struct nbl_serv_ring_vsi_info *vsi_info;
+bad535d287c9c1 Bennie Yan 2024-09-24  301  	u64 last_tx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  302  	u64 last_rx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  303  	u64 last_get_stats_jiffies, time_diff;
+bad535d287c9c1 Bennie Yan 2024-09-24  304  	u64 tx_packets, rx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  305  	u64 tx_rates, rx_rates, pkt_rates;
+bad535d287c9c1 Bennie Yan 2024-09-24  306  	u16 local_vector_id, vector_num;
+bad535d287c9c1 Bennie Yan 2024-09-24  307  	u16 intr_suppress_level;
+bad535d287c9c1 Bennie Yan 2024-09-24  308  
+bad535d287c9c1 Bennie Yan 2024-09-24  309  	net_resource_mgt = NBL_SERV_MGT_TO_NET_RES_MGT(serv_mgt);
+bad535d287c9c1 Bennie Yan 2024-09-24  310  	netdev = net_resource_mgt->netdev;
+bad535d287c9c1 Bennie Yan 2024-09-24  311  	ring_mgt = NBL_SERV_MGT_TO_RING_MGT(serv_mgt);
+bad535d287c9c1 Bennie Yan 2024-09-24  312  	disp_ops = NBL_SERV_MGT_TO_DISP_OPS(serv_mgt);
+bad535d287c9c1 Bennie Yan 2024-09-24  313  	vsi_info = &ring_mgt->vsi_info[NBL_VSI_DATA];
+bad535d287c9c1 Bennie Yan 2024-09-24  314  
+bad535d287c9c1 Bennie Yan 2024-09-24  315  	last_tx_packets = net_resource_mgt->stats.tx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  316  	last_rx_packets = net_resource_mgt->stats.rx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  317  	last_get_stats_jiffies = net_resource_mgt->get_stats_jiffies;
+bad535d287c9c1 Bennie Yan 2024-09-24  318  	disp_ops->get_net_stats(NBL_SERV_MGT_TO_DISP_PRIV(serv_mgt), &net_resource_mgt->stats);
+bad535d287c9c1 Bennie Yan 2024-09-24  319  	/* ethtool -S don't adaptive interrupt suppression param */
+bad535d287c9c1 Bennie Yan 2024-09-24  320  	if (!vsi_info->itr_dynamic || ethtool)
+bad535d287c9c1 Bennie Yan 2024-09-24  321  		return;
+bad535d287c9c1 Bennie Yan 2024-09-24  322  
+bad535d287c9c1 Bennie Yan 2024-09-24  323  	tx_packets = net_resource_mgt->stats.tx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  324  	rx_packets = net_resource_mgt->stats.rx_packets;
+bad535d287c9c1 Bennie Yan 2024-09-24  325  	time_diff = jiffies - last_get_stats_jiffies;
+bad535d287c9c1 Bennie Yan 2024-09-24  326  
+bad535d287c9c1 Bennie Yan 2024-09-24  327  	net_resource_mgt->get_stats_jiffies = jiffies;
+bad535d287c9c1 Bennie Yan 2024-09-24  328  	tx_rates = (tx_packets - last_tx_packets) / time_diff * HZ;
+bad535d287c9c1 Bennie Yan 2024-09-24  329  	rx_rates = (rx_packets - last_rx_packets) / time_diff * HZ;
+bad535d287c9c1 Bennie Yan 2024-09-24  330  	pkt_rates = max_t(u64, tx_rates, rx_rates);
+bad535d287c9c1 Bennie Yan 2024-09-24  331  
+bad535d287c9c1 Bennie Yan 2024-09-24  332  	intr_suppress_level =
+bad535d287c9c1 Bennie Yan 2024-09-24  333  		disp_ops->get_intr_suppress_level(NBL_SERV_MGT_TO_DISP_PRIV(serv_mgt), pkt_rates,
+bad535d287c9c1 Bennie Yan 2024-09-24  334  						  ring_mgt->vectors->intr_suppress_level);
+bad535d287c9c1 Bennie Yan 2024-09-24  335  	if (intr_suppress_level != ring_mgt->vectors->intr_suppress_level) {
+bad535d287c9c1 Bennie Yan 2024-09-24  336  		local_vector_id = ring_mgt->vectors[vsi_info->ring_offset].local_vector_id;
+bad535d287c9c1 Bennie Yan 2024-09-24  337  		vector_num = vsi_info->ring_num;
+bad535d287c9c1 Bennie Yan 2024-09-24  338  		disp_ops->set_intr_suppress_level(NBL_SERV_MGT_TO_DISP_PRIV(serv_mgt),
+bad535d287c9c1 Bennie Yan 2024-09-24  339  						  local_vector_id, vector_num,
+bad535d287c9c1 Bennie Yan 2024-09-24  340  						  intr_suppress_level);
+bad535d287c9c1 Bennie Yan 2024-09-24  341  		ring_mgt->vectors->intr_suppress_level = intr_suppress_level;
+bad535d287c9c1 Bennie Yan 2024-09-24  342  	}
+bad535d287c9c1 Bennie Yan 2024-09-24  343  }
+bad535d287c9c1 Bennie Yan 2024-09-24  344  
+
+:::::: The code at line 299 was first introduced by commit
+:::::: bad535d287c9c1056d99de3666be7da84de4a8fc Net:nbl_core: Add nbl_core-driver for nebula-matrix S1055AS series smart NIC.
+
+:::::: TO: Bennie Yan <bennie.yan@nebula-matrix.com>
+:::::: CC: Bennie Yan <bennie.yan@nebula-matrix.com>
 
 -- 
 0-DAY CI Kernel Test Service
