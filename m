@@ -1,79 +1,78 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5848270EAB;
-	Mon, 18 Aug 2025 08:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC262D8382
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 08:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755505067; cv=none; b=Z5kS1yZO/w7uUStkXR5LN/nZudTGqlFG8VkbVSDXKwg4tcgClceQweBjpNsd83FU/FJHHD1tTfkWmR+fJ0Q+xtSL2i1eh1Ftr6hfon+sWiyYjOzgZ/ZUUAoF/c42GkGJjjQDmvcOep9ql7C+1f12QgTTZqtWL87kzRhInLuZKmE=
+	t=1755505175; cv=none; b=VQCgZNnhF88Yaz9nXCXAqbWge/uavTLOU3kGCFrBCG3cUF/LTQxnaBB6KhGeJSNl4fK9Xf7eULJmZSYjjvLiIEJCoBHu2Rtx5IFcUU9o+hb7RFrFq4sPiM88R1dG0q2I2KcKuXgvDeLn8RAF7Kdpp0jyEJjn8cvViW8mOgXtOiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755505067; c=relaxed/simple;
-	bh=9JGcY+0KyGyjTEiI5T8vpORcywSVro7t9EHHHh/kPzg=;
+	s=arc-20240116; t=1755505175; c=relaxed/simple;
+	bh=rN/UTNEkHE3uBRZLBThrHpULRHST6ls2EaemSZgDm2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D9qCN36+b2+clih28MnAP5Zayxyic4PfTIknIfI6brJGbiPz8yBDUEM3kirCMF1tEYLFYcZrMr7k+KCUwkEft2Z4IGiEQyh75IP5GEJzjcWRSPBOKmES7Sl3qUIhQoNfAAvLbxLWUYMo2eL7hclKcGVMcQTMYEuStak7xazeA14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aNpvlh0E; arc=none smtp.client-ip=209.85.128.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=ciqCNECIFrOtMhZnVeNzBqARO6JJx5Uhr70rfMltcS0w683Vmjt228xWAC3KlPEZdFkBiVW9L7e8PDbCUywakAqOTigLGkWmvLGBfWqOZeCqeR3yBuNqc+AdMvx9pvEZ+N65h7sUvxRZt//8OwitFKxqZEEEQ5TrAnSzT4JHKVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iL7p4ygx; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aNpvlh0E"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45a1b001f55so15360195e9.0;
-        Mon, 18 Aug 2025 01:17:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iL7p4ygx"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45a286135c8so6090765e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 01:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755505064; x=1756109864; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755505172; x=1756109972; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ekE4nPja3ASUDhMh9k5/LZ4ut0A0tgRnQwCXeXPp50=;
-        b=aNpvlh0EUWz/1v9rLBtqTHUG4TuRAowy4ClC+uTlM0CzMJNnHSED2oc36gnf20jUPq
-         wgbc93EbjNcfz2jLcfkre2YGsc+1or/kEZTdX5WX9MMGaia0+EG/48+TjJ8sGdD5YYhE
-         QpZ9lOHSldjitn1oeeIXVoerInzW2InKe1NeK5X7ZpaHBjyg4abdblSTyiMsFj/st9Z7
-         p+i92380x3t2BHgEWxLwFG2KQR5inhpfZANTMFTeXr94H9CIpdd+q7LoCuRkyG2tSX8W
-         EJZyUCxqY+y8vophq/mnRzx+w/cuMV2Rlttt9VJMZmTLKki8dZA7zXHDhpkIodiMp+HV
-         RbdA==
+        bh=NeEY3uW9vGqD0NjAylwhSwOYu+Sb02hS8tqOcGAgYnw=;
+        b=iL7p4ygxQcD9MyWDrajUjHtTqB1WpnDLyH9VVZuVL0QsOkxeWT2xaNt0faYbiiAnMq
+         gyt1GidPoETcWh6W0kM+oo3/Fsg3T9B2aGCRmW2TV+1At6MdI+87SVmUtwvU7LUsVoX+
+         0yhGsHiR37PEiYY/OXOQ3pxSJVv5RMeiHnjiq4bO9z1k3c32qSoX0tTwM6VboGBUU0yi
+         GwiUz8SBPGTNojnrOBedXDJmzsD3Q9S2nfsNmHDANJVCJO+cevAlOPY+oCvPYbd0De3n
+         kewRUm3NqmYd3HHZW3pdAbrQJSEVmqRXS2WmKAMacbuMsfYdLdryzNkEBx0hipDM8fS1
+         ++0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755505064; x=1756109864;
+        d=1e100.net; s=20230601; t=1755505172; x=1756109972;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8ekE4nPja3ASUDhMh9k5/LZ4ut0A0tgRnQwCXeXPp50=;
-        b=VoKCBH68I7Q5TiFK54A1b/1mfCbRUscd8zYDgGQ314gZooouPWLQ79jcgIONgYxr7/
-         Iqin5pWsAo6FVBulGDlkQu4SCzPu5vXe2v/5k01k7z4iBwyjzCUcXnX6enAzK/xwegcb
-         iBaDDRxaim7jU2lBcsZVL9ioksZIV6kGmUjJsAu4B0RCl6//qFmSjOnxEoO/qWO+7QFM
-         zL6CHuKIaKFZPdeSRav5NKtXl1piTyj0VJXsslQj8CgPAvBtKLYjt+pR/+bJ7QyV4Ylf
-         ymuBNIlIXV6aXuMWtCdQoB5X+lTamnr82z87ME0F2xixCR5iU2v2RuRmmb1gUjEPcIfC
-         ZpXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdVcho5XgOySp3GBn0SA2thBywxJMZeTDIv6ielZZQmwwQd8/CMfapuzkWl2gZ9XGaMxGNQ66yol+wNDqF@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5bLJO07Sb33aOYnwwcjaQE1nENws+IQ6qnwfR7Hbg6Pd9xmeB
-	i9/JlzcgbIP+zbjCWq6nZ/pE3uXn2ZQNjD7/HFuwvergqjg58O1e6HNg
-X-Gm-Gg: ASbGnctdjJZHDKVM9a6IwN0Vufsq87w/LU9+QvH0vM9xRt/EcbQn3LHZ1k7B2aPV7ha
-	Zs/mEUvKPoXvECZEfgzyjCAml29vJLC1A0nwHNNDxAxQ0CLtPPMYCu7d1MUVAtr5YKCYzzAsiL6
-	D+uNHF+MbI0DlKTXO+lavPVdRr/9c88iJwZPE2e9E3wGTMfi/WyluYRayhyzDkW0bnO/lGIwlXm
-	TzgEyJ7xfZiDRkPYESUSZ+msNfSxfQU9P43Vn1UEvwz2b6t+uVg/pZK1Dwta6En15HiuHu1nYCY
-	bEYcPpAiol1Vj4GGIUCaMWMqb0edarucFF21V0O8E2UO0qV+P1PwlAyClzdS8jSkPokP60y3MyB
-	nM5ZVtA7EIjf/k+hdXHLxWGFPkrCiD9OYyDYTSsXCgM81
-X-Google-Smtp-Source: AGHT+IHdkOU/yckvYyJTLfiij8WfT1dmp/CIFFww4DkTU6TlWAp7UgvkJLt3ORbMny7QTjBU+t6sFA==
-X-Received: by 2002:a05:600c:5253:b0:455:f380:32e2 with SMTP id 5b1f17b1804b1-45a26784347mr57370025e9.18.1755505063765;
-        Mon, 18 Aug 2025 01:17:43 -0700 (PDT)
+        bh=NeEY3uW9vGqD0NjAylwhSwOYu+Sb02hS8tqOcGAgYnw=;
+        b=BNmVl/O8cPL4cBngCL2asBG7g0OU0fDex6hT9IASqIT5inUPwv3MXeNxz+qVWwIs0I
+         zjTVLDXPTMvZHfcbpKcBzlhOVmtBzcIKu58YhnsnT0DMqMFaEf991bTr+5OKvKVsct87
+         Ny6d90mF2dC7ZTdFWPwf8P29jMIPodWqU41gEvoS4m4rZHDk5byxxIBpG6XpJDPVEKK8
+         ZfnWjlDjdfNFSng3e7LwTEII7dWp/pX6MXOErx29V1vrVRIbYHg+AkjEWwanCOOccUEK
+         MQF7J73FTSemaDX3O6DXoHUz/a/OhjP13ec25KKU+95tAq3V93ddNlq+pn+/NvnY1ioK
+         fE7g==
+X-Forwarded-Encrypted: i=1; AJvYcCU81EuJ+JO1WuoNAFukcIWcDWNcyKPeViQXCAN7kIPO0a2ZTpTOW6Jo+axXNnN56K4UL5vBU5F2aTTF7IHm@lists.linux.dev
+X-Gm-Message-State: AOJu0YzU+Qd8FU2CQlr0BdC34NZemdF5Wgi5nff+ee5hH3b2SV4yP3rv
+	LXvJBW/rVyjO7SsOlr6kBPjnP8HoWm4YF73s4lbjpNICWHRe0zPQ4Jn4
+X-Gm-Gg: ASbGnctH7F/Vf1tMcvZX15VkDdTzH+aU0DcJKPqq5cJqDGa/+37enD5R5N/fXAfyNHe
+	xEiw4ht2QjWOhuuahx4agZQYPQh7Z4tlaw4LBMdZp2AkUSU3prJ/6IYB8JfvCwte4czCb50t/V6
+	bSugVL2jhdLbf0TBLiHNPqHCSf9js9GaoKXti941ttdVZFcfXuueTjP4gsiipzqODI28+/j/3kd
+	1iKXFPPwsueFu2TbFDHpQN8Zzl/YUc59ar7GDTv/Nil9Ug77o7255jfzyTmOkuPQIU4fovaa7nm
+	ZYOvDWyE7eRkuDJWCwdbdvtGKn3St0hS4vTkbxsTdjT3NhoSYapNJ4ylTMgPSO12h+beLvcLHxR
+	1fuoRsOjsXfMCcHlE5zHt1Jkv4vUw5tQAuw==
+X-Google-Smtp-Source: AGHT+IE4/Ywx353cazJs7pIfC+EI2xfVHZUjR2nORVtwe0LInZT9u8RV5DJbXw9M+U8k4EAA8VWZXA==
+X-Received: by 2002:a05:600c:4ed0:b0:456:1146:5c01 with SMTP id 5b1f17b1804b1-45a1b6bde0bmr122268245e9.12.1755505172119;
+        Mon, 18 Aug 2025 01:19:32 -0700 (PDT)
 Received: from mail.gmail.com ([2a04:ee41:4:b2de:1ac0:4dff:fe0f:3782])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a2221136dsm123154315e9.5.2025.08.18.01.17.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a25c13696sm104998905e9.25.2025.08.18.01.19.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 01:17:43 -0700 (PDT)
-Date: Mon, 18 Aug 2025 08:22:24 +0000
+        Mon, 18 Aug 2025 01:19:31 -0700 (PDT)
+Date: Mon, 18 Aug 2025 08:24:12 +0000
 From: Anton Protopopov <a.s.protopopov@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, bpf@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
+To: kernel test robot <lkp@intel.com>
+Cc: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
 	Anton Protopopov <aspsk@isovalent.com>,
 	Daniel Borkmann <daniel@iogearbox.net>,
 	Eduard Zingerman <eddyz87@gmail.com>,
 	Quentin Monnet <qmo@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>, lkp@intel.com,
+	Yonghong Song <yonghong.song@linux.dev>,
 	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 bpf-next 08/11] bpf, x86: add support for indirect
- jumps
-Message-ID: <aKLiwL5awqPcngf8@mail.gmail.com>
-References: <20250816180631.952085-9-a.s.protopopov@gmail.com>
- <202508180805.aUCPtTuQ-lkp@intel.com>
+Subject: Re: [PATCH v1 bpf-next 05/11] bpf: support instructions arrays with
+ constants blinding
+Message-ID: <aKLjLFSXImtu89rT@mail.gmail.com>
+References: <20250816180631.952085-6-a.s.protopopov@gmail.com>
+ <202508171315.5y3oPyC2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,71 +81,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508180805.aUCPtTuQ-lkp@intel.com>
+In-Reply-To: <202508171315.5y3oPyC2-lkp@intel.com>
 
-On 25/08/18 10:57AM, Dan Carpenter wrote:
+On 25/08/17 01:50PM, kernel test robot wrote:
 > Hi Anton,
 > 
-> kernel test robot noticed the following build warnings:
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on bpf-next/master]
 > 
 > url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Protopopov/bpf-fix-the-return-value-of-push_stack/20250817-020411
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20250816180631.952085-9-a.s.protopopov%40gmail.com
-> patch subject: [PATCH v1 bpf-next 08/11] bpf, x86: add support for indirect jumps
-> config: x86_64-randconfig-161-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180805.aUCPtTuQ-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> patch link:    https://lore.kernel.org/r/20250816180631.952085-6-a.s.protopopov%40gmail.com
+> patch subject: [PATCH v1 bpf-next 05/11] bpf: support instructions arrays with constants blinding
+> config: sparc-randconfig-001-20250817 (https://download.01.org/0day-ci/archive/20250817/202508171315.5y3oPyC2-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250817/202508171315.5y3oPyC2-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202508180805.aUCPtTuQ-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508171315.5y3oPyC2-lkp@intel.com/
 > 
-> smatch warnings:
-> kernel/bpf/verifier.c:25013 compute_scc() warn: unsigned 'succ_cnt' is never less than zero.
+> All errors (new ones prefixed by >>):
 > 
-> vim +/w +25013 kernel/bpf/verifier.c
->  24891  static int compute_scc(struct bpf_verifier_env *env)
->  24892  {
->  24893          const u32 NOT_ON_STACK = U32_MAX;
->  24894  
->  24895          struct bpf_insn_aux_data *aux = env->insn_aux_data;
->  24896          const u32 insn_cnt = env->prog->len;
->  24897          int stack_sz, dfs_sz, err = 0;
->  24898          u32 *stack, *pre, *low, *dfs;
->  24899          u32 succ_cnt, i, j, t, w;
->                 ^^^^^^^^^^^^
-> 
->  24900          u32 next_preorder_num;
->  24901          u32 next_scc_id;
->  24902          bool assign_scc;
->  24903  
->  24904          next_preorder_num = 1;
->  24905          next_scc_id = 1;
->  24906          /*
-> 
-> [ snip ]
-> 
->  25008                                  next_preorder_num++;
->  25009                                  stack[stack_sz++] = w;
->  25010                          }
->  25011                          /* Visit 'w' successors */
->  25012                          succ_cnt = insn_successors(env, env->prog, w, &succ);
->  25013                          if (succ_cnt < 0) {
->                                     ^^^^^^^^^^^^
-> unsigned can't be negative.
+>    sparc64-linux-ld: kernel/bpf/core.o: in function `bpf_jit_blind_constants':
+> >> core.c:(.text+0x8064): undefined reference to `bpf_insn_array_adjust'
 
-Thanks! Fixed, will squash into v2.
+This is because the bpf_insn_array_adjust() is enabled with CONFIG_BPF_SYSCALL.
+Will add the corresponding check in v2.
 
->  25014                                  err = succ_cnt;
->  25015                                  goto exit;
->  25016  
->  25017                          }
->  25018                          for (j = 0; j < succ_cnt; ++j) {
->  25019                                  if (pre[succ[j]]) {
->  25020                                          low[w] = min(low[w], low[succ[j]]);
-> 
 > -- 
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
-> 
