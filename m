@@ -1,72 +1,58 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AD7275AF3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 06:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B78E277CAE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 06:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755498855; cv=none; b=a/CCCLUdmHOsure3wflBkli+C47pIZ2Wh7Pzlf5BCMjCU8mIC6F4Cpy7M+wZz1pLLLP00jHizc35tSYqOPIvRFUBwDXCiE1sA/HKpmwZccyJHOhGlWARu6R0D4m34p+SSU8uPE59moKaE7CjPV8spfybvUNAoT08T9Cfo5yOFms=
+	t=1755500099; cv=none; b=mGoxL5O3diSpG1uohOA9JsENkJgL9QNQbc9NcuZoMdDK3nfvo6Zk2kNaDAF34UoVSkGlklP+ADnDCc5Ikyal0HrAlJVIHIoWJ1SFRUneV9PU9xQCpgY4+V8vgtKeOeX9gatirPrFrBpAihTnv8kZEUCk0FB01CoNif4ixmNxqNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755498855; c=relaxed/simple;
-	bh=jCGii2UgR1DubFjNhVV24kwwJVQu4mE/TURwvMamQJo=;
+	s=arc-20240116; t=1755500099; c=relaxed/simple;
+	bh=Gdt71NQMRvpYIrZzc94pOE8mGSEZooDfHubZ+/iyHBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UWwdkEaCTS0ZiPZfbQRrFFCVIeTTJyzeTCD5QWmjR5vD7cF838ECHcML/oJtRtdVkxaqxGaMgGNxZ6Q/VzYoPqgBo6Z0CrHyZQyQJgHvibANkg6iPxEL2qLrMKNpbKkLjItV5ao86g1vg2dV7CJhnd/XHVcy4S1ogGDvPYNydkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XqwF+zDh; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=rPUnhnjX+2Wqzueru2fhwD7mEhCcQB3nxIqep6bcz3rVaXNlA8gKKN9S3FeBscIv1PJlf6k3/Sfj2x9B18gQ/vkQSXWZwJbwRzN3dvIfKCU/1Xj+KU3HXuH07SjTFuNt61rRl1db9WA3c/rIbOnYKTLoiq/34MC4oy9dO3nDPdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgmSmdiJ; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XqwF+zDh"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b9e41669d6so2985294f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Aug 2025 23:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755498850; x=1756103650; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vboU5xoEehUgMZFt48gs99Sfg/+NXyB1MrQfEX3BN2Q=;
-        b=XqwF+zDhEtBVet8FpBdvci94MyI6A7hVmLFlDsfRCSpytenRJaryXo6lkRiHOLTNsa
-         c+5EuUJW+obLk8Lv+wW58ClIgSSr7G32kyxJeLhQUQTZp1wdFHNITzdHQrxP8cYEHEHa
-         2dhqmzDQyQjwkNpah4u2rJwBi3sr/V1RUv12ylaZzf6tOF3cFQw5ZILf2CGcEr7TeF5s
-         mTHvTHBmX6usFNPyrXMLfjECaJcNnqIU4opBSxNxbcdy5oTDPjTnmRMUsIOi2EnsD/nd
-         uT+kigsnXB5zRJlTmbVzcPWAnniNlPnfb9JIs21wExbLVhCgy34qO5vUPY9Yx4OaHC3u
-         XiWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755498850; x=1756103650;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vboU5xoEehUgMZFt48gs99Sfg/+NXyB1MrQfEX3BN2Q=;
-        b=AJ9YVOBedQGYXVgDvU6UTvZLBmbjfhfatnAoA/45LXuc+uqbAtL1P5gRTLMg5nxQuc
-         2qVFhFgQGRUUvT9vzHQvtPXOhutoY+PgsNWxiebrMO34ibWd8C4DSrV+F7VtLeDtHz1u
-         eOne7H9kGzTiIbcqQEMx/Hfmqa6JZJGbAz7WaPEa9nF4YWgywStBeOiCwoiL4pbBJmmd
-         nxLg8O+jylb7BMK+YVSIsbNsTq9NrVSBtT1OPa0bS6NdSLnCT4FWfc2KxXreOma0IRbj
-         MYW+ShVG3xtn9x6EKyHWxeq9Xwn9ujEKoyENQP+nIvvBnADbvrTJDZ+0nPc/E7wHl5M5
-         ZaDg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8S4oPuJ8oWNx5lBfzTfz5M8Vh1AKIyS3rKqLWgEvXKhQL82aAZ7tpVX23iVeaVZJYvHIq9pPDFcPQxnhb@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVsYhT3+d0Pe3EFG+4zOcnS17BzUuLrytP/2TrkOajz84VlZ3k
-	5FN4FWE4SiurQDlZb8ucN+pjVKo9v0uZM3ypl0gOY/FNjKqMU51iJfTXVkJ+gIQuNyFD0g4fiT7
-	PC+Ta
-X-Gm-Gg: ASbGncsmYuP5guP98TKkn5WfgGOGBqVVP8jubuL56N6nad2mAdowbpetiDuT+tMfuZS
-	TN5DrrJjSfRqJjhEzlMNpQOtlmh6LJUDqQADBiJCswRdA7mCyY49IiIGzIlTCBg1JEHCCcWbvMo
-	noVbkWwM9aKSNZ+d/DojFUeKn8daDBY4muopoq1tGJrDcnk8kDlFWMZv5icVnZf37VFLfuf3efU
-	lJn43mtZIiNblj67x/AlYbLUadvUo7xjplna1+34KLCqJquaPMzBLTti1stVRDdlr+Zrezo2A4M
-	MJ2CAWw7KkcIVut+iOY4S9Ee9Lia/SqSjERBwMda962vSnWAuzSJXvJIdXFe0r4/LUAyQl6mKp2
-	3oTeC6N5OXiSWhMTH1DDAafUWVSUwwm9WAEOpxuxQ5xw=
-X-Google-Smtp-Source: AGHT+IEcL9XvpvVrTZJabDptBXonFfKX8kZQE+VLqoofN9e3zCBpLdnrziNE+gZOjAV0cFhS0TiOPg==
-X-Received: by 2002:a05:6000:3102:b0:3a5:298a:3207 with SMTP id ffacd0b85a97d-3bc6a28004bmr5124234f8f.48.1755498850198;
-        Sun, 17 Aug 2025 23:34:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a22210a65sm118913085e9.6.2025.08.17.23.34.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 23:34:09 -0700 (PDT)
-Date: Mon, 18 Aug 2025 09:34:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zong Jiang <quic_zongjian@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [tty:tty-testing 8/24] drivers/tty/serial/qcom_geni_serial.c:274
- get_port_from_line() error: Calling ida_alloc_range() with a 'max' argument
- which is a power of 2. -1 missing?
-Message-ID: <202508180815.R2nDyajs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgmSmdiJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755500097; x=1787036097;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Gdt71NQMRvpYIrZzc94pOE8mGSEZooDfHubZ+/iyHBk=;
+  b=WgmSmdiJLkwF1Bq6cnvTtpkC02LYykcsrpwUXbaCPrUwPRZmr/qOWNUW
+   Zh9+aM1aOEfy8zRIez2zcWf2z0efuAL8F6xOr+xhNZ9+nYae0y+Li4SLE
+   0cJQJ9InkFFW3LDXOlvcQK5L1VdgjyfZAmkZD2NIiT6yI+sp46WpScg76
+   xgGBpESZa1qkxrIM9xHJ2rzX7/vfwYNaeU8GIkN+zL//UwroRFENLUDZl
+   IXM+uhsiqmO7IgCSBp0720Xy26C6HFre7lpzD7tIqkgUjpLxfN/Z8HM/z
+   IvURTmB6DWk+uRf7PTGT+xeu75OFtKgXtNo2DnNDk+t/cj/AJfffRi/Fg
+   g==;
+X-CSE-ConnectionGUID: /T6GVheQRF2LSME/RzYUpA==
+X-CSE-MsgGUID: jp38py/ISgORpON1G1asEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="56923576"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="56923576"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2025 23:54:57 -0700
+X-CSE-ConnectionGUID: Kk8uiPoKQF24hjJzO1T9sA==
+X-CSE-MsgGUID: Vn0ST9h9Q6OBf4jA09zeAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="171727362"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 17 Aug 2025 23:54:55 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1untld-00012J-2b;
+	Mon, 18 Aug 2025 06:54:53 +0000
+Date: Mon, 18 Aug 2025 08:54:37 +0200
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2687/2687] mm/madvise.c:297:6: warning: no
+ previous prototype for function 'force_swapin_vma'
+Message-ID: <202508180823.hOEzzv8k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,68 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-head:   7cd9f5d6c5a3f31d2b282d31ddc4d78ff83a5c08
-commit: 9391ab1ed9b3fe0d1af7d7858d9bf42f476628c8 [8/24] serial: qcom-geni: Make UART port count configurable via Kconfig
-config: parisc-randconfig-r072-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180815.R2nDyajs-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+Hi Liu,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   08d6c0b8f95e9c676bd9bc28b12d198df722218e
+commit: 92a0eb9bde6c03412b39f9f3d20968c091ea3b46 [2687/2687] memcg: introduce per-memcg swapin interface
+config: x86_64-buildonly-randconfig-2003-20250818 (https://download.01.org/0day-ci/archive/20250818/202508180823.hOEzzv8k-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508180823.hOEzzv8k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508180815.R2nDyajs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508180823.hOEzzv8k-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/qcom_geni_serial.c:274 get_port_from_line() error: Calling ida_alloc_range() with a 'max' argument which is a power of 2. -1 missing?
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/tty/serial/qcom_geni_serial.c:1931 qcom_geni_serial_probe() warn: missing unwind goto?
+   In file included from mm/madvise.c:9:
+   In file included from include/linux/mman.h:5:
+   In file included from include/linux/mm.h:2181:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/madvise.c:21:
+   include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/madvise.c:297:6: warning: no previous prototype for function 'force_swapin_vma' [-Wmissing-prototypes]
+     297 | void force_swapin_vma(struct vm_area_struct *vma)
+         |      ^
+   mm/madvise.c:297:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     297 | void force_swapin_vma(struct vm_area_struct *vma)
+         | ^
+         | static 
+   4 warnings generated.
 
-vim +/max +274 drivers/tty/serial/qcom_geni_serial.c
 
-c3e7966c60745f Zong Jiang                  2025-08-12  260  static struct qcom_geni_serial_port *get_port_from_line(int line, bool console, struct device *dev)
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  261  {
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  262  	struct qcom_geni_serial_port *port;
-9391ab1ed9b3fe Zong Jiang                  2025-08-12  263  	int nr_ports = console ? GENI_UART_CONS_PORTS : CONFIG_SERIAL_QCOM_GENI_UART_PORTS;
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  264  
-a53be6945f5123 Viken Dadhaniya             2025-03-27  265  	if (console) {
-a53be6945f5123 Viken Dadhaniya             2025-03-27  266  		if (line < 0 || line >= nr_ports)
-a53be6945f5123 Viken Dadhaniya             2025-03-27  267  			return ERR_PTR(-ENXIO);
-a53be6945f5123 Viken Dadhaniya             2025-03-27  268  
-a53be6945f5123 Viken Dadhaniya             2025-03-27  269  		port = &qcom_geni_console_port;
-a53be6945f5123 Viken Dadhaniya             2025-03-27  270  	} else {
-a53be6945f5123 Viken Dadhaniya             2025-03-27  271  		int max_alias_num = of_alias_get_highest_id("serial");
-a53be6945f5123 Viken Dadhaniya             2025-03-27  272  
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  273  		if (line < 0 || line >= nr_ports)
-a53be6945f5123 Viken Dadhaniya             2025-03-27 @274  			line = ida_alloc_range(&port_ida, max_alias_num + 1, nr_ports, GFP_KERNEL);
+vim +/force_swapin_vma +297 mm/madvise.c
 
-ida_alloc_range() range parameters are inclusive so this should be
-
-	ida_alloc_range(&port_ida, max_alias_num + 1, nr_ports - 1, GFP_KERNEL);
-
-a53be6945f5123 Viken Dadhaniya             2025-03-27  275  		else
-a53be6945f5123 Viken Dadhaniya             2025-03-27  276  			line = ida_alloc_range(&port_ida, line, nr_ports, GFP_KERNEL);
-
-same here
-
-a53be6945f5123 Viken Dadhaniya             2025-03-27  277  
-a53be6945f5123 Viken Dadhaniya             2025-03-27  278  		if (line < 0)
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  279  			return ERR_PTR(-ENXIO);
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  280  
-c3e7966c60745f Zong Jiang                  2025-08-12  281  		port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
-c3e7966c60745f Zong Jiang                  2025-08-12  282  		if (!port)
-c3e7966c60745f Zong Jiang                  2025-08-12  283  			return ERR_PTR(-ENOMEM);
-c3e7966c60745f Zong Jiang                  2025-08-12  284  
-c3e7966c60745f Zong Jiang                  2025-08-12  285  		port->uport.iotype = UPIO_MEM;
-c3e7966c60745f Zong Jiang                  2025-08-12  286  		port->uport.ops = &qcom_geni_uart_pops;
-c3e7966c60745f Zong Jiang                  2025-08-12  287  		port->uport.flags = UPF_BOOT_AUTOCONF;
-c3e7966c60745f Zong Jiang                  2025-08-12  288  		port->uport.line = line;
-a53be6945f5123 Viken Dadhaniya             2025-03-27  289  	}
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  290  	return port;
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  291  }
+   280	
+   281	#ifdef CONFIG_MEMCG_SWAP_QOS
+   282	void force_swapin_vma(struct vm_area_struct *vma)
+   283	{
+   284		struct file *file = vma->vm_file;
+   285	
+   286		if (!can_madv_lru_vma(vma))
+   287			return;
+   288	
+   289		if (!file) {
+   290			walk_page_vma(vma, &swapin_walk_ops, vma);
+   291			lru_add_drain();
+   292		} else if (shmem_mapping(file->f_mapping))
+   293			shmem_swapin_range(vma, vma->vm_start,
+   294				vma->vm_end, file->f_mapping);
+   295	}
+   296	#else
+ > 297	void force_swapin_vma(struct vm_area_struct *vma)
+   298	{
+   299	}
+   300	#endif
+   301	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
