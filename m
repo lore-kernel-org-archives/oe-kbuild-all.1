@@ -1,119 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691F7433C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 15:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0F9253F03;
+	Mon, 18 Aug 2025 15:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755530248; cv=none; b=QL4FAxUuIbLOmaQqFBqlrlQ98YcavbHs189LF0b/jURpG5jm/YMvQzAtHzwtfA4GghPaOQsrr+AGsBxRiCeV7c9BKAME8v2gG2Ai2upaP4Z912Da5HwBNxhGLz0+rimPlHYeswg/3aohklTBoYuiKMEvrv0cjYtTItXc5FxBQD4=
+	t=1755530332; cv=none; b=NbDZ3MYw0YnYg1hjwA5pZAv/4xuhVh65VI2fNTx30Za7WGuFjct3lSodQ2oVSvX8AlR4WfTfQb8vnww6kDVTls57proWLmKHCfelBG7rGAmJr2NSH2tYhitbBUnIYH6hqmOpEE/H/yqCbClpofpvmdOaroEhibkwFzKwt0cn7z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755530248; c=relaxed/simple;
-	bh=Z5HeTwwaCKqoTLgOzH8s2TLVsGOCDzGCDZQzXmcjgmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YT+0LoYDlj6EgPhOoxmXfaAQC1DqmXLd+xNKtVXkx/RT9oIq4UaBZXDNjIV2UyaYYDIPqjcylZb4bVxOuQm+af2gIXhcI19qboTl7RpJuKgsI0abCSn1rBlFJaFvYV7GwX+zxvQEXzA9N8vnOkv1hrDb6KptGfXNvh2uGR6EWBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bYRTBnvl; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bYRTBnvl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755530247; x=1787066247;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z5HeTwwaCKqoTLgOzH8s2TLVsGOCDzGCDZQzXmcjgmI=;
-  b=bYRTBnvlLmerkeGsE9O0nQyfxzhm53p5Ws2Dy4AnCJRTrO+D7lS+r9B2
-   jg6FnBBi+94bRMDL8VGRYITgSSwX/R8hKRHqkl3MtxVt0N0ynWJuk+TBE
-   mk7Z4KMd1C+wQ8GBFEzGh4pGaR0sBi/Y/XgnZcoDBeZ+0vhbzdqpKpAjZ
-   RYNkH0ce3nuYOOYVYaKQ4cxIhYrmjCTxzgeUlJYT0tqUjD/9RxYIZIj22
-   hByLBckrtgiWRzUdG1LmVapAPZCMgyk8caVb5l1FCepS7Iw5Q5Efrw7E3
-   l25ky/S91vDoq3E7Q3aG9TW5P60eyqN2BvmBV4tk/zEVfjsyiQDDG+BM/
-   g==;
-X-CSE-ConnectionGUID: 0h4e1LvyQnOLi1iZJuAyow==
-X-CSE-MsgGUID: ppfa7tlzSNSHgrM3OXMBCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="69205470"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="69205470"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 08:17:26 -0700
-X-CSE-ConnectionGUID: XUXilUEqT9qpCkdf+WztTA==
-X-CSE-MsgGUID: J2BmJs/7RaG9UWrCi/msOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="167219210"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 18 Aug 2025 08:17:24 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uo1bu-00016d-2X;
-	Mon, 18 Aug 2025 15:17:22 +0000
-Date: Mon, 18 Aug 2025 17:16:24 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2687/2687] arch/x86/kernel/early-quirks.c:727:34:
- warning: no previous prototype for function 'kh40000_get_direct_dma_ops'
-Message-ID: <202508181705.DNNoRr4o-lkp@intel.com>
+	s=arc-20240116; t=1755530332; c=relaxed/simple;
+	bh=ukmlTHTouf5G9dMeqhHxsdEphPg6Nyz2tjN77gIOvQc=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tly1bKxJ14lq9ZTl7sm88UOvkUkNJ7/TxZ1FSVa2D9cQazHwK5AsV6Pa1PHa7yCvsQBqsL5DiXHekR6bEdC0Timy4mGHNbPcST2yL9SusAs21UToW57c80iqtJwEUhqpTBVjWKXpLcqx9kUTyzB2gBYrusVnXU5kWUiz5Km701U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4c5GX54YLFz6D9JR;
+	Mon, 18 Aug 2025 23:16:37 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 55A881402F8;
+	Mon, 18 Aug 2025 23:18:42 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 18 Aug
+ 2025 17:18:41 +0200
+Date: Mon, 18 Aug 2025 16:18:40 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Nathan Chancellor <nathan@kernel.org>
+CC: Jonathan Cameron <jic23@kernel.org>, kernel test robot <lkp@intel.com>,
+	Ben Collins <bcollins@watter.com>, David Lechner <dlechner@baylibre.com>,
+	Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy Shevchenko
+	<andy@kernel.org>, <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/5] iio: mcp9600: Recognize chip id for mcp9601
+Message-ID: <20250818161840.00002ecd@huawei.com>
+In-Reply-To: <20250818150659.GA2948920@ax162>
+References: <20250815164627.22002-4-bcollins@watter.com>
+	<202508161646.PDl6V4EU-lkp@intel.com>
+	<20250816110243.06fbf7fb@jic23-huawei>
+	<20250818150659.GA2948920@ax162>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Hi leoliu-oc,
+On Mon, 18 Aug 2025 08:06:59 -0700
+Nathan Chancellor <nathan@kernel.org> wrote:
 
-FYI, the error/warning still remains.
+> Hi Jonathan,
+> 
+> On Sat, Aug 16, 2025 at 11:02:43AM +0100, Jonathan Cameron wrote:
+> > On Sat, 16 Aug 2025 16:46:12 +0800
+> > kernel test robot <lkp@intel.com> wrote:
+> >   
+> > > Hi Ben,
+> > > 
+> > > kernel test robot noticed the following build warnings:
+> > > 
+> > > [auto build test WARNING on jic23-iio/togreg]
+> > > [also build test WARNING on linus/master v6.17-rc1 next-20250815]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Collins/dt-bindings-iio-mcp9600-Add-compatible-for-microchip-mcp9601/20250816-005705
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> > > patch link:    https://lore.kernel.org/r/20250815164627.22002-4-bcollins%40watter.com
+> > > patch subject: [PATCH 3/5] iio: mcp9600: Recognize chip id for mcp9601
+> > > config: riscv-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508161646.PDl6V4EU-lkp@intel.com/config)
+> > > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508161646.PDl6V4EU-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202508161646.PDl6V4EU-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):  
+> 
+> <trim unrelated -Wnull-pointer-arithmetic>
+> 
+> > > >> drivers/iio/temperature/mcp9600.c:440:53: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]    
+> > >      440 |                                 "Expected id %02x, but device responded with %02\n",
+> > >          |                                                                              ~~~^
+> > >    include/linux/dev_printk.h:156:62: note: expanded from macro 'dev_warn'
+> > >      156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+> > >          |                                                                     ^~~
+> > >    include/linux/dev_printk.h:19:22: note: expanded from macro 'dev_fmt'
+> > >       19 | #define dev_fmt(fmt) fmt
+> > >          |                      ^~~
+> > >    include/linux/dev_printk.h:110:16: note: expanded from macro 'dev_printk_index_wrap'
+> > >      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+> > >          |                              ^~~  
+> > > >> drivers/iio/temperature/mcp9600.c:441:26: warning: data argument not used by format string [-Wformat-extra-args]    
+> > >      440 |                                 "Expected id %02x, but device responded with %02\n",
+> > >          |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >      441 |                                  chip_info->chip_id, dev_id);
+> > >          |                                                      ^
+> > >    include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+> > >      156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+> > >          |                                                                     ~~~     ^
+> > >    include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+> > >      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+> > >          |                              ~~~    ^
+> > >    drivers/iio/temperature/mcp9600.c:428:22: warning: unused variable 'ret' [-Wunused-variable]
+> > >      428 |         int ch_sel, dev_id, ret;
+> > >          |                             ^~~
+> > >    10 warnings generated.
+> > > 
+> > > 
+> > > vim +/x0a +440 drivers/iio/temperature/mcp9600.c
+> > > 
+> > >    422	
+> > >    423	static int mcp9600_probe(struct i2c_client *client)
+> > >    424	{
+> > >    425		const struct mcp_chip_info *chip_info = i2c_get_match_data(client);  
+> > 
+> > Probably a false positive as I don't think we can probe without something matching and hence
+> > that not being NULL but an error check on that match is still a nice to have and should
+> > resolve this build warning.  Note there is very little chance a compiler could ever figure
+> > out if this can be NULL or not so it's a reasonable warning!  
+> 
+> I am not sure I follow if you are referring to the -Wformat warnings
+> above. Isn't it pointing out that the second specifier is missing the
+> actual type? Shouldn't it be '%02x' or something of the sort?
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   dc90c923fed4944f134644261022885c12631518
-commit: 11557c1ae4529f133483879b7ee00b7d8c653be7 [2687/2687] x86/cpu/zhaoxin: Encapsulate access to kh40000_dma_direct_ops within function
-config: x86_64-buildonly-randconfig-2004-20250818 (https://download.01.org/0day-ci/archive/20250818/202508181705.DNNoRr4o-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250818/202508181705.DNNoRr4o-lkp@intel.com/reproduce)
+I think I completely misread the report!  Sorry about that. Ignore my comment.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508181705.DNNoRr4o-lkp@intel.com/
+Jonathan
 
-All warnings (new ones prefixed by >>):
+> 
+> Cheers,
+> Nathan
+> 
 
-   In file included from arch/x86/kernel/early-quirks.c:13:
-   In file included from include/linux/pci.h:1666:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2235:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   arch/x86/kernel/early-quirks.c:722:6: warning: no previous prototype for function 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
-     722 | bool is_zhaoxin_kh40000(void)
-         |      ^
-   arch/x86/kernel/early-quirks.c:722:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     722 | bool is_zhaoxin_kh40000(void)
-         | ^
-         | static 
->> arch/x86/kernel/early-quirks.c:727:34: warning: no previous prototype for function 'kh40000_get_direct_dma_ops' [-Wmissing-prototypes]
-     727 | __weak const struct dma_map_ops *kh40000_get_direct_dma_ops(void)
-         |                                  ^
-   arch/x86/kernel/early-quirks.c:727:14: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     727 | __weak const struct dma_map_ops *kh40000_get_direct_dma_ops(void)
-         |              ^
-         |              static 
-   3 warnings generated.
-
-
-vim +/kh40000_get_direct_dma_ops +727 arch/x86/kernel/early-quirks.c
-
-   726	
- > 727	__weak const struct dma_map_ops *kh40000_get_direct_dma_ops(void)
-   728	{
-   729		return dma_ops;
-   730	}
-   731	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
