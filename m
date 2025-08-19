@@ -1,172 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DD02C236F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 16:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE20A246761;
+	Tue, 19 Aug 2025 16:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755619904; cv=none; b=noc3LDE4iLkdUtLruUdDRasGnI4TZptIX2T1x4dDvpjfSUIEEGs036Nf0hd193cBXWsD43eMe9F3rZo1F0ZuHxSWA5gpipN+E+Hf7mqjWnxAFnJBxK/ZcCyfhICTT4jqd+Idptq77zI4CGeM6ss1DKiUWRfDiT31lN+n2o4KW7M=
+	t=1755621891; cv=none; b=DS6EZclEGwhdg2ZmlDELIozO5n3/yC6q6Ex7tM7kNX0nftRjBN41z131FcsE93kIAJ7MugoQOECGTIfsb36hc22LK5M3DBloxyyXhEBUbPAbcIIqnt320bhHsvu6181tFsJAZo+lTYTVp7S0TrIsZi3DT0mo1cSE8xRdCYn61sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755619904; c=relaxed/simple;
-	bh=87YZPJZ5q3Sgkr3avnsaQR4tYHWxRSrg1im7qSOpZtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rUm0iNs1AYj2Ap8AGPx1AZ5MnG5KoyDcdwo7ErkJ0chN21EZqfBdMkmEFtIzxrmoPCyE2JAibZrvql8jFMfx6FXux8+4MvDSPc5D3gHj1juGLZB2B8aGO7vA4rmpLJ6yg+7VTRKSmmWJ/+JT6HoMad0TBxr+gAMDFi6gNsEzQls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TG//Cigf; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TG//Cigf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755619901; x=1787155901;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=87YZPJZ5q3Sgkr3avnsaQR4tYHWxRSrg1im7qSOpZtY=;
-  b=TG//CigfKBL12ftbw48o4fcXIVYKd+nY7XkuV6/bFr93veWLXFV1yWMk
-   9vg/3dRsa9ZLHZCEYnZTai9y3WDQ2Ou7CujtcGkS0YLrbqoetLxAsGZnJ
-   ZGJuYcVSjqhoetG1g19b27OtcsrY9HQLNQXD/1D30KzRexafQLomFd+w6
-   +qjzmjCQ66zUnK+qsnP+W8eWNbJgNAnutwFzVvwGTCQjUy5rS1pZeBVFL
-   97HMWd6HW3sLvDyBOWTXYupKqejEaAyw8hLWZGw4LEh24fvL59rIKggQy
-   SrgFZ1p1XsiLrCRL/wXmydPVDkJtMS++iGlRaY7nMU8ESjH4QCorElXZL
-   A==;
-X-CSE-ConnectionGUID: G65UL0P4Rw2AtUnVyN+wtA==
-X-CSE-MsgGUID: ublcV4bsQoGTQvlx7MMC/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57726013"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="57726013"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 09:11:40 -0700
-X-CSE-ConnectionGUID: Ja443f0+T+Scnc8/lwfoOA==
-X-CSE-MsgGUID: Gxr3e9e9RRSzCPklatT/iA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="167069883"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 19 Aug 2025 09:11:38 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uoOvv-000H6R-2n;
-	Tue, 19 Aug 2025 16:11:35 +0000
-Date: Wed, 20 Aug 2025 00:10:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tanmay Jagdale <tanmay@marvell.com>, davem@davemloft.net,
-	leon@kernel.org, horms@kernel.org, sgoutham@marvell.com,
-	bbhushan2@marvell.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	netdev@vger.kernel.org, Tanmay Jagdale <tanmay@marvell.com>
-Subject: Re: [PATCH net-next v4 13/14] octeontx2-pf: ipsec: Manage NPC rules
- and SPI-to-SA table entries
-Message-ID: <202508200056.n3gONjJD-lkp@intel.com>
-References: <20250819021507.323752-14-tanmay@marvell.com>
+	s=arc-20240116; t=1755621891; c=relaxed/simple;
+	bh=RU7nlGe30M46gbBtEbh2P8n5jWs2/CHoeEBSBsFHfeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GC0gTnO7iM8oOkZ2KFkKWIjuJa9oknZxY8s7pm2F+ezoJzJuDM30HrBvgmNtQbxYoaKUavcrdNfoDtXRUIjIKwH5mPS9i6IaEesCVMd2iZolQZxrfOdkipMW2XUee7iunuRzWeWOeMJv2nhR5TZU5aoeI1RaHepKgOndnIjpoYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 2156713662A;
+	Tue, 19 Aug 2025 16:44:42 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id 9C6192002C;
+	Tue, 19 Aug 2025 16:44:40 +0000 (UTC)
+Date: Tue, 19 Aug 2025 12:44:40 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [koverstreet-bcachefs:bcachefs-testing 315/315] ld.lld: error:
+ duplicate symbol: __tracepoint_io_read
+Message-ID: <20250819124440.67f0f6a5@gandalf.local.home>
+In-Reply-To: <ujqytz6ysengalwiukpf5j24urkdyijq255ys7zgzevkzkyu2o@7ye2os3lu3a5>
+References: <202508192038.S6x4nOyC-lkp@intel.com>
+	<ujqytz6ysengalwiukpf5j24urkdyijq255ys7zgzevkzkyu2o@7ye2os3lu3a5>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819021507.323752-14-tanmay@marvell.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 9C6192002C
+X-Stat-Signature: rfyutshmppwz5rw6grdhwdyi6kz87ra6
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+KvaYYPUqBKDpTIrlnEUx7XrwXn1AwNAA=
+X-HE-Tag: 1755621880-601068
+X-HE-Meta: U2FsdGVkX1/lkLskUhTUMbjbO473JCVwq+5OlmuV/A4q4ncq8SoTPwMHX6oy2UoyEe/mSup/iqNqRKYYAcpAk8EmrATZ1h1mwrGZh7hHeCUP8k8WiB0fC/PChEltPr4OexFjwD3h4qUMoHv6Ekn9eAKKe4QVMVsIXGBr2pqkYBYFjSrdOXmLTpmstYE/h3YIk+A/+K+1FqYeEna8VdCNz0nYumEdmqh49cZja7op578KU1AODL3sCpejoy3R/wD0SEBd9CRkhijPpboc2cQucsupbwNHu7OmiEEFI22uuiBNGmkbQxZTB9Jr7DiiEwTV
 
-Hi Tanmay,
+On Tue, 19 Aug 2025 10:57:19 -0400
+Kent Overstreet <kent.overstreet@linux.dev> wrote:
 
-kernel test robot noticed the following build errors:
+> __traceiter_tracepointname - is this something easily fixable, or do I
+> just have to rename?
 
-[auto build test ERROR on net-next/main]
+Best to just rename. Two static tracepoints can't have the same name, which
+is why I recommend always appending a prefix to them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Jagdale/crypto-octeontx2-Share-engine-group-info-with-AF-driver/20250819-103300
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250819021507.323752-14-tanmay%40marvell.com
-patch subject: [PATCH net-next v4 13/14] octeontx2-pf: ipsec: Manage NPC rules and SPI-to-SA table entries
-config: sparc64-randconfig-002-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200056.n3gONjJD-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200056.n3gONjJD-lkp@intel.com/reproduce)
+Which is why we have: /sys/kernel/tracing/events/sched/sched_switch
+and not just: /sys/kernel/tracing/events/sched/switch
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508200056.n3gONjJD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c: In function 'otx2_free_hw_resources':
->> drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1809:3: error: implicit declaration of function 'cn10k_ipsec_inb_disable_flows'; did you mean 'cn10k_ipsec_inb_delete_flows'? [-Werror=implicit-function-declaration]
-      cn10k_ipsec_inb_disable_flows(pf);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      cn10k_ipsec_inb_delete_flows
-   cc1: some warnings being treated as errors
-
-
-vim +1809 drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
-
-  1772	
-  1773		if (!otx2_rep_dev(pf->pdev))
-  1774			otx2_clean_qos_queues(pf);
-  1775	
-  1776		mutex_lock(&mbox->lock);
-  1777		/* Disable backpressure */
-  1778		if (!is_otx2_lbkvf(pf->pdev))
-  1779			otx2_nix_config_bp(pf, false);
-  1780		mutex_unlock(&mbox->lock);
-  1781	
-  1782		/* Disable RQs */
-  1783		otx2_ctx_disable(mbox, NIX_AQ_CTYPE_RQ, false);
-  1784	
-  1785		/*Dequeue all CQEs */
-  1786		for (qidx = 0; qidx < qset->cq_cnt; qidx++) {
-  1787			cq = &qset->cq[qidx];
-  1788			if (cq->cq_type == CQ_RX)
-  1789				otx2_cleanup_rx_cqes(pf, cq, qidx);
-  1790			else
-  1791				otx2_cleanup_tx_cqes(pf, cq);
-  1792		}
-  1793		otx2_free_pending_sqe(pf);
-  1794	
-  1795		otx2_free_sq_res(pf);
-  1796	
-  1797		/* Free RQ buffer pointers*/
-  1798		otx2_free_aura_ptr(pf, AURA_NIX_RQ);
-  1799		cn10k_ipsec_free_aura_ptrs(pf);
-  1800	
-  1801		otx2_free_cq_res(pf);
-  1802	
-  1803		/* Free all ingress bandwidth profiles allocated */
-  1804		if (!otx2_rep_dev(pf->pdev))
-  1805			cn10k_free_all_ipolicers(pf);
-  1806	
-  1807		/* Delete Inbound IPSec flows if any SA's are installed */
-  1808		if (!list_empty(&pf->ipsec.inb_sw_ctx_list))
-> 1809			cn10k_ipsec_inb_disable_flows(pf);
-  1810	
-  1811		mutex_lock(&mbox->lock);
-  1812		/* Reset NIX LF */
-  1813		free_req = otx2_mbox_alloc_msg_nix_lf_free(mbox);
-  1814		if (free_req) {
-  1815			free_req->flags = NIX_LF_DISABLE_FLOWS;
-  1816			if (!(pf->flags & OTX2_FLAG_PF_SHUTDOWN))
-  1817				free_req->flags |= NIX_LF_DONT_FREE_TX_VTAG;
-  1818			if (otx2_sync_mbox_msg(mbox))
-  1819				dev_err(pf->dev, "%s failed to free nixlf\n", __func__);
-  1820		}
-  1821		mutex_unlock(&mbox->lock);
-  1822	
-  1823		/* Disable NPA Pool and Aura hw context */
-  1824		otx2_ctx_disable(mbox, NPA_AQ_CTYPE_POOL, true);
-  1825		otx2_ctx_disable(mbox, NPA_AQ_CTYPE_AURA, true);
-  1826		otx2_aura_pool_free(pf);
-  1827	
-  1828		mutex_lock(&mbox->lock);
-  1829		/* Reset NPA LF */
-  1830		req = otx2_mbox_alloc_msg_npa_lf_free(mbox);
-  1831		if (req) {
-  1832			if (otx2_sync_mbox_msg(mbox))
-  1833				dev_err(pf->dev, "%s failed to free npalf\n", __func__);
-  1834		}
-  1835		mutex_unlock(&mbox->lock);
-  1836	}
-  1837	EXPORT_SYMBOL(otx2_free_hw_resources);
-  1838	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
