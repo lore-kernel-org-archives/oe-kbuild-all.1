@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7381F4A23
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 12:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A640F20C000;
+	Tue, 19 Aug 2025 12:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755605451; cv=none; b=nuJUk4H4oqtNVY8bFCO8kG2kVQmJucTSh15kzXc7kErrdWpoEgVNfcOd17ZOHfdHmXGcqA89XruSI2ebUs1VdesH06DsUZYQZVqpIpVyvIi7wMmvUpLTSrjywmeYha+XJudj/aEKZt3qF6m4YqD2Z2Na3hkwbslFmfYCN/Uwl8Y=
+	t=1755606240; cv=none; b=Hns+nqUAbeu+pQ++PPoP7fTS10Min8F1hyMsIy7lQW6987CCUOdc2Xb6X7koSf0woG2Hh2dItAvI2aMC4CoPtZd5BK56gZCxBuR/R1SRblzp944l2HbrDqMjmgu5y9F8liZZoLtqU8ECj3naYrlw1Fw3E49crZcKuk9PwwNht5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755605451; c=relaxed/simple;
-	bh=9lW3/dWzt5UToAodYloh3cRTdJpTq26FnPkQkeM6tgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CpuP1X/q8NBNDJpC99PKxPtUmNM2iWIHR/ErjeC8DAE0ozjes7b7tGvAeJXtgNB3tMZ19UzCl5HRWSGhyt0Gu2mQRmYQKmAYtVmklbsnOkwWG3fhYHxW59VTM9/sMIkV69fkNzg757jc0afF/yPAu6gpAyGKS0xJ9j9mQT80Xf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvMI2/bI; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1755606240; c=relaxed/simple;
+	bh=fI4hT8CuNMb2bjEOBw/jySCX58PyHsr/5lyNM6n1Y/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JSgrPapZuOKmzug1fb8ygYkdbicXOh0JUqGM1/8OdbhFOXdZk3nmsSztBnDT2ogPwaQA+4ahAylLtur55zxelvJpvFD20YTostyWjwfQyvBcSf58qjSWZAd1b6wdRyaIXLCOeGEEVHfr8TkOhznmzm72HE364MT1qP/aCZdWttY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iV/dvY8z; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvMI2/bI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iV/dvY8z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755605449; x=1787141449;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9lW3/dWzt5UToAodYloh3cRTdJpTq26FnPkQkeM6tgk=;
-  b=jvMI2/bIU3DVR4kHxBcvxzqMVoCRIqhPzUShyy9YBvYin3sR6LYSO6Xv
-   tZcEyMvc8YRETyRXhxNL898/yvesvM6MpS7EoQnHlJL6DOPdwRL3MMdQv
-   i6MuMc/e/k2h8KKmzKqpwkeuVVLrqycoHZFb/pNBAPAS2TZN43/nnsQtR
-   oDk6ijF6soAjir6V0zWMe+Me+uI9teMlaeD/ecswoi2rwyTYr8G0iob99
-   HaD/Gig0Xyyad9o4yWm16kkjNAex/nm1bqNlEUMWQvZS/XjbmzPvB7e6R
-   TrjIbsVC38oFqIhV4Ewfe5QgC/HCqhGl8JcOWwB+PqCd39tcruPKochat
+  t=1755606238; x=1787142238;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fI4hT8CuNMb2bjEOBw/jySCX58PyHsr/5lyNM6n1Y/M=;
+  b=iV/dvY8zESFhi7jwblHd4om2A637rKYwuMCbyS262ion8sEB1xc8xSxm
+   bMx4hHiSW5Ap/GArYiy6jxcqu4kTGl7bu7mxv6AFMfr0XVqVL81R+SjJe
+   CCOMc4T7UeZZcum7K7w8YK1TIrwx6VDT04W+OExnnfa/oEcWvO1tF5tfA
+   KH/H+HKtWNkyUMoYPUNMFvnJklotU0/1YK2bFVbfuwI+Td/l2GxyMA+ct
+   YgOmcYyc8mKxR7NtxL0euK8zfnMbEGayDkz1+V7pKxuG5BWrJK/+az+Yi
+   VDrW9RiR0R6Ap6KrPTFypLkrhMM6vSlBEdeJA7Ffc0UJ9lJamUU6WIGA7
    g==;
-X-CSE-ConnectionGUID: pGkKCZI9TvSyrBBKtDzlxA==
-X-CSE-MsgGUID: CZVQHp6gRN6sGucu38NS5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="75418631"
+X-CSE-ConnectionGUID: rg4uwI9BTO+N6hxp5xJ5Rg==
+X-CSE-MsgGUID: qQO2HTuGQxeXQ5lBddMIjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="68556137"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="75418631"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 05:10:49 -0700
-X-CSE-ConnectionGUID: JnFl4hlmSiKwJ3FsjLStYg==
-X-CSE-MsgGUID: tj8fLo+eSrOfLurYHPFW5A==
+   d="scan'208";a="68556137"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 05:23:58 -0700
+X-CSE-ConnectionGUID: kQGhHvgmRhy3OwX7KAoInA==
+X-CSE-MsgGUID: UMzsUuHOSzqhndiWOT2Drg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="167735694"
+   d="scan'208";a="204987164"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Aug 2025 05:10:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Aug 2025 05:23:52 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoLAl-000GqD-0S;
-	Tue, 19 Aug 2025 12:10:40 +0000
-Date: Tue, 19 Aug 2025 20:09:33 +0800
+	id 1uoLMb-000Gqh-0m;
+	Tue, 19 Aug 2025 12:23:28 +0000
+Date: Tue, 19 Aug 2025 20:22:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: oe-kbuild-all@lists.linux.dev, Srinivas Kandagatla <srini@kernel.org>
-Subject: [srini-nvmem:for-next 1/1] include/linux/mfd/qnap-mcu.h:13:9: error:
- unknown type name 'u32'
-Message-ID: <202508191938.W0luCEyw-lkp@intel.com>
+To: Ashish Kalra <Ashish.Kalra@amd.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, seanjc@google.com,
+	pbonzini@redhat.com, thomas.lendacky@amd.com,
+	herbert@gondor.apana.org.au
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nikunj@amd.com,
+	davem@davemloft.net, aik@amd.com, ardb@kernel.org,
+	michael.roth@amd.com, Neeraj.Upadhyay@amd.com,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [RESEND PATCH v2 3/3] crypto: ccp - Add AMD Seamless Firmware
+ Servicing (SFS) driver
+Message-ID: <202508192016.ZlSGEWUC-lkp@intel.com>
+References: <1f3398c19eab6701566f4044c2c1059114d9bc48.1755548015.git.ashish.kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,92 +71,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1f3398c19eab6701566f4044c2c1059114d9bc48.1755548015.git.ashish.kalra@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-next
-head:   117c3f3014a929464c01622cb95b566bd27244f8
-commit: 117c3f3014a929464c01622cb95b566bd27244f8 [1/1] nvmem: add driver for the eeprom in qnap-mcu controllers
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250819/202508191938.W0luCEyw-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191938.W0luCEyw-lkp@intel.com/reproduce)
+Hi Ashish,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250818]
+[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master tip/x86/core tip/master linus/master tip/auto-latest v6.17-rc2 v6.17-rc1 v6.16 v6.17-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Kalra/x86-sev-Add-new-quiet-parameter-to-snp_leak_pages-API/20250819-042220
+base:   next-20250818
+patch link:    https://lore.kernel.org/r/1f3398c19eab6701566f4044c2c1059114d9bc48.1755548015.git.ashish.kalra%40amd.com
+patch subject: [RESEND PATCH v2 3/3] crypto: ccp - Add AMD Seamless Firmware Servicing (SFS) driver
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250819/202508192016.ZlSGEWUC-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508192016.ZlSGEWUC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508191938.W0luCEyw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508192016.ZlSGEWUC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/nvmem/qnap-mcu-eeprom.c:12:
->> include/linux/mfd/qnap-mcu.h:13:9: error: unknown type name 'u32'
-      13 |         u32 baud_rate;
-         |         ^~~
->> include/linux/mfd/qnap-mcu.h:17:9: error: unknown type name 'bool'
-      17 |         bool usb_led;
-         |         ^~~~
-   include/linux/mfd/qnap-mcu.h:1:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
-     +++ |+#include <stdbool.h>
-       1 | /* SPDX-License-Identifier: GPL-2.0+ */
->> include/linux/mfd/qnap-mcu.h:21:25: error: unknown type name 'u8'
-      21 |                   const u8 *cmd_data, size_t cmd_data_size,
-         |                         ^~
->> include/linux/mfd/qnap-mcu.h:21:39: error: unknown type name 'size_t'
-      21 |                   const u8 *cmd_data, size_t cmd_data_size,
-         |                                       ^~~~~~
-   include/linux/mfd/qnap-mcu.h:1:1: note: 'size_t' is defined in header '<stddef.h>'; this is probably fixable by adding '#include <stddef.h>'
-     +++ |+#include <stddef.h>
-       1 | /* SPDX-License-Identifier: GPL-2.0+ */
-   include/linux/mfd/qnap-mcu.h:22:19: error: unknown type name 'u8'
-      22 |                   u8 *reply_data, size_t reply_data_size);
-         |                   ^~
-   include/linux/mfd/qnap-mcu.h:22:35: error: unknown type name 'size_t'
-      22 |                   u8 *reply_data, size_t reply_data_size);
-         |                                   ^~~~~~
-   include/linux/mfd/qnap-mcu.h:22:35: note: 'size_t' is defined in header '<stddef.h>'; this is probably fixable by adding '#include <stddef.h>'
-   include/linux/mfd/qnap-mcu.h:24:34: error: unknown type name 'u8'
-      24 |                            const u8 *cmd_data, size_t cmd_data_size);
-         |                                  ^~
-   include/linux/mfd/qnap-mcu.h:24:48: error: unknown type name 'size_t'
-      24 |                            const u8 *cmd_data, size_t cmd_data_size);
-         |                                                ^~~~~~
-   include/linux/mfd/qnap-mcu.h:24:48: note: 'size_t' is defined in header '<stddef.h>'; this is probably fixable by adding '#include <stddef.h>'
-   drivers/nvmem/qnap-mcu-eeprom.c: In function 'qnap_mcu_eeprom_read_block':
->> drivers/nvmem/qnap-mcu-eeprom.c:28:17: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
-         |                 ^~~~~~~
->> drivers/nvmem/qnap-mcu-eeprom.c:28:15: error: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
-         |               ^
->> drivers/nvmem/qnap-mcu-eeprom.c:32:15: error: implicit declaration of function 'qnap_mcu_exec' [-Wimplicit-function-declaration]
-      32 |         ret = qnap_mcu_exec(mcu, cmd, sizeof(cmd), reply, bytes + sizeof(cmd));
-         |               ^~~~~~~~~~~~~
->> drivers/nvmem/qnap-mcu-eeprom.c:45:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-      45 |         kfree(reply);
-         |         ^~~~~
+>> drivers/crypto/ccp/sfs.c:262:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     262 |         if (!page) {
+         |             ^~~~~
+   drivers/crypto/ccp/sfs.c:301:9: note: uninitialized use occurs here
+     301 |         return ret;
+         |                ^~~
+   drivers/crypto/ccp/sfs.c:262:2: note: remove the 'if' if its condition is always false
+     262 |         if (!page) {
+         |         ^~~~~~~~~~~~
+     263 |                 dev_dbg(dev, "Command Buffer HV-Fixed page allocation failed\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     264 |                 goto cleanup_dev;
+         |                 ~~~~~~~~~~~~~~~~~
+     265 |         }
+         |         ~
+   drivers/crypto/ccp/sfs.c:250:9: note: initialize the variable 'ret' to silence this warning
+     250 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/u32 +13 include/linux/mfd/qnap-mcu.h
+vim +262 drivers/crypto/ccp/sfs.c
 
-998f70d1806bb7 Heiko Stuebner 2024-11-07  11  
-998f70d1806bb7 Heiko Stuebner 2024-11-07  12  struct qnap_mcu_variant {
-998f70d1806bb7 Heiko Stuebner 2024-11-07 @13  	u32 baud_rate;
-998f70d1806bb7 Heiko Stuebner 2024-11-07  14  	int num_drives;
-998f70d1806bb7 Heiko Stuebner 2024-11-07  15  	int fan_pwm_min;
-998f70d1806bb7 Heiko Stuebner 2024-11-07  16  	int fan_pwm_max;
-998f70d1806bb7 Heiko Stuebner 2024-11-07 @17  	bool usb_led;
-998f70d1806bb7 Heiko Stuebner 2024-11-07  18  };
-998f70d1806bb7 Heiko Stuebner 2024-11-07  19  
-998f70d1806bb7 Heiko Stuebner 2024-11-07  20  int qnap_mcu_exec(struct qnap_mcu *mcu,
-998f70d1806bb7 Heiko Stuebner 2024-11-07 @21  		  const u8 *cmd_data, size_t cmd_data_size,
-998f70d1806bb7 Heiko Stuebner 2024-11-07  22  		  u8 *reply_data, size_t reply_data_size);
-998f70d1806bb7 Heiko Stuebner 2024-11-07  23  int qnap_mcu_exec_with_ack(struct qnap_mcu *mcu,
-998f70d1806bb7 Heiko Stuebner 2024-11-07  24  			   const u8 *cmd_data, size_t cmd_data_size);
-998f70d1806bb7 Heiko Stuebner 2024-11-07  25  
-
-:::::: The code at line 13 was first introduced by commit
-:::::: 998f70d1806bb718a7565f350283e4a79c8cbb4b mfd: Add base driver for qnap-mcu devices
-
-:::::: TO: Heiko Stuebner <heiko@sntech.de>
-:::::: CC: Lee Jones <lee@kernel.org>
+   244	
+   245	int sfs_dev_init(struct psp_device *psp)
+   246	{
+   247		struct device *dev = psp->dev;
+   248		struct sfs_device *sfs_dev;
+   249		struct page *page;
+   250		int ret;
+   251	
+   252		sfs_dev = devm_kzalloc(dev, sizeof(*sfs_dev), GFP_KERNEL);
+   253		if (!sfs_dev)
+   254			return -ENOMEM;
+   255	
+   256		/*
+   257		 * Pre-allocate 2MB command buffer for all SFS commands using
+   258		 * SNP HV_Fixed page allocator which also transitions the
+   259		 * SFS command buffer to HV_Fixed page state if SNP is enabled.
+   260		 */
+   261		page = snp_alloc_hv_fixed_pages(SFS_NUM_2MB_PAGES_CMDBUF);
+ > 262		if (!page) {
 
 -- 
 0-DAY CI Kernel Test Service
