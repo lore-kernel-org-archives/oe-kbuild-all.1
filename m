@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A7A253B40
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 16:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DD02C236F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 16:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755619238; cv=none; b=fP5+WyAz8S/s8SuhC/L2M6lcl4unNkfWZ0Iz2x4R8PmWUhtEDg90z82nHoEHlL+ARxC9ED80uW/+TQ1qKkXcXqURCwhc/v5TvLWjr3P3LrfpnTMdnc2IWn1+O9PyVqYG70m+0Wz7BkU1AlvJAfqzc87zrWoND6uDXvZoTuztYkI=
+	t=1755619904; cv=none; b=noc3LDE4iLkdUtLruUdDRasGnI4TZptIX2T1x4dDvpjfSUIEEGs036Nf0hd193cBXWsD43eMe9F3rZo1F0ZuHxSWA5gpipN+E+Hf7mqjWnxAFnJBxK/ZcCyfhICTT4jqd+Idptq77zI4CGeM6ss1DKiUWRfDiT31lN+n2o4KW7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755619238; c=relaxed/simple;
-	bh=9pCGquBfB9iEH+++tWiD+pVK53sSQfG2z2BeRYgVW70=;
+	s=arc-20240116; t=1755619904; c=relaxed/simple;
+	bh=87YZPJZ5q3Sgkr3avnsaQR4tYHWxRSrg1im7qSOpZtY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+oUXqgvbsacLIGGFVTe+Bb25eX3GKSBup0Zctl8xc0EYWrXCv18w03t1icRo9GjCiAc+3qRuRk7gglpwc3ZpDjOCJ4a4RJ0uaYPCJ5b+qFt2uZuE0nIiOed13SkfF10OTK/6VhO75rCRUnsV22L/jjBirPgbCiflgrodW3Hy/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W2kQEUBR; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=rUm0iNs1AYj2Ap8AGPx1AZ5MnG5KoyDcdwo7ErkJ0chN21EZqfBdMkmEFtIzxrmoPCyE2JAibZrvql8jFMfx6FXux8+4MvDSPc5D3gHj1juGLZB2B8aGO7vA4rmpLJ6yg+7VTRKSmmWJ/+JT6HoMad0TBxr+gAMDFi6gNsEzQls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TG//Cigf; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W2kQEUBR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TG//Cigf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755619237; x=1787155237;
+  t=1755619901; x=1787155901;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9pCGquBfB9iEH+++tWiD+pVK53sSQfG2z2BeRYgVW70=;
-  b=W2kQEUBRsPrPbBnm8gGyCOd0gkXFLTjoEfqTi4+0tqvwldhqLSjlGgeT
-   1mSDlUS9wZraubae2phPfRAY7tiyZMtpNOz3gFMQ64FdRh0Qi1JJVBLEp
-   lzRzLjbN3oggDZer9xXKCjSq3BY5u5hdg+ZfvBrNOUoqQnFTYMENE0Z/z
-   YJLRDSyUAwpghsynrDfErsitF0h1gVFFemgKFYaxZglBUTxWMw8wWBLn4
-   lWR3Sb/aGRtXqpwJvZGEApSdpZTRWtHLguVH/rnbJSN/69MS9iskEQJ2V
-   /8VzgYqdhVZtEWe6W1GhxUbMcskzg08eipw8s3qKx8zz8TFOAsR7rptKS
+  bh=87YZPJZ5q3Sgkr3avnsaQR4tYHWxRSrg1im7qSOpZtY=;
+  b=TG//CigfKBL12ftbw48o4fcXIVYKd+nY7XkuV6/bFr93veWLXFV1yWMk
+   9vg/3dRsa9ZLHZCEYnZTai9y3WDQ2Ou7CujtcGkS0YLrbqoetLxAsGZnJ
+   ZGJuYcVSjqhoetG1g19b27OtcsrY9HQLNQXD/1D30KzRexafQLomFd+w6
+   +qjzmjCQ66zUnK+qsnP+W8eWNbJgNAnutwFzVvwGTCQjUy5rS1pZeBVFL
+   97HMWd6HW3sLvDyBOWTXYupKqejEaAyw8hLWZGw4LEh24fvL59rIKggQy
+   SrgFZ1p1XsiLrCRL/wXmydPVDkJtMS++iGlRaY7nMU8ESjH4QCorElXZL
    A==;
-X-CSE-ConnectionGUID: 39d2PGUfTP+ng2XsSe6ABA==
-X-CSE-MsgGUID: db0t28hNTDeCInWafU+M+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="56896696"
+X-CSE-ConnectionGUID: G65UL0P4Rw2AtUnVyN+wtA==
+X-CSE-MsgGUID: ublcV4bsQoGTQvlx7MMC/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57726013"
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="56896696"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 09:00:35 -0700
-X-CSE-ConnectionGUID: RPcjQSr2QdGwG+6/sj9wKg==
-X-CSE-MsgGUID: 6kHb0nwpQF+Tr0QnUKeOLw==
+   d="scan'208";a="57726013"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 09:11:40 -0700
+X-CSE-ConnectionGUID: Ja443f0+T+Scnc8/lwfoOA==
+X-CSE-MsgGUID: Gxr3e9e9RRSzCPklatT/iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="191567611"
+   d="scan'208";a="167069883"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Aug 2025 09:00:32 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Aug 2025 09:11:38 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoOl0-000H55-0I;
-	Tue, 19 Aug 2025 16:00:21 +0000
-Date: Wed, 20 Aug 2025 00:00:04 +0800
+	id 1uoOvv-000H6R-2n;
+	Tue, 19 Aug 2025 16:11:35 +0000
+Date: Wed, 20 Aug 2025 00:10:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiang Gao <gxxa03070307@gmail.com>, akpm@linux-foundation.org,
-	david@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH] mm/cma: add available_count and total count in
- trace_cma_alloc_start
-Message-ID: <202508192303.cnpF2rQG-lkp@intel.com>
-References: <20250819032654.4345-1-gxxa03070307@gmail.com>
+To: Tanmay Jagdale <tanmay@marvell.com>, davem@davemloft.net,
+	leon@kernel.org, horms@kernel.org, sgoutham@marvell.com,
+	bbhushan2@marvell.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	netdev@vger.kernel.org, Tanmay Jagdale <tanmay@marvell.com>
+Subject: Re: [PATCH net-next v4 13/14] octeontx2-pf: ipsec: Manage NPC rules
+ and SPI-to-SA table entries
+Message-ID: <202508200056.n3gONjJD-lkp@intel.com>
+References: <20250819021507.323752-14-tanmay@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,151 +66,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819032654.4345-1-gxxa03070307@gmail.com>
+In-Reply-To: <20250819021507.323752-14-tanmay@marvell.com>
 
-Hi Xiang,
+Hi Tanmay,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiang-Gao/mm-cma-add-available_count-and-total-count-in-trace_cma_alloc_start/20250819-112831
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250819032654.4345-1-gxxa03070307%40gmail.com
-patch subject: [PATCH] mm/cma: add available_count and total count in trace_cma_alloc_start
-config: s390-randconfig-002-20250819 (https://download.01.org/0day-ci/archive/20250819/202508192303.cnpF2rQG-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508192303.cnpF2rQG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Jagdale/crypto-octeontx2-Share-engine-group-info-with-AF-driver/20250819-103300
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250819021507.323752-14-tanmay%40marvell.com
+patch subject: [PATCH net-next v4 13/14] octeontx2-pf: ipsec: Manage NPC rules and SPI-to-SA table entries
+config: sparc64-randconfig-002-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200056.n3gONjJD-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200056.n3gONjJD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508192303.cnpF2rQG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200056.n3gONjJD-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:132,
-                    from include/trace/events/cma.h:138,
-                    from mm/cma.c:31:
-   include/trace/events/cma.h: In function 'trace_raw_output_cma_alloc_start':
->> include/trace/events/cma.h:62:19: warning: format '%u' expects argument of type 'unsigned int', but argument 5 has type 'long unsigned int' [-Wformat=]
-      62 |         TP_printk("name=%s count=%lu align=%u",
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     219 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   include/trace/events/cma.h:39:1: note: in expansion of macro 'TRACE_EVENT'
-      39 | TRACE_EVENT(cma_alloc_start,
-         | ^~~~~~~~~~~
-   include/trace/events/cma.h:62:9: note: in expansion of macro 'TP_printk'
-      62 |         TP_printk("name=%s count=%lu align=%u",
-         |         ^~~~~~~~~
-   In file included from include/trace/trace_events.h:256:
-   include/trace/events/cma.h:62:45: note: format string is defined here
-      62 |         TP_printk("name=%s count=%lu align=%u",
-         |                                            ~^
-         |                                             |
-         |                                             unsigned int
-         |                                            %lu
->> include/trace/events/cma.h:62:19: warning: too many arguments for format [-Wformat-extra-args]
-      62 |         TP_printk("name=%s count=%lu align=%u",
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     219 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   include/trace/events/cma.h:39:1: note: in expansion of macro 'TRACE_EVENT'
-      39 | TRACE_EVENT(cma_alloc_start,
-         | ^~~~~~~~~~~
-   include/trace/events/cma.h:62:9: note: in expansion of macro 'TP_printk'
-      62 |         TP_printk("name=%s count=%lu align=%u",
-         |         ^~~~~~~~~
-   include/trace/events/cma.h: In function 'do_trace_event_raw_event_cma_alloc_start':
->> include/trace/events/cma.h:56:24: error: 'struct trace_event_raw_cma_alloc_start' has no member named 'count'
-      56 |                 __entry->count = request_count;
-         |                        ^~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/cma.h:39:1: note: in expansion of macro 'TRACE_EVENT'
-      39 | TRACE_EVENT(cma_alloc_start,
-         | ^~~~~~~~~~~
-   include/trace/events/cma.h:54:9: note: in expansion of macro 'TP_fast_assign'
-      54 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:133:
-   include/trace/events/cma.h: In function 'do_perf_trace_cma_alloc_start':
->> include/trace/events/cma.h:56:24: error: 'struct trace_event_raw_cma_alloc_start' has no member named 'count'
-      56 |                 __entry->count = request_count;
-         |                        ^~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/cma.h:39:1: note: in expansion of macro 'TRACE_EVENT'
-      39 | TRACE_EVENT(cma_alloc_start,
-         | ^~~~~~~~~~~
-   include/trace/events/cma.h:54:9: note: in expansion of macro 'TP_fast_assign'
-      54 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c: In function 'otx2_free_hw_resources':
+>> drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1809:3: error: implicit declaration of function 'cn10k_ipsec_inb_disable_flows'; did you mean 'cn10k_ipsec_inb_delete_flows'? [-Werror=implicit-function-declaration]
+      cn10k_ipsec_inb_disable_flows(pf);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      cn10k_ipsec_inb_delete_flows
+   cc1: some warnings being treated as errors
 
 
-vim +56 include/trace/events/cma.h
+vim +1809 drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
 
-    38	
-  > 39	TRACE_EVENT(cma_alloc_start,
-    40	
-    41		TP_PROTO(const char *name, unsigned long request_count, unsigned long available_count,
-    42			unsigned long total_count, unsigned int align),
-    43	
-    44		TP_ARGS(name, request_count, available_count, total_count, align),
-    45	
-    46		TP_STRUCT__entry(
-    47			__string(name, name)
-    48			__field(unsigned long, request_count)
-    49			__field(unsigned long, available_count)
-    50			__field(unsigned long, total_count)
-    51			__field(unsigned int, align)
-    52		),
-    53	
-    54		TP_fast_assign(
-    55			__assign_str(name);
-  > 56			__entry->count = request_count;
-    57			__entry->available_count = available_count;
-    58			__entry->total_count = total_count;
-    59			__entry->align = align;
-    60		),
-    61	
-  > 62		TP_printk("name=%s count=%lu align=%u",
-    63			  __get_str(name),
-    64			  __entry->request_count,
-    65			  __entry->available_count,
-    66			  __entry->total_count,
-    67			  __entry->align)
-    68	);
-    69	
+  1772	
+  1773		if (!otx2_rep_dev(pf->pdev))
+  1774			otx2_clean_qos_queues(pf);
+  1775	
+  1776		mutex_lock(&mbox->lock);
+  1777		/* Disable backpressure */
+  1778		if (!is_otx2_lbkvf(pf->pdev))
+  1779			otx2_nix_config_bp(pf, false);
+  1780		mutex_unlock(&mbox->lock);
+  1781	
+  1782		/* Disable RQs */
+  1783		otx2_ctx_disable(mbox, NIX_AQ_CTYPE_RQ, false);
+  1784	
+  1785		/*Dequeue all CQEs */
+  1786		for (qidx = 0; qidx < qset->cq_cnt; qidx++) {
+  1787			cq = &qset->cq[qidx];
+  1788			if (cq->cq_type == CQ_RX)
+  1789				otx2_cleanup_rx_cqes(pf, cq, qidx);
+  1790			else
+  1791				otx2_cleanup_tx_cqes(pf, cq);
+  1792		}
+  1793		otx2_free_pending_sqe(pf);
+  1794	
+  1795		otx2_free_sq_res(pf);
+  1796	
+  1797		/* Free RQ buffer pointers*/
+  1798		otx2_free_aura_ptr(pf, AURA_NIX_RQ);
+  1799		cn10k_ipsec_free_aura_ptrs(pf);
+  1800	
+  1801		otx2_free_cq_res(pf);
+  1802	
+  1803		/* Free all ingress bandwidth profiles allocated */
+  1804		if (!otx2_rep_dev(pf->pdev))
+  1805			cn10k_free_all_ipolicers(pf);
+  1806	
+  1807		/* Delete Inbound IPSec flows if any SA's are installed */
+  1808		if (!list_empty(&pf->ipsec.inb_sw_ctx_list))
+> 1809			cn10k_ipsec_inb_disable_flows(pf);
+  1810	
+  1811		mutex_lock(&mbox->lock);
+  1812		/* Reset NIX LF */
+  1813		free_req = otx2_mbox_alloc_msg_nix_lf_free(mbox);
+  1814		if (free_req) {
+  1815			free_req->flags = NIX_LF_DISABLE_FLOWS;
+  1816			if (!(pf->flags & OTX2_FLAG_PF_SHUTDOWN))
+  1817				free_req->flags |= NIX_LF_DONT_FREE_TX_VTAG;
+  1818			if (otx2_sync_mbox_msg(mbox))
+  1819				dev_err(pf->dev, "%s failed to free nixlf\n", __func__);
+  1820		}
+  1821		mutex_unlock(&mbox->lock);
+  1822	
+  1823		/* Disable NPA Pool and Aura hw context */
+  1824		otx2_ctx_disable(mbox, NPA_AQ_CTYPE_POOL, true);
+  1825		otx2_ctx_disable(mbox, NPA_AQ_CTYPE_AURA, true);
+  1826		otx2_aura_pool_free(pf);
+  1827	
+  1828		mutex_lock(&mbox->lock);
+  1829		/* Reset NPA LF */
+  1830		req = otx2_mbox_alloc_msg_npa_lf_free(mbox);
+  1831		if (req) {
+  1832			if (otx2_sync_mbox_msg(mbox))
+  1833				dev_err(pf->dev, "%s failed to free npalf\n", __func__);
+  1834		}
+  1835		mutex_unlock(&mbox->lock);
+  1836	}
+  1837	EXPORT_SYMBOL(otx2_free_hw_resources);
+  1838	
 
 -- 
 0-DAY CI Kernel Test Service
