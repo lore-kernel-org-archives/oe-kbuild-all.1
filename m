@@ -1,61 +1,163 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE20A246761;
-	Tue, 19 Aug 2025 16:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8633930F523
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 18:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755621891; cv=none; b=DS6EZclEGwhdg2ZmlDELIozO5n3/yC6q6Ex7tM7kNX0nftRjBN41z131FcsE93kIAJ7MugoQOECGTIfsb36hc22LK5M3DBloxyyXhEBUbPAbcIIqnt320bhHsvu6181tFsJAZo+lTYTVp7S0TrIsZi3DT0mo1cSE8xRdCYn61sI=
+	t=1755627810; cv=none; b=H0ei2C4EOeOcS9/vlkM8EtL9C3NKj4Yf/wWnTc/sbdellxsYnmMP5w/haclLFqfuKLjejfhowgMfSE8VhxJn6UMhdeg+bBM5y1uhwbPGr2f4AJLbXxEgU7v53mHbygKLIkRLvpC85EgRW886ALGnZealVQ4u4laJG1PqvDgRD+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755621891; c=relaxed/simple;
-	bh=RU7nlGe30M46gbBtEbh2P8n5jWs2/CHoeEBSBsFHfeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GC0gTnO7iM8oOkZ2KFkKWIjuJa9oknZxY8s7pm2F+ezoJzJuDM30HrBvgmNtQbxYoaKUavcrdNfoDtXRUIjIKwH5mPS9i6IaEesCVMd2iZolQZxrfOdkipMW2XUee7iunuRzWeWOeMJv2nhR5TZU5aoeI1RaHepKgOndnIjpoYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 2156713662A;
-	Tue, 19 Aug 2025 16:44:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id 9C6192002C;
-	Tue, 19 Aug 2025 16:44:40 +0000 (UTC)
-Date: Tue, 19 Aug 2025 12:44:40 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [koverstreet-bcachefs:bcachefs-testing 315/315] ld.lld: error:
- duplicate symbol: __tracepoint_io_read
-Message-ID: <20250819124440.67f0f6a5@gandalf.local.home>
-In-Reply-To: <ujqytz6ysengalwiukpf5j24urkdyijq255ys7zgzevkzkyu2o@7ye2os3lu3a5>
-References: <202508192038.S6x4nOyC-lkp@intel.com>
-	<ujqytz6ysengalwiukpf5j24urkdyijq255ys7zgzevkzkyu2o@7ye2os3lu3a5>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1755627810; c=relaxed/simple;
+	bh=X6TNDKntPbZtJQzM/AErcLByk3qrqJsaEa3eWLo9xcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pU3JEBAxLp3rG4Ogo0qi1TfgYoe7KmoRI/W+HXqBoA8/OXcE+EQA+9v5EPZH8WVilNk5iQUcg2NNKXNia70bnJsHvG6kmfMmxhhZGCa8KobXy1Yy0fQEgMCL4PVF4bUR1pi7DNU6OOW2xvM3BfCDrVqIn61iUvHzW1p3bPa8lDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBOllamK; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBOllamK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755627808; x=1787163808;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X6TNDKntPbZtJQzM/AErcLByk3qrqJsaEa3eWLo9xcY=;
+  b=DBOllamKluLZ9vuhvhx/HXTQxQjkRq3B8ElA9BZEUk89tUVLSezDOhjy
+   2ThZl7Ddxg4NZRiDQGfMAkYgqlFUZag/2jLelTotIl1lj4WyU9+dhNGRw
+   4VyFs1FES1W93MqR6rQrTFhbWUDznhF5pCQgyOhQQhM26M9ENiw1he21b
+   vKCR0QDLiGYZZh1H1feuPioMgS5aHDxZzrd0iRoJkO3RzkIgsHrDtm9II
+   3WVsLIhaeWeK294c6RyDh+lTOP7ayBYtdVkGTnPNlE/gJkIxyceHyFnn3
+   /9FRzBqpON7NBeWz1GNIqSBiAlGbqDVeu2vF83vPmxbJ/CjOI9RnmYiUw
+   A==;
+X-CSE-ConnectionGUID: Y+hrQK/AQI6/0yUD533uFg==
+X-CSE-MsgGUID: U9jDSOARQ0SwlMOr2foAMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57810840"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="57810840"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 11:23:28 -0700
+X-CSE-ConnectionGUID: JDvgk7qFQq2x4WO42Pd+VA==
+X-CSE-MsgGUID: uvCyzmnMS4WkH1iDNjxp4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="167874532"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 19 Aug 2025 11:23:22 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uoQzP-000HG3-1M;
+	Tue, 19 Aug 2025 18:23:19 +0000
+Date: Wed, 20 Aug 2025 02:23:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pingfan Liu <piliu@redhat.com>, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Pingfan Liu <piliu@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Simon Horman <horms@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Philipp Rudo <prudo@redhat.com>, Viktor Malik <vmalik@redhat.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>, Baoquan He <bhe@redhat.com>,
+	Dave Young <dyoung@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	kexec@lists.infradead.org, bpf@vger.kernel.org,
+	systemd-devel@lists.freedesktop.org
+Subject: Re: [PATCHv5 10/12] arm64/kexec: Add PE image format support
+Message-ID: <202508200205.qEn1adEu-lkp@intel.com>
+References: <20250819012428.6217-11-piliu@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 9C6192002C
-X-Stat-Signature: rfyutshmppwz5rw6grdhwdyi6kz87ra6
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+KvaYYPUqBKDpTIrlnEUx7XrwXn1AwNAA=
-X-HE-Tag: 1755621880-601068
-X-HE-Meta: U2FsdGVkX1/lkLskUhTUMbjbO473JCVwq+5OlmuV/A4q4ncq8SoTPwMHX6oy2UoyEe/mSup/iqNqRKYYAcpAk8EmrATZ1h1mwrGZh7hHeCUP8k8WiB0fC/PChEltPr4OexFjwD3h4qUMoHv6Ekn9eAKKe4QVMVsIXGBr2pqkYBYFjSrdOXmLTpmstYE/h3YIk+A/+K+1FqYeEna8VdCNz0nYumEdmqh49cZja7op578KU1AODL3sCpejoy3R/wD0SEBd9CRkhijPpboc2cQucsupbwNHu7OmiEEFI22uuiBNGmkbQxZTB9Jr7DiiEwTV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819012428.6217-11-piliu@redhat.com>
 
-On Tue, 19 Aug 2025 10:57:19 -0400
-Kent Overstreet <kent.overstreet@linux.dev> wrote:
+Hi Pingfan,
 
-> __traceiter_tracepointname - is this something easily fixable, or do I
-> just have to rename?
+kernel test robot noticed the following build errors:
 
-Best to just rename. Two static tracepoints can't have the same name, which
-is why I recommend always appending a prefix to them.
+[auto build test ERROR on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
 
-Which is why we have: /sys/kernel/tracing/events/sched/sched_switch
-and not just: /sys/kernel/tracing/events/sched/switch
+url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/kexec_file-Make-kexec_image_load_default-global-visible/20250819-093420
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250819012428.6217-11-piliu%40redhat.com
+patch subject: [PATCHv5 10/12] arm64/kexec: Add PE image format support
+config: arm64-randconfig-001-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200205.qEn1adEu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200205.qEn1adEu-lkp@intel.com/reproduce)
 
--- Steve
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200205.qEn1adEu-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/kexec_bpf/kexec_pe_parser_bpf.lskel.h:6,
+                    from kernel/kexec_pe_image.c:25:
+   tools/lib/bpf/skel_internal.h: In function 'skel_finalize_map_data':
+   tools/lib/bpf/skel_internal.h:155:15: error: implicit declaration of function 'bpf_map_get'; did you mean 'bpf_map_put'? [-Wimplicit-function-declaration]
+     155 |         map = bpf_map_get(fd);
+         |               ^~~~~~~~~~~
+         |               bpf_map_put
+>> tools/lib/bpf/skel_internal.h:155:13: error: assignment to 'struct bpf_map *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     155 |         map = bpf_map_get(fd);
+         |             ^
+   kernel/kexec_pe_image.c: In function 'kexec_bpf_prog_run_init':
+   kernel/kexec_pe_image.c:267:16: error: implicit declaration of function 'register_btf_fmodret_id_set'; did you mean 'register_btf_kfunc_id_set'? [-Wimplicit-function-declaration]
+     267 |         return register_btf_fmodret_id_set(&kexec_modify_return_set);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                register_btf_kfunc_id_set
+   kernel/kexec_pe_image.c: In function 'pe_image_load':
+   kernel/kexec_pe_image.c:312:44: warning: variable 'cmdline_sz' set but not used [-Wunused-but-set-variable]
+     312 |         unsigned long linux_sz, initrd_sz, cmdline_sz, bpf_sz;
+         |                                            ^~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for KEXEC_PE_IMAGE
+   Depends on [n]: KEXEC_FILE [=y] && DEBUG_INFO_BTF [=n] && BPF_SYSCALL [=n]
+   Selected by [y]:
+   - ARCH_SELECTS_KEXEC_FILE [=y] && KEXEC_FILE [=y]
+
+
+vim +155 tools/lib/bpf/skel_internal.h
+
+67234743736a6a Alexei Starovoitov 2021-05-13  143  
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  144  static inline void *skel_finalize_map_data(__u64 *init_val, size_t mmap_sz, int flags, int fd)
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  145  {
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  146  	struct bpf_map *map;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  147  	void *addr = NULL;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  148  
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  149  	kvfree((void *) (long) *init_val);
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  150  	*init_val = ~0ULL;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  151  
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  152  	/* At this point bpf_load_and_run() finished without error and
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  153  	 * 'fd' is a valid bpf map FD. All sanity checks below should succeed.
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  154  	 */
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09 @155  	map = bpf_map_get(fd);
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  156  	if (IS_ERR(map))
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  157  		return NULL;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  158  	if (map->map_type != BPF_MAP_TYPE_ARRAY)
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  159  		goto out;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  160  	addr = ((struct bpf_array *)map)->value;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  161  	/* the addr stays valid, since FD is not closed */
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  162  out:
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  163  	bpf_map_put(map);
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  164  	return addr;
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  165  }
+6fe65f1b4db3ff Alexei Starovoitov 2022-02-09  166  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
