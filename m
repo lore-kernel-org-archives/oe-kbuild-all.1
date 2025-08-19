@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5ED2279DAD;
-	Tue, 19 Aug 2025 10:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7381F4A23
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 12:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755599761; cv=none; b=f7s0BEEKmJrHFl7HI9BvhKKrVeVA9KrYc4ZTL4qmY4T65K2a9AChHwUgitBBMUyaQ0h5YNAzQxMgwhfNaqyCahCI3GDxeSoIbJbE9CbBRAE3xb9qex+kzsKxkMEmnfDKb/nWFCfcruQPgOHXFKIkePPA9y+t3EjHwFKcOs9rQQA=
+	t=1755605451; cv=none; b=nuJUk4H4oqtNVY8bFCO8kG2kVQmJucTSh15kzXc7kErrdWpoEgVNfcOd17ZOHfdHmXGcqA89XruSI2ebUs1VdesH06DsUZYQZVqpIpVyvIi7wMmvUpLTSrjywmeYha+XJudj/aEKZt3qF6m4YqD2Z2Na3hkwbslFmfYCN/Uwl8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755599761; c=relaxed/simple;
-	bh=lEqqlSoiP/VHSItgElRylFsVcFhLCEIOadYg72sdtpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NdIq55sEbdTO3tfghFChbSDCsYcAzfqf2ZZmO+R039juibPf+RPM2AKrsSGffJ/MwTBGP9tUNLH7S/cdm5U9fpfAZIFhhvDwHT0fvYq1ENJ87g0PF0252MFmnDxjvYhiT0f8ryHhI1qYeX6RoJSVr+psL6yo5AZBsJH47PgrYMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGGU74g+; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1755605451; c=relaxed/simple;
+	bh=9lW3/dWzt5UToAodYloh3cRTdJpTq26FnPkQkeM6tgk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CpuP1X/q8NBNDJpC99PKxPtUmNM2iWIHR/ErjeC8DAE0ozjes7b7tGvAeJXtgNB3tMZ19UzCl5HRWSGhyt0Gu2mQRmYQKmAYtVmklbsnOkwWG3fhYHxW59VTM9/sMIkV69fkNzg757jc0afF/yPAu6gpAyGKS0xJ9j9mQT80Xf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvMI2/bI; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGGU74g+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvMI2/bI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755599758; x=1787135758;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lEqqlSoiP/VHSItgElRylFsVcFhLCEIOadYg72sdtpg=;
-  b=RGGU74g+XiFPUPZkPN6+KLTkmE+0/EWUadngdpU5jse6Ng+6prccgtu2
-   50YqpE6sbUfqV8o72sxdNuSEHL8hb2jm1OYQNwnWRWW7ntMOs6fKExasI
-   fFrPUGjmCvWBkOWEwbph9eV0nInbrjo/lcEidVmUnXpq/eFjHsQq/qCtW
-   0ag5z5O1jPcomxIWo3MH9TG9uHh4ckDO9TxAXvPbu9yk7Lsd19K6a9HWT
-   B3tZa4YD1y0u3qaN06MUPgVh1/E0GK4z4sqaY585+mYr/b1/ADu2DsdV1
-   FlQJh6On//XG1+HjMeOje09msMDu/KNbCCId8HMVSD2HkGnVBopSMNldK
-   Q==;
-X-CSE-ConnectionGUID: l69RiSnkROCEHmx/Gk1G6A==
-X-CSE-MsgGUID: BIFygEB9QB+GqAGA7kLbnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="83264725"
+  t=1755605449; x=1787141449;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9lW3/dWzt5UToAodYloh3cRTdJpTq26FnPkQkeM6tgk=;
+  b=jvMI2/bIU3DVR4kHxBcvxzqMVoCRIqhPzUShyy9YBvYin3sR6LYSO6Xv
+   tZcEyMvc8YRETyRXhxNL898/yvesvM6MpS7EoQnHlJL6DOPdwRL3MMdQv
+   i6MuMc/e/k2h8KKmzKqpwkeuVVLrqycoHZFb/pNBAPAS2TZN43/nnsQtR
+   oDk6ijF6soAjir6V0zWMe+Me+uI9teMlaeD/ecswoi2rwyTYr8G0iob99
+   HaD/Gig0Xyyad9o4yWm16kkjNAex/nm1bqNlEUMWQvZS/XjbmzPvB7e6R
+   TrjIbsVC38oFqIhV4Ewfe5QgC/HCqhGl8JcOWwB+PqCd39tcruPKochat
+   g==;
+X-CSE-ConnectionGUID: pGkKCZI9TvSyrBBKtDzlxA==
+X-CSE-MsgGUID: CZVQHp6gRN6sGucu38NS5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="75418631"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="83264725"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 03:35:58 -0700
-X-CSE-ConnectionGUID: geLXWB/pRLuVa4XimsBReA==
-X-CSE-MsgGUID: 3wBDJ+lPRyWBQKn5uSYQUA==
+   d="scan'208";a="75418631"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 05:10:49 -0700
+X-CSE-ConnectionGUID: JnFl4hlmSiKwJ3FsjLStYg==
+X-CSE-MsgGUID: tj8fLo+eSrOfLurYHPFW5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="167320718"
+   d="scan'208";a="167735694"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Aug 2025 03:35:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Aug 2025 05:10:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoJh0-000Gkt-0k;
-	Tue, 19 Aug 2025 10:35:51 +0000
-Date: Tue, 19 Aug 2025 18:35:21 +0800
+	id 1uoLAl-000GqD-0S;
+	Tue, 19 Aug 2025 12:10:40 +0000
+Date: Tue, 19 Aug 2025 20:09:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	willy@infradead.org, sidhartha.kumar@oracle.com
-Subject: Re: [PATCH 1/6] drm: Convert aux_idr to XArray
-Message-ID: <202508191844.VZB7euYb-lkp@intel.com>
-References: <20250818190046.157962-2-sidhartha.kumar@oracle.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: oe-kbuild-all@lists.linux.dev, Srinivas Kandagatla <srini@kernel.org>
+Subject: [srini-nvmem:for-next 1/1] include/linux/mfd/qnap-mcu.h:13:9: error:
+ unknown type name 'u32'
+Message-ID: <202508191938.W0luCEyw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,71 +61,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250818190046.157962-2-sidhartha.kumar@oracle.com>
 
-Hi Sidhartha,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.16]
-[also build test ERROR on next-20250819]
-[cannot apply to drm-exynos/exynos-drm-next linus/master v6.17-rc2 v6.17-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sidhartha-Kumar/drm-Convert-aux_idr-to-XArray/20250819-031755
-base:   v6.16
-patch link:    https://lore.kernel.org/r/20250818190046.157962-2-sidhartha.kumar%40oracle.com
-patch subject: [PATCH 1/6] drm: Convert aux_idr to XArray
-config: x86_64-buildonly-randconfig-002-20250819 (https://download.01.org/0day-ci/archive/20250819/202508191844.VZB7euYb-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191844.VZB7euYb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-next
+head:   117c3f3014a929464c01622cb95b566bd27244f8
+commit: 117c3f3014a929464c01622cb95b566bd27244f8 [1/1] nvmem: add driver for the eeprom in qnap-mcu controllers
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250819/202508191938.W0luCEyw-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191938.W0luCEyw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508191844.VZB7euYb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508191938.W0luCEyw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/display/drm_dp_aux_dev.c:85:5: error: passing 'struct xa_limit' to parameter of incompatible type 'void *'
-      85 |                                 XA_LIMIT(0, DRM_AUX_MINORS - 1), aux_dev, GFP_KERNEL);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/xarray.h:248:30: note: expanded from macro 'XA_LIMIT'
-     248 | #define XA_LIMIT(_min, _max) (struct xa_limit) { .min = _min, .max = _max }
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/xarray.h:872:9: note: passing argument to parameter 'entry' here
-     872 |                 void *entry, struct xa_limit limit, gfp_t gfp)
-         |                       ^
-   1 error generated.
+   In file included from drivers/nvmem/qnap-mcu-eeprom.c:12:
+>> include/linux/mfd/qnap-mcu.h:13:9: error: unknown type name 'u32'
+      13 |         u32 baud_rate;
+         |         ^~~
+>> include/linux/mfd/qnap-mcu.h:17:9: error: unknown type name 'bool'
+      17 |         bool usb_led;
+         |         ^~~~
+   include/linux/mfd/qnap-mcu.h:1:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+     +++ |+#include <stdbool.h>
+       1 | /* SPDX-License-Identifier: GPL-2.0+ */
+>> include/linux/mfd/qnap-mcu.h:21:25: error: unknown type name 'u8'
+      21 |                   const u8 *cmd_data, size_t cmd_data_size,
+         |                         ^~
+>> include/linux/mfd/qnap-mcu.h:21:39: error: unknown type name 'size_t'
+      21 |                   const u8 *cmd_data, size_t cmd_data_size,
+         |                                       ^~~~~~
+   include/linux/mfd/qnap-mcu.h:1:1: note: 'size_t' is defined in header '<stddef.h>'; this is probably fixable by adding '#include <stddef.h>'
+     +++ |+#include <stddef.h>
+       1 | /* SPDX-License-Identifier: GPL-2.0+ */
+   include/linux/mfd/qnap-mcu.h:22:19: error: unknown type name 'u8'
+      22 |                   u8 *reply_data, size_t reply_data_size);
+         |                   ^~
+   include/linux/mfd/qnap-mcu.h:22:35: error: unknown type name 'size_t'
+      22 |                   u8 *reply_data, size_t reply_data_size);
+         |                                   ^~~~~~
+   include/linux/mfd/qnap-mcu.h:22:35: note: 'size_t' is defined in header '<stddef.h>'; this is probably fixable by adding '#include <stddef.h>'
+   include/linux/mfd/qnap-mcu.h:24:34: error: unknown type name 'u8'
+      24 |                            const u8 *cmd_data, size_t cmd_data_size);
+         |                                  ^~
+   include/linux/mfd/qnap-mcu.h:24:48: error: unknown type name 'size_t'
+      24 |                            const u8 *cmd_data, size_t cmd_data_size);
+         |                                                ^~~~~~
+   include/linux/mfd/qnap-mcu.h:24:48: note: 'size_t' is defined in header '<stddef.h>'; this is probably fixable by adding '#include <stddef.h>'
+   drivers/nvmem/qnap-mcu-eeprom.c: In function 'qnap_mcu_eeprom_read_block':
+>> drivers/nvmem/qnap-mcu-eeprom.c:28:17: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
+         |                 ^~~~~~~
+>> drivers/nvmem/qnap-mcu-eeprom.c:28:15: error: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
+         |               ^
+>> drivers/nvmem/qnap-mcu-eeprom.c:32:15: error: implicit declaration of function 'qnap_mcu_exec' [-Wimplicit-function-declaration]
+      32 |         ret = qnap_mcu_exec(mcu, cmd, sizeof(cmd), reply, bytes + sizeof(cmd));
+         |               ^~~~~~~~~~~~~
+>> drivers/nvmem/qnap-mcu-eeprom.c:45:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+      45 |         kfree(reply);
+         |         ^~~~~
 
 
-vim +85 drivers/gpu/drm/display/drm_dp_aux_dev.c
+vim +/u32 +13 include/linux/mfd/qnap-mcu.h
 
-    71	
-    72	static struct drm_dp_aux_dev *alloc_drm_dp_aux_dev(struct drm_dp_aux *aux)
-    73	{
-    74		struct drm_dp_aux_dev *aux_dev;
-    75		int err;
-    76	
-    77		aux_dev = kzalloc(sizeof(*aux_dev), GFP_KERNEL);
-    78		if (!aux_dev)
-    79			return ERR_PTR(-ENOMEM);
-    80		aux_dev->aux = aux;
-    81		atomic_set(&aux_dev->usecount, 1);
-    82		kref_init(&aux_dev->refcount);
-    83	
-    84		err = xa_alloc(&aux_xa, &aux_dev->index,
-  > 85					XA_LIMIT(0, DRM_AUX_MINORS - 1), aux_dev, GFP_KERNEL);
-    86		if (err < 0) {
-    87			kfree(aux_dev);
-    88			return ERR_PTR(err);
-    89		}
-    90	
-    91		return aux_dev;
-    92	}
-    93	
+998f70d1806bb7 Heiko Stuebner 2024-11-07  11  
+998f70d1806bb7 Heiko Stuebner 2024-11-07  12  struct qnap_mcu_variant {
+998f70d1806bb7 Heiko Stuebner 2024-11-07 @13  	u32 baud_rate;
+998f70d1806bb7 Heiko Stuebner 2024-11-07  14  	int num_drives;
+998f70d1806bb7 Heiko Stuebner 2024-11-07  15  	int fan_pwm_min;
+998f70d1806bb7 Heiko Stuebner 2024-11-07  16  	int fan_pwm_max;
+998f70d1806bb7 Heiko Stuebner 2024-11-07 @17  	bool usb_led;
+998f70d1806bb7 Heiko Stuebner 2024-11-07  18  };
+998f70d1806bb7 Heiko Stuebner 2024-11-07  19  
+998f70d1806bb7 Heiko Stuebner 2024-11-07  20  int qnap_mcu_exec(struct qnap_mcu *mcu,
+998f70d1806bb7 Heiko Stuebner 2024-11-07 @21  		  const u8 *cmd_data, size_t cmd_data_size,
+998f70d1806bb7 Heiko Stuebner 2024-11-07  22  		  u8 *reply_data, size_t reply_data_size);
+998f70d1806bb7 Heiko Stuebner 2024-11-07  23  int qnap_mcu_exec_with_ack(struct qnap_mcu *mcu,
+998f70d1806bb7 Heiko Stuebner 2024-11-07  24  			   const u8 *cmd_data, size_t cmd_data_size);
+998f70d1806bb7 Heiko Stuebner 2024-11-07  25  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 998f70d1806bb718a7565f350283e4a79c8cbb4b mfd: Add base driver for qnap-mcu devices
+
+:::::: TO: Heiko Stuebner <heiko@sntech.de>
+:::::: CC: Lee Jones <lee@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
