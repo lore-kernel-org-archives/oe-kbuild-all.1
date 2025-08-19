@@ -1,80 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B82C321F2D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 18:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248B842065
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 20:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755629712; cv=none; b=dgufEk1IvzBh9bUWqDVUdGHbIbqj1kOiwBz+9XvLPYa62+LPn8y53orfXpX87tym+P5B1CUjBiWIAojQkJTGs+NOkL3p0xn0dgLJ6zQv5016eMxxiqXvpG57IKwy0fMZ0xlSTU22SFVDNBo7xEscXTRhPjSRJK1Zr5klpkAeo34=
+	t=1755634775; cv=none; b=DG/+y/dTYldRo7oncgXxLaYVVlKJm10yGypAY4zirM5hj89IDNO2/dtQ2yF0a0UFeyA3VS0fVa7obfxCG+vCzYbtPhNHMIxyh/A3JexPkYXizZlMpwV5RILFSwHlKnktxIc9kwbN4q6V9h8q3xyaLEtzRm+TYZyaE66BxLRtVRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755629712; c=relaxed/simple;
-	bh=N0364bt9jMRC3C6+N0XTj3sLdDMekTNts+hQ0L3+ZhA=;
+	s=arc-20240116; t=1755634775; c=relaxed/simple;
+	bh=lk8OxgimYrAlq8IpJR6TNtSAapP2lwMnm8oZxDFjXeA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKN12Gw8yauOY3IrEiF7XbFbKgyyHCV2rzO+RQm9bOEXakvIhawxKXNAViuqflsq9+vEdEUzNROtJ+xniyrbjicFLiWskQZrhMWGh4md4rdW/rWGio2ttMmXMlvy4KIqBdnEZ+TYUXMEU+E0E3DphoG2kd2njEuvgFRlaNVx864=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAKy9ljF; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=U52tqBO4/A+FpJqli+YTQbb4Dy4CFv8VU+25cE8plNcUEe2G9JdXg7tr+rB8/pFwbBhEigQ6/CmeUObkULwdjJri0VQ+1Gqbz6jZ9n88iETOuJfallrW3c7wLrjLHNiNhll0LidRtShvZG/WF2uBPqak0Jdndyyzxgzs6RKrcxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqrZjmh3; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAKy9ljF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqrZjmh3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755629711; x=1787165711;
+  t=1755634774; x=1787170774;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=N0364bt9jMRC3C6+N0XTj3sLdDMekTNts+hQ0L3+ZhA=;
-  b=iAKy9ljFzzCfVfJndE+50DJI/vdEfb47rHBLTNV4gD3Zp+InTD3Nsney
-   jxF4ziA4Vuk78xLgT9Ly8F8lmrbVIpiyrWU5QZDqBifZUwH15qXuyC3Hr
-   StBUsdLKd1PzwmCmQxl+TgN8vXWxIduCKrI2q07YwhGNStTaLn8r5Dkqr
-   cfLlWzCYucaHgn/IkmIhwKqX8K4W1oZYoIWYdhLfgqIOHeTnKJXTW36GI
-   jglVtxTRu505LAv60a6C+QzvSFByQntnne7w7wZ6jrdwg3ZqK3+Ln4oMg
-   CQfABSdnQ/MQjXrnbpc/reRVS5oFhtTkHxpzohERg280WxYgZIPG7mrlF
-   A==;
-X-CSE-ConnectionGUID: zejJThihSHStVadgnDDZgg==
-X-CSE-MsgGUID: uA7KV07JSruSvdaW+MK1Mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="83313105"
+  bh=lk8OxgimYrAlq8IpJR6TNtSAapP2lwMnm8oZxDFjXeA=;
+  b=JqrZjmh392sq5/HywBJHQaStIrnuIGDYXYNY+LMlam15spq+0C9sy7Vj
+   M2bopGInLHZyiSxIQRgOEG2vigmT2iqS9BjH/blN5a4klKQrquMGe1KMc
+   UtYnHlGdUz2zEeW+LSEI6aEfDGzN4xNVchiQhvt3qRCjDTjhGhGUGK8XJ
+   5XvbhXC8yTzxnvswgTfNnJv8EVkwoq117R/YbWHX53tgs9pCxNai4oNDz
+   +Mu836+BhP7Bq5HSp+I+owr+ewrdMw36P8jQu9gyrnSo0lpFAvK/KJFoc
+   emsi0a54AldR+CH1gqLL51me+TnsW9WXI6Axg4JgOnSnESEr38lx41jTi
+   Q==;
+X-CSE-ConnectionGUID: KVQOUTDoQ/ixf7V+7B+Kfg==
+X-CSE-MsgGUID: cdPolfTGSpe/fMwiPIVhfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69272486"
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="83313105"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 11:55:10 -0700
-X-CSE-ConnectionGUID: 0/ig0LXNStKG9JH+moRfMg==
-X-CSE-MsgGUID: fmte1CfuQNaazIakoZsu7Q==
+   d="scan'208";a="69272486"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 13:19:33 -0700
+X-CSE-ConnectionGUID: GmxLShhgTGmsm1z6tueXOQ==
+X-CSE-MsgGUID: vTc0bphQQb6aDFc1SqHbYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="198785908"
+   d="scan'208";a="167854855"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Aug 2025 11:55:04 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Aug 2025 13:19:32 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoRU5-000HIT-06;
-	Tue, 19 Aug 2025 18:55:01 +0000
-Date: Wed, 20 Aug 2025 02:54:38 +0800
+	id 1uoSmv-000HPv-1w;
+	Tue, 19 Aug 2025 20:18:52 +0000
+Date: Wed, 20 Aug 2025 04:16:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pingfan Liu <piliu@redhat.com>, linux-arm-kernel@lists.infradead.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Pingfan Liu <piliu@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Simon Horman <horms@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Philipp Rudo <prudo@redhat.com>, Viktor Malik <vmalik@redhat.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>, Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	kexec@lists.infradead.org, bpf@vger.kernel.org,
-	systemd-devel@lists.freedesktop.org
-Subject: Re: [PATCHv5 10/12] arm64/kexec: Add PE image format support
-Message-ID: <202508200238.hckz21nw-lkp@intel.com>
-References: <20250819012428.6217-11-piliu@redhat.com>
+To: David Disseldorp <ddiss@suse.de>, linux-kbuild@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-next@vger.kernel.org,
+	ddiss@suse.de, nsc@kernel.org
+Subject: Re: [PATCH v3 8/8] initramfs_test: add filename padding test case
+Message-ID: <202508200304.wF1u78il-lkp@intel.com>
+References: <20250819032607.28727-9-ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,32 +64,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819012428.6217-11-piliu@redhat.com>
+In-Reply-To: <20250819032607.28727-9-ddiss@suse.de>
 
-Hi Pingfan,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.17-rc2 next-20250819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/kexec_file-Make-kexec_image_load_default-global-visible/20250819-093420
-base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-patch link:    https://lore.kernel.org/r/20250819012428.6217-11-piliu%40redhat.com
-patch subject: [PATCHv5 10/12] arm64/kexec: Add PE image format support
-config: arm64-kismet-CONFIG_KEXEC_PE_IMAGE-CONFIG_ARCH_SELECTS_KEXEC_FILE-0-0 (https://download.01.org/0day-ci/archive/20250820/202508200238.hckz21nw-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250820/202508200238.hckz21nw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Disseldorp/gen_init_cpio-write-to-fd-instead-of-stdout-stream/20250819-115406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250819032607.28727-9-ddiss%40suse.de
+patch subject: [PATCH v3 8/8] initramfs_test: add filename padding test case
+config: sparc64-randconfig-r121-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200304.wF1u78il-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce: (https://download.01.org/0day-ci/archive/20250820/202508200304.wF1u78il-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508200238.hckz21nw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200304.wF1u78il-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for KEXEC_PE_IMAGE when selected by ARCH_SELECTS_KEXEC_FILE
-   WARNING: unmet direct dependencies detected for KEXEC_PE_IMAGE
-     Depends on [n]: KEXEC_FILE [=y] && DEBUG_INFO_BTF [=n] && BPF_SYSCALL [=y]
-     Selected by [y]:
-     - ARCH_SELECTS_KEXEC_FILE [=y] && KEXEC_FILE [=y]
+sparse warnings: (new ones prefixed by >>)
+>> init/initramfs_test.c:415:18: sparse: sparse: Initializer entry defined twice
+   init/initramfs_test.c:425:18: sparse:   also defined here
+
+vim +415 init/initramfs_test.c
+
+   388	
+   389	/*
+   390	 * An initramfs filename is namesize in length, including the zero-terminator.
+   391	 * A filename can be zero-terminated prior to namesize, with the remainder used
+   392	 * as padding. This can be useful for e.g. alignment of file data segments with
+   393	 * a 4KB filesystem block, allowing for extent sharing (reflinks) between cpio
+   394	 * source and destination. This hack works with both GNU cpio and initramfs, as
+   395	 * long as PATH_MAX isn't exceeded.
+   396	 */
+   397	static void __init initramfs_test_fname_pad(struct kunit *test)
+   398	{
+   399		char *err;
+   400		size_t len;
+   401		struct file *file;
+   402		char fdata[] = "this file data is aligned at 4K in the archive";
+   403		struct test_fname_pad {
+   404			char padded_fname[4096 - CPIO_HDRLEN];
+   405			char cpio_srcbuf[CPIO_HDRLEN + PATH_MAX + 3 + sizeof(fdata)];
+   406		} *tbufs = kzalloc(sizeof(struct test_fname_pad), GFP_KERNEL);
+   407		struct initramfs_test_cpio c[] = { {
+   408			.magic = "070701",
+   409			.ino = 1,
+   410			.mode = S_IFREG | 0777,
+   411			.uid = 0,
+   412			.gid = 0,
+   413			.nlink = 1,
+   414			.mtime = 1,
+ > 415			.filesize = 0,
+   416			.devmajor = 0,
+   417			.devminor = 1,
+   418			.rdevmajor = 0,
+   419			.rdevminor = 0,
+   420			/* align file data at 4K archive offset via padded fname */
+   421			.namesize = 4096 - CPIO_HDRLEN,
+   422			.csum = 0,
+   423			.fname = tbufs->padded_fname,
+   424			.data = fdata,
+   425			.filesize = sizeof(fdata),
+   426		} };
+   427	
+   428		memcpy(tbufs->padded_fname, "padded_fname", sizeof("padded_fname"));
+   429		len = fill_cpio(c, ARRAY_SIZE(c), tbufs->cpio_srcbuf);
+   430	
+   431		err = unpack_to_rootfs(tbufs->cpio_srcbuf, len);
+   432		KUNIT_EXPECT_NULL(test, err);
+   433	
+   434		file = filp_open(c[0].fname, O_RDONLY, 0);
+   435		if (IS_ERR(file)) {
+   436			KUNIT_FAIL(test, "open failed");
+   437			goto out;
+   438		}
+   439	
+   440		/* read back file contents into @cpio_srcbuf and confirm match */
+   441		len = kernel_read(file, tbufs->cpio_srcbuf, c[0].filesize, NULL);
+   442		KUNIT_EXPECT_EQ(test, len, c[0].filesize);
+   443		KUNIT_EXPECT_MEMEQ(test, tbufs->cpio_srcbuf, c[0].data, len);
+   444	
+   445		fput(file);
+   446		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+   447	out:
+   448		kfree(tbufs);
+   449	}
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
