@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F3438B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 04:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BF92C2363;
+	Tue, 19 Aug 2025 04:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755576975; cv=none; b=jPn7+x9zwRiMHcIlRUMLgpyTMNNh5tWvh1L2AF5jJBXBvoHAjCIbgxae3kiRNbXJwMjnfK8gRR3d//TNOzuRvvgUHkHBOVHjrJlCIEf6zSiLTq17JyiDlsvIE5p4GU6nfXNcyPmYgtRwe5f+f4yhrbvHUtxac3oilNB0yC22wzg=
+	t=1755578316; cv=none; b=iX+btgmZ+6bP6SfKqowgUKczmPV1jSAP/AkZq2+OT+LZQOjJno0OBn8+U5ER8MvUft2Rqx9QjhA/zoYFXF4zouzJi+50Pu0vmHJsWSE8hbSq5l/n+E5+CCQH82Lwf+luViRTWwW192WVOuLhhIEbjsnQX1cSDQCcKU+jeM4Uyfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755576975; c=relaxed/simple;
-	bh=unWv/FnlnT35kUxfsqoeFdpAzJLtrnEgDa3wlFHkVxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hgbMuLNmF2U5uL+ddlwJd6/HNeqG8EQdk1/zOrlCAHaKn9X20P9c5UNfMNLojQhzhOvvtQCnN2Qy4pjjC8F/tyrWBNyDGJNN+FXC3p2vWh89aJTmiSCASlGM1UiJ5ZYnVu0ay9/07w4PJpqowfVugWdCcDmMfay3SP/YICM8Ig4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVr2StH+; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1755578316; c=relaxed/simple;
+	bh=fX1fDtkJlgXe21ThnDLJ12QhRuLIMPpV4e+3sPurSW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WkluJx1csFyIwI32QO0aYSu4Nn3tOj+onXap/AtVA6M0d9YRaOV0XlSZ5ayWJvbLVeOtrLG/C/zF5g3hyzVrcUfCYPPFO8BYQ8NIrbyk5sXs0BEqgdxEZkMWVZVTM6Q0NQ6V0Gu5Gy5jIo8FEPl7d8p2s5Wx43so0v+jTPgjWdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxwsOZ1u; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVr2StH+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxwsOZ1u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755576974; x=1787112974;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=unWv/FnlnT35kUxfsqoeFdpAzJLtrnEgDa3wlFHkVxA=;
-  b=GVr2StH+09lMLXeyMwtjeB21JrrimkBvwELrW90YGMj9kQxFum0qpCSi
-   DOzTwuYkRJ2aLdLGCIbOYCKk4PwIyU3Yc5t4/y8xvfIEgMIdqKlHfgOFf
-   YlHDbLhSld9J0L6ckYxa7Z/03Iz8VdM8JxOgkMkf81WuDhqK9WRcH9qyI
-   5ICLREps/KMgYY/ipxsqmG6JRhfCQY5wWGI7pcKDSXDEY7F9adzzonSap
-   iN7x75u+z9gq+TWDeHiLVKXHMLz+qbUP8JsGAgsovL0ulDrI8pu/2hgz8
-   Emd9Ce+EYsLlJr++MWKXOeFc6WEmdYtXe2B9aokrRG9XJrP+/N0X84JWc
+  t=1755578314; x=1787114314;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fX1fDtkJlgXe21ThnDLJ12QhRuLIMPpV4e+3sPurSW0=;
+  b=UxwsOZ1ulEZYVQIiVzewu33WAQcTwICFFB9AIRLG/YjXQDXUlLqRGFzC
+   Ie1ADYwBltMu2Nhr5WXpxhFSiUSG0/ph77cS8I524/5XK6VcnKKreHoDS
+   yvRtg0F9KxzQH1U3jlaD9GVZLy2DgS/mGcoWZ6vUdtAesYCxCtGKvna/d
+   DaUpiy86JDdcfsl2vEG0Xrsr6iwNG3V5fUPRNIMi01gIYrVlDTNoP06Q9
+   EdKL660xpWOgJhjyE97URmsqTVa/aiv/2+QvNvhXcqzD3d6Lcb60imyVv
+   QL+Yx3MLsU78U3XpMhTvpUXWYgIFYV3pwgXzTWzfLsjyeTOe7/WkOTHof
    g==;
-X-CSE-ConnectionGUID: Slhsyj9KTY6eHY5clgGSlA==
-X-CSE-MsgGUID: 9HEW3GpwRgCyCVUU7SkM3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="56837091"
+X-CSE-ConnectionGUID: ggwf9MdqTfiOmfHq4iyzUg==
+X-CSE-MsgGUID: Hn+OKs5UTSOQKu17pmz95Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57882456"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="56837091"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 21:16:13 -0700
-X-CSE-ConnectionGUID: pMNUds3pTaqF9Hj1NTW1dA==
-X-CSE-MsgGUID: 61paJ9iYS2ud1Jl/9euOLw==
+   d="scan'208";a="57882456"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 21:38:33 -0700
+X-CSE-ConnectionGUID: xr1bnbrgSICKne4JN1ZibA==
+X-CSE-MsgGUID: Zwnm0lBgRl6z9KTr/9UVMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="167700326"
+   d="scan'208";a="166981588"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 18 Aug 2025 21:16:04 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Aug 2025 21:38:29 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoDlR-000GVK-25;
-	Tue, 19 Aug 2025 04:16:01 +0000
-Date: Tue, 19 Aug 2025 12:14:48 +0800
+	id 1uoE78-000GVn-2D;
+	Tue, 19 Aug 2025 04:38:26 +0000
+Date: Tue, 19 Aug 2025 12:38:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-06 0/1] mm/gcma.c:467:18-19:
- WARNING comparing pointer to 0
-Message-ID: <202508191222.E3DQV0XT-lkp@intel.com>
+To: Jacky Bai <ping.bai@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Jacky Bai <ping.bai@nxp.com>
+Subject: Re: [PATCH v3 3/4] thermal: qoriq: workaround unexpected temperature
+ readings from tmu
+Message-ID: <202508191258.tYXB63eu-lkp@intel.com>
+References: <20250818-imx93_tmu-v3-3-35f79a86c072@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +74,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250818-imx93_tmu-v3-3-35f79a86c072@nxp.com>
 
-Hi Suren,
+Hi Jacky,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-06
-head:   052ed413ea599387d842eb84c8aac6480eab0c72
-commit: bca0e95c0215368d0af3379e7487937e180de545 [0/1] ANDROID: fix GCMA build failure when CONFIG_RANDSTRUCT=y
-config: i386-randconfig-053-20250819 (https://download.01.org/0day-ci/archive/20250819/202508191222.E3DQV0XT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+[auto build test ERROR on b9ddaa95fd283bce7041550ddbbe7e764c477110]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Bai/dt-bindings-thermal-qoriq-Add-compatible-string-for-imx93/20250818-173822
+base:   b9ddaa95fd283bce7041550ddbbe7e764c477110
+patch link:    https://lore.kernel.org/r/20250818-imx93_tmu-v3-3-35f79a86c072%40nxp.com
+patch subject: [PATCH v3 3/4] thermal: qoriq: workaround unexpected temperature readings from tmu
+config: riscv-randconfig-001-20250819 (https://download.01.org/0day-ci/archive/20250819/202508191258.tYXB63eu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191258.tYXB63eu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508191222.E3DQV0XT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508191258.tYXB63eu-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/gcma.c:467:18-19: WARNING comparing pointer to 0
+All errors (new ones prefixed by >>):
 
-vim +467 mm/gcma.c
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     804 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     812 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     820 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     829 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     838 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     847 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/thermal/qoriq_thermal.c:8:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/thermal/qoriq_thermal.c:281:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     281 |                              FIELD_PREP(TMRTRCTR_TEMP_MASK, 0x7));
+         |                              ^
+   7 warnings and 1 error generated.
 
-ccf872ebe474a3 Minchan Kim 2023-02-08  457  
-ccf872ebe474a3 Minchan Kim 2023-02-08  458  static void gcma_erase_page(struct gcma_inode *inode, unsigned long index,
-ccf872ebe474a3 Minchan Kim 2023-02-08  459  			    struct page *page, bool put_page)
-ccf872ebe474a3 Minchan Kim 2023-02-08  460  {
-ccf872ebe474a3 Minchan Kim 2023-02-08  461  	void *old;
-ccf872ebe474a3 Minchan Kim 2023-02-08  462  
-ccf872ebe474a3 Minchan Kim 2023-02-08  463  	lockdep_assert_held(&inode->pages.xa_lock);
-ccf872ebe474a3 Minchan Kim 2023-02-08  464  
-ccf872ebe474a3 Minchan Kim 2023-02-08  465  	/* The inode refcount will decrease when the page is freed */
-ccf872ebe474a3 Minchan Kim 2023-02-08  466  	old = __xa_erase(&inode->pages, index);
-ccf872ebe474a3 Minchan Kim 2023-02-08 @467  	VM_BUG_ON(old == 0);
-ccf872ebe474a3 Minchan Kim 2023-02-08  468  	delete_page_from_lru(page);
-ccf872ebe474a3 Minchan Kim 2023-02-08  469  	if (put_page)
-ccf872ebe474a3 Minchan Kim 2023-02-08  470  		gcma_put_page(page);
-ccf872ebe474a3 Minchan Kim 2023-02-08  471  
-ccf872ebe474a3 Minchan Kim 2023-02-08  472  	check_and_remove_inode(inode);
-ccf872ebe474a3 Minchan Kim 2023-02-08  473  }
-ccf872ebe474a3 Minchan Kim 2023-02-08  474  
 
-:::::: The code at line 467 was first introduced by commit
-:::::: ccf872ebe474a33123adc0f822915b4cea59e684 ANDROID: mm: introduce GCMA
+vim +/FIELD_PREP +281 drivers/thermal/qoriq_thermal.c
 
-:::::: TO: Minchan Kim <minchan@google.com>
-:::::: CC: Carlos Llamas <cmllamas@google.com>
+   264	
+   265	static void qoriq_tmu_init_device(struct qoriq_tmu_data *data)
+   266	{
+   267		/* Disable interrupt, using polling instead */
+   268		regmap_write(data->regmap, REGS_TIER, TIER_DISABLE);
+   269	
+   270		/* Set update_interval */
+   271		if (data->ver == TMU_VER1) {
+   272			regmap_write(data->regmap, REGS_TMTMIR, TMTMIR_DEFAULT);
+   273		} else {
+   274			regmap_write(data->regmap, REGS_V2_TMTMIR, TMTMIR_DEFAULT);
+   275			regmap_write(data->regmap, REGS_V2_TEUMR(0), GET_TEUMR0(data->drvdata));
+   276		}
+   277	
+   278		/* ERR052243: Set the raising & falling edge monitor */
+   279		if (CHECK_ERRATA_FLAG(data->drvdata, TMU_ERR052243)) {
+   280			regmap_write(data->regmap, TMRTRCTR, TMRTRCTR_EN |
+ > 281				     FIELD_PREP(TMRTRCTR_TEMP_MASK, 0x7));
+   282			regmap_write(data->regmap, TMFTRCTR, TMFTRCTR_EN |
+   283				     FIELD_PREP(TMFTRCTR_TEMP_MASK, 0x7));
+   284	
+   285		}
+   286		/* Disable monitoring */
+   287		regmap_write(data->regmap, REGS_TMR, TMR_DISABLE);
+   288	}
+   289	
 
 -- 
 0-DAY CI Kernel Test Service
