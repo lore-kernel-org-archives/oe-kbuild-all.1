@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED851302CCF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 04:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F3438B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 04:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755576013; cv=none; b=RvWXrC+210CXKK5XMm3SsxqtO7YEKrF99L35nUEucd0Fsw+2Tv95yFJysLT7Fsj9Y4tC39wcX/RCHfffw8vDxRQqOpOlR6+MlvVko4eQAj5B4zB5cajmscyQKzXth2+sVgKJ7sl+91zigX8rCX73E5rRl36Zo0JiOfqCGwM8oWo=
+	t=1755576975; cv=none; b=jPn7+x9zwRiMHcIlRUMLgpyTMNNh5tWvh1L2AF5jJBXBvoHAjCIbgxae3kiRNbXJwMjnfK8gRR3d//TNOzuRvvgUHkHBOVHjrJlCIEf6zSiLTq17JyiDlsvIE5p4GU6nfXNcyPmYgtRwe5f+f4yhrbvHUtxac3oilNB0yC22wzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755576013; c=relaxed/simple;
-	bh=0LPeVhbN27W9I+mRDCwPKwCpeiAK9vn43XxhoMb+a/U=;
+	s=arc-20240116; t=1755576975; c=relaxed/simple;
+	bh=unWv/FnlnT35kUxfsqoeFdpAzJLtrnEgDa3wlFHkVxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NrYx7Pz8r71KL2TRWnIUY9aEmRn3QP39smHQ0VUUoo5ldzIM2tw5etlQZf+cECHxsey6umWnO9f0oWDbm/R8EO9JK+W/gSl/nvxj8FPuPELfQ848Uojb1FPeTHnnOV/76k4AUEBaToFhs5EeRjnWEU7H3XEs4+Oi669Zc7qc5fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYEalFj/; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=hgbMuLNmF2U5uL+ddlwJd6/HNeqG8EQdk1/zOrlCAHaKn9X20P9c5UNfMNLojQhzhOvvtQCnN2Qy4pjjC8F/tyrWBNyDGJNN+FXC3p2vWh89aJTmiSCASlGM1UiJ5ZYnVu0ay9/07w4PJpqowfVugWdCcDmMfay3SP/YICM8Ig4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVr2StH+; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYEalFj/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVr2StH+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755576012; x=1787112012;
+  t=1755576974; x=1787112974;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0LPeVhbN27W9I+mRDCwPKwCpeiAK9vn43XxhoMb+a/U=;
-  b=EYEalFj/FjsfBgfuT5IUG786f11voG/5AD4p1qvm/1ccCgIO35ifH98D
-   dhpyWAB7YGjuoS0Y02HajdxRI1y4FKXt1Vfd+gSeB2TsV92NlXS7e6biS
-   mQfLGxQFt61/3WERDcEoOG8OGbIpZ84ktzICZXBlLOLRlcZO3yCNsio16
-   DhWCZmHsC4c5HVSu+HMzbk7cfTIjZJL3IM+gjiDAdq23a7z5OgIQ5hccu
-   l32/SLHCN98rS416JXJu1UoDsd3/QDCjxEQ+52i1GNTdiDQSM3wq/8cmf
-   iG5iHEQPViKgiYDe3sou2mnoSYntZOE75i58pNODF+yvJb/wm0v3A5mv3
-   w==;
-X-CSE-ConnectionGUID: 4hqfb5lNSe+jYalGNVXI7w==
-X-CSE-MsgGUID: 21+pfNaCTKm/TsoBqtN+TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="75379555"
+  bh=unWv/FnlnT35kUxfsqoeFdpAzJLtrnEgDa3wlFHkVxA=;
+  b=GVr2StH+09lMLXeyMwtjeB21JrrimkBvwELrW90YGMj9kQxFum0qpCSi
+   DOzTwuYkRJ2aLdLGCIbOYCKk4PwIyU3Yc5t4/y8xvfIEgMIdqKlHfgOFf
+   YlHDbLhSld9J0L6ckYxa7Z/03Iz8VdM8JxOgkMkf81WuDhqK9WRcH9qyI
+   5ICLREps/KMgYY/ipxsqmG6JRhfCQY5wWGI7pcKDSXDEY7F9adzzonSap
+   iN7x75u+z9gq+TWDeHiLVKXHMLz+qbUP8JsGAgsovL0ulDrI8pu/2hgz8
+   Emd9Ce+EYsLlJr++MWKXOeFc6WEmdYtXe2B9aokrRG9XJrP+/N0X84JWc
+   g==;
+X-CSE-ConnectionGUID: Slhsyj9KTY6eHY5clgGSlA==
+X-CSE-MsgGUID: 9HEW3GpwRgCyCVUU7SkM3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="56837091"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="75379555"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 21:00:11 -0700
-X-CSE-ConnectionGUID: 1kwW5NwcQMSYlxhfNH8EIw==
-X-CSE-MsgGUID: Met2WLUMQ5ydwWDW626gVg==
+   d="scan'208";a="56837091"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 21:16:13 -0700
+X-CSE-ConnectionGUID: pMNUds3pTaqF9Hj1NTW1dA==
+X-CSE-MsgGUID: 61paJ9iYS2ud1Jl/9euOLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="171959172"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Aug 2025 21:00:10 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="167700326"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 18 Aug 2025 21:16:04 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoDW4-0001Et-26;
-	Tue, 19 Aug 2025 04:00:08 +0000
-Date: Tue, 19 Aug 2025 05:59:22 +0200
+	id 1uoDlR-000GVK-25;
+	Tue, 19 Aug 2025 04:16:01 +0000
+Date: Tue, 19 Aug 2025 12:14:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2690/2690]
- Documentation/devicetree/bindings/gpu/phytium,dc.yaml:40:8: [warning] wrong
- indentation: expected 2 but found 7 (indentation)
-Message-ID: <202508190503.hI0cD4HQ-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-06 0/1] mm/gcma.c:467:18-19:
+ WARNING comparing pointer to 0
+Message-ID: <202508191222.E3DQV0XT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   dc90c923fed4944f134644261022885c12631518
-commit: ab9ff1e38569313e41ba5a036591f93cb55e5d87 [2690/2690] DRM: Phytium display DRM doc
-config: arm64-randconfig-2052-20250818 (https://download.01.org/0day-ci/archive/20250819/202508190503.hI0cD4HQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508190503.hI0cD4HQ-lkp@intel.com/reproduce)
+Hi Suren,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-06
+head:   052ed413ea599387d842eb84c8aac6480eab0c72
+commit: bca0e95c0215368d0af3379e7487937e180de545 [0/1] ANDROID: fix GCMA build failure when CONFIG_RANDSTRUCT=y
+config: i386-randconfig-053-20250819 (https://download.01.org/0day-ci/archive/20250819/202508191222.E3DQV0XT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508190503.hI0cD4HQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508191222.E3DQV0XT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml:40:8: [warning] wrong indentation: expected 2 but found 7 (indentation)
-   Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:76:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:82:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
---
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: ignoring, error in schema: properties: clocks: items
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/framebuffer.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/reserved-memory.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/memory-region.yaml#'
-   Documentation/devicetree/bindings/input/touchscreen/ti,tsc2005.yaml: ti,x-plate-ohms: missing type definition
-   Documentation/devicetree/bindings/sound/audio-graph.yaml: convert-sample-format: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-odd-pixels: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-even-pixels: missing type definition
-   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml: i2c-alias: missing type definition
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: snps,priority: multiple incompatible types: uint32
+cocci warnings: (new ones prefixed by >>)
+>> mm/gcma.c:467:18-19: WARNING comparing pointer to 0
 
-vim +40 Documentation/devicetree/bindings/gpu/phytium,dc.yaml
+vim +467 mm/gcma.c
 
-    33	
-    34	required:
-    35	  - compatible
-    36	  - reg
-    37	  - interrupts
-    38	
-    39	Example:
-  > 40	       /memreserve/ 0xf4000000 0x4000000; // (optional)
+ccf872ebe474a3 Minchan Kim 2023-02-08  457  
+ccf872ebe474a3 Minchan Kim 2023-02-08  458  static void gcma_erase_page(struct gcma_inode *inode, unsigned long index,
+ccf872ebe474a3 Minchan Kim 2023-02-08  459  			    struct page *page, bool put_page)
+ccf872ebe474a3 Minchan Kim 2023-02-08  460  {
+ccf872ebe474a3 Minchan Kim 2023-02-08  461  	void *old;
+ccf872ebe474a3 Minchan Kim 2023-02-08  462  
+ccf872ebe474a3 Minchan Kim 2023-02-08  463  	lockdep_assert_held(&inode->pages.xa_lock);
+ccf872ebe474a3 Minchan Kim 2023-02-08  464  
+ccf872ebe474a3 Minchan Kim 2023-02-08  465  	/* The inode refcount will decrease when the page is freed */
+ccf872ebe474a3 Minchan Kim 2023-02-08  466  	old = __xa_erase(&inode->pages, index);
+ccf872ebe474a3 Minchan Kim 2023-02-08 @467  	VM_BUG_ON(old == 0);
+ccf872ebe474a3 Minchan Kim 2023-02-08  468  	delete_page_from_lru(page);
+ccf872ebe474a3 Minchan Kim 2023-02-08  469  	if (put_page)
+ccf872ebe474a3 Minchan Kim 2023-02-08  470  		gcma_put_page(page);
+ccf872ebe474a3 Minchan Kim 2023-02-08  471  
+ccf872ebe474a3 Minchan Kim 2023-02-08  472  	check_and_remove_inode(inode);
+ccf872ebe474a3 Minchan Kim 2023-02-08  473  }
+ccf872ebe474a3 Minchan Kim 2023-02-08  474  
+
+:::::: The code at line 467 was first introduced by commit
+:::::: ccf872ebe474a33123adc0f822915b4cea59e684 ANDROID: mm: introduce GCMA
+
+:::::: TO: Minchan Kim <minchan@google.com>
+:::::: CC: Carlos Llamas <cmllamas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
