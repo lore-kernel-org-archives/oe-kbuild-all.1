@@ -1,61 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248B842065
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 20:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715B23112DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 21:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755634775; cv=none; b=DG/+y/dTYldRo7oncgXxLaYVVlKJm10yGypAY4zirM5hj89IDNO2/dtQ2yF0a0UFeyA3VS0fVa7obfxCG+vCzYbtPhNHMIxyh/A3JexPkYXizZlMpwV5RILFSwHlKnktxIc9kwbN4q6V9h8q3xyaLEtzRm+TYZyaE66BxLRtVRY=
+	t=1755637810; cv=none; b=c6wdSXdcLfZloqk58jQX/JWkz1NYkVfSMOgazQ20qjNr2yg1kq3+LRd08gzSDUzKKS423ysi1ijORrYwLBq2ho45ilVulq95kkrv1a0ngiteGB3jy8SOGo8Ewh57L0G1kdRqn5f/gv4jOu9JHo4xRanlHCRKSne8msVMBTMI++g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755634775; c=relaxed/simple;
-	bh=lk8OxgimYrAlq8IpJR6TNtSAapP2lwMnm8oZxDFjXeA=;
+	s=arc-20240116; t=1755637810; c=relaxed/simple;
+	bh=lAs7kHreBtRFM5BmhN+uVj7cvYVrE9W4cw3bVA+6RCw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U52tqBO4/A+FpJqli+YTQbb4Dy4CFv8VU+25cE8plNcUEe2G9JdXg7tr+rB8/pFwbBhEigQ6/CmeUObkULwdjJri0VQ+1Gqbz6jZ9n88iETOuJfallrW3c7wLrjLHNiNhll0LidRtShvZG/WF2uBPqak0Jdndyyzxgzs6RKrcxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqrZjmh3; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=HbjDhQjlYikbh3kCyr4YgRbw2mvU7HudbXkk616tBLLgN1+mLWFle8YHSupe4lIk937fH9D1Mjb7TrgMFy9jfN3fheR+paFzRWNpJIMDEtjbYHTMUNnufprD7c7E8nZkwYcChtycbLmAhcPMo26uiEJolMjen6+JksLMdVBT5l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kV6AT49z; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqrZjmh3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kV6AT49z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755634774; x=1787170774;
+  t=1755637809; x=1787173809;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lk8OxgimYrAlq8IpJR6TNtSAapP2lwMnm8oZxDFjXeA=;
-  b=JqrZjmh392sq5/HywBJHQaStIrnuIGDYXYNY+LMlam15spq+0C9sy7Vj
-   M2bopGInLHZyiSxIQRgOEG2vigmT2iqS9BjH/blN5a4klKQrquMGe1KMc
-   UtYnHlGdUz2zEeW+LSEI6aEfDGzN4xNVchiQhvt3qRCjDTjhGhGUGK8XJ
-   5XvbhXC8yTzxnvswgTfNnJv8EVkwoq117R/YbWHX53tgs9pCxNai4oNDz
-   +Mu836+BhP7Bq5HSp+I+owr+ewrdMw36P8jQu9gyrnSo0lpFAvK/KJFoc
-   emsi0a54AldR+CH1gqLL51me+TnsW9WXI6Axg4JgOnSnESEr38lx41jTi
-   Q==;
-X-CSE-ConnectionGUID: KVQOUTDoQ/ixf7V+7B+Kfg==
-X-CSE-MsgGUID: cdPolfTGSpe/fMwiPIVhfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69272486"
+  bh=lAs7kHreBtRFM5BmhN+uVj7cvYVrE9W4cw3bVA+6RCw=;
+  b=kV6AT49zh8Ga4td68vmfVc6MLXTSojIvyD1YeCthtqCze69n0Tl/5w74
+   vIqMV/H2Yg36Et/7dTglt5WxXmKPqicWvEFOFvRzfHw9A5lTNJpWESyMX
+   qLsLzMN8GRbFTfS9uQY5dnDrY3jAh69S4B63Z8U1qqmVGGT/zP6CDzpQK
+   yFaUSbLrO2bkrqw2SXAo6Aj9hyuCSIcYEJ9nVixTWcVv0o+O6f/8DGD4X
+   nP44Q79GWGHYFCBs9I+ogs1fUiHQST4nRMEshPlF9+MwasaERFFanwlX5
+   E18kHexkliWPg489v4NJgYzvsZA2/1ghCWsVC82EZn5wo4adhKtvRY/PL
+   A==;
+X-CSE-ConnectionGUID: vrkl8Vd/TY2KQypOLL1ZXw==
+X-CSE-MsgGUID: 5SPilkVMQSusswhknr7ang==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61728039"
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="69272486"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 13:19:33 -0700
-X-CSE-ConnectionGUID: GmxLShhgTGmsm1z6tueXOQ==
-X-CSE-MsgGUID: vTc0bphQQb6aDFc1SqHbYw==
+   d="scan'208";a="61728039"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 14:10:08 -0700
+X-CSE-ConnectionGUID: OjuMbXC3RGq+9bUgCgDQ/g==
+X-CSE-MsgGUID: q7vuU89HTWytl+PGKm8Z7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="167854855"
+   d="scan'208";a="173315511"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Aug 2025 13:19:32 -0700
+  by orviesa005.jf.intel.com with ESMTP; 19 Aug 2025 14:10:04 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoSmv-000HPv-1w;
-	Tue, 19 Aug 2025 20:18:52 +0000
-Date: Wed, 20 Aug 2025 04:16:48 +0800
+	id 1uoTai-000HVT-2v;
+	Tue, 19 Aug 2025 21:10:00 +0000
+Date: Wed, 20 Aug 2025 05:09:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Disseldorp <ddiss@suse.de>, linux-kbuild@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-next@vger.kernel.org,
-	ddiss@suse.de, nsc@kernel.org
-Subject: Re: [PATCH v3 8/8] initramfs_test: add filename padding test case
-Message-ID: <202508200304.wF1u78il-lkp@intel.com>
-References: <20250819032607.28727-9-ddiss@suse.de>
+To: Artur Rojek <contact@artur-rojek.eu>, Rob Landley <rob@landley.net>,
+	Jeff Dionne <jeff@coresemi.io>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Artur Rojek <contact@artur-rojek.eu>
+Subject: Re: [PATCH 3/3] net: j2: Introduce J-Core EMAC
+Message-ID: <202508200456.GIhKD5qv-lkp@intel.com>
+References: <20250815194806.1202589-4-contact@artur-rojek.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,100 +74,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819032607.28727-9-ddiss@suse.de>
+In-Reply-To: <20250815194806.1202589-4-contact@artur-rojek.eu>
 
-Hi David,
+Hi Artur,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.17-rc2 next-20250819]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.17-rc2 next-20250819]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Disseldorp/gen_init_cpio-write-to-fd-instead-of-stdout-stream/20250819-115406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250819032607.28727-9-ddiss%40suse.de
-patch subject: [PATCH v3 8/8] initramfs_test: add filename padding test case
-config: sparc64-randconfig-r121-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200304.wF1u78il-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce: (https://download.01.org/0day-ci/archive/20250820/202508200304.wF1u78il-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Artur-Rojek/dt-bindings-vendor-prefixes-Document-J-Core/20250816-042354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250815194806.1202589-4-contact%40artur-rojek.eu
+patch subject: [PATCH 3/3] net: j2: Introduce J-Core EMAC
+config: m68k-randconfig-r113-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200456.GIhKD5qv-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250820/202508200456.GIhKD5qv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508200304.wF1u78il-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200456.GIhKD5qv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> init/initramfs_test.c:415:18: sparse: sparse: Initializer entry defined twice
-   init/initramfs_test.c:425:18: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +415 init/initramfs_test.c
+   drivers/net/ethernet/jcore_emac.c: In function 'jcore_emac_set_rx_mode':
+>> drivers/net/ethernet/jcore_emac.c:230:1: error: label at end of compound statement
+    next_ha:
+    ^~~~~~~
 
-   388	
-   389	/*
-   390	 * An initramfs filename is namesize in length, including the zero-terminator.
-   391	 * A filename can be zero-terminated prior to namesize, with the remainder used
-   392	 * as padding. This can be useful for e.g. alignment of file data segments with
-   393	 * a 4KB filesystem block, allowing for extent sharing (reflinks) between cpio
-   394	 * source and destination. This hack works with both GNU cpio and initramfs, as
-   395	 * long as PATH_MAX isn't exceeded.
-   396	 */
-   397	static void __init initramfs_test_fname_pad(struct kunit *test)
-   398	{
-   399		char *err;
-   400		size_t len;
-   401		struct file *file;
-   402		char fdata[] = "this file data is aligned at 4K in the archive";
-   403		struct test_fname_pad {
-   404			char padded_fname[4096 - CPIO_HDRLEN];
-   405			char cpio_srcbuf[CPIO_HDRLEN + PATH_MAX + 3 + sizeof(fdata)];
-   406		} *tbufs = kzalloc(sizeof(struct test_fname_pad), GFP_KERNEL);
-   407		struct initramfs_test_cpio c[] = { {
-   408			.magic = "070701",
-   409			.ino = 1,
-   410			.mode = S_IFREG | 0777,
-   411			.uid = 0,
-   412			.gid = 0,
-   413			.nlink = 1,
-   414			.mtime = 1,
- > 415			.filesize = 0,
-   416			.devmajor = 0,
-   417			.devminor = 1,
-   418			.rdevmajor = 0,
-   419			.rdevminor = 0,
-   420			/* align file data at 4K archive offset via padded fname */
-   421			.namesize = 4096 - CPIO_HDRLEN,
-   422			.csum = 0,
-   423			.fname = tbufs->padded_fname,
-   424			.data = fdata,
-   425			.filesize = sizeof(fdata),
-   426		} };
-   427	
-   428		memcpy(tbufs->padded_fname, "padded_fname", sizeof("padded_fname"));
-   429		len = fill_cpio(c, ARRAY_SIZE(c), tbufs->cpio_srcbuf);
-   430	
-   431		err = unpack_to_rootfs(tbufs->cpio_srcbuf, len);
-   432		KUNIT_EXPECT_NULL(test, err);
-   433	
-   434		file = filp_open(c[0].fname, O_RDONLY, 0);
-   435		if (IS_ERR(file)) {
-   436			KUNIT_FAIL(test, "open failed");
-   437			goto out;
-   438		}
-   439	
-   440		/* read back file contents into @cpio_srcbuf and confirm match */
-   441		len = kernel_read(file, tbufs->cpio_srcbuf, c[0].filesize, NULL);
-   442		KUNIT_EXPECT_EQ(test, len, c[0].filesize);
-   443		KUNIT_EXPECT_MEMEQ(test, tbufs->cpio_srcbuf, c[0].data, len);
-   444	
-   445		fput(file);
-   446		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
-   447	out:
-   448		kfree(tbufs);
-   449	}
-   450	
+
+vim +230 drivers/net/ethernet/jcore_emac.c
+
+   192	
+   193	static void jcore_emac_set_rx_mode(struct net_device *ndev)
+   194	{
+   195		struct jcore_emac *priv = netdev_priv(ndev);
+   196		struct netdev_hw_addr *ha;
+   197		unsigned int reg, i, idx = 0, set_mask = 0, clear_mask = 0, addr = 0;
+   198	
+   199		if (ndev->flags & IFF_PROMISC)
+   200			set_mask |= JCORE_EMAC_PROMISC;
+   201		else
+   202			clear_mask |= JCORE_EMAC_PROMISC;
+   203	
+   204		if (ndev->flags & IFF_ALLMULTI)
+   205			set_mask |= JCORE_EMAC_MCAST;
+   206		else
+   207			clear_mask |= JCORE_EMAC_MCAST;
+   208	
+   209		regmap_update_bits(priv->map, JCORE_EMAC_CONTROL, set_mask | clear_mask,
+   210				   set_mask);
+   211	
+   212		if (!(ndev->flags & IFF_MULTICAST))
+   213			return;
+   214	
+   215		netdev_for_each_mc_addr(ha, ndev) {
+   216			/* Only the first 3 octets are used in a hardware mcast mask. */
+   217			memcpy(&addr, ha->addr, 3);
+   218	
+   219			for (i = 0; i < idx; i++) {
+   220				regmap_read(priv->map, JCORE_EMAC_MCAST_MASK(i), &reg);
+   221				if (reg == addr)
+   222					goto next_ha;
+   223			}
+   224	
+   225			regmap_write(priv->map, JCORE_EMAC_MCAST_MASK(idx), addr);
+   226			if (++idx >= JCORE_EMAC_MCAST_ADDRS) {
+   227				netdev_warn(ndev, "Multicast list limit reached\n");
+   228				break;
+   229			}
+ > 230	next_ha:
+   231		}
+   232	
+   233		/* Clear the remaining mask entries. */
+   234		for (i = idx; i < JCORE_EMAC_MCAST_ADDRS; i++)
+   235			regmap_write(priv->map, JCORE_EMAC_MCAST_MASK(i), 0);
+   236	}
+   237	
 
 -- 
 0-DAY CI Kernel Test Service
