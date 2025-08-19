@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BF92C2363;
-	Tue, 19 Aug 2025 04:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6578A1A2C25
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 04:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755578316; cv=none; b=iX+btgmZ+6bP6SfKqowgUKczmPV1jSAP/AkZq2+OT+LZQOjJno0OBn8+U5ER8MvUft2Rqx9QjhA/zoYFXF4zouzJi+50Pu0vmHJsWSE8hbSq5l/n+E5+CCQH82Lwf+luViRTWwW192WVOuLhhIEbjsnQX1cSDQCcKU+jeM4Uyfo=
+	t=1755578379; cv=none; b=RnRgZazTMhC9cQ85L+fStf7uRloiM2Ke+GnqepUr4Aa3+2LTpmi9n8fI0N3ycXWjBvikujveKRNLwbUt+QVgoKs8aiKGgv8m16JekjXJbxaZMpdaSwZAfyrB52g7348IXMOTx86gH+p4u6HdGYmLTCP8opIkeszJShivopa+NJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755578316; c=relaxed/simple;
-	bh=fX1fDtkJlgXe21ThnDLJ12QhRuLIMPpV4e+3sPurSW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WkluJx1csFyIwI32QO0aYSu4Nn3tOj+onXap/AtVA6M0d9YRaOV0XlSZ5ayWJvbLVeOtrLG/C/zF5g3hyzVrcUfCYPPFO8BYQ8NIrbyk5sXs0BEqgdxEZkMWVZVTM6Q0NQ6V0Gu5Gy5jIo8FEPl7d8p2s5Wx43so0v+jTPgjWdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxwsOZ1u; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1755578379; c=relaxed/simple;
+	bh=7NlTar4j1oSSyPHWgbrpYzRk4wpjhEu7BH5Kp6hH7tQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=acEnUA+I1AUJ5NxgJ21eX9HcSbhVWP3k49rouQeUcueyko7OmBaoL3jcYepDZ9wT3R+OIBurNWmo+u+HYBRDGiL/8Qw3lnSH6BwXyR878IcU186Il2gFpzc8QOrDWXb+DHGW8nRI08O1NrZSJ9A9ZsGHKeV4U7KjTWSFWIpwjPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbrpY4rd; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxwsOZ1u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbrpY4rd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755578314; x=1787114314;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fX1fDtkJlgXe21ThnDLJ12QhRuLIMPpV4e+3sPurSW0=;
-  b=UxwsOZ1ulEZYVQIiVzewu33WAQcTwICFFB9AIRLG/YjXQDXUlLqRGFzC
-   Ie1ADYwBltMu2Nhr5WXpxhFSiUSG0/ph77cS8I524/5XK6VcnKKreHoDS
-   yvRtg0F9KxzQH1U3jlaD9GVZLy2DgS/mGcoWZ6vUdtAesYCxCtGKvna/d
-   DaUpiy86JDdcfsl2vEG0Xrsr6iwNG3V5fUPRNIMi01gIYrVlDTNoP06Q9
-   EdKL660xpWOgJhjyE97URmsqTVa/aiv/2+QvNvhXcqzD3d6Lcb60imyVv
-   QL+Yx3MLsU78U3XpMhTvpUXWYgIFYV3pwgXzTWzfLsjyeTOe7/WkOTHof
-   g==;
-X-CSE-ConnectionGUID: ggwf9MdqTfiOmfHq4iyzUg==
-X-CSE-MsgGUID: Hn+OKs5UTSOQKu17pmz95Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57882456"
+  t=1755578378; x=1787114378;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7NlTar4j1oSSyPHWgbrpYzRk4wpjhEu7BH5Kp6hH7tQ=;
+  b=kbrpY4rdLOKjbMzveBtlPKVjidURjv8ihYhtIpLO3MhhigaVxkAzlMQ+
+   x5bySCKPdbxSVzlxE5Vp9MKcMk8uvOrXaHTVwdLLNsssQr3XJ9Mq0nOvK
+   uKugmhO2VDF+b12qf5zbOKdGxhZUHjJJCdbmmJN4ABnbe30i0ex+ph9Ty
+   Y/APiN+sc4WA4r/FhMEE0G2DMNYJnMXAOVeAybbpv4lFui3Vw8QkAvhQh
+   H2r6bbvpuOn/jmHQwwTTHSrsP8z11nXO/HDBVplo8WxLkNGZOU/ovg3tk
+   hXUBwxk8Y21jkSZEDTxD5QTqZ9YwabXheP9ifKOpS50qC9W6u9zswria8
+   w==;
+X-CSE-ConnectionGUID: 0aNwtIAHT1quaVrDROopvA==
+X-CSE-MsgGUID: 222h/sNtQqS1yFuWTEXW7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="75262843"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="57882456"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 21:38:33 -0700
-X-CSE-ConnectionGUID: xr1bnbrgSICKne4JN1ZibA==
-X-CSE-MsgGUID: Zwnm0lBgRl6z9KTr/9UVMw==
+   d="scan'208";a="75262843"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 21:39:35 -0700
+X-CSE-ConnectionGUID: jFvt/JwmSSy0Ko6ldU2SCA==
+X-CSE-MsgGUID: AUfsQj6YSEaE1Fjgmmu32w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
-   d="scan'208";a="166981588"
+   d="scan'208";a="168142867"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 18 Aug 2025 21:38:29 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 18 Aug 2025 21:39:33 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoE78-000GVn-2D;
-	Tue, 19 Aug 2025 04:38:26 +0000
-Date: Tue, 19 Aug 2025 12:38:16 +0800
+	id 1uoE8A-000GVr-2w;
+	Tue, 19 Aug 2025 04:39:30 +0000
+Date: Tue, 19 Aug 2025 12:38:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacky Bai <ping.bai@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Jacky Bai <ping.bai@nxp.com>
-Subject: Re: [PATCH v3 3/4] thermal: qoriq: workaround unexpected temperature
- readings from tmu
-Message-ID: <202508191258.tYXB63eu-lkp@intel.com>
-References: <20250818-imx93_tmu-v3-3-35f79a86c072@nxp.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: oe-kbuild-all@lists.linux.dev, Srinivas Kandagatla <srini@kernel.org>
+Subject: [srini-nvmem:for-next 1/1] drivers/nvmem/qnap-mcu-eeprom.c:28:15:
+ warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes
+ pointer from integer without a cast
+Message-ID: <202508191205.ROvIX7IA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,123 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250818-imx93_tmu-v3-3-35f79a86c072@nxp.com>
 
-Hi Jacky,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b9ddaa95fd283bce7041550ddbbe7e764c477110]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Bai/dt-bindings-thermal-qoriq-Add-compatible-string-for-imx93/20250818-173822
-base:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-patch link:    https://lore.kernel.org/r/20250818-imx93_tmu-v3-3-35f79a86c072%40nxp.com
-patch subject: [PATCH v3 3/4] thermal: qoriq: workaround unexpected temperature readings from tmu
-config: riscv-randconfig-001-20250819 (https://download.01.org/0day-ci/archive/20250819/202508191258.tYXB63eu-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191258.tYXB63eu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/srini/nvmem.git for-next
+head:   117c3f3014a929464c01622cb95b566bd27244f8
+commit: 117c3f3014a929464c01622cb95b566bd27244f8 [1/1] nvmem: add driver for the eeprom in qnap-mcu controllers
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250819/202508191205.ROvIX7IA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191205.ROvIX7IA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508191258.tYXB63eu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508191205.ROvIX7IA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     804 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     812 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     820 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     829 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     838 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     847 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/thermal/qoriq_thermal.c:8:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/thermal/qoriq_thermal.c:281:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     281 |                              FIELD_PREP(TMRTRCTR_TEMP_MASK, 0x7));
-         |                              ^
-   7 warnings and 1 error generated.
+   In file included from drivers/nvmem/qnap-mcu-eeprom.c:12:
+   include/linux/mfd/qnap-mcu.h:13:9: error: unknown type name 'u32'
+      13 |         u32 baud_rate;
+         |         ^~~
+   include/linux/mfd/qnap-mcu.h:17:9: error: unknown type name 'bool'
+      17 |         bool usb_led;
+         |         ^~~~
+   include/linux/mfd/qnap-mcu.h:21:25: error: unknown type name 'u8'
+      21 |                   const u8 *cmd_data, size_t cmd_data_size,
+         |                         ^~
+   include/linux/mfd/qnap-mcu.h:21:39: error: unknown type name 'size_t'
+      21 |                   const u8 *cmd_data, size_t cmd_data_size,
+         |                                       ^~~~~~
+   include/linux/mfd/qnap-mcu.h:1:1: note: 'size_t' is defined in header '<stddef.h>'; did you forget to '#include <stddef.h>'?
+     +++ |+#include <stddef.h>
+       1 | /* SPDX-License-Identifier: GPL-2.0+ */
+   include/linux/mfd/qnap-mcu.h:22:19: error: unknown type name 'u8'
+      22 |                   u8 *reply_data, size_t reply_data_size);
+         |                   ^~
+   include/linux/mfd/qnap-mcu.h:22:35: error: unknown type name 'size_t'
+      22 |                   u8 *reply_data, size_t reply_data_size);
+         |                                   ^~~~~~
+   include/linux/mfd/qnap-mcu.h:22:35: note: 'size_t' is defined in header '<stddef.h>'; did you forget to '#include <stddef.h>'?
+   include/linux/mfd/qnap-mcu.h:24:34: error: unknown type name 'u8'
+      24 |                            const u8 *cmd_data, size_t cmd_data_size);
+         |                                  ^~
+   include/linux/mfd/qnap-mcu.h:24:48: error: unknown type name 'size_t'
+      24 |                            const u8 *cmd_data, size_t cmd_data_size);
+         |                                                ^~~~~~
+   include/linux/mfd/qnap-mcu.h:24:48: note: 'size_t' is defined in header '<stddef.h>'; did you forget to '#include <stddef.h>'?
+   drivers/nvmem/qnap-mcu-eeprom.c: In function 'qnap_mcu_eeprom_read_block':
+   drivers/nvmem/qnap-mcu-eeprom.c:28:17: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
+         |                 ^~~~~~~
+>> drivers/nvmem/qnap-mcu-eeprom.c:28:15: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
+         |               ^
+   drivers/nvmem/qnap-mcu-eeprom.c:32:15: error: implicit declaration of function 'qnap_mcu_exec' [-Werror=implicit-function-declaration]
+      32 |         ret = qnap_mcu_exec(mcu, cmd, sizeof(cmd), reply, bytes + sizeof(cmd));
+         |               ^~~~~~~~~~~~~
+   drivers/nvmem/qnap-mcu-eeprom.c:45:9: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+      45 |         kfree(reply);
+         |         ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/FIELD_PREP +281 drivers/thermal/qoriq_thermal.c
+vim +28 drivers/nvmem/qnap-mcu-eeprom.c
 
-   264	
-   265	static void qoriq_tmu_init_device(struct qoriq_tmu_data *data)
-   266	{
-   267		/* Disable interrupt, using polling instead */
-   268		regmap_write(data->regmap, REGS_TIER, TIER_DISABLE);
-   269	
-   270		/* Set update_interval */
-   271		if (data->ver == TMU_VER1) {
-   272			regmap_write(data->regmap, REGS_TMTMIR, TMTMIR_DEFAULT);
-   273		} else {
-   274			regmap_write(data->regmap, REGS_V2_TMTMIR, TMTMIR_DEFAULT);
-   275			regmap_write(data->regmap, REGS_V2_TEUMR(0), GET_TEUMR0(data->drvdata));
-   276		}
-   277	
-   278		/* ERR052243: Set the raising & falling edge monitor */
-   279		if (CHECK_ERRATA_FLAG(data->drvdata, TMU_ERR052243)) {
-   280			regmap_write(data->regmap, TMRTRCTR, TMRTRCTR_EN |
- > 281				     FIELD_PREP(TMRTRCTR_TEMP_MASK, 0x7));
-   282			regmap_write(data->regmap, TMFTRCTR, TMFTRCTR_EN |
-   283				     FIELD_PREP(TMFTRCTR_TEMP_MASK, 0x7));
-   284	
-   285		}
-   286		/* Disable monitoring */
-   287		regmap_write(data->regmap, REGS_TMR, TMR_DISABLE);
-   288	}
-   289	
+    20	
+    21	static int qnap_mcu_eeprom_read_block(struct qnap_mcu *mcu, unsigned int offset,
+    22					      void *val, size_t bytes)
+    23	{
+    24		const u8 cmd[] = { 0xf7, 0xa1, offset, bytes };
+    25		u8 *reply;
+    26		int ret = 0;
+    27	
+  > 28		reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
+    29		if (!reply)
+    30			return -ENOMEM;
+    31	
+    32		ret = qnap_mcu_exec(mcu, cmd, sizeof(cmd), reply, bytes + sizeof(cmd));
+    33		if (ret)
+    34			goto out;
+    35	
+    36		/* First bytes must mirror the sent command */
+    37		if (memcmp(cmd, reply, sizeof(cmd))) {
+    38			ret = -EIO;
+    39			goto out;
+    40		}
+    41	
+    42		memcpy(val, reply + sizeof(cmd), bytes);
+    43	
+    44	out:
+    45		kfree(reply);
+    46		return ret;
+    47	}
+    48	
 
 -- 
 0-DAY CI Kernel Test Service
