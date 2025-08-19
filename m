@@ -1,70 +1,73 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED78269CF0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 06:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3945265CC2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 06:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755584017; cv=none; b=r8ZKoFYdkckE96iOhvQ/G8lJI5EiMglGNf3eyhXSgG57zkayxu0rxD5zuNoAgCuSBh1RMjUAccSVTorllc4PAK8eZieWKQ36eY0aMakb6go+zijtYPBsE6GOpNueiDR+25cTm+231oP+sK5om48JI9lxwA7PnE9+G9ue8NWIus4=
+	t=1755584095; cv=none; b=DOEqxa2c3SGpuJJ/WG0XjhEk9wCPv29BQYOF7DNZunXVRpt8KjlTJzdQghfmCV4TBr+fRhcIgyNkfkJhE8+T+5Ul6RinTt+P9VaE+4HjdTgV6x0OF1Swuvp9ySyXGIiezfNpE6c23x+V78me4Mn4X1eqHi4+QMGEp+PmwHTZ8Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755584017; c=relaxed/simple;
-	bh=pwnw8a9mADcH9qJIzPKa/tq1ZyVltio+a8Y2AhJ473A=;
+	s=arc-20240116; t=1755584095; c=relaxed/simple;
+	bh=2YJR7pEFPy7xq1orNpVNhiTcdNQif4qFtdmH0fu7uU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G3hg9imPqQWhiK2pKg4DDZBracYLcuJ7iawn3COxw28Kx1AGfDJSJmdNzInngQcXIeZHyYdB5VL8Rm6/yoOVtBTtUDXMh4ITL1JSSSIix/8CgnwmyymKfpiimx6OdrtyHocBRKwjYBNR7TKdl/TyuaqllwKUJCAtmcJCzVOuq5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wrmCstxi; arc=none smtp.client-ip=209.85.128.47
+	 Content-Disposition:In-Reply-To; b=SpnavGWBtbFJGbsUWx5FJSz6PHq4D3b1WVtPDNf8e3r4GlPLJDgojrRq3hNKWx/9F69wa/SUtkXKLbVucT5T374E26JOzjlyyNoYE/wNMNG9YeomlE2QiBlu015D+IhGlOnFnXyNY2sSe1O6ELR6LjWrlExannjENDwgBeaPLIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IW+W6aet; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wrmCstxi"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45a1b00797dso32329935e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 23:13:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IW+W6aet"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9dc52c430so2375126f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Aug 2025 23:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755584013; x=1756188813; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vR2Z/WDH6gOreEopMqHmHW9u0hd60Nj5JCbNxFQ+BRU=;
-        b=wrmCstxi4TwmghairjaMRDh+W5MVex6bIzIQgZkhmEP4ScI+yCtPqCgSDE27oz2hvT
-         F+X1R68dkZBoLbWCJvdt3/WDCBiA2Crt7BsDTtlCecDvUkZ+u+dCYoBaRb6N6vrn4Xu7
-         awNPyOFxQy39fiomU6YS/PEVop0umbs9lJmbZrYMVI5SzO8WzwShr5idCagoDiJCCX2L
-         Az6MuMdWDLBk2yYOd9kiMEzjyGzkfJCLoZ3ds+Rf/vah0TkCmpnVwRKTPZMQBp8O0skJ
-         Ul4GsSaMxzkVSTvyB8Fx7XGz5R/71B0VtYSbANMBhXg38n5nLJDLwKWGaSqtCh/T0kaL
-         AnSw==
+        d=linaro.org; s=google; t=1755584092; x=1756188892; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cfC6tmyznTQhu0WfGzgV8ZZbOGfzSI/Lw/Z1TOmfLRk=;
+        b=IW+W6aetxQKFWd3I/w8RWc0IOxp39pGqIzGGW6tIW1b984UhI/8yMUq6EFdgQyYErJ
+         P8EAlosTCE71FxJ+GKT3ldNpz0OXHoEObzrY3cTBuw8MO92PoGU5TerkGwhIK3cBldeu
+         Jpb9n8wvg9WYOXUJxar53wuervFMjJJroCh8tlk9mTO+QNHv+xdZgPnWB0y5dRhMZQrC
+         XZ6NVsdiBeps9TvfpSdUtaBtA7sgMxhnIFZkjdKPhZdR6An63vhAQFD6mEXZFb0TF9Rm
+         X2Q/yPf8bbbw11LlbYH4lVv21x+sk12TwbaAQTv79/7jjZx9QXuHlfhXoQu/+6eq81Zz
+         959g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755584013; x=1756188813;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vR2Z/WDH6gOreEopMqHmHW9u0hd60Nj5JCbNxFQ+BRU=;
-        b=EdPRUCgV6jmjc7LbXwPbuFJ1MGKF6KMSaiBEK8sb0QM4aPdF5d5VfHRBiYawF8C1u8
-         gaiYxc5g+ifVpYQogtUpqHVuoxO/1hOSksIkbwK51QUHVRsy4Fs96xUuzBHagedkzLfB
-         h+fPe2LiErQY7n98S1o5hEX7uhcOFkVXougVtNhGaxF6WRcFygB74NeNdznf081109sv
-         kw3DJSvwdbUhXP34n+9nTQzSYeVMctn9Dfup0TaRZJW2OBOZecPnTOmg1IwQ0XDWGbd5
-         bcTSuVtFco6v6u/yVIWAqafVeDpQqft9gV8elz0AXXAokQ13KsQh/gQobyN5tgXjmQBL
-         9dOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoIMAmQvo8KF8N4UWa+VuLEJo9PrrQRlwGnSBkAxwoInzYms3WPyGIDvrXH6CNB0ZDTTFhZCgUqn69nI1g@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZK0dp8ZyuQIT0d0IPBDTRxdcNsOVAuLR2qIv4s+iCLYAgI0yA
-	rjF8UPTKLfjxSDIsjt3B2OKrm4vKeAFEWcSWmne1NlwsXy0un5oTiASOnD0lxWsOjmE=
-X-Gm-Gg: ASbGncuhyQdXb/ryWh4lMbNLfuITex4w2Yc8ESbOtD1gp5o+unB/lj1CuKjAWqwf2Mh
-	8U2U/iYIbJuXsL2wic+uP8OTOBQiv3Zuo8HDelvdsZS3Ab6eDqGAPpXTkckhBoegA1BxkJlqIFO
-	0Vmmf3eZXv03u7asZSXaVPsvUKwegiqTMlwrTOrayGfhcbyJe40xLuNvTV8glevgCvpxg6coGU3
-	yVRNvt+KH4pj4BvPmI1hgdc0cet5Vg/pmUeFWjldFl0qNrhDvnvw3xhIxnnTIF3l1Ak+hw5cEgu
-	Jj2ESjb2MJprSzTTKBBrU6RJQSoGAaKEel49fkxcU0G5mrkQ1HutCfuRXO8tFKdKIynvPOkyAeF
-	VuMLRdSw5KDWVxtmDKibvibgPuWOE+gAQOqSkGByZnWo=
-X-Google-Smtp-Source: AGHT+IFf2NahY6DopTmenXeCCcDiRINlBfHfCPxPEpy5h+ISp3BJFr1CxlpB+wS3kFF53KDbbHEAvQ==
-X-Received: by 2002:a05:600c:1f93:b0:456:1bca:7faf with SMTP id 5b1f17b1804b1-45b43dfe5d7mr10266725e9.16.1755584012990;
-        Mon, 18 Aug 2025 23:13:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755584092; x=1756188892;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cfC6tmyznTQhu0WfGzgV8ZZbOGfzSI/Lw/Z1TOmfLRk=;
+        b=l0Hd98cfHfPl5J/0Yb8zegr2DbdA9SUealbnNEcE+oqPcyxfDBSVzwwA3LCEWMCXby
+         9RZ1+72CQzC+MMAApeZPpJxFlwmeTsx7iwitdeaXLepDNSFT5kEaPkh8jol46W1jLplO
+         X7heH+yai2oUM5UYyXT3sa/ATUqA+WeLYT+6c7rv1raVaxDtOTfI0iaW1zFpE9PVVBuG
+         L6mc+798wtQWBUbZ2XdL0kEqVvX4CHbTt26dlb8MDQvHmBTRTr7JrYhdlbpblrSEjo/r
+         Gcl+0PwYMLVBvOP3n1aaNd9XSKOmf804eKLlosyOGQTEc9tg3pMNdBr+IuAjaE9J8xwa
+         QzYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHmJLhgCezEfAMVo8TejpB9XkZEmAHPXusopeL6ttYN8M+OkUISM6yl3uBYFZbISSS1T31vziNQOV9zChF@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNNlukHEW1eogdrfwXSr5wl6HtvrfKtO+IzgI3gRxLhkXdWj5H
+	A1TDa9YY+ci+34kNKGt5BdwobnNJfXBY4XkkuYzInzDp3VwEMjX/o7upl0VXpmWUGyk=
+X-Gm-Gg: ASbGnctZ1AjCKsj/OMkhf1XLwrfXznImmKbMCCILlp/nonaoucYUbqFHLxFjDY6ikmv
+	B+Sgl/2/WmfuswdR4KuURbVlUsCQnTU9Z2l9EWK9EhIqhqBdNIlUdxhW1SGgBV5mvU3eD4XvvTS
+	N448dIbX4OxOib+5lBRNg3Rir7WYAqHSbBWiffBK/v8uvacXPBpEsPCzDW1/JA7Rdus2bHisea6
+	ccLOcNsjqf5C1ldirCt9sgG+Top4rX3rnwe4MLRERhiUbgST5yWtZMaPXx9vr1isuAUt4VfJrjz
+	PCi7CVTaLfbyN22I32iFN8daa+ls0TqcubSh6QkBOMlzjV7A4PXHF6cclJ57JAqj9paxBVzMWk8
+	2UM/e821EjGXZjV0BNUf5cuxMqb5uaEmBVCTtqw==
+X-Google-Smtp-Source: AGHT+IGGFEZgyeEaX2pBRfjbPpLg1ixzuD1sw99+W5A5gTT8EacRooGmmANMREXLdZz4noMb1+AVvg==
+X-Received: by 2002:a05:6000:4014:b0:3b9:148b:e66 with SMTP id ffacd0b85a97d-3c0ed2e8f63mr910658f8f.54.1755584091917;
+        Mon, 18 Aug 2025 23:14:51 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1c6cfed5sm193702245e9.7.2025.08.18.23.13.31
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c0754f3b7esm2146290f8f.30.2025.08.18.23.14.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 23:13:32 -0700 (PDT)
-Date: Tue, 19 Aug 2025 09:13:29 +0300
+        Mon, 18 Aug 2025 23:14:51 -0700 (PDT)
+Date: Tue, 19 Aug 2025 09:14:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chenghao Duan <duanchenghao@kylinos.cn>
+To: oe-kbuild@lists.linux.dev, Andreas Kemnade <andreas@kemnade.info>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Lee Jones <lee@kernel.org>, Sebastian Reichel <sre@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>,
-	George Guo <guodongtai@kylinos.cn>
-Subject: arch/loongarch/net/bpf_jit.c:1547 __arch_prepare_bpf_trampoline()
- error: uninitialized symbol 'retval_off'.
-Message-ID: <202508191020.PBBh07cK-lkp@intel.com>
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH 2/2] power: supply: Add bd718(15/28/78) charger driver
+Message-ID: <202508191303.UzPStkjj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,237 +76,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250816-bd71828-charger-v1-2-71b11bde5c73@kemnade.info>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   be48bcf004f9d0c9207ff21d0edb3b42f253829e
-commit: f9b6b41f0cf31791541cea9644ddbedb46465801 LoongArch: BPF: Add basic bpf trampoline support
-date:   2 weeks ago
-config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508191020.PBBh07cK-lkp@intel.com/config)
+Hi Andreas,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/mfd-bd71828-bd71815-prepare-for-power-supply-support/20250817-032146
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250816-bd71828-charger-v1-2-71b11bde5c73%40kemnade.info
+patch subject: [PATCH 2/2] power: supply: Add bd718(15/28/78) charger driver
+config: loongarch-randconfig-r073-20250818 (https://download.01.org/0day-ci/archive/20250819/202508191303.UzPStkjj-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508191020.PBBh07cK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508191303.UzPStkjj-lkp@intel.com/
 
-New smatch warnings:
-arch/loongarch/net/bpf_jit.c:1547 __arch_prepare_bpf_trampoline() error: uninitialized symbol 'retval_off'.
+smatch warnings:
+drivers/power/supply/bd71828-power.c:298 bd71828_get_temp() error: uninitialized symbol 't'.
+drivers/power/supply/bd71828-power.c:559 bd71828_battery_get_property() error: uninitialized symbol 'tmp'.
 
-vim +/retval_off +1547 arch/loongarch/net/bpf_jit.c
+vim +/t +298 drivers/power/supply/bd71828-power.c
 
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1419  static int __arch_prepare_bpf_trampoline(struct jit_ctx *ctx, struct bpf_tramp_image *im,
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1420  					 const struct btf_func_model *m, struct bpf_tramp_links *tlinks,
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1421  					 void *func_addr, u32 flags)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1422  {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1423  	int i, ret, save_ret;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1424  	int stack_size = 0, nargs = 0;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1425  	int retval_off, args_off, nargs_off, ip_off, run_ctx_off, sreg_off;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1426  	void *orig_call = func_addr;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1427  	struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1428  	struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1429  	struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1430  	u32 **branches = NULL;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1431  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1432  	if (flags & (BPF_TRAMP_F_ORIG_STACK | BPF_TRAMP_F_SHARE_IPMODIFY))
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1433  		return -ENOTSUPP;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1434  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1435  	/*
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1436  	 * FP + 8       [ RA to parent func ] return address to parent
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1437  	 *                    function
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1438  	 * FP + 0       [ FP of parent func ] frame pointer of parent
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1439  	 *                    function
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1440  	 * FP - 8       [ T0 to traced func ] return address of traced
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1441  	 *                    function
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1442  	 * FP - 16      [ FP of traced func ] frame pointer of traced
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1443  	 *                    function
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1444  	 *
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1445  	 * FP - retval_off  [ return value      ] BPF_TRAMP_F_CALL_ORIG or
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1446  	 *                    BPF_TRAMP_F_RET_FENTRY_RET
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1447  	 *                  [ argN              ]
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1448  	 *                  [ ...               ]
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1449  	 * FP - args_off    [ arg1              ]
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1450  	 *
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1451  	 * FP - nargs_off   [ regs count        ]
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1452  	 *
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1453  	 * FP - ip_off      [ traced func   ] BPF_TRAMP_F_IP_ARG
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1454  	 *
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1455  	 * FP - run_ctx_off [ bpf_tramp_run_ctx ]
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1456  	 *
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1457  	 * FP - sreg_off    [ callee saved reg  ]
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1458  	 *
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1459  	 */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1460  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1461  	if (m->nr_args > LOONGARCH_MAX_REG_ARGS)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1462  		return -ENOTSUPP;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1463  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1464  	if (flags & (BPF_TRAMP_F_ORIG_STACK | BPF_TRAMP_F_SHARE_IPMODIFY))
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1465  		return -ENOTSUPP;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1466  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1467  	stack_size = 0;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1468  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1469  	/* Room of trampoline frame to store return address and frame pointer */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1470  	stack_size += 16;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1471  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1472  	save_ret = flags & (BPF_TRAMP_F_CALL_ORIG | BPF_TRAMP_F_RET_FENTRY_RET);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1473  	if (save_ret) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1474  		/* Save BPF R0 and A0 */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1475  		stack_size += 16;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1476  		retval_off = stack_size;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1477  	}
+c57d31029550a0 Andreas Kemnade 2025-08-16  286  static int bd71828_get_temp(struct bd71828_power *pwr, int *temp)
+c57d31029550a0 Andreas Kemnade 2025-08-16  287  {
+c57d31029550a0 Andreas Kemnade 2025-08-16  288  	uint16_t t;
+c57d31029550a0 Andreas Kemnade 2025-08-16  289  	int ret;
+c57d31029550a0 Andreas Kemnade 2025-08-16  290  	int tmp = 200 * 10000;
+c57d31029550a0 Andreas Kemnade 2025-08-16  291  
+c57d31029550a0 Andreas Kemnade 2025-08-16  292  	ret = bd7182x_read16_himask(pwr, pwr->regs->btemp_vth,
+c57d31029550a0 Andreas Kemnade 2025-08-16  293  				    BD71828_MASK_VM_BTMP_U, &t);
+c57d31029550a0 Andreas Kemnade 2025-08-16  294  	if (ret || t > 3200)
+c57d31029550a0 Andreas Kemnade 2025-08-16  295  		dev_err(pwr->dev,
+c57d31029550a0 Andreas Kemnade 2025-08-16  296  			"Failed to read system min average voltage\n");
 
-retval_off is uninitialized on the else path.
+We should return the error here.
 
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1478  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1479  	/* Room of trampoline frame to store args */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1480  	nargs = m->nr_args;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1481  	stack_size += nargs * 8;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1482  	args_off = stack_size;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1483  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1484  	/* Room of trampoline frame to store args number */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1485  	stack_size += 8;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1486  	nargs_off = stack_size;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1487  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1488  	/* Room of trampoline frame to store ip address */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1489  	if (flags & BPF_TRAMP_F_IP_ARG) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1490  		stack_size += 8;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1491  		ip_off = stack_size;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1492  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1493  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1494  	/* Room of trampoline frame to store struct bpf_tramp_run_ctx */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1495  	stack_size += round_up(sizeof(struct bpf_tramp_run_ctx), 8);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1496  	run_ctx_off = stack_size;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1497  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1498  	stack_size += 8;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1499  	sreg_off = stack_size;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1500  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1501  	stack_size = round_up(stack_size, 16);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1502  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1503  	/* For the trampoline called from function entry */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1504  	/* RA and FP for parent function */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1505  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, -16);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1506  	emit_insn(ctx, std, LOONGARCH_GPR_RA, LOONGARCH_GPR_SP, 8);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1507  	emit_insn(ctx, std, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, 0);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1508  	emit_insn(ctx, addid, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, 16);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1509  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1510  	/* RA and FP for traced function */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1511  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, -stack_size);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1512  	emit_insn(ctx, std, LOONGARCH_GPR_T0, LOONGARCH_GPR_SP, stack_size - 8);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1513  	emit_insn(ctx, std, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, stack_size - 16);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1514  	emit_insn(ctx, addid, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, stack_size);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1515  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1516  	/* callee saved register S1 to pass start time */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1517  	emit_insn(ctx, std, LOONGARCH_GPR_S1, LOONGARCH_GPR_FP, -sreg_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1518  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1519  	/* store ip address of the traced function */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1520  	if (flags & BPF_TRAMP_F_IP_ARG) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1521  		move_imm(ctx, LOONGARCH_GPR_T1, (const s64)func_addr, false);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1522  		emit_insn(ctx, std, LOONGARCH_GPR_T1, LOONGARCH_GPR_FP, -ip_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1523  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1524  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1525  	/* store nargs number */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1526  	move_imm(ctx, LOONGARCH_GPR_T1, nargs, false);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1527  	emit_insn(ctx, std, LOONGARCH_GPR_T1, LOONGARCH_GPR_FP, -nargs_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1528  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1529  	store_args(ctx, nargs, args_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1530  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1531  	/* To traced function */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1532  	/* Ftrace jump skips 2 NOP instructions */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1533  	if (is_kernel_text((unsigned long)orig_call))
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1534  		orig_call += LOONGARCH_FENTRY_NBYTES;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1535  	/* Direct jump skips 5 NOP instructions */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1536  	else if (is_bpf_text_address((unsigned long)orig_call))
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1537  		orig_call += LOONGARCH_BPF_FENTRY_NBYTES;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1538  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1539  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1540  		move_imm(ctx, LOONGARCH_GPR_A0, (const s64)im, false);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1541  		ret = emit_call(ctx, (const u64)__bpf_tramp_enter);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1542  		if (ret)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1543  			return ret;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1544  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1545  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1546  	for (i = 0; i < fentry->nr_links; i++) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05 @1547  		ret = invoke_bpf_prog(ctx, fentry->links[i], args_off, retval_off,
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1548  				      run_ctx_off, flags & BPF_TRAMP_F_RET_FENTRY_RET);
+c57d31029550a0 Andreas Kemnade 2025-08-16  297  
+c57d31029550a0 Andreas Kemnade 2025-08-16 @298  	tmp -= 625ULL * (unsigned int)t;
 
-It's undefined behavior to pass uninitialized data to a function (unless
-the function is inlined, I suppose).
+If bd7182x_read16_himask() fails then t is uninitialized or invalid.
 
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1549  		if (ret)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1550  			return ret;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1551  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1552  	if (fmod_ret->nr_links) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1553  		branches  = kcalloc(fmod_ret->nr_links, sizeof(u32 *), GFP_KERNEL);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1554  		if (!branches)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1555  			return -ENOMEM;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1556  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1557  		invoke_bpf_mod_ret(ctx, fmod_ret, args_off, retval_off, run_ctx_off, branches);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1558  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1559  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1560  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1561  		restore_args(ctx, m->nr_args, args_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1562  		ret = emit_call(ctx, (const u64)orig_call);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1563  		if (ret)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1564  			goto out;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1565  		emit_insn(ctx, std, LOONGARCH_GPR_A0, LOONGARCH_GPR_FP, -retval_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1566  		emit_insn(ctx, std, regmap[BPF_REG_0], LOONGARCH_GPR_FP, -(retval_off - 8));
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1567  		im->ip_after_call = ctx->ro_image + ctx->idx;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1568  		/* Reserve space for the move_imm + jirl instruction */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1569  		for (i = 0; i < LOONGARCH_LONG_JUMP_NINSNS; i++)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1570  			emit_insn(ctx, nop);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1571  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1572  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1573  	for (i = 0; ctx->image && i < fmod_ret->nr_links; i++) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1574  		int offset = (void *)(&ctx->image[ctx->idx]) - (void *)branches[i];
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1575  		*branches[i] = larch_insn_gen_bne(LOONGARCH_GPR_T1, LOONGARCH_GPR_ZERO, offset);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1576  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1577  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1578  	for (i = 0; i < fexit->nr_links; i++) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1579  		ret = invoke_bpf_prog(ctx, fexit->links[i], args_off, retval_off, run_ctx_off, false);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1580  		if (ret)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1581  			goto out;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1582  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1583  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1584  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1585  		im->ip_epilogue = ctx->ro_image + ctx->idx;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1586  		move_imm(ctx, LOONGARCH_GPR_A0, (const s64)im, false);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1587  		ret = emit_call(ctx, (const u64)__bpf_tramp_exit);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1588  		if (ret)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1589  			goto out;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1590  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1591  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1592  	if (flags & BPF_TRAMP_F_RESTORE_REGS)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1593  		restore_args(ctx, m->nr_args, args_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1594  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1595  	if (save_ret) {
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1596  		emit_insn(ctx, ldd, LOONGARCH_GPR_A0, LOONGARCH_GPR_FP, -retval_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1597  		emit_insn(ctx, ldd, regmap[BPF_REG_0], LOONGARCH_GPR_FP, -(retval_off - 8));
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1598  	}
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1599  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1600  	emit_insn(ctx, ldd, LOONGARCH_GPR_S1, LOONGARCH_GPR_FP, -sreg_off);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1601  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1602  	/* trampoline called from function entry */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1603  	emit_insn(ctx, ldd, LOONGARCH_GPR_T0, LOONGARCH_GPR_SP, stack_size - 8);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1604  	emit_insn(ctx, ldd, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, stack_size - 16);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1605  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, stack_size);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1606  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1607  	emit_insn(ctx, ldd, LOONGARCH_GPR_RA, LOONGARCH_GPR_SP, 8);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1608  	emit_insn(ctx, ldd, LOONGARCH_GPR_FP, LOONGARCH_GPR_SP, 0);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1609  	emit_insn(ctx, addid, LOONGARCH_GPR_SP, LOONGARCH_GPR_SP, 16);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1610  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1611  	if (flags & BPF_TRAMP_F_SKIP_FRAME)
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1612  		/* return to parent function */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1613  		emit_insn(ctx, jirl, LOONGARCH_GPR_ZERO, LOONGARCH_GPR_RA, 0);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1614  	else
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1615  		/* return to traced function */
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1616  		emit_insn(ctx, jirl, LOONGARCH_GPR_ZERO, LOONGARCH_GPR_T0, 0);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1617  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1618  	ret = ctx->idx;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1619  out:
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1620  	kfree(branches);
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1621  
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1622  	return ret;
-f9b6b41f0cf317 Chenghao Duan 2025-08-05  1623  }
+c57d31029550a0 Andreas Kemnade 2025-08-16  299  	*temp = tmp / 1000;
+c57d31029550a0 Andreas Kemnade 2025-08-16  300  
+c57d31029550a0 Andreas Kemnade 2025-08-16  301  	return ret;
+c57d31029550a0 Andreas Kemnade 2025-08-16  302  }
 
 -- 
 0-DAY CI Kernel Test Service
