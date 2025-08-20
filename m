@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9963A33A002
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 17:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C411DDA18;
+	Wed, 20 Aug 2025 17:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755710386; cv=none; b=W9Az/e7LsNqs7I2hUC7hfoJ9BfvQVKZtCir4Nd3MSa6JLHnRIAyqOXd2QY15OKw9HsGuKhkr9DLHcktXxGeZbl5la+tt5xL1hpgeIWVitawPInk38+4QHKTloiVgwvjv2Xthkd4R3troy5A1Kef3sXpNJxxBiuZ+lsl7LQ500Oo=
+	t=1755711085; cv=none; b=Qc/Gzpcnj2C3tF4CNSfg8lnLsNZ3EsQklFVowj9o7/geqn53A4MlHfR1/hBIHoCRbUfsMrVEh/3w/xd67olfojynNfPBfes+spErWjO3TRrpw4mGQOclBzGjcjPn15mja/0ktV5nLFpam7C/5pdtw8+9RTHpfFx6xZQpyFqpVmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755710386; c=relaxed/simple;
-	bh=GxHr6/54rgcy6sAclCD5AO7ktqqANCdjdS8twJwHCMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LtgHCDw1YPhZ6igYpqwuBAMtqay6aqBk4i6PSBfPzp/NjiZVfsneZnTj9YX2qkqeYHWpJu7uSJGSZWYE5EC83gvZuT474CT1b7+B6upPv7ggTPmSFKv05jepr4utIKBgU0x2rEo2PWWgNQDdZpiDGD1Rt4LkY98QaXuYZmAXBjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDpsQa9e; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1755711085; c=relaxed/simple;
+	bh=9FU/rD+OvUi9vNaNTWD1C2htO+xZFlNFxse7JJikZb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BIj+gIuYnV5zMeVmKa9B7z+yhnkEOygZcNwZenE3kHWpvFe1TOK9r6NTR2xIdlPxNHVpiSSbznkAFtNOETlcZaeV1AckNmE8zsFKwO1LuH06W/8sSLW7OSDy/mFNE2Ryg+Ygmv1sIrCD8B7zMVqPmfpDvM3A9uIY0BnEEqqJrUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d79Dv25I; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDpsQa9e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d79Dv25I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755710385; x=1787246385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GxHr6/54rgcy6sAclCD5AO7ktqqANCdjdS8twJwHCMA=;
-  b=fDpsQa9eXVW3VUKag2sEKTeHkQJUYbP+sJO26cTNdygg9yv2PSm668ZS
-   pEGSj0wFF13DBljeGm0IZbdiIj6A4jXr685Cgf69OJitnwKhVycI3sz/X
-   lzzRitpiNyi29foD5g6Uk4OERwXVAMs5BcMxg99RPdgMBR2T0/7qdRSHI
-   2apcDGhrma00TnfuFZyg40kzxGrT5ARuGMTTAtG8TTvcR6gtVw8rn/jkf
-   7n9nMq4EdJ+q9WgGgxakeeI5nQraY1pgxtTeSFcEbykSwWyTZ7xK5EEbv
-   LwU0/T/WQVhjT+PH+BE+PXG0fM51QyhfAq0cOq1vWPJTbYMx/ruy6U1lw
+  t=1755711084; x=1787247084;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9FU/rD+OvUi9vNaNTWD1C2htO+xZFlNFxse7JJikZb0=;
+  b=d79Dv25I9Q5DAbNQMy+6pmS4LpA6VRIcimOznByCms3Dc/hiWAQYoUEc
+   1ahRmrHENc/+z6hN9R7C/eIR7uPfaafd6K/VoCZbLo/QAmpvQ3FEz1UMN
+   Ojb/CW/mmbl3WMd+TPMrDslzLZkVCil7apnqJPqdKXMZVbI5TFnKs2Rh/
+   nRKgYGBQaXoTjcNqxyeshsw1kZzYCm4NAm/5HMEgh36t03gknRTIEGWrQ
+   hetj8ocGnx+vwq6sYATUT6FAL2P7OVsIjo3qzowIca+E4w5gRM4Pritbv
+   Zv+0TKRJebEbBdpWZelzbva8IGu63hnO05tp8IqGKaN30+EJwjN9qUWRp
    A==;
-X-CSE-ConnectionGUID: q6gDZh7rQiCmqK+jL9gy0Q==
-X-CSE-MsgGUID: jbWn9CJuSt6w7lsBl1nodA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="83406117"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="83406117"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 10:19:44 -0700
-X-CSE-ConnectionGUID: id3NsaM5RTK6EUgGk1bUSw==
-X-CSE-MsgGUID: F/GOHyWPSxGZCqOCHmhCXg==
+X-CSE-ConnectionGUID: UfYpT2OYSsWm9JzY5k4zxg==
+X-CSE-MsgGUID: n4QX2z5lT7Kw9b1JLetWjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61625294"
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="61625294"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 10:31:24 -0700
+X-CSE-ConnectionGUID: 7Rwz/G7HSci1Y/fSX48ZLw==
+X-CSE-MsgGUID: 7n/6F3nNS5eMFGIui+oVmA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="167798899"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 20 Aug 2025 10:19:40 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="172607148"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa004.jf.intel.com with ESMTP; 20 Aug 2025 10:31:22 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uomTK-000JXL-03;
-	Wed, 20 Aug 2025 17:19:38 +0000
-Date: Thu, 21 Aug 2025 01:18:54 +0800
+	id 1uomee-0001a3-0K;
+	Wed, 20 Aug 2025 17:31:20 +0000
+Date: Wed, 20 Aug 2025 19:31:00 +0200
 From: kernel test robot <lkp@intel.com>
-To: Yunhui Cui <cuiyunhui@bytedance.com>, yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dennis@kernel.org, tj@kernel.org, cl@gentwo.org, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, Yunhui Cui <cuiyunhui@bytedance.com>
-Subject: Re: [PATCH 2/2] riscv: introduce percpu.h into include/asm
-Message-ID: <202508210101.WySkXlSZ-lkp@intel.com>
-References: <20250819135007.85646-3-cuiyunhui@bytedance.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:perf/core 29/41] arch/x86/kernel/uprobes.c:834:16:
+ error: incompatible pointer types passing 'unsigned long *' to parameter of
+ type 'u64 *' (aka 'unsigned long long *')
+Message-ID: <202508201942.kN5khpRq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,71 +62,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819135007.85646-3-cuiyunhui@bytedance.com>
 
-Hi Yunhui,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on dennis-percpu/for-next v6.17-rc2 next-20250820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunhui-Cui/riscv-remove-irqflags-h-inclusion-in-asm-bitops-h/20250819-215256
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250819135007.85646-3-cuiyunhui%40bytedance.com
-patch subject: [PATCH 2/2] riscv: introduce percpu.h into include/asm
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20250821/202508210101.WySkXlSZ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210101.WySkXlSZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
+head:   44711c518722e9e0594d07e7f7af72ec9d48c1dd
+commit: 89f3fe617685431a4d82091c95ab14dd0d3b8dd6 [29/41] uprobes/x86: Fix shadow stack
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250820/202508201942.kN5khpRq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508201942.kN5khpRq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508210101.WySkXlSZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508201942.kN5khpRq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/atomic.h:80,
-                    from include/linux/cpumask.h:14,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/slub.c:13:
-   mm/slub.c: In function '__update_cpu_freelist_fast':
->> include/linux/atomic/atomic-arch-fallback.h:414:30: error: implicit declaration of function 'arch_cmpxchg128_local'; did you mean 'arch_cmpxchg64_local'? [-Wimplicit-function-declaration]
-     414 | #define raw_cmpxchg128_local arch_cmpxchg128_local
-         |                              ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5005:9: note: in expansion of macro 'raw_cmpxchg128_local'
-    5005 |         raw_cmpxchg128_local(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/percpu.h:131:17: note: in expansion of macro 'cmpxchg128_local'
-     131 |         ret__ = cmpxchg128_local(ptr__, old__, new__);                  \
-         |                 ^~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg128'
-     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
-         |                 ^~~~~~~~
-   include/asm-generic/percpu.h:527:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
-     527 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg128)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab.h:24:41: note: in expansion of macro 'this_cpu_try_cmpxchg128'
-      24 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg128
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:3638:16: note: in expansion of macro 'this_cpu_try_cmpxchg_freelist'
-    3638 |         return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/uprobes.c:834:16: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'u64 *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     834 |         if (shstk_pop(&sret) == 0 && sret != args.retaddr)
+         |                       ^~~~~
+   arch/x86/include/asm/shstk.h:40:34: note: passing argument to parameter 'val' here
+      40 | static inline int shstk_pop(u64 *val) { return -ENOTSUPP; }
+         |                                  ^
+   1 error generated.
 
 
-vim +414 include/linux/atomic/atomic-arch-fallback.h
+vim +834 arch/x86/kernel/uprobes.c
 
-9257959a6e5b4f Mark Rutland 2023-06-05  413  
-9257959a6e5b4f Mark Rutland 2023-06-05 @414  #define raw_cmpxchg128_local arch_cmpxchg128_local
-e6ce9d741163af Uros Bizjak  2023-04-05  415  
+   802	
+   803	SYSCALL_DEFINE0(uprobe)
+   804	{
+   805		struct pt_regs *regs = task_pt_regs(current);
+   806		struct uprobe_syscall_args args;
+   807		unsigned long ip, sp, sret;
+   808		int err;
+   809	
+   810		/* Allow execution only from uprobe trampolines. */
+   811		if (!in_uprobe_trampoline(regs->ip))
+   812			goto sigill;
+   813	
+   814		err = copy_from_user(&args, (void __user *)regs->sp, sizeof(args));
+   815		if (err)
+   816			goto sigill;
+   817	
+   818		ip = regs->ip;
+   819	
+   820		/*
+   821		 * expose the "right" values of ax/r11/cx/ip/sp to uprobe_consumer/s, plus:
+   822		 * - adjust ip to the probe address, call saved next instruction address
+   823		 * - adjust sp to the probe's stack frame (check trampoline code)
+   824		 */
+   825		regs->ax  = args.ax;
+   826		regs->r11 = args.r11;
+   827		regs->cx  = args.cx;
+   828		regs->ip  = args.retaddr - 5;
+   829		regs->sp += sizeof(args);
+   830		regs->orig_ax = -1;
+   831	
+   832		sp = regs->sp;
+   833	
+ > 834		if (shstk_pop(&sret) == 0 && sret != args.retaddr)
+   835			goto sigill;
+   836	
+   837		handle_syscall_uprobe(regs, regs->ip);
+   838	
+   839		/*
+   840		 * Some of the uprobe consumers has changed sp, we can do nothing,
+   841		 * just return via iret.
+   842		 */
+   843		if (regs->sp != sp) {
+   844			/* skip the trampoline call */
+   845			if (args.retaddr - 5 == regs->ip)
+   846				regs->ip += 5;
+   847			return regs->ax;
+   848		}
+   849	
+   850		regs->sp -= sizeof(args);
+   851	
+   852		/* for the case uprobe_consumer has changed ax/r11/cx */
+   853		args.ax  = regs->ax;
+   854		args.r11 = regs->r11;
+   855		args.cx  = regs->cx;
+   856	
+   857		/* keep return address unless we are instructed otherwise */
+   858		if (args.retaddr - 5 != regs->ip)
+   859			args.retaddr = regs->ip;
+   860	
+   861		if (shstk_push(args.retaddr) == -EFAULT)
+   862			goto sigill;
+   863	
+   864		regs->ip = ip;
+   865	
+   866		err = copy_to_user((void __user *)regs->sp, &args, sizeof(args));
+   867		if (err)
+   868			goto sigill;
+   869	
+   870		/* ensure sysret, see do_syscall_64() */
+   871		regs->r11 = regs->flags;
+   872		regs->cx  = regs->ip;
+   873		return 0;
+   874	
+   875	sigill:
+   876		force_sig(SIGILL);
+   877		return -1;
+   878	}
+   879	
 
 -- 
 0-DAY CI Kernel Test Service
