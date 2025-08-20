@@ -1,138 +1,116 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB8C2C859
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 01:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A91146593;
+	Wed, 20 Aug 2025 01:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755652426; cv=none; b=TonukWzm2x0ulP0s0jWiSoSGJoyyqY7af+r+SqIl1kjXdMWRgPunKiT1V0mHOhsY1alJZra/tY6DBc7X9HqSm3ECwf7vOQfDvbQ6WP3TGnpZon9M/oF6zntRlQTMvnT52HwQ5PMr4qcJxzCzaXgvxC8o9K4i90IeGvf8idP3VuU=
+	t=1755653505; cv=none; b=ahZ22MuX3a3JZTHcm/ANDGJuvO+kaV0KkLRgK3E5a2rUayPJWbtXvPOuigyQWudWG9Cycq6jRBbAyj7ot0Vte3J0rYgIuhAVNfKKGWnhB0kuvt4yetzgp+E+JgZVgdAuSyLvJDAD+vRDYeNIJlOhPkSiYcFXm/6S3aEDd7S2qE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755652426; c=relaxed/simple;
-	bh=kxnX6ob31RX3s+OkNVF7X8IV7TZoAcVr2PrPqU8Vx4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YcgPM1v/VuuADHVQGH9m7S2TgfDjv2dw3yMzviVHWnN9oAHG/nQt+IGCrrNtf5FgdXk6BOz5D/UP8SFI+1nHF6N4Jbt0WV3UR+rVdBuctdO8I65/MSc1Ek7liEJDFtGt6wvYLDzr6LKm+LSdcnAb8xM/1hr0gPUENZUoAwlw8/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sGggO+fp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+asoAwJ2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sGggO+fp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+asoAwJ2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1755653505; c=relaxed/simple;
+	bh=bDraBxH4NicgEf6kVukT6KH9Et8ZUGYmcruJwbCxmCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XjhL4X7C5ddCZUAWadi0fyvP6249qgEws8H8TgzA5Lm8tor2dNpCTC1q4usxaglwoD8q1Z380hZLzusoEd8AteGAF/sWK7SjHPfxHdj6CqStCo9X1coM2tmhG3lm4DqI1zC2YW7PwE4BP7+RUEB/abDZSDVfd9kOYFT7V72Pfc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVVYvzfV; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sGggO+fp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+asoAwJ2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sGggO+fp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+asoAwJ2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 01DAC1F785;
-	Wed, 20 Aug 2025 01:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755652423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIfi0a7kuPd0Ua7J5EBu0gSrCmMoU1TlizTgsIHHqYU=;
-	b=sGggO+fpuZq7yDwp1IP6WIhDZj9s2ZYrw+p9WY0qYnAXw5uvvRw0XIh3MLJpfUimrYTpkO
-	OnsuHK5uhCTA9BCzldf1HA15+irlxFOd0YMeGYSiSCwfFZjSkV38+gZoc8uaVLOUXyjcJJ
-	d2Xs/fi/9z23PcKNxfj5U0zIzCvTmCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755652423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIfi0a7kuPd0Ua7J5EBu0gSrCmMoU1TlizTgsIHHqYU=;
-	b=+asoAwJ2Sjvw1fwYuGY0xV1mbeQz9YCgztaWtZmWB7ufmv5J8RIPOlBjZKIPufEI6751La
-	Xo/OZIjCPUeZVsBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755652423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIfi0a7kuPd0Ua7J5EBu0gSrCmMoU1TlizTgsIHHqYU=;
-	b=sGggO+fpuZq7yDwp1IP6WIhDZj9s2ZYrw+p9WY0qYnAXw5uvvRw0XIh3MLJpfUimrYTpkO
-	OnsuHK5uhCTA9BCzldf1HA15+irlxFOd0YMeGYSiSCwfFZjSkV38+gZoc8uaVLOUXyjcJJ
-	d2Xs/fi/9z23PcKNxfj5U0zIzCvTmCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755652423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIfi0a7kuPd0Ua7J5EBu0gSrCmMoU1TlizTgsIHHqYU=;
-	b=+asoAwJ2Sjvw1fwYuGY0xV1mbeQz9YCgztaWtZmWB7ufmv5J8RIPOlBjZKIPufEI6751La
-	Xo/OZIjCPUeZVsBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B8D113867;
-	Wed, 20 Aug 2025 01:13:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gs/LFEQhpWjadQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Wed, 20 Aug 2025 01:13:40 +0000
-Date: Wed, 20 Aug 2025 11:13:34 +1000
-From: David Disseldorp <ddiss@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, linux-next@vger.kernel.org, nsc@kernel.org
-Subject: Re: [PATCH v3 8/8] initramfs_test: add filename padding test case
-Message-ID: <20250820111334.51e91938.ddiss@suse.de>
-In-Reply-To: <202508200304.wF1u78il-lkp@intel.com>
-References: <20250819032607.28727-9-ddiss@suse.de>
-	<202508200304.wF1u78il-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVVYvzfV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755653503; x=1787189503;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bDraBxH4NicgEf6kVukT6KH9Et8ZUGYmcruJwbCxmCU=;
+  b=MVVYvzfVnb4RxHPhsUqWL+gjnub65ZtNObZa1dqFTeFhkicEJYsHUqUl
+   sNFGaYED2eRwE//bctbhvngBf4P+8o+MgeVFsNLDYuuBatnWKZkKM0da8
+   35LKyXKJdBADdTUYcZO1BwpwZhnghMbi4SWvmsYcoykhghWvOl2UR/c7I
+   QD4bInb+rXVWbQ2s2i10BwoURgJkWom2T0RKOP1m4DxnSRcrc1LCJto7V
+   rISwfjcRbASbZm3MUbuGLrhFca6GekHc9qz/Kf0f4OWEuhV0xGmxBKerV
+   3clC++7ITBvTAxog/wNXiq+EpZI45+dQxdVnhm2EAJ6NLxoPQPF0sOF2z
+   A==;
+X-CSE-ConnectionGUID: OSN2SrQdQ8WkYijVVl/uww==
+X-CSE-MsgGUID: yKsie4DdTdSuxNE4yBHWdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="56939107"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="56939107"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 18:31:42 -0700
+X-CSE-ConnectionGUID: xSEaJLclRUqA9AJspn/PjA==
+X-CSE-MsgGUID: LZytxw7tSqeSLdstNlMJ8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="168338351"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Aug 2025 18:31:39 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uoXft-000Hvn-1G;
+	Wed, 20 Aug 2025 01:31:37 +0000
+Date: Wed, 20 Aug 2025 09:31:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Petr Mladek <pmladek@suse.com>, Feng Tang <feng.tang@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, paulmck@kernel.org,
+	john.ogness@linutronix.de
+Subject: Re: [PATCH] panic: Clean up message about deprecated 'panic_print'
+ parameter
+Message-ID: <202508200907.PsZ3geub-lkp@intel.com>
+References: <aKRJKZHgcxyNF3y7@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKRJKZHgcxyNF3y7@pathway.suse.cz>
 
-On Wed, 20 Aug 2025 04:16:48 +0800, kernel test robot wrote:
+Hi Petr,
 
-> sparse warnings: (new ones prefixed by >>)
-> >> init/initramfs_test.c:415:18: sparse: sparse: Initializer entry defined twice  
->    init/initramfs_test.c:425:18: sparse:   also defined here
-...
->    407		struct initramfs_test_cpio c[] = { {
->    408			.magic = "070701",
->    409			.ino = 1,
->    410			.mode = S_IFREG | 0777,
->    411			.uid = 0,
->    412			.gid = 0,
->    413			.nlink = 1,
->    414			.mtime = 1,
->  > 415			.filesize = 0,  
-...
->    425			.filesize = sizeof(fdata),
->    426		} };
+kernel test robot noticed the following build errors:
 
-Thanks. I can send a v4 patchset to address this, or otherwise happy to
-have line 415 removed by a maintainer when merged.
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250819-180717/Feng-Tang/lib-sys_info-handle-sys_info_mask-0-case/20250815-152131
+base:   the 3th patch of https://lore.kernel.org/r/20250815071428.98041-4-feng.tang%40linux.alibaba.com
+patch link:    https://lore.kernel.org/r/aKRJKZHgcxyNF3y7%40pathway.suse.cz
+patch subject: [PATCH] panic: Clean up message about deprecated 'panic_print' parameter
+config: i386-buildonly-randconfig-004-20250820 (https://download.01.org/0day-ci/archive/20250820/202508200907.PsZ3geub-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200907.PsZ3geub-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200907.PsZ3geub-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/panic.c:952:2: error: call to undeclared function 'panic_print_deprecated'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     952 |         panic_print_deprecated();
+         |         ^
+   kernel/panic.c:958:2: error: call to undeclared function 'panic_print_deprecated'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     958 |         panic_print_deprecated();
+         |         ^
+   2 errors generated.
+
+
+vim +/panic_print_deprecated +952 kernel/panic.c
+
+   949	
+   950	static int panic_print_set(const char *val, const struct kernel_param *kp)
+   951	{
+ > 952		panic_print_deprecated();
+   953		return  param_set_ulong(val, kp);
+   954	}
+   955	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
