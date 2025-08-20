@@ -1,70 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2818427D77B;
-	Wed, 20 Aug 2025 19:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F412D7805
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 20:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755716602; cv=none; b=OR/jZtXoXnpBKuMbb4nns3yYTu1aS6EvQlTf8QNix0ccNHklEOIV1X73T0qlsVJuAsJlhyzyf1lZWjTnquLB5AwCdq6Nd4K6EkuIkkkERUpcQoaNFiCIvdJlIV958Kub4WKxNSvwYGASkKAVKzRog/Oki8GCiED6cVLwqKz/k7w=
+	t=1755722263; cv=none; b=BTIaE7TfP4ou8tbLOBeX3F+Mo6oRfzkkRN/eAZqUd0GEauENVsrOJepZXI3yDpALrr73SO7Q7AnfNcDKaWVnt402R12Rz6QRj/rKfku8XywjQkQPV4kBo87beIj9JqH8gl1Lm0+JxEuU0961I+7ptBuCRpH73RL+y1XPMwmVHro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755716602; c=relaxed/simple;
-	bh=5GfvpmvDEwt7/WHZ41ArcJBD9qOfspQN8odDWzwdDho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G44w5HFJ0X6BW8yTkVsYu37UszOtKKrms2bnPfLYkcAbVAKsd8Y5BEOPKnHUshsiO4z7dvbyD6CoYt76AnBuuHZKChYRM59SSo9W1gkKkPta6fjdeTI+rvpA5sgThq4nOGBUD9xZj1yKtpEzhqZ9elyTgcfSVVpLdOVzr3mx3DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8FGzNCM; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1755722263; c=relaxed/simple;
+	bh=gNWbX58sl8y08MhNiozXze12Bp2HcSyyQjo4CJGcOm0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S1wmL7rAoyM347ERlRSZJrBncCYccGxJux/HIKJoW4IaeN+thrrlf5Hkl1jXdZJudx+QqhRIeOqh7l8/wU0QfX2NIHFzWBLXsJfsgfj8YUah27FW2dQDttxHOwC+w22wokUNyxuGeBMrIoFl7ZeMz/vey4ux4V1OLSbx+W3VkyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRhw+P2S; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8FGzNCM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRhw+P2S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755716600; x=1787252600;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5GfvpmvDEwt7/WHZ41ArcJBD9qOfspQN8odDWzwdDho=;
-  b=Q8FGzNCMNRohoPX9LmjtRR98F7ugAJ+fw7MEorLNmGAD3vedbZTxhT43
-   4XIbdF8aw65ewf+O014sbvZnkPHzSrWeyIqa6IHXc1L3TaHK7BpCxwveh
-   aw34AsEORxp+nuPhigu/ITXOX0xeZIl/de/F5C8rvLKxnFPvF+4E5Xllp
-   waviboo+sUr2ZE3PyBY7kfpyF3FkYexJa1VhBL/z1mWIC+cDiyYa0I4AB
-   gCCE/gnEXOaxtbJkVYMhAJlIYg0eRXkYmM1Pj0ORojeAK6X8WWaW6iA7X
-   oMkSOY0oGcPrJW2MEApHcM2YH1q8Xwh/OfoDjWG5vE3HMfxd6w9i1PQsR
-   w==;
-X-CSE-ConnectionGUID: tJ28vlTiTmKlt12O6WlZGw==
-X-CSE-MsgGUID: Qhht7fU3R5SP4ZvaaSkolg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="58064888"
+  t=1755722262; x=1787258262;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gNWbX58sl8y08MhNiozXze12Bp2HcSyyQjo4CJGcOm0=;
+  b=dRhw+P2Slsh18dkjjQmy4d0xSGgXi6YhcO/DlfnIp5ML7Im/e/Vph/3U
+   8GfJQ01umxxTjVUDujpOVy0Ss0iBsQJUCAmxC1gLQOh6Z0Wor0p4+yYHQ
+   RK5szY1WWClXDHc38IY9YdMecf3HRvEBgJ2l9Q7TiXvw+ziArASNWeDUf
+   khCrbKb4iUmDRgbv0A0NHxVix5sh9Db3JVEKaaX7N7D4nHb6jViKGrBPL
+   rBUEtPUKDoufdTXOu3sn9X2vtuZlAhrUzEXrIPqQO9uETYQeTKUl3BXIq
+   392zPxmnJ0o7mUb3abLFQKeZTxvNIJ94BqD20+7dtaiNz4S2+J98v7dTS
+   Q==;
+X-CSE-ConnectionGUID: t2fPUKMOQPOSc5S4QA47tg==
+X-CSE-MsgGUID: ZofXGiPZSMKev0hKNhf0gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="68707075"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="58064888"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 12:03:19 -0700
-X-CSE-ConnectionGUID: XsAQ5YMoRIiHW1uiss991A==
-X-CSE-MsgGUID: 474uIyjeSk+QHWasyB2kSw==
+   d="scan'208";a="68707075"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 13:37:41 -0700
+X-CSE-ConnectionGUID: OSXEs8zTTr+ki8EQ2QMQ7A==
+X-CSE-MsgGUID: 7MrthuPrREquoxWuysAfSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="199075421"
+   d="scan'208";a="172442700"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Aug 2025 12:03:12 -0700
+  by orviesa003.jf.intel.com with ESMTP; 20 Aug 2025 13:37:40 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoo5R-000Jbr-1r;
-	Wed, 20 Aug 2025 19:03:07 +0000
-Date: Thu, 21 Aug 2025 03:02:57 +0800
+	id 1uopYv-000Jfb-05;
+	Wed, 20 Aug 2025 20:37:37 +0000
+Date: Thu, 21 Aug 2025 04:36:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
-	bp@alien8.de, brauner@kernel.org, bsegall@google.com,
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@redhat.com,
-	dietmar.eggemann@arm.com, ebiederm@xmission.com, hpa@zytor.com,
-	jakub.wartak@mailbox.org, jannh@google.com, juri.lelli@redhat.com,
-	khalid@kernel.org, liam.howlett@oracle.com,
-	linyongting@bytedance.com, lorenzo.stoakes@oracle.com,
-	luto@kernel.org, markhemm@googlemail.com, maz@kernel.org,
-	mhiramat@kernel.org, mgorman@suse.de, mhocko@suse.com,
-	mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de,
-	osalvador@suse.de
-Subject: Re: [PATCH v3 07/22] mm/mshare: Add mmap support
-Message-ID: <202508210230.0Zc3YDIy-lkp@intel.com>
-References: <20250820010415.699353-8-anthony.yznaga@oracle.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Sudeep Holla <sudeep.holla@arm.com>
+Subject: [linux-next:master 2220/3631]
+ drivers/clocksource/arm_arch_timer_mmio.c:256:56: sparse: sparse: cast
+ truncates bits from constant value (ffffffffffffff becomes ffffffff)
+Message-ID: <202508210406.ZpERK4Nr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,92 +64,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250820010415.699353-8-anthony.yznaga@oracle.com>
 
-Hi Anthony,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tip/sched/core trace/for-next tip/x86/core tip/x86/mm kees/for-next/execve linus/master v6.17-rc2 next-20250820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anthony-Yznaga/mm-Add-msharefs-filesystem/20250820-091021
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250820010415.699353-8-anthony.yznaga%40oracle.com
-patch subject: [PATCH v3 07/22] mm/mshare: Add mmap support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250821/202508210230.0Zc3YDIy-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210230.0Zc3YDIy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5303936d609e09665deda94eaedf26a0e5c3a087
+commit: ce5d33422d97dcefca2f6ab0aa54131f17ae77bc [2220/3631] clocksource/drivers/arm_arch_timer_mmio: Switch over to standalone driver
+config: arm-randconfig-r122-20250820 (https://download.01.org/0day-ci/archive/20250821/202508210406.ZpERK4Nr-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce: (https://download.01.org/0day-ci/archive/20250821/202508210406.ZpERK4Nr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508210230.0Zc3YDIy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508210406.ZpERK4Nr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clocksource/arm_arch_timer_mmio.c:256:56: sparse: sparse: cast truncates bits from constant value (ffffffffffffff becomes ffffffff)
 
->> mm/mshare.c:121:16: warning: variable 'mshare_start' set but not used [-Wunused-but-set-variable]
-     121 |         unsigned long mshare_start, mshare_size;
-         |                       ^
-   1 warning generated.
+vim +256 drivers/clocksource/arm_arch_timer_mmio.c
 
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  238  
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  239  static void arch_timer_mmio_setup(struct arch_timer *at, int irq)
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  240  {
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  241  	at->evt = (struct clock_event_device) {
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  242  		.features		   = (CLOCK_EVT_FEAT_ONESHOT |
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  243  					      CLOCK_EVT_FEAT_DYNIRQ),
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  244  		.name			   = "arch_mem_timer",
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  245  		.rating			   = 400,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  246  		.cpumask		   = cpu_possible_mask,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  247  		.irq 			   = irq,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  248  		.set_next_event		   = arch_timer_mmio_set_next_event,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  249  		.set_state_oneshot_stopped = arch_timer_mmio_shutdown,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  250  		.set_state_shutdown	   = arch_timer_mmio_shutdown,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  251  	};
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  252  
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  253  	at->evt.set_state_shutdown(&at->evt);
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  254  
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  255  	clockevents_config_and_register(&at->evt, at->rate, 0xf,
+13f1a7a6f29a92 Marc Zyngier 2025-08-14 @256  					(unsigned long)CLOCKSOURCE_MASK(56));
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  257  
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  258  	enable_irq(at->evt.irq);
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  259  }
+13f1a7a6f29a92 Marc Zyngier 2025-08-14  260  
 
-vim +/mshare_start +121 mm/mshare.c
+:::::: The code at line 256 was first introduced by commit
+:::::: 13f1a7a6f29a92759d88eaa5c699f26809307c7c clocksource/drivers/arm_arch_timer: Add standalone MMIO driver
 
-   113	
-   114	static unsigned long
-   115	msharefs_get_unmapped_area(struct file *file, unsigned long addr,
-   116			unsigned long len, unsigned long pgoff, unsigned long flags)
-   117	{
-   118		struct mshare_data *m_data = file->private_data;
-   119		struct mm_struct *mm = current->mm;
-   120		struct vm_area_struct *vma, *prev;
- > 121		unsigned long mshare_start, mshare_size;
-   122		const unsigned long mmap_end = arch_get_mmap_end(addr, len, flags);
-   123	
-   124		mmap_assert_write_locked(mm);
-   125	
-   126		if ((flags & MAP_TYPE) == MAP_PRIVATE)
-   127			return -EINVAL;
-   128	
-   129		if (!mshare_is_initialized(m_data))
-   130			return -EINVAL;
-   131	
-   132		mshare_start = m_data->start;
-   133		mshare_size = m_data->size;
-   134	
-   135		if (len != mshare_size)
-   136			return -EINVAL;
-   137	
-   138		if (len > mmap_end - mmap_min_addr)
-   139			return -ENOMEM;
-   140	
-   141		if (flags & MAP_FIXED) {
-   142			if (!IS_ALIGNED(addr, mshare_align))
-   143				return -EINVAL;
-   144			return addr;
-   145		}
-   146	
-   147		if (addr) {
-   148			addr = ALIGN(addr, mshare_align);
-   149			vma = find_vma_prev(mm, addr, &prev);
-   150			if (mmap_end - len >= addr && addr >= mmap_min_addr &&
-   151			    (!vma || addr + len <= vm_start_gap(vma)) &&
-   152			    (!prev || addr >= vm_end_gap(prev)))
-   153				return addr;
-   154		}
-   155	
-   156		if (!mm_flags_test(MMF_TOPDOWN, mm))
-   157			return msharefs_get_unmapped_area_bottomup(file, addr, len,
-   158					pgoff, flags);
-   159		else
-   160			return msharefs_get_unmapped_area_topdown(file, addr, len,
-   161					pgoff, flags);
-   162	}
-   163	
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
