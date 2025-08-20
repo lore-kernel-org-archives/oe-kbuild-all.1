@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD3025D536
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 21:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96AE335BAA;
+	Wed, 20 Aug 2025 21:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755725981; cv=none; b=qMaJiMMsoMFzU09PkEHnz9Y5MeEWITEW8mTCa+O0twaAScF4zWX52FZW8d48igO94Vvh85qG5NWVdHlOC8eJHzdbZqIL1Opo5fpgDLxJVhi2MdylBnUxTQ4amGywgqE9wELednf4vx826r4jkujxciQjlA59x5ucbNSii02jO8U=
+	t=1755726027; cv=none; b=q79DI6aoHcN6JzL0HS4FfZSZT22QAKtf4ERxyIA4KX0e3i6GeOXxefE7FEMfVQ67nmTJ9JXaSz+bXX0sRJBb/W/XBNwY91Xpq6x+dpp73ZL+08f4aWl4IWp+PrLH8f71gzWNnXSE/ej5jEOwiWscPM5P+yZmCd2F1YjaDvrRDSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755725981; c=relaxed/simple;
-	bh=pfvX5oH9SYoHlQRFfUJOgMOg9OmNuK8N9oijEO2LW2c=;
+	s=arc-20240116; t=1755726027; c=relaxed/simple;
+	bh=aqrzuja6PkdBjHdKKBqgqK5rjzETuEpzr+JbKNliyDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rvPPRuE0VeGk0/xvPplNtefj6N9hTC06oHOE1V2WDKXJNGTUvRE5Wq0EwIAEvUG/Awh4MX9A7/IuqpM7wjqEHlGWZEVuXi/XfAOUeDAO3+0G2CUonemwGhxAp6Ip9bnH3u46Ful8LP87i6ktEY/+BupWbdf/m4ds2EQsKU+S5t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=km++KAj8; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=fGPFicrP0rPtExiUTnal31VW7NUxNMNR0kt+UgcY80MR6r6T9PT/fzZeyyDEYcJTvOGOul6yBr8Xq+SrVV/tTESG+VbZkYQZl6mA19ysML3FM+UmQGFM1OBziamxCK1reTm/VJuHDiM/v2gnBNm6g7VVF7xlVZnYYa6JkRFXqck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXdkDdKO; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="km++KAj8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXdkDdKO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755725980; x=1787261980;
+  t=1755726025; x=1787262025;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pfvX5oH9SYoHlQRFfUJOgMOg9OmNuK8N9oijEO2LW2c=;
-  b=km++KAj8Rvz3s0s/6ZD+FyfiOOBGqrUAQG+/4tcRTsdxZ9bWoF2CDTG5
-   yPnaFtaJTktVHIrLqeqKMjPWbTdrqEQMFSh8CC12RxJ5hgCUpVEMLkfL/
-   eF9+sPNruLCPK8H1Gi058wlPMfZbLxLZ4+PsmetB2zK/buzQR2gZh6s/j
-   6HQ2kw0quXDOC36e5oKv7iiiYNR68XAnNM0fXZo6zHkjVpOXKngyDoLhK
-   rFludiUYMzB8+Jg047fPcwa9FVLX6nc8OBUsJeGItR3i1CFOT1Rp2Vzzo
-   YvIU8hgbMLgKd/L0J9ZUuDeOEutI9EuIGQcNSxvexjgXyvxZjYFY62dgH
-   A==;
-X-CSE-ConnectionGUID: M9ncMuCdQdWBzmbkYcF0Ig==
-X-CSE-MsgGUID: 9l8KYVpzRfShKDw+EjoXbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57934683"
+  bh=aqrzuja6PkdBjHdKKBqgqK5rjzETuEpzr+JbKNliyDQ=;
+  b=MXdkDdKOnBMyQm2bqZWnnnFgCRLEADktCEyLHEiout08QUVmghdwc9AU
+   W4991QjIk8mRr181WbqhyiMvqFHgMogHhTzwEmyLCEegzVfYSXRk+xCre
+   TRuRXul9pLl9hSekskXN52Dk1PJbjs/aEcQjRJtP8fLR9M62LsGxVyccy
+   mSzQGWuzNeXCbTHFDxhTFg1FRZ/XJNLU+4E708gUW2y2s39ZtQXOfIpbu
+   Uf1MqGdmqM1do7bLRfaWPa2eFBMfQ0gNMTELHFkz8x1Zkgyz+/ebQllTH
+   MH+HWmdIm/nR9uLP8Xe9dRkegatFgdqcJY3PIOo/cLvefuF4EUZ9jgfGw
+   Q==;
+X-CSE-ConnectionGUID: P3gc8Z6CRteVVHwhiVD8wQ==
+X-CSE-MsgGUID: EMZDrOCGSeOm+9SfH5F2oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="58075777"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="57934683"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 14:39:38 -0700
-X-CSE-ConnectionGUID: ZEv40UTyTYiBl0ZmkrcFUQ==
-X-CSE-MsgGUID: xpsm9xphRKygWRxqS8s57A==
+   d="scan'208";a="58075777"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 14:40:25 -0700
+X-CSE-ConnectionGUID: sN8PLPyXRAG60IreOnKWrQ==
+X-CSE-MsgGUID: Od1r34daTTCon8kbzxMmAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="172495381"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Aug 2025 14:39:36 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="172659357"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 20 Aug 2025 14:40:24 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoqWs-0001bn-1K;
-	Wed, 20 Aug 2025 21:39:34 +0000
-Date: Wed, 20 Aug 2025 23:39:28 +0200
+	id 1uoqWu-000JhD-34;
+	Wed, 20 Aug 2025 21:39:50 +0000
+Date: Thu, 21 Aug 2025 05:39:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3135/3135] arch/x86/events/amd/brs.c:339:6:
- warning: no previous prototype for 'perf_amd_brs_lopwr_cb'
-Message-ID: <202508202313.jlfYOA3M-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:perf/core 29/41] arch/x86/kernel/uprobes.c:834:16:
+ error: incompatible pointer types passing 'unsigned long *' to parameter of
+ type 'u64 *' (aka 'unsigned long long *')
+Message-ID: <202508210550.rgoAtXMe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +63,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Xie,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   28d3b936dc6be28156ddfb85879ccdf7b3cf2ded
-commit: 600130a3b3f73d76dbfa38d63f68d1c2520e582d [3135/3135] kabi: Fix kabi breakage without build warning.
-config: x86_64-buildonly-randconfig-2002-20250820 (https://download.01.org/0day-ci/archive/20250820/202508202313.jlfYOA3M-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508202313.jlfYOA3M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
+head:   44711c518722e9e0594d07e7f7af72ec9d48c1dd
+commit: 89f3fe617685431a4d82091c95ab14dd0d3b8dd6 [29/41] uprobes/x86: Fix shadow stack
+config: x86_64-buildonly-randconfig-003-20250821 (https://download.01.org/0day-ci/archive/20250821/202508210550.rgoAtXMe-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210550.rgoAtXMe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508202313.jlfYOA3M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508210550.rgoAtXMe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/events/amd/brs.c:339:6: warning: no previous prototype for 'perf_amd_brs_lopwr_cb' [-Wmissing-prototypes]
-     339 | void perf_amd_brs_lopwr_cb(bool lopwr_in)
-         |      ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/uprobes.c:834:16: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'u64 *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+     834 |         if (shstk_pop(&sret) == 0 && sret != args.retaddr)
+         |                       ^~~~~
+   arch/x86/include/asm/shstk.h:26:20: note: passing argument to parameter 'val' here
+      26 | int shstk_pop(u64 *val);
+         |                    ^
+   1 error generated.
 
 
-vim +/perf_amd_brs_lopwr_cb +339 arch/x86/events/amd/brs.c
+vim +834 arch/x86/kernel/uprobes.c
 
-fb5f22f8054df9 Stephane Eranian 2022-03-22  334  
-fb5f22f8054df9 Stephane Eranian 2022-03-22  335  /*
-fb5f22f8054df9 Stephane Eranian 2022-03-22  336   * called from ACPI processor_idle.c or acpi_pad.c
-fb5f22f8054df9 Stephane Eranian 2022-03-22  337   * with interrupts disabled
-fb5f22f8054df9 Stephane Eranian 2022-03-22  338   */
-fb5f22f8054df9 Stephane Eranian 2022-03-22 @339  void perf_amd_brs_lopwr_cb(bool lopwr_in)
-fb5f22f8054df9 Stephane Eranian 2022-03-22  340  {
-fb5f22f8054df9 Stephane Eranian 2022-03-22  341  	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-fb5f22f8054df9 Stephane Eranian 2022-03-22  342  	union amd_debug_extn_cfg cfg;
-fb5f22f8054df9 Stephane Eranian 2022-03-22  343  
-fb5f22f8054df9 Stephane Eranian 2022-03-22  344  	/*
-fb5f22f8054df9 Stephane Eranian 2022-03-22  345  	 * on mwait in, we may end up in non C0 state.
-fb5f22f8054df9 Stephane Eranian 2022-03-22  346  	 * we must disable branch sampling to avoid holding the NMI
-fb5f22f8054df9 Stephane Eranian 2022-03-22  347  	 * for too long. We disable it in hardware but we
-fb5f22f8054df9 Stephane Eranian 2022-03-22  348  	 * keep the state in cpuc, so we can re-enable.
-fb5f22f8054df9 Stephane Eranian 2022-03-22  349  	 *
-fb5f22f8054df9 Stephane Eranian 2022-03-22  350  	 * The hardware will deliver the NMI if needed when brsmen cleared
-fb5f22f8054df9 Stephane Eranian 2022-03-22  351  	 */
-fb5f22f8054df9 Stephane Eranian 2022-03-22  352  	if (cpuc->brs_active) {
-fb5f22f8054df9 Stephane Eranian 2022-03-22  353  		cfg.val = get_debug_extn_cfg();
-fb5f22f8054df9 Stephane Eranian 2022-03-22  354  		cfg.brsmen = !lopwr_in;
-fb5f22f8054df9 Stephane Eranian 2022-03-22  355  		set_debug_extn_cfg(cfg.val);
-fb5f22f8054df9 Stephane Eranian 2022-03-22  356  	}
-fb5f22f8054df9 Stephane Eranian 2022-03-22  357  }
-fb5f22f8054df9 Stephane Eranian 2022-03-22  358  
-
-:::::: The code at line 339 was first introduced by commit
-:::::: fb5f22f8054df9c6cc2c2e40e54a76ea62fb4824 perf/x86/amd: Add idle hooks for branch sampling
-
-:::::: TO: Stephane Eranian <eranian@google.com>
-:::::: CC: Xie Haocheng <haocheng.xie@amd.com>
+   802	
+   803	SYSCALL_DEFINE0(uprobe)
+   804	{
+   805		struct pt_regs *regs = task_pt_regs(current);
+   806		struct uprobe_syscall_args args;
+   807		unsigned long ip, sp, sret;
+   808		int err;
+   809	
+   810		/* Allow execution only from uprobe trampolines. */
+   811		if (!in_uprobe_trampoline(regs->ip))
+   812			goto sigill;
+   813	
+   814		err = copy_from_user(&args, (void __user *)regs->sp, sizeof(args));
+   815		if (err)
+   816			goto sigill;
+   817	
+   818		ip = regs->ip;
+   819	
+   820		/*
+   821		 * expose the "right" values of ax/r11/cx/ip/sp to uprobe_consumer/s, plus:
+   822		 * - adjust ip to the probe address, call saved next instruction address
+   823		 * - adjust sp to the probe's stack frame (check trampoline code)
+   824		 */
+   825		regs->ax  = args.ax;
+   826		regs->r11 = args.r11;
+   827		regs->cx  = args.cx;
+   828		regs->ip  = args.retaddr - 5;
+   829		regs->sp += sizeof(args);
+   830		regs->orig_ax = -1;
+   831	
+   832		sp = regs->sp;
+   833	
+ > 834		if (shstk_pop(&sret) == 0 && sret != args.retaddr)
+   835			goto sigill;
+   836	
+   837		handle_syscall_uprobe(regs, regs->ip);
+   838	
+   839		/*
+   840		 * Some of the uprobe consumers has changed sp, we can do nothing,
+   841		 * just return via iret.
+   842		 */
+   843		if (regs->sp != sp) {
+   844			/* skip the trampoline call */
+   845			if (args.retaddr - 5 == regs->ip)
+   846				regs->ip += 5;
+   847			return regs->ax;
+   848		}
+   849	
+   850		regs->sp -= sizeof(args);
+   851	
+   852		/* for the case uprobe_consumer has changed ax/r11/cx */
+   853		args.ax  = regs->ax;
+   854		args.r11 = regs->r11;
+   855		args.cx  = regs->cx;
+   856	
+   857		/* keep return address unless we are instructed otherwise */
+   858		if (args.retaddr - 5 != regs->ip)
+   859			args.retaddr = regs->ip;
+   860	
+   861		if (shstk_push(args.retaddr) == -EFAULT)
+   862			goto sigill;
+   863	
+   864		regs->ip = ip;
+   865	
+   866		err = copy_to_user((void __user *)regs->sp, &args, sizeof(args));
+   867		if (err)
+   868			goto sigill;
+   869	
+   870		/* ensure sysret, see do_syscall_64() */
+   871		regs->r11 = regs->flags;
+   872		regs->cx  = regs->ip;
+   873		return 0;
+   874	
+   875	sigill:
+   876		force_sig(SIGILL);
+   877		return -1;
+   878	}
+   879	
 
 -- 
 0-DAY CI Kernel Test Service
