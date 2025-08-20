@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCE22D8DB9;
-	Wed, 20 Aug 2025 22:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D5627E7EB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 22:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755730390; cv=none; b=rBbY3fggk+h8/49AHl2tUgev1QQH5/RFPv6CttKIN43uE3sAXnK6ZTkdvXtgp6F5/KoYGw0kX22/IwOWJnzDGZ1zP2+CzysLcnFjpmFxzc9PnyMSkYUSBWZ7wvkxhV+SH4S+suVi2dJZSE3MH2eIfE/zhcRc6OMlo1rwRA42rB4=
+	t=1755730725; cv=none; b=GK2epxPL6K0pLfnt0Puyj9jTIWOCPkWg/sxzj//LIKaYeJEzEPjyMNMyJchDkBwTdF6MRTo7iFCtE/Vatr2QtQoiAokIuBgdvq3xKuMh+npyWlwhxBdL1FHSDKnjzvMrPxPqwu66NYWkKyLi5C1jp4uRmB1AHa7YGLNQzUN3xIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755730390; c=relaxed/simple;
-	bh=xDRP95yA4J3OJjOVL49YPRpnANZi0tgCgOIZTfJwTVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h4IK3DRav2/hSdAb4/Dt8lQZ8pH26jTWpxezfahicy7jxpEB+wtIpAl+MQlj2tPT7EzMbqNCrVj/EwDlfOMiEtXxl7SdURLVWIkG9Va3K9GdGYylrZPEJwG5OCSNRHuJVggJJP1JKZYlgqJwaU+1xjbLaFz8+6ONjR2mptmLxc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQnlKpaf; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1755730725; c=relaxed/simple;
+	bh=ldA2F5SXeEDtqWf+5mYLegq/AYYUtkJN2V7g/+gMxys=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lEBEG03sT5Nnr5mbMkUhKLsg4XWskardzjC9JA3D5JI073P2S668gq2Ad+vmzemVgeQZoqKV19YxEFr/xD/yoq+ozJIBNxP6OdbZ+HqVzaf6HQYJqZdB6nNlYaj0epZOySIf6UYwjDkl+IrP15nrK2rBKAw/BlXshyCs4F4bh9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTpcyUKy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQnlKpaf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTpcyUKy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755730388; x=1787266388;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xDRP95yA4J3OJjOVL49YPRpnANZi0tgCgOIZTfJwTVw=;
-  b=IQnlKpafNTFDw9D/L1+jjTlITT0RKp8a4VizwLWR6pbw4ANgiimOObTm
-   9WMMna/qQKX9OmDXt1GnEL5XvcIeG07ajAsXAKO3Aa6rFxrWYHWJHMi6t
-   g7Z67o97sUfalyGmWnAbzSQRi+1JaBjILAL31UmUlCIhCDmd0o7OfJUmr
-   uBkSQNORq1ey+zZ7QgrLbo/1tYlT5refklp7wz5aPYJd7RDYgXsQlHSCL
-   YcCkXQ0F+rKkUjlkFCMxDoj1M7g3Toh15vF0Ktirqd12ZeRagpqkGI0Xw
-   f1xZqDuCYOlx2xz5RIykmS61MePgwWJILUQxGc4tNkJx5CLROqRdb7S/s
-   Q==;
-X-CSE-ConnectionGUID: V87jpdHCTt2g3YV7Fu2LOw==
-X-CSE-MsgGUID: WG8wex8WQiCaUh9JPRAEzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="58079341"
+  t=1755730723; x=1787266723;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ldA2F5SXeEDtqWf+5mYLegq/AYYUtkJN2V7g/+gMxys=;
+  b=lTpcyUKybJmsMc9bOsyF+0dzf4OqhJndKQDNFsG/RD8ruEPAKYRz2MoS
+   w2ToFVLvFCEtvliTpyLZcqUwFrYuEUizW8qwV4vEm8GNHjwdDe4RbJ9j/
+   wkZGQkuX27JcnUrlcZppzY6rh9/W/hkI0z6x5Kg71/9XYndd/38lUr5pv
+   SvJf4P9+iAU6+h2JrK/TggsMQHcfWPIhjjMsqNUK4pERdKnfiAxxYxzLV
+   TaR8SmmsAHK2yycOdA0CNIod0ltqOkxtkGX9knIpNLIQrr/6ufXVqOcZa
+   +deiZSPl8Olyawfhy22iFnABlsvPgzUQb1YNu0ZS/6zn4WUkHIDAlGr4K
+   g==;
+X-CSE-ConnectionGUID: FJ2mceahS5uSdatgmc1nfw==
+X-CSE-MsgGUID: 4Islqb3dTtyz1iyn6vb6Yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="60638122"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="58079341"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 15:53:05 -0700
-X-CSE-ConnectionGUID: xft/3dHuSQ2BVAfciI/AKw==
-X-CSE-MsgGUID: mT6JVZh0TluWdr+Zal7KOA==
+   d="scan'208";a="60638122"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 15:58:42 -0700
+X-CSE-ConnectionGUID: +3B3DvbiTo2gKexfSinjOw==
+X-CSE-MsgGUID: bAKA708FSSqEWe6zo9cMLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="172674938"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 20 Aug 2025 15:53:02 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="168613188"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Aug 2025 15:58:41 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uorfv-000Jip-1I;
-	Wed, 20 Aug 2025 22:52:59 +0000
-Date: Thu, 21 Aug 2025 06:52:26 +0800
+	id 1uorlP-0001cp-1V;
+	Wed, 20 Aug 2025 22:58:39 +0000
+Date: Thu, 21 Aug 2025 00:58:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: Xiang Gao <gxxa03070307@gmail.com>, akpm@linux-foundation.org,
-	david@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH v2 1/1] mm/cma: add 'available count' and 'total count'
- to trace_cma_alloc_start
-Message-ID: <202508210642.kUloVYxD-lkp@intel.com>
-References: <d30f91137e3a296152463ea65474e1ca56f4eda3.1755654367.git.gaoxiang17@xiaomi.com>
+To: kernel@openeuler.org, Ma Wupeng <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3135/3135] mm/memcontrol.c:5402:40: error:
+ implicit declaration of function 'ksm_process_profit'
+Message-ID: <202508210046.tLQzvmwk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,116 +61,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d30f91137e3a296152463ea65474e1ca56f4eda3.1755654367.git.gaoxiang17@xiaomi.com>
 
-Hi Xiang,
+Hi Nanyong,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiang-Gao/mm-cma-add-available-count-and-total-count-to-trace_cma_alloc_start/20250820-105438
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/d30f91137e3a296152463ea65474e1ca56f4eda3.1755654367.git.gaoxiang17%40xiaomi.com
-patch subject: [PATCH v2 1/1] mm/cma: add 'available count' and 'total count' to trace_cma_alloc_start
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250821/202508210642.kUloVYxD-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210642.kUloVYxD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   28d3b936dc6be28156ddfb85879ccdf7b3cf2ded
+commit: 0f6fb3570be40b783d8c756d64297be1a8e3d2b3 [3135/3135] memcg: support ksm merge any mode per cgroup
+config: x86_64-buildonly-randconfig-2002-20250820 (https://download.01.org/0day-ci/archive/20250821/202508210046.tLQzvmwk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210046.tLQzvmwk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508210642.kUloVYxD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508210046.tLQzvmwk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/cma.c:31:
-   In file included from include/trace/events/cma.h:138:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:468:
->> include/trace/events/cma.h:56:12: error: no member named 'count' in 'struct trace_event_raw_cma_alloc_start'
-      56 |                 __entry->count = request_count;
-         |                 ~~~~~~~  ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^~~~
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-      44 |                              PARAMS(assign),                   \
-         |                                     ^~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/trace_events.h:435:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                              ^~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/trace_events.h:427:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from mm/cma.c:31:
-   In file included from include/trace/events/cma.h:138:
-   In file included from include/trace/define_trace.h:133:
-   In file included from include/trace/perf.h:110:
->> include/trace/events/cma.h:56:12: error: no member named 'count' in 'struct trace_event_raw_cma_alloc_start'
-      56 |                 __entry->count = request_count;
-         |                 ~~~~~~~  ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^~~~
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-      44 |                              PARAMS(assign),                   \
-         |                                     ^~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/perf.h:67:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                              ^~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/perf.h:51:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   2 errors generated.
+   mm/memcontrol.c: In function 'memory_ksm_show':
+>> mm/memcontrol.c:5402:40: error: implicit declaration of function 'ksm_process_profit' [-Werror=implicit-function-declaration]
+    5402 |                 ksm_process_profits += ksm_process_profit(mm);
+         |                                        ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +56 include/trace/events/cma.h
+vim +/ksm_process_profit +5402 mm/memcontrol.c
 
-    40	
-    41		TP_PROTO(const char *name, unsigned long request_count, unsigned long available_count,
-    42			unsigned long total_count, unsigned int align),
-    43	
-    44		TP_ARGS(name, request_count, available_count, total_count, align),
-    45	
-    46		TP_STRUCT__entry(
-    47			__string(name, name)
-    48			__field(unsigned long, request_count)
-    49			__field(unsigned long, available_count)
-    50			__field(unsigned long, total_count)
-    51			__field(unsigned int, align)
-    52		),
-    53	
-    54		TP_fast_assign(
-    55			__assign_str(name);
-  > 56			__entry->count = request_count;
-    57			__entry->available_count = available_count;
-    58			__entry->total_count = total_count;
-    59			__entry->align = align;
-    60		),
-    61	
-    62		TP_printk("name=%s count=%lu request_count=%lu total_count=%lu align=%u",
-    63			  __get_str(name),
-    64			  __entry->request_count,
-    65			  __entry->available_count,
-    66			  __entry->total_count,
-    67			  __entry->align)
-    68	);
-    69	
+  5379	
+  5380	static int memory_ksm_show(struct seq_file *m, void *v)
+  5381	{
+  5382		unsigned long ksm_merging_pages = 0;
+  5383		unsigned long ksm_rmap_items = 0;
+  5384		long ksm_process_profits = 0;
+  5385		unsigned int tasks = 0;
+  5386		struct task_struct *task;
+  5387		struct mm_struct *mm;
+  5388		struct css_task_iter it;
+  5389		struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+  5390	
+  5391		css_task_iter_start(&memcg->css, CSS_TASK_ITER_PROCS, &it);
+  5392		while ((task = css_task_iter_next(&it))) {
+  5393			mm = get_task_mm(task);
+  5394			if (!mm)
+  5395				continue;
+  5396	
+  5397			if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
+  5398				tasks++;
+  5399	
+  5400			ksm_rmap_items += mm->ksm_rmap_items;
+  5401			ksm_merging_pages += mm->ksm_merging_pages;
+> 5402			ksm_process_profits += ksm_process_profit(mm);
+  5403			mmput(mm);
+  5404		}
+  5405		css_task_iter_end(&it);
+  5406	
+  5407		seq_printf(m, "merge any state: %d\n", READ_ONCE(memcg->ksm_merge_any));
+  5408		seq_printf(m, "merge any tasks: %u\n", tasks);
+  5409		seq_printf(m, "ksm_rmap_items %lu\n", ksm_rmap_items);
+  5410		seq_printf(m, "ksm_merging_pages %lu\n", ksm_merging_pages);
+  5411		seq_printf(m, "ksm_process_profits %ld\n", ksm_process_profits);
+  5412		return 0;
+  5413	}
+  5414	
 
 -- 
 0-DAY CI Kernel Test Service
