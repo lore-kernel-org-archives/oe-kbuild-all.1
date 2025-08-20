@@ -1,101 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D4A1917D6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 01:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F328D70823
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 01:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755654772; cv=none; b=f9/jrUdmlBSuecqey7yW59wPut88KBwEXwHoCW6bI+O2X42zWqXDPKmnNpcTsVSOVeTVQIsrhYCxnFEzQ4aEP0y6zdLpphoekvyrV8TDNDW1VGP7AIHw+n0OnP1sgMF2IfgdVN2SayLxsekE3PY305qDaNTFQKFN9ZVUvNXz55w=
+	t=1755654891; cv=none; b=t6vLztKEecOJVBGiT10KI0v8CanbHlAk0wI9SpinKwWgAiY4HjTFQpadRbnd1t2RRkLZ7FHiXoFHDR63XBukDWm85ST7jGZgOZWN/L9pUr4wT1v+Vjt4WiEDzR409BHEQrhdkHo8DkDjrvA5lFkh1931RNfiSBomKjgPTK3g5wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755654772; c=relaxed/simple;
-	bh=v8ZGXl6i7+GLgabNixEXW2doyPJq5x/LtU4JXwrlAlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DuF5/2aEE10Av/sStI3IdofdGyJ5WNEgI3UJjN37zr/2rTF9mI+4h17i/mz+Vrb48swbzLblxNuduaKo2lBMdf7oiGfQDbBfYDsIk3LxqSlsOd+fE+0u1SiL0R0zS9A3Lv4DW1In4fk6Y0u++2zdrHJHWW+K8oDWTKhoBgNIpk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGuRkmiM; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755654891; c=relaxed/simple;
+	bh=0dS7Dvi8VpyLmp3azlPofNJqhmQ2Buq2f8WM9QeJlXk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A8SB75lpsRBKaqbX1SKZiG52iInK/LPnButj72OWsYPWEtXMdKDFVuSPQ8UCr6RTht6oB9Xgi1ehixxwXakdHvsWCkbhd6N6BW/+Dwqkn5H8fJ4pV6pdB5mJMg1cN0o0/C+9GC2zJn7s6gGbcuaogn0/lKXeNa15fMPMZOJR4Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pCVNV4T7; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGuRkmiM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755654770; x=1787190770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v8ZGXl6i7+GLgabNixEXW2doyPJq5x/LtU4JXwrlAlw=;
-  b=RGuRkmiMXWJZ82w6cHFYF+nLs1T7A2SCHVicoK5hDOb0kzoouu3kHTdB
-   4iE5wwLBwlXXq4MSvj01jOT0C575Gas8IKMBzKdiQEosyN3gn4YRtwJTy
-   ii/cXuoPI3/JQAwzCglJo4p/kD/m4pFCRAWtQbFeZ1eVT6vm/FWwUulNy
-   Ap8o6qzAgdPWTQLInsNghWnk5efr0mPUQZqq73THJp8UOOLDL46Hr+bgl
-   qULKu+vPNTPzMT0k/pFxtj58cERaz+0/e5Ry5jlmRlI4zxGxoIpz/IsWq
-   Mm0YdcyK/UKK26CQcqPcMEpfr3kLRy7daiSWE0aSi2KHIepacZwt6ND6B
-   w==;
-X-CSE-ConnectionGUID: zY5A+pHwQiyHhtrl65JoCg==
-X-CSE-MsgGUID: Mf9NsqFWQo6k4JfPZaTpNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69361488"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="69361488"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 18:52:50 -0700
-X-CSE-ConnectionGUID: TkRZCz6cSDinc9d0n4cW6A==
-X-CSE-MsgGUID: VsXVtfzDTjS5afh4pXuaGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
-   d="scan'208";a="168801216"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Aug 2025 18:52:48 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uoY0L-000Hwd-1l;
-	Wed, 20 Aug 2025 01:52:45 +0000
-Date: Wed, 20 Aug 2025 09:52:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Curley <jcurley@purestorage.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Curley <jcurley@purestorage.com>,
-	linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 4/9] NFSv4/flexfiles: Update low level helper functions
- to be DS stripe aware.
-Message-ID: <202508200945.mrU2bex2-lkp@intel.com>
-References: <20250818220750.47085-5-jcurley@purestorage.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pCVNV4T7"
+Message-ID: <ae9bb2ea-c6e5-4a4b-ae25-aea1d6fe084d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1755654866;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eahXrLInkrCA7eb/xYG4dx3o/yyl8ef/xSYb6rkODMY=;
+	b=pCVNV4T7NVg27PHyW7dCE6EQ2iYGKoebYGF5nWklRLOs50SrZ29zYiPpwykLNVldlIPPMn
+	87ztk76Nit13NdGb9ZWJRSDNYFfWUOZKFw5jZhiBrrruzGrpH1szx7wUByV+Ot4Qwk7vGn
+	ocmNnYPAKKPZj4SrKETmiDy4cbdnrV8=
+Date: Wed, 20 Aug 2025 09:54:21 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250818220750.47085-5-jcurley@purestorage.com>
+Subject: Re: [PATCH] panic: Clean up message about deprecated 'panic_print'
+ parameter
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Petr Mladek <pmladek@suse.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, paulmck@kernel.org, john.ogness@linutronix.de
+References: <aKRJKZHgcxyNF3y7@pathway.suse.cz>
+ <202508200907.PsZ3geub-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <202508200907.PsZ3geub-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Jonathan,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.16]
-[cannot apply to trondmy-nfs/linux-next v6.17-rc2 v6.17-rc1 linus/master next-20250819]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 2025/8/20 09:31, kernel test robot wrote:
+> Hi Petr,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> 
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250819-180717/Feng-Tang/lib-sys_info-handle-sys_info_mask-0-case/20250815-152131
+> base:   the 3th patch of https://lore.kernel.org/r/20250815071428.98041-4-feng.tang%40linux.alibaba.com
+> patch link:    https://lore.kernel.org/r/aKRJKZHgcxyNF3y7%40pathway.suse.cz
+> patch subject: [PATCH] panic: Clean up message about deprecated 'panic_print' parameter
+> config: i386-buildonly-randconfig-004-20250820 (https://download.01.org/0day-ci/archive/20250820/202508200907.PsZ3geub-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200907.PsZ3geub-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508200907.PsZ3geub-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> kernel/panic.c:952:2: error: call to undeclared function 'panic_print_deprecated'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       952 |         panic_print_deprecated();
+>           |         ^
+>     kernel/panic.c:958:2: error: call to undeclared function 'panic_print_deprecated'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       958 |         panic_print_deprecated();
+>           |         ^
+>     2 errors generated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Curley/NFSv4-flexfiles-Remove-cred-local-variable-dependency/20250819-061041
-base:   v6.16
-patch link:    https://lore.kernel.org/r/20250818220750.47085-5-jcurley%40purestorage.com
-patch subject: [PATCH 4/9] NFSv4/flexfiles: Update low level helper functions to be DS stripe aware.
-config: powerpc-randconfig-002-20250820 (https://download.01.org/0day-ci/archive/20250820/202508200945.mrU2bex2-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200945.mrU2bex2-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508200945.mrU2bex2-lkp@intel.com/
+Oops, panic_print_deprecated() is defined within the #ifdef
+CONFIG_PROC_SYSCTL block, but it's also called from panic_print_set()
+and panic_print_get(), which are outside of that block.
 
-All warnings (new ones prefixed by >>):
+So, we need to move the definition out of the block to a common
+scope where all its callers can see it. @Petr wdyt?
 
->> Warning: fs/nfs/flexfilelayout/flexfilelayoutdev.c:374 function parameter 'dss_id' not described in 'nfs4_ff_layout_prepare_ds'
+Thanks,
+Lance
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> vim +/panic_print_deprecated +952 kernel/panic.c
+> 
+>     949	
+>     950	static int panic_print_set(const char *val, const struct kernel_param *kp)
+>     951	{
+>   > 952		panic_print_deprecated();
+>     953		return  param_set_ulong(val, kp);
+>     954	}
+>     955	
+> 
+
