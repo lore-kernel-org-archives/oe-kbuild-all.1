@@ -1,77 +1,64 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978BF2C11DB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Aug 2025 06:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419A74690;
+	Wed, 20 Aug 2025 06:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755672031; cv=none; b=L9Ielf0V/PpymUCaqcCCorOG6Vhmt5PjcY0jS4I31MDIg3jLCU2C8Sd66+/AKWSEgPNlRjGfqN+MI3NUiVMcf3rJcPvQpISPID/Tn9fCSNA5arccncNp66RAc8s6nKPLHlgO4DO/yjV6GZug5AKMVQ2Myg9oVbmXPRMaz/HqX8c=
+	t=1755672339; cv=none; b=kNmQmKdX8Z/dtVx3S5qV9iEI/TZTkHu8S7F+mDQK2REnrLney83vqrXdL6OHCdbfm95ocXUq0CeClpT759H6j2wT7GW0oTm11DYfBlkMe1DCcmIq6ONOlbUaxYG/a9LszCdo/rHf5YDasMrWnUmGkWtaw49kXfK2tp/kBJWt/+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755672031; c=relaxed/simple;
-	bh=GbYe/xr2KnaQN5qvGP3TKUQEzBohUBz2Hp6+TW9NVTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=EPg9GOgTipMWcBDPUtzMbV4cDpMr6G1ETq7vPpanOeyv+dB0wfaTZiF78UbDoQzpASyEW0hXt7WWlfX8Lze73nqaAJ1rQIdssJbHdOBTnACVDZpy/TJgdd6CaPjoADNkKA4z9iO4igNOn+oyn4ApFGKSSYYlnZKnYDZVykzN/3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SvUk5y8+; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755672339; c=relaxed/simple;
+	bh=Aks18XLnFJDywmToiC/hQRBj84tcW/vcMhMm0McgHP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ns3xO28jhPWWWdx399d0IyDPvuZ22QDJZHSGEW99SuLcL2fg8zmmtySbqDLl8J7zQ4NV1J/uRzqoNdBuCJQazt6/4iKx9watDd+MGKa/4ToNCJgecFF7gX/izRLiPp56NwSydOD0wgVTkpRMS6zxEsOSqrUTsVb7ZYp+/HQ0B48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQXJa2Dk; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SvUk5y8+"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3bb30c72433so2066899f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Aug 2025 23:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755672028; x=1756276828; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xr7gbAs7NoWP6YIoHdlAkJ/lGPbRe6fvpSA2+GwU+Bk=;
-        b=SvUk5y8+iQS1dqiJ2zNLxGMj1JnUESJrTDip0008kBqzGXKZ6yXdHMPV5h4CmMJFVC
-         PC3XWUzk34sbe5jWK2NjQ8Jz8LJ8xXElEHbCCZ/NqO1rGDwo5fk9CIl5rtOTfZf/ufQ1
-         Hm2Gs7jBt6omMJgokxhJcayecAoL+3dltvegGwy8t955jl4j9kOGozhB2kJRbYR7uu18
-         rQNh+Uf6442vjmDwn4cJBpRmdOd1IZsW+jNwZIk8F4AL59ZmH+3PcfzqNBfbcgjV5ct8
-         BVWR7iy96ka6hYe9wzc71wNt2l0N1FrWNNYdSPsXLkPVSgJ/UdGvkq/H2oDPUHto/BNe
-         Xu8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755672028; x=1756276828;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xr7gbAs7NoWP6YIoHdlAkJ/lGPbRe6fvpSA2+GwU+Bk=;
-        b=mQ9bSGwZ7cbo7GZfePSzwW18obpodbv/KA0/g1mB6UzacTbvE4NoY6Gt3dd8STIUVS
-         RbgJ03GUOsX17f55BtOq55psRRYAPfE7atLGml1eqMXB2GCqOB693zBKIVSAp1uFV/88
-         +LAOoAKT5oJr6yf9W9tj6hQi4gk9eqHLnctF7t1RFS/ly0t1X2aM2EbgO8lwS5OmqfyK
-         AXoQwSfzcQXicdPg5nNrspNicTvCHgLu3/XRn9agl4LvAnQ7E325aIMF/6BFwd/3ouC/
-         7I0bBx8mDukwNQAdc4Sbn5hUkrn6ku/HVbXUDkcjnYAVVAc3CZMABHcIHdLJC6jCaU5D
-         lUAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUl5RC1eYISwktpq6wOpQZKDUp8lz2nyuZLVL3z7lpgLCJSlwt8QSDW/kUBoLJxzQCSNRx0N5EPonq4NqlE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIIL874OspM3NqtJ2agA06Pb5Vgbwc7TOclgbLX9lK2zzjgcsS
-	oTKaHclnfMkkHbY8HqhTIzzLDpzi5hKLzHHVYh7Jj2yXXXOA6iMhMvtuWtqI0YWnfWc=
-X-Gm-Gg: ASbGnctAdZKWNpLYfot3Jl5WstBM356FICow/raH5+b9qvcvgiAMZlovJ3S9KFkBOfS
-	iucEJKBJm+RjX0tFPDhK9XWIPPTC67EjfkQBVEUpzxGxCHFcNsi8Tlz+cMRM8ebZjd49MvoWKrv
-	VeLTJS7DrAlYjZOIK5sy5xmm1Df576jWF6j9mAFJo7Q+KQPP7L53GxG0/8R9SMoOpos2R5WXC9S
-	AWWo3rTNsvYqMHPdcVyTNIf2sN9IjwyARnpTW7XM4UgEeSqNJoRajbWtNPpm5a7/I9VBsC/j2QS
-	rnukbKppztiIHZf2qeJCIOlgvLa4ifrUoPgnAvSfZ9oCgI98tKIDY5RwREl/6nJJjBzWrnTEq8s
-	KuGPL476X9hFo70WwTfxIYP0Scmw=
-X-Google-Smtp-Source: AGHT+IGAZ6McYMCx54eY6pWpoKew3ITg2+wTSl/nURpfg3Nb30p1pBzhgzsuHH+BOzekuGd6+2v13A==
-X-Received: by 2002:a05:6000:188f:b0:3b8:f358:e80d with SMTP id ffacd0b85a97d-3c32c4345d2mr1070252f8f.5.1755672027829;
-        Tue, 19 Aug 2025 23:40:27 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b47c2865dsm17711515e9.2.2025.08.19.23.40.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 23:40:27 -0700 (PDT)
-Date: Wed, 20 Aug 2025 09:40:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ivan Vecera <ivecera@redhat.com>,
-	netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
- functionality
-Message-ID: <202508200929.zEY4ejFt-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQXJa2Dk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755672337; x=1787208337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Aks18XLnFJDywmToiC/hQRBj84tcW/vcMhMm0McgHP4=;
+  b=BQXJa2DklheG1XobGiKPr7yfHJ1llIMtWEnmthEuG2o5XuQJhnZd4722
+   +r4ginOFQaGSEUGnmO/3zhl+ytz6YfJNcrajthLUsCrcqJyHsMf2/LpAV
+   AY3egFRSJco4Dh4wUl+GSItpo1Wcq7yRfeZICZT95j5RScDfm2Pv26g8J
+   wGhpaYcSwhYgj4WUe5SxR+V93cgCBi3CsHjQpLZIG072iwUGi+hQrrmiG
+   j2EfKJZV870QQCCUxmxMz5CHCiKoRlFTzHNT4iNEyO9IBiMJffcigLMXk
+   eZ0wdtzvwUQ9FXwwpTLG3b716xUuWMi4WvKmGukpY/i5jjsGwaUlbnav0
+   Q==;
+X-CSE-ConnectionGUID: 8ZG2a137Swee4kvMbQ8/ZA==
+X-CSE-MsgGUID: 0cW7U3g/RIazgzCEsSu9Zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61745337"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="61745337"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 23:45:36 -0700
+X-CSE-ConnectionGUID: oZu6t+lTTiuD65z9o2thYw==
+X-CSE-MsgGUID: BZwrqRZbQTWCzxT/CDtEsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="168851444"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 19 Aug 2025 23:45:32 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uocZd-000IJH-2r;
+	Wed, 20 Aug 2025 06:45:29 +0000
+Date: Wed, 20 Aug 2025 14:44:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>, yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dennis@kernel.org, tj@kernel.org, cl@gentwo.org, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Yunhui Cui <cuiyunhui@bytedance.com>
+Subject: Re: [PATCH 2/2] riscv: introduce percpu.h into include/asm
+Message-ID: <202508201452.ciEgfhNO-lkp@intel.com>
+References: <20250819135007.85646-3-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,125 +67,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250813174408.1146717-4-ivecera@redhat.com>
+In-Reply-To: <20250819135007.85646-3-cuiyunhui@bytedance.com>
 
-Hi Ivan,
+Hi Yunhui,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
-patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
-config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 9.5.0
+[auto build test WARNING on linus/master]
+[also build test WARNING on dennis-percpu/for-next v6.17-rc2 next-20250819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunhui-Cui/riscv-remove-irqflags-h-inclusion-in-asm-bitops-h/20250819-215256
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250819135007.85646-3-cuiyunhui%40bytedance.com
+patch subject: [PATCH 2/2] riscv: introduce percpu.h into include/asm
+config: riscv-randconfig-002-20250820 (https://download.01.org/0day-ci/archive/20250820/202508201452.ciEgfhNO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508201452.ciEgfhNO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508201452.ciEgfhNO-lkp@intel.com/
 
-smatch warnings:
-drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
+All warnings (new ones prefixed by >>):
 
-vim +239 drivers/dpll/zl3073x/fw.c
+   In file included from arch/riscv/kernel/asm-offsets.c:8:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:19:
+   In file included from include/linux/workqueue.h:9:
+>> include/linux/alloc_tag.h:219:2: warning: implicit conversion from 'typeof (tag->counters->calls)' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     219 |         this_cpu_dec(tag->counters->calls);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:512:28: note: expanded from macro 'this_cpu_dec'
+     512 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:510:51: note: expanded from macro 'this_cpu_sub'
+     510 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, -(typeof(pcp))(val))
+         |                                         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:501:70: note: expanded from macro 'this_cpu_add'
+     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/percpu-defs.h:372:29: note: expanded from macro '__pcpu_size_call'
+     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:96:78: note: expanded from macro 'this_cpu_add_8'
+      96 | #define this_cpu_add_8(pcp, val)        _pcp_protect(__percpu_add_amo_case_64, pcp, val)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   arch/riscv/include/asm/percpu.h:72:26: note: expanded from macro '_pcp_protect'
+      72 |         op(raw_cpu_ptr(&(pcp)), __VA_ARGS__);                           \
+         |         ~~                      ^~~~~~~~~~~
+   1 warning generated.
+--
+   In file included from arch/riscv/errata/sifive/errata.c:7:
+   In file included from include/linux/memory.h:19:
+   In file included from include/linux/node.h:18:
+   In file included from include/linux/device.h:16:
+   In file included from include/linux/energy_model.h:7:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   In file included from include/linux/idr.h:15:
+   In file included from include/linux/radix-tree.h:16:
+   In file included from include/linux/percpu.h:5:
+>> include/linux/alloc_tag.h:219:2: warning: implicit conversion from 'typeof (tag->counters->calls)' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     219 |         this_cpu_dec(tag->counters->calls);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:512:28: note: expanded from macro 'this_cpu_dec'
+     512 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:510:51: note: expanded from macro 'this_cpu_sub'
+     510 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, -(typeof(pcp))(val))
+         |                                         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:501:70: note: expanded from macro 'this_cpu_add'
+     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/percpu-defs.h:372:29: note: expanded from macro '__pcpu_size_call'
+     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:96:78: note: expanded from macro 'this_cpu_add_8'
+      96 | #define this_cpu_add_8(pcp, val)        _pcp_protect(__percpu_add_amo_case_64, pcp, val)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   arch/riscv/include/asm/percpu.h:72:26: note: expanded from macro '_pcp_protect'
+      72 |         op(raw_cpu_ptr(&(pcp)), __VA_ARGS__);                           \
+         |         ~~                      ^~~~~~~~~~~
+   arch/riscv/errata/sifive/errata.c:29:14: warning: result of comparison of constant 9223372036854775815 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
+      29 |         if (arch_id != 0x8000000000000007 ||
+         |             ~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~
+   arch/riscv/errata/sifive/errata.c:42:14: warning: result of comparison of constant 9223372036854775815 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
+      42 |         if (arch_id != 0x8000000000000007 && arch_id != 0x1)
+         |             ~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~
+   3 warnings generated.
+--
+   In file included from arch/riscv/kernel/asm-offsets.c:8:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:19:
+   In file included from include/linux/workqueue.h:9:
+>> include/linux/alloc_tag.h:219:2: warning: implicit conversion from 'typeof (tag->counters->calls)' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     219 |         this_cpu_dec(tag->counters->calls);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:512:28: note: expanded from macro 'this_cpu_dec'
+     512 | #define this_cpu_dec(pcp)               this_cpu_sub(pcp, 1)
+         |                                         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:510:51: note: expanded from macro 'this_cpu_sub'
+     510 | #define this_cpu_sub(pcp, val)          this_cpu_add(pcp, -(typeof(pcp))(val))
+         |                                         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:501:70: note: expanded from macro 'this_cpu_add'
+     501 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/percpu-defs.h:372:29: note: expanded from macro '__pcpu_size_call'
+     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
+         |                         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:96:78: note: expanded from macro 'this_cpu_add_8'
+      96 | #define this_cpu_add_8(pcp, val)        _pcp_protect(__percpu_add_amo_case_64, pcp, val)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   arch/riscv/include/asm/percpu.h:72:26: note: expanded from macro '_pcp_protect'
+      72 |         op(raw_cpu_ptr(&(pcp)), __VA_ARGS__);                           \
+         |         ~~                      ^~~~~~~~~~~
+   1 warning generated.
 
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
 
-This is an integer overflow.  Imagine count is 0x80000001.  That means
-size is 4.
+vim +219 include/linux/alloc_tag.h
 
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
-
-size is valid.
-
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
-
-The allocation succeeds.
-
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
-
-But count is invalid so so we will loop 134 million times.
-
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279  
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
-cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  202  
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  203  static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes)
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  204  {
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  205  	struct alloc_tag *tag;
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  206  
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  207  	alloc_tag_sub_check(ref);
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  208  	if (!ref || !ref->ct)
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  209  		return;
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  210  
+239d6c96d86f8a Suren Baghdasaryan 2024-03-21  211  	if (is_codetag_empty(ref)) {
+239d6c96d86f8a Suren Baghdasaryan 2024-03-21  212  		ref->ct = NULL;
+239d6c96d86f8a Suren Baghdasaryan 2024-03-21  213  		return;
+239d6c96d86f8a Suren Baghdasaryan 2024-03-21  214  	}
+239d6c96d86f8a Suren Baghdasaryan 2024-03-21  215  
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  216  	tag = ct_to_alloc_tag(ref->ct);
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  217  
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  218  	this_cpu_sub(tag->counters->bytes, bytes);
+22d407b164ff79 Suren Baghdasaryan 2024-03-21 @219  	this_cpu_dec(tag->counters->calls);
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  220  
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  221  	ref->ct = NULL;
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  222  }
+22d407b164ff79 Suren Baghdasaryan 2024-03-21  223  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
