@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E9723B613;
-	Thu, 21 Aug 2025 02:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC843C17
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 05:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755742967; cv=none; b=T0ISbDgnnCHm0HRv1wd/uYMH7cbGffilJaidqQP9wOuOnH8VUumn/E/HGTOrnnRdzIheZtyfL8yk2G+JduKH1M7k7fixj96uJBpSS8/rpVj7rNDs+UPjAW0heV/KOnkJt973qWkZu/IOz9p7jVLUZs2+EcpXQwDUu0sfOoEkeMA=
+	t=1755752454; cv=none; b=aIBZcz46fK+fzsAPXCbZib8Dlb+2Vh2+G1OMU3CuAuwof7rWK5olcQEGItAbZr4GVhdIacO70TctV/WpeNrADLwpkx9w/bEhOV62cBGn5ThIji74Zq6kTfhRQMNHMhKTxmb63QORxvi0d4MWDXAUqCsd1w28HtO3fgdrwJAcLPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755742967; c=relaxed/simple;
-	bh=uy3s5KuQl2CRGkvYWxUUIoDsD3XKo8NzwvJ3oGQXudo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C4DhNQxybfrZSWCcDtoM0GxkmAg7Rfco2qI/yiBHwWEkgrCI6kDnA5uVAEmWxIO+pOVCQJ35iO8ixAe0tP26unMQ5cHxFcEYpK/rxUyQOD7XWh3INeD923maVqtOfWotLDt/dDrk/MjmFdVibUzbw9uzmPbqrFmctwrBigdosCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aRzMV5FV; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1755752454; c=relaxed/simple;
+	bh=cWhnw62WP38tH+1PF8K5L1uDSUdMNl18Osce/X8RZu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rGWSB4GQXgqRPaYQARKRE3nDuQh8uuRAo1RHrM0D0PzwtE1jdKK1CfHl+1shLHaUiQmjrwNV3a46yPDpL9xdtRzQGW7CejMI6qNl3Tz+wUnmaP/ntn5THJWk7vPOwkSplpP25/OxtwO+v66osOE2u5+fkSITOqHB3+iK5i1dcRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwtQSyIe; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRzMV5FV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwtQSyIe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755742965; x=1787278965;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uy3s5KuQl2CRGkvYWxUUIoDsD3XKo8NzwvJ3oGQXudo=;
-  b=aRzMV5FVHZFq54OpTGsCbyufL91/qRTjjtHaZ80VQH+wH02Kxdw/39My
-   fq/UvzWD4eblVchVlH8hbufXfIRK3XbZRagDIx3/5Uoqz26RTU2lF+Es/
-   /c+Ewbl1IymTii8mHcpMTKm0dF39rXD+aEJY1JJm2nytR0YgZuIAxtGGA
-   tAFrGO4F5dBZQy2k3fIDgtF9HCna7pc2yrTNi7WnD4NYr2aQpFj1CkP8D
-   7j4flSlgJeusxePmjk1SYBuqWiZrvVdH3wMi8SQ2eEMwl8/PoSr6qGhHT
-   rsXVaBbgbzuN3cmdxHDEMcY9mWqEje2iF3ISsPqL1LavoMWaNAlM9oODR
-   w==;
-X-CSE-ConnectionGUID: liPRpeXnSzyWSSPvjtv0fw==
-X-CSE-MsgGUID: jMTVmtM4RLuW25yK+sY1gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="60649578"
+  t=1755752452; x=1787288452;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cWhnw62WP38tH+1PF8K5L1uDSUdMNl18Osce/X8RZu4=;
+  b=AwtQSyIeLaEskyYjxD73VwWXPlxm2CRgHJxoxOzPacbJlpNi781bzvqT
+   1coRc0odVq0h9KI4F3YsSZpgoWy6a07Xr1PSRVdD8gTp+d2E2bgmzQZPb
+   8NK9hj3d3NWImqYSYFyqjP3Q5oaRUuBlXxbyEJD6AsYoFsyrx7J6NQX+G
+   YxSAzB9ACQ5qJmBtwvwp5mtXyAIvF9odovkppwh5Hh0L2EMg9N0bxvMVh
+   uCuVVLitEgoWHv8CYCxfbnkLToLzIuGOTBjnHWWdyy1WEiOCE8USNSeFQ
+   MRCKJ4//4Q5UPytkKVGRKrTzOfarYQpvNI1r8T/tRMv9B3pa5RdH1OCfh
+   g==;
+X-CSE-ConnectionGUID: pISDfOURR4eM+0whYr/oIg==
+X-CSE-MsgGUID: JeJkFTHPSMeEhUG//nFP3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69132111"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="60649578"
+   d="scan'208";a="69132111"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 19:22:44 -0700
-X-CSE-ConnectionGUID: UW+oQu99SU6U/fvB/Xz6mw==
-X-CSE-MsgGUID: +4lHtu5+RB+tu5lWBtAVCQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 22:00:52 -0700
+X-CSE-ConnectionGUID: jtLMste3T4+Z4lKva+OzjA==
+X-CSE-MsgGUID: +EOn5gCvToqLeZkb0qeMTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="172706776"
+   d="scan'208";a="172731007"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 20 Aug 2025 19:22:40 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Aug 2025 22:00:51 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uouwb-000Jqx-1Q;
-	Thu, 21 Aug 2025 02:22:30 +0000
-Date: Thu, 21 Aug 2025 10:22:13 +0800
+	id 1uoxPT-000Jwl-0p;
+	Thu, 21 Aug 2025 05:00:31 +0000
+Date: Thu, 21 Aug 2025 13:00:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haixu Cui <quic_haixcui@quicinc.com>, andriy.shevchenko@intel.com,
-	harald.mommer@oss.qualcomm.com, quic_msavaliy@quicinc.com,
-	broonie@kernel.org, virtio-dev@lists.linux.dev,
-	viresh.kumar@linaro.org, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, hdanton@sina.com,
-	qiang4.zhang@linux.intel.com, alex.bennee@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_ztu@quicinc.com
-Subject: Re: [PATCH v4 3/3] SPI: Add virtio SPI driver
-Message-ID: <202508211051.cuOjaH00-lkp@intel.com>
-References: <20250820084944.84505-4-quic_haixcui@quicinc.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2697/2697]
+ kernel/dma/phytium/pswiotlb-mapping.c:400:30: warning: no previous prototype
+ for function 'pswiotlb_clone_orig_dma_ops'
+Message-ID: <202508211208.pMTZ4FXY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,100 +62,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250820084944.84505-4-quic_haixcui@quicinc.com>
 
-Hi Haixu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on linus/master v6.17-rc2 next-20250820]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haixu-Cui/virtio-Add-ID-for-virtio-SPI/20250820-165441
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20250820084944.84505-4-quic_haixcui%40quicinc.com
-patch subject: [PATCH v4 3/3] SPI: Add virtio SPI driver
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250821/202508211051.cuOjaH00-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211051.cuOjaH00-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   86390838db4d0ee205e00d4069a8fdb3e6f0d1d1
+commit: b0023ec2484f4561c552979b944b208422ba75ea [2697/2697] dma: pswiotlb: Move pswiotlb dma functions behind dma_map_ops
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250821/202508211208.pMTZ4FXY-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211208.pMTZ4FXY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508211051.cuOjaH00-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508211208.pMTZ4FXY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-virtio.c:373:45: warning: cast from 'void (*)(struct virtio_device *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
-     373 |         err = devm_add_action_or_reset(&vdev->dev, (void (*)(void *))virtio_spi_del_vq, vdev);
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/devres.h:166:34: note: expanded from macro 'devm_add_action_or_reset'
-     166 |         __devm_add_action_or_reset(dev, action, data, #action)
-         |                                         ^~~~~~
+>> kernel/dma/phytium/pswiotlb-mapping.c:400:30: warning: no previous prototype for function 'pswiotlb_clone_orig_dma_ops' [-Wmissing-prototypes]
+     400 | struct pswiotlb_dma_map_ops *pswiotlb_clone_orig_dma_ops(struct device *dev,
+         |                              ^
+   kernel/dma/phytium/pswiotlb-mapping.c:400:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     400 | struct pswiotlb_dma_map_ops *pswiotlb_clone_orig_dma_ops(struct device *dev,
+         | ^
+         | static 
    1 warning generated.
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DEBUG_FEATURE_BYPASS
+   Depends on [n]: (FAST_SYSCALL [=y] || FAST_IRQ [=y]) && !LOCKDEP [=y]
+   Selected by [y]:
+   - FAST_SYSCALL [=y]
+   - FAST_IRQ [=y] && ARM_GIC_V3 [=y]
+   WARNING: unmet direct dependencies detected for SECURITY_FEATURE_BYPASS
+   Depends on [n]: !ARM64_MTE [=y] && !KASAN_HW_TAGS [=n] && (FAST_SYSCALL [=y] || FAST_IRQ [=y])
+   Selected by [y]:
+   - FAST_SYSCALL [=y]
+   - FAST_IRQ [=y] && ARM_GIC_V3 [=y]
 
-vim +373 drivers/spi/spi-virtio.c
 
-   333	
-   334	static int virtio_spi_probe(struct virtio_device *vdev)
-   335	{
-   336		struct virtio_spi_priv *priv;
-   337		struct spi_controller *ctrl;
-   338		int err;
-   339		u32 bus_num;
-   340	
-   341		ctrl = devm_spi_alloc_host(&vdev->dev, sizeof(*priv));
-   342		if (!ctrl)
-   343			return -ENOMEM;
-   344	
-   345		priv = spi_controller_get_devdata(ctrl);
-   346		priv->vdev = vdev;
-   347		vdev->priv = priv;
-   348	
-   349		device_set_node(&ctrl->dev, dev_fwnode(&vdev->dev));
-   350	
-   351		/* Setup ACPI node for controlled devices which will be probed through ACPI. */
-   352		ACPI_COMPANION_SET(&vdev->dev, ACPI_COMPANION(vdev->dev.parent));
-   353	
-   354		dev_set_drvdata(&vdev->dev, ctrl);
-   355	
-   356		err = device_property_read_u32(&vdev->dev, "spi,bus-num", &bus_num);
-   357		if (!err && bus_num <= S16_MAX)
-   358			ctrl->bus_num = bus_num;
-   359		else
-   360			ctrl->bus_num = -1;
-   361	
-   362		virtio_spi_read_config(vdev);
-   363	
-   364		ctrl->transfer_one = virtio_spi_transfer_one;
-   365	
-   366		err = virtio_spi_find_vqs(priv);
-   367		if (err) {
-   368			dev_err_probe(&vdev->dev, err, "Cannot setup virtqueues\n");
-   369			return err;
-   370		}
-   371	
-   372		/* Register cleanup for virtqueues using devm */
- > 373		err = devm_add_action_or_reset(&vdev->dev, (void (*)(void *))virtio_spi_del_vq, vdev);
-   374		if (err) {
-   375			dev_err_probe(&vdev->dev, err, "Cannot register virtqueue cleanup\n");
-   376			return err;
-   377		}
-   378	
-   379		/* Use devm version to register controller */
-   380		err = devm_spi_register_controller(&vdev->dev, ctrl);
-   381		if (err) {
-   382			dev_err_probe(&vdev->dev, err, "Cannot register controller\n");
-   383			return err;
-   384		}
-   385	
-   386		return 0;
-   387	}
-   388	
+vim +/pswiotlb_clone_orig_dma_ops +400 kernel/dma/phytium/pswiotlb-mapping.c
+
+   373	
+   374	static const struct dma_map_ops pswiotlb_noiommu_dma_ops = {
+   375		.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+   376		.alloc			= pswiotlb_dma_alloc_distribute,
+   377		.free			= pswiotlb_dma_free_distribute,
+   378		.alloc_pages		= pswiotlb_dma_common_alloc_pages_distribute,
+   379		.free_pages		= pswiotlb_dma_common_free_pages_distribute,
+   380		.alloc_noncontiguous	= pswiotlb_dma_alloc_noncontiguous_distribute,
+   381		.free_noncontiguous	= pswiotlb_dma_free_noncontiguous_distribute,
+   382		.mmap			= pswiotlb_dma_mmap_distribute,
+   383		.get_sgtable		= pswiotlb_dma_get_sgtable_distribute,
+   384		.map_page		= pswiotlb_dma_map_page_attrs_distribute,
+   385		.unmap_page		= pswiotlb_dma_unmap_page_attrs_distribute,
+   386		.map_sg			= pswiotlb_dma_map_sg_attrs_distribute,
+   387		.unmap_sg		= pswiotlb_dma_unmap_sg_attrs_distribute,
+   388		.sync_single_for_cpu	= pswiotlb_dma_sync_single_for_cpu_distribute,
+   389		.sync_single_for_device	= pswiotlb_dma_sync_single_for_device_distribute,
+   390		.sync_sg_for_cpu	= pswiotlb_dma_sync_sg_for_cpu_distribute,
+   391		.sync_sg_for_device	= pswiotlb_dma_sync_sg_for_device_distribute,
+   392		.map_resource		= pswiotlb_dma_map_resource_distribute,
+   393		.unmap_resource		= NULL,
+   394		.get_merge_boundary	= pswiotlb_dma_get_merge_boundary_distribute,
+   395		.get_required_mask  = pswiotlb_dma_get_required_mask_distribute,
+   396		.dma_supported = pswiotlb_dma_supported_distribute,
+   397		.max_mapping_size   = pswiotlb_dma_max_mapping_size_distribute,
+   398		.opt_mapping_size   = pswiotlb_dma_opt_mapping_size_distribute,
+   399	};
+ > 400	struct pswiotlb_dma_map_ops *pswiotlb_clone_orig_dma_ops(struct device *dev,
+   401				const struct dma_map_ops *ops)
+   402	{
+   403		struct pswiotlb_dma_map_ops *new_dma_ops = kmalloc(sizeof(struct pswiotlb_dma_map_ops),
+   404					GFP_KERNEL);
+   405		if (!new_dma_ops)
+   406			return NULL;
+   407	
+   408		memcpy(new_dma_ops, ops, sizeof(struct pswiotlb_dma_map_ops));
+   409	
+   410		return new_dma_ops;
+   411	}
+   412	
 
 -- 
 0-DAY CI Kernel Test Service
