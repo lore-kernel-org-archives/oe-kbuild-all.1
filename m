@@ -1,75 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546252EDD50;
-	Thu, 21 Aug 2025 14:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800202D8398
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 14:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755787818; cv=none; b=RX5YQSRyNbbZ0n4N5dsNLFH7It80YLepEfDuSl8Q2XtHXytqWsxVTLNtq1FGdpsCmVp2EvBmIvxak6iHleprkK6DP53/0X2FdVOIMB5V9LSaKgZDFW1AZpwEi+sR1xEPi0+ZOaKvMkDyvrCsBicbxdVggJGNM49AUxEzKIHCPqg=
+	t=1755787838; cv=none; b=fRmoYt/vQzhoXfvzIcxhDJ9bao+TwDlghR+K8xY1EshGqhyAyoaP3Q7iX1W3WSPW3v+kDfyeXzqON+6esaerA2U8u2A1R79COdA6gwJUrbkOya+oko33AWRb/1zF4/i71E13UNtYWT3KcaDqExqS+V65FD9Hv10Q+1YkES2w5C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755787818; c=relaxed/simple;
-	bh=Q0Wu9ihtAo85VjwUco91TyJFgRnst+dve+BQ30Xa8Ec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bpeaUliMYbJjpjPJz/F2sdyrxqPoIKX9cBu5Ps3v4xP/372cEMAOq7c+TPi90Mn0SqkGDCph0tnWsBNEux7BOparTLXx3dFSZmDTawjzKI119OjxdwZH+DfrjOnfBIcpbw+8e2zedPij43XTQvS8/KVDttnlpl7DeRCD+RUWjbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGKkNb8x; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1755787838; c=relaxed/simple;
+	bh=fzuQbYcT3kDY3wepx8xLRD1f+QWMCyb0eSAQJy88wWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CsEsR9CDt1HwUsZM9pJ0x4U3B8NRRVP9tjafIPNRQiWsjF/GF2HgUYFlBuOshEJG2k7jSjpoL28ALLhXPFhtmX4jUZx1qrA/jkyoshMXxvScbjGX4Fh2SSOX0O2gF+YekMoCiZQUDyuiZdU6vaGDGvMm3J4ADO/s+lHeDYw7Ehs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7ZW5Dl/; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGKkNb8x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7ZW5Dl/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755787817; x=1787323817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q0Wu9ihtAo85VjwUco91TyJFgRnst+dve+BQ30Xa8Ec=;
-  b=QGKkNb8xCnf5bEdewRy90WCcW1Y8mmVB2HswujNoFgBNJnkZb9XEj8Xo
-   brnefK5mJHUpV24n+/wc0bTCW4iGuPVftH5b6WkcKhhG2GbdPxcec+AcU
-   tCKK+qQtJP0jSzJB41RU2qJhLOh/T4yeBJN87cBdhyjA6tWi/LO16td0r
-   E1qhNwsEQ9pUbjddvjjG3wPCaIaYNAfaAFTlpGgHcexWqIOxlP5lHm8BT
-   RIxzjl5Qzy+5yXRVffB46iYvu+MS02Ox4yjs/iln3hmrn290Jto2Zxyah
-   sm9kzmIFCKO5zDCTL0/ng/elleN8VRyP1z/r6LDVe0L/pOkiLgUodCgFH
-   g==;
-X-CSE-ConnectionGUID: 0Jb+REjyS5GGXmZJ1Ci4cQ==
-X-CSE-MsgGUID: lbUP0JqsSSeUq7EWb3G8uA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="61909917"
+  t=1755787836; x=1787323836;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fzuQbYcT3kDY3wepx8xLRD1f+QWMCyb0eSAQJy88wWk=;
+  b=K7ZW5Dl/SIOP6u1DNforg+dmQgGLcGNjZVBcG+6LTCRk86o6CfKDWS/M
+   72ItNvOWbDKaMjSC/IUYBhxUyPsO9rxBgd2+RBZoFa9p+ibC+n2aFtMBN
+   qHFOJlipAHRx5AvIpz4J9T4KKlOSKH6nqcrSpa+5FcGIaE7nWSR0Dx2gL
+   B6FrHR21RrBavPqYya/TGFNR61Vi8rPrRaWLDKY+XcZubRLSDXXaxwFk+
+   XuRtLp4HXQJcgBIlga+0PcXsgJft7dux5sd24UWNNADaCvNkx97rNpuQf
+   HIBbHWNjIhq4fDIJeuFtfW/jl7cHnK1fWr/L/d5DKX1vVxmEdfFaQQ7kP
+   A==;
+X-CSE-ConnectionGUID: JVOHXAKcRyek5uagmQlPJQ==
+X-CSE-MsgGUID: GXeRUX3VTLyRw5EdjOwp8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58147595"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="61909917"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 07:50:17 -0700
-X-CSE-ConnectionGUID: Ev+5DonIQgawwqxkzgzv9w==
-X-CSE-MsgGUID: hxPVIaoDQ3inTr3FUgMyTg==
+   d="scan'208";a="58147595"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 07:50:33 -0700
+X-CSE-ConnectionGUID: 1i6iSZ6mRa2UnGW+uP9SaA==
+X-CSE-MsgGUID: 2pfpk/IoRtqYFiMHQH83bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="199412051"
+   d="scan'208";a="173769084"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Aug 2025 07:50:12 -0700
+  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2025 07:50:22 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1up6cE-000KNv-0z;
+	id 1up6cE-000KO2-1B;
 	Thu, 21 Aug 2025 14:50:10 +0000
-Date: Thu, 21 Aug 2025 22:45:20 +0800
+Date: Thu, 21 Aug 2025 22:46:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] media: i2c: add Sony IMX111 CMOS camera sensor
- driver
-Message-ID: <202508212225.vjOOcDtc-lkp@intel.com>
-References: <20250819120428.83437-3-clamor95@gmail.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+Subject: [axboe-block:for-6.18/io_uring 16/16]
+ include/linux/io_uring/cmd.h:123:1: error: expected identifier or '(' before
+ '{' token
+Message-ID: <202508212218.pOwu5QFJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,48 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819120428.83437-3-clamor95@gmail.com>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linuxtv-media-pending/master krzk-dt/for-next linus/master v6.17-rc2 next-20250821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-media-i2c-document-Sony-IMX111-CMOS-sensor/20250819-200757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250819120428.83437-3-clamor95%40gmail.com
-patch subject: [PATCH v1 2/2] media: i2c: add Sony IMX111 CMOS camera sensor driver
-config: x86_64-randconfig-074-20250821 (https://download.01.org/0day-ci/archive/20250821/202508212225.vjOOcDtc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508212225.vjOOcDtc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.18/io_uring
+head:   55dc643dd2ad15e755a706980692a374de1bb7a8
+commit: 55dc643dd2ad15e755a706980692a374de1bb7a8 [16/16] io_uring: uring_cmd: add multishot support
+config: i386-buildonly-randconfig-001-20250821 (https://download.01.org/0day-ci/archive/20250821/202508212218.pOwu5QFJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508212218.pOwu5QFJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508212225.vjOOcDtc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508212218.pOwu5QFJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/imx111.c:1596:34: warning: unused variable 'imx111_of_match' [-Wunused-const-variable]
-    1596 | static const struct of_device_id imx111_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from block/fops.c:20:
+>> include/linux/io_uring/cmd.h:123:1: error: expected identifier or '(' before '{' token
+     123 | {
+         | ^
+>> include/linux/io_uring/cmd.h:121:1: warning: 'io_uring_cmd_buffer_select' declared 'static' but never defined [-Wunused-function]
+     121 | io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd, unsigned buf_group,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/imx111_of_match +1596 drivers/media/i2c/imx111.c
+vim +123 include/linux/io_uring/cmd.h
 
-  1595	
-> 1596	static const struct of_device_id imx111_of_match[] = {
-  1597		{ .compatible = "sony,imx111", },
-  1598		{ /* sentinel */ }
-  1599	};
-  1600	MODULE_DEVICE_TABLE(of, imx111_of_match);
-  1601	
+    72	
+    73	/*
+    74	 * Select a buffer from the provided buffer group for multishot uring_cmd.
+    75	 * Returns the selected buffer address and size.
+    76	 */
+    77	struct io_br_sel io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd,
+    78						    unsigned buf_group, size_t *len,
+    79						    unsigned int issue_flags);
+    80	
+    81	/*
+    82	 * Complete a multishot uring_cmd event. This will post a CQE to the completion
+    83	 * queue and update the provided buffer.
+    84	 */
+    85	bool io_uring_mshot_cmd_post_cqe(struct io_uring_cmd *ioucmd,
+    86					 struct io_br_sel *sel, unsigned int issue_flags);
+    87	
+    88	#else
+    89	static inline int
+    90	io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+    91				  struct iov_iter *iter, struct io_uring_cmd *ioucmd,
+    92				  unsigned int issue_flags)
+    93	{
+    94		return -EOPNOTSUPP;
+    95	}
+    96	static inline int io_uring_cmd_import_fixed_vec(struct io_uring_cmd *ioucmd,
+    97							const struct iovec __user *uvec,
+    98							size_t uvec_segs,
+    99							int ddir, struct iov_iter *iter,
+   100							unsigned issue_flags)
+   101	{
+   102		return -EOPNOTSUPP;
+   103	}
+   104	static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret,
+   105			u64 ret2, unsigned issue_flags)
+   106	{
+   107	}
+   108	static inline void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+   109				    void (*task_work_cb)(struct io_uring_cmd *, unsigned),
+   110				    unsigned flags)
+   111	{
+   112	}
+   113	static inline void io_uring_cmd_mark_cancelable(struct io_uring_cmd *cmd,
+   114			unsigned int issue_flags)
+   115	{
+   116	}
+   117	static inline void io_uring_cmd_issue_blocking(struct io_uring_cmd *ioucmd)
+   118	{
+   119	}
+   120	static inline struct io_br_sel
+ > 121	io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd, unsigned buf_group,
+   122				   size_t *len, unsigned int issue_flags);
+ > 123	{
+   124		return (struct io_br_sel) { .val = -EOPNOTSUPP };
+   125	}
+   126	static inline bool io_uring_mshot_cmd_post_cqe(struct io_uring_cmd *ioucmd,
+   127					ssize_t ret, unsigned int issue_flags)
+   128	{
+   129		return true;
+   130	}
+   131	#endif
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
