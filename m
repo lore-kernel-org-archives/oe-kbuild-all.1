@@ -1,90 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203822DAFBA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 16:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4EC482FF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 17:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755793165; cv=none; b=S4lWrWlB/InvFNpuAb32VXn+SkZhbUPj1xMYQg5GYMxqBooYNUrPxGEYRRP/W/X+K+q1tPwnKiHdKfJSTARryayNh0IOS+gV2QQuPjw21bG2xcFlYSfIRBPgrBAYSl2jpMSRfCeJkwwF2m7dJhURQ0asgzTLVBOW37DMnTRGGE0=
+	t=1755798472; cv=none; b=jFi3uD2H7Hlo4dMjv/bR7qjIa3b1f6wf7oqQ7gxQYtUQeX80kl/Y3l9NgJwIkRTiMQNlzGrxRXp2/3UuMlbvxHFEWOctfvntcE1BHCU5NHcf/vhA3GIpWjAQuUdTK88fsTdUT0glN3kVPBJuxmgcsTfvpKbwZMRqbc+L9t+2Ea8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755793165; c=relaxed/simple;
-	bh=1QmruyZo3DKu0eWoZjVlLIS1lofS9SNdP9MW4v2BJPE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AoH30HieqWSvNiR4aAxi2SrhiSdEZdFDEwZwPnUY/TlXWicFkOyjrfdTPdHYJqXAQOXj1sb8KoYGaXZCqLsB8gwWnZWktIk2H6UV4QQB0QAqNxJeY3vfBuwXAWgk2VCWSzeRp/twRmjVSPVXz8yJn+fl6Sb9ITEDEJ0mu61X1FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OiZDOg5D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755798472; c=relaxed/simple;
+	bh=r8TGLw8tq75oq5HqqilzaTST2+ZIE+VNnGwD0ciIF6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Y5+QEWutkWcztGALFAuoZtnWcAQ8lJcxP6+RSTI9KHmVpIBxC/hCsv1KdJmxPDlaZIb9Oglb2xkOwFR/ENP+78YEc0ARwTDXwmxIwpahmTr+7r1nSth0ynTXBKUgG1wrrxFvi17KkCORaKRaPimHaQ4bz1l9R0/I6ffNUaKfni4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvJ1gDsY; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OiZDOg5D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5423C4CEEB;
-	Thu, 21 Aug 2025 16:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755793164;
-	bh=1QmruyZo3DKu0eWoZjVlLIS1lofS9SNdP9MW4v2BJPE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OiZDOg5DCZOotIQ1qrB3ymxLpRQ1nTSlEa0a7kwnwwtcvUtivowpB6GodOP8XymS7
-	 4oxf7aFl2oTTi9wKxzHLmjXeQGpYi0fJ6xQ8OyA1aTHo98gTUmG8UGdG0tPxS9zhqg
-	 7sStSsp96QotS1iDrZlV3rGiTzyr4pY5GbE6o41XPG7k0LnTniZ4EVZvpYdwPYlOCR
-	 m74IZP/AaqkgNDfpysFhPIiNrecTEQz28Uea0lqUOBccTT5CtjGa21wQ+7iE4NZpCK
-	 cG9ZRhRUbm5HGpp8OG3QPCZyz3YvMlPk3kIjX+0DKCo4sBP3xYjcy2yBBCgeHwemtY
-	 nMBy0IGZvuarw==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 3382/3950] mm/zswap.c:48:15: sparse: sparse: symbol 'zswap_stored_incompressible_pages' was not declared. Should it be static?
-Date: Thu, 21 Aug 2025 09:19:22 -0700
-Message-Id: <20250821161922.78301-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <202508211706.DnJPQQMn-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvJ1gDsY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755798470; x=1787334470;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r8TGLw8tq75oq5HqqilzaTST2+ZIE+VNnGwD0ciIF6E=;
+  b=QvJ1gDsYfYOkQ10n6R88SC0ZUddDi38Y8yKc1loIHUhy9HQ3ULi4Gx+q
+   t8fOV8h6Wxv+hG2uNWeNe/dxTykzpgSo0We9UsKXwsClb+nSKgcVJ02kL
+   ZBFryudbgxi1V3n+EBljpE+QiV8oqgcN/fgsSesj2W7Nl+8UialrTLH0M
+   rGUBEmNKxSXL9Fi//yzLKVBwDWQXs4GhC79tY6+3n/mAwdAdRN0u1rkUz
+   DJXjnjk/ukfns04pN32Ga6M3GvwE/+/61S/RTx9LBe4bhbwtQCCdHsN6j
+   3xMuCJn1oWKskLM07Tm8wS563cyDN3kLZX8z7RWG3xbf5QDaEqGj9Slg6
+   A==;
+X-CSE-ConnectionGUID: cd1RfkZXTfe7UhzdITsfWg==
+X-CSE-MsgGUID: 5D6Re7r9TEKL1b9651wrFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="68806054"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="68806054"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 10:47:49 -0700
+X-CSE-ConnectionGUID: 4LNokpJ2QKCS6+tvspvg5w==
+X-CSE-MsgGUID: 6KHBrndvTe63ErJhAzaXiQ==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 21 Aug 2025 10:47:48 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1up9O6-0001mp-0G;
+	Thu, 21 Aug 2025 17:47:46 +0000
+Date: Thu, 21 Aug 2025 19:47:12 +0200
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2700/2700]
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1652:44: warning:
+ variable 'req3' set but not used
+Message-ID: <202508211956.9IhbkZmD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 21 Aug 2025 17:43:16 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   65a146fa77b5cff9bb07725ed7ccabb9670bfb54
+commit: bc1a3cc2f19671a50ec92172b875e9b0344b7b54 [2700/2700] net: hns3: refactor the debugfs for dumping FD tcam
+config: x86_64-buildonly-randconfig-2001-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211956.9IhbkZmD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211956.9IhbkZmD-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   7fa4d8dc380fbd81a9d702a855c50690c9c6442c
-> commit: 6d522abd7b4fc78d51934e6c9a53d8e2349f5d3e [3382/3950] mm/zswap: store <PAGE_SIZE compression failed page as-is
-> config: arc-randconfig-r123-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211706.DnJPQQMn-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 13.4.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250821/202508211706.DnJPQQMn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508211706.DnJPQQMn-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    mm/zswap.c: note: in included file (through arch/arc/include/asm/cacheflush.h, include/linux/cacheflush.h, include/linux/highmem.h):
->    include/linux/mm.h:80:9: sparse: sparse: preprocessor token PAGES_TO_MB redefined
->    mm/zswap.c: note: in included file (through arch/arc/include/asm/irqflags-compact.h, arch/arc/include/asm/irqflags.h, include/linux/irqflags.h, ...):
->    arch/arc/include/asm/arcregs.h:155:9: sparse: this was the original definition
-> >> mm/zswap.c:48:15: sparse: sparse: symbol 'zswap_stored_incompressible_pages' was not declared. Should it be static?
->    mm/zswap.c:1250:23: sparse: sparse: context imbalance in 'shrink_memcg_cb' - unexpected unlock
-> 
-> vim +/zswap_stored_incompressible_pages +48 mm/zswap.c
-> 
->     41	
->     42	/*********************************
->     43	* statistics
->     44	**********************************/
->     45	/* The number of pages currently stored in zswap */
->     46	atomic_long_t zswap_stored_pages = ATOMIC_LONG_INIT(0);
->     47	/* The number of incompressible pages currently stored in zswap */
->   > 48	atomic_long_t zswap_stored_incompressible_pages = ATOMIC_LONG_INIT(0);
->     49	
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508211956.9IhbkZmD-lkp@intel.com/
 
-Thank you for this report!  I just sent a fixup patch:
-https://lore.kernel.org/20250821161750.78192-1-sj@kernel.org
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c: In function 'hclge_query_rules_valid':
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1652:44: warning: variable 'req3' set but not used [-Wunused-but-set-variable]
+    1652 |         struct hclge_fd_tcam_config_3_cmd *req3;
+         |                                            ^~~~
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:1651:44: warning: variable 'req2' set but not used [-Wunused-but-set-variable]
+    1651 |         struct hclge_fd_tcam_config_2_cmd *req2;
+         |                                            ^~~~
 
 
-Thanks,
-SJ
+vim +/req3 +1652 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c
 
-[...]
+  1646	
+  1647	static int hclge_query_rules_valid(struct hclge_dev *hdev, u8 stage, u32 loc)
+  1648	{
+  1649	#define HCLGE_TCAM_SELECTION_X	1
+  1650		struct hclge_fd_tcam_config_1_cmd *req1;
+> 1651		struct hclge_fd_tcam_config_2_cmd *req2;
+> 1652		struct hclge_fd_tcam_config_3_cmd *req3;
+  1653		struct hclge_desc desc[3];
+  1654		int ret;
+  1655	
+  1656		hclge_cmd_setup_basic_desc(&desc[0], HCLGE_OPC_FD_TCAM_OP, true);
+  1657		desc[0].flag |= cpu_to_le16(HCLGE_COMM_CMD_FLAG_NEXT);
+  1658		hclge_cmd_setup_basic_desc(&desc[1], HCLGE_OPC_FD_TCAM_OP, true);
+  1659		desc[1].flag |= cpu_to_le16(HCLGE_COMM_CMD_FLAG_NEXT);
+  1660		hclge_cmd_setup_basic_desc(&desc[2], HCLGE_OPC_FD_TCAM_OP, true);
+  1661	
+  1662		req1 = (struct hclge_fd_tcam_config_1_cmd *)desc[0].data;
+  1663		req2 = (struct hclge_fd_tcam_config_2_cmd *)desc[1].data;
+  1664		req3 = (struct hclge_fd_tcam_config_3_cmd *)desc[2].data;
+  1665	
+  1666		req1->stage = stage;
+  1667		req1->xy_sel = HCLGE_TCAM_SELECTION_X;
+  1668		req1->index = cpu_to_le32(loc);
+  1669	
+  1670		ret = hclge_cmd_send(&hdev->hw, desc, 3);
+  1671		if (ret) {
+  1672			dev_err(&hdev->pdev->dev,
+  1673				"failed to read tcam status, ret = %d\n", ret);
+  1674			return ret;
+  1675		}
+  1676	
+  1677		return req1->entry_vld;
+  1678	}
+  1679	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
