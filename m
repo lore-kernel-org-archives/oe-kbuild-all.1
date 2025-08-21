@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F3081724
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 21:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43314393DCD;
+	Thu, 21 Aug 2025 21:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755810362; cv=none; b=G+0Q9cU2P3UOekL2Ej1cFcjl5u2RfPiZu5ETAJQQbgyyCzVWsYqECpJoenkFQoN8nOQB1no54XwFDhklkqlJ7OlT8KUQVjGZGEw76XS3qI9Jbrq3XvX1ZuGGtS8e6mmZrpouBbVwBfc2WGpG4ZzuaFIINXQ27x68CEYOu2GCRv8=
+	t=1755810413; cv=none; b=SrQPWTM2SGpiumw1luWCwLIDlqxbTVP7PwLxb7N6545f6GxJkvNNFvDFOh4AKrQSwaZU8OOzZOBX/e+MlP44ZDYliLvyBOmxiElWjnNlAoTcVng/epYG01lbSZAXVZfshd8G7h98r3goNNLupYnmiBIiT+nGdBTAqSW/2EfZZOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755810362; c=relaxed/simple;
-	bh=lVJ0pCYRE78VyGkmcE57gxkUUiLfRzoHCtigSfBEIz8=;
+	s=arc-20240116; t=1755810413; c=relaxed/simple;
+	bh=bedfVgu0AHiZRQg1jgmBL0HGHqbb9BNp7v2TpYnM1kM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dPrSI3XBu8aU8TrJzCSsgIwKYKc9vcQ5MotczLJS6BUXFh2Fg3ZTOr8vV6boJidNCyWMRSGzLMV+691U6P52s2dweF5Q3Jwow+IvF5saZcOrqboLfwobhq7X6TGHHDgSxEC7jk1FP0I0H9M81PGYcDiIgKGjkjgIVBrpqS/EwK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Js8wJ/OE; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Ek8sMVyIn4u/svPKHFFc8NqieFR6ydEesBbDVC5TqCPvb6u2shmu6ENvv4wOPItKpeBdWdEpHDKc7Ww5TKSFKTxPI+tqYfkyqSvb8WwnCEmMZOkUFhgmdshxmJePHwWSkm+hgIyoAwrDEDEfAf4RtVHX2YbosU88bQy6/No+iHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4yBVSDh; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Js8wJ/OE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4yBVSDh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755810360; x=1787346360;
+  t=1755810411; x=1787346411;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lVJ0pCYRE78VyGkmcE57gxkUUiLfRzoHCtigSfBEIz8=;
-  b=Js8wJ/OEb6jcpeBhNPintOemh7NUqsK+0QZuJIeONMcKN7YbzhC4ny2S
-   Qenl1j80ayc+OsMKK+KmmQhRLPhZ2TIpxRLMBqNkxpBkYymKYqFuxNty5
-   c2K8HH8XQcKx9uc7zFBeIlmpJXdmp91iHZ4HwtSN9MCVoqBXW0efdFgKq
-   qz1olol4en5XwqiPwfFufAAOd4bJ6N9leOAtn8YiAhWEoSA1bf8Z/EMfI
-   +KJjV8R5OJsjWcjpqlFGThdqw17iBwFVF5IQ6vSmjxIwi0iI9LV3nX8VN
-   quNdLjNc6fbpWt/q96G3q/xGZA6Cd5tuU3Y4rPatWs4EYH0dK7Jqzm++e
+  bh=bedfVgu0AHiZRQg1jgmBL0HGHqbb9BNp7v2TpYnM1kM=;
+  b=V4yBVSDhSkg6yfa3MgvvTTrl2LshRsucuMm7HdqfJXo0AxMNLb2RoqUj
+   IrO8ArkncfHWK7MeRAPFJ2iV/1hMVvViyqJMYIWvbeLrvTNSudrH6MSFC
+   BIaOc0gCWWGGc2oCW260cxqLgF+Vq3dsCA+7x+Ad55dTURHgXPeLVq3ga
+   8bRGJc6B/Zd1OCWbgrirkUhZ+N543zScrle2eVnjFLyqvRqfZWACDuHGT
+   cvqXPZcR2pqVA5w3XB4nWChIfbEZYH27/ze1Jv00Cqv8ZlXBD8gxiV98e
+   +5Yf1i+yorr0LGWBRN6aODQYUhBClrk5q+bCa5hA2bPPEkBzOLPJ284mm
    w==;
-X-CSE-ConnectionGUID: 75ezs2isSHGwudnM6SZhRQ==
-X-CSE-MsgGUID: JIf/VMM+SZC/Rza4TXCtjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="83533719"
+X-CSE-ConnectionGUID: b90zpYiGRuitsj8AOxUwRQ==
+X-CSE-MsgGUID: CXn73GCeT26Y9it+/eZ+1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="75698764"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="83533719"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 14:06:00 -0700
-X-CSE-ConnectionGUID: 1m8B50DxTvK/8JHoy17tVQ==
-X-CSE-MsgGUID: DSBjlJc6TTiIU9jNQlUKaA==
+   d="scan'208";a="75698764"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 14:06:50 -0700
+X-CSE-ConnectionGUID: L1wOvzxgSpKQZ+4cYycWQg==
+X-CSE-MsgGUID: AZY2c83+TaCxNMv0MWFb5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="168016208"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2025 14:05:59 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="168419614"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 21 Aug 2025 14:06:50 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upCTs-0001nr-3B;
-	Thu, 21 Aug 2025 21:05:56 +0000
-Date: Thu, 21 Aug 2025 23:05:32 +0200
+	id 1upCUJ-000Kf9-0d;
+	Thu, 21 Aug 2025 21:06:40 +0000
+Date: Fri, 22 Aug 2025 05:06:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 5/5] vivid-osd.c:undefined
- reference to `fb_dealloc_cmap'
-Message-ID: <202508212314.Bx0FE5Ba-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:ramdax 1/1] drivers/nvdimm/ramdax.c:44:11: error: call to
+ undeclared function 'kzalloc'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202508220413.PjQEKKgT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +64,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   4e823e0e1f45a7358a3393404a7c4067199c38a2
-commit: ce5631988c89b3e9b662f50612a87526ea3d093c [5/5] UPSTREAM: media: vivid: Introduce VIDEO_VIVID_OSD
-config: arm-randconfig-2006-20250821 (https://download.01.org/0day-ci/archive/20250821/202508212314.Bx0FE5Ba-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508212314.Bx0FE5Ba-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git ramdax
+head:   349f76d4596ebf970cfdec905e98534a84251cd8
+commit: 349f76d4596ebf970cfdec905e98534a84251cd8 [1/1] nvdimm: allow exposing RAM carveouts as NVDIMM DIMM devices
+config: x86_64-buildonly-randconfig-004-20250822 (https://download.01.org/0day-ci/archive/20250822/202508220413.PjQEKKgT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508220413.PjQEKKgT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508212314.Bx0FE5Ba-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508220413.PjQEKKgT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_release_buffers':
->> vivid-osd.c:(.text+0x300): undefined reference to `fb_dealloc_cmap'
-   arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_init':
->> vivid-osd.c:(.text+0x7f8): undefined reference to `fb_alloc_cmap'
->> arm-linux-gnueabi-ld: vivid-osd.c:(.text+0x858): undefined reference to `register_framebuffer'
-   arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_deinit':
->> vivid-osd.c:(.text+0x950): undefined reference to `unregister_framebuffer'
->> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x4c): undefined reference to `fb_io_read'
->> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x50): undefined reference to `fb_io_write'
->> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x6c): undefined reference to `cfb_fillrect'
->> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x70): undefined reference to `cfb_copyarea'
->> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x74): undefined reference to `cfb_imageblit'
->> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x88): undefined reference to `fb_io_mmap'
+>> drivers/nvdimm/ramdax.c:44:11: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      44 |         nd_set = kzalloc(sizeof(*nd_set), GFP_KERNEL);
+         |                  ^
+>> drivers/nvdimm/ramdax.c:44:9: error: incompatible integer to pointer conversion assigning to 'struct nd_interleave_set *' from 'int' [-Wint-conversion]
+      44 |         nd_set = kzalloc(sizeof(*nd_set), GFP_KERNEL);
+         |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/nvdimm/ramdax.c:71:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      71 |         kfree(nd_set);
+         |         ^
+   drivers/nvdimm/ramdax.c:84:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      84 |         dimm = kzalloc(sizeof(*dimm), GFP_KERNEL);
+         |                ^
+>> drivers/nvdimm/ramdax.c:84:7: error: incompatible integer to pointer conversion assigning to 'struct ramdax_dimm *' from 'int' [-Wint-conversion]
+      84 |         dimm = kzalloc(sizeof(*dimm), GFP_KERNEL);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvdimm/ramdax.c:117:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     117 |         kfree(dimm);
+         |         ^
+   6 errors generated.
+
+
+vim +/kzalloc +44 drivers/nvdimm/ramdax.c
+
+    34	
+    35	static int ramdax_register_region(struct resource *res,
+    36					    struct nvdimm *nvdimm,
+    37					    struct nvdimm_bus *nvdimm_bus)
+    38	{
+    39		struct nd_mapping_desc mapping;
+    40		struct nd_region_desc ndr_desc;
+    41		struct nd_interleave_set *nd_set;
+    42		int nid = phys_to_target_node(res->start);
+    43	
+  > 44		nd_set = kzalloc(sizeof(*nd_set), GFP_KERNEL);
+    45		if (!nd_set)
+    46			return -ENOMEM;
+    47	
+    48		nd_set->cookie1 = 0xcafebeefcafebeef;
+    49		nd_set->cookie2 = nd_set->cookie1;
+    50		nd_set->altcookie = nd_set->cookie1;
+    51	
+    52		memset(&mapping, 0, sizeof(mapping));
+    53		mapping.nvdimm = nvdimm;
+    54		mapping.start = 0;
+    55		mapping.size = resource_size(res) - LABEL_AREA_SIZE;
+    56	
+    57		memset(&ndr_desc, 0, sizeof(ndr_desc));
+    58		ndr_desc.res = res;
+    59		ndr_desc.numa_node = numa_map_to_online_node(nid);
+    60		ndr_desc.target_node = nid;
+    61		ndr_desc.num_mappings = 1;
+    62		ndr_desc.mapping = &mapping;
+    63		ndr_desc.nd_set = nd_set;
+    64	
+    65		if (!nvdimm_pmem_region_create(nvdimm_bus, &ndr_desc))
+    66			goto err_free_nd_set;
+    67	
+    68		return 0;
+    69	
+    70	err_free_nd_set:
+  > 71		kfree(nd_set);
+    72		return -ENXIO;
+    73	}
+    74	
+    75	static int ramdax_register_dimm(struct resource *res, void *data)
+    76	{
+    77		resource_size_t start = res->start;
+    78		resource_size_t size = resource_size(res);
+    79		unsigned long flags = 0, cmd_mask = 0;
+    80		struct nvdimm_bus *nvdimm_bus = data;
+    81		struct ramdax_dimm *dimm;
+    82		int err;
+    83	
+  > 84		dimm = kzalloc(sizeof(*dimm), GFP_KERNEL);
+    85		if (!dimm)
+    86			return -ENOMEM;
+    87	
+    88		dimm->label_area = memremap(start + size - LABEL_AREA_SIZE,
+    89					    LABEL_AREA_SIZE, MEMREMAP_WB);
+    90		if (!dimm->label_area)
+    91			goto err_free_dimm;
+    92	
+    93		set_bit(NDD_LABELING, &flags);
+    94		set_bit(NDD_REGISTER_SYNC, &flags);
+    95		set_bit(ND_CMD_GET_CONFIG_SIZE, &cmd_mask);
+    96		set_bit(ND_CMD_GET_CONFIG_DATA, &cmd_mask);
+    97		set_bit(ND_CMD_SET_CONFIG_DATA, &cmd_mask);
+    98		dimm->nvdimm = nvdimm_create(nvdimm_bus, dimm,
+    99					     /* dimm_attribute_groups */ NULL,
+   100					     flags, cmd_mask, 0, NULL);
+   101		if (!dimm->nvdimm) {
+   102			err = -ENOMEM;
+   103			goto err_unmap_label;
+   104		}
+   105	
+   106		err = ramdax_register_region(res, dimm->nvdimm, nvdimm_bus);
+   107		if (err)
+   108			goto err_remove_nvdimm;
+   109	
+   110		return 0;
+   111	
+   112	err_remove_nvdimm:
+   113		nvdimm_delete(dimm->nvdimm);
+   114	err_unmap_label:
+   115		memunmap(dimm->label_area);
+   116	err_free_dimm:
+   117		kfree(dimm);
+   118		return err;
+   119	}
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
