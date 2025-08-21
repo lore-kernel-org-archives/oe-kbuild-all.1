@@ -1,60 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2A621C9ED
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 06:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6D82773D9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 06:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755756292; cv=none; b=OMBBIZI8Ah+l5F9HnlKY44zjBDdvMvp98hqlqT/yfIG2AlhvL0FAceMCbcVJIgmXt+GHvynWn87HnUM2P+ai9CtDxloMCElfxdjd8Qz94GhCDYpnjF8zq5A7O7s56Zuhx4nfO3zKbiPT897U14udzVZ5zYeFa1ZwrFYA9TFPBBw=
+	t=1755758816; cv=none; b=jqxoqYjHHKHtk7zPTSIDzJ9QGPyY++0pwfi14/jQqpGamex2eqqo6WcR24x0HdGWtQYLf4bq03dIpoylhAslPM+ZtZJ1IQrG2SS/fPN4Q5slvN/TJuNpbUqBofziH5gMyfvZwu/ltD3oVs5TEZLV8FG8ZGBPy7J5YjpwXghCvWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755756292; c=relaxed/simple;
-	bh=6jSvasqbDn198/wQE2YXzLyPHVkpsBehjoM1v63Yp84=;
+	s=arc-20240116; t=1755758816; c=relaxed/simple;
+	bh=d7RhC2fsTWwVhobWw3PonU9nT5IyDG5yahvZlbUImeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PTvQ8cJ/TEHXFaHAH5E5C/WNyDBoKiXej87M0RwgkjqGwHTTexXq8nlrBDhFGuzwk05SiMUF04BrIAao8xBA5JiKUGhVEBP2dBijU0BZgE7oJ1zt9KU7JD+5+39U6kQ2bMcMRV77ESLfvxUy7mRF1tcuTlA/FzZdsVEKwJtTXGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/I+eDK8; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=cFbsmvt9gOGF3ZCgsbW9PhIcL+vdx68gohNMoFVNaTTu77MRWdDQHbBMk9jArLXh4gVsFyAjJZputnrigviZc/0HUpWjJYo5pS5y0vQMOlV3AxgPTQ/oikdV9WaaXsfmyp5V41eM3BmrT3RPibi45oTxcihfRgsVPWlEHWrNC7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1uks7Iz; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/I+eDK8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1uks7Iz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755756290; x=1787292290;
+  t=1755758814; x=1787294814;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6jSvasqbDn198/wQE2YXzLyPHVkpsBehjoM1v63Yp84=;
-  b=h/I+eDK8Rme2J+TIk3PtolYUzD1KaWJY8SaLoP17oYMkwf9w/MRdUg1w
-   Q0IMGxW3zwagNfw+/1GkYkAv0B1xpCVLe98kuMTWO380Hhnufp3wbfX6J
-   tdhhOVw6Qdv5Z4rdeiaxjwVqTKFAQMbfojzGZBy4+zxYNB2774Wt52zv8
-   7RhGoqfKiZzhP7IMuxzCw+QKc/GFhDKxKAqIv1vYZZIaydh1CSR38IT9Z
-   wUpu0yRvKv9yUZ/DTO22QJWzujDB29EtYA0Y+TSBxsBzzBC/0aMQC4nBp
-   4yE5JTtZXNuCcKYC3KgQKKdGQ+ieTxIlc+FshtMjJIT0dY989O6A8s+Cp
+  bh=d7RhC2fsTWwVhobWw3PonU9nT5IyDG5yahvZlbUImeI=;
+  b=K1uks7IzAyOtO6slu3nEgN7pe6Q5/sHGYBTBAfTFCzCHN+JmuQmvbMPA
+   /MWL3ykHZN49n1s6Jj94p5nAhekjialcmcPNA02BqAp47ANbzcu6PeNyw
+   4RgFx1/qB3K4u1DwgbGZErqZbI+rlGcJuTxONRX7KrpcCsWzoCA//76/V
+   KOargSr39AGnzGzjqAjCnyhI++idASLrPzxiImGxUnH6odEzZN1W0m+hN
+   FrG+bUbC8LOyHFZjTAD4Jrp8moFI8pxbjqyZhpVCab63oKfzzQ6u8ijOn
+   G/M2uUNYjBhJnI+3BLeqy3P3XUHwBUX93Xh5uWiEA4JAKViu0x6grYanI
    w==;
-X-CSE-ConnectionGUID: lvOVflQ+RvCMCvb05fVQLA==
-X-CSE-MsgGUID: oLhs21EBTVSFK2RHLI/tpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57960836"
+X-CSE-ConnectionGUID: xesfWRGYRSGH9Ez3eTBSYw==
+X-CSE-MsgGUID: 5bOhVra5RbySqVPjYSBWOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="68741541"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="57960836"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 23:04:50 -0700
-X-CSE-ConnectionGUID: E52xw2KITl2K6qHxKZPPww==
-X-CSE-MsgGUID: AFhJpI0CQSOoyM51GquDJg==
+   d="scan'208";a="68741541"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 23:46:53 -0700
+X-CSE-ConnectionGUID: k1/lA4lDR/mP90NzjvyyuA==
+X-CSE-MsgGUID: 1mSzPClsREmtMFAev7O/HQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="168682080"
+   d="scan'208";a="205500084"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Aug 2025 23:04:49 -0700
+  by orviesa001.jf.intel.com with ESMTP; 20 Aug 2025 23:46:50 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uoyPn-000JzL-04;
-	Thu, 21 Aug 2025 06:04:47 +0000
-Date: Thu, 21 Aug 2025 14:03:48 +0800
+	id 1uoz48-000K1D-1V;
+	Thu, 21 Aug 2025 06:46:42 +0000
+Date: Thu, 21 Aug 2025 14:46:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH nf-next v2 3/3] netfilter: nft_set_pipapo: Use nested-BH
- locking for nft_pipapo_scratch
-Message-ID: <202508211441.Q4fISzKv-lkp@intel.com>
-References: <20250815160937.1192748-4-bigeasy@linutronix.de>
+To: Mike Looijmans <mike.looijmans@topic.nl>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Mike Looijmans <mike.looijmans@topic.nl>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] drm: bridge: Add TI tmds181 and sn65dp159 driver
+Message-ID: <202508211421.aYwuLvvk-lkp@intel.com>
+References: <20250820144128.17603-3-mike.looijmans@topic.nl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,102 +74,168 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250815160937.1192748-4-bigeasy@linutronix.de>
+In-Reply-To: <20250820144128.17603-3-mike.looijmans@topic.nl>
 
-Hi Sebastian,
+Hi Mike,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on linus/master v6.17-rc2 next-20250820]
-[cannot apply to nf-next/master horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 53e760d8949895390e256e723e7ee46618310361]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/netfilter-nft_set_pipapo-Store-real-pointer-adjust-later/20250816-001334
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20250815160937.1192748-4-bigeasy%40linutronix.de
-patch subject: [PATCH nf-next v2 3/3] netfilter: nft_set_pipapo: Use nested-BH locking for nft_pipapo_scratch
-config: x86_64-randconfig-r122-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211441.Q4fISzKv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211441.Q4fISzKv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Looijmans/dt-bindings-drm-bridge-ti-tmds181-Add-TI-TMDS181-and-SN65DP159-bindings/20250820-224316
+base:   53e760d8949895390e256e723e7ee46618310361
+patch link:    https://lore.kernel.org/r/20250820144128.17603-3-mike.looijmans%40topic.nl
+patch subject: [PATCH v3 2/2] drm: bridge: Add TI tmds181 and sn65dp159 driver
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250821/202508211421.aYwuLvvk-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211421.aYwuLvvk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508211441.Q4fISzKv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508211421.aYwuLvvk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/nft_set_pipapo_avx2.c:1176:24: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +1176 net/netfilter/nft_set_pipapo_avx2.c
+>> drivers/gpu/drm/bridge/ti-tmds181.c:292:9: warning: cast to smaller integer type 'enum tmds181_chip' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+     292 |         chip = (enum tmds181_chip)of_device_get_match_data(&client->dev);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-  1134	
-  1135	/**
-  1136	 * nft_pipapo_avx2_lookup() - Lookup function for AVX2 implementation
-  1137	 * @net:	Network namespace
-  1138	 * @set:	nftables API set representation
-  1139	 * @key:	nftables API element representation containing key data
-  1140	 *
-  1141	 * For more details, see DOC: Theory of Operation in nft_set_pipapo.c.
-  1142	 *
-  1143	 * This implementation exploits the repetitive characteristic of the algorithm
-  1144	 * to provide a fast, vectorised version using the AVX2 SIMD instruction set.
-  1145	 *
-  1146	 * Return: true on match, false otherwise.
-  1147	 */
-  1148	const struct nft_set_ext *
-  1149	nft_pipapo_avx2_lookup(const struct net *net, const struct nft_set *set,
-  1150			       const u32 *key)
-  1151	{
-  1152		struct nft_pipapo *priv = nft_set_priv(set);
-  1153		const struct nft_set_ext *ext = NULL;
-  1154		struct nft_pipapo_scratch *scratch;
-  1155		u8 genmask = nft_genmask_cur(net);
-  1156		const struct nft_pipapo_match *m;
-  1157		const struct nft_pipapo_field *f;
-  1158		unsigned long *res, *fill, *map;
-  1159		const u8 *rp = (const u8 *)key;
-  1160		bool map_index;
-  1161		int i;
-  1162	
-  1163		local_bh_disable();
-  1164	
-  1165		if (unlikely(!irq_fpu_usable())) {
-  1166			ext = nft_pipapo_lookup(net, set, key);
-  1167	
-  1168			local_bh_enable();
-  1169			return ext;
-  1170		}
-  1171	
-  1172		m = rcu_dereference(priv->match);
-  1173		scratch = *raw_cpu_ptr(m->scratch);
-  1174		if (unlikely(!scratch)) {
-  1175			local_bh_enable();
-> 1176			return false;
-  1177		}
-  1178		__local_lock_nested_bh(&scratch->bh_lock);
-  1179		/* Note that we don't need a valid MXCSR state for any of the
-  1180		 * operations we use here, so pass 0 as mask and spare a LDMXCSR
-  1181		 * instruction.
-  1182		 */
-  1183		kernel_fpu_begin_mask(0);
-  1184	
-  1185		map_index = scratch->map_index;
-  1186		map = NFT_PIPAPO_LT_ALIGN(&scratch->__map[0]);
-  1187		res  = map + (map_index ? m->bsize_max : 0);
-  1188		fill = map + (map_index ? 0 : m->bsize_max);
-  1189	
-  1190		pipapo_resmap_init_avx2(m, res);
-  1191	
-  1192		nft_pipapo_avx2_prepare();
-  1193	
-  1194	next_match:
-  1195		nft_pipapo_for_each_field(f, i, m) {
-  1196			bool last = i == m->field_count - 1, first = !i;
-  1197			int ret = 0;
-  1198	
+
+vim +292 drivers/gpu/drm/bridge/ti-tmds181.c
+
+   252	
+   253	static int tmds181_probe(struct i2c_client *client)
+   254	{
+   255		struct tmds181_data *data;
+   256		struct gpio_desc *oe_gpio;
+   257		enum tmds181_chip chip;
+   258		int ret;
+   259		u32 param;
+   260		u8 val;
+   261	
+   262		/* Check if the adapter supports the needed features */
+   263		if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+   264			return -EIO;
+   265	
+   266		data = devm_drm_bridge_alloc(&client->dev, struct tmds181_data, bridge,
+   267					     &tmds181_bridge_funcs);
+   268		if (IS_ERR(data))
+   269			return PTR_ERR(data);
+   270	
+   271		data->client = client;
+   272		i2c_set_clientdata(client, data);
+   273		data->regmap = devm_regmap_init_i2c(client, &tmds181_regmap_config);
+   274		if (IS_ERR(data->regmap))
+   275			return PTR_ERR(data->regmap);
+   276	
+   277		/* The "OE" pin acts as a reset */
+   278		oe_gpio = devm_gpiod_get_optional(&client->dev, "oe", GPIOD_OUT_LOW);
+   279		if (IS_ERR(oe_gpio)) {
+   280			ret = PTR_ERR(oe_gpio);
+   281			if (ret != -EPROBE_DEFER)
+   282				dev_err(&client->dev, "failed to acquire 'oe' gpio\n");
+   283			return ret;
+   284		}
+   285		if (oe_gpio) {
+   286			/* Need at least 100us reset pulse */
+   287			usleep_range(100, 200);
+   288			gpiod_set_value_cansleep(oe_gpio, 1);
+   289		}
+   290	
+   291		/* Reading the ID also provides enough time for the reset */
+ > 292		chip = (enum tmds181_chip)of_device_get_match_data(&client->dev);
+   293		ret = tmds181_check_id(data, &chip);
+   294		if (ret)
+   295			return ret;
+   296	
+   297		/*
+   298		 * We take care of power control, so disable the chips PM functions, and
+   299		 * allow the DDC to run at 400kHz
+   300		 */
+   301		regmap_update_bits(data->regmap, TMDS181_REG_CTRL9,
+   302				TMDS181_CTRL9_SIG_EN | TMDS181_CTRL9_PD_EN |
+   303				TMDS181_CTRL9_HPD_AUTO_PWRDWN_DISABLE |
+   304				TMDS181_CTRL9_I2C_DR_CTL,
+   305				TMDS181_CTRL9_PD_EN |
+   306				TMDS181_CTRL9_HPD_AUTO_PWRDWN_DISABLE |
+   307				TMDS181_CTRL9_I2C_DR_CTL);
+   308	
+   309		/* Apply configuration changes */
+   310		if (of_property_read_bool(client->dev.of_node, "ti,source-mode"))
+   311			regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
+   312					   TMDS181_CTRLA_MODE_SINK, 0);
+   313		if (of_property_read_bool(client->dev.of_node, "ti,sink-mode"))
+   314			regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
+   315					   TMDS181_CTRLA_MODE_SINK, TMDS181_CTRLA_MODE_SINK);
+   316	
+   317		/*
+   318		 * Using the automatic modes of the chip uses considerable power as it
+   319		 * will keep the PLL running at all times. So instead, define our own
+   320		 * threshold for the pixel rate. This also allows to use a sane default
+   321		 * of 200MHz pixel rate for the redriver-retimer crossover point, as the
+   322		 * modes below 3k don't show any benefit from the retimer.
+   323		 */
+   324		data->retimer_threshold_khz = 200000;
+   325		if (!of_property_read_u32(client->dev.of_node,
+   326					  "ti,retimer-threshold-hz", &param))
+   327			data->retimer_threshold_khz = param / 1000;
+   328	
+   329		/* Default to low-power redriver mode */
+   330		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
+   331				   TMDS181_CTRLA_DEV_FUNC_MODE, 0x00);
+   332	
+   333		if (of_property_read_bool(client->dev.of_node, "ti,adaptive-equalizer"))
+   334			regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
+   335					   TMDS181_CTRLA_EQ_EN | TMDS181_CTRLA_EQ_ADA_EN,
+   336					   TMDS181_CTRLA_EQ_EN | TMDS181_CTRLA_EQ_ADA_EN);
+   337		if (of_property_read_bool(client->dev.of_node, "ti,disable-equalizer"))
+   338			regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
+   339					   TMDS181_CTRLA_EQ_EN | TMDS181_CTRLA_EQ_ADA_EN,
+   340					   0);
+   341	
+   342		switch (chip) {
+   343		case dp159:
+   344			val = 0;
+   345			if (!of_property_read_u32(client->dev.of_node,
+   346						  "ti,slew-rate", &param)) {
+   347				if (param > 3) {
+   348					dev_err(&client->dev, "invalid slew-rate\n");
+   349					return -EINVAL;
+   350				}
+   351				/* Implement 0 = slow, 3 = fast slew rate */
+   352				val = FIELD_PREP(TMDS181_CTRLB_SLEW_CTL, (3 - param));
+   353			}
+   354			if (of_property_read_bool(client->dev.of_node, "ti,dvi-mode"))
+   355				val |= TMDS181_CTRLB_HDMI_SEL_DVI;
+   356			break;
+   357		default:
+   358			val = TMDS181_CTRLB_DDC_DR_SEL;
+   359			break;
+   360		}
+   361	
+   362		/* Default to low-speed termination */
+   363		val |= FIELD_PREP(TMDS181_CTRLB_TX_TERM_CTL, TMDS181_CTRLB_TX_TERM_150_300_OHMS);
+   364	
+   365		ret = regmap_write(data->regmap, TMDS181_REG_CTRLB, val);
+   366		if (ret < 0) {
+   367			dev_err(&client->dev, "regmap_write(B) failed\n");
+   368			return ret;
+   369		}
+   370	
+   371		/* Find next bridge in chain */
+   372		data->next_bridge = devm_drm_of_get_bridge(&client->dev, client->dev.of_node, 1, 0);
+   373		if (IS_ERR(data->next_bridge))
+   374			return dev_err_probe(&client->dev, PTR_ERR(data->next_bridge),
+   375					     "Failed to find next bridge\n");
+   376	
+   377		/* Register the bridge. */
+   378		data->bridge.of_node = client->dev.of_node;
+   379	
+   380		return devm_drm_bridge_add(&client->dev, &data->bridge);
+   381	}
+   382	
 
 -- 
 0-DAY CI Kernel Test Service
