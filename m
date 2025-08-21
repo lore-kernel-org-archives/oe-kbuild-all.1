@@ -1,206 +1,220 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D55272E7F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 07:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755760105; cv=none; b=RthrzjpO8Zl5vlC4q3olyX0E0UqDG/m09Rwmv5uknELcSMIKJ8lE3KGscHWfTrZbsxITPJffF/BTZ2ek9Wagia1G7mALxEe81KJ8NXj+Kl6J+fr3r2TYNOtsGt2Wc97H2LcFUhQHLzu6WQHx2gtGeeEvQjn0wJS9jQoXbKPiEOU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755760105; c=relaxed/simple;
-	bh=ZCxONQxrCUP/S67geZUXdCRt79/EldDfyyxESse9P5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Mgt6CI4QG2CYVEJlmtKD09rw10X5+VQRrqAnFwovEctsYhtAbVREkjlPFXwsyxkml9fLNQnUs8utjdZ0/6MwZHJdtMiuN/UwkL6LdGswDD4TPMt8n22o1TKflYv3AwdB9L8rMxSloLl4KiI3mg+FC61tw8u1fs+frYPnuRvnDJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KzQn2JPf; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F8327F732;
+	Thu, 21 Aug 2025 07:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755760404; cv=fail; b=aVZKVw2PsJI+aKF7xcN0btkX9mUM4hECLGKZkLI0gYeVK4lcPTLqB4mmObW1JMPLum0rgC11TewcVrXLfA7kp+5STAmu9x1hiitCdla8lH0jxCi7imtdxJPeEhKurJVQPpY3PCUvaS2R2oeZKkn0DVM66oKqwH0qBWtwLanTB+s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755760404; c=relaxed/simple;
+	bh=PAO4AxspZ1bMc/gqN/VUryhuhWP0g1UMnSYWxPWkV1g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s8XVmHfgWkxj0LFLXNqnwJfIkKQAyE8RKzg2ae5RlioPyQWwM1qFZz8F+ZLf0m0N3ZzPMff0P2mAztQ2SxArNwynS4868UsFLH1Bf77AcKU9RvkJ+Gjaj67rQHfqZ9jZ14FIBpRVBgKDIqujSahUMYusjF4kfpCBYB0jIQs2DCw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xelBFV62; arc=fail smtp.client-ip=40.107.243.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KzQn2JPf"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b9dc55d84bso651706f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 00:08:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755760101; x=1756364901; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=e5dFFpBJkDJIzVB2v06DsZG1x2Vfn3FJLmSjQNn252A=;
-        b=KzQn2JPfjtLQ/L5ODKx63jhozV5kdcwDs4ZVvYLcb+G4C6Gw32JGeSkO7A28Hlf/2t
-         ex9RqEg6cWxiLyM0Rb9AdxpGjHLyAHlvyt9TkKJVoF4PVdmC4MiFPl9Klj9QKGwCck/A
-         fKBYB0i8uDIC+2EhD4cpoH+9MLRfT2SJzR4zgMqmse+6E3pBxOT6sOEMgUIL3kC+3kBc
-         7SRPlAdtDhHq9FBYIzU0JLmC941N3Ub+AzFJAjrxWq0Iu59fBRvw11Gj9TEscRIHwZU5
-         nolwQH065G55DSIdHIioT2T9i7L3dSeFx+IOgab11Cza289XZo8pFyndfz2HAhVP6dhC
-         bkLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755760101; x=1756364901;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e5dFFpBJkDJIzVB2v06DsZG1x2Vfn3FJLmSjQNn252A=;
-        b=v+Pt+e6n2GtM2FvMisLJIFfEKz66l2Gzic5RZZMnLq6crEtfnRw9DPl5/Mj54EuzuX
-         hAHbwrgxmfL/npfdKKDbijknMcQyh60d+KKxoYg5xAiXj9aZrUlmgX9WMGVXnMQ++YC0
-         eVzFiVQifhmxQ8A+nRsKz+cSWM+iqSuF58+E6NLllV9wLO4mLXHGSnJsbB2J5E7ptK11
-         HcMmcOxPEJtMr1lVA3V8KvXFMvB2hjGyaqFDzOYwv+ETjN0YhqityjFkO4gRylUysUyE
-         VhMXxssA3Oc9cvvaEP8yIyf3hWi60AhkHUHQ8nfVwfksx7Bh8YuBnCxSbIcUVd+jC4Xi
-         BfxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWoDjjvLrAUgXPYdFkJ72ysgjkNDMCq4bIyvQCQOuYih/ya5ntVVRL3ewnDhui+9pfAL/hMI8Ze/W0u8QOJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+zX8dA/HlXcy2D9zoKrFPM/wm/4Cmp90M14X4UC/vNqJi9lrB
-	zr1417hFNxC+zWpUqswGpyBrZMXJvzf0qRnaumbQgSluF2ebULEpxz2xZT19q5W81Ik=
-X-Gm-Gg: ASbGncsK3Ape3URinhS0oqLt0tqkvxbEHd6Xk8uHnEqMtFXIX3Ln9IRoW7l2rqhBesa
-	O5rVrWDCDU9psFraEnOBlPPFLz0ETPYZ+luQ4KVWVXYw9CkuEQ6MADWlRtpuIkx1k6dklVSnv6w
-	vKIAt+wEqIZgMXscqwWkM0W6iMQf/oPPJJgEiIviNgViGRAa6cCYYGbvcGn6sHv4qtq2eSN/NCT
-	vIBPYqrtsRb0SQWa5KZedkpreI8a9EdXvRhBgk+hnXydYrC2HEQirQs5g/2Bp01AsQYZ3OvZTP/
-	AjUsQQtZ601c0HH6wO+DTJ+B4zFH6eqjUjiGQx91ND2ddPRaBiB+8EtOyCK1QtRyjsEEF1BAaXs
-	xmaiWLaPH2oiRQ4funDBuTdby7i4=
-X-Google-Smtp-Source: AGHT+IExPc1JTzW/1siA2DUdhTqJRYiZcNLJAGd22k94vc7c2Tz1Q/mdScQ7HsVKRyfP9FE1+uWN1Q==
-X-Received: by 2002:a05:6000:1a8d:b0:3c3:5406:12b8 with SMTP id ffacd0b85a97d-3c497836ba0mr1067684f8f.60.1755760101158;
-        Thu, 21 Aug 2025 00:08:21 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b4db2aff9sm14763585e9.10.2025.08.21.00.08.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 00:08:20 -0700 (PDT)
-Date: Thu, 21 Aug 2025 10:08:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alexander Kurz <akurz@blala.de>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alexander Kurz <akurz@blala.de>
-Subject: Re: [PATCH 4/6] Input: mc13783-pwrbutton: convert members to array
-Message-ID: <202508210551.VzAtE5re-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xelBFV62"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ehDtgpfUFGEFQq2WWtPcsvzdacD+TI4/S1zMB8xuymBcLH9u+NDFN5OlcUY4tx28MPYtp2vAeH9IjV+8MvvlsXR895x0j0JNvS8fyoiEnM0V9lrVMQKHFnEwCyzCOqsfQ5ue+HruMQdZ0106EFFmDspwtYu9bhNuk5HMgyD5LkRVf+w0hg3kHjMwtebZ3nzNQOUjgGWtnjLnTLk2qjkWo3blENMBiyTQJ4rB2yYcREReVoGKexptS1EoasUD+AEkOHP2f2RO3nt8uQN3NVAq5BkhiXCZkCfW8y1dDHm7iGpZCBrx8urESIILz9A80xKbQCK/M+vjd3nW06pfjpFgMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q+ReWXz4AOR5NBW05Dl4zFJz7bpm+7af6bMofYaInHM=;
+ b=Yx37G+B4k5Zms34x/U5ed+a8d8PKNkG9cttfVYmh7X3PZo+itKvI4Ob/kKzNZXlZPh4R+ufVVmkm/nvoYh2AT39WcSeIklFfJ/0hFlxNAHceaQOMpHpMZrTHiijpCo8cPnSSFzdtNxrGZd463sBehAtcUNplr20u2BaiW2yXiV3D8utRBa3ZYnHoSqfphHcRfT8fQhlVBqV1Ra5Av9jYiDgaGbMeVI1C/f48AT3aBodkTvcSzSRCqXxOPX2sVsyxJYBsewt8NTaEAcOtvhZ32XOK+jR/wFqd6zisy/F2u2gR9yZeWI0VWUUxv3NHpnP6EgRIthVemOioPe0r9qko4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=arndb.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q+ReWXz4AOR5NBW05Dl4zFJz7bpm+7af6bMofYaInHM=;
+ b=xelBFV62sZm+rofMyKFAz1xeBLVJcDuavhH1fv/eYI8fEumXDwjAMyLymMyfz85lF35OYL/xY6W+cVxGPjJ5HoBUS7BEHjobtW4afDbGUf9Q7bPy4ooYEEZzYxgLWBVX8zcfTMWdfNAhgNzjt11LsvmnB8MBCi/1Z9E8eaOSnUw=
+Received: from BL6PEPF00016410.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1004:0:17) by PH0PR12MB8099.namprd12.prod.outlook.com
+ (2603:10b6:510:29d::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.25; Thu, 21 Aug
+ 2025 07:13:18 +0000
+Received: from BN2PEPF00004FBE.namprd04.prod.outlook.com
+ (2a01:111:f403:c803::7) by BL6PEPF00016410.outlook.office365.com
+ (2603:1036:903:4::a) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.15 via Frontend Transport; Thu,
+ 21 Aug 2025 07:13:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF00004FBE.mail.protection.outlook.com (10.167.243.184) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9052.8 via Frontend Transport; Thu, 21 Aug 2025 07:13:18 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
+ 2025 02:13:17 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
+ 2025 02:13:16 -0500
+Received: from xhdnipung41x.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 21 Aug 2025 02:13:12 -0500
+From: Nipun Gupta <nipun.gupta@amd.com>
+To: <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <nikhil.agarwal@amd.com>
+CC: <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, <robin.murphy@arm.com>, <krzk@kernel.org>,
+	<tglx@linutronix.de>, <maz@kernel.org>, <linux@weissschuh.net>,
+	<chenqiuji666@gmail.com>, <peterz@infradead.org>, <robh@kernel.org>,
+	<abhijit.gangurde@amd.com>, <nathan@kernel.org>, <nipun.gupta@amd.com>, "Arnd
+ Bergmann" <arnd@kernel.org>
+Subject: [PATCH v2 1/2] cdx: don't select CONFIG_GENERIC_MSI_IRQ
+Date: Thu, 21 Aug 2025 12:43:07 +0530
+Message-ID: <20250821071308.1572106-1-nipun.gupta@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250817102751.29709-5-akurz@blala.de>
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB05.amd.com: nipun.gupta@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBE:EE_|PH0PR12MB8099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ead3589-fa62-4393-402e-08dde0823413
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ATzkNq5Xfe+Ec161+WYvEa7MVLoy54RWoPQs9DZTR97AszVAnEtMKmVSojJi?=
+ =?us-ascii?Q?4xdJv8p58WAaq7MCo+6YzodgZdhyst7ngKjnHPhBDI8sVxaIWQLmRf+hEodf?=
+ =?us-ascii?Q?IoZua9CPW/2Db8FV5Sbc2aFXk47zD/vKLxPgkNpXisvMqn62suDYshdWTwJw?=
+ =?us-ascii?Q?DuKqsjSWv9+8003ILjx1x6IUsMwj6/je33N5rODH2ezcGateB4nCXEmM4yD0?=
+ =?us-ascii?Q?7lxWIxRRPHd4TXXyPJkxBatH9nzYNRprQuMdrMHK7SOY/YBlUNYJRjEWXAzF?=
+ =?us-ascii?Q?jp8C97M9IQJJAT6GquuBuUObTDi5dBiSGbp8oY6703iSg00Zgm13l5pa5SPf?=
+ =?us-ascii?Q?eb3poIiEc/DeZfukLlJC+rSdJ6vWYD7Nn+MB9ffOhZ0G0H2uddpEZx8STGON?=
+ =?us-ascii?Q?5pInemYuaq5p56h/XpMIxazM/t6zIUiRrb67xvpozT7Zvwn5k7rRrgBueTmw?=
+ =?us-ascii?Q?VJF73MqZj88kk88pY+5ty422qEKywsLGivnW0SRm+mTLwB6EbZL/9/zkUGAn?=
+ =?us-ascii?Q?XCooJNyYS9NO35mNfvKcWZVoD0Gtc5bN0Ezw9e9wQiViVAhBQ4QKEqZ3im+G?=
+ =?us-ascii?Q?XsRAdCJkcbgF+prfRm9yPO4HdFu6tTYp/f8Ak+CBEqDOU93esdnZP/R7eJC8?=
+ =?us-ascii?Q?4pfguaf+1UkXy6z9fMzQuHlqXHOQ8RjLlmTLg/7p84cVYdaZmJlUBYSCKpom?=
+ =?us-ascii?Q?fUCfMi8Q0zIo4n7kA6KTM0LwYQYC3hfxr17FUagIkDSfh1XRZdk3b7OJbS6M?=
+ =?us-ascii?Q?mJnMtUU7lB0GdcH2BRV8LBNBn69t05MU7bu8TgrlHtF+vDCJJ4aYgomUZLLj?=
+ =?us-ascii?Q?JM0i+PUQEsCJ5L6jBZUEbsoN5DiU2qpO9Rmf6vkfl+aSElYXcokVyKABLJo/?=
+ =?us-ascii?Q?jiLAOIUCOJ7XC3EojYMQvHNv39D+1bcP6spFEnZCzS3XYIl/SRYhFqxumQ6P?=
+ =?us-ascii?Q?93ELPrNsaVbJUvEeSA1rA1ehc99wsQz8Cjzk4SwPFTBdTFq5KtR3WKS+zxhc?=
+ =?us-ascii?Q?Y8WTOfVpWALRdIoj+cgiJ1c6mNnZdbPIjz30KWpvbwzlv1qQTLsN7dB18Unw?=
+ =?us-ascii?Q?4hgfCwabaej+oSYMU7NukEVjq7umZFy2I1XVHiJd4jHpDKemoiSapJ9Gph8F?=
+ =?us-ascii?Q?4vNOnlZe0EcoOYHlGFo6/IXI3UYqkQtPeySCw6a4YyYFdWm/lYeBTppruSQS?=
+ =?us-ascii?Q?cKQULaGcEOL4NoONixXORtYK4hzGmx+xQ45jJWa30IKZKE8N5t1h5WlHERYJ?=
+ =?us-ascii?Q?Mhgtavi7PGlFvRq7lpEqFsp+dPvMWhlNbMoZJWF9b57j5rxwR0DrZHhTEWs8?=
+ =?us-ascii?Q?LWKnx/MmWdqIVfDUvuY70+sXbNtRr00s9hbh4KEAojCam7n8sX7XdlFnno6/?=
+ =?us-ascii?Q?JtOIApA9TqJW+lH9/cOzYl6xb162KqJy1+vLr5LxrHjADhlJBJQrFjQxn4Il?=
+ =?us-ascii?Q?LMaudK6+Y044rgFoxT+WuXpL8OGwWkkG2hAmQUAAKsutA1tuKqN4dwlPjFSO?=
+ =?us-ascii?Q?R99CU/eFOrSVe3tpSJ37ydQH0f9PwdQhmbY9?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 07:13:18.0095
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ead3589-fa62-4393-402e-08dde0823413
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FBE.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8099
 
-Hi Alexander,
+From: Arnd Bergmann <arnd@kernel.org>
 
-kernel test robot noticed the following build warnings:
+x86 does not use CONFIG_GENERIC_MSI_IRQ, and trying to enable it anyway
+results in a build failure:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In file included from include/linux/ssb/ssb.h:10,
+                 from drivers/ssb/pcihost_wrapper.c:18:
+include/linux/gpio/driver.h:41:33: error: field 'msiinfo' has incomplete type
+   41 |         msi_alloc_info_t        msiinfo;
+      |                                 ^~~~~~~
+In file included from include/linux/kvm_host.h:19,
+                 from arch/x86/events/intel/core.c:17:
+include/linux/msi.h:528:33: error: field 'alloc_info' has incomplete type
+  528 |         msi_alloc_info_t        alloc_info;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Kurz/Input-mc13783-pwrbutton-fix-irq-mixup/20250817-182649
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20250817102751.29709-5-akurz%40blala.de
-patch subject: [PATCH 4/6] Input: mc13783-pwrbutton: convert members to array
-config: i386-randconfig-141-20250820 (https://download.01.org/0day-ci/archive/20250821/202508210551.VzAtE5re-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Change the driver to actually build without this symbol and remove the
+incorrect 'select' statements.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508210551.VzAtE5re-lkp@intel.com/
+Fixes: e8b18c11731d ("cdx: Fix missing GENERIC_MSI_IRQ on compile test")
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Reviewed-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+---
 
-New smatch warnings:
-drivers/input/misc/mc13783-pwrbutton.c:185 mc13783_pwrbutton_probe() error: buffer overflow 'pdata->b_on_key' 3 <= 3
+No change in this patch from v1 -> v2 (change is in patch 2/2)
 
-vim +185 drivers/input/misc/mc13783-pwrbutton.c
+ drivers/cdx/Kconfig                     | 1 -
+ drivers/cdx/cdx.c                       | 2 +-
+ drivers/cdx/controller/Kconfig          | 1 -
+ drivers/cdx/controller/cdx_controller.c | 3 ++-
+ 4 files changed, 3 insertions(+), 4 deletions(-)
 
-5298cc4cc753bb Bill Pemberton    2012-11-23  108  static int mc13783_pwrbutton_probe(struct platform_device *pdev)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  109  {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  110  	const struct mc13xxx_buttons_platform_data *pdata;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  111  	struct mc13xxx *mc13783 = dev_get_drvdata(pdev->dev.parent);
-739ba46c8b2ddb Alexander Kurz    2025-08-17  112  	enum mc13xxx_chip_type chip = platform_get_device_id(pdev)->driver_data;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  113  	struct input_dev *pwr;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  114  	struct mc13783_pwrb *priv;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  115  	int err = 0;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  116  	int reg = 0;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  117  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  118  	pdata = dev_get_platdata(&pdev->dev);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  119  	if (!pdata) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  120  		dev_err(&pdev->dev, "missing platform data\n");
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  121  		return -ENODEV;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  122  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  123  
-173a22b931fb1b Alexander Kurz    2025-08-17  124  	pwr = devm_input_allocate_device(&pdev->dev);
-173a22b931fb1b Alexander Kurz    2025-08-17  125  	if (!pwr)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  126  		return -ENOMEM;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  127  
-173a22b931fb1b Alexander Kurz    2025-08-17  128  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-173a22b931fb1b Alexander Kurz    2025-08-17  129  	if (!priv)
-173a22b931fb1b Alexander Kurz    2025-08-17  130  		return -ENOMEM;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  131  
-739ba46c8b2ddb Alexander Kurz    2025-08-17  132  	/* ONOFD3 is only supported for MC13783. */
-fc0cc88dc308bc Alexander Kurz    2025-08-17  133  	if (pdata->b_on_flags[2] & MC13783_BUTTON_ENABLE &&
-739ba46c8b2ddb Alexander Kurz    2025-08-17  134  		chip != MC13XXX_CHIP_TYPE_MC13783)
-739ba46c8b2ddb Alexander Kurz    2025-08-17  135  		return -ENODEV;
-739ba46c8b2ddb Alexander Kurz    2025-08-17  136  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  137  	reg |= (pdata->b_on_flags[0] & 0x3) << MC13783_POWER_CONTROL_2_ON1BDBNC;
-fc0cc88dc308bc Alexander Kurz    2025-08-17  138  	reg |= (pdata->b_on_flags[1] & 0x3) << MC13783_POWER_CONTROL_2_ON2BDBNC;
-fc0cc88dc308bc Alexander Kurz    2025-08-17  139  	reg |= (pdata->b_on_flags[2] & 0x3) << MC13783_POWER_CONTROL_2_ON3BDBNC;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  140  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  141  	priv->pwr = pwr;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  142  	priv->mc13783 = mc13783;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  143  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  144  	mc13xxx_lock(mc13783);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  145  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  146  	if (pdata->b_on_flags[0] & MC13783_BUTTON_ENABLE) {
-fc0cc88dc308bc Alexander Kurz    2025-08-17  147  		priv->keymap[0] = pdata->b_on_key[0];
-fc0cc88dc308bc Alexander Kurz    2025-08-17  148  		if (pdata->b_on_key[0] != KEY_RESERVED)
-fc0cc88dc308bc Alexander Kurz    2025-08-17  149  			__set_bit(pdata->b_on_key[0], pwr->keybit);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  150  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  151  		if (pdata->b_on_flags[0] & MC13783_BUTTON_POL_INVERT)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  152  			priv->flags |= MC13783_PWRB_B1_POL_INVERT;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  153  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  154  		if (pdata->b_on_flags[0] & MC13783_BUTTON_RESET_EN)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  155  			reg |= MC13783_POWER_CONTROL_2_ON1BRSTEN;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  156  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  157  		err = mc13xxx_irq_request(mc13783, MC13783_IRQ_ONOFD1,
-4eeb8abb43c2b7 Alexander Kurz    2025-08-17  158  					  button1_irq, "b1on", priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  159  		if (err) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  160  			dev_dbg(&pdev->dev, "Can't request irq\n");
-173a22b931fb1b Alexander Kurz    2025-08-17  161  			goto free_mc13xxx_lock;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  162  		}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  163  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  164  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  165  	if (pdata->b_on_flags[1] & MC13783_BUTTON_ENABLE) {
-fc0cc88dc308bc Alexander Kurz    2025-08-17  166  		priv->keymap[1] = pdata->b_on_key[1];
-fc0cc88dc308bc Alexander Kurz    2025-08-17  167  		if (pdata->b_on_key[1] != KEY_RESERVED)
-fc0cc88dc308bc Alexander Kurz    2025-08-17  168  			__set_bit(pdata->b_on_key[1], pwr->keybit);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  169  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  170  		if (pdata->b_on_flags[1] & MC13783_BUTTON_POL_INVERT)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  171  			priv->flags |= MC13783_PWRB_B2_POL_INVERT;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  172  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  173  		if (pdata->b_on_flags[1] & MC13783_BUTTON_RESET_EN)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  174  			reg |= MC13783_POWER_CONTROL_2_ON2BRSTEN;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  175  
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  176  		err = mc13xxx_irq_request(mc13783, MC13783_IRQ_ONOFD2,
-4eeb8abb43c2b7 Alexander Kurz    2025-08-17  177  					  button2_irq, "b2on", priv);
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  178  		if (err) {
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  179  			dev_dbg(&pdev->dev, "Can't request irq\n");
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  180  			goto free_irq_b1;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  181  		}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  182  	}
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  183  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  184  	if (pdata->b_on_flags[2] & MC13783_BUTTON_ENABLE) {
-fc0cc88dc308bc Alexander Kurz    2025-08-17 @185  		priv->keymap[2] = pdata->b_on_key[3];
-                                                                                                  ^
-fc0cc88dc308bc Alexander Kurz    2025-08-17  186  		if (pdata->b_on_key[3] != KEY_RESERVED)
-                                                                                    ^
-fc0cc88dc308bc Alexander Kurz    2025-08-17  187  			__set_bit(pdata->b_on_key[3], pwr->keybit);
-                                                                                  ^^^^^^^^^^^^^^^^^^
-Smatch thinks there are only 3 elements in this array so it's off by one.
-
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  188  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  189  		if (pdata->b_on_flags[2] & MC13783_BUTTON_POL_INVERT)
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  190  			priv->flags |= MC13783_PWRB_B3_POL_INVERT;
-30fc7ac3f62945 Philippe Rétornaz 2011-09-18  191  
-fc0cc88dc308bc Alexander Kurz    2025-08-17  192  		if (pdata->b_on_flags[2] & MC13783_BUTTON_RESET_EN)
-
+diff --git a/drivers/cdx/Kconfig b/drivers/cdx/Kconfig
+index 3af41f51cf38..1f1e360507d7 100644
+--- a/drivers/cdx/Kconfig
++++ b/drivers/cdx/Kconfig
+@@ -8,7 +8,6 @@
+ config CDX_BUS
+ 	bool "CDX Bus driver"
+ 	depends on OF && ARM64 || COMPILE_TEST
+-	select GENERIC_MSI_IRQ
+ 	help
+ 	  Driver to enable Composable DMA Transfer(CDX) Bus. CDX bus
+ 	  exposes Fabric devices which uses composable DMA IP to the
+diff --git a/drivers/cdx/cdx.c b/drivers/cdx/cdx.c
+index 092306ca2541..1a5c95ba09ba 100644
+--- a/drivers/cdx/cdx.c
++++ b/drivers/cdx/cdx.c
+@@ -310,7 +310,7 @@ static int cdx_probe(struct device *dev)
+ 	 * Setup MSI device data so that generic MSI alloc/free can
+ 	 * be used by the device driver.
+ 	 */
+-	if (cdx->msi_domain) {
++	if (IS_ENABLED(CONFIG_GENERIC_MSI_IRQ) && cdx->msi_domain) {
+ 		error = msi_setup_device_data(&cdx_dev->dev);
+ 		if (error)
+ 			return error;
+diff --git a/drivers/cdx/controller/Kconfig b/drivers/cdx/controller/Kconfig
+index 0641a4c21e66..a480b62cbd1f 100644
+--- a/drivers/cdx/controller/Kconfig
++++ b/drivers/cdx/controller/Kconfig
+@@ -10,7 +10,6 @@ if CDX_BUS
+ config CDX_CONTROLLER
+ 	tristate "CDX bus controller"
+ 	depends on HAS_DMA
+-	select GENERIC_MSI_IRQ
+ 	select REMOTEPROC
+ 	select RPMSG
+ 	help
+diff --git a/drivers/cdx/controller/cdx_controller.c b/drivers/cdx/controller/cdx_controller.c
+index fca83141e3e6..5e3fd89b6b56 100644
+--- a/drivers/cdx/controller/cdx_controller.c
++++ b/drivers/cdx/controller/cdx_controller.c
+@@ -193,7 +193,8 @@ static int xlnx_cdx_probe(struct platform_device *pdev)
+ 	cdx->ops = &cdx_ops;
+ 
+ 	/* Create MSI domain */
+-	cdx->msi_domain = cdx_msi_domain_init(&pdev->dev);
++	if (IS_ENABLED(CONFIG_GENERIC_MSI_IRQ))
++		cdx->msi_domain = cdx_msi_domain_init(&pdev->dev);
+ 	if (!cdx->msi_domain) {
+ 		ret = dev_err_probe(&pdev->dev, -ENODEV, "cdx_msi_domain_init() failed");
+ 		goto cdx_msi_fail;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
 
