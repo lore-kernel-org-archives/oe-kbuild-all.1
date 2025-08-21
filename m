@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1B82EE26F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 09:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C09F2DA77B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 09:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755767781; cv=none; b=UYOq7PYXmbV6FpL6suLXqh2vqNBTVLh5p66NgbHJxz2ZywaKcWiFRBpFNVV+9A0hRHz3oL7I76QyON+GBE4H5WXypTNUV3sDwS1xd/k2nww3VdWqI664BYRflJqzbuKNV9XLO/V791+Mzp89GWDLibUJ8i7pYVYRg+xVyr1mn6c=
+	t=1755769172; cv=none; b=tF36Ib0irwE0uZPr6XAShWt/gJj6mHZh+yTOG9jqR41vbo4qEfO1f0iasq2ZtKEZBBph/Udol1K7pnbhstNx5wv3T/OHHBfS1yDtHyyJy1FFDTxNw8XwoE4Cj0Bz4BJc93A47b/CGwlP2RqS62YBITnHt+c30jGXRaFFensjJZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755767781; c=relaxed/simple;
-	bh=bH7J9sU1SOfmcN64Nc4/PP/9wHwVippM8whyoDh4Q9c=;
+	s=arc-20240116; t=1755769172; c=relaxed/simple;
+	bh=1ElbXRTpxTNqlvMv/v/uJylRQyQ6xnlrO9Zr2BEUfTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ny54MEOrV+JvSiFbOFfL0RpGK41vvjBFf5rsZwMpIKZRgMVZmF0u6E+rnWpFPYWini/ib+UicpzXkuv6KGf/+vpkkVymvFaGG2yKY+5PW2yD5jQqPSYx/kz6nFAh6zaBytRBc0crieB65ML+eaHtvNBM1p7Q7RJg+2cFJiTfvC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJr079gF; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition:In-Reply-To; b=jn9P5QfsYcXwB4akZtdUB4eT/tieQ3TTMjKDyBfTuIOnnNHpCGh/xWdsFMhqns2zTJReSxxoqbU2SCsDYHrluXkvSR45mPzhGS0J3JruCxtCifqxmnWZSb0I29NkAHjFqp+CnGa696oNzBzLEXKAs9wVijxfRORLeUF3RUJgP8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uu6gVcmx; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJr079gF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uu6gVcmx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755767779; x=1787303779;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bH7J9sU1SOfmcN64Nc4/PP/9wHwVippM8whyoDh4Q9c=;
-  b=RJr079gF1pyUNvxLuQo4opN3kzOYTkiyKgt9zytuKE6QGTPcSo8uQHL/
-   UIgrxlljliMDfl0luwvB06PyR0xJyb5L+wXwOKp+WfFjvNDT0M+vlsT3d
-   sW7Cd2plDItX6P4O/Qo6qAO1eCvDPDgPSolIoxdMa0ArGJhSDZbND1F9s
-   Pdzb4x60cArVThcKySYca//+bSiAzafJygxRgKYI4aWazx3lYMaeoOav5
-   lNm2J6NS2q/IoVjYsdZDk2fTqAMwED2eLK4SqxQrvIZVs5J54PWRCcs8c
-   AYPIvrkMg0PX0SuY2TEslrud83zvvJTyI/ksiT14VO/N7nB24aabsGrFP
-   Q==;
-X-CSE-ConnectionGUID: 4NB95lBgSwKyTZ563qe9jA==
-X-CSE-MsgGUID: MwJRmkWAQ/2O2JGic2sEJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="68755472"
+  t=1755769171; x=1787305171;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=1ElbXRTpxTNqlvMv/v/uJylRQyQ6xnlrO9Zr2BEUfTI=;
+  b=Uu6gVcmx1u5ya+eUI9193dCkM++I6Qvsslivs+jumltnRLw8bDU2FrxI
+   iEJs+zfZkdU+0eJovUeJkqlRjJiauHn8Vav/5nlVK7jIHamNfihDoVpDq
+   sE4dBvDKp+pJ7h08aTxlGObSPy6GANts3CiGjTP8KUFwt7utIQ3731gRP
+   m/xARWW1gpxYvXN11zDy1T/KnpX3gGNoIgsmp3zXNB6hCjcrPZul8InIx
+   XLCIGOXE1mKjupzKTC2p/8CLHhYVU+Mq9ux7PZqPkPFF3X8gySsPwf/mQ
+   g4Fiqki139k5mitUblqsspObBACqkiB6nj4d8YJoTLGvHSs0KeOpS0ia8
+   A==;
+X-CSE-ConnectionGUID: g7bl3UbyRKGgnf3s5Kc2Bg==
+X-CSE-MsgGUID: kfMuFb7ERnObsWIpkPPheg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57255258"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="68755472"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 02:16:19 -0700
-X-CSE-ConnectionGUID: rE+8BfBiT3eAadz6WysL2w==
-X-CSE-MsgGUID: mlNuUNJMSTiCXja+29IoLg==
+   d="scan'208";a="57255258"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 02:39:30 -0700
+X-CSE-ConnectionGUID: xn5tSe9sQ+mn38AH5tvE+A==
+X-CSE-MsgGUID: ZwXDFX/qQbifzgUAHbP66Q==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Aug 2025 02:16:18 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="172592309"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 21 Aug 2025 02:39:30 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1up1P5-0001iF-1m;
-	Thu, 21 Aug 2025 09:16:15 +0000
-Date: Thu, 21 Aug 2025 11:15:44 +0200
+	id 1up1lX-000K9j-00;
+	Thu, 21 Aug 2025 09:39:27 +0000
+Date: Thu, 21 Aug 2025 17:38:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 4/4] include/linux/rcupdate.h:371:9:
- error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-Message-ID: <202508211112.J6U6Jkex-lkp@intel.com>
+To: Harry Yoo <harry.yoo@oracle.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mm: fix KASAN build error due to p*d_populate_kernel()
+Message-ID: <aKbpJDVnjOC41cTM@85d67d3e4d56>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,163 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250821093542.37844-1-harry.yoo@oracle.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   f405d5f9137b73c974509f22235b46df04196e22
-commit: a905086c85cb076b98620df34ee237ece7c0599f [4/4] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
-config: arm-randconfig-2006-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211112.J6U6Jkex-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211112.J6U6Jkex-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508211112.J6U6Jkex-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   In file included from include/linux/rculist.h:11:0,
-                    from include/linux/dcache.h:7,
-                    from include/linux/fs.h:8,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from fs/aio.c:18:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
->> include/linux/rcupdate.h:371:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:481:31: note: in expansion of macro '__rcu_access_pointer'
-    #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-     return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-            ^~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/rculist.h:11:0,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/sched/numa_balancing.h:10,
-                    from include/trace/events/sched.h:8,
-                    from kernel/sched/core.c:10:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
->> include/linux/rcupdate.h:371:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:481:31: note: in expansion of macro '__rcu_access_pointer'
-    #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-     return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-            ^~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c: In function 'ttwu_stat':
-   kernel/sched/core.c:2622:13: warning: variable 'rq' set but not used [-Wunused-but-set-variable]
-     struct rq *rq;
-                ^~
---
-   In file included from include/linux/rculist.h:11:0,
-                    from include/linux/dcache.h:7,
-                    from include/linux/fs.h:8,
-                    from include/uapi/linux/aio_abi.h:31,
-                    from include/linux/syscalls.h:73,
-                    from io_uring/io_uring.c:45:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
->> include/linux/rcupdate.h:371:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:481:31: note: in expansion of macro '__rcu_access_pointer'
-    #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-     return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-            ^~~~~~~~~~~~~~~~~~
-   io_uring/io_uring.c: In function 'io_queue_async_work':
-   io_uring/io_uring.c:1483:61: warning: parameter 'locked' set but not used [-Wunused-but-set-parameter]
-    static void io_queue_async_work(struct io_kiocb *req, bool *locked)
-                                                                ^~~~~~
---
-   In file included from include/linux/rbtree.h:22:0,
-                    from include/linux/mm_types.h:10,
-                    from include/linux/mmzone.h:21,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from mm/mmap.c:13:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
->> include/linux/rcupdate.h:371:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:481:31: note: in expansion of macro '__rcu_access_pointer'
-    #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-     return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-            ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/hugetlb.h:15:0,
-                    from mm/mmap.c:28:
-   include/linux/userfaultfd_k.h:82:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
---
-   In file included from include/linux/rculist.h:11:0,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from mm/compaction.c:11:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
->> include/linux/rcupdate.h:371:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:481:31: note: in expansion of macro '__rcu_access_pointer'
-    #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-     return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-            ^~~~~~~~~~~~~~~~~~
-   At top level:
-   mm/compaction.c:61:27: warning: 'HPAGE_FRAG_CHECK_INTERVAL_MSEC' defined but not used [-Wunused-const-variable=]
-    static const unsigned int HPAGE_FRAG_CHECK_INTERVAL_MSEC = 500;
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +371 include/linux/rcupdate.h
-
-53ecfba259f54b6 Paul E. McKenney        2010-09-13  368  
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  369  #define __rcu_access_pointer(p, space) \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  370  ({ \
-7d0ae8086b82831 Paul E. McKenney        2015-03-03 @371  	typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-423a86a610cad12 Joel Fernandes (Google  2018-12-12  372) 	rcu_check_sparse(p, space); \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  373  	((typeof(*p) __force __kernel *)(_________p1)); \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  374  })
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  375  #define __rcu_dereference_check(p, c, space) \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  376  ({ \
-ac59853c06993a4 Pranith Kumar           2014-11-13  377  	/* Dependency order vs. p above. */ \
-506458efaf153c1 Will Deacon             2017-10-24  378  	typeof(*p) *________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-f78f5b90c4ffa55 Paul E. McKenney        2015-06-18  379  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
-423a86a610cad12 Joel Fernandes (Google  2018-12-12  380) 	rcu_check_sparse(p, space); \
-ac59853c06993a4 Pranith Kumar           2014-11-13  381  	((typeof(*p) __force __kernel *)(________p1)); \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  382  })
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  383  #define __rcu_dereference_protected(p, c, space) \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  384  ({ \
-f78f5b90c4ffa55 Paul E. McKenney        2015-06-18  385  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
-423a86a610cad12 Joel Fernandes (Google  2018-12-12  386) 	rcu_check_sparse(p, space); \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  387  	((typeof(*p) __force __kernel *)(p)); \
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  388  })
-995f1405610bd84 Paul E. McKenney        2016-07-01  389  #define rcu_dereference_raw(p) \
-995f1405610bd84 Paul E. McKenney        2016-07-01  390  ({ \
-995f1405610bd84 Paul E. McKenney        2016-07-01  391  	/* Dependency order vs. p above. */ \
-506458efaf153c1 Will Deacon             2017-10-24  392  	typeof(p) ________p1 = READ_ONCE(p); \
-995f1405610bd84 Paul E. McKenney        2016-07-01  393  	((typeof(*p) __force __kernel *)(________p1)); \
-995f1405610bd84 Paul E. McKenney        2016-07-01  394  })
-ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  395  
-
-:::::: The code at line 371 was first introduced by commit
-:::::: 7d0ae8086b828311250c6afdf800b568ac9bd693 rcu: Convert ACCESS_ONCE() to READ_ONCE() and WRITE_ONCE()
-
-:::::: TO: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] mm: fix KASAN build error due to p*d_populate_kernel()
+Link: https://lore.kernel.org/stable/20250821093542.37844-1-harry.yoo%40oracle.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
