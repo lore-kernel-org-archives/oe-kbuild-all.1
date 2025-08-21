@@ -1,162 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6913831355C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 20:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3DA393DD9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 20:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755808464; cv=none; b=R1xwNySymVWMI1m3B+FEdSQkqhdoX73lWHjJy4frLBnXkJbcJKOnlg+RfQCoKfKqKLBlEytAscHWdBPCvlhAsCTRBgNoPXI5RhRle2yakaxi4f/zUlPGeMUegQqmmE0coUfrxViHi18iC8XiRs1VTe67ww80Fx+3q4HP0hBQlHM=
+	t=1755809999; cv=none; b=e5JZbgXRv0/D0en3OPRAMl/YneuD8iR8XAcOipjHds+gUu3HEz5JM14Qp00X9IuMKs/GwhM1w183W5EGfO386QUOQ3Hit//dW8Fy3dMvWMThth/M3eqkeVfe/bqpCnA+hwuCGg/+sN0g61YtppHoGjoE0UZPIpdMVzeHJELv4dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755808464; c=relaxed/simple;
-	bh=U0Zv9xWVRHMVUW3bwnQ1taT/AfB91xGbJzGBFeVtNdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ieeze4AoOzXuFu5NF5sG0JM546JN4EcKDYiYH8CIftaiwRgDQ758itHKxQgnztUNkFobaangMmyg72yzrdfGsQFqhw/vV2rDPMECgJf9pNi2BnRrL6v7hc2GE6TRriqKIrpnRvo3vZxyN9L/lVIwfVpeFJIcXOFq1djmybbCfuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3azVchS; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755809999; c=relaxed/simple;
+	bh=iZGYE1Xd6jy1p5PRZ84O4xkm6GrvOQTQufb1eQO5abw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DiiX+rVAKMNrt18iWvwCAprOF6BdQXjgpf50Zimg1xZI8/UY6QR2y0dXM/p8MmZwR6awwjhrlJJe1H6wOTXZo9Lke3vFCgI5bi9nbHPuyJns9DOu2XHmkm3I8R/dC/leZasg4rmR5J9xLuZp3eku4iKJTN05DThBV3MzztfiYE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D+K/Ufgl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3azVchS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755808463; x=1787344463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U0Zv9xWVRHMVUW3bwnQ1taT/AfB91xGbJzGBFeVtNdY=;
-  b=A3azVchSVNTBaHx7M1LC48U5SOHhrUX+Nj1iITEwo1cErh5nQwwBvFR+
-   GsQxj/rekXL5D+mvlnSLSHENEgTzDEL9Frila76l4esknQOuOH/wJ14jI
-   Nvyz/+GZyYW03FyTpM88FuDL4Kgj+8PhzcjDU9juF7/qxJxynpV1FbqET
-   cKIka9O2nGFSPxwe5F3j6YpVZNxAPN9NMIvDli+Jqk/ZUfDGQ7YrS/oYM
-   mjmcTBh+UeP9vT8noTX545XlyCoybspuYBC5QIdbjIrnIOFcnaZUjn3ze
-   /hZU9PcbDINsyUKLRD04rSyzGVbrEDqPJLIOERlu4JdTrxfFNK8pzvYL2
-   Q==;
-X-CSE-ConnectionGUID: 2V4aKbIMQoaRCApBY1bJgw==
-X-CSE-MsgGUID: RdpHCFE/RyWIImtHPqkhkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58060796"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="58060796"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 13:34:22 -0700
-X-CSE-ConnectionGUID: 5Zh/bL79Q4qiEpcW6oo8Qw==
-X-CSE-MsgGUID: vVhSmUzmS+WslFhCOD7wpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="169323007"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Aug 2025 13:34:17 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1upBzC-000Kdt-2j;
-	Thu, 21 Aug 2025 20:34:14 +0000
-Date: Fri, 22 Aug 2025 04:34:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v8 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-Message-ID: <202508220436.qjXO4p8r-lkp@intel.com>
-References: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-3-7066680f138a@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D+K/Ufgl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755809996;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4G04SOJ0glNxufycnOsZm8GbV4T3e/3GwhGPhyQ8IQ8=;
+	b=D+K/UfglLZQkcrN6RQvmE8mcdQPYiTQMxvT2OlgW6R7BJ4KAW4Y5akmKXmQ0qkYLhR2I3j
+	Ufwob0u4ZzSpBtUzSKcZQZK5ts2b0keWmgHSxWz/I0U7CBMVuvA0yj+W34wdoLt6Ha49Mz
+	/XWvzlKdmBde/8mEQTzVxZJsY/5RhL4=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-52-H2kOFs0qNF-F4Y2OeBnDmg-1; Thu, 21 Aug 2025 16:59:54 -0400
+X-MC-Unique: H2kOFs0qNF-F4Y2OeBnDmg-1
+X-Mimecast-MFC-AGG-ID: H2kOFs0qNF-F4Y2OeBnDmg_1755809994
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-88452e4058bso11414539f.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 13:59:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755809994; x=1756414794;
+        h=content-transfer-encoding:mime-version:organization:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4G04SOJ0glNxufycnOsZm8GbV4T3e/3GwhGPhyQ8IQ8=;
+        b=ZfL5KtYJG4bLWqvwSoV5iCQDLKLhzobbJbp9huqZRHFkNIm2gAE5KHzoEVcVvmA/fI
+         TLPH03uBUhQtjRVp1Boc5juz7mfXKuoEMdl0T3ry7pnpxBCOb5bjhGTC8m8jGEaeeVEX
+         JqncFm+HwnXy9m5osg3M77lpS/YM4xq0llTfQcjWZpX5V8AIw9H1JPTq3wfZZABXqFiN
+         jVDP73/MfXcqRnJBdFwjZHHtl6QrF11co/Wk9hT/fz4oRKgnxtUEEGgMXTQOp8Q3H8zF
+         1JT1LAMpukdtNeYrkhnj37YNjx84XXWGyyBoNfULDa9HRgvsyGtNLsARblnovkJu2vPY
+         FsCw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnfBfuod4JdnZb2vckBcsBVzrE5GHDe3f64mDVpoTNwAC/4AAvbW7st+1ApQt99mR8BMWEwG9g9W+Hz0vq@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKGKNnnKF2ziklwODllXzLQJ8fRMCKwwHIT7c706aKxMlBW/9w
+	Dxw+la8vq0YGHzMOzc35Vcc9tApYfGD5cA39jUge5EeHW+LeSJt2Tlc8FD/Wpr2BuuiFkOIQHBT
+	Y0Blo47lqp7d//IOuI146VH7i4ZYRMyQruMKLusVdC+rw0HpkRkRgGcuSziLq99FZ8KE=
+X-Gm-Gg: ASbGncsuDHj7wtKL/VGDuETH5QGjZwHOfde1G+zgzK2IzbWAQ1ne0Cd7D6Bwdt1SDzj
+	4cAz05tsHGIOq40WlzRIBjeS2ygN9oOx79a1PmaBPS7E9RtIDC2Uz4zPAZAPSq6oWAA6WaYkh/e
+	dzCukoyyIj+Yols8mOEBIKxc3gqk62kYKk6jyC89BfD2Z5DesMJ0OlKlaITnedESK+HiwER4fDW
+	ZNwXA3nSZw1eN8s138NnWlhxLNUKsmfEQtDm0nzyDbqPXr1zsmSjns1mhzYzDD9bk/dHKgPColx
+	/RYatSFtJz4mF61i33Eucm0ZF2DyRoHbiKxl7uasBsw=
+X-Received: by 2002:a05:6602:2cc9:b0:881:659f:cd6c with SMTP id ca18e2360f4ac-886bd101642mr35933639f.1.1755809993781;
+        Thu, 21 Aug 2025 13:59:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFWsV1EzHTqmOI9QMn9r4+1m0MFqBhgNbF+N2ic8JnDHSvJKjdfICIF99AEr9+2AABgW89gRQ==
+X-Received: by 2002:a05:6602:2cc9:b0:881:659f:cd6c with SMTP id ca18e2360f4ac-886bd101642mr35932439f.1.1755809993389;
+        Thu, 21 Aug 2025 13:59:53 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-884702457d5sm273437639f.17.2025.08.21.13.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Aug 2025 13:59:51 -0700 (PDT)
+Date: Thu, 21 Aug 2025 14:59:49 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Nipun Gupta <nipun.gupta@amd.com>
+Cc: <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <nikhil.agarwal@amd.com>,
+ <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
+ <oe-kbuild-all@lists.linux.dev>, <robin.murphy@arm.com>, <krzk@kernel.org>,
+ <tglx@linutronix.de>, <maz@kernel.org>, <linux@weissschuh.net>,
+ <chenqiuji666@gmail.com>, <peterz@infradead.org>, <robh@kernel.org>,
+ <abhijit.gangurde@amd.com>, <nathan@kernel.org>, kernel test robot
+ <lkp@intel.com>
+Subject: Re: [PATCH v2 2/2] vfio/cdx: update driver to build without
+ CONFIG_GENERIC_MSI_IRQ
+Message-ID: <20250821145949.7fa51308.alex.williamson@redhat.com>
+In-Reply-To: <20250821071308.1572106-2-nipun.gupta@amd.com>
+References: <20250821071308.1572106-1-nipun.gupta@amd.com>
+	<20250821071308.1572106-2-nipun.gupta@amd.com>
+Organization: Red Hat
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-3-7066680f138a@oss.qualcomm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hjFw-9sv6DCxiMfli359T7B2JrflKDEgFzkY22QckoM_1755809994
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Amirreza,
+On Thu, 21 Aug 2025 12:43:08 +0530
+Nipun Gupta <nipun.gupta@amd.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Define dummy MSI related APIs in VFIO CDX driver to build the
+> driver without enabling CONFIG_GENERIC_MSI_IRQ flag.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202508070308.opy5dIFX-lkp@intel.com/
+> Reviewed-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> ---
+> Changes v1->v2:
+> - fix linking intr.c file in Makefile
+> 
+>  drivers/vfio/cdx/Makefile  |  6 +++++-
+>  drivers/vfio/cdx/private.h | 14 ++++++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/vfio/cdx/Makefile b/drivers/vfio/cdx/Makefile
+> index df92b320122a..dadbef2419ea 100644
+> --- a/drivers/vfio/cdx/Makefile
+> +++ b/drivers/vfio/cdx/Makefile
+> @@ -5,4 +5,8 @@
+>  
+>  obj-$(CONFIG_VFIO_CDX) += vfio-cdx.o
+>  
+> -vfio-cdx-objs := main.o intr.o
+> +vfio-cdx-objs := main.o
+> +
+> +ifdef CONFIG_GENERIC_MSI_IRQ
+> +vfio-cdx-objs += intr.o
+> +endif
+> diff --git a/drivers/vfio/cdx/private.h b/drivers/vfio/cdx/private.h
+> index dc56729b3114..0482a1516439 100644
+> --- a/drivers/vfio/cdx/private.h
+> +++ b/drivers/vfio/cdx/private.h
+> @@ -38,11 +38,25 @@ struct vfio_cdx_device {
+>  	u8			config_msi;
+>  };
+>  
+> +#ifdef CONFIG_GENERIC_MSI_IRQ
+>  int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
+>  			    u32 flags, unsigned int index,
+>  			    unsigned int start, unsigned int count,
+>  			    void *data);
+>  
+>  void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev);
+> +#else
+> +static int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
+> +				   u32 flags, unsigned int index,
+> +				   unsigned int start, unsigned int count,
+> +				   void *data)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev)
+> +{
+> +}
+> +#endif
+>  
+>  #endif /* VFIO_CDX_PRIVATE_H */
 
-[auto build test WARNING on 5303936d609e09665deda94eaedf26a0e5c3a087]
+Why are we returning success if we don't implement the function?  This
+provides the wrong return value to the user.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250821-074358
-base:   5303936d609e09665deda94eaedf26a0e5c3a087
-patch link:    https://lore.kernel.org/r/20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-3-7066680f138a%40oss.qualcomm.com
-patch subject: [PATCH v8 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-config: arm-randconfig-r133-20250821 (https://download.01.org/0day-ci/archive/20250822/202508220436.qjXO4p8r-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
-reproduce: (https://download.01.org/0day-ci/archive/20250822/202508220436.qjXO4p8r-lkp@intel.com/reproduce)
+Also, aren't we also missing in patch 1/ that cdx_dev->num_msi is
+initialized and therefore vfio_cdx_ioctl_get_info() might return that
+an interrupt is supported when it is not?  Thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508220436.qjXO4p8r-lkp@intel.com/
+Alex
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tee/tee_core.c:640:33: sparse: sparse: cast removes address space '__user' of expression
-
-vim +/__user +640 drivers/tee/tee_core.c
-
-   618	
-   619	static int params_to_supp(struct tee_context *ctx,
-   620				  struct tee_ioctl_param __user *uparams,
-   621				  size_t num_params, struct tee_param *params)
-   622	{
-   623		size_t n;
-   624	
-   625		for (n = 0; n < num_params; n++) {
-   626			struct tee_ioctl_param ip;
-   627			struct tee_param *p = params + n;
-   628	
-   629			ip.attr = p->attr;
-   630			switch (p->attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
-   631			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
-   632			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-   633				ip.a = p->u.value.a;
-   634				ip.b = p->u.value.b;
-   635				ip.c = p->u.value.c;
-   636				break;
-   637			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
-   638			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
-   639			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
- > 640				ip.a = (u64)p->u.ubuf.uaddr;
-   641				ip.b = p->u.ubuf.size;
-   642				ip.c = 0;
-   643				break;
-   644			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
-   645			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
-   646			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-   647				ip.b = p->u.memref.size;
-   648				if (!p->u.memref.shm) {
-   649					ip.a = 0;
-   650					ip.c = (u64)-1; /* invalid shm id */
-   651					break;
-   652				}
-   653				ip.a = p->u.memref.shm_offs;
-   654				ip.c = p->u.memref.shm->id;
-   655				break;
-   656			default:
-   657				ip.a = 0;
-   658				ip.b = 0;
-   659				ip.c = 0;
-   660				break;
-   661			}
-   662	
-   663			if (copy_to_user(uparams + n, &ip, sizeof(ip)))
-   664				return -EFAULT;
-   665		}
-   666	
-   667		return 0;
-   668	}
-   669	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
