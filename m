@@ -1,70 +1,68 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCA82EFD83
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 08:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C362EA494
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 08:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764499; cv=none; b=lGMv+oqIvx16WVoOlI+QINIfl60zB3mYU1whcTSaSu5GntvQQV9BDWkSOYE8arKXwEpGKcsVOse/uddwePtIAMRREnYM+fYsso9yYl2kqTIzpE7CdcSFbmd/b8YiSdqj34aClmdV3eIR++aqcpozRSSn7Fsg30u+/MhMLNElYQc=
+	t=1755765684; cv=none; b=hvhsKPLYFpxtp3Ps3D34/kWrUPHBtTIetlQzfaDa7LkGtHhMGeYAp4HK/rD+a7ofMjFhR42vdJvBOmyi90Swthdv4XeD7R7nza1G4/+UQVtU4Rf5+awa1b6H5cXmD7EXl4ZuntxkT3kKiW9VVo28TP8C7/Bn0/j0WZdA629tBdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755764499; c=relaxed/simple;
-	bh=JXocULCsBo7/n98cmVoNOqykInxPZnjLVNBTREPdg0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k1EEZ+6SM1n6lrgHx9yLOGpJ/WwX8iaAtt+3M63vWJ5pzmy+1O6E9xZjyrrbwory1YpoXWKdQkHEJSLPGeriXs7RCbDLC2VP26gWcG5/UArT6YoHkBHooHtk2kykLG6KmI3dzQx+9PeUXZNbsng+yBas8/mIxHcrcoEyX5iKGBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wDm0un/2; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755765684; c=relaxed/simple;
+	bh=KtT8TscMuMza33UUIFFQPhrRCIrbqTRqWw56j6zQ3yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cyhwAA60f8mw6jTBxKBQysv2Ba2gVDmx21YCe+hwa3igElkCFj02ToyXHpIt7s3H+U6cxNk76XMkKl6PDjFZHr5aEz47XFcZHqXjYzx+RJUzEDjxJJDfXIqZV0jI/qmnirad/RfgVN7/Dox0QKgbahRu91PaTXQFxj519HJVfxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqyJqDqX; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wDm0un/2"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b916fda762so799405f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 01:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755764495; x=1756369295; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6F9MVHoGttGvZi9mtKapX8wE+xXVK++WzjAWqNNFy5w=;
-        b=wDm0un/2mAX/bkwju2uaf1Kq2Iq5P2faAa+PYhOi5Xsmsi0yFLDauxZbNY4mAUWm8y
-         hLucNeKiuW6IelvRwDVP5QvmRmYbLVDJvfACnTZSHWJ8aFM8QpT45x0OjcMugtoqc2OQ
-         26qMZ3aSRI/6UD54Y/96AhiloZz3Mi0SrbD8IhtNx2PDPOUx5OL1fvHRiMLZxTTUunhU
-         L6+o4FN6eZ1THa2xf1z7VmAfmeJtaIhFfEexxADv4T6VtKPrFoixFhP3ejjUj09ck8um
-         iqw0nh7ieJF48DGaqn+VDj1jjV9RKQqoezXT/t5Y227ogv3XIfadhEB4/K6UdAXUmrR4
-         ibRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755764495; x=1756369295;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6F9MVHoGttGvZi9mtKapX8wE+xXVK++WzjAWqNNFy5w=;
-        b=N0i/sJ2qO02e3dI+ILhvg4u2FoadBWTVHmdvqy7Owy1WFEuT08yVT99V/ihHsaJQdv
-         pcaVCczpqL5IneGT0nwayJaQ9XA4Uvw6F7pDXmeR7aAvzJAOSZPJ9w/Z3tbhI7emX9YA
-         WwUvE7MydJhDH01UwfvLpJYIeY6fdi93RBrcwmre2hM+GWHh/opv7RWszPsGWBkNIC6n
-         sQ6JIpFFRu09OUT+mwYqe4uSQTH4iqk9jHgyD89bSOXg8Q8sCMsGU6s6Q7AQYvvBAh1l
-         qctlyyzVmuL5Kq1zd75bSUvRDzi7fpTe4KRO7A8EcVlZUkHr6nMMNNZtM/pSNG/L7zvn
-         yOGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlnRVO6kTZbhkGAZqaMuhehR9C4yFR4KFgI7yY5+sRqfd6nlmOragLRa+ubQfD3vjbI5HLdAjCjP7UKuw4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoOobszr0ZnN4Fhe2iw9/1V3J6Pe8hCrLJexz+9QMPzbeSIg3W
-	o+DmUVMkjxYcsQHIECF1CrN7DaYMdOZ/nV4EVYzy5KkYq2IkySryfb1VgC76IRWuhGU=
-X-Gm-Gg: ASbGnctzhd0cWhdH7XFhl1uDwL1r1b5Xv8BD9VFqh811i2cKikEOo08YQF7ObshMhEl
-	abXmtb/eT2p/rFr8sEZQ3Dsod7D0Hb4myRndBrMUZODoBY549O1SkRl1Zj4X7By5A/kTJxwzlsC
-	kUHpfm+DN7ylg2sBDcUdMxV4KV6Am0ZxRL3XuJ3EN/5Su1whzbrSJQJtAbZ+JV2etOOtCFDBEoZ
-	VqvEWe8j7cA9WeleESm8KXzOrg49tbBSvAdMUZACCKOMJuoflSQsQoo7sE1/qXkBcl9hgbDhK2F
-	bYUgElByDSQqBXSb37yA1rDQUkhFAOohFXLOxSEg0b+H+Gy8aWrvH273DlzHPsZWCS3b0zO1N5H
-	d22BT17ZV/t6iyWuBLxRM5VYlto4=
-X-Google-Smtp-Source: AGHT+IEEH9J16IEfY7X5Ab8U3awn2/tTG/DyRWYmbtluKFWJrwnSi/zTjuUtoKU2yasvK1jGjM/f0A==
-X-Received: by 2002:a05:6000:2911:b0:3b7:9d87:9808 with SMTP id ffacd0b85a97d-3c4b0445cbcmr1346807f8f.15.1755764494525;
-        Thu, 21 Aug 2025 01:21:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c07487986fsm11782149f8f.1.2025.08.21.01.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 01:21:34 -0700 (PDT)
-Date: Thu, 21 Aug 2025 11:21:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sun YangKai <sunk67188@gmail.com>,
-	linux-btrfs@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sun YangKai <sunk67188@gmail.com>
-Subject: Re: [PATCH] btrfs: more trivial BTRFS_PATH_AUTO_FREE conversions
-Message-ID: <202508211534.QmDKCbTm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqyJqDqX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755765683; x=1787301683;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KtT8TscMuMza33UUIFFQPhrRCIrbqTRqWw56j6zQ3yc=;
+  b=lqyJqDqXWyE2wI0K6oTAsPdsbSRqNiud2MXsSUSjekPy9St2BQcOo8Xi
+   yIdE3NN50/MPA8mb8MNemRF71htZuZ7YHkASWZneqKFu18CLErfLtaJiv
+   xZFIxVnR3I8hTEKiMuptC7ckh398VyeVkSP4I/1MM3OpQAwFrJ/jknck5
+   b6+lFATXmID8P+N4KLIrCnl7AESZgypz9KJGt8vBUb5hlSzqPTR7Hcp+K
+   Ioj/HG/hbDja7tAwyhDkZQBfRq8Fa6FfLuW4QrV767vk95iKKBk1/O7Kr
+   lgKSbBx6x0qqh6U2xC9WHCKUrbUdYmo4exi1IYzA1BHD6o2MEQPu92yyT
+   g==;
+X-CSE-ConnectionGUID: Rf5MzHzjQsWywSvjJsQvLg==
+X-CSE-MsgGUID: 2KC+2wQPRgm2HwntweSl6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69488919"
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="69488919"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 01:41:22 -0700
+X-CSE-ConnectionGUID: VcnuS50NTQCGJ5qwqqfKZA==
+X-CSE-MsgGUID: s8qtbVRzSrOlunfa07343w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="167583174"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 21 Aug 2025 01:41:20 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1up0rF-000K6h-0m;
+	Thu, 21 Aug 2025 08:41:17 +0000
+Date: Thu, 21 Aug 2025 16:41:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+	platform-driver-x86@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Derek John Clark <derekjohn.clark@gmail.com>,
+	=?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v1 4/5] platform/x86: ayaneo-ec: Add controller power and
+ modules attributes
+Message-ID: <202508211626.9Cxkta6K-lkp@intel.com>
+References: <20250820160628.99678-5-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,66 +71,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819033819.19826-1-sunk67188@gmail.com>
+In-Reply-To: <20250820160628.99678-5-lkml@antheas.dev>
 
-Hi Sun,
+Hi Antheas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sun-YangKai/btrfs-more-trivial-BTRFS_PATH_AUTO_FREE-conversions/20250819-114252
-base:   v6.17-rc2
-patch link:    https://lore.kernel.org/r/20250819033819.19826-1-sunk67188%40gmail.com
-patch subject: [PATCH] btrfs: more trivial BTRFS_PATH_AUTO_FREE conversions
-config: parisc-randconfig-r071-20250821 (https://download.01.org/0day-ci/archive/20250821/202508211534.QmDKCbTm-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/platform-x86-ayaneo-ec-Add-Ayaneo-Embedded-Controller-platform-driver/20250821-002525
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250820160628.99678-5-lkml%40antheas.dev
+patch subject: [PATCH v1 4/5] platform/x86: ayaneo-ec: Add controller power and modules attributes
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250821/202508211626.9Cxkta6K-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508211626.9Cxkta6K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508211534.QmDKCbTm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508211626.9Cxkta6K-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/send.c:931 get_inode_info() warn: missing error code? 'ret'
+All errors (new ones prefixed by >>):
 
-vim +/ret +931 fs/btrfs/send.c
+   drivers/platform/x86/ayaneo-ec.c: In function 'ayaneo_ec_probe':
+>> drivers/platform/x86/ayaneo-ec.c:497:49: error: implicit declaration of function 'MKDEV' [-Werror=implicit-function-declaration]
+     497 |                                                 MKDEV(0, 0), NULL, "%s",
+         |                                                 ^~~~~
+   cc1: some warnings being treated as errors
 
-7e93f6dc11d9128 BingJing Chang  2022-08-12  908  static int get_inode_info(struct btrfs_root *root, u64 ino,
-7e93f6dc11d9128 BingJing Chang  2022-08-12  909  			  struct btrfs_inode_info *info)
-31db9f7c23fbf7e Alexander Block 2012-07-25  910  {
-31db9f7c23fbf7e Alexander Block 2012-07-25  911  	int ret;
-c8ce1e5fe626333 Sun YangKai     2025-08-19  912  	BTRFS_PATH_AUTO_FREE(path);
-31db9f7c23fbf7e Alexander Block 2012-07-25  913  	struct btrfs_inode_item *ii;
-31db9f7c23fbf7e Alexander Block 2012-07-25  914  	struct btrfs_key key;
-31db9f7c23fbf7e Alexander Block 2012-07-25  915  
-7e93f6dc11d9128 BingJing Chang  2022-08-12  916  	path = alloc_path_for_send();
-7e93f6dc11d9128 BingJing Chang  2022-08-12  917  	if (!path)
-7e93f6dc11d9128 BingJing Chang  2022-08-12  918  		return -ENOMEM;
-7e93f6dc11d9128 BingJing Chang  2022-08-12  919  
-31db9f7c23fbf7e Alexander Block 2012-07-25  920  	key.objectid = ino;
-31db9f7c23fbf7e Alexander Block 2012-07-25  921  	key.type = BTRFS_INODE_ITEM_KEY;
-31db9f7c23fbf7e Alexander Block 2012-07-25  922  	key.offset = 0;
-31db9f7c23fbf7e Alexander Block 2012-07-25  923  	ret = btrfs_search_slot(NULL, root, &key, path, 0, 0);
-31db9f7c23fbf7e Alexander Block 2012-07-25  924  	if (ret) {
-3f8a18cc53bd1be Josef Bacik     2014-03-28  925  		if (ret > 0)
-31db9f7c23fbf7e Alexander Block 2012-07-25  926  			ret = -ENOENT;
-c8ce1e5fe626333 Sun YangKai     2025-08-19  927  		return ret;
-31db9f7c23fbf7e Alexander Block 2012-07-25  928  	}
-31db9f7c23fbf7e Alexander Block 2012-07-25  929  
-7e93f6dc11d9128 BingJing Chang  2022-08-12  930  	if (!info)
-c8ce1e5fe626333 Sun YangKai     2025-08-19 @931  		return ret;
 
-ret is zero, but it should be an error code.
+vim +/MKDEV +497 drivers/platform/x86/ayaneo-ec.c
 
-7e93f6dc11d9128 BingJing Chang  2022-08-12  932  
-31db9f7c23fbf7e Alexander Block 2012-07-25  933  	ii = btrfs_item_ptr(path->nodes[0], path->slots[0],
-31db9f7c23fbf7e Alexander Block 2012-07-25  934  			struct btrfs_inode_item);
-7e93f6dc11d9128 BingJing Chang  2022-08-12  935  	info->size = btrfs_inode_size(path->nodes[0], ii);
-7e93f6dc11d9128 BingJing Chang  2022-08-12  936  	info->gen = btrfs_inode_generation(path->nodes[0], ii);
+   459	
+   460	static int ayaneo_ec_probe(struct platform_device *pdev)
+   461	{
+   462		const struct dmi_system_id *dmi_entry;
+   463		struct ayaneo_ec_platform_data *data;
+   464		struct device *hwdev;
+   465		int ret;
+   466	
+   467		dmi_entry = dmi_first_match(dmi_table);
+   468		if (!dmi_entry)
+   469			return -ENODEV;
+   470	
+   471		data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+   472		if (!data)
+   473			return -ENOMEM;
+   474	
+   475		data->pdev = pdev;
+   476		data->quirks = dmi_entry->driver_data;
+   477		platform_set_drvdata(pdev, data);
+   478	
+   479		if (data->quirks->has_fan_control) {
+   480			hwdev = devm_hwmon_device_register_with_info(
+   481				&pdev->dev, "ayaneo_ec", NULL, &ayaneo_ec_chip_info, NULL);
+   482			if (IS_ERR(hwdev))
+   483				return PTR_ERR(hwdev);
+   484		}
+   485	
+   486		if (data->quirks->has_charge_control) {
+   487			data->battery_hook.add_battery = ayaneo_add_battery;
+   488			data->battery_hook.remove_battery = ayaneo_remove_battery;
+   489			data->battery_hook.name = "Ayaneo Battery";
+   490			ret = devm_battery_hook_register(&pdev->dev, &data->battery_hook);
+   491			if (ret)
+   492				return ret;
+   493		}
+   494	
+   495		if (data->quirks->has_magic_modules || data->quirks->has_controller_power) {
+   496			data->fw_attrs_dev = device_create(&firmware_attributes_class, NULL,
+ > 497							MKDEV(0, 0), NULL, "%s",
+   498							DRIVER_NAME);
+   499			if (IS_ERR(data->fw_attrs_dev))
+   500				return PTR_ERR(data->fw_attrs_dev);
+   501	
+   502			ret = devm_add_action_or_reset(&data->pdev->dev,
+   503						ayaneo_fw_attrs_dev_unregister,
+   504						data->fw_attrs_dev);
+   505			if (ret)
+   506				return ret;
+   507	
+   508			data->fw_attrs_kset = kset_create_and_add("attributes", NULL,
+   509								&data->fw_attrs_dev->kobj);
+   510			if (!data->fw_attrs_kset)
+   511				return -ENOMEM;
+   512	
+   513			ret = devm_add_action_or_reset(&data->pdev->dev, ayaneo_kset_unregister,
+   514						data->fw_attrs_kset);
+   515	
+   516			if (data->quirks->has_magic_modules) {
+   517				ret = ayaneo_fw_attr_init(
+   518					data, AYANEO_ATTR_CONTROLLER_MODULES, true);
+   519				if (ret)
+   520					return ret;
+   521			}
+   522	
+   523			if (data->quirks->has_controller_power) {
+   524				ret = ayaneo_fw_attr_init(
+   525					data, AYANEO_ATTR_CONTROLLER_POWER, false);
+   526				if (ret)
+   527					return ret;
+   528			}
+   529		}
+   530	
+   531		return 0;
+   532	}
+   533	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
