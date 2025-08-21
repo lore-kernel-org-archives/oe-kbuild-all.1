@@ -1,155 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800202D8398
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 14:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A67B283FF0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 15:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755787838; cv=none; b=fRmoYt/vQzhoXfvzIcxhDJ9bao+TwDlghR+K8xY1EshGqhyAyoaP3Q7iX1W3WSPW3v+kDfyeXzqON+6esaerA2U8u2A1R79COdA6gwJUrbkOya+oko33AWRb/1zF4/i71E13UNtYWT3KcaDqExqS+V65FD9Hv10Q+1YkES2w5C8=
+	t=1755789016; cv=none; b=pZaqDkqnPoHstIhAHPA17WORubwYoVBScXXMqnvU8rq9MVwEjxTS6cejiJdhqQ7NEewTTdhF8M9xm0cUZPRjaXaYay0mo+daS2MejWxxUXHy6dEOFyhzGxsuPX7GBiidphzjUCEJ4oJYPIH+0XMmW7jwe8zG9cZG3p5w92yEYzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755787838; c=relaxed/simple;
-	bh=fzuQbYcT3kDY3wepx8xLRD1f+QWMCyb0eSAQJy88wWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CsEsR9CDt1HwUsZM9pJ0x4U3B8NRRVP9tjafIPNRQiWsjF/GF2HgUYFlBuOshEJG2k7jSjpoL28ALLhXPFhtmX4jUZx1qrA/jkyoshMXxvScbjGX4Fh2SSOX0O2gF+YekMoCiZQUDyuiZdU6vaGDGvMm3J4ADO/s+lHeDYw7Ehs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7ZW5Dl/; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755789016; c=relaxed/simple;
+	bh=kkd9p7v/aeoVq2ozdbObxHEzcNi5TW7nCk3fYeZSrxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=qcUmLD55Za/f9OHgnqgZJjRsF2DuuF6KhAwm1+K+Ec4E9PcaEnAAKTs6AkOiQv6lsdKVWUfpXR/PTPjogkQL4rerHHFoQIjUrubCo9dQ3/mu4bzXM3QvK210ikEgN3wmdWJG2Dl7m18h/lTVai1BRQBtQmO9cav8Ix5qbZsxWSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cVP4W8dH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7ZW5Dl/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755787836; x=1787323836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fzuQbYcT3kDY3wepx8xLRD1f+QWMCyb0eSAQJy88wWk=;
-  b=K7ZW5Dl/SIOP6u1DNforg+dmQgGLcGNjZVBcG+6LTCRk86o6CfKDWS/M
-   72ItNvOWbDKaMjSC/IUYBhxUyPsO9rxBgd2+RBZoFa9p+ibC+n2aFtMBN
-   qHFOJlipAHRx5AvIpz4J9T4KKlOSKH6nqcrSpa+5FcGIaE7nWSR0Dx2gL
-   B6FrHR21RrBavPqYya/TGFNR61Vi8rPrRaWLDKY+XcZubRLSDXXaxwFk+
-   XuRtLp4HXQJcgBIlga+0PcXsgJft7dux5sd24UWNNADaCvNkx97rNpuQf
-   HIBbHWNjIhq4fDIJeuFtfW/jl7cHnK1fWr/L/d5DKX1vVxmEdfFaQQ7kP
-   A==;
-X-CSE-ConnectionGUID: JVOHXAKcRyek5uagmQlPJQ==
-X-CSE-MsgGUID: GXeRUX3VTLyRw5EdjOwp8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58147595"
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="58147595"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 07:50:33 -0700
-X-CSE-ConnectionGUID: 1i6iSZ6mRa2UnGW+uP9SaA==
-X-CSE-MsgGUID: 2pfpk/IoRtqYFiMHQH83bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="173769084"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 21 Aug 2025 07:50:22 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1up6cE-000KO2-1B;
-	Thu, 21 Aug 2025 14:50:10 +0000
-Date: Thu, 21 Aug 2025 22:46:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cVP4W8dH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1755789014;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h/oo2Y2o/Eqajzx8Zc19c3hUMPVFk+7ED7j+YW05FKY=;
+	b=cVP4W8dHFx+0Epv6ypBWrX0docY51xuuM0R3jdeLhgeDiHGls0cMXZK9Ak9BeAOCP9PlVC
+	4iuqK7r3zSh6wYwQZY5aV1i2Y+B6ACofTo0jd0sm2nzkCnStYKh7sS6d6LvGGxhbF6JN/a
+	UAge5NsRUxdZsgegAUOT5NaQW1uly4s=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-599-5n-r4xDBP3iJj0eeiCFFHQ-1; Thu,
+ 21 Aug 2025 11:10:11 -0400
+X-MC-Unique: 5n-r4xDBP3iJj0eeiCFFHQ-1
+X-Mimecast-MFC-AGG-ID: 5n-r4xDBP3iJj0eeiCFFHQ_1755789010
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 55033180028D;
+	Thu, 21 Aug 2025 15:10:09 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.34])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5AECB180029C;
+	Thu, 21 Aug 2025 15:10:02 +0000 (UTC)
+Date: Thu, 21 Aug 2025 23:09:57 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Subject: [axboe-block:for-6.18/io_uring 16/16]
+Subject: Re: [axboe-block:for-6.18/io_uring 16/16]
  include/linux/io_uring/cmd.h:123:1: error: expected identifier or '(' before
  '{' token
-Message-ID: <202508212218.pOwu5QFJ-lkp@intel.com>
+Message-ID: <aKc2xVvyo6sPgCOP@fedora>
+References: <202508212218.pOwu5QFJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <202508212218.pOwu5QFJ-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dhYvcvn3LhPNMmxMfjFbMW_CYhn9NcNAzh1UQg8jSN4_1755789010
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.18/io_uring
-head:   55dc643dd2ad15e755a706980692a374de1bb7a8
-commit: 55dc643dd2ad15e755a706980692a374de1bb7a8 [16/16] io_uring: uring_cmd: add multishot support
-config: i386-buildonly-randconfig-001-20250821 (https://download.01.org/0day-ci/archive/20250821/202508212218.pOwu5QFJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508212218.pOwu5QFJ-lkp@intel.com/reproduce)
+On Thu, Aug 21, 2025 at 10:46:05PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.18/io_uring
+> head:   55dc643dd2ad15e755a706980692a374de1bb7a8
+> commit: 55dc643dd2ad15e755a706980692a374de1bb7a8 [16/16] io_uring: uring_cmd: add multishot support
+> config: i386-buildonly-randconfig-001-20250821 (https://download.01.org/0day-ci/archive/20250821/202508212218.pOwu5QFJ-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508212218.pOwu5QFJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508212218.pOwu5QFJ-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from block/fops.c:20:
+> >> include/linux/io_uring/cmd.h:123:1: error: expected identifier or '(' before '{' token
+>      123 | {
+>          | ^
+> >> include/linux/io_uring/cmd.h:121:1: warning: 'io_uring_cmd_buffer_select' declared 'static' but never defined [-Wunused-function]
+>      121 | io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd, unsigned buf_group,
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508212218.pOwu5QFJ-lkp@intel.com/
+Hi Jens,
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from block/fops.c:20:
->> include/linux/io_uring/cmd.h:123:1: error: expected identifier or '(' before '{' token
-     123 | {
-         | ^
->> include/linux/io_uring/cmd.h:121:1: warning: 'io_uring_cmd_buffer_select' declared 'static' but never defined [-Wunused-function]
-     121 | io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd, unsigned buf_group,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+Can you fold the following change into this patch?
 
 
-vim +123 include/linux/io_uring/cmd.h
+diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.h
+index be0e29b72669..4bd3a7339243 100644
+--- a/include/linux/io_uring/cmd.h
++++ b/include/linux/io_uring/cmd.h
+@@ -119,7 +119,7 @@ static inline void io_uring_cmd_issue_blocking(struct io_uring_cmd *ioucmd)
+ }
+ static inline struct io_br_sel
+ io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd, unsigned buf_group,
+-			   size_t *len, unsigned int issue_flags);
++			   size_t *len, unsigned int issue_flags)
+ {
+ 	return (struct io_br_sel) { .val = -EOPNOTSUPP };
+ }
 
-    72	
-    73	/*
-    74	 * Select a buffer from the provided buffer group for multishot uring_cmd.
-    75	 * Returns the selected buffer address and size.
-    76	 */
-    77	struct io_br_sel io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd,
-    78						    unsigned buf_group, size_t *len,
-    79						    unsigned int issue_flags);
-    80	
-    81	/*
-    82	 * Complete a multishot uring_cmd event. This will post a CQE to the completion
-    83	 * queue and update the provided buffer.
-    84	 */
-    85	bool io_uring_mshot_cmd_post_cqe(struct io_uring_cmd *ioucmd,
-    86					 struct io_br_sel *sel, unsigned int issue_flags);
-    87	
-    88	#else
-    89	static inline int
-    90	io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
-    91				  struct iov_iter *iter, struct io_uring_cmd *ioucmd,
-    92				  unsigned int issue_flags)
-    93	{
-    94		return -EOPNOTSUPP;
-    95	}
-    96	static inline int io_uring_cmd_import_fixed_vec(struct io_uring_cmd *ioucmd,
-    97							const struct iovec __user *uvec,
-    98							size_t uvec_segs,
-    99							int ddir, struct iov_iter *iter,
-   100							unsigned issue_flags)
-   101	{
-   102		return -EOPNOTSUPP;
-   103	}
-   104	static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret,
-   105			u64 ret2, unsigned issue_flags)
-   106	{
-   107	}
-   108	static inline void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
-   109				    void (*task_work_cb)(struct io_uring_cmd *, unsigned),
-   110				    unsigned flags)
-   111	{
-   112	}
-   113	static inline void io_uring_cmd_mark_cancelable(struct io_uring_cmd *cmd,
-   114			unsigned int issue_flags)
-   115	{
-   116	}
-   117	static inline void io_uring_cmd_issue_blocking(struct io_uring_cmd *ioucmd)
-   118	{
-   119	}
-   120	static inline struct io_br_sel
- > 121	io_uring_cmd_buffer_select(struct io_uring_cmd *ioucmd, unsigned buf_group,
-   122				   size_t *len, unsigned int issue_flags);
- > 123	{
-   124		return (struct io_br_sel) { .val = -EOPNOTSUPP };
-   125	}
-   126	static inline bool io_uring_mshot_cmd_post_cqe(struct io_uring_cmd *ioucmd,
-   127					ssize_t ret, unsigned int issue_flags)
-   128	{
-   129		return true;
-   130	}
-   131	#endif
-   132	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Ming
+
