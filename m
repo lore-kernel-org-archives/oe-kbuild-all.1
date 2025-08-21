@@ -1,167 +1,95 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3DA393DD9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 20:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F3081724
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 21:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755809999; cv=none; b=e5JZbgXRv0/D0en3OPRAMl/YneuD8iR8XAcOipjHds+gUu3HEz5JM14Qp00X9IuMKs/GwhM1w183W5EGfO386QUOQ3Hit//dW8Fy3dMvWMThth/M3eqkeVfe/bqpCnA+hwuCGg/+sN0g61YtppHoGjoE0UZPIpdMVzeHJELv4dA=
+	t=1755810362; cv=none; b=G+0Q9cU2P3UOekL2Ej1cFcjl5u2RfPiZu5ETAJQQbgyyCzVWsYqECpJoenkFQoN8nOQB1no54XwFDhklkqlJ7OlT8KUQVjGZGEw76XS3qI9Jbrq3XvX1ZuGGtS8e6mmZrpouBbVwBfc2WGpG4ZzuaFIINXQ27x68CEYOu2GCRv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755809999; c=relaxed/simple;
-	bh=iZGYE1Xd6jy1p5PRZ84O4xkm6GrvOQTQufb1eQO5abw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DiiX+rVAKMNrt18iWvwCAprOF6BdQXjgpf50Zimg1xZI8/UY6QR2y0dXM/p8MmZwR6awwjhrlJJe1H6wOTXZo9Lke3vFCgI5bi9nbHPuyJns9DOu2XHmkm3I8R/dC/leZasg4rmR5J9xLuZp3eku4iKJTN05DThBV3MzztfiYE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D+K/Ufgl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755810362; c=relaxed/simple;
+	bh=lVJ0pCYRE78VyGkmcE57gxkUUiLfRzoHCtigSfBEIz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dPrSI3XBu8aU8TrJzCSsgIwKYKc9vcQ5MotczLJS6BUXFh2Fg3ZTOr8vV6boJidNCyWMRSGzLMV+691U6P52s2dweF5Q3Jwow+IvF5saZcOrqboLfwobhq7X6TGHHDgSxEC7jk1FP0I0H9M81PGYcDiIgKGjkjgIVBrpqS/EwK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Js8wJ/OE; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D+K/Ufgl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755809996;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4G04SOJ0glNxufycnOsZm8GbV4T3e/3GwhGPhyQ8IQ8=;
-	b=D+K/UfglLZQkcrN6RQvmE8mcdQPYiTQMxvT2OlgW6R7BJ4KAW4Y5akmKXmQ0qkYLhR2I3j
-	Ufwob0u4ZzSpBtUzSKcZQZK5ts2b0keWmgHSxWz/I0U7CBMVuvA0yj+W34wdoLt6Ha49Mz
-	/XWvzlKdmBde/8mEQTzVxZJsY/5RhL4=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-52-H2kOFs0qNF-F4Y2OeBnDmg-1; Thu, 21 Aug 2025 16:59:54 -0400
-X-MC-Unique: H2kOFs0qNF-F4Y2OeBnDmg-1
-X-Mimecast-MFC-AGG-ID: H2kOFs0qNF-F4Y2OeBnDmg_1755809994
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-88452e4058bso11414539f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 13:59:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755809994; x=1756414794;
-        h=content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4G04SOJ0glNxufycnOsZm8GbV4T3e/3GwhGPhyQ8IQ8=;
-        b=ZfL5KtYJG4bLWqvwSoV5iCQDLKLhzobbJbp9huqZRHFkNIm2gAE5KHzoEVcVvmA/fI
-         TLPH03uBUhQtjRVp1Boc5juz7mfXKuoEMdl0T3ry7pnpxBCOb5bjhGTC8m8jGEaeeVEX
-         JqncFm+HwnXy9m5osg3M77lpS/YM4xq0llTfQcjWZpX5V8AIw9H1JPTq3wfZZABXqFiN
-         jVDP73/MfXcqRnJBdFwjZHHtl6QrF11co/Wk9hT/fz4oRKgnxtUEEGgMXTQOp8Q3H8zF
-         1JT1LAMpukdtNeYrkhnj37YNjx84XXWGyyBoNfULDa9HRgvsyGtNLsARblnovkJu2vPY
-         FsCw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnfBfuod4JdnZb2vckBcsBVzrE5GHDe3f64mDVpoTNwAC/4AAvbW7st+1ApQt99mR8BMWEwG9g9W+Hz0vq@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKGKNnnKF2ziklwODllXzLQJ8fRMCKwwHIT7c706aKxMlBW/9w
-	Dxw+la8vq0YGHzMOzc35Vcc9tApYfGD5cA39jUge5EeHW+LeSJt2Tlc8FD/Wpr2BuuiFkOIQHBT
-	Y0Blo47lqp7d//IOuI146VH7i4ZYRMyQruMKLusVdC+rw0HpkRkRgGcuSziLq99FZ8KE=
-X-Gm-Gg: ASbGncsuDHj7wtKL/VGDuETH5QGjZwHOfde1G+zgzK2IzbWAQ1ne0Cd7D6Bwdt1SDzj
-	4cAz05tsHGIOq40WlzRIBjeS2ygN9oOx79a1PmaBPS7E9RtIDC2Uz4zPAZAPSq6oWAA6WaYkh/e
-	dzCukoyyIj+Yols8mOEBIKxc3gqk62kYKk6jyC89BfD2Z5DesMJ0OlKlaITnedESK+HiwER4fDW
-	ZNwXA3nSZw1eN8s138NnWlhxLNUKsmfEQtDm0nzyDbqPXr1zsmSjns1mhzYzDD9bk/dHKgPColx
-	/RYatSFtJz4mF61i33Eucm0ZF2DyRoHbiKxl7uasBsw=
-X-Received: by 2002:a05:6602:2cc9:b0:881:659f:cd6c with SMTP id ca18e2360f4ac-886bd101642mr35933639f.1.1755809993781;
-        Thu, 21 Aug 2025 13:59:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFWsV1EzHTqmOI9QMn9r4+1m0MFqBhgNbF+N2ic8JnDHSvJKjdfICIF99AEr9+2AABgW89gRQ==
-X-Received: by 2002:a05:6602:2cc9:b0:881:659f:cd6c with SMTP id ca18e2360f4ac-886bd101642mr35932439f.1.1755809993389;
-        Thu, 21 Aug 2025 13:59:53 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-884702457d5sm273437639f.17.2025.08.21.13.59.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 13:59:51 -0700 (PDT)
-Date: Thu, 21 Aug 2025 14:59:49 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Nipun Gupta <nipun.gupta@amd.com>
-Cc: <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <nikhil.agarwal@amd.com>,
- <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
- <oe-kbuild-all@lists.linux.dev>, <robin.murphy@arm.com>, <krzk@kernel.org>,
- <tglx@linutronix.de>, <maz@kernel.org>, <linux@weissschuh.net>,
- <chenqiuji666@gmail.com>, <peterz@infradead.org>, <robh@kernel.org>,
- <abhijit.gangurde@amd.com>, <nathan@kernel.org>, kernel test robot
- <lkp@intel.com>
-Subject: Re: [PATCH v2 2/2] vfio/cdx: update driver to build without
- CONFIG_GENERIC_MSI_IRQ
-Message-ID: <20250821145949.7fa51308.alex.williamson@redhat.com>
-In-Reply-To: <20250821071308.1572106-2-nipun.gupta@amd.com>
-References: <20250821071308.1572106-1-nipun.gupta@amd.com>
-	<20250821071308.1572106-2-nipun.gupta@amd.com>
-Organization: Red Hat
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Js8wJ/OE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755810360; x=1787346360;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lVJ0pCYRE78VyGkmcE57gxkUUiLfRzoHCtigSfBEIz8=;
+  b=Js8wJ/OEb6jcpeBhNPintOemh7NUqsK+0QZuJIeONMcKN7YbzhC4ny2S
+   Qenl1j80ayc+OsMKK+KmmQhRLPhZ2TIpxRLMBqNkxpBkYymKYqFuxNty5
+   c2K8HH8XQcKx9uc7zFBeIlmpJXdmp91iHZ4HwtSN9MCVoqBXW0efdFgKq
+   qz1olol4en5XwqiPwfFufAAOd4bJ6N9leOAtn8YiAhWEoSA1bf8Z/EMfI
+   +KJjV8R5OJsjWcjpqlFGThdqw17iBwFVF5IQ6vSmjxIwi0iI9LV3nX8VN
+   quNdLjNc6fbpWt/q96G3q/xGZA6Cd5tuU3Y4rPatWs4EYH0dK7Jqzm++e
+   w==;
+X-CSE-ConnectionGUID: 75ezs2isSHGwudnM6SZhRQ==
+X-CSE-MsgGUID: JIf/VMM+SZC/Rza4TXCtjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="83533719"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="83533719"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 14:06:00 -0700
+X-CSE-ConnectionGUID: 1m8B50DxTvK/8JHoy17tVQ==
+X-CSE-MsgGUID: DSBjlJc6TTiIU9jNQlUKaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="168016208"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2025 14:05:59 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1upCTs-0001nr-3B;
+	Thu, 21 Aug 2025 21:05:56 +0000
+Date: Thu, 21 Aug 2025 23:05:32 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 5/5] vivid-osd.c:undefined
+ reference to `fb_dealloc_cmap'
+Message-ID: <202508212314.Bx0FE5Ba-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hjFw-9sv6DCxiMfli359T7B2JrflKDEgFzkY22QckoM_1755809994
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 21 Aug 2025 12:43:08 +0530
-Nipun Gupta <nipun.gupta@amd.com> wrote:
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   4e823e0e1f45a7358a3393404a7c4067199c38a2
+commit: ce5631988c89b3e9b662f50612a87526ea3d093c [5/5] UPSTREAM: media: vivid: Introduce VIDEO_VIVID_OSD
+config: arm-randconfig-2006-20250821 (https://download.01.org/0day-ci/archive/20250821/202508212314.Bx0FE5Ba-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508212314.Bx0FE5Ba-lkp@intel.com/reproduce)
 
-> Define dummy MSI related APIs in VFIO CDX driver to build the
-> driver without enabling CONFIG_GENERIC_MSI_IRQ flag.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202508070308.opy5dIFX-lkp@intel.com/
-> Reviewed-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
-> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
-> ---
-> Changes v1->v2:
-> - fix linking intr.c file in Makefile
-> 
->  drivers/vfio/cdx/Makefile  |  6 +++++-
->  drivers/vfio/cdx/private.h | 14 ++++++++++++++
->  2 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/vfio/cdx/Makefile b/drivers/vfio/cdx/Makefile
-> index df92b320122a..dadbef2419ea 100644
-> --- a/drivers/vfio/cdx/Makefile
-> +++ b/drivers/vfio/cdx/Makefile
-> @@ -5,4 +5,8 @@
->  
->  obj-$(CONFIG_VFIO_CDX) += vfio-cdx.o
->  
-> -vfio-cdx-objs := main.o intr.o
-> +vfio-cdx-objs := main.o
-> +
-> +ifdef CONFIG_GENERIC_MSI_IRQ
-> +vfio-cdx-objs += intr.o
-> +endif
-> diff --git a/drivers/vfio/cdx/private.h b/drivers/vfio/cdx/private.h
-> index dc56729b3114..0482a1516439 100644
-> --- a/drivers/vfio/cdx/private.h
-> +++ b/drivers/vfio/cdx/private.h
-> @@ -38,11 +38,25 @@ struct vfio_cdx_device {
->  	u8			config_msi;
->  };
->  
-> +#ifdef CONFIG_GENERIC_MSI_IRQ
->  int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
->  			    u32 flags, unsigned int index,
->  			    unsigned int start, unsigned int count,
->  			    void *data);
->  
->  void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev);
-> +#else
-> +static int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
-> +				   u32 flags, unsigned int index,
-> +				   unsigned int start, unsigned int count,
-> +				   void *data)
-> +{
-> +	return 0;
-> +}
-> +
-> +static void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev)
-> +{
-> +}
-> +#endif
->  
->  #endif /* VFIO_CDX_PRIVATE_H */
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508212314.Bx0FE5Ba-lkp@intel.com/
 
-Why are we returning success if we don't implement the function?  This
-provides the wrong return value to the user.
+All errors (new ones prefixed by >>):
 
-Also, aren't we also missing in patch 1/ that cdx_dev->num_msi is
-initialized and therefore vfio_cdx_ioctl_get_info() might return that
-an interrupt is supported when it is not?  Thanks,
+   arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_release_buffers':
+>> vivid-osd.c:(.text+0x300): undefined reference to `fb_dealloc_cmap'
+   arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_init':
+>> vivid-osd.c:(.text+0x7f8): undefined reference to `fb_alloc_cmap'
+>> arm-linux-gnueabi-ld: vivid-osd.c:(.text+0x858): undefined reference to `register_framebuffer'
+   arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_deinit':
+>> vivid-osd.c:(.text+0x950): undefined reference to `unregister_framebuffer'
+>> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x4c): undefined reference to `fb_io_read'
+>> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x50): undefined reference to `fb_io_write'
+>> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x6c): undefined reference to `cfb_fillrect'
+>> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x70): undefined reference to `cfb_copyarea'
+>> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x74): undefined reference to `cfb_imageblit'
+>> arm-linux-gnueabi-ld: drivers/media/test-drivers/vivid/vivid-osd.o:(.rodata+0x88): undefined reference to `fb_io_mmap'
 
-Alex
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
