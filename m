@@ -1,60 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43314393DCD;
-	Thu, 21 Aug 2025 21:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD3E21C17D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Aug 2025 21:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755810413; cv=none; b=SrQPWTM2SGpiumw1luWCwLIDlqxbTVP7PwLxb7N6545f6GxJkvNNFvDFOh4AKrQSwaZU8OOzZOBX/e+MlP44ZDYliLvyBOmxiElWjnNlAoTcVng/epYG01lbSZAXVZfshd8G7h98r3goNNLupYnmiBIiT+nGdBTAqSW/2EfZZOw=
+	t=1755811748; cv=none; b=brcQnuhH/3EG0UAfdOrZbWf6qZ7EM1MLckR46C3UlY9vXzntRnS6JCzUAlhqQH8jofhVeIUvd0kp3GptxlQyY+r2ifMuVBA4MYVzCzzOleO8o650Z8Xue6yzSmMcd0fDthSJu7Dl5Uc2ZMUC/au9wX1wzhk1S+Ym/hhloFH7+Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755810413; c=relaxed/simple;
-	bh=bedfVgu0AHiZRQg1jgmBL0HGHqbb9BNp7v2TpYnM1kM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ek8sMVyIn4u/svPKHFFc8NqieFR6ydEesBbDVC5TqCPvb6u2shmu6ENvv4wOPItKpeBdWdEpHDKc7Ww5TKSFKTxPI+tqYfkyqSvb8WwnCEmMZOkUFhgmdshxmJePHwWSkm+hgIyoAwrDEDEfAf4RtVHX2YbosU88bQy6/No+iHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4yBVSDh; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1755811748; c=relaxed/simple;
+	bh=GrR4bZtSzHvF2nyvCTmyXxhSUd2f7AHIaQh0d8oCmy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSLYDmMUtC36dbHeRsCO5gXMBXcjSipohavVUkBWPBtSnBU5R/PEtV1rmk4kqMAK+u3b1hT+n0EqKUGBo8Jmg4hl38CBfF5J5c9IhyMIC04NrLIpHxZHjwUEI6w+JLpJXbjGMCn1zhdi4IPXXQ0/rHcGhvrL+sY3oyJJCWXH4es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpDu6IiP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4yBVSDh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpDu6IiP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755810411; x=1787346411;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bedfVgu0AHiZRQg1jgmBL0HGHqbb9BNp7v2TpYnM1kM=;
-  b=V4yBVSDhSkg6yfa3MgvvTTrl2LshRsucuMm7HdqfJXo0AxMNLb2RoqUj
-   IrO8ArkncfHWK7MeRAPFJ2iV/1hMVvViyqJMYIWvbeLrvTNSudrH6MSFC
-   BIaOc0gCWWGGc2oCW260cxqLgF+Vq3dsCA+7x+Ad55dTURHgXPeLVq3ga
-   8bRGJc6B/Zd1OCWbgrirkUhZ+N543zScrle2eVnjFLyqvRqfZWACDuHGT
-   cvqXPZcR2pqVA5w3XB4nWChIfbEZYH27/ze1Jv00Cqv8ZlXBD8gxiV98e
-   +5Yf1i+yorr0LGWBRN6aODQYUhBClrk5q+bCa5hA2bPPEkBzOLPJ284mm
+  t=1755811745; x=1787347745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GrR4bZtSzHvF2nyvCTmyXxhSUd2f7AHIaQh0d8oCmy0=;
+  b=GpDu6IiP5TcabN1rW1hg7kEqCsn4VaXK74cm6eL9TUIfdNBa9tpKwtui
+   CrXPf/1AhPizjVm7D6R0Gtm16Uhw5Z/amMGNMsyyzFe0LZB5upaDWl8G4
+   n4xvYt4S6htTOJb+m2Gq7tDtsChxfWVaNwGmJ39xiRGUNR05E+cvpOI0J
+   EhA8BC29nUZsRrGSV332vsXT/tDYwnvQxI9QmNbE0u8E6AAGxOymZMo4n
+   MYGsdHohj9BLS0enwel7dZE2E/Mm1eqKB9vg5TNngDmg7AmmgfdiMpPuo
+   jJAqBPXulOWFyvItwWJR6NMitbrfS2DNYCHPacH4MoGOYUifwwYaYfGHE
    w==;
-X-CSE-ConnectionGUID: b90zpYiGRuitsj8AOxUwRQ==
-X-CSE-MsgGUID: CXn73GCeT26Y9it+/eZ+1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="75698764"
+X-CSE-ConnectionGUID: hbz5/6xtTc+OwzSs/2BxKw==
+X-CSE-MsgGUID: 9Y0alo4zTSuLmdG3arsjow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58211819"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="75698764"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 14:06:50 -0700
-X-CSE-ConnectionGUID: L1wOvzxgSpKQZ+4cYycWQg==
-X-CSE-MsgGUID: AZY2c83+TaCxNMv0MWFb5A==
+   d="scan'208";a="58211819"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 14:29:04 -0700
+X-CSE-ConnectionGUID: gKLChN3FSmS9FPg4KxPt5g==
+X-CSE-MsgGUID: QjoNdbbBQACgALAV+CuSFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="168419614"
+   d="scan'208";a="172780491"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Aug 2025 14:06:50 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2025 14:28:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upCUJ-000Kf9-0d;
-	Thu, 21 Aug 2025 21:06:40 +0000
-Date: Fri, 22 Aug 2025 05:06:18 +0800
+	id 1upCq8-000KgN-1H;
+	Thu, 21 Aug 2025 21:28:56 +0000
+Date: Fri, 22 Aug 2025 05:28:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:ramdax 1/1] drivers/nvdimm/ramdax.c:44:11: error: call to
- undeclared function 'kzalloc'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202508220413.PjQEKKgT-lkp@intel.com>
+To: Pritam Manohar Sutar <pritam.sutar@samsung.com>, vkoul@kernel.org,
+	kishon@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, alim.akhtar@samsung.com,
+	andre.draszik@linaro.org, peter.griffin@linaro.org,
+	kauschluss@disroot.org, ivo.ivanov.ivanov1@gmail.com,
+	igor.belwon@mentallysanemainliners.org, johan@kernel.org,
+	m.szyprowski@samsung.com, s.nawrocki@samsung.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, rosa.pila@samsung.com,
+	dev.tailor@samsung.com, faraz.ata@samsung.com,
+	muhammed.ali@samsung.com, selvarasu.g@samsung.com
+Subject: Re: [PATCH v6 6/6] phy: exynos5-usbdrd: support SS combo phy for
+ ExynosAutov920
+Message-ID: <202508220553.lm7ExAxG-lkp@intel.com>
+References: <20250821073703.2498302-7-pritam.sutar@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,131 +74,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250821073703.2498302-7-pritam.sutar@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git ramdax
-head:   349f76d4596ebf970cfdec905e98534a84251cd8
-commit: 349f76d4596ebf970cfdec905e98534a84251cd8 [1/1] nvdimm: allow exposing RAM carveouts as NVDIMM DIMM devices
-config: x86_64-buildonly-randconfig-004-20250822 (https://download.01.org/0day-ci/archive/20250822/202508220413.PjQEKKgT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508220413.PjQEKKgT-lkp@intel.com/reproduce)
+Hi Pritam,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next linus/master v6.17-rc2 next-20250821]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pritam-Manohar-Sutar/dt-bindings-phy-samsung-usb3-drd-phy-add-ExynosAutov920-HS-phy-compatible/20250821-153122
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250821073703.2498302-7-pritam.sutar%40samsung.com
+patch subject: [PATCH v6 6/6] phy: exynos5-usbdrd: support SS combo phy for ExynosAutov920
+config: arc-randconfig-001-20250822 (https://download.01.org/0day-ci/archive/20250822/202508220553.lm7ExAxG-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508220553.lm7ExAxG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508220413.PjQEKKgT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508220553.lm7ExAxG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/nvdimm/ramdax.c:44:11: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      44 |         nd_set = kzalloc(sizeof(*nd_set), GFP_KERNEL);
-         |                  ^
->> drivers/nvdimm/ramdax.c:44:9: error: incompatible integer to pointer conversion assigning to 'struct nd_interleave_set *' from 'int' [-Wint-conversion]
-      44 |         nd_set = kzalloc(sizeof(*nd_set), GFP_KERNEL);
-         |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/nvdimm/ramdax.c:71:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      71 |         kfree(nd_set);
-         |         ^
-   drivers/nvdimm/ramdax.c:84:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      84 |         dimm = kzalloc(sizeof(*dimm), GFP_KERNEL);
-         |                ^
->> drivers/nvdimm/ramdax.c:84:7: error: incompatible integer to pointer conversion assigning to 'struct ramdax_dimm *' from 'int' [-Wint-conversion]
-      84 |         dimm = kzalloc(sizeof(*dimm), GFP_KERNEL);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvdimm/ramdax.c:117:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     117 |         kfree(dimm);
-         |         ^
-   6 errors generated.
+   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynosautov920_usb31drd_cr_write':
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:2167:17: warning: unused variable 'dev' [-Wunused-variable]
+     struct device *dev = phy_drd->dev;
+                    ^~~
+   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynosautov920_usb31drd_port_phy_ready':
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:2137:6: warning: 'reg' is used uninitialized in this function [-Wuninitialized]
+     reg &= ~(PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK |
+     ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR);
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   during RTL pass: mach
+   drivers/phy/samsung/phy-exynos5-usbdrd.c: In function 'exynos5_usbdrd_phy_probe':
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:3056:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9110
+    }
+    ^
+   Please submit a full bug report,
+   with preprocessed source if appropriate.
+   See <https://gcc.gnu.org/bugs/> for instructions.
 
 
-vim +/kzalloc +44 drivers/nvdimm/ramdax.c
+vim +/dev +2167 drivers/phy/samsung/phy-exynos5-usbdrd.c
 
-    34	
-    35	static int ramdax_register_region(struct resource *res,
-    36					    struct nvdimm *nvdimm,
-    37					    struct nvdimm_bus *nvdimm_bus)
-    38	{
-    39		struct nd_mapping_desc mapping;
-    40		struct nd_region_desc ndr_desc;
-    41		struct nd_interleave_set *nd_set;
-    42		int nid = phys_to_target_node(res->start);
-    43	
-  > 44		nd_set = kzalloc(sizeof(*nd_set), GFP_KERNEL);
-    45		if (!nd_set)
-    46			return -ENOMEM;
-    47	
-    48		nd_set->cookie1 = 0xcafebeefcafebeef;
-    49		nd_set->cookie2 = nd_set->cookie1;
-    50		nd_set->altcookie = nd_set->cookie1;
-    51	
-    52		memset(&mapping, 0, sizeof(mapping));
-    53		mapping.nvdimm = nvdimm;
-    54		mapping.start = 0;
-    55		mapping.size = resource_size(res) - LABEL_AREA_SIZE;
-    56	
-    57		memset(&ndr_desc, 0, sizeof(ndr_desc));
-    58		ndr_desc.res = res;
-    59		ndr_desc.numa_node = numa_map_to_online_node(nid);
-    60		ndr_desc.target_node = nid;
-    61		ndr_desc.num_mappings = 1;
-    62		ndr_desc.mapping = &mapping;
-    63		ndr_desc.nd_set = nd_set;
-    64	
-    65		if (!nvdimm_pmem_region_create(nvdimm_bus, &ndr_desc))
-    66			goto err_free_nd_set;
-    67	
-    68		return 0;
-    69	
-    70	err_free_nd_set:
-  > 71		kfree(nd_set);
-    72		return -ENXIO;
-    73	}
-    74	
-    75	static int ramdax_register_dimm(struct resource *res, void *data)
-    76	{
-    77		resource_size_t start = res->start;
-    78		resource_size_t size = resource_size(res);
-    79		unsigned long flags = 0, cmd_mask = 0;
-    80		struct nvdimm_bus *nvdimm_bus = data;
-    81		struct ramdax_dimm *dimm;
-    82		int err;
-    83	
-  > 84		dimm = kzalloc(sizeof(*dimm), GFP_KERNEL);
-    85		if (!dimm)
-    86			return -ENOMEM;
-    87	
-    88		dimm->label_area = memremap(start + size - LABEL_AREA_SIZE,
-    89					    LABEL_AREA_SIZE, MEMREMAP_WB);
-    90		if (!dimm->label_area)
-    91			goto err_free_dimm;
-    92	
-    93		set_bit(NDD_LABELING, &flags);
-    94		set_bit(NDD_REGISTER_SYNC, &flags);
-    95		set_bit(ND_CMD_GET_CONFIG_SIZE, &cmd_mask);
-    96		set_bit(ND_CMD_GET_CONFIG_DATA, &cmd_mask);
-    97		set_bit(ND_CMD_SET_CONFIG_DATA, &cmd_mask);
-    98		dimm->nvdimm = nvdimm_create(nvdimm_bus, dimm,
-    99					     /* dimm_attribute_groups */ NULL,
-   100					     flags, cmd_mask, 0, NULL);
-   101		if (!dimm->nvdimm) {
-   102			err = -ENOMEM;
-   103			goto err_unmap_label;
-   104		}
-   105	
-   106		err = ramdax_register_region(res, dimm->nvdimm, nvdimm_bus);
-   107		if (err)
-   108			goto err_remove_nvdimm;
-   109	
-   110		return 0;
-   111	
-   112	err_remove_nvdimm:
-   113		nvdimm_delete(dimm->nvdimm);
-   114	err_unmap_label:
-   115		memunmap(dimm->label_area);
-   116	err_free_dimm:
-   117		kfree(dimm);
-   118		return err;
-   119	}
-   120	
+  2125	
+  2126	static void
+  2127	exynosautov920_usb31drd_port_phy_ready(struct exynos5_usbdrd_phy *phy_drd)
+  2128	{
+  2129		struct device *dev = phy_drd->dev;
+  2130		void __iomem *reg_phy = phy_drd->reg_phy;
+  2131		static const unsigned int timeout_us = 20000;
+  2132		static const unsigned int sleep_us = 40;
+  2133		u32 reg;
+  2134		int err;
+  2135	
+  2136		/* Clear cr_para_con */
+> 2137		reg &= ~(PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK |
+  2138				PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR);
+  2139		reg |= PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+  2140		writel(reg, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2141		writel(0x0, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON1);
+  2142		writel(0x0, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON2);
+  2143	
+  2144		exynosautov920_usb31drd_cr_clk(phy_drd, true);
+  2145		exynosautov920_usb31drd_cr_clk(phy_drd, false);
+  2146	
+  2147		/*
+  2148		 * The maximum time from phy reset de-assertion to de-assertion of
+  2149		 * tx/rx_ack can be as high as 5ms in fast simulation mode.
+  2150		 * Time to phy ready is < 20ms
+  2151		 */
+  2152		err = readl_poll_timeout(reg_phy +
+  2153					EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0,
+  2154				reg, !(reg & PHY_CR_PARA_CON0_PHY0_CR_PARA_ACK),
+  2155				sleep_us, timeout_us);
+  2156		if (err)
+  2157			dev_err(dev, "timed out waiting for rx/tx_ack: %#.8x\n", reg);
+  2158	
+  2159		reg &= ~PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK;
+  2160		writel(reg, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2161	}
+  2162	
+  2163	static void
+  2164	exynosautov920_usb31drd_cr_write(struct exynos5_usbdrd_phy *phy_drd,
+  2165					 u16 addr, u16 data)
+  2166	{
+> 2167		struct device *dev = phy_drd->dev;
+  2168		void __iomem *reg_phy = phy_drd->reg_phy;
+  2169		u32 cnt = 0;
+  2170		u32 reg;
+  2171	
+  2172		/* Pre Clocking */
+  2173		reg = readl(reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2174		reg |= PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+  2175		writel(reg, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2176	
+  2177		/*
+  2178		 * tx clks must be available prior to assertion of tx req.
+  2179		 * tx pstate p2 to p0 transition directly is not permitted.
+  2180		 * tx clk ready must be asserted synchronously on tx clk prior
+  2181		 * to internal transmit clk alignment sequence in the phy
+  2182		 * when entering from p2 to p1 to p0.
+  2183		 */
+  2184		do {
+  2185			exynosautov920_usb31drd_cr_clk(phy_drd, true);
+  2186			exynosautov920_usb31drd_cr_clk(phy_drd, false);
+  2187			cnt++;
+  2188		} while (cnt < 15);
+  2189	
+  2190		reg &= ~PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+  2191		writel(reg, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2192	
+  2193		/*
+  2194		 * tx data path is active when tx lane is in p0 state
+  2195		 * and tx data en asserted. enable cr_para_wr_en.
+  2196		 */
+  2197		reg = readl(reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON2);
+  2198		reg &= ~PHY_CR_PARA_CON2_PHY0_CR_PARA_WR_DATA;
+  2199		reg |= FIELD_PREP(PHY_CR_PARA_CON2_PHY0_CR_PARA_WR_DATA, data) |
+  2200			PHY_CR_PARA_CON2_PHY0_CR_PARA_WR_EN;
+  2201		writel(reg, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON2);
+  2202	
+  2203		/* write addr */
+  2204		reg = readl(reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2205		reg &= ~PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR;
+  2206		reg |= FIELD_PREP(PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR, addr) |
+  2207			PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK |
+  2208			PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+  2209		writel(reg, reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2210	
+  2211		/* check cr_para_ack*/
+  2212		cnt = 0;
+  2213		do {
+  2214			/*
+  2215			 * data symbols are captured by phy on rising edge of the
+  2216			 * tx_clk when tx data enabled.
+  2217			 * completion of the write cycle is acknowledged by assertion
+  2218			 * of the cr_para_ack.
+  2219			 */
+  2220			exynosautov920_usb31drd_cr_clk(phy_drd, true);
+  2221			reg = readl(reg_phy + EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+  2222			if ((reg & PHY_CR_PARA_CON0_PHY0_CR_PARA_ACK))
+  2223				break;
+  2224	
+  2225			exynosautov920_usb31drd_cr_clk(phy_drd, false);
+  2226	
+  2227			/*
+  2228			 * wait for minimum of 10 cr_para_clk cycles after phy reset
+  2229			 * is negated, before accessing control regs to allow for
+  2230			 * internal resets.
+  2231			 */
+  2232			cnt++;
+  2233		} while (cnt < 10);
+  2234	
+  2235		if (cnt < 10)
+  2236			exynosautov920_usb31drd_cr_clk(phy_drd, false);
+  2237	}
+  2238	
 
 -- 
 0-DAY CI Kernel Test Service
