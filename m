@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725A0153BED
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADF021D3CD
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 15:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755878087; cv=none; b=F/KOTgZaUCiJoo7452je4w4/rVz9t7DOVBGl9WTYOVC6ce0VCRWE0Nf2+lZffNiIiomXJn0i7HS/aw4qYdMshnW6l4eehv1F5Z5RaTqUO3rng3QxkosFCB7SyjMgv0ic2kJUSrJ2rEqRgTrTsKlTjLuNtMfgfF9NUb7gtak0DNQ=
+	t=1755878087; cv=none; b=CStfnAjHU2AJcTuPtGlHqn10QLJo0e2cA7BShE5ZGmEBYzEdwcyT9aCQcCfID8bo1JBd3jt7bCQbj4EJut7Bg8aIJUYiZIJvep+lRvfBENOF/o/sClwibMZ8JJdY7murZoBD6Ox1Dz41j7TiO01c6jV7Bs1BLQyrZAdZVc05WyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755878087; c=relaxed/simple;
-	bh=Syx5PE/xmlizqhM9oZ/NJu5fD2tPRiyNG+OVj+NRFTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EAZ/NXXEqDREiELXS6KuTu+F6+WgiPADp42chV71qhCrzNJb5MjMkWIZqpUHyzvRZZgCCaE9p/Tlyq94qQwHlb7/Yw9tBATq6ZiZl9cypfPG8qsNDaJD9fnPAkw7YBWbGlC8tdFaLQW203DZMWkc7KH4BLtuTjBvhYXRfuCmN94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKGSPH1m; arc=none smtp.client-ip=192.198.163.15
+	bh=kQaQm/70b3+XiaHH/TaKGGYE4bbixHT2VLcIr3PjTFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iP9qCPTxde0Tb5jRFxJoJRPM5Y+V22sQ19H2RbU9TQVKHmEcB4+gwqeSX3WPNuawXYu/ICUR3iTJm+UktqgR+VBT87/Upcyp7lYh25GqoSKO4sNRrjDW4OMiETD4sAnhPJ0qnyVNd/nOKEr1GvwW/78P69J7TKPlL+5nFcBv7bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaSBFpUA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKGSPH1m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaSBFpUA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755878085; x=1787414085;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Syx5PE/xmlizqhM9oZ/NJu5fD2tPRiyNG+OVj+NRFTk=;
-  b=kKGSPH1mK13O8Jf8K0VXcA/Nkr29Fn1YWKG6GK6zHN+eqki86rIy93CV
-   K4R8BQnbZPoRQ6pAYcKz48j0wl3+086jkrQl9hSMlHVF/Ys3/e/AbKwA4
-   f2PdJn6JkaVfomsiG1l9EvjWoNgL1ALeNqhB8XGjurKz1nciLXeuLtZ4v
-   dFaoAJez+fpkswpUKok2RV4X31VSqdF8YtNwrsrQ1cJq36QXiU1PEPM6v
-   mA9e/w8xlEYNIbTRzPhEGngxmXDGPbWAuVEfnLyxPJXD9IR5cDySauSpp
-   U5IA3HOFKcMTAf4vZSWjDKQb++0l6M+ipLRdzPmAaJKu8Hjk8anO1EU5M
+  t=1755878086; x=1787414086;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kQaQm/70b3+XiaHH/TaKGGYE4bbixHT2VLcIr3PjTFM=;
+  b=ZaSBFpUAnbY5QYzN0i9LkdELUAGJEe1g8yHOWJIfbpLLl0mG8/TEzbLE
+   vRYt7P5eioCFcj0CMgLCkm5LjKn70Vtam1/j0KXmXwXyyW8Wr9B9uEp4P
+   BLCZofEy+76UONGweJvPszbxhp6bEvdZS18jD3/q7M9Yxpm4vE1a846kN
+   bpOa4hfD3kNNVG/eer7AvCIfNpivQq0pyCIGxT+qPluUfQ2duXS++wGmA
+   7Eu0edoAe9BMaCb1qeLcuLNloJA2BBMA6ezbJoXfHM+XlniIID3+g5BZx
+   rsvFzZPupe4rTifE2jLjaMGREyDmC81pLevrYCj3eQsDXWZgsvHyCoLLv
    Q==;
-X-CSE-ConnectionGUID: Yvj6oMaaSuKV0gPTjbTWqg==
-X-CSE-MsgGUID: EyM4sDQ1SWe/XNlj17M8wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58284907"
+X-CSE-ConnectionGUID: dHVRDVxeQ5SSNdkZou13SA==
+X-CSE-MsgGUID: b6mKy++FQRyShH1r3XKWig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="75772694"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="58284907"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 08:54:45 -0700
-X-CSE-ConnectionGUID: ecggh6oCQLKVQh85ZXrCTA==
-X-CSE-MsgGUID: ifx3LmZZSfqmUJkwZauPIw==
+   d="scan'208";a="75772694"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 08:54:45 -0700
+X-CSE-ConnectionGUID: H528k5WfRiGRuvqB52S5dg==
+X-CSE-MsgGUID: kOjHBEtRR+iD5Lks83yskw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="174005844"
+   d="scan'208";a="199620287"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Aug 2025 08:54:44 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Aug 2025 08:54:44 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upU6D-000LUt-22;
+	id 1upU6D-000LUp-1H;
 	Fri, 22 Aug 2025 15:54:41 +0000
-Date: Fri, 22 Aug 2025 23:53:45 +0800
+Date: Fri, 22 Aug 2025 23:53:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 7/7]
- drivers/iommu/intel/dmar.c:923:13: error: 'enable_pkvm' undeclared
-Message-ID: <202508222305.Rgpt2kcu-lkp@intel.com>
+To: NeilBrown <neil@brown.name>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/16] VFS: implement simple_start_creating() with
+ start_dirop()
+Message-ID: <202508222345.5v3e0cLo-lkp@intel.com>
+References: <20250822000818.1086550-9-neil@brown.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,105 +65,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250822000818.1086550-9-neil@brown.name>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
-commit: e1589c50414a0591b952c83d9ac4c07becafe0d3 [7/7] ANDROID: pkvm: x86: delay host iommu driver initialization after deprivilage
-config: i386-buildonly-randconfig-004-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222305.Rgpt2kcu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222305.Rgpt2kcu-lkp@intel.com/reproduce)
+Hi NeilBrown,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on trondmy-nfs/linux-next linus/master v6.17-rc2 next-20250822]
+[cannot apply to tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/VFS-discard-err2-in-filename_create/20250822-081444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250822000818.1086550-9-neil%40brown.name
+patch subject: [PATCH v2 08/16] VFS: implement simple_start_creating() with start_dirop()
+config: sh-randconfig-r073-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222345.5v3e0cLo-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222345.5v3e0cLo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508222305.Rgpt2kcu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508222345.5v3e0cLo-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/string.h:6,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from include/linux/pci.h:27,
-                    from drivers/iommu/intel/dmar.c:19:
-   drivers/iommu/intel/dmar.c: In function '__setup_iommu_init_hooks':
->> drivers/iommu/intel/dmar.c:923:13: error: 'enable_pkvm' undeclared (first use in this function)
-     923 |         if (enable_pkvm) {
-         |             ^~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/iommu/intel/dmar.c:923:9: note: in expansion of macro 'if'
-     923 |         if (enable_pkvm) {
-         |         ^~
-   drivers/iommu/intel/dmar.c:923:13: note: each undeclared identifier is reported only once for each function it appears in
-     923 |         if (enable_pkvm) {
-         |             ^~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/iommu/intel/dmar.c:923:9: note: in expansion of macro 'if'
-     923 |         if (enable_pkvm) {
-         |         ^~
->> drivers/iommu/intel/dmar.c:924:37: error: variable 'kern_ops' has initializer but incomplete type
-     924 |                 static const struct pkvm_iommu_driver kern_ops = {
-         |                                     ^~~~~~~~~~~~~~~~~
->> drivers/iommu/intel/dmar.c:925:26: error: 'const struct pkvm_iommu_driver' has no member named 'prepare_driver'
-     925 |                         .prepare_driver = dmar_table_init,
-         |                          ^~~~~~~~~~~~~~
->> drivers/iommu/intel/dmar.c:925:43: warning: excess elements in struct initializer
-     925 |                         .prepare_driver = dmar_table_init,
-         |                                           ^~~~~~~~~~~~~~~
-   drivers/iommu/intel/dmar.c:925:43: note: (near initialization for 'kern_ops')
->> drivers/iommu/intel/dmar.c:926:26: error: 'const struct pkvm_iommu_driver' has no member named 'init_driver'
-     926 |                         .init_driver = intel_iommu_init,
-         |                          ^~~~~~~~~~~
-   drivers/iommu/intel/dmar.c:926:40: warning: excess elements in struct initializer
-     926 |                         .init_driver = intel_iommu_init,
-         |                                        ^~~~~~~~~~~~~~~~
-   drivers/iommu/intel/dmar.c:926:40: note: (near initialization for 'kern_ops')
->> drivers/iommu/intel/dmar.c:924:55: error: storage size of 'kern_ops' isn't known
-     924 |                 static const struct pkvm_iommu_driver kern_ops = {
-         |                                                       ^~~~~~~~
->> drivers/iommu/intel/dmar.c:928:17: error: implicit declaration of function 'pkvm_iommu_register_driver'; did you mean 'pci_unregister_driver'? [-Werror=implicit-function-declaration]
-     928 |                 pkvm_iommu_register_driver(&kern_ops);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 pci_unregister_driver
->> drivers/iommu/intel/dmar.c:924:55: warning: unused variable 'kern_ops' [-Wunused-variable]
-     924 |                 static const struct pkvm_iommu_driver kern_ops = {
-         |                                                       ^~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/enable_pkvm +923 drivers/iommu/intel/dmar.c
-
-   920	
-   921	static inline void __setup_iommu_init_hooks(void)
-   922	{
- > 923		if (enable_pkvm) {
- > 924			static const struct pkvm_iommu_driver kern_ops = {
- > 925				.prepare_driver = dmar_table_init,
- > 926				.init_driver = intel_iommu_init,
-   927			};
- > 928			pkvm_iommu_register_driver(&kern_ops);
-   929	
-   930			/*
-   931			 * iommu_init happens during pkvm initialization and hence
-   932			 * this should be a nop here.
-   933			 */
-   934			x86_init.iommu.iommu_init = intel_iommu_init_nop;
-   935		} else {
-   936			x86_init.iommu.iommu_init = intel_iommu_init;
-   937		}
-   938		/*
-   939		 * Set iommu_shutdown hook regardless of pkvm.
-   940		 * pkvm won't get a chance to shutdown iommu cleanly
-   941		 * on reboot as we don't reprivilege at reboot. So,
-   942		 * let the host do it in its normal shutdown flow.
-   943		 */
-   944		x86_platform.iommu_shutdown = intel_iommu_shutdown;
-   945	}
-   946	
+>> Warning: fs/libfs.c:2303 function parameter 'parent' not described in 'simple_start_creating'
+>> Warning: fs/libfs.c:2303 function parameter 'name' not described in 'simple_start_creating'
 
 -- 
 0-DAY CI Kernel Test Service
