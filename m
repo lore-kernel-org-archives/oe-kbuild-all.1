@@ -1,63 +1,72 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755BA21A420
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 13:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CD43043CE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 13:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870396; cv=none; b=IwjCo4sEbKHoNZcZzLgDnwLaFG2U4+J/Eu2QtM0fIaaMa/dujo3YIAAOQMJxj7kFU3YmGc37Sfa+zftxtg7AMnRDFBMhKM5+Uy6OlBwXKTAz3UeSeirgomCFqk64luUk+Jb7WkQeUNhUV/6r667II1lcV9Bvg1sji42rIZkjs3M=
+	t=1755870397; cv=none; b=aWMVVEl/tuvbbjOZ8Gq/XtR/A+ChTovukd1PU+CXfYdYhgaURRBuskGNKFQiWcGga3PhSO2BmVVYoSOteSANtO4VC0+C3YfvPUvHANUqql7Cl0rXJRbF9STefMYV5JnGOPoPMu8P5Xr39ycmidoPPT7lR6gA/jBPZZwckoMeHzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755870396; c=relaxed/simple;
-	bh=J0+pZ+2m0Dv0vL74QouwXOMlr21iON6x4zZIvX0pgZY=;
+	s=arc-20240116; t=1755870397; c=relaxed/simple;
+	bh=I7ueha+r9tVxSlgmxhcRqo50bwX+Ec9JtVfEvdOGt10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t54qcZlOFCz6SM+K+GHPj3RPQLPuJJ1bh43Q0/3N4NSzeWiSkzKw1ahFgFS0XmmJ5qoEdB5o9SIohnUFxYAz2fYzpQfS4P75deIsPYcbuOqUGey+FJl/EGaALDpjG7HiocDM6ErjMah825D0Qio1ODCnFqdxOL00ZkutTJMpyd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NqeO1ozl; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=PC/Ggb8g3X0qNGNpAKRImkH2S2fYyQ71afChDcluf3oFCflM4f3+vrBKr6E7ToxmuSvkiDLzSbfBY6p60oLmaqejmSzrayOzZ7JAnoz/0262cJgkaBIxARj+R40ZcbgPGEcsaZcFnt0hfMBLAkH666uOIWUBFFAP5P7eIsWwRb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nt7JJvtO; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NqeO1ozl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nt7JJvtO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755870394; x=1787406394;
+  t=1755870396; x=1787406396;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J0+pZ+2m0Dv0vL74QouwXOMlr21iON6x4zZIvX0pgZY=;
-  b=NqeO1ozluqGhg3koB5VOIXGtmPtp39Hme+zyoIaoCfYVJ+2c6Pndudym
-   5B9Np3PeZThqkzc1QI7+yOdcdcSlt4BrglflgazySTn6U4wXWJDEYC5eI
-   IX3geefshO9pM3YhmYJiOH8d9zqi2H3QBQSvODqlXgQfNPf4PBJ4HS5ST
-   eY2aEikxpePBQZJGGNvrmgxXvWegQULppBGokKodT061yDg3lphrkBSUD
-   p2T/z/S2ycfX4FGxZLHthxWdi1g2QMNcFcCOrjWJgiY8q/Mkfqd2RD0wi
-   4L4tNZqA2FG2XAH9ftM9kZoFM0SWCWf+Q1HgvTkIqrfyoNE41AI4GWybN
-   w==;
-X-CSE-ConnectionGUID: XLPX8ilZQn6XkdmVrqowvQ==
-X-CSE-MsgGUID: cZ2y3uHAQSuOK2JdqOQjQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58127714"
+  bh=I7ueha+r9tVxSlgmxhcRqo50bwX+Ec9JtVfEvdOGt10=;
+  b=Nt7JJvtOmA4VDVxu2MIlCxgr44sZ90OOTZEMjQGnUjkz1YI/mjxlhAfe
+   +X/f4RRnfVxwXV1hXL07tmNWCqTlyzopnkSXFMq+SESoMr0Gw/1wB3Wf/
+   hT5ZZeEFkdSXfzzlEjaXEK/R3aA0uYUYGf2DIcSSxRTJ2v/CUE4TbEdDt
+   1fn887gXFpx8pitlJ6a02XCAAubySr36RYIzvm84lBuTbvSKYjr4hW3LC
+   WaXeXmR36G73etDtimpY3eaCaRZmF1H++y/18sTZ5H76AeekGOXc0zbbT
+   6cOa20w08qMASdG4p5j4Yhgsx9us0+70ZDJlxJgMhCKHni/ofxump1Lns
+   A==;
+X-CSE-ConnectionGUID: fMQIvsRmSUCMonmmOJSSIA==
+X-CSE-MsgGUID: APKScqVuS82d2GJ15wKKsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58127722"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="58127714"
+   d="scan'208";a="58127722"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 06:46:33 -0700
-X-CSE-ConnectionGUID: ZLmg3LI9Ra+rLL4muaRPrQ==
-X-CSE-MsgGUID: DpwzIgtRQ9iTSF6OFHtLtg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 06:46:34 -0700
+X-CSE-ConnectionGUID: QwgNP83qSI+txb7SNHlEkQ==
+X-CSE-MsgGUID: 5VsrkszkTQqlDQwFZFKWqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="168614614"
+   d="scan'208";a="168614612"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2025 06:46:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upS68-000LLR-27;
+	id 1upS68-000LLP-22;
 	Fri, 22 Aug 2025 13:46:28 +0000
-Date: Fri, 22 Aug 2025 21:46:04 +0800
+Date: Fri, 22 Aug 2025 21:46:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Burkov <boris@bur.io>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-	kernel-team@fb.com, shakeel.butt@linux.dev, wqu@suse.com,
-	willy@infradead.org, mhocko@kernel.org, muchun.song@linux.dev,
-	roman.gushchin@linux.dev, hannes@cmpxchg.org
-Subject: Re: [PATCH v4 1/3] mm/filemap: add AS_KERNEL_FILE
-Message-ID: <202508222105.tg88NxnV-lkp@intel.com>
-References: <f09c4e2c90351d4cb30a1969f7a863b9238bd291.1755812945.git.boris@bur.io>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, David Wronek <david@mainlining.org>,
+	Karel Balej <balejk@matfyz.cz>, phone-devel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
+Subject: Re: [PATCH v2 3/4] clk: mmp: Add PXA1908 power domain driver
+Message-ID: <202508222109.6oqAqWW7-lkp@intel.com>
+References: <20250821-pxa1908-genpd-v2-3-eba413edd526@dujemihanovic.xyz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,83 +75,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f09c4e2c90351d4cb30a1969f7a863b9238bd291.1755812945.git.boris@bur.io>
+In-Reply-To: <20250821-pxa1908-genpd-v2-3-eba413edd526@dujemihanovic.xyz>
 
-Hi Boris,
+Hi Duje,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on kdave/for-next linus/master v6.17-rc2 next-20250822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/mm-filemap-add-AS_KERNEL_FILE/20250822-055741
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/f09c4e2c90351d4cb30a1969f7a863b9238bd291.1755812945.git.boris%40bur.io
-patch subject: [PATCH v4 1/3] mm/filemap: add AS_KERNEL_FILE
-config: x86_64-buildonly-randconfig-006-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222105.tg88NxnV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222105.tg88NxnV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/dt-bindings-clock-marvell-pxa1908-Add-syscon-compatible-to-apmu/20250821-192805
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250821-pxa1908-genpd-v2-3-eba413edd526%40dujemihanovic.xyz
+patch subject: [PATCH v2 3/4] clk: mmp: Add PXA1908 power domain driver
+config: m68k-kismet-CONFIG_PM-CONFIG_COMMON_CLK_PXA1908-0-0 (https://download.01.org/0day-ci/archive/20250822/202508222109.6oqAqWW7-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250822/202508222109.6oqAqWW7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508222105.tg88NxnV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508222109.6oqAqWW7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   mm/filemap.c: In function 'filemap_add_folio':
->> mm/filemap.c:967:40: error: 'root_mem_cgroup' undeclared (first use in this function); did you mean 'parent_mem_cgroup'?
-     967 |                 tmp = set_active_memcg(root_mem_cgroup);
-         |                                        ^~~~~~~~~~~~~~~
-         |                                        parent_mem_cgroup
-   mm/filemap.c:967:40: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +967 mm/filemap.c
-
-   957	
-   958	int filemap_add_folio(struct address_space *mapping, struct folio *folio,
-   959					pgoff_t index, gfp_t gfp)
-   960	{
-   961		void *shadow = NULL;
-   962		int ret;
-   963		struct mem_cgroup *tmp;
-   964		bool kernel_file = test_bit(AS_KERNEL_FILE, &mapping->flags);
-   965	
-   966		if (kernel_file)
- > 967			tmp = set_active_memcg(root_mem_cgroup);
-   968		ret = mem_cgroup_charge(folio, NULL, gfp);
-   969		if (kernel_file)
-   970			set_active_memcg(tmp);
-   971		if (ret)
-   972			return ret;
-   973	
-   974		__folio_set_locked(folio);
-   975		ret = __filemap_add_folio(mapping, folio, index, gfp, &shadow);
-   976		if (unlikely(ret)) {
-   977			mem_cgroup_uncharge(folio);
-   978			__folio_clear_locked(folio);
-   979		} else {
-   980			/*
-   981			 * The folio might have been evicted from cache only
-   982			 * recently, in which case it should be activated like
-   983			 * any other repeatedly accessed folio.
-   984			 * The exception is folios getting rewritten; evicting other
-   985			 * data from the working set, only to cache data that will
-   986			 * get overwritten with something else, is a waste of memory.
-   987			 */
-   988			WARN_ON_ONCE(folio_test_active(folio));
-   989			if (!(gfp & __GFP_WRITE) && shadow)
-   990				workingset_refault(folio, shadow);
-   991			folio_add_lru(folio);
-   992		}
-   993		return ret;
-   994	}
-   995	EXPORT_SYMBOL_GPL(filemap_add_folio);
-   996	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PM when selected by COMMON_CLK_PXA1908
+   WARNING: unmet direct dependencies detected for PM
+     Depends on [n]: !MMU [=y]
+     Selected by [y]:
+     - COMMON_CLK_PXA1908 [=y] && COMMON_CLK [=y] && (ARCH_MMP || COMPILE_TEST [=y]) && OF [=y]
 
 -- 
 0-DAY CI Kernel Test Service
