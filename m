@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785B51A2C0B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 16:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3EB31AF21;
+	Fri, 22 Aug 2025 17:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755881228; cv=none; b=Smp6bPHo8iBaCEGOg4zR3tmkM1E+d10PS6kqQumId8NZhiFNeCe4IlcgjelQJ4++++CEiXmTGUnY9IP0Tj4aBZxawqyw2gxwf99rqzdSAhdWATgqgpv158vEMfYufETDuu9WA6m6mQ/RKylldPogYei3OY5ujMOSuOnXZM9b98E=
+	t=1755882571; cv=none; b=oYS5Sf9a1iKNzYFYRmVJJZHI9LWuncRsuuFfzXMXqDWIVXNndR+hF+yhhikIQHaSsTZxGET70YsKAL0crN6qXmQu548l8SyP90vy/r+S2WJ1kldPHGlLlQo0dXeSZ3PIKzpxUM1TeNiZbRexZ54W5QV08RikoS+qMxGm9fKivqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755881228; c=relaxed/simple;
-	bh=RVHxKpqtgiJosyrw8/Fkb1Ht48S6HoYjSHw8ebUmh0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B0bwOzlUreiv0hBQdgMh07m1yXachSUqYK8+0cymJMfvXwtTlbD4X1pwHhdzaNjOqRiXbX6exiEtmSbf6GFvwLwhtDOULaJNY/osgIuftuidS1rCEQYMRwiDHjSCav8CosTERIz1Yls8NiCDqe4hdJimo3qSCZpzLE05tvhYXf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLEFY/9E; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1755882571; c=relaxed/simple;
+	bh=7Edpu4iaigfyMUiRCVPJ8Q6j8sogTZ4BIgKymb2DFMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kj7rKvPAdnZaBu9Q8rdeJatYCQCmZFa6K0qaQtoeKwL5Oc2owa31Y2mLB5I1rUcRAhVkgyLA49TpHGDAy7gMBBPdQqKU5Pu6qTrOA3b7LMc2WcVImEeiZu0uYJqDU4D6xv6jtDHMiidIX6hwREoedMZRPRQecuwIotXHGk9Ij+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4+wIUPb; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLEFY/9E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4+wIUPb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755881226; x=1787417226;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RVHxKpqtgiJosyrw8/Fkb1Ht48S6HoYjSHw8ebUmh0E=;
-  b=NLEFY/9EFyLdbdGDwjUCH6xoqnDn3LB1AC8vj36fH3jdRrWMKC/mpoce
-   9WPmQJ3ir37mzh1yOkSD3n4FyU+yHdHMSn7a3B4P15cJSZhBTnUgIUoYa
-   TinENCanhfFZwT6xVgemG6yb3DJ0X3fE6TPPaTCMS4mfpWgUfOZ3nRSpS
-   Z3YXjWoYKQtTHArQSFyBvRLZREmzEg1+Y4vZRRMXKQKKRS52S9vtee5Pn
-   J2qeQsDe+ETsEKugH4wa0YeB3QITuFVn7kHWRA2TJyUX86Ct0aJMfKdP4
-   EyFXi00tYrp+Rx4poW9pHxzvmAoTgNd5+ZZEZ0KQkN2+24rfvnv0zfOcK
+  t=1755882569; x=1787418569;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7Edpu4iaigfyMUiRCVPJ8Q6j8sogTZ4BIgKymb2DFMw=;
+  b=C4+wIUPbOdQDw1nkMdDvYgCMGdWe8VQw+N6EaM9/pcy5Dzkvheu99CW/
+   Pdgxry7ogt9KfZhBQUB0uHDONzmVvcbvt2aotBlq2E3BVHAIHZEnBWjq0
+   b364hUoRWjhnCvKgVieQbezTMHOo/jwETFxVeZoGfbIXBHQMKH8Fw1msB
+   Ay9Cl/0ZOzpeRYAJqs7le3qB6jcd91Yhu9W/A+nePQ0We5c4w3v9PjLxe
+   o9Fj1gS4/7OAhmH6vqFxBWXWcQLoRJRwohHdkHOZW4oVkD86+Jmio3k0L
+   ztc3HJ8DaPnmP1m+H/8mTdvXKuSYRAXrj1CjYtbkuc47jbkxYp/0ZLLhN
    w==;
-X-CSE-ConnectionGUID: AIxSGNy/RgWH0d1j/8ze0w==
-X-CSE-MsgGUID: CsEmtISlTaK+TVknXlB33g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="62026827"
+X-CSE-ConnectionGUID: havs1/f0SZKMGz75TxXZAQ==
+X-CSE-MsgGUID: 3HhMaCFCQ0e8VYY/vg1/LQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58145625"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62026827"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 09:47:06 -0700
-X-CSE-ConnectionGUID: uBGeNivHSlOc+gJBQDT6uA==
-X-CSE-MsgGUID: KmxJpPpEQ6mQHUBZwY2UKw==
+   d="scan'208";a="58145625"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 10:09:28 -0700
+X-CSE-ConnectionGUID: bSznwY7qTReg8XKsoJX+Qw==
+X-CSE-MsgGUID: 5jtGIIBhT2ugTPUQX6bJ8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="168257834"
+   d="scan'208";a="168947402"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Aug 2025 09:47:04 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2025 10:09:24 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upUum-000LYF-0g;
-	Fri, 22 Aug 2025 16:46:58 +0000
-Date: Sat, 23 Aug 2025 00:45:53 +0800
+	id 1upVG1-000LZR-1i;
+	Fri, 22 Aug 2025 17:09:01 +0000
+Date: Sat, 23 Aug 2025 01:07:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-GNR-perf-uncore-ANBZ24141 2/2]
- drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:5: error: no
- previous prototype for 'sxevf_link_state_get'
-Message-ID: <202508230045.ufJErTGL-lkp@intel.com>
+To: Xiandong Wang <xiandong.wang@mediatek.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, sirius.wang@mediatek.com,
+	vince-wl.liu@mediatek.com, jh.hsu@mediatek.com,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Xiandong Wang <xiandong.wang@mediatek.com>
+Subject: Re: [PATCH v3 3/4] mailbox: mtk-cmdq: Add cmdq driver for mt8189
+Message-ID: <202508230035.zCJcuz93-lkp@intel.com>
+References: <20250819033746.16405-4-xiandong.wang@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,121 +75,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250819033746.16405-4-xiandong.wang@mediatek.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-GNR-perf-uncore-ANBZ24141
-head:   549f4465e530ad244aef11446ea0265824e1bca0
-commit: b0eae3386d6f264dc2e617e11e93de47a4099475 [2/2] anolis: net: supports linkdata ethernet controllers
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250823/202508230045.ufJErTGL-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230045.ufJErTGL-lkp@intel.com/reproduce)
+Hi Xiandong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jassibrar-mailbox/for-next]
+[also build test ERROR on robh/for-next krzk/for-next krzk-dt/for-next linus/master v6.17-rc2 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiandong-Wang/dt-bindings-mailbox-add-cmdq-yaml-for-MT8189/20250819-113946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
+patch link:    https://lore.kernel.org/r/20250819033746.16405-4-xiandong.wang%40mediatek.com
+patch subject: [PATCH v3 3/4] mailbox: mtk-cmdq: Add cmdq driver for mt8189
+config: arm-randconfig-001-20250822 (https://download.01.org/0day-ci/archive/20250823/202508230035.zCJcuz93-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230035.zCJcuz93-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508230045.ufJErTGL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508230035.zCJcuz93-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:160:6: error: no previous prototype for 'sxevf_hw_stop' [-Werror=missing-prototypes]
-     160 | void sxevf_hw_stop(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:187:6: error: no previous prototype for 'sxevf_msg_write' [-Werror=missing-prototypes]
-     187 | void sxevf_msg_write(struct sxevf_hw *hw, u8 index, u32 msg)
-         |      ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:196:5: error: no previous prototype for 'sxevf_msg_read' [-Werror=missing-prototypes]
-     196 | u32 sxevf_msg_read(struct sxevf_hw *hw, u8 index)
-         |     ^~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:206:5: error: no previous prototype for 'sxevf_mailbox_read' [-Werror=missing-prototypes]
-     206 | u32 sxevf_mailbox_read(struct sxevf_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:211:6: error: no previous prototype for 'sxevf_mailbox_write' [-Werror=missing-prototypes]
-     211 | void sxevf_mailbox_write(struct sxevf_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:216:6: error: no previous prototype for 'sxevf_pf_req_irq_trigger' [-Werror=missing-prototypes]
-     216 | void sxevf_pf_req_irq_trigger(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:221:6: error: no previous prototype for 'sxevf_pf_ack_irq_trigger' [-Werror=missing-prototypes]
-     221 | void sxevf_pf_ack_irq_trigger(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:226:6: error: no previous prototype for 'sxevf_event_irq_map' [-Werror=missing-prototypes]
-     226 | void sxevf_event_irq_map(struct sxevf_hw *hw, u16 vector)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:240:6: error: no previous prototype for 'sxevf_specific_irq_enable' [-Werror=missing-prototypes]
-     240 | void sxevf_specific_irq_enable(struct sxevf_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:245:6: error: no previous prototype for 'sxevf_irq_enable' [-Werror=missing-prototypes]
-     245 | void sxevf_irq_enable(struct sxevf_hw *hw, u32 mask)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:251:6: error: no previous prototype for 'sxevf_irq_disable' [-Werror=missing-prototypes]
-     251 | void sxevf_irq_disable(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:259:6: error: no previous prototype for 'sxevf_hw_ring_irq_map' [-Werror=missing-prototypes]
-     259 | void sxevf_hw_ring_irq_map(struct sxevf_hw *hw, bool is_tx, u16 hw_ring_idx,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:276:6: error: no previous prototype for 'sxevf_ring_irq_interval_set' [-Werror=missing-prototypes]
-     276 | void sxevf_ring_irq_interval_set(struct sxevf_hw *hw, u16 irq_idx, u32 interval)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:313:6: error: no previous prototype for 'sxevf_hw_reset' [-Werror=missing-prototypes]
-     313 | void sxevf_hw_reset(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:5: error: no previous prototype for 'sxevf_link_state_get' [-Werror=missing-prototypes]
-     324 | u32 sxevf_link_state_get(struct sxevf_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:539:6: error: no previous prototype for 'sxevf_tx_ring_switch' [-Werror=missing-prototypes]
-     539 | void sxevf_tx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:594:6: error: no previous prototype for 'sxevf_rx_ring_switch' [-Werror=missing-prototypes]
-     594 | void sxevf_rx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:626:6: error: no previous prototype for 'sxevf_rx_ring_desc_configure' [-Werror=missing-prototypes]
-     626 | void sxevf_rx_ring_desc_configure(struct sxevf_hw *hw, u32 desc_mem_len,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:640:6: error: no previous prototype for 'sxevf_rx_rcv_ctl_configure' [-Werror=missing-prototypes]
-     640 | void sxevf_rx_rcv_ctl_configure(struct sxevf_hw *hw, u8 reg_idx,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:697:6: error: no previous prototype for 'sxevf_32bit_counter_update' [-Werror=missing-prototypes]
-     697 | void sxevf_32bit_counter_update(struct sxevf_hw *hw,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:710:6: error: no previous prototype for 'sxevf_36bit_counter_update' [-Werror=missing-prototypes]
-     710 | void sxevf_36bit_counter_update(struct sxevf_hw *hw,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:726:6: error: no previous prototype for 'sxevf_packet_stats_get' [-Werror=missing-prototypes]
-     726 | void sxevf_packet_stats_get(struct sxevf_hw *hw, struct sxevf_hw_stats *stats)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:740:6: error: no previous prototype for 'sxevf_stats_init_value_get' [-Werror=missing-prototypes]
-     740 | void sxevf_stats_init_value_get(struct sxevf_hw *hw,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:88:6: error: no previous prototype for 'sxevf_tx_ring_free' [-Werror=missing-prototypes]
-      88 | void sxevf_tx_ring_free(struct sxevf_ring *ring)
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:127:5: error: no previous prototype for 'sxevf_tx_ring_alloc' [-Werror=missing-prototypes]
-     127 | s32 sxevf_tx_ring_alloc(struct sxevf_ring *ring)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c: In function 'sxevf_xmit_pkt':
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:703:66: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-     703 |                                  ring->idx, SXEVF_TX_DESC_NEEDED);
-         |                                                                  ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c: In function 'sxevf_ring_xmit':
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:803:74: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-     803 |                 LOG_ERROR("tx dma mapping err, ring idx=%u\n", ring->idx);
-         |                                                                          ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c: In function 'sxevf_xmit':
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:838:71: error: suggest braces around empty body in an 'else' statement [-Werror=empty-body]
-     838 |                 LOG_DEBUG("sxe xmit end, ring idx=%u\n", tx_ring->idx);
-         |                                                                       ^
-   cc1: all warnings being treated as errors
+>> drivers/mailbox/mtk-cmdq-mailbox.c:781:3: error: field designator 'mminfra_offset' does not refer to any field in type 'const struct gce_plat'
+     781 |         .mminfra_offset = 0x40000000, /* 1GB */
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/sxevf_link_state_get +324 drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c
+vim +781 drivers/mailbox/mtk-cmdq-mailbox.c
 
-   323	
- > 324	u32 sxevf_link_state_get(struct sxevf_hw *hw)
-   325	{
-   326		return SXEVF_REG_READ(hw, SXE_VFLINKS);
-   327	}
-   328	
+   777	
+   778	static const struct gce_plat gce_plat_mt8189 = {
+   779		.thread_nr = 32,
+   780		.shift = 3,
+ > 781		.mminfra_offset = 0x40000000, /* 1GB */
+   782		.control_by_sw = false,
+   783		.sw_ddr_en = true,
+   784		.gce_num = 2
+   785	};
+   786	
 
 -- 
 0-DAY CI Kernel Test Service
