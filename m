@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76E2550BA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 16:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785B51A2C0B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 16:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755880811; cv=none; b=X9oSfzc9UNN2I4L0DJYjBKtHyWDHchXWolGZndfAsysH1U9dNHWjPkMEOA59Bpv+QfltdAlsxCx52rOJG7ASEB9Xk+06djyus0oHi8GYWArArJShZ+67Jvkx+jqDMLrqO4oVikdVA0B+HgJ7eQSgvp9/bwM8ft4V7YQHLL9nqoo=
+	t=1755881228; cv=none; b=Smp6bPHo8iBaCEGOg4zR3tmkM1E+d10PS6kqQumId8NZhiFNeCe4IlcgjelQJ4++++CEiXmTGUnY9IP0Tj4aBZxawqyw2gxwf99rqzdSAhdWATgqgpv158vEMfYufETDuu9WA6m6mQ/RKylldPogYei3OY5ujMOSuOnXZM9b98E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755880811; c=relaxed/simple;
-	bh=1zY9mOsHwUP2iRNuA/njoyc7yI7XMTjl7nWniPYK4SE=;
+	s=arc-20240116; t=1755881228; c=relaxed/simple;
+	bh=RVHxKpqtgiJosyrw8/Fkb1Ht48S6HoYjSHw8ebUmh0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ih+HeZY5nw0cTi7TQA7/9jjKN/Ea4RUVbexgJfSqHCH/WzXnquUzG4WddqAdr8dbEv56Zt3G0wO6czVRFfZJflo8274UcXJ0NaxD3Db7CfV7XudQDgJAyk11yt6utxeFSE6kfbvx9eD16ye685bVq8rzXCRV7QmNKwllZHrDzk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yll8Q3dd; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=B0bwOzlUreiv0hBQdgMh07m1yXachSUqYK8+0cymJMfvXwtTlbD4X1pwHhdzaNjOqRiXbX6exiEtmSbf6GFvwLwhtDOULaJNY/osgIuftuidS1rCEQYMRwiDHjSCav8CosTERIz1Yls8NiCDqe4hdJimo3qSCZpzLE05tvhYXf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLEFY/9E; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yll8Q3dd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLEFY/9E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755880810; x=1787416810;
+  t=1755881226; x=1787417226;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1zY9mOsHwUP2iRNuA/njoyc7yI7XMTjl7nWniPYK4SE=;
-  b=Yll8Q3ddSs9XAvLyQA4SLG8tw6irq26VevRsR9hLXbHABWVDl8pr4UhO
-   alplLBq095ejNkmjKm9aXNWCT1Ssc8e5dMCnJdM7/YTnHQNvcrRL2osqy
-   kH9RXs5JElQXVd68b13BRzn9aiHTvRIUvCE8jOce38BYNCYJJ+147gfEB
-   qvJjMxfiYAIfGBSEGPpAKxzzDfQT/I8PR4RcYuNFdZj2QX08QiV4vb1+V
-   jR6qE1LI1yS6qV7XbhIujl//fFA1goCQuL5JoT1NBr5hAzJy6WSZenJ6A
-   mZDro2IpDax0VSh1xtkAitRbz59Ha3fZbJmPZDXG+6W5dL8g/3YpkIcnJ
-   g==;
-X-CSE-ConnectionGUID: 8pOAjQY2QGqU1WPGBCsaaw==
-X-CSE-MsgGUID: V1Prqf56T1KfJ8Mx2emwkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="75648984"
+  bh=RVHxKpqtgiJosyrw8/Fkb1Ht48S6HoYjSHw8ebUmh0E=;
+  b=NLEFY/9EFyLdbdGDwjUCH6xoqnDn3LB1AC8vj36fH3jdRrWMKC/mpoce
+   9WPmQJ3ir37mzh1yOkSD3n4FyU+yHdHMSn7a3B4P15cJSZhBTnUgIUoYa
+   TinENCanhfFZwT6xVgemG6yb3DJ0X3fE6TPPaTCMS4mfpWgUfOZ3nRSpS
+   Z3YXjWoYKQtTHArQSFyBvRLZREmzEg1+Y4vZRRMXKQKKRS52S9vtee5Pn
+   J2qeQsDe+ETsEKugH4wa0YeB3QITuFVn7kHWRA2TJyUX86Ct0aJMfKdP4
+   EyFXi00tYrp+Rx4poW9pHxzvmAoTgNd5+ZZEZ0KQkN2+24rfvnv0zfOcK
+   w==;
+X-CSE-ConnectionGUID: AIxSGNy/RgWH0d1j/8ze0w==
+X-CSE-MsgGUID: CsEmtISlTaK+TVknXlB33g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="62026827"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="75648984"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 09:40:09 -0700
-X-CSE-ConnectionGUID: bez3avMPRaCj52+AnBoSHg==
-X-CSE-MsgGUID: S3NAgdu5Sp2NQArjck4DOA==
+   d="scan'208";a="62026827"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 09:47:06 -0700
+X-CSE-ConnectionGUID: uBGeNivHSlOc+gJBQDT6uA==
+X-CSE-MsgGUID: KmxJpPpEQ6mQHUBZwY2UKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="205920462"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 22 Aug 2025 09:40:07 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="168257834"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 22 Aug 2025 09:47:04 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upUo9-0001xj-26;
-	Fri, 22 Aug 2025 16:40:05 +0000
-Date: Fri, 22 Aug 2025 18:39:52 +0200
+	id 1upUum-000LYF-0g;
+	Fri, 22 Aug 2025 16:46:58 +0000
+Date: Sat, 23 Aug 2025 00:45:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 7/7]
- drivers/iommu/intel/iommu.c:3277:7: error: call to undeclared function
- 'pkvm_enabled'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202508221834.0zoFAMYw-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-GNR-perf-uncore-ANBZ24141 2/2]
+ drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:5: error: no
+ previous prototype for 'sxevf_link_state_get'
+Message-ID: <202508230045.ufJErTGL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,176 +63,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
-commit: 3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4 [7/7] ANDROID: iommu/vt-d: force enable all iommu when pkvm is enabled.
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250822/202508221834.0zoFAMYw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508221834.0zoFAMYw-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-GNR-perf-uncore-ANBZ24141
+head:   549f4465e530ad244aef11446ea0265824e1bca0
+commit: b0eae3386d6f264dc2e617e11e93de47a4099475 [2/2] anolis: net: supports linkdata ethernet controllers
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250823/202508230045.ufJErTGL-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230045.ufJErTGL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508221834.0zoFAMYw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508230045.ufJErTGL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iommu/intel/iommu.c:3277:7: error: call to undeclared function 'pkvm_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3277 |         if (!pkvm_enabled())
-         |              ^
-   drivers/iommu/intel/iommu.c:3277:7: note: did you mean 'pat_enabled'?
-   arch/x86/include/asm/memtype.h:8:13: note: 'pat_enabled' declared here
-       8 | extern bool pat_enabled(void);
-         |             ^
-   1 error generated.
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:160:6: error: no previous prototype for 'sxevf_hw_stop' [-Werror=missing-prototypes]
+     160 | void sxevf_hw_stop(struct sxevf_hw *hw)
+         |      ^~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:187:6: error: no previous prototype for 'sxevf_msg_write' [-Werror=missing-prototypes]
+     187 | void sxevf_msg_write(struct sxevf_hw *hw, u8 index, u32 msg)
+         |      ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:196:5: error: no previous prototype for 'sxevf_msg_read' [-Werror=missing-prototypes]
+     196 | u32 sxevf_msg_read(struct sxevf_hw *hw, u8 index)
+         |     ^~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:206:5: error: no previous prototype for 'sxevf_mailbox_read' [-Werror=missing-prototypes]
+     206 | u32 sxevf_mailbox_read(struct sxevf_hw *hw)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:211:6: error: no previous prototype for 'sxevf_mailbox_write' [-Werror=missing-prototypes]
+     211 | void sxevf_mailbox_write(struct sxevf_hw *hw, u32 value)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:216:6: error: no previous prototype for 'sxevf_pf_req_irq_trigger' [-Werror=missing-prototypes]
+     216 | void sxevf_pf_req_irq_trigger(struct sxevf_hw *hw)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:221:6: error: no previous prototype for 'sxevf_pf_ack_irq_trigger' [-Werror=missing-prototypes]
+     221 | void sxevf_pf_ack_irq_trigger(struct sxevf_hw *hw)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:226:6: error: no previous prototype for 'sxevf_event_irq_map' [-Werror=missing-prototypes]
+     226 | void sxevf_event_irq_map(struct sxevf_hw *hw, u16 vector)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:240:6: error: no previous prototype for 'sxevf_specific_irq_enable' [-Werror=missing-prototypes]
+     240 | void sxevf_specific_irq_enable(struct sxevf_hw *hw, u32 value)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:245:6: error: no previous prototype for 'sxevf_irq_enable' [-Werror=missing-prototypes]
+     245 | void sxevf_irq_enable(struct sxevf_hw *hw, u32 mask)
+         |      ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:251:6: error: no previous prototype for 'sxevf_irq_disable' [-Werror=missing-prototypes]
+     251 | void sxevf_irq_disable(struct sxevf_hw *hw)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:259:6: error: no previous prototype for 'sxevf_hw_ring_irq_map' [-Werror=missing-prototypes]
+     259 | void sxevf_hw_ring_irq_map(struct sxevf_hw *hw, bool is_tx, u16 hw_ring_idx,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:276:6: error: no previous prototype for 'sxevf_ring_irq_interval_set' [-Werror=missing-prototypes]
+     276 | void sxevf_ring_irq_interval_set(struct sxevf_hw *hw, u16 irq_idx, u32 interval)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:313:6: error: no previous prototype for 'sxevf_hw_reset' [-Werror=missing-prototypes]
+     313 | void sxevf_hw_reset(struct sxevf_hw *hw)
+         |      ^~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:5: error: no previous prototype for 'sxevf_link_state_get' [-Werror=missing-prototypes]
+     324 | u32 sxevf_link_state_get(struct sxevf_hw *hw)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:539:6: error: no previous prototype for 'sxevf_tx_ring_switch' [-Werror=missing-prototypes]
+     539 | void sxevf_tx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:594:6: error: no previous prototype for 'sxevf_rx_ring_switch' [-Werror=missing-prototypes]
+     594 | void sxevf_rx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:626:6: error: no previous prototype for 'sxevf_rx_ring_desc_configure' [-Werror=missing-prototypes]
+     626 | void sxevf_rx_ring_desc_configure(struct sxevf_hw *hw, u32 desc_mem_len,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:640:6: error: no previous prototype for 'sxevf_rx_rcv_ctl_configure' [-Werror=missing-prototypes]
+     640 | void sxevf_rx_rcv_ctl_configure(struct sxevf_hw *hw, u8 reg_idx,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:697:6: error: no previous prototype for 'sxevf_32bit_counter_update' [-Werror=missing-prototypes]
+     697 | void sxevf_32bit_counter_update(struct sxevf_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:710:6: error: no previous prototype for 'sxevf_36bit_counter_update' [-Werror=missing-prototypes]
+     710 | void sxevf_36bit_counter_update(struct sxevf_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:726:6: error: no previous prototype for 'sxevf_packet_stats_get' [-Werror=missing-prototypes]
+     726 | void sxevf_packet_stats_get(struct sxevf_hw *hw, struct sxevf_hw_stats *stats)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:740:6: error: no previous prototype for 'sxevf_stats_init_value_get' [-Werror=missing-prototypes]
+     740 | void sxevf_stats_init_value_get(struct sxevf_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:88:6: error: no previous prototype for 'sxevf_tx_ring_free' [-Werror=missing-prototypes]
+      88 | void sxevf_tx_ring_free(struct sxevf_ring *ring)
+         |      ^~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:127:5: error: no previous prototype for 'sxevf_tx_ring_alloc' [-Werror=missing-prototypes]
+     127 | s32 sxevf_tx_ring_alloc(struct sxevf_ring *ring)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c: In function 'sxevf_xmit_pkt':
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:703:66: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+     703 |                                  ring->idx, SXEVF_TX_DESC_NEEDED);
+         |                                                                  ^
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c: In function 'sxevf_ring_xmit':
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:803:74: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+     803 |                 LOG_ERROR("tx dma mapping err, ring idx=%u\n", ring->idx);
+         |                                                                          ^
+   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c: In function 'sxevf_xmit':
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_tx_proc.c:838:71: error: suggest braces around empty body in an 'else' statement [-Werror=empty-body]
+     838 |                 LOG_DEBUG("sxe xmit end, ring idx=%u\n", tx_ring->idx);
+         |                                                                       ^
+   cc1: all warnings being treated as errors
 
 
-vim +/pkvm_enabled +3277 drivers/iommu/intel/iommu.c
+vim +/sxevf_link_state_get +324 drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c
 
-  3201	
-  3202	int __init intel_iommu_init(void)
-  3203	{
-  3204		int ret = -ENODEV;
-  3205		struct dmar_drhd_unit *drhd;
-  3206		struct intel_iommu *iommu;
-  3207	
-  3208		/*
-  3209		 * Intel IOMMU is required for a TXT/tboot launch or platform
-  3210		 * opt in, so enforce that.
-  3211		 */
-  3212		force_on = (!intel_iommu_tboot_noforce && tboot_force_iommu()) ||
-  3213			    platform_optin_force_iommu();
-  3214	
-  3215		down_write(&dmar_global_lock);
-  3216		if (dmar_table_init()) {
-  3217			if (force_on)
-  3218				panic("tboot: Failed to initialize DMAR table\n");
-  3219			goto out_free_dmar;
-  3220		}
-  3221	
-  3222		if (dmar_dev_scope_init() < 0) {
-  3223			if (force_on)
-  3224				panic("tboot: Failed to initialize DMAR device scope\n");
-  3225			goto out_free_dmar;
-  3226		}
-  3227	
-  3228		up_write(&dmar_global_lock);
-  3229	
-  3230		/*
-  3231		 * The bus notifier takes the dmar_global_lock, so lockdep will
-  3232		 * complain later when we register it under the lock.
-  3233		 */
-  3234		dmar_register_bus_notifier();
-  3235	
-  3236		down_write(&dmar_global_lock);
-  3237	
-  3238		if (!no_iommu)
-  3239			intel_iommu_debugfs_init();
-  3240	
-  3241		if (no_iommu || dmar_disabled) {
-  3242			/*
-  3243			 * We exit the function here to ensure IOMMU's remapping and
-  3244			 * mempool aren't setup, which means that the IOMMU's PMRs
-  3245			 * won't be disabled via the call to init_dmars(). So disable
-  3246			 * it explicitly here. The PMRs were setup by tboot prior to
-  3247			 * calling SENTER, but the kernel is expected to reset/tear
-  3248			 * down the PMRs.
-  3249			 */
-  3250			if (intel_iommu_tboot_noforce) {
-  3251				for_each_iommu(iommu, drhd)
-  3252					iommu_disable_protect_mem_regions(iommu);
-  3253			}
-  3254	
-  3255			/*
-  3256			 * Make sure the IOMMUs are switched off, even when we
-  3257			 * boot into a kexec kernel and the previous kernel left
-  3258			 * them enabled
-  3259			 */
-  3260			intel_disable_iommus();
-  3261			goto out_free_dmar;
-  3262		}
-  3263	
-  3264		if (list_empty(&dmar_rmrr_units))
-  3265			pr_info("No RMRR found\n");
-  3266	
-  3267		if (list_empty(&dmar_atsr_units))
-  3268			pr_info("No ATSR found\n");
-  3269	
-  3270		if (list_empty(&dmar_satc_units))
-  3271			pr_info("No SATC found\n");
-  3272	
-  3273		/*
-  3274		 * Do not ignore any dmars if pkvm is enabled so as to
-  3275		 * guarantee memory protection from devices.
-  3276		 */
-> 3277		if (!pkvm_enabled())
-  3278			init_no_remapping_devices();
-  3279	
-  3280		ret = init_dmars();
-  3281		if (ret) {
-  3282			if (force_on)
-  3283				panic("tboot: Failed to initialize DMARs\n");
-  3284			pr_err("Initialization failed\n");
-  3285			goto out_free_dmar;
-  3286		}
-  3287		up_write(&dmar_global_lock);
-  3288	
-  3289		init_iommu_pm_ops();
-  3290	
-  3291		down_read(&dmar_global_lock);
-  3292		for_each_active_iommu(iommu, drhd) {
-  3293			/*
-  3294			 * The flush queue implementation does not perform
-  3295			 * page-selective invalidations that are required for efficient
-  3296			 * TLB flushes in virtual environments.  The benefit of batching
-  3297			 * is likely to be much lower than the overhead of synchronizing
-  3298			 * the virtual and physical IOMMU page-tables.
-  3299			 */
-  3300			if (cap_caching_mode(iommu->cap) &&
-  3301			    !first_level_by_default(IOMMU_DOMAIN_DMA)) {
-  3302				pr_info_once("IOMMU batching disallowed due to virtualization\n");
-  3303				iommu_set_dma_strict();
-  3304			}
-  3305			iommu_device_sysfs_add(&iommu->iommu, NULL,
-  3306					       intel_iommu_groups,
-  3307					       "%s", iommu->name);
-  3308			/*
-  3309			 * The iommu device probe is protected by the iommu_probe_device_lock.
-  3310			 * Release the dmar_global_lock before entering the device probe path
-  3311			 * to avoid unnecessary lock order splat.
-  3312			 */
-  3313			up_read(&dmar_global_lock);
-  3314			iommu_device_register(&iommu->iommu, &intel_iommu_ops, NULL);
-  3315			down_read(&dmar_global_lock);
-  3316	
-  3317			iommu_pmu_register(iommu);
-  3318		}
-  3319	
-  3320		if (probe_acpi_namespace_devices())
-  3321			pr_warn("ACPI name space devices didn't probe correctly\n");
-  3322	
-  3323		/* Finally, we enable the DMA remapping hardware. */
-  3324		for_each_iommu(iommu, drhd) {
-  3325			if (!drhd->ignored && !translation_pre_enabled(iommu))
-  3326				iommu_enable_translation(iommu);
-  3327	
-  3328			iommu_disable_protect_mem_regions(iommu);
-  3329		}
-  3330		up_read(&dmar_global_lock);
-  3331	
-  3332		pr_info("Intel(R) Virtualization Technology for Directed I/O\n");
-  3333	
-  3334		intel_iommu_enabled = 1;
-  3335	
-  3336		return 0;
-  3337	
-  3338	out_free_dmar:
-  3339		intel_iommu_free_dmars();
-  3340		up_write(&dmar_global_lock);
-  3341		return ret;
-  3342	}
-  3343	
+   323	
+ > 324	u32 sxevf_link_state_get(struct sxevf_hw *hw)
+   325	{
+   326		return SXEVF_REG_READ(hw, SXE_VFLINKS);
+   327	}
+   328	
 
 -- 
 0-DAY CI Kernel Test Service
