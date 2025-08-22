@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1553199FAC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 13:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755BA21A420
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 13:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755867819; cv=none; b=H3eDolQlXctaYuFTDCunY5Idg8mxglOdmiv3LZBmrZkLe7ulnhuaNFTdUkKoX6W7qwKjknl3c2+mWeT28VqNWuwLRc1UgU86r1jU4ujU57d5QzLxa64Z5+B3SlibJA6KixEeYTw2dETR+IkQTbyadIlxODnOiv7Q9JMaaaFLhnY=
+	t=1755870396; cv=none; b=IwjCo4sEbKHoNZcZzLgDnwLaFG2U4+J/Eu2QtM0fIaaMa/dujo3YIAAOQMJxj7kFU3YmGc37Sfa+zftxtg7AMnRDFBMhKM5+Uy6OlBwXKTAz3UeSeirgomCFqk64luUk+Jb7WkQeUNhUV/6r667II1lcV9Bvg1sji42rIZkjs3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755867819; c=relaxed/simple;
-	bh=T0dJUuyTERuYjJTPAKmtB3duowFkljPn3A+2vb7ido4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lsp3MTk1uC1/jfDPNeyhHpYyeQHka5vYrsdo9wMSmasbB10Hl5m8BScxFvhUu74AXSYfvI+r1d8Iwkf1xxit7Om8eOMtl1sIrLKxN8ynEt5nFGGUSZC19Yx3yYw2bu/r75AHt8Dx9vK3ewTT2KYmhGLc82ks+ZRz7U4M6lOG6pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaPGBSvl; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1755870396; c=relaxed/simple;
+	bh=J0+pZ+2m0Dv0vL74QouwXOMlr21iON6x4zZIvX0pgZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t54qcZlOFCz6SM+K+GHPj3RPQLPuJJ1bh43Q0/3N4NSzeWiSkzKw1ahFgFS0XmmJ5qoEdB5o9SIohnUFxYAz2fYzpQfS4P75deIsPYcbuOqUGey+FJl/EGaALDpjG7HiocDM6ErjMah825D0Qio1ODCnFqdxOL00ZkutTJMpyd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NqeO1ozl; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaPGBSvl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NqeO1ozl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755867817; x=1787403817;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T0dJUuyTERuYjJTPAKmtB3duowFkljPn3A+2vb7ido4=;
-  b=HaPGBSvlby+V8cbChPx6h1XTK1e6ho7tZ1sSPb7jrQyw+RPanZVz74Pj
-   BuYNKOEJujeu+ClbNuL9tlNr3aC7qdVmX/rsacQLHBNd1Dr6YFlqz+BA3
-   7xpjM06frdjAGiMWKh72HaABaK/m3EVVuhoN30/Hwr+ilEmJzIBAqcPAu
-   dUBpJk2zMahuK5Bj8KQMjpq6fnhD3JfEvLMBkgIg1bUaYTk2M0fJkkT2A
-   uJlvLyKzQIVBUWIr+DyprbCtgKg0NPRUmzbA5ZIRWM8s5mf65Fipczfhr
-   K8p1rNWppLFbN7s71A3mMqv03rtnvLdoRn6rWDDlZ9sAKbn8I+d96nKjV
+  t=1755870394; x=1787406394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J0+pZ+2m0Dv0vL74QouwXOMlr21iON6x4zZIvX0pgZY=;
+  b=NqeO1ozluqGhg3koB5VOIXGtmPtp39Hme+zyoIaoCfYVJ+2c6Pndudym
+   5B9Np3PeZThqkzc1QI7+yOdcdcSlt4BrglflgazySTn6U4wXWJDEYC5eI
+   IX3geefshO9pM3YhmYJiOH8d9zqi2H3QBQSvODqlXgQfNPf4PBJ4HS5ST
+   eY2aEikxpePBQZJGGNvrmgxXvWegQULppBGokKodT061yDg3lphrkBSUD
+   p2T/z/S2ycfX4FGxZLHthxWdi1g2QMNcFcCOrjWJgiY8q/Mkfqd2RD0wi
+   4L4tNZqA2FG2XAH9ftM9kZoFM0SWCWf+Q1HgvTkIqrfyoNE41AI4GWybN
    w==;
-X-CSE-ConnectionGUID: L+DgNy2LQ3+GG86esHHthg==
-X-CSE-MsgGUID: Xx8Fz+zhShuBTxPPE1hDdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="75754896"
+X-CSE-ConnectionGUID: XLPX8ilZQn6XkdmVrqowvQ==
+X-CSE-MsgGUID: cZ2y3uHAQSuOK2JdqOQjQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58127714"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="75754896"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 06:03:37 -0700
-X-CSE-ConnectionGUID: QD3krVaDRKWg/cKlVaIhUw==
-X-CSE-MsgGUID: eWmbhZXESvqG3+99S7at3Q==
+   d="scan'208";a="58127714"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 06:46:33 -0700
+X-CSE-ConnectionGUID: ZLmg3LI9Ra+rLL4muaRPrQ==
+X-CSE-MsgGUID: DpwzIgtRQ9iTSF6OFHtLtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="173974859"
+   d="scan'208";a="168614614"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Aug 2025 06:03:36 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2025 06:46:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upRQb-000LIX-1l;
-	Fri, 22 Aug 2025 13:03:33 +0000
-Date: Fri, 22 Aug 2025 21:02:36 +0800
+	id 1upS68-000LLR-27;
+	Fri, 22 Aug 2025 13:46:28 +0000
+Date: Fri, 22 Aug 2025 21:46:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/syzbot 2/2] fs/f2fs/recovery.c:551:45: error: type of
- formal parameter 3 is incomplete
-Message-ID: <202508222011.JmRHhDW2-lkp@intel.com>
+To: Boris Burkov <boris@bur.io>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	kernel-team@fb.com, shakeel.butt@linux.dev, wqu@suse.com,
+	willy@infradead.org, mhocko@kernel.org, muchun.song@linux.dev,
+	roman.gushchin@linux.dev, hannes@cmpxchg.org
+Subject: Re: [PATCH v4 1/3] mm/filemap: add AS_KERNEL_FILE
+Message-ID: <202508222105.tg88NxnV-lkp@intel.com>
+References: <f09c4e2c90351d4cb30a1969f7a863b9238bd291.1755812945.git.boris@bur.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,205 +66,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f09c4e2c90351d4cb30a1969f7a863b9238bd291.1755812945.git.boris@bur.io>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
-head:   6f04e51431a05791d78d488be6ac2b9077607d05
-commit: 6f04e51431a05791d78d488be6ac2b9077607d05 [2/2] f2fs: introduce NODE_TYPE_NON_INODE
-config: arc-randconfig-002-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222011.JmRHhDW2-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222011.JmRHhDW2-lkp@intel.com/reproduce)
+Hi Boris,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on kdave/for-next linus/master v6.17-rc2 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Burkov/mm-filemap-add-AS_KERNEL_FILE/20250822-055741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/f09c4e2c90351d4cb30a1969f7a863b9238bd291.1755812945.git.boris%40bur.io
+patch subject: [PATCH v4 1/3] mm/filemap: add AS_KERNEL_FILE
+config: x86_64-buildonly-randconfig-006-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222105.tg88NxnV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222105.tg88NxnV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508222011.JmRHhDW2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508222105.tg88NxnV-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/f2fs/sysfs.c:17:
->> fs/f2fs/f2fs.h:3835:12: warning: 'enum node_type' declared inside parameter list will not be visible outside of this definition or declaration
-          enum node_type node_type);
-               ^~~~~~~~~
---
-   In file included from fs/f2fs/recovery.c:12:
->> fs/f2fs/f2fs.h:3835:12: warning: 'enum node_type' declared inside parameter list will not be visible outside of this definition or declaration
-          enum node_type node_type);
-               ^~~~~~~~~
-   fs/f2fs/recovery.c: In function 'check_index_in_prev_nodes':
->> fs/f2fs/recovery.c:551:45: error: type of formal parameter 3 is incomplete
-     node_folio = f2fs_get_node_folio(sbi, nid, NODE_TYPE_REGULAR);
-                                                ^~~~~~~~~~~~~~~~~
---
-   In file included from fs/f2fs/gc.c:19:
->> fs/f2fs/f2fs.h:3835:12: warning: 'enum node_type' declared inside parameter list will not be visible outside of this definition or declaration
-          enum node_type node_type);
-               ^~~~~~~~~
-   fs/f2fs/gc.c: In function 'gc_node_segment':
->> fs/f2fs/gc.c:1074:46: error: type of formal parameter 3 is incomplete
-      node_folio = f2fs_get_node_folio(sbi, nid, NODE_TYPE_REGULAR);
-                                                 ^~~~~~~~~~~~~~~~~
-   fs/f2fs/gc.c: In function 'is_alive':
-   fs/f2fs/gc.c:1148:45: error: type of formal parameter 3 is incomplete
-     node_folio = f2fs_get_node_folio(sbi, nid, NODE_TYPE_REGULAR);
-                                                ^~~~~~~~~~~~~~~~~
---
-   In file included from fs/f2fs/node.c:16:
->> fs/f2fs/f2fs.h:3835:12: warning: 'enum node_type' declared inside parameter list will not be visible outside of this definition or declaration
-          enum node_type node_type);
-               ^~~~~~~~~
-   fs/f2fs/node.c: In function 'f2fs_get_dnode_of_data':
->> fs/f2fs/node.c:880:7: error: type of formal parameter 3 is incomplete
-          NODE_TYPE_NON_INODE);
-          ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/node.c: In function 'truncate_dnode':
-   fs/f2fs/node.c:998:44: error: type of formal parameter 3 is incomplete
-     folio = f2fs_get_node_folio(sbi, dn->nid, NODE_TYPE_NON_INODE);
-                                               ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/node.c: In function 'truncate_nodes':
-   fs/f2fs/node.c:1043:7: error: type of formal parameter 3 is incomplete
-          NODE_TYPE_NON_INODE);
-          ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/node.c: In function 'truncate_partial_nodes':
-   fs/f2fs/node.c:1122:8: error: type of formal parameter 3 is incomplete
-           NODE_TYPE_NON_INODE);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/node.c: In function 'sanity_check_node_footer':
->> fs/f2fs/node.c:1510:2: warning: enumeration value 'NODE_TYPE_REGULAR' not handled in switch [-Wswitch]
-     switch (ntype) {
-     ^~~~~~
-   fs/f2fs/node.c: At top level:
->> fs/f2fs/node.c:1592:15: error: conflicting types for 'f2fs_get_node_folio'
-    struct folio *f2fs_get_node_folio(struct f2fs_sb_info *sbi, pgoff_t nid,
-                  ^~~~~~~~~~~~~~~~~~~
-   In file included from fs/f2fs/node.c:16:
-   fs/f2fs/f2fs.h:3834:15: note: previous declaration of 'f2fs_get_node_folio' was here
-    struct folio *f2fs_get_node_folio(struct f2fs_sb_info *sbi, pgoff_t nid,
-                  ^~~~~~~~~~~~~~~~~~~
+   mm/filemap.c: In function 'filemap_add_folio':
+>> mm/filemap.c:967:40: error: 'root_mem_cgroup' undeclared (first use in this function); did you mean 'parent_mem_cgroup'?
+     967 |                 tmp = set_active_memcg(root_mem_cgroup);
+         |                                        ^~~~~~~~~~~~~~~
+         |                                        parent_mem_cgroup
+   mm/filemap.c:967:40: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +551 fs/f2fs/recovery.c
+vim +967 mm/filemap.c
 
-   488	
-   489	static int check_index_in_prev_nodes(struct f2fs_sb_info *sbi,
-   490				block_t blkaddr, struct dnode_of_data *dn)
-   491	{
-   492		struct seg_entry *sentry;
-   493		unsigned int segno = GET_SEGNO(sbi, blkaddr);
-   494		unsigned short blkoff = GET_BLKOFF_FROM_SEG0(sbi, blkaddr);
-   495		struct f2fs_summary_block *sum_node;
-   496		struct f2fs_summary sum;
-   497		struct folio *sum_folio, *node_folio;
-   498		struct dnode_of_data tdn = *dn;
-   499		nid_t ino, nid;
-   500		struct inode *inode;
-   501		unsigned int offset, ofs_in_node, max_addrs;
-   502		block_t bidx;
-   503		int i;
-   504	
-   505		sentry = get_seg_entry(sbi, segno);
-   506		if (!f2fs_test_bit(blkoff, sentry->cur_valid_map))
-   507			return 0;
-   508	
-   509		/* Get the previous summary */
-   510		for (i = CURSEG_HOT_DATA; i <= CURSEG_COLD_DATA; i++) {
-   511			struct curseg_info *curseg = CURSEG_I(sbi, i);
-   512	
-   513			if (curseg->segno == segno) {
-   514				sum = curseg->sum_blk->entries[blkoff];
-   515				goto got_it;
-   516			}
-   517		}
-   518	
-   519		sum_folio = f2fs_get_sum_folio(sbi, segno);
-   520		if (IS_ERR(sum_folio))
-   521			return PTR_ERR(sum_folio);
-   522		sum_node = folio_address(sum_folio);
-   523		sum = sum_node->entries[blkoff];
-   524		f2fs_folio_put(sum_folio, true);
-   525	got_it:
-   526		/* Use the locked dnode page and inode */
-   527		nid = le32_to_cpu(sum.nid);
-   528		ofs_in_node = le16_to_cpu(sum.ofs_in_node);
-   529	
-   530		max_addrs = ADDRS_PER_PAGE(dn->node_folio, dn->inode);
-   531		if (ofs_in_node >= max_addrs) {
-   532			f2fs_err(sbi, "Inconsistent ofs_in_node:%u in summary, ino:%lu, nid:%u, max:%u",
-   533				ofs_in_node, dn->inode->i_ino, nid, max_addrs);
-   534			f2fs_handle_error(sbi, ERROR_INCONSISTENT_SUMMARY);
-   535			return -EFSCORRUPTED;
-   536		}
-   537	
-   538		if (dn->inode->i_ino == nid) {
-   539			tdn.nid = nid;
-   540			if (!dn->inode_folio_locked)
-   541				folio_lock(dn->inode_folio);
-   542			tdn.node_folio = dn->inode_folio;
-   543			tdn.ofs_in_node = ofs_in_node;
-   544			goto truncate_out;
-   545		} else if (dn->nid == nid) {
-   546			tdn.ofs_in_node = ofs_in_node;
-   547			goto truncate_out;
-   548		}
-   549	
-   550		/* Get the node page */
- > 551		node_folio = f2fs_get_node_folio(sbi, nid, NODE_TYPE_REGULAR);
-   552		if (IS_ERR(node_folio))
-   553			return PTR_ERR(node_folio);
-   554	
-   555		offset = ofs_of_node(node_folio);
-   556		ino = ino_of_node(node_folio);
-   557		f2fs_folio_put(node_folio, true);
-   558	
-   559		if (ino != dn->inode->i_ino) {
-   560			int ret;
-   561	
-   562			/* Deallocate previous index in the node page */
-   563			inode = f2fs_iget_retry(sbi->sb, ino);
-   564			if (IS_ERR(inode))
-   565				return PTR_ERR(inode);
-   566	
-   567			ret = f2fs_dquot_initialize(inode);
-   568			if (ret) {
-   569				iput(inode);
-   570				return ret;
-   571			}
-   572		} else {
-   573			inode = dn->inode;
-   574		}
-   575	
-   576		bidx = f2fs_start_bidx_of_node(offset, inode) +
-   577					le16_to_cpu(sum.ofs_in_node);
-   578	
-   579		/*
-   580		 * if inode page is locked, unlock temporarily, but its reference
-   581		 * count keeps alive.
-   582		 */
-   583		if (ino == dn->inode->i_ino && dn->inode_folio_locked)
-   584			folio_unlock(dn->inode_folio);
-   585	
-   586		set_new_dnode(&tdn, inode, NULL, NULL, 0);
-   587		if (f2fs_get_dnode_of_data(&tdn, bidx, LOOKUP_NODE))
-   588			goto out;
-   589	
-   590		if (tdn.data_blkaddr == blkaddr)
-   591			f2fs_truncate_data_blocks_range(&tdn, 1);
-   592	
-   593		f2fs_put_dnode(&tdn);
-   594	out:
-   595		if (ino != dn->inode->i_ino)
-   596			iput(inode);
-   597		else if (dn->inode_folio_locked)
-   598			folio_lock(dn->inode_folio);
-   599		return 0;
-   600	
-   601	truncate_out:
-   602		if (f2fs_data_blkaddr(&tdn) == blkaddr)
-   603			f2fs_truncate_data_blocks_range(&tdn, 1);
-   604		if (dn->inode->i_ino == nid && !dn->inode_folio_locked)
-   605			folio_unlock(dn->inode_folio);
-   606		return 0;
-   607	}
-   608	
+   957	
+   958	int filemap_add_folio(struct address_space *mapping, struct folio *folio,
+   959					pgoff_t index, gfp_t gfp)
+   960	{
+   961		void *shadow = NULL;
+   962		int ret;
+   963		struct mem_cgroup *tmp;
+   964		bool kernel_file = test_bit(AS_KERNEL_FILE, &mapping->flags);
+   965	
+   966		if (kernel_file)
+ > 967			tmp = set_active_memcg(root_mem_cgroup);
+   968		ret = mem_cgroup_charge(folio, NULL, gfp);
+   969		if (kernel_file)
+   970			set_active_memcg(tmp);
+   971		if (ret)
+   972			return ret;
+   973	
+   974		__folio_set_locked(folio);
+   975		ret = __filemap_add_folio(mapping, folio, index, gfp, &shadow);
+   976		if (unlikely(ret)) {
+   977			mem_cgroup_uncharge(folio);
+   978			__folio_clear_locked(folio);
+   979		} else {
+   980			/*
+   981			 * The folio might have been evicted from cache only
+   982			 * recently, in which case it should be activated like
+   983			 * any other repeatedly accessed folio.
+   984			 * The exception is folios getting rewritten; evicting other
+   985			 * data from the working set, only to cache data that will
+   986			 * get overwritten with something else, is a waste of memory.
+   987			 */
+   988			WARN_ON_ONCE(folio_test_active(folio));
+   989			if (!(gfp & __GFP_WRITE) && shadow)
+   990				workingset_refault(folio, shadow);
+   991			folio_add_lru(folio);
+   992		}
+   993		return ret;
+   994	}
+   995	EXPORT_SYMBOL_GPL(filemap_add_folio);
+   996	
 
 -- 
 0-DAY CI Kernel Test Service
