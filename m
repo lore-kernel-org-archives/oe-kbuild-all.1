@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F7D2D6619
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 20:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2021DED5B;
+	Fri, 22 Aug 2025 20:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755894438; cv=none; b=SuZXpVtEgDn5KGHXoOnHAOdD72xaTpRiYqY8Ser2stRbjZLcc3UFeCHdK9GFwHo6GAD+7TAHaekMhXAGW89POyYJIKnvycl1+gqSwVcyicr9sm3DcnADPB5Vv5v0rIS/9F8hdrdRt/LaDpI8wGauYrLyJcKz+MOLrB+GdhT+A+I=
+	t=1755894438; cv=none; b=cMc5hfCxmbNj2WtHPW18FijxHFjPNdOzzYwtnWUsIkyTeVwDWBpiY+bbfS1j9l//FZ0UPXNUJIG2ZcT19cc+karl+aQ78KcrjP2HcPHU990sKVhPCvpPg2DDsDj2WtmRdqturRh3NQJBZ7g3rodT04o+5AVIHxmgQ6gjRF5VOu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755894438; c=relaxed/simple;
-	bh=nYa9N61PxVp1a4UpPEbnBraecFymTEA4OBT6k68ydR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UdVRQCP57SzjjYsKdescACg9TyEpLCAFNfsR/bBDP/X1SPJjzcwzsK6wK1IrMyfNOAwqRFnU32zQhOmKSb9L9wtmRFWx7vJFA5Zfu3ssY7G7NoiQ8Wq57eKqugv5cXXR93T+k+4AwSNyDJOXjMJDsEVL08dm8j9OmTRpvK9YIkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuzwPs0h; arc=none smtp.client-ip=192.198.163.7
+	bh=nBBEMD50am9Y7qJr724iPY3HOOKdLMrU80RREAyH+ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c47koYtG3aIpFxIkFRbJ3Fc3bGOil26Q9zOpxq5kS1p0pbqRPlG5OuZhlIdre8Qekpfp//cJkOdXajeQ9/5wiR75qjQz33mWVIwr7n/hm7LSBFjK2uvzKqpi3JtMuCsdiouAZjH5lhWgYUwHTLmAVPrm7/qlFgLLU88Giut/kuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXrWGKDB; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuzwPs0h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXrWGKDB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755894435; x=1787430435;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nYa9N61PxVp1a4UpPEbnBraecFymTEA4OBT6k68ydR4=;
-  b=OuzwPs0hCzxochg7ff8H12IHv5XXGthIJCz/evwZ/eH4g2SFmlvokPeO
-   2jLl24hVIyQfBPQ0gG0mU5x4HB+VGKnmfJH3hda+NbxudJkV0ltmVNw4D
-   4HqSSftkYoqfVs2w6Bm3EmlSleOOzX+JlM9+GGtJu2FON+q1YV36NU+HV
-   7Sjuj9cPAKYfFZquCnditI3Xuufy+gLQixF45oiFQ3tjOkWZ2vm6oby46
-   fk1MbENkA9hnN2ST4YCbo6ZMk2EBDOC5ykMd+xfK4jUK9p6lq/p46iIHt
-   /HHOQilojtYwoFIPEgCB503SitDwQoa/oVaeCUbyZzx5wionr6e0wRyLL
+  t=1755894437; x=1787430437;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nBBEMD50am9Y7qJr724iPY3HOOKdLMrU80RREAyH+ss=;
+  b=RXrWGKDBy1dPzg0XaxsQ4Znwr66Vzk1RU7LKfkexFdbnIk5sH6XyHNK/
+   2wo+bv1cnocnlwKwCXtVv19so9I3Y3VsqaKrecThJ3QY6XO+HxpIFai34
+   ziNbKmLKBc5brQnIxOtZ0t9KrKspMGK71rdE+62hYk5AlFutBsJHqexH4
+   lI9bUejvYSJ67AQfVIYjU/wLPah/EpZKDYjf7VvD7kv487YDD0GFuqQC5
+   J7e8E7lDDcuyKOpjAI8t+kxRdMM/ueeTqnbyD2LEViMbE8sifKBSaIniI
+   /vj2gTJKi/Gy9adPFC5pbMJQPxQHkjWf34SI20XbC+cWTwFkOT42yUWR1
    w==;
-X-CSE-ConnectionGUID: i9DSjsDTRGiMNMoq6ZTwhA==
-X-CSE-MsgGUID: Vfu6E2hxQJmwTQ99yyKBaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="83619670"
+X-CSE-ConnectionGUID: hBwtrNSJTxGOQZuB3RnlJA==
+X-CSE-MsgGUID: NcxhAaBSTJOLfuIkqhWBuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="69309220"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="83619670"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 13:27:14 -0700
-X-CSE-ConnectionGUID: 8yXa65BORMKceXcxja9UWQ==
-X-CSE-MsgGUID: XCM13whRRMeGqJfUiy6HIg==
+   d="scan'208";a="69309220"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 13:27:17 -0700
+X-CSE-ConnectionGUID: DgFzLDNZTOK71KTPManp9g==
+X-CSE-MsgGUID: hWX/oXuPSo2ykphPDpUs5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="174102000"
+   d="scan'208";a="168981270"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 22 Aug 2025 13:27:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2025 13:27:12 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upYLu-000Lnj-1k;
+	id 1upYLu-000Lnf-1c;
 	Fri, 22 Aug 2025 20:27:10 +0000
-Date: Sat, 23 Aug 2025 04:26:44 +0800
+Date: Sat, 23 Aug 2025 04:26:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dongsheng Yang <dongsheng.yang@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Mikulas Patocka <mpatocka@redhat.com>
-Subject: [linux-next:master 2953/4234] ERROR: modpost: "__umoddi3"
- [drivers/md/dm-pcache/dm-pcache.ko] undefined!
-Message-ID: <202508230454.YtdClMr0-lkp@intel.com>
+To: Ziyao via B4 Relay <devnull+liziyao.uniontech.com@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+	niecheng1@uniontech.com, zhanjun@uniontech.com,
+	guanwentao@uniontech.com, Kexy Biscuit <kexybiscuit@aosc.io>,
+	Lain Fearyncess Yang <fsf@live.com>, Mingcong Bai <jeffbai@aosc.io>,
+	Ayden Meng <aydenmeng@yeah.net>, Ziyao <liziyao@uniontech.com>
+Subject: Re: [PATCH RESEND] PCI: Override PCIe bridge supported speeds for
+ older Loongson 3C6000 series steppings
+Message-ID: <202508230402.VUq5Fewo-lkp@intel.com>
+References: <20250822-loongson-pci1-v1-1-39aabbd11fbd@uniontech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +69,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250822-loongson-pci1-v1-1-39aabbd11fbd@uniontech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0f4c93f7eb861acab537dbe94441817a270537bf
-commit: fd5cc4922bef4b3c3cd0452f38dcfd066322e9a9 [2953/4234] dm-pcache: add persistent cache target in device-mapper
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250823/202508230454.YtdClMr0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230454.YtdClMr0-lkp@intel.com/reproduce)
+Hi Ziyao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 3957a5720157264dcc41415fbec7c51c4000fc2d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ziyao-via-B4-Relay/PCI-Override-PCIe-bridge-supported-speeds-for-older-Loongson-3C6000-series-steppings/20250822-171721
+base:   3957a5720157264dcc41415fbec7c51c4000fc2d
+patch link:    https://lore.kernel.org/r/20250822-loongson-pci1-v1-1-39aabbd11fbd%40uniontech.com
+patch subject: [PATCH RESEND] PCI: Override PCIe bridge supported speeds for older Loongson 3C6000 series steppings
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20250823/202508230402.VUq5Fewo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230402.VUq5Fewo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508230454.YtdClMr0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508230402.VUq5Fewo-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All error/warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__umoddi3" [drivers/md/dm-pcache/dm-pcache.ko] undefined!
->> ERROR: modpost: "__moddi3" [drivers/md/dm-pcache/dm-pcache.ko] undefined!
+   In file included from drivers/pci/quirks.c:21:
+>> drivers/pci/quirks.c:1980:58: error: 'quirk_loongson_secondary_bridge_supported_speeds' undeclared here (not in a function); did you mean 'quirk_loongson_pci_bridge_supported_speeds'?
+    1980 | DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_LOONGSON, 0x3c19, quirk_loongson_secondary_bridge_supported_speeds);
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:2318:57: note: in definition of macro 'DECLARE_PCI_FIXUP_SECTION'
+    2318 |                 = { vendor, device, class, class_shift, hook };
+         |                                                         ^~~~
+   drivers/pci/quirks.c:1980:1: note: in expansion of macro 'DECLARE_PCI_FIXUP_HEADER'
+    1980 | DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_LOONGSON, 0x3c19, quirk_loongson_secondary_bridge_supported_speeds);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/quirks.c:1965:13: warning: 'quirk_loongson_pci_bridge_supported_speeds' defined but not used [-Wunused-function]
+    1965 | static void quirk_loongson_pci_bridge_supported_speeds(struct pci_dev *pdev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +1980 drivers/pci/quirks.c
+
+  1958	
+  1959	/*
+  1960	 * Older steppings of the Loongson 3C6000 series incorrectly report the
+  1961	 * supported link speeds on their PCIe bridges (device IDs 3c19, 3c29) as
+  1962	 * only 2.5 GT/s, despite the upstream bus supporting speeds from 2.5 GT/s
+  1963	 * up to 16 GT/s.
+  1964	 */
+> 1965	static void quirk_loongson_pci_bridge_supported_speeds(struct pci_dev *pdev)
+  1966	{
+  1967		switch (pdev->bus->max_bus_speed) {
+  1968		case PCIE_SPEED_16_0GT:
+  1969			pdev->supported_speeds |= PCI_EXP_LNKCAP2_SLS_16_0GB;
+  1970		case PCIE_SPEED_8_0GT:
+  1971			pdev->supported_speeds |= PCI_EXP_LNKCAP2_SLS_8_0GB;
+  1972		case PCIE_SPEED_5_0GT:
+  1973			pdev->supported_speeds |= PCI_EXP_LNKCAP2_SLS_5_0GB;
+  1974		case PCIE_SPEED_2_5GT:
+  1975			pdev->supported_speeds |= PCI_EXP_LNKCAP2_SLS_2_5GB;
+  1976		default:
+  1977			break;
+  1978		}
+  1979	}
+> 1980	DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_LOONGSON, 0x3c19, quirk_loongson_secondary_bridge_supported_speeds);
+  1981	DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_LOONGSON, 0x3c29, quirk_loongson_secondary_bridge_supported_speeds);
+  1982	
 
 -- 
 0-DAY CI Kernel Test Service
