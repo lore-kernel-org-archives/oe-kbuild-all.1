@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6B72FB61A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 12:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07392FC008
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 12:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755866319; cv=none; b=mz0O4qWhyPKFLxrTOkiSBeRhF3XLLr0ErTor5qGMZ5EokAErlg8/h/xCCANt69zxF02SlZAMLGJmxVjCj1wcqyy0xAAHRvJrt2fE6z8r43folcWqrZdcp3n8oD79k6bkbSHfQ/qzM47bJLJIXovmqZtF7GMJdcr2bW+JRn22x8s=
+	t=1755867164; cv=none; b=PrSgdd6EiCuwqmaK3VHEVy6KoehmwCT98XCXovpZP3BYLkJf+zBT2tuLSokuNjL02eKXps/3bePDumJmQrvVCXKF+wSyN3vr7ZDBBZ0ee6b6d35mRL/wCk5MBOC28rDV8oZvxbqz44nIn47HuU125cjX6Q0Q2LgfCrs+FoxQ8xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755866319; c=relaxed/simple;
-	bh=0DC9VqNFSaFwDNCOeBpxZBqscy4hBWxJM3rKCgjsS9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oloRlXmbyjUmEofc9XKUiCUxacVMWurzX77n9jBjnEUuJyKQTKxPV+QglTg1Q3EF5D318sW/Cj1qccypL8quFa6vPP52Yl0DntoU0Qdalm+b8tolVijoipPpP08nSr10+ekZuyJGFlz2oppry4BKQfoE+VHTK1ExL+UYSEVCID4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPsDu0C7; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1755867164; c=relaxed/simple;
+	bh=SPEn7P3mjkWhID617eIY0l+bYfag61lfCySYeoLUzIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G2ReOiY1bQc4+ZcaG6X4U9WGadP59WCSK+k7ztUUMeHz4MY13GXNODTEfGH3nAEReYoIiKklDRaUfNxYDCnRozloZB6eqRUDWcpFlpYOgadjOSKSIrQYkjI4mBDwJrEM4LZMXT2IVBXImE4cPnp33/SLKvUssLJVc8/0saD8Sbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fY2Ll00Z; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPsDu0C7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fY2Ll00Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755866319; x=1787402319;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=0DC9VqNFSaFwDNCOeBpxZBqscy4hBWxJM3rKCgjsS9o=;
-  b=FPsDu0C73WcE6ql/Wg8et+hveXBFExXevqMfcASC0rdXx4V8S9EqprJG
-   qPFtqn7PN/ATOuCZrFsDeSRATpbxLettAglurcrbOIphSIfTXMyVQXlBA
-   TvM4P8xjk+nLa7E0DTpDRSHsC00CmqCrr2vYERSAWCVaJUpwXpRND4ZOr
-   ykVOsI1c3zCf1n0vQ5VdzmBeVKyTQl/esm17TO5R/xIdREQeq9nI6tD74
-   sYuorRLvtjIHbVs7wDVvwpukRnVW7VaUEjJrONgVigfSbemlUgIFDFjjR
-   vJF59kuudN7rBUevRwjrOZZ30qrad7kf7mKexwQ5EkAI6ZBmXudw5oeZ0
-   Q==;
-X-CSE-ConnectionGUID: 0UOXAERaTeql3MdIM3glWg==
-X-CSE-MsgGUID: MDQD9SqNTHu3ctYZXRexQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58096274"
+  t=1755867162; x=1787403162;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SPEn7P3mjkWhID617eIY0l+bYfag61lfCySYeoLUzIs=;
+  b=fY2Ll00Ze4JaH0RsxomjY5kF9BZ0PuFxwBhZfOePPf6o66mir7004RHa
+   CD2zpaYt1Iq85O0SELHBuS1WFvs0dgRzdChsK1ZO/Mr98WRNJfwH0A9xW
+   ReJWJMoHizc0B3z7Rfg3iVnYo3VPNHBYhl1DVjbiHhWumyxMC6Y0SH1Xe
+   37WEbDZ95Urn6OkxIrJlC4+nl3wXsczFhUr1QimgI4CpEeBDk8jYdvE1o
+   92KrL4j3PpplTcX1T6bx+QEFbN6xcb/AOvu1HnDWzEAkrwRqSSW3Javip
+   72sTienAisroHCoTwMIIA01Uh+pO8RTtncBHQBGS+jmptldyS3hOPdcjZ
+   A==;
+X-CSE-ConnectionGUID: fmar/EWeQvutS1OvUeN/OQ==
+X-CSE-MsgGUID: VZuuvmZpScqWOVDIDRlFdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="57191228"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="58096274"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 05:38:38 -0700
-X-CSE-ConnectionGUID: ockQzc0GSb2n4XgrsYUpTg==
-X-CSE-MsgGUID: CycRpZ0ETnaGMVnT9tbISQ==
+   d="scan'208";a="57191228"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 05:52:42 -0700
+X-CSE-ConnectionGUID: Z3/yPDQiRuS5zxcdPa/slQ==
+X-CSE-MsgGUID: W3HnWrRlQDmSxTL4bCDOWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="168897632"
+   d="scan'208";a="169104621"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 22 Aug 2025 05:38:36 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 22 Aug 2025 05:52:40 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upR2N-000LFv-10;
-	Fri, 22 Aug 2025 12:38:32 +0000
-Date: Fri, 22 Aug 2025 20:38:08 +0800
+	id 1upRFQ-000LHr-1P;
+	Fri, 22 Aug 2025 12:52:07 +0000
+Date: Fri, 22 Aug 2025 20:50:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuai Zhang <quic_shuaz@quicinc.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8] Bluetooth: hci_qca: Fix SSR (SubSystem Restart) fail
- when BT_EN is pulled up by hw
-Message-ID: <aKhksPl4YOTlfF8O@ad180832a305>
+To: NeilBrown <neil@brown.name>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v2 03/16] Introduce wake_up_key()
+Message-ID: <202508222051.JpjiLYJb-lkp@intel.com>
+References: <20250822000818.1086550-4-neil@brown.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250822123605.757306-1-quic_shuaz@quicinc.com>
+In-Reply-To: <20250822000818.1086550-4-neil@brown.name>
 
-Hi,
+Hi NeilBrown,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on trondmy-nfs/linux-next linus/master v6.17-rc2 next-20250822]
+[cannot apply to tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/VFS-discard-err2-in-filename_create/20250822-081444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250822000818.1086550-4-neil%40brown.name
+patch subject: [PATCH v2 03/16] Introduce wake_up_key()
+config: sh-randconfig-r073-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222051.JpjiLYJb-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222051.JpjiLYJb-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v8] Bluetooth: hci_qca: Fix SSR (SubSystem Restart) fail when BT_EN is pulled up by hw
-Link: https://lore.kernel.org/stable/20250822123605.757306-1-quic_shuaz%40quicinc.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508222051.JpjiLYJb-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpio/gpiolib-cdev.c: In function 'linereq_put_event':
+>> drivers/gpio/gpiolib-cdev.c:596:2: error: 'else' without a previous 'if'
+     596 |  else
+         |  ^~~~
+   drivers/gpio/gpiolib-cdev.c: In function 'lineevent_irq_thread':
+   drivers/gpio/gpiolib-cdev.c:2018:2: error: 'else' without a previous 'if'
+    2018 |  else
+         |  ^~~~
+   drivers/gpio/gpiolib-cdev.c: In function 'lineinfo_changed_func':
+   drivers/gpio/gpiolib-cdev.c:2536:2: error: 'else' without a previous 'if'
+    2536 |  else
+         |  ^~~~
+
+
+vim +596 drivers/gpio/gpiolib-cdev.c
+
+a0dda508bd66b9e Bartosz Golaszewski 2023-08-17  581  
+73e0341992b68bb Kent Gibson         2020-09-28  582  static void linereq_put_event(struct linereq *lr,
+73e0341992b68bb Kent Gibson         2020-09-28  583  			      struct gpio_v2_line_event *le)
+73e0341992b68bb Kent Gibson         2020-09-28  584  {
+73e0341992b68bb Kent Gibson         2020-09-28  585  	bool overflow = false;
+73e0341992b68bb Kent Gibson         2020-09-28  586  
+0ebeaab4d59eb37 Kent Gibson         2023-12-19  587  	scoped_guard(spinlock, &lr->wait.lock) {
+73e0341992b68bb Kent Gibson         2020-09-28  588  		if (kfifo_is_full(&lr->events)) {
+73e0341992b68bb Kent Gibson         2020-09-28  589  			overflow = true;
+73e0341992b68bb Kent Gibson         2020-09-28  590  			kfifo_skip(&lr->events);
+73e0341992b68bb Kent Gibson         2020-09-28  591  		}
+73e0341992b68bb Kent Gibson         2020-09-28  592  		kfifo_in(&lr->events, le, 1);
+0ebeaab4d59eb37 Kent Gibson         2023-12-19  593  	}
+73e0341992b68bb Kent Gibson         2020-09-28  594  	if (!overflow)
+73e0341992b68bb Kent Gibson         2020-09-28  595  		wake_up_poll(&lr->wait, EPOLLIN);
+73e0341992b68bb Kent Gibson         2020-09-28 @596  	else
+73e0341992b68bb Kent Gibson         2020-09-28  597  		pr_debug_ratelimited("event FIFO is full - event dropped\n");
+73e0341992b68bb Kent Gibson         2020-09-28  598  }
+73e0341992b68bb Kent Gibson         2020-09-28  599  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
