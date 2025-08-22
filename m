@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC3B287276
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 08:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCF01C8603
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 08:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755851834; cv=none; b=o4omgIkZI6KaTBQMBeakRYfq3Y2sMU8woof+0mBPlh1oWLP7ES3i5B9+ff2omGVFGM6tGLQA+Zn8Lx1A2v/9trsUdRODjrAKQ+yQD3r9Xs4QiXFF1Dy5uLYyG9An6NAzvCbcXYebzgDQ3e1GgsUBQOhS+odbR/FWLnKtKsCACOY=
+	t=1755852512; cv=none; b=UPRWzK1LlAOey+UxTCDODuNTNdEu0j+K1iYbXO3lsHGwmHM6m/AAJr7cebW8GIJBS1w7VNpRjILTVaZr4iJLlec0RtEWyPhpgW7AwRMmwvYEOSZvZl8UOHXjQVu5zTXtZy7v8hw07Rd3eBXHXodFtlBBK2Z+2fZpMy4lEJiYMxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755851834; c=relaxed/simple;
-	bh=eVTZyiZvgqa682S9nJU3vD53mTkSTA+NUYHYOx/YAOg=;
+	s=arc-20240116; t=1755852512; c=relaxed/simple;
+	bh=+c5NZkIDqWom6GkhgvnawYBPSckj48QZhtsIxo+3dh0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tt83rSOEwRfQh4sKEHVFelA9ln8w1Kyz89/NVWxntArnraWif1cXA2cDw6E/7V0Z/X0NRmN92lTY75tGE7EWD5WALzP00pTbBcwocCqUZCf5CF32nHbTPuCMybF4qdnIu/+8r233J4dxsQWcfbF1Uez9Snl9jtMmlm0hprC/Mkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxdVYRkB; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=mcm6BhEmz1Cb7XYFjybgNwrmcGAAwHipac7mlKEB5NwMbodq4Z2M9u8dy+TsiSbu+VSZzyNjqpK6Asyx273vpLoupCQ4Q0e867JsacEO56OylkxUwXUlXrnv8k6lmEIuK7YXAd99gVfmftIhT6d9++YX+3tpsCQpjmi6wbZ3Cxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7ALKIB1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxdVYRkB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7ALKIB1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755851833; x=1787387833;
+  t=1755852511; x=1787388511;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eVTZyiZvgqa682S9nJU3vD53mTkSTA+NUYHYOx/YAOg=;
-  b=JxdVYRkB5NWuzr2s98oOjwCFDna28lM6woDmBmXWoZUwA3jaxjepgr90
-   QqSG+bqRE3x9DvvNRokghNL6uNwvxPYR51WBctHuAcPjydJXJDKR5/UlO
-   ZNZzzXh0t7klVMi4gCPYLwHDX/8u6wM1YyU9jhmpLAEM7d0oQipxdsvmF
-   b4wqhBdi/xVF6y7y8dYnE1XuRtCmnZiKW1CNPxU2VXyJrWwbRaVVp+Fc8
-   EzVh0glosm+u2i4y9Ebjp/IfT6Otvx1iTrjR7BkHDiDHZ4XrfYP0tvA6j
-   J2/Fkug3L3ZvIhIdGvx2bXSY1Q5OCFm6EouWI2rVGC9Ja6sjbEgktnv1X
-   g==;
-X-CSE-ConnectionGUID: r4ZUGZf7Q7OGL1JuI4ezkA==
-X-CSE-MsgGUID: wPgzQ5IZRiGg8fORIme8Zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58080537"
+  bh=+c5NZkIDqWom6GkhgvnawYBPSckj48QZhtsIxo+3dh0=;
+  b=n7ALKIB1Wa5nbXgpHZMpC2/av3+fBafKOs4uzGzeDzhHzhScF3KWLloA
+   ry5ppwFw9DyrZZIbJjb1WjSudcgbzr49olNLc0QwQRaDPEes7/phmdN+i
+   29/TVakLmV0QIC5jZvC3jMETNvt6DLAOaOmujDJWELB9zBXzXTpM8t4jq
+   9LWJ8L5Si1i8V4K+6G2vD9A8rWWYxuBrdv6xx2o7PLvp1eH8J2nm8p/rh
+   odRObECE43h7T1NyblgWQaEYMcEB0neRPjtf2/EJVwzpZFLG8XYRjX5y6
+   tHloLsKbqzTsHHXu+spWsLEG8rDOqzC2t7NqocpVAv3g0JPaRkyE/LEo9
+   Q==;
+X-CSE-ConnectionGUID: 8mMNTzxIQvOqXo/jOBgrrA==
+X-CSE-MsgGUID: ZBSR60byQhSkP4T5f8JbxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="69529089"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="58080537"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 01:37:12 -0700
-X-CSE-ConnectionGUID: KTQIfo8ZQ6iQkd9L1JMxkQ==
-X-CSE-MsgGUID: ryAUjIpNQ5KD8eRUby/dLg==
+   d="scan'208";a="69529089"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 01:48:30 -0700
+X-CSE-ConnectionGUID: mGq68VPsQpuDlMNuxvK/rA==
+X-CSE-MsgGUID: zVnaLOsqSLCIq6jXytsJ3w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="173074101"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Aug 2025 01:37:11 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Aug 2025 01:48:29 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upNGg-000L4V-0s;
-	Fri, 22 Aug 2025 08:37:06 +0000
-Date: Fri, 22 Aug 2025 16:36:54 +0800
+	id 1upNRi-000L5F-1T;
+	Fri, 22 Aug 2025 08:48:26 +0000
+Date: Fri, 22 Aug 2025 16:48:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: {standard input}:27156: Error: operands mismatch -- statement `sub.l
- -228(%fp),-184(%fp)' ignored
-Message-ID: <202508221639.OF7OHpcE-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2701/2701] vmlinux.o: warning: objtool:
+ kcsan_check_scoped_accesses+0x1dc: RET before UNTRAIN
+Message-ID: <202508221633.ajaGncA2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3957a5720157264dcc41415fbec7c51c4000fc2d
-commit: aced132599b3c8884c050218d4c48eef203678f6 bpf: Add range tracking for BPF_NEG
-date:   8 weeks ago
-config: m68k-randconfig-r133-20250822 (https://download.01.org/0day-ci/archive/20250822/202508221639.OF7OHpcE-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250822/202508221639.OF7OHpcE-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ad69d53d4feeb6e84341bcbf1feb8fd59fb6bcec
+commit: b73666e1e9554c77a69a647427cf77782e0bd9aa [2701/2701] x86/xen: don't do PV iret hypercall through hypercall page
+config: x86_64-buildonly-randconfig-004-20250822 (https://download.01.org/0day-ci/archive/20250822/202508221633.ajaGncA2-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508221633.ajaGncA2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508221639.OF7OHpcE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508221633.ajaGncA2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   {standard input}: Assembler messages:
->> {standard input}:27156: Error: operands mismatch -- statement `sub.l -228(%fp),-184(%fp)' ignored
+>> vmlinux.o: warning: objtool: kcsan_check_scoped_accesses+0x1dc: RET before UNTRAIN
 
 -- 
 0-DAY CI Kernel Test Service
