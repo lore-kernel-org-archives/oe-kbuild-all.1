@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61182EDD66
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 12:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3F13043B9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 12:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755867207; cv=none; b=MHMfoHVfTMB/mRqR5ZFFkOWJLlewjBSDZ4ciPRDd2iiZPrR5IqKXFRD2z3dhpF1OOpGh2LaYQTTshwIuFdB3SYqVIY0lJMw1Wkai9AnqY8kEidhge2dqav7BEOcR5sNBCi9kGZYihbR+267SLJXqBVizQOXNtGcfJirkjNzqJKc=
+	t=1755867321; cv=none; b=R5VHZLwsezssL9S70DOEZAlqqm3JX22kg0fgV8Xqs9dzNCfWDQLuwrpaj7mDYj1CJah9ucagiIUFi4UxDbuFialw3jsHR1sDedAH4O4suj2dLXUIQONHvXQtK5FdwBAfblrxQcuI0SbdVYNgaADQPUqRl6Z7kvcHprW5PtaHmVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755867207; c=relaxed/simple;
-	bh=SnK3IFVbrpyQAFIKKQNghWbpDc5pGlXUWiV8Wi6p/kU=;
+	s=arc-20240116; t=1755867321; c=relaxed/simple;
+	bh=D0Y8ClmFtbC92N5dy5LowiIeylAzezGQNFrxr/qJCB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GUJIGXXMBxIQr7VGVADZfFfwGUF5FemS/eZ2eOCtPCcNeGzUPJOYEPVR3OPubF4GNDbwgPm50PVjII+aFmWezvfmYNcVFEKNNGaGgRi8WIQuHMjwia70icaC9MNtE0fXAq3/k7o/zYdSFGkDujkt2/qxBzdL3/YBZfWJ7FwdnB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hv5DNRaq; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=GORMFGa8aVPRnoNRnUlfvLdDmNIw4ifY2jhqIWs2/1ERPmbwRGfvHj2eqAc7XJGfISp/yZdnJqa4Z/cwPelNi/8y9n2wj2P5BKIz5fXYY/37p793Yxw8jQKmFku6kTqSq75MA6DIpq/viN3kljcfuZ6FM+SS/K7DJ6O7kD/nCXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cON6UGpj; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hv5DNRaq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cON6UGpj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755867206; x=1787403206;
+  t=1755867318; x=1787403318;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SnK3IFVbrpyQAFIKKQNghWbpDc5pGlXUWiV8Wi6p/kU=;
-  b=hv5DNRaqdO6Y0vNkBoqco6+W8xVS49Vd198pApDifrmL9p0d3XJ3JGEM
-   2/oolXKcrbkqR7brAlM7/7yT79Rdls5F5I/wIbI8tyzFYqfMEYcpCmQiT
-   GX+TXjlzs9X57vVM1hr8f5Xh5DDLoi7vaA6+fVBzf2gKgVBelWmPlo24u
-   VVEYo11YZXmOpc/b1rWCgBbaGdyyhWrC0/gDgyYM+8xR6HEsslfb6/tMZ
-   jNqL0r+jvgrtlEIIjHppl/jaUPhO2YvocCK047aGnQ9CP1zpQlGPffYu3
-   yEvzkxw+dCTpFmjUa43CETrBFwBq0gNHcEqKsmfqd+4189zR7pukjYi4Q
-   Q==;
-X-CSE-ConnectionGUID: UqVzZaw6RGW92Sy3iXlUww==
-X-CSE-MsgGUID: 0gdyZwBNQoe2+qF/Wp2SSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="45744416"
+  bh=D0Y8ClmFtbC92N5dy5LowiIeylAzezGQNFrxr/qJCB8=;
+  b=cON6UGpjykTarrvt+zLu5cgvWJ1ULxa4Fasoaq7SAE4KA2m7qHBlVH5J
+   +sOhkJkxV3iuzim6v/45g4oC/sMmrZF+HC1Mke3fa6xb9ustExz3FqMJW
+   U0k9XRUtObZ/ewIi8mYdVGlu5ANO5XjH32Mkv8/c15lJ9cfZfIGbaaGv5
+   ybdYgqqQHyoMWjKE2/OD2sOFY6xBIpqS9BNoTy4IuZhVaijPE8lBojg6S
+   UdKEcaeIte5k6Ly+5+J31bwQlsnX/MoKy1WuWM7m1JEGAI+JyOmuk2BIZ
+   AvZ2wH+MmStcTb/mDewtRNQ07uZAG9N+YVtPTPcV4A71Xq0/3GlTpyLkN
+   w==;
+X-CSE-ConnectionGUID: LHEshVg5RGCm7FnSscraSA==
+X-CSE-MsgGUID: MKsUuqKdSimuLR6jv7m5iQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="45744622"
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="45744416"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 05:53:25 -0700
-X-CSE-ConnectionGUID: 0JImXEo0SDui6/2qdgvp/A==
-X-CSE-MsgGUID: uCv6wsB3QJC9FnyTCJ8UpA==
+   d="scan'208";a="45744622"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 05:55:18 -0700
+X-CSE-ConnectionGUID: 21kgHvcnQ6mrBHpJYuFfbA==
+X-CSE-MsgGUID: lqx03yzaQ72kc64pnTB5Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="168603086"
+   d="scan'208";a="168208087"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2025 05:53:24 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Aug 2025 05:55:16 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upRG2-000LHt-0Q;
-	Fri, 22 Aug 2025 12:52:57 +0000
-Date: Fri, 22 Aug 2025 20:50:55 +0800
+	id 1upRIY-000LI5-1B;
+	Fri, 22 Aug 2025 12:55:14 +0000
+Date: Fri, 22 Aug 2025 20:51:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 414/414]
- Documentation/devicetree/bindings/mailbox/mediatek,tinysys-mbox.yaml:
- properties:compatible: [{'const': 'mediatek,tinysys_mbox'}] is not of type
- 'object', 'boolean'
-Message-ID: <202508222014.dSscXQ0l-lkp@intel.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Marc Zyngier <maz@kernel.org>
+Subject: drivers/irqchip/irq-gic-v5-irs.c:571 gicv5_irs_init_bases() warn:
+ inconsistent indenting
+Message-ID: <202508222051.ebaxHZ4Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   0c256f0b39db534a79b343d6e3498b23bd18be7e
-commit: 283b38fe8b57768c2dccc7b4e6dab4674a0627c2 [414/414] CHROMIUM: dt-bindings: mt8189: Add dt-bindings files for tinysys-mbox
-config: arm-randconfig-052-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222014.dSscXQ0l-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508222014.dSscXQ0l-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3957a5720157264dcc41415fbec7c51c4000fc2d
+commit: 53bb952a625fd3247647c7a28366ce990a579415 arm64: Kconfig: Enable GICv5
+date:   6 weeks ago
+config: arm64-randconfig-r071-20250822 (https://download.01.org/0day-ci/archive/20250822/202508222051.ebaxHZ4Z-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508222014.dSscXQ0l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508222051.ebaxHZ4Z-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/thermal/mediatek-thermal-lvts.yaml: title: 'Mediatek SoC LVTS thermal controller (DTS) binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/mailbox/mediatek,tinysys-mbox.yaml: properties:compatible: [{'const': 'mediatek,tinysys_mbox'}] is not of type 'object', 'boolean'
-   	from schema $id: http://json-schema.org/draft-07/schema#
->> Documentation/devicetree/bindings/mailbox/mediatek,tinysys-mbox.yaml: properties:compatible: [{'const': 'mediatek,tinysys_mbox'}] is not of type 'object', 'boolean'
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
->> Documentation/devicetree/bindings/mailbox/mediatek,tinysys-mbox.yaml: properties: 'mboxes' is a dependency of 'shmem'
-   	from schema $id: http://devicetree.org/meta-schemas/mailbox.yaml#
->> Documentation/devicetree/bindings/mailbox/mediatek,tinysys-mbox.yaml: properties: 'mboxes' is a dependency of 'shmem'
-   	from schema $id: http://devicetree.org/meta-schemas/mailbox.yaml#
-   Documentation/devicetree/bindings/leds/issi,is31fl319x.yaml: properties:audio-gain-db: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
---
->> Documentation/devicetree/bindings/mailbox/mediatek,tinysys-mbox.yaml: ignoring, error in schema: properties: compatible
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/memory-region.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/framebuffer.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/reserved-memory.yaml#'
-   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml: i2c-alias: missing type definition
-   Documentation/devicetree/bindings/sound/audio-graph.yaml: convert-sample-format: missing type definition
-   Documentation/devicetree/bindings/input/touchscreen/ti,tsc2005.yaml: ti,x-plate-ohms: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-odd-pixels: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-even-pixels: missing type definition
-   Documentation/devicetree/bindings/mmc/mmc-spi-slot.yaml: voltage-ranges: multiple incompatible types: uint32-array
+smatch warnings:
+drivers/irqchip/irq-gic-v5-irs.c:571 gicv5_irs_init_bases() warn: inconsistent indenting
+drivers/irqchip/irq-gic-v5-its.c:267 gicv5_its_create_itt_two_level() warn: always true condition '(i >= 0) => (0-u32max >= 0)'
+drivers/irqchip/irq-gic-v5-its.c:267 gicv5_its_create_itt_two_level() warn: always true condition '(i >= 0) => (0-u32max >= 0)'
+
+vim +571 drivers/irqchip/irq-gic-v5-irs.c
+
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  542  
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  543  static void __init gicv5_irs_init_bases(struct gicv5_irs_chip_data *irs_data,
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  544  					void __iomem *irs_base,
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  545  					struct fwnode_handle *handle)
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  546  {
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  547  	struct device_node *np = to_of_node(handle);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  548  	u32 cr0, cr1;
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  549  
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  550  	irs_data->fwnode = handle;
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  551  	irs_data->irs_base = irs_base;
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  552  
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  553  	if (of_property_read_bool(np, "dma-noncoherent")) {
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  554  		/*
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  555  		 * A non-coherent IRS implies that some cache levels cannot be
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  556  		 * used coherently by the cores and GIC. Our only option is to mark
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  557  		 * memory attributes for the GIC as non-cacheable; by default,
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  558  		 * non-cacheable memory attributes imply outer-shareable
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  559  		 * shareability, the value written into IRS_CR1_SH is ignored.
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  560  		 */
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  561  		cr1 = FIELD_PREP(GICV5_IRS_CR1_VPED_WA, GICV5_NO_WRITE_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  562  			FIELD_PREP(GICV5_IRS_CR1_VPED_RA, GICV5_NO_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  563  			FIELD_PREP(GICV5_IRS_CR1_VMD_WA, GICV5_NO_WRITE_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  564  			FIELD_PREP(GICV5_IRS_CR1_VMD_RA, GICV5_NO_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  565  			FIELD_PREP(GICV5_IRS_CR1_VPET_RA, GICV5_NO_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  566  			FIELD_PREP(GICV5_IRS_CR1_VMT_RA, GICV5_NO_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  567  			FIELD_PREP(GICV5_IRS_CR1_IST_WA, GICV5_NO_WRITE_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  568  			FIELD_PREP(GICV5_IRS_CR1_IST_RA, GICV5_NO_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  569  			FIELD_PREP(GICV5_IRS_CR1_IC, GICV5_NON_CACHE)		|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  570  			FIELD_PREP(GICV5_IRS_CR1_OC, GICV5_NON_CACHE);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03 @571  			irs_data->flags |= IRS_FLAGS_NON_COHERENT;
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  572  	} else {
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  573  		cr1 = FIELD_PREP(GICV5_IRS_CR1_VPED_WA, GICV5_WRITE_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  574  			FIELD_PREP(GICV5_IRS_CR1_VPED_RA, GICV5_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  575  			FIELD_PREP(GICV5_IRS_CR1_VMD_WA, GICV5_WRITE_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  576  			FIELD_PREP(GICV5_IRS_CR1_VMD_RA, GICV5_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  577  			FIELD_PREP(GICV5_IRS_CR1_VPET_RA, GICV5_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  578  			FIELD_PREP(GICV5_IRS_CR1_VMT_RA, GICV5_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  579  			FIELD_PREP(GICV5_IRS_CR1_IST_WA, GICV5_WRITE_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  580  			FIELD_PREP(GICV5_IRS_CR1_IST_RA, GICV5_READ_ALLOC)	|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  581  			FIELD_PREP(GICV5_IRS_CR1_IC, GICV5_WB_CACHE)		|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  582  			FIELD_PREP(GICV5_IRS_CR1_OC, GICV5_WB_CACHE)		|
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  583  			FIELD_PREP(GICV5_IRS_CR1_SH, GICV5_INNER_SHARE);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  584  	}
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  585  
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  586  	irs_writel_relaxed(irs_data, cr1, GICV5_IRS_CR1);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  587  
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  588  	cr0 = FIELD_PREP(GICV5_IRS_CR0_IRSEN, 0x1);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  589  	irs_writel_relaxed(irs_data, cr0, GICV5_IRS_CR0);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  590  	gicv5_irs_wait_for_idle(irs_data);
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  591  }
+5cb1b6dab2def3 Lorenzo Pieralisi 2025-07-03  592  
+
+:::::: The code at line 571 was first introduced by commit
+:::::: 5cb1b6dab2def316671ea2565291a86ad58b884c irqchip/gic-v5: Add GICv5 IRS/SPI support
+
+:::::: TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
