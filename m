@@ -1,83 +1,342 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCF01C8603
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 08:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2C12EF65A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 09:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755852512; cv=none; b=UPRWzK1LlAOey+UxTCDODuNTNdEu0j+K1iYbXO3lsHGwmHM6m/AAJr7cebW8GIJBS1w7VNpRjILTVaZr4iJLlec0RtEWyPhpgW7AwRMmwvYEOSZvZl8UOHXjQVu5zTXtZy7v8hw07Rd3eBXHXodFtlBBK2Z+2fZpMy4lEJiYMxw=
+	t=1755854811; cv=none; b=YJBY8Y7DY2gQTylEhKzu6i86lH5sGqnjDjnVzm+JGwxAbLBko6DTQJxzt3O+PZ4z9d0HLnL1EE8yihgA3iDOSLYooxMUUN7f3AcSBIBwfBeygK4zAtiAl4o7mzbVGT32kUDXkBnTvcVhGvMsgoz81/s5R4VkbXBDM0MN9GoKnnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755852512; c=relaxed/simple;
-	bh=+c5NZkIDqWom6GkhgvnawYBPSckj48QZhtsIxo+3dh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mcm6BhEmz1Cb7XYFjybgNwrmcGAAwHipac7mlKEB5NwMbodq4Z2M9u8dy+TsiSbu+VSZzyNjqpK6Asyx273vpLoupCQ4Q0e867JsacEO56OylkxUwXUlXrnv8k6lmEIuK7YXAd99gVfmftIhT6d9++YX+3tpsCQpjmi6wbZ3Cxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7ALKIB1; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1755854811; c=relaxed/simple;
+	bh=wOwI2oKPnDRuHjZ2SOx+OFwv2fBfKeaehXv6eU6r2tU=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=DUEh2J3Mrbfwb/+0FohWJh+ck6zZvCDBtRZukNSe/loEUN4r945xOB6REjOHsfxvcU4IaBfqHl3rDwViMhitepC74EHkZAUa3pQD0zhh1gLcSQQT/+2cIk6UsVhAbEHzFf2UORR5S4PFqusKqeRf7P04zJSMhyjWdC2/c3RBIC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=HCpzWZv5; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7ALKIB1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755852511; x=1787388511;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+c5NZkIDqWom6GkhgvnawYBPSckj48QZhtsIxo+3dh0=;
-  b=n7ALKIB1Wa5nbXgpHZMpC2/av3+fBafKOs4uzGzeDzhHzhScF3KWLloA
-   ry5ppwFw9DyrZZIbJjb1WjSudcgbzr49olNLc0QwQRaDPEes7/phmdN+i
-   29/TVakLmV0QIC5jZvC3jMETNvt6DLAOaOmujDJWELB9zBXzXTpM8t4jq
-   9LWJ8L5Si1i8V4K+6G2vD9A8rWWYxuBrdv6xx2o7PLvp1eH8J2nm8p/rh
-   odRObECE43h7T1NyblgWQaEYMcEB0neRPjtf2/EJVwzpZFLG8XYRjX5y6
-   tHloLsKbqzTsHHXu+spWsLEG8rDOqzC2t7NqocpVAv3g0JPaRkyE/LEo9
-   Q==;
-X-CSE-ConnectionGUID: 8mMNTzxIQvOqXo/jOBgrrA==
-X-CSE-MsgGUID: ZBSR60byQhSkP4T5f8JbxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="69529089"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="69529089"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 01:48:30 -0700
-X-CSE-ConnectionGUID: mGq68VPsQpuDlMNuxvK/rA==
-X-CSE-MsgGUID: zVnaLOsqSLCIq6jXytsJ3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="173074101"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 22 Aug 2025 01:48:29 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1upNRi-000L5F-1T;
-	Fri, 22 Aug 2025 08:48:26 +0000
-Date: Fri, 22 Aug 2025 16:48:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2701/2701] vmlinux.o: warning: objtool:
- kcsan_check_scoped_accesses+0x1dc: RET before UNTRAIN
-Message-ID: <202508221633.ajaGncA2-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="HCpzWZv5"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250822092638epoutp0404cf73038307e9826b6a5d0d247288e1~eDKL3ZuzY1738817388epoutp04X
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 09:26:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250822092638epoutp0404cf73038307e9826b6a5d0d247288e1~eDKL3ZuzY1738817388epoutp04X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1755854798;
+	bh=nmtEoeQlWuqYko7mqBv9pQr3Zd1olsc1MAqj9gtJ+xo=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=HCpzWZv55h4/Y3Rnp1lf4B3OehmY2sv1WXATu/E8TIH9xI1JiUvdMJc96nTLLOTrU
+	 NRHX6Gwhywx84a6gjxknJR5WU9QgJaMZz/nqalCscox3T28UUmNW0e/crGbjBh8VjW
+	 yXPFJoLzQYdYkxChWMST6TkzFwJK96nYt7OdC1Q4=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250822092637epcas5p29a7dd2208e947a9732298efc46494f7e~eDKK4z4X51122911229epcas5p27;
+	Fri, 22 Aug 2025 09:26:37 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.92]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4c7ZZP0Mkqz6B9m5; Fri, 22 Aug
+	2025 09:26:37 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20250822092636epcas5p41d4c9c6511ed7d0194c95e651ba0d6b3~eDKJrf--63154431544epcas5p4e;
+	Fri, 22 Aug 2025 09:26:36 +0000 (GMT)
+Received: from INBRO001840 (unknown [107.122.3.105]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20250822092633epsmtip197617a5a4f4d248d605769bfa26a2454~eDKGnqxap0570405704epsmtip1Z;
+	Fri, 22 Aug 2025 09:26:33 +0000 (GMT)
+From: "Pritam Manohar Sutar" <pritam.sutar@samsung.com>
+To: <vkoul@kernel.org>, <kishon@kernel.org>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <alim.akhtar@samsung.com>,
+	<andre.draszik@linaro.org>, <peter.griffin@linaro.org>,
+	<kauschluss@disroot.org>, <ivo.ivanov.ivanov1@gmail.com>,
+	<igor.belwon@mentallysanemainliners.org>, <johan@kernel.org>,
+	<m.szyprowski@samsung.com>, <s.nawrocki@samsung.com>
+Cc: <oe-kbuild-all@lists.linux.dev>, <linux-phy@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<rosa.pila@samsung.com>, <dev.tailor@samsung.com>, <faraz.ata@samsung.com>,
+	<muhammed.ali@samsung.com>, <selvarasu.g@samsung.com>
+In-Reply-To: <202508220553.lm7ExAxG-lkp@intel.com>
+Subject: RE: [PATCH v6 6/6] phy: exynos5-usbdrd: support SS combo phy for
+ ExynosAutov920
+Date: Fri, 22 Aug 2025 14:56:32 +0530
+Message-ID: <006f01dc1346$db4edf50$91ec9df0$@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHdPSQ+XjFsLeZLd+6ieGPrJFm5GwFxhWqcAlQOQPW0Tc8gUA==
+Content-Language: en-in
+X-CMS-MailID: 20250822092636epcas5p41d4c9c6511ed7d0194c95e651ba0d6b3
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250821212909epcas5p3cfcff210863febc2410cf661172be683
+References: <20250821073703.2498302-7-pritam.sutar@samsung.com>
+	<CGME20250821212909epcas5p3cfcff210863febc2410cf661172be683@epcas5p3.samsung.com>
+	<202508220553.lm7ExAxG-lkp@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ad69d53d4feeb6e84341bcbf1feb8fd59fb6bcec
-commit: b73666e1e9554c77a69a647427cf77782e0bd9aa [2701/2701] x86/xen: don't do PV iret hypercall through hypercall page
-config: x86_64-buildonly-randconfig-004-20250822 (https://download.01.org/0day-ci/archive/20250822/202508221633.ajaGncA2-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508221633.ajaGncA2-lkp@intel.com/reproduce)
+Hi, 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508221633.ajaGncA2-lkp@intel.com/
+> -----Original Message-----
+> From: kernel test robot <lkp@intel.com>
+> Sent: 22 August 2025 02:58 AM
+> To: Pritam Manohar Sutar <pritam.sutar@samsung.com>; vkoul@kernel.org;
+> kishon@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
+> conor+dt@kernel.org; alim.akhtar@samsung.com; andre.draszik@linaro.org;
+> peter.griffin@linaro.org; kauschluss@disroot.org;
+> ivo.ivanov.ivanov1@gmail.com; igor.belwon@mentallysanemainliners.org;
+> johan@kernel.org; m.szyprowski@samsung.com; s.nawrocki@samsung.com
+> Cc: oe-kbuild-all@lists.linux.dev; linux-phy@lists.infradead.org;
+> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-arm-
+> kernel@lists.infradead.org; linux-samsung-soc@vger.kernel.org;
+> rosa.pila@samsung.com; dev.tailor@samsung.com;
+> faraz.ata@samsung.com; muhammed.ali@samsung.com;
+> selvarasu.g@samsung.com
+> Subject: Re: [PATCH v6 6/6] phy: exynos5-usbdrd: support SS combo phy for
+> ExynosAutov920
+> 
+> Hi Pritam,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on robh/for-next] [also build test WARNING on
+> krzk/for-next linus/master v6.17-rc2 next-20250821] [If your patch is
+applied
+> to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://protect2.fireeye.com/v1/url?k=07116f39-666ac5ae-0710e476-
+> 74fe4860001d-17dff89291ad3b5b&q=1&e=45b4f292-bcb1-4614-86a0-
+> c790a47fb814&u=https%3A%2F%2Fgithub.com%2Fintel-lab-
+> lkp%2Flinux%2Fcommits%2FPritam-Manohar-Sutar%2Fdt-bindings-phy-
+> samsung-usb3-drd-phy-add-ExynosAutov920-HS-phy-
+> compatible%2F20250821-153122
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+for-
+> next
+> patch link:    https://lore.kernel.org/r/20250821073703.2498302-7-
+> pritam.sutar%40samsung.com
+> patch subject: [PATCH v6 6/6] phy: exynos5-usbdrd: support SS combo phy
+> for ExynosAutov920
+> config: arc-randconfig-001-20250822 (https://download.01.org/0day-
+> ci/archive/20250822/202508220553.lm7ExAxG-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-
+> ci/archive/20250822/202508220553.lm7ExAxG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> | https://lore.kernel.org/oe-kbuild-all/202508220553.lm7ExAxG-lkp@intel.
+> | com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/phy/samsung/phy-exynos5-usbdrd.c: In function
+> 'exynosautov920_usb31drd_cr_write':
+> >> drivers/phy/samsung/phy-exynos5-usbdrd.c:2167:17: warning: unused
+> >> variable 'dev' [-Wunused-variable]
+>      struct device *dev = phy_drd->dev;
+>                     ^~~
+>    drivers/phy/samsung/phy-exynos5-usbdrd.c: In function
+> 'exynosautov920_usb31drd_port_phy_ready':
+> >> drivers/phy/samsung/phy-exynos5-usbdrd.c:2137:6: warning: 'reg' is
+> >> used uninitialized in this function [-Wuninitialized]
+>      reg &= ~(PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK |
+>      ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>        PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR);
+>        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    during RTL pass: mach
+>    drivers/phy/samsung/phy-exynos5-usbdrd.c: In function
+> 'exynos5_usbdrd_phy_probe':
+>    drivers/phy/samsung/phy-exynos5-usbdrd.c:3056:1: internal compiler
+> error: in arc_ifcvt, at config/arc/arc.c:9110
+>     }
+>     ^
+>    Please submit a full bug report,
+>    with preprocessed source if appropriate.
+>    See <https://gcc.gnu.org/bugs/> for instructions.
+> 
+> 
+> vim +/dev +2167 drivers/phy/samsung/phy-exynos5-usbdrd.c
+> 
+>   2125
+>   2126	static void
+>   2127	exynosautov920_usb31drd_port_phy_ready(struct
+> exynos5_usbdrd_phy *phy_drd)
+>   2128	{
+>   2129		struct device *dev = phy_drd->dev;
+>   2130		void __iomem *reg_phy = phy_drd->reg_phy;
+>   2131		static const unsigned int timeout_us = 20000;
+>   2132		static const unsigned int sleep_us = 40;
+>   2133		u32 reg;
+>   2134		int err;
+>   2135
+>   2136		/* Clear cr_para_con */
+> > 2137		reg &= ~(PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK |
+>   2138
+> 	PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR);
+>   2139		reg |= PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+>   2140		writel(reg, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2141		writel(0x0, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON1);
+>   2142		writel(0x0, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON2);
+>   2143
+>   2144		exynosautov920_usb31drd_cr_clk(phy_drd, true);
+>   2145		exynosautov920_usb31drd_cr_clk(phy_drd, false);
+>   2146
+>   2147		/*
+>   2148		 * The maximum time from phy reset de-assertion to
+de-
+> assertion of
+>   2149		 * tx/rx_ack can be as high as 5ms in fast
+simulation mode.
+>   2150		 * Time to phy ready is < 20ms
+>   2151		 */
+>   2152		err = readl_poll_timeout(reg_phy +
+>   2153
+> 	EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0,
+>   2154				reg, !(reg &
+> PHY_CR_PARA_CON0_PHY0_CR_PARA_ACK),
+>   2155				sleep_us, timeout_us);
+>   2156		if (err)
+>   2157			dev_err(dev, "timed out waiting for
+rx/tx_ack:
+> %#.8x\n", reg);
+>   2158
+>   2159		reg &= ~PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK;
+>   2160		writel(reg, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2161	}
+>   2162
+>   2163	static void
+>   2164	exynosautov920_usb31drd_cr_write(struct exynos5_usbdrd_phy
+> *phy_drd,
+>   2165					 u16 addr, u16 data)
+>   2166	{
+> > 2167		struct device *dev = phy_drd->dev;
+>   2168		void __iomem *reg_phy = phy_drd->reg_phy;
+>   2169		u32 cnt = 0;
+>   2170		u32 reg;
+>   2171
+>   2172		/* Pre Clocking */
+>   2173		reg = readl(reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2174		reg |= PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+>   2175		writel(reg, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2176
+>   2177		/*
+>   2178		 * tx clks must be available prior to assertion of
+tx req.
+>   2179		 * tx pstate p2 to p0 transition directly is not
+permitted.
+>   2180		 * tx clk ready must be asserted synchronously on tx
+clk prior
+>   2181		 * to internal transmit clk alignment sequence in
+the phy
+>   2182		 * when entering from p2 to p1 to p0.
+>   2183		 */
+>   2184		do {
+>   2185			exynosautov920_usb31drd_cr_clk(phy_drd,
+true);
+>   2186			exynosautov920_usb31drd_cr_clk(phy_drd,
+false);
+>   2187			cnt++;
+>   2188		} while (cnt < 15);
+>   2189
+>   2190		reg &= ~PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+>   2191		writel(reg, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2192
+>   2193		/*
+>   2194		 * tx data path is active when tx lane is in p0
+state
+>   2195		 * and tx data en asserted. enable cr_para_wr_en.
+>   2196		 */
+>   2197		reg = readl(reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON2);
+>   2198		reg &= ~PHY_CR_PARA_CON2_PHY0_CR_PARA_WR_DATA;
+>   2199		reg |=
+> FIELD_PREP(PHY_CR_PARA_CON2_PHY0_CR_PARA_WR_DATA, data) |
+>   2200			PHY_CR_PARA_CON2_PHY0_CR_PARA_WR_EN;
+>   2201		writel(reg, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON2);
+>   2202
+>   2203		/* write addr */
+>   2204		reg = readl(reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2205		reg &= ~PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR;
+>   2206		reg |=
+> FIELD_PREP(PHY_CR_PARA_CON0_PHY0_CR_PARA_ADDR, addr) |
+>   2207			PHY_CR_PARA_CON0_PHY0_CR_PARA_CLK |
+>   2208			PHY_CR_PARA_CON0_PHY0_CR_PARA_SEL;
+>   2209		writel(reg, reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2210
+>   2211		/* check cr_para_ack*/
+>   2212		cnt = 0;
+>   2213		do {
+>   2214			/*
+>   2215			 * data symbols are captured by phy on
+rising edge of
+> the
+>   2216			 * tx_clk when tx data enabled.
+>   2217			 * completion of the write cycle is
+acknowledged by
+> assertion
+>   2218			 * of the cr_para_ack.
+>   2219			 */
+>   2220			exynosautov920_usb31drd_cr_clk(phy_drd,
+true);
+>   2221			reg = readl(reg_phy +
+> EXYNOSAUTOV920_USB31DRD_PHY_CR_PARA_CON0);
+>   2222			if ((reg &
+> PHY_CR_PARA_CON0_PHY0_CR_PARA_ACK))
+>   2223				break;
+>   2224
+>   2225			exynosautov920_usb31drd_cr_clk(phy_drd,
+false);
+>   2226
+>   2227			/*
+>   2228			 * wait for minimum of 10 cr_para_clk cycles
+after phy
+> reset
+>   2229			 * is negated, before accessing control regs
+to allow
+> for
+>   2230			 * internal resets.
+>   2231			 */
+>   2232			cnt++;
+>   2233		} while (cnt < 10);
+>   2234
+>   2235		if (cnt < 10)
+>   2236			exynosautov920_usb31drd_cr_clk(phy_drd,
+false);
+>   2237	}
+>   2238
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://protect2.fireeye.com/v1/url?k=96757503-f70edf94-9674fe4c-
+> 74fe4860001d-38e3f56dae8e119d&q=1&e=45b4f292-bcb1-4614-86a0-
+> c790a47fb814&u=https%3A%2F%2Fgithub.com%2Fintel%2Flkp-tests%2Fwiki
 
-All warnings (new ones prefixed by >>):
+Will post v7 with the fixes for these warnings.
 
->> vmlinux.o: warning: objtool: kcsan_check_scoped_accesses+0x1dc: RET before UNTRAIN
+Thank you.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Pritam
+
+
