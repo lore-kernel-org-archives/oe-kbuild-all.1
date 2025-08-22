@@ -1,121 +1,96 @@
-Received: from 5.mo533.mail-out.ovh.net (5.mo533.mail-out.ovh.net [54.36.140.180])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FF02C234F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 11:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.36.140.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA7C2327A3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Aug 2025 11:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755861087; cv=none; b=ZHXxpmVksKX0OZYvJnZJ0IWgIteF9K67BSCWwC6z5cPyieyuP49NEFloG/twA4GBw0Ks9ksYbhIONWZK3yPSMxBYzXi9mGiR7exExs3WoZdG0Al2tnnSvalWMhYETV547c10T2cOwXgYwmKwMzVsCpsnzR3YDadPGRnGyS0c7LA=
+	t=1755861529; cv=none; b=t4ASTR+0MrW0zWzHnhpHWkSM1CjKioVXA5PaqXEBOif4LA9afsGM6or+xq1x0vyygCBhW1Tz2BeKh7gI+BeJ4NIrTLGsXaa4q/Yzxtl6tOrVrIVYXyezBAdyWL1uuRoGVNPzbbV4hz7rXauwGqXE1Gy5qmDt6u0MdVc251xdiAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755861087; c=relaxed/simple;
-	bh=Ryaxrw4eT3nAdUGPXwQzb7ucMxWAqtq5xPrHy63u2ec=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ba6yFjZXQxdOSpe5cUT0ZSQdZ9nWEUZxc3/Qy8UMps4dMHmkG0NgTLnrn5zXGQD8UrSGOxhS4IVNmlfeQ6DQMV33+TnCAiEcnUAhDclKwCRWXe7yNOWKRhXELvZkze5kK9Uzwofubv8i90Cj40CQMVYA1ehlR1DArqXizZJqEys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orca.pet; spf=pass smtp.mailfrom=orca.pet; dkim=pass (2048-bit key) header.d=orca.pet header.i=@orca.pet header.b=dAUXjV4n; arc=none smtp.client-ip=54.36.140.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orca.pet
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orca.pet
+	s=arc-20240116; t=1755861529; c=relaxed/simple;
+	bh=Lei63idtbQzSVhoaceBZUKk4ZP6vJsdXd3QWrmH5MmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hfT5sR40Dv17ZaPBcKV8Gks8wSnFMRj6lPhtOJt0bQnQyF37E2MnTJ8BuN+OdwY1asR1Bx5ZYoyfT63kBtHh8oiM5psRqhMeZ9gugct0G7fnaBhy8rLtVHcwQxNfIyMLlzwBEUvpK14MUuwMCLvOvasGsSxx3ALHhn/v0mRPNMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbEodHGY; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=orca.pet header.i=@orca.pet header.b="dAUXjV4n"
-Received: from director4.derp.mail-out.ovh.net (director4.derp.mail-out.ovh.net [79.137.60.37])
-	by mo533.mail-out.ovh.net (Postfix) with ESMTPS id 4c7cvB1LFjz5vst;
-	Fri, 22 Aug 2025 11:11:18 +0000 (UTC)
-Received: from director4.derp.mail-out.ovh.net (director4.derp.mail-out.ovh.net. [127.0.0.1])
-        by director4.derp.mail-out.ovh.net (inspect_sender_mail_agent) with SMTP
-        for <brgl@bgdev.pl>; Fri, 22 Aug 2025 11:11:18 +0000 (UTC)
-Received: from mta11.priv.ovhmail-u1.ea.mail.ovh.net (unknown [10.110.37.33])
-	by director4.derp.mail-out.ovh.net (Postfix) with ESMTPS id 4c7cv971Cdz1xpF;
-	Fri, 22 Aug 2025 11:11:17 +0000 (UTC)
-Received: from orca.pet (unknown [10.1.6.10])
-	by mta11.priv.ovhmail-u1.ea.mail.ovh.net (Postfix) with ESMTPSA id 2C90F9A32F1;
-	Fri, 22 Aug 2025 11:11:16 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-109S00348983bfb-2252-412c-9c76-f625bcf17fb6,
-                    ADC0680FE15BB91110492B9A34CE42AA242C155A) smtp.auth=marcos@orca.pet
-X-OVh-ClientIp:79.117.22.109
-Message-ID: <26b90664-ac3d-4eac-b082-4ddb6297dd00@orca.pet>
-Date: Fri, 22 Aug 2025 13:11:16 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbEodHGY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755861528; x=1787397528;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Lei63idtbQzSVhoaceBZUKk4ZP6vJsdXd3QWrmH5MmM=;
+  b=VbEodHGY0qAjkwbX1ga4ECwivG+V3ow6KF0OHsykK52sMzykrjr/NAfu
+   jg1dqjz2mcuEvB2xQgW+TT6CQClkvl41edbRRXEP0C7VlpwZVvTOAO2wF
+   Pi8MTeAZxjbYIjRNniyQbGMQo+jl/94TcjyvXisH7nLp4hep7XMAm/kpZ
+   EKUZufwDwTG7Ig5MUFP0Jt6wHvt+dduBR9+waC2Y2IbdYs1PptKPrbwdJ
+   RkyWSyFip77Bnc9cu5ZYbJ44W3i1NbO/y1GQrc426jYi5I8uVkKZRPds0
+   ATGBEzVVPwlkeh/vvOSAqCkuc9pzJXrixLgJxHVpfvivUoN4OF3wkzKUy
+   A==;
+X-CSE-ConnectionGUID: 62MR0lSrSaCce6naLoVIzA==
+X-CSE-MsgGUID: AX+eU9IVQla5T2UB7ijOzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58091233"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="58091233"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 04:18:47 -0700
+X-CSE-ConnectionGUID: fnnEoCiMTQSop2hhxzLJeQ==
+X-CSE-MsgGUID: wjKkp3DkT1ObmgtWs4FnkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
+   d="scan'208";a="168588062"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Aug 2025 04:18:45 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1upPn8-000LCN-2t;
+	Fri, 22 Aug 2025 11:18:42 +0000
+Date: Fri, 22 Aug 2025 19:18:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Taniya Das <quic_tdas@quicinc.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Subject: kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615
+ when selected by QCS_VIDEOCC_615
+Message-ID: <202508221956.n9r5Ef2J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] gpio: gpio-regmap: add flags to control some
- behaviour
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Michael Walle <mwalle@kernel.org>,
- Lee Jones <lee@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
- linux-gpio@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20250821101902.626329-2-marcos@orca.pet>
- <202508221142.ETxcEpjA-lkp@intel.com>
-Content-Language: es-ES
-From: Marcos Del Sol Vives <marcos@orca.pet>
-In-Reply-To: <202508221142.ETxcEpjA-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 5788814372848948838
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduieefiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeforghrtghoshcuffgvlhcuufholhcugghivhgvshcuoehmrghrtghoshesohhrtggrrdhpvghtqeenucggtffrrghtthgvrhhnpeetieeiteffgfffffeuudfgueeugfdtffeuueehtefhhfehhffffeeukeeivdeffeenucffohhmrghinhepghhithdqshgtmhdrtghomhdpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecukfhppeduvdejrddtrddtrddupdejledruddujedrvddvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehmrghrtghoshesohhrtggrrdhpvghtpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopegsrhhglhessghguggvvhdrphhlpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehhvghlghgrrghssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmfigrlhhlvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhushdrfi
- grlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtoheplhhlvhhmsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhgphhiohesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-DKIM-Signature: a=rsa-sha256; bh=ooMiXhCtrpCJThxBkirXE/4Y5yuLSDN6OaDBZRlDF4E=;
- c=relaxed/relaxed; d=orca.pet; h=From; s=ovhmo-selector-1; t=1755861078;
- v=1;
- b=dAUXjV4nXWjdCZe1KhXGKwDw8WbdNMlQabWe+tKmIGab50WLwSitojB1+6BLEQQmKZZvOknP
- FlukwtYeAgZYIXauIhtXOYCBvouGGbgf8/MZTLr83Y/3hw1D42HwMiBOZA0IbW9xpZLvudS2CZX
- HZ5/gCqUNd44sutWfMsprs0nCVkazjNG7T2Wd5CDD8oSP5MNGSgIMGh3XtSS60AUSyAU/KLdfyR
- Eg5bgSmB0Tiu8rhyzdoacOB0m8jnq4w3TYHIXxfJReI1tIU8/ZgiC9ZVeR/WUsYXL1y/NMmPznQ
- 2mPwpfSTnxZAQ9LFlN7+p9HkI1y1Z6/6Ob97EwcQzKZZA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-El 22/08/2025 a las 5:27, kernel test robot escribió:
-> Hi Marcos,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on brgl/gpio/for-next]
-> [also build test ERROR on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes pci/next pci/for-linus linus/master v6.17-rc2 next-20250821]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Del-Sol-Vives/gpio-gpio-regmap-add-flags-to-control-some-behaviour/20250821-182416
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-> patch link:    https://lore.kernel.org/r/20250821101902.626329-2-marcos%40orca.pet
-> patch subject: [PATCH v3 1/3] gpio: gpio-regmap: add flags to control some behaviour
-> config: x86_64-buildonly-randconfig-001-20250822 (https://download.01.org/0day-ci/archive/20250822/202508221142.ETxcEpjA-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250822/202508221142.ETxcEpjA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508221142.ETxcEpjA-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/gpio/gpio-fxl6408.c:11:
->>> include/linux/gpio/regmap.h:26:31: error: call to undeclared function 'BIT'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       26 |         GPIO_REGMAP_DIR_BEFORE_SET      = BIT(0),
->          |                                           ^
->>> include/linux/gpio/regmap.h:26:31: error: expression is not an integer constant expression
->       26 |         GPIO_REGMAP_DIR_BEFORE_SET      = BIT(0),
->          |                                           ^~~~~~
->    In file included from drivers/gpio/gpio-fxl6408.c:12:
->    In file included from include/linux/i2c.h:13:
->    In file included from include/linux/acpi.h:14:
->    In file included from include/linux/device.h:32:
->    In file included from include/linux/device/driver.h:21:
->    In file included from include/linux/module.h:20:
->    In file included from include/linux/elf.h:6:
->    In file included from arch/x86/include/asm/elf.h:10:
->    In file included from arch/x86/include/asm/ia32.h:7:
->    In file included from include/linux/compat.h:17:
->    In file included from include/linux/fs.h:34:
->    In file included from include/linux/percpu-rwsem.h:7:
->    In file included from include/linux/rcuwait.h:6:
->    In file included from include/linux/sched/signal.h:6:
->    include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-This is correct, thanks. I added a missing "#include <linux/bits.h>" to
-fix it. Will be in a v4 of the patch set.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3957a5720157264dcc41415fbec7c51c4000fc2d
+commit: f6a8abe0cc16c44eda30712a8922261363d6d3ac clk: qcom: videocc-qcs615: Add QCS615 video clock controller driver
+date:   5 weeks ago
+config: arm-kismet-CONFIG_QCS_GCC_615-CONFIG_QCS_VIDEOCC_615-0-0 (https://download.01.org/0day-ci/archive/20250822/202508221956.n9r5Ef2J-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250822/202508221956.n9r5Ef2J-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508221956.n9r5Ef2J-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615 when selected by QCS_VIDEOCC_615
+   WARNING: unmet direct dependencies detected for SM_GCC_6350
+     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SM_VIDEOCC_6350 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+   
+   WARNING: unmet direct dependencies detected for QCS_GCC_615
+     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
+     Selected by [y]:
+     - QCS_VIDEOCC_615 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
