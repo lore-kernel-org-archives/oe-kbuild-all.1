@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071C921D00E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 20:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCBD242D9A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 20:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755979871; cv=none; b=qFb17htFqkZT3jKFUX8kpa2mhfPUZPC+/oKsv4TzAnL+qXLsgYqGFc4Ay4kg97/pt0+pRXa2GDVdC+htQ3loLB7uc/TqyUhcQ4EtaZz3o01hN18YXH1bg7UpskHohtuMTZfWFUmk11QKbXqIfNVE67Fci1ws50E44rDHQoJSiW4=
+	t=1755982789; cv=none; b=gvIpUe16n8/yBbkv4fZpn1MX6UIMvaBHmSaQJjOv/wxFZ86LZ4PjTMozunfLUBmF5hOrVK3scMH2QeSo+yuXSDkwDoWY6t8gaYHc6A48aboBHxc0REhzR5CxQuCE3HFsdxXpVJ57nmeeR7m6f6Q/GUj1xFF+Q8EeB6CaI1YqfZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755979871; c=relaxed/simple;
-	bh=Jgh8opevsARFUtSRpstHtsTdvXQDxfHCk8eaoBCj7Bk=;
+	s=arc-20240116; t=1755982789; c=relaxed/simple;
+	bh=UQy5DosyqGsxtVWP6AVytDRkjaHfQ4yPsIwvMBiPd6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XJjvWuFeeP04nJxhv8ZnZRtITAv3zmGD4t3G/Be7SYrFWWmRD4nd4TksWkRlSy47cRJ8fjGIjkPniIrdKWUmjzR59CJ6dAb2UKgnbOLDjOkya03uXOxHZn7Kr6MwFAfD+yPXpOcFnS10cGUxEYBer5AOzDZXufz202LVp/XlNdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZwnHFm1; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=g67laqa0bn+iKfHbK2jZj+/EDk2CXVv3TN/4OJD6baLnA3dpBCxz8H+ZsI2mKpJYQjC52dU5CkCc42WXZ9A41dtSbqylY4muLdIyeq+N8ELO63lhZw2Piq7bi7xBomnGvfkSlYE70YCccJxCy4JrtMz6jYJAARN+tmH45eDfLSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEGnbxEn; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZwnHFm1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEGnbxEn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755979869; x=1787515869;
+  t=1755982787; x=1787518787;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jgh8opevsARFUtSRpstHtsTdvXQDxfHCk8eaoBCj7Bk=;
-  b=dZwnHFm11BL4+1tgGC/sRxCXq0jnf3csYCpmh2gCHW/wPmC0c8YeHCR1
-   NFxteB7LBUk+Za1mHrRvAta2eiLf/77Wvrc5MPxUBa4wUfEsMuESFnFcX
-   4kewsxX+6HH0z4HpXZ5PZqxuXAq7hBTDCOiY7Q47jKf7OGMSakCZZ+iFm
-   Qg3FM7QVQOS86oDxX3HSPIaVmHUTXCU4keSkOnTI4nJJOmr4GS6sCPI3T
-   98D/uTUxi3Yeqvoxml6KxXv4krDNMVF/2VOMYSFTTTXhm1jqIwCoXjf8h
-   H/VLsAT5Z1GDXngmMF5P+aKDftcXFF/NY6rC93v6Dc8kED+NtEomFPAVE
-   A==;
-X-CSE-ConnectionGUID: 2ov73MLnSKSQzJ1H4o94eg==
-X-CSE-MsgGUID: ZOBOWjslT2KkwBll56q2iQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="75841324"
+  bh=UQy5DosyqGsxtVWP6AVytDRkjaHfQ4yPsIwvMBiPd6Y=;
+  b=iEGnbxEnGTlIG/m/PgomD8GCMJQMXXiWUsuX/5s4BxusDX5X4aIboOuh
+   SA1TZEii/2pOiEDDDsgH0ayQNeQL0FtItzd5Mn0riVe1gUDgPMMtzxGDk
+   qP/bOpBP1XukC6/MYiZF6hwJDQSxlSjHs2BoO9HcWKEF3QHStASd4pp5B
+   j/PnEyy3h0dE+E3AGvg9tsDx2pREMPWD5ZXG7u8pMsZ444k7587BYciFv
+   4Foy8lhm/LnGHAdhA6qyAJ7pHj3sx6j3fRqZEr71F0phaKdTujxL4BchN
+   0AxU7AZbST37T1Uv/gpqGePEoRgybbxy78nhCy27XUaiNmE//uahwINkg
+   w==;
+X-CSE-ConnectionGUID: OuZOO58rRXqe9rtvvzwIFw==
+X-CSE-MsgGUID: AtZfVTPxQ9epYqJ5gC70Zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58312262"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="75841324"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 13:11:08 -0700
-X-CSE-ConnectionGUID: wW71RK4WSMyaKcS3LhvKjQ==
-X-CSE-MsgGUID: 1ICaNRhUROit7Rje842qRg==
+   d="scan'208";a="58312262"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 13:59:46 -0700
+X-CSE-ConnectionGUID: xt0nR7GrRdCDRKvILJGhqg==
+X-CSE-MsgGUID: Ys9FATsLTLWN2cw6n6euPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="206123877"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Aug 2025 13:11:07 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="173158548"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa003.jf.intel.com with ESMTP; 23 Aug 2025 13:59:45 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upuZs-000MZ5-3B;
-	Sat, 23 Aug 2025 20:11:04 +0000
-Date: Sun, 24 Aug 2025 04:10:44 +0800
+	id 1upvKx-00029T-0V;
+	Sat, 23 Aug 2025 20:59:43 +0000
+Date: Sat, 23 Aug 2025 22:58:45 +0200
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 6/6]
- include/trace/stages/init.h:2:23: warning: 'str__logbuf__trace_system_name'
- defined but not used
-Message-ID: <202508240416.eG4ZFA5Z-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 443/443]
+ arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a04f000:
+ failed to match any schema with compatible: ['mediatek,mt8189-camsys-rawa',
+ 'syscon']
+Message-ID: <202508232227.HejuNnRt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +64,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mukesh,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
-commit: c9339c51fdd3cd0df505a8d6ed0a5b5c8b797e3d [6/6] ANDROID: logbuf: vendor hook for logbuf dump on oops
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250824/202508240416.eG4ZFA5Z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240416.eG4ZFA5Z-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   12cacc6855c36b7b2ce4a8f020b4a40a6433357b
+commit: a1d33501caca76b0650cb75eafcab35c80d479e5 [443/443] CHROMIUM: arm64: dts: mt8189-skywalker: Initial DTS for skywalker reference
+config: arm64-randconfig-2051-20250823 (https://download.01.org/0day-ci/archive/20250823/202508232227.HejuNnRt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508232227.HejuNnRt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508240416.eG4ZFA5Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508232227.HejuNnRt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/logbuf.h:21,
-                    from drivers/android/vendor_hooks.c:51:
->> include/trace/stages/init.h:2:23: warning: 'str__logbuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bug.h:16,
-                    from drivers/android/vendor_hooks.c:50:
-   include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/futex.h:22,
-                    from drivers/android/vendor_hooks.c:49:
-   include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:28,
-                    from drivers/android/vendor_hooks.c:48:
-   include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:36,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:25,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-
-
-vim +/str__logbuf__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: iommu@19010000 (mediatek,mt8189-iommu-apu): 'mediatek,larbs' is a required property
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8189-camsys-main', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a001000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a002000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1a00c000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1a00d000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a00f000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a010000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a04f000: failed to match any schema with compatible: ['mediatek,mt8189-camsys-rawa', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a06f000: failed to match any schema with compatible: ['mediatek,mt8189-camsys-rawb', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1b000000: failed to match any schema with compatible: ['mediatek,mt8189-ipesys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1b00e000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1b10f000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1b00f000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt8189-vlp-ao-ckgen', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/power-controller@1c001000: failed to match any schema with compatible: ['mediatek,mt8189-scpsys', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c00c000: failed to match any schema with compatible: ['mediatek,mt8189-vlpcfg-reg-bus', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c00f000: failed to match any schema with compatible: ['mediatek,mt8189-dvfsrc-top', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c012000: failed to match any schema with compatible: ['mediatek,mt8189-vlp-ckgen', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/devapc@1c01c000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/mailbox@1c351000: failed to match any schema with compatible: ['mediatek,tinysys_mbox']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: scp@1c400000 (mediatek,mt8189-scp): clock-names:0: 'main' was expected
+   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c80a000: failed to match any schema with compatible: ['mediatek,mt8189-scp-i2c-clk', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1cb21000: failed to match any schema with compatible: ['mediatek,mt8189-scp-clk', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000: failed to match any schema with compatible: ['mediatek,mt8189-pwrap']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000/pmic/adc: failed to match any schema with compatible: ['mediatek,mt6359-auxadc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): clock-names:0: 'gce' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): clock-names: ['gce0', 'gce-timer'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): clocks: [[165, 0], [165, 3]] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e9800f0: failed to match any schema with compatible: ['mediatek,mt8189-gce-d', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): clock-names:0: 'gce' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): clock-names: ['gce1', 'gce-timer'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): clocks: [[165, 1], [165, 3]] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e9900f0: failed to match any schema with compatible: ['mediatek,mt8189-gce-m', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1f000000: failed to match any schema with compatible: ['mediatek,mt8189-mdpsys', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1f002000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/emiisu: failed to match any schema with compatible: ['mediatek,common-emiisu']
 
 -- 
 0-DAY CI Kernel Test Service
