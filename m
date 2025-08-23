@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331C520FA9C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 21:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B741D8E10
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 22:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755986032; cv=none; b=gDCFbQ9E5qLCWc58JCm/DW/Jn3S37naWFPy8eid639/iBLECATZLIRqTNFut/N8co9Um4SwrQENz+ow/rv19Vjxm85Beq9NBePCSOm6mjAWB5yqRzVEi8xo17eZdAcvUXcnnOqifhyc0q6D1wC5PH3Z6AJoY1mV7Ljr1dcyiTrM=
+	t=1755986812; cv=none; b=TkRG6CGivFOiYXzwpqvOWHZFo5+6oMsGWiRDlJ+1tlO4QIrzCRtBd21fgyRqRGjlxe2z+h/v7Xpsp+BxwdD5SlYNnyygdhH1f3HaTEcqt6kGYfb7CKyd+z4AFxs3/IWMYffXO9LRYOvAZTT53Iigs8kHy1HM+voKUojtCEACWp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755986032; c=relaxed/simple;
-	bh=9BXIzaov3cIKsITFD2kYAmNOig9QKsNDG5ar116bKPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V9Y6NHM6j1cucLdHwuNz6ClYShjCKa/0ceqBkoVL2Ej2xAs25TAXztUP408XIj+hdH58YcPQuIRe4xNoIe5uH3x1LNte4a9nQnU9c+rRo7qvdUdD5klw2LFXVdHj5BbVWUz3deFsKYWn7L+efEF3oJJzmE0nECdrJOsfGJL4LXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1RBuD+U; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1755986812; c=relaxed/simple;
+	bh=ZlGz2uqU9/ivnjkI8rsc21jM/7/DPuIbjEA6kk2xNPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CPZsmFe9gMyk7phmxrf3DnTfdpwV1TvfjCbf9DjQOtzyUCo3fWLuBbV9fz4CAE+Idqp6bECArSnZ9eknMJ5AaVR3C57xk/LcPIk5rUjpw1AdJxZL4mgYaCGPYMO3EBAZz8PILIVdPz6ZJrI/pfH9E6jPJbxA6gWbOGAu1s6ijko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpGps3Xd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1RBuD+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpGps3Xd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755986031; x=1787522031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9BXIzaov3cIKsITFD2kYAmNOig9QKsNDG5ar116bKPs=;
-  b=F1RBuD+UGGawQMj0uVGegqI/GFe/9guSB/nSFH4JF2N4tgCYSa0xmuwZ
-   IMlL+vWVYx7NG7Bg9Ci52oUdDjdJyQvb5/Myyf7LVOwJwknCW7dlGkHSe
-   KMz/ET+Kj42chNncvI5fjoIS3fR/4E02lBsu/qSkDwc/vY1YCqlx1j6l1
-   9RrOgimZg/SD0impyqhVAJ6Vz3gTt37pEwZiu1p+kksz1zJCaUqA+GJs7
-   B9SZJMVp3f0M4GmMZ5JJr2tbN9/4B35UXpD6a8YRNXncZjLxGMwd3ZVqP
-   6XSfyiAUfawIZZmXYROxTlRdiSP39AIKjhZusAfC8RD2oynwbtICAVUZr
-   A==;
-X-CSE-ConnectionGUID: TNmB1LOWR9CqQqIBkfDFqw==
-X-CSE-MsgGUID: 0V0VqXcLS9uOIbcecu6KXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58319429"
+  t=1755986811; x=1787522811;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZlGz2uqU9/ivnjkI8rsc21jM/7/DPuIbjEA6kk2xNPc=;
+  b=RpGps3XdVhgUUojoRIP9VS7lba/2R27ZRt2SEKoGKC9itXEpepNxCiaX
+   6SfSYNNlLCYv44CHj7lC+8QjLgSvPvzTTTwmcQWHXdS60OggExWhKB2Rq
+   ox8UZTnbw8RaFQPxCWw2gRpDyS8wdt73BprREAKYh+zGCCnySn4qvback
+   glZ08jsRgXsxJItpWyK4f270IDDxIYrkJKFLfiKKiin7H1mffFoV9/3k0
+   Bzf1bYqZrQWTcmdBZz+ONleuFPtIL40dvNOGDd/NbuLrZ7c7sQUTfPTho
+   8aeLRkCCVwiuv86M4sntyZhO6Bh2Ew+FUWxKZtDRwHRv0HfwiGnxUnmK8
+   Q==;
+X-CSE-ConnectionGUID: Sq7jBRcpSqmhgbKZfZqc2g==
+X-CSE-MsgGUID: DkhfNhH9S0OzaOeOBlmWSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="57451635"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58319429"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 14:53:50 -0700
-X-CSE-ConnectionGUID: XxiiGVKgSbGjo2/uo1qaBQ==
-X-CSE-MsgGUID: RpzRL/2pTRGLvAstCrrpKg==
+   d="scan'208";a="57451635"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 15:06:50 -0700
+X-CSE-ConnectionGUID: YmK5r9YkSQa7BbhzI6So2g==
+X-CSE-MsgGUID: b+oZz8ofSZ+VzO/EYGovWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="168210962"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 23 Aug 2025 14:53:44 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="168181749"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa006.jf.intel.com with ESMTP; 23 Aug 2025 15:06:49 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upwBB-000Mch-25;
-	Sat, 23 Aug 2025 21:53:41 +0000
-Date: Sun, 24 Aug 2025 05:53:22 +0800
+	id 1upwNq-00029r-3B;
+	Sat, 23 Aug 2025 22:06:46 +0000
+Date: Sun, 24 Aug 2025 00:05:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Lance Yang <lance.yang@linux.dev>, akpm@linux-foundation.org,
-	fthain@linux-m68k.org, geert@linux-m68k.org, mhiramat@kernel.org,
-	senozhatsky@chromium.org
-Cc: oe-kbuild-all@lists.linux.dev, lance.yang@linux.dev,
-	amaindex@outlook.com, anna.schumaker@oracle.com,
-	boqun.feng@gmail.com, ioworker0@gmail.com, joel.granados@kernel.org,
-	jstultz@google.com, kent.overstreet@linux.dev,
-	leonylgao@tencent.com, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, longman@redhat.com,
-	mingo@redhat.com, mingzhe.yang@ly.com, oak@helsinkinet.fi,
-	rostedt@goodmis.org, tfiga@chromium.org, will@kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] hung_task: fix warnings by enforcing alignment on
- lock structures
-Message-ID: <202508240539.ARmC1Umu-lkp@intel.com>
-References: <20250823074048.92498-1-lance.yang@linux.dev>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
+Subject: [linux-next:master 1594/4234] ld:
+ drivers/net/ethernet/stmicro/stmmac/stmmac_pci.o:undefined reference to
+ `stmmac_simple_pm_ops'
+Message-ID: <202508240036.5DKuJ0uK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,56 +62,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250823074048.92498-1-lance.yang@linux.dev>
 
-Hi Lance,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on akpm-mm/mm-everything sysctl/sysctl-next linus/master v6.17-rc2 next-20250822]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lance-Yang/hung_task-fix-warnings-by-enforcing-alignment-on-lock-structures/20250823-164122
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20250823074048.92498-1-lance.yang%40linux.dev
-patch subject: [PATCH 1/1] hung_task: fix warnings by enforcing alignment on lock structures
-config: x86_64-buildonly-randconfig-001-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240539.ARmC1Umu-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0f4c93f7eb861acab537dbe94441817a270537bf
+commit: c91918a1e9767fc40488f69436f61af90221615b [1594/4234] net: stmmac: pci: convert to suspend()/resume() methods
+config: x86_64-buildonly-randconfig-2002-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240036.5DKuJ0uK-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240539.ARmC1Umu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240036.5DKuJ0uK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508240539.ARmC1Umu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508240036.5DKuJ0uK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the linux-next/master HEAD 0f4c93f7eb861acab537dbe94441817a270537bf builds fine.
+      It may have been fixed somewhere.
 
-   In file included from sound/soc/codecs/mt6660.c:15:
->> sound/soc/codecs/mt6660.h:28:1: warning: alignment 1 of 'struct mt6660_chip' is less than 8 [-Wpacked-not-aligned]
-      28 | };
-         | ^
->> sound/soc/codecs/mt6660.h:25:22: warning: 'io_lock' offset 49 in 'struct mt6660_chip' isn't aligned to 8 [-Wpacked-not-aligned]
-      25 |         struct mutex io_lock;
-         |                      ^~~~~~~
+All errors (new ones prefixed by >>):
 
-
-vim +28 sound/soc/codecs/mt6660.h
-
-f289e55c6eeb43 Jeff Chang 2020-01-16  19  
-f289e55c6eeb43 Jeff Chang 2020-01-16  20  struct mt6660_chip {
-f289e55c6eeb43 Jeff Chang 2020-01-16  21  	struct i2c_client *i2c;
-f289e55c6eeb43 Jeff Chang 2020-01-16  22  	struct device *dev;
-f289e55c6eeb43 Jeff Chang 2020-01-16  23  	struct platform_device *param_dev;
-f289e55c6eeb43 Jeff Chang 2020-01-16  24  	struct mt6660_platform_data plat_data;
-f289e55c6eeb43 Jeff Chang 2020-01-16 @25  	struct mutex io_lock;
-f289e55c6eeb43 Jeff Chang 2020-01-16  26  	struct regmap *regmap;
-f289e55c6eeb43 Jeff Chang 2020-01-16  27  	u16 chip_rev;
-f289e55c6eeb43 Jeff Chang 2020-01-16 @28  };
-f289e55c6eeb43 Jeff Chang 2020-01-16  29  #pragma pack(pop)
-f289e55c6eeb43 Jeff Chang 2020-01-16  30  
+>> ld: drivers/net/ethernet/stmicro/stmmac/stmmac_pci.o:(.data+0xe0): undefined reference to `stmmac_simple_pm_ops'
+   ld: drivers/net/ethernet/stmicro/stmmac/dwmac-intel.o:(.data+0xe0): undefined reference to `stmmac_simple_pm_ops'
 
 -- 
 0-DAY CI Kernel Test Service
