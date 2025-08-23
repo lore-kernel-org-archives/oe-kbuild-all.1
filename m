@@ -1,132 +1,159 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9E01DE2A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 11:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C969C1DE2A0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 11:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755946985; cv=none; b=uReV9tQimk7CgFFHv2vlH7BEIJPDsK8l+r7iKXmG1996U33xJc/2aSr3yvGUVTljGhd+veLc8n4hz1dCNioXbPx0613NoHsVRGOkr4GRG7Z+Jo1+dwqREZ/dCi9Q3xXgZPdehN8dN1+/uJDfGWH1uh9df/oFR7We1K6kvL4sQUs=
+	t=1755946987; cv=none; b=ELrqshoJ5i0f+ZWWirj79SXTA4Tiabq04hAJfZBWtQzJ/8HpzqkcBXCL5jwh1uOCJwbfoEZwFXkP4cOd694mmUQaajpTLavTgJvEVqDUFImfeOPDUZsyOglMhBwqctU7SdwrxgrANebesoThZ4fFGBczWZUiuBdkiWJ3oQzbk6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755946985; c=relaxed/simple;
-	bh=e9psdPo9h96ebAI3qRwD62+FOZYxF7oX0eXJbHz+n20=;
+	s=arc-20240116; t=1755946987; c=relaxed/simple;
+	bh=6kGf+TvhXqaSHAVb3yjyK5xzlqwfsC/vzMY1T+lP7iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exptoB5tmzsCvsSKbRPoP7QDI6cnGy5KE1Hl1vMBK4RiQzHusrdyQvW1Det4pwEqM/L1cW4f3Wpogtfe+JDbKw16ZMqT3njAjT37I9BN/wrty4VNr4jOQm19Ih/ESpwG/HeUF4h+8zZ2OIWACSQ+BWVgdPlUIxLtd7/glF5Ctpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMFYG2Cw; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=FW86fi28yH52oyMvRlx/Yl9YQp4TFajMgGH+0s+jcRChJxy1czPk3fEpSoAEINk7lMOoCvV6RVfKKCB2YLxAXMou+vlUaWGstOrDe+9MZIq5w47pJjlQfEdkSXuSesCqidBa94jb47poKgtLSPrOBTh33LcDTivADtSf8mvaZDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NdiAUzmN; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMFYG2Cw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NdiAUzmN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755946983; x=1787482983;
+  t=1755946986; x=1787482986;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=e9psdPo9h96ebAI3qRwD62+FOZYxF7oX0eXJbHz+n20=;
-  b=HMFYG2CwJy202bKVKtd7skCCqgfpWZFAuIG8XihtzShAW6iMWleR2+Vq
-   0vJC+C9gQIRBmDNzWWLP954ajSKZmQX2KaM69bnj4wYWm7XzH6kVKjfzZ
-   nm10dbjnq+O69DUUGUV5CosBJotJWHA0H8FWVE1WWelxASdKWGdciB7So
-   nNABEr9N9RaEXdhauZgczGsJGSWaAvAlggtVXSOXG53gLr3y1uUoJe0am
-   kMU1OfZ+44xClKWfEurKFiH808huMZkUONRRcmNeVy3saqh5jYCpZVKxD
-   BQChJVnAGNpYuO1i4R7MG4nULdfrhCuXstAGQEIclhJ8Bi6xgKEFcM9Om
-   g==;
-X-CSE-ConnectionGUID: qa3k1OaxRdejFrEpHL704A==
-X-CSE-MsgGUID: W4vepvsJRduSufOYQG57Xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58332599"
+   mime-version:in-reply-to;
+  bh=6kGf+TvhXqaSHAVb3yjyK5xzlqwfsC/vzMY1T+lP7iw=;
+  b=NdiAUzmNSbjMuTImqrA6O4UnDJPYh0pxDFOZM7mthWSwmAuzQbfHfc44
+   VgbeaNEzGMj8pb6QwOvPlBym01nbXLMiPfSUJn/tQiCrSri7WnzTGf34s
+   bLRWw3/eFPaS/KHDKj8sC2mB/jJkClekjg8dS+bKLGy7tQvyycYTneOUY
+   BCwrfjCVMMizdoJSDq571cLZbmUWpTbY44jQ+vllJoutSeUIrvUqh44qS
+   EbUiZr7uzd4izby+VOA2ede4fSGb6pt5MOgZjBWljIIlK2bM/kV4kIbS1
+   Pmy5qCOEVXoKU72BdQHixy1U0qvnXAeUGKW4lxUPE4T7XcELWszH0BXko
+   Q==;
+X-CSE-ConnectionGUID: sbuH4hQWSZSEPZJhaJ815A==
+X-CSE-MsgGUID: CvIv5o8MRPGkA8rNUvpEPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58332602"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58332599"
+   d="scan'208";a="58332602"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 04:03:03 -0700
-X-CSE-ConnectionGUID: 3SOUM+UGRsiceXCCSSdWOA==
-X-CSE-MsgGUID: 0hLEFP/SSXeunyS3XSiZ/g==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 04:03:06 -0700
+X-CSE-ConnectionGUID: OxcfLRT7S/yAxALmbRJ4Ow==
+X-CSE-MsgGUID: OaOBDkmQRC2KMS54laKfSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="168121476"
+   d="scan'208";a="168121474"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by orviesa006.jf.intel.com with ESMTP; 23 Aug 2025 04:03:01 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upm1T-000MGX-05;
+	id 1upm1T-000MGV-01;
 	Sat, 23 Aug 2025 11:02:59 +0000
-Date: Sat, 23 Aug 2025 19:02:38 +0800
+Date: Sat, 23 Aug 2025 19:02:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
-Message-ID: <202508231845.DezhAKqJ-lkp@intel.com>
-References: <20250822170800.2116980-2-mic@digikod.net>
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <martin.lau@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v1 bpf-next/net 2/8] bpf: Add a bpf hook in
+ __inet_accept().
+Message-ID: <202508231842.8DrS8EwE-lkp@intel.com>
+References: <20250822221846.744252-3-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250822170800.2116980-2-mic@digikod.net>
+In-Reply-To: <20250822221846.744252-3-kuniyu@google.com>
 
-Hi Mickaël,
+Hi Kuniyuki,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
+[auto build test ERROR on bpf-next/net]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/fs-Add-O_DENY_WRITE/20250823-011253
-base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-patch link:    https://lore.kernel.org/r/20250822170800.2116980-2-mic%40digikod.net
-patch subject: [RFC PATCH v1 1/2] fs: Add O_DENY_WRITE
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20250823/202508231845.DezhAKqJ-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508231845.DezhAKqJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Save-lock_sock-for-memcg-in-inet_csk_accept/20250823-062322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20250822221846.744252-3-kuniyu%40google.com
+patch subject: [PATCH v1 bpf-next/net 2/8] bpf: Add a bpf hook in __inet_accept().
+config: x86_64-buildonly-randconfig-001-20250823 (https://download.01.org/0day-ci/archive/20250823/202508231842.8DrS8EwE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508231842.8DrS8EwE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508231845.DezhAKqJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508231842.8DrS8EwE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/fcntl.c: In function 'fcntl_init':
->> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_363' declared with attribute error: BUILD_BUG_ON failed: 21 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) | __FMODE_EXEC)
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
-     553 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   fs/fcntl.c:1183:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1183 |         BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=
-         |         ^~~~~~~~~~~~
+   net/ipv4/af_inet.c: In function '__inet_accept':
+>> net/ipv4/af_inet.c:766:9: error: implicit declaration of function 'BPF_CGROUP_RUN_PROG_INET_SOCK_ACCEPT'; did you mean 'BPF_CGROUP_RUN_PROG_INET_SOCK_RELEASE'? [-Werror=implicit-function-declaration]
+     766 |         BPF_CGROUP_RUN_PROG_INET_SOCK_ACCEPT(newsk);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         BPF_CGROUP_RUN_PROG_INET_SOCK_RELEASE
+   cc1: some warnings being treated as errors
 
 
-vim +/__compiletime_assert_363 +572 include/linux/compiler_types.h
+vim +766 net/ipv4/af_inet.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
+   753	
+   754	void __inet_accept(struct socket *sock, struct socket *newsock, struct sock *newsk)
+   755	{
+   756		gfp_t gfp = GFP_KERNEL | __GFP_NOFAIL;
+   757	
+   758		/* TODO: use sk_clone_lock() in SCTP and remove protocol checks */
+   759		if (mem_cgroup_sockets_enabled &&
+   760		    (!IS_ENABLED(CONFIG_IP_SCTP) ||
+   761		     sk_is_tcp(newsk) || sk_is_mptcp(newsk))) {
+   762			mem_cgroup_sk_alloc(newsk);
+   763			kmem_cache_charge(newsk, gfp);
+   764		}
+   765	
+ > 766		BPF_CGROUP_RUN_PROG_INET_SOCK_ACCEPT(newsk);
+   767	
+   768		if (mem_cgroup_sk_enabled(newsk)) {
+   769			int amt;
+   770	
+   771			/* The socket has not been accepted yet, no need
+   772			 * to look at newsk->sk_wmem_queued.
+   773			 */
+   774			amt = sk_mem_pages(newsk->sk_forward_alloc +
+   775					   atomic_read(&newsk->sk_rmem_alloc));
+   776			if (amt)
+   777				mem_cgroup_sk_charge(newsk, amt, gfp);
+   778		}
+   779	
+   780		sock_rps_record_flow(newsk);
+   781		WARN_ON(!((1 << newsk->sk_state) &
+   782			  (TCPF_ESTABLISHED | TCPF_SYN_RECV |
+   783			   TCPF_FIN_WAIT1 | TCPF_FIN_WAIT2 |
+   784			   TCPF_CLOSING | TCPF_CLOSE_WAIT |
+   785			   TCPF_CLOSE)));
+   786	
+   787		if (test_bit(SOCK_SUPPORT_ZC, &sock->flags))
+   788			set_bit(SOCK_SUPPORT_ZC, &newsock->flags);
+   789		sock_graft(newsk, newsock);
+   790	
+   791		newsock->state = SS_CONNECTED;
+   792	}
+   793	
 
 -- 
 0-DAY CI Kernel Test Service
