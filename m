@@ -1,59 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAF71A9B24
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 15:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FC61A9B24
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 15:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755963533; cv=none; b=hTY9AoksUkd7d4drc0DgesBRMWXwsv+vbT0BcnXKo5UOys+hkm6pZVl7vBIMij/r8YBEf3LxStgF446fwLKCRssL1cFUT1Qjsfw4AhCaQdm1p93c5PbPU/89JD2KjkKZeQCHSLoQiFOBtfziTyW6z7igPT9OYQVSQIPfVGUm/jo=
+	t=1755963535; cv=none; b=Ld88U4oJq8rNETBIOurt3Wnrc4juhbOC+gqu7c8AGfjAgikysu3FG5ZvTgcP+iXyWvy5dt+0zdiyjPkpgWinSOBVSW7rSIti3n1IPmjLE++TkhvaAt3GaVwwOEY936ZeFS0VGhm30yGcGqxHP3Rg/sIa8e0uRGDvmaNV1fCBC6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755963533; c=relaxed/simple;
-	bh=IAfoWe5TUw8xIsQ3mD5uZqql+WHxou2TQLONHdhoM2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gw9tud6jSWTPXV/JA4VWYiECn1DBON7zCPyyLKoKx05DxzFc5wNimhZBbzeGzy7u0jIXqKA6vBv4pzNGdi1uBGByO7Md/MnuWUrdw8ZHefmajWpk4shcHxn5VoC8Fr3XFBWoKIQo7W2BtTRXhVjH3BnIvgjSg9XjXd3gt/clcd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FjafWlia; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1755963535; c=relaxed/simple;
+	bh=2CKFaXXEg2LYAIZZ/UOO6SOKp9zzgRvKhyBppqFbZxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bS66bvtLxNDTPSTjaCIPnZ5ikcJcal1TR+cPzquw3dGNxs78MBDZBp0zy/iNydaChmQs2iOfLkxubX/YDTMgkum09eMfUTZ6nGGvdy41OXvAXXTWxk8QnDI6WSkRpoBti+rjKGlpN+GG9INcpHA1Og8HIp+rGwIGm/l3CsAflCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eiI14r3W; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FjafWlia"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eiI14r3W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755963531; x=1787499531;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IAfoWe5TUw8xIsQ3mD5uZqql+WHxou2TQLONHdhoM2U=;
-  b=FjafWlia3i8RMp0RPGJWPkqfnyE0W+SK6jCmhAiQlOEs9D7qNiPh4zHM
-   VOS8To9WE+teRx6Ft9gOG1+1PCM9TH6i68eFPgFHUcs5v4SGnCQBuk7pG
-   5Rwe+XxxCmXs88kAznQHojLf4AJFVOoFP1KAAHTSP2RnSGMcz6tnzFnw3
-   XS8/qWZVpueU6KUSuQwYe7r4mLrpGAAKAufzZ6ZualKC/jjwtURuYy9yT
-   ZIwdBTgBIvQF15fd0op9mAtpP8jRR9UbieYWS1k1GN5LKbXvqp/7B2s6D
-   E8KH2Q+1yJq372W7ptGHXkqRDow0EO9nOkY74GPxAjsNSpPlWrO/R2sMV
-   A==;
-X-CSE-ConnectionGUID: Oi2BQRVjRo+/AenBZJyljQ==
-X-CSE-MsgGUID: Ive0nrl5Sj2tXnWS1Cqb5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68947451"
+  t=1755963534; x=1787499534;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2CKFaXXEg2LYAIZZ/UOO6SOKp9zzgRvKhyBppqFbZxA=;
+  b=eiI14r3WItVI0wrZ11+2n3n931sKmqMDnnjOjj9tlefUw02PYUmxWEZv
+   0phfgqZ7+iCyHTfTvS/ott1FZmQaWetLHR0sOygt+0RPZNMr8NGbjTaXP
+   /MdjMz0zndW+N8+fNjsZfjyDxS6eA7DCSHqrhIOlxaAEODpJnq5VtC17P
+   oV1x1N/CEWAS+YBZEI3IYCkLYaVd5NR1y21fbgzD31d10HuKnKsW3YKPW
+   o7rJgTHCNRXo0HJABpCAZqnzL+73oIhHEXbYsCAHgAlNYJf5xnDO03Gva
+   gaTLuoYHqucGOcAfCeM+ZjK2cJqItJeXOWt3H9OdnljzJ1g6Gx3zUoxXU
+   g==;
+X-CSE-ConnectionGUID: tRFsOAyhQyqoOAiZnKeXtg==
+X-CSE-MsgGUID: xcC8jbjvQJ2rGyWN0SebIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="57262172"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68947451"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 08:38:51 -0700
-X-CSE-ConnectionGUID: LqAJrxNlShyATQ08uJTIUg==
-X-CSE-MsgGUID: a8emHETaQ0++zRDJuslqQA==
+   d="scan'208";a="57262172"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 08:38:53 -0700
+X-CSE-ConnectionGUID: Wes7r59DTYKOEuQgrvtJNA==
+X-CSE-MsgGUID: NoleGkrySXu7qGfTOn6smQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="199815078"
+   d="scan'208";a="168164859"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Aug 2025 08:38:48 -0700
+  by orviesa010.jf.intel.com with ESMTP; 23 Aug 2025 08:38:49 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upqKM-000MNp-0t;
+	id 1upqKM-000MNn-0p;
 	Sat, 23 Aug 2025 15:38:46 +0000
-Date: Sat, 23 Aug 2025 23:38:05 +0800
+Date: Sat, 23 Aug 2025 23:38:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-5.10-GNR-perf-uncore-ANBZ24140 0/2]
- mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for function
- 'memcg_reap_background_set'
-Message-ID: <202508232329.V5s1Afgb-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martin KaFai Lau <martin.lau@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v1 bpf-next/net 6/8] bpf: Introduce SK_BPF_MEMCG_FLAGS
+ and SK_BPF_MEMCG_SOCK_ISOLATED.
+Message-ID: <202508232331.rxOqu50j-lkp@intel.com>
+References: <20250822221846.744252-7-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +80,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250822221846.744252-7-kuniyu@google.com>
 
-Hi Xu,
+Hi Kuniyuki,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-GNR-perf-uncore-ANBZ24140
-head:   5b97140220e2f9196fa5de48f6be468691f8b43b
-commit: 33bbe281782b11cc34512292d2957e86a0b2cc21 [0/2] ck: mm, memcg: introduce per memcg switch to reap zombie background
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250823/202508232329.V5s1Afgb-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508232329.V5s1Afgb-lkp@intel.com/reproduce)
+[auto build test ERROR on bpf-next/net]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Save-lock_sock-for-memcg-in-inet_csk_accept/20250823-062322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20250822221846.744252-7-kuniyu%40google.com
+patch subject: [PATCH v1 bpf-next/net 6/8] bpf: Introduce SK_BPF_MEMCG_FLAGS and SK_BPF_MEMCG_SOCK_ISOLATED.
+config: arc-randconfig-002-20250823 (https://download.01.org/0day-ci/archive/20250823/202508232331.rxOqu50j-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508232331.rxOqu50j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508232329.V5s1Afgb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508232331.rxOqu50j-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for function 'memcg_reap_background_set' [-Wmissing-prototypes]
-      47 | void memcg_reap_background_set(void)
-         |      ^
-   mm/memcg_zombie_reaper.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      47 | void memcg_reap_background_set(void)
-         | ^
-         | static 
->> mm/memcg_zombie_reaper.c:53:6: warning: no previous prototype for function 'memcg_reap_background_clear' [-Wmissing-prototypes]
-      53 | void memcg_reap_background_clear(void)
-         |      ^
-   mm/memcg_zombie_reaper.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      53 | void memcg_reap_background_clear(void)
-         | ^
-         | static 
-   2 warnings generated.
+   net/core/filter.c: In function 'sk_bpf_set_get_memcg_flags':
+>> net/core/filter.c:5290:9: error: implicit declaration of function 'mem_cgroup_sk_set_flags'; did you mean 'mem_cgroup_sk_get_flags'? [-Werror=implicit-function-declaration]
+    5290 |         mem_cgroup_sk_set_flags(sk, *optval);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+         |         mem_cgroup_sk_get_flags
+   cc1: some warnings being treated as errors
 
 
-vim +/memcg_reap_background_set +47 mm/memcg_zombie_reaper.c
+vim +5290 net/core/filter.c
 
-    46	
-  > 47	void memcg_reap_background_set(void)
-    48	{
-    49		reaper_kthread_on |= REAP_BACKGROUND_MEMCG;
-    50		wake_up_interruptible(&reaper_waitq);
-    51	}
-    52	
-  > 53	void memcg_reap_background_clear(void)
-    54	{
-    55		reaper_kthread_on &= ~REAP_BACKGROUND_MEMCG;
-    56	}
-    57	
+  5269	
+  5270	static int sk_bpf_set_get_memcg_flags(struct sock *sk, int *optval, bool getopt)
+  5271	{
+  5272		if (!mem_cgroup_sk_enabled(sk))
+  5273			return -EOPNOTSUPP;
+  5274	
+  5275		if (getopt) {
+  5276			*optval = mem_cgroup_sk_get_flags(sk);
+  5277			return 0;
+  5278		}
+  5279	
+  5280		/* Don't allow once sk has been published to userspace.
+  5281		 * INET_CREATE is called without lock_sock() but with sk_socket
+  5282		 * INET_ACCEPT is called with lock_sock() but without sk_socket
+  5283		 */
+  5284		if (sock_owned_by_user_nocheck(sk) && sk->sk_socket)
+  5285			return -EBUSY;
+  5286	
+  5287		if (*optval <= 0 || *optval >= SK_BPF_MEMCG_FLAG_MAX)
+  5288			return -EINVAL;
+  5289	
+> 5290		mem_cgroup_sk_set_flags(sk, *optval);
+  5291	
+  5292		return 0;
+  5293	}
+  5294	
 
 -- 
 0-DAY CI Kernel Test Service
