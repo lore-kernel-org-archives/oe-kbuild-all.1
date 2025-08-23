@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FA21EB5FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 09:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2574F239E92
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 10:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755943138; cv=none; b=n4ZDIl2AqtCebn+3M2XZyNMrKTS8YWhWKtsa7QKxD2m1KE857xF+2XFH9Cm8wtoI6aCdsOG0KpNRImSLsLAtr5Ib/2YabTrl7QhAf9brjTfgMfvA3ADpSPvcWeuG0AqYAe+Oxf7uwpDUL8DQ9TkU9Bmau+56JRfl8dCVd+A6VIo=
+	t=1755944461; cv=none; b=NB8qZEbuK+HE34IhbUyxxgF17cqq1vmeZBewQMh17tCqCrpnRUlmmA2laZOCn3HHYYmxOVwifdinKRrmobG3+pG8hdORlJdrHzlkCeIh/Tv336xnpfxkLI2sSu4H0XpdLbyCFkWcQPc/PHXqy/RmoketJtfFCTZ4vlEJ6s7TXtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755943138; c=relaxed/simple;
-	bh=gUFBzfTimMRj4rmoOfYMVuocJueTR5DyzQ9bfAaTWtQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ryah9bg9GxWOjY3Oikk2ISooTkmYK5V0IVJhIHEx5LRao63TnEtNHK4a9Ycl7nA6zVMuA0N8IRdsrp+dgjad3WCsFVtF9SkhL0scqNG53vRU6Cgtv9arV3mMOv5GD9NzLqj2FbKBxNqf1vqYKoWqw6GLJqshjhFQV08NKNM9pMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f5a2G3ts; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1755944461; c=relaxed/simple;
+	bh=LQ4AAU4YwamuUbEKelxXl8ERxFFvlMTb1YOhXFwln/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FXrTYnOm1IycssF4Iv8WxIZzlqIBi23rUEVD3breNk9EYO6AG46eZkpVJUiNYKMg6Mt7ic+lCCd2uEiIXBd8PFg+t5OzJbecm1hbR7MhSu2JvLEoUYOgbYCIvur1u4fdg7yfr4dd6MVp3Jbsh8isIVpupShwyEg/jzpSE8prh1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LqjGcKMF; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f5a2G3ts"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LqjGcKMF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755943136; x=1787479136;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gUFBzfTimMRj4rmoOfYMVuocJueTR5DyzQ9bfAaTWtQ=;
-  b=f5a2G3tsxhTjyLGoyc2VFnMr0gmG6jYg8qmtgQtcLqyq4rHGQKl0GpJo
-   oumoULVuwX91FwoHQPvEeC+SzMJqA+pMdtTMYXkGF4HUDJlHf4pFt0ZZ2
-   NHwP+M1l4rlhRNnB5/EyKm8soNVMlNOSpTrxa4GS007ubi5/VFpj8f5Gm
-   jRBqB4APFFSHvYMzysH3CHBmCmHBUJS23m8AUamvTF5FltjHhSVgjyK61
-   MCkH5E60CSAEOi9SWb4TisqSeu+p27HVcKtUxwvAU9eBRDiG1LLDsbyxi
-   qa8vI6WHoy7iCmF9Q1jcDGnbBUaizYaLJWTYNpBgAG1jfAHQKVBxrrAlH
-   w==;
-X-CSE-ConnectionGUID: 4+ZZ2i5+QDaEGWAUAtRaKA==
-X-CSE-MsgGUID: UwcTZxqeSrS5Jx3avKja1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="57942766"
+  t=1755944459; x=1787480459;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LQ4AAU4YwamuUbEKelxXl8ERxFFvlMTb1YOhXFwln/s=;
+  b=LqjGcKMFuHXSsB9U+05ukdgKMzphgcKxB5clG4lZw91LR5gcaQ3YmXgE
+   8gW3AFUoilexxGiOXQQxwq7KDdntxFhmsZgU0oXNCozQLzm3g6j8cwLIL
+   ePU6J4Pr1dj4eOjczlFN0h0JRPy6d4j4scx3bbqxmxjaPyMnxER4pZc/z
+   /4wWul98cRUD/fLdi2SsqCxeVBM7Vi71Zzj5SFi5NkPZnb8rR3KeLEIkB
+   G9mxdh3loJ6NDl3lBcGK2KFyAC4uaUIlGcRy4g3OnIJc4MgAZSPVPvRyH
+   QdA8e2eBJwBkxVjree+w1eUsk4uVyRjPOgWRHMS5EzOKZHZfTMdlVM28R
+   A==;
+X-CSE-ConnectionGUID: crRWg5S8QwKuqdF17q7oxA==
+X-CSE-MsgGUID: /1kvIWU7RlaL71PvRq1Vrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58160294"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="57942766"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 02:58:56 -0700
-X-CSE-ConnectionGUID: eODuAZe8TzezSe6xN4xz7Q==
-X-CSE-MsgGUID: qmflhOaWQc2XJJ2iSDJDKg==
+   d="scan'208";a="58160294"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 03:20:58 -0700
+X-CSE-ConnectionGUID: uqPKdRxDREKunnAKKh80Nw==
+X-CSE-MsgGUID: TQG27snNS4+msiYN+wUoNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="192553716"
+   d="scan'208";a="169090353"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Aug 2025 02:58:55 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Aug 2025 03:20:57 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upl1Q-000MF9-2o;
-	Sat, 23 Aug 2025 09:58:52 +0000
-Date: Sat, 23 Aug 2025 17:58:42 +0800
+	id 1uplMk-000MFb-1f;
+	Sat, 23 Aug 2025 10:20:54 +0000
+Date: Sat, 23 Aug 2025 18:20:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 6/6]
- include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name'
- defined but not used
-Message-ID: <202508231746.7KVeEc9f-lkp@intel.com>
+To: Shuai Zhang <quic_shuaz@quicinc.com>, linux-bluetooth@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_bt@quicinc.com,
+	Shuai Zhang <quic_shuaz@quicinc.com>
+Subject: Re: [PATCH v5] Fix SSR(SubSystem Restart) fail when BT_EN is pulled
+ up by hw
+Message-ID: <202508231806.zApKGtbH-lkp@intel.com>
+References: <20250820120641.1622351-1-quic_shuaz@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,149 +65,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250820120641.1622351-1-quic_shuaz@quicinc.com>
 
-Hi Shreyas,
+Hi Shuai,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
-commit: 4f8ffa0f055581b1f71a2abb6abd409022f47658 [6/6] ANDROID: vendor hooks: Add hooks to support bootloader based hibernation
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250823/202508231746.7KVeEc9f-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508231746.7KVeEc9f-lkp@intel.com/reproduce)
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.17-rc2 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Zhang/Fix-SSR-SubSystem-Restart-fail-when-BT_EN-is-pulled-up-by-hw/20250820-200925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20250820120641.1622351-1-quic_shuaz%40quicinc.com
+patch subject: [PATCH v5] Fix SSR(SubSystem Restart) fail when BT_EN is pulled up by hw
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250823/202508231806.zApKGtbH-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508231806.zApKGtbH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508231746.7KVeEc9f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508231806.zApKGtbH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:28,
-                    from drivers/android/vendor_hooks.c:47:
->> include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:36,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:25,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:18,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/stages/init.h:2:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:18,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mm.h:61,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/stages/init.h:2:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+>> drivers/bluetooth/hci_qca.c:1669:55: error: no member named 'quirks' in 'struct hci_dev'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                        ~~~~  ^
+>> drivers/bluetooth/hci_qca.c:1669:55: error: no member named 'quirks' in 'struct hci_dev'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                        ~~~~  ^
+>> drivers/bluetooth/hci_qca.c:1669:55: error: no member named 'quirks' in 'struct hci_dev'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                        ~~~~  ^
+>> drivers/bluetooth/hci_qca.c:1669:55: error: no member named 'quirks' in 'struct hci_dev'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                        ~~~~  ^
+>> drivers/bluetooth/hci_qca.c:1669:55: error: no member named 'quirks' in 'struct hci_dev'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                        ~~~~  ^
+   5 errors generated.
 
 
-vim +/str__bl_hib__trace_system_name +2 include/trace/stages/init.h
+vim +1669 drivers/bluetooth/hci_qca.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+  1609	
+  1610	static void qca_hw_error(struct hci_dev *hdev, u8 code)
+  1611	{
+  1612		struct hci_uart *hu = hci_get_drvdata(hdev);
+  1613		struct qca_data *qca = hu->priv;
+  1614	
+  1615		set_bit(QCA_SSR_TRIGGERED, &qca->flags);
+  1616		set_bit(QCA_HW_ERROR_EVENT, &qca->flags);
+  1617		bt_dev_info(hdev, "mem_dump_status: %d", qca->memdump_state);
+  1618	
+  1619		if (qca->memdump_state == QCA_MEMDUMP_IDLE) {
+  1620			/* If hardware error event received for other than QCA
+  1621			 * soc memory dump event, then we need to crash the SOC
+  1622			 * and wait here for 8 seconds to get the dump packets.
+  1623			 * This will block main thread to be on hold until we
+  1624			 * collect dump.
+  1625			 */
+  1626			set_bit(QCA_MEMDUMP_COLLECTION, &qca->flags);
+  1627			qca_send_crashbuffer(hu);
+  1628			qca_wait_for_dump_collection(hdev);
+  1629		} else if (qca->memdump_state == QCA_MEMDUMP_COLLECTING) {
+  1630			/* Let us wait here until memory dump collected or
+  1631			 * memory dump timer expired.
+  1632			 */
+  1633			bt_dev_info(hdev, "waiting for dump to complete");
+  1634			qca_wait_for_dump_collection(hdev);
+  1635		}
+  1636	
+  1637		mutex_lock(&qca->hci_memdump_lock);
+  1638		if (qca->memdump_state != QCA_MEMDUMP_COLLECTED) {
+  1639			bt_dev_err(hu->hdev, "clearing allocated memory due to memdump timeout");
+  1640			hci_devcd_abort(hu->hdev);
+  1641			if (qca->qca_memdump) {
+  1642				kfree(qca->qca_memdump);
+  1643				qca->qca_memdump = NULL;
+  1644			}
+  1645			qca->memdump_state = QCA_MEMDUMP_TIMEOUT;
+  1646			cancel_delayed_work(&qca->ctrl_memdump_timeout);
+  1647		}
+  1648		mutex_unlock(&qca->hci_memdump_lock);
+  1649	
+  1650		if (qca->memdump_state == QCA_MEMDUMP_TIMEOUT ||
+  1651		    qca->memdump_state == QCA_MEMDUMP_COLLECTED) {
+  1652			cancel_work_sync(&qca->ctrl_memdump_evt);
+  1653			skb_queue_purge(&qca->rx_memdump_q);
+  1654		}
+  1655	
+  1656		/*
+  1657		 * If the BT chip's bt_en pin is connected to a 3.3V power supply via
+  1658		 * hardware and always stays high, driver cannot control the bt_en pin.
+  1659		 * As a result, during SSR(SubSystem Restart), QCA_SSR_TRIGGERED and
+  1660		 * QCA_IBS_DISABLED flags cannot be cleared, which leads to a reset
+  1661		 * command timeout.
+  1662		 * Add an msleep delay to ensure controller completes the SSR process.
+  1663		 *
+  1664		 * Host will not download the firmware after SSR, controller to remain
+  1665		 * in the IBS_WAKE state, and the host needs to synchronize with it
+  1666		 *
+  1667		 * Since the bluetooth chip has been reset, clear the memdump state.
+  1668		 */
+> 1669		if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+  1670			/*
+  1671			 * When the SSR (Sub-System Restart) duration exceeds 2 seconds,
+  1672			 * it triggers host tx_idle_delay, which sets host TX state
+  1673			 * to sleep. Reset tx_idle_timer after SSR to prevent
+  1674			 * host enter TX IBS_Sloeep mode.
+  1675			 */
+  1676			mod_timer(&qca->tx_idle_timer, jiffies +
+  1677					  msecs_to_jiffies(qca->tx_idle_delay));
+  1678			msleep(50);
+  1679	
+  1680			clear_bit(QCA_SSR_TRIGGERED, &qca->flags);
+  1681			clear_bit(QCA_IBS_DISABLED, &qca->flags);
+  1682	
+  1683			qca->tx_ibs_state = HCI_IBS_TX_AWAKE;
+  1684			qca->memdump_state = QCA_MEMDUMP_IDLE;
+  1685		}
+  1686	
+  1687		clear_bit(QCA_HW_ERROR_EVENT, &qca->flags);
+  1688	}
+  1689	
 
 -- 
 0-DAY CI Kernel Test Service
