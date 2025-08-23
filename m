@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCBD242D9A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 20:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EC1393DCC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Aug 2025 21:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755982789; cv=none; b=gvIpUe16n8/yBbkv4fZpn1MX6UIMvaBHmSaQJjOv/wxFZ86LZ4PjTMozunfLUBmF5hOrVK3scMH2QeSo+yuXSDkwDoWY6t8gaYHc6A48aboBHxc0REhzR5CxQuCE3HFsdxXpVJ57nmeeR7m6f6Q/GUj1xFF+Q8EeB6CaI1YqfZo=
+	t=1755984808; cv=none; b=LGNvtWrZf8fwC2lZNGnwD2L0dw9PSwe0MG9QzhOi2OiHOfOjtYBJRJDNhiqLK3MMinLhjpI+AsRZpd/0fhnWYXf8q8PWaBe6O0AZo4SfQ0Nx15ViRT0cB8he7xJhYA71GLpCT+fPnJGLZvAXsgBO65LYRD6GulBtjJxrnE+UOlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755982789; c=relaxed/simple;
-	bh=UQy5DosyqGsxtVWP6AVytDRkjaHfQ4yPsIwvMBiPd6Y=;
+	s=arc-20240116; t=1755984808; c=relaxed/simple;
+	bh=4lB4ZWaoUpsKCSctqo4glCE+ZiQrCUp31zuWaHp4ozQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g67laqa0bn+iKfHbK2jZj+/EDk2CXVv3TN/4OJD6baLnA3dpBCxz8H+ZsI2mKpJYQjC52dU5CkCc42WXZ9A41dtSbqylY4muLdIyeq+N8ELO63lhZw2Piq7bi7xBomnGvfkSlYE70YCccJxCy4JrtMz6jYJAARN+tmH45eDfLSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEGnbxEn; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=ERYrx9VK0enfIC4DcpLYEkc0O4uSWotUyGwOYLpjYAK7ZVA5WHIaSRNSiR/aD4Nml4Lj5RyYRdgDGMc2F2pV34nTe+dHTm+oVM2tvoIdEk99Q7uxjpEBZHyaUkqQKMVxG9PSoNx/c3jTa7w5pg09tQ9DT5U0QYuOD23TZih3BEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no7tZV37; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEGnbxEn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no7tZV37"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755982787; x=1787518787;
+  t=1755984805; x=1787520805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UQy5DosyqGsxtVWP6AVytDRkjaHfQ4yPsIwvMBiPd6Y=;
-  b=iEGnbxEnGTlIG/m/PgomD8GCMJQMXXiWUsuX/5s4BxusDX5X4aIboOuh
-   SA1TZEii/2pOiEDDDsgH0ayQNeQL0FtItzd5Mn0riVe1gUDgPMMtzxGDk
-   qP/bOpBP1XukC6/MYiZF6hwJDQSxlSjHs2BoO9HcWKEF3QHStASd4pp5B
-   j/PnEyy3h0dE+E3AGvg9tsDx2pREMPWD5ZXG7u8pMsZ444k7587BYciFv
-   4Foy8lhm/LnGHAdhA6qyAJ7pHj3sx6j3fRqZEr71F0phaKdTujxL4BchN
-   0AxU7AZbST37T1Uv/gpqGePEoRgybbxy78nhCy27XUaiNmE//uahwINkg
+  bh=4lB4ZWaoUpsKCSctqo4glCE+ZiQrCUp31zuWaHp4ozQ=;
+  b=no7tZV37z0IPyMDRMZr93FBuo4Or8CyGFRfB0xiloVHzFCR9cIa5RnCk
+   lEjGYxZxzZURkWOGPM9t7q3iDubIzauM8CalEUwffwmvZuaSNruUCk6ym
+   4g96TjgKncLgs2wrKmUWMzE0mvRsp334i6n2KYs2miCsjBIl70Pdt76TV
+   D7LEWf9ARqywBiFymxjzKyDf26rFRpV8r+RhDdJsBNz5U32n4FI4WAzC0
+   OcYMONHoOHdnFCrtAxVevQQf7Cbk3DK6YHo/jQTDcrE1ZwXYAm1qg9Mdn
+   Z57BEaANpF6dNym92TCDa6T46F0PW023RbdId8+0d1WgzihSdxGxfrK7U
    w==;
-X-CSE-ConnectionGUID: OuZOO58rRXqe9rtvvzwIFw==
-X-CSE-MsgGUID: AtZfVTPxQ9epYqJ5gC70Zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58312262"
+X-CSE-ConnectionGUID: zJ7ZlanEQbSv1GkH6YCNLA==
+X-CSE-MsgGUID: RR3jO/PEQAWPjcwaJhoiPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="83662449"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58312262"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 13:59:46 -0700
-X-CSE-ConnectionGUID: xt0nR7GrRdCDRKvILJGhqg==
-X-CSE-MsgGUID: Ys9FATsLTLWN2cw6n6euPg==
+   d="scan'208";a="83662449"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 14:33:24 -0700
+X-CSE-ConnectionGUID: spER6Wy7RNST0PVKB7e+jA==
+X-CSE-MsgGUID: bl+Bir3uQbqoTISMVL7BfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="173158548"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 23 Aug 2025 13:59:45 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="174252594"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 23 Aug 2025 14:33:22 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1upvKx-00029T-0V;
-	Sat, 23 Aug 2025 20:59:43 +0000
-Date: Sat, 23 Aug 2025 22:58:45 +0200
+	id 1upvr4-000Mbz-1i;
+	Sat, 23 Aug 2025 21:33:04 +0000
+Date: Sun, 24 Aug 2025 05:32:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 443/443]
- arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a04f000:
- failed to match any schema with compatible: ['mediatek,mt8189-camsys-rawa',
- 'syscon']
-Message-ID: <202508232227.HejuNnRt-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [akpm-mm:mm-unstable 125/221] include/linux/compiler.h:166:45:
+ warning: unused variable '__UNIQUE_ID_guard255'
+Message-ID: <202508240502.frw1Krzo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,93 +67,234 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   12cacc6855c36b7b2ce4a8f020b4a40a6433357b
-commit: a1d33501caca76b0650cb75eafcab35c80d479e5 [443/443] CHROMIUM: arm64: dts: mt8189-skywalker: Initial DTS for skywalker reference
-config: arm64-randconfig-2051-20250823 (https://download.01.org/0day-ci/archive/20250823/202508232227.HejuNnRt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508232227.HejuNnRt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   3c3393d4b766eebdc475ea5bd6bbd3a221e2526e
+commit: 98a7f4a3d2b1655e323e6943cf0203d0bd5a64eb [125/221] mm: update coredump logic to correctly use bitmap mm flags
+config: arc-randconfig-r071-20250824 (https://download.01.org/0day-ci/archive/20250824/202508240502.frw1Krzo-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240502.frw1Krzo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508232227.HejuNnRt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508240502.frw1Krzo-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: iommu@19010000 (mediatek,mt8189-iommu-apu): 'mediatek,larbs' is a required property
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8189-camsys-main', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a001000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a002000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1a00c000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1a00d000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a00f000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1a010000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a04f000: failed to match any schema with compatible: ['mediatek,mt8189-camsys-rawa', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1a06f000: failed to match any schema with compatible: ['mediatek,mt8189-camsys-rawb', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1b000000: failed to match any schema with compatible: ['mediatek,mt8189-ipesys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1b00e000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1b10f000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1b00f000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt8189-vlp-ao-ckgen', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/power-controller@1c001000: failed to match any schema with compatible: ['mediatek,mt8189-scpsys', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c00c000: failed to match any schema with compatible: ['mediatek,mt8189-vlpcfg-reg-bus', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c00f000: failed to match any schema with compatible: ['mediatek,mt8189-dvfsrc-top', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c012000: failed to match any schema with compatible: ['mediatek,mt8189-vlp-ckgen', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/devapc@1c01c000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/mailbox@1c351000: failed to match any schema with compatible: ['mediatek,tinysys_mbox']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: scp@1c400000 (mediatek,mt8189-scp): clock-names:0: 'main' was expected
-   	from schema $id: http://devicetree.org/schemas/remoteproc/mtk,scp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1c80a000: failed to match any schema with compatible: ['mediatek,mt8189-scp-i2c-clk', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1cb21000: failed to match any schema with compatible: ['mediatek,mt8189-scp-clk', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000: failed to match any schema with compatible: ['mediatek,mt8189-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000/pmic/adc: failed to match any schema with compatible: ['mediatek,mt6359-auxadc']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/pwrap@1cc04000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): clock-names:0: 'gce' was expected
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): clock-names: ['gce0', 'gce-timer'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e980000 (mediatek,mt8189-gce): clocks: [[165, 0], [165, 3]] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e9800f0: failed to match any schema with compatible: ['mediatek,mt8189-gce-d', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): clock-names:0: 'gce' was expected
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): clock-names: ['gce1', 'gce-timer'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: gce@1e990000 (mediatek,mt8189-gce): clocks: [[165, 1], [165, 3]] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1e9900f0: failed to match any schema with compatible: ['mediatek,mt8189-gce-m', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/syscon@1f000000: failed to match any schema with compatible: ['mediatek,mt8189-mdpsys', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/larb@1f002000: failed to match any schema with compatible: ['mediatek,mt8189-smi-larb']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker.dtb: /soc/emiisu: failed to match any schema with compatible: ['mediatek,common-emiisu']
+All warnings (new ones prefixed by >>):
+
+   include/linux/sched/task.h: At top level:
+   include/linux/sched/task.h:99:41: warning: 'struct pid' declared inside parameter list will not be visible outside of this definition or declaration
+      99 | struct task_struct *copy_process(struct pid *pid, int trace, int node,
+         |                                         ^~~
+   include/linux/sched/task.h: In function 'arch_thread_struct_whitelist':
+   include/linux/sched/task.h:178:40: error: invalid application of 'sizeof' to incomplete type 'struct task_struct'
+     178 | # define arch_task_struct_size (sizeof(struct task_struct))
+         |                                        ^~~~~~
+   include/linux/sched/task.h:191:10: note: in expansion of macro 'arch_task_struct_size'
+     191 |  *size = arch_task_struct_size - offsetof(struct task_struct, thread);
+         |          ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/uapi/linux/sched.h:5,
+                    from include/linux/sched.h:10,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/stddef.h:16:32: error: invalid use of undefined type 'struct task_struct'
+      16 | #define offsetof(TYPE, MEMBER) __builtin_offsetof(TYPE, MEMBER)
+         |                                ^~~~~~~~~~~~~~~~~~
+   include/linux/sched/task.h:191:34: note: in expansion of macro 'offsetof'
+     191 |  *size = arch_task_struct_size - offsetof(struct task_struct, thread);
+         |                                  ^~~~~~~~
+   In file included from include/linux/sched/user.h:9,
+                    from include/linux/cred.h:18,
+                    from include/linux/sched/signal.h:10,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/mm.h:36,
+                    from arch/arc/include/asm/arcregs.h:149,
+                    from arch/arc/include/asm/irqflags-compact.h:16,
+                    from arch/arc/include/asm/irqflags.h:11,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:37,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/ratelimit.h: In function 'ratelimit_state_init':
+   include/linux/ratelimit.h:14:2: error: implicit declaration of function 'raw_spin_lock_init' [-Werror=implicit-function-declaration]
+      14 |  raw_spin_lock_init(&rs->lock);
+         |  ^~~~~~~~~~~~~~~~~~
+   include/linux/ratelimit.h: In function 'ratelimit_state_reset_interval':
+   include/linux/ratelimit.h:44:2: error: implicit declaration of function 'raw_spin_lock_irqsave'; did you mean 'read_seqbegin_or_lock_irqsave'? [-Werror=implicit-function-declaration]
+      44 |  raw_spin_lock_irqsave(&rs->lock, flags);
+         |  ^~~~~~~~~~~~~~~~~~~~~
+         |  read_seqbegin_or_lock_irqsave
+   include/linux/ratelimit.h:49:2: error: implicit declaration of function 'raw_spin_unlock_irqrestore'; did you mean 'write_sequnlock_irqrestore'? [-Werror=implicit-function-declaration]
+      49 |  raw_spin_unlock_irqrestore(&rs->lock, flags);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |  write_sequnlock_irqrestore
+   In file included from include/linux/sched/signal.h:12,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/mm.h:36,
+                    from arch/arc/include/asm/arcregs.h:149,
+                    from arch/arc/include/asm/irqflags-compact.h:16,
+                    from arch/arc/include/asm/irqflags.h:11,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:37,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/pid.h: In function 'pid_alive':
+   include/linux/pid.h:267:10: error: dereferencing pointer to incomplete type 'const struct task_struct'
+     267 |  return p->thread_pid != NULL;
+         |          ^~
+   In file included from include/linux/preempt.h:11,
+                    from include/linux/sched.h:15,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/hrtimer.h: In function 'hrtimer_update_function':
+   include/linux/cleanup.h:290:2: error: unknown type name 'class_raw_spinlock_irqsave_t'; did you mean 'class_local_lock_irqsave_t'?
+     290 |  class_##_name##_t var __cleanup(class_##_name##_destructor) = \
+         |  ^~~~~~
+   include/linux/cleanup.h:401:2: note: in expansion of macro 'CLASS'
+     401 |  CLASS(_name, __UNIQUE_ID(guard))
+         |  ^~~~~
+   include/linux/hrtimer.h:340:2: note: in expansion of macro 'guard'
+     340 |  guard(raw_spinlock_irqsave)(&timer->base->cpu_base->lock);
+         |  ^~~~~
+   In file included from include/linux/alarmtimer.h:6,
+                    from include/linux/posix-timers.h:5,
+                    from include/linux/sched/signal.h:13,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/mm.h:36,
+                    from arch/arc/include/asm/arcregs.h:149,
+                    from arch/arc/include/asm/irqflags-compact.h:16,
+                    from arch/arc/include/asm/irqflags.h:11,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:37,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/hrtimer.h:340:2: error: cleanup argument not a function
+   In file included from include/linux/preempt.h:11,
+                    from include/linux/sched.h:15,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/cleanup.h:291:3: error: implicit declaration of function 'class_raw_spinlock_irqsave_constructor'; did you mean 'class_local_lock_irqsave_constructor'? [-Werror=implicit-function-declaration]
+     291 |   class_##_name##_constructor
+         |   ^~~~~~
+   include/linux/cleanup.h:401:2: note: in expansion of macro 'CLASS'
+     401 |  CLASS(_name, __UNIQUE_ID(guard))
+         |  ^~~~~
+   include/linux/hrtimer.h:340:2: note: in expansion of macro 'guard'
+     340 |  guard(raw_spinlock_irqsave)(&timer->base->cpu_base->lock);
+         |  ^~~~~
+>> include/linux/compiler.h:166:45: warning: unused variable '__UNIQUE_ID_guard255' [-Wunused-variable]
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/cleanup.h:290:20: note: in definition of macro 'CLASS'
+     290 |  class_##_name##_t var __cleanup(class_##_name##_destructor) = \
+         |                    ^~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/cleanup.h:401:15: note: in expansion of macro '__UNIQUE_ID'
+     401 |  CLASS(_name, __UNIQUE_ID(guard))
+         |               ^~~~~~~~~~~
+   include/linux/hrtimer.h:340:2: note: in expansion of macro 'guard'
+     340 |  guard(raw_spinlock_irqsave)(&timer->base->cpu_base->lock);
+         |  ^~~~~
+   In file included from include/linux/rbtree.h:24,
+                    from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/arc/include/asm/arcregs.h:149,
+                    from arch/arc/include/asm/irqflags-compact.h:16,
+                    from arch/arc/include/asm/irqflags.h:11,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:37,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/rcuref.h: In function '__rcuref_put':
+   include/linux/preempt.h:227:49: error: implicit declaration of function 'irqs_disabled' [-Werror=implicit-function-declaration]
+     227 | #define preemptible() (preempt_count() == 0 && !irqs_disabled())
+         |                                                 ^~~~~~~~~~~~~
+   include/linux/rcupdate.h:399:39: note: in definition of macro 'RCU_LOCKDEP_WARN'
+     399 |   if (debug_lockdep_rcu_enabled() && (c) &&  \
+         |                                       ^
+   include/linux/rcuref.h:103:44: note: in expansion of macro 'preemptible'
+     103 |  RCU_LOCKDEP_WARN(!rcu_read_lock_held() && preemptible(),
+         |                                            ^~~~~~~~~~~
+   In file included from include/linux/rcuwait.h:6,
+                    from include/linux/mm.h:36,
+                    from arch/arc/include/asm/arcregs.h:149,
+                    from arch/arc/include/asm/irqflags-compact.h:16,
+                    from arch/arc/include/asm/irqflags.h:11,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:37,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   include/linux/sched/signal.h: At top level:
+   include/linux/sched/signal.h:192:22: error: field 'prev_cputime' has incomplete type
+     192 |  struct prev_cputime prev_cputime;
+         |                      ^~~~~~~~~~~~
+   include/linux/sched/signal.h:197:28: error: field 'ioac' has incomplete type
+     197 |  struct task_io_accounting ioac;
+         |                            ^~~~
+   include/linux/sched/signal.h: In function 'kernel_signal_stop':
+   include/linux/sched/signal.h:302:3: error: implicit declaration of function 'set_special_state' [-Werror=implicit-function-declaration]
+     302 |   set_special_state(TASK_STOPPED);
+         |   ^~~~~~~~~~~~~~~~~
+   include/linux/sched/signal.h:302:21: error: 'TASK_STOPPED' undeclared (first use in this function); did you mean 'CLD_STOPPED'?
+     302 |   set_special_state(TASK_STOPPED);
+         |                     ^~~~~~~~~~~~
+         |                     CLD_STOPPED
+   include/linux/sched/signal.h:306:2: error: implicit declaration of function 'schedule'; did you mean 'sched_exec'? [-Werror=implicit-function-declaration]
+     306 |  schedule();
+         |  ^~~~~~~~
+         |  sched_exec
+   include/linux/sched/signal.h: In function '__set_notify_signal':
+   include/linux/sched/signal.h:357:10: error: implicit declaration of function 'test_and_set_tsk_thread_flag'; did you mean 'test_and_set_ti_thread_flag'? [-Werror=implicit-function-declaration]
+     357 |  return !test_and_set_tsk_thread_flag(task, TIF_NOTIFY_SIGNAL) &&
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |          test_and_set_ti_thread_flag
+   include/linux/sched/signal.h:358:10: error: implicit declaration of function 'wake_up_state'; did you mean 'wake_up_sync'? [-Werror=implicit-function-declaration]
+     358 |         !wake_up_state(task, TASK_INTERRUPTIBLE);
+         |          ^~~~~~~~~~~~~
+         |          wake_up_sync
+   include/linux/sched/signal.h:358:30: error: 'TASK_INTERRUPTIBLE' undeclared (first use in this function); did you mean 'FOLL_INTERRUPTIBLE'?
+     358 |         !wake_up_state(task, TASK_INTERRUPTIBLE);
+         |                              ^~~~~~~~~~~~~~~~~~
+         |                              FOLL_INTERRUPTIBLE
+   include/linux/sched/signal.h: In function 'set_notify_signal':
+   include/linux/sched/signal.h:368:3: error: implicit declaration of function 'kick_process'; did you mean 'copy_process'? [-Werror=implicit-function-declaration]
+     368 |   kick_process(task);
+         |   ^~~~~~~~~~~~
+         |   copy_process
+   include/linux/sched/signal.h: In function 'restart_syscall':
+   include/linux/sched/signal.h:373:2: error: implicit declaration of function 'set_tsk_thread_flag'; did you mean 'set_ti_thread_flag'? [-Werror=implicit-function-declaration]
+     373 |  set_tsk_thread_flag(current, TIF_SIGPENDING);
+         |  ^~~~~~~~~~~~~~~~~~~
+         |  set_ti_thread_flag
+   In file included from arch/arc/include/asm/ptrace.h:11,
+                    from arch/arc/include/asm/processor.h:16,
+                    from include/linux/sched.h:13,
+                    from arch/arc/kernel/asm-offsets.c:6:
+
+
+vim +/__UNIQUE_ID_guard255 +166 include/linux/compiler.h
+
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
