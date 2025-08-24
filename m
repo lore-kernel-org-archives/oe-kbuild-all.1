@@ -1,83 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C4B11712
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 08:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C448267714
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 09:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756024503; cv=none; b=LiXjymkpqmOnWBnjr8SyjGhfao1Pna4AJRmWck/mLKUf9x2CWCZzhXjy3fW1xtCvsSBzoR3GAEiNkBeEtNiVUXV/9O4RbF81+3Y8I/rohSiu8468wGAQqO31gdkzY9gqe5wjPc0qXntqesQUgy3y+VnhfKOQQY13NfzR5F+ZcA4=
+	t=1756028697; cv=none; b=sa0SU17py9ioLuXMXPGOE2nem08G3IC5AVxfhDebC6Hs3ycXRx1UZZc9/BebjJ+GZ/K8mopsF8XPsW2+9wR6jitXbeUQiHBlXneMZjWeZF1JGTd6VGxmvwbTr3DcfAPBiLi9bcw7Y4sQ+qXJowagOJvHqEr8PjLgBsDH009N5Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756024503; c=relaxed/simple;
-	bh=FQXj0YKXIUXHIfWgCboBFu/Dl8CkJRcW5KkXGVaDPdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UqfND6oJblONsVxOluGbNXxID0azBIhgvuuAG03sGFPeI/uWdxjtP2UcoNuModofjrYVXKqgU5SqpVQ6sUxhahx8RFEXY40zCIAKZ4geXN1+UYuxzR/3RJNQNuhpiE71SL5uaImFm73irv07zU4JxPz5yiND5ncrAgKZZ4Dn9hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAPfR/Un; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756028697; c=relaxed/simple;
+	bh=UArcby6FJL00Uo54+N1xooCcxZA0gl8wD1a2TYSRjak=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GPhj+hkaRza8TymRmPCYMW40E3spOCMppZdfN963gQvAP9cx+CROaz9KLE0NGV5xwJ9ztyco8/5rgkWMcnAHN1VDhoW4jxkR2lr16QUVqm9rJlv9S2tXQGGEgeyJ+ZVfT+qEWPvUt248cLSGDZ9WlfOdkfnVLkkm8V/1gUiFD/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3t3Mo4cE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CAG29hw9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAPfR/Un"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756024502; x=1787560502;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FQXj0YKXIUXHIfWgCboBFu/Dl8CkJRcW5KkXGVaDPdA=;
-  b=bAPfR/UncipZKgT+s3QW/OwDU00x40fcQn52VvxsrEXuEre2UbBOomQw
-   aH1l8gHbtH5Gs7jUKwFxHHbl0YjM8pad2FHY7p8N/ZPax/HDHf/becFnb
-   1iofZ8kTj+gGkuj0IhmY5HIlMnCo02MMur8TD9w/k/sJl+X0gQoYJPLFc
-   CVVyQi9M65pCWNBm8qAxiGRniSdwYgvc9L3m5vwcl0THSjOr3Gs2snQLn
-   /Fp3PyCySH+OeNHNaFuxgzvS4cbfBA2b70Re78+vkqJlUj8VbnWMs51Re
-   82awXL0tzSVYAqZMz0bAdUwV3gEbsfMYnV3KRrnSpDPJCw43A4rua0Z9p
-   w==;
-X-CSE-ConnectionGUID: GVfS+OmySp+WZTIjT2Oykg==
-X-CSE-MsgGUID: nlihtwrZSkiUotyGtafv0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58186356"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58186356"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 01:35:01 -0700
-X-CSE-ConnectionGUID: FsrAGfpKSH+0kD1Sw0cMUQ==
-X-CSE-MsgGUID: frqY2v0hShW25pKL5RV+Vw==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Aug 2025 01:34:59 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uq6Bl-000MtX-15;
-	Sun, 24 Aug 2025 08:34:57 +0000
-Date: Sun, 24 Aug 2025 16:34:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3t3Mo4cE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CAG29hw9"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1756028693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xKH0ObzuIlDHYn1MyVSrzIjZCBGrA0bqurb9zeCBDeU=;
+	b=3t3Mo4cE5o7ldENxPeiUKxX6ch+wGfN1Blf+wqVFpNAM7kX7KULHTzIhSLt7UqafR8sWJ6
+	/FNVMOhybaeT59+0z0KFKMS2vsNnr88CKSZKp6WC+olJDyoUTljcZm/PdoWaugDmq60TW3
+	jxYEvsL5g/LYY/2I43hAQZGZOAIuXj860Vv0xBD3RuFCK5Rq9887KcDkTdZTUKDEPKmwfw
+	izDOHBPS/MxNT5pHKW7KfbGrq9pDXWDqMXo5by83Morakm+FtN/Er8njlKnXldosP2VP0W
+	rwvlsqtpZyyPl1MihuPHdkmo3+PZXHRh47uvzhjkrd/1xqxnA3MYmzCmh8nkWw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1756028693;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xKH0ObzuIlDHYn1MyVSrzIjZCBGrA0bqurb9zeCBDeU=;
+	b=CAG29hw9cny5epg0LId/Or92nL8Dzb5JsiP29TE3ct502eZybQd4/hCxyZNW7N5ZvrsA4T
+	yCpyDDYR0j/am+DQ==
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.17-rc 37/56] kismet: WARNING: unmet direct
- dependencies detected for FWNODE_PCS when selected by PCS_MTK_USXGMII
-Message-ID: <202508241628.eq7tx9wU-lkp@intel.com>
+Subject: Re: [tglx-devel:rseq/perf 17/47] drivers/hv/mshv_root_main.c:588:2:
+ error: call to undeclared function 'rseq_virt_userspace_exit'; ISO C99 and
+ later do not support implicit function declarations
+In-Reply-To: <202508241053.wbAfNuDn-lkp@intel.com>
+References: <202508241053.wbAfNuDn-lkp@intel.com>
+Date: Sun, 24 Aug 2025 11:44:52 +0200
+Message-ID: <87plcl2gvf.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.17-rc
-head:   ee7e8b71595b90aaf4014e5dc933af93210cbe71
-commit: aad83baf67542c255dd49098681c16d231559056 [37/56] net: pcs: add driver for MediaTek USXGMII PCS
-config: i386-kismet-CONFIG_FWNODE_PCS-CONFIG_PCS_MTK_USXGMII-0-0 (https://download.01.org/0day-ci/archive/20250824/202508241628.eq7tx9wU-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250824/202508241628.eq7tx9wU-lkp@intel.com/reproduce)
+On Sun, Aug 24 2025 at 10:25, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/perf
+> head:   eb43860d07d75ca9e20e5716da7f8dddee478ed9
+> commit: 0de985a3d3f07cb83e1bb418183c75579c3fd912 [17/47] rseq, virt: Retrigger RSEQ after vcpu_run()
+> config: x86_64-randconfig-161-20250824 (https://download.01.org/0day-ci/archive/20250824/202508241053.wbAfNuDn-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241053.wbAfNuDn-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508241053.wbAfNuDn-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> drivers/hv/mshv_root_main.c:588:2: error: call to undeclared function 'rseq_virt_userspace_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>      588 |         rseq_virt_userspace_exit();
+>          |         ^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508241628.eq7tx9wU-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FWNODE_PCS when selected by PCS_MTK_USXGMII
-   WARNING: unmet direct dependencies detected for FWNODE_PCS
-     Depends on [n]: NETDEVICES [=y] && (ACPI [=n] || OF [=n]) && PHYLINK [=y]
-     Selected by [y]:
-     - PCS_MTK_USXGMII [=y] && NETDEVICES [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bah. lacks an include...
