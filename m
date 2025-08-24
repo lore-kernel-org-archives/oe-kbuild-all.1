@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B1050276
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 03:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D7650276
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 03:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756005031; cv=none; b=jt50K2R5wJb7X4uAMsArvEDDfhCHIR9HsSL+2OcIPxlvN8eftSCI4+J3miXOtwwJYWGVN+MhHGgYCDQNleCnGMv/NQ1B0naiqaqVWnIMipxmYc1tCeKxiMe+qVdU4HtJkQbs0Gb5CzvUWysLabqt6ulMzZgN0Y7a7KEdgWb+1zU=
+	t=1756005064; cv=none; b=OapYlzyfibLp4fzErZFt5QKjIxFtRI/VDhlEC/+6qB1HkrAn65Vc6Iei/6CN/lKB+CNs3nh1JPASSB+ZjN49kWFz5eCJsue1nNbabVekvf1uaP9ofOVU0ilTWTcizmQWVQNiiPnuOB/50Ll6orQ2epZnZSRfuaqcz0e+DWY2COc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756005031; c=relaxed/simple;
-	bh=zv9D0Bj24IIOceuhvRkOpzh84+Cqnd7677hopK+b81U=;
+	s=arc-20240116; t=1756005064; c=relaxed/simple;
+	bh=ZAWs3FB0G6VqhT7uIEgkL9hncvPxJ6BZkVJFOMc3fVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HS4Vvrq1swurQCgQo13QmnDLHXj9yedCTnhepYK6N1WZrC6ou5eIFVtKHPCZKidcWlTP76GpwQx3JLJPcuzdZkXmca/YMXoey0rRz3LFvPjCLAsS+5IFESLVf+51BGOr4EFIiEqEplBIwlhzfoofXOtFcSEm792t5gbkLDSeORY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LnzvNY0v; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=TY3C+5ChZ0RwSaUZzmoNdeGZ0M3+0D5CLNPWN7X0Q55OXO8G/UsFO0nI7+2219hxtty9+4vsOu9qu1wZysak+76d8CkfUeHVCWpOUEoXGuEvVW8YXfCO37HbOxSjP9KvR8GJujK7kjvx9x9LvjF2FR0Ma40D9BEo5txvoy5d3PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UVfv7onw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnzvNY0v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UVfv7onw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756005029; x=1787541029;
+  t=1756005062; x=1787541062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zv9D0Bj24IIOceuhvRkOpzh84+Cqnd7677hopK+b81U=;
-  b=LnzvNY0vha7WwfvsqpmLk6fwXCLZMUo6maoVeNBcow47rwqK49NyqaQM
-   +HxkOZehJfTG/muOop1t8GUz77pppey5/AQNTb2FGFRanAzmmpOlAA6Zd
-   GeI6fQ/nyNlnQSBHsHFWKZt7t7M4tj52dZeg6aJPwXc90HDNiJCnQBfZ2
-   FVtn/5xOxB+osyc/c7XxeNAlzWIkIHxOhJQVPjRcEzwN2+UynO6iquygv
-   YNgq60NydwJYR3j/r+NTJdpTC+GAFJYvnQYBs2mOfUSRQ/PK1f4ohYC5x
-   MVycbGsUGUCgSsPaHI4pSVO06rDT+DlpU/3iOE5vVm4NxS7ld8+nOEnEa
-   A==;
-X-CSE-ConnectionGUID: 4YHcrDEyRTO7e8A7Q+Y1mA==
-X-CSE-MsgGUID: OLPjE97wQh2OkwgemC+d6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58356715"
+  bh=ZAWs3FB0G6VqhT7uIEgkL9hncvPxJ6BZkVJFOMc3fVs=;
+  b=UVfv7onwn2juFpItzJ4vkmKxPc3ZHvECzRMrcv0GQEe7NvMIeEFjrZPo
+   rHDnhoUh/SHKFLg5ZT+HnJ3mTvSTbJLrl5oUaSjBsqmFDKBG2EEEQ026N
+   FWiabTwR0az6m/Ahra3DyfRFASvKHn+V8c4kRwhjtUUUYa0LaLpb7yzdB
+   117NdqwE/vkpxuwfADTTG/UY/PQQ9iD/rgF6aLVJXL1o476Vmvk/pdn3U
+   4RsMDOy5ZwtgiAYsCMyt3v5mdENK3/9TzdlwLXb7TW4x8lEtssYNNV9AO
+   2P53sRfEUWTZTmW9IZ4wZxpiUtkRKYVapxy2niJYLPCQLp7fSKnzB0Tae
+   g==;
+X-CSE-ConnectionGUID: e0YCAGu2TiWGzkeCKvQZcw==
+X-CSE-MsgGUID: J4PVBG8RQBiGgE6uLfZUpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68854434"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58356715"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 20:10:28 -0700
-X-CSE-ConnectionGUID: yudq8r60RhGu8m/hNhRI5w==
-X-CSE-MsgGUID: dptiiVo8RPmcwZHyB5FAIw==
+   d="scan'208";a="68854434"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 20:11:01 -0700
+X-CSE-ConnectionGUID: F4V/X/W/QEib19DqMfbJvA==
+X-CSE-MsgGUID: YjO65RXsTFaU9l66x6rJYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="168243283"
+   d="scan'208";a="169190652"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 23 Aug 2025 20:10:26 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Aug 2025 20:11:00 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uq17E-000Mj9-2O;
-	Sun, 24 Aug 2025 03:10:09 +0000
-Date: Sun, 24 Aug 2025 11:08:40 +0800
+	id 1uq17f-000MjC-2z;
+	Sun, 24 Aug 2025 03:10:36 +0000
+Date: Sun, 24 Aug 2025 11:08:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+To: James Morse <james.morse@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-classmap-fix-v4h 58/58]
- drivers/accel/ivpu/ivpu_drv.h:327:2: error: #endif without #if
-Message-ID: <202508241104.AFUYoq2M-lkp@intel.com>
+Subject: [morse:mpam/snapshot/v6.17-rc2 71/89]
+ arch/x86/include/asm/resctrl.h:53:20: error: static declaration of
+ 'resctrl_arch_alloc_capable' follows non-static declaration
+Message-ID: <202508241123.a1Aun8L8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,768 +63,438 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-classmap-fix-v4h
-head:   03a5021c51f56725837f7c18a6704ea25632fd24
-commit: 03a5021c51f56725837f7c18a6704ea25632fd24 [58/58] accel/ivpu: implement IVPU_DBG_* as a dyndbg classmap
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250824/202508241104.AFUYoq2M-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241104.AFUYoq2M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.17-rc2
+head:   c0646bf01fb5098c7d6cbc44af567a8bb2ca82d6
+commit: cc5c3a178290a55e8ebb9ea8c8df08bbd54951c3 [71/89] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250824/202508241123.a1Aun8L8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241123.a1Aun8L8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508241104.AFUYoq2M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508241123.a1Aun8L8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:327:2: error: #endif without #if
-     327 | #endif /* __IVPU_DRV_H__ */
-         |  ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:81:6: error: redefinition of 'ivpu_dbg_category'
-      81 | enum ivpu_dbg_category {
-         |      ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:81:6: note: unguarded header; consider using #ifdef guards or #pragma once
-      81 | enum ivpu_dbg_category {
-         |      ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:87:2: error: redefinition of enumerator 'IVPU_DBG_REG'
-      87 |         IVPU_DBG_REG = 16,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:87:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      87 |         IVPU_DBG_REG = 16,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:88:2: error: redefinition of enumerator 'IVPU_DBG_IRQ'
-      88 |         IVPU_DBG_IRQ,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:88:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      88 |         IVPU_DBG_IRQ,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:89:2: error: redefinition of enumerator 'IVPU_DBG_MMU'
-      89 |         IVPU_DBG_MMU,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:89:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      89 |         IVPU_DBG_MMU,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:90:2: error: redefinition of enumerator 'IVPU_DBG_FILE'
-      90 |         IVPU_DBG_FILE,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:90:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      90 |         IVPU_DBG_FILE,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:91:2: error: redefinition of enumerator 'IVPU_DBG_MISC'
-      91 |         IVPU_DBG_MISC,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:91:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      91 |         IVPU_DBG_MISC,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:92:2: error: redefinition of enumerator 'IVPU_DBG_FW_BOOT'
-      92 |         IVPU_DBG_FW_BOOT,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:92:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      92 |         IVPU_DBG_FW_BOOT,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:93:2: error: redefinition of enumerator 'IVPU_DBG_PM'
-      93 |         IVPU_DBG_PM,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:93:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      93 |         IVPU_DBG_PM,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:94:2: error: redefinition of enumerator 'IVPU_DBG_IPC'
-      94 |         IVPU_DBG_IPC,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:94:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      94 |         IVPU_DBG_IPC,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:95:2: error: redefinition of enumerator 'IVPU_DBG_BO'
-      95 |         IVPU_DBG_BO,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:95:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      95 |         IVPU_DBG_BO,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:96:2: error: redefinition of enumerator 'IVPU_DBG_JOB'
-      96 |         IVPU_DBG_JOB,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:96:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      96 |         IVPU_DBG_JOB,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:97:2: error: redefinition of enumerator 'IVPU_DBG_JSM'
-      97 |         IVPU_DBG_JSM,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:97:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      97 |         IVPU_DBG_JSM,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:98:2: error: redefinition of enumerator 'IVPU_DBG_KREF'
-      98 |         IVPU_DBG_KREF,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:98:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      98 |         IVPU_DBG_KREF,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:99:2: error: redefinition of enumerator 'IVPU_DBG_RPM'
-      99 |         IVPU_DBG_RPM,
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:99:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      99 |         IVPU_DBG_RPM,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:100:2: error: redefinition of enumerator 'IVPU_DBG_MMU_MAP'
-     100 |         IVPU_DBG_MMU_MAP
-         |         ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:100:2: note: unguarded header; consider using #ifdef guards or #pragma once
-     100 |         IVPU_DBG_MMU_MAP
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:128:8: error: redefinition of 'ivpu_wa_table'
-     128 | struct ivpu_wa_table {
-         |        ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:128:8: note: unguarded header; consider using #ifdef guards or #pragma once
-     128 | struct ivpu_wa_table {
-         |        ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:144:8: error: redefinition of 'ivpu_device'
-     144 | struct ivpu_device {
-         |        ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:144:8: note: unguarded header; consider using #ifdef guards or #pragma once
-     144 | struct ivpu_device {
-         |        ^
-   In file included from drivers/accel/ivpu/ivpu_drv.c:19:
-   In file included from drivers/accel/ivpu/ivpu_coredump.h:12:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:199:8: error: redefinition of 'ivpu_file_priv'
-     199 | struct ivpu_file_priv {
-         |        ^
-   drivers/accel/ivpu/ivpu_coredump.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:199:8: note: unguarded header; consider using #ifdef guards or #pragma once
-     199 | struct ivpu_file_priv {
-         |        ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   In file included from include/linux/resctrl.h:12,
+                    from drivers/resctrl/mpam_internal.h:15,
+                    from drivers/resctrl/mpam_devices.c:34:
+>> arch/x86/include/asm/resctrl.h:53:20: error: static declaration of 'resctrl_arch_alloc_capable' follows non-static declaration
+      53 | static inline bool resctrl_arch_alloc_capable(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/resctrl/mpam_devices.c:8:
+   include/linux/arm_mpam.h:48:6: note: previous declaration of 'resctrl_arch_alloc_capable' with type 'bool(void)' {aka '_Bool(void)'}
+      48 | bool resctrl_arch_alloc_capable(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:58:20: error: redefinition of 'resctrl_arch_enable_alloc'
+      58 | static inline void resctrl_arch_enable_alloc(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:74:20: note: previous definition of 'resctrl_arch_enable_alloc' with type 'void(void)'
+      74 | static inline void resctrl_arch_enable_alloc(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:64:20: error: redefinition of 'resctrl_arch_disable_alloc'
+      64 | static inline void resctrl_arch_disable_alloc(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:75:20: note: previous definition of 'resctrl_arch_disable_alloc' with type 'void(void)'
+      75 | static inline void resctrl_arch_disable_alloc(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:70:20: error: static declaration of 'resctrl_arch_mon_capable' follows non-static declaration
+      70 | static inline bool resctrl_arch_mon_capable(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:49:6: note: previous declaration of 'resctrl_arch_mon_capable' with type 'bool(void)' {aka '_Bool(void)'}
+      49 | bool resctrl_arch_mon_capable(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:75:20: error: redefinition of 'resctrl_arch_enable_mon'
+      75 | static inline void resctrl_arch_enable_mon(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:72:20: note: previous definition of 'resctrl_arch_enable_mon' with type 'void(void)'
+      72 | static inline void resctrl_arch_enable_mon(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:81:20: error: redefinition of 'resctrl_arch_disable_mon'
+      81 | static inline void resctrl_arch_disable_mon(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:73:20: note: previous definition of 'resctrl_arch_disable_mon' with type 'void(void)'
+      73 | static inline void resctrl_arch_disable_mon(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:87:20: error: static declaration of 'resctrl_arch_is_llc_occupancy_enabled' follows non-static declaration
+      87 | static inline bool resctrl_arch_is_llc_occupancy_enabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:50:6: note: previous declaration of 'resctrl_arch_is_llc_occupancy_enabled' with type 'bool(void)' {aka '_Bool(void)'}
+      50 | bool resctrl_arch_is_llc_occupancy_enabled(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:92:20: error: static declaration of 'resctrl_arch_is_mbm_total_enabled' follows non-static declaration
+      92 | static inline bool resctrl_arch_is_mbm_total_enabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:52:6: note: previous declaration of 'resctrl_arch_is_mbm_total_enabled' with type 'bool(void)' {aka '_Bool(void)'}
+      52 | bool resctrl_arch_is_mbm_total_enabled(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:97:20: error: static declaration of 'resctrl_arch_is_mbm_local_enabled' follows non-static declaration
+      97 | static inline bool resctrl_arch_is_mbm_local_enabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:51:6: note: previous declaration of 'resctrl_arch_is_mbm_local_enabled' with type 'bool(void)' {aka '_Bool(void)'}
+      51 | bool resctrl_arch_is_mbm_local_enabled(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:146:28: error: redefinition of 'resctrl_arch_round_mon_val'
+     146 | static inline unsigned int resctrl_arch_round_mon_val(unsigned int val)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:43:28: note: previous definition of 'resctrl_arch_round_mon_val' with type 'unsigned int(unsigned int)'
+      43 | static inline unsigned int resctrl_arch_round_mon_val(unsigned int val)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:155:20: error: static declaration of 'resctrl_arch_set_cpu_default_closid_rmid' follows non-static declaration
+     155 | static inline void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:56:6: note: previous declaration of 'resctrl_arch_set_cpu_default_closid_rmid' with type 'void(int,  u32,  u32)' {aka 'void(int,  unsigned int,  unsigned int)'}
+      56 | void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid, u32 rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:162:20: error: static declaration of 'resctrl_arch_set_closid_rmid' follows non-static declaration
+     162 | static inline void resctrl_arch_set_closid_rmid(struct task_struct *tsk,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:55:6: note: previous declaration of 'resctrl_arch_set_closid_rmid' with type 'void(struct task_struct *, u32,  u32)' {aka 'void(struct task_struct *, unsigned int,  unsigned int)'}
+      55 | void resctrl_arch_set_closid_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:169:20: error: static declaration of 'resctrl_arch_match_closid' follows non-static declaration
+     169 | static inline bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:58:6: note: previous declaration of 'resctrl_arch_match_closid' with type 'bool(struct task_struct *, u32)' {aka '_Bool(struct task_struct *, unsigned int)'}
+      58 | bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:174:20: error: static declaration of 'resctrl_arch_match_rmid' follows non-static declaration
+     174 | static inline bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 ignored,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:59:6: note: previous declaration of 'resctrl_arch_match_rmid' with type 'bool(struct task_struct *, u32,  u32)' {aka '_Bool(struct task_struct *, unsigned int,  unsigned int)'}
+      59 | bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:180:20: error: static declaration of 'resctrl_arch_sched_in' follows non-static declaration
+     180 | static inline void resctrl_arch_sched_in(struct task_struct *tsk)
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:57:6: note: previous declaration of 'resctrl_arch_sched_in' with type 'void(struct task_struct *)'
+      57 | void resctrl_arch_sched_in(struct task_struct *tsk);
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:186:20: error: static declaration of 'resctrl_arch_rmid_idx_decode' follows non-static declaration
+     186 | static inline void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:61:6: note: previous declaration of 'resctrl_arch_rmid_idx_decode' with type 'void(u32,  u32 *, u32 *)' {aka 'void(unsigned int,  unsigned int *, unsigned int *)'}
+      61 | void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:192:19: error: static declaration of 'resctrl_arch_rmid_idx_encode' follows non-static declaration
+     192 | static inline u32 resctrl_arch_rmid_idx_encode(u32 ignored, u32 rmid)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:60:5: note: previous declaration of 'resctrl_arch_rmid_idx_encode' with type 'u32(u32,  u32)' {aka 'unsigned int(unsigned int,  unsigned int)'}
+      60 | u32 resctrl_arch_rmid_idx_encode(u32 closid, u32 rmid);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:199:21: error: static declaration of 'resctrl_arch_mon_ctx_alloc' follows non-static declaration
+     199 | static inline void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:65:7: note: previous declaration of 'resctrl_arch_mon_ctx_alloc' with type 'void *(struct rdt_resource *, enum resctrl_event_id)'
+      65 | void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r, enum resctrl_event_id evtid);
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:206:20: error: static declaration of 'resctrl_arch_mon_ctx_free' follows non-static declaration
+     206 | static inline void resctrl_arch_mon_ctx_free(struct rdt_resource *r,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:66:6: note: previous declaration of 'resctrl_arch_mon_ctx_free' with type 'void(struct rdt_resource *, enum resctrl_event_id,  void *)'
+      66 | void resctrl_arch_mon_ctx_free(struct rdt_resource *r, enum resctrl_event_id evtid, void *ctx);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/resctrl/mpam_internal.h:19:10: fatal error: asm/mpam.h: No such file or directory
+      19 | #include <asm/mpam.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
 --
-   In file included from drivers/accel/ivpu/ivpu_fw.c:12:
->> drivers/accel/ivpu/ivpu_drv.h:327:2: error: #endif without #if
-     327 | #endif /* __IVPU_DRV_H__ */
-         |  ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:81:6: error: redefinition of 'ivpu_dbg_category'
-      81 | enum ivpu_dbg_category {
-         |      ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:81:6: note: unguarded header; consider using #ifdef guards or #pragma once
-      81 | enum ivpu_dbg_category {
-         |      ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:87:2: error: redefinition of enumerator 'IVPU_DBG_REG'
-      87 |         IVPU_DBG_REG = 16,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:87:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      87 |         IVPU_DBG_REG = 16,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:88:2: error: redefinition of enumerator 'IVPU_DBG_IRQ'
-      88 |         IVPU_DBG_IRQ,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:88:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      88 |         IVPU_DBG_IRQ,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:89:2: error: redefinition of enumerator 'IVPU_DBG_MMU'
-      89 |         IVPU_DBG_MMU,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:89:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      89 |         IVPU_DBG_MMU,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:90:2: error: redefinition of enumerator 'IVPU_DBG_FILE'
-      90 |         IVPU_DBG_FILE,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:90:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      90 |         IVPU_DBG_FILE,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:91:2: error: redefinition of enumerator 'IVPU_DBG_MISC'
-      91 |         IVPU_DBG_MISC,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:91:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      91 |         IVPU_DBG_MISC,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:92:2: error: redefinition of enumerator 'IVPU_DBG_FW_BOOT'
-      92 |         IVPU_DBG_FW_BOOT,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:92:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      92 |         IVPU_DBG_FW_BOOT,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:93:2: error: redefinition of enumerator 'IVPU_DBG_PM'
-      93 |         IVPU_DBG_PM,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:93:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      93 |         IVPU_DBG_PM,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:94:2: error: redefinition of enumerator 'IVPU_DBG_IPC'
-      94 |         IVPU_DBG_IPC,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:94:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      94 |         IVPU_DBG_IPC,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:95:2: error: redefinition of enumerator 'IVPU_DBG_BO'
-      95 |         IVPU_DBG_BO,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:95:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      95 |         IVPU_DBG_BO,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:96:2: error: redefinition of enumerator 'IVPU_DBG_JOB'
-      96 |         IVPU_DBG_JOB,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:96:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      96 |         IVPU_DBG_JOB,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:97:2: error: redefinition of enumerator 'IVPU_DBG_JSM'
-      97 |         IVPU_DBG_JSM,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:97:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      97 |         IVPU_DBG_JSM,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:98:2: error: redefinition of enumerator 'IVPU_DBG_KREF'
-      98 |         IVPU_DBG_KREF,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:98:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      98 |         IVPU_DBG_KREF,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:99:2: error: redefinition of enumerator 'IVPU_DBG_RPM'
-      99 |         IVPU_DBG_RPM,
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:99:2: note: unguarded header; consider using #ifdef guards or #pragma once
-      99 |         IVPU_DBG_RPM,
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:100:2: error: redefinition of enumerator 'IVPU_DBG_MMU_MAP'
-     100 |         IVPU_DBG_MMU_MAP
-         |         ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:100:2: note: unguarded header; consider using #ifdef guards or #pragma once
-     100 |         IVPU_DBG_MMU_MAP
-         |         ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:128:8: error: redefinition of 'ivpu_wa_table'
-     128 | struct ivpu_wa_table {
-         |        ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:128:8: note: unguarded header; consider using #ifdef guards or #pragma once
-     128 | struct ivpu_wa_table {
-         |        ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:144:8: error: redefinition of 'ivpu_device'
-     144 | struct ivpu_device {
-         |        ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:144:8: note: unguarded header; consider using #ifdef guards or #pragma once
-     144 | struct ivpu_device {
-         |        ^
-   In file included from drivers/accel/ivpu/ivpu_fw.c:14:
-   In file included from drivers/accel/ivpu/ivpu_fw_log.h:11:
->> drivers/accel/ivpu/ivpu_drv.h:199:8: error: redefinition of 'ivpu_file_priv'
-     199 | struct ivpu_file_priv {
-         |        ^
-   drivers/accel/ivpu/ivpu_fw.c:12:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      12 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_fw_log.h:11:10: note: 'drivers/accel/ivpu/ivpu_drv.h' included multiple times, additional include site here
-      11 | #include "ivpu_drv.h"
-         |          ^
-   drivers/accel/ivpu/ivpu_drv.h:199:8: note: unguarded header; consider using #ifdef guards or #pragma once
-     199 | struct ivpu_file_priv {
-         |        ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-..
+   In file included from include/linux/resctrl.h:12,
+                    from drivers/resctrl/mpam_resctrl.c:16:
+>> arch/x86/include/asm/resctrl.h:53:20: error: static declaration of 'resctrl_arch_alloc_capable' follows non-static declaration
+      53 | static inline bool resctrl_arch_alloc_capable(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/resctrl/mpam_resctrl.c:6:
+   include/linux/arm_mpam.h:48:6: note: previous declaration of 'resctrl_arch_alloc_capable' with type 'bool(void)' {aka '_Bool(void)'}
+      48 | bool resctrl_arch_alloc_capable(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:58:20: error: redefinition of 'resctrl_arch_enable_alloc'
+      58 | static inline void resctrl_arch_enable_alloc(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:74:20: note: previous definition of 'resctrl_arch_enable_alloc' with type 'void(void)'
+      74 | static inline void resctrl_arch_enable_alloc(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:64:20: error: redefinition of 'resctrl_arch_disable_alloc'
+      64 | static inline void resctrl_arch_disable_alloc(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:75:20: note: previous definition of 'resctrl_arch_disable_alloc' with type 'void(void)'
+      75 | static inline void resctrl_arch_disable_alloc(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:70:20: error: static declaration of 'resctrl_arch_mon_capable' follows non-static declaration
+      70 | static inline bool resctrl_arch_mon_capable(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:49:6: note: previous declaration of 'resctrl_arch_mon_capable' with type 'bool(void)' {aka '_Bool(void)'}
+      49 | bool resctrl_arch_mon_capable(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:75:20: error: redefinition of 'resctrl_arch_enable_mon'
+      75 | static inline void resctrl_arch_enable_mon(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:72:20: note: previous definition of 'resctrl_arch_enable_mon' with type 'void(void)'
+      72 | static inline void resctrl_arch_enable_mon(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:81:20: error: redefinition of 'resctrl_arch_disable_mon'
+      81 | static inline void resctrl_arch_disable_mon(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:73:20: note: previous definition of 'resctrl_arch_disable_mon' with type 'void(void)'
+      73 | static inline void resctrl_arch_disable_mon(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:87:20: error: static declaration of 'resctrl_arch_is_llc_occupancy_enabled' follows non-static declaration
+      87 | static inline bool resctrl_arch_is_llc_occupancy_enabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:50:6: note: previous declaration of 'resctrl_arch_is_llc_occupancy_enabled' with type 'bool(void)' {aka '_Bool(void)'}
+      50 | bool resctrl_arch_is_llc_occupancy_enabled(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:92:20: error: static declaration of 'resctrl_arch_is_mbm_total_enabled' follows non-static declaration
+      92 | static inline bool resctrl_arch_is_mbm_total_enabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:52:6: note: previous declaration of 'resctrl_arch_is_mbm_total_enabled' with type 'bool(void)' {aka '_Bool(void)'}
+      52 | bool resctrl_arch_is_mbm_total_enabled(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:97:20: error: static declaration of 'resctrl_arch_is_mbm_local_enabled' follows non-static declaration
+      97 | static inline bool resctrl_arch_is_mbm_local_enabled(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:51:6: note: previous declaration of 'resctrl_arch_is_mbm_local_enabled' with type 'bool(void)' {aka '_Bool(void)'}
+      51 | bool resctrl_arch_is_mbm_local_enabled(void);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:146:28: error: redefinition of 'resctrl_arch_round_mon_val'
+     146 | static inline unsigned int resctrl_arch_round_mon_val(unsigned int val)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:43:28: note: previous definition of 'resctrl_arch_round_mon_val' with type 'unsigned int(unsigned int)'
+      43 | static inline unsigned int resctrl_arch_round_mon_val(unsigned int val)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:155:20: error: static declaration of 'resctrl_arch_set_cpu_default_closid_rmid' follows non-static declaration
+     155 | static inline void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:56:6: note: previous declaration of 'resctrl_arch_set_cpu_default_closid_rmid' with type 'void(int,  u32,  u32)' {aka 'void(int,  unsigned int,  unsigned int)'}
+      56 | void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid, u32 rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:162:20: error: static declaration of 'resctrl_arch_set_closid_rmid' follows non-static declaration
+     162 | static inline void resctrl_arch_set_closid_rmid(struct task_struct *tsk,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:55:6: note: previous declaration of 'resctrl_arch_set_closid_rmid' with type 'void(struct task_struct *, u32,  u32)' {aka 'void(struct task_struct *, unsigned int,  unsigned int)'}
+      55 | void resctrl_arch_set_closid_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:169:20: error: static declaration of 'resctrl_arch_match_closid' follows non-static declaration
+     169 | static inline bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:58:6: note: previous declaration of 'resctrl_arch_match_closid' with type 'bool(struct task_struct *, u32)' {aka '_Bool(struct task_struct *, unsigned int)'}
+      58 | bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:174:20: error: static declaration of 'resctrl_arch_match_rmid' follows non-static declaration
+     174 | static inline bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 ignored,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:59:6: note: previous declaration of 'resctrl_arch_match_rmid' with type 'bool(struct task_struct *, u32,  u32)' {aka '_Bool(struct task_struct *, unsigned int,  unsigned int)'}
+      59 | bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:180:20: error: static declaration of 'resctrl_arch_sched_in' follows non-static declaration
+     180 | static inline void resctrl_arch_sched_in(struct task_struct *tsk)
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:57:6: note: previous declaration of 'resctrl_arch_sched_in' with type 'void(struct task_struct *)'
+      57 | void resctrl_arch_sched_in(struct task_struct *tsk);
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:186:20: error: static declaration of 'resctrl_arch_rmid_idx_decode' follows non-static declaration
+     186 | static inline void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:61:6: note: previous declaration of 'resctrl_arch_rmid_idx_decode' with type 'void(u32,  u32 *, u32 *)' {aka 'void(unsigned int,  unsigned int *, unsigned int *)'}
+      61 | void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:192:19: error: static declaration of 'resctrl_arch_rmid_idx_encode' follows non-static declaration
+     192 | static inline u32 resctrl_arch_rmid_idx_encode(u32 ignored, u32 rmid)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:60:5: note: previous declaration of 'resctrl_arch_rmid_idx_encode' with type 'u32(u32,  u32)' {aka 'unsigned int(unsigned int,  unsigned int)'}
+      60 | u32 resctrl_arch_rmid_idx_encode(u32 closid, u32 rmid);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:199:21: error: static declaration of 'resctrl_arch_mon_ctx_alloc' follows non-static declaration
+     199 | static inline void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:65:7: note: previous declaration of 'resctrl_arch_mon_ctx_alloc' with type 'void *(struct rdt_resource *, enum resctrl_event_id)'
+      65 | void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r, enum resctrl_event_id evtid);
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/resctrl.h:206:20: error: static declaration of 'resctrl_arch_mon_ctx_free' follows non-static declaration
+     206 | static inline void resctrl_arch_mon_ctx_free(struct rdt_resource *r,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/arm_mpam.h:66:6: note: previous declaration of 'resctrl_arch_mon_ctx_free' with type 'void(struct rdt_resource *, enum resctrl_event_id,  void *)'
+      66 | void resctrl_arch_mon_ctx_free(struct rdt_resource *r, enum resctrl_event_id evtid, void *ctx);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/resctrl/mpam_resctrl.c:20:10: fatal error: asm/mpam.h: No such file or directory
+      20 | #include <asm/mpam.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_MPAM
+   Depends on [n]: ACPI [=y] && ARM64
+   Selected by [y]:
+   - ARM64_MPAM_DRIVER [=y] && ACPI [=y]
 
 
-vim +327 drivers/accel/ivpu/ivpu_drv.h
+vim +/resctrl_arch_alloc_capable +53 arch/x86/include/asm/resctrl.h
 
-eefa13a69053a0 Stanislaw Gruszka   2023-09-01  127  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17 @128  struct ivpu_wa_table {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  129  	bool punit_disabled;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  130  	bool clear_runtime_mem;
-7f34e01f77f811 Karol Wachowski     2023-07-03  131  	bool interrupt_clear_with_0;
-79cdc56c4a5425 Stanislaw Gruszka   2023-07-31  132  	bool disable_clock_relinquish;
-3198a62eb8f841 Andrzej Kacprowski  2023-10-28  133  	bool disable_d0i3_msg;
-d9dfc4eaa3c6bf Wachowski, Karol    2024-06-11  134  	bool wp0_during_power_up;
-011529fe81121e Karol Wachowski     2025-02-04  135  	bool disable_d0i2;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  136  };
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  137  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  138  struct ivpu_hw_info;
-263b2ba5fc93c8 Jacek Lawrynowicz   2023-01-17  139  struct ivpu_mmu_info;
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  140  struct ivpu_fw_info;
-5d7422cfb498bf Jacek Lawrynowicz   2023-01-17  141  struct ivpu_ipc_info;
-852be13f3bd32c Jacek Lawrynowicz   2023-01-17  142  struct ivpu_pm_info;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  143  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17 @144  struct ivpu_device {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  145  	struct drm_device drm;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  146  	void __iomem *regb;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  147  	void __iomem *regv;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  148  	u32 platform;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  149  	u32 irq;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  150  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  151  	struct ivpu_wa_table wa;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  152  	struct ivpu_hw_info *hw;
-263b2ba5fc93c8 Jacek Lawrynowicz   2023-01-17  153  	struct ivpu_mmu_info *mmu;
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  154  	struct ivpu_fw_info *fw;
-5d7422cfb498bf Jacek Lawrynowicz   2023-01-17  155  	struct ivpu_ipc_info *ipc;
-852be13f3bd32c Jacek Lawrynowicz   2023-01-17  156  	struct ivpu_pm_info *pm;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  157  
-263b2ba5fc93c8 Jacek Lawrynowicz   2023-01-17  158  	struct ivpu_mmu_context gctx;
-34d03f2a174dce Karol Wachowski     2023-09-01  159  	struct ivpu_mmu_context rctx;
-f1cc6aceecd049 Jacek Lawrynowicz   2024-01-22  160  	struct mutex context_list_lock; /* Protects user context addition/removal */
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  161  	struct xarray context_xa;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  162  	struct xa_limit context_xa_limit;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  163  
-f32d59677ab142 Wachowski, Karol    2024-02-14  164  	struct xarray db_xa;
-c3b0ec0fe0c7eb Tomasz Rusinowicz   2024-09-30  165  	struct xa_limit db_limit;
-ae7af7d8dc2a13 Karol Wachowski     2024-10-17  166  	u32 db_next;
-f32d59677ab142 Wachowski, Karol    2024-02-14  167  
-bc3e5f48b7ee02 Maciej Falkowski    2025-01-07  168  	struct work_struct irq_ipc_work;
-bc3e5f48b7ee02 Maciej Falkowski    2025-01-07  169  	struct work_struct irq_dct_work;
-bc3e5f48b7ee02 Maciej Falkowski    2025-01-07  170  	struct work_struct context_abort_work;
-bc3e5f48b7ee02 Maciej Falkowski    2025-01-07  171  
-48aea7f2a2efae Jacek Lawrynowicz   2023-10-31  172  	struct mutex bo_list_lock; /* Protects bo_list */
-48aea7f2a2efae Jacek Lawrynowicz   2023-10-31  173  	struct list_head bo_list;
-48aea7f2a2efae Jacek Lawrynowicz   2023-10-31  174  
-5bbccadaf33eea Karol Wachowski     2025-01-07  175  	struct mutex submitted_jobs_lock; /* Protects submitted_jobs */
-cd7272215c4467 Jacek Lawrynowicz   2023-01-17  176  	struct xarray submitted_jobs_xa;
-3b434a3445fff3 Jacek Lawrynowicz   2023-11-13  177  	struct ivpu_ipc_consumer job_done_consumer;
-0e7db503c5355f Karol Wachowski     2025-04-16  178  	atomic_t job_timeout_counter;
-cd7272215c4467 Jacek Lawrynowicz   2023-01-17  179  
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  180  	atomic64_t unique_id_counter;
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  181  
-0adff3b0ef1248 Tomasz Rusinowicz   2024-05-13  182  	ktime_t busy_start_ts;
-0adff3b0ef1248 Tomasz Rusinowicz   2024-05-13  183  	ktime_t busy_time;
-0adff3b0ef1248 Tomasz Rusinowicz   2024-05-13  184  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  185  	struct {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  186  		int boot;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  187  		int jsm;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  188  		int tdr;
-8ed520ff4682aa Krystian Pradzynski 2023-09-01  189  		int autosuspend;
-3198a62eb8f841 Andrzej Kacprowski  2023-10-28  190  		int d0i3_entry_msg;
-5e162f872d7af8 Tomasz Rusinowicz   2024-09-30  191  		int state_dump_msg;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  192  	} timeout;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  193  };
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  194  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  195  /*
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  196   * file_priv has its own refcount (ref) that allows user space to close the fd
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  197   * without blocking even if VPU is still processing some jobs.
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  198   */
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17 @199  struct ivpu_file_priv {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  200  	struct kref ref;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  201  	struct ivpu_device *vdev;
-cd7272215c4467 Jacek Lawrynowicz   2023-01-17  202  	struct mutex lock; /* Protects cmdq */
-76ad741ec7349b Karol Wachowski     2024-10-17  203  	struct xarray cmdq_xa;
-263b2ba5fc93c8 Jacek Lawrynowicz   2023-01-17  204  	struct ivpu_mmu_context ctx;
-cdfad4db775656 Tomasz Rusinowicz   2024-05-13  205  	struct mutex ms_lock; /* Protects ms_instance_list, ms_info_bo */
-cdfad4db775656 Tomasz Rusinowicz   2024-05-13  206  	struct list_head ms_instance_list;
-cdfad4db775656 Tomasz Rusinowicz   2024-05-13  207  	struct ivpu_bo *ms_info_bo;
-c3b0ec0fe0c7eb Tomasz Rusinowicz   2024-09-30  208  	struct xa_limit job_limit;
-ae7af7d8dc2a13 Karol Wachowski     2024-10-17  209  	u32 job_id_next;
-76ad741ec7349b Karol Wachowski     2024-10-17  210  	struct xa_limit cmdq_limit;
-76ad741ec7349b Karol Wachowski     2024-10-17  211  	u32 cmdq_id_next;
-263b2ba5fc93c8 Jacek Lawrynowicz   2023-01-17  212  	bool has_mmu_faults;
-f1cc6aceecd049 Jacek Lawrynowicz   2024-01-22  213  	bool bound;
-b7ed87ffc7341d Maciej Falkowski    2024-06-11  214  	bool aborted;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  215  };
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  216  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  217  extern int ivpu_dbg_mask;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  218  extern u8 ivpu_pll_min_ratio;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  219  extern u8 ivpu_pll_max_ratio;
-41ca33d8d356d4 Wachowski, Karol    2024-05-13  220  extern int ivpu_sched_mode;
-95d440188d3082 Karol Wachowski     2023-05-18  221  extern bool ivpu_disable_mmu_cont_pages;
-2c3801b17459da Wachowski, Karol    2024-05-13  222  extern bool ivpu_force_snoop;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  223  
-8b5cec3c2ccf0b Karol Wachowski     2023-10-28  224  #define IVPU_TEST_MODE_FW_TEST            BIT(0)
-8b5cec3c2ccf0b Karol Wachowski     2023-10-28  225  #define IVPU_TEST_MODE_NULL_HW            BIT(1)
-8b5cec3c2ccf0b Karol Wachowski     2023-10-28  226  #define IVPU_TEST_MODE_NULL_SUBMISSION    BIT(2)
-3198a62eb8f841 Andrzej Kacprowski  2023-10-28  227  #define IVPU_TEST_MODE_D0I3_MSG_DISABLE   BIT(4)
-3198a62eb8f841 Andrzej Kacprowski  2023-10-28  228  #define IVPU_TEST_MODE_D0I3_MSG_ENABLE    BIT(5)
-7df06efe1c28b2 Karol Wachowski     2024-10-17  229  #define IVPU_TEST_MODE_MIP_DISABLE        BIT(6)
-3f440e0b485228 Maciej Falkowski    2024-06-11  230  #define IVPU_TEST_MODE_DISABLE_TIMEOUTS   BIT(8)
-7459211aa6352c Andrzej Kacprowski  2024-09-30  231  #define IVPU_TEST_MODE_TURBO		  BIT(9)
-55e856c344b047 Karol Wachowski     2025-02-04  232  #define IVPU_TEST_MODE_CLK_RELINQ_DISABLE BIT(10)
-55e856c344b047 Karol Wachowski     2025-02-04  233  #define IVPU_TEST_MODE_CLK_RELINQ_ENABLE  BIT(11)
-011529fe81121e Karol Wachowski     2025-02-04  234  #define IVPU_TEST_MODE_D0I2_DISABLE       BIT(12)
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  235  extern int ivpu_test_mode;
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  236  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  237  struct ivpu_file_priv *ivpu_file_priv_get(struct ivpu_file_priv *file_priv);
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  238  void ivpu_file_priv_put(struct ivpu_file_priv **link);
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  239  
-02d5b0aacd0590 Jacek Lawrynowicz   2023-01-17  240  int ivpu_boot(struct ivpu_device *vdev);
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  241  int ivpu_shutdown(struct ivpu_device *vdev);
-828d63042aeca1 Jacek Lawrynowicz   2023-10-03  242  void ivpu_prepare_for_reset(struct ivpu_device *vdev);
-ae06e0b3bfe073 Karol Wachowski     2025-01-07  243  bool ivpu_is_capable(struct ivpu_device *vdev, u32 capability);
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  244  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  245  static inline u8 ivpu_revision(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  246  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  247  	return to_pci_dev(vdev->drm.dev)->revision;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  248  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  249  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  250  static inline u16 ivpu_device_id(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  251  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  252  	return to_pci_dev(vdev->drm.dev)->device;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  253  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  254  
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  255  static inline int ivpu_hw_ip_gen(struct ivpu_device *vdev)
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  256  {
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  257  	switch (ivpu_device_id(vdev)) {
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  258  	case PCI_DEVICE_ID_MTL:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  259  	case PCI_DEVICE_ID_ARL:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  260  		return IVPU_HW_IP_37XX;
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  261  	case PCI_DEVICE_ID_LNL:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  262  		return IVPU_HW_IP_40XX;
-c140244f0cfb96 Maciej Falkowski    2024-10-04  263  	case PCI_DEVICE_ID_PTL_P:
-c140244f0cfb96 Maciej Falkowski    2024-10-04  264  		return IVPU_HW_IP_50XX;
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  265  	default:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  266  		dump_stack();
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  267  		ivpu_err(vdev, "Unknown NPU IP generation\n");
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  268  		return 0;
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  269  	}
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  270  }
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  271  
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  272  static inline int ivpu_hw_btrs_gen(struct ivpu_device *vdev)
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  273  {
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  274  	switch (ivpu_device_id(vdev)) {
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  275  	case PCI_DEVICE_ID_MTL:
-9c1b2429c18424 Stanislaw Gruszka   2023-09-22  276  	case PCI_DEVICE_ID_ARL:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  277  		return IVPU_HW_BTRS_MTL;
-79cdc56c4a5425 Stanislaw Gruszka   2023-07-31  278  	case PCI_DEVICE_ID_LNL:
-c140244f0cfb96 Maciej Falkowski    2024-10-04  279  	case PCI_DEVICE_ID_PTL_P:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  280  		return IVPU_HW_BTRS_LNL;
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  281  	default:
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  282  		dump_stack();
-8a27ad81f7d3a4 Wachowski, Karol    2024-05-15  283  		ivpu_err(vdev, "Unknown buttress generation\n");
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  284  		return 0;
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  285  	}
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  286  }
-51d66a7b7d1298 Jacek Lawrynowicz   2023-07-31  287  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  288  static inline struct ivpu_device *to_ivpu_device(struct drm_device *dev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  289  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  290  	return container_of(dev, struct ivpu_device, drm);
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  291  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  292  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  293  static inline u32 ivpu_get_context_count(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  294  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  295  	struct xa_limit ctx_limit = vdev->context_xa_limit;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  296  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  297  	return (ctx_limit.max - ctx_limit.min + 1);
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  298  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  299  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  300  static inline u32 ivpu_get_platform(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  301  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  302  	WARN_ON_ONCE(vdev->platform == IVPU_PLATFORM_INVALID);
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  303  	return vdev->platform;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  304  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  305  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  306  static inline bool ivpu_is_silicon(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  307  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  308  	return ivpu_get_platform(vdev) == IVPU_PLATFORM_SILICON;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  309  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  310  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  311  static inline bool ivpu_is_simics(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  312  {
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  313  	return ivpu_get_platform(vdev) == IVPU_PLATFORM_SIMICS;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  314  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  315  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  316  static inline bool ivpu_is_fpga(struct ivpu_device *vdev)
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  317  {
-dd4f78ec6a6f82 Karol Wachowski     2025-01-07  318  	return ivpu_get_platform(vdev) == IVPU_PLATFORM_FPGA ||
-dd4f78ec6a6f82 Karol Wachowski     2025-01-07  319  	       ivpu_get_platform(vdev) == IVPU_PLATFORM_HSLE;
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  320  }
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17  321  
-2c3801b17459da Wachowski, Karol    2024-05-13  322  static inline bool ivpu_is_force_snoop_enabled(struct ivpu_device *vdev)
-2c3801b17459da Wachowski, Karol    2024-05-13  323  {
-2c3801b17459da Wachowski, Karol    2024-05-13  324  	return ivpu_force_snoop;
-2c3801b17459da Wachowski, Karol    2024-05-13  325  }
-2c3801b17459da Wachowski, Karol    2024-05-13  326  
-35b137630f08d9 Jacek Lawrynowicz   2023-01-17 @327  #endif /* __IVPU_DRV_H__ */
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25   52  
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  @53  static inline bool resctrl_arch_alloc_capable(void)
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   54  {
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   55  	return rdt_alloc_capable;
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   56  }
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   57  
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  @58  static inline void resctrl_arch_enable_alloc(void)
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   59  {
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   60  	static_branch_enable_cpuslocked(&rdt_alloc_enable_key);
+0a2f4d9b548c5b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   61  	static_branch_inc_cpuslocked(&rdt_enable_key);
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   62  }
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   63  
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  @64  static inline void resctrl_arch_disable_alloc(void)
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   65  {
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   66  	static_branch_disable_cpuslocked(&rdt_alloc_enable_key);
+0a2f4d9b548c5b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   67  	static_branch_dec_cpuslocked(&rdt_enable_key);
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   68  }
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   69  
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  @70  static inline bool resctrl_arch_mon_capable(void)
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   71  {
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   72  	return rdt_mon_capable;
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   73  }
+30017b60706c2b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   74  
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  @75  static inline void resctrl_arch_enable_mon(void)
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   76  {
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   77  	static_branch_enable_cpuslocked(&rdt_mon_enable_key);
+0a2f4d9b548c5b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   78  	static_branch_inc_cpuslocked(&rdt_enable_key);
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   79  }
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   80  
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  @81  static inline void resctrl_arch_disable_mon(void)
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   82  {
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   83  	static_branch_disable_cpuslocked(&rdt_mon_enable_key);
+0a2f4d9b548c5b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   84  	static_branch_dec_cpuslocked(&rdt_enable_key);
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   85  }
+5db6a4a75c95f6 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13   86  
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  @87  static inline bool resctrl_arch_is_llc_occupancy_enabled(void)
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   88  {
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   89  	return (rdt_mon_features & (1 << QOS_L3_OCCUP_EVENT_ID));
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   90  }
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   91  
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  @92  static inline bool resctrl_arch_is_mbm_total_enabled(void)
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   93  {
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   94  	return (rdt_mon_features & (1 << QOS_L3_MBM_TOTAL_EVENT_ID));
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   95  }
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   96  
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  @97  static inline bool resctrl_arch_is_mbm_local_enabled(void)
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   98  {
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11   99  	return (rdt_mon_features & (1 << QOS_L3_MBM_LOCAL_EVENT_ID));
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  100  }
+d012b66a166185 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  101  
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  102  /*
+352940ececaca5 arch/x86/include/asm/resctrl_sched.h   Babu Moger         2018-11-21  103   * __resctrl_sched_in() - Writes the task's CLOSid/RMID to IA32_PQR_MSR
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  104   *
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  105   * Following considerations are made so that this has minimal impact
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  106   * on scheduler hot path:
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  107   * - This will stay as no-op unless we are running on an Intel SKU
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  108   *   which supports resource control or monitoring and we enable by
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  109   *   mounting the resctrl file system.
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  110   * - Caches the per cpu CLOSid/RMID values and does the MSR write only
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  111   *   when a task with a different CLOSid/RMID is scheduled in.
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  112   * - We allocate RMIDs/CLOSids globally in order to keep this as
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  113   *   simple as possible.
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  114   * Must be called with preemption disabled.
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  115   */
+7fef099702527c arch/x86/include/asm/resctrl.h         Linus Torvalds     2023-03-07  116  static inline void __resctrl_sched_in(struct task_struct *tsk)
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  117  {
+352940ececaca5 arch/x86/include/asm/resctrl_sched.h   Babu Moger         2018-11-21  118  	struct resctrl_pqr_state *state = this_cpu_ptr(&pqr_state);
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  119  	u32 closid = READ_ONCE(state->default_closid);
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  120  	u32 rmid = READ_ONCE(state->default_rmid);
+6d3b47ddffed70 arch/x86/include/asm/resctrl.h         Valentin Schneider 2020-12-17  121  	u32 tmp;
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  122  
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  123  	/*
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  124  	 * If this task has a closid/rmid assigned, use it.
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  125  	 * Else use the closid/rmid assigned to this cpu.
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  126  	 */
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  127  	if (static_branch_likely(&rdt_alloc_enable_key)) {
+7fef099702527c arch/x86/include/asm/resctrl.h         Linus Torvalds     2023-03-07  128  		tmp = READ_ONCE(tsk->closid);
+6d3b47ddffed70 arch/x86/include/asm/resctrl.h         Valentin Schneider 2020-12-17  129  		if (tmp)
+6d3b47ddffed70 arch/x86/include/asm/resctrl.h         Valentin Schneider 2020-12-17  130  			closid = tmp;
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  131  	}
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  132  
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  133  	if (static_branch_likely(&rdt_mon_enable_key)) {
+7fef099702527c arch/x86/include/asm/resctrl.h         Linus Torvalds     2023-03-07  134  		tmp = READ_ONCE(tsk->rmid);
+6d3b47ddffed70 arch/x86/include/asm/resctrl.h         Valentin Schneider 2020-12-17  135  		if (tmp)
+6d3b47ddffed70 arch/x86/include/asm/resctrl.h         Valentin Schneider 2020-12-17  136  			rmid = tmp;
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  137  	}
+748b6b881ccdda arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  138  
+a9110b552d44fe arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-08-09  139  	if (closid != state->cur_closid || rmid != state->cur_rmid) {
+a9110b552d44fe arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-08-09  140  		state->cur_closid = closid;
+a9110b552d44fe arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-08-09  141  		state->cur_rmid = rmid;
+97fa21f65c3eb5 arch/x86/include/asm/resctrl.h         Borislav Petkov    2022-11-06  142  		wrmsr(MSR_IA32_PQR_ASSOC, rmid, closid);
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  143  	}
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  144  }
+0583020456cea9 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  145  
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02 @146  static inline unsigned int resctrl_arch_round_mon_val(unsigned int val)
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  147  {
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  148  	unsigned int scale = boot_cpu_data.x86_cache_occ_scale;
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  149  
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  150  	/* h/w works in units of "boot_cpu_data.x86_cache_occ_scale" */
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  151  	val /= scale;
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  152  	return val * scale;
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  153  }
+ae2328b5296253 arch/x86/include/asm/resctrl.h         James Morse        2022-09-02  154  
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11 @155  static inline void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid,
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  156  							    u32 rmid)
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  157  {
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  158  	WRITE_ONCE(per_cpu(pqr_state.default_closid, cpu), closid);
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  159  	WRITE_ONCE(per_cpu(pqr_state.default_rmid, cpu), rmid);
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  160  }
+aebd5354dd1918 arch/x86/include/asm/resctrl.h         James Morse        2025-03-11  161  
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13 @162  static inline void resctrl_arch_set_closid_rmid(struct task_struct *tsk,
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  163  						u32 closid, u32 rmid)
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  164  {
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  165  	WRITE_ONCE(tsk->closid, closid);
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  166  	WRITE_ONCE(tsk->rmid, rmid);
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  167  }
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  168  
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13 @169  static inline bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid)
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  170  {
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  171  	return READ_ONCE(tsk->closid) == closid;
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  172  }
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  173  
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13 @174  static inline bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 ignored,
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  175  					   u32 rmid)
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  176  {
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  177  	return READ_ONCE(tsk->rmid) == rmid;
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  178  }
+6eca639d8340b5 arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  179  
+7704fb81bc8725 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15 @180  static inline void resctrl_arch_sched_in(struct task_struct *tsk)
+4be6c078428b08 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  181  {
+4be6c078428b08 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  182  	if (static_branch_likely(&rdt_enable_key))
+7fef099702527c arch/x86/include/asm/resctrl.h         Linus Torvalds     2023-03-07  183  		__resctrl_sched_in(tsk);
+4be6c078428b08 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  184  }
+4be6c078428b08 arch/x86/include/asm/intel_rdt_sched.h Vikas Shivappa     2017-07-25  185  
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13 @186  static inline void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid)
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  187  {
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  188  	*rmid = idx;
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  189  	*closid = X86_RESCTRL_EMPTY_CLOSID;
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  190  }
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  191  
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13 @192  static inline u32 resctrl_arch_rmid_idx_encode(u32 ignored, u32 rmid)
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  193  {
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  194  	return rmid;
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  195  }
+6791e0ea30711b arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  196  
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  197  /* x86 can always read an rmid, nothing needs allocating */
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  198  struct rdt_resource;
+272ed1c28c9db6 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15 @199  static inline void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
+272ed1c28c9db6 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15  200  					       enum resctrl_event_id evtid)
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  201  {
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  202  	might_sleep();
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  203  	return NULL;
+272ed1c28c9db6 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15  204  }
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  205  
+272ed1c28c9db6 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15 @206  static inline void resctrl_arch_mon_ctx_free(struct rdt_resource *r,
+272ed1c28c9db6 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15  207  					     enum resctrl_event_id evtid,
+272ed1c28c9db6 arch/x86/include/asm/resctrl.h         James Morse        2025-05-15  208  					     void *ctx) { }
+e557999f80a5ee arch/x86/include/asm/resctrl.h         James Morse        2024-02-13  209  
 
-:::::: The code at line 327 was first introduced by commit
-:::::: 35b137630f08d913fc2e33df33ccc2570dff3f7d accel/ivpu: Introduce a new DRM driver for Intel VPU
+:::::: The code at line 53 was first introduced by commit
+:::::: 30017b60706c2ba72a0a4da7d5ef8f5fa95a2f01 x86/resctrl: Add helpers for system wide mon/alloc capable
 
-:::::: TO: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 -- 
 0-DAY CI Kernel Test Service
