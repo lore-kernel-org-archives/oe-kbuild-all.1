@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1A6393DD5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 03:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27D21ADC7E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 03:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756005731; cv=none; b=qhnACnP+YfkAL8yPgHtSshAGReTR8uF/2siZIkkAE1slvufB25uZtxrzz/mOlo2ODbBEm0cTmNpTdVJcl1R44uCk4ZC0HOodjDoR7gmGSVNoMqt35xchiebhBBXOheAFKoIyY+fjfQDEfRF9qV+zq8x2EkxKKb7qH34WMduKm8k=
+	t=1756007489; cv=none; b=d/mPd6aatR6i7BaqMoy/d9Ll39vfBom9czSH3SB0Gr7I+XrPA8Yt/ECusfI6u/nwgfpvNvPqBdFC8xaEzEPxc0oWu3rMxwFUPaeWnyk72Mr6wLNLcZWFhYrIbSQsg4hK67AZjs7wJnK/2w3eFb5L8WiaUJF2434StsYBhDDKA6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756005731; c=relaxed/simple;
-	bh=e5DDe3bCau56V9zIZJD5xW3mPnxvlSz1jOKyc0hQFn0=;
+	s=arc-20240116; t=1756007489; c=relaxed/simple;
+	bh=hfAjgHhudMWowT1EuPcTDKs01+Nu+jPJBEQnKN+2gtE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nm5ECydq5WI5kx9uk023zbxmuVFoRN3nWZNa2neq3f1l5XQa0ZivRS3kKwjIAaEDqSbEZkX+oWrP7I5w10k7kpaDUNlDSMn2+mYoFFokf8YlWUt92fHHntNPs7ZbOB3wLujPPMA5KxV6lc6H4ouGcPdFkWtgFZh/Y0P7yaDYoKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vf8zKx21; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=KFnM/EcwfwkXfKo7RrgCth0A9W5R8BZMMqgyFrqZVAvgSkT4MMi0vV6mgWPzyrysy3gL579oG1hlTsZoTZ75nXCGUOD7O1B3EXCThsT/gD924Fp36gdPipQv4rBBV/y34333udoMftnsuE6A+2IjlQtx2CQzl56Mn6mBoKYTykY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WCHH5rQ4; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vf8zKx21"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WCHH5rQ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756005729; x=1787541729;
+  t=1756007486; x=1787543486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e5DDe3bCau56V9zIZJD5xW3mPnxvlSz1jOKyc0hQFn0=;
-  b=Vf8zKx218LvAR7hMb/10kBXpLlB48IdAr8eOLnHtjAPjClChdIAWXgRR
-   2+vhCcWNdCzHavycnICv+SVu/JKDLvrePZNwLDwB+8qaUoH0OJ8XksPmd
-   6JqtGpBGyj4wZFGCdQfVMDdNgx9jdoid3JHH/VE+bnVknYRT24SqrPBDA
-   A1PTKYi2Zzb3zYKI2hjFGrTt0XX+QyM5ecerg/iMD9NIZzNQOUbgRp+1G
-   /fp3n9c8REHn7W9itccY9vg+Yux8Bg4owUhHOT9Ed8Prh3QhJls3iHm50
-   62Ng0FcNogctH3JM6plSQcVLl/NG4tfNhk66YxNE+sVUhlvD2BhpV9MxQ
-   A==;
-X-CSE-ConnectionGUID: NSeEz4ABTtKeuKZQr+M2Ig==
-X-CSE-MsgGUID: NkxxJ2BXSie6fMvGbM1jUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68854696"
+  bh=hfAjgHhudMWowT1EuPcTDKs01+Nu+jPJBEQnKN+2gtE=;
+  b=WCHH5rQ4tvimWWUExqWWYt9Cl+Xc2Oj3l1IrlOhoE93T3626QphzUO/s
+   U/tQ2v/ZsWmTYugwrMUaCx0bU3YAt8JZNQXsifG8ZKv4JjCL3ZOvtUeD2
+   p0xuJJkhb0dIfqKjI60BTfj17jxgKCyMIRYf4fRkkJ4MiBEwnj0BafupF
+   vGXIP8jpH9r9yA54q7uCSv1B+mD89eXhxuJzcsjLYCwLxU3nxYKg/CQ4O
+   Mpn+wXIvjKCUCd2jq5py50+eTdirjdjARX734KePwSPH/aXHHi8jI5aaJ
+   wsm2nJLEB2tNHPmBM2EajDuoCX+jqK5G+d/R3R+I6fkXEXcRw/twKN6SR
+   w==;
+X-CSE-ConnectionGUID: GhSuEV/URSWHKp5OWevJBA==
+X-CSE-MsgGUID: aPgsWrFKTJ2w3C1iGHo8gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="80852646"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68854696"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 20:22:08 -0700
-X-CSE-ConnectionGUID: dpy7qAbfREyTtVvMwQ7VPg==
-X-CSE-MsgGUID: TUJLmxlVQvyl2iwFHgzn5w==
+   d="scan'208";a="80852646"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 20:51:26 -0700
+X-CSE-ConnectionGUID: BSKG7wvOTwuozXJWwWscWw==
+X-CSE-MsgGUID: Y+78fbWRS0CDhPXPpTaGyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="169191765"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa008.jf.intel.com with ESMTP; 23 Aug 2025 20:22:08 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="168916099"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 23 Aug 2025 20:51:24 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uq1Iz-0002BT-05;
-	Sun, 24 Aug 2025 03:22:05 +0000
-Date: Sun, 24 Aug 2025 05:21:39 +0200
+	id 1uq1lJ-000MkB-2X;
+	Sun, 24 Aug 2025 03:51:21 +0000
+Date: Sun, 24 Aug 2025 11:50:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 2/2]
- arch/arm64/boot/dts/qcom/apq8016-sbc.dts:359.22-367.4: Warning
- (unit_address_vs_reg): /soc/sound@7702000/external-dai-link@0: node has a
- unit name, but no reg or ranges property
-Message-ID: <202508240521.xi8bS0J3-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 331/331] fs/bcachefs/rebalance.c:497:17:
+ error: too few arguments to function 'bch2_get_update_rebalance_opts'
+Message-ID: <202508241127.FsrVTfof-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,114 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Stephan,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   00510ce05bf395fdead13baf52262847776bab0c
-commit: 8d139a395dbe3209e73555977b91e27690efcc82 [2/2] arm64: dts: qcom: Drop unneeded extra device-specific includes
-config: arm64-randconfig-2051-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240521.xi8bS0J3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240521.xi8bS0J3-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   9ee5d987e88c288fc2a140d7d32cb64b38c05bfe
+commit: 9ee5d987e88c288fc2a140d7d32cb64b38c05bfe [331/331] bcachefs: do_rebalance_scan() now responsible for indirect extents
+config: i386-buildonly-randconfig-004-20250824 (https://download.01.org/0day-ci/archive/20250824/202508241127.FsrVTfof-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241127.FsrVTfof-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508240521.xi8bS0J3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508241127.FsrVTfof-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:417.11-1880.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/qcom/apq8016-sbc.dts:359.22-367.4: Warning (unit_address_vs_reg): /soc/sound@7702000/external-dai-link@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/qcom/apq8016-sbc.dts:369.37-377.4: Warning (unit_address_vs_reg): /soc/sound@7702000/internal-codec-playback-dai-link@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/qcom/apq8016-sbc.dts:379.36-387.4: Warning (unit_address_vs_reg): /soc/sound@7702000/internal-codec-capture-dai-link@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/qcom/apq8016-sbc.dts:102.12-106.5: Warning (unit_address_vs_reg): /gpio-keys/button@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/apq8016-sbc.dts:117.9-122.5: Warning (unit_address_vs_reg): /leds/led@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/apq8016-sbc.dts:124.9-129.5: Warning (unit_address_vs_reg): /leds/led@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/apq8016-sbc.dts:131.9-136.5: Warning (unit_address_vs_reg): /leds/led@3: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/apq8016-sbc.dts:138.9-144.5: Warning (unit_address_vs_reg): /leds/led@4: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/apq8016-sbc.dts:146.9-151.5: Warning (unit_address_vs_reg): /leds/led@5: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/apq8016-sbc.dts:153.9-158.5: Warning (unit_address_vs_reg): /leds/led@6: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1428.25-1444.5: Warning (simple_bus_reg): /soc/sdhci@7824000: simple-bus unit address format error, expected "7824900"
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1446.25-1460.5: Warning (simple_bus_reg): /soc/sdhci@7864000: simple-bus unit address format error, expected "7864900"
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1732.30-1796.5: Warning (simple_bus_reg): /soc/remoteproc@a21b000: simple-bus unit address format error, expected "a204000"
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:999.22-1047.6: Warning (avoid_unnecessary_addr_size): /soc/mdss@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/apq8016-sbc.dts:93.12-107.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1501.26-1514.5: Warning (unique_unit_address): /soc/i2c@78b5000: duplicate unit-address (also used in node /soc/spi@78b5000)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1533.26-1546.5: Warning (unique_unit_address): /soc/i2c@78b6000: duplicate unit-address (also used in node /soc/spi@78b6000)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1565.26-1578.5: Warning (unique_unit_address): /soc/i2c@78b7000: duplicate unit-address (also used in node /soc/spi@78b7000)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1597.26-1610.5: Warning (unique_unit_address): /soc/i2c@78b8000: duplicate unit-address (also used in node /soc/spi@78b8000)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1629.26-1642.5: Warning (unique_unit_address): /soc/i2c@78b9000: duplicate unit-address (also used in node /soc/spi@78b9000)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1661.26-1674.5: Warning (unique_unit_address): /soc/i2c@78ba000: duplicate unit-address (also used in node /soc/spi@78ba000)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:986.11-996.7: Warning (graph_child_address): /soc/mdss@1a00000/mdp@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
---
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:447.18-456.5: Warning (unit_address_vs_reg): /reserved-memory/rmtfs@86700000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:596.11-3151.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:1547.11-1708.5: Warning (unit_address_vs_reg): /soc/agnoc@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:2957.24-2960.7: Warning (unit_address_vs_reg): /soc/slim@91c0000/ngd@1/tas-ifd: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:3026.13-3029.8: Warning (unit_address_vs_reg): /soc/remoteproc@9300000/smd-edge/apr/q6core: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:3031.19-3043.8: Warning (unit_address_vs_reg): /soc/remoteproc@9300000/smd-edge/apr/q6afe: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:3045.19-3055.8: Warning (unit_address_vs_reg): /soc/remoteproc@9300000/smd-edge/apr/q6asm: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:3057.19-3064.8: Warning (unit_address_vs_reg): /soc/remoteproc@9300000/smd-edge/apr/q6adm: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/qcom/apq8096-db820c.dts:94.12-98.5: Warning (unit_address_vs_reg): /gpio_keys/button@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:22.22-27.5: Warning (simple_bus_reg): /clocks/xo-board: missing or empty reg/ranges property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:29.24-34.5: Warning (simple_bus_reg): /clocks/sleep-clk: missing or empty reg/ranges property
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dts:65.20-73.5: Warning (simple_bus_reg): /clocks/divclk4: missing or empty reg/ranges property
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dts:75.22-82.5: Warning (simple_bus_reg): /clocks/divclk1: missing or empty reg/ranges property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:1547.11-1708.5: Warning (simple_bus_reg): /soc/agnoc@0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:827.21-874.6: Warning (avoid_unnecessary_addr_size): /soc/mdss@900000/dsi@994000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:137.9-146.4: Warning (avoid_unnecessary_addr_size): /soc/qcom,spmi@400f000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:3009.13-3067.6: Warning (avoid_unnecessary_addr_size): /soc/remoteproc@9300000/smd-edge: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/apq8096-db820c.dts:85.12-99.4: Warning (avoid_unnecessary_addr_size): /gpio_keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:2864.27-2879.5: Warning (unique_unit_address): /soc/i2c@75ba000: duplicate unit-address (also used in node /soc/spi@75ba000)
-   arch/arm64/boot/dts/qcom/msm8996.dtsi:923.11-933.7: Warning (graph_child_address): /soc/mdss@900000/hdmi-tx@9a0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+All errors (new ones prefixed by >>):
 
-vim +359 arch/arm64/boot/dts/qcom/apq8016-sbc.dts
+   In file included from fs/bcachefs/rebalance.c:6:
+   fs/bcachefs/rebalance.c: In function 'do_rebalance_scan_indirect':
+>> fs/bcachefs/rebalance.c:497:17: error: too few arguments to function 'bch2_get_update_rebalance_opts'
+     497 |                 bch2_get_update_rebalance_opts(trans, opts, &iter, k);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:798:18: note: in definition of macro 'lockrestart_do'
+     798 |         _ret2 = (_do);                                                  \
+         |                  ^~~
+   fs/bcachefs/btree_iter.h:862:9: note: in expansion of macro 'for_each_btree_key_max_continue'
+     862 |         for_each_btree_key_max_continue(_trans, _iter, _end, _flags, _k, _do);  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:866:9: note: in expansion of macro 'for_each_btree_key_max'
+     866 |         for_each_btree_key_max(_trans, _iter, _btree_id, _start, SPOS_MAX, _flags, _k, _do)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/rebalance.c:493:19: note: in expansion of macro 'for_each_btree_key'
+     493 |         int ret = for_each_btree_key(trans, iter, BTREE_ID_reflink,
+         |                   ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/rebalance.c:191:5: note: declared here
+     191 | int bch2_get_update_rebalance_opts(struct btree_trans *trans,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   347	
-   348	&sound {
-   349		status = "okay";
-   350	
-   351		pinctrl-0 = <&cdc_pdm_lines_act &ext_sec_tlmm_lines_act &ext_mclk_tlmm_lines_act>;
-   352		pinctrl-1 = <&cdc_pdm_lines_sus &ext_sec_tlmm_lines_sus &ext_mclk_tlmm_lines_sus>;
-   353		pinctrl-names = "default", "sleep";
-   354		qcom,model = "DB410c";
-   355		qcom,audio-routing =
-   356			"AMIC2", "MIC BIAS Internal2",
-   357			"AMIC3", "MIC BIAS External1";
-   358	
- > 359		external-dai-link@0 {
-   360			link-name = "ADV7533";
-   361			cpu {
-   362				sound-dai = <&lpass MI2S_QUATERNARY>;
-   363			};
-   364			codec {
-   365				sound-dai = <&adv_bridge 0>;
-   366			};
-   367		};
-   368	
- > 369		internal-codec-playback-dai-link@0 {
-   370			link-name = "WCD";
-   371			cpu {
-   372				sound-dai = <&lpass MI2S_PRIMARY>;
-   373			};
-   374			codec {
-   375				sound-dai = <&lpass_codec 0>, <&wcd_codec 0>;
-   376			};
-   377		};
-   378	
- > 379		internal-codec-capture-dai-link@0 {
-   380			link-name = "WCD-Capture";
-   381			cpu {
-   382				sound-dai = <&lpass MI2S_TERTIARY>;
-   383			};
-   384			codec {
-   385				sound-dai = <&lpass_codec 1>, <&wcd_codec 1>;
-   386			};
-   387		};
-   388	};
-   389	
+
+vim +/bch2_get_update_rebalance_opts +497 fs/bcachefs/rebalance.c
+
+   484	
+   485	static int do_rebalance_scan_indirect(struct btree_trans *trans,
+   486					      struct bkey_s_c_reflink_p p,
+   487					      struct bch_inode_opts *opts)
+   488	{
+   489		u64 idx = REFLINK_P_IDX(p.v) - le32_to_cpu(p.v->front_pad);
+   490		u64 end = REFLINK_P_IDX(p.v) + p.k->size + le32_to_cpu(p.v->back_pad);
+   491		u32 restart_count = trans->restart_count;
+   492	
+   493		int ret = for_each_btree_key(trans, iter, BTREE_ID_reflink,
+   494					     POS(0, idx), BTREE_ITER_not_extents, k, ({
+   495			if (bpos_ge(bkey_start_pos(k.k), POS(0, end)))
+   496				break;
+ > 497			bch2_get_update_rebalance_opts(trans, opts, &iter, k);
+   498		}));
+   499		if (ret)
+   500			return ret;
+   501	
+   502		/* suppress trans_was_restarted() check */
+   503		trans->restart_count = restart_count;
+   504		return 0;
+   505	}
+   506	
 
 -- 
 0-DAY CI Kernel Test Service
