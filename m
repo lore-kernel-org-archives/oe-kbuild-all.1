@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB4627FB1F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 11:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313182D6E63
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Aug 2025 11:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756033746; cv=none; b=Bl99JS90b7xcvV/gsMhC2Ot0fyth7aoU7wn1VUA+gx8g5CYFP8ZVhWiPqpVBlw1pylzdI75VoSR4+kHtMcwqHUemylIVuLOObGE3zzABrWpPFEcvRPCVzLH8bHgDvVIvjalzM9jJWZ0uqOnAk256IKKQluY5a+OMM+/bmEpaTtU=
+	t=1756035016; cv=none; b=g3GFtFp/gWgG4OyLDIrvmSY7w86F7TJAFWfBcXkBh9ix+hRGpAegE4f4lxQgFRo7w8JoaPcIXz8yUcvIOTzmru1ocrBRVESiyf2Im9ikgpT1Lm7u73pbcm3uoEDenGp+/pIIsww89LU1pb0kJuCna54FznwycgbUfMegB4oYvIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756033746; c=relaxed/simple;
-	bh=xMJtaJW/s+eSTH9ZaFqnryAXsYmTFtS8DXlLezcFaZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nyVcIiG62V7/inKnht5sM49RxfwSxqyJAmoV1nrj18LsciamjkFigCJj6tTEeFgkOTHYEf4THORe+dcmVENau3JcHK5QziFaM6CKN9X1QNtLJYGTE93UFRy3AftnoaXcWSMWy0C5qLTs+h4LCMgEGqEXy+srMvTKrmsL6IDH1Dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbeZqmIk; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1756035016; c=relaxed/simple;
+	bh=6G5mPAtsFaXXL0ExPX41cT4TX9upffLJYDpuVfS9Gmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fUcnNugqThnA8QVIMTQ/RZa6kFZmWbMElmv1EzaFnlaHMMHEBioc9ACvDW4vjG87vZu0w8hMAIFjHIYJzQqPG8s/aAWZxv+0pSTrLAL8SJTfI3WXBVSFGuGMyebkoPCo6JGi/MN7dSFmDl3EeBFVA16wV153aeUPMl1fZEtFCmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FL2E4MEF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbeZqmIk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FL2E4MEF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756033745; x=1787569745;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xMJtaJW/s+eSTH9ZaFqnryAXsYmTFtS8DXlLezcFaZ8=;
-  b=TbeZqmIkb/mvqwHD0jXliTNTkRvGno34e/rJIq+hEmElxyn/V44sZMbS
-   aDX2NSXcaN3z4xHRtoo8RsEKy20iXzt+NjrqUDRxmnAveFwqnbG+iKnWk
-   ynKnE4QnA4fjoqcapHtnQ+QLpDPVSdBH0I2FYlwwrMcV6j1ZeNkzYPBva
-   PyvaYzY8h/1fcKhucZKlya3Z33pVE5EnhzcjOPodfpc90mNA3iEaSg39Q
-   DVqZIwbIP7aoqL4G/PdGicB1zAzLAoXF6T5SW7PqP+KygLEVH0KXHG+q2
-   D3NWi+xHo1ADWHO5DV7izKnHTOIdPgDpZTJoTaCjN4LU2SWelGyixFEUW
+  t=1756035013; x=1787571013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6G5mPAtsFaXXL0ExPX41cT4TX9upffLJYDpuVfS9Gmc=;
+  b=FL2E4MEFAPDcu/PrqyGwODpx99BBUlS7+uxB48lVWgP3CBm8xVA6C27h
+   Wbcbauh91jLOJYC2ZS+xNeBUoA8aACRCQa9oV5pFaN77c71uc28cZNKyz
+   QaMpcPR6eGHxm+Cz3R1eKkVfcA9nqOxYpXs8QovKrhrX0QXpPZp4eMS1A
+   05uZV0CYKcj45GeNYnSk/8H+R3K0MOoqMyYP09JWGXKZwxu71q/skIg8/
+   Do7eEIlTualhnVlHxjNR6isVXv5WVwM3HeyV53mFRtKu369fjw+8JPyV3
+   9VNKqJgEErzNHSTjqJQFr9yaBUs+sV7QFkHv8K8DvdG8GdbN0EapsU96A
    w==;
-X-CSE-ConnectionGUID: PIoPdy9EQwGeoIJtCbukxA==
-X-CSE-MsgGUID: lWoicJ/DQ+C+jZWBqMhX3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68865479"
+X-CSE-ConnectionGUID: aT7JpbobSduQYOqG94oftQ==
+X-CSE-MsgGUID: GV+hoiBvRACREfkfbx+ahQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="75724090"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68865479"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 04:09:04 -0700
-X-CSE-ConnectionGUID: zWzUlwTiTdmX35CW2MckTg==
-X-CSE-MsgGUID: SezDR/IvQzaCn6kT5SGCCA==
+   d="scan'208";a="75724090"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 04:30:13 -0700
+X-CSE-ConnectionGUID: qwh2lp8ZQci4E0oyDQb0JA==
+X-CSE-MsgGUID: SduyHKJuRhmvP2iETSthtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="173476659"
+   d="scan'208";a="192736209"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 24 Aug 2025 04:09:02 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2025 04:30:10 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uq8ao-000MxP-14;
-	Sun, 24 Aug 2025 11:08:59 +0000
-Date: Sun, 24 Aug 2025 19:08:33 +0800
+	id 1uq8ur-000Mxr-05;
+	Sun, 24 Aug 2025 11:29:53 +0000
+Date: Sun, 24 Aug 2025 19:29:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.17-r4pro 53/67]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb:
- pinctrl@1001f000 (mediatek,mt7988-pinctrl): 'pcie-2-hog', 'pcie-3-hog' do
- not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-Message-ID: <202508241916.RJ6W3za7-lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Peyton Lee <peytolee@amd.com>, Lang Yu <lang.yu@amd.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v1 2/2] drm/amd/display: Adjust AUX brightness to be a
+ granularity of 100
+Message-ID: <202508241901.DJ851kiv-lkp@intel.com>
+References: <20250824085351.454619-2-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +72,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250824085351.454619-2-lkml@antheas.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.17-r4pro
-head:   f7b0cba42b3047ca85197f08a0d3b46dffe443b4
-commit: 807e5a549e3d9b1b38a5410cf02f91d45aeb046c [53/67] dts: r4pro: verified pcie function (all m.2 slots with gpio-hogs)
-config: arm64-randconfig-051-20250824 (https://download.01.org/0day-ci/archive/20250824/202508241916.RJ6W3za7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241916.RJ6W3za7-lkp@intel.com/reproduce)
+Hi Antheas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/drm-amd-display-Adjust-AUX-brightness-to-be-a-granularity-of-100/20250824-165633
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250824085351.454619-2-lkml%40antheas.dev
+patch subject: [PATCH v1 2/2] drm/amd/display: Adjust AUX brightness to be a granularity of 100
+config: i386-buildonly-randconfig-002-20250824 (https://download.01.org/0day-ci/archive/20250824/202508241901.DJ851kiv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241901.DJ851kiv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508241916.RJ6W3za7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508241901.DJ851kiv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'mediatek,mt8370' was expected
-   	'mediatek,mt8390' was expected
-   	'mediatek,mt8395' was expected
-   	'mediatek,mt8516' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4-pro', 'mediatek,mt7988a']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: / (bananapi,bpi-r4-pro): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: / (bananapi,bpi-r4-pro): memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): 'pcie-2-hog', 'pcie-3-hog' do not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: i2c-switch@70 (nxp,pca9545): $nodename:0: 'i2c-switch@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: i2c-switch@70 (nxp,pca9545): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: eeprom@57 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
+All errors (new ones prefixed by >>):
+
+   ld: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.o: in function `amdgpu_dm_backlight_set_level':
+>> amdgpu_dm.c:(.text+0x8b89): undefined reference to `__umoddi3'
 
 -- 
 0-DAY CI Kernel Test Service
