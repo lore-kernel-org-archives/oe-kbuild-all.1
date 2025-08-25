@@ -1,201 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253A92F360E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 14:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9AA3275AFC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 14:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756131794; cv=none; b=N+d2bd/dfJuBohSOgBp0Ry+LT+MK+V1ONPSiZT9Cyzy4oOYG/cC6IAVIRMoklDbYuZgKV4pJ7xLjoKr7EkzFg7e6S6pX6cC0+3S9caOYnKHUZvRBdpdphxVY4/AFYqY+gtIx6wRnnzkWBnV6TA0/7A4eMElJdfvv0htE8Rh/IOQ=
+	t=1756132924; cv=none; b=UEFhxxAe0mN3uLkfzoEMHRxOGGvhhdX2A5jYH+WqRFxTnmtYClVGwmY0WuItWWPfmD9eYWBgP0OHawvPCQ3xyFH6MkBwg8O8VpOO96RqrC8yfxOm+tGjTw4iCHp1Tijai8C0ihgTlLKFi9wD9AeRz+LddcDO7YDPSfBq2BMYAr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756131794; c=relaxed/simple;
-	bh=TZLEgX4PcKSaJdHP2YSyBZt7C3c1yni3cWe+vU1tYBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I4upF8F8fD3XYmv51xszJ8NVxoZJ5PGiy5wkrVkUZdCz3f0S7SW2Fn1G3/bD4XP4vAGmEMmt2obvX2U05w0uifVWhlbcK/7CPO62e1DfplcNY6RQQRXcqG85kXgWIuwPKqylo0nXEpl7u66gAx8FhYBV+0iILm5IoMCuN2pZSTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3W09T+j; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756132924; c=relaxed/simple;
+	bh=dY2BC24LcOwPmwCFWjqjdFx0LB0w2liGu7oqHI05kJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZMykKjuXwkizdsE2gSSm8whbno+ElpRbi7RysyDeqmM11MkbEaqXqjrL1uD5VrADWncftJQxKmI1FXFWxyzjBRpB214XRQlfBYZyEhvbUKIP13KTjApmyMDRBXXv8VnGBmkkCAYbroS+c5bP+WjJWKik7IGrycSVvr+B/ZCYOA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MYab47A3; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3W09T+j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756131791; x=1787667791;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TZLEgX4PcKSaJdHP2YSyBZt7C3c1yni3cWe+vU1tYBk=;
-  b=P3W09T+jhmg0rjkjmoe/Br5hwdnYGy1JWpAYgUJ7jDOFNIfgGDQrIbOI
-   DY7QvFE2c05p4M38JpgYEvu3b329W542SJPJlbqAlUC+JwSHDwP4UABmo
-   DJmiJGt+5ccMkknFYjerZEvaP+36BKJqIf3P/BlbCqZPYo8sXZYK3z0Se
-   0vOgVJgfMvUv4Ff2k/P6JdQgLF5xzOEbEl7YfHp2q+RdjTeQwdSD93imb
-   BYMOWjg+b1fE/SjsILqg+4wf92CnSZS19VphAksNDl76VsikwEiGGFIxq
-   kdtjLv9OTwcIITKJ4IorPhiHsDJ9ZZG6ddSMn3CpsnYWi8Lwq1g6g9WX8
-   g==;
-X-CSE-ConnectionGUID: 9l9RdeVsTTamjA0QTR/5/g==
-X-CSE-MsgGUID: yhnAC+ByS5iG4t9/HRMdqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="68613416"
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="68613416"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 07:23:10 -0700
-X-CSE-ConnectionGUID: jFbLBLTKQKmEJns7Uof/bg==
-X-CSE-MsgGUID: X/cSsHuqRJy3+g++ZtrzfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="174615599"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 25 Aug 2025 07:23:09 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uqY6F-000NlH-0v;
-	Mon, 25 Aug 2025 14:23:07 +0000
-Date: Mon, 25 Aug 2025 22:21:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 6/6]
- include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name'
- defined but not used
-Message-ID: <202508252226.ozGspBkc-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MYab47A3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756132921;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sLqi3ZQ4Qq7GjJJBZEDnBdmpcriLiuWuU+N614GqayQ=;
+	b=MYab47A3TUePDS5cKDHuueOOpoCdfpZO7VUkEgaHpv90fm2FlVIeZJkxsEUsRE9GIHAXeK
+	Kh6DU/dVtOiTmuw1EA4JnrIKheZekFhk6k84+IXNeTgXk76CrlOomuAVSJFvBh8jb3sltT
+	FE1crvZ8GVRvyvZuWQmu4VUQIVZH5QY=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-600-mMCleJMnPoqD6RNA4NZp4Q-1; Mon, 25 Aug 2025 10:42:00 -0400
+X-MC-Unique: mMCleJMnPoqD6RNA4NZp4Q-1
+X-Mimecast-MFC-AGG-ID: mMCleJMnPoqD6RNA4NZp4Q_1756132920
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3ec9adc1255so2517175ab.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 07:42:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756132920; x=1756737720;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sLqi3ZQ4Qq7GjJJBZEDnBdmpcriLiuWuU+N614GqayQ=;
+        b=YkKjjSofKmaC+bh6nJQLDEHR8VQkis7BtdD40Ndd+r7DiwHI+dYwbd8F6JmQHJ91Ua
+         8xdtKfvT5ZHqOPrUal6kg9VJzlld1yNCylibxlb2U1XvT1b4dk3I28qU+thqN7CS1HI3
+         kZw1KxucudnaCpI/D5imasawLgwrBh8bHY3qGeGu0FUMVfU3yUSsOORZsN5qD1qsnS7k
+         2ki7Apo4GMMBFanR5tqNP2ve1/gsPThMq7Nt/bfY+P5mgEQdETF7oDQZ/ALgEjjEApvH
+         jEerQAjppR+AJ13War3YEYW/rJe1HqmfTaql5+hTa/0FlkcscWUnEEEKWLWt7HuMxnk4
+         uZzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXIUksziXep38/X5vBs18Plr+1d4teXgXxBy3Y2lkUa3CwVZotxt2jIhAP7yt1aseZR+wgXtURhh90FuQVe@lists.linux.dev
+X-Gm-Message-State: AOJu0YzneV09+oc5IJM5LMOi9KStNtWLXA8A9p9iW/GDtlhIcTHgUBkC
+	7JOKQbVQ5VC7hDevvw2xKqNL3j6Q39vFLBuOy8KgM+n6wEdzeFISiVtfrBsOwSLzXVYokJ23gqB
+	wn71zWOJB8tSXrJKCLsIyFYDMK+A0AjbKA82RQ4C1jP73MVeQZe251Y28DhEMoBQYEqE=
+X-Gm-Gg: ASbGncsbPah5fWjoNJBODhG2CQjxS+lrsN/3U/TVcQCZAPgL7m/BbGpf9RsSiDbeZHk
+	TcgFt4Y/C1xbZFKL6WCziWVtV1MytrRPElY6Ium69Va3dAcCZG27LCdHx58NidRNY9hHW8uK7q2
+	ktg+b0c71tV1x2V1H4a5QCTPrxuPo+r4Saeb+7TcHzK6iIhscRo4+Eoa+dThox+q4OV3BV96YIT
+	jKtLr+vTqIx2Jpkmk/jo2PA9YCkQwog41VGtAO7kMb5qtuNXMXHCksFUwDcWnMXCsdrNnw2eHpV
+	y0bOLOTSDC9nSryvLC8ZMwxdVgHVnkkNs+t96guwGYM=
+X-Received: by 2002:a05:6e02:1567:b0:3ec:9c32:6471 with SMTP id e9e14a558f8ab-3ec9c32673bmr18816465ab.2.1756132919648;
+        Mon, 25 Aug 2025 07:41:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGW4Lgvz6FbySIAPwtm0U1Tae7UuaIE2esfeq7WZJykcdIyv6UETbtw/iCgysaF9obPTYn/Gg==
+X-Received: by 2002:a05:6e02:1567:b0:3ec:9c32:6471 with SMTP id e9e14a558f8ab-3ec9c32673bmr18816275ab.2.1756132919255;
+        Mon, 25 Aug 2025 07:41:59 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ec67d6ffdasm22921535ab.25.2025.08.25.07.41.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Aug 2025 07:41:58 -0700 (PDT)
+Date: Mon, 25 Aug 2025 08:41:55 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Nipun Gupta <nipun.gupta@amd.com>
+Cc: <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <nikhil.agarwal@amd.com>,
+ <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+ <robin.murphy@arm.com>, <krzk@kernel.org>, <tglx@linutronix.de>,
+ <maz@kernel.org>, <linux@weissschuh.net>, <chenqiuji666@gmail.com>,
+ <peterz@infradead.org>, <robh@kernel.org>, <abhijit.gangurde@amd.com>,
+ <nathan@kernel.org>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 2/2] vfio/cdx: update driver to build without
+ CONFIG_GENERIC_MSI_IRQ
+Message-ID: <20250825084155.10088e2a.alex.williamson@redhat.com>
+In-Reply-To: <20250825043122.2126859-2-nipun.gupta@amd.com>
+References: <20250825043122.2126859-1-nipun.gupta@amd.com>
+	<20250825043122.2126859-2-nipun.gupta@amd.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 8yszQq5_At1hAx1cA0yTN9cV5EjfkPgtToJqg-a38bQ_1756132920
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
-commit: 6e8c49bd14703d331cde0721ba097d3b236f2f29 [6/6] ANDROID: vendor_hooks: add vendor hooks for fuse request
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250825/202508252226.ozGspBkc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508252226.ozGspBkc-lkp@intel.com/reproduce)
+On Mon, 25 Aug 2025 10:01:22 +0530
+Nipun Gupta <nipun.gupta@amd.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508252226.ozGspBkc-lkp@intel.com/
+> Define dummy MSI related APIs in VFIO CDX driver to build the
+> driver without enabling CONFIG_GENERIC_MSI_IRQ flag.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202508070308.opy5dIFX-lkp@intel.com/
+> Reviewed-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
+> Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+> ---
+> 
+> Changes v1->v2:
+> - fix linking intr.c file in Makefile
+> Changes v2->v3:
+> - return error from vfio_cdx_set_irqs_ioctl() when CONFIG_GENERIC_MSI_IRQ
+>   is disabled
+> 
+>  drivers/vfio/cdx/Makefile  |  6 +++++-
+>  drivers/vfio/cdx/private.h | 14 ++++++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/vfio/cdx/Makefile b/drivers/vfio/cdx/Makefile
+> index df92b320122a..dadbef2419ea 100644
+> --- a/drivers/vfio/cdx/Makefile
+> +++ b/drivers/vfio/cdx/Makefile
+> @@ -5,4 +5,8 @@
+>  
+>  obj-$(CONFIG_VFIO_CDX) += vfio-cdx.o
+>  
+> -vfio-cdx-objs := main.o intr.o
+> +vfio-cdx-objs := main.o
+> +
+> +ifdef CONFIG_GENERIC_MSI_IRQ
+> +vfio-cdx-objs += intr.o
+> +endif
+> diff --git a/drivers/vfio/cdx/private.h b/drivers/vfio/cdx/private.h
+> index dc56729b3114..5343eb61bec4 100644
+> --- a/drivers/vfio/cdx/private.h
+> +++ b/drivers/vfio/cdx/private.h
+> @@ -38,11 +38,25 @@ struct vfio_cdx_device {
+>  	u8			config_msi;
+>  };
+>  
+> +#ifdef CONFIG_GENERIC_MSI_IRQ
+>  int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
+>  			    u32 flags, unsigned int index,
+>  			    unsigned int start, unsigned int count,
+>  			    void *data);
+>  
+>  void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev);
+> +#else
+> +static int vfio_cdx_set_irqs_ioctl(struct vfio_cdx_device *vdev,
+> +				   u32 flags, unsigned int index,
+> +				   unsigned int start, unsigned int count,
+> +				   void *data)
+> +{
+> +	return -ENODEV;
 
-All warnings (new ones prefixed by >>):
+With the fix to patch 1/, the device info ioctl should be returning
+that there are no irqs available, so this should use the same errno as
+any other case of the user trying to set an out-of-bounds irq, -EINVAL.
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/fuse.h:24,
-                    from drivers/android/vendor_hooks.c:73:
->> include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/fsnotify.h:23,
-                    from drivers/android/vendor_hooks.c:72:
-   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/blk.h:33,
-                    from drivers/android/vendor_hooks.c:71:
-   include/trace/stages/init.h:2:23: warning: 'str__blk__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/madvise.h:26,
-                    from drivers/android/vendor_hooks.c:69:
-   include/trace/stages/init.h:2:23: warning: 'str__madvise__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/compaction.h:24,
-                    from drivers/android/vendor_hooks.c:68:
-   include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/signal.h:22,
-                    from drivers/android/vendor_hooks.c:67:
-   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
+With that change
 
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 
-vim +/str__fuse__trace_system_name +2 include/trace/stages/init.h
+> +}
+> +
+> +static void vfio_cdx_irqs_cleanup(struct vfio_cdx_device *vdev)
+> +{
+> +}
+> +#endif
+>  
+>  #endif /* VFIO_CDX_PRIVATE_H */
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
