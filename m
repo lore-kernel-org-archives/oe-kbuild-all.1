@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D67220F49
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 08:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB83E4D599
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 08:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756110364; cv=none; b=ab8oPweQU4h4uH/9wQlY0ZffwtkYhOyb6tFHh6Dibo06K1YEnbBa1nNH7mStqnW2vi0LA1arTj1IjlnrF7h1WnKxtYSdEH3BtKHfLkQfu/Ay6g1e8bpdVay77cMZXqv/OcmcHYiGgAv2/MO70kVt4o2j4/0jBj6olAIv07gFdA4=
+	t=1756111653; cv=none; b=S9DfWxl45CGd1M4BQ3C3kDz0q4g2xsae5pvc/59EiybHxqQpRFigYNjkn4cBjttyXfEPomm3xWyOPXdmbOPb6BtRh4qCoxphbfyricPvY4JRw8DWdYpKUDN7z6JUZksPxozXyyXSelGGORWg38ApNW5N5d5UI6FM6mAHPct8Gc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756110364; c=relaxed/simple;
-	bh=jF9oElM7RfwUHvaPvFYHTEe5WQyFHvAPj30zmDsft0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lu4O4WedKTY5F0d31vZIh0bLFJkPLLwdDudmf04tDe6WUhvddur51fAOz669HW1srBvrSqbuKKnfptku0OmfwzIMCbSSkRg+NZqce2Q1/jbBQiyVDIjxM83VVGexg0ObhZe1zS8whIA3AY6y4Si58p8UcgYMjvrx0Wa0UdKokx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1MNybRP; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1756111653; c=relaxed/simple;
+	bh=bPVNpV6nMN5xahOwuEGChnOhxKBoMGh0YVXl92nUSSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z0Xy2ztxjXnzO7mrN9zCzGZDYPJw6Cfo5sYfpyjRRwH2Ozl5i3MkbQIYt+8NxD9j5WslRzTI0Yrf9XKJPEV0WKj5Wg7CGS2BTqSYfSfvVLAxZzJz67a7QPqLV+eB5SU4kktnb1wwutRUl/vLr1Ew3ma2QFJAW7e0D422F5vMaH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cv3PLodc; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1MNybRP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cv3PLodc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756110363; x=1787646363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jF9oElM7RfwUHvaPvFYHTEe5WQyFHvAPj30zmDsft0w=;
-  b=h1MNybRPlbVsL7X06YScSwe2oRsatTiui36p8gdZ7U8yjsupOypHoMRJ
-   YKnbq9/Tvm9FVtw8d2EXIwceFSZKERg245i0AUTtsxuKZjguzL3jOOvgg
-   wtNupf+Jr+NNVVU0P/dTXIaGd0C+JUve6YpNt8QlSOsod5Gc+KpsdrLrC
-   pYOLvFNpJzWa1XeWLf3YESvm7uauzGVFbrU4UYlv2u3kNc2uYBI1+iWX+
-   XI7XB58iJl2CLKVVZlrfT2+7PJQ5NAjdIYjpJvzQaXWSWlD/ELhbv4s3A
-   H5zCSFcA/nRotrYU84CGEDoOpY34V2dQDpxrFIEgYa+curiV9XoNiS/KF
-   Q==;
-X-CSE-ConnectionGUID: vBHUDkNRSY6C5stad7PXYg==
-X-CSE-MsgGUID: IbLw7osCSb6zCeEf0ZAktw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="75913538"
+  t=1756111652; x=1787647652;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bPVNpV6nMN5xahOwuEGChnOhxKBoMGh0YVXl92nUSSY=;
+  b=cv3PLodchH2BPbAF9V+5f3d6Z1TYB+OGNVAjDv8y11gnc5CKD07ohLKI
+   vx8BAfk+n+fyH0GRrG+X+D4TxnUZWzDbJGdxiMzcYEWGoDUWl4bpK4IzP
+   Uh59tKPYBlSNoOrge+MvY1TkPHV3XwzGKNPSDfvSSyYhgqOGcjgnlwKiQ
+   vkHM0W29UdVY34GCgWu4E0/Rms4bXPhh3ZvK5oVV9ba6nCxEQDZgNmxsI
+   21lTe93FTixb0DK9apCxjKxRcarz0fKR9CqFVUqWwHWsKdezvaqgsYvKa
+   FwbsHZLf+VeU5mNo0RE4/FgNPoISighk1sImQrdJYRVpTvajnp6NXYTMp
+   g==;
+X-CSE-ConnectionGUID: XtmC3RLuRW2E0LnMDo6UHQ==
+X-CSE-MsgGUID: SHqttqNYRzupjW2pfjeRiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="62133707"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="75913538"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 01:26:03 -0700
-X-CSE-ConnectionGUID: bddS5Z4FS0msg0llnktyRA==
-X-CSE-MsgGUID: VqR1H/76QneVW+gZXWZPTA==
+   d="scan'208";a="62133707"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 01:47:31 -0700
+X-CSE-ConnectionGUID: EHKU6I3xQgyx4nNPByQ0/A==
+X-CSE-MsgGUID: 6v+ucBATRY+7FVaT1s8goA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="174518095"
+   d="scan'208";a="169133596"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Aug 2025 01:26:01 -0700
+  by orviesa007.jf.intel.com with ESMTP; 25 Aug 2025 01:47:29 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqSWU-000NT5-0h;
-	Mon, 25 Aug 2025 08:25:57 +0000
-Date: Mon, 25 Aug 2025 16:24:59 +0800
+	id 1uqSrH-000NWx-3A;
+	Mon, 25 Aug 2025 08:47:21 +0000
+Date: Mon, 25 Aug 2025 16:47:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-classmap-fix-v4h 60/64] include/linux/module.h:600:29:
- error: field 'dyndbg_info' has incomplete type
-Message-ID: <202508251607.bg1dfiNX-lkp@intel.com>
+To: Osama Abdelkader <osama.abdelkader@gmail.com>, tytso@mit.edu,
+	Jason@zx2c4.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Osama Abdelkader <osama.abdelkader@gmail.com>
+Subject: Re: [PATCH] drivers/char/random.c: Clean up style issues
+Message-ID: <202508251623.uUGghjhZ-lkp@intel.com>
+References: <20250820170359.78811-1-osama.abdelkader@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +65,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250820170359.78811-1-osama.abdelkader@gmail.com>
 
-tree:   https://github.com/jimc/linux.git dd-classmap-fix-v4h
-head:   2f32032bffe62e9db729a4fdce26fb799d6f7302
-commit: 28d4018247d227eb3b461ffbec08a68f7593a1af [60/64] dyndbg: add stub defs for DYNAMIC_DEBUG_CLASSMAP_* macros
-config: arm-randconfig-001-20250825 (https://download.01.org/0day-ci/archive/20250825/202508251607.bg1dfiNX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508251607.bg1dfiNX-lkp@intel.com/reproduce)
+Hi Osama,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.17-rc2]
+[also build test WARNING on linus/master]
+[cannot apply to crng-random/master next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Osama-Abdelkader/drivers-char-random-c-Clean-up-style-issues/20250821-010651
+base:   v6.17-rc2
+patch link:    https://lore.kernel.org/r/20250820170359.78811-1-osama.abdelkader%40gmail.com
+patch subject: [PATCH] drivers/char/random.c: Clean up style issues
+config: sparc-randconfig-r071-20250825 (https://download.01.org/0day-ci/archive/20250825/202508251623.uUGghjhZ-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508251607.bg1dfiNX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508251623.uUGghjhZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/char/random.c:325 crng_fast_key_erasure() warn: inconsistent indenting
+drivers/char/random.c:349 crng_make_state() warn: inconsistent indenting
 
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/dma-mapping.h:5,
-                    from arch/arm/kernel/asm-offsets.c:13:
->> include/linux/module.h:600:29: error: field 'dyndbg_info' has incomplete type
-     600 |         struct _ddebug_info dyndbg_info;
-         |                             ^~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=3256248101
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=3256248101
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3256248101
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3256248101
-   make: Target 'prepare' not remade because of errors.
+vim +325 drivers/char/random.c
 
-
-vim +/dyndbg_info +600 include/linux/module.h
-
-92ace9991da088 Josef Bacik      2017-12-11  594  
-540adea3809f61 Masami Hiramatsu 2018-01-13  595  #ifdef CONFIG_FUNCTION_ERROR_INJECTION
-663faf9f7beeac Masami Hiramatsu 2018-01-13  596  	struct error_injection_entry *ei_funcs;
-540adea3809f61 Masami Hiramatsu 2018-01-13  597  	unsigned int num_ei_funcs;
-92ace9991da088 Josef Bacik      2017-12-11  598  #endif
-7deabd67498869 Jason Baron      2023-03-03  599  #ifdef CONFIG_DYNAMIC_DEBUG_CORE
-7deabd67498869 Jason Baron      2023-03-03 @600  	struct _ddebug_info dyndbg_info;
-7deabd67498869 Jason Baron      2023-03-03  601  #endif
-3859a271a003ab Kees Cook        2016-10-28  602  } ____cacheline_aligned __randomize_layout;
-e61a1c1c4f240c Roman Zippel     2007-05-09  603  #ifndef MODULE_ARCH_INIT
-e61a1c1c4f240c Roman Zippel     2007-05-09  604  #define MODULE_ARCH_INIT {}
-e61a1c1c4f240c Roman Zippel     2007-05-09  605  #endif
-^1da177e4c3f41 Linus Torvalds   2005-04-16  606  
-
-:::::: The code at line 600 was first introduced by commit
-:::::: 7deabd67498869640c937c9bd83472574b7dea0b dyndbg: use the module notifier callbacks
-
-:::::: TO: Jason Baron <jbaron@akamai.com>
-:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
+   304	
+   305	/*
+   306	 * This generates a ChaCha block using the provided key, and then
+   307	 * immediately overwrites that key with half the block. It returns
+   308	 * the resultant ChaCha state to the user, along with the second
+   309	 * half of the block containing 32 bytes of random data that may
+   310	 * be used; random_data_len may not be greater than 32.
+   311	 *
+   312	 * The returned ChaCha state contains within it a copy of the old
+   313	 * key value, at index 4, so the state should always be zeroed out
+   314	 * immediately after using in order to maintain forward secrecy.
+   315	 * If the state cannot be erased in a timely manner, then it is
+   316	 * safer to set the random_data parameter to &chacha_state->x[4]
+   317	 * so that this function overwrites it before returning.
+   318	 */
+   319	static void crng_fast_key_erasure(u8 key[CHACHA_KEY_SIZE],
+   320					  struct chacha_state *chacha_state,
+   321					  u8 *random_data, size_t random_data_len)
+   322	{
+   323		u8 first_block[CHACHA_BLOCK_SIZE];
+   324	
+ > 325			WARN_ON_ONCE(random_data_len > 32);
+   326			if (random_data_len > 32)
+   327				return;
+   328		chacha_init_consts(chacha_state);
+   329		memcpy(&chacha_state->x[4], key, CHACHA_KEY_SIZE);
+   330		memset(&chacha_state->x[12], 0, sizeof(u32) * 4);
+   331		chacha20_block(chacha_state, first_block);
+   332	
+   333		memcpy(key, first_block, CHACHA_KEY_SIZE);
+   334		memcpy(random_data, first_block + CHACHA_KEY_SIZE, random_data_len);
+   335		memzero_explicit(first_block, sizeof(first_block));
+   336	}
+   337	
+   338	/*
+   339	 * This function returns a ChaCha state that you may use for generating
+   340	 * random data. It also returns up to 32 bytes on its own of random data
+   341	 * that may be used; random_data_len may not be greater than 32.
+   342	 */
+   343	static void crng_make_state(struct chacha_state *chacha_state,
+   344				    u8 *random_data, size_t random_data_len)
+   345	{
+   346		unsigned long flags;
+   347		struct crng *crng;
+   348	
+ > 349			WARN_ON_ONCE(random_data_len > 32);
+   350			if (random_data_len > 32)
+   351				return;
+   352		/*
+   353		 * For the fast path, we check whether we're ready, unlocked first, and
+   354		 * then re-check once locked later. In the case where we're really not
+   355		 * ready, we do fast key erasure with the base_crng directly, extracting
+   356		 * when crng_init is CRNG_EMPTY.
+   357		 */
+   358		if (!crng_ready()) {
+   359			bool ready;
+   360	
+   361			spin_lock_irqsave(&base_crng.lock, flags);
+   362			ready = crng_ready();
+   363			if (!ready) {
+   364				if (crng_init == CRNG_EMPTY)
+   365					extract_entropy(base_crng.key, sizeof(base_crng.key));
+   366				crng_fast_key_erasure(base_crng.key, chacha_state,
+   367						      random_data, random_data_len);
+   368			}
+   369			spin_unlock_irqrestore(&base_crng.lock, flags);
+   370			if (!ready)
+   371				return;
+   372		}
+   373	
+   374		local_lock_irqsave(&crngs.lock, flags);
+   375		crng = raw_cpu_ptr(&crngs);
+   376	
+   377		/*
+   378		 * If our per-cpu crng is older than the base_crng, then it means
+   379		 * somebody reseeded the base_crng. In that case, we do fast key
+   380		 * erasure on the base_crng, and use its output as the new key
+   381		 * for our per-cpu crng. This brings us up to date with base_crng.
+   382		 */
+   383		if (unlikely(crng->generation != READ_ONCE(base_crng.generation))) {
+   384			spin_lock(&base_crng.lock);
+   385			crng_fast_key_erasure(base_crng.key, chacha_state,
+   386					      crng->key, sizeof(crng->key));
+   387			crng->generation = base_crng.generation;
+   388			spin_unlock(&base_crng.lock);
+   389		}
+   390	
+   391		/*
+   392		 * Finally, when we've made it this far, our per-cpu crng has an up
+   393		 * to date key, and we can do fast key erasure with it to produce
+   394		 * some random data and a ChaCha state for the caller. All other
+   395		 * branches of this function are "unlikely", so most of the time we
+   396		 * should wind up here immediately.
+   397		 */
+   398		crng_fast_key_erasure(crng->key, chacha_state, random_data, random_data_len);
+   399		local_unlock_irqrestore(&crngs.lock, flags);
+   400	}
+   401	
 
 -- 
 0-DAY CI Kernel Test Service
