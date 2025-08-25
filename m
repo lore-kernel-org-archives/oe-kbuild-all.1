@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ECAA55
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 05:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6234138D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 06:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756099842; cv=none; b=NEkY5hfwRLyoJGx5G2pCy1xvWPKeW5e9vyRbcpTBYQIqBRojr4m717aXh8fvji3BpI/nyxc/ztqTImoBqsbsg++bjd4leW4JXyOwfat7AN95gvvnp+SuVPzTmNMSZ/v9DfubX/KEArvPMpNOeJiEeyCQHtD71ygeWx6HIxyYKjE=
+	t=1756101628; cv=none; b=sJbVWDELST04yGXZVYLjyhZh1Dv1Xsv0e40qgBNKceOR+NGq/TkHImLDRE/ml8CVZvKItzYWvVAN/uLms3UdQS29opuJZRTUK57ks+/AVVo0ITmyFmytW4ZO40LTL1RKKP9XkLB3bsnUWkoaC8mwH12IH3idlheN8IICi9Z5RGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756099842; c=relaxed/simple;
-	bh=ju3GgnbSDObul5HTVpfGmNGdiu/jI0L5aV6IXWRIc9s=;
+	s=arc-20240116; t=1756101628; c=relaxed/simple;
+	bh=M0ONnD+dfM0uCPXpuNZgy9Yp/5MdIFskw2cWQl0C+Sg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b4m8vv4SZO1KhthPvJAygrD5r+WUymjDAqs8JZQUPqArD27imlmhViwcdTLHYKnhvHE8hbJ6se7S7JNs1BpOiSFKfUGpKXaP1cj8XONOtxVEjG9rye1IGVYQxmwtqvftrZW7IYQ8mbZDzF/WaHbL8gQh2f57V+Twvmytj6FdPzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYNvm5P1; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=i7afjvnjGoP6SIs8a30nY8i+SrJVkqQ189c16V8Ftpxv57ZbB8x78GmXqCyxHnbtyjPwAfjhedmb6I8oZPxKqs0fajEyyeMs1g8NWBEwZF5Byh+PRKx3OOet/Z3UNjxhdxXeImA31/qfK1d+3wpYS6EYlf0Ph7Ftv0Enejfe9RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ugg4QxxU; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYNvm5P1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ugg4QxxU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756099840; x=1787635840;
+  t=1756101625; x=1787637625;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ju3GgnbSDObul5HTVpfGmNGdiu/jI0L5aV6IXWRIc9s=;
-  b=KYNvm5P1r081WFBqAVdDorFzN4wQh4rOLqpxgfTahwXd1t1//Yxsu2uD
-   m8t3vcwc35R6qRrnKszq6MG9E7CBMX8umlLAUQm2qU/MOf4oeeSINi016
-   rqg+od2lK23ZBMUc/4jc2Y8PwuA9WsbEcK9BBwLidZnJ5o3Ht3rjniayk
-   axaqtdU9TOxWPxE0+fQ97fBGzwwTBsLHQAaL+5SLJgkwiGbPyHaXoNmpu
-   0VEzFTmJIRl0UEbLtddccpqm1Ika4TjQzR5OcwLM8DpLaxvmKROVZ2SZ2
-   GBWUmeOwSqQTYo0LlTQBFfMyQzJ+eWbLmkODSWNjr3rpNxnnwfXX/6tzN
-   A==;
-X-CSE-ConnectionGUID: Q15CwtW7RqqHE5dRNL3GyA==
-X-CSE-MsgGUID: G5FO4Kd9TBq0IkOAScGd+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="68573907"
+  bh=M0ONnD+dfM0uCPXpuNZgy9Yp/5MdIFskw2cWQl0C+Sg=;
+  b=Ugg4QxxUvWYMrUpPuAVoPkyGz42H1Bkt9hQu9yOmdlOAPpj7VQYz6Qyy
+   LNOrxT3XiNZjUmZRR24oOh82tPmH1sgtPUfkAJDAKt5pWzhdnL5KVKXN1
+   q15qn19o5G/sXSdKlN3SxY5nC8sQi7YPNBrFV2Tsheaa+FRqO9WrcCm0B
+   ovRGUosYYKnHLoyn6vDU3KvI2fN8uVh44+NZ4oxzDl2RH/Li5/bOLE4S9
+   7bZhupkNYUmPMt+R44GrLtsFwFZwouaCasXNXes0TjFSbN2BiticXtvY2
+   7ivro2ERvGom195pTME0diHn0v3AC9qxAn4ghpuF2YteiZgAnq1bW62mA
+   Q==;
+X-CSE-ConnectionGUID: 4+DscZg+SIGgEx4XuQGI9Q==
+X-CSE-MsgGUID: c/Pj02C4TFmu8fxru2+4CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58233379"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68573907"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 22:30:37 -0700
-X-CSE-ConnectionGUID: U1J68JU+Q6CjFaUNQFjrPw==
-X-CSE-MsgGUID: xtAYi9vsQ2aT64VtFNE9dg==
+   d="scan'208";a="58233379"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 23:00:24 -0700
+X-CSE-ConnectionGUID: 1w9DqEDvQCC7+C6dpsGz6A==
+X-CSE-MsgGUID: 2sIFQAvkQqGJLGPxFElyHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="192864439"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Aug 2025 22:30:36 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="168710172"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 24 Aug 2025 23:00:23 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqPmr-0002H1-2t;
-	Mon, 25 Aug 2025 05:30:33 +0000
-Date: Mon, 25 Aug 2025 07:29:41 +0200
+	id 1uqQFh-000NOx-0j;
+	Mon, 25 Aug 2025 06:00:21 +0000
+Date: Mon, 25 Aug 2025 13:59:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 161/161] mm/swapfile.c:775:5:
- warning: no previous prototype for function 'scan_swap_map_slots'
-Message-ID: <202508250721.hJwlydh6-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 6/6]
+ include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name'
+ defined but not used
+Message-ID: <202508251332.kJNDYwMb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,275 +63,238 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   6c4f5ec4fbbf8b26b10215c34009ad8c2736f46b
-commit: 06c2766cbc9923d67d45fc191c467b5e2685175d [161/161] ANDROID: mm: export symbols used in vendor hook android_vh_get_swap_page()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250825/202508250721.hJwlydh6-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4f15debe13af14e0fd668ee4861aff6dbc5283df)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508250721.hJwlydh6-lkp@intel.com/reproduce)
+Hi xiaofeng,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
+commit: 9fec5f6775ce8c64987468b5890f3dc116b2f4f7 [6/6] ANDROID: psi: Add vendor hooks for PSI tracing
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250825/202508251332.kJNDYwMb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508251332.kJNDYwMb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508250721.hJwlydh6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508251332.kJNDYwMb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/swapfile.c:102:26: warning: no previous prototype for function 'swap_type_to_swap_info' [-Wmissing-prototypes]
-     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
-         |                          ^
-   mm/swapfile.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
-         | ^
-         | static 
->> mm/swapfile.c:775:5: warning: no previous prototype for function 'scan_swap_map_slots' [-Wmissing-prototypes]
-     775 | int scan_swap_map_slots(struct swap_info_struct *si,
-         |     ^
-   mm/swapfile.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     775 | int scan_swap_map_slots(struct swap_info_struct *si,
-         | ^
-         | static 
->> mm/swapfile.c:993:5: warning: no previous prototype for function 'swap_alloc_cluster' [-Wmissing-prototypes]
-     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
-         |     ^
-   mm/swapfile.c:993:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
-         | ^
-         | static 
-   3 warnings generated.
---
->> mm/swap_slots.c:93:6: warning: no previous prototype for function 'check_cache_active' [-Wmissing-prototypes]
-      93 | bool check_cache_active(void)
-         |      ^
-   mm/swap_slots.c:93:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      93 | bool check_cache_active(void)
-         | ^
-         | static 
-   1 warning generated.
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/regmap.h:24,
+                    from drivers/android/vendor_hooks.c:61:
+   include/trace/stages/init.h:2:23: warning: 'str__regmap__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/logbuf.h:25,
+                    from drivers/android/vendor_hooks.c:60:
+   include/trace/stages/init.h:2:23: warning: 'str__logbuf__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/bug.h:16,
+                    from drivers/android/vendor_hooks.c:59:
+   include/trace/stages/init.h:2:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/futex.h:50,
+                    from drivers/android/vendor_hooks.c:58:
+   include/trace/stages/init.h:2:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/bl_hib.h:28,
+                    from drivers/android/vendor_hooks.c:57:
+   include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/psi.h:25,
+                    from drivers/android/vendor_hooks.c:56:
+>> include/trace/stages/init.h:2:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/rwsem.h:36,
+                    from drivers/android/vendor_hooks.c:55:
+   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/thermal.h:18,
+                    from drivers/android/vendor_hooks.c:54:
+   include/trace/stages/init.h:2:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/topology.h:25,
+                    from drivers/android/vendor_hooks.c:53:
+   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/fault.h:32,
+                    from drivers/android/vendor_hooks.c:52:
+   include/trace/stages/init.h:2:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/traps.h:39,
+                    from drivers/android/vendor_hooks.c:51:
+   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
 
 
-vim +/scan_swap_map_slots +775 mm/swapfile.c
+vim +/str__psi__trace_system_name +2 include/trace/stages/init.h
 
-   774	
- > 775	int scan_swap_map_slots(struct swap_info_struct *si,
-   776				       unsigned char usage, int nr,
-   777				       swp_entry_t slots[])
-   778	{
-   779		struct swap_cluster_info *ci;
-   780		unsigned long offset;
-   781		unsigned long scan_base;
-   782		unsigned long last_in_cluster = 0;
-   783		int latency_ration = LATENCY_LIMIT;
-   784		int n_ret = 0;
-   785		bool scanned_many = false;
-   786	
-   787		/*
-   788		 * We try to cluster swap pages by allocating them sequentially
-   789		 * in swap.  Once we've allocated SWAPFILE_CLUSTER pages this
-   790		 * way, however, we resort to first-free allocation, starting
-   791		 * a new cluster.  This prevents us from scattering swap pages
-   792		 * all over the entire swap partition, so that we reduce
-   793		 * overall disk seek times between swap pages.  -- sct
-   794		 * But we do now try to find an empty cluster.  -Andrea
-   795		 * And we let swap pages go all over an SSD partition.  Hugh
-   796		 */
-   797	
-   798		si->flags += SWP_SCANNING;
-   799		/*
-   800		 * Use percpu scan base for SSD to reduce lock contention on
-   801		 * cluster and swap cache.  For HDD, sequential access is more
-   802		 * important.
-   803		 */
-   804		if (si->flags & SWP_SOLIDSTATE)
-   805			scan_base = this_cpu_read(*si->cluster_next_cpu);
-   806		else
-   807			scan_base = si->cluster_next;
-   808		offset = scan_base;
-   809	
-   810		/* SSD algorithm */
-   811		if (si->cluster_info) {
-   812			if (!scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
-   813				goto scan;
-   814		} else if (unlikely(!si->cluster_nr--)) {
-   815			if (si->pages - si->inuse_pages < SWAPFILE_CLUSTER) {
-   816				si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   817				goto checks;
-   818			}
-   819	
-   820			spin_unlock(&si->lock);
-   821	
-   822			/*
-   823			 * If seek is expensive, start searching for new cluster from
-   824			 * start of partition, to minimize the span of allocated swap.
-   825			 * If seek is cheap, that is the SWP_SOLIDSTATE si->cluster_info
-   826			 * case, just handled by scan_swap_map_try_ssd_cluster() above.
-   827			 */
-   828			scan_base = offset = si->lowest_bit;
-   829			last_in_cluster = offset + SWAPFILE_CLUSTER - 1;
-   830	
-   831			/* Locate the first empty (unaligned) cluster */
-   832			for (; last_in_cluster <= si->highest_bit; offset++) {
-   833				if (si->swap_map[offset])
-   834					last_in_cluster = offset + SWAPFILE_CLUSTER;
-   835				else if (offset == last_in_cluster) {
-   836					spin_lock(&si->lock);
-   837					offset -= SWAPFILE_CLUSTER - 1;
-   838					si->cluster_next = offset;
-   839					si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   840					goto checks;
-   841				}
-   842				if (unlikely(--latency_ration < 0)) {
-   843					cond_resched();
-   844					latency_ration = LATENCY_LIMIT;
-   845				}
-   846			}
-   847	
-   848			offset = scan_base;
-   849			spin_lock(&si->lock);
-   850			si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   851		}
-   852	
-   853	checks:
-   854		if (si->cluster_info) {
-   855			while (scan_swap_map_ssd_cluster_conflict(si, offset)) {
-   856			/* take a break if we already got some slots */
-   857				if (n_ret)
-   858					goto done;
-   859				if (!scan_swap_map_try_ssd_cluster(si, &offset,
-   860								&scan_base))
-   861					goto scan;
-   862			}
-   863		}
-   864		if (!(si->flags & SWP_WRITEOK))
-   865			goto no_page;
-   866		if (!si->highest_bit)
-   867			goto no_page;
-   868		if (offset > si->highest_bit)
-   869			scan_base = offset = si->lowest_bit;
-   870	
-   871		ci = lock_cluster(si, offset);
-   872		/* reuse swap entry of cache-only swap if not busy. */
-   873		if (vm_swap_full() && si->swap_map[offset] == SWAP_HAS_CACHE) {
-   874			int swap_was_freed;
-   875			unlock_cluster(ci);
-   876			spin_unlock(&si->lock);
-   877			swap_was_freed = __try_to_reclaim_swap(si, offset, TTRS_ANYWAY);
-   878			spin_lock(&si->lock);
-   879			/* entry was freed successfully, try to use this again */
-   880			if (swap_was_freed)
-   881				goto checks;
-   882			goto scan; /* check next one */
-   883		}
-   884	
-   885		if (si->swap_map[offset]) {
-   886			unlock_cluster(ci);
-   887			if (!n_ret)
-   888				goto scan;
-   889			else
-   890				goto done;
-   891		}
-   892		WRITE_ONCE(si->swap_map[offset], usage);
-   893		inc_cluster_info_page(si, si->cluster_info, offset);
-   894		unlock_cluster(ci);
-   895	
-   896		swap_range_alloc(si, offset, 1);
-   897		slots[n_ret++] = swp_entry(si->type, offset);
-   898	
-   899		/* got enough slots or reach max slots? */
-   900		if ((n_ret == nr) || (offset >= si->highest_bit))
-   901			goto done;
-   902	
-   903		/* search for next available slot */
-   904	
-   905		/* time to take a break? */
-   906		if (unlikely(--latency_ration < 0)) {
-   907			if (n_ret)
-   908				goto done;
-   909			spin_unlock(&si->lock);
-   910			cond_resched();
-   911			spin_lock(&si->lock);
-   912			latency_ration = LATENCY_LIMIT;
-   913		}
-   914	
-   915		/* try to get more slots in cluster */
-   916		if (si->cluster_info) {
-   917			if (scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
-   918				goto checks;
-   919		} else if (si->cluster_nr && !si->swap_map[++offset]) {
-   920			/* non-ssd case, still more slots in cluster? */
-   921			--si->cluster_nr;
-   922			goto checks;
-   923		}
-   924	
-   925		/*
-   926		 * Even if there's no free clusters available (fragmented),
-   927		 * try to scan a little more quickly with lock held unless we
-   928		 * have scanned too many slots already.
-   929		 */
-   930		if (!scanned_many) {
-   931			unsigned long scan_limit;
-   932	
-   933			if (offset < scan_base)
-   934				scan_limit = scan_base;
-   935			else
-   936				scan_limit = si->highest_bit;
-   937			for (; offset <= scan_limit && --latency_ration > 0;
-   938			     offset++) {
-   939				if (!si->swap_map[offset])
-   940					goto checks;
-   941			}
-   942		}
-   943	
-   944	done:
-   945		set_cluster_next(si, offset + 1);
-   946		si->flags -= SWP_SCANNING;
-   947		return n_ret;
-   948	
-   949	scan:
-   950		spin_unlock(&si->lock);
-   951		while (++offset <= READ_ONCE(si->highest_bit)) {
-   952			if (data_race(!si->swap_map[offset])) {
-   953				spin_lock(&si->lock);
-   954				goto checks;
-   955			}
-   956			if (vm_swap_full() &&
-   957			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
-   958				spin_lock(&si->lock);
-   959				goto checks;
-   960			}
-   961			if (unlikely(--latency_ration < 0)) {
-   962				cond_resched();
-   963				latency_ration = LATENCY_LIMIT;
-   964				scanned_many = true;
-   965			}
-   966		}
-   967		offset = si->lowest_bit;
-   968		while (offset < scan_base) {
-   969			if (data_race(!si->swap_map[offset])) {
-   970				spin_lock(&si->lock);
-   971				goto checks;
-   972			}
-   973			if (vm_swap_full() &&
-   974			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
-   975				spin_lock(&si->lock);
-   976				goto checks;
-   977			}
-   978			if (unlikely(--latency_ration < 0)) {
-   979				cond_resched();
-   980				latency_ration = LATENCY_LIMIT;
-   981				scanned_many = true;
-   982			}
-   983			offset++;
-   984		}
-   985		spin_lock(&si->lock);
-   986	
-   987	no_page:
-   988		si->flags -= SWP_SCANNING;
-   989		return n_ret;
-   990	}
-   991	EXPORT_SYMBOL_GPL(scan_swap_map_slots);
-   992	
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
