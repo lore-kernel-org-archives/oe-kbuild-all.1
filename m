@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E25747F;
-	Mon, 25 Aug 2025 23:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97254747F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 23:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756165330; cv=none; b=JgFH3+GY527ma94BQABTd+gcmmw0z1fvGT3gDpPmnjhXiFyasl6LF6lsvnPUHbQyyiaJwr75FtXPVOBgKrYz1fm6NGZUuz4YhCEx3pWDqiF3IXNR9lxtkD2jYGAK9U5n7ifZo96TluhAyE473uwjOBGa9K5xUsPyB5DqV9383c4=
+	t=1756165346; cv=none; b=BTGtxzVmWrKurQA+fzhj37eYJuAdORC691Xp4IJcZdtFC/MfATJS4hilYF8AGgcrvcOg4v1FMhxqb82mJYriHNJCmEwhP8ucz5vk1a2Bulh3EVURV+TZQKLLUkIRgtyc0dx8y5Ki8t688vmyRacil4CcKl/G3pIpkcgF9/1vw4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756165330; c=relaxed/simple;
-	bh=J367x8GJDZMLTwx8qc/sItzW7eQs4mCr/b+cuY5NxP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fwv8pjYdeOEeHgF9kPQu3Vq2HpdbVEif1IgG/SPRA/w0UoJkIR1s32c9ZiEbXBlzJOqQQ3jRPnaKI8FRQy9lyzgwq7AIVmp/5YMkT+bhUt8pTEaDEIoYZ3Ne40dScFF9l1QmwaVm5o7BtcxT9VBCYjXdu/n9cCrKjf3x3vnfuMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IcnZBpQs; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1756165346; c=relaxed/simple;
+	bh=aTaiOCaabUdMcsCEl4hboxYpF4X7woo8TQgwVapNfzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I3jdEAE/xldQssLK7EsLR+fghACCA083DfqAQ1cKGsTKY8ZqKmq4W+PdQSsVcPBuu4qRR/JuCfMbZ+QYWz1JWyoXN0nHd0OwVRRsIczuRe2XpTDrjrXCOoMgbeBVIIBTUnecXEg7yDnEnMHcEiMjVrkViOVgoEJQoX5QvBHKy1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2rIeJF2; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IcnZBpQs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2rIeJF2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756165328; x=1787701328;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J367x8GJDZMLTwx8qc/sItzW7eQs4mCr/b+cuY5NxP8=;
-  b=IcnZBpQsX6O14Z3wbJNKy7JHnZRYRRxjDFANfG/USgbEXbiMDDxWqV9c
-   Yb2MMKA0HQ8aNJgO3zqlHPAX33x9LwTAdeKPv7du05Ci0BSNR6ipmZjIv
-   qRXqsG6cwYv7WJ/fHvfCzMrGKqGGqxyKA/G9rO+V3sNtnmzHZ99COMRah
-   DMxqzxa/Us0Qe1Pc+g2mLWaUzYSL/XAnC1KHlHVyufE0eoe2xjkN3ZAAL
-   Uw9+UP4SypRjU/7PMaMIe+u055zg1RUDe32oOz71r3nPwVGts3UMTbAcR
-   Zbf045B4G/EqA9SA+v/3q1rBa9MGeniTQ+mGmf+vLQ56eLVqSTdq3KYUP
+  t=1756165344; x=1787701344;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aTaiOCaabUdMcsCEl4hboxYpF4X7woo8TQgwVapNfzw=;
+  b=A2rIeJF2i36SAV4ZuwYiDtuCe+OfQjI7fUejDV3JHmRflPu1nD6HEw4M
+   TpT6CqaOdPL8NUi8JfojrwEZJEqMaakJMcOTi6J1sGw8b30wXtVeoxIH6
+   rBd6iYwo3Wz/Q/c1ISETY9sC19khqJ02T8vJDsAoZsxgNyWm2t/NYkuGI
+   vYPvD5bEeiWkN2z+idY0KOioJBttqwPxyEwsF07+Zwf5/IIvEJ0KMvpv7
+   jYXGhlb0FqZwMXJzJLmhLS+ulo4kIq5U9VdgbjRXhLwmi6FpoCK4Oc449
+   xmgIxMH23Gv1vHl8svZjIWudcgDPGeib0oAreEhqSvlD9Zl7zl6Nnw1M7
    w==;
-X-CSE-ConnectionGUID: y/AuZw65SSSzY3Q+g6IApw==
-X-CSE-MsgGUID: sqWl/4hESDGUgnyCseDBKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="80981786"
+X-CSE-ConnectionGUID: A9MAWUHWSR6A+j//2oviRQ==
+X-CSE-MsgGUID: bY/D4z3eR5KzlYM48qHYsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62217190"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="80981786"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 16:42:07 -0700
-X-CSE-ConnectionGUID: ZQLJOKNrSkypbFLo7ru5Gg==
-X-CSE-MsgGUID: jg/agINJQwqHtf0ttoLzjg==
+   d="scan'208";a="62217190"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 16:42:24 -0700
+X-CSE-ConnectionGUID: vtAdCTj8Qv2HgqF29TgXHQ==
+X-CSE-MsgGUID: zjss2Ge8QxOZmX0BG5l5VA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169020979"
+   d="scan'208";a="193089572"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 25 Aug 2025 16:41:54 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Aug 2025 16:42:23 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqgoV-000O4R-2c;
-	Mon, 25 Aug 2025 23:41:27 +0000
-Date: Tue, 26 Aug 2025 07:41:18 +0800
+	id 1uqgox-000O4T-0e;
+	Mon, 25 Aug 2025 23:41:54 +0000
+Date: Tue, 26 Aug 2025 07:41:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
-	viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
-	corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
-	ray.huang@amd.com, gautham.shenoy@amd.com,
-	mario.limonciello@amd.com, perry.yuan@amd.com,
-	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-tegra@vger.kernel.org, treding@nvidia.com,
-	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
-	sanjayc@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
-Subject: Re: [PATCH v2 1/7] ACPI: CPPC: add perf control read API and clarify
- naming
-Message-ID: <202508260711.I7imWLTG-lkp@intel.com>
-References: <20250823200121.1320197-2-sumitg@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 6/6]
+ include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name'
+ defined but not used
+Message-ID: <202508260700.GAmEfrfE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,98 +62,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250823200121.1320197-2-sumitg@nvidia.com>
 
-Hi Sumit,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.17-rc3 next-20250825]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-CPPC-add-perf-control-read-API-and-clarify-naming/20250824-040531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250823200121.1320197-2-sumitg%40nvidia.com
-patch subject: [PATCH v2 1/7] ACPI: CPPC: add perf control read API and clarify naming
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250826/202508260711.I7imWLTG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260711.I7imWLTG-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   c4523fe1e7d3970f898de09e766d30dc74b84277
+commit: 4e873ad60721c94eff5fe2e50b13163a7dfc26fe [6/6] ANDROID: user: Add vendor hook to user for GKI purpose
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250826/202508260700.GAmEfrfE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260700.GAmEfrfE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508260711.I7imWLTG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508260700.GAmEfrfE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/cpufreq/amd-pstate.c:524:8: error: call to undeclared function 'cppc_set_perf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     524 |         ret = cppc_set_perf(cpudata->cpu, &perf_ctrls);
-         |               ^
-   drivers/cpufreq/amd-pstate.c:524:8: note: did you mean 'cppc_set_epp'?
-   include/acpi/cppc_acpi.h:170:12: note: 'cppc_set_epp' declared here
-     170 | extern int cppc_set_epp(int cpu, u64 epp_val);
-         |            ^
-   1 error generated.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/user.h:21,
+                    from drivers/android/vendor_hooks.c:77:
+>> include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/suspend.h:28,
+                    from drivers/android/vendor_hooks.c:76:
+   include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/ogki_honor.h:31,
+                    from drivers/android/vendor_hooks.c:75:
+   include/trace/stages/init.h:2:23: warning: 'str__ogki_honor__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/fuse.h:24,
+                    from drivers/android/vendor_hooks.c:74:
+   include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/fsnotify.h:23,
+                    from drivers/android/vendor_hooks.c:73:
+   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/blk.h:47,
+                    from drivers/android/vendor_hooks.c:72:
+   include/trace/stages/init.h:2:23: warning: 'str__blk__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
 
 
-vim +/cppc_set_perf +524 drivers/cpufreq/amd-pstate.c
+vim +/str__user__trace_system_name +2 include/trace/stages/init.h
 
-e059c184da47e9 Huang Rui         2021-12-24  480  
-77fbea69b0ffad Mario Limonciello 2024-12-09  481  static int shmem_update_perf(struct cpufreq_policy *policy, u8 min_perf,
-555bbe67a622b2 Dhananjay Ugwekar 2025-02-05  482  			     u8 des_perf, u8 max_perf, u8 epp, bool fast_switch)
-e059c184da47e9 Huang Rui         2021-12-24  483  {
-77fbea69b0ffad Mario Limonciello 2024-12-09  484  	struct amd_cpudata *cpudata = policy->driver_data;
-e059c184da47e9 Huang Rui         2021-12-24  485  	struct cppc_perf_ctrls perf_ctrls;
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  486  	u64 value, prev;
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  487  	int ret;
-e059c184da47e9 Huang Rui         2021-12-24  488  
-fff395796917ac Mario Limonciello 2024-12-09  489  	if (cppc_state == AMD_PSTATE_ACTIVE) {
-77fbea69b0ffad Mario Limonciello 2024-12-09  490  		int ret = shmem_set_epp(policy, epp);
-fff395796917ac Mario Limonciello 2024-12-09  491  
-fff395796917ac Mario Limonciello 2024-12-09  492  		if (ret)
-fff395796917ac Mario Limonciello 2024-12-09  493  			return ret;
-fff395796917ac Mario Limonciello 2024-12-09  494  	}
-fff395796917ac Mario Limonciello 2024-12-09  495  
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  496  	value = prev = READ_ONCE(cpudata->cppc_req_cached);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  497  
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  498  	value &= ~(AMD_CPPC_MAX_PERF_MASK | AMD_CPPC_MIN_PERF_MASK |
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  499  		   AMD_CPPC_DES_PERF_MASK | AMD_CPPC_EPP_PERF_MASK);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  500  	value |= FIELD_PREP(AMD_CPPC_MAX_PERF_MASK, max_perf);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  501  	value |= FIELD_PREP(AMD_CPPC_DES_PERF_MASK, des_perf);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  502  	value |= FIELD_PREP(AMD_CPPC_MIN_PERF_MASK, min_perf);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  503  	value |= FIELD_PREP(AMD_CPPC_EPP_PERF_MASK, epp);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  504  
-77fbea69b0ffad Mario Limonciello 2024-12-09  505  	if (trace_amd_pstate_epp_perf_enabled()) {
-77fbea69b0ffad Mario Limonciello 2024-12-09  506  		union perf_cached perf = READ_ONCE(cpudata->perf);
-77fbea69b0ffad Mario Limonciello 2024-12-09  507  
-77fbea69b0ffad Mario Limonciello 2024-12-09  508  		trace_amd_pstate_epp_perf(cpudata->cpu,
-77fbea69b0ffad Mario Limonciello 2024-12-09  509  					  perf.highest_perf,
-77fbea69b0ffad Mario Limonciello 2024-12-09  510  					  epp,
-77fbea69b0ffad Mario Limonciello 2024-12-09  511  					  min_perf,
-77fbea69b0ffad Mario Limonciello 2024-12-09  512  					  max_perf,
-77fbea69b0ffad Mario Limonciello 2024-12-09  513  					  policy->boost_enabled,
-77fbea69b0ffad Mario Limonciello 2024-12-09  514  					  value != prev);
-77fbea69b0ffad Mario Limonciello 2024-12-09  515  	}
-77fbea69b0ffad Mario Limonciello 2024-12-09  516  
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  517  	if (value == prev)
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  518  		return 0;
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  519  
-e059c184da47e9 Huang Rui         2021-12-24  520  	perf_ctrls.max_perf = max_perf;
-e059c184da47e9 Huang Rui         2021-12-24  521  	perf_ctrls.min_perf = min_perf;
-e059c184da47e9 Huang Rui         2021-12-24  522  	perf_ctrls.desired_perf = des_perf;
-e059c184da47e9 Huang Rui         2021-12-24  523  
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09 @524  	ret = cppc_set_perf(cpudata->cpu, &perf_ctrls);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  525  	if (ret)
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  526  		return ret;
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  527  
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  528  	WRITE_ONCE(cpudata->cppc_req_cached, value);
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  529  
-9f5daa2f2f6ddd Mario Limonciello 2024-12-09  530  	return 0;
-e059c184da47e9 Huang Rui         2021-12-24  531  }
-e059c184da47e9 Huang Rui         2021-12-24  532  
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
