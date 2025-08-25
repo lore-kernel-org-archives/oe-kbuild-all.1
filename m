@@ -1,45 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E477D28725B;
-	Mon, 25 Aug 2025 20:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D717E28C841
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 21:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756152441; cv=none; b=OtuovZBxsuTeENb0J2vvkbC3T4on7aA1tp1YLqoMu7fGlKh3FF5mdH2u9koBY2PtBQKdzZpNFmtwHHl3EP/t6Wf51iTIbOx/Zkht+UjtknrD/oQgqnSYvp8o/hBa00rDq8UEvLOSWnxtIcFS+pi4dNJ6hz4C5lLLYMKLJzQvU0M=
+	t=1756157193; cv=none; b=MFIjSwRSywGvDbgfVQIgPcil1mWuzwFBn8aVo3IBK3eyI7Yy+32psjnPLeDNYvxcxmq3GOMy/PUzB6LORpCWJ7eBM5bORADywEMs9ZI23iK3nMPQ7X/FzYLOwXDvAcrNXZ/12cXlRUuzRx5ZH6BxEQgRj8LOBTTOTJK25cr2T8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756152441; c=relaxed/simple;
-	bh=/3rKbaJD+w6nURlr7+uhBX9TAhFoWk7q48ExNb7Wiq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YSYcfuSIZUIj3ORBTky639/jmEyzY3naOz1y9Ix9bzGQnl/AQdXBX4VdQXOgTswCZTdwhdZO7ScGETaeb5dmBqKyZOwEpbwZN17ixLdK07u46C03pXh8X8M3IO0+hM+6gCZoQrTVlw6GIWpV0hfNBrlIC++u6awCSB44NTnLUxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okZorsbX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756157193; c=relaxed/simple;
+	bh=BcQldclkhfhZe5udScDXrYXm6vp6qxpH2MyDEwcyuXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r8bTv0EFh44OhwxziDMfRHo/2s+TUeEJGF/uK9nJnUCc1SyGGif/87iYWxeBgIZiHq8yyYGG8HiMSisRNpFFi0cK+O1P62LEbhkasjeN/V4SxjYa4oPfCSeQnk+WJoSSWXEOHhUi96rhzq7GafE6c40MOhB49nXchuOU/a4EEGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SD8YyJxA; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okZorsbX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9BC1C116B1;
-	Mon, 25 Aug 2025 20:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756152440;
-	bh=/3rKbaJD+w6nURlr7+uhBX9TAhFoWk7q48ExNb7Wiq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=okZorsbXLxI1C0tQJOJhpXkygrsAezPT+G9FqvCMtkuufdEJvwjZLRFO0eFxfdzbt
-	 4OU30VK3uzdtYHYGiKx51p+O4tgSHQ2BZDZEgWg2P6W/r2+1jZ8sRTH/203KgV057Q
-	 FV06YSnofD90bfoZch8IdffPcpOfHe230rO4CQaZlPBY7iAaqbfuGAvlNoecDVs12c
-	 JkrNfKYI33pZOXcAyup821Zi7LB+eNk/nGLE3f9lv2oacQrymSVCYdEsoHvu7cX6fO
-	 G2IFhjdufyv25hx2skCeLhtVbLKFTXKOr1In9l7fAhz7f0Sy4ZNl8aOarP9h/eyD84
-	 rW9rN/C+94/HA==
-Date: Mon, 25 Aug 2025 13:07:15 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, Rohan McLure <rmclure@linux.ibm.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Donnellan <ajd@linux.ibm.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: Re: [akpm-mm:mm-new 216/233]
- arch/riscv/include/asm/pgtable.h:951:36: error: too few arguments to
- function call, expected 3, have 2
-Message-ID: <20250825200715.GA598466@ax162>
-References: <202508230551.qiEQu04P-lkp@intel.com>
- <20250822150906.7a6a87a7a8ad69f2ad67c817@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SD8YyJxA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756157191; x=1787693191;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BcQldclkhfhZe5udScDXrYXm6vp6qxpH2MyDEwcyuXk=;
+  b=SD8YyJxAmHzemamZjI9MSP/VKsLMwlWGFqjbig/XLSphzRa5Qi4LRZhI
+   gBNJwScPcI9f90Uhi/XbQgRvadvcuu6ByUzT0Mnyo7dV23SxP5K4LBB5u
+   +9KOn5id8OVjL3dASl+9cSbLj2YDIFmufSdrPwc7lbNdkc8RunIcZI7rz
+   G4pzu+jqv5Nr8YrkYcmM9e8inRlCJOuMhYi6IFh0Gj6fYTI+TvFn52Nmo
+   pjOQ43qC9iQKmbH3UbAJz1thLMejl76rNF6K+fbc+vDbeJoHV+XDSvasP
+   MTGswbqpnPzYH0hTk7vqyZx7X1D22NetB6jDLKPtSM2y6/Lc1+tNgBy/l
+   g==;
+X-CSE-ConnectionGUID: rALFLIfcTxGnAkATIoXC8w==
+X-CSE-MsgGUID: /7SUMnkrS2q8IAv0vyyOOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69754088"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69754088"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 14:26:30 -0700
+X-CSE-ConnectionGUID: P0hnL5OyQ1mDqdv+3V9NTw==
+X-CSE-MsgGUID: vNtyd7olRKO6Al6+9YPZ3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="173573148"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 25 Aug 2025 14:26:29 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uqehu-000O1D-2n;
+	Mon, 25 Aug 2025 21:26:26 +0000
+Date: Tue, 26 Aug 2025 05:26:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 6/6]
+ include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name'
+ defined but not used
+Message-ID: <202508260523.4GPwfOV6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,63 +62,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250822150906.7a6a87a7a8ad69f2ad67c817@linux-foundation.org>
 
-On Fri, Aug 22, 2025 at 03:09:06PM -0700, Andrew Morton wrote:
-> On Sat, 23 Aug 2025 05:30:45 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> > head:   a8af4c2fd982fd94fffde3c5b6b764fd20af68fe
-> > commit: e009b0f3187482a5756ff3b015cf30277cc1cfd9 [216/233] mm/page_table_check: reinstate address parameter in [__]page_table_check_pud_clear()
-> 
-> > config: riscv-randconfig-001-20250823 (https://download.01.org/0day-ci/archive/20250823/202508230551.qiEQu04P-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230551.qiEQu04P-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202508230551.qiEQu04P-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    In file included from arch/riscv/kernel/asm-offsets.c:8:
-> >    In file included from include/linux/mm.h:31:
-> >    In file included from include/linux/pgtable.h:6:
-> > >> arch/riscv/include/asm/pgtable.h:951:36: error: too few arguments to function call, expected 3, have 2
-> >      951 |         page_table_check_pud_clear(mm, pud);
-> >          |         ~~~~~~~~~~~~~~~~~~~~~~~~~~        ^
-> 
-> Thanks, I added this:
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   c4523fe1e7d3970f898de09e766d30dc74b84277
+commit: 258557effaabe1936cf4ad1fbd110b6168b79105 [6/6] ANDROID: power: Add vendor hook for suspend
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250826/202508260523.4GPwfOV6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260523.4GPwfOV6-lkp@intel.com/reproduce)
 
-It appears that this fix patch was applied to the wrong patch. The error
-is about page_table_check_pud_check().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508260523.4GPwfOV6-lkp@intel.com/
 
-> --- a/arch/riscv/include/asm/pgtable.h~mm-page_table_check-reinstate-address-parameter-in-page_table_check_pud_set-fix
+All warnings (new ones prefixed by >>):
 
-But this change is about page_table_check_pud_set(), so -next is now
-broken in the opposite way
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/suspend.h:28,
+                    from drivers/android/vendor_hooks.c:75:
+>> include/trace/stages/init.h:2:23: warning: 'str__suspend__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/ogki_honor.h:31,
+                    from drivers/android/vendor_hooks.c:74:
+   include/trace/stages/init.h:2:23: warning: 'str__ogki_honor__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/fuse.h:24,
+                    from drivers/android/vendor_hooks.c:73:
+   include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/fsnotify.h:23,
+                    from drivers/android/vendor_hooks.c:72:
+   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/blk.h:47,
+                    from drivers/android/vendor_hooks.c:71:
+   include/trace/stages/init.h:2:23: warning: 'str__blk__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/madvise.h:26,
+                    from drivers/android/vendor_hooks.c:69:
+   include/trace/stages/init.h:2:23: warning: 'str__madvise__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
 
-  arch/riscv/include/asm/pgtable.h:951:42: error: too many arguments to function call, expected 2, have 3
-    951 |         page_table_check_pud_clear(mm, address, pud);
-        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~              ^~~
-  include/linux/page_table_check.h:125:20: note: 'page_table_check_pud_clear' declared here
-    125 | static inline void page_table_check_pud_clear(struct mm_struct *mm, pud_t pud)
-        |                    ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-as it does not appear that e009b0f3187482a5756ff3b015cf30277cc1cfd9
-is there.
+vim +/str__suspend__trace_system_name +2 include/trace/stages/init.h
 
-> +++ a/arch/riscv/include/asm/pgtable.h
-> @@ -948,7 +948,7 @@ static inline pud_t pudp_huge_get_and_cl
->  {
->  	pud_t pud = __pud(atomic_long_xchg((atomic_long_t *)pudp, 0));
->  
-> -	page_table_check_pud_clear(mm, pud);
-> +	page_table_check_pud_clear(mm, address, pud);
->  
->  	return pud;
->  }
-> _
-> 
-> 
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
