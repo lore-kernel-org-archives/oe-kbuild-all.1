@@ -1,67 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BA22DCC04
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 16:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7E51AAE28;
+	Mon, 25 Aug 2025 17:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756141045; cv=none; b=HlkB2MPlvxNwLB3pAkJoPbQ9YjTqqS1Mg/C0Fz06FVhVXIp5XEjTx6OC3jzAE8XoPhrXC+IB3Tmjliypz2RTX4rxgI7YBQlrKsLJBk/UNu6w1+9k388qj2Jx1A7PjG0O/VRzPk1uNG+PrQ3U8Y6RV2aevie4N83uIijhIQVbP5E=
+	t=1756141256; cv=none; b=eEhZxWdOVa8qYV0To11AQlCmywcwrYH/+JDw5z8D03M2BQySm0ZCy0jdp4XLkZRMm7XaLg3gE6V2zBHlVT34xwqVvgmcSo7/NNOVjvbFRetihZ6hekcvNkvM+7o6vsTNiITYFylv3iQrE2dCrBl8F/uRrMN3clpOeUOcVRr2uEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756141045; c=relaxed/simple;
-	bh=sEe2Kjb73cyMrklNt7i9Cp03Sqbobdi1D7T+QgIjmDk=;
+	s=arc-20240116; t=1756141256; c=relaxed/simple;
+	bh=1Z4ORSovtvvaNkQ+/6ndCHaX0jPA3Hwaci9NzSHhf6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eG4WWNZL42f4yZ6UFNA2pmX4iURB+iuWONkRl0XEDssLPzwym+pRLu9eg6vUYB+UiEfpK0ayjP+XDnLxxOiC10IhOiAbo9kI4sJ7eiEeuZ2QZlZ5A/6GH+SORPBOiP7P5jiwFQlFuxCm0y5edpkya2ximPU29iIF/Sv7fTA3DME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baiFo9bD; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oX2Wu8FgfGO1AWzumprt/WgaWwPYP+yZ4938M+UuVe9txZVxqSx7ZrNcuWNawoLIDW/caF19VerOo9OS3lx5CPsTM2Ob7afznWNpnngEF3/oFQimM/NsAE7e41/gOGVgSBnYI3Yue5aNvAibWLPpH4VBb12rc5EtppcG/SfnTBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s2vA+T68; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baiFo9bD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756141044; x=1787677044;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sEe2Kjb73cyMrklNt7i9Cp03Sqbobdi1D7T+QgIjmDk=;
-  b=baiFo9bDUG8zCllqXePc694tKZAcii/TQRg2MTkdbPkIFC8s0dVSTfvB
-   +0ZDx7SqAJMj0SKevOGRrsqZ6j6H/VEqyf9UFmsVN1EqIVM+ZAlTf45Em
-   HRZ4l+fghW7YIVhwCZCN84lOZvCYoPeVWoRbk5Pv+JLEwFOhLJWRL/0+t
-   NGs3I9BGkcbVv84gSEVHufOmB7ydPGjIQ+XfMN9fKTsWsq4owzxZ/prVC
-   KCJHZuMtJCC9MyRHkI/PfAfYP7rs+NZma+EjbzVbN/CVnKlqpGez5hNdQ
-   hBw/ua8QLRFu4D9HBhTADJecko7qnKK0fDwja4L+/gomABnDdK++ybJMf
-   w==;
-X-CSE-ConnectionGUID: UzGIJvCAQOe5abNj6b9oiw==
-X-CSE-MsgGUID: ga3golYIR/CIbPPZalgdSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62186817"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62186817"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 09:57:23 -0700
-X-CSE-ConnectionGUID: QJvU2XXuQtmQ6GJE7DHYVg==
-X-CSE-MsgGUID: TgJFq6KJTFiNM3UGwwHrzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="173744658"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Aug 2025 09:57:19 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uqaVQ-000Nrr-1p;
-	Mon, 25 Aug 2025 16:57:16 +0000
-Date: Tue, 26 Aug 2025 00:56:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	bjorn@kernel.org, magnus.karlsson@intel.com,
-	maciej.fijalkowski@intel.com, jonathan.lemon@gmail.com,
-	sdf@fomichev.me, ast@kernel.org, daniel@iogearbox.net,
-	hawk@kernel.org, john.fastabend@gmail.com, horms@kernel.org,
-	andrew+netdev@lunn.ch
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
-Subject: Re: [PATCH net-next v2 5/9] xsk: add xsk_alloc_batch_skb() to build
- skbs in batch
-Message-ID: <202508260022.JtJJJkAw-lkp@intel.com>
-References: <20250825135342.53110-6-kerneljasonxing@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s2vA+T68"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02248C116C6;
+	Mon, 25 Aug 2025 17:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756141256;
+	bh=1Z4ORSovtvvaNkQ+/6ndCHaX0jPA3Hwaci9NzSHhf6s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s2vA+T68CnBMVPSzEkwD1YmdEYkHnhuTCjyuGS1j+ZepnDAZVnW/lr9J/EGMt/MHa
+	 6uYnRxA60bAcSeVZ3oOgaoPLb69e36eSQjBNpzvYID9SsvuIROelTtpLuQMHHgxTBB
+	 SscqAJbrGtzN0pODKosgr1mdQFxsVYTD9ryF8I+Lo6DlIUhF8RCNlY/Fc9Yw/NGKn+
+	 KBBO4+MHOWyVY3Lt5nAxpwA5eANvMz2c//B2KsENCC0kUVTWkcEm0sSpes0ok4WVHf
+	 K8xnx1PQF738U+GFG7ElSSGnWaF2VKeAeHTd8OehQwmTq+h8tf2OMo0kkSfRvXEGGL
+	 M8lw9Ddn8shQQ==
+Date: Mon, 25 Aug 2025 10:00:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+	Roman Kisel <romank@linux.microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Alok Tiwari <alok.a.tiwari@oracle.com>,
+	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>
+Subject: Re: [linux-next:master 3139/4234] error: <unknown>:0:0: ran out of
+ registers during register allocation in function 'hv_call_get_vp_registers'
+Message-ID: <20250825170051.GB2719297@ax162>
+References: <202508240828.pVaUV45D-lkp@intel.com>
+ <56833fbe-0ea1-4a0d-8d5b-809d983d3ab9@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,32 +49,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825135342.53110-6-kerneljasonxing@gmail.com>
+In-Reply-To: <56833fbe-0ea1-4a0d-8d5b-809d983d3ab9@linux.microsoft.com>
 
-Hi Jason,
+Hi Naman,
 
-kernel test robot noticed the following build errors:
+On Sun, Aug 24, 2025 at 11:13:51PM +0530, Naman Jain wrote:
+> 
+> 
+> On 8/24/2025 12:02 PM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   0f4c93f7eb861acab537dbe94441817a270537bf
+> > commit: 96a1d2495c2f48467a91b8657bd594350b84ea9e [3139/4234] Drivers: hv: Introduce mshv_vtl driver
+> > config: i386-buildonly-randconfig-2003-20250824 (https://download.01.org/0day-ci/archive/20250824/202508240828.pVaUV45D-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240828.pVaUV45D-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202508240828.pVaUV45D-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > > > error: <unknown>:0:0: ran out of registers during register allocation in function 'hv_call_get_vp_registers'
+> > > > error: <unknown>:0:0: ran out of registers during register allocation in function 'hv_call_set_vp_registers'
+> > > > error: <unknown>:0:0: ran out of registers during register allocation in function 'hv_call_get_partition_property'
+> >     3 errors generated.
+> > 
+> 
+> +Nathan
+> 
+> I can see a bunch of similar warnings previously reported, in different
+> functions, but could not find a fix for it, or if this
+> is a blocking error:
+> 
+> https://lore.kernel.org/all/?q=s%3A%22ran+out+of+registers+during+register+allocation%22
+> 
+> These all are reported on below 32 bit config, compiled with LLVM:
+> i386-buildonly-randconfig-*
+> 
+> Found previous comment from Nathan Chancellor, here, which seems to be
+> related to this error:
+> https://lore.kernel.org/all/20250507022649.GA1984217@ax162/
+> 
+> """
+> This configuration has CONFIG_MATOM=y, which does not really work well
+> with clang for this reason and some others that have come up in the
+> past. Given it is likely that nobody will care enough to fix this on the
+> LLVM side (since it is 32-bit), we should probably just block using
+> MATOM with CC_IS_CLANG, which Arnd and I had talked about at the last
+> ClangBuiltLinux meeting.
+> """
+> 
+> This gives me an impression that we can safely ignore these errors from
+> kernel test bot.
+> Requesting Nathan to please correct me if I am wrong.
 
-[auto build test ERROR on net-next/main]
+Yes, this is all correct. I will try to pursue an actual kernel side fix
+for this in Kconfig but I think the Intel folks can also start ignoring
+these reports for ARCH=i386 and CONFIG_MATOM so that they do not get
+sent to other kernel developers for random changes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/xsk-introduce-XDP_GENERIC_XMIT_BATCH-setsockopt/20250825-220610
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250825135342.53110-6-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next v2 5/9] xsk: add xsk_alloc_batch_skb() to build skbs in batch
-config: i386-buildonly-randconfig-001-20250825 (https://download.01.org/0day-ci/archive/20250826/202508260022.JtJJJkAw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260022.JtJJJkAw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508260022.JtJJJkAw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: net/core/skbuff.o: in function `xsk_alloc_batch_skb':
->> skbuff.c:(.text+0x7e69): undefined reference to `xsk_build_skb'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
