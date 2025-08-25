@@ -1,125 +1,99 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35444A08;
-	Mon, 25 Aug 2025 01:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65052139E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 01:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756084034; cv=none; b=bdBqMoPbwfu0u+HU/NC5I1a7uw/jkGsk7B5Bj9bbDtU8EuiPHnkcb1rzlUGnk8lU1C6oXJfudK060f3L8C/lofRsv0l2UERo1j4Tixr9XTBeEQ5YWW+jnN1FvlOFN0KdcpS7Qpxb1MgDFH6+txcxWhK0A2OTPi9oHnE6obvP3kE=
+	t=1756084816; cv=none; b=CdLcnl0uNkEZHa35BT2pxWE3NyATVkKYHzKjDhzq4lFtWCOR08O+Lu1H9cd5fkemGc3a3ufGpSNK9l9MVQP+WgzPd/TVlV599+BxLbnYW87vsK1HZW888kbh5XaDii3rDsgrQdwoVdCLIx5lnpewKYGZU1CnQltK9z706QgGwPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756084034; c=relaxed/simple;
-	bh=qzvjptTdbu1HRrNm17uglIEKW/C3ojiHltnOpJd8zPM=;
+	s=arc-20240116; t=1756084816; c=relaxed/simple;
+	bh=i0RXekYR/78nngGBKq7LfKNLYqV8jqmvi+5G0IVH1+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGHCQDm0HgfOsygrKM5EXw+qjsSx2pDsC04IimRZjlXZAWL2Z9dq/pBnx35a8ylN3A5rP+MLUmbfk4MjLecrI28ARgHru6ogvReqxh13XITSEYfq+hSkOQs/JaCClTs1ws5vtAKws3A1opfaY+zf/aWMhVePluus9d7Wu1gJs2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UnFCW2Jv; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dO24+cXrFM9VKcNakyUTteJBkP7tVwAxg/Jc0D92Dh+i2tFXRccyk9TvxHLYTCniNYa4lt2YoUxWONZI/cAYget6LBh+5TheqWka1dVrdCnAinR2mNzbINsyjMc1D13Hsf4qO1fNJ4sXRfTA3wwLkDRmE80gnZd0wEWUQjGjzaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBSloFax; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UnFCW2Jv"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1756084023; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=hT7fyki4cRVVgwQPXO+m+tGFXjnan9mDi20ca9rK7Dw=;
-	b=UnFCW2Jvw40YBuQq9nQKWhWcZOIhKAsqXz84ruyZUWh1yy2xJEEKN04AOs2ZR0Wm/S9LUDE+0kFiGPfPc+ewS4S11zLCOyNOoDDE+ej8oAqSYuCzEGp93C9ZrNVP81gt+ZzuqZByyy0amQxqyWGbfPmdiHRhZuYm+2eb4hp/CF0=
-Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0WmPcp-O_1756083701 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Aug 2025 09:01:42 +0800
-Date: Mon, 25 Aug 2025 09:01:41 +0800
-From: Feng Tang <feng.tang@linux.alibaba.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Lance Yang <lance.yang@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	paulmck@kernel.org, john.ogness@linutronix.de,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] panic: Clean up message about deprecated
- 'panic_print' parameter
-Message-ID: <aKu19RZ4tffb8eNC@U-2FWC9VHC-2323.local>
-References: <aKRJKZHgcxyNF3y7@pathway.suse.cz>
- <202508200907.PsZ3geub-lkp@intel.com>
- <ae9bb2ea-c6e5-4a4b-ae25-aea1d6fe084d@linux.dev>
- <33a897b4-7d9a-4641-9c7a-07c19bb9cb6f@linux.dev>
- <7a34da58-874d-4271-9dbb-7991468d58ff@linux.dev>
- <aKWWcPOf9qPIoCe4@pathway.suse.cz>
- <aKWYELPjbhC7R8NO@pathway.suse.cz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBSloFax"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756084815; x=1787620815;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i0RXekYR/78nngGBKq7LfKNLYqV8jqmvi+5G0IVH1+g=;
+  b=KBSloFax/rObWuRFFUeziOlfg4OaonkgK7BZ1jZCtkXtMlI/Ci4aaCAR
+   5bM14AoNVWSaaPh4L4V95rqHlcJj4/IINL23bRyv15i22VM3FMIMYQFud
+   dxoi0mFkFLGpwf15LBSN55zjRlQz/r5gJuJeHtaLCoXbOhJl/7LkoDyCE
+   oisLMoSm/2Ngh3Eibi0wJzYFXVuVgGbfctzTDqzb5QEpPtp0NP0nG2waN
+   aNnxQ/rrt1YxnX9TGDszuxD/M45Ruq2zjfjE7KU2dAyWte+XqqOa6Zb6P
+   auV38oqDZ1jaNOHeogkst5hSQdQhDdVMq1KEWqIUYVhD47p7EF4/N3H5/
+   Q==;
+X-CSE-ConnectionGUID: Ve9uNLVdTiybtlQAOdlgvw==
+X-CSE-MsgGUID: ZWMnuWv/TzGhPqcf627jRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="69395211"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="69395211"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 18:20:14 -0700
+X-CSE-ConnectionGUID: c631AIrjRRKQ4uvTXEIvbg==
+X-CSE-MsgGUID: kSUpzhevSlqVTHXoTMLhbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="174444050"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Aug 2025 18:20:12 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uqLsP-000NIV-1s;
+	Mon, 25 Aug 2025 01:20:07 +0000
+Date: Mon, 25 Aug 2025 09:19:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>, jic23@kernel.org,
+	robh@kernel.org, conor+dt@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
+Subject: Re: [PATCH v5 4/6] iio: adc: add ade9000 support
+Message-ID: <202508250933.cmESvJJG-lkp@intel.com>
+References: <20250822160157.5092-5-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aKWYELPjbhC7R8NO@pathway.suse.cz>
+In-Reply-To: <20250822160157.5092-5-antoniu.miclaus@analog.com>
 
-On Wed, Aug 20, 2025 at 11:40:32AM +0200, Petr Mladek wrote:
-> Remove duplication of the message about deprecated 'panic_print'
-> parameter.
-> 
-> Also make the wording more direct. Make it clear that the new
-> parameters already exist and should be used instead.
-> 
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
+Hi Antoniu,
 
-Thanks for the cleanup!
+kernel test robot noticed the following build errors:
 
-Reviewed-by: Feng Tang <feng.tang@linux.alibaba.com>
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on robh/for-next linus/master v6.17-rc3 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> ---
-> Changes since v1:
-> 
->   - fixed compilation with CONFIG_SYSCTL disabled (kernel test
->     robot <lkp@intel.com>)
-> 
-> Thanks Lance Yang <lance.yang@linux.dev> for debugging the compilation
-> error reported by the test robot.
-> 
->  kernel/panic.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index 12a10e17ab4a..24bca263f896 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -77,6 +77,11 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
->  
->  EXPORT_SYMBOL(panic_notifier_list);
->  
-> +static void panic_print_deprecated(void)
-> +{
-> +	pr_info_once("Kernel: The 'panic_print' parameter is now deprecated. Please use 'panic_sys_info' and 'panic_console_replay' instead.\n");
-> +}
-> +
->  #ifdef CONFIG_SYSCTL
->  
->  /*
-> @@ -125,7 +130,7 @@ static int proc_taint(const struct ctl_table *table, int write,
->  static int sysctl_panic_print_handler(const struct ctl_table *table, int write,
->  			   void *buffer, size_t *lenp, loff_t *ppos)
->  {
-> -	pr_info_once("Kernel: 'panic_print' sysctl interface will be obsoleted by both 'panic_sys_info' and 'panic_console_replay'\n");
-> +	panic_print_deprecated();
->  	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
->  }
->  
-> @@ -944,13 +949,13 @@ core_param(panic_console_replay, panic_console_replay, bool, 0644);
->  
->  static int panic_print_set(const char *val, const struct kernel_param *kp)
->  {
-> -	pr_info_once("Kernel: 'panic_print' parameter will be obsoleted by both 'panic_sys_info' and 'panic_console_replay'\n");
-> +	panic_print_deprecated();
->  	return  param_set_ulong(val, kp);
->  }
->  
->  static int panic_print_get(char *val, const struct kernel_param *kp)
->  {
-> -	pr_info_once("Kernel: 'panic_print' parameter will be obsoleted by both 'panic_sys_info' and 'panic_console_replay'\n");
-> +	panic_print_deprecated();
->  	return  param_get_ulong(val, kp);
->  }
->  
-> -- 
-> 2.50.1
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-add-IIO_ALTCURRENT-channel-type/20250823-001017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250822160157.5092-5-antoniu.miclaus%40analog.com
+patch subject: [PATCH v5 4/6] iio: adc: add ade9000 support
+config: i386-randconfig-r123-20250824 (https://download.01.org/0day-ci/archive/20250825/202508250933.cmESvJJG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508250933.cmESvJJG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508250933.cmESvJJG-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "devm_clk_register" [drivers/iio/adc/ade9000.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
