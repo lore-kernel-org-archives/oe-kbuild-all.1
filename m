@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA55521CC44
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 19:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B341825A357
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 19:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756148633; cv=none; b=W7rRjcUPhTf9YZ68OCTolIR6v7mfN1Hxlpj6ow5CfkU08i6FcKwnKAy2DFXu5e0K7k0+MgIBRSAeyrvI/uQBYWqZ1+7+0mpIKFUcvWtI4j16sMAgTHGlHKvA/psKECUJGGDIRDRodK2NJCy/55xJovE0VgAuMVfFMZV8LLC0Vys=
+	t=1756149877; cv=none; b=oc6o83QG2/2npItHI6Uzzzd6hdCjQWxCHmiBtVDEumojKW4c215Q5q/IwCywbLqICZ3zK8qWrBOhR+JFlBxRbnHbIM3hgFnJR8UcqoK90yJP2j8CEfvj06sP0t+fyyUirnlkRuthMLMisMNsJIVEaxYAjiOPJAIx4Sv0FWL3ab8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756148633; c=relaxed/simple;
-	bh=zhuhRNMhZZPdQH0Nk7F8pSVd3sfOGWRA5uoVWFNRWXA=;
+	s=arc-20240116; t=1756149877; c=relaxed/simple;
+	bh=qaQnBju8kfpKFBjb6dtQ+akGSMQCcgYSQGWUCYrqBY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jqoQ6SlpQFHf5Tn0eZlukLlbMus8kwUI0FbhzELGJEERpNl3HYtUv7TSkjQ2TeJUZhrwogxlhfs0B8WyJUvMTgL0YJ85z56gtKovqbI5Bp0Ftf6wJCG+B6bfngXPGS/6tmzxm1aDvcGdP0YjJyr5uu5kQ8DoECXpRcm0tiDrHY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2T/VHbr; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Hg9byxde6gfQeDu++HnrkVAfrCqd311ata+OnjLbEu1EwaosxE7oqAwYDcE7/3m+1O379W/atAiRneKsv0FGMZbrsBX9MLZ6ZaOfpW6qNQCeBpBkYupPh0RrDZfpBzs7p0QK3uSyHY4uf0+f9EwJa5+25WlS8br7LWNPYrPzN4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVEUCzj+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2T/VHbr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVEUCzj+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756148631; x=1787684631;
+  t=1756149876; x=1787685876;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zhuhRNMhZZPdQH0Nk7F8pSVd3sfOGWRA5uoVWFNRWXA=;
-  b=L2T/VHbrlxQj3wr2Um36qFrZ4I6AslioBZZJKKYXr05CabFTJ9GgyGLu
-   2v10aXMv11Q8nkgcWO2IQwiyC1LhnENemiOgl8qqoR2RYQ3/4n6Mcq3vt
-   H6GWRI0Zay5JaYvOuqEYmAEv5u7aFUUKmI0fAULP1GWoNbmT9ojuL2/zA
-   c1D99C0LchGjXpvhEG3XkT0YHCWarkA7oV5IxMJoj3UbYFwYjwa9LDYqt
-   sDq6JuIwOQrOr6ZkRzazD3peTYU/LGtmjyFOT5++MnTQ2D6o3joEoLVvu
-   VdHQTVE++2j/R9AINMFUOWkAw4ZAbQjgC3tF4DK5SxISGU0vp46WJ24AR
-   w==;
-X-CSE-ConnectionGUID: rMKOe+82Rkm/j+fyrl5fYw==
-X-CSE-MsgGUID: CgWnb13fQJqYRBEmwaL4yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58078609"
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="58078609"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 12:03:49 -0700
-X-CSE-ConnectionGUID: VotcSsvqQ5G4CdeiPtb1cQ==
-X-CSE-MsgGUID: K0ZZqjy2SV2rZ3NkU2mcvA==
+  bh=qaQnBju8kfpKFBjb6dtQ+akGSMQCcgYSQGWUCYrqBY0=;
+  b=TVEUCzj+D9p26LVmHI/T4Jwcs61w/rBfnUZJEc4jUcB3nSo1TRQ/Es/J
+   GhedUm2/h2QvLQlVsVVmFPbz3Ldwht8lkDcrQ7y5qiZm9R44gOPWCdi5w
+   0MhiY2rrFomFEhMoVxG/fcJ6TILVyTcFxLTcmxSLq5VV1KRHxXYBibIh0
+   KPCM7ky6fWCKPITjbYBbS3qmPoeDH38gxDaliFDHsk/9ftQaYVzzbTuFx
+   FFuZ1PBDCoYRWW5oL4S7SzY+5ONofGlzlTv3lzTCsrZfVQdNPh56yqsbB
+   TpriwQisfxDNKkS/pTjxTADhPt2R9Yd6DXPLymtvivxI05bwMgmD5ohtJ
+   g==;
+X-CSE-ConnectionGUID: 5k7IVCiVSD+rVp3ybPVN4Q==
+X-CSE-MsgGUID: 3yresum9TyySmjNMSYJAPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="61006252"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="61006252"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 12:24:34 -0700
+X-CSE-ConnectionGUID: Qf6YGPYnQweCP93N7UatLg==
+X-CSE-MsgGUID: JGAD+geKTCSg44FCq2qj3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="174647307"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="193043776"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Aug 2025 12:03:48 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Aug 2025 12:24:33 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqcTp-000Nwb-2c;
-	Mon, 25 Aug 2025 19:03:45 +0000
-Date: Tue, 26 Aug 2025 03:01:19 +0800
+	id 1uqcn7-000Nxf-0Y;
+	Mon, 25 Aug 2025 19:24:10 +0000
+Date: Tue, 26 Aug 2025 03:23:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-5.10-GNR-perf-uncore-ANBZ24140 0/2]
- mm/memory_hotplug.c:664:12: warning: no previous prototype for function
- '__move_pfn_range_to_zone'
-Message-ID: <202508260242.OmVRDV6a-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2725/2725] kismet: WARNING: unmet direct
+ dependencies detected for RESCTRL_FS when selected by ARM64_MPAM
+Message-ID: <202508260331.bV3mRcFF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +62,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-GNR-perf-uncore-ANBZ24140
-head:   5b97140220e2f9196fa5de48f6be468691f8b43b
-commit: 6c4a83f3c62b8ef3f8bd1ec3c1d374bf0e12713d [0/2] anolis: mm/memory_hotplug: refactor move_pfn_range_to_zone()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250826/202508260242.OmVRDV6a-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260242.OmVRDV6a-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   90c9bda5f31a94a3097afa522e7d2c94de817288
+commit: c5a4bf91167c714de74c47f5cd6d888c66e9860d [2725/2725] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
+config: arm64-kismet-CONFIG_RESCTRL_FS-CONFIG_ARM64_MPAM-0-0 (https://download.01.org/0day-ci/archive/20250826/202508260331.bV3mRcFF-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250826/202508260331.bV3mRcFF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508260242.OmVRDV6a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508260331.bV3mRcFF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> mm/memory_hotplug.c:664:12: warning: no previous prototype for function '__move_pfn_range_to_zone' [-Wmissing-prototypes]
-     664 | void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
-         |            ^
-   mm/memory_hotplug.c:664:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     664 | void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
-         | ^
-         | static 
-   mm/memory_hotplug.c:995:6: warning: no previous prototype for function '__adjust_present_page_count' [-Wmissing-prototypes]
-     995 | void __adjust_present_page_count(struct page *page, struct memory_group *group,
-         |      ^
-   mm/memory_hotplug.c:995:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     995 | void __adjust_present_page_count(struct page *page, struct memory_group *group,
-         | ^
-         | static 
-   2 warnings generated.
-
-
-vim +/__move_pfn_range_to_zone +664 mm/memory_hotplug.c
-
-   663	
- > 664	void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
-   665					  unsigned long nr_pages, struct vmem_altmap *altmap,
-   666					  int migratetype, int phase)
-   667	{
-   668		struct pglist_data *pgdat = zone->zone_pgdat;
-   669		int nid = pgdat->node_id;
-   670		unsigned long flags;
-   671	
-   672		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_PREPARE) {
-   673	#ifdef KIDLED_AGE_NOT_IN_PAGE_FLAGS
-   674			kidled_free_page_age(pgdat);
-   675	#endif
-   676			clear_zone_contiguous(zone);
-   677	
-   678			/* TODO Huh pgdat is irqsave while zone is not. It used to be like that before */
-   679			pgdat_resize_lock(pgdat, &flags);
-   680			zone_span_writelock(zone);
-   681			if (zone_is_empty(zone))
-   682				init_currently_empty_zone(zone, start_pfn, nr_pages);
-   683			resize_zone_range(zone, start_pfn, nr_pages);
-   684			zone_span_writeunlock(zone);
-   685			resize_pgdat_range(pgdat, start_pfn, nr_pages);
-   686			pgdat_resize_unlock(pgdat, &flags);
-   687		}
-   688	
-   689		/*
-   690		 * TODO now we have a visible range of pages which are not associated
-   691		 * with their zone properly. Not nice but set_pfnblock_flags_mask
-   692		 * expects the zone spans the pfn range. All the pages in the range
-   693		 * are reserved so nobody should be touching them so we should be safe
-   694		 */
-   695		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_DEFERRED)
-   696			memmap_init_zone(nr_pages, nid, zone_idx(zone), start_pfn, 0,
-   697				 MEMINIT_HOTPLUG, altmap, migratetype);
-   698	
-   699		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_PREPARE)
-   700			set_zone_contiguous(zone);
-   701	}
-   702	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for RESCTRL_FS when selected by ARM64_MPAM
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+     Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+     Selected by [y]:
+     - ARM64_MPAM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
