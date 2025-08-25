@@ -1,205 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97F483A14
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 00:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35444A08;
+	Mon, 25 Aug 2025 01:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756082289; cv=none; b=inCir5ZTMTImgoxBeORTJ9rywea4l4/5vMzZfkiiv2RING8ozMbDj5xMt5RdPowSzggcurisuVvHjNYQzJVd/dkhPneAsdtwHh3jEZxVLr2eXnCnDzqt+S3si4IrNzaP6rLMrXWu7LYX/11mfUes3/jSUYtZ3IZ/TEezvrWJ1vk=
+	t=1756084034; cv=none; b=bdBqMoPbwfu0u+HU/NC5I1a7uw/jkGsk7B5Bj9bbDtU8EuiPHnkcb1rzlUGnk8lU1C6oXJfudK060f3L8C/lofRsv0l2UERo1j4Tixr9XTBeEQ5YWW+jnN1FvlOFN0KdcpS7Qpxb1MgDFH6+txcxWhK0A2OTPi9oHnE6obvP3kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756082289; c=relaxed/simple;
-	bh=SXaNRO2i6oiCkGd2v1+LLmjUtn7baXSMAq7MCBR3WAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZqvZSoIz5WZtnaw6Jax9d9GEQUW+x2AAPNl3jggyXAK8j5Ti/iExYKkqSA/rAC8AjQO6jnEpIq41k7KRQm6oEuZKj7hGvGNNkrxZC1hjsai+cgb1dJ2D70YtU4a+NqcZ2YzlBdQMfx1acSCKXC/3sLqugVEse0ktp7oxzzanIm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AK/0k924; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756084034; c=relaxed/simple;
+	bh=qzvjptTdbu1HRrNm17uglIEKW/C3ojiHltnOpJd8zPM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DGHCQDm0HgfOsygrKM5EXw+qjsSx2pDsC04IimRZjlXZAWL2Z9dq/pBnx35a8ylN3A5rP+MLUmbfk4MjLecrI28ARgHru6ogvReqxh13XITSEYfq+hSkOQs/JaCClTs1ws5vtAKws3A1opfaY+zf/aWMhVePluus9d7Wu1gJs2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UnFCW2Jv; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AK/0k924"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756082288; x=1787618288;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SXaNRO2i6oiCkGd2v1+LLmjUtn7baXSMAq7MCBR3WAM=;
-  b=AK/0k924CMyByxCCUI/gGT2S7XcRLAkhtOiAcf88cZEI64zRpZbDjpW7
-   Vd87OTd4QrEgCu3/m0K98kSeRTT1mVM5ApTpxNrXSuEIxUx0In6kKd2o/
-   2aAsTj0oAyVdB51b3hcawrjhxCTdWrnAkL2iH5WZ8Q6R9IzM0patM16aW
-   pwxjOEFBOZFSt94Bmut7jSmXx2daWKMzERUim7UiSqrvS4iCebimKCaoX
-   weihfW1LfKjmINtMZGE+CqAYGvfpTI7Sb3lwfRrZcg3LA90BawrlJGxbt
-   zSxAsnKK7iLblJ6TLH4UsDol3R1h/7g05Q2/g4iVhtKoNV4NSG64T3Ddj
-   A==;
-X-CSE-ConnectionGUID: /6i7lA0FTly5ib/3HxppxQ==
-X-CSE-MsgGUID: f+iYPSPOT5mA1JHKocSoNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="75885036"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="75885036"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 17:38:07 -0700
-X-CSE-ConnectionGUID: OsjDqdGTTs63CWDRqlcJ7g==
-X-CSE-MsgGUID: 26XaUsIXRoCpw6aIvg0OsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="168661551"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Aug 2025 17:38:06 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uqLDo-000NHT-0R;
-	Mon, 25 Aug 2025 00:38:04 +0000
-Date: Mon, 25 Aug 2025 08:37:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 6/6]
- include/trace/stages/init.h:2:23: warning: 'str__madvise__trace_system_name'
- defined but not used
-Message-ID: <202508250857.gWfQUrui-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UnFCW2Jv"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1756084023; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=hT7fyki4cRVVgwQPXO+m+tGFXjnan9mDi20ca9rK7Dw=;
+	b=UnFCW2Jvw40YBuQq9nQKWhWcZOIhKAsqXz84ruyZUWh1yy2xJEEKN04AOs2ZR0Wm/S9LUDE+0kFiGPfPc+ewS4S11zLCOyNOoDDE+ej8oAqSYuCzEGp93C9ZrNVP81gt+ZzuqZByyy0amQxqyWGbfPmdiHRhZuYm+2eb4hp/CF0=
+Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0WmPcp-O_1756083701 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Aug 2025 09:01:42 +0800
+Date: Mon, 25 Aug 2025 09:01:41 +0800
+From: Feng Tang <feng.tang@linux.alibaba.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Lance Yang <lance.yang@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	paulmck@kernel.org, john.ogness@linutronix.de,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] panic: Clean up message about deprecated
+ 'panic_print' parameter
+Message-ID: <aKu19RZ4tffb8eNC@U-2FWC9VHC-2323.local>
+References: <aKRJKZHgcxyNF3y7@pathway.suse.cz>
+ <202508200907.PsZ3geub-lkp@intel.com>
+ <ae9bb2ea-c6e5-4a4b-ae25-aea1d6fe084d@linux.dev>
+ <33a897b4-7d9a-4641-9c7a-07c19bb9cb6f@linux.dev>
+ <7a34da58-874d-4271-9dbb-7991468d58ff@linux.dev>
+ <aKWWcPOf9qPIoCe4@pathway.suse.cz>
+ <aKWYELPjbhC7R8NO@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <aKWYELPjbhC7R8NO@pathway.suse.cz>
 
-Hi Sooyong,
+On Wed, Aug 20, 2025 at 11:40:32AM +0200, Petr Mladek wrote:
+> Remove duplication of the message about deprecated 'panic_print'
+> parameter.
+> 
+> Also make the wording more direct. Make it clear that the new
+> parameters already exist and should be used instead.
+> 
+> Signed-off-by: Petr Mladek <pmladek@suse.com>
 
-FYI, the error/warning still remains.
+Thanks for the cleanup!
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   3f8a5612f90e91c6acf0f22bb5fa67ad1ce1c1e4
-commit: f966514ece78a211b2647e082fa9b85d000bc170 [6/6] ANDROID: madvise: add vendor hook to bypass process madvise
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250825/202508250857.gWfQUrui-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508250857.gWfQUrui-lkp@intel.com/reproduce)
+Reviewed-by: Feng Tang <feng.tang@linux.alibaba.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508250857.gWfQUrui-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/madvise.h:17,
-                    from drivers/android/vendor_hooks.c:66:
->> include/trace/stages/init.h:2:23: warning: 'str__madvise__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/compaction.h:17,
-                    from drivers/android/vendor_hooks.c:65:
-   include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/signal.h:22,
-                    from drivers/android/vendor_hooks.c:64:
-   include/trace/stages/init.h:2:23: warning: 'str__signal__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/dmabuf.h:20,
-                    from drivers/android/vendor_hooks.c:63:
-   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/power.h:38,
-                    from drivers/android/vendor_hooks.c:62:
-   include/trace/stages/init.h:2:23: warning: 'str__power__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/softlockup.h:17,
-                    from drivers/android/vendor_hooks.c:61:
-   include/trace/stages/init.h:2:23: warning: 'str__softlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-
-
-vim +/str__madvise__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+> Changes since v1:
+> 
+>   - fixed compilation with CONFIG_SYSCTL disabled (kernel test
+>     robot <lkp@intel.com>)
+> 
+> Thanks Lance Yang <lance.yang@linux.dev> for debugging the compilation
+> error reported by the test robot.
+> 
+>  kernel/panic.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 12a10e17ab4a..24bca263f896 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -77,6 +77,11 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+>  
+>  EXPORT_SYMBOL(panic_notifier_list);
+>  
+> +static void panic_print_deprecated(void)
+> +{
+> +	pr_info_once("Kernel: The 'panic_print' parameter is now deprecated. Please use 'panic_sys_info' and 'panic_console_replay' instead.\n");
+> +}
+> +
+>  #ifdef CONFIG_SYSCTL
+>  
+>  /*
+> @@ -125,7 +130,7 @@ static int proc_taint(const struct ctl_table *table, int write,
+>  static int sysctl_panic_print_handler(const struct ctl_table *table, int write,
+>  			   void *buffer, size_t *lenp, loff_t *ppos)
+>  {
+> -	pr_info_once("Kernel: 'panic_print' sysctl interface will be obsoleted by both 'panic_sys_info' and 'panic_console_replay'\n");
+> +	panic_print_deprecated();
+>  	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
+>  }
+>  
+> @@ -944,13 +949,13 @@ core_param(panic_console_replay, panic_console_replay, bool, 0644);
+>  
+>  static int panic_print_set(const char *val, const struct kernel_param *kp)
+>  {
+> -	pr_info_once("Kernel: 'panic_print' parameter will be obsoleted by both 'panic_sys_info' and 'panic_console_replay'\n");
+> +	panic_print_deprecated();
+>  	return  param_set_ulong(val, kp);
+>  }
+>  
+>  static int panic_print_get(char *val, const struct kernel_param *kp)
+>  {
+> -	pr_info_once("Kernel: 'panic_print' parameter will be obsoleted by both 'panic_sys_info' and 'panic_console_replay'\n");
+> +	panic_print_deprecated();
+>  	return  param_get_ulong(val, kp);
+>  }
+>  
+> -- 
+> 2.50.1
