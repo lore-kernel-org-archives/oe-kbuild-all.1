@@ -1,185 +1,289 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D56226A1D9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 12:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A562AF1D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 13:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756125005; cv=none; b=nYQB/K0waaRgO2PVUJwShLvnojW0T6nAqH18iKitL2d9znxf2CWvSu4Jx/RKCqaBhaBUZlqNnyGSR6MpZcuT74ImViEz+ptGj84zHXCa9nmzd1sUlhZv9eNtOYf6k6vwc+fDcd6n9K4sMiboSYAU+GAKynegjPaUs1SH/pmWiRA=
+	t=1756126843; cv=none; b=mtF2Gikf6hQFKlKtCi5DUa13dZmIgaA3I9xD+QvFLUjyCElZQ8ocg2LPBzIhXvVSaj3gIBDc0KCTOtl4fDcxi/HWB5jemB00Qb0xz9NOCh8Dsn/yZ8tADv2GR+lzgFr6KpyofTmrGGjVRsf+L9UfyTFuXj9BKnLa2FQl9JsV+AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756125005; c=relaxed/simple;
-	bh=ExYtDl8b02EtpqCAt8WmRq9xU6azl3VSXlsL8MpzVzw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QXEdH77IIHKl5ITJ/xFnXktHR2gJM9UDGU7H63ILzjl8afIsNcnnFPrsqeU71LljpNpuAgic55lDkWmcula0VEdq4A1VlCytfXGZIwsW+s/BCBSH3rKL3plSv5BhFXUgPUGeqV9+ygxiLLLANT1RtFQ0KpsnocNhKAZTmY5Az60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N92dL++x; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756126843; c=relaxed/simple;
+	bh=xf3DOQMVrG91iKbl7ipebCFVekmIKqtuQ81G7G/taU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=AX3uFDt9XwzOtpMVvDPLUh0TuqvSD7eWDwiqCi1sAGjKAf98uy6BD/EgZ++aEWmaGz5/o74bmurBJdnhYLVg+I2W/ZXwX2AiWiyUXoXOMJNimZ0U27IFwUKeIEJvn8mYJrwct/JmASU/ENtqHFp8UodidEeZJ6sAbyf+d3Zh2Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aw8HLN0I; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N92dL++x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756125003;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=1qkP7cC48R3McdGtVAl1xmnxt2NnQDjW6KguPLzrpC8=;
-	b=N92dL++xSAOrZES8dtD4a8e71m1fnmgiuwdb3x3BPE7aVQgTT/zwkVt+xdu39TOweEL65u
-	IPdPQsoyIXUEuFP0IY1x9QJDbDHmhEc8iQE002CNw6ikkMs1Ny+YUCI34Xi8EEZ3ga3jjv
-	4svSyWIkqQbOKwnWnBdkH/JHOvLugYA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-294-JHqfwUDZPruFsvVyBKmXGw-1; Mon, 25 Aug 2025 08:30:01 -0400
-X-MC-Unique: JHqfwUDZPruFsvVyBKmXGw-1
-X-Mimecast-MFC-AGG-ID: JHqfwUDZPruFsvVyBKmXGw_1756125000
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3c8bc2914a9so623498f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 05:30:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aw8HLN0I"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3c8fe6bd038so611029f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 06:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756126840; x=1756731640; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/0VK2T6V+Aj0ASKId11YflidkPTxQI3Y2JHVgkJXJUY=;
+        b=aw8HLN0Ib8DgKqsSVNvIVxykQFJnzGPpCNNuvHdtQVxZ9hL8dNuTIwlzORmYmEMocz
+         4Vzt4kJRivjQrZMYVnbxveWoINozTsryaWX8pbXdMn5LOi3t/wglsN62E86ArReXAx+l
+         8ATP5HPi3lD1vbdDCbFeAlp/57NEGBVr+bnD6gYl6IKgc6gDabSg0OvBZurmWc+Mf7aX
+         l4yfXxsfr7FSa+p9Vfwe6d9AkUnV12uwDXaIn/vTPOF1M75EL+aVw9vsVDiipOyKzCH4
+         FLCe8VBo3xVaQmb5XMKOTDKBsFUFHO/8iJRa18SfumLvY3Wv7xVvB3kk1i6igftFLdat
+         jGQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756125000; x=1756729800;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756126840; x=1756731640;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1qkP7cC48R3McdGtVAl1xmnxt2NnQDjW6KguPLzrpC8=;
-        b=o8XAnSLpEH6isN62cwrVO/D5mdKBMiJPTIEx0fO9LjyaUCDlbUGdSoW/D1Dsa6gHlM
-         nfOROZSJyHYa9AV1xK1E6LnQy7Tn0zb7m3kc45dHt6ytF/Fg4ZqAoORgofyrzACW2jTQ
-         GfX7ZP5Bnjxk8vcCZSzDGhvGIffw8PWPiRUNjZm3wsPlRgubeX/A7BsKT4mHc4bR7pEe
-         sb2elxpQKJ5ho0nWhJuy38V06KZCzXt8mdYv95XXGxwvten5bS4wdv0ql3nuAu4H44Tz
-         kNsE5M3AIIHcJPji0qAlkMafdTYDEEl3C0F5eCF3pyLCkwj/3Cqf/dsUJQkE8VFyhu4/
-         PmfQ==
-X-Gm-Message-State: AOJu0YxGw1f83qCuJpJkvJC+wwHdxQQbA2TUO3Sed0RB6wGXzZzo7vIS
-	Hl4t5B7fMDJelNLMYSX9BhB2HdpP1id5wUy8Y3PVkvvfE/iLSfSOyW8MDfqUlyIRMM5nBdUwvvJ
-	ExYI2CftWN4HhgPmeXYk1cxgGmj+nnu3K7sL3rn6lWE1KmcP6uYF0Z0fnjuBT02M2xbE=
-X-Gm-Gg: ASbGncsqMI8gHyaLA0MqV+6ayZBV8/V28AJHs5nt34NOyH79hv/nls/FUVwCSE/Ehaq
-	JTuaXorCh+MjOOylCAewavT+C/Ul0jVVbgvtAv6Pq78NWW9xBDsxsR5OtlRyyBlxxhMaMkxzfa2
-	nZgMZrniF/k6iTFfoGGeVi0R3jkVWi9i7qkilUwM/X5PTpK4qkkvzOFfswQi6gLu6+PFmF1irVW
-	Nlo9lWXMxZVBapZT/SJ8ikxzIKYJRLzJwZGjzU+OCP2l1cw1ojXK9Izs4MJm345g2xPyzoZcyR9
-	tku3FmhdHTQxBs0clygsdNcZqAsMDNEDOs4DKmoDJnIlKM3Wtr81OxQ/xeJQiTMe0sKjB6uTjaR
-	j/SBaNIV/U3C1pt80u6nUGQBKebVGSsz9bUI4K2HQEWZ0pyWm94awpdJq2aN9gAv6mJA=
-X-Received: by 2002:a05:6000:4287:b0:3b8:ffd1:80d2 with SMTP id ffacd0b85a97d-3c5dac1aae7mr11054364f8f.24.1756125000385;
-        Mon, 25 Aug 2025 05:30:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyzvAMPfQuR1qLbhAVikypL96VkyB/QYgs0RchKjLOu+NkcDo15lGJc6glNklhghjHWJxl4A==
-X-Received: by 2002:a05:6000:4287:b0:3b8:ffd1:80d2 with SMTP id ffacd0b85a97d-3c5dac1aae7mr11054345f8f.24.1756124999946;
-        Mon, 25 Aug 2025 05:29:59 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76? (p200300d82f4f130042f198e5ddf83a76.dip0.t-ipconnect.de. [2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b5f28fa02sm50710175e9.11.2025.08.25.05.29.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 05:29:59 -0700 (PDT)
-Message-ID: <b066d806-5fc5-42a8-b0db-74ca5b454683@redhat.com>
-Date: Mon, 25 Aug 2025 14:29:58 +0200
+        bh=/0VK2T6V+Aj0ASKId11YflidkPTxQI3Y2JHVgkJXJUY=;
+        b=qdTmczwVwGOKMe8C3dhTxQyPfRxysE5yw5yC4SJ39sDo9lVJtd4KAs6AXAjGaxUw59
+         Kna5+wZT2xaLY7BSqCAFGfVfC7ZyyH6foAGtNvE1ZyxCv3o0SYJkEindDuMifd7Kolst
+         JZz1GHtp5mcC7yceHXOIdXUf04e8xNiuziUWkONM32Hb6x7RHVEGKx1b4OLUILjHLOvj
+         Q97Pm3V5hb+XcrMJmF33PQNFQTGkAOGY10Px1/L2fgCxaCsPsgtXeXHS7KJCl0J6U5c1
+         qR51TU8xXnKGkR71iu1vMsfWbAuD5Pef5sdMMgsbeDw9Pt7ZF6iT17/r7J6FBOefUEfL
+         kl8g==
+X-Forwarded-Encrypted: i=1; AJvYcCX/A+Z6pUyEO487NIfoC6dm14HVSeOShgryngiYKEnb1ajH5BJfn/4Xw0xBjVwcRGtL5P895TOCXB0ojVlX@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7/6lyuFZ+Y/Y9zQ/Yi9ZUnfy/GBRoGajuRYhXnmRbIt2fS5f1
+	jNicT4MV+oh+OZoHqQqIgMl8kabnMiN+nhkMDgV58MnRVab/wVViFzf5IAT8GthXhH4=
+X-Gm-Gg: ASbGnctbG0nJ8P2BR1NA5Z+74QlCBT/7qnfhmpF6jJrOMwKXblQ09uaDYn7j6L0AMHt
+	KSw81wMCg2bEx6T/0zJRel8qmDY4ag+3PKizr3A/FqIkjyCpL0BSk33Ob7eNfSarIKDnE32w0Zg
+	8VfUw9Xpb7iRf4mY9wy63ieSv5VDUNkDO7f7gIqBMVyvP9p3R+JYoypC3CyqL2Y59zWm3ZZquqi
+	9S2cz050vAbogDWewRuVj5ykK6EqdmnRYLblX2GvZt0VUE8eSupjqkgtUoEPs0rSib3ZVxf0Bp5
+	dV/mSOQH/sCct8D+PHWLWAiSxjf7i+9kCsH3PPPeSWiYyjOePg9EI/HAqdaikHrsPms1feFX75+
+	7p49SHb1SKLjCVxwBQ9meRzei8d3MD3sfX6+f5w==
+X-Google-Smtp-Source: AGHT+IFKESXASQM+VKjSbNLcCSsxhZD3d1Nqd+0rOXEx7HybgyHMMHJuEk3zwIeA8eDEbkWtc7wtdQ==
+X-Received: by 2002:a05:6000:2dc2:b0:3a1:f5c4:b81b with SMTP id ffacd0b85a97d-3c5daefc754mr9642267f8f.23.1756126839858;
+        Mon, 25 Aug 2025 06:00:39 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c7112129b9sm11538216f8f.34.2025.08.25.06.00.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Aug 2025 06:00:39 -0700 (PDT)
+Date: Mon, 25 Aug 2025 16:00:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	jic23@kernel.org, robh@kernel.org, conor+dt@kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
+Subject: Re: [PATCH v5 4/6] iio: adc: add ade9000 support
+Message-ID: <202508250158.KQ6WdkKh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-unstable 102/221] include/linux/pgtable.h:2000:17:
- error: implicit declaration of function 'VM_WARN_ON_ONCE'; did you mean
- 'WARN_ON_ONCE'?
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-References: <202508250425.yEOYgcC5-lkp@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <202508250425.yEOYgcC5-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: oUSOYoiMojwifAbgI_Trsfr7JaiUvGk-Hq_WMfFLxvI_1756125000
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822160157.5092-5-antoniu.miclaus@analog.com>
 
-On 24.08.25 22:10, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   3c3393d4b766eebdc475ea5bd6bbd3a221e2526e
-> commit: d2e502b0fe1166f68c7ca5815e73ad12bf87e74d [102/221] mm/memory: convert print_bad_pte() to print_bad_page_map()
-> config: xtensa-nommu_kc705_defconfig (https://download.01.org/0day-ci/archive/20250825/202508250425.yEOYgcC5-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508250425.yEOYgcC5-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508250425.yEOYgcC5-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from arch/xtensa/include/asm/io.h:19,
->                      from include/linux/io.h:12,
->                      from lib/iomem_copy.c:8:
->     include/linux/pgtable.h: In function 'pgtable_level_to_str':
->>> include/linux/pgtable.h:2000:17: error: implicit declaration of function 'VM_WARN_ON_ONCE'; did you mean 'WARN_ON_ONCE'? [-Wimplicit-function-declaration]
->      2000 |                 VM_WARN_ON_ONCE(1);
->           |                 ^~~~~~~~~~~~~~~
->           |                 WARN_ON_ONCE
-> 
+Hi Antoniu,
 
-The bot really had to try hard finding a config where that doesn't work :)
+kernel test robot noticed the following build warnings:
 
-#syz test
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 9f0329d45b1e1..94249e671a7e8 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1997,7 +1997,6 @@ static inline const char 
-*pgtable_level_to_str(enum pgtable_level level)
-  	case PGTABLE_LEVEL_PGD:
-  		return "pgd";
-  	default:
--		VM_WARN_ON_ONCE(1);
-  		return "unknown";
-  	}
-  }
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-add-IIO_ALTCURRENT-channel-type/20250823-001017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250822160157.5092-5-antoniu.miclaus%40analog.com
+patch subject: [PATCH v5 4/6] iio: adc: add ade9000 support
+config: arm-randconfig-r072-20250824 (https://download.01.org/0day-ci/archive/20250825/202508250158.KQ6WdkKh-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508250158.KQ6WdkKh-lkp@intel.com/
+
+New smatch warnings:
+drivers/iio/adc/ade9000.c:1009 ade9000_irq1_thread() warn: right shifting more than type allows 16 vs 20
+drivers/iio/adc/ade9000.c:1505 ade9000_write_event_config() error: uninitialized symbol 'tmp'.
+drivers/iio/adc/ade9000.c:1554 ade9000_write_event_config() error: uninitialized symbol 'interrupts'.
+
+Old smatch warnings:
+drivers/iio/adc/ade9000.c:1018 ade9000_irq1_thread() warn: right shifting more than type allows 16 vs 20
+drivers/iio/adc/ade9000.c:1027 ade9000_irq1_thread() warn: right shifting more than type allows 16 vs 20
+drivers/iio/adc/ade9000.c:1036 ade9000_irq1_thread() warn: right shifting more than type allows 16 vs 20
+drivers/iio/adc/ade9000.c:1045 ade9000_irq1_thread() warn: right shifting more than type allows 16 vs 20
+drivers/iio/adc/ade9000.c:1054 ade9000_irq1_thread() warn: right shifting more than type allows 16 vs 20
+
+vim +1009 drivers/iio/adc/ade9000.c
+
+b695e630eecec70 Antoniu Miclaus 2025-08-22   998  		case ADE9000_ST1_ZXIC_BIT:
+b695e630eecec70 Antoniu Miclaus 2025-08-22   999  			iio_push_event(indio_dev,
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1000  				       IIO_UNMOD_EVENT_CODE(IIO_CURRENT,
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1001  							    ADE9000_ST1_ZXIC_BIT,
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1002  							    IIO_EV_TYPE_THRESH,
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1003  							    IIO_EV_DIR_EITHER),
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1004  				       timestamp);
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1005  			handled_irq |= ADE9000_ST1_ZXIC_BIT;
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1006  			break;
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1007  		case ADE9000_ST1_SWELLA_BIT:
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1008  			iio_push_event(indio_dev,
+b695e630eecec70 Antoniu Miclaus 2025-08-22 @1009  				       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+b695e630eecec70 Antoniu Miclaus 2025-08-22  1010  							    ADE9000_ST1_SWELLA_BIT >> 20,
+
+This is a kind of macro expansion bug:
+
+include/linux/iio/events.h
+    27  #define _IIO_EVENT_CODE(chan_type, diff, modifier, direction,           \
+    28                          type, chan, chan1, chan2)                       \
+    29          (((u64)type << 56) | ((u64)diff << 55) |                        \
+    30           ((u64)direction << 48) | ((u64)modifier << 40) |               \
+    31           ((u64)chan_type << 32) | (((u16)chan2) << 16) | ((u16)chan1) | \
+    32           ((u16)chan))
+
+There should be parenthese around "chan" on line 32.
+
+	((u16)(chan)))
+
+Otherwise it's a precendent bug and  we end up doing the cast before we
+do the ">> 20".  Probably around the others as well?  Probably best if
+someone tests this.
+
+
+drivers/iio/adc/ade9000.c
+  1425  static int ade9000_write_event_config(struct iio_dev *indio_dev,
+  1426                                        const struct iio_chan_spec *chan,
+  1427                                        enum iio_event_type type,
+  1428                                        enum iio_event_direction dir,
+  1429                                        bool state)
+  1430  {
+  1431          struct ade9000_state *st = iio_priv(indio_dev);
+  1432          u32 interrupts, tmp;
+  1433          int ret;
+  1434  
+  1435          /* Clear all pending events in STATUS1 register (write 1 to clear) */
+  1436          ret = regmap_write(st->regmap, ADE9000_REG_STATUS1, GENMASK(31, 0));
+  1437          if (ret)
+  1438                  return ret;
+  1439  
+  1440          if (type == IIO_EV_TYPE_MAG) {
+  1441                  ret = regmap_update_bits(st->regmap, ADE9000_REG_STATUS0,
+  1442                                           ADE9000_ST0_EGYRDY, ADE9000_ST0_EGYRDY);
+  1443                  if (ret)
+  1444                          return ret;
+  1445                  return regmap_update_bits(st->regmap, ADE9000_REG_MASK0,
+  1446                                           ADE9000_ST0_EGYRDY,
+  1447                                           state ? ADE9000_ST1_SEQERR_BIT : 0);
+  1448          }
+  1449  
+  1450          if (type == IIO_EV_TYPE_CHANGE)
+  1451                  return regmap_update_bits(st->regmap, ADE9000_REG_MASK1,
+  1452                                           ADE9000_ST1_SEQERR_BIT,
+  1453                                           state ? ADE9000_ST1_SEQERR_BIT : 0);
+  1454  
+  1455          if (dir == IIO_EV_DIR_EITHER) {
+  1456                  static const struct {
+  1457                          u32 irq;
+  1458                          u32 wfb_trg;
+  1459                  } trig_arr[6] = {
+  1460                          {
+  1461                                  .irq = ADE9000_ST1_ZXVA_BIT,
+  1462                                  .wfb_trg = ADE9000_WFB_TRG_ZXVA_BIT
+  1463                          }, {
+  1464                                  .irq = ADE9000_ST1_ZXIA_BIT,
+  1465                                  .wfb_trg = ADE9000_WFB_TRG_ZXIA_BIT
+  1466                          }, {
+  1467                                  .irq = ADE9000_ST1_ZXVB_BIT,
+  1468                                  .wfb_trg = ADE9000_WFB_TRG_ZXVB_BIT
+  1469                          }, {
+  1470                                  .irq = ADE9000_ST1_ZXIB_BIT,
+  1471                                  .wfb_trg = ADE9000_WFB_TRG_ZXIB_BIT
+  1472                          }, {
+  1473                                  .irq = ADE9000_ST1_ZXVC_BIT,
+  1474                                  .wfb_trg = ADE9000_WFB_TRG_ZXVC_BIT
+  1475                          }, {
+  1476                                  .irq = ADE9000_ST1_ZXIC_BIT,
+  1477                                  .wfb_trg = ADE9000_WFB_TRG_ZXIC_BIT
+  1478                          },
+  1479                  };
+  1480                  if (state) {
+  1481                          interrupts |= trig_arr[chan->channel * 2 + chan->type].irq;
+  1482                          st->wfb_trg |= trig_arr[chan->channel * 2 + chan->type].wfb_trg;
+  1483                  } else {
+  1484                          interrupts &= ~trig_arr[chan->channel * 2 + chan->type].irq;
+  1485                          st->wfb_trg &= ~trig_arr[chan->channel * 2 + chan->type].wfb_trg;
+  1486                  }
+  1487          }
+  1488  
+  1489          if (dir == IIO_EV_DIR_NONE) {
+  1490                  switch (chan->channel) {
+  1491                  case ADE9000_PHASE_A_NR:
+  1492                          tmp |= ADE9000_ST1_ZXTOVA_BIT;
+
+You can |= an uninitialized variable.
+
+  1493                          break;
+  1494                  case ADE9000_PHASE_B_NR:
+  1495                          tmp |= ADE9000_ST1_ZXTOVB_BIT;
+  1496                          break;
+  1497                  case ADE9000_PHASE_C_NR:
+  1498                          tmp |= ADE9000_ST1_ZXTOVC_BIT;
+  1499                          break;
+  1500                  default:
+  1501                          break;
+  1502                  }
+  1503  
+  1504                  if (state)
+  1505                          interrupts |= tmp;
+
+Same.
+
+  1506                  else
+  1507                          interrupts &= ~tmp;
+  1508          } else if (dir == IIO_EV_DIR_RISING) {
+  1509                  switch (chan->channel) {
+  1510                  case ADE9000_PHASE_A_NR:
+  1511                          tmp |= ADE9000_ST1_SWELLA_BIT;
+  1512                          break;
+  1513                  case ADE9000_PHASE_B_NR:
+  1514                          tmp |= ADE9000_ST1_SWELLB_BIT;
+  1515                          break;
+  1516                  case ADE9000_PHASE_C_NR:
+  1517                          tmp |= ADE9000_ST1_SWELLC_BIT;
+  1518                          break;
+  1519                  default:
+  1520                          break;
+  1521                  }
+  1522  
+  1523                  if (state) {
+  1524                          interrupts |= tmp;
+  1525                          st->wfb_trg |= ADE9000_WFB_TRG_SWELL_BIT;
+  1526                  } else {
+  1527                          interrupts &= ~tmp;
+  1528                          st->wfb_trg &= ~ADE9000_WFB_TRG_SWELL_BIT;
+  1529                  }
+  1530          } else if (dir == IIO_EV_DIR_FALLING) {
+  1531                  switch (chan->channel) {
+  1532                  case ADE9000_PHASE_A_NR:
+  1533                          tmp |= ADE9000_ST1_DIPA_BIT;
+  1534                          break;
+  1535                  case ADE9000_PHASE_B_NR:
+  1536                          tmp |= ADE9000_ST1_DIPB_BIT;
+  1537                          break;
+  1538                  case ADE9000_PHASE_C_NR:
+  1539                          tmp |= ADE9000_ST1_DIPC_BIT;
+  1540                          break;
+  1541                  default:
+  1542                          break;
+  1543                  }
+  1544  
+  1545                  if (state) {
+  1546                          interrupts |= tmp;
+  1547                          st->wfb_trg |= ADE9000_WFB_TRG_DIP_BIT;
+  1548                  } else {
+  1549                          interrupts &= ~tmp;
+  1550                          st->wfb_trg &= ~ADE9000_WFB_TRG_DIP_BIT;
+  1551                  }
+  1552          }
+  1553  
+  1554          return regmap_update_bits(st->regmap, ADE9000_REG_MASK1, interrupts,
+  1555                                    interrupts);
+  1556  }
 
 -- 
-Cheers
-
-David / dhildenb
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
