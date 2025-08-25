@@ -1,59 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4672797A1;
-	Mon, 25 Aug 2025 19:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E477D28725B;
+	Mon, 25 Aug 2025 20:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756149879; cv=none; b=ZnOy0SunluODyvKt/x4CeuOoouIraB7e3pcadLrMHWCKRAjrNb55Z9+5GbQ5lh69358o4MQNjhvKLYAC3phHytJWUUF4uTB0JFhH+FtADoweYagcuI++byGYIbMgFlxhwjmnwd5HAijPKi+rx13B5VDS8QLkhUL7LWRaFsMO4j4=
+	t=1756152441; cv=none; b=OtuovZBxsuTeENb0J2vvkbC3T4on7aA1tp1YLqoMu7fGlKh3FF5mdH2u9koBY2PtBQKdzZpNFmtwHHl3EP/t6Wf51iTIbOx/Zkht+UjtknrD/oQgqnSYvp8o/hBa00rDq8UEvLOSWnxtIcFS+pi4dNJ6hz4C5lLLYMKLJzQvU0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756149879; c=relaxed/simple;
-	bh=gl62tBm8UQ/ttSNnxsehDR6RntmGpPaDQGfy90qZfLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OPsJApwwxAGD6UER8pNMvmPKIy2WbB/vivGXspLXQasfr8w3fVyYt/pFclbqXHCnwF314jyzDmDUsC5tAEqwnzsXD60pz0z/uZLshzkjFW6+h/b2nb9X1mWzGsJxscrnGu+rZWwYnyPvGd8Xz9NXWfGkP9p5vRogZUhkgwcKl88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xsy60M3Y; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756152441; c=relaxed/simple;
+	bh=/3rKbaJD+w6nURlr7+uhBX9TAhFoWk7q48ExNb7Wiq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YSYcfuSIZUIj3ORBTky639/jmEyzY3naOz1y9Ix9bzGQnl/AQdXBX4VdQXOgTswCZTdwhdZO7ScGETaeb5dmBqKyZOwEpbwZN17ixLdK07u46C03pXh8X8M3IO0+hM+6gCZoQrTVlw6GIWpV0hfNBrlIC++u6awCSB44NTnLUxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okZorsbX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xsy60M3Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756149878; x=1787685878;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gl62tBm8UQ/ttSNnxsehDR6RntmGpPaDQGfy90qZfLs=;
-  b=Xsy60M3YRXqy3Ky65+XT/+bu9guq7fkkMm/NDPX/nsHs+ee7mOkdIUep
-   XcSZg9rFx/eU/AWAijuyk6YmrzFxf0HnvL4hblapNRKnmyEFC8PYSg4SG
-   N2DRO0Sx3q6N71vgrPbVTJbYWgqi7ZEicGxZDXMUf+8kMGjB27yuhM7pL
-   E87vaRE1HQ41mEIpA7ubozWd9YSzhZi0FlPyk4pHlH8Y6v4RxjGkgyzH/
-   xYnba1u2p6KLpJJaTy9l7zDYuWuxP/qzqyD+QD9XH6jxOkcd1aR0Cj7oP
-   1YUH5Yc4KaEUy8lGvkhQnWtb5g4sLeLBVnFsM8x1u+7gScHucUIaIK5vv
-   Q==;
-X-CSE-ConnectionGUID: xl8E9Z+0Tp+W83PMvysU4w==
-X-CSE-MsgGUID: 7gytL/hQQIGYjchxBlsdCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="61006253"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="61006253"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 12:24:35 -0700
-X-CSE-ConnectionGUID: fGSTXrdiRUGGgoMlJhN6jA==
-X-CSE-MsgGUID: TB1Tk4fKRYCojH8dEzBodQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="193043777"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Aug 2025 12:24:33 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uqcnu-000Nxh-26;
-	Mon, 25 Aug 2025 19:24:30 +0000
-Date: Tue, 26 Aug 2025 03:23:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	K Prateek Nayak <kprateek.nayak@amd.com>
-Subject: [peterz-queue:sched/core 1/1] arch/s390/kernel/topology.c:512:23:
- error: conflicting types for 'cpu_coregroup_mask'
-Message-ID: <202508260328.jsXPrTzT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okZorsbX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9BC1C116B1;
+	Mon, 25 Aug 2025 20:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756152440;
+	bh=/3rKbaJD+w6nURlr7+uhBX9TAhFoWk7q48ExNb7Wiq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=okZorsbXLxI1C0tQJOJhpXkygrsAezPT+G9FqvCMtkuufdEJvwjZLRFO0eFxfdzbt
+	 4OU30VK3uzdtYHYGiKx51p+O4tgSHQ2BZDZEgWg2P6W/r2+1jZ8sRTH/203KgV057Q
+	 FV06YSnofD90bfoZch8IdffPcpOfHe230rO4CQaZlPBY7iAaqbfuGAvlNoecDVs12c
+	 JkrNfKYI33pZOXcAyup821Zi7LB+eNk/nGLE3f9lv2oacQrymSVCYdEsoHvu7cX6fO
+	 G2IFhjdufyv25hx2skCeLhtVbLKFTXKOr1In9l7fAhz7f0Sy4ZNl8aOarP9h/eyD84
+	 rW9rN/C+94/HA==
+Date: Mon, 25 Aug 2025 13:07:15 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, Rohan McLure <rmclure@linux.ibm.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Donnellan <ajd@linux.ibm.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>
+Subject: Re: [akpm-mm:mm-new 216/233]
+ arch/riscv/include/asm/pgtable.h:951:36: error: too few arguments to
+ function call, expected 3, have 2
+Message-ID: <20250825200715.GA598466@ax162>
+References: <202508230551.qiEQu04P-lkp@intel.com>
+ <20250822150906.7a6a87a7a8ad69f2ad67c817@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +48,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250822150906.7a6a87a7a8ad69f2ad67c817@linux-foundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
-head:   6aa2edf8f340935f35e7be32f223792b028b574d
-commit: 6aa2edf8f340935f35e7be32f223792b028b574d [1/1] sched/fair: Get rid of sched_domains_curr_level hack for tl->cpumask()
-config: s390-randconfig-001-20250826 (https://download.01.org/0day-ci/archive/20250826/202508260328.jsXPrTzT-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260328.jsXPrTzT-lkp@intel.com/reproduce)
+On Fri, Aug 22, 2025 at 03:09:06PM -0700, Andrew Morton wrote:
+> On Sat, 23 Aug 2025 05:30:45 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> > head:   a8af4c2fd982fd94fffde3c5b6b764fd20af68fe
+> > commit: e009b0f3187482a5756ff3b015cf30277cc1cfd9 [216/233] mm/page_table_check: reinstate address parameter in [__]page_table_check_pud_clear()
+> 
+> > config: riscv-randconfig-001-20250823 (https://download.01.org/0day-ci/archive/20250823/202508230551.qiEQu04P-lkp@intel.com/config)
+> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508230551.qiEQu04P-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202508230551.qiEQu04P-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    In file included from arch/riscv/kernel/asm-offsets.c:8:
+> >    In file included from include/linux/mm.h:31:
+> >    In file included from include/linux/pgtable.h:6:
+> > >> arch/riscv/include/asm/pgtable.h:951:36: error: too few arguments to function call, expected 3, have 2
+> >      951 |         page_table_check_pud_clear(mm, pud);
+> >          |         ~~~~~~~~~~~~~~~~~~~~~~~~~~        ^
+> 
+> Thanks, I added this:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508260328.jsXPrTzT-lkp@intel.com/
+It appears that this fix patch was applied to the wrong patch. The error
+is about page_table_check_pud_check().
 
-All errors (new ones prefixed by >>):
+> --- a/arch/riscv/include/asm/pgtable.h~mm-page_table_check-reinstate-address-parameter-in-page_table_check_pud_set-fix
 
->> arch/s390/kernel/topology.c:512:23: error: conflicting types for 'cpu_coregroup_mask'
-     512 | const struct cpumask *cpu_coregroup_mask(struct sched_domain_topology_level *tl, int cpu)
-         |                       ^
-   arch/s390/include/asm/topology.h:50:23: note: previous declaration is here
-      50 | const struct cpumask *cpu_coregroup_mask(int cpu);
-         |                       ^
->> arch/s390/kernel/topology.c:529:12: error: incompatible function pointer types initializing 'sched_domain_mask_f' (aka 'const struct cpumask *(*)(struct sched_domain_topology_level *, int)') with an expression of type 'const struct cpumask *(int)' [-Wincompatible-function-pointer-types]
-     529 |         SDTL_INIT(cpu_coregroup_mask, cpu_core_flags, MC),
-         |                   ^~~~~~~~~~~~~~~~~~
-   2 errors generated.
+But this change is about page_table_check_pud_set(), so -next is now
+broken in the opposite way
 
+  arch/riscv/include/asm/pgtable.h:951:42: error: too many arguments to function call, expected 2, have 3
+    951 |         page_table_check_pud_clear(mm, address, pud);
+        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~              ^~~
+  include/linux/page_table_check.h:125:20: note: 'page_table_check_pud_clear' declared here
+    125 | static inline void page_table_check_pud_clear(struct mm_struct *mm, pud_t pud)
+        |                    ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/cpu_coregroup_mask +512 arch/s390/kernel/topology.c
+as it does not appear that e009b0f3187482a5756ff3b015cf30277cc1cfd9
+is there.
 
-   511	
- > 512	const struct cpumask *cpu_coregroup_mask(struct sched_domain_topology_level *tl, int cpu)
-   513	{
-   514		return &cpu_topology[cpu].core_mask;
-   515	}
-   516	
-   517	static const struct cpumask *cpu_book_mask(struct sched_domain_topology_level *tl, int cpu)
-   518	{
-   519		return &cpu_topology[cpu].book_mask;
-   520	}
-   521	
-   522	static const struct cpumask *cpu_drawer_mask(struct sched_domain_topology_level *tl, int cpu)
-   523	{
-   524		return &cpu_topology[cpu].drawer_mask;
-   525	}
-   526	
-   527	static struct sched_domain_topology_level s390_topology[] = {
-   528		SDTL_INIT(tl_smt_mask, cpu_smt_flags, SMT),
- > 529		SDTL_INIT(cpu_coregroup_mask, cpu_core_flags, MC),
-   530		SDTL_INIT(cpu_book_mask, NULL, BOOK),
-   531		SDTL_INIT(cpu_drawer_mask, NULL, DRAWER),
-   532		SDTL_INIT(tl_pkg_mask, NULL, PKG),
-   533		{ NULL, },
-   534	};
-   535	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +++ a/arch/riscv/include/asm/pgtable.h
+> @@ -948,7 +948,7 @@ static inline pud_t pudp_huge_get_and_cl
+>  {
+>  	pud_t pud = __pud(atomic_long_xchg((atomic_long_t *)pudp, 0));
+>  
+> -	page_table_check_pud_clear(mm, pud);
+> +	page_table_check_pud_clear(mm, address, pud);
+>  
+>  	return pud;
+>  }
+> _
+> 
+> 
