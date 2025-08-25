@@ -1,232 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E667A2566E9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 07:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F658220F49
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 08:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756107659; cv=none; b=p02NvmZ7C4CEKcAyA3DH/aZWVNsYH7pP8KTjPYgOO8Frrt0DZWPz4QtXFGsNL5R335oWP61jtzfxatQjCqL3OXj8ylv9aZG27Qvk+ZpSY1gbwgmB9yHZqV8Wg98PjvX9WIp9xHlZAv6JsDQL6G27GoADPI4lPa8glcXjTiNNWTA=
+	t=1756110169; cv=none; b=JjdV+ppr94As8o86t0Bt6EoYeyoSrz6dbLYysv15cnpAY5txchnfLmVxNVXJkTzwZE3Op9dNefB2FLyLHC8EhVTakPfozJ3I1OETZDpsG5wXv/MdL08pssobV86Va9/cenWbcucqo2oLAC3cKbr3i7mGXr/HBdo4NmCxxxsvRzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756107659; c=relaxed/simple;
-	bh=wVcm/m7SCrOAdR2Ih+rlyl5JyPv+Pjbe4NSgsW1nZws=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q1a/m8T67tWn1Ht2E6QoX1CUss7t2gLL829d8yVhkChIAOMk068wrqX18FGGk9kTnZAAxYkeO+dMjNfuDNnrXsNynNiWfVyhUO83xfSXIGrvciknUvmf4rBRc/JeuP0Mq7GzkTM7fqvkDZYeLLgewdV80E75pN15JtgTT85gZJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SJ4aDrtg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lPQ1wO40; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KXo5Fj2W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VRa84Bg+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756110169; c=relaxed/simple;
+	bh=cVgIJ1X8DT5QTXS6TpIvKsM36DwaBcPd9kJqzULjl3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JibMjTCOZmyZ6kKiUQswIiVxDouFuHmjA6AUtRmLwMoQ1RLj0lbykAVcbJ+P5z5mCrhCkCH3VfIOYygZCM0yeULfhSbcxOdSzo5wg4BpUGrkEu4eEt+Blr47gPbHCQOP56Ci+iDSeugkR1WTDX4zGa11goZSIlD+F3M1MrLnE3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UAoVpv8m; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SJ4aDrtg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lPQ1wO40";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KXo5Fj2W";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VRa84Bg+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D3E56211F5;
-	Mon, 25 Aug 2025 07:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756107655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=SJ4aDrtgMqDZ6jRWPP2oa2DjxYD19sLRAuK8L0z2LVSYGcAkKgP6vlANzXcz8k66oG/a9M
-	P8NzBfxuZ8BGpq4s8EFX5vgcA2TtlbVZZAGi6ClXhKofnlYzGXtPEdUUKbskkbGY6Lwnh7
-	qEAumJKkhstDs2z3obo1ZqwLhEpEdvw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756107655;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=lPQ1wO40+Ge9igiE7wClk1bdbB8JBpC3XZ7L1ZK9l7lxu8oYB3Tf0zarpMJIR1MB/8rE8s
-	qxN4RHSZ306nCMCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KXo5Fj2W;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VRa84Bg+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756107654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=KXo5Fj2WzInSiRNZaGvAoIaoLLSaR3T+Rml8gWx/LH3GueQAaUlHXfINQNGVwYHW9c0jrG
-	wAPaDtuNVPa3J5vnzsNOLUFy4gipnIWNj9dpUxT3qk9BoV4UW67oygEXIUklphKy9XwINR
-	gYsjP8xIYM6bmQPGLU2/4B4qYvh+izs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756107654;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CrXs71rS6n9RGS4r0t0K3B7fNTdcgXj7C+tduoQYygs=;
-	b=VRa84Bg+LxkK6dIoCB8pryKXze9M3Tit3b2kVNU3ZJP+JeEwA3lsw2V6t8JuL+Yaok1696
-	kfyH+63nhP3jCNBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D0341368F;
-	Mon, 25 Aug 2025 07:40:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pb9OGoQTrGiPNgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 25 Aug 2025 07:40:52 +0000
-Message-ID: <f78cf9e0-6ce2-4366-9dfc-670b9e03d0c0@suse.de>
-Date: Mon, 25 Aug 2025 09:40:51 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UAoVpv8m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756110168; x=1787646168;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cVgIJ1X8DT5QTXS6TpIvKsM36DwaBcPd9kJqzULjl3Y=;
+  b=UAoVpv8mnhq3xPRKiETCbqhz616rBfxJtUQVPbK+0Q9uyXYO9iWoMXQ6
+   BHQHS4bddgU3QeggikkH0ScZoKbG79aPLlYucFJaRvfxiLsYBtEVLSkMM
+   wfEw6vVol1wCAjGiGGBPcrkocLlEduUwNdQlE2fCOB7tUQY7E0ICdI3RQ
+   W90v2DDGE3k0qv1UP4LNyUNmkVU/8ywQ/+18/ZIySKC1HHIpe1oQqTJvf
+   A0/CqLaR/mbB8eYi8ZrnRLi1piPv9CrIt4iCze3N7x9umqTQB4SAvfmoF
+   Yf6bmcFZO2Zt0CjBTl3NyR6K18PJr5X3c4B5k+M40aDv6vPI22poNAIgW
+   A==;
+X-CSE-ConnectionGUID: CN5KxxNiSAuidyClwSyqOw==
+X-CSE-MsgGUID: pqdDTQHsSlKfw5xVTz44lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="60946688"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60946688"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 01:22:47 -0700
+X-CSE-ConnectionGUID: AUDtVBMAS+WZromJcP5Yig==
+X-CSE-MsgGUID: BLlXcrUXTXWC0S5gy3nbZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="200129775"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 25 Aug 2025 01:22:46 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uqSTT-0002Hb-2i;
+	Mon, 25 Aug 2025 08:22:43 +0000
+Date: Mon, 25 Aug 2025 10:22:25 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 161/161] mm/swap_slots.c:95:6:
+ warning: no previous prototype for function 'is_swap_slot_cache_enabled'
+Message-ID: <202508251009.UFbpafOh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum
- ast_dram_layout
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <202508240748.TUAvbluX-lkp@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <202508240748.TUAvbluX-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: D3E56211F5
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[linaro.org,lists.linux.dev,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   6c4f5ec4fbbf8b26b10215c34009ad8c2736f46b
+commit: e064059673798b931f95f724c7e377fa8cd15df7 [161/161] ANDROID: create and export is_swap_slot_cache_enabled
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250825/202508251009.UFbpafOh-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4f15debe13af14e0fd668ee4861aff6dbc5283df)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508251009.UFbpafOh-lkp@intel.com/reproduce)
 
-Am 25.08.25 um 09:26 schrieb Dan Carpenter:
-> Hi Thomas,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-ast-Do-not-print-DRAM-info/20250822-213333
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-> patch link:    https://lore.kernel.org/r/20250822132846.25376-7-tzimmermann%40suse.de
-> patch subject: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
-> config: i386-randconfig-141-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240748.TUAvbluX-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202508240748.TUAvbluX-lkp@intel.com/
->
-> smatch warnings:
-> drivers/gpu/drm/ast/ast_2100.c:63 ast_2100_get_dram_layout_p2a() error: uninitialized symbol 'dram_layout'.
->
-> vim +/dram_layout +63 drivers/gpu/drm/ast/ast_2100.c
->
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  38  static enum ast_dram_layout ast_2100_get_dram_layout_p2a(struct ast_device *ast)
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  39  {
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  40  	u32 mcr_cfg;
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  41  	enum ast_dram_layout dram_layout;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  42
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  43  	ast_write32(ast, 0xf004, 0x1e6e0000);
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  44  	ast_write32(ast, 0xf000, 0x1);
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  45  	mcr_cfg = ast_read32(ast, 0x10004);
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  46
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  47  	switch (mcr_cfg & 0x0c) {
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  48  	case 0:
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  49  	case 4:
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  50  		dram_layout = AST_DRAM_512Mx16;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  51  		break;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  52  	case 8:
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  53  		if (mcr_cfg & 0x40)
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  54  			dram_layout = AST_DRAM_1Gx16;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  55  		else
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  56  			dram_layout = AST_DRAM_512Mx32;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  57  		break;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  58  	case 0xc:
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22  59  		dram_layout = AST_DRAM_1Gx32;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  60  		break;
->
-> Should there be a default case?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508251009.UFbpafOh-lkp@intel.com/
 
-Thanks for reporting. That only happens now with the values being an 
-enum type. The first case (512Mx16) would be the default. Will be fixed 
-in the next iteration.
+All warnings (new ones prefixed by >>):
 
-Best regards
-Thomas
+>> mm/swap_slots.c:95:6: warning: no previous prototype for function 'is_swap_slot_cache_enabled' [-Wmissing-prototypes]
+      95 | bool is_swap_slot_cache_enabled(void)
+         |      ^
+   mm/swap_slots.c:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      95 | bool is_swap_slot_cache_enabled(void)
+         | ^
+         | static 
+   mm/swap_slots.c:101:6: warning: no previous prototype for function 'check_cache_active' [-Wmissing-prototypes]
+     101 | bool check_cache_active(void)
+         |      ^
+   mm/swap_slots.c:101:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     101 | bool check_cache_active(void)
+         | ^
+         | static 
+   2 warnings generated.
 
->
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  61  	}
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  62
-> 334d62edac4c5b Thomas Zimmermann 2025-08-22 @63  	return dram_layout;
-> b59465efc7cb88 Thomas Zimmermann 2025-08-22  64  }
->
+
+vim +/is_swap_slot_cache_enabled +95 mm/swap_slots.c
+
+    94	
+  > 95	bool is_swap_slot_cache_enabled(void)
+    96	{
+    97		return swap_slot_cache_enabled;
+    98	}
+    99	EXPORT_SYMBOL_GPL(is_swap_slot_cache_enabled);
+   100	
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
