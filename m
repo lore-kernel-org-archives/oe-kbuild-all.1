@@ -1,177 +1,228 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD501DF73A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 04:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756095302; cv=none; b=snthal8U/NDnWo6oOy4/5SdpJxbSfPe0Bw1FxuLBuQqdOUCpHb7tsjy7jkT2UWL3kGno4VOPa2h26c44xLGqYcL+wQoBlwqgeYp4cioTx4ReTu1fhkc8ufCfbJLrwnd8yLSyXIxr+dyttsQqE5RG6wPVB5C4AOjQtgVVUxsvWno=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756095302; c=relaxed/simple;
-	bh=aBeckMMqd8LbWBa54Vl/2BEjwSp6LepJ71S3rhcdYkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NqEf6Rn1EInHyO8fpImrI1mJ4+R2EsbzwZv3yZXBHoxucOSYvsI5Y0dwVfhiTcocZVoB+kHjk60g6gT59aWxra5n7D3aQIVu0AxLcP4YTJRMZFw6jAG3wnt2Xdbl8Fg08yJm4uqAfDPRly48oSZjAQbm6oKTrWbN9ANOKqOf1yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bd9jKzzM; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE521A9F86;
+	Mon, 25 Aug 2025 04:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756096298; cv=fail; b=saVusD6ClDe+/p++U/bIxR62p2uWltaPiswbliFc9gJnIZJuKgNeRoY/IX1NPVN/f6pXpSJAyEc5+HMYGM4njBGIisjPwr2qlzUVeXfSzfT0y0J1v0VvkUxs6LYCf0yxuxvqoC26vwr7677SI8v6G49YqmfWc4lqTd64RMmVYOM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756096298; c=relaxed/simple;
+	bh=lGK5HaYSPCWT19tCdRgJzygK1iiJ8sXOiP6rMgU2uN8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KkYueibltN+4BZBp6R3ve4I/h2Q1AoQWTzFSHPuhYEAIRUO38LsXckpZAw2RPykFE239kwsBeNJTzmZTXh2D1gVfrqOndP5Oo8Quy2sRNd+xvLaeMUDcAIlqjX/5IxoO/uwDk0GZOysw8r2zjoH6SH8Z7uA53FczO1lrt9EyCys=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=XcG5VVrl; arc=fail smtp.client-ip=40.107.220.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bd9jKzzM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756095302; x=1787631302;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aBeckMMqd8LbWBa54Vl/2BEjwSp6LepJ71S3rhcdYkU=;
-  b=bd9jKzzMj/iIcuTB8/SZOT7bo3Af9x8OyWNOX95nQ5hM3YnMMHmyDPMu
-   QyngBIWxBYZmetzDbF4I0PKxREpFVuBfuw/RStPh3ZuoPKHhEvnJqhRFC
-   6pt7hSi5r3fq8dwzo91+NSTFyTWXfMbil5dqeY77rvNtld0+/mhqfGVIy
-   IiQcFXwLvA9y32QdFg3LVcE0PJJacnCCvjs8SLF6wehVSS1/dHsOgP4Y4
-   DmbHvMC+lWUmm6F8GCJAB5zapcT60w14BIUzasvv1z6CKc4OBc1EbJaas
-   QgXW+0+h9yAc9XzvKHZuGP9266+qdALDdecdQ4dRDHyGh3h9blrZ8NgGU
-   w==;
-X-CSE-ConnectionGUID: HQ5rEN3aT9e2nSgIxfgFWA==
-X-CSE-MsgGUID: 4i4M536PSbmtUR+R5vGaZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62130136"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62130136"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 21:15:01 -0700
-X-CSE-ConnectionGUID: 1gxA51UKS5aao3PKy/g6UQ==
-X-CSE-MsgGUID: wddVv0aRTjWZUVu7/X07NQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="169112188"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Aug 2025 21:14:59 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uqOb1-000NM3-30;
-	Mon, 25 Aug 2025 04:14:35 +0000
-Date: Mon, 25 Aug 2025 12:13:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [smfrench-smb3:ksmbd-for-next-next 2/3]
- fs/smb/server/transport_tcp.c:262:47: error: no member named 'skc_v6_daddr'
- in 'struct sock_common'
-Message-ID: <202508251245.Y24eUGc5-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="XcG5VVrl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=puf257Yr3fl0dTdevtTjngIfDTCt8HuYExw8fEWLAtQuKyTyEUpfYEVHwJcSMgoDLGj08Q9Yo1iML/zSwT4FgAti2hEWyUO71X4BTkFfiIuqLJ0aX+BiUUd2pWIIe7+UeKuX+VEoijeF6+0VTIbrd4+Vsd+aY3FAN+0X23CDLkwG+5UR0nHvzZTPG7r/Y1frR9DHaokm6joFLgh/1TDQE2R1BabLHxlUTMX3blLmdhpqq/Uz3xd5qnXW9iy2PF651kbGJ7CMe/CkaYONwtu7Q6imbVE9Fn7Yb0bCOF+itwrgViVfRV36yxx9ediVDgYoArtPvmOgt8YEaPtMHEohNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WpLBjgU6CR2jq1ZR0/me1toR8BwOxJNwEZfIy9KTeFs=;
+ b=gajA1Zg14G5fr5MLRoW1BNPE9o6JhbFsmst4f9UvHMMg3wHg2HOtCJg53nsro8Hc1jsaQ1K77QSeNhFGVlZf66dCeRRv6ORbUYaUs7aBtAxm2kx7SV/E0pwC2CnBZCRAHadrStQp4Oj3EiyO6M0kfbaP8r6aKIpQSLC62fxNIE8eiB6ZqMjD0liGNYCm8zHyarfXAUmpuJ6P3YstPgZRob/vaz/PfP1rhjTDRho+aNPobvlmUkINsEau+jMTDPJxmzI0UKRGz1X6XnapoP97V+sxbB4k06oAF8CFB2hLJrtifZr3eePzAfsJs45+nAsvygT+Z7w7bRdoJg9o5W7+SQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=arndb.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WpLBjgU6CR2jq1ZR0/me1toR8BwOxJNwEZfIy9KTeFs=;
+ b=XcG5VVrlNZITQYFoVVUfXh5ughW9UpGjkb9fK14BeQntT7djUFa5xRCnVQN20hbLKzgNQnjmNDZiDrUz7A9KZitdYGeg3FWmPjNP4kEhRAakpNwDd8lx/iUV+ng6DcV3MahZ+u7eDgxs3lHaabCZwCyII92pQEsV/nwILKbp7/M=
+Received: from BY5PR13CA0020.namprd13.prod.outlook.com (2603:10b6:a03:180::33)
+ by MW3PR12MB4457.namprd12.prod.outlook.com (2603:10b6:303:2e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Mon, 25 Aug
+ 2025 04:31:33 +0000
+Received: from SN1PEPF0002BA4D.namprd03.prod.outlook.com
+ (2603:10b6:a03:180:cafe::b2) by BY5PR13CA0020.outlook.office365.com
+ (2603:10b6:a03:180::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.13 via Frontend Transport; Mon,
+ 25 Aug 2025 04:31:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF0002BA4D.mail.protection.outlook.com (10.167.242.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9073.11 via Frontend Transport; Mon, 25 Aug 2025 04:31:32 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 24 Aug
+ 2025 23:31:32 -0500
+Received: from xhdnipung41x.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Sun, 24 Aug 2025 23:31:27 -0500
+From: Nipun Gupta <nipun.gupta@amd.com>
+To: <arnd@arndb.de>, <gregkh@linuxfoundation.org>,
+	<alex.williamson@redhat.com>, <nikhil.agarwal@amd.com>, <kvm@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, <robin.murphy@arm.com>, <krzk@kernel.org>,
+	<tglx@linutronix.de>, <maz@kernel.org>, <linux@weissschuh.net>,
+	<chenqiuji666@gmail.com>, <peterz@infradead.org>, <robh@kernel.org>,
+	<abhijit.gangurde@amd.com>, <nathan@kernel.org>, Nipun Gupta
+	<nipun.gupta@amd.com>, Arnd Bergmann <arnd@kernel.org>
+Subject: [PATCH v3 1/2] cdx: don't select CONFIG_GENERIC_MSI_IRQ
+Date: Mon, 25 Aug 2025 10:01:21 +0530
+Message-ID: <20250825043122.2126859-1-nipun.gupta@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: nipun.gupta@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4D:EE_|MW3PR12MB4457:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f484808-44ad-4910-5ce8-08dde39044f5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?SoAiVI7M+ra53W2ixeBwSwv5Ckak0dV+zJqnx1PsujPeFWCg9YJEqecN78lx?=
+ =?us-ascii?Q?+613tbHenOjkA0Ckc+CRw9HCe7Cx61lFW2NzGFy8GA7Qc55iEqwv2Ntma4Es?=
+ =?us-ascii?Q?PdS8+CETR2IwHicf/tZIFN25kbGekXhAx6qsxfYKmCH/0PG4hT09IjvNi0RR?=
+ =?us-ascii?Q?vC1NoBgLQ5+kLe2tTbFwhG5R2V4pkkU7XrDoST2NgQXWx/PsgPL2h5GRNDfu?=
+ =?us-ascii?Q?Vj/l/estjQyOQpDGJkENSAjq3dbHPSXPSbEuksyw92dUAOu3Lf+vFD9ugc4B?=
+ =?us-ascii?Q?fa9Cqp88xlnKiNBz/4Q7OMPtP+5wZTm3FI5S6A9GJSbXsO/R1Mn13gn+H7Hv?=
+ =?us-ascii?Q?LI3bDmXQP1uomYAxk2/P6vKHLXrpNLA2ZLa1hX9YO5HTeakWtlIyh/xgdNeQ?=
+ =?us-ascii?Q?Wuq2px0jYS1YNq8GztHOoodDnTXEkx+tN1Z8swrRjebFYJpXiBzACmLNvsLi?=
+ =?us-ascii?Q?dTNKmek/A9kfWO3J6knMr1hzYWeyap2r1TPk4zdoW+yATk03kDTjcT75VA6e?=
+ =?us-ascii?Q?DDC8xZCJTN/onlsocR947bY/je+K3K6XADBbS/orXJQMzBu42Tf8eYMg09S9?=
+ =?us-ascii?Q?Uk+D99dvLuVR1NTISbgI0UeVW3piMXjB7NypEJiEhZ28sLvlQpzpW75DQRov?=
+ =?us-ascii?Q?Aejhpwv/I1jFCGiywjUGCFUkmTjViAMUizGmR/LsrzDV1Pio8o3dXADLt4G2?=
+ =?us-ascii?Q?c+HibdHhaxqOFo77zr6fk1vUuI3wb8vLTbyoXl0TBFbnjuKbGZtWHm6kgLaP?=
+ =?us-ascii?Q?7HwoGo73aplEOerHIxE6pK6mLOQlcWkvmrVwWmvIjCP3quLU73yjFwuhG0Lf?=
+ =?us-ascii?Q?q8TqnWgMV/BNmvZsNEOYK+Ahwx6XbihpkMXhWyJ03Ae4F7RRSmwGVfT53b7v?=
+ =?us-ascii?Q?Phgr5mO5gbCuRBu82wkKeUQEBMMyNo+w8OeVUUjdw4qH6heX1qy6KUivEilL?=
+ =?us-ascii?Q?Mo2EeFA6/emRdBzxR17B6SH5s016F+WODykk21ef3wmihOjcgMGwpbZNM2lZ?=
+ =?us-ascii?Q?yZa0GD11By+SsCEubcHrarqcLXXwPrJ1Z4PnkPBxc1TZx7Gzkd/nR519VZlF?=
+ =?us-ascii?Q?hoCCYLA5Wsaxi6tDs//snk3FrabmH60nyE6xbwUb3BVQMI8991z1+t50Hnnf?=
+ =?us-ascii?Q?py3Qeua8H89ILRf4vTfZeGITOomqgEuAs94gn/kta8bin9w7LUjfJMM/NhiD?=
+ =?us-ascii?Q?2U0oQUe8e/9ou2Un+1RIzoegJhhiQCZoAjjhLAFwxZ/0AKCglEZ9FkFx+BWW?=
+ =?us-ascii?Q?Ut8gLf5b4WA3Tyn4mQc45VAxs7A7nOUAzGIsaZr1hG/Feml9jFpolgeajtU4?=
+ =?us-ascii?Q?wPx4BbPvdSQ7fcrgPURe7y3/HweJppzCkiO1asoguvFT0JK/L5A6boWd5aNY?=
+ =?us-ascii?Q?tJOUmgzB2tvcap3GQp9ijcBggvWoON0pQiiu+GXNTJkjN2eBozYHvSGyNzA3?=
+ =?us-ascii?Q?5OWpo88AYe0gME9vtvOSrt/FiM4EQYVnty9F4kZ5Ec3qPbZ8TvtTjBd0liAc?=
+ =?us-ascii?Q?yFmnDin6AChXNzr7MIp60Kpc/rdgQAzdqnCk?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 04:31:32.7471
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f484808-44ad-4910-5ce8-08dde39044f5
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002BA4D.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4457
 
-tree:   https://github.com/smfrench/smb3-kernel.git ksmbd-for-next-next
-head:   0edf873d496a9fc1c4e0ca77e29a12231403ecf1
-commit: 133b8c914b4ff05d088bd69977bc854a5757dc25 [2/3] ksmbd: replace connection list with hash table
-config: sparc64-randconfig-002-20250825 (https://download.01.org/0day-ci/archive/20250825/202508251245.Y24eUGc5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250825/202508251245.Y24eUGc5-lkp@intel.com/reproduce)
+x86 does not use CONFIG_GENERIC_MSI_IRQ, and trying to enable it anyway
+results in a build failure:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508251245.Y24eUGc5-lkp@intel.com/
+In file included from include/linux/ssb/ssb.h:10,
+                 from drivers/ssb/pcihost_wrapper.c:18:
+include/linux/gpio/driver.h:41:33: error: field 'msiinfo' has incomplete type
+   41 |         msi_alloc_info_t        msiinfo;
+      |                                 ^~~~~~~
+In file included from include/linux/kvm_host.h:19,
+                 from arch/x86/events/intel/core.c:17:
+include/linux/msi.h:528:33: error: field 'alloc_info' has incomplete type
+  528 |         msi_alloc_info_t        alloc_info;
 
-All errors (new ones prefixed by >>):
+Change the driver to actually build without this symbol and remove the
+incorrect 'select' statements.
 
->> fs/smb/server/transport_tcp.c:262:47: error: no member named 'skc_v6_daddr' in 'struct sock_common'
-     262 |                         inet_hash = ipv6_addr_hash(&client_sk->sk->sk_v6_daddr);
-         |                                                     ~~~~~~~~~~~~~~~^~~~~~~~~~~
-   include/net/sock.h:384:34: note: expanded from macro 'sk_v6_daddr'
-     384 | #define sk_v6_daddr             __sk_common.skc_v6_daddr
-         |                                             ^
-   1 error generated.
+Fixes: e8b18c11731d ("cdx: Fix missing GENERIC_MSI_IRQ on compile test")
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Reviewed-by: Nikhil Agarwal <nikhil.agarwal@amd.com>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Nipun Gupta <nipun.gupta@amd.com>
+---
 
+Changes v1->v2:
+- No change
+Changes v2->v3:
+- add CONFIG_GENERIC_MSI_IRQ while assigning num_msi and setting msi domain
 
-vim +262 fs/smb/server/transport_tcp.c
+ drivers/cdx/Kconfig                     | 1 -
+ drivers/cdx/cdx.c                       | 4 ++--
+ drivers/cdx/controller/Kconfig          | 1 -
+ drivers/cdx/controller/cdx_controller.c | 3 ++-
+ 4 files changed, 4 insertions(+), 5 deletions(-)
 
-   228	
-   229	/**
-   230	 * ksmbd_kthread_fn() - listen to new SMB connections and callback server
-   231	 * @p:		arguments to forker thread
-   232	 *
-   233	 * Return:	0 on success, error number otherwise
-   234	 */
-   235	static int ksmbd_kthread_fn(void *p)
-   236	{
-   237		struct socket *client_sk = NULL;
-   238		struct interface *iface = (struct interface *)p;
-   239		struct ksmbd_conn *conn;
-   240		int ret, inet_hash;
-   241	
-   242		while (!kthread_should_stop()) {
-   243			mutex_lock(&iface->sock_release_lock);
-   244			if (!iface->ksmbd_socket) {
-   245				mutex_unlock(&iface->sock_release_lock);
-   246				break;
-   247			}
-   248			ret = kernel_accept(iface->ksmbd_socket, &client_sk,
-   249					    SOCK_NONBLOCK);
-   250			mutex_unlock(&iface->sock_release_lock);
-   251			if (ret) {
-   252				if (ret == -EAGAIN)
-   253					/* check for new connections every 100 msecs */
-   254					schedule_timeout_interruptible(HZ / 10);
-   255				continue;
-   256			}
-   257	
-   258			/*
-   259			 * Limits repeated connections from clients with the same IP.
-   260			 */
-   261			if (client_sk->sk->sk_family == AF_INET6)
- > 262				inet_hash = ipv6_addr_hash(&client_sk->sk->sk_v6_daddr);
-   263			else
-   264				inet_hash = ipv4_addr_hash(inet_sk(client_sk->sk)->inet_daddr);
-   265			down_read(&conn_list_lock);
-   266			hash_for_each_possible(conn_list, conn, hlist, inet_hash) {
-   267	#if IS_ENABLED(CONFIG_IPV6)
-   268				if (client_sk->sk->sk_family == AF_INET6) {
-   269					if (memcmp(&client_sk->sk->sk_v6_daddr,
-   270						   &conn->inet6_addr, 16) == 0) {
-   271						ret = -EAGAIN;
-   272						break;
-   273					}
-   274				} else if (inet_sk(client_sk->sk)->inet_daddr ==
-   275					 conn->inet_addr) {
-   276					ret = -EAGAIN;
-   277					break;
-   278				}
-   279	#else
-   280				if (inet_sk(client_sk->sk)->inet_daddr ==
-   281				    conn->inet_addr) {
-   282					ret = -EAGAIN;
-   283					break;
-   284				}
-   285	#endif
-   286			}
-   287			up_read(&conn_list_lock);
-   288			if (ret == -EAGAIN)
-   289				continue;
-   290	
-   291			if (server_conf.max_connections &&
-   292			    atomic_inc_return(&active_num_conn) >= server_conf.max_connections) {
-   293				pr_info_ratelimited("Limit the maximum number of connections(%u)\n",
-   294						    atomic_read(&active_num_conn));
-   295				atomic_dec(&active_num_conn);
-   296				sock_release(client_sk);
-   297				continue;
-   298			}
-   299	
-   300			ksmbd_debug(CONN, "connect success: accepted new connection\n");
-   301			client_sk->sk->sk_rcvtimeo = KSMBD_TCP_RECV_TIMEOUT;
-   302			client_sk->sk->sk_sndtimeo = KSMBD_TCP_SEND_TIMEOUT;
-   303	
-   304			ksmbd_tcp_new_connection(client_sk);
-   305		}
-   306	
-   307		ksmbd_debug(CONN, "releasing socket\n");
-   308		return 0;
-   309	}
-   310	
-
+diff --git a/drivers/cdx/Kconfig b/drivers/cdx/Kconfig
+index 3af41f51cf38..1f1e360507d7 100644
+--- a/drivers/cdx/Kconfig
++++ b/drivers/cdx/Kconfig
+@@ -8,7 +8,6 @@
+ config CDX_BUS
+ 	bool "CDX Bus driver"
+ 	depends on OF && ARM64 || COMPILE_TEST
+-	select GENERIC_MSI_IRQ
+ 	help
+ 	  Driver to enable Composable DMA Transfer(CDX) Bus. CDX bus
+ 	  exposes Fabric devices which uses composable DMA IP to the
+diff --git a/drivers/cdx/cdx.c b/drivers/cdx/cdx.c
+index 092306ca2541..3d50f8cd9c0b 100644
+--- a/drivers/cdx/cdx.c
++++ b/drivers/cdx/cdx.c
+@@ -310,7 +310,7 @@ static int cdx_probe(struct device *dev)
+ 	 * Setup MSI device data so that generic MSI alloc/free can
+ 	 * be used by the device driver.
+ 	 */
+-	if (cdx->msi_domain) {
++	if (IS_ENABLED(CONFIG_GENERIC_MSI_IRQ) && cdx->msi_domain) {
+ 		error = msi_setup_device_data(&cdx_dev->dev);
+ 		if (error)
+ 			return error;
+@@ -833,7 +833,7 @@ int cdx_device_add(struct cdx_dev_params *dev_params)
+ 		     ((cdx->id << CDX_CONTROLLER_ID_SHIFT) | (cdx_dev->bus_num & CDX_BUS_NUM_MASK)),
+ 		     cdx_dev->dev_num);
+ 
+-	if (cdx->msi_domain) {
++	if (IS_ENABLED(CONFIG_GENERIC_MSI_IRQ) && cdx->msi_domain) {
+ 		cdx_dev->num_msi = dev_params->num_msi;
+ 		dev_set_msi_domain(&cdx_dev->dev, cdx->msi_domain);
+ 	}
+diff --git a/drivers/cdx/controller/Kconfig b/drivers/cdx/controller/Kconfig
+index 0641a4c21e66..a480b62cbd1f 100644
+--- a/drivers/cdx/controller/Kconfig
++++ b/drivers/cdx/controller/Kconfig
+@@ -10,7 +10,6 @@ if CDX_BUS
+ config CDX_CONTROLLER
+ 	tristate "CDX bus controller"
+ 	depends on HAS_DMA
+-	select GENERIC_MSI_IRQ
+ 	select REMOTEPROC
+ 	select RPMSG
+ 	help
+diff --git a/drivers/cdx/controller/cdx_controller.c b/drivers/cdx/controller/cdx_controller.c
+index fca83141e3e6..5e3fd89b6b56 100644
+--- a/drivers/cdx/controller/cdx_controller.c
++++ b/drivers/cdx/controller/cdx_controller.c
+@@ -193,7 +193,8 @@ static int xlnx_cdx_probe(struct platform_device *pdev)
+ 	cdx->ops = &cdx_ops;
+ 
+ 	/* Create MSI domain */
+-	cdx->msi_domain = cdx_msi_domain_init(&pdev->dev);
++	if (IS_ENABLED(CONFIG_GENERIC_MSI_IRQ))
++		cdx->msi_domain = cdx_msi_domain_init(&pdev->dev);
+ 	if (!cdx->msi_domain) {
+ 		ret = dev_err_probe(&pdev->dev, -ENODEV, "cdx_msi_domain_init() failed");
+ 		goto cdx_msi_fail;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
