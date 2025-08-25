@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA0D29CE1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 19:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA55521CC44
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Aug 2025 19:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756148631; cv=none; b=nzEIAsy2ULZuz48e2tBwlu5DlFEadtttPbVqPj5AWkOHOyxK6WcMB33lr7rUTBbY+R9wDftBKtjLFjI9LkKB9+ktQlOFfVKexirWb5ncJrkkXRmdg9oas8o0HmxzkjB2HPM0lcABHdq2oVi92vu9/TG1Ks/jOuBpEzOYfE6LI8I=
+	t=1756148633; cv=none; b=W7rRjcUPhTf9YZ68OCTolIR6v7mfN1Hxlpj6ow5CfkU08i6FcKwnKAy2DFXu5e0K7k0+MgIBRSAeyrvI/uQBYWqZ1+7+0mpIKFUcvWtI4j16sMAgTHGlHKvA/psKECUJGGDIRDRodK2NJCy/55xJovE0VgAuMVfFMZV8LLC0Vys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756148631; c=relaxed/simple;
-	bh=gZcST3EnWa8Q12Zh6y1HSwhk1i4T73t5VOAw5QZfJs8=;
+	s=arc-20240116; t=1756148633; c=relaxed/simple;
+	bh=zhuhRNMhZZPdQH0Nk7F8pSVd3sfOGWRA5uoVWFNRWXA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fs/sI883AOAPcJMPcL9F7v8YeIBTmPraL21jAt39L1zVhbcKoqjcACoSlBdVsmCRyZPZzY+GHI4qnxRQajsTh9EhYFvI6zz2QspolglItx7/HO3KTghJ4aiFBRFrcyrh3NWRGexqz3DdYVvTg1y7m5b6P+tGTTseT5wrswAnV+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEYb4y0Z; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=jqoQ6SlpQFHf5Tn0eZlukLlbMus8kwUI0FbhzELGJEERpNl3HYtUv7TSkjQ2TeJUZhrwogxlhfs0B8WyJUvMTgL0YJ85z56gtKovqbI5Bp0Ftf6wJCG+B6bfngXPGS/6tmzxm1aDvcGdP0YjJyr5uu5kQ8DoECXpRcm0tiDrHY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2T/VHbr; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEYb4y0Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2T/VHbr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756148629; x=1787684629;
+  t=1756148631; x=1787684631;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gZcST3EnWa8Q12Zh6y1HSwhk1i4T73t5VOAw5QZfJs8=;
-  b=XEYb4y0ZmycMPs8kAdJsOblbRM8ueezcrKX5gqV7nPjDwnL3O4GQXYCc
-   vU8MFBotvBpF5P/0+7pWNfXE9zJurK0b1DUxVM0WT4upAIB5vAxld+HXE
-   VoitEFiMC3S88/TenIz2e7CLk+RNdluCI1U4lE0KpUZv7FJHSkwLQAN5A
-   ydRM2YFZY9tQd1anN/wAPmAOprVT6PNCvMrdRkNBnfrU4puBu0i9fiOCg
-   +dpqTG4w6WWaNnQH/O2keWY8SC50H9OtY8fdMwwIQwFEsu4RTgGJaBAGx
-   uXQZ+ro+G0nSUnjROh5B4SItdu0GwZGteLvcR4mWgyF1UbJ4YufZFNonl
-   g==;
-X-CSE-ConnectionGUID: Lu460ehBRYS5vedLnGRzZw==
-X-CSE-MsgGUID: u0gSdQ/vQKSDGtb647AtXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58078607"
+  bh=zhuhRNMhZZPdQH0Nk7F8pSVd3sfOGWRA5uoVWFNRWXA=;
+  b=L2T/VHbrlxQj3wr2Um36qFrZ4I6AslioBZZJKKYXr05CabFTJ9GgyGLu
+   2v10aXMv11Q8nkgcWO2IQwiyC1LhnENemiOgl8qqoR2RYQ3/4n6Mcq3vt
+   H6GWRI0Zay5JaYvOuqEYmAEv5u7aFUUKmI0fAULP1GWoNbmT9ojuL2/zA
+   c1D99C0LchGjXpvhEG3XkT0YHCWarkA7oV5IxMJoj3UbYFwYjwa9LDYqt
+   sDq6JuIwOQrOr6ZkRzazD3peTYU/LGtmjyFOT5++MnTQ2D6o3joEoLVvu
+   VdHQTVE++2j/R9AINMFUOWkAw4ZAbQjgC3tF4DK5SxISGU0vp46WJ24AR
+   w==;
+X-CSE-ConnectionGUID: rMKOe+82Rkm/j+fyrl5fYw==
+X-CSE-MsgGUID: CgWnb13fQJqYRBEmwaL4yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58078609"
 X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="58078607"
+   d="scan'208";a="58078609"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 12:03:49 -0700
-X-CSE-ConnectionGUID: XNlPsGjrS6G67mbEIhutmg==
-X-CSE-MsgGUID: p3KdzVmgROa2qJ9fDiZ6yA==
+X-CSE-ConnectionGUID: VotcSsvqQ5G4CdeiPtb1cQ==
+X-CSE-MsgGUID: K0ZZqjy2SV2rZ3NkU2mcvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="174647303"
+   d="scan'208";a="174647307"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
   by fmviesa004.fm.intel.com with ESMTP; 25 Aug 2025 12:03:48 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqcT4-000NwZ-2e;
-	Mon, 25 Aug 2025 19:03:20 +0000
-Date: Tue, 26 Aug 2025 03:01:10 +0800
+	id 1uqcTp-000Nwb-2c;
+	Mon, 25 Aug 2025 19:03:45 +0000
+Date: Tue, 26 Aug 2025 03:01:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 6/6]
- include/trace/stages/init.h:2:23: warning:
- 'str__ogki_honor__trace_system_name' defined but not used
-Message-ID: <202508260236.gIrN5D2s-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-5.10-GNR-perf-uncore-ANBZ24140 0/2]
+ mm/memory_hotplug.c:664:12: warning: no previous prototype for function
+ '__move_pfn_range_to_zone'
+Message-ID: <202508260242.OmVRDV6a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +63,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi liulu,
+Hi Yang,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   c4523fe1e7d3970f898de09e766d30dc74b84277
-commit: 394cfbc6f83e3fa29ebacdf76b7f203512c2b9e5 [6/6] ANDROID: GKI: Add vendor hook define for Honor ogki
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250826/202508260236.gIrN5D2s-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260236.gIrN5D2s-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-GNR-perf-uncore-ANBZ24140
+head:   5b97140220e2f9196fa5de48f6be468691f8b43b
+commit: 6c4a83f3c62b8ef3f8bd1ec3c1d374bf0e12713d [0/2] anolis: mm/memory_hotplug: refactor move_pfn_range_to_zone()
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250826/202508260242.OmVRDV6a-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508260242.OmVRDV6a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508260236.gIrN5D2s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508260242.OmVRDV6a-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/ogki_honor.h:31,
-                    from drivers/android/vendor_hooks.c:74:
->> include/trace/stages/init.h:2:23: warning: 'str__ogki_honor__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/fuse.h:24,
-                    from drivers/android/vendor_hooks.c:73:
-   include/trace/stages/init.h:2:23: warning: 'str__fuse__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/fsnotify.h:23,
-                    from drivers/android/vendor_hooks.c:72:
-   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/blk.h:40,
-                    from drivers/android/vendor_hooks.c:71:
-   include/trace/stages/init.h:2:23: warning: 'str__blk__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/madvise.h:26,
-                    from drivers/android/vendor_hooks.c:69:
-   include/trace/stages/init.h:2:23: warning: 'str__madvise__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/compaction.h:24,
-                    from drivers/android/vendor_hooks.c:68:
-   include/trace/stages/init.h:2:23: warning: 'str__compaction__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
+>> mm/memory_hotplug.c:664:12: warning: no previous prototype for function '__move_pfn_range_to_zone' [-Wmissing-prototypes]
+     664 | void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
+         |            ^
+   mm/memory_hotplug.c:664:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     664 | void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
+         | ^
+         | static 
+   mm/memory_hotplug.c:995:6: warning: no previous prototype for function '__adjust_present_page_count' [-Wmissing-prototypes]
+     995 | void __adjust_present_page_count(struct page *page, struct memory_group *group,
+         |      ^
+   mm/memory_hotplug.c:995:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     995 | void __adjust_present_page_count(struct page *page, struct memory_group *group,
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/str__ogki_honor__trace_system_name +2 include/trace/stages/init.h
+vim +/__move_pfn_range_to_zone +664 mm/memory_hotplug.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   663	
+ > 664	void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
+   665					  unsigned long nr_pages, struct vmem_altmap *altmap,
+   666					  int migratetype, int phase)
+   667	{
+   668		struct pglist_data *pgdat = zone->zone_pgdat;
+   669		int nid = pgdat->node_id;
+   670		unsigned long flags;
+   671	
+   672		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_PREPARE) {
+   673	#ifdef KIDLED_AGE_NOT_IN_PAGE_FLAGS
+   674			kidled_free_page_age(pgdat);
+   675	#endif
+   676			clear_zone_contiguous(zone);
+   677	
+   678			/* TODO Huh pgdat is irqsave while zone is not. It used to be like that before */
+   679			pgdat_resize_lock(pgdat, &flags);
+   680			zone_span_writelock(zone);
+   681			if (zone_is_empty(zone))
+   682				init_currently_empty_zone(zone, start_pfn, nr_pages);
+   683			resize_zone_range(zone, start_pfn, nr_pages);
+   684			zone_span_writeunlock(zone);
+   685			resize_pgdat_range(pgdat, start_pfn, nr_pages);
+   686			pgdat_resize_unlock(pgdat, &flags);
+   687		}
+   688	
+   689		/*
+   690		 * TODO now we have a visible range of pages which are not associated
+   691		 * with their zone properly. Not nice but set_pfnblock_flags_mask
+   692		 * expects the zone spans the pfn range. All the pages in the range
+   693		 * are reserved so nobody should be touching them so we should be safe
+   694		 */
+   695		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_DEFERRED)
+   696			memmap_init_zone(nr_pages, nid, zone_idx(zone), start_pfn, 0,
+   697				 MEMINIT_HOTPLUG, altmap, migratetype);
+   698	
+   699		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_PREPARE)
+   700			set_zone_contiguous(zone);
+   701	}
+   702	
 
 -- 
 0-DAY CI Kernel Test Service
