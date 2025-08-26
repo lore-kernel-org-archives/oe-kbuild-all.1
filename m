@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F279238C23
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 20:35:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0AE2AE8D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 20:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756240543; cv=none; b=sgDafa1kP4oScE/BVI4aXp2NsqGL8iLHgCVTztSPnixgw+7HPEpORFgeoNS2VyXMhDNv8u+NaNsTDxfsJRe8zVHmUfrUVAOBu7VwqSLQfytKh20aeq10W955o0jZwxmhjYqgpwTfiSLTSlAXYFTIEfz46GWmYpxMs0gAJIwKxos=
+	t=1756241202; cv=none; b=REq6b7jwHJKam+c2uK5ePyBN9AwfTG5ysEK5MPDVW01AeUQ2E8eCN35uWR3LidmCXQtcNLlxYzbZSc+04WSE/vmzqpIi/KshguM2fGYFpqonqMUoBfEcxVhRWgWo0BhV0mSyU9CJHunLGKgN/xXB59XGawbwDv3UIMPkxmfe94I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756240543; c=relaxed/simple;
-	bh=sFouoUIvWVQ2yig/ZG45FSzeJ7zb8/WV+WvoFHH3+sY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gyS2LG3Tqm+wCPhR9H7BSOd71RyHJAjhzfRNcxZgAhadcJqM/Iozz9RUUv/p4zjmtUfI9QW1seC6OgtwJO8YUDqwCMEvgFKXLDMbkxMSAJGvzOP17HD7PUt3ePDfjWM7ASV0ledMm5TaJdoYfknFmbkVxulMhbkJX2VgNFAUQ24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAb7Vhfc; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1756241202; c=relaxed/simple;
+	bh=tW012G47WCN3IUd7ZSGfoSpISetyXwyJBv9i49L7FQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iBkUIKehiuv2/Xwjo+fAsTLL58/mJ2iL7O7az3RDSiGFKy0JPL/viPxHpD4iTXv+b12TOIvFHFlrkH298YVPPkMXnXyQKbubOxTeiyURuPvVBsyne3JssJ8jjt/h+TdYKCHepgeYatZdx5K//o+nSh9l3KVKAOennJeGjXrtcVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9cOITm5; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAb7Vhfc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9cOITm5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756240542; x=1787776542;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sFouoUIvWVQ2yig/ZG45FSzeJ7zb8/WV+WvoFHH3+sY=;
-  b=DAb7VhfcsfDYIOCiWUT8V053wyqtJXkb3pIgyCxfGjn8j859ZutqZeMp
-   GY5MgWVXtcuD0RAnDdbx2iEjwIKYZBNpl5i+qcpeTOtkV+0UEd+TLlg4a
-   RvDCo8UpO8yi3z6qhNFoH2TFdjODReKP6H1Vpsveh273mh8xRztiK8vy2
-   bDzqePI13xKQcHI/INT77XSccpW3D/cBKFaIMZPl2oHG+qypbXOjWEFcq
-   pkONnmz5VQqnlIeoTD6NVxE/O67rwkFh7k9fFLimte3ZlTSA+nJkO1RsQ
-   Qq5Ex5NuTm+iCpzrMkVmJW25QMQmZOCULvpzM4mrAUUkwqk4qWkc9cYXg
-   g==;
-X-CSE-ConnectionGUID: hXc7RUQsSLee9OKEVXX+iw==
-X-CSE-MsgGUID: nhj1048aQY2v0z24Rx0ETw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="58423407"
+  t=1756241201; x=1787777201;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tW012G47WCN3IUd7ZSGfoSpISetyXwyJBv9i49L7FQY=;
+  b=O9cOITm5YxO/h6wad3vQK15jXHvmu9j4PxQVgKZ7jTa6yw0gNu/nqkF3
+   2bCxr3HaDmmztmVJL1NRQh4ompWYNUBVNc5/l4sQJROsqzKd+RH26Ogkj
+   mb32sWFPV/TG23glWHEUTPPDrUUp4Ret3WBDXKafqO2xbHdFiu1syDJee
+   PD5CJg5JtaHxzsZ2WYqjQHau9pUDjnCzaxtaP25wGQFESp+VuRRNdRE9I
+   Wrjs2/y4/T9j2rQLSzKbyeV6vZpimLH8jWkvoqGI/vsy1l1CieRIBzdIl
+   eA7AhM2fIIdrGGYiAiWWLKqOLjmGibFZ8GkptlN1XWOPWtRcc08QNqvGA
+   w==;
+X-CSE-ConnectionGUID: MnwJvLcpQduwsesGdKucKA==
+X-CSE-MsgGUID: kedNZwdCTV+xSUOVQ5/0Pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="58424427"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="58423407"
+   d="scan'208";a="58424427"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 13:35:42 -0700
-X-CSE-ConnectionGUID: 21+nFIwlQHCy6Q0yqbjhHA==
-X-CSE-MsgGUID: 6j7kS6d4RMGWnYhc6xSXCg==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 13:46:41 -0700
+X-CSE-ConnectionGUID: Yw+9Oyj+R3a0zYm/g5NoiQ==
+X-CSE-MsgGUID: UsX6CXFdRtqplo6aB0nZIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169844692"
+   d="scan'208";a="169847489"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 Aug 2025 13:35:40 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Aug 2025 13:46:39 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ur0OH-000SND-2R;
-	Tue, 26 Aug 2025 20:35:37 +0000
-Date: Wed, 27 Aug 2025 04:35:27 +0800
+	id 1ur0YU-000SNb-2l;
+	Tue, 26 Aug 2025 20:46:19 +0000
+Date: Wed, 27 Aug 2025 04:45:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-spi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] spi: rb4xx: add COMPILE_TEST support
-Message-ID: <202508270444.t2WdWo8x-lkp@intel.com>
-References: <20250821033534.638157-1-rosenp@gmail.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:kthread/core-v2 34/35] Warning:
+ kernel/kthread.c:872 function parameter 'mask' not described in
+ 'kthread_affine_preferred'
+Message-ID: <202508270421.Sv91XzI8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250821033534.638157-1-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on linus/master v6.17-rc3 next-20250826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/spi-rb4xx-add-COMPILE_TEST-support/20250821-113701
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20250821033534.638157-1-rosenp%40gmail.com
-patch subject: [PATCH] spi: rb4xx: add COMPILE_TEST support
-config: m68k-randconfig-r073-20250827 (https://download.01.org/0day-ci/archive/20250827/202508270444.t2WdWo8x-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508270444.t2WdWo8x-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git kthread/core-v2
+head:   6bcb15d1aebd50828a313a2ec927dea9d0ab9b8f
+commit: 66bc53cba4db887c64e6f15e206dd91db10fc1f8 [34/35] kthread: Document kthread_affine_preferred()
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20250827/202508270421.Sv91XzI8-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508270421.Sv91XzI8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508270444.t2WdWo8x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508270421.Sv91XzI8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/spi/spi-rb4xx.c:200:34: warning: 'rb4xx_spi_dt_match' defined but not used [-Wunused-const-variable=]
-     200 | static const struct of_device_id rb4xx_spi_dt_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~
-
-
-vim +/rb4xx_spi_dt_match +200 drivers/spi/spi-rb4xx.c
-
-05aec357871f89 Bert Vermeulen   2015-04-15  199  
-9a436c62fbb4c5 Christopher Hill 2020-05-21 @200  static const struct of_device_id rb4xx_spi_dt_match[] = {
-9a436c62fbb4c5 Christopher Hill 2020-05-21  201  	{ .compatible = "mikrotik,rb4xx-spi" },
-9a436c62fbb4c5 Christopher Hill 2020-05-21  202  	{ },
-9a436c62fbb4c5 Christopher Hill 2020-05-21  203  };
-9a436c62fbb4c5 Christopher Hill 2020-05-21  204  MODULE_DEVICE_TABLE(of, rb4xx_spi_dt_match);
-9a436c62fbb4c5 Christopher Hill 2020-05-21  205  
+>> Warning: kernel/kthread.c:872 function parameter 'mask' not described in 'kthread_affine_preferred'
+   Warning: kernel/kthread.c:927 function parameter 'mask' not described in 'kthread_affine_preferred_update'
 
 -- 
 0-DAY CI Kernel Test Service
