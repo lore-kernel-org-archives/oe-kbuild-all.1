@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73C230CD9E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 19:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144FD30CDBB;
+	Tue, 26 Aug 2025 19:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756237458; cv=none; b=sw2DaVCq7IdLfk+zIx0xuTJS9uapdbvizzkGeWE5gfvHS0pF8oPlisVL8+y5tJbGdr7SX0sZXhvOHPJ36RZzQaJX+K5bsOhOV3vIzcwXsbWbl1kRsIv49KVA0RWmOE/Wm6xulROFFG1BdWv4x7hvR00Ll2jkQoqhyFkcebMIhE8=
+	t=1756237493; cv=none; b=UEBA17owx0edcxVf5UEidH/Dvhpd/0UhdJ889oersMFAGiBUzjsck8KWG8FndgXMjEFyoBQzVfrf9JEV0zgFINLuSQKXof5cwUfLtLHzfuw2noOf9wdxqEJUtMwcVt6nalxdXqCY5b/HpOM47dwhsnVuSmfRqCJhIQeq7clqT+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756237458; c=relaxed/simple;
-	bh=ffWemVV5z6p3rwmFwUAyaGRh9zHtNLEBLzkFCVwQ/wo=;
+	s=arc-20240116; t=1756237493; c=relaxed/simple;
+	bh=VKw4BgDEQyKwKTM6j7IGL5GIiDaIXWa7ZkotB2Dukzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IVv/wLCAbV2MmjbVt+UP6Va/NsoF6h+kp1CcAk3fKCF7grKK0QbyWu46DaOKYgoCV3MmSiQOvVIgMOCTG28EBoWapkqRGOIwpd3DNHY3yG16TsqNXVebTa/Yk1FMpHDNV1hykX4mOK8CRpcM2ikPZVibhAejhggksm5dWm4DDPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hsw14Agy; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=ReTfbeFsmyc/1ZPBQqCaBjdO7p3LvtDimliIjuVDMML5FUr4UMDSBRCCZ540CNDSHeqB+dLhaD0VhonhCejrx9p8E7i5PuAR75JHQUI1356Nm+8ZptGdAaVh8iEk6hB/QrVUKsgmFLwCwfA8bjTXutY2Wqb4qmyGTCzkw8hTnAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0JGAXs2; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hsw14Agy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0JGAXs2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756237456; x=1787773456;
+  t=1756237493; x=1787773493;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ffWemVV5z6p3rwmFwUAyaGRh9zHtNLEBLzkFCVwQ/wo=;
-  b=Hsw14AgyZNw+fwUY4aWi564wifPCECaZIxkdfVszhPNRUwBmKPTkyszz
-   KkVl369KXzuDAh4BWepAmGSeGxOA0qCvraMhZ3tiwdK3CX34RLL89qCel
-   XNTL165wKA2geed8TbcMX+yA1wX31WkxA2KR1zjJINIdU3VpO3Wh/c3o9
-   UZtlRQaaHXYsDTrqnbl2lq3GreLksFNxxJ4SEQO8MIb8RByNPHhIjADEx
-   GohadBRcSPVxVHV8e2O8FkLO9ZmmoQnw5tnL08t4Wfm+kaPPZDbelCIA6
-   ZLU59eWY00ZgySzNwVy8uqqrC68/T5OwX2DYrLeRs7najhaKZ7DS4STh1
-   g==;
-X-CSE-ConnectionGUID: B8dJcmV6QGeaYARIj3N9kA==
-X-CSE-MsgGUID: JstIiO2+Tnq7PBg/WHBqkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58545127"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58545127"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 12:44:15 -0700
-X-CSE-ConnectionGUID: nG2T2oqKQKC0+JaAy/ucCw==
-X-CSE-MsgGUID: oQFMJDXHRXOUrXb3pH5Y9g==
+  bh=VKw4BgDEQyKwKTM6j7IGL5GIiDaIXWa7ZkotB2Dukzs=;
+  b=j0JGAXs2hFMtw3Yw3NsIYa92cUNT5zm7VcQGL5vGWmJnH2hjvQmjKwE2
+   WvjrFOQbzZIR2777En67t7G23EfbZk/iNbGJub+rLOq51CZlNylm+xMQh
+   19ix67HRRY3iC/JVFq5cmYyZnmDY0MiKD2jP9xwmNUcCoKbFGienMdjnu
+   OI7C5gtsfJTXO7bdEq+TNeleMvWTpOoAQMTSYrnR1dJttE4VFf2nlhsN+
+   KKAyAV7Mzp+pXRDrWyozBqlST5qWOsNhSVktNZ1ShJiQGCSjkjmuZAFzK
+   nFXQclahSRlOPg3qcutjeceTCZzmbdD72J5GyNA5PH8czIWJT89FLDk8o
+   A==;
+X-CSE-ConnectionGUID: KvC9JnfOTEKSh5TRM3YSgw==
+X-CSE-MsgGUID: pkMt8RYDSjm2yiOwcf3TgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="58196650"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="58196650"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 12:44:52 -0700
+X-CSE-ConnectionGUID: f73lg6zjQ2yo0dh1YiGlqw==
+X-CSE-MsgGUID: Hm4oMGHeRlm2lc6MuQ0yrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="200549297"
+   d="scan'208";a="200613591"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Aug 2025 12:44:14 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Aug 2025 12:44:50 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqzZm-000SL5-3A;
-	Tue, 26 Aug 2025 19:43:43 +0000
-Date: Wed, 27 Aug 2025 03:43:11 +0800
+	id 1uqzaV-000SL7-1R;
+	Tue, 26 Aug 2025 19:44:24 +0000
+Date: Wed, 27 Aug 2025 03:42:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:kthread/core-v2 33/35] Warning:
- kernel/kthread.c:915 function parameter 'mask' not described in
- 'kthread_affine_preferred_update'
-Message-ID: <202508270306.mDy0jZOZ-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:kthread/core-v2 35/35]
+ kernel/irq/manage.c:1411:46: error: no member named 'affinity' in 'struct
+ irq_common_data'
+Message-ID: <202508270331.tMyrfknq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,19 +65,62 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git kthread/core-v2
 head:   6bcb15d1aebd50828a313a2ec927dea9d0ab9b8f
-commit: 6365e0ca8b5387309efcfedabeeec97e064e2034 [33/35] kthread: Add API to update preferred affinity on kthread runtime
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20250827/202508270306.mDy0jZOZ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508270306.mDy0jZOZ-lkp@intel.com/reproduce)
+commit: 6bcb15d1aebd50828a313a2ec927dea9d0ab9b8f [35/35] genirq: Correctly handle preferred kthreads affinity
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20250827/202508270331.tMyrfknq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508270331.tMyrfknq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508270306.mDy0jZOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508270331.tMyrfknq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: kernel/kthread.c:915 function parameter 'mask' not described in 'kthread_affine_preferred_update'
+>> kernel/irq/manage.c:1411:46: error: no member named 'affinity' in 'struct irq_common_data'
+    1411 |         if (cpumask_available(desc->irq_common_data.affinity))
+         |                               ~~~~~~~~~~~~~~~~~~~~~ ^
+   1 error generated.
+
+
+vim +1411 kernel/irq/manage.c
+
+  1385	
+  1386	static int
+  1387	setup_irq_thread(struct irqaction *new, struct irq_desc *desc,
+  1388			 unsigned int irq, bool secondary)
+  1389	{
+  1390		const struct cpumask *mask;
+  1391		struct task_struct *t;
+  1392	
+  1393		if (!secondary) {
+  1394			t = kthread_create(irq_thread, new, "irq/%d-%s", irq,
+  1395					   new->name);
+  1396		} else {
+  1397			t = kthread_create(irq_thread, new, "irq/%d-s-%s", irq,
+  1398					   new->name);
+  1399		}
+  1400	
+  1401		if (IS_ERR(t))
+  1402			return PTR_ERR(t);
+  1403	
+  1404		/*
+  1405		 * We keep the reference to the task struct even if
+  1406		 * the thread dies to avoid that the interrupt code
+  1407		 * references an already freed task_struct.
+  1408		 */
+  1409		new->thread = get_task_struct(t);
+  1410	
+> 1411		if (cpumask_available(desc->irq_common_data.affinity))
+  1412			mask = irq_data_get_effective_affinity_mask(&desc->irq_data);
+  1413		else
+  1414			mask = cpu_possible_mask;
+  1415	
+  1416		kthread_affine_preferred(t, mask);
+  1417	
+  1418		return 0;
+  1419	}
+  1420	
 
 -- 
 0-DAY CI Kernel Test Service
