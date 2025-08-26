@@ -1,41 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6CB393DC5;
-	Tue, 26 Aug 2025 00:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3C21C5D59;
+	Tue, 26 Aug 2025 01:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756168313; cv=none; b=HXWgBE56md5xLcqqCNE7xNlvgEKmwv+yGyRnZSn6qgMCHqeGjtpN93+fmjpBk/eIBKtpkdj5W+ENyEDuQa4y5Zc79XHsQRaUtsT/Ro49RpO1mciBThFas918UF2U7qpozCHoTRoDO744QBhaRiZwUXs2cwQy5mo7cuIsRyFcmcI=
+	t=1756173338; cv=none; b=QiT7BB7Pv5drk5nLlyjuJfABPu2YkWYNZLqx8ykSQuS52Js3WwDMMIl2F3mp1fIix0NjbIhlQ+ze7rU7wt+XuzrBUfbl9SHtbPTyyxwUlq3poL9JdgEZB0QuXRap1v23qKpTFFTSvC57ApCDMet6cZYPJX+Ll3l/95yWzoicOuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756168313; c=relaxed/simple;
-	bh=CPnEBZBjXV/lzxeV1sHV1BY++uFlByZX7Cld6l17i/o=;
+	s=arc-20240116; t=1756173338; c=relaxed/simple;
+	bh=4hB1Ohdsu3e3OwOT9KZUcuu3uI7kLzVe0w65yF8+ZXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jJ8FViHaIpx8eKmX2WfX0NSjiIDg+ESEEwbvBKt8C2r1OrWiohVoDT66cvh3Tjl7I38+I4HGtb0T3qK6lcn5HCA70dzz1mhi8a/p/zNmUVOJfr7he3JhJ78JcKkkTHhOMJTCDoMNLbRaQ61oFo9Xll1BOJ7SJutXUaTsai8OKWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kA2Zg+k0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q6Nr+so0e2OJX0wxxHdQy60u3Amfrua2l5KPboFcKbFSyuTJRtClLkJbyVYNo4gJk3mVjvHstOtUbgir6uCM/8F+os+UrXNWhX2bfNe/xWFOMwr4T+y61xw4jjHCsMOb/PrFHkD9kmMZaG/CCuBp5Oux0LjdgJVfwN6BxI+wvIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQVHgb1P; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kA2Zg+k0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE7AC4CEED;
-	Tue, 26 Aug 2025 00:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756168312;
-	bh=CPnEBZBjXV/lzxeV1sHV1BY++uFlByZX7Cld6l17i/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kA2Zg+k0pFEQcnjhuXBjqyRvKdActGu0y02/REUiju6RRF33HK1L49cHZ2OcXyvfs
-	 xPNOq4d0Yil6Opx4YruYw6aot2yRWsuEkJIqCpxg7M8fa+RoHaAA7OhzNdJJbCvira
-	 mQhZV/++2JQ9eNWw21C80dhDSDzP7GJP+oifHkrDmvnM9vfRiZ524th8fPCaUXM7p3
-	 rKGTRw13OGvqaKfety2/ASYQFTUHLMOqvYPI+VpDjxEaacChxEzNMY+pscjKooUZ1+
-	 QaMI/tGVtIBfkbpP1ch1LSrG6WORLmDKuPwlGhkrBbiJA3vSAY7ZhesV8VoOfKUkXN
-	 n7ZBU3+quSuIg==
-Date: Mon, 25 Aug 2025 17:31:51 -0700
-From: Kees Cook <kees@kernel.org>
-To: kernel test robot <lkp@intel.com>,
-	Nathan Chancellor <nathan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: include/linux/ucopysize.h:45:4: error: call to '__bad_copy_from'
- declared with 'error' attribute: copy source size is too small
-Message-ID: <202508251728.D5CA199F35@keescook>
-References: <202508060351.OMeX2wGa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQVHgb1P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756173337; x=1787709337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4hB1Ohdsu3e3OwOT9KZUcuu3uI7kLzVe0w65yF8+ZXY=;
+  b=KQVHgb1Pw4zchhR7/r59uCTWch8ml0AF3jcYPh48WMGKens4tzUav1Qs
+   NnJryiHVrc2lUhbSZFgxbzDG868wxBBwqWxeMvlX01kFTcWM+J/gfSMy0
+   PWYJIoopwxSfpN9ZTTt7yDn58NLqhG6FFPxLj4pevMBSP4s4u0qbzko/B
+   21Y7WvtXEIHUzJGejk1dEEBbK1D7Ac3hcrnpHJKOpmjV03gdGWWoS31N5
+   3xedYFd594JNzxJ7xlF56jFO+ujX1ZUBZHTa22l8A4TMi0xAivEVKG8dr
+   ecIL4Tj3nUrLq1ZFVxPT1asxD/i3N80DkjyT0zTJbIgmgY1oYJEUpRilZ
+   A==;
+X-CSE-ConnectionGUID: pKYqAqLaQOKopLNk/4aB3Q==
+X-CSE-MsgGUID: mDsUNJ9eSUG/UgzR824gtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69832646"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69832646"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 18:55:36 -0700
+X-CSE-ConnectionGUID: I8sPxLP7SFOCw2ef/84AXw==
+X-CSE-MsgGUID: /LdffSHCTy2Cb9DFe9vTrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="200396304"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 25 Aug 2025 18:55:33 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uqiuJ-000O9f-0S;
+	Tue, 26 Aug 2025 01:55:31 +0000
+Date: Tue, 26 Aug 2025 09:55:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Youling Tang <youling.tang@linux.dev>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
+	Baoquan He <bhe@redhat.com>, Yao Zi <ziyao@disroot.org>,
+	kexec@lists.infradead.org, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org, youling.tang@linux.dev,
+	Youling Tang <tangyouling@kylinos.cn>
+Subject: Re: [PATCH v2 2/5] LoongArch: Add kexec_file support
+Message-ID: <202508260914.Bjz2YQwS-lkp@intel.com>
+References: <20250820055700.24344-3-youling.tang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,69 +67,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508060351.OMeX2wGa-lkp@intel.com>
+In-Reply-To: <20250820055700.24344-3-youling.tang@linux.dev>
 
-On Wed, Aug 06, 2025 at 03:49:28AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   6bcdbd62bd56e6d7383f9e06d9d148935b3c9b73
-> commit: 808aac63e2bdf9bae08485e072bf3d317a18acbf uaccess: Introduce ucopysize.h
-> date:   5 months ago
-> config: um-randconfig-001-20250806 (https://download.01.org/0day-ci/archive/20250806/202508060351.OMeX2wGa-lkp@intel.com/config)
+Hi Youling,
 
-The option inducing the miscompile (the "len" argument gets turned into
-a compiler-constant value +1 from where it actually should be across the
-inlinings of copy_to_user) is, *drum roll*  -fsanitize=alignment
+kernel test robot noticed the following build warnings:
 
-So, I think we need to ban CONFIG_UBSAN_ALIGNMENT on at least on x86...
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.17-rc3 next-20250825]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--Kees
+url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/LoongArch-Add-struct-loongarch_image_header-for-kernel-image/20250820-140025
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250820055700.24344-3-youling.tang%40linux.dev
+patch subject: [PATCH v2 2/5] LoongArch: Add kexec_file support
+config: loongarch-randconfig-r121-20250826 (https://download.01.org/0day-ci/archive/20250826/202508260914.Bjz2YQwS-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250826/202508260914.Bjz2YQwS-lkp@intel.com/reproduce)
 
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060351.OMeX2wGa-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508060351.OMeX2wGa-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from net/sctp/socket.c:45:
->    In file included from include/linux/sched/signal.h:9:
->    In file included from include/linux/sched/task.h:13:
->    In file included from include/linux/uaccess.h:10:
-> >> include/linux/ucopysize.h:45:4: error: call to '__bad_copy_from' declared with 'error' attribute: copy source size is too small
->                            __bad_copy_from();
->                            ^
->    1 error generated.
-> 
-> 
-> vim +45 include/linux/ucopysize.h
-> 
->     36	
->     37	static __always_inline __must_check bool
->     38	check_copy_size(const void *addr, size_t bytes, bool is_source)
->     39	{
->     40		int sz = __builtin_object_size(addr, 0);
->     41		if (unlikely(sz >= 0 && sz < bytes)) {
->     42			if (!__builtin_constant_p(bytes))
->     43				copy_overflow(sz, bytes);
->     44			else if (is_source)
->   > 45				__bad_copy_from();
->     46			else
->     47				__bad_copy_to();
->     48			return false;
->     49		}
->     50		if (WARN_ON_ONCE(bytes > INT_MAX))
->     51			return false;
->     52		check_object_size(addr, bytes, is_source);
->     53		return true;
->     54	}
->     55	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508260914.Bjz2YQwS-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> arch/loongarch/kernel/kexec_efi.c:61:22: sparse: sparse: cast to restricted __le64
+   arch/loongarch/kernel/kexec_efi.c:62:23: sparse: sparse: cast to restricted __le64
+
+vim +61 arch/loongarch/kernel/kexec_efi.c
+
+    37	
+    38	static void *efi_kexec_load(struct kimage *image,
+    39					char *kernel, unsigned long kernel_len,
+    40					char *initrd, unsigned long initrd_len,
+    41					char *cmdline, unsigned long cmdline_len)
+    42	{
+    43		struct loongarch_image_header *h;
+    44		struct kexec_buf kbuf;
+    45		unsigned long text_offset, kernel_segment_number;
+    46		struct kexec_segment *kernel_segment;
+    47		int ret;
+    48	
+    49		h = (struct loongarch_image_header *)kernel;
+    50		if (!h->image_size)
+    51			return ERR_PTR(-EINVAL);
+    52	
+    53		/* Load the kernel */
+    54		kbuf.image = image;
+    55		kbuf.buf_max = ULONG_MAX;
+    56		kbuf.top_down = false;
+    57	
+    58		kbuf.buffer = kernel;
+    59		kbuf.bufsz = kernel_len;
+    60		kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+  > 61		kbuf.memsz = le64_to_cpu(h->image_size);
+    62		text_offset = le64_to_cpu(h->text_offset);
+    63		kbuf.buf_min = text_offset;
+    64		kbuf.buf_align = SZ_2M;
+    65	
+    66		kernel_segment_number = image->nr_segments;
+    67	
+    68		/*
+    69		 * The location of the kernel segment may make it impossible to satisfy
+    70		 * the other segment requirements, so we try repeatedly to find a
+    71		 * location that will work.
+    72		 */
+    73		while ((ret = kexec_add_buffer(&kbuf)) == 0) {
+    74			/* Try to load additional data */
+    75			kernel_segment = &image->segment[kernel_segment_number];
+    76			ret = load_other_segments(image, kernel_segment->mem,
+    77						  kernel_segment->memsz, initrd,
+    78						  initrd_len, cmdline, cmdline_len);
+    79			if (!ret)
+    80				break;
+    81	
+    82			/*
+    83			 * We couldn't find space for the other segments; erase the
+    84			 * kernel segment and try the next available hole.
+    85			 */
+    86			image->nr_segments -= 1;
+    87			kbuf.buf_min = kernel_segment->mem + kernel_segment->memsz;
+    88			kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+    89		}
+    90	
+    91		if (ret) {
+    92			pr_err("Could not find any suitable kernel location!");
+    93			return ERR_PTR(ret);
+    94		}
+    95	
+    96		kernel_segment = &image->segment[kernel_segment_number];
+    97	
+    98		/* Make sure the second kernel jumps to the correct "kernel_entry". */
+    99		image->start = kernel_segment->mem + h->kernel_entry - text_offset;
+   100	
+   101		kexec_dprintk("Loaded kernel at 0x%lx bufsz=0x%lx memsz=0x%lx\n",
+   102			      kernel_segment->mem, kbuf.bufsz,
+   103			      kernel_segment->memsz);
+   104	
+   105		return NULL;
+   106	}
+   107	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
