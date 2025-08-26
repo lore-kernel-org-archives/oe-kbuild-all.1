@@ -1,68 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A47D1DBB2E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 06:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AB12877E3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 06:12:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756188127; cv=none; b=SJtKimTI574/EmniKCXbqb6SGV/4l6wpZL42j7jSh+H4D6NOBNbc1EUs108G7bIwPVtSKaK1pZzSzcT8XTedxsbBLu/2GXRC9kJFGxlLpgtvVIFt/Sk1djN9vBPmZ8EHt0a/478QPW81ggM3hoIcVIdqxNu55LXUR3S0zgbRFnE=
+	t=1756188729; cv=none; b=UaK9z4lgEm6KH0QpzDvr0uukqbiKOASoJ45Ak9TeQvSxcm6hJNJPGajHq+FX2prBx62yuJYxKbzEWQhCkCgaWzdTjIQB4Kgw1yP+HdygcO+BUB02unv4gNV1rYRzDyJ7v31fd0N/violy2/ZXJn+bghOdfpBf+m1G9JxICGv2sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756188127; c=relaxed/simple;
-	bh=/NAbA3KKPlkGUVLEW64dW+p7Ub0Umd/LU/ByfgYQHFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pbzw5SBwYpieLAxSRyBhHi/bjor6fIgDGoKGEeznAGjTIb/f7WlTm1AMaBKwhHRUbNVvGmGEjTfIwPjjku6NJRcnJgSu7v+rqQxBzNtcoY9Thrg0/s+OTX5gJPAI5Ctzpj8Reg3oZiK/Qhf+JNYc34izJIPMiiV55GlejgSNJ5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSSJUf+V; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1756188729; c=relaxed/simple;
+	bh=jfVaDi/1Rfjc21GBI6cfZWCpc9RGKZZWbFdi0rh77ew=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K+mn4+chaib+kcUZpbcM0kxxLOkCQo1bjh/hmpG42Vg/rTEplUuYAi5lR/PGDreY4klP8oI1tO375VcFJDUJPAPDE6EcPNaou+SrxDxRLFqOGvvJbPxrYzFu360Dk9wSYhIGdL7OCB1NGe/mw3MnOwsa9pU1vsi8/v+qIdq0xFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qd3vD01E; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSSJUf+V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qd3vD01E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756188126; x=1787724126;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/NAbA3KKPlkGUVLEW64dW+p7Ub0Umd/LU/ByfgYQHFI=;
-  b=TSSJUf+V5hz5I1NHQD0i0xZ1uDcJgRm60cJmcj8yWTWygIfwdibGjvs8
-   5iSznAOW68X3Bcs96CwKVM/uDeuZusLIyzIY6y4IRH8HZoYkwz8JWJnD9
-   uQ0a2dNaIEft6DurwXNsMDCK3U1jGZT+UJq6XxvLAgFaICzK5p3ScXYpc
-   GyPEkOPzVzkBXC8hUWTKUdjUgQPS8nOQyTjZv3P6aefpQj2uCcEGSNSmC
-   eLWv6DW7dOFZ/qDZI7sWSihCBf7P7AQRtQRtju9lMTefMbsLrq5yJ7Wcx
-   gxMrkLARZclPDIg12B8dufakb3kijovrFvjhRhjPE5fdtAk39nIZtvj2X
-   Q==;
-X-CSE-ConnectionGUID: SzYgVrGKQVWf75OH/tzuig==
-X-CSE-MsgGUID: 19MHGURkQKSCDJhnNw0rzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="45989816"
+  t=1756188728; x=1787724728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jfVaDi/1Rfjc21GBI6cfZWCpc9RGKZZWbFdi0rh77ew=;
+  b=Qd3vD01EI0M4CZ78xXmqn9Gyr7k7AEUSBn6/DVRgt6uqaPdRqmGpKBAc
+   BeNeKHGkyTtRTnLmV1LR7JGhoX0qfQIZ+ChQ3C5DVPX0oNM8Dw4+rjL5p
+   ni2Ublly5a5oH8ejbixcRJB5lrYh27FJH8LdigVZud7JL4eguISpxqWL6
+   osLWz+raFI12vkMCDrYDXd64Mnim+Sryg13fw+YMnfklJDEJ28dz7E1Cb
+   XkKwHgAGoQN/7gRYgS1OfMTaJkseNhOozEmPlAp5dXG11O5UMnMe00S4W
+   2cac2nC8oBhiLLwazoyQnxd3itOfVx/yIAb+QV282BhrDWDMmN3JPOazQ
+   g==;
+X-CSE-ConnectionGUID: GHuQbKV7TmC8G2ngMTJFfA==
+X-CSE-MsgGUID: 6nmOSqo4TniNm2ySnQWGcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="45990562"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="45989816"
+   d="scan'208";a="45990562"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 23:02:05 -0700
-X-CSE-ConnectionGUID: dBjAjTnISYmtD9zAf5DjAg==
-X-CSE-MsgGUID: aLP9yIKGRpqcaAGSsX+lxw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 23:12:08 -0700
+X-CSE-ConnectionGUID: kBFDl8tzT2ydz3qerefmTA==
+X-CSE-MsgGUID: tYHgl1i9REyG5R0y+P9w1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169654456"
+   d="scan'208";a="169656061"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 25 Aug 2025 23:02:02 -0700
+  by orviesa008.jf.intel.com with ESMTP; 25 Aug 2025 23:12:07 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqmkp-000OG7-0N;
-	Tue, 26 Aug 2025 06:01:59 +0000
-Date: Tue, 26 Aug 2025 14:01:15 +0800
+	id 1uqmuZ-000OGJ-06;
+	Tue, 26 Aug 2025 06:12:03 +0000
+Date: Tue, 26 Aug 2025 14:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nickolay Goppen <setotau@yandex.ru>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-	Nickolay Goppen <setotau@yandex.ru>,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: Re: [PATCH 3/3] pinctrl: qcom: Add SDM660 LPASS LPI TLMM
-Message-ID: <202508261333.8hcdJOVB-lkp@intel.com>
-References: <20250824-sdm660-lpass-lpi-v1-3-003d5cc28234@yandex.ru>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:rseq/perf 38/47] kernel/entry/common.o: error: objtool:
+ irqentry_exit+0x370: call to instruction_pointer.isra.0() with UACCESS
+ enabled
+Message-ID: <202508261440.puyyvBTN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,83 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250824-sdm660-lpass-lpi-v1-3-003d5cc28234@yandex.ru>
 
-Hi Nickolay,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 038d61fd642278bab63ee8ef722c50d10ab01e8f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nickolay-Goppen/pinctrl-qcom-lpass-lpi-Introduce-pin_offset-callback/20250825-045348
-base:   038d61fd642278bab63ee8ef722c50d10ab01e8f
-patch link:    https://lore.kernel.org/r/20250824-sdm660-lpass-lpi-v1-3-003d5cc28234%40yandex.ru
-patch subject: [PATCH 3/3] pinctrl: qcom: Add SDM660 LPASS LPI TLMM
-config: microblaze-randconfig-r123-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261333.8hcdJOVB-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 9.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250826/202508261333.8hcdJOVB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/perf
+head:   3aaf1200ebca49bc745506e411f36c54754e1754
+commit: a204651a939f81e1d14f28da912f70a7807c1aea [38/47] rseq: Switch to fast path processing on exit to user
+config: x86_64-randconfig-r131-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261440.puyyvBTN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261440.puyyvBTN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508261333.8hcdJOVB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508261440.puyyvBTN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:110:27: sparse: sparse: symbol 'sdm660_lpi_pinctrl_groups' was not declared. Should it be static?
->> drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c:148:27: sparse: sparse: symbol 'sdm660_lpi_pinctrl_functions' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/sdm660_lpi_pinctrl_groups +110 drivers/pinctrl/qcom/pinctrl-sdm660-lpass-lpi.c
-
-   109	
- > 110	const struct lpi_pingroup sdm660_lpi_pinctrl_groups[] = {
-   111		LPI_PINGROUP(0, LPI_NO_SLEW, _, _, _, _),
-   112		LPI_PINGROUP(1, LPI_NO_SLEW, _, _, _, _),
-   113		LPI_PINGROUP(2, LPI_NO_SLEW, _, _, _, _),
-   114		LPI_PINGROUP(3, LPI_NO_SLEW, _, _, _, _),
-   115		LPI_PINGROUP(4, LPI_NO_SLEW, _, _, _, _),
-   116		LPI_PINGROUP(5, LPI_NO_SLEW, _, _, _, _),
-   117		LPI_PINGROUP(6, LPI_NO_SLEW, _, _, _, _),
-   118		LPI_PINGROUP(7, LPI_NO_SLEW, _, _, _, _),
-   119		LPI_PINGROUP(8, LPI_NO_SLEW, _, _, _, _),
-   120		LPI_PINGROUP(9, LPI_NO_SLEW, _, _, _, _),
-   121		LPI_PINGROUP(10, LPI_NO_SLEW, _, _, _, _),
-   122		LPI_PINGROUP(11, LPI_NO_SLEW, _, _, _, _),
-   123		LPI_PINGROUP(12, LPI_NO_SLEW, _, _, _, _),
-   124		LPI_PINGROUP(13, LPI_NO_SLEW, _, _, _, _),
-   125		LPI_PINGROUP(14, LPI_NO_SLEW, _, _, _, _),
-   126		LPI_PINGROUP(15, LPI_NO_SLEW, _, _, _, _),
-   127		LPI_PINGROUP(16, LPI_NO_SLEW, _, _, _, _),
-   128		LPI_PINGROUP(17, LPI_NO_SLEW, _, _, _, _),
-   129	
-   130		/* The function names of the PDM GPIOs are derived from SDM670 */
-   131		LPI_PINGROUP(18, LPI_NO_SLEW, pdm_clk, mclk0, _, _),
-   132		LPI_PINGROUP(19, LPI_NO_SLEW, pdm_sync, _, _, _),
-   133		LPI_PINGROUP(20, LPI_NO_SLEW, pdm_2_gpios, _, _, _),
-   134		LPI_PINGROUP(21, LPI_NO_SLEW, pdm_rx, _, _, _),
-   135		LPI_PINGROUP(22, LPI_NO_SLEW, comp_rx, _, _, _),
-   136		LPI_PINGROUP(23, LPI_NO_SLEW, pdm_rx, _, _, _),
-   137		LPI_PINGROUP(24, LPI_NO_SLEW, comp_rx, _, _, _),
-   138		LPI_PINGROUP(25, LPI_NO_SLEW, pdm_rx, _, _, _),
-   139		LPI_PINGROUP(26, LPI_NO_SLEW, dmic12, _, _, _),
-   140		LPI_PINGROUP(27, LPI_NO_SLEW, dmic34, _, _, _),
-   141		LPI_PINGROUP(28, LPI_NO_SLEW, dmic12, _, _, _),
-   142		LPI_PINGROUP(29, LPI_NO_SLEW, dmic34, _, _, _),
-   143	
-   144		LPI_PINGROUP(30, LPI_NO_SLEW, _, _, _, _),
-   145		LPI_PINGROUP(31, LPI_NO_SLEW, _, _, _, _),
-   146	};
-   147	
- > 148	const struct lpi_function sdm660_lpi_pinctrl_functions[] = {
-   149		LPI_FUNCTION(comp_rx),
-   150		LPI_FUNCTION(dmic12),
-   151		LPI_FUNCTION(dmic34),
-   152		LPI_FUNCTION(mclk0),
-   153		LPI_FUNCTION(pdm_2_gpios),
-   154		LPI_FUNCTION(pdm_clk),
-   155		LPI_FUNCTION(pdm_rx),
-   156		LPI_FUNCTION(pdm_sync),
-   157	};
-   158	
+>> kernel/entry/common.o: error: objtool: irqentry_exit+0x370: call to instruction_pointer.isra.0() with UACCESS enabled
 
 -- 
 0-DAY CI Kernel Test Service
