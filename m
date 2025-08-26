@@ -1,58 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAC929D280
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 11:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B28F2FD7C8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 11:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756208921; cv=none; b=uJbipUJL4GYMVx0n/Rt99BauuvvFgZFwoWuXQZC9E3Rs9xqsJhPwLjGdKyBQusRL6Khy5CSboP2lzEAe3nWOXxQUxm8XONl+sLBS6mJGmen3hF5tRBRy4OaDYOR5/G9a5Rk8/Wn5y68w+hGfVqcrmPePjp10/LutHBmree+CQYs=
+	t=1756209534; cv=none; b=ZiAlzhZ3KzoSnVH8XKorAEeXLCJwU+iX2lBsFW5ww5h9aYGuyIFMiQqMiz/cqFNO6hsgDzoMXjrE0NbGoN6Zz6R1N8ib7jkBO0s5SMUMsAn6FVwu8KE8v3Jgvxlbib/Q6AzU7xW0MNdFAK1Rf+vIih9F1y4QPivUMu7jdNlbjAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756208921; c=relaxed/simple;
-	bh=R2r590RUbpUa/FsIM/ZKvcN37sYWqRjvVPp5QGuKJGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lm6zqcb34Qn3K880ujG1sV3f7QDj9W8o0WCQioxs8/NvAYEnBvo3TI5BvVtSWGAVofcmaLI8kQ4S87Umh0dFCdP4lEtO3iY3y5V9O/jFlP3W+viNz/QyWgneeORAhpAFSZDbRK+HvKWijAy8pLHAW2yJsncZX6KfwtScXRQRAJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1mtCfsV; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1756209534; c=relaxed/simple;
+	bh=FiLdpzWIyitQAvUhRt0r7ylePb3Gfbmw/UQAmdcgXEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOVlFT9Z+jfkybUgdZ2MO4V8ivCAuucTUPHfstX0B7IxAmZvEcrXhTwJAKjXaETD6ZZRYVDG2O+2xtDPRuOvaJ6DcIi1vYf73VLFnV5nZzglyh7ihVkCkTsJoDHPncGYLb8ZTaBY+D7ZTrbd8Gv83rZzZLByj7sn7Y+IvCOFhsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1/FgCEr; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1mtCfsV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1/FgCEr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756208920; x=1787744920;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R2r590RUbpUa/FsIM/ZKvcN37sYWqRjvVPp5QGuKJGw=;
-  b=P1mtCfsVG/YOpMZ7jMzvWunGpVaqBAvGwTkX9g9cPUuVFZZznF/S7AAF
-   gS5zLOIFxHQyL+LEW7hdZcU4wsGHaxbKqMNRD1ptClnopqy57ZWWaHcGN
-   Nxe305kNSUlCMaXy7EfugFzv8w+KMSH4fbw58wKd0VME1sfF6mqrZf9uS
-   LVYFigX4sLZYRrpwk1DZtJdhJmLcV52isO/ik45G6O3Yir38BQnKcodSN
-   qStCNk6fnnw0QwQlSW0YEa9wI4np2qsUJ4ujEqckFgF4X7c/Vq46w4YDb
-   Nj68cpo9NDPUdwd1Nh6y+8K2iazeSB8UDMidJN6sH5Fv9PQeF1Lb7LxvO
-   g==;
-X-CSE-ConnectionGUID: v9O3r8XJTGe3y+yJ7H8NMg==
-X-CSE-MsgGUID: HH13Cj0VTzePY/WsG5EA3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62271563"
+  t=1756209533; x=1787745533;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FiLdpzWIyitQAvUhRt0r7ylePb3Gfbmw/UQAmdcgXEk=;
+  b=i1/FgCEr8DpQs5LNQZfjJCJkjALv0x6fcW6E3cRGP+xyXxCQDpZ1iMs8
+   1yG1Nt1Ce4IGAbknuSJH8RqnUCJ2kJE2rBRe8v7/h6e2+2TyHPRerwi1t
+   kBlDJdVY3F2HB+yiKEsFX+gBoYTD8IpACP0J+38Ma0nM9HZVwNRUCrjqT
+   0kGNa4gm2600RO2+KOUNJFyGu54zpoEQTqiSo2U79MWDw+ASPFd4C2MAM
+   17u15evc0u82Tsv4gXKsvR1+UDhvNcJVlR0SscZEsEijPSl0JuG+asWw1
+   f6aAUPqTxgPfK+8P5SODiZr+AGWlz6p7QOnFosSWbsK+bM2YntKKiD2VB
+   Q==;
+X-CSE-ConnectionGUID: QV8eeC39QA2WCofEHcN+sw==
+X-CSE-MsgGUID: U+3f2XhTSdSOUr2l6tFNGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62273146"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62271563"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 04:48:39 -0700
-X-CSE-ConnectionGUID: oyL+7fikSF2xQRxOKdPdrA==
-X-CSE-MsgGUID: /5VrnjgKT0qj3WC03yHWLw==
+   d="scan'208";a="62273146"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 04:58:53 -0700
+X-CSE-ConnectionGUID: swsxi+ibRkW6mDaVWnZiAQ==
+X-CSE-MsgGUID: lA8PD4I8St+RXG09a7iRsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="173728609"
+   d="scan'208";a="173955138"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 26 Aug 2025 04:48:39 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 Aug 2025 04:58:50 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqsAG-000P65-1A;
-	Tue, 26 Aug 2025 11:48:36 +0000
-Date: Tue, 26 Aug 2025 19:47:34 +0800
+	id 1uqsK7-000PFD-1E;
+	Tue, 26 Aug 2025 11:58:47 +0000
+Date: Tue, 26 Aug 2025 19:58:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rseq/perf 29/47]
- include/linux/rseq_entry.h:135:undefined reference to `__get_user_bad'
-Message-ID: <202508261940.zu6vL9CX-lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, bhelgaas@google.com, helgaas@kernel.org,
+	jingoohan1@gmail.com, mani@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	ilpo.jarvinen@linux.intel.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v2] PCI: endpoint: Implement capability search using PCI
+ core APIs
+Message-ID: <202508261929.5s2blqmA-lkp@intel.com>
+References: <20250819145828.438541-1-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,150 +67,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250819145828.438541-1-18255117159@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/perf
-head:   3aaf1200ebca49bc745506e411f36c54754e1754
-commit: 49d6c4d0d5b7e26c6080bc7f1139cf8ba71da1b3 [29/47] rseq: Provide and use rseq_update_user_cs()
-config: arm-moxart_defconfig (https://download.01.org/0day-ci/archive/20250826/202508261940.zu6vL9CX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261940.zu6vL9CX-lkp@intel.com/reproduce)
+Hi Hans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8742b2d8935f476449ef37e263bc4da3295c7b58]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-endpoint-Implement-capability-search-using-PCI-core-APIs/20250819-231353
+base:   8742b2d8935f476449ef37e263bc4da3295c7b58
+patch link:    https://lore.kernel.org/r/20250819145828.438541-1-18255117159%40163.com
+patch subject: [PATCH v2] PCI: endpoint: Implement capability search using PCI core APIs
+config: x86_64-randconfig-002-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261929.5s2blqmA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261929.5s2blqmA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508261940.zu6vL9CX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508261929.5s2blqmA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: kernel/rseq.o: in function `rseq_debug_update_user_cs':
->> include/linux/rseq_entry.h:135:(.text+0xcb8): undefined reference to `__get_user_bad'
->> arm-linux-gnueabi-ld: include/linux/rseq_entry.h:142:(.text+0xd04): undefined reference to `__get_user_bad'
-   arm-linux-gnueabi-ld: include/linux/rseq_entry.h:152:(.text+0xd64): undefined reference to `__get_user_bad'
-   arm-linux-gnueabi-ld: include/linux/rseq_entry.h:165:(.text+0xdcc): undefined reference to `__get_user_bad'
-   arm-linux-gnueabi-ld: kernel/rseq.o: in function `rseq_update_user_cs':
-   include/linux/rseq_entry.h:227:(.text+0xfd0): undefined reference to `__get_user_bad'
-   arm-linux-gnueabi-ld: kernel/rseq.o:include/linux/rseq_entry.h:228: more undefined references to `__get_user_bad' follow
+   drivers/pci/controller/dwc/pcie-designware-ep.c: In function 'dw_pcie_ep_find_capability':
+>> drivers/pci/controller/dwc/pcie-designware-ep.c:74:16: error: implicit declaration of function 'PCI_FIND_NEXT_CAP' [-Werror=implicit-function-declaration]
+      74 |         return PCI_FIND_NEXT_CAP(dw_pcie_ep_read_cfg, PCI_CAPABILITY_LIST,
+         |                ^~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/dwc/pcie-designware-ep.c:74:34: error: 'dw_pcie_ep_read_cfg' undeclared (first use in this function); did you mean 'dw_pcie_ep_read_dbi'?
+      74 |         return PCI_FIND_NEXT_CAP(dw_pcie_ep_read_cfg, PCI_CAPABILITY_LIST,
+         |                                  ^~~~~~~~~~~~~~~~~~~
+         |                                  dw_pcie_ep_read_dbi
+   drivers/pci/controller/dwc/pcie-designware-ep.c:74:34: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/pci/controller/dwc/pcie-designware-ep.c:76:1: warning: control reaches end of non-void function [-Wreturn-type]
+      76 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +135 include/linux/rseq_entry.h
+vim +/PCI_FIND_NEXT_CAP +74 drivers/pci/controller/dwc/pcie-designware-ep.c
 
-    86	
-    87	/*
-    88	 * Check whether there is a valid critical section and whether the
-    89	 * instruction pointer in @regs is inside the critical section.
-    90	 *
-    91	 *  - If the critical section is invalid, terminate the task.
-    92	 *
-    93	 *  - If valid and the instruction pointer is inside, set it to the abort IP
-    94	 *
-    95	 *  - If valid and the instruction pointer is outside, clear the critical
-    96	 *    section address.
-    97	 *
-    98	 * Returns true, if the section was valid and either fixup or clear was
-    99	 * done, false otherwise.
-   100	 *
-   101	 * In the failure case task::rseq_event::fatal is set when a invalid
-   102	 * section was found. It's clear when the failure was an unresolved page
-   103	 * fault.
-   104	 *
-   105	 * If inlined into the exit to user path with interrupts disabled, the
-   106	 * caller has to protect against page faults with pagefault_disable().
-   107	 *
-   108	 * In preemptible task context this would be counterproductive as the page
-   109	 * faults could not be fully resolved. As a consequence unresolved page
-   110	 * faults in task context are fatal too.
-   111	 */
-   112	
-   113	#ifdef RSEQ_BUILD_SLOW_PATH
-   114	/*
-   115	 * The debug version is put out of line, but kept here so the code stays
-   116	 * together.
-   117	 *
-   118	 * @csaddr has already been checked by the caller to be in user space
-   119	 */
-   120	bool rseq_debug_update_user_cs(struct task_struct *t, struct pt_regs *regs, unsigned long csaddr)
-   121	{
-   122		struct rseq_cs __user *ucs = (struct rseq_cs __user *)(unsigned long)csaddr;
-   123		u64 start_ip, abort_ip, offset, cs_end, head, tasksize = TASK_SIZE;
-   124		unsigned long ip = instruction_pointer(regs);
-   125		u64 __user *uc_head = (u64 __user *) ucs;
-   126		u32 usig, __user *uc_sig;
-   127	
-   128		if (!user_rw_masked_begin(ucs))
-   129			return false;
-   130	
-   131		/*
-   132		 * Evaluate the user pile and exit if one of the conditions is not
-   133		 * fulfilled.
-   134		 */
- > 135		unsafe_get_user(start_ip, &ucs->start_ip, fail);
-   136		if (unlikely(start_ip >= tasksize))
-   137			goto die;
-   138		/* If outside, just clear the critical section. */
-   139		if (ip < start_ip)
-   140			goto clear;
-   141	
- > 142		unsafe_get_user(offset, &ucs->post_commit_offset, fail);
-   143		cs_end = start_ip + offset;
-   144		/* Check for overflow and wraparound */
-   145		if (unlikely(cs_end >= tasksize || cs_end < start_ip))
-   146			goto die;
-   147	
-   148		/* If not inside, clear it. */
-   149		if (ip >= cs_end)
-   150			goto clear;
-   151	
-   152		unsafe_get_user(abort_ip, &ucs->abort_ip, fail);
-   153		/* Ensure it's "valid" */
-   154		if (unlikely(abort_ip >= tasksize || abort_ip < sizeof(*uc_sig)))
-   155			goto die;
-   156		/* Validate that the abort IP is not in the critical section */
-   157		if (unlikely(abort_ip - start_ip < offset))
-   158			goto die;
-   159	
-   160		/*
-   161		 * Check version and flags for 0. No point in emitting deprecated
-   162		 * warnings before dying. That could be done in the slow path
-   163		 * eventually, but *shrug*.
-   164		 */
-   165		unsafe_get_user(head, uc_head, fail);
-   166		if (unlikely(head))
-   167			goto die;
-   168	
-   169		/* abort_ip - 4 is >= 0. See abort_ip check above */
-   170		uc_sig = (u32 __user *)(unsigned long)(abort_ip - sizeof(*uc_sig));
-   171		unsafe_get_user(usig, uc_sig, fail);
-   172		if (unlikely(usig != t->rseq_sig))
-   173			goto die;
-   174	
-   175		/* rseq_event.user_irq is only valid if CONFIG_GENERIC_IRQ_ENTRY=y */
-   176		if (IS_ENABLED(CONFIG_GENERIC_IRQ_ENTRY)) {
-   177			/* If not in interrupt from user context, let it die */
-   178			if (unlikely(!t->rseq_event.user_irq))
-   179				goto die;
-   180		}
-   181	
-   182		unsafe_put_user(0ULL, &t->rseq->rseq_cs, fail);
-   183		user_access_end();
-   184	
-   185		instruction_pointer_set(regs, (unsigned long)abort_ip);
-   186	
-   187		rseq_stat_inc(rseq_stats.fixup);
-   188		rseq_trace_ip_fixup(ip, start_ip, offset, abort_ip);
-   189		return true;
-   190	clear:
-   191		unsafe_put_user(0ULL, &t->rseq->rseq_cs, fail);
-   192		user_access_end();
-   193		rseq_stat_inc(rseq_stats.clear);
-   194		return true;
-   195	die:
-   196		t->rseq_event.fatal = true;
-   197	fail:
-   198		user_access_end();
-   199		return false;
-   200	}
-   201	#endif /* RSEQ_BUILD_SLOW_PATH */
-   202	
+    71	
+    72	static u8 dw_pcie_ep_find_capability(struct dw_pcie_ep *ep, u8 func_no, u8 cap)
+    73	{
+  > 74		return PCI_FIND_NEXT_CAP(dw_pcie_ep_read_cfg, PCI_CAPABILITY_LIST,
+    75					 cap, ep, func_no);
+  > 76	}
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
