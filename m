@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C68230748C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 09:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3127DA93
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 10:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756200169; cv=none; b=PeQx5v57W3IRNrp6MWCjUWBzyGrr1n127WVM/JDoL7p+vDJT2YsoNMpzcGr0XU/jFX06/hRRocELR/hlT49O7UPXvSO605eaKFoVXXwH1eaQ6GF1m2VFPvH9rAjId0P6KnycKVmlqfBiqKy1JLQwrlio3uC467M5js2M2X7y84A=
+	t=1756204628; cv=none; b=rg+Sdfjl3B7/hyfQ0el+v/mthmdOLc0WYnjrsyukFjZ2CIcbp9Vcw2efyVIXKW9tvkV/WKr30gKv7Pnii5YhDSQDytyafaL7ziqbOOfFJB3siEo+0iYaxpbhqI536Q448l8WwnUk0D/CKI6IG3Qjeyla8lGdeyeCEqePCwFqugA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756200169; c=relaxed/simple;
-	bh=cF/+t7YqCrNDg50jpNmnlCcL8GC0O3MrdFh1V8+gYws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FxTcXAZ0kVjjlVIzKGCwJ0dqxSFkGPwGZSHHfCzyWk4c58lHNt/BiK6/GXcONQsKrJ0nFERIV+Y5SiNBoJ3EvlQpc7VxSTrwYmhsvGKah455REUOkxVcu9iYOUkr55BXWdhTlp+5KjY2FvUTlmYcDWuuV8wJsZNzHVd77kCezLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/VN1Oj+; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1756204628; c=relaxed/simple;
+	bh=I8QUuAMoS3etjFivL133A0Xt77bD8VxHb6GUNq9H0E0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BgppwnuVPJETgUWsE6+iRahpi9w3jxMQUor/8I/DwMrayCt8Q7nlM731bjyOMFifzBmr6lyR6JGQLQchQ5KJWAb+yb+j0PyNt1VOZnGXE5y9XMZdY8eqlXvTMz8PkFwYbNzi7gvXc5PaiSurqckVJB2H7vWsflvTFsQK+Gm7yGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXUE3/VI; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/VN1Oj+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXUE3/VI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756200167; x=1787736167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cF/+t7YqCrNDg50jpNmnlCcL8GC0O3MrdFh1V8+gYws=;
-  b=Y/VN1Oj+EfUq3C0VMsVVJ1bV2nXbQTo71mebmu5Ox7v7RYcyi/8JCuXZ
-   sqAZeYK2HQZEVIaiXQNxmt/3V3ZggwnGt5yjMKD41V2keCeBsh+b/r732
-   T810TqV2zE3onbpAcwoeXR4avgzjGbGEZkuxEATrEUO9J6Iedm0ncnJEN
-   dc4XSAN8G9hHKK9BFtB1x8xQ3UhMrxvSuJeqKwuDACy0N38YvE5ygc+RV
-   QHIhITub/e6sfKrt/JwDGdVKDdv9ACFAyL1gWLMM56RDYhHF1O46BmxEd
-   /cz7KxVSmYAMIiGmYNYvYPbsFYwPwo+40A4gPy9zbjimREIPDcJlxuDKA
+  t=1756204628; x=1787740628;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I8QUuAMoS3etjFivL133A0Xt77bD8VxHb6GUNq9H0E0=;
+  b=QXUE3/VIHJTcJh9C5VYbq7Zo0fbqvrOvtE/6NoXHmhpKfZgg4F1gZtCf
+   a5XNhlyNJ9Usrb/AkhSHcrkRI+TN4pB4UJkOoEEpAgGwSPXl3jK+hUdiG
+   p4d3CNkzSEZk9eH6IFv/tWH4dn/X3l5dP9rZA/gFHrLe4TNlRo+6nstxv
+   JRr59WsB0aGezrTPdNiTYFGOfu5dPf8wU4cz2elQuuhGz6Sw1rd1Xvoq1
+   CnSPea+IpjRt6fmuZ92nF1VfTbvtMq4sG6v0mZGKX2hJZhFrRrajdRogq
+   6zFZgaOVGfti5BnfOsptTNeZOmb+i5OmtPqjb/B262iLwUVMxzqm2qt8A
    A==;
-X-CSE-ConnectionGUID: 2qzK/d7aTwivfEY9E6nGQQ==
-X-CSE-MsgGUID: VJvCAUgSQNST3tYHKdVf8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="76028111"
+X-CSE-ConnectionGUID: Nk2ljawoSo6oregZMSibFg==
+X-CSE-MsgGUID: fs4ZSL9STEmP0V2URSzbnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58292452"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="76028111"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 02:22:46 -0700
-X-CSE-ConnectionGUID: t+UCmRX3T7SPuBu8l9kCaA==
-X-CSE-MsgGUID: x21R8PKZSbaO0g5oh9U2HQ==
+   d="scan'208";a="58292452"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 03:37:07 -0700
+X-CSE-ConnectionGUID: g7wdgs8BSt60cgFyNRqvug==
+X-CSE-MsgGUID: gjSk1W64SGyOmIyIh/pnUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="174830972"
+   d="scan'208";a="169044417"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2025 02:22:43 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Aug 2025 03:37:05 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqpt0-000OMr-05;
-	Tue, 26 Aug 2025 09:22:41 +0000
-Date: Tue, 26 Aug 2025 17:21:00 +0800
+	id 1uqr2K-000OPb-2x;
+	Tue, 26 Aug 2025 10:36:32 +0000
+Date: Tue, 26 Aug 2025 18:35:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	David Lechner <dlechner@baylibre.com>
-Subject: Re: [PATCH v2 4/4] iio: adc: ad7124: add clock output support
-Message-ID: <202508261731.33GQLUPx-lkp@intel.com>
-References: <20250825-iio-adc-ad7124-proper-clock-support-v2-4-4dcff9db6b35@baylibre.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:iomap-pi 10/23] Warning: block/bio-integrity-auto.c:88
+ function parameter 'action' not described in 'bio_integrity_prep'
+Message-ID: <202508261840.lk6giSc2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,32 +61,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825-iio-adc-ad7124-proper-clock-support-v2-4-4dcff9db6b35@baylibre.com>
 
-Hi David,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 91812d3843409c235f336f32f1c37ddc790f1e03]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-adc-adi-ad7124-fix-clocks-properties/20250826-065924
-base:   91812d3843409c235f336f32f1c37ddc790f1e03
-patch link:    https://lore.kernel.org/r/20250825-iio-adc-ad7124-proper-clock-support-v2-4-4dcff9db6b35%40baylibre.com
-patch subject: [PATCH v2 4/4] iio: adc: ad7124: add clock output support
-config: sparc-randconfig-002-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261731.33GQLUPx-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261731.33GQLUPx-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git iomap-pi
+head:   d252168f39a5567415f89bd1a12ffbde1a68a853
+commit: a802255b182b364357b5ea835a423ec38f12f0b1 [10/23] block: factor out a bio_integrity_action helper
+config: csky-randconfig-002-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261840.lk6giSc2-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261840.lk6giSc2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508261731.33GQLUPx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508261840.lk6giSc2-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__clk_hw_register_fixed_rate" [drivers/iio/adc/ad7124.ko] undefined!
->> ERROR: modpost: "of_clk_hw_simple_get" [drivers/iio/adc/ad7124.ko] undefined!
->> ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/iio/adc/ad7124.ko] undefined!
+>> Warning: block/bio-integrity-auto.c:88 function parameter 'action' not described in 'bio_integrity_prep'
 
 -- 
 0-DAY CI Kernel Test Service
