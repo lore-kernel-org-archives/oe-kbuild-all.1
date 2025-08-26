@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1682FD1C2;
-	Tue, 26 Aug 2025 08:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C68230748C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Aug 2025 09:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756197506; cv=none; b=HBF+X3OZXTERniNxxeqY7dj/KObqOcrJlePJq/4EMV2Gcva5jTVEQLI03GZ42Yd+3lWA0xEJDpKZwgUwLnrI0vAD8EYOgj5Ezns3uHQ2zQad9SRgxm1n9d+YCJlO9LTUhmiuqf/MzOD8ZqAsTDE5tSPFJFkJuqCKw32OnnfTpC0=
+	t=1756200169; cv=none; b=PeQx5v57W3IRNrp6MWCjUWBzyGrr1n127WVM/JDoL7p+vDJT2YsoNMpzcGr0XU/jFX06/hRRocELR/hlT49O7UPXvSO605eaKFoVXXwH1eaQ6GF1m2VFPvH9rAjId0P6KnycKVmlqfBiqKy1JLQwrlio3uC467M5js2M2X7y84A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756197506; c=relaxed/simple;
-	bh=VwnkGumi7m+NtmngQTDJp+c+kv9r0AJvz0+ZbICwF+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tjNcPlEVt/77xLHmyJpiuaZT8WXPqKUk5U1ZHh/+Yzq42NLaabbQ9wHQgl6VYp6sKdaw7Ic7xYOi9HYlWdn8/0SGefA2nyHaT+xTZZmTqEe16KLh21aH5X400WZZ5K74JB8mqdXaxmA3v5H8tNpVvKY2rPdDgWzV8alU+CHGNC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WoxLg2gA; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1756200169; c=relaxed/simple;
+	bh=cF/+t7YqCrNDg50jpNmnlCcL8GC0O3MrdFh1V8+gYws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FxTcXAZ0kVjjlVIzKGCwJ0dqxSFkGPwGZSHHfCzyWk4c58lHNt/BiK6/GXcONQsKrJ0nFERIV+Y5SiNBoJ3EvlQpc7VxSTrwYmhsvGKah455REUOkxVcu9iYOUkr55BXWdhTlp+5KjY2FvUTlmYcDWuuV8wJsZNzHVd77kCezLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/VN1Oj+; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WoxLg2gA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/VN1Oj+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756197505; x=1787733505;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VwnkGumi7m+NtmngQTDJp+c+kv9r0AJvz0+ZbICwF+o=;
-  b=WoxLg2gAHUzl8RGvpqNJalfSZVq4Bx8EG8+vU7yNnghVrVN+7GPEomaT
-   AV61D46NxXaq3khD+4UALKxUwqsyupUm7NHCqx2gAcDYTKAlxIRKpaSHm
-   7luPSEPZA3ZfZL8bMyB3oAWIjPQelW+rO0hUW7e7zQBs1AdllDNKANfRK
-   hytOpqsRIwm5Kcdx1Syo2QrmimXZK1RLGt3IPopZHOANoY82EvUDn8ka0
-   7ek3zd/Yr2DCp5aD/HPsJqLdT3/rnGiQiNOfvAAfiL2R2nlRx4NZe5Ols
-   wYge6CoiUljuOOFKsixYelgJH17xoWId6ZiuAsdGDlTe4+QK2b3/3AujF
-   Q==;
-X-CSE-ConnectionGUID: kUTK0cjQTwu2NJWMdxAqpg==
-X-CSE-MsgGUID: qy2uOUUaS56Ox356flYFLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69020167"
+  t=1756200167; x=1787736167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cF/+t7YqCrNDg50jpNmnlCcL8GC0O3MrdFh1V8+gYws=;
+  b=Y/VN1Oj+EfUq3C0VMsVVJ1bV2nXbQTo71mebmu5Ox7v7RYcyi/8JCuXZ
+   sqAZeYK2HQZEVIaiXQNxmt/3V3ZggwnGt5yjMKD41V2keCeBsh+b/r732
+   T810TqV2zE3onbpAcwoeXR4avgzjGbGEZkuxEATrEUO9J6Iedm0ncnJEN
+   dc4XSAN8G9hHKK9BFtB1x8xQ3UhMrxvSuJeqKwuDACy0N38YvE5ygc+RV
+   QHIhITub/e6sfKrt/JwDGdVKDdv9ACFAyL1gWLMM56RDYhHF1O46BmxEd
+   /cz7KxVSmYAMIiGmYNYvYPbsFYwPwo+40A4gPy9zbjimREIPDcJlxuDKA
+   A==;
+X-CSE-ConnectionGUID: 2qzK/d7aTwivfEY9E6nGQQ==
+X-CSE-MsgGUID: VJvCAUgSQNST3tYHKdVf8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="76028111"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="69020167"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 01:38:24 -0700
-X-CSE-ConnectionGUID: YtI7BNYMTi6X/BeA5AqvUg==
-X-CSE-MsgGUID: MDPEXGemQvWvVE0kp4uRKQ==
+   d="scan'208";a="76028111"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 02:22:46 -0700
+X-CSE-ConnectionGUID: t+UCmRX3T7SPuBu8l9kCaA==
+X-CSE-MsgGUID: x21R8PKZSbaO0g5oh9U2HQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169124514"
+   d="scan'208";a="174830972"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 26 Aug 2025 01:38:23 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Aug 2025 02:22:43 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uqpC8-000OKZ-2J;
-	Tue, 26 Aug 2025 08:38:20 +0000
-Date: Tue, 26 Aug 2025 16:37:57 +0800
+	id 1uqpt0-000OMr-05;
+	Tue, 26 Aug 2025 09:22:41 +0000
+Date: Tue, 26 Aug 2025 17:21:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 4166/4221] vmlinux.o: warning: objtool:
- dev_pm_opp_find_level_exact+0x47: no-cfi indirect call!
-Message-ID: <202508261620.orOkZR9F-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH v2 4/4] iio: adc: ad7124: add clock output support
+Message-ID: <202508261731.33GQLUPx-lkp@intel.com>
+References: <20250825-iio-adc-ad7124-proper-clock-support-v2-4-4dcff9db6b35@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +70,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250825-iio-adc-ad7124-proper-clock-support-v2-4-4dcff9db6b35@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6c68f4c0a147c025ae0b25fab688c7c47964a02f
-commit: f441989dc8b0ebb984b4781856865eeb17d1bff4 [4166/4221] Merge branch 'master' of https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250826/202508261620.orOkZR9F-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261620.orOkZR9F-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 91812d3843409c235f336f32f1c37ddc790f1e03]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/dt-bindings-iio-adc-adi-ad7124-fix-clocks-properties/20250826-065924
+base:   91812d3843409c235f336f32f1c37ddc790f1e03
+patch link:    https://lore.kernel.org/r/20250825-iio-adc-ad7124-proper-clock-support-v2-4-4dcff9db6b35%40baylibre.com
+patch subject: [PATCH v2 4/4] iio: adc: ad7124: add clock output support
+config: sparc-randconfig-002-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261731.33GQLUPx-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261731.33GQLUPx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508261620.orOkZR9F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508261731.33GQLUPx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> vmlinux.o: warning: objtool: dev_pm_opp_find_level_exact+0x47: no-cfi indirect call!
->> vmlinux.o: warning: objtool: dev_pm_opp_find_level_ceil+0x75: no-cfi indirect call!
->> vmlinux.o: warning: objtool: dev_pm_opp_find_level_floor+0x66: no-cfi indirect call!
+>> ERROR: modpost: "__clk_hw_register_fixed_rate" [drivers/iio/adc/ad7124.ko] undefined!
+>> ERROR: modpost: "of_clk_hw_simple_get" [drivers/iio/adc/ad7124.ko] undefined!
+>> ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/iio/adc/ad7124.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
