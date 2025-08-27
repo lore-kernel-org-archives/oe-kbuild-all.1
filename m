@@ -1,44 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81DC4438B;
-	Wed, 27 Aug 2025 22:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C6127E07E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 23:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756333972; cv=none; b=DYsMu0hRFVj/V846LXF7VVr80UeaJC2j3W7ClNn6bNiZpSISoXoCawlONe+7tyuIQCJBvBhmtx+MIa7vWBxdN34aY7Z/hnTl5GR7Chp8025VtRmemIbv40k/0K79mQHAVTHSpAwBmrMzHUGFLHhwgKsCG68QT3IRbTnPACC++Ug=
+	t=1756338234; cv=none; b=A/6kUv76xJZdXIFz3nk53ZMkxxZTElebJCpSn8bg2b7yxoOkiXq4cAgpxfKxV1EX3OY3lfFxtV4SW5GBvdcwUH2Sv6AeEuLqGxoBpIArQfMBO+PsH/flBkMvQOMsF0ajtJGgWAa5e1LkGBQR9PnCTwF7GP5KSHddyWL7vsTnWxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756333972; c=relaxed/simple;
-	bh=cRelml25IfoTwK51wDUFEa70KndPvy9eVTz2jlD6W/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AcAsUCAzxBxgPxfDOLK2PY2WLyG5M9WIDgndkoR31HetxcDZgRsLq90WpMwGw/USsNEYJcbirrHCRTajRPF7uwJabuXJWmSfFVj6CWXPHMsRIO3PSP9QLUaelSRkbvbV0831d9f5fIm/jIKFgX7dN2k+ghxCy+bMv/8QWQv98LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLVXA3rv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756338234; c=relaxed/simple;
+	bh=msPL81xmidb4QIXYZv6wEQkZnpQ5sxSTTGprY6CZL54=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=N60mU6YD8kcIwba49d3gfy6fuhrhmO/P6wL9dtnM3z9ORcxKWuFvCeHkfvglzhvllTCqabA600imoULHk8dgw+FYPnuKwwvrkDRUgZPdFryOu5o2b3W4jLWLN63RterM5enyAKCHPhCJlV/8uJcBdoGuoWvzXlfWdslU0AHbs9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OvQk7g6c; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLVXA3rv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435DCC4CEEB;
-	Wed, 27 Aug 2025 22:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756333972;
-	bh=cRelml25IfoTwK51wDUFEa70KndPvy9eVTz2jlD6W/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kLVXA3rvVL/xLvQM02B2kEiKsZUFYbVnDpYKlY74wcDwZ1PSzb9ZeX0twU4Gf3XSc
-	 xScyl/c+8K4sM/srfX/Ih9RIk30m+ZudPEWJFCnFcP1EkMjnP9duhl8tCp1RJ2iHzd
-	 fhAY5T6iMgkmf7hmFN/GEjBpKxDTiuC9G8p2stdT51PnEbsvsmgoBzaXQshdWJxX0z
-	 qPr7jugXhyXUOEzyJqig6YEANXErQkc+QIYL/1LK+mXoZEwyBzvHq/Qf/hLaGT7nCS
-	 q0voC0Vvq6PyJ3Ryq9y1IV7NIs5YBwKqk8/aNerzXsPKwPoQr2Ibgu4AY0HmpaYq7g
-	 81lYPv1PVPh5g==
-Date: Wed, 27 Aug 2025 15:32:47 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Ingo Molnar <mingo@kernel.org>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Bill Wendling <morbo@google.com>
-Subject: Re: [linux-next:master 4166/4221] vmlinux.o: warning: objtool:
- dev_pm_opp_find_level_exact+0x47: no-cfi indirect call!
-Message-ID: <20250827223247.GA414199@ax162>
-References: <202508261620.orOkZR9F-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OvQk7g6c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756338233; x=1787874233;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=msPL81xmidb4QIXYZv6wEQkZnpQ5sxSTTGprY6CZL54=;
+  b=OvQk7g6cYYJHCc3TIYPjSxuOEJHDg6KMBjm8R2hsMWKwjdGWgC/HQrX8
+   zHwAtlBOqmjA6qbjT/eVA9ihoYT4jbCsmG+l8LdnnMOMBbaq/vIixVuw7
+   RwcMGnCoD7ptrK0soNeBVchRCIySFuQC3BhQ7E8PAu4ymhWbIK2tnJOhc
+   6dwIhRLPb1IA+c4GwFWnyYoTqj285W1yWn7UpwDTWWqbEQB3F0usCMc0i
+   i30oAycIATpTLRpEH15BUdmsX+Lqb/zXoRXXJgktEMZMReZ3H30Cjb5V1
+   Vl++44F6llPJRXKvWPAn7Zhc8RyGFQyDAlLK/eDREbv8fh+6dsJjb5LLP
+   A==;
+X-CSE-ConnectionGUID: IWV53rZHSxWUy0g/VQPSfw==
+X-CSE-MsgGUID: je7VzkGRT56maK8CxtBWOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="58531223"
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
+   d="scan'208";a="58531223"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 16:43:53 -0700
+X-CSE-ConnectionGUID: H4tWyHlIR6CIUjBJ2Q2IFw==
+X-CSE-MsgGUID: d1bWpQM4QkWk7hKc+pY6pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
+   d="scan'208";a="170128406"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 27 Aug 2025 16:43:51 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1urPnw-000THT-2d;
+	Wed, 27 Aug 2025 23:43:48 +0000
+Date: Thu, 28 Aug 2025 07:43:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ambarus:b4/acpm-clk 4/9] ERROR: modpost: "devm_acpm_get_by_node"
+ [drivers/clk/samsung/clk-acpm.ko] undefined!
+Message-ID: <202508280739.MSDOrdpm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,127 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508261620.orOkZR9F-lkp@intel.com>
 
-Hi Peter and Viresh,
+tree:   https://github.com/ambarus/linux-0day b4/acpm-clk
+head:   54b8c4711e48b082a23db6b846fe75ac1f6a2ff2
+commit: e3cef74bafee12cd81e57ea4c4006435cc2031f8 [4/9] clk: samsung: add Exynos ACPM clock driver
+config: nios2-randconfig-r111-20250828 (https://download.01.org/0day-ci/archive/20250828/202508280739.MSDOrdpm-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250828/202508280739.MSDOrdpm-lkp@intel.com/reproduce)
 
-+ kCFI folks
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508280739.MSDOrdpm-lkp@intel.com/
 
-On Tue, Aug 26, 2025 at 04:37:57PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   6c68f4c0a147c025ae0b25fab688c7c47964a02f
-> commit: f441989dc8b0ebb984b4781856865eeb17d1bff4 [4166/4221] Merge branch 'master' of https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250826/202508261620.orOkZR9F-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250826/202508261620.orOkZR9F-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508261620.orOkZR9F-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> vmlinux.o: warning: objtool: dev_pm_opp_find_level_exact+0x47: no-cfi indirect call!
-> >> vmlinux.o: warning: objtool: dev_pm_opp_find_level_ceil+0x75: no-cfi indirect call!
-> >> vmlinux.o: warning: objtool: dev_pm_opp_find_level_floor+0x66: no-cfi indirect call!
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Not sure if this is a clang, objtool, or source code issue but I figured
-I would brain dump what I have so far when looking into this.
+>> ERROR: modpost: "devm_acpm_get_by_node" [drivers/clk/samsung/clk-acpm.ko] undefined!
 
-Initially, the warning is odd because I do not see any instances of
-__nocfi in drivers/opp/core.c? I could reproduce this on next-20250826
-but not next-20250827, which both contain commit 894af4a1cde6 ("objtool:
-Validate kCFI calls"). More simply from the robot's configuration:
-
-  $ git switch --detach next-20250826
-  HEAD is now at d0630b758e59 Add linux-next specific files for 20250826
-
-  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper defconfig
-
-  $ scripts/config \
-      -e CFI_CLANG \
-      -e COMMON_CLK \
-      -e CPUFREQ_DT \
-      -e OF
-
-  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 olddefconfig vmlinux
-  vmlinux.o: warning: objtool: dev_pm_opp_find_level_exact+0x2b: no-cfi indirect call!
-  vmlinux.o: warning: objtool: dev_pm_opp_find_level_ceil+0x35: no-cfi indirect call!
-  vmlinux.o: warning: objtool: dev_pm_opp_find_level_floor+0x30: no-cfi indirect call!
-
-As the bisection landed on the merge of the tip tree in -next, it only
-appears when x86/core is crossed with some other tree. I did my own
-bisect of next-20250826 between the tip of tree and its -tip merge,
-landing on commit b5323835f050 ("OPP: Reorganize _opp_table_find_key()")
-[1], which was on the mailing list as [2].
-
-  # bad: [d0630b758e593506126e8eda6c3d56097d1847c5] Add linux-next specific files for 20250826
-  # good: [92a783272bdf0b37d72314fbd5c6d18cfb4b45fa] Merge branch into tip/master: 'x86/core'
-  git bisect start 'next-20250826' '92a783272bdf0b37d72314fbd5c6d18cfb4b45fa'
-  # bad: [968d16786392f6e047329f5eff66acc131636019] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
-  git bisect bad 968d16786392f6e047329f5eff66acc131636019
-  # good: [907ba6bf3993355b2623c1697714d9f8716ab30a] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git
-  git bisect good 907ba6bf3993355b2623c1697714d9f8716ab30a
-  # good: [c8a60cd0aa8fad5819652e7c720a290afc7c5c17] Merge branch 'next' of https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
-  git bisect good c8a60cd0aa8fad5819652e7c720a290afc7c5c17
-  # good: [76e1b7343acf0ab8fd282b3695a3dfd252170d08] Merge branch 'docs-next' of git://git.lwn.net/linux.git
-  git bisect good 76e1b7343acf0ab8fd282b3695a3dfd252170d08
-  # good: [51d79d123b615ac83aa0f4bad988c2c6a29bf986] media: i2c: vgxy61: Use the v4l2 helper for obtaining the clock
-  git bisect good 51d79d123b615ac83aa0f4bad988c2c6a29bf986
-  # good: [2b26dcb4f826aca743eacedbcfd68e3539375bc9] Merge branch 'next' of git://linuxtv.org/media-ci/media-pending.git
-  git bisect good 2b26dcb4f826aca743eacedbcfd68e3539375bc9
-  # good: [72dc2cebef803c8dab2908fb7627b591e71a1dc6] Merge branch 'cpufreq/arm/linux-next' of https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git
-  git bisect good 72dc2cebef803c8dab2908fb7627b591e71a1dc6
-  # good: [16d861d2bce8b1d28b6d94ffbfcdaa9cf833542b] pmdomain: mediatek: Add support for modem power sequences
-  git bisect good 16d861d2bce8b1d28b6d94ffbfcdaa9cf833542b
-  # good: [211dc59b7bb5ea0a6ea29072f04a4498c7ab046b] IB/hfi1: Use for_each_online_cpu() instead of for_each_cpu()
-  git bisect good 211dc59b7bb5ea0a6ea29072f04a4498c7ab046b
-  # bad: [b5323835f05043242537250a070e25f46bb1e1a4] OPP: Reorganize _opp_table_find_key()
-  git bisect bad b5323835f05043242537250a070e25f46bb1e1a4
-  # good: [ca489c6c68264c3a4d1d701af6fdda6df9833489] OPP: Add support to find OPP for a set of keys
-  git bisect good ca489c6c68264c3a4d1d701af6fdda6df9833489
-  # first bad commit: [b5323835f05043242537250a070e25f46bb1e1a4] OPP: Reorganize _opp_table_find_key()
-
-It reproduces with
-
-  $ git reset --hard 894af4a1cde61c3401f237184fb770f72ff12df8
-  HEAD is now at 894af4a1cde6 objtool: Validate kCFI calls
-
-  $ git merge --no-edit b5323835f05043242537250a070e25f46bb1e1a4
-  Merge made by the 'ort' strategy.
-   drivers/opp/core.c     | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------
-   include/linux/pm_opp.h |  30 ++++++++++++++++++++++++++++++
-   rust/kernel/opp.rs     |  16 +++++-----------
-   3 files changed, 139 insertions(+), 17 deletions(-)
-
-as well. That patch has been dropped due to issues at runtime [3][4],
-which explains why next-20250827 does not show any issues.
-
-Looking at the source and the diff, the removal of 'assert &&' in the if
-condition before calling assert() in _opp_table_find_key() is suspicious
-because the three flagged functions pass NULL as the assert parameter. I
-guess this might be another instance of "clang destroying codegen when
-encountering UB"... :/ this diff resolves the warnings:
-
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 81fb7dd7f323..90ee92961901 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -546,7 +546,7 @@ static struct dev_pm_opp *_opp_table_find_key(struct opp_table *opp_table,
- 	struct dev_pm_opp *temp_opp, *opp = ERR_PTR(-ERANGE);
- 
- 	/* Assert that the requirement is met */
--	if (!assert(opp_table, index))
-+	if (assert && !assert(opp_table, index))
- 		return ERR_PTR(-EINVAL);
- 
- 	guard(mutex)(&opp_table->lock);
-
-[1]: https://git.kernel.org/next/linux-next/c/b5323835f05043242537250a070e25f46bb1e1a4
-[2]: https://lore.kernel.org/20250820-opp_pcie-v4-2-273b8944eed0@oss.qualcomm.com/
-[3]: https://lore.kernel.org/4066c0b4-807f-401e-baaa-25f4891f10ac@samsung.com/
-[4]: https://lore.kernel.org/aKyS0RGZX4bxbjDj@hu-wasimn-hyd.qualcomm.com/
-
-Cheers,
-Nathan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
