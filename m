@@ -1,266 +1,144 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3F035FC2D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 11:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A721212B0A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 11:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756294835; cv=none; b=HiL6vfjiR0gYCscNQSKCZEcuZcqIYziDZB7w3rOzqj6QzZHk4CBNoTNm1tcJ0TASMpxzdbFvhNL8W2RYOcXSX6/loB/u7t47Nrz2Lcsz+xnO72zQpSJ2NJZOustuvQiJDoDgGwmrXjsJ7tOLT1ESFF+/LxyD64CSUkB6b2U5h+s=
+	t=1756295884; cv=none; b=VXV2gZS5n0FDjePqVJNoOeLBRyCIoN5izjFpPtV+7vl1twXPNcnh61+z/4drpzwbu/tyM+MUKKTZAY1iB9rN4Nq7O5Nk63uT1JY9Z0xDcwZRqSc227rDNsMZ/Lp94ckBuGAzIHwJGpVzSMGbhnrieDdfpHbN0LviZcCNyOds3W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756294835; c=relaxed/simple;
-	bh=Fk6GDvLmkCDGrIsjIvWcI3MTNYRmrykY6dKZ5Wy6aO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sbTRdR3OOX2O3n8npT+RiDwayMhRe5ka4LpP7M/rZT5MDD6hJYDRmwXycVgHyCs6TdF8jeFEk3a8Qzwhke0grlgflM0CvT6ZeHJV+OQfAhw2W0tM+FYx81e0hyf7/eig0Ow3VhmhMkf+5G4XAoJ+9SEFn9q9s9stjoQWXiUXn9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NPuE+n6t; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756295884; c=relaxed/simple;
+	bh=tqPhp6oOR8/OpwN/8/3p64TaZ1wjXFy5R4buHZ2yDEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=em/yHZ6+kLc81gGgi15NyZ6UGcSY1PBJsOVNHZPI8Hmp4aG8ovIEGIbQYupF0d5wMsMtFMBl3vaLOqHJEvwAOdQad6Wb8e/5HhN+lahol2BcoPDbIe2AF104nBrxp/5DTTyrlV8FIMICtZ1SfvbUPDH97hS6cjvsSeWhr+9ObkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GnWe7A32; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NPuE+n6t"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b297962b9cso66258661cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 04:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756294832; x=1756899632; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XeoM2pRAda8SuuPICRFUFFSQ54mI0ws6ytKPaFfrQVE=;
-        b=NPuE+n6tNG2j5e8XuyoMBNjrKZToY8i7AVN1EPKtf8UM/I9kx/z+qHLXtHCzkN4Ddz
-         6WhrNHDmahkH6m26YFZzOSwtxwIzemXQvoEN0HtXInILZTIfCN+AVwNTlWwPrQK+28ii
-         OkFzZvXC1GHof5KKH9EIzTW5Xr2XIf13qSoYENm8oerEFRpOj3o7Ah1gFR0uKBjF4wm7
-         2oAvMaTZH4wJn7lNZ2tlZ4GgykBs8a9EcLs6AuArsnC10YbjGZLDUvPsontt9MbxHFy/
-         3WrbzPhhtAsPuwykOHol0xPspqtzUfxgj/mykqiu9q0j24iVWHsAJem5nZXwtFFij7nj
-         bL3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756294832; x=1756899632;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XeoM2pRAda8SuuPICRFUFFSQ54mI0ws6ytKPaFfrQVE=;
-        b=Jz9sgjTE/F9yWjg4AKYpCVQ6HnRHxmW2xCjsxt/VGpA4gQWESQLDZQ/D0UYYqcSeyX
-         DtN2IBa6yG9LPu/DL2fSf+YPUIFsmw8SHQM8JaNneiaY56jZL3Wg3KY1KLi7zJFjuXz+
-         R4Tzxw0lLv0Jicf+Q+xe+JOcRHQR6XxinxtCRSOuyqUgSmFSUB27YSwYSdO2zIgqiGft
-         AIYlEm14n1pHrhh/quwlx7mmXZ/oISVciwdbwlYl+3bHiwmTurLWNwxplSb+PJwTT0Dw
-         ernbNbvZFstsZOH/vf7m5AEqbjlvFU6T5vGOViTIxcTv+1or1BKbFaMJP5fBfvHeqoig
-         nm4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXIU1578VhvY49J0gdCjsz1Uw0MM5my679iVYREX6v1Z7uil9MN0H7sSNck7wmV8FFSZXc/PSuvbIF4LaV6@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfcaeJdz4rMRAL4Oyu7MZSmlTZIlKroqWCz3L8sQkFSKbyLUNx
-	92Vd6pmCCMIQv8AR0X111hX0sX/OjU9FlT69Bob00xCkefmHnyBpPsxkdBmoUc3ok85b/UY0CI9
-	8wuLy6JFinR9KjAsxG6id6gpPl36vCRE=
-X-Gm-Gg: ASbGncv9dyS2lGae0v/KAHN+3vutAKDzhIe5MLFAt9/jLRXcVHeaMymS1vrjwS8l3EX
-	5gDyZLNTnG8d83IoSQ6Pr0Cdxs9qQiA8vACqGP+tFWsqRExyUoe5gT9+a+JoRhYhu003pO5l1Kg
-	he67XJCVZq/SxV6xOakDyZtz2uaxf2/lkdaoeeqMKAuCAnEh7r9nJvNiwSmDh/D5SQF2AYfahDO
-	QrJgsaTsVUFIP/AFgdYFDkkroz6CknO0JquO9aDLOc/mxP1eTY=
-X-Google-Smtp-Source: AGHT+IELLrqV3R85XBc6agU/7DzAWxsj82fvVPd+3fVYozs8/RRKK8VEk3bA7WWCc4E5Pk4l/H0YX2Fkq99QBUTmqQk=
-X-Received: by 2002:ad4:5cab:0:b0:708:1296:c5ab with SMTP id
- 6a1803df08f44-70d971e4042mr226760146d6.34.1756294832315; Wed, 27 Aug 2025
- 04:40:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GnWe7A32"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756295882; x=1787831882;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tqPhp6oOR8/OpwN/8/3p64TaZ1wjXFy5R4buHZ2yDEg=;
+  b=GnWe7A32wX1d4v5nt3IDwcSfXksqOJVwsvzSOMwGRhce3Dr++7QMm83S
+   +zJFSMbpbywDqYSuy9WYdVwiue3scKhn0bEuHpLrLduL9anLC2k4zMmSa
+   n5107nPvXvMJWFscpScU8qKJ99nXNcW++5h+9u6Ush/gRXSD5fqfav4gr
+   00weSQ7e5eyJek7TsVv1QsjZ5V8Dvgx3TUuIOLbiZZ6FxkM8qYsyv1XPq
+   r5IAcnn+lemaESk+RsczwltVRWw3yCljhszXge9hWwLj3qBHtQ7MC9+JN
+   RwvtJoOVpkNqf1JTPhDpOtRgW7zg0kEKxFybzpZqnxsX1xe4+eWbpYJSm
+   w==;
+X-CSE-ConnectionGUID: yasiJaMqRs2UnAMvLX6yNQ==
+X-CSE-MsgGUID: Lhz++x/zRwSySMRPL27Brw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="62190648"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="62190648"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 04:58:02 -0700
+X-CSE-ConnectionGUID: NIabe5sOTO2jgtjnF+44sA==
+X-CSE-MsgGUID: 3qy8PYQqSjWOEZf0b0VUkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="169761083"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 27 Aug 2025 04:58:00 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1urEms-000SvB-1Z;
+	Wed, 27 Aug 2025 11:57:58 +0000
+Date: Wed, 27 Aug 2025 19:57:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 454/454]
+ drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or
+ member 'subsys_clk_prefix' not described in 'scp_domain_data'
+Message-ID: <202508271946.2IyZoAmP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250826071948.2618-2-laoar.shao@gmail.com> <202508271009.5neOZ0OG-lkp@intel.com>
-In-Reply-To: <202508271009.5neOZ0OG-lkp@intel.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Wed, 27 Aug 2025 19:39:55 +0800
-X-Gm-Features: Ac12FXwZr66D7NPE9H9ynH6vKXzl7w2VfiSW67LSXeqGM2TeN__rIRX4dJec3k8
-Message-ID: <CALOAHbCtE-Sjeja3gzGwooWcikGWetPj8k6wqk52_c0hEo5ZKQ@mail.gmail.com>
-Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
- order selection
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
-	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
-	rientjes@google.com, corbet@lwn.net, oe-kbuild-all@lists.linux.dev, 
-	bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Aug 27, 2025 at 10:58=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Yafang,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on akpm-mm/mm-everything]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp=
--add-support-for-BPF-based-THP-order-selection/20250826-152415
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
-erything
-> patch link:    https://lore.kernel.org/r/20250826071948.2618-2-laoar.shao=
-%40gmail.com
-> patch subject: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based=
- THP order selection
-> config: loongarch-randconfig-r113-20250827 (https://download.01.org/0day-=
-ci/archive/20250827/202508271009.5neOZ0OG-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
-5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> reproduce: (https://download.01.org/0day-ci/archive/20250827/202508271009=
-.5neOZ0OG-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508271009.5neOZ0OG-lkp=
-@intel.com/
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   9aa69a4a326c92e706db5880070c5489ff6739c9
+commit: 3c2b278df59897c6ac91d0c8f43e28edc6792986 [454/454] CHROMIUM: pmdomain: mt8189: Porting driver for pd
+config: i386-buildonly-randconfig-001-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271946.2IyZoAmP-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271946.2IyZoAmP-lkp@intel.com/reproduce)
 
-Thanks for the report .
-It seems this sparse warning can be fixed with the below additional
-change, would you please test it again?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508271946.2IyZoAmP-lkp@intel.com/
 
-diff --git a/mm/bpf_thp.c b/mm/bpf_thp.c
-index 46b3bc96359e..b2f97f9e930d 100644
---- a/mm/bpf_thp.c
-+++ b/mm/bpf_thp.c
-@@ -5,27 +5,32 @@
- #include <linux/huge_mm.h>
- #include <linux/khugepaged.h>
+All warnings (new ones prefixed by >>):
 
-+/**
-+ * @get_suggested_order: Get the suggested THP orders for allocation
-+ * @mm: mm_struct associated with the THP allocation
-+ * @vma__nullable: vm_area_struct associated with the THP allocation
-(may be NULL)
-+ *                 When NULL, the decision should be based on @mm (i.e., w=
-hen
-+ *                 triggered from an mm-scope hook rather than a VMA-speci=
-fic
-+ *                 context).
-+ *                 Must belong to @mm (guaranteed by the caller).
-+ * @vma_flags: use these vm_flags instead of @vma->vm_flags (0 if @vma is =
-NULL)
-+ * @tva_flags: TVA flags for current @vma (-1 if @vma is NULL)
-+ * @orders: Bitmask of requested THP orders for this allocation
-+ *          - PMD-mapped allocation if PMD_ORDER is set
-+ *          - mTHP allocation otherwise
-+ *
-+ * Rerurn: Bitmask of suggested THP orders for allocation. The highest
-+ *         suggested order will not exceed the highest requested order
-+ *         in @orders.
-+ */
-+typedef int suggested_order_fn_t(struct mm_struct *mm,
-+                                struct vm_area_struct *vma__nullable,
-+                                u64 vma_flags,
-+                                enum tva_type tva_flags,
-+                                int orders);
-+
- struct bpf_thp_ops {
--       /**
--        * @get_suggested_order: Get the suggested THP orders for allocatio=
-n
--        * @mm: mm_struct associated with the THP allocation
--        * @vma__nullable: vm_area_struct associated with the THP
-allocation (may be NULL)
--        *                 When NULL, the decision should be based on
-@mm (i.e., when
--        *                 triggered from an mm-scope hook rather than
-a VMA-specific
--        *                 context).
--        *                 Must belong to @mm (guaranteed by the caller).
--        * @vma_flags: use these vm_flags instead of @vma->vm_flags (0
-if @vma is NULL)
--        * @tva_flags: TVA flags for current @vma (-1 if @vma is NULL)
--        * @orders: Bitmask of requested THP orders for this allocation
--        *          - PMD-mapped allocation if PMD_ORDER is set
--        *          - mTHP allocation otherwise
--        *
--        * Rerurn: Bitmask of suggested THP orders for allocation. The high=
-est
--        *         suggested order will not exceed the highest requested or=
-der
--        *         in @orders.
--        */
--       int (*get_suggested_order)(struct mm_struct *mm, struct
-vm_area_struct *vma__nullable,
--                                  u64 vma_flags, enum tva_type
-tva_flags, int orders) __rcu;
-+       suggested_order_fn_t __rcu *get_suggested_order;
- };
-
- static struct bpf_thp_ops bpf_thp;
-@@ -34,8 +39,7 @@ static DEFINE_SPINLOCK(thp_ops_lock);
- int get_suggested_order(struct mm_struct *mm, struct vm_area_struct
-*vma__nullable,
-                        u64 vma_flags, enum tva_type tva_flags, int orders)
- {
--       int (*bpf_suggested_order)(struct mm_struct *mm, struct
-vm_area_struct *vma__nullable,
--                                  u64 vma_flags, enum tva_type
-tva_flags, int orders);
-+       suggested_order_fn_t *bpf_suggested_order;
-        int suggested_orders =3D orders;
-
-        /* No BPF program is attached */
-@@ -106,10 +110,12 @@ static int bpf_thp_reg(void *kdata, struct bpf_link *=
-link)
-
- static void bpf_thp_unreg(void *kdata, struct bpf_link *link)
- {
-+       suggested_order_fn_t *old_fn;
-+
-        spin_lock(&thp_ops_lock);
-        clear_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
-&transparent_hugepage_flags);
--       WARN_ON_ONCE(!rcu_access_pointer(bpf_thp.get_suggested_order));
--       rcu_replace_pointer(bpf_thp.get_suggested_order, NULL,
-lockdep_is_held(&thp_ops_lock));
-+       old_fn =3D rcu_replace_pointer(bpf_thp.get_suggested_order,
-NULL, lockdep_is_held(&thp_ops_lock));
-+       WARN_ON_ONCE(!old_fn);
-        spin_unlock(&thp_ops_lock);
-
-        synchronize_rcu();
-@@ -117,8 +123,9 @@ static void bpf_thp_unreg(void *kdata, struct
-bpf_link *link)
-
- static int bpf_thp_update(void *kdata, void *old_kdata, struct bpf_link *l=
-ink)
- {
--       struct bpf_thp_ops *ops =3D kdata;
-+       suggested_order_fn_t *old_fn, *new_fn;
-        struct bpf_thp_ops *old =3D old_kdata;
-+       struct bpf_thp_ops *ops =3D kdata;
-        int ret =3D 0;
-
-        if (!ops || !old)
-@@ -130,9 +137,10 @@ static int bpf_thp_update(void *kdata, void
-*old_kdata, struct bpf_link *link)
-                ret =3D -ENOENT;
-                goto out;
-        }
--       WARN_ON_ONCE(!rcu_access_pointer(bpf_thp.get_suggested_order));
--       rcu_replace_pointer(bpf_thp.get_suggested_order,
-ops->get_suggested_order,
--                           lockdep_is_held(&thp_ops_lock));
-+
-+       new_fn =3D rcu_dereference(ops->get_suggested_order);
-+       old_fn =3D rcu_replace_pointer(bpf_thp.get_suggested_order,
-new_fn, lockdep_is_held(&thp_ops_lock));
-+       WARN_ON_ONCE(!old_fn || !new_fn);
-
- out:
-        spin_unlock(&thp_ops_lock);
-@@ -159,7 +167,7 @@ static int suggested_order(struct mm_struct *mm,
-struct vm_area_struct *vma__nul
- }
-
- static struct bpf_thp_ops __bpf_thp_ops =3D {
--       .get_suggested_order =3D suggested_order,
-+       .get_suggested_order =3D (suggested_order_fn_t __rcu *)suggested_or=
-der,
- };
-
- static struct bpf_struct_ops bpf_bpf_thp_ops =3D {
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_comp' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_done_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_set_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_clr_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_en_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_set_sta_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_clr_sta_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_ack_ofs' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'hwv_shift' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'sram_slp_bits' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'sram_slp_ack_bits' not described in 'scp_domain_data'
+>> drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'subsys_clk_prefix' not described in 'scp_domain_data'
+   drivers/pmdomain/mediatek/mtk-scpsys.c:228: warning: Function parameter or member 'bp_table' not described in 'scp_domain_data'
 
 
---
-Regards
+vim +228 drivers/pmdomain/mediatek/mtk-scpsys.c
 
-Yafang
+41b3e0f067c26d drivers/soc/mediatek/mtk-scpsys.c      James Liao    2015-10-07  193  
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  194  /**
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  195   * struct scp_domain_data - scp domain data for power on/off flow
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  196   * @name: The domain name.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  197   * @sta_mask: The mask for power on/off status bit.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  198   * @ctl_offs: The offset for main power control register.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  199   * @sram_pdn_bits: The mask for sram power control bits.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  200   * @sram_pdn_ack_bits: The mask for sram power control acked bits.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  201   * @bus_prot_mask: The mask for single step bus protection.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  202   * @clk_id: The basic clocks required by this power domain.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  203   * @caps: The flag for active wake-up action.
+90a943145e2ef1 drivers/soc/mediatek/mtk-scpsys.c      Weiyi Lu      2019-08-28  204   */
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  205  struct scp_domain_data {
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  206  	const char *name;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  207  	const char *hwv_comp;
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  208  	u32 sta_mask;
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  209  	int ctl_offs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  210  	u32 hwv_done_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  211  	u32 hwv_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  212  	u32 hwv_set_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  213  	u32 hwv_clr_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  214  	u32 hwv_en_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  215  	u32 hwv_set_sta_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  216  	u32 hwv_clr_sta_ofs;
+6d92b140f31cc3 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2025-02-09  217  	u32 hwv_ack_ofs;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  218  	u8 hwv_shift;
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  219  	u32 sram_pdn_bits;
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  220  	u32 sram_pdn_ack_bits;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  221  	u32 sram_slp_bits;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  222  	u32 sram_slp_ack_bits;
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  223  	u32 bus_prot_mask;
+41b3e0f067c26d drivers/soc/mediatek/mtk-scpsys.c      James Liao    2015-10-07  224  	enum clk_id clk_id[MAX_CLKS];
+3c2b278df59897 drivers/pmdomain/mediatek/mtk-scpsys.c Irving-CH.lin 2024-11-27  225  	const char *subsys_clk_prefix;
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  226  	struct bus_prot bp_table[MAX_STEPS];
+5c7b16c63a5bb5 drivers/pmdomain/mediatek/mtk-scpsys.c Guangjie Song 2024-08-15  227  	u32 caps;
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24 @228  };
+c84e358718a66f drivers/soc/mediatek/mtk-scpsys.c      Sascha Hauer  2015-06-24  229  
+
+:::::: The code at line 228 was first introduced by commit
+:::::: c84e358718a66f76ac0de1681d15d8d0c68fcdab soc: Mediatek: Add SCPSYS power domain driver
+
+:::::: TO: Sascha Hauer <s.hauer@pengutronix.de>
+:::::: CC: Matthias Brugger <matthias.bgg@gmail.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
