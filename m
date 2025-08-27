@@ -1,210 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CB434DCC3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 11:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3F035FC2D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 11:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756293336; cv=none; b=HTN1yAsiHxUsZPcnQ8Moou/G9MWc5TotDe1qNzIKGhm11HqVaG+tWPcbcmdWmizDUQ8XiIJLGOxOWqRdfRnYlnAqGfw1kaxvAJ5nuHnGR4FAUCxAQ7rhbK56AL95ZGM/gZPs59hEzkCJTVLSlHaiHp2kaM6eHHSrcGuzQo1h9xk=
+	t=1756294835; cv=none; b=HiL6vfjiR0gYCscNQSKCZEcuZcqIYziDZB7w3rOzqj6QzZHk4CBNoTNm1tcJ0TASMpxzdbFvhNL8W2RYOcXSX6/loB/u7t47Nrz2Lcsz+xnO72zQpSJ2NJZOustuvQiJDoDgGwmrXjsJ7tOLT1ESFF+/LxyD64CSUkB6b2U5h+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756293336; c=relaxed/simple;
-	bh=E7AcBj9Bd4fbn3EdtlGRPXkVl1Q/ffTdW7oJjzCDUoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pOn5CmiY0J6iNnr8JPPJWuaFHYT+Y8ALNVhj/mNuFJqdjH/uWrOFIA63W5LvPwYbcylUnndrmpMcGDzO1wanclHNJglmTnxBffWZC0RdrIbcNndB6k7tMz2OHxSsxM69TXZMlRMh7haD72Wsbfd1JbUR3apV/cXTCsDy9Le1w9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpPXFl2m; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756294835; c=relaxed/simple;
+	bh=Fk6GDvLmkCDGrIsjIvWcI3MTNYRmrykY6dKZ5Wy6aO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sbTRdR3OOX2O3n8npT+RiDwayMhRe5ka4LpP7M/rZT5MDD6hJYDRmwXycVgHyCs6TdF8jeFEk3a8Qzwhke0grlgflM0CvT6ZeHJV+OQfAhw2W0tM+FYx81e0hyf7/eig0Ow3VhmhMkf+5G4XAoJ+9SEFn9q9s9stjoQWXiUXn9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NPuE+n6t; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpPXFl2m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756293334; x=1787829334;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=E7AcBj9Bd4fbn3EdtlGRPXkVl1Q/ffTdW7oJjzCDUoI=;
-  b=SpPXFl2m0FERrnf/Jy3iWb3VYi//6F8aHInCW9cLrkzSQ+nXbRolDu8o
-   1VrJO10a4ozJZQtVtv56TSbwiVzzAFnMY/iYdC5sIx/AZzqtid+Ky0iaU
-   YFw3rfj4+1NwK1/K199bF4dS/PBqF3YjKmts0enjEG9+VQgleY/vTEUks
-   +XiRiAwlJ3xDsKde5PZMUW7ZEPVmtDdZ9hPTtqhTMwxCbNzoufmdD1wWS
-   8UPJHgmy3FDe3+GaBN3TZfkgDlOOWlcWkHd4l26FKy5mGnQVFtNJToxsM
-   xdX1UC7eSudT4UywdSPLnX6vdU7NII58+H78yOJ3j6bCG7oh9QgcZHN3c
-   g==;
-X-CSE-ConnectionGUID: 5FTBqFgCSm+I9px25JLZdA==
-X-CSE-MsgGUID: BFDCukYsQ+yytlQ8opVLjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58482222"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58482222"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 04:15:34 -0700
-X-CSE-ConnectionGUID: n2IkA8KFQg2CWwxdXmK77w==
-X-CSE-MsgGUID: eYaEOQb9QmyJ/JopWoAp6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="174211751"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Aug 2025 04:15:32 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1urE7m-000StT-0D;
-	Wed, 27 Aug 2025 11:15:30 +0000
-Date: Wed, 27 Aug 2025 19:15:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 0/2] mm/migrate.c:630:2:
- error: call to undeclared function 'folio_migrate_refs'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202508271926.abVAVs1P-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NPuE+n6t"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b297962b9cso66258661cf.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 04:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756294832; x=1756899632; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XeoM2pRAda8SuuPICRFUFFSQ54mI0ws6ytKPaFfrQVE=;
+        b=NPuE+n6tNG2j5e8XuyoMBNjrKZToY8i7AVN1EPKtf8UM/I9kx/z+qHLXtHCzkN4Ddz
+         6WhrNHDmahkH6m26YFZzOSwtxwIzemXQvoEN0HtXInILZTIfCN+AVwNTlWwPrQK+28ii
+         OkFzZvXC1GHof5KKH9EIzTW5Xr2XIf13qSoYENm8oerEFRpOj3o7Ah1gFR0uKBjF4wm7
+         2oAvMaTZH4wJn7lNZ2tlZ4GgykBs8a9EcLs6AuArsnC10YbjGZLDUvPsontt9MbxHFy/
+         3WrbzPhhtAsPuwykOHol0xPspqtzUfxgj/mykqiu9q0j24iVWHsAJem5nZXwtFFij7nj
+         bL3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756294832; x=1756899632;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XeoM2pRAda8SuuPICRFUFFSQ54mI0ws6ytKPaFfrQVE=;
+        b=Jz9sgjTE/F9yWjg4AKYpCVQ6HnRHxmW2xCjsxt/VGpA4gQWESQLDZQ/D0UYYqcSeyX
+         DtN2IBa6yG9LPu/DL2fSf+YPUIFsmw8SHQM8JaNneiaY56jZL3Wg3KY1KLi7zJFjuXz+
+         R4Tzxw0lLv0Jicf+Q+xe+JOcRHQR6XxinxtCRSOuyqUgSmFSUB27YSwYSdO2zIgqiGft
+         AIYlEm14n1pHrhh/quwlx7mmXZ/oISVciwdbwlYl+3bHiwmTurLWNwxplSb+PJwTT0Dw
+         ernbNbvZFstsZOH/vf7m5AEqbjlvFU6T5vGOViTIxcTv+1or1BKbFaMJP5fBfvHeqoig
+         nm4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXIU1578VhvY49J0gdCjsz1Uw0MM5my679iVYREX6v1Z7uil9MN0H7sSNck7wmV8FFSZXc/PSuvbIF4LaV6@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfcaeJdz4rMRAL4Oyu7MZSmlTZIlKroqWCz3L8sQkFSKbyLUNx
+	92Vd6pmCCMIQv8AR0X111hX0sX/OjU9FlT69Bob00xCkefmHnyBpPsxkdBmoUc3ok85b/UY0CI9
+	8wuLy6JFinR9KjAsxG6id6gpPl36vCRE=
+X-Gm-Gg: ASbGncv9dyS2lGae0v/KAHN+3vutAKDzhIe5MLFAt9/jLRXcVHeaMymS1vrjwS8l3EX
+	5gDyZLNTnG8d83IoSQ6Pr0Cdxs9qQiA8vACqGP+tFWsqRExyUoe5gT9+a+JoRhYhu003pO5l1Kg
+	he67XJCVZq/SxV6xOakDyZtz2uaxf2/lkdaoeeqMKAuCAnEh7r9nJvNiwSmDh/D5SQF2AYfahDO
+	QrJgsaTsVUFIP/AFgdYFDkkroz6CknO0JquO9aDLOc/mxP1eTY=
+X-Google-Smtp-Source: AGHT+IELLrqV3R85XBc6agU/7DzAWxsj82fvVPd+3fVYozs8/RRKK8VEk3bA7WWCc4E5Pk4l/H0YX2Fkq99QBUTmqQk=
+X-Received: by 2002:ad4:5cab:0:b0:708:1296:c5ab with SMTP id
+ 6a1803df08f44-70d971e4042mr226760146d6.34.1756294832315; Wed, 27 Aug 2025
+ 04:40:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20250826071948.2618-2-laoar.shao@gmail.com> <202508271009.5neOZ0OG-lkp@intel.com>
+In-Reply-To: <202508271009.5neOZ0OG-lkp@intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Wed, 27 Aug 2025 19:39:55 +0800
+X-Gm-Features: Ac12FXwZr66D7NPE9H9ynH6vKXzl7w2VfiSW67LSXeqGM2TeN__rIRX4dJec3k8
+Message-ID: <CALOAHbCtE-Sjeja3gzGwooWcikGWetPj8k6wqk52_c0hEo5ZKQ@mail.gmail.com>
+Subject: Re: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based THP
+ order selection
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, hannes@cmpxchg.org, usamaarif642@gmail.com, 
+	gutierrez.asier@huawei-partners.com, willy@infradead.org, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, ameryhung@gmail.com, 
+	rientjes@google.com, corbet@lwn.net, oe-kbuild-all@lists.linux.dev, 
+	bpf@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   36837d71a847eda589e01964f2ef6de2263373a7
-commit: b6776081daa3730aac859791902664bf9a8be4f5 [0/2] FIXUP: CHROMIUM: mm/mglru: Fix compilation with no MGLRU
-config: i386-buildonly-randconfig-002-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271926.abVAVs1P-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271926.abVAVs1P-lkp@intel.com/reproduce)
+On Wed, Aug 27, 2025 at 10:58=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Yafang,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on akpm-mm/mm-everything]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/mm-thp=
+-add-support-for-BPF-based-THP-order-selection/20250826-152415
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
+erything
+> patch link:    https://lore.kernel.org/r/20250826071948.2618-2-laoar.shao=
+%40gmail.com
+> patch subject: [PATCH v6 mm-new 01/10] mm: thp: add support for BPF based=
+ THP order selection
+> config: loongarch-randconfig-r113-20250827 (https://download.01.org/0day-=
+ci/archive/20250827/202508271009.5neOZ0OG-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
+5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce: (https://download.01.org/0day-ci/archive/20250827/202508271009=
+.5neOZ0OG-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508271009.5neOZ0OG-lkp=
+@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508271926.abVAVs1P-lkp@intel.com/
+Thanks for the report .
+It seems this sparse warning can be fixed with the below additional
+change, would you please test it again?
 
-All errors (new ones prefixed by >>):
+diff --git a/mm/bpf_thp.c b/mm/bpf_thp.c
+index 46b3bc96359e..b2f97f9e930d 100644
+--- a/mm/bpf_thp.c
++++ b/mm/bpf_thp.c
+@@ -5,27 +5,32 @@
+ #include <linux/huge_mm.h>
+ #include <linux/khugepaged.h>
 
-   In file included from mm/migrate.c:16:
-   In file included from include/linux/migrate.h:5:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/migrate.c:22:
-   include/linux/mm_inline.h:49:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:51:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      51 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/migrate.c:630:2: error: call to undeclared function 'folio_migrate_refs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     630 |         folio_migrate_refs(newfolio, folio);
-         |         ^
-   3 warnings and 1 error generated.
++/**
++ * @get_suggested_order: Get the suggested THP orders for allocation
++ * @mm: mm_struct associated with the THP allocation
++ * @vma__nullable: vm_area_struct associated with the THP allocation
+(may be NULL)
++ *                 When NULL, the decision should be based on @mm (i.e., w=
+hen
++ *                 triggered from an mm-scope hook rather than a VMA-speci=
+fic
++ *                 context).
++ *                 Must belong to @mm (guaranteed by the caller).
++ * @vma_flags: use these vm_flags instead of @vma->vm_flags (0 if @vma is =
+NULL)
++ * @tva_flags: TVA flags for current @vma (-1 if @vma is NULL)
++ * @orders: Bitmask of requested THP orders for this allocation
++ *          - PMD-mapped allocation if PMD_ORDER is set
++ *          - mTHP allocation otherwise
++ *
++ * Rerurn: Bitmask of suggested THP orders for allocation. The highest
++ *         suggested order will not exceed the highest requested order
++ *         in @orders.
++ */
++typedef int suggested_order_fn_t(struct mm_struct *mm,
++                                struct vm_area_struct *vma__nullable,
++                                u64 vma_flags,
++                                enum tva_type tva_flags,
++                                int orders);
++
+ struct bpf_thp_ops {
+-       /**
+-        * @get_suggested_order: Get the suggested THP orders for allocatio=
+n
+-        * @mm: mm_struct associated with the THP allocation
+-        * @vma__nullable: vm_area_struct associated with the THP
+allocation (may be NULL)
+-        *                 When NULL, the decision should be based on
+@mm (i.e., when
+-        *                 triggered from an mm-scope hook rather than
+a VMA-specific
+-        *                 context).
+-        *                 Must belong to @mm (guaranteed by the caller).
+-        * @vma_flags: use these vm_flags instead of @vma->vm_flags (0
+if @vma is NULL)
+-        * @tva_flags: TVA flags for current @vma (-1 if @vma is NULL)
+-        * @orders: Bitmask of requested THP orders for this allocation
+-        *          - PMD-mapped allocation if PMD_ORDER is set
+-        *          - mTHP allocation otherwise
+-        *
+-        * Rerurn: Bitmask of suggested THP orders for allocation. The high=
+est
+-        *         suggested order will not exceed the highest requested or=
+der
+-        *         in @orders.
+-        */
+-       int (*get_suggested_order)(struct mm_struct *mm, struct
+vm_area_struct *vma__nullable,
+-                                  u64 vma_flags, enum tva_type
+tva_flags, int orders) __rcu;
++       suggested_order_fn_t __rcu *get_suggested_order;
+ };
+
+ static struct bpf_thp_ops bpf_thp;
+@@ -34,8 +39,7 @@ static DEFINE_SPINLOCK(thp_ops_lock);
+ int get_suggested_order(struct mm_struct *mm, struct vm_area_struct
+*vma__nullable,
+                        u64 vma_flags, enum tva_type tva_flags, int orders)
+ {
+-       int (*bpf_suggested_order)(struct mm_struct *mm, struct
+vm_area_struct *vma__nullable,
+-                                  u64 vma_flags, enum tva_type
+tva_flags, int orders);
++       suggested_order_fn_t *bpf_suggested_order;
+        int suggested_orders =3D orders;
+
+        /* No BPF program is attached */
+@@ -106,10 +110,12 @@ static int bpf_thp_reg(void *kdata, struct bpf_link *=
+link)
+
+ static void bpf_thp_unreg(void *kdata, struct bpf_link *link)
+ {
++       suggested_order_fn_t *old_fn;
++
+        spin_lock(&thp_ops_lock);
+        clear_bit(TRANSPARENT_HUGEPAGE_BPF_ATTACHED,
+&transparent_hugepage_flags);
+-       WARN_ON_ONCE(!rcu_access_pointer(bpf_thp.get_suggested_order));
+-       rcu_replace_pointer(bpf_thp.get_suggested_order, NULL,
+lockdep_is_held(&thp_ops_lock));
++       old_fn =3D rcu_replace_pointer(bpf_thp.get_suggested_order,
+NULL, lockdep_is_held(&thp_ops_lock));
++       WARN_ON_ONCE(!old_fn);
+        spin_unlock(&thp_ops_lock);
+
+        synchronize_rcu();
+@@ -117,8 +123,9 @@ static void bpf_thp_unreg(void *kdata, struct
+bpf_link *link)
+
+ static int bpf_thp_update(void *kdata, void *old_kdata, struct bpf_link *l=
+ink)
+ {
+-       struct bpf_thp_ops *ops =3D kdata;
++       suggested_order_fn_t *old_fn, *new_fn;
+        struct bpf_thp_ops *old =3D old_kdata;
++       struct bpf_thp_ops *ops =3D kdata;
+        int ret =3D 0;
+
+        if (!ops || !old)
+@@ -130,9 +137,10 @@ static int bpf_thp_update(void *kdata, void
+*old_kdata, struct bpf_link *link)
+                ret =3D -ENOENT;
+                goto out;
+        }
+-       WARN_ON_ONCE(!rcu_access_pointer(bpf_thp.get_suggested_order));
+-       rcu_replace_pointer(bpf_thp.get_suggested_order,
+ops->get_suggested_order,
+-                           lockdep_is_held(&thp_ops_lock));
++
++       new_fn =3D rcu_dereference(ops->get_suggested_order);
++       old_fn =3D rcu_replace_pointer(bpf_thp.get_suggested_order,
+new_fn, lockdep_is_held(&thp_ops_lock));
++       WARN_ON_ONCE(!old_fn || !new_fn);
+
+ out:
+        spin_unlock(&thp_ops_lock);
+@@ -159,7 +167,7 @@ static int suggested_order(struct mm_struct *mm,
+struct vm_area_struct *vma__nul
+ }
+
+ static struct bpf_thp_ops __bpf_thp_ops =3D {
+-       .get_suggested_order =3D suggested_order,
++       .get_suggested_order =3D (suggested_order_fn_t __rcu *)suggested_or=
+der,
+ };
+
+ static struct bpf_struct_ops bpf_bpf_thp_ops =3D {
 
 
-vim +/folio_migrate_refs +630 mm/migrate.c
+--
+Regards
 
-290408d4a25002f Naoya Horiguchi         2010-09-08  587  
-b20a35035f983f4 Christoph Lameter       2006-03-22  588  /*
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  589)  * Copy the flags and some other ancillary information
-b20a35035f983f4 Christoph Lameter       2006-03-22  590   */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  591) void folio_migrate_flags(struct folio *newfolio, struct folio *folio)
-b20a35035f983f4 Christoph Lameter       2006-03-22  592  {
-7851a45cd3f6198 Rik van Riel            2013-10-07  593  	int cpupid;
-7851a45cd3f6198 Rik van Riel            2013-10-07  594  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  595) 	if (folio_test_error(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  596) 		folio_set_error(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  597) 	if (folio_test_referenced(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  598) 		folio_set_referenced(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  599) 	if (folio_test_uptodate(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  600) 		folio_mark_uptodate(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  601) 	if (folio_test_clear_active(folio)) {
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  602) 		VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  603) 		folio_set_active(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  604) 	} else if (folio_test_clear_unevictable(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  605) 		folio_set_unevictable(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  606) 	if (folio_test_workingset(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  607) 		folio_set_workingset(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  608) 	if (folio_test_checked(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  609) 		folio_set_checked(newfolio);
-6c287605fd56466 David Hildenbrand       2022-05-09  610  	/*
-6c287605fd56466 David Hildenbrand       2022-05-09  611  	 * PG_anon_exclusive (-> PG_mappedtodisk) is always migrated via
-6c287605fd56466 David Hildenbrand       2022-05-09  612  	 * migration entries. We can still have PG_anon_exclusive set on an
-6c287605fd56466 David Hildenbrand       2022-05-09  613  	 * effectively unmapped and unreferenced first sub-pages of an
-6c287605fd56466 David Hildenbrand       2022-05-09  614  	 * anonymous THP: we can simply copy it here via PG_mappedtodisk.
-6c287605fd56466 David Hildenbrand       2022-05-09  615  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  616) 	if (folio_test_mappedtodisk(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  617) 		folio_set_mappedtodisk(newfolio);
-b20a35035f983f4 Christoph Lameter       2006-03-22  618  
-76541556a9a3540 Peifeng Li              2022-09-13  619  	trace_android_vh_look_around_migrate_folio(folio, newfolio);
-76541556a9a3540 Peifeng Li              2022-09-13  620  
-3417013e0d183be Matthew Wilcox (Oracle  2021-05-07  621) 	/* Move dirty on pages not done by folio_migrate_mapping() */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  622) 	if (folio_test_dirty(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  623) 		folio_set_dirty(newfolio);
-b20a35035f983f4 Christoph Lameter       2006-03-22  624  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  625) 	if (folio_test_young(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  626) 		folio_set_young(newfolio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  627) 	if (folio_test_idle(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  628) 		folio_set_idle(newfolio);
-33c3fc71c8cfa3c Vladimir Davydov        2015-09-09  629  
-a33f7320b43e220 Zhaoyang Huang          2024-09-24 @630  	folio_migrate_refs(newfolio, folio);
-7851a45cd3f6198 Rik van Riel            2013-10-07  631  	/*
-7851a45cd3f6198 Rik van Riel            2013-10-07  632  	 * Copy NUMA information to the new page, to prevent over-eager
-7851a45cd3f6198 Rik van Riel            2013-10-07  633  	 * future migrations of this same page.
-7851a45cd3f6198 Rik van Riel            2013-10-07  634  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  635) 	cpupid = page_cpupid_xchg_last(&folio->page, -1);
-33024536bafd912 Huang Ying              2022-07-13  636  	/*
-33024536bafd912 Huang Ying              2022-07-13  637  	 * For memory tiering mode, when migrate between slow and fast
-33024536bafd912 Huang Ying              2022-07-13  638  	 * memory node, reset cpupid, because that is used to record
-33024536bafd912 Huang Ying              2022-07-13  639  	 * page access time in slow memory node.
-33024536bafd912 Huang Ying              2022-07-13  640  	 */
-33024536bafd912 Huang Ying              2022-07-13  641  	if (sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) {
-33024536bafd912 Huang Ying              2022-07-13  642  		bool f_toptier = node_is_toptier(page_to_nid(&folio->page));
-33024536bafd912 Huang Ying              2022-07-13  643  		bool t_toptier = node_is_toptier(page_to_nid(&newfolio->page));
-33024536bafd912 Huang Ying              2022-07-13  644  
-33024536bafd912 Huang Ying              2022-07-13  645  		if (f_toptier != t_toptier)
-33024536bafd912 Huang Ying              2022-07-13  646  			cpupid = -1;
-33024536bafd912 Huang Ying              2022-07-13  647  	}
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  648) 	page_cpupid_xchg_last(&newfolio->page, cpupid);
-7851a45cd3f6198 Rik van Riel            2013-10-07  649  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  650) 	folio_migrate_ksm(newfolio, folio);
-c8d6553b9580188 Hugh Dickins            2013-02-22  651  	/*
-c8d6553b9580188 Hugh Dickins            2013-02-22  652  	 * Please do not reorder this without considering how mm/ksm.c's
-c8d6553b9580188 Hugh Dickins            2013-02-22  653  	 * get_ksm_page() depends upon ksm_migrate_page() and PageSwapCache().
-c8d6553b9580188 Hugh Dickins            2013-02-22  654  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  655) 	if (folio_test_swapcache(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  656) 		folio_clear_swapcache(folio);
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  657) 	folio_clear_private(folio);
-ad2fa3717b74994 Muchun Song             2021-06-30  658  
-ad2fa3717b74994 Muchun Song             2021-06-30  659  	/* page->private contains hugetlb specific flags */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  660) 	if (!folio_test_hugetlb(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  661) 		folio->private = NULL;
-b20a35035f983f4 Christoph Lameter       2006-03-22  662  
-b20a35035f983f4 Christoph Lameter       2006-03-22  663  	/*
-b20a35035f983f4 Christoph Lameter       2006-03-22  664  	 * If any waiters have accumulated on the new page then
-b20a35035f983f4 Christoph Lameter       2006-03-22  665  	 * wake them up.
-b20a35035f983f4 Christoph Lameter       2006-03-22  666  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  667) 	if (folio_test_writeback(newfolio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  668) 		folio_end_writeback(newfolio);
-d435edca9288050 Vlastimil Babka         2016-03-15  669  
-6aeff241fe6c456 Yang Shi                2020-04-06  670  	/*
-6aeff241fe6c456 Yang Shi                2020-04-06  671  	 * PG_readahead shares the same bit with PG_reclaim.  The above
-6aeff241fe6c456 Yang Shi                2020-04-06  672  	 * end_page_writeback() may clear PG_readahead mistakenly, so set the
-6aeff241fe6c456 Yang Shi                2020-04-06  673  	 * bit after that.
-6aeff241fe6c456 Yang Shi                2020-04-06  674  	 */
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  675) 	if (folio_test_readahead(folio))
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  676) 		folio_set_readahead(newfolio);
-6aeff241fe6c456 Yang Shi                2020-04-06  677  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  678) 	folio_copy_owner(newfolio, folio);
-74485cf2bc85d2a Johannes Weiner         2016-03-15  679  
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  680) 	if (!folio_test_hugetlb(folio))
-d21bba2b7d0ae19 Matthew Wilcox (Oracle  2021-05-06  681) 		mem_cgroup_migrate(folio, newfolio);
-b20a35035f983f4 Christoph Lameter       2006-03-22  682  }
-19138349ed59b90 Matthew Wilcox (Oracle  2021-05-07  683) EXPORT_SYMBOL(folio_migrate_flags);
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  684  
-
-:::::: The code at line 630 was first introduced by commit
-:::::: a33f7320b43e2208558b33b0e6253d1bce6e1060 FROMGIT: mm: migrate LRU_REFS_MASK bits in folio_migrate_flags
-
-:::::: TO: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yafang
