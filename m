@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5EC269AE9;
-	Wed, 27 Aug 2025 16:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51769225761
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 16:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756312387; cv=none; b=hqRiIISgZ9c+0TOvCkAZzDtLdnidZpknHBqGgefQu7tzYQNz6gJf4vrsw1b/VynPao1D/LPZLFz1cF9duCUYEQ3sH08/4JlgCLeFTD5I5yu+fTSBAwWGgm3FSskge9cBQjfla9rEaN3o1jTpQU2HM/QeQbGu4LCtARHN/uKQ9Mg=
+	t=1756313946; cv=none; b=JVFT0q4dZqmtO4WBq77xXSqs/dhNnrX5nXMu53MAdwD3Wuoa5Olw3YZwcg0jG15i51DYlQq82X7f0avUDNsIpiXrhBYu6F20imYLsIADijdmWKoEhMSvlSz8/E+UJMQLmnPXYjGyQ+3QxVyulZXxNx74PFFdlpYgc3OEF8DjHzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756312387; c=relaxed/simple;
-	bh=tnTA/PNxi7uOQgEmoAZ2b1rNPAWX95IlTIWABbktj2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JbSli23GtQ6Fp/mRt7HCxZvQBT7805CuIOBmn5oa0J0hWMqlbTvnpcTbajWM5Y8IOhcDCevA4dew9hF/XnDqg55dXxEu6pNkklNZEINnwtlx8WGC7y0W3UFM4iURitho300NVhDIpp4+ABW+IWDFg9SEWmEfdAXtBDSmb8KPTng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apQS+cdA; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1756313946; c=relaxed/simple;
+	bh=iwzt9mRM5t+UL280ZMbN4UbUAf4p84mQUJMxskp+ZZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nhALpBQh1tU0uWbb6tsK9Ad7jHNQYjLX9jShqC03xm9fb/TK9sEHAKe97zEx7guBtDwpKA41S3DE7mgpzTE1AZVikhJ69E31VF18HgqSPlLEG3Ep6NHSQoK9WBIoLrc7yaEVRYsxHL8PoWkLkKKUybnnyUtniUQ7tUM15Zccp3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vz+dyWBk; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apQS+cdA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vz+dyWBk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756312383; x=1787848383;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tnTA/PNxi7uOQgEmoAZ2b1rNPAWX95IlTIWABbktj2E=;
-  b=apQS+cdA3jx7PHRUjRPblci18MuG+w+WIrlPnBiyqLx4iZkMElIIq9ho
-   ldabFk1G7CuUsXuzyp1uhR4iOQYeAMDpK/a6zHEz4zWwogoPoszgqkHV+
-   jwNJ7jsxsX0+10KnxDy3yEiOpeNSMzNe7YE+nUcfJy1BL7bm9QZuZKTlQ
-   rtMWXcqrJzr6dNThNOUyJWE58bv4M8sGVCXzxRYtdUwmrOJ14tuONXEen
-   1vJz+Y9ollBrVc/Cp3otYiAYpPGxbMMNVqnRuxpiCOYMkuqy0GwBkvFkf
-   NWc0LAjgcCiO4nnXKNsgVz3Bqxq7JJjU+HotdVZvFbhhnct31ZUG3GISi
-   w==;
-X-CSE-ConnectionGUID: bBPWyrDlQI6mXMWfsxLawA==
-X-CSE-MsgGUID: ssXlODGVQwi+PLV/vbMexA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="69939969"
+  t=1756313943; x=1787849943;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iwzt9mRM5t+UL280ZMbN4UbUAf4p84mQUJMxskp+ZZc=;
+  b=Vz+dyWBkdfc9r0r/YvVDXsVAaMnc80yzvGb0Vap1nT3ruA9nIFUB24q7
+   o+FRkfTMBEu/e0v+JI1mgb9xnJfS60dvHgRNEqUCQxoujGcRhQwiX+X0R
+   Uq3VmjDQ4Y8lhsKU3MUhlnKN9PLugTuoBFNeh8MiDj9nmKY4sxw75snBA
+   9k4fswxPdWh0XBAyKkTaZPhzEKLEiJ8fC08k5ZS+TtS7JsBY6iQ+D2LbH
+   muqWtofBQGD/WrFw9n2rw5BxsjIo3UGB8aVEEUcVex25COjmg5R2axJan
+   st+/7gbuklgicZ9V76MEWYTBhmQLXP+wUL6H4ajXIojLSDIfdUubYfHhL
+   Q==;
+X-CSE-ConnectionGUID: wu+FAGL+T0S9Mu+p8HtSpQ==
+X-CSE-MsgGUID: vPS76l+oSlSEzy6nZga+2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="76170939"
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="69939969"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 09:33:01 -0700
-X-CSE-ConnectionGUID: rsYzn5mVRVy6Xw1pxl621w==
-X-CSE-MsgGUID: LXp69DIGTUqK7FFQVmGRRw==
+   d="scan'208";a="76170939"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 09:59:02 -0700
+X-CSE-ConnectionGUID: 8IqIA0J9Q0e3A0Ex1uX+bg==
+X-CSE-MsgGUID: ihse7Le+RIyJRlnC2OwKFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="170708925"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Aug 2025 09:32:51 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="169794078"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa007.jf.intel.com with ESMTP; 27 Aug 2025 09:59:01 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urJ4T-000T4N-1n;
-	Wed, 27 Aug 2025 16:32:49 +0000
-Date: Thu, 28 Aug 2025 00:29:09 +0800
+	id 1urJUA-0002fv-30;
+	Wed, 27 Aug 2025 16:58:58 +0000
+Date: Wed, 27 Aug 2025 18:58:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH 2/5] media: nxp: imx8-isi: Simplify code by using helper
- macro
-Message-ID: <202508280040.QKK6nZ3x-lkp@intel.com>
-References: <20250827-isi_imx93-v1-2-83e6b4b50c4d@nxp.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 5/5] htmldocs: Warning:
+ anolis/rpm/kernel.spec.template references a file that doesn't exist:
+ linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+Message-ID: <202508271831.VVOP6msC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,65 +62,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250827-isi_imx93-v1-2-83e6b4b50c4d@nxp.com>
 
-Hi Guoniu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a75b8d198c55e9eb5feb6f6e155496305caba2dc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guoniu-Zhou/media-dt-bindings-nxp-imx8-isi-Add-i-MX91-ISI-compatible-string/20250827-175809
-base:   a75b8d198c55e9eb5feb6f6e155496305caba2dc
-patch link:    https://lore.kernel.org/r/20250827-isi_imx93-v1-2-83e6b4b50c4d%40nxp.com
-patch subject: [PATCH 2/5] media: nxp: imx8-isi: Simplify code by using helper macro
-config: riscv-randconfig-002-20250827 (https://download.01.org/0day-ci/archive/20250828/202508280040.QKK6nZ3x-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250828/202508280040.QKK6nZ3x-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   ec0924f318b78f9cf68f73a94e22131d79f88bc0
+commit: eb6664f1ccfb97071a7af6841973c816fc854d38 [5/5] anolis: spec: add basic framework to generate rpm tree
+reproduce: (https://download.01.org/0day-ci/archive/20250827/202508271831.VVOP6msC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508280040.QKK6nZ3x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508271831.VVOP6msC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c:36:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      36 |         val = GASKET_CTRL_DATA_TYPE(fd->entry[0].bus.csi2.dt);
-         |               ^
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c:19:36: note: expanded from macro 'GASKET_CTRL_DATA_TYPE'
-      19 | #define GASKET_CTRL_DATA_TYPE(dt)               FIELD_PREP(GENMASK(13, 8), (dt))
-         |                                                 ^
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c:70:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      70 |         val = DISP_MIX_CAMERA_MUX_DATA_TYPE(fd->entry[0].bus.csi2.dt);
-         |               ^
-   drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c:60:49: note: expanded from macro 'DISP_MIX_CAMERA_MUX_DATA_TYPE'
-      60 | #define DISP_MIX_CAMERA_MUX_DATA_TYPE(x)        FIELD_PREP(GENMASK(8, 3), (x))
-         |                                                 ^
-   2 errors generated.
-
-
-vim +/FIELD_PREP +36 drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-
-f48498ad0a4106e Guoniu.zhou 2023-06-29  25  
-f48498ad0a4106e Guoniu.zhou 2023-06-29  26  static void mxc_imx8_gasket_enable(struct mxc_isi_dev *isi,
-f48498ad0a4106e Guoniu.zhou 2023-06-29  27  				   const struct v4l2_mbus_frame_desc *fd,
-f48498ad0a4106e Guoniu.zhou 2023-06-29  28  				   const struct v4l2_mbus_framefmt *fmt,
-f48498ad0a4106e Guoniu.zhou 2023-06-29  29  				   const unsigned int port)
-f48498ad0a4106e Guoniu.zhou 2023-06-29  30  {
-f48498ad0a4106e Guoniu.zhou 2023-06-29  31  	u32 val;
-f48498ad0a4106e Guoniu.zhou 2023-06-29  32  
-f48498ad0a4106e Guoniu.zhou 2023-06-29  33  	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_HSIZE, fmt->width);
-f48498ad0a4106e Guoniu.zhou 2023-06-29  34  	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_VSIZE, fmt->height);
-f48498ad0a4106e Guoniu.zhou 2023-06-29  35  
-f48498ad0a4106e Guoniu.zhou 2023-06-29 @36  	val = GASKET_CTRL_DATA_TYPE(fd->entry[0].bus.csi2.dt);
-f48498ad0a4106e Guoniu.zhou 2023-06-29  37  	if (fd->entry[0].bus.csi2.dt == MIPI_CSI2_DT_YUV422_8B)
-f48498ad0a4106e Guoniu.zhou 2023-06-29  38  		val |= GASKET_CTRL_DUAL_COMP_ENABLE;
-f48498ad0a4106e Guoniu.zhou 2023-06-29  39  
-f48498ad0a4106e Guoniu.zhou 2023-06-29  40  	val |= GASKET_CTRL_ENABLE;
-f48498ad0a4106e Guoniu.zhou 2023-06-29  41  	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, val);
-f48498ad0a4106e Guoniu.zhou 2023-06-29  42  }
-f48498ad0a4106e Guoniu.zhou 2023-06-29  43  
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml references a file that doesn't exist: Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
+   Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+   Warning: Documentation/usb/gadget_uvc.rst references a file that doesn't exist: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+>> Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: kernel/Kconfig.kexec references a file that doesn't exist: file:Documentation/s390/zfcpdump.rst
+   Warning: mm/hugetlb_vmemmap.h references a file that doesn't exist: Documentation/vm/vmemmap_dedup.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
