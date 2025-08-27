@@ -1,230 +1,197 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C42B2E63C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 05:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D588D1D61A3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 05:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756270891; cv=none; b=SDzxVXASkvXc1lCMU16xxhTNV3VqjxvAaW5G9T2dCtPe5Q648PEZit8Y/WvEkQ9RbOXZX3ea+Jiz6AQYGl1PZFLUpBz5LC8fL7ONFECzf5cF3xyZT8207K/dOwEMvwHX0syb2H0aETdMR1ovjCWaYdtcGCbBEBW19j7TPdUkMiA=
+	t=1756272833; cv=none; b=b4cc3Tio5bV0XwJyb6tZYbVuX2FV0mjfGK9zL/dRdb0VRt8kHLD6YBSO5Nv+k1R2Nbdq+d7nd4ZmOWmje+NCNsrUQOapGkYtwu/QUn02MMeuPfS9xY61R/GaIAVoNftyWrbl34o0KHfrRNVwDzFkfIJhUVo3MInCMg+WSkSKkRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756270891; c=relaxed/simple;
-	bh=Qobk5sLlcHYIhlqCKPg/u3ELm1e/RpFvbTfDyUCQlZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tICb/ZdhIBAU9GKfDmh4mjua9f1Vs4BFySlHIm4fZH4NX3s/EMxrymPenCA8Lws9FdW0goz7Sqj5dzwiXr/ptKGW9LotosKmdIkAgaRMOO8kCyoEc5GKJntL5GbRRE+0fPI+fXrAJzw0f6x3zDPwFdVLBrAUVxB1t+Rl/kxjCck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ngk0gugv; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1756272833; c=relaxed/simple;
+	bh=5VFDz0Vkj2/2uTvvseBKlXbtMaFHG29kxehO+uaaK5c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gdBOb7wBen+CskMhGeIl+qeCfdNO37yZZ69zrWNm6i5OwYCu3Z2SPGEWaL7lGBJ2Lx/SVpnfFeAsrXWAu9U6KPpeBw6QGvnzECyLn0uszs8VdYinNsJsvI8sn42x/hSwurmQXr2GpDxSDaEg2HMhfyLEJzfdFAUc7gVk34NiaP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0lqS2o9; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ngk0gugv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0lqS2o9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756270888; x=1787806888;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qobk5sLlcHYIhlqCKPg/u3ELm1e/RpFvbTfDyUCQlZE=;
-  b=Ngk0gugv3+O/hTTWpW07scutCn7//5YJ4+C59rzEmgsEYKjtt/BVgKaP
-   P2FYrGgZbJz+YtR1N7fYm3bR/ikA+ua1XcykxE1ulbyA5ZeGRwjf4YwPN
-   N9qjtImGHParzWzKluuSFbdIr6WGxeOlCiuMQ6QC+/by3sXqKG0sxqGKs
-   plEQ/4eXeD2s8D7XURjybwpeU33eLbJS15gGJ0BmHfjAaJs3NmSttu4WR
-   ZRaQ3zNXuz2LorSgP7MGHger22Qqx3M2amAEadprIcXN8BdkzIoKsQNIV
-   YpLTQm3wOVPlDCWqoKmrw4rWoYPdFFZuXvXgHba5fib0WeQp88Mh2YTIr
-   g==;
-X-CSE-ConnectionGUID: adPWXiw5Sc2fg0SstBweyw==
-X-CSE-MsgGUID: RD+dc3KUTY61BED08X0ELw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="58669327"
+  t=1756272832; x=1787808832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5VFDz0Vkj2/2uTvvseBKlXbtMaFHG29kxehO+uaaK5c=;
+  b=K0lqS2o9wO+MeoMe5IGOEDgu0NwpsQVDpAgjOY3aRZgfM1EFPQcoLy4f
+   Z0wdGkD8kG4YVwVUqmFoqmNEJS3R36OIv9WLhuf6SeVe+sHTFVBacHxv3
+   D7QkvTosVsrBS9l+EgBAhjnAFcvEAxLTyAo0r48P2mz9g/W30tMlbaZPt
+   dXt897IZwj+YkIMS4NWvGX2G4wTI78nLGyrlTSZk8AYCpz2YVG1lGTcvn
+   R/mnmFLTD/raj5msFpNEd7ILHECrAdw9N32yuzbDLyn982UQdRGLcLPNC
+   HUjhR5fxBn34UBk4BN20CkFELCd16MJ3ygEbfu4lXtJV9qoD6UiSoAiW9
+   Q==;
+X-CSE-ConnectionGUID: Hzq1yJB9RsKIFgMZRNYEhQ==
+X-CSE-MsgGUID: +gJfpcXvS2y9vuNOT0lKcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="69889806"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="58669327"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 22:01:27 -0700
-X-CSE-ConnectionGUID: cwkvsrm3SzmsQFWsdUVlew==
-X-CSE-MsgGUID: 0JRv8MVER3OdkCIj/2ZG4Q==
+   d="scan'208";a="69889806"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 22:33:51 -0700
+X-CSE-ConnectionGUID: vodw3LM7TjuitAkIRHSMpw==
+X-CSE-MsgGUID: X0IBI55iQW+IF5BFOsX7aQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169041642"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa010.jf.intel.com with ESMTP; 26 Aug 2025 22:01:22 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="169000028"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 26 Aug 2025 22:33:47 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ur8Hd-0002ad-31;
-	Wed, 27 Aug 2025 05:01:17 +0000
-Date: Wed, 27 Aug 2025 07:00:34 +0200
+	id 1ur8mo-000Shv-2m;
+	Wed, 27 Aug 2025 05:33:40 +0000
+Date: Wed, 27 Aug 2025 13:32:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 2/2] drivers/md/dm-user.c:539:5:
- warning: no previous prototype for function 'target_poll'
-Message-ID: <202508270714.FU7A4hF8-lkp@intel.com>
+To: =?iso-8859-1?Q?Jean-Fran=E7ois?= Lessard <jefflessard3@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Boris Gjenero <boris.gjenero@gmail.com>,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Paolo Sabatino <paolo.sabatino@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH v3 3/4] auxdisplay: Add TM16xx 7-segment LED matrix
+ display controllers driver
+Message-ID: <202508271344.WqQr2aa7-lkp@intel.com>
+References: <20250820163120.24997-4-jefflessard3@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250820163120.24997-4-jefflessard3@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   456275f3e7f8f3b2be487c9f5b18c811bee029fc
-commit: 83bf345abc0bc06b98e906bfbb120a52446e1c43 [2/2] ANDROID: dm: dm-user: New target that proxies BIOs to userspace
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250827/202508270714.FU7A4hF8-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508270714.FU7A4hF8-lkp@intel.com/reproduce)
+Hi Jean-François,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.17-rc3 next-20250826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Fran-ois-Lessard/dt-bindings-vendor-prefixes-Add-fdhisi-titanmec-princeton-winrise-wxicore/20250821-003451
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250820163120.24997-4-jefflessard3%40gmail.com
+patch subject: [PATCH v3 3/4] auxdisplay: Add TM16xx 7-segment LED matrix display controllers driver
+config: x86_64-randconfig-r112-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271344.WqQr2aa7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271344.WqQr2aa7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508270714.FU7A4hF8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508271344.WqQr2aa7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/md/dm-user.c:525:6: warning: no previous prototype for function 'message_kill' [-Wmissing-prototypes]
-     525 | void message_kill(struct message *m, mempool_t *pool)
-         |      ^
-   drivers/md/dm-user.c:525:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     525 | void message_kill(struct message *m, mempool_t *pool)
-         | ^
-         | static 
->> drivers/md/dm-user.c:539:5: warning: no previous prototype for function 'target_poll' [-Wmissing-prototypes]
-     539 | int target_poll(struct target *t)
-         |     ^
-   drivers/md/dm-user.c:539:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     539 | int target_poll(struct target *t)
-         | ^
-         | static 
->> drivers/md/dm-user.c:544:6: warning: no previous prototype for function 'target_release' [-Wmissing-prototypes]
-     544 | void target_release(struct kref *ref)
-         |      ^
-   drivers/md/dm-user.c:544:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     544 | void target_release(struct kref *ref)
-         | ^
-         | static 
->> drivers/md/dm-user.c:565:6: warning: no previous prototype for function 'target_put' [-Wmissing-prototypes]
-     565 | void target_put(struct target *t)
-         |      ^
-   drivers/md/dm-user.c:565:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     565 | void target_put(struct target *t)
-         | ^
-         | static 
-   drivers/md/dm-user.c:578:17: warning: no previous prototype for function 'channel_alloc' [-Wmissing-prototypes]
-     578 | struct channel *channel_alloc(struct target *t)
-         |                 ^
-   drivers/md/dm-user.c:578:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     578 | struct channel *channel_alloc(struct target *t)
-         | ^
-         | static 
->> drivers/md/dm-user.c:596:6: warning: no previous prototype for function 'channel_free' [-Wmissing-prototypes]
-     596 | void channel_free(struct channel *c)
-         |      ^
-   drivers/md/dm-user.c:596:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     596 | void channel_free(struct channel *c)
-         | ^
-         | static 
-   drivers/md/dm-user.c:181:30: warning: unused function 'target_from_miscdev' [-Wunused-function]
-     181 | static inline struct target *target_from_miscdev(struct miscdevice *miscdev)
-         |                              ^~~~~~~~~~~~~~~~~~~
-   7 warnings generated.
+   ld: vmlinux.o: in function `tm16xx_i2c_write':
+>> drivers/auxdisplay/tm16xx.c:1469: undefined reference to `i2c_transfer'
+   ld: vmlinux.o: in function `tm16xx_i2c_read':
+   drivers/auxdisplay/tm16xx.c:1497: undefined reference to `i2c_transfer'
+   ld: vmlinux.o: in function `tm16xx_i2c_probe':
+>> drivers/auxdisplay/tm16xx.c:1416: undefined reference to `i2c_get_match_data'
+   ld: vmlinux.o: in function `tm16xx_i2c_register':
+>> drivers/auxdisplay/tm16xx.c:1727: undefined reference to `i2c_register_driver'
+   ld: vmlinux.o: in function `tm16xx_i2c_unregister':
+>> drivers/auxdisplay/tm16xx.c:1732: undefined reference to `i2c_del_driver'
 
 
-vim +/target_poll +539 drivers/md/dm-user.c
+vim +1469 drivers/auxdisplay/tm16xx.c
 
-   532	
-   533	/*
-   534	 * Returns 0 when there is no work left to do.  This must be callable without
-   535	 * holding the target lock, as it is part of the waitqueue's check expression.
-   536	 * When called without the lock it may spuriously indicate there is remaining
-   537	 * work, but when called with the lock it must be accurate.
-   538	 */
- > 539	int target_poll(struct target *t)
-   540	{
-   541		return !list_empty(&t->to_user) || t->dm_destroyed;
-   542	}
-   543	
- > 544	void target_release(struct kref *ref)
-   545	{
-   546		struct target *t = container_of(ref, struct target, references);
-   547		struct list_head *cur;
-   548	
-   549		/*
-   550		 * There may be outstanding BIOs that have not yet been given to
-   551		 * userspace.  At this point there's nothing we can do about them, as
-   552		 * there are and will never be any channels.
-   553		 */
-   554		list_for_each (cur, &t->to_user) {
-   555			message_kill(list_entry(cur, struct message, to_user),
-   556				     &t->message_pool);
-   557		}
-   558	
-   559		mempool_exit(&t->message_pool);
-   560		mutex_unlock(&t->lock);
-   561		mutex_destroy(&t->lock);
-   562		kfree(t);
-   563	}
-   564	
- > 565	void target_put(struct target *t)
-   566	{
-   567		/*
-   568		 * This both releases a reference to the target and the lock.  We leave
-   569		 * it up to the caller to hold the lock, as they probably needed it for
-   570		 * something else.
-   571		 */
-   572		lockdep_assert_held(&t->lock);
-   573	
-   574		if (!kref_put(&t->references, target_release))
-   575			mutex_unlock(&t->lock);
-   576	}
-   577	
-   578	struct channel *channel_alloc(struct target *t)
-   579	{
-   580		struct channel *c;
-   581	
-   582		lockdep_assert_held(&t->lock);
-   583	
-   584		c = kzalloc(sizeof(*c), GFP_KERNEL);
-   585		if (c == NULL)
-   586			return NULL;
-   587	
-   588		kref_get(&t->references);
-   589		c->target = t;
-   590		c->cur_from_user = &c->scratch_message_from_user;
-   591		mutex_init(&c->lock);
-   592		INIT_LIST_HEAD(&c->from_user);
-   593		return c;
-   594	}
-   595	
- > 596	void channel_free(struct channel *c)
-   597	{
-   598		struct list_head *cur;
-   599	
-   600		lockdep_assert_held(&c->lock);
-   601	
-   602		/*
-   603		 * There may be outstanding BIOs that have been given to userspace but
-   604		 * have not yet been completed.  The channel has been shut down so
-   605		 * there's no way to process the rest of those messages, so we just go
-   606		 * ahead and error out the BIOs.  Hopefully whatever's on the other end
-   607		 * can handle the errors.  One could imagine splitting the BIOs and
-   608		 * completing as much as we got, but that seems like overkill here.
-   609		 *
-   610		 * Our only other options would be to let the BIO hang around (which
-   611		 * seems way worse) or to resubmit it to userspace in the hope there's
-   612		 * another channel.  I don't really like the idea of submitting a
-   613		 * message twice.
-   614		 */
-   615		if (c->cur_to_user != NULL)
-   616			message_kill(c->cur_to_user, &c->target->message_pool);
-   617		if (c->cur_from_user != &c->scratch_message_from_user)
-   618			message_kill(c->cur_from_user, &c->target->message_pool);
-   619		list_for_each (cur, &c->from_user)
-   620			message_kill(list_entry(cur, struct message, to_user),
-   621				     &c->target->message_pool);
-   622	
-   623		mutex_lock(&c->target->lock);
-   624		target_put(c->target);
-   625		mutex_unlock(&c->lock);
-   626		mutex_destroy(&c->lock);
-   627		kfree(c);
-   628	}
-   629	
+  1401	
+  1402	/* I2C specific code */
+  1403	#if IS_ENABLED(CONFIG_I2C)
+  1404	/**
+  1405	 * tm16xx_i2c_probe() - Probe callback for I2C-attached controllers
+  1406	 * @client: pointer to i2c_client
+  1407	 *
+  1408	 * Return: 0 on success, negative error code on failure
+  1409	 */
+  1410	static int tm16xx_i2c_probe(struct i2c_client *client)
+  1411	{
+  1412		const struct tm16xx_controller *controller;
+  1413		struct tm16xx_display *display;
+  1414		int ret;
+  1415	
+> 1416		controller = i2c_get_match_data(client);
+  1417		if (!controller)
+  1418			return -EINVAL;
+  1419	
+  1420		display = devm_kzalloc(&client->dev, sizeof(*display), GFP_KERNEL);
+  1421		if (!display)
+  1422			return -ENOMEM;
+  1423	
+  1424		display->client.i2c = client;
+  1425		display->dev = &client->dev;
+  1426		display->controller = controller;
+  1427	
+  1428		i2c_set_clientdata(client, display);
+  1429	
+  1430		ret = tm16xx_probe(display);
+  1431		if (ret)
+  1432			return ret;
+  1433	
+  1434		return 0;
+  1435	}
+  1436	
+  1437	/**
+  1438	 * tm16xx_i2c_remove() - Remove callback for I2C-attached controllers
+  1439	 * @client: pointer to i2c_client
+  1440	 */
+  1441	static void tm16xx_i2c_remove(struct i2c_client *client)
+  1442	{
+  1443		struct tm16xx_display *display = i2c_get_clientdata(client);
+  1444	
+  1445		tm16xx_display_remove(display);
+  1446	}
+  1447	
+  1448	/**
+  1449	 * tm16xx_i2c_write() - I2C write helper for controller
+  1450	 * @display: pointer to tm16xx_display structure
+  1451	 * @data: command and data bytes to send
+  1452	 * @len: number of bytes in @data
+  1453	 *
+  1454	 * Return: 0 on success, negative error code on failure
+  1455	 */
+  1456	static int tm16xx_i2c_write(struct tm16xx_display *display, u8 *data, size_t len)
+  1457	{
+  1458		dev_dbg(display->dev, "i2c_write %*ph", (char)len, data);
+  1459	
+  1460		/* expected sequence: S Command [A] Data [A] P */
+  1461		struct i2c_msg msg = {
+  1462			.addr = data[0] >> 1,
+  1463			.flags = 0,
+  1464			.len = len - 1,
+  1465			.buf = &data[1],
+  1466		};
+  1467		int ret;
+  1468	
+> 1469		ret = i2c_transfer(display->client.i2c->adapter, &msg, 1);
+  1470		if (ret < 0)
+  1471			return ret;
+  1472	
+  1473		return (ret == 1) ? 0 : -EIO;
+  1474	}
+  1475	
 
 -- 
 0-DAY CI Kernel Test Service
