@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A8D1F7586
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 08:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E32340D93
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 08:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756284460; cv=none; b=iUkkK1SWXXV8ZtKrAEm2x2wSA4NUZKWVCK03ezMO9sxdAi1LeOseSG2zwy7cFUxN7iXx8wAhQRMN7oMDcQnFs6oXQUWWTiLiP0CwdVgf+fwlgLjTQNvZrBBt9NMC87nleBjOipGex12APF8UJFLz++ZGvUGKoe8acpHOCzu8w78=
+	t=1756284481; cv=none; b=JxmHCbM+uIGi6OHd3U0e96VPZwtn8nAVxP8Bq1v0wJvMl0xp5GBxxyQEgn3zxqiOHCQZJ4TopqbwmFWCHPvs2/uWWdiRFnCQNNTd68Y1C3Xh4Vb75CgpheUfSumZs9nDXYMWp8WtARL1KdpyNm00NylKGg1A1DNGyshg+GKTSHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756284460; c=relaxed/simple;
-	bh=Opi7hFGUSGYN00f7Q2wTEARKn7/BeM4HRXFyZHPWNkk=;
+	s=arc-20240116; t=1756284481; c=relaxed/simple;
+	bh=HsJj1FmIycevjlO+Pd2hpch8MW+QOlBcZj64jQIUhbc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l5KQucQySCnOi7GZH8Yel+uGmptFdzkqIUhVK1J1oX6U+fp5L/QwJw6eMhwjk/lUPVK16xczK6OzBLURNtLfffS4d+1/OkGQgsDi4LeJ3YWIYSfXX1mW0I6wcf3OmgMiuImsp71QO8JXYgZRKDUiBYJHXoymoMFfip7nQplNmJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L3KDCQj3; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Idh7xdVQlKziDGx39sTXayHbBjFmK03pPbzkGPYxi6YVAOrL8W9eXu7nt7yGKZqEodMoU6jk7sC/PDJw0FDX0LAi4FelytireniDWiU0B9xCLdb8T1FXJq71hbIrmSU2MmRyTmXh9huvR/m/3JOddENvJjl7Hc/uLhb9M/+jU4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jkDtkDIx; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L3KDCQj3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jkDtkDIx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756284458; x=1787820458;
+  t=1756284480; x=1787820480;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Opi7hFGUSGYN00f7Q2wTEARKn7/BeM4HRXFyZHPWNkk=;
-  b=L3KDCQj39aOYvteF06+M6oQYf6f+Wc4aHEux0s1vkodHLLVieqOcmZg8
-   5zsfMvb7vw8ZFhw1Ua9fqiAcG0VyIFBJHIZglIFz8sFT8Z9gxcbrC7Ke8
-   nOtQr/aMP58KPKhvJyyMtsAh3jIZP07LfeFOsDBHDhKCe7d0TyZuBaP/h
-   nJEEdVJX+Ub6WYaoWfE07SABB71OcO+9fbeXzTiiw31aIWfTFLsdX6IkR
-   q/EEVDoFYoW8qJ0E/WomaaykiDQT7l0B/WqrX2fld35h5bcEwJjExKwk/
-   LHuLfomFa/1MjTdPf3i7rOehDIzOCbWSejGmTI7/QVmpoApEHEeQ4SdrI
-   A==;
-X-CSE-ConnectionGUID: 54APX1XcQkmotWrnqDEBDg==
-X-CSE-MsgGUID: ftPCDslzQjypdB62P39Kvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58590508"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58590508"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 01:47:37 -0700
-X-CSE-ConnectionGUID: A1zvvXaOQ7aa0ufvun4gYA==
-X-CSE-MsgGUID: V08f9LZyTjCdZC88iVg1+w==
+  bh=HsJj1FmIycevjlO+Pd2hpch8MW+QOlBcZj64jQIUhbc=;
+  b=jkDtkDIxBSUze00oINNPMO985BNU6iIyzEe3hSpkwVw0O4kl7teVh2X/
+   tvwBnd9qRBtiY3yzQe19CQ1xaJUgGtGqqj4S219lqmR+CEgc+fFOlQqNX
+   Mm79kmdPkiXyI2YB5fImrGWyvnI+sVN7fhQ3zUx/8gZSwqVpQa/3ZXuSZ
+   jehzwRYXBCTsQOvjUNCk5Bk75mpqc7MBFtylJbHYc0EykfXsiJi3mYhNM
+   Iu4k5Y8hMInySzE7xxGbLSZZadJ+oTwzYePHs9jnRqxz6CTk9v7VoA+P7
+   FQCAKDi43PmGI6Ro4QGsg0WmDMLXHoIkX/6s9fc7AatlOCyOpVAIpHchP
+   w==;
+X-CSE-ConnectionGUID: blaPqSz+QQ6YieArQ0p+8w==
+X-CSE-MsgGUID: LdkKK0ONRDCi6wzjZZF/AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="69124559"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="69124559"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 01:47:59 -0700
+X-CSE-ConnectionGUID: QJB2PHmTQieDud+Fj6tC2Q==
+X-CSE-MsgGUID: Los9rjmRQ3iqPEPTxpRCnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169034275"
+   d="scan'208";a="174189041"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 27 Aug 2025 01:47:37 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 Aug 2025 01:47:58 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urBoM-000SoN-2h;
-	Wed, 27 Aug 2025 08:47:22 +0000
-Date: Wed, 27 Aug 2025 16:46:19 +0800
+	id 1urBob-000SoQ-2X;
+	Wed, 27 Aug 2025 08:47:38 +0000
+Date: Wed, 27 Aug 2025 16:46:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xu Raoqing <xuraoqing@huawei.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2752/2752] include/linux/bitfield.h:165:3: error:
- call to '__bad_mask' declared with attribute error: bad bitfield mask
-Message-ID: <202508271638.WDlsxoDG-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2753/2753]
+ drivers/i2c/busses/i2c-zhaoxin.c:176:5: warning: no previous prototype for
+ function 'zxi2c_fifo_irq_xfer'
+Message-ID: <202508271625.s6br6gQM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,136 +64,211 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   242365f71d0edaeff9d861d32b639f02170e075d
-commit: 9e76624e89d2d5210d25a33749d8989212945735 [2752/2752] [v8-28-43]arm64: RME: Allow checking SVE on VM instance
-config: arm64-randconfig-004-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271638.WDlsxoDG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271638.WDlsxoDG-lkp@intel.com/reproduce)
+head:   71bbca0322aee9dfe26f2a23ab54f5cfca1dd85c
+commit: 07a6747f952bd8a1ee87d6f5d74448c64fbb152e [2753/2753] i2c: zhaoxin: Add support for Zhaoxin I2C controller
+config: x86_64-buildonly-randconfig-001-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271625.s6br6gQM-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271625.s6br6gQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508271638.WDlsxoDG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508271625.s6br6gQM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/sysreg.h:1065,
-                    from arch/arm64/include/asm/percpu.h:13,
-                    from arch/arm64/include/asm/smp.h:28,
-                    from include/linux/smp.h:113,
-                    from include/linux/percpu.h:7,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/kvm_host.h:7,
-                    from arch/arm64/kvm/rme.c:6:
-   In function 'field_multiplier',
-       inlined from 'u64_get_bits' at include/linux/bitfield.h:201:1,
-       inlined from 'rme_has_feature' at arch/arm64/kvm/rme.c:38:11:
->> include/linux/bitfield.h:165:3: error: call to '__bad_mask' declared with attribute error: bad bitfield mask
-     165 |   __bad_mask();
-         |   ^~~~~~~~~~~~
+   In file included from drivers/i2c/busses/i2c-zhaoxin.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2235:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/i2c/busses/i2c-zhaoxin.c:176:5: warning: no previous prototype for function 'zxi2c_fifo_irq_xfer' [-Wmissing-prototypes]
+     176 | int zxi2c_fifo_irq_xfer(struct zxi2c *i2c, bool irq)
+         |     ^
+   drivers/i2c/busses/i2c-zhaoxin.c:176:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     176 | int zxi2c_fifo_irq_xfer(struct zxi2c *i2c, bool irq)
+         | ^
+         | static 
+>> drivers/i2c/busses/i2c-zhaoxin.c:314:5: warning: no previous prototype for function 'zxi2c_xfer' [-Wmissing-prototypes]
+     314 | int zxi2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+         |     ^
+   drivers/i2c/busses/i2c-zhaoxin.c:314:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     314 | int zxi2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+         | ^
+         | static 
+   3 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
 
+vim +/zxi2c_fifo_irq_xfer +176 drivers/i2c/busses/i2c-zhaoxin.c
 
-vim +/__bad_mask +165 include/linux/bitfield.h
-
-e2192de59e457a Johannes Berg   2023-01-18  119  
-e2192de59e457a Johannes Berg   2023-01-18  120  /**
-e2192de59e457a Johannes Berg   2023-01-18  121   * FIELD_PREP_CONST() - prepare a constant bitfield element
-e2192de59e457a Johannes Berg   2023-01-18  122   * @_mask: shifted mask defining the field's length and position
-e2192de59e457a Johannes Berg   2023-01-18  123   * @_val:  value to put in the field
-e2192de59e457a Johannes Berg   2023-01-18  124   *
-e2192de59e457a Johannes Berg   2023-01-18  125   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
-e2192de59e457a Johannes Berg   2023-01-18  126   * be combined with other fields of the bitfield using logical OR.
-e2192de59e457a Johannes Berg   2023-01-18  127   *
-e2192de59e457a Johannes Berg   2023-01-18  128   * Unlike FIELD_PREP() this is a constant expression and can therefore
-e2192de59e457a Johannes Berg   2023-01-18  129   * be used in initializers. Error checking is less comfortable for this
-e2192de59e457a Johannes Berg   2023-01-18  130   * version, and non-constant masks cannot be used.
-e2192de59e457a Johannes Berg   2023-01-18  131   */
-e2192de59e457a Johannes Berg   2023-01-18  132  #define FIELD_PREP_CONST(_mask, _val)					\
-e2192de59e457a Johannes Berg   2023-01-18  133  	(								\
-e2192de59e457a Johannes Berg   2023-01-18  134  		/* mask must be non-zero */				\
-e2192de59e457a Johannes Berg   2023-01-18  135  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
-e2192de59e457a Johannes Berg   2023-01-18  136  		/* check if value fits */				\
-e2192de59e457a Johannes Berg   2023-01-18  137  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
-e2192de59e457a Johannes Berg   2023-01-18  138  		/* check if mask is contiguous */			\
-e2192de59e457a Johannes Berg   2023-01-18  139  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
-e2192de59e457a Johannes Berg   2023-01-18  140  		/* and create the value */				\
-e2192de59e457a Johannes Berg   2023-01-18  141  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
-e2192de59e457a Johannes Berg   2023-01-18  142  	)
-e2192de59e457a Johannes Berg   2023-01-18  143  
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  144  /**
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  145   * FIELD_GET() - extract a bitfield element
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  146   * @_mask: shifted mask defining the field's length and position
-7240767450d6d8 Masahiro Yamada 2017-10-03  147   * @_reg:  value of entire bitfield
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  148   *
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  149   * FIELD_GET() extracts the field specified by @_mask from the
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  150   * bitfield passed in as @_reg by masking and shifting it down.
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  151   */
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  152  #define FIELD_GET(_mask, _reg)						\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  153  	({								\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  154  		__BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");	\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  155  		(typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask));	\
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  156  	})
-3e9b3112ec74f1 Jakub Kicinski  2016-08-31  157  
-e7d4a95da86e0b Johannes Berg   2018-06-20  158  extern void __compiletime_error("value doesn't fit into mask")
-00b0c9b82663ac Al Viro         2017-12-14  159  __field_overflow(void);
-00b0c9b82663ac Al Viro         2017-12-14  160  extern void __compiletime_error("bad bitfield mask")
-00b0c9b82663ac Al Viro         2017-12-14  161  __bad_mask(void);
-00b0c9b82663ac Al Viro         2017-12-14  162  static __always_inline u64 field_multiplier(u64 field)
-00b0c9b82663ac Al Viro         2017-12-14  163  {
-00b0c9b82663ac Al Viro         2017-12-14  164  	if ((field | (field - 1)) & ((field | (field - 1)) + 1))
-00b0c9b82663ac Al Viro         2017-12-14 @165  		__bad_mask();
-00b0c9b82663ac Al Viro         2017-12-14  166  	return field & -field;
-00b0c9b82663ac Al Viro         2017-12-14  167  }
-00b0c9b82663ac Al Viro         2017-12-14  168  static __always_inline u64 field_mask(u64 field)
-00b0c9b82663ac Al Viro         2017-12-14  169  {
-00b0c9b82663ac Al Viro         2017-12-14  170  	return field / field_multiplier(field);
-00b0c9b82663ac Al Viro         2017-12-14  171  }
-e31a50162feb35 Alex Elder      2020-03-12  172  #define field_max(field)	((typeof(field))field_mask(field))
-00b0c9b82663ac Al Viro         2017-12-14  173  #define ____MAKE_OP(type,base,to,from)					\
-00b0c9b82663ac Al Viro         2017-12-14  174  static __always_inline __##type type##_encode_bits(base v, base field)	\
-00b0c9b82663ac Al Viro         2017-12-14  175  {									\
-e7d4a95da86e0b Johannes Berg   2018-06-20  176  	if (__builtin_constant_p(v) && (v & ~field_mask(field)))	\
-00b0c9b82663ac Al Viro         2017-12-14  177  		__field_overflow();					\
-00b0c9b82663ac Al Viro         2017-12-14  178  	return to((v & field_mask(field)) * field_multiplier(field));	\
-00b0c9b82663ac Al Viro         2017-12-14  179  }									\
-00b0c9b82663ac Al Viro         2017-12-14  180  static __always_inline __##type type##_replace_bits(__##type old,	\
-00b0c9b82663ac Al Viro         2017-12-14  181  					base val, base field)		\
-00b0c9b82663ac Al Viro         2017-12-14  182  {									\
-00b0c9b82663ac Al Viro         2017-12-14  183  	return (old & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro         2017-12-14  184  }									\
-00b0c9b82663ac Al Viro         2017-12-14  185  static __always_inline void type##p_replace_bits(__##type *p,		\
-00b0c9b82663ac Al Viro         2017-12-14  186  					base val, base field)		\
-00b0c9b82663ac Al Viro         2017-12-14  187  {									\
-00b0c9b82663ac Al Viro         2017-12-14  188  	*p = (*p & ~to(field)) | type##_encode_bits(val, field);	\
-00b0c9b82663ac Al Viro         2017-12-14  189  }									\
-00b0c9b82663ac Al Viro         2017-12-14  190  static __always_inline base type##_get_bits(__##type v, base field)	\
-00b0c9b82663ac Al Viro         2017-12-14  191  {									\
-00b0c9b82663ac Al Viro         2017-12-14  192  	return (from(v) & field)/field_multiplier(field);		\
-00b0c9b82663ac Al Viro         2017-12-14  193  }
-00b0c9b82663ac Al Viro         2017-12-14  194  #define __MAKE_OP(size)							\
-00b0c9b82663ac Al Viro         2017-12-14  195  	____MAKE_OP(le##size,u##size,cpu_to_le##size,le##size##_to_cpu)	\
-00b0c9b82663ac Al Viro         2017-12-14  196  	____MAKE_OP(be##size,u##size,cpu_to_be##size,be##size##_to_cpu)	\
-00b0c9b82663ac Al Viro         2017-12-14  197  	____MAKE_OP(u##size,u##size,,)
-37a3862e123826 Johannes Berg   2018-06-20  198  ____MAKE_OP(u8,u8,,)
-00b0c9b82663ac Al Viro         2017-12-14  199  __MAKE_OP(16)
-00b0c9b82663ac Al Viro         2017-12-14  200  __MAKE_OP(32)
-00b0c9b82663ac Al Viro         2017-12-14  201  __MAKE_OP(64)
-00b0c9b82663ac Al Viro         2017-12-14  202  #undef __MAKE_OP
-00b0c9b82663ac Al Viro         2017-12-14  203  #undef ____MAKE_OP
-00b0c9b82663ac Al Viro         2017-12-14  204  
-
-:::::: The code at line 165 was first introduced by commit
-:::::: 00b0c9b82663ac42e5a09f58ce960f81f29d64ee Add primitives for manipulating bitfields both in host- and fixed-endian.
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+   174	
+   175	/* 'irq == true' means in interrupt context */
+ > 176	int zxi2c_fifo_irq_xfer(struct zxi2c *i2c, bool irq)
+   177	{
+   178		u16 i;
+   179		u8 tmp;
+   180		struct i2c_msg *msg = i2c->msg;
+   181		void __iomem *base = i2c->base;
+   182		bool read = !!(msg->flags & I2C_M_RD);
+   183	
+   184		if (irq) {
+   185			/* get the received data */
+   186			if (read)
+   187				for (i = 0; i < i2c->xfer_len; i++)
+   188					msg->buf[i2c->xfered_len + i] = ioread8(base + ZXI2C_REG_HRDR);
+   189	
+   190			i2c->xfered_len += i2c->xfer_len;
+   191			if (i2c->xfered_len == msg->len)
+   192				return 1;
+   193		}
+   194	
+   195		/* reset fifo buffer */
+   196		tmp = ioread8(base + ZXI2C_REG_HCR);
+   197		iowrite8(tmp | ZXI2C_HCR_RST_FIFO, base + ZXI2C_REG_HCR);
+   198	
+   199		/* set xfer len */
+   200		i2c->xfer_len = min_t(u16, msg->len - i2c->xfered_len, ZXI2C_FIFO_SIZE);
+   201		if (read) {
+   202			iowrite8(i2c->xfer_len - 1, base + ZXI2C_REG_HRLR);
+   203		} else {
+   204			iowrite8(i2c->xfer_len - 1, base + ZXI2C_REG_HTLR);
+   205			/* set write data */
+   206			for (i = 0; i < i2c->xfer_len; i++)
+   207				iowrite8(msg->buf[i2c->xfered_len + i], base + ZXI2C_REG_HTDR);
+   208		}
+   209	
+   210		/* prepare to stop transmission */
+   211		if (i2c->hrv && msg->len == (i2c->xfered_len + i2c->xfer_len)) {
+   212			tmp = ioread8(base + ZXI2C_REG_CR);
+   213			tmp |= read ? ZXI2C_CR_RX_END : ZXI2C_CR_TX_END;
+   214			iowrite8(tmp, base + ZXI2C_REG_CR);
+   215		}
+   216	
+   217		if (irq) {
+   218			/* continue transmission */
+   219			tmp = ioread8(base + ZXI2C_REG_CR);
+   220			iowrite8(tmp |= ZXI2C_CR_CPU_RDY, base + ZXI2C_REG_CR);
+   221		} else {
+   222			u16 tcr_val = i2c->tcr;
+   223	
+   224			/* start transmission */
+   225			tcr_val |= read ? ZXI2C_TCR_READ : 0;
+   226			writew(tcr_val | msg->addr, base + ZXI2C_REG_TCR);
+   227		}
+   228	
+   229		return 0;
+   230	}
+   231	
+   232	static irqreturn_t zxi2c_isr(int irq, void *data)
+   233	{
+   234		struct zxi2c *i2c = data;
+   235		void __iomem *base = i2c->base;
+   236		u8 status;
+   237	
+   238		/* save the status and write-clear it */
+   239		status = readw(base + ZXI2C_REG_ISR);
+   240		if (!status)
+   241			return IRQ_NONE;
+   242	
+   243		writew(status, base + ZXI2C_REG_ISR);
+   244	
+   245		i2c->ret = 0;
+   246		if (status & ZXI2C_ISR_NACK_ADDR)
+   247			i2c->ret = -EIO;
+   248	
+   249		if (!i2c->ret) {
+   250			if (i2c->mode == ZXI2C_BYTE_MODE)
+   251				i2c->ret = zxi2c_irq_xfer(i2c);
+   252			else
+   253				i2c->ret = zxi2c_fifo_irq_xfer(i2c, true);
+   254		}
+   255	
+   256		if (i2c->ret)
+   257			complete(&i2c->complete);
+   258	
+   259		return IRQ_HANDLED;
+   260	}
+   261	
+   262	static int zxi2c_write(struct zxi2c *i2c, struct i2c_msg *msg, int last)
+   263	{
+   264		u16 tcr_val = i2c->tcr;
+   265		void __iomem *base = i2c->base;
+   266	
+   267		i2c->last = last;
+   268	
+   269		writew(msg->buf[0] & 0xFF, base + ZXI2C_REG_CDR);
+   270	
+   271		reinit_completion(&i2c->complete);
+   272	
+   273		tcr_val |= msg->addr & 0x7f;
+   274	
+   275		writew(tcr_val, base + ZXI2C_REG_TCR);
+   276	
+   277		if (!wait_for_completion_timeout(&i2c->complete, ZXI2C_TIMEOUT))
+   278			return -ETIMEDOUT;
+   279	
+   280		return i2c->ret;
+   281	}
+   282	
+   283	static int zxi2c_read(struct zxi2c *i2c, struct i2c_msg *msg, bool first)
+   284	{
+   285		u16 val, tcr_val = i2c->tcr;
+   286		void __iomem *base = i2c->base;
+   287	
+   288		val = readw(base + ZXI2C_REG_CR);
+   289		val &= ~(ZXI2C_CR_TX_END | ZXI2C_CR_RX_END);
+   290	
+   291		if (msg->len == 1)
+   292			val |= ZXI2C_CR_RX_END;
+   293	
+   294		writew(val, base + ZXI2C_REG_CR);
+   295	
+   296		reinit_completion(&i2c->complete);
+   297	
+   298		tcr_val |= ZXI2C_TCR_READ | (msg->addr & 0x7f);
+   299	
+   300		writew(tcr_val, base + ZXI2C_REG_TCR);
+   301	
+   302		if (!first) {
+   303			val = readw(base + ZXI2C_REG_CR);
+   304			val |= ZXI2C_CR_CPU_RDY;
+   305			writew(val, base + ZXI2C_REG_CR);
+   306		}
+   307	
+   308		if (!wait_for_completion_timeout(&i2c->complete, ZXI2C_TIMEOUT))
+   309			return -ETIMEDOUT;
+   310	
+   311		return i2c->ret;
+   312	}
+   313	
+ > 314	int zxi2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+   315	{
+   316		struct i2c_msg *msg;
+   317		int i;
+   318		int ret = 0;
+   319		struct zxi2c *i2c = i2c_get_adapdata(adap);
+   320	
+   321		i2c->mode = ZXI2C_BYTE_MODE;
+   322		for (i = 0; ret >= 0 && i < num; i++) {
+   323			i2c->msg = msg = &msgs[i];
+   324			i2c->xfered_len = 0;
+   325			if (msg->len == 0)
+   326				return -EIO;
+   327	
+   328			if (msg->flags & I2C_M_RD)
+   329				ret = zxi2c_read(i2c, msg, i == 0);
+   330			else
+   331				ret = zxi2c_write(i2c, msg, (i + 1) == num);
+   332		}
+   333	
+   334		return (ret < 0) ? ret : i;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
