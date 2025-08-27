@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D38D2F83B6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 10:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFFA3451CB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 10:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756291358; cv=none; b=a+Nch6rVvcisruaN9DXtJAPacmYUO2S0I5IJfUMLL1LJqGytgr0NTtF1Ss2BmuIjpDZRDvKmUpOUMiTRR5VKUMdoNN1jrX0UNFgjBMo0ZQ28balTnsmKkDSFLjiVYDWcLgZFzziu5UmqkL6qlw6wlZAzXcJm6AzR5PA+Eiot7Z8=
+	t=1756291603; cv=none; b=DWTe55x2lQs2791wqbmDKVRVVc20VCIXb6ZDewYf1uHUHYopwCKAq7TNJZ6eEUlpWwuJDP6L3gtrwd+WUsUTHLLXQM/2lo27xkw1005bzT8cTli7GYWd6qKELXW73ptaA1UApTNEPYw2Lim1d3X3b1lORUtH2pCmj4SDVuajR0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756291358; c=relaxed/simple;
-	bh=cSJwRbi6F2xyti/H4qoyQiPHihqckj2vtaXI38BLgNE=;
+	s=arc-20240116; t=1756291603; c=relaxed/simple;
+	bh=1lqDUZYPhSeeQrEJJCkBRHCyQX+56Rw/Xe3dfVO2xWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tnrg8+gSXm2H0QGXexv0z3ZStfjQu4gLk6+nqxW41oN0+vz6Z5EVezq/BnyyXuiD3q1vvqrJ51hHuzzCsTf7rK2mtkiLPKogknBHzq8cms/4sx9WH6YsTqgDmihZrCDvGVRojLuEz9osqlFYljW60fppeTUVnrpYviXwxRMcoHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIjugH7l; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=MgVswi0WOXsFPRPaaP//xAJJKTezhMCQKiMxc5X24/Ut0JM8REpvCqUCnmziITE4MN3oTbfbTgYDoJCIAR8tUDpHUjQYRBdhqF0FKP4sWpJ1ZUKbCC2C2VljV1LI/TKfHHcGxCQyGD08d0KKTQPzBBaXsWHEKZkRWMsyZpnIwog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqNADzNz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIjugH7l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqNADzNz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756291356; x=1787827356;
+  t=1756291602; x=1787827602;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cSJwRbi6F2xyti/H4qoyQiPHihqckj2vtaXI38BLgNE=;
-  b=lIjugH7lRSkdM1QkiADJ9pJoIcaZkiFPAaA9WMrVuwtadRtaCfGPnS6c
-   Ou99EEEl776gL7w4Kq2203M8hjaE9yaqB5jJiy8oPGdI35eu71HsxjdzC
-   LFbuu1iD1B1NQWkHTG8FLn9S2n5tytgy+hK/F5o1aBOIwICZQsE9U+6iv
-   R4knM1nm0It9QFJ15LKkyijzzv1bo5NROW2fX2alwEQI6BGGSC8s7NLF7
-   C3lTvzOnTQPw57hNgEgQ9CVocViIH8c8u+mNSjFmKBEOtdTD4mpMq4SJC
-   Jw8zcLYXl1ZEVAEdqeMpSSSxw2ZttOH2udyIh5hGHXRaCUNNTsQUU0OIl
-   g==;
-X-CSE-ConnectionGUID: g8upQYZwQwiTeHymiIVnfA==
-X-CSE-MsgGUID: CGdVMFJoRAmYTzAFnLCWAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="58690601"
+  bh=1lqDUZYPhSeeQrEJJCkBRHCyQX+56Rw/Xe3dfVO2xWQ=;
+  b=lqNADzNzyPAheGx+NeJTr1fMu/Bmq7IwJ7x/ir0u/0TQfJUD5J1Mhm5u
+   bH0sDkeRSp33gd3ICgDkZyqs+sUG+BYVqyBPT5cZKQGtGW6ho3VCuo6QR
+   qKE04gVSFctnrHN8m1X8+c/YBcoDwfFgR3n5k7djmBtvS50p0XAtxOA90
+   EVcsqik5qiNwSRIC5CSdDHuNIm+zBvHoI4FtPmaCW0hU48UBWF7owy/Yb
+   jW2aMPWqnHcK/KsHWbuBl4bEYESpZwutRTpEpDz6whfF+93NciaT8s7+P
+   o4ZcjKPTApkbwix1KxYMar8t/sQjTsXDCgLIkdsIjRwIdm+eMQfjsauUd
+   A==;
+X-CSE-ConnectionGUID: 8ZH75FXhSpiAXCkgRh8tig==
+X-CSE-MsgGUID: zSZhy0VQS+uyMM+dPVNprQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="57559054"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="58690601"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 03:42:36 -0700
-X-CSE-ConnectionGUID: pxxHyCiUTTerS6xBH/a4Lw==
-X-CSE-MsgGUID: fUkN+950T7qLtJAT1QCsmQ==
+   d="scan'208";a="57559054"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 03:46:41 -0700
+X-CSE-ConnectionGUID: Zm6JJQdJR0alZKMgGVW6ZQ==
+X-CSE-MsgGUID: BxBXqw+iSr+urSCV55j8Qw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="206980211"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 27 Aug 2025 03:42:35 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Aug 2025 03:46:40 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urDbs-000SsJ-1R;
-	Wed, 27 Aug 2025 10:42:32 +0000
-Date: Wed, 27 Aug 2025 18:42:19 +0800
+	id 1urDfp-0002dP-39;
+	Wed, 27 Aug 2025 10:46:37 +0000
+Date: Wed, 27 Aug 2025 12:46:20 +0200
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3164/3164] kernel/sched/fair.c:9944:43: error:
- incomplete definition of type 'struct task_group'
-Message-ID: <202508271837.ae2GMAYR-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3164/3164] drivers/crypto/ccp/hygon/hct.c:46:
+ warning: Function parameter or member 'fmt' not described in 'pr_fmt'
+Message-ID: <202508271204.tfohm9Mj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,111 +60,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Cheng,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   2631a43115d05f216c64dbf901afa2b4bfdf13f5
-commit: 433c0b72564239cf3086f563d5ca32a10e4ffd3f [3164/3164] sched/fair: Count the number of tasks marked as steal_task on cfs_rq
-config: x86_64-randconfig-104-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271837.ae2GMAYR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271837.ae2GMAYR-lkp@intel.com/reproduce)
+commit: b7a218b5c46200f323ac0fe07589e0bf0d648069 [3164/3164] crypto: hct: provides hygon crypto technology ccp device driver.
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250827/202508271204.tfohm9Mj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271204.tfohm9Mj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508271837.ae2GMAYR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508271204.tfohm9Mj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c:4483:31: error: implicit declaration of function 'is_tg_steal' [-Werror,-Wimplicit-function-declaration]
-    4483 |         return group_steal_used() && is_tg_steal(steal_task);
-         |                                      ^
-   kernel/sched/fair.c:6013:6: warning: no previous prototype for function 'init_cfs_bandwidth' [-Wmissing-prototypes]
-    6013 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |      ^
-   kernel/sched/fair.c:6013:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    6013 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         | ^
-         | static 
-   kernel/sched/fair.c:9944:29: error: implicit declaration of function 'is_tg_steal' [-Werror,-Wimplicit-function-declaration]
-    9944 |         if (group_steal_used() && !is_tg_steal(tg->steal_task))
-         |                                    ^
->> kernel/sched/fair.c:9944:43: error: incomplete definition of type 'struct task_group'
-    9944 |         if (group_steal_used() && !is_tg_steal(tg->steal_task))
-         |                                                ~~^
-   include/linux/sched.h:69:8: note: forward declaration of 'struct task_group'
-      69 | struct task_group;
-         |        ^
-   kernel/sched/fair.c:13961:6: warning: no previous prototype for function 'free_fair_sched_group' [-Wmissing-prototypes]
-    13961 | void free_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:13961:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13961 | void free_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:13963:5: warning: no previous prototype for function 'alloc_fair_sched_group' [-Wmissing-prototypes]
-    13963 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-          |     ^
-   kernel/sched/fair.c:13963:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13963 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-          | ^
-          | static 
-   kernel/sched/fair.c:13968:6: warning: no previous prototype for function 'online_fair_sched_group' [-Wmissing-prototypes]
-    13968 | void online_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:13968:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13968 | void online_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:13970:6: warning: no previous prototype for function 'unregister_fair_sched_group' [-Wmissing-prototypes]
-    13970 | void unregister_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:13970:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13970 | void unregister_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   5 warnings and 3 errors generated.
+>> drivers/crypto/ccp/hygon/hct.c:46: warning: Function parameter or member 'fmt' not described in 'pr_fmt'
 
 
-vim +9944 kernel/sched/fair.c
+vim +46 drivers/crypto/ccp/hygon/hct.c
 
-  9929	
-  9930	#ifdef CONFIG_SCHED_STEAL
-  9931	/*
-  9932	 * Return true if task @p can migrate from @rq to @dst_rq in the same LLC.
-  9933	 * No need to test for co-locality, and no need to test task_hot(), as sharing
-  9934	 * LLC provides cache warmth at that level.
-  9935	 */
-  9936	static bool
-  9937	can_migrate_task_llc(struct task_struct *p, struct rq *rq, struct rq *dst_rq)
-  9938	{
-  9939		int dst_cpu = dst_rq->cpu;
-  9940		struct task_group *tg = task_group(p);
-  9941	
-  9942		lockdep_assert_rq_held(rq);
-  9943	
-> 9944		if (group_steal_used() && !is_tg_steal(tg->steal_task))
-  9945			return false;
-  9946	
-  9947		if (throttled_lb_pair(tg, cpu_of(rq), dst_cpu))
-  9948			return false;
-  9949	
-  9950		if (!cpumask_test_cpu(dst_cpu, p->cpus_ptr)) {
-  9951			schedstat_inc(p->se.statistics.nr_failed_migrations_affine);
-  9952			return false;
-  9953		}
-  9954	
-  9955		if (task_running(rq, p)) {
-  9956			schedstat_inc(p->se.statistics.nr_failed_migrations_running);
-  9957			return false;
-  9958		}
-  9959	
-  9960		return true;
-  9961	}
-  9962	#endif
-  9963	
+    34	
+    35	/**
+    36	 * VERSION_STRING modification instructions:
+    37	 * 0.1 -- support hct/mdev mode.
+    38	 * 0.2 -- supoort qemu virtualization.
+    39	 * 0.3 -- support host-noiommu mode memory encryption function,
+    40	 *        and performance optimization in virtual machines (enable caching).
+    41	 * 0.4 -- support compiling hct.ko when mdev module is disabled.
+    42	 * 0.5 -- change the maximum number of supported ccps from 16 to 48.
+    43	 */
+    44	
+    45	#undef  pr_fmt
+  > 46	#define pr_fmt(fmt)				"hct: " fmt
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
