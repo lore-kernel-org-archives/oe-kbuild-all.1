@@ -1,155 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4771B281368;
-	Wed, 27 Aug 2025 12:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B07D192B84
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 13:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756299328; cv=none; b=ljjtoQ0QDJ3OdFX0H7KF8ajcutzypGxOuzIQ/dY6Hsnz4XOOsCLuKeBu9TwJ5ATgHQz1j3Ft5UGHWSXDhsvIUSPubBYtCt6S0syxHrRnjjaO3OWU6AB9WmM3Xbgs1bKVptfq5Qv116U2ZzJjPIJ9uTlUlRf2Yxpi7vV3SwpH2hE=
+	t=1756299991; cv=none; b=btBC0Tqpp93LhqmgwhQRJDnu4OqncVFubQmA1l4QgNdhHAX6N+8o1smh2DETLhLaT0fi5v2FKabDfDQiAunkPDtHothWtCjQ4SAFzZIBDPx/PgKtlFscKaVfCmnQQ436zqhwOtRd8BisVG5P5seuDEoY4htb3RMdguK+Pr4+brQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756299328; c=relaxed/simple;
-	bh=BHwnAktr1BCqCNpsESapR93VNAWo6oZo8xjv4L8onms=;
+	s=arc-20240116; t=1756299991; c=relaxed/simple;
+	bh=J6tlttBlgZ6DdU9dlu0VuCFWzKR1/21U0OOFFKpK/Q0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e90jjFKyLtdgIdpiMhw7oAEBIDeA6iGVC93NGq/KsP4hGhPYxi9zC7NwiJa0ZLlBQzzBbFljARWFFcw9x/FtMYJA3Hzrrh/5myiiBbi8mlYMLrFt1XB7BShj5gFPBk41t8KSBKdjkvNLG5nzKhN92ebSyFktreShLr7tROmEd6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iaG+3S5s; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lVVxFJqNHLaOHIbJX55loLNOdej/VugkonGi2vLpUSZzn3QVGe+IfFsJxlJKnKz5wp1RRDAfFluhQTJIvrBQ4qJqHFYmrPdaSL39RMTg2pGAOArsK4a2v1gxEk4NNaJumqQNNy6zqGkUiPjLEjysZoZGlq+TbCEZygHX/QfqAAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FTEXaN6G; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iaG+3S5s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64408C4CEF4;
-	Wed, 27 Aug 2025 12:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756299327;
-	bh=BHwnAktr1BCqCNpsESapR93VNAWo6oZo8xjv4L8onms=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iaG+3S5shQEKUrF+c0P6V+pqiytDXqmkN2LiC+N0PhkullB8pa1QUY6ZRLIj7x2fE
-	 zSJDnvYxNxcFOAVw+WBsz228mQ4CrxpuRG1eKY884kc5nLNT5HXrZ0a8um3ds7fGxG
-	 6rN5TnM0vmGG/W2sqmstUdAcAunKZ/QeCBdmsR2KnDRf1wf9tjyWW1f6+RM4KIi4p/
-	 jMj6mqBy5Fy+NHPVObdW1DlbPu9aV1uqaVC3eN3rWeV+jiV9vDfIwoVmHs5uctSwnX
-	 mfDb2fllYZVG8nvDBBFj/kOLlkZRED2i/YLzxxCD5AeH52rnR77YD3+Qm1gDuWP8W/
-	 gb23EsxT4YTUw==
-Date: Wed, 27 Aug 2025 18:25:17 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: huaqian.li@siemens.com
-Cc: lkp@intel.com, baocheng.su@siemens.com, bhelgaas@google.com, 
-	christophe.jaillet@wanadoo.fr, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	diogo.ivo@siemens.com, helgaas@kernel.org, jan.kiszka@siemens.com, kristo@kernel.org, 
-	krzk+dt@kernel.org, kw@linux.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, lpieralisi@kernel.org, nm@ti.com, 
-	oe-kbuild-all@lists.linux.dev, robh@kernel.org, s-vadapalli@ti.com, ssantosh@kernel.org, 
-	vigneshr@ti.com
-Subject: Re: [PATCH v12 0/7] soc: ti: Add and use PVU on K3-AM65 for DMA
- isolation
-Message-ID: <yhbjfg7dqx3xud75rhwlhq7ayqa4d6wrsan2j7ki7ri3uynpeu@hdv2o33x4hdn>
-References: <20250728023701.116963-1-huaqian.li@siemens.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FTEXaN6G"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45a1b001f55so36712415e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 06:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756299989; x=1756904789; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hK+6X7If3iibz8tYO8lX48Dx7ObpMSFEmkT7sgjJ+No=;
+        b=FTEXaN6G5xnV6F7/cnUg8syTsO9Xdvx9iZU1tNtQVrRdS5e+PTzJFrtIidZPxuyBiX
+         pL0cuH+EpzbPObInM5Bn2k+yR/mm2W2o9RYqblxpkYuMAJxcUpO/289h9R1l7KgPGil9
+         cRsF2m8+ogNa+bEl8iozGnKGsOGE2KW/kQmQvi0FFCn+3Mzg/Eicy7jbOcp/H+RjyBsO
+         +fSHdsGQqQVlmMV0bwFd6sM+GbtC2mRai4nFkPIYBQSpj6c3x+CK1A5Xj1xAJ8yrVQbL
+         4WlorCYZIsplIXChO0yt/hsrXkKqDW46gdyuxrAkp4D2ZTbslh4XbkAVvM57vfYjdizt
+         cW3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756299989; x=1756904789;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hK+6X7If3iibz8tYO8lX48Dx7ObpMSFEmkT7sgjJ+No=;
+        b=sE/2SihL1ZbpgnGtaBHix91M4vVL7enJQvoluqfziXAkPxeu6LQz2PEMje2jDRbetM
+         QRcwZSavjVEf6Jp6QUiMI1faJntAD3H0p8keE8q4KqYAilt09OEdQywLo9GSvEQTjAoV
+         88jRoWj9EvigtQUfictZErN9VIpNd478ZGDW8ENlKzUQk1PSryOLcoGUhoYKe89rlu2o
+         BMCJifyai0/LUja3YLtuUStbM3b1O+YZ3M21CQsZtWyFQnVNNe/JylcEes/O1YPLC6Qz
+         ndipRrk+8WQX1KCxQXC9d6fgL2yvrIjjywdLWUQO/nG/S5drP7i24X86sw8d+aIH0H74
+         OxWg==
+X-Forwarded-Encrypted: i=1; AJvYcCWclP6ybUxDc25VIHy1YR0S0exePKyasz3IHAzy02bitKsv+rnfm5p1RvoEMuktoU1W6+/3htWlPMDIcy41@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPyAn/6n6BXcTyhMMh12zZ4zkWRhVZk1lh1eH7BY7GiRNwKD9w
+	Gla+zeHSTnG2BUWVoYgM6xdQX/HbyvEvFVKzsMgfGwn0XNCU+CCG6NHuf/FzdAWaTDQ=
+X-Gm-Gg: ASbGncu0UJ3v8Vn5laJh2RXTJcg12fPw6zewEN8Yl1AzGv41x5BMtPs5V0tUlNKHYl0
+	O6k6Xd8OhyD/wmeSDvgNnTtH7I/B4fjkRuVEWtLHX5y/gPSwTU8ioA21pxc1NtnDLJRDIqSPfEh
+	FnoHvyO1ZesjrWGDElmqaY7MoNXfok/gJ4hMNneS1Zt+JPXUFJxF31LmfIebgxS+PnSF3QTgkZL
+	OPMSaJtdOh9ATF5wd+hEXcZWz864X0YvITCV11hgKd8RoFTl0S9lCgJUv9hMefHCDteFyq3AxwJ
+	d+rGCOST6CXtQk/6C+CSujtev6CkNj1JKQhodMkdMDu0MfldPcDI+b9nlJL8/jHlvdtxdoG3vE5
+	UTICsibVud8qpxy04t94gZcNqkZs=
+X-Google-Smtp-Source: AGHT+IEXDXRBapmJnNzs3yvXudhRz+Tvr8DgSaDCekM2NjQJUOq12kV9vyfi7g4u8CZNTYZm5ZKuaA==
+X-Received: by 2002:a05:600c:3b15:b0:458:c059:7db1 with SMTP id 5b1f17b1804b1-45b517d4580mr189191765e9.30.1756299988612;
+        Wed, 27 Aug 2025 06:06:28 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c711212924sm20651459f8f.33.2025.08.27.06.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 06:06:28 -0700 (PDT)
+Date: Wed, 27 Aug 2025 16:06:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [sailus-media-tree:cleanup 30/54]
+ drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously
+ assumed 'imx214->link_freq' could be null (see line 1017)
+Message-ID: <aK8C0InZVhV-VnXr@stanley.mountain>
+References: <202508270603.MDqIVFss-lkp@intel.com>
+ <aK7MAiDuq6tqEW7X@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250728023701.116963-1-huaqian.li@siemens.com>
+In-Reply-To: <aK7MAiDuq6tqEW7X@kekkonen.localdomain>
 
-On Mon, Jul 28, 2025 at 10:36:54AM GMT, huaqian.li@siemens.com wrote:
-> From: Li Hua Qian <huaqian.li@siemens.com>
+On Wed, Aug 27, 2025 at 12:12:34PM +0300, Sakari Ailus wrote:
+> > 4f302d004bd0fc Andr� Apitzsch 2023-12-06  1012  
+> > 4f302d004bd0fc Andr� Apitzsch 2023-12-06  1013  	imx214->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL,
+> > 4f302d004bd0fc Andr� Apitzsch 2023-12-06  1014  						   V4L2_CID_LINK_FREQ,
+> > b9b359662952ff Andr� Apitzsch 2025-05-24  1015  						   imx214->bus_cfg.nr_of_link_frequencies - 1,
+> > b9b359662952ff Andr� Apitzsch 2025-05-24  1016  						   0, imx214->bus_cfg.link_frequencies);
+> > 4f302d004bd0fc Andr� Apitzsch 2023-12-06 @1017  	if (imx214->link_freq)
+> >                                                             ^^^^^^^^^^^^^^^^^
+> > This assumes ->link_freq can be NULL.
 > 
-> Changes in v12:
->  - Fix Sparse warnings by replacing plain integer 0 with NULL for
->    pointer arguments in ti_pvu_probe() (patch 3)
->    (Reported-by: kernel test robot lkp@intel.com)
-> 
-> Changes in v11:
->  - Improve error handling and resolve review comments on pci-keystone
->    driver (patch 4)
-> 
-> Changes in v10:
->  - Move restricted DMA initialization and cleanup to RC-specific code
->    only (patch 4) as it's only needed for RC mode, not EP mode
-> 
-> Changes in v9:
->  - Update commit message (patch 4) to remove ambiguous extension claims
->    based on upstream feedback
-> 
-> Changes in v8:
->  - remove patch 8 from this series to simplify the patchset
->  - fix dt_bindings_check warnings (patch 2), 'memory-region' must
->    not be a required property
-> 
-> Changes in v7:
->  - add schema expressing dependency as suggested on pci-host bindings
->  - resolve review comments on pci-keystone driver
->  - add a new patch to make IO_TLB_SEGSIZE configurable
->  - improve patches based on checkpath.pl
-> 
-> Changes in v6:
->  - make restricted DMA memory-region available to all pci-keystone
->    devices, moving property to unconditional section (patch 2)
-> 
-> Changes in v5:
->  - resolve review comments on pci-host bindings
->  - reduce DMA memory regions to 1 - swiotlb does not support more
->  - move activation into overlay (controlled via firmware)
->  - use ks_init_vmap helper instead of loop in
->    rework ks_init_restricted_dma
->  - add more comments to pci-keystone
->  - use 2 chained TLBs of PVU to support maximum of swiotlb (320 MB)
-> 
-> Changes in v4:
->  - reorder patch queue, moving all DTS changes to the back
->  - limit activation to IOT2050 Advanced variants
->  - move DMA pool to allow firmware-based expansion it up to 512M
-> 
-> Changes in v3:
->  - fix ti,am654-pvu.yaml according to review comments
->  - address review comments on ti,am65-pci-host.yaml
->  - differentiate between different compatibles in ti,am65-pci-host.yaml
->  - move pvu nodes to k3-am65-main.dtsi
->  - reorder patch series, pulling bindings and generic DT bits to the front
-> 
-> Changes in v2:
->  - fix dt_bindings_check issues (patch 1)
->  - address first review comments (patch 2)
->  - extend ti,am65-pci-host bindings for PVU (new patch 3)
-> 
-> Only few of the K3 SoCs have an IOMMU and, thus, can isolate the system
-> against DMA-based attacks of external PCI devices. The AM65 is without
-> an IOMMU, but it comes with something close to it: the Peripheral
-> Virtualization Unit (PVU).
-> 
-> The PVU was originally designed to establish static compartments via a
-> hypervisor, isolate those DMA-wise against each other and the host and
-> even allow remapping of guest-physical addresses. But it only provides
-> a static translation region, not page-granular mappings. Thus, it cannot
-> be handled transparently like an IOMMU.
-> 
-> Now, to use the PVU for the purpose of isolated PCI devices from the
-> Linux host, this series takes a different approach. It defines a
-> restricted-dma-pool for the PCI host, using swiotlb to map all DMA
-> buffers from a static memory carve-out. And to enforce that the devices
-> actually follow this, a special PVU soc driver is introduced. The driver
-> permits access to the GIC ITS and otherwise waits for other drivers that
-> detect devices with constrained DMA to register pools with the PVU.
-> 
-> For the AM65, the first (and possibly only) driver where this is
-> introduced is the pci-keystone host controller. Finally, this series
-> provides a DT overlay for the IOT2050 Advanced devices (all have
-> MiniPCIe or M.2 extension slots) to make use of this protection scheme.
-> Application of this overlay will be handled by firmware.
-> 
-> Due to the cross-cutting nature of these changes, multiple subsystems
-> are affected. However, I wanted to present the whole thing in one series
-> to allow everyone to review with the complete picture in hands. If
-> preferred, I can also split the series up, of course.
+> This seems to be a false positive: the control handler's error is set if
+> adding the LINK_FREQ control isn't successful and that is checked for later
+> on, before calling imx214_pll_update(). Probably smatch can't figure that
+> out?
 > 
 
-How do you want the patches to be merged? I see that the PCI controller driver
-has the API dependency with SoC driver. So that will go through arm-soc I
-believe.
+Yeah.  You're right.  Smatch knows that v4l2_ctrl_new() sets
+ctrl_hdlr->error on failure but when it gets returned from
+v4l2_ctrl_new_int_menu() then that information is lost.
 
-But I can take the dt-binding through PCI tree if you want. Let me know!
+I should investigate why that is...
 
-- Mani
+Thanks for looking at this.
 
--- 
-மணிவண்ணன் சதாசிவம்
+regards,
+dan carpenter
+
