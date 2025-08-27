@@ -1,121 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8773019A7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Aug 2025 12:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4771B281368;
+	Wed, 27 Aug 2025 12:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756297208; cv=none; b=F1SGvWRZ9rCvau4Me8K5tdg4255OhyMQcfxAkkZNSP8hRPm/4nD5NzHosogHqkYVUw8orFHLgUUCzRinZTycp1JY2XlDBGHo0MRrU0zSYmoE21tyWcGxsE/yXnsBimHn+dd4A+qEgXrBBm3B3zJPIHr5ihMan5TyXDMJvP1jv0I=
+	t=1756299328; cv=none; b=ljjtoQ0QDJ3OdFX0H7KF8ajcutzypGxOuzIQ/dY6Hsnz4XOOsCLuKeBu9TwJ5ATgHQz1j3Ft5UGHWSXDhsvIUSPubBYtCt6S0syxHrRnjjaO3OWU6AB9WmM3Xbgs1bKVptfq5Qv116U2ZzJjPIJ9uTlUlRf2Yxpi7vV3SwpH2hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756297208; c=relaxed/simple;
-	bh=2LKep4lVmfJNlIH3ZoIa7hAGGT+uLLtmS2NE+LCVfv8=;
+	s=arc-20240116; t=1756299328; c=relaxed/simple;
+	bh=BHwnAktr1BCqCNpsESapR93VNAWo6oZo8xjv4L8onms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QO1ApFZniDd/YBKPad5ZJfTpvI5IQp/EF35dyIDhB2k9Bg/FvAC6hNOLqzJRii5eWcng30+8D5NpqbbEfjj2PuY0D6wgUNEGGHYONqW8cCqNsMc53j3Fmgql9qzLU75+dFBeIndqvVTmSb/kmI103MxbBZX7AT9SV+a7mE5s4N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnK58qJ4; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=e90jjFKyLtdgIdpiMhw7oAEBIDeA6iGVC93NGq/KsP4hGhPYxi9zC7NwiJa0ZLlBQzzBbFljARWFFcw9x/FtMYJA3Hzrrh/5myiiBbi8mlYMLrFt1XB7BShj5gFPBk41t8KSBKdjkvNLG5nzKhN92ebSyFktreShLr7tROmEd6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iaG+3S5s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnK58qJ4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756297205; x=1787833205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2LKep4lVmfJNlIH3ZoIa7hAGGT+uLLtmS2NE+LCVfv8=;
-  b=FnK58qJ4Xnkhqo6lt18gFI5ozzJdWGGdJLgZyJPXxpL9LICKAA8zSUwb
-   y8Uaq0M2rjzOXTlZ3uaPbmqPCmjn9gCUup9vG624qs1BCh8yHa9Q2EuPI
-   p2nPTiGN689uUtwZxgO1wPXrMSvifJN6aRskl7leQWBcfExS15Xj4gvmI
-   oQoAhZgl3cUxDx/NJjNrxU00+Sgu24uYHfTY6cdfrzr1WkN3kq3DQ0R86
-   wik8vVbTS+XE0DBmlq/TjMNBHZaJ6+Yvy3JsIYRMvDglCHnAgX34kNYiP
-   DRdtdhTfK4int55cbPYOFb0cGacZUcJLbvXQMh4EfFOSckddIG0u0YGdl
-   A==;
-X-CSE-ConnectionGUID: d0v86dZIS+KUQosvrFwurA==
-X-CSE-MsgGUID: wSV2Xk9cRCqJa/4b1oW/9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="68816703"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="68816703"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 05:20:04 -0700
-X-CSE-ConnectionGUID: CXFn0dugRYid9tFo+v8hyg==
-X-CSE-MsgGUID: 25UMPQ2kRgGu/EjvkUAn8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="175095902"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Aug 2025 05:19:59 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1urF89-000SwF-0b;
-	Wed, 27 Aug 2025 12:19:57 +0000
-Date: Wed, 27 Aug 2025 20:19:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, dan.j.williams@intel.com,
-	bhelgaas@google.com, shiju.jose@huawei.com, ming.li@zohomail.com,
-	Smita.KoralahalliChannabasappa@amd.com, rrichter@amd.com,
-	dan.carpenter@linaro.org, PradeepVineshReddy.Kodamati@amd.com,
-	lukas@wunner.de, Benjamin.Cheatham@amd.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com,
-	linux-cxl@vger.kernel.org, alucerop@amd.com, ira.weiny@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v11 20/23] CXL/PCI: Export and rename merge_result() to
- pci_ers_merge_result()
-Message-ID: <202508271903.HTGgt8kV-lkp@intel.com>
-References: <20250827013539.903682-21-terry.bowman@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iaG+3S5s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64408C4CEF4;
+	Wed, 27 Aug 2025 12:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756299327;
+	bh=BHwnAktr1BCqCNpsESapR93VNAWo6oZo8xjv4L8onms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iaG+3S5shQEKUrF+c0P6V+pqiytDXqmkN2LiC+N0PhkullB8pa1QUY6ZRLIj7x2fE
+	 zSJDnvYxNxcFOAVw+WBsz228mQ4CrxpuRG1eKY884kc5nLNT5HXrZ0a8um3ds7fGxG
+	 6rN5TnM0vmGG/W2sqmstUdAcAunKZ/QeCBdmsR2KnDRf1wf9tjyWW1f6+RM4KIi4p/
+	 jMj6mqBy5Fy+NHPVObdW1DlbPu9aV1uqaVC3eN3rWeV+jiV9vDfIwoVmHs5uctSwnX
+	 mfDb2fllYZVG8nvDBBFj/kOLlkZRED2i/YLzxxCD5AeH52rnR77YD3+Qm1gDuWP8W/
+	 gb23EsxT4YTUw==
+Date: Wed, 27 Aug 2025 18:25:17 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: huaqian.li@siemens.com
+Cc: lkp@intel.com, baocheng.su@siemens.com, bhelgaas@google.com, 
+	christophe.jaillet@wanadoo.fr, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	diogo.ivo@siemens.com, helgaas@kernel.org, jan.kiszka@siemens.com, kristo@kernel.org, 
+	krzk+dt@kernel.org, kw@linux.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, lpieralisi@kernel.org, nm@ti.com, 
+	oe-kbuild-all@lists.linux.dev, robh@kernel.org, s-vadapalli@ti.com, ssantosh@kernel.org, 
+	vigneshr@ti.com
+Subject: Re: [PATCH v12 0/7] soc: ti: Add and use PVU on K3-AM65 for DMA
+ isolation
+Message-ID: <yhbjfg7dqx3xud75rhwlhq7ayqa4d6wrsan2j7ki7ri3uynpeu@hdv2o33x4hdn>
+References: <20250728023701.116963-1-huaqian.li@siemens.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250827013539.903682-21-terry.bowman@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250728023701.116963-1-huaqian.li@siemens.com>
 
-Hi Terry,
+On Mon, Jul 28, 2025 at 10:36:54AM GMT, huaqian.li@siemens.com wrote:
+> From: Li Hua Qian <huaqian.li@siemens.com>
+> 
+> Changes in v12:
+>  - Fix Sparse warnings by replacing plain integer 0 with NULL for
+>    pointer arguments in ti_pvu_probe() (patch 3)
+>    (Reported-by: kernel test robot lkp@intel.com)
+> 
+> Changes in v11:
+>  - Improve error handling and resolve review comments on pci-keystone
+>    driver (patch 4)
+> 
+> Changes in v10:
+>  - Move restricted DMA initialization and cleanup to RC-specific code
+>    only (patch 4) as it's only needed for RC mode, not EP mode
+> 
+> Changes in v9:
+>  - Update commit message (patch 4) to remove ambiguous extension claims
+>    based on upstream feedback
+> 
+> Changes in v8:
+>  - remove patch 8 from this series to simplify the patchset
+>  - fix dt_bindings_check warnings (patch 2), 'memory-region' must
+>    not be a required property
+> 
+> Changes in v7:
+>  - add schema expressing dependency as suggested on pci-host bindings
+>  - resolve review comments on pci-keystone driver
+>  - add a new patch to make IO_TLB_SEGSIZE configurable
+>  - improve patches based on checkpath.pl
+> 
+> Changes in v6:
+>  - make restricted DMA memory-region available to all pci-keystone
+>    devices, moving property to unconditional section (patch 2)
+> 
+> Changes in v5:
+>  - resolve review comments on pci-host bindings
+>  - reduce DMA memory regions to 1 - swiotlb does not support more
+>  - move activation into overlay (controlled via firmware)
+>  - use ks_init_vmap helper instead of loop in
+>    rework ks_init_restricted_dma
+>  - add more comments to pci-keystone
+>  - use 2 chained TLBs of PVU to support maximum of swiotlb (320 MB)
+> 
+> Changes in v4:
+>  - reorder patch queue, moving all DTS changes to the back
+>  - limit activation to IOT2050 Advanced variants
+>  - move DMA pool to allow firmware-based expansion it up to 512M
+> 
+> Changes in v3:
+>  - fix ti,am654-pvu.yaml according to review comments
+>  - address review comments on ti,am65-pci-host.yaml
+>  - differentiate between different compatibles in ti,am65-pci-host.yaml
+>  - move pvu nodes to k3-am65-main.dtsi
+>  - reorder patch series, pulling bindings and generic DT bits to the front
+> 
+> Changes in v2:
+>  - fix dt_bindings_check issues (patch 1)
+>  - address first review comments (patch 2)
+>  - extend ti,am65-pci-host bindings for PVU (new patch 3)
+> 
+> Only few of the K3 SoCs have an IOMMU and, thus, can isolate the system
+> against DMA-based attacks of external PCI devices. The AM65 is without
+> an IOMMU, but it comes with something close to it: the Peripheral
+> Virtualization Unit (PVU).
+> 
+> The PVU was originally designed to establish static compartments via a
+> hypervisor, isolate those DMA-wise against each other and the host and
+> even allow remapping of guest-physical addresses. But it only provides
+> a static translation region, not page-granular mappings. Thus, it cannot
+> be handled transparently like an IOMMU.
+> 
+> Now, to use the PVU for the purpose of isolated PCI devices from the
+> Linux host, this series takes a different approach. It defines a
+> restricted-dma-pool for the PCI host, using swiotlb to map all DMA
+> buffers from a static memory carve-out. And to enforce that the devices
+> actually follow this, a special PVU soc driver is introduced. The driver
+> permits access to the GIC ITS and otherwise waits for other drivers that
+> detect devices with constrained DMA to register pools with the PVU.
+> 
+> For the AM65, the first (and possibly only) driver where this is
+> introduced is the pci-keystone host controller. Finally, this series
+> provides a DT overlay for the IOT2050 Advanced devices (all have
+> MiniPCIe or M.2 extension slots) to make use of this protection scheme.
+> Application of this overlay will be handled by firmware.
+> 
+> Due to the cross-cutting nature of these changes, multiple subsystems
+> are affected. However, I wanted to present the whole thing in one series
+> to allow everyone to review with the complete picture in hands. If
+> preferred, I can also split the series up, of course.
+> 
 
-kernel test robot noticed the following build errors:
+How do you want the patches to be merged? I see that the PCI controller driver
+has the API dependency with SoC driver. So that will go through arm-soc I
+believe.
 
-[auto build test ERROR on f11a5f89910a7ae970fbce4fdc02d86a8ba8570f]
+But I can take the dt-binding through PCI tree if you want. Let me know!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-Remove-ifdef-blocks-of-CONFIG_PCIEAER_CXL-from-core-pci-c/20250827-094257
-base:   f11a5f89910a7ae970fbce4fdc02d86a8ba8570f
-patch link:    https://lore.kernel.org/r/20250827013539.903682-21-terry.bowman%40amd.com
-patch subject: [PATCH v11 20/23] CXL/PCI: Export and rename merge_result() to pci_ers_merge_result()
-config: powerpc64-randconfig-002-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271903.HTGgt8kV-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271903.HTGgt8kV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508271903.HTGgt8kV-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> arch/powerpc/kernel/eeh_driver.c:68:28: error: redefinition of 'pci_ers_merge_result'
-      68 | static enum pci_ers_result pci_ers_merge_result(enum pci_ers_result old,
-         |                            ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/powerpc/kernel/eeh_driver.c:13:
-   include/linux/pci.h:2767:32: note: previous definition of 'pci_ers_merge_result' with type 'pci_ers_result_t(enum pci_ers_result,  enum pci_ers_result)' {aka 'unsigned int(enum pci_ers_result,  enum pci_ers_result)'}
-    2767 | static inline pci_ers_result_t pci_ers_merge_result(enum pci_ers_result orig,
-         |                                ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/pci_ers_merge_result +68 arch/powerpc/kernel/eeh_driver.c
-
-20b344971433da Sam Bobroff 2018-05-25  67  
-30424e386a30d1 Sam Bobroff 2018-05-25 @68  static enum pci_ers_result pci_ers_merge_result(enum pci_ers_result old,
-30424e386a30d1 Sam Bobroff 2018-05-25  69  						enum pci_ers_result new)
-30424e386a30d1 Sam Bobroff 2018-05-25  70  {
-30424e386a30d1 Sam Bobroff 2018-05-25  71  	if (eeh_result_priority(new) > eeh_result_priority(old))
-30424e386a30d1 Sam Bobroff 2018-05-25  72  		return new;
-30424e386a30d1 Sam Bobroff 2018-05-25  73  	return old;
-30424e386a30d1 Sam Bobroff 2018-05-25  74  }
-30424e386a30d1 Sam Bobroff 2018-05-25  75  
+- Mani
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
