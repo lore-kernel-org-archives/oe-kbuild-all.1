@@ -1,123 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77692D97BF;
-	Thu, 28 Aug 2025 10:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B3627E05A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 11:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756377376; cv=none; b=GYthD3XFuJQmHG7EBQ1zGTpB2M5osfNprwX1EsE16wwlemr6pkZpir74O+MpHIanTiPVgk4kYpdo+A8bGST7wGFVTZZkYJamp+32esO8KP2F9S6qFwERI5cSJ3Kfd58CK1pFjBw98ftdk9o8CR6YvYH3bnGlLx9TALCLWnak8lc=
+	t=1756380309; cv=none; b=Bz1i+mbigloN+LI2I8gsGzBZnrwILHTghrEmnOY/XuDDGQzx3Zr3vk0dq3xgnHPaDHfmJjJxJAHYDQx7nHtjWaj/7H3Yn0SPXI2myTVjn2OLzDyd08dAoVre7hOhnooC4V36iMT0nYY9q24SZZr+Nf28kasbW+n53/CnaQt+ofM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756377376; c=relaxed/simple;
-	bh=Q++vDmJGmmqheRrUrP0W8dSS7fcanjr4UJG7gMXFg6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E7DDjoJPCp8LD1C60kAwgxpCgiay8rN3pnCh2v47+bHZ+M129APzGpuKgIoUrei4PQLe+fYhYxjdjZAuuQ9MNNasBCUTMoX7HMRtSy7JLRc4UZNBrEehT3jmT+sSDBm5hLm2VMEcyGht5odhEWAD+BfmCJx4383Vl6PZoodAGCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EI7KTp8P; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756380309; c=relaxed/simple;
+	bh=gAeJYPiWvvW/0IyRkIBxLQARRkyu4B4Y9YGUAn6QIxg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S9HCxlA+o2OQ9MTODpzaE2YwFnb/2okQtXpIwB2OoptmlCH+IYiIiveHPnSiMv8PEcINseNQV11NSL/c0wT1jBL5kx+VjKGghM4qPhC+P6/9vhn8S9KMq+a1SoWRU9FyJxkDmUdRq/2XdRukN0ZbY9m0Jwh2AmHoI1ILvwGMqic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=huaqian.li@siemens.com header.b=ppUKXa/S; arc=none smtp.client-ip=185.136.65.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EI7KTp8P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756377375; x=1787913375;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q++vDmJGmmqheRrUrP0W8dSS7fcanjr4UJG7gMXFg6o=;
-  b=EI7KTp8Pkv/KuGNq6iMaeNGcX7oZqe/zW0XobJEVyWN6WEk4vnqBfXxZ
-   iR20JrwF36o2mPO7G/MpIAHjbxliRSqsbdufmH34IGVbtRN7ZNnmQnMrH
-   Bmc1hq9BtGcCgdqArDgwKAfiUyPDLb0ZTKSiCLbeDRcTk7G4QYTpOK4cB
-   5PhY8Y2wsjCNyzZ3FO0PHyELe5DM2RFeVNLhA3pwoxKpsAnwAgxiByMF0
-   6Lm1GGW2hF502wVVSTkez5qADgmkrdekkt+yKjbcZb6+gTdCnJlIXWVwZ
-   TtAKFU5P4QyV3V68l4Su9p5PYjQh9DfLDyQd0/eI3Xv0qMiUivx0vYr5i
-   g==;
-X-CSE-ConnectionGUID: I7qk1wpoR3WgbqCKyHUhvQ==
-X-CSE-MsgGUID: rRcSiX/5RFKAb4UOQ3hpDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="62465685"
-X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="62465685"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 03:36:14 -0700
-X-CSE-ConnectionGUID: 0KXzwk6SSTqEhED/Xo7AIg==
-X-CSE-MsgGUID: uo1IoHNKR1Gi41sgQk9IWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="200992693"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Aug 2025 03:36:08 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1urZzC-000TeJ-18;
-	Thu, 28 Aug 2025 10:36:06 +0000
-Date: Thu, 28 Aug 2025 18:35:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Bryan Tan <bryan-bt.tan@broadcom.com>,
-	Vishnu Dasa <vishnu.dasa@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	Bobby Eshleman <bobbyeshleman@gmail.com>, berrange@redhat.com
-Subject: Re: [PATCH net-next v5 4/9] vsock/loopback: add netns support
-Message-ID: <202508281824.3XZiIgxs-lkp@intel.com>
-References: <20250827-vsock-vmtest-v5-4-0ba580bede5b@meta.com>
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=huaqian.li@siemens.com header.b="ppUKXa/S"
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20250828112457ffb5eb31b6000207ce
+        for <oe-kbuild-all@lists.linux.dev>;
+        Thu, 28 Aug 2025 13:24:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=huaqian.li@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=gAeJYPiWvvW/0IyRkIBxLQARRkyu4B4Y9YGUAn6QIxg=;
+ b=ppUKXa/SF25VHu0ObymsZkYC4YZ2jSnCePYE5s6U+rMfKnDLC/YmU0oyNMgEjnmnT+EFvm
+ aCqIHHmfIbxEyZqMamA1nVx7Pc0PaSQmO+/9eXxjR8WkNbsyeAKvxFWXKahghSXQGpL6lH1F
+ DUGQx6hvEl3TXnBrOm+Y5NcvyAdE1PWTkM8ibq+JL2GRJrJwbINYH2fCSkWDX1UjqDu2IwA0
+ IeURwhammbS8kR9Zq2xaBEohFhVgfcQdivDLS+xNUo7wbiFn/z0uD5lEafZ/R/zWwPmvrC/n
+ mPxk7yqSx2nGy1bmyp7LIzONckMdbUy7qfiNaBXUZaFFqXXnXN0inu/g==;
+From: huaqian.li@siemens.com
+To: mani@kernel.org,
+	arnd@arndb.de
+Cc: baocheng.su@siemens.com,
+	bhelgaas@google.com,
+	christophe.jaillet@wanadoo.fr,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	diogo.ivo@siemens.com,
+	helgaas@kernel.org,
+	huaqian.li@siemens.com,
+	jan.kiszka@siemens.com,
+	kristo@kernel.org,
+	krzk+dt@kernel.org,
+	kw@linux.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	lkp@intel.com,
+	lpieralisi@kernel.org,
+	nm@ti.com,
+	oe-kbuild-all@lists.linux.dev,
+	robh@kernel.org,
+	s-vadapalli@ti.com,
+	ssantosh@kernel.org,
+	vigneshr@ti.com
+Subject: Re: [PATCH v12 0/7] soc: ti: Add and use PVU on K3-AM65 for DMA
+Date: Thu, 28 Aug 2025 19:24:34 +0800
+Message-Id: <20250828112434.2310936-1-huaqian.li@siemens.com>
+In-Reply-To: <yhbjfg7dqx3xud75rhwlhq7ayqa4d6wrsan2j7ki7ri3uynpeu@hdv2o33x4hdn>
+References: <yhbjfg7dqx3xud75rhwlhq7ayqa4d6wrsan2j7ki7ri3uynpeu@hdv2o33x4hdn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250827-vsock-vmtest-v5-4-0ba580bede5b@meta.com>
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-959203:519-21489:flowmailer
 
-Hi Bobby,
+Hi Mani,
 
-kernel test robot noticed the following build warnings:
+Thanks for your offer to help with the patch series. Yes, let's proceed
+with splitting the submission:
 
-[auto build test WARNING on 242041164339594ca019481d54b4f68a7aaff64e]
+Please go ahead and take the dt-bindings through the PCI tree. That would
+be helpful to get them established early.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/vsock-a-per-net-vsock-NS-mode-state/20250828-083629
-base:   242041164339594ca019481d54b4f68a7aaff64e
-patch link:    https://lore.kernel.org/r/20250827-vsock-vmtest-v5-4-0ba580bede5b%40meta.com
-patch subject: [PATCH net-next v5 4/9] vsock/loopback: add netns support
-config: nios2-randconfig-001-20250828 (https://download.01.org/0day-ci/archive/20250828/202508281824.3XZiIgxs-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250828/202508281824.3XZiIgxs-lkp@intel.com/reproduce)
+Hi Arnd,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508281824.3XZiIgxs-lkp@intel.com/
+Could you please take care of the driver code with the cross-dependencies
+through the arm-soc tree? The PCI controller driver has the API dependency
+with the SoC driver as Mani pointed out. Could you let me know which specific
+components of the series you would be willing to take?
 
-All warnings (new ones prefixed by >>):
+Best Regards,
+Li Hua Qian
 
->> net/vmw_vsock/af_vsock.c:137:35: warning: 'vsock_net_callbacks' defined but not used [-Wunused-variable]
-    static struct vsock_net_callbacks vsock_net_callbacks;
-                                      ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/vsock_net_callbacks +137 net/vmw_vsock/af_vsock.c
-
-   136	
- > 137	static struct vsock_net_callbacks vsock_net_callbacks;
-   138	static DEFINE_MUTEX(vsock_net_callbacks_lock);
-   139	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
