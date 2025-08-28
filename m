@@ -1,89 +1,84 @@
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B3627E05A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 11:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71ED30EF7B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 11:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756380309; cv=none; b=Bz1i+mbigloN+LI2I8gsGzBZnrwILHTghrEmnOY/XuDDGQzx3Zr3vk0dq3xgnHPaDHfmJjJxJAHYDQx7nHtjWaj/7H3Yn0SPXI2myTVjn2OLzDyd08dAoVre7hOhnooC4V36iMT0nYY9q24SZZr+Nf28kasbW+n53/CnaQt+ofM=
+	t=1756381579; cv=none; b=kIkR8jXW3MjsvTZjMId6kKX2CHKIgnM0b+oDupkOkl7NUMF8dLCX23a9bFPEsxZfXIwqwf/KCflpcghHj++5oI5WwdVyzPgXKc6VOXI1y+s6Zj2NSilD+NLvJCO8U0zhE3FYWsgdh/c2WILNhc/cm27sjeCIVrsb8p5RmB8uYQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756380309; c=relaxed/simple;
-	bh=gAeJYPiWvvW/0IyRkIBxLQARRkyu4B4Y9YGUAn6QIxg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=S9HCxlA+o2OQ9MTODpzaE2YwFnb/2okQtXpIwB2OoptmlCH+IYiIiveHPnSiMv8PEcINseNQV11NSL/c0wT1jBL5kx+VjKGghM4qPhC+P6/9vhn8S9KMq+a1SoWRU9FyJxkDmUdRq/2XdRukN0ZbY9m0Jwh2AmHoI1ILvwGMqic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=huaqian.li@siemens.com header.b=ppUKXa/S; arc=none smtp.client-ip=185.136.65.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
+	s=arc-20240116; t=1756381579; c=relaxed/simple;
+	bh=LpKganOcvojsrX7TySVPBzcgIg2HkBZx0zqnulQS2/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=gkqxlfPLBmRB4BuwVfNFNi4UBr0gG8uoGdR/Ofamx+96ry7P6eEZLisl9SPwHnj1rk61HbXb9izcKs1cK2+1M6OlEXhJsb1XuikmWppUWbsNkuSsZPzt5AH26+eDvmJhk8e9AfEHpu5T74qvboS1tUbP0AlO6SPCp9lAVbuzw7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5lWBADp; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=huaqian.li@siemens.com header.b="ppUKXa/S"
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20250828112457ffb5eb31b6000207ce
-        for <oe-kbuild-all@lists.linux.dev>;
-        Thu, 28 Aug 2025 13:24:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=huaqian.li@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=gAeJYPiWvvW/0IyRkIBxLQARRkyu4B4Y9YGUAn6QIxg=;
- b=ppUKXa/SF25VHu0ObymsZkYC4YZ2jSnCePYE5s6U+rMfKnDLC/YmU0oyNMgEjnmnT+EFvm
- aCqIHHmfIbxEyZqMamA1nVx7Pc0PaSQmO+/9eXxjR8WkNbsyeAKvxFWXKahghSXQGpL6lH1F
- DUGQx6hvEl3TXnBrOm+Y5NcvyAdE1PWTkM8ibq+JL2GRJrJwbINYH2fCSkWDX1UjqDu2IwA0
- IeURwhammbS8kR9Zq2xaBEohFhVgfcQdivDLS+xNUo7wbiFn/z0uD5lEafZ/R/zWwPmvrC/n
- mPxk7yqSx2nGy1bmyp7LIzONckMdbUy7qfiNaBXUZaFFqXXnXN0inu/g==;
-From: huaqian.li@siemens.com
-To: mani@kernel.org,
-	arnd@arndb.de
-Cc: baocheng.su@siemens.com,
-	bhelgaas@google.com,
-	christophe.jaillet@wanadoo.fr,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	diogo.ivo@siemens.com,
-	helgaas@kernel.org,
-	huaqian.li@siemens.com,
-	jan.kiszka@siemens.com,
-	kristo@kernel.org,
-	krzk+dt@kernel.org,
-	kw@linux.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	lkp@intel.com,
-	lpieralisi@kernel.org,
-	nm@ti.com,
-	oe-kbuild-all@lists.linux.dev,
-	robh@kernel.org,
-	s-vadapalli@ti.com,
-	ssantosh@kernel.org,
-	vigneshr@ti.com
-Subject: Re: [PATCH v12 0/7] soc: ti: Add and use PVU on K3-AM65 for DMA
-Date: Thu, 28 Aug 2025 19:24:34 +0800
-Message-Id: <20250828112434.2310936-1-huaqian.li@siemens.com>
-In-Reply-To: <yhbjfg7dqx3xud75rhwlhq7ayqa4d6wrsan2j7ki7ri3uynpeu@hdv2o33x4hdn>
-References: <yhbjfg7dqx3xud75rhwlhq7ayqa4d6wrsan2j7ki7ri3uynpeu@hdv2o33x4hdn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5lWBADp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756381577; x=1787917577;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=LpKganOcvojsrX7TySVPBzcgIg2HkBZx0zqnulQS2/U=;
+  b=W5lWBADpHHpQdpca9O5cAul3MF5hW/qRO7thq9L/vRzvpQwKdPMpmAYo
+   CIf8WF/ECykKMy5c2QXvbikpuxik4oIzrH83nYjx5ym4AjZeOeRqoDdrH
+   aCUQDWxW163ZysdcfnlBLIMKPZn3AXjI0VRardAvf8gGl5NS7unj5iIr6
+   uk+VUm0U5ihEbJrajEhDKEPsY2hN5RciCFDu/guti1hkd97onGU3RW8Ae
+   b5xwApVd6Nm7VuLNXowWRC0bpQmtxitJnO+oX6HuJHtEMw/BLrq/s7CTg
+   y4y40XEjA5iyNuobnm6ggWfZKtw7D3i5zz/okcy7in+r5E2DtqffamA5R
+   Q==;
+X-CSE-ConnectionGUID: 9sFCpRiLTO6pTF3IVgvTZw==
+X-CSE-MsgGUID: JwXId1TkT1GLp0o1Oj36IA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58590322"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58590322"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 04:46:17 -0700
+X-CSE-ConnectionGUID: obxTyTBLSVqg7yyDTFD8kQ==
+X-CSE-MsgGUID: U6ujH8DJSNu6jTEq1DdVWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
+   d="scan'208";a="175385539"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 28 Aug 2025 04:46:16 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1urb4N-000TgJ-20;
+	Thu, 28 Aug 2025 11:45:47 +0000
+Date: Thu, 28 Aug 2025 19:44:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oscar Maes <oscmaes92@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net v4] selftests: net: add test for destination in
+ broadcast packets
+Message-ID: <aLBBODddUFSVxJMH@5fc77bca29d8>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-959203:519-21489:flowmailer
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828114242.6433-1-oscmaes92@gmail.com>
 
-Hi Mani,
+Hi,
 
-Thanks for your offer to help with the patch series. Yes, let's proceed
-with splitting the submission:
+Thanks for your patch.
 
-Please go ahead and take the dt-bindings through the PCI tree. That would
-be helpful to get them established early.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Hi Arnd,
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-Could you please take care of the driver code with the cross-dependencies
-through the arm-soc tree? The PCI controller driver has the API dependency
-with the SoC driver as Mani pointed out. Could you let me know which specific
-components of the series you would be willing to take?
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net v4] selftests: net: add test for destination in broadcast packets
+Link: https://lore.kernel.org/stable/20250828114242.6433-1-oscmaes92%40gmail.com
 
-Best Regards,
-Li Hua Qian
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
 
