@@ -1,74 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4669D18C011;
-	Thu, 28 Aug 2025 09:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287821BD9F0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 10:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756373673; cv=none; b=MUVRgiB7jFgAxZ+He0j1j2ydV78A/pxbTyg+ZVFAk/A6pNCpTzap9PkvZyY/dKnk7AaSo46CZ15xUrT4vFuyN9YOtKFGvAuFtRWh6zJ8/4dItieJjftQf4wdDSfFtE9afH3Hso0S1ylFEKScb7sYBM1hnpVe7mVb5i5KPj72BiY=
+	t=1756376118; cv=none; b=F6hNaOUyi1EBQ2cyilaPQR8/hqZiAru+yoUKwIpe8//KUUqqkW3IBfofe0zQVAs5IjyYxW6uB2LkmX4ST/He6NgOaNf0m0xIJX1FT3l5OQlOD9aGH/YriXpA9JQp6CK1tOzbwrfjVsR6D7w5m2FZmS3f76CGW1z6d8ltyndo3g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756373673; c=relaxed/simple;
-	bh=yuynSKYGfxPDARXbNkOVcirGGnm9MJdjYgpoYNnyvqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pj7cnJnBmNhRwRXYDlYEWE77dTf9Aay+gpz1AYDqm7m36rnmQq/gV0fzCl241lXPnidK4xchehgni4DeAvnmwfp+QPydyRoFHbYRjs7u+sRxE3v+zrHZ927l/ywkOLL4i0qrbjvkT5E5ZvIRx77TuPPN3f8ix5wh4TAEawKKASY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZ1Mdz6O; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1756376118; c=relaxed/simple;
+	bh=c/WrnvoLHW/EzhEDFjHsQM5rytgPZkoUDa8gTiAWYsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=qegtJOol+zC66jWhLxF3t3t0HKBpSVl+bn7XYyJ0Jbjc3rx3taOeQmwCSFz2HWJ4F2HgJOLrGk+NDFJ2sSgubRuwobedwPxokzQlYll7pjqpVEYF/jYr1LO+J/eTTnd2k3kZGjQs4+TtLeLlUwGbHrThcbxDM99AT4/REI/QHY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNL/sBMc; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZ1Mdz6O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNL/sBMc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756373672; x=1787909672;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yuynSKYGfxPDARXbNkOVcirGGnm9MJdjYgpoYNnyvqk=;
-  b=HZ1Mdz6OFFA8/lzdG0aL4m0xFGMIpSf8wZRD4PxHF0NbY8Y0ktjo8RNs
-   Uex8rCJkuUA+1rhmESloQlKPqM9lZIbo6SHhyUYUpsNbU+gnkUpEB1UJJ
-   Pkpl1cGPI26RQBbMzH4eH/ttUVHnaOg5YluLoWoZDEPJk4my0mDObr2na
-   IUuETNUph1ZwsFkzTkJqGzX4Ye845UwsFSVfX+5kGh2KSKxD/6N+pUKOT
-   vhI/x2oEn0zNOXZ9TdlfiqejnHo2u3petb4diyFgTNPneAqIuSvm8Q0CO
-   ZZpCsLZQX3A6x2IaWojIAvxnpuspA53oJ//Ax3W3WC0rKWIIA66rgMj3G
-   g==;
-X-CSE-ConnectionGUID: rMMXvW4DTTuBnkW57rPwCQ==
-X-CSE-MsgGUID: uKxPuxv8RASpM3HgmFbucg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="58787351"
+  t=1756376116; x=1787912116;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=c/WrnvoLHW/EzhEDFjHsQM5rytgPZkoUDa8gTiAWYsw=;
+  b=jNL/sBMc0XoDZ942KRRJd/XoPUEuDsjpEdny00aeKO9tDjvwhZFb4FB6
+   Q1PGrTwugsL8rpxDHzFB7UeCncAwRg2OPPhCcwVYt81MuNH2ThdETVpOB
+   UveWM3rcnqoOYgBWfobMwKTk1nzdrihzWKx5GUg9c6XOdOPnh2xlZ2R7x
+   zbzBPUsNQ/9CZRVBSGOXuOVrq66VixOCwGC/vfYAFF6ktcPtWqO5JkbzS
+   smPad7aJFX+s22nZ5VNYMI0xifm21d0E5POKQpE7ekbNCUCB2x81tIsPg
+   mnCZqN1jZWzMRNi6Sw6QdQC1McH6QPRwfLTwKrvNyWxsnxQeN+s10/QUm
+   w==;
+X-CSE-ConnectionGUID: ZxitJ47STKmqmxsl19Tu7w==
+X-CSE-MsgGUID: fc7pox1kR02CZSukcmewnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="58741199"
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="58787351"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 02:34:31 -0700
-X-CSE-ConnectionGUID: 3oW4vjZ0SqCDl3Ptz+McUg==
-X-CSE-MsgGUID: M5KpuRq8SLWF14awLIFgLw==
+   d="scan'208";a="58741199"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 03:15:15 -0700
+X-CSE-ConnectionGUID: vzLL0gx+TKeU6FDHH7WPXQ==
+X-CSE-MsgGUID: Ye7AG7nCTGieQIi8tJubNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="170462631"
+   d="scan'208";a="175370754"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Aug 2025 02:34:26 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 Aug 2025 03:15:14 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urZ0v-000Tbr-1n;
-	Thu, 28 Aug 2025 09:33:57 +0000
-Date: Thu, 28 Aug 2025 17:32:34 +0800
+	id 1urZe8-000Td5-2l;
+	Thu, 28 Aug 2025 10:14:34 +0000
+Date: Thu, 28 Aug 2025 18:12:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>
-Subject: Re: [PATCH net-next v3 1/2] drivers: net: stmmac: handle start time
- set in the past for flexible PPS
-Message-ID: <202508281615.ExryCwiA-lkp@intel.com>
-References: <20250827-relative_flex_pps-v3-1-673e77978ba2@foss.st.com>
+To: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH iwl-net v1 2/4] ixgbe: handle IXGBE_VF_GET_PF_LINK_STATE
+ mailbox operation
+Message-ID: <aLArdkpnBnD3yyOR@5fc77bca29d8>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,32 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250827-relative_flex_pps-v3-1-673e77978ba2@foss.st.com>
+In-Reply-To: <20250828095227.1857066-3-jedrzej.jagielski@intel.com>
 
-Hi Gatien,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on 242041164339594ca019481d54b4f68a7aaff64e]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gatien-Chevallier/drivers-net-stmmac-handle-start-time-set-in-the-past-for-flexible-PPS/20250827-190905
-base:   242041164339594ca019481d54b4f68a7aaff64e
-patch link:    https://lore.kernel.org/r/20250827-relative_flex_pps-v3-1-673e77978ba2%40foss.st.com
-patch subject: [PATCH net-next v3 1/2] drivers: net: stmmac: handle start time set in the past for flexible PPS
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250828/202508281615.ExryCwiA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250828/202508281615.ExryCwiA-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508281615.ExryCwiA-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "timespec64_add_safe" [drivers/net/ethernet/stmicro/stmmac/stmmac.ko] undefined!
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH iwl-net v1 2/4] ixgbe: handle IXGBE_VF_GET_PF_LINK_STATE mailbox operation
+Link: https://lore.kernel.org/stable/20250828095227.1857066-3-jedrzej.jagielski%40intel.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
