@@ -1,132 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AC54A00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 01:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A6819CC39
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 01:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756343315; cv=none; b=hHjLyaX8zkigKDHNoqph20PpjUinjIAHzHsPubZTFnO3VmPYrxflky2dMND995z/JixNuL36f85q0sInOnSkc0p+UNc00esnC4bU0oskAnCt+Vt7S0GtNPqbDelmwcyMqY35vkZxLkx0qQcTXWAPFQKoDHvdyWTLUGia1G0QJx8=
+	t=1756343315; cv=none; b=VsIaHmW1VLUyvKO0nRFGBL2ptOp2zWZgtHe0PNC8o6DzjmMobk2Pao0F7yFaktwnm7V5/SKZOT9q5iddeLb9mDEo75dUgIACO1EC99DpK2UEsVv5slCQ3qD8HByV7Tyau3qNG3YyMEk4ST2t3G13t+9VyJ6ZAOAx4He2c+FKDxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756343315; c=relaxed/simple;
-	bh=Vy33ylMTaFBjxSSmDiN610bi/7MhmQFuXGlJsJ5Ix9A=;
+	bh=EHUPRS3v22IJTAGxduelikQFFC29JQa0uuN0akHoYz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NB+BaLyhSNAULCRQ9cGl1kA4DTnIYnB1iBEXx7aXGBCHtqFwUvTs5ghkhSXMao8Zd3yoMY5oYdodE3KL5NbKePB+x5q+z+/cU64qFk8gA+7VZAgAfurnIHX2y7MiEAtF+T4L9XmE1qFKObuTcY/kyi2ZNOyJA1wzOReJw39N938=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+uXM1Ag; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=T9oCe3Wpbvpq/IAPlpzShItqhg0EBdnSwspyockUjgs6rgyyolP/gHbW0wnc67XhQDxTwqHHsjeJ+NBQBW0hG6/mvvgqf3vA0G4FjOceNLy2gscBpYRTp+wc4ZmLN4bdaw1FPcrsMUuSMhD3FSXOxrJoNWVS+V0qPm0XVT7gY0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OrTyb9CA; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+uXM1Ag"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OrTyb9CA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756343313; x=1787879313;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vy33ylMTaFBjxSSmDiN610bi/7MhmQFuXGlJsJ5Ix9A=;
-  b=k+uXM1AgnM8uVFE6oRcyVO+IXMopZYAGsFqSLkizBLFKg4JYrQ8NIQEA
-   gmabefK25BoDxhHNRkHzkUzzg9aWgy+CxI2riDBno09mwTW+ktvww5v8d
-   HgwyqLB5LJNHACMmCipig9M2e6km5tGiedEJLHSCjgGsr99SDRboFu6Kr
-   yab557yJ6Rnm7t3FuhniZ/Wuf1+a1G4qGPS8+OKrceIEcthK/s6mCbRjQ
-   bsqO44Lu2RXx2qZEwvgXE//WqzJao/lCabd/1RQPN0Asuyb4kexjbikbs
-   ag+YRDoX5oVd4E8rfxnSVFZbytJzFfUkNCQofA4MuNEQeqk8xWqwg6j9+
-   A==;
-X-CSE-ConnectionGUID: tp4+6FcTTcm1Nx2LLYoM/g==
-X-CSE-MsgGUID: dpw+l6RoSbae4pYUGDcVQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="46179649"
+  t=1756343314; x=1787879314;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EHUPRS3v22IJTAGxduelikQFFC29JQa0uuN0akHoYz8=;
+  b=OrTyb9CAPscb+V6xgx8ocQXn8K6YVIdtKnAWW/Tv0FHAZTKkacREnIDM
+   cL1L06ETSHj2wYJfNn9nUPYkp/WCUFF0hp5BM6+NBNK9hCGjUgPj2Zp+u
+   sNt3QRDPZvtwLUf0MIdFzRmMTbelg0iAs9vYnRr6B+KUtnpmMPYea9xd2
+   uqv0GLM55iJHFlJGlq9Ub0hsWJajtkcG9wpgNZzO+BKURVuff3tX1EPC1
+   84cN+aWrvWP7g0XubqMGRu2gr04wgaStrayl0eskTzTNeQTlUOGrHxpIz
+   E11srdXeTzOXbirWbFvHnn7p6AYN38ebvlmRCCWg7jKJ97I5IgzJIHZKR
+   Q==;
+X-CSE-ConnectionGUID: LQ/L7VgSRcCRY74s+nVsng==
+X-CSE-MsgGUID: NZ5F3JH6QP+Kf8RCgiR8hQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11535"; a="62247827"
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="46179649"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 18:08:32 -0700
-X-CSE-ConnectionGUID: 8xcPJp7KSnSJn9z9rgmqeA==
-X-CSE-MsgGUID: r9qIYlb1T6CD7+YIdu1flw==
+   d="scan'208";a="62247827"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 18:08:33 -0700
+X-CSE-ConnectionGUID: jdUkBHfMRdGIsL8wfAW1iA==
+X-CSE-MsgGUID: VnJzwkAlSi2aOwaaSRiJLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; 
-   d="scan'208";a="200875163"
+   d="scan'208";a="169579482"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Aug 2025 18:08:31 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Aug 2025 18:08:32 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urR7t-000TJT-1U;
+	id 1urR7t-000TJY-1i;
 	Thu, 28 Aug 2025 01:08:29 +0000
-Date: Thu, 28 Aug 2025 09:07:38 +0800
+Date: Thu, 28 Aug 2025 09:07:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 7/7] kernel/bpf/dmabuf_iter.c:117:17:
- warning: no previous prototype for function 'bpf_iter_dmabuf_new'
-Message-ID: <202508280936.7Jw8RFrU-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 0/1]
+ drivers/block/virtio_blk.c:2725:37: warning: 'virtblk_chr_fops' defined but
+ not used
+Message-ID: <202508280954.V1BWqeV3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   deae7333e0dabc64c2e169695e5093332a142fbc
-commit: 755db8b11c512ff80570c0a57821350f2ba67937 [7/7] BACKPORT: bpf: Add open coded dmabuf iterator
-config: arm64-randconfig-001-20250828 (https://download.01.org/0day-ci/archive/20250828/202508280936.7Jw8RFrU-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250828/202508280936.7Jw8RFrU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   3fe510ec8500eb78ffe2c1a747db0c27d2257130
+commit: afb76076d69f73b48b18395cdb6b2552d07e0dd6 [0/1] anolis: virtio-blk: make chardev only exposed to specific devices
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250828/202508280954.V1BWqeV3-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250828/202508280954.V1BWqeV3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508280936.7Jw8RFrU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508280954.V1BWqeV3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/dmabuf_iter.c:117:17: warning: no previous prototype for function 'bpf_iter_dmabuf_new' [-Wmissing-prototypes]
-     117 | __bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
-         |                 ^
-   kernel/bpf/dmabuf_iter.c:117:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     117 | __bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
-         |             ^
-         |             static 
->> kernel/bpf/dmabuf_iter.c:128:29: warning: no previous prototype for function 'bpf_iter_dmabuf_next' [-Wmissing-prototypes]
-     128 | __bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
-         |                             ^
-   kernel/bpf/dmabuf_iter.c:128:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     128 | __bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
-         |             ^
-         |             static 
->> kernel/bpf/dmabuf_iter.c:140:18: warning: no previous prototype for function 'bpf_iter_dmabuf_destroy' [-Wmissing-prototypes]
-     140 | __bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
-         |                  ^
-   kernel/bpf/dmabuf_iter.c:140:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     140 | __bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
-         |             ^
-         |             static 
-   3 warnings generated.
+   drivers/block/virtio_blk.c: In function 'virtblk_probe':
+   drivers/block/virtio_blk.c:2845:25: warning: unused variable 'i' [-Wunused-variable]
+    2845 |         int err, index, i;
+         |                         ^
+   At top level:
+>> drivers/block/virtio_blk.c:2725:37: warning: 'virtblk_chr_fops' defined but not used [-Wunused-const-variable=]
+    2725 | static const struct file_operations virtblk_chr_fops = {
+         |                                     ^~~~~~~~~~~~~~~~
+   drivers/block/virtio_blk.c:2667:12: warning: 'virtblk_cdev_add' defined but not used [-Wunused-function]
+    2667 | static int virtblk_cdev_add(struct virtio_blk *vblk,
+         |            ^~~~~~~~~~~~~~~~
+   drivers/block/virtio_blk.c:2661:13: warning: 'virtblk_cdev_del' defined but not used [-Wunused-function]
+    2661 | static void virtblk_cdev_del(struct cdev *cdev, struct device *cdev_device)
+         |             ^~~~~~~~~~~~~~~~
 
 
-vim +/bpf_iter_dmabuf_new +117 kernel/bpf/dmabuf_iter.c
+vim +/virtblk_chr_fops +2725 drivers/block/virtio_blk.c
 
-   116	
- > 117	__bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
-   118	{
-   119		struct bpf_iter_dmabuf_kern *kit = (void *)it;
-   120	
-   121		BUILD_BUG_ON(sizeof(*kit) > sizeof(*it));
-   122		BUILD_BUG_ON(__alignof__(*kit) != __alignof__(*it));
-   123	
-   124		kit->dmabuf = NULL;
-   125		return 0;
-   126	}
-   127	
- > 128	__bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
-   129	{
-   130		struct bpf_iter_dmabuf_kern *kit = (void *)it;
-   131	
-   132		if (kit->dmabuf)
-   133			kit->dmabuf = dma_buf_iter_next(kit->dmabuf);
-   134		else
-   135			kit->dmabuf = dma_buf_iter_begin();
-   136	
-   137		return kit->dmabuf;
-   138	}
-   139	
- > 140	__bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
+f0eeb0941b6027 Ferry Meng 2025-05-10  2724  
+f0eeb0941b6027 Ferry Meng 2025-05-10 @2725  static const struct file_operations virtblk_chr_fops = {
+f0eeb0941b6027 Ferry Meng 2025-05-10  2726  	.owner		= THIS_MODULE,
+f0eeb0941b6027 Ferry Meng 2025-05-10  2727  	.open		= virtblk_chr_open,
+f0eeb0941b6027 Ferry Meng 2025-05-10  2728  	.release	= virtblk_chr_release,
+9c7e3e8e2c2ed3 Ferry Meng 2025-05-10  2729  	.uring_cmd	= virtblk_chr_uring_cmd,
+0a3f5314e6d2d1 Ferry Meng 2025-05-10  2730  	.uring_cmd_iopoll = virtblk_chr_uring_cmd_iopoll,
+f0eeb0941b6027 Ferry Meng 2025-05-10  2731  };
+f0eeb0941b6027 Ferry Meng 2025-05-10  2732  
+
+:::::: The code at line 2725 was first introduced by commit
+:::::: f0eeb0941b60279a141674daaba4f88204850c2b anolis: virtio-blk: add virtio-blk chardev support
+
+:::::: TO: Ferry Meng <mengferry@linux.alibaba.com>
+:::::: CC: 小龙 <wenqing.ly@alibaba-inc.com>
 
 -- 
 0-DAY CI Kernel Test Service
