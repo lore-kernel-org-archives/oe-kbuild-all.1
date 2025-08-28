@@ -1,72 +1,61 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BF2224B12
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 16:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0EE223DDD;
+	Thu, 28 Aug 2025 20:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756399437; cv=none; b=VoRLIX6aqYxuEt5j9edDqTkr9NEvqdgZsSzrqf06+lCsM6HkT/WoIBoXUjvp++tMGvOMlGMyN4xO+6vgRe70yw9lIOgmy2hgtSgXWDSSpJjJ0a2bPBzt/unUuK8djNBtE6MjIVQ+qg+FZrkSD5llt3U94q2eDml9okdBe38M+jg=
+	t=1756414384; cv=none; b=RjDnz0xOJ/F1BArKSrKNv2TIHJSnRqGIIKVaVoU+YzCw2cO7ih0ZeSo5i4IvNhA4/qJOJXuY2ZBK05hGxSrIYnkr1cn5O0KE+1oBl/fgGRoZIkDhTyxULpe9CQRyEqzbRxwk3vtJoQG0dt9oQqKvvhFo2TepLi7NfxdF4zOxp1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756399437; c=relaxed/simple;
-	bh=6Cdpiq+Zzg2lIGGkSRD5WELvl2nCdU/wD6GSA161iwA=;
+	s=arc-20240116; t=1756414384; c=relaxed/simple;
+	bh=5k4UXkTHLn8z4Oqhg0CbDCeOCFaMpfeezWZxNb6d5ms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qIDJcJrszedUvPXRTJ1ztKHpCI/cgbh2OzmoYO1bRVe/3ErSJhQTvyIUhj6T7WxZqTdoS0xTh412GuufCU5WFm5ZSooFekHMrYzdY7DfwF6qMrFGJ0kABAtRqSx8/h5y4UhNk8+DNxV1O/4DwqEm/S6mVUu/kW5JpTU9OKOnmyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AFaH119u; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fvVSkxqbOq2gmnXe5emd3T5RPraiFr+JX1oxlV4nO4mqJ6e+0RZRsQLqd0oy7Aw0AeOv+VuSJXlSNc1/69KCYW/TI4mInJWdnvJB1zVvT03VwkyT6MANX/QM9AcSWZC0kvK/RgLzY7TFTusL1VZamEsSqRsOcCCMSOrGSLwg/6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAR4ffAL; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AFaH119u"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7721b8214d4so836956b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Aug 2025 09:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756399435; x=1757004235; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8blEVa85dDyW3Z+dNJYIvBsar0sKOxqyFeme/7/E2N8=;
-        b=AFaH119u7A608SeI4g+d1XbV6MfsZPi1WQjsbWQVH3k9yA1kt2DsXVC8Xc9CWiUozw
-         PKCbTG1IfBOUOWRjJ+umma3NW57S8ILa1O7QHvJ1dRZSQMo4JeM1PgaR/lpdiwVOqmMo
-         gtrN2JLs/6jfnncF1rWDIDEL1qG/GWMKpkrt5tH0LSvW+f6ZdEEj5mN4ettopjvxuGPr
-         18P/vIae9kRhD+eYG8fwTDOy+sliwXmTEknVKnUk4Rw3CErvvIFc7np8zctByq7qUDa0
-         57D1JZPC9j8u4dItOj35oG4q4rM1FwewzevXyVsT0HlCSCDJtnmVNwbnbyJPEfsrOq0O
-         9hkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756399435; x=1757004235;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8blEVa85dDyW3Z+dNJYIvBsar0sKOxqyFeme/7/E2N8=;
-        b=uaGA9wcFCLj4i39P7ao3888VO/Oe7O66xCPp24BcsQLeVHMnQ/2zrsDIyP931caA//
-         /qr0dRlE5vkelYgGQNFzkQzbdlHOVispdohsG21d5rqMtwSvOvkV/Xg6I1l4NnEy/7rq
-         Sts849oZvTa9F5NUWXXL6S9lQwosVjQ4x81MaAlfa/2S3Zc1UI7o4QqsVC9cPfBYFvLy
-         HfSKgyaPJe4OZjXCNM7uQYN1YFMTWCSZdpBq17UZ6ebRStUjuclWtG5zcQBlx6gbHy3w
-         rZR1sKxIWz++pI21W9qLX6JKvOt3mw1W8DkdK+xQKPYRfZTGnWb73Y1oMLNqxfFfV4hv
-         2iMQ==
-X-Gm-Message-State: AOJu0YyYeLDzd0rKWoYNncD2HSZF8ERZW1zkA8un3DNFh05uOZrqZqGX
-	oXbdB09oJcRvDHoSMs8lpQkbUYnVzOzYqO1uQm6cwWNFyuKB+qFb9AbvD0vT0aDzsg==
-X-Gm-Gg: ASbGncteRZqqcTvtBqg0QeNodaM4Vetes+hfRN1Lu+MlnJnx0llk7b6+2EZrOdK4x1o
-	dpFbTCe/mScyPOs+4rkKBlFlvRHy9X9QB/I0oMytpSMvT0yz4Eg4SvaRlv2JpSjQEpys+Cao97L
-	x8eag2K8EotYRBrivaP52Q9Mqxjv5AvrDr8uAyjMTit1X2s0lnioc8rhBX+N6zpZ7QQ1eJKFBq0
-	4f80Eq5fVfXqxYU5Qy5dEXmZHFsWDumj4Q76KCj7HCrPt72nvYeZR5WtEbZENlXyPqWsJLieQ8W
-	M//ZVxOcFPV3yc6/nGxZizeLIZ2Z1lYAlsEjKGra2bj2rOKU6Gm43i6Lv6CqKdUjKzy9hUjf4YV
-	z72R1AWecPuMg3XpnkdceJdGbROE/OvtySKz/I0RlpuOy0Z0lI7oCwIxVycAeQSS5NltjdkCdoI
-	BF1KHqkaIJel3ykS/E8Ngg
-X-Google-Smtp-Source: AGHT+IFMy7ShxWIeqlyJjwrda2ndy0stFzll0/vMdsdQ1HiUhQJpb1uUs9R19cFwupqaIiTdJVYSvw==
-X-Received: by 2002:a05:6a00:391a:b0:748:fcfa:8be2 with SMTP id d2e1a72fcca58-7702fa09c17mr33404597b3a.2.1756399434797;
-        Thu, 28 Aug 2025 09:43:54 -0700 (PDT)
-Received: from google.com (13.42.168.34.bc.googleusercontent.com. [34.168.42.13])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77040021393sm16523940b3a.49.2025.08.28.09.43.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 09:43:53 -0700 (PDT)
-Date: Thu, 28 Aug 2025 16:43:48 +0000
-From: David Matlack <dmatlack@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [awilliam-vfio:next 5/37]
- tools/testing/selftests/vfio/.gitignore: warning: ignored by one of the
- .gitignore files
-Message-ID: <aLCHRCKsPTFQfTOD@google.com>
-References: <202508280918.rFRyiLEU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAR4ffAL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756414383; x=1787950383;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5k4UXkTHLn8z4Oqhg0CbDCeOCFaMpfeezWZxNb6d5ms=;
+  b=gAR4ffALhpK2+6E8g+FmmQBfH4l9d6QYZQ3Drw1oGR5MmNcR2AYXizM8
+   Gh56Qt77+prlPRFMVYGntmBY3kQ8amF1lcaK17rXGXIKXdYEUq1eooDYG
+   3inxWgzIVjx5otPBbVaWinrlEcG4FZlkpODrjmvflNz9ZMSMW0URA2pUN
+   i2lf3w2amKMwMpkXaUzuS4UZyiTYWtDc5GaRGnB+8xywdiMaQBh5gf3Au
+   GGA6Aa9XNq0iFwQweJoBMkqPrpvLaOYkiqmQQqG5rdBCjJYfuca0w5pNp
+   pRYjK5fB+O32Kw62bJdDa1ZRnk5kQv3Vcd1+7z5/JHiryIlUzaFnL2wx1
+   w==;
+X-CSE-ConnectionGUID: Qn8l+uOjTsGN8Q/oeq3tkA==
+X-CSE-MsgGUID: T1qiFHbtSF+r6pXQZQvo+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="76297161"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="76297161"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 13:53:02 -0700
+X-CSE-ConnectionGUID: jWEef5B0T1mlNZdvLmY8QQ==
+X-CSE-MsgGUID: QpkpGfHbQ/WmTKACR6Ey1g==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 28 Aug 2025 13:52:59 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1urjc9-000U3L-1H;
+	Thu, 28 Aug 2025 20:52:57 +0000
+Date: Fri, 29 Aug 2025 04:52:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Jurgens <danielj@nvidia.com>, netdev@vger.kernel.org,
+	mst@redhat.com, jasowang@redhat.com, alex.williamson@redhat.com,
+	virtualization@lists.linux.dev, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, parav@nvidia.com, shshitrit@nvidia.com,
+	yohadt@nvidia.com, Daniel Jurgens <danielj@nvidia.com>
+Subject: Re: [PATCH net-next 05/11] virtio_net: Create a FF group for ethtool
+ steering
+Message-ID: <202508290458.9QTyiC0K-lkp@intel.com>
+References: <20250827183852.2471-6-danielj@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,63 +64,168 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508280918.rFRyiLEU-lkp@intel.com>
+In-Reply-To: <20250827183852.2471-6-danielj@nvidia.com>
 
-On 2025-08-28 09:18 AM, kernel test robot wrote:
-> tree:   https://github.com/awilliam/linux-vfio.git next
-> head:   9f3acb3d9a1872e2fa36af068ca2e93a8a864089
-> commit: 292e9ee22b0adad49c9a6f63708988e32c007da6 [5/37] selftests: Create tools/testing/selftests/vfio
-> config: i386-buildonly-randconfig-001-20250828 (https://download.01.org/0day-ci/archive/20250828/202508280918.rFRyiLEU-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250828/202508280918.rFRyiLEU-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508280918.rFRyiLEU-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> tools/testing/selftests/vfio/.gitignore: warning: ignored by one of the .gitignore files
-> >> tools/testing/selftests/vfio/Makefile: warning: ignored by one of the .gitignore files
+Hi Daniel,
 
-The warning is that tools/testing/selftests/vfio/.gitignore and
-tools/testing/selftests/vfio/Makefile are both ignored by an existing
-.gitignore file. That .gitignore file is
-tools/testing/selftests/vfio/.gitignore:
+kernel test robot noticed the following build warnings:
 
-  $ cat tools/testing/selftests/vfio/.gitignore
-  # SPDX-License-Identifier: GPL-2.0-only
-  *
-  !/**/
-  !*.c
-  !*.h
-  !*.S
-  !*.sh
+[auto build test WARNING on net-next/main]
 
-This .gitignore is designed to ignore everything but directories, .c,
-.h. .S, and .sh files. One-off files can be added with git add --force
-and then git will track any changes to those files automatically going
-forward (even though they technically match the .gitignore file).
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Jurgens/virtio-pci-Expose-generic-device-capability-operations/20250828-024128
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250827183852.2471-6-danielj%40nvidia.com
+patch subject: [PATCH net-next 05/11] virtio_net: Create a FF group for ethtool steering
+config: x86_64-randconfig-121-20250828 (https://download.01.org/0day-ci/archive/20250829/202508290458.9QTyiC0K-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508290458.9QTyiC0K-lkp@intel.com/reproduce)
 
-I stole this approach from the KVM selftests but it looks like they hit
-the same warning and decided to add their one-off files to their
-.gitignore file to squash the warnings [1].
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508290458.9QTyiC0K-lkp@intel.com/
 
-I will send a similar patch to fix squash this warning for VFIO selftests.
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/virtio_net/virtio_net_ff.c: note: in included file (through include/linux/virtio_admin.h):
+   include/uapi/linux/virtio_net_ff.h:45:48: sparse: sparse: array of flexible structures
+>> drivers/net/virtio_net/virtio_net_ff.c:99:13: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/virtio_net/virtio_net_ff.c:99:13: sparse: sparse: cast to restricted __le32
+>> drivers/net/virtio_net/virtio_net_ff.c:103:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] groups_limit @@     got int @@
+   drivers/net/virtio_net/virtio_net_ff.c:103:35: sparse:     expected restricted __le32 [usertype] groups_limit
+   drivers/net/virtio_net/virtio_net_ff.c:103:35: sparse:     got int
 
-e.g.
+vim +99 drivers/net/virtio_net/virtio_net_ff.c
 
-diff --git a/tools/testing/selftests/vfio/.gitignore b/tools/testing/selftests/vfio/.gitignore
-index 6d9381d60172..7fadc19d3bca 100644
---- a/tools/testing/selftests/vfio/.gitignore
-+++ b/tools/testing/selftests/vfio/.gitignore
-@@ -5,3 +5,6 @@
- !*.h
- !*.S
- !*.sh
-+!*.mk
-+!.gitignore
-+!Makefile
+    29	
+    30	void virtnet_ff_init(struct virtnet_ff *ff, struct virtio_device *vdev)
+    31	{
+    32		struct virtio_admin_cmd_query_cap_id_result *cap_id_list __free(kfree) = NULL;
+    33		size_t ff_mask_size = sizeof(struct virtio_net_ff_cap_mask_data) +
+    34				      sizeof(struct virtio_net_ff_selector) *
+    35				      VIRTIO_NET_FF_MASK_TYPE_MAX;
+    36		struct virtio_net_resource_obj_ff_group ethtool_group = {};
+    37		struct virtio_net_ff_selector *sel;
+    38		int err;
+    39		int i;
+    40	
+    41		cap_id_list = kzalloc(sizeof(*cap_id_list), GFP_KERNEL);
+    42		if (!cap_id_list)
+    43			return;
+    44	
+    45		err = virtio_device_cap_id_list_query(vdev, cap_id_list);
+    46		if (err)
+    47			return;
+    48	
+    49		if (!(VIRTIO_CAP_IN_LIST(cap_id_list,
+    50					 VIRTIO_NET_FF_RESOURCE_CAP) &&
+    51		      VIRTIO_CAP_IN_LIST(cap_id_list,
+    52					 VIRTIO_NET_FF_SELECTOR_CAP) &&
+    53		      VIRTIO_CAP_IN_LIST(cap_id_list,
+    54					 VIRTIO_NET_FF_ACTION_CAP)))
+    55			return;
+    56	
+    57		ff->ff_caps = kzalloc(sizeof(*ff->ff_caps), GFP_KERNEL);
+    58		if (!ff->ff_caps)
+    59			return;
+    60	
+    61		err = virtio_device_cap_get(vdev,
+    62					    VIRTIO_NET_FF_RESOURCE_CAP,
+    63					    ff->ff_caps,
+    64					    sizeof(*ff->ff_caps));
+    65	
+    66		if (err)
+    67			goto err_ff;
+    68	
+    69		/* VIRTIO_NET_FF_MASK_TYPE start at 1 */
+    70		for (i = 1; i <= VIRTIO_NET_FF_MASK_TYPE_MAX; i++)
+    71			ff_mask_size += get_mask_size(i);
+    72	
+    73		ff->ff_mask = kzalloc(ff_mask_size, GFP_KERNEL);
+    74		if (!ff->ff_mask)
+    75			goto err_ff;
+    76	
+    77		err = virtio_device_cap_get(vdev,
+    78					    VIRTIO_NET_FF_SELECTOR_CAP,
+    79					    ff->ff_mask,
+    80					    ff_mask_size);
+    81	
+    82		if (err)
+    83			goto err_ff_mask;
+    84	
+    85		ff->ff_actions = kzalloc(sizeof(*ff->ff_actions) +
+    86						VIRTIO_NET_FF_ACTION_MAX,
+    87						GFP_KERNEL);
+    88		if (!ff->ff_actions)
+    89			goto err_ff_mask;
+    90	
+    91		err = virtio_device_cap_get(vdev,
+    92					    VIRTIO_NET_FF_ACTION_CAP,
+    93					    ff->ff_actions,
+    94					    sizeof(*ff->ff_actions) + VIRTIO_NET_FF_ACTION_MAX);
+    95	
+    96		if (err)
+    97			goto err_ff_action;
+    98	
+  > 99		if (le32_to_cpu(ff->ff_caps->groups_limit < VIRTNET_FF_MAX_GROUPS)) {
+   100			err = -ENOSPC;
+   101			goto err_ff_action;
+   102		}
+ > 103		ff->ff_caps->groups_limit = VIRTNET_FF_MAX_GROUPS;
+   104	
+   105		err = virtio_device_cap_set(vdev,
+   106					    VIRTIO_NET_FF_RESOURCE_CAP,
+   107					    ff->ff_caps,
+   108					    sizeof(*ff->ff_caps));
+   109		if (err)
+   110			goto err_ff_action;
+   111	
+   112		ff_mask_size = sizeof(struct virtio_net_ff_cap_mask_data);
+   113		sel = &ff->ff_mask->selectors[0];
+   114	
+   115		for (int i = 0; i < ff->ff_mask->count; i++) {
+   116			ff_mask_size += sizeof(struct virtio_net_ff_selector) + sel->length;
+   117			sel = (struct virtio_net_ff_selector *)((u8 *)sel + sizeof(*sel) + sel->length);
+   118		}
+   119	
+   120		err = virtio_device_cap_set(vdev,
+   121					    VIRTIO_NET_FF_SELECTOR_CAP,
+   122					    ff->ff_mask,
+   123					    ff_mask_size);
+   124		if (err)
+   125			goto err_ff_action;
+   126	
+   127		err = virtio_device_cap_set(vdev,
+   128					    VIRTIO_NET_FF_ACTION_CAP,
+   129					    ff->ff_actions,
+   130					    sizeof(*ff->ff_actions) + VIRTIO_NET_FF_ACTION_MAX);
+   131		if (err)
+   132			goto err_ff_action;
+   133	
+   134		ethtool_group.group_priority = cpu_to_le16(VIRTNET_FF_ETHTOOL_GROUP_PRIORITY);
+   135	
+   136		/* Use priority for the object ID. */
+   137		err = virtio_device_object_create(vdev,
+   138						  VIRTIO_NET_RESOURCE_OBJ_FF_GROUP,
+   139						  VIRTNET_FF_ETHTOOL_GROUP_PRIORITY,
+   140						  &ethtool_group,
+   141						  sizeof(ethtool_group));
+   142		if (err)
+   143			goto err_ff_action;
+   144	
+   145		ff->vdev = vdev;
+   146		ff->ff_supported = true;
+   147	
+   148		return;
+   149	
+   150	err_ff_action:
+   151		kfree(ff->ff_actions);
+   152	err_ff_mask:
+   153		kfree(ff->ff_mask);
+   154	err_ff:
+   155		kfree(ff->ff_caps);
+   156	}
+   157	
 
-[1] https://lore.kernel.org/kvm/20240828215800.737042-1-seanjc@google.com/
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
