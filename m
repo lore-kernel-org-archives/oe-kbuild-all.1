@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF632135CE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 15:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162D432C32E;
+	Fri, 29 Aug 2025 15:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756480242; cv=none; b=peob9Ke+LYxjQs4vYTl3KDZV6/W/OseDDdRqTOIGQLkgJCMER/ztcg1T1dV1CTFSkwi9/YJ4i+5xC9Ru/1Ye5nOsHpTjSgFZR+RRLzkk4nWxPa84tqMWmKDrlIm35pTHlp4VLNjzUT5I7N0V++UWhbaLSeXHMTm0oMY0OPEDiAo=
+	t=1756482793; cv=none; b=ZDnOjohj6qltfD2mBORH7oqA+TEDJ9BCAkAftiIfy9SgDOoLGQ8FQ8BkLCCyDMunSORlD/5sQTz0azpiLKfWpdDC6BxVQdtr7Ls4zB9XwOhFck8HVZD0377JDouhEkdZyF0VJVzJCYYKeuEO8hEw2D6gKpgCoTW0qw76KGNS9qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756480242; c=relaxed/simple;
-	bh=+i+eVUBQntDDqInnC2L7qSbsssvIWh33gRnw8Qt+RKE=;
+	s=arc-20240116; t=1756482793; c=relaxed/simple;
+	bh=XKkRs/IcCE9mjve0Gx265u3Mj72r0BXCLoU7/fhGsA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gWDRcxa3Q9RReUTgF6Tvm5uEFw0BaVGI+OhMgHZC1xTxRaQOFSAKUfoYrMQAJxamTFoCCNL+06Cro7SPMiMP9UMc/X5mInBnPbDgpHgZ+/yxsOifmi9nsVcdk9L3gRy9+JAkENIvicHVMehEVAlqcG+Lkbah9sI+isY8TfjcFPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMiW+Z9h; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=XoFsQz+j1jzBtQdcePZwdNqURqNVYJYzFch6Bw6EuAMqHKM3guvd1aXQ4jIcb7ctsw4jFyzgqvjmzhxKgM1FS/zOza+me+UKiwyKWFkNjdgUD5eKeJkTiaNXezohOTgCv4pw92Efgz6Japd1sb0XWZmndEtZudx91MiGW1HX6ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyDo0JtH; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMiW+Z9h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyDo0JtH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756480239; x=1788016239;
+  t=1756482792; x=1788018792;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+i+eVUBQntDDqInnC2L7qSbsssvIWh33gRnw8Qt+RKE=;
-  b=SMiW+Z9hXvGtKFEQvRTIMvGn8dGoG4JPjhpsNMd/Is5tHf6Bu4tdMyaU
-   53f7XrMadf2JwpfiJ3YXuJ5kXSA6NjY+ikIjnnoXXauFhLEK1nFeuvFTk
-   ZcTxX9vNBxlG9vsFcmZzzJPneiXrbkU73DkialROHsGdUnuNP8weWXomu
-   T/xvjmkn/cQ0lB9eS/CZ23nQURbNTljfogRugmLOIhMYBTM34MUMySOqV
-   dZdEyXWscT8uSkDIixk2w6iZSj0mG4e79pxAM7jaAIYp556mT4d4cBdzk
-   sB1bxMF3X0jQuUu+jrMyP1jwsxXg8x2I2+r/BdZfd6FMOIXjiAIFCHFP8
+  bh=XKkRs/IcCE9mjve0Gx265u3Mj72r0BXCLoU7/fhGsA8=;
+  b=nyDo0JtHG8ScJUL2z5LshOLJpNuheYdkRAxuwWBFJPt6HWrG4FvUwIX2
+   6sHrUqyD3h1vbLzCuA4tl7GWh6M7TB2iMoXrXpPjA15c8CqmSNhWXjZhd
+   tqT5i9ZSntHMvJYlCsnArBzAQjqpbFHDrSM2LbayZCri8e0fW8wFz+KeF
+   Yz7jAkxsIajXzo0GG3TAaaJH9nUGlkvSj8urIAs+P6s33SDYxuj5SrlMG
+   rJ18RqXx8B9aGkety4ZUZNG3GfOAz2krkKFZTG54MRAl3ZBu5FXz1JaJP
+   vLHPoC/cwhegrWj37nyMSfax85Nmz+M6ZMamIE7IvQZbcWbl9wmPaZz6o
    A==;
-X-CSE-ConnectionGUID: tbykaL6LQ42tzUiEkZDaKQ==
-X-CSE-MsgGUID: JVkOiJRpRKSZmpZsYouBIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="58697869"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="58697869"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 08:10:39 -0700
-X-CSE-ConnectionGUID: brcN0PD8S1uW7x9KU8KNvg==
-X-CSE-MsgGUID: jHAMwL0TQwGeWdJmJRTzHg==
+X-CSE-ConnectionGUID: FCBClCUjTai/wLrtXaaong==
+X-CSE-MsgGUID: hhTMnqJaRBm0TWgH1CbQbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58696866"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58696866"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 08:53:11 -0700
+X-CSE-ConnectionGUID: has8hhHqQSmMSLEh/PUMRg==
+X-CSE-MsgGUID: F+oGRAzLQ7KmWjIknfXp3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="169931128"
+   d="scan'208";a="201324197"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Aug 2025 08:10:38 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Aug 2025 08:53:09 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us0kN-000Ui1-2s;
-	Fri, 29 Aug 2025 15:10:35 +0000
-Date: Fri, 29 Aug 2025 23:09:49 +0800
+	id 1us1PR-000UjD-2K;
+	Fri, 29 Aug 2025 15:53:07 +0000
+Date: Fri, 29 Aug 2025 23:52:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2790/2790] mm/madvise.c:297:6: warning: no
- previous prototype for 'force_swapin_vma'
-Message-ID: <202508292223.h9TBg6O5-lkp@intel.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:kpte 2/6] include/asm-generic/pgalloc.h:144:21:
+ warning: variable 'ptdesc' is uninitialized when used here
+Message-ID: <202508292320.plYGOdi2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +62,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   18ca24a6500a925830b6e87fc4279a7456b57a4b
-commit: 92a0eb9bde6c03412b39f9f3d20968c091ea3b46 [2790/2790] memcg: introduce per-memcg swapin interface
-config: arm64-randconfig-004-20250829 (https://download.01.org/0day-ci/archive/20250829/202508292223.h9TBg6O5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508292223.h9TBg6O5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kpte
+head:   d5eaa925a3150c716e8ec564c51069fbdd303fbc
+commit: ccbd04de39826d130b67374e68599e128b53acab [2/6] mm: Actually mark kernel page table pages
+config: x86_64-buildonly-randconfig-004-20250829 (https://download.01.org/0day-ci/archive/20250829/202508292320.plYGOdi2-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508292320.plYGOdi2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508292223.h9TBg6O5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508292320.plYGOdi2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/madvise.c:297:6: warning: no previous prototype for 'force_swapin_vma' [-Wmissing-prototypes]
-     297 | void force_swapin_vma(struct vm_area_struct *vma)
-         |      ^~~~~~~~~~~~~~~~
+   In file included from kernel/fork.c:110:
+   In file included from arch/x86/include/asm/pgalloc.h:13:
+>> include/asm-generic/pgalloc.h:144:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
+     144 |                 ptdesc_set_kernel(ptdesc);
+         |                                   ^~~~~~
+   include/asm-generic/pgalloc.h:139:23: note: initialize the variable 'ptdesc' to silence this warning
+     139 |         struct ptdesc *ptdesc;
+         |                              ^
+         |                               = NULL
+   include/asm-generic/pgalloc.h:179:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
+     179 |                 ptdesc_set_kernel(ptdesc);
+         |                                   ^~~~~~
+   include/asm-generic/pgalloc.h:175:23: note: initialize the variable 'ptdesc' to silence this warning
+     175 |         struct ptdesc *ptdesc;
+         |                              ^
+         |                               = NULL
+   include/asm-generic/pgalloc.h:235:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
+     235 |                 ptdesc_set_kernel(ptdesc);
+         |                                   ^~~~~~
+   include/asm-generic/pgalloc.h:231:23: note: initialize the variable 'ptdesc' to silence this warning
+     231 |         struct ptdesc *ptdesc;
+         |                              ^
+         |                               = NULL
+   include/asm-generic/pgalloc.h:281:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
+     281 |                 ptdesc_set_kernel(ptdesc);
+         |                                   ^~~~~~
+   include/asm-generic/pgalloc.h:277:23: note: initialize the variable 'ptdesc' to silence this warning
+     277 |         struct ptdesc *ptdesc;
+         |                              ^
+         |                               = NULL
+   4 warnings generated.
 
 
-vim +/force_swapin_vma +297 mm/madvise.c
+vim +/ptdesc +144 include/asm-generic/pgalloc.h
 
-   280	
-   281	#ifdef CONFIG_MEMCG_SWAP_QOS
-   282	void force_swapin_vma(struct vm_area_struct *vma)
-   283	{
-   284		struct file *file = vma->vm_file;
-   285	
-   286		if (!can_madv_lru_vma(vma))
-   287			return;
-   288	
-   289		if (!file) {
-   290			walk_page_vma(vma, &swapin_walk_ops, vma);
-   291			lru_add_drain();
-   292		} else if (shmem_mapping(file->f_mapping))
-   293			shmem_swapin_range(vma, vma->vm_start,
-   294				vma->vm_end, file->f_mapping);
-   295	}
-   296	#else
- > 297	void force_swapin_vma(struct vm_area_struct *vma)
-   298	{
-   299	}
-   300	#endif
-   301	
+   124	
+   125	#ifndef __HAVE_ARCH_PMD_ALLOC_ONE
+   126	/**
+   127	 * pmd_alloc_one - allocate memory for a PMD-level page table
+   128	 * @mm: the mm_struct of the current context
+   129	 *
+   130	 * Allocate memory for a page table and ptdesc and runs pagetable_pmd_ctor().
+   131	 *
+   132	 * Allocations use %GFP_PGTABLE_USER in user context and
+   133	 * %GFP_PGTABLE_KERNEL in kernel context.
+   134	 *
+   135	 * Return: pointer to the allocated memory or %NULL on error
+   136	 */
+   137	static inline pmd_t *pmd_alloc_one_noprof(struct mm_struct *mm, unsigned long addr)
+   138	{
+   139		struct ptdesc *ptdesc;
+   140		gfp_t gfp = GFP_PGTABLE_USER;
+   141	
+   142		if (mm == &init_mm) {
+   143			gfp = GFP_PGTABLE_KERNEL;
+ > 144			ptdesc_set_kernel(ptdesc);
+   145		}
+   146		ptdesc = pagetable_alloc_noprof(gfp, 0);
+   147		if (!ptdesc)
+   148			return NULL;
+   149		if (!pagetable_pmd_ctor(mm, ptdesc)) {
+   150			pagetable_free(ptdesc);
+   151			return NULL;
+   152		}
+   153		return ptdesc_address(ptdesc);
+   154	}
+   155	#define pmd_alloc_one(...)	alloc_hooks(pmd_alloc_one_noprof(__VA_ARGS__))
+   156	#endif
+   157	
 
 -- 
 0-DAY CI Kernel Test Service
