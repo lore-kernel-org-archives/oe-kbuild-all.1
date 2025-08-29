@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F1E2475D0;
-	Fri, 29 Aug 2025 07:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841DC28E7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 07:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756451228; cv=none; b=AJuBB/bRWkhAhlD9QH9u4XkXyCF5Rqu9fub+DUu4X7Zs68GcC4sIWkFNwVIv7KH4MNLZ7dwWU3Mp+nDYtBHNS6VYwAceBvLxmF93H0j80CnQ4/AML2EXS/gVTp7RRj89+58tNspxpgq5HUZxqYuVuSR03sT75kzBwpTeWUNAyTs=
+	t=1756451854; cv=none; b=ZDDy/wNqYsidCg1KESsdJ4Xw4iwhuZquid86gbR6JEi22QT3DspSy5jEU5ah9uWpTsN70wuRG+Ov/elgjf2kTs6N5L+Gx2/VZGb6HqoV910IDzHcPwa7O/ZddSoIsAdESoycbhYvl4ugzjAHt23ULNL/wQj+ScSgMiwm0n12kFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756451228; c=relaxed/simple;
-	bh=8C95Oh38qx5E+yvpIJfsziQGhVgku3YueM1p/WlxYak=;
+	s=arc-20240116; t=1756451854; c=relaxed/simple;
+	bh=xPBTL0WmE5VsvbwEUMz8NNP4pAjFMFy3RkpGO4Xvmfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R4z0BjCvEXxKiMH/DOF3AmJTrLAGeXQEJdgJo5vPy87k6BVo8v5PM7WqyxieqBq8j7miuBcBd1ywvhieDqrqcM+r6ivYoGHaxiE84vCPlRn9Krg4lLGGcIweLFcAWGlTTwqO64s9gbL5G6dPvUOcaM6ggBNxN0RK+NObTtDbIpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ovf3aG29; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=eDO02jNnNjk+QTGH/6xONVwnZ8uv4qWUllENet5HeLHxLP5g0BX7FSYj4vRMFYlocjslshVOnV3GqzV+T0Ki+YNz6N7H2SDOvGhsMFPMivFrChhSw9yjQlfLTGt17fwO5KYrEdwsD3xMdD+TAiDY3fUjQcNC/2wHjUd6ZXhf1Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwvTUUgg; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ovf3aG29"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwvTUUgg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756451226; x=1787987226;
+  t=1756451853; x=1787987853;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8C95Oh38qx5E+yvpIJfsziQGhVgku3YueM1p/WlxYak=;
-  b=Ovf3aG29oDumJH7V/oRhdm8Vq3qvv+YTO+bV6vuO2xEstOXovyEMKJDf
-   VSwwBf4FpFzeMt+coE7uRVFHq5uwn2QQT3tNLI3cScUEVGITlRvVQFQOk
-   uppO+3fMge4cOxkRw5qB4t5RL74eLgNGTp03j07eG3Ht9rRLnQTs8XIq7
-   ZxAuOSlMkrH9ht/JI3uexEcuGu6aDjMqAdHm2S2/62G9HTib0YN1yI+SU
-   PNm1oS/gmXp6iRHrHczszrtA0aEFZZmcwgjzUqhG4B37rIGHhDNrOv4lu
-   P93f1qhR94rgDwuI62nVLAivHBVjvgIxn4wwaSFWastXHSeWLHWIH2Ff7
+  bh=xPBTL0WmE5VsvbwEUMz8NNP4pAjFMFy3RkpGO4Xvmfc=;
+  b=HwvTUUggljbdWIz/qWZ2NT6CP5Ai3Wr0iAy7B9biSZs0jw4d21I3mdYC
+   jF/ql8HDCMNfEx5ziwZha1tCbLpkcaWmfGpBK2Enyec3VXwTRdC6hoFIq
+   zYrDKMfZ5s1yV1YmMKvswcCcVSfvaiVo/U7GfH56bmkZBxIqEIEA5YLND
+   d7Ka9TApL0v3kLckbL7LcRfv4OaGEWqGldTMBIykO6oSWeUppYEEAn5mT
+   iV5iA9QtcY/fBTj2UeeSGLFEgrmf8/LdaJWRG6G3NGzU/qI20e5YoQJWG
+   1qpRk3rUf7YiCbQJRbgsdaaexVJ39a/hSfVzvpKkjkkXpPze7Ptrb7vLD
    w==;
-X-CSE-ConnectionGUID: //No5vusSTm4iqU8xcSnFQ==
-X-CSE-MsgGUID: PjjxhAPcSVyNfUegE6C8yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="70173049"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="70173049"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 00:07:06 -0700
-X-CSE-ConnectionGUID: xtN41+ixTouhiDxJUvWvHw==
-X-CSE-MsgGUID: OQ3ATcJ7S6akJxCtyCeKCw==
+X-CSE-ConnectionGUID: XIuCaOdBQz+vI3dNwTafxg==
+X-CSE-MsgGUID: D0otPRfDQqSp9miSxhitng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58801624"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58801624"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 00:17:32 -0700
+X-CSE-ConnectionGUID: RUhITWDVR4WnNFIEW7efkw==
+X-CSE-MsgGUID: ArCaIqeNR/2QjSO6T79CZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="207452745"
+   d="scan'208";a="174490007"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Aug 2025 00:07:03 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Aug 2025 00:17:31 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urtCP-000UPv-2D;
-	Fri, 29 Aug 2025 07:07:01 +0000
-Date: Fri, 29 Aug 2025 15:06:15 +0800
+	id 1urtMW-000UU7-2A;
+	Fri, 29 Aug 2025 07:17:28 +0000
+Date: Fri, 29 Aug 2025 15:16:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Metzmacher <metze@samba.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	Steve French <stfrench@microsoft.com>
-Subject: [cifs:for-next-next 28/146] fs/smb/client/smbdirect.c:1856:25:
- warning: stack frame size (1272) exceeds limit (1024) in
- 'smbd_get_connection'
-Message-ID: <202508291432.M5gWPqJX-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 480/480]
+ include/linux/android_kabi.h:49:17: error: static assertion failed:
+ "include/linux/dma-buf.h:540: u64 android_kabi_reserved1 is not aligned the
+ same as atomic64_t nr_task_refs"
+Message-ID: <202508291524.d0Ln2Jot-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,52 +64,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next-next
-head:   b79712ce1752aa38da9553b06767f68367b0d7ff
-commit: 36d70a0c8405556dea3d4e9beef708d7ed3c2b07 [28/146] smb: client: make use of smbdirect_socket_init()
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250829/202508291432.M5gWPqJX-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291432.M5gWPqJX-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   4e359eb2f39f6250f497b9e372f14a82fc9a5c8b
+commit: 4b2d8222ee51d3aac9c4b9c2b5b758ab17d639b8 [480/480] ANDROID: Use ABI reservations for dmabuf RSS / PSS accounting
+config: i386-buildonly-randconfig-001-20250829 (https://download.01.org/0day-ci/archive/20250829/202508291524.d0Ln2Jot-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291524.d0Ln2Jot-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508291432.M5gWPqJX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508291524.d0Ln2Jot-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/smb/client/smbdirect.c:1856:25: warning: stack frame size (1272) exceeds limit (1024) in 'smbd_get_connection' [-Wframe-larger-than]
-    1856 | struct smbd_connection *smbd_get_connection(
-         |                         ^
-   1 warning generated.
+   In file included from include/linux/android_vendor.h:18,
+                    from include/linux/mutex.h:23,
+                    from include/linux/seqlock.h:19,
+                    from include/linux/mmzone.h:17,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from mm/slab_common.c:7:
+>> include/linux/android_kabi.h:49:17: error: static assertion failed: "include/linux/dma-buf.h:540: u64 android_kabi_reserved1 is not aligned the same as atomic64_t nr_task_refs"
+      49 |                 _Static_assert(__alignof__(struct{_new;}) <= __alignof__(struct{_orig;}),       \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/android_kabi.h:68:17: note: in expansion of macro '__ANDROID_KABI_CHECK_SIZE_ALIGN'
+      68 |                 __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new);   \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:113:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
+     113 |         _ANDROID_KABI_REPLACE(_ANDROID_KABI_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:540:9: note: in expansion of macro 'ANDROID_KABI_USE'
+     540 |         ANDROID_KABI_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/android_vendor.h:18,
+                    from include/linux/mutex.h:23,
+                    from include/linux/seqlock.h:19,
+                    from include/linux/mmzone.h:17,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from mm/mmap.c:13:
+>> include/linux/android_kabi.h:49:17: error: static assertion failed: "include/linux/dma-buf.h:540: u64 android_kabi_reserved1 is not aligned the same as atomic64_t nr_task_refs"
+      49 |                 _Static_assert(__alignof__(struct{_new;}) <= __alignof__(struct{_orig;}),       \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/android_kabi.h:68:17: note: in expansion of macro '__ANDROID_KABI_CHECK_SIZE_ALIGN'
+      68 |                 __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new);   \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:113:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
+     113 |         _ANDROID_KABI_REPLACE(_ANDROID_KABI_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:540:9: note: in expansion of macro 'ANDROID_KABI_USE'
+     540 |         ANDROID_KABI_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~
+   mm/mmap.c: In function 'do_mas_align_munmap':
+   mm/mmap.c:2644:34: warning: variable 'e' set but not used [-Wunused-but-set-variable]
+    2644 |                 unsigned long s, e;
+         |                                  ^
+   mm/mmap.c:2644:31: warning: variable 's' set but not used [-Wunused-but-set-variable]
+    2644 |                 unsigned long s, e;
+         |                               ^
 
 
-vim +/smbd_get_connection +1856 fs/smb/client/smbdirect.c
+vim +49 include/linux/android_kabi.h
 
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1855  
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17 @1856  struct smbd_connection *smbd_get_connection(
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1857  	struct TCP_Server_Info *server, struct sockaddr *dstaddr)
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1858  {
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1859  	struct smbd_connection *ret;
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1860  	int port = SMBD_PORT;
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1861  
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1862  try_again:
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1863  	ret = _smbd_get_connection(server, dstaddr, port);
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1864  
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1865  	/* Try SMB_PORT if SMBD_PORT doesn't work */
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1866  	if (!ret && port == SMBD_PORT) {
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1867  		port = SMB_PORT;
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1868  		goto try_again;
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1869  	}
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1870  	return ret;
-399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1871  }
-f64b78fd1835d1d fs/cifs/smbdirect.c Long Li 2017-11-22  1872  
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  37  
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  38  /*
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  39   * Worker macros, don't use these, use the ones without a leading '_'
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  40   */
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  41  
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  42  #define __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new)				\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  43  	union {									\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  44  		_Static_assert(sizeof(struct{_new;}) <= sizeof(struct{_orig;}),	\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  45  			       __FILE__ ":" __stringify(__LINE__) ": "		\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  46  			       __stringify(_new)				\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  47  			       " is larger than "				\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  48  			       __stringify(_orig) );				\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11 @49  		_Static_assert(__alignof__(struct{_new;}) <= __alignof__(struct{_orig;}),	\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  50  			       __FILE__ ":" __stringify(__LINE__) ": "		\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  51  			       __stringify(_orig)				\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  52  			       " is not aligned the same as "			\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  53  			       __stringify(_new) );				\
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  54  	}
+804873a198f8dc Greg Kroah-Hartman 2020-03-11  55  
 
-:::::: The code at line 1856 was first introduced by commit
-:::::: 399f9539d951adf26a1078e38c1b0f10cf6c3e71 CIFS: SMBD: Implement function to create a SMB Direct connection
+:::::: The code at line 49 was first introduced by commit
+:::::: 804873a198f8dcb3f9c414ab5dcf40a1fd14b918 ANDROID: GKI: add android_kabi.h
 
-:::::: TO: Long Li <longli@microsoft.com>
-:::::: CC: Steve French <smfrench@gmail.com>
+:::::: TO: Greg Kroah-Hartman <gregkh@google.com>
+:::::: CC: Jaskaran Singh <quic_jasksing@quicinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
