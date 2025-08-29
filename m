@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3FF32A3D9;
-	Fri, 29 Aug 2025 16:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3B6C2EF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 16:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756485287; cv=none; b=A5aB7Jm8LfMtnGCeoDtNdxEUvvdy9/9qz/bus7YNxCb3ZPjMCSZM3+cJeOKa6i3dkRcqfczMVYDe2C6CzS4QLpyr8S5dwY2uQrSKgsAWvgxoFqflu4wcaR3jfgvtdT40CzPK/+XcCCs+jRfV3NFQry4nj9YFv3Nb37d3FYpDxV8=
+	t=1756485937; cv=none; b=iJOtVqFTYGtFnoTWz2iV6zdJW/IAk8B6PZq6dg8AP85UL2KG5NQblqiCpsNribaKmAG5rxOHgx5ETgutsNysieiAhwn75HsiOHvdfQnpDgmEVR392MDYl9LOfFaRFd1spEivI4ldKyQg20Qur45Q2YSwRmjtB64rxmw0g4sS24s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756485287; c=relaxed/simple;
-	bh=PSyZtno1JoUDkX89LLEGe3GPDhjQY52/rF9nhN6uqOQ=;
+	s=arc-20240116; t=1756485937; c=relaxed/simple;
+	bh=DjwNFVlfFpWaaMuuDAlGX96zypGhw+xXQeXQ2Nf29WE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HKkAU/WDwzGedaSo/hhBprll9YXWbuiDQoNVXfcfYqT/xtf3TwD5TLl3hpD17UShYhnKjEY20+AiIv391+m4cvGB6EeTeo0I4KSebTAy/jYgvTE4iUT6qkjb9TqDrdLWnCsLLfKY5DK081TVxmMqfqkQ8WycfX7jzTqCbJVnb5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqvNhyop; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=j8bpL8NJnw+Vmm2Bdy+FzWi3S7UEPE4dj8w7MbbEs4yt/3vLaAcPthfJhngUfmjX6gdWzbSwKTuZXZ07yedDws6nhbOlJP5j7aH3h4WRNxLRvKWVJzXktW39YtGqinN0PhcmtswyYhjtloC5XK2gB+NtfnUtgNhMltafKEAvW0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCWaPxqU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqvNhyop"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCWaPxqU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756485285; x=1788021285;
+  t=1756485935; x=1788021935;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PSyZtno1JoUDkX89LLEGe3GPDhjQY52/rF9nhN6uqOQ=;
-  b=aqvNhyopAtt33JV7tiTwhZTHgqnSVCxwWlOWLcKGOs7cEcflSBIUyWs5
-   pZgLu9Y1nZlBQyczVM1gHr4F5Iic2xnYzFhL92xaPpPTOBUeOij5UXKZd
-   BkgtEV5s966xTVidepiLCwSId8w+E2MFJ1+eGyXmqmbkDLZJg/dW4+1AS
-   JewJ/IkryfQvSa5+1hmf6+pb3+IHtSC/1gONQEP/xMNCm2Jv5owQEq/uX
-   Ce+AqBD5rpnbChundc6iKAcRg8F/Yjcz3yDg1x0JSQWSz8koRZRCyetza
-   2Csk82GJ+Wf6KmV3cPM2oxoUkcPF4oKReUMuZC0TmFKMwIEvCBYV28fOo
-   A==;
-X-CSE-ConnectionGUID: iBYDvkxnR9Cgkl++6z7B0w==
-X-CSE-MsgGUID: 4ihBauxyTB+o2J8/c2NpDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="58482966"
+  bh=DjwNFVlfFpWaaMuuDAlGX96zypGhw+xXQeXQ2Nf29WE=;
+  b=YCWaPxqUPnP/2EwW4rUAKuXjztKkBO1T6UW5DRcmzLXhrwqNU4z6ofCX
+   A/ZOCP8+zffIHcPlCFKQTtHu7m44VevJYAxq0l2QBC4755KpZScL5c/py
+   ilGbh/xho1AVK4+plVoRniNFd37apms6lMYwg6uWarRVAUeDARLKxhAL1
+   8grUxmDBm0g2TFAhIWhuaL5DQizk/NiJgUIvDqitRbfiVpxYkDtB1uM0D
+   6D0vQxJfm8Mu00vbQSiRaRBxnBfJCx91j0Ux/o3Pp9rv0C8O1D6gWM5N3
+   wENrZp7UXUVFE3sfaSaKbVVQwNSmZwlCLdeopdqYCQBT0DjN7dVfMkjkr
+   Q==;
+X-CSE-ConnectionGUID: BEGI+ZETSJqnw8VfEUoJtA==
+X-CSE-MsgGUID: pSewnmPlQOqXahY24QbPBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="70147724"
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="58482966"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 09:34:45 -0700
-X-CSE-ConnectionGUID: zcivS3DfSkW03fX7mPRohA==
-X-CSE-MsgGUID: bzgU7cZrSfKIwgRKDEZdOQ==
+   d="scan'208";a="70147724"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 09:45:35 -0700
+X-CSE-ConnectionGUID: PU89eEOaQzWYloouVnTp0A==
+X-CSE-MsgGUID: pp2xb+WnQfiRQLv4HKnDwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="169989631"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 29 Aug 2025 09:34:43 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="174593940"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 29 Aug 2025 09:45:34 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us23k-0002uF-2X;
-	Fri, 29 Aug 2025 16:34:40 +0000
-Date: Fri, 29 Aug 2025 18:33:44 +0200
+	id 1us2EF-000Um3-1F;
+	Fri, 29 Aug 2025 16:45:31 +0000
+Date: Sat, 30 Aug 2025 00:45:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:kpte 2/6] include/asm-generic/pgalloc.h:144:21:
- warning: variable 'ptdesc' is uninitialized when used here
-Message-ID: <202508291824.iykihj3B-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/rbtree.h:74:9: sparse: sparse: incompatible types in
+ comparison expression (different address spaces):
+Message-ID: <202508300010.SwYrxEC0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,90 +62,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kpte
-head:   d5eaa925a3150c716e8ec564c51069fbdd303fbc
-commit: ccbd04de39826d130b67374e68599e128b53acab [2/6] mm: Actually mark kernel page table pages
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250829/202508291824.iykihj3B-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291824.iykihj3B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   07d9df80082b8d1f37e05658371b087cb6738770
+commit: 16ecd47cb0cd895c7c2f5dd5db50f6c005c51639 pidfs: lookup pid through rbtree
+date:   9 months ago
+config: x86_64-randconfig-121-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300010.SwYrxEC0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508300010.SwYrxEC0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508291824.iykihj3B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508300010.SwYrxEC0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/pidfs.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+>> include/linux/rbtree.h:74:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rbtree.h:74:9: sparse:    struct rb_node [noderef] __rcu *
+   include/linux/rbtree.h:74:9: sparse:    struct rb_node *
 
-   In file included from kernel/fork.c:110:
-   In file included from arch/x86/include/asm/pgalloc.h:13:
->> include/asm-generic/pgalloc.h:144:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     144 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:139:23: note: initialize the variable 'ptdesc' to silence this warning
-     139 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   include/asm-generic/pgalloc.h:179:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     179 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:175:23: note: initialize the variable 'ptdesc' to silence this warning
-     175 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   include/asm-generic/pgalloc.h:235:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     235 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:231:23: note: initialize the variable 'ptdesc' to silence this warning
-     231 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   include/asm-generic/pgalloc.h:281:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     281 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:277:23: note: initialize the variable 'ptdesc' to silence this warning
-     277 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   4 warnings generated.
+vim +74 include/linux/rbtree.h
 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  67  
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  68  static inline void rb_link_node_rcu(struct rb_node *node, struct rb_node *parent,
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  69  				    struct rb_node **rb_link)
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  70  {
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  71  	node->__rb_parent_color = (unsigned long)parent;
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  72  	node->rb_left = node->rb_right = NULL;
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  73  
+d72da4a4d973d8 Peter Zijlstra 2015-05-27 @74  	rcu_assign_pointer(*rb_link, node);
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  75  }
+d72da4a4d973d8 Peter Zijlstra 2015-05-27  76  
 
-vim +/ptdesc +144 include/asm-generic/pgalloc.h
+:::::: The code at line 74 was first introduced by commit
+:::::: d72da4a4d973d8a0a0d3c97e7cdebf287fbe3a99 rbtree: Make lockless searches non-fatal
 
-   124	
-   125	#ifndef __HAVE_ARCH_PMD_ALLOC_ONE
-   126	/**
-   127	 * pmd_alloc_one - allocate memory for a PMD-level page table
-   128	 * @mm: the mm_struct of the current context
-   129	 *
-   130	 * Allocate memory for a page table and ptdesc and runs pagetable_pmd_ctor().
-   131	 *
-   132	 * Allocations use %GFP_PGTABLE_USER in user context and
-   133	 * %GFP_PGTABLE_KERNEL in kernel context.
-   134	 *
-   135	 * Return: pointer to the allocated memory or %NULL on error
-   136	 */
-   137	static inline pmd_t *pmd_alloc_one_noprof(struct mm_struct *mm, unsigned long addr)
-   138	{
-   139		struct ptdesc *ptdesc;
-   140		gfp_t gfp = GFP_PGTABLE_USER;
-   141	
-   142		if (mm == &init_mm) {
-   143			gfp = GFP_PGTABLE_KERNEL;
- > 144			ptdesc_set_kernel(ptdesc);
-   145		}
-   146		ptdesc = pagetable_alloc_noprof(gfp, 0);
-   147		if (!ptdesc)
-   148			return NULL;
-   149		if (!pagetable_pmd_ctor(mm, ptdesc)) {
-   150			pagetable_free(ptdesc);
-   151			return NULL;
-   152		}
-   153		return ptdesc_address(ptdesc);
-   154	}
-   155	#define pmd_alloc_one(...)	alloc_hooks(pmd_alloc_one_noprof(__VA_ARGS__))
-   156	#endif
-   157	
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
 
 -- 
 0-DAY CI Kernel Test Service
