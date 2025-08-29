@@ -1,166 +1,273 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCD5322DC9;
-	Fri, 29 Aug 2025 17:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B8733EAEC;
+	Fri, 29 Aug 2025 17:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756488479; cv=none; b=VdYQLHk0qekmKYiEnGHX91B4K3uFi86wW7Lupuz4kfGjWaX3NAal/afpBalevEHw2fjvATGTgcj0M054jTk3XFP/7xT6so5Ynr3zfHjVXwiRGYe1S+knL9KeQlgMdBMVsd67hq95LmU13P3mCBeJCJ756lfMTz3CwnPndFhiW9s=
+	t=1756490365; cv=none; b=u7G5ijuqYuLUYM9Ti8u9r1t/dS3kZF2OtPZ0EeQZu5oDR3Qrwo2pOVjSI6yZ5NJJ/ShNQLF+FeLjtZtI++uM80Cv2wyR4i6dZwU7w/G4XPDA2+2OBJijQNs5TgKp+UksQ2mrrBTSEgbH2pguJlYAL8v4O7wgJ5PFVzTyB66JvkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756488479; c=relaxed/simple;
-	bh=R3HhULHzDO/1Qyw2fqIqRc2MYGIqtU45lFz+5fYaK+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qO+tkY1yhbMvy4yjRSigjSIXdjAcui+YRpOSzRM0IzvnCsYNMZ1NEZT5AmLmCptJ3L8EiO4KnG7ZdDlCFoCgoy7e5OnLf3DQbY261PkjxiYQ5l9xYqDXAiFLKlZFw4NyYvMHwLh2YJOz40tlRGWYoD5pn14KX1JwH9BG6i/28OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5p5VWlB; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756490365; c=relaxed/simple;
+	bh=mOdcB8GbdMKp2t/NG+w5fECIeIvwGWTJ1ytEpQ5MXsY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XiQa5YIgk6pcEFgamH0pkZSQnOZpajzWO8+zvJU4y3gQFM6rZ4XAvI5SWuKMor7LKg2M++uQ+1fE5CmvZAFZOuT5K3gsuq6XiyKofYNi3QXQAWPwmWjkwllYS3d1KwN/Rz2fOXzSnQYF2EfaMwjLEkzDxnnFoEH1BOY+Pe9bPvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UmhsmdgZ; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5p5VWlB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756488477; x=1788024477;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R3HhULHzDO/1Qyw2fqIqRc2MYGIqtU45lFz+5fYaK+w=;
-  b=j5p5VWlBHU11EwRT2vtfaGhEda8MGoB7X6d2u9hPVLFGvq1GJPYjlEf4
-   jgOGdHW8nErfdSzhoDZHAtnXKyPyjdGCR9MHAkJEQG29cBpXEx4vFldY3
-   4RLTnphKHJNHDuzn3ND/Z3Jr1d8UaaDOwdmk+V66m4qwqJD07E38Pc4Al
-   nFUUoDstJcmDx7PgC2ezihWcMdZq2tmb0iFLfFCtF2Ocnt3cWX1EVrTCx
-   qakdP+MHksbjjHtSkWiA7aLfh1iGFztMwFcimtuakeg5K+0k4vmrKmlQn
-   YYZgUwv4PC2hzsQdi5wqJXbHvA2vugfILFPEf7xoKJiWUEFrUTUfkZKfD
-   A==;
-X-CSE-ConnectionGUID: CK8BGCgVQlakfyM/NjdZ1A==
-X-CSE-MsgGUID: IIOLRcX+RVS4hNa3a42Juw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="70213452"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="70213452"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 10:27:56 -0700
-X-CSE-ConnectionGUID: vrzz8UvuRCmlJ7MKcWpKLw==
-X-CSE-MsgGUID: fCs5g+I1Qsup19iJONtDiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="169960823"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Aug 2025 10:27:55 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1us2tE-000UoJ-2h;
-	Fri, 29 Aug 2025 17:27:52 +0000
-Date: Sat, 30 Aug 2025 01:27:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sven Eckelmann <sven@narfation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sven Eckelmann <sven@narfation.org>,
-	Simon Wunderlich <sw@simonwunderlich.de>
-Subject: [batman:batadv/net-next 2/4] net/batman-adv/send.c:65:22: warning:
- variable 'bat_priv' set but not used
-Message-ID: <202508300123.g1JINmOD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmhsmdgZ"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4b30f73ca2cso9069251cf.0;
+        Fri, 29 Aug 2025 10:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756490362; x=1757095162; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzdpvd9RhN3thFvxfLj8J0a3RKDZVl45M7XvZcko3Rc=;
+        b=UmhsmdgZgYUYDYFg4+s5yjqgK38OxbbeY+wVFqwVR7qMTREXYvyU7sIxXDMur53WAt
+         G9H7+MShpBNCU/4JfyMeUyFjIoDbCy3FAksBNZLHfXCCQKpQlmnd0xkhL7IFiKYm+b4y
+         edKz97th1jhw2GUh3UrduXmXVXl7kNTjES/RmWZEfx/DqTffA2xNkNQJF0JrAR7K1Kzw
+         JGZxQ+otkyCds79KzMy9YJqnFGQSPJHuKlWYZvFHNzHzP/+mW/7gZZX5ksWXZaIXsZ90
+         rDzKO4bXm+jc0rPo/RECyIbdb58yx2NGOezAP+qN+mjJcF8Yf8N4Jw73KQo6ykhiUAOC
+         DPNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756490362; x=1757095162;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uzdpvd9RhN3thFvxfLj8J0a3RKDZVl45M7XvZcko3Rc=;
+        b=CzzY6Iv/grRCUUQZhpY58j4vUHnKjkH7oAOYNxCFyTvpKjzjdL7iS8fFhHugueF6WX
+         yVrv474CaoJUshKgjWkAhmnBxMcKaub1bpMfYXU148hekpZgKZsinywmI9VBKFFNSZBz
+         mQz72BnWaoxZqws+mlkCzIyAtntK6GTvZ9qLlTUleciMVR6FROpKkOdxdfopJT5GjQXJ
+         3e2KnwCbX/Vi2m660VKHrfHiFbYxY50+ZBBUPlGcjC1xQ33IQZ4f0DBXfy5meyo3njUz
+         WGGxorS073zEoXPw0Jk9Kxkr/VQqndwC0Enn0O967GrUcKtCG1c6kBcT5JAfF7NJhieR
+         KSWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXcQsz6K78CZRvRU2/5vr4FO0jt6Lv+X+jFUzJMu66nYhAC1+8Ec5oPF5x1UJGzQavNEFEVkDs3cY6n6mUj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3LwUUz2KheayMcWl3crchFnwLuScr5OdmbkagJ9Xb6VNnP6BT
+	lcunSm1WwZC9YfN+cWPMCxQV9zVWaL7PGiRCIx9Ur01JzpnBfgCF4osIwVIa4agQVVVJrWCcgXm
+	nsaFb7dFKDy/DJq3ipXDVLY2AMQz/qfg=
+X-Gm-Gg: ASbGncvrVwTMdFltnh6xyjWGs1ZSdxqGjO3jenJpPPEdOnGeVFA3bSxfTPrwQA59mee
+	5T9UsbxaUYVUoxxA3gpZA9d7cVtZimghIkptuMJEpYZ6asAmB/LYUD9p/96frcH7Hqm4wO0XPyM
+	ae2iZn89lKQq/wqdJpEZPY9Sc+dMolvj+yaLLOA7j5LA+0rlqR983KW2hBBz5qGoF2wh5oOK7Z/
+	k/8UCHSHjTv7oHioz2tH+/7eUgDB0NUiK1qST9TRNM5JQzNHUXC8osFw46TTu4Hy2NNXp0kDS7H
+	n9UFSsXvVJOkuDdfolE5Wr8AhBks490P
+X-Google-Smtp-Source: AGHT+IHupljaA2Q6/3ptYRdDpiCwRMF2EccEDQec2Udsz7gkl1/EBD55KOjKvYqtezdT5Uz1t1vpvMWfGuF/vU/58VU=
+X-Received: by 2002:a05:6214:4019:b0:70d:fcf7:8a17 with SMTP id
+ 6a1803df08f44-70dfcf78bd4mr60957996d6.51.1756490362217; Fri, 29 Aug 2025
+ 10:59:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202508291432.M5gWPqJX-lkp@intel.com> <c18ba6b4-847e-4470-bd0e-9e5232add730@samba.org>
+In-Reply-To: <c18ba6b4-847e-4470-bd0e-9e5232add730@samba.org>
+From: Steve French <smfrench@gmail.com>
+Date: Fri, 29 Aug 2025 12:59:09 -0500
+X-Gm-Features: Ac12FXzR6gFq22ImE-6fqvCCp5xnqd-ooH1SHmDHEHs_fLGA6dx45i5GlohPc6E
+Message-ID: <CAH2r5mvksbiH-D4FbVb0PVg1vnik+WU7d0kxRUk0S9h9S+=zvw@mail.gmail.com>
+Subject: Re: [cifs:for-next-next 28/146] fs/smb/client/smbdirect.c:1856:25:
+ warning: stack frame size (1272) exceeds limit (1024) in 'smbd_get_connection'
+To: Stefan Metzmacher <metze@samba.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+	Steve French <stfrench@microsoft.com>, kernel test robot <lkp@intel.com>
+Content-Type: multipart/mixed; boundary="00000000000017a9d7063d84c869"
 
-tree:   https://git.open-mesh.org/linux-merge.git batadv/net-next
-head:   670a7f17dda79f68c1f8414f75368f122718d5b2
-commit: db615ccdc9bd480fd632f16b9ff5dcf340430f44 [2/4] batman-adv: remove network coding support
-config: hexagon-randconfig-002-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300123.g1JINmOD-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac23f7465eedd0dd565ffb201f573e7a69695fa3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508300123.g1JINmOD-lkp@intel.com/reproduce)
+--00000000000017a9d7063d84c869
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508300123.g1JINmOD-lkp@intel.com/
+I have updated the patch (see attached), and updated cifs-2.6.git for-next-=
+next
 
-All warnings (new ones prefixed by >>):
+>I'm not sure if the following should be added
+> Reported-by: kernel test robot <lkp@intel.com>
 
->> net/batman-adv/send.c:65:22: warning: variable 'bat_priv' set but not used [-Wunused-but-set-variable]
-      65 |         struct batadv_priv *bat_priv;
-         |                             ^
-   1 warning generated.
+That is a good question, but I lean against it since the "initial bug"
+was not reported by them that caused the patch.  If it was a distinct
+patch fixing the bug they pointed out, then yes it should be added,
+but could be confusing if what they pointed out was totally unrelated
+to the purpose of the patch.
+
+On Fri, Aug 29, 2025 at 6:41=E2=80=AFAM Stefan Metzmacher <metze@samba.org>=
+ wrote:
+>
+> Hi Steve,
+>
+> this is strange, but the following should fix the problem:
+>
+> --- a/fs/smb/common/smbdirect/smbdirect_socket.h
+> +++ b/fs/smb/common/smbdirect/smbdirect_socket.h
+> @@ -259,9 +259,11 @@ struct smbdirect_socket {
+>
+>   static __always_inline void smbdirect_socket_init(struct smbdirect_sock=
+et *sc)
+>   {
+> -       *sc =3D (struct smbdirect_socket) {
+> -               .status =3D SMBDIRECT_SOCKET_CREATED,
+> -       };
+> +       /*
+> +        * This also sets status =3D SMBDIRECT_SOCKET_CREATED
+> +        */
+> +       BUILD_BUG_ON(SMBDIRECT_SOCKET_CREATED !=3D 0);
+> +       memset(sc, 0, sizeof(*sc));
+>
+>          init_waitqueue_head(&sc->status_wait);
+>
+>
+> It needs to be squashed into this commit:
+> f2e2769275f4aa6e4d5fa98004301e91282a094a smb: smbdirect: introduce smbdir=
+ect_socket_init()
+>
+> Can you do that?
+>
+> I'm not sure if the following should be added
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202508291432.M5gWPqJX-lkp@i=
+ntel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202508291615.Mxyg9D9N-lkp@i=
+ntel.com/
+>
+> Thanks!
+> metze
+>
+> Am 29.08.25 um 09:06 schrieb kernel test robot:
+> > tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next-next
+> > head:   b79712ce1752aa38da9553b06767f68367b0d7ff
+> > commit: 36d70a0c8405556dea3d4e9beef708d7ed3c2b07 [28/146] smb: client: =
+make use of smbdirect_socket_init()
+> > config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/2=
+0250829/202508291432.M5gWPqJX-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 60=
+09708b4367171ccdbf4b5905cb6a803753fe18)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250829/202508291432.M5gWPqJX-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202508291432.M5gWPqJX-l=
+kp@intel.com/
+>
+>
+> > All warnings (new ones prefixed by >>):
+> >
+> >>> fs/smb/client/smbdirect.c:1856:25: warning: stack frame size (1272) e=
+xceeds limit (1024) in 'smbd_get_connection' [-Wframe-larger-than]
+> >      1856 | struct smbd_connection *smbd_get_connection(
+> >           |                         ^
+> >     1 warning generated.
+>
+> >
+> > vim +/smbd_get_connection +1856 fs/smb/client/smbdirect.c
+> >
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1855
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17 @1856  struct sm=
+bd_connection *smbd_get_connection(
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1857          s=
+truct TCP_Server_Info *server, struct sockaddr *dstaddr)
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1858  {
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1859          s=
+truct smbd_connection *ret;
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1860          i=
+nt port =3D SMBD_PORT;
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1861
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1862  try_again=
+:
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1863          r=
+et =3D _smbd_get_connection(server, dstaddr, port);
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1864
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1865          /=
+* Try SMB_PORT if SMBD_PORT doesn't work */
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1866          i=
+f (!ret && port =3D=3D SMBD_PORT) {
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1867           =
+       port =3D SMB_PORT;
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1868           =
+       goto try_again;
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1869          }
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1870          r=
+eturn ret;
+> > 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1871  }
+> > f64b78fd1835d1d fs/cifs/smbdirect.c Long Li 2017-11-22  1872
+> >
+> > :::::: The code at line 1856 was first introduced by commit
+> > :::::: 399f9539d951adf26a1078e38c1b0f10cf6c3e71 CIFS: SMBD: Implement f=
+unction to create a SMB Direct connection
+> >
+> > :::::: TO: Long Li <longli@microsoft.com>
+> > :::::: CC: Steve French <smfrench@gmail.com>
+> >
+>
 
 
-vim +/bat_priv +65 net/batman-adv/send.c
+--=20
+Thanks,
 
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   42  
-95d392784dd0a51 Antonio Quartulli 2016-01-16   43  /**
-7e9a8c2ce7c5f87 Sven Eckelmann    2017-12-02   44   * batadv_send_skb_packet() - send an already prepared packet
-95d392784dd0a51 Antonio Quartulli 2016-01-16   45   * @skb: the packet to send
-95d392784dd0a51 Antonio Quartulli 2016-01-16   46   * @hard_iface: the interface to use to send the broadcast packet
-95d392784dd0a51 Antonio Quartulli 2016-01-16   47   * @dst_addr: the payload destination
-95d392784dd0a51 Antonio Quartulli 2016-01-16   48   *
-95d392784dd0a51 Antonio Quartulli 2016-01-16   49   * Send out an already prepared packet to the given neighbor or broadcast it
-95d392784dd0a51 Antonio Quartulli 2016-01-16   50   * using the specified interface. Either hard_iface or neigh_node must be not
-95d392784dd0a51 Antonio Quartulli 2016-01-16   51   * NULL.
-95d392784dd0a51 Antonio Quartulli 2016-01-16   52   * If neigh_node is NULL, then the packet is broadcasted using hard_iface,
-95d392784dd0a51 Antonio Quartulli 2016-01-16   53   * otherwise it is sent as unicast to the given neighbor.
-95d392784dd0a51 Antonio Quartulli 2016-01-16   54   *
-7d72d174c7b6e36 Sven Eckelmann    2016-07-17   55   * Regardless of the return value, the skb is consumed.
-7d72d174c7b6e36 Sven Eckelmann    2016-07-17   56   *
-7d72d174c7b6e36 Sven Eckelmann    2016-07-17   57   * Return: A negative errno code is returned on a failure. A success does not
-7d72d174c7b6e36 Sven Eckelmann    2016-07-17   58   * guarantee the frame will be transmitted as it may be dropped due
-7d72d174c7b6e36 Sven Eckelmann    2016-07-17   59   * to congestion or traffic shaping.
-9cfc7bd608b9746 Sven Eckelmann    2012-05-12   60   */
-56303d34a332be8 Sven Eckelmann    2012-06-05   61  int batadv_send_skb_packet(struct sk_buff *skb,
-56303d34a332be8 Sven Eckelmann    2012-06-05   62  			   struct batadv_hard_iface *hard_iface,
-6b5e971a282c0e7 Sven Eckelmann    2015-05-26   63  			   const u8 *dst_addr)
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   64  {
-95d392784dd0a51 Antonio Quartulli 2016-01-16  @65  	struct batadv_priv *bat_priv;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   66  	struct ethhdr *ethhdr;
-7c946062b3ae2b7 Sven Eckelmann    2017-01-28   67  	int ret;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   68  
-94433355027db60 Sven Eckelmann    2025-02-02   69  	bat_priv = netdev_priv(hard_iface->mesh_iface);
-95d392784dd0a51 Antonio Quartulli 2016-01-16   70  
-e9a4f295ebe06b0 Sven Eckelmann    2012-06-03   71  	if (hard_iface->if_status != BATADV_IF_ACTIVE)
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   72  		goto send_skb_err;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   73  
-e6c10f433af9c98 Marek Lindner     2011-02-18   74  	if (unlikely(!hard_iface->net_dev))
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   75  		goto send_skb_err;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   76  
-e6c10f433af9c98 Marek Lindner     2011-02-18   77  	if (!(hard_iface->net_dev->flags & IFF_UP)) {
-679695813c0e29e Sven Eckelmann    2012-03-26   78  		pr_warn("Interface %s is not up - can't send packet via that interface!\n",
-86ceb360565d06f Sven Eckelmann    2012-03-07   79  			hard_iface->net_dev->name);
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   80  		goto send_skb_err;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   81  	}
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   82  
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   83  	/* push to the ethernet header. */
-04b482a21aaf22c Sven Eckelmann    2012-05-12   84  	if (batadv_skb_head_push(skb, ETH_HLEN) < 0)
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   85  		goto send_skb_err;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   86  
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   87  	skb_reset_mac_header(skb);
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   88  
-7ed4be9523455a0 Antonio Quartulli 2013-04-08   89  	ethhdr = eth_hdr(skb);
-8fdd01530cda849 Antonio Quartulli 2014-01-22   90  	ether_addr_copy(ethhdr->h_source, hard_iface->net_dev->dev_addr);
-8fdd01530cda849 Antonio Quartulli 2014-01-22   91  	ether_addr_copy(ethhdr->h_dest, dst_addr);
-293e93385e024be Antonio Quartulli 2013-05-19   92  	ethhdr->h_proto = htons(ETH_P_BATMAN);
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   93  
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   94  	skb_set_network_header(skb, ETH_HLEN);
-293e93385e024be Antonio Quartulli 2013-05-19   95  	skb->protocol = htons(ETH_P_BATMAN);
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   96  
-e6c10f433af9c98 Marek Lindner     2011-02-18   97  	skb->dev = hard_iface->net_dev;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   98  
-c6c8fea29769d99 Sven Eckelmann    2010-12-13   99  	/* dev_queue_xmit() returns a negative result on error.	 However on
-c6c8fea29769d99 Sven Eckelmann    2010-12-13  100  	 * congestion and traffic shaping, it drops and returns NET_XMIT_DROP
-9cfc7bd608b9746 Sven Eckelmann    2012-05-12  101  	 * (which is > 0). This will not be treated as an error.
-9cfc7bd608b9746 Sven Eckelmann    2012-05-12  102  	 */
-7c946062b3ae2b7 Sven Eckelmann    2017-01-28  103  	ret = dev_queue_xmit(skb);
-7c946062b3ae2b7 Sven Eckelmann    2017-01-28  104  	return net_xmit_eval(ret);
-c6c8fea29769d99 Sven Eckelmann    2010-12-13  105  send_skb_err:
-c6c8fea29769d99 Sven Eckelmann    2010-12-13  106  	kfree_skb(skb);
-c6c8fea29769d99 Sven Eckelmann    2010-12-13  107  	return NET_XMIT_DROP;
-c6c8fea29769d99 Sven Eckelmann    2010-12-13  108  }
-c6c8fea29769d99 Sven Eckelmann    2010-12-13  109  
+Steve
 
-:::::: The code at line 65 was first introduced by commit
-:::::: 95d392784dd0a51e4216e075f04a68c922745985 batman-adv: keep track of when unicast packets are sent
+--00000000000017a9d7063d84c869
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-smb-client-make-use-of-smbdirect_socket_init.patch"
+Content-Disposition: attachment; 
+	filename="0001-smb-client-make-use-of-smbdirect_socket_init.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mex4wcy70>
+X-Attachment-Id: f_mex4wcy70
 
-:::::: TO: Antonio Quartulli <antonio@open-mesh.com>
-:::::: CC: Antonio Quartulli <a@unstable.cc>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+RnJvbSA0MTVlZTAzZGZmNDgxNjQ2MTFiNjg0MDM2YjQwNWI1MTMzMzdkZTc5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBTdGVmYW4gTWV0em1hY2hlciA8bWV0emVAc2FtYmEub3JnPgpE
+YXRlOiBGcmksIDggQXVnIDIwMjUgMTU6MTA6NTIgKzAyMDAKU3ViamVjdDogW1BBVENIXSBzbWI6
+IGNsaWVudDogbWFrZSB1c2Ugb2Ygc21iZGlyZWN0X3NvY2tldF9pbml0KCkKCkl0J3MgbXVjaCBz
+YWZlciB0byBpbml0aWFsaXplIHRoZSB3aG9sZSBzdHJ1Y3R1cmUgYXQKdGhlIGJlZ2lubmluZyB0
+aGFuIGRvaW5nIGl0IGFsbCBvdmVyIHRoZSBwbGFjZQphbmQgdGhlbiBtaXNzIHRvIG1vdmUgaXQg
+aWYgY29kZSBjaGFuZ2VzLgoKQ2M6IFN0ZXZlIEZyZW5jaCA8c21mcmVuY2hAZ21haWwuY29tPgpD
+YzogVG9tIFRhbHBleSA8dG9tQHRhbHBleS5jb20+CkNjOiBMb25nIExpIDxsb25nbGlAbWljcm9z
+b2Z0LmNvbT4KQ2M6IGxpbnV4LWNpZnNAdmdlci5rZXJuZWwub3JnCkNjOiBzYW1iYS10ZWNobmlj
+YWxAbGlzdHMuc2FtYmEub3JnClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBNZXR6bWFjaGVyIDxtZXR6
+ZUBzYW1iYS5vcmc+ClNpZ25lZC1vZmYtYnk6IFN0ZXZlIEZyZW5jaCA8c3RmcmVuY2hAbWljcm9z
+b2Z0LmNvbT4KLS0tCiBmcy9zbWIvY2xpZW50L3NtYmRpcmVjdC5jICAgICAgICAgICAgICAgICAg
+fCAxMyArLS0tLS0tLS0tLS0tCiBmcy9zbWIvY29tbW9uL3NtYmRpcmVjdC9zbWJkaXJlY3Rfc29j
+a2V0LmggfCAgOCArKysrKy0tLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDE1
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ZzL3NtYi9jbGllbnQvc21iZGlyZWN0LmMgYi9m
+cy9zbWIvY2xpZW50L3NtYmRpcmVjdC5jCmluZGV4IGI2N2EyNjRhNjAzMC4uZGVkOTEyZTkwNGYw
+IDEwMDY0NAotLS0gYS9mcy9zbWIvY2xpZW50L3NtYmRpcmVjdC5jCisrKyBiL2ZzL3NtYi9jbGll
+bnQvc21iZGlyZWN0LmMKQEAgLTEzNTEsMTMgKzEzNTEsNiBAQCBzdGF0aWMgaW50IGFsbG9jYXRl
+X3JlY2VpdmVfYnVmZmVycyhzdHJ1Y3Qgc21iZF9jb25uZWN0aW9uICppbmZvLCBpbnQgbnVtX2J1
+ZikKIAlzdHJ1Y3Qgc21iZGlyZWN0X3JlY3ZfaW8gKnJlc3BvbnNlOwogCWludCBpOwogCi0JSU5J
+VF9MSVNUX0hFQUQoJnNjLT5yZWN2X2lvLnJlYXNzZW1ibHkubGlzdCk7Ci0Jc3Bpbl9sb2NrX2lu
+aXQoJnNjLT5yZWN2X2lvLnJlYXNzZW1ibHkubG9jayk7Ci0Jc2MtPnJlY3ZfaW8ucmVhc3NlbWJs
+eS5kYXRhX2xlbmd0aCA9IDA7Ci0Jc2MtPnJlY3ZfaW8ucmVhc3NlbWJseS5xdWV1ZV9sZW5ndGgg
+PSAwOwotCi0JSU5JVF9MSVNUX0hFQUQoJnNjLT5yZWN2X2lvLmZyZWUubGlzdCk7Ci0Jc3Bpbl9s
+b2NrX2luaXQoJnNjLT5yZWN2X2lvLmZyZWUubG9jayk7CiAJaW5mby0+Y291bnRfcmVjZWl2ZV9x
+dWV1ZSA9IDA7CiAKIAlpbml0X3dhaXRxdWV1ZV9oZWFkKCZpbmZvLT53YWl0X3JlY2VpdmVfcXVl
+dWVzKTsKQEAgLTE2NTYsMTQgKzE2NDksMTIgQEAgc3RhdGljIHN0cnVjdCBzbWJkX2Nvbm5lY3Rp
+b24gKl9zbWJkX2dldF9jb25uZWN0aW9uKAogCWlmICghaW5mbykKIAkJcmV0dXJuIE5VTEw7CiAJ
+c2MgPSAmaW5mby0+c29ja2V0OworCXNtYmRpcmVjdF9zb2NrZXRfaW5pdChzYyk7CiAJc3AgPSAm
+c2MtPnBhcmFtZXRlcnM7CiAKIAlpbmZvLT5pbml0aWF0b3JfZGVwdGggPSAxOwogCWluZm8tPnJl
+c3BvbmRlcl9yZXNvdXJjZXMgPSBTTUJEX0NNX1JFU1BPTkRFUl9SRVNPVVJDRVM7CiAKLQlpbml0
+X3dhaXRxdWV1ZV9oZWFkKCZzYy0+c3RhdHVzX3dhaXQpOwotCi0Jc2MtPnN0YXR1cyA9IFNNQkRJ
+UkVDVF9TT0NLRVRfQ1JFQVRFRDsKIAlyYyA9IHNtYmRfaWFfb3BlbihpbmZvLCBkc3RhZGRyLCBw
+b3J0KTsKIAlpZiAocmMpIHsKIAkJbG9nX3JkbWFfZXZlbnQoSU5GTywgInNtYmRfaWFfb3BlbiBy
+Yz0lZFxuIiwgcmMpOwpAQCAtMTc3Myw4ICsxNzY0LDYgQEAgc3RhdGljIHN0cnVjdCBzbWJkX2Nv
+bm5lY3Rpb24gKl9zbWJkX2dldF9jb25uZWN0aW9uKAogCWxvZ19yZG1hX2V2ZW50KElORk8sICJj
+b25uZWN0aW5nIHRvIElQICVwSTQgcG9ydCAlZFxuIiwKIAkJJmFkZHJfaW4tPnNpbl9hZGRyLCBw
+b3J0KTsKIAotCWluaXRfd2FpdHF1ZXVlX2hlYWQoJnNjLT5yZWN2X2lvLnJlYXNzZW1ibHkud2Fp
+dF9xdWV1ZSk7Ci0KIAlXQVJOX09OX09OQ0Uoc2MtPnN0YXR1cyAhPSBTTUJESVJFQ1RfU09DS0VU
+X1JETUFfQ09OTkVDVF9ORUVERUQpOwogCXNjLT5zdGF0dXMgPSBTTUJESVJFQ1RfU09DS0VUX1JE
+TUFfQ09OTkVDVF9SVU5OSU5HOwogCXJjID0gcmRtYV9jb25uZWN0KHNjLT5yZG1hLmNtX2lkLCAm
+Y29ubl9wYXJhbSk7CmRpZmYgLS1naXQgYS9mcy9zbWIvY29tbW9uL3NtYmRpcmVjdC9zbWJkaXJl
+Y3Rfc29ja2V0LmggYi9mcy9zbWIvY29tbW9uL3NtYmRpcmVjdC9zbWJkaXJlY3Rfc29ja2V0LmgK
+aW5kZXggNjRhYmU2OTMyZmVmLi5jNjJkMTJmNjNlMTMgMTAwNjQ0Ci0tLSBhL2ZzL3NtYi9jb21t
+b24vc21iZGlyZWN0L3NtYmRpcmVjdF9zb2NrZXQuaAorKysgYi9mcy9zbWIvY29tbW9uL3NtYmRp
+cmVjdC9zbWJkaXJlY3Rfc29ja2V0LmgKQEAgLTI1OSw5ICsyNTksMTEgQEAgc3RydWN0IHNtYmRp
+cmVjdF9zb2NrZXQgewogCiBzdGF0aWMgX19hbHdheXNfaW5saW5lIHZvaWQgc21iZGlyZWN0X3Nv
+Y2tldF9pbml0KHN0cnVjdCBzbWJkaXJlY3Rfc29ja2V0ICpzYykKIHsKLQkqc2MgPSAoc3RydWN0
+IHNtYmRpcmVjdF9zb2NrZXQpIHsKLQkJLnN0YXR1cyA9IFNNQkRJUkVDVF9TT0NLRVRfQ1JFQVRF
+RCwKLQl9OworCS8qCisJICogVGhpcyBhbHNvIHNldHMgc3RhdHVzID0gU01CRElSRUNUX1NPQ0tF
+VF9DUkVBVEVECisJICovCisJQlVJTERfQlVHX09OKFNNQkRJUkVDVF9TT0NLRVRfQ1JFQVRFRCAh
+PSAwKTsKKwltZW1zZXQoc2MsIDAsIHNpemVvZigqc2MpKTsKIAogCWluaXRfd2FpdHF1ZXVlX2hl
+YWQoJnNjLT5zdGF0dXNfd2FpdCk7CiAKLS0gCjIuNDguMQoK
+--00000000000017a9d7063d84c869--
