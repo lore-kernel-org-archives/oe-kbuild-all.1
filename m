@@ -1,140 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6622F3C0E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 09:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E74309DB1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 10:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756459116; cv=none; b=Dc7JIqxr4AOr4x1dv3V8HBMOG56D76RgUUx51M6PTCgtveXyRxIYMDO5q/QRRmdDj8hPh2w3z+m+Pzkn7OSGs5VKfQ1y2FO/B9H4uuA0Xmpx3sIH4pc6VYDIm910xzbEehA24Xf9bM9aPU8KnMJGwsjkIkod+fvE1mt+vtygcYg=
+	t=1756463500; cv=none; b=sE1rwvE8lGvstGE/hiXxEssTilz3JKiKxrN8UYuXiUTHohEnBrWJnwKj3CGOmLs/baPhnys1/oxE5wAUPfFQLDQ0hV23EL9BC7JpmFYDw1ckdNQntDvvxlm3Xh9RRXkJJmkwVbpSSCnwpP6Mvg8iMCzrGDUb6Sb3j5HS3qkZBpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756459116; c=relaxed/simple;
-	bh=NBlAl/fkZniarUxoV8DY/7IVwSEbyoIoJhWl8W7043o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OpA5aCQ18vKBPBTRckFalcWlB8I7Lp66oseF9WKgc4T1Vs+MYs2faSy8pJJaQ+qrs8KdaKS7eSP+i/QwwfgavuVitrCIgF8WoCMZlLsORg+FON9bVrO7kNcYINvMaWMckhe6W+JH/cZDwR9b1/GzxkAYTtOlYgzM0J58GJADQBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFBtV8z0; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756463500; c=relaxed/simple;
+	bh=rqjKaGnzMwGex2cVb1RmKu1TRj31agUAhMc+ewACMxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=he99sYpgR9IKCYrUs2deqK5BGkVe4ZS9xtJER2l6/i0QDaP2jUJVgrzg2qIZwQVyVtq378FTLM/pZXT7PMeBnhrsPf3RMwVeQ8hUAk/ctXrgLFCzd5KOX9GKA2RetPZJ/6hjGu+vHtKaRdU6TaMt6l9Bg2C4SW98WNkWbC5RyJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jjnhf4/g; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFBtV8z0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756459115; x=1787995115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NBlAl/fkZniarUxoV8DY/7IVwSEbyoIoJhWl8W7043o=;
-  b=cFBtV8z0O+qjR+OprRl3c29hcYq8gn0dYeVRw+4rSKnnS8oFETPRAWA0
-   M+/gn8fUrfxcSovd2XltKdBDX2oL1mMG9BybkgW4I3BVLI0Cpzo7ADzFY
-   /SleNcaQGTRv3YdJhLodREDa+RepLwQOOlPSjo7zGg04k9tmuXjIvLHZj
-   fEedFRv+p5ohuG9Kp4wA/VxumStq4A4VMPsw66uClnCLox1NLy5w6Q0mW
-   0PFe788h1g1/ztMtYaUTle9sQqeGTK28JLQ8eHaRQcQDqIu+9a6HpVcJt
-   1vBvhpjn4zTu/WrvMEXvQJp+zCwOFe0sPsxWU8Q8qkw4/v/9JO9aPkxFV
-   w==;
-X-CSE-ConnectionGUID: A1h3MkJFQDeRfWzrg0378A==
-X-CSE-MsgGUID: pq1Qz82sQQSNini8x2vR3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58684639"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58684639"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 02:18:34 -0700
-X-CSE-ConnectionGUID: 5WNrupYfRqyf4qHQhFjQGg==
-X-CSE-MsgGUID: KVYl1vhwQPG5QC7t1wwYzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="175623668"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Aug 2025 02:18:30 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1urvF5-000Ual-2t;
-	Fri, 29 Aug 2025 09:18:06 +0000
-Date: Fri, 29 Aug 2025 17:17:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH net-next v25 1/1] mctp pcc: Implement MCTP over PCC
- Transport
-Message-ID: <202508291628.CPVGma07-lkp@intel.com>
-References: <20250827044810.152775-2-admiyo@os.amperecomputing.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jjnhf4/g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756463498;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kOn3KXAKXg6FOxpANWl4YcPVu6tqit8Beeg42jZjH/4=;
+	b=Jjnhf4/gdaaoxZpzz5eay7HqPBHjhFJUi7lkDAtjiSNS8zUKktGJiFxRAEV1eoH15563wV
+	hFvO9b9By9528lKJ7MXMPH42FK+1AEA6SsVHcFWdeZgTQ0iw4C0gWR+zZexCSK/2oycn1m
+	m+TSehQaIe2nE5MA0756/PHHTd9iDOQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-sjlrL8IPMr-Xv3qOA09STA-1; Fri,
+ 29 Aug 2025 06:31:32 -0400
+X-MC-Unique: sjlrL8IPMr-Xv3qOA09STA-1
+X-Mimecast-MFC-AGG-ID: sjlrL8IPMr-Xv3qOA09STA_1756463491
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BFA7180035B;
+	Fri, 29 Aug 2025 10:31:21 +0000 (UTC)
+Received: from [10.45.224.190] (unknown [10.45.224.190])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D2A021800952;
+	Fri, 29 Aug 2025 10:31:13 +0000 (UTC)
+Message-ID: <9294ad59-ac08-4666-9936-23b4e1d40c82@redhat.com>
+Date: Fri, 29 Aug 2025 12:31:11 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250827044810.152775-2-admiyo@os.amperecomputing.com>
-
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Implement-MCTP-over-PCC-Transport/20250827-124953
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250827044810.152775-2-admiyo%40os.amperecomputing.com
-patch subject: [PATCH net-next v25 1/1] mctp pcc: Implement MCTP over PCC Transport
-config: i386-randconfig-015-20250829 (https://download.01.org/0day-ci/archive/20250829/202508291628.CPVGma07-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291628.CPVGma07-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508291628.CPVGma07-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/net/mctp/mctp-pcc.o: in function `mctp_pcc_tx':
->> drivers/net/mctp/mctp-pcc.c:153: undefined reference to `mbox_send_message'
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
+ functionality
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+ Petr Oros <poros@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
+References: <202508200929.zEY4ejFt-lkp@intel.com>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <202508200929.zEY4ejFt-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
 
-vim +153 drivers/net/mctp/mctp-pcc.c
 
-   130	
-   131	static netdev_tx_t mctp_pcc_tx(struct sk_buff *skb, struct net_device *ndev)
-   132	{
-   133		struct mctp_pcc_ndev *mpnd = netdev_priv(ndev);
-   134		struct pcc_header *pcc_header;
-   135		int len = skb->len;
-   136		int rc;
-   137	
-   138		rc = skb_cow_head(skb, sizeof(*pcc_header));
-   139		if (rc) {
-   140			dev_dstats_tx_dropped(ndev);
-   141			kfree_skb(skb);
-   142			return NETDEV_TX_OK;
-   143		}
-   144	
-   145		pcc_header = skb_push(skb, sizeof(*pcc_header));
-   146		pcc_header->signature = PCC_SIGNATURE | mpnd->outbox.index;
-   147		pcc_header->flags = PCC_CMD_COMPLETION_NOTIFY;
-   148		memcpy(&pcc_header->command, MCTP_SIGNATURE, MCTP_SIGNATURE_LENGTH);
-   149		pcc_header->length = len + MCTP_SIGNATURE_LENGTH;
-   150	
-   151		skb_queue_head(&mpnd->outbox.packets, skb);
-   152	
- > 153		rc = mbox_send_message(mpnd->outbox.chan->mchan, skb->data);
-   154	
-   155		if (rc < 0) {
-   156			skb_unlink(skb, &mpnd->outbox.packets);
-   157			return NETDEV_TX_BUSY;
-   158		}
-   159	
-   160		dev_dstats_tx_add(ndev, len);
-   161		return NETDEV_TX_OK;
-   162	}
-   163	
+On 20. 08. 25 8:40 dop., Dan Carpenter wrote:
+> Hi Ivan,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
+> patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
+> config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 9.5.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
+> 
+> vim +239 drivers/dpll/zl3073x/fw.c
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
+> 
+> This is an integer overflow.  Imagine count is 0x80000001.  That means
+> size is 4.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Will fix this in the next version.
+
+Thanks,
+Ivan
+
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
+> 
+> size is valid.
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
+> 
+> The allocation succeeds.
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
+> 
+> But count is invalid so so we will loop 134 million times.
+> 
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
+> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
+> 
+
