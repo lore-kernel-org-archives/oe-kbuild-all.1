@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22242A1AA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 19:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BE72A1AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 19:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756495920; cv=none; b=r+pEzWuMZt/602q6dSAEChVyhjcdfDZfBv9DQ0DBmKgpm50oqO7rHiQp6szdEDJiXCopsKOaIcxsH8Rnntxc/kfkdcwhjGbrHyMTuKGYJQZyg43OtNRUL+HBOhnfzzJ9ETcRJOSwB7ipOjZU0373E0j8m8yoheFxrGi/6+CoCBU=
+	t=1756495941; cv=none; b=P3oeB4AFUTybtBCQ/H+O1XPkmJGqLgzNeJLuFG8oraMBR910UVtfpVJRK+zyvjITqIU7HKs2XJmUxBcBsOQrikU6OnW5B0A6+8Vrc9aa1Dkgz0K1CkX12N5MH2ZneKYMKbmBtzDLQmrv+Tz87p9ftXhhPp6OoiO11pZ0H9nsUZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756495920; c=relaxed/simple;
-	bh=PZlGjZMZflP3rf4kSVe4V44Eq9w3AzlZRIGdtFwszC4=;
+	s=arc-20240116; t=1756495941; c=relaxed/simple;
+	bh=9rWByLhplQ1js5IuApynXBrRP+B5SnFyLQygpcweQTM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HWsQtLjWojCi4bsa2qKohOZGYKzsPe3K028Et8qzzP4VUtJS+YzvIFxxgT/GJsLmEgW4FlerYwTMJnCYcMehdZ7OUj8r2JcGBdvhnXTFUbkV5NjSLPQA6BNqFJ1bZw18UQJBJN5N3HgadmuLlEKrwCmnuCZOYkHNCh3IX9thcF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1UTsaBQ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=KLU8iDZTeTgyXunBkXhrlEkKonpH/K14nnX/TqgYEGp3x1gc+bkc4Anx9eCjVqOjF3cKaYYcZ9aVj0e33d3Go9453s0Y6SkWyyl8uh5WRj+C8k/IN9jU5pQ6wHgE5LT1c17QHzH2C7Edd+KuAx7WqmJM+/g6f9jSDcUmEXwwvnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giZo/pdq; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1UTsaBQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giZo/pdq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756495918; x=1788031918;
+  t=1756495941; x=1788031941;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PZlGjZMZflP3rf4kSVe4V44Eq9w3AzlZRIGdtFwszC4=;
-  b=P1UTsaBQ/6pIKvTqUa7twooREV6T3hn/fCrbZjLNxgh+f0gGyMihsdiN
-   xjUYu+Kka2SfKVb6kEXL4lcnG/X8tiXg37NvODo9Yp4MEFdK7Cx6oNSet
-   P/NeEXpWgEVbaQU6B40oAdmExhvESBbzD9C9l3NPpDEbnuKF32wXKZexA
-   fEfsw3BNCdTV68ntXZ6Xr4rXHOUBcwFeTwbIa+orMgcNZ/7V1bv+8HXWD
-   huNFxG0cDBd5Mm5ZPzcVP++a+Err3uuQyiVjgFLTIhfyCNbL0CjKp3E+A
-   jVjEncNyjITSZ3U80yxi1hjHnBL0Pz6eAGofmKDz9K5msoVit6UtqbzY0
-   A==;
-X-CSE-ConnectionGUID: syRwhMxGRRCWtjWxCEpSHA==
-X-CSE-MsgGUID: ZlghaPIaT6iLm0Ma2jPMWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62625045"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62625045"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 12:31:58 -0700
-X-CSE-ConnectionGUID: bRETpLOiSU2ygZOLQLvnuw==
-X-CSE-MsgGUID: e0XFXcifTryDEueacBs1SQ==
+  bh=9rWByLhplQ1js5IuApynXBrRP+B5SnFyLQygpcweQTM=;
+  b=giZo/pdqLgn/PqKKdRiHzRKWdJnrCh9OFv3QTr69nKB6FX9g+50kL/kQ
+   TrK8H6SkYnbUKC6kUKXzci79e6damxVPZZ/k35f7h53a11GUoqc53P+/b
+   0w5ycouX0ZacIoZ/MJFEomGdnIWPIkm/5Cg5t8Fzp2MWZOHs7W7gFC2rg
+   DhxbvhXkMyz6ucdpRR9/7d3TpH6dYc3m3i+jkepNni/iqnzzEUs++6to2
+   VGxH+r3uGfWFJ9vBzj7rCiz1upYjP5fOclmdojDTqykqSS5S65xE7FNGC
+   UZjS0Z3OqybwLixDVagBp+KgNni2j6hDNnydPB+hIMyKXA+lMHYvswP5I
+   w==;
+X-CSE-ConnectionGUID: wJ6pPWBfRmSHpG8mS84j7g==
+X-CSE-MsgGUID: pxKqqqN2Ri+tHLkvQOaU+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="69893167"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="69893167"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 12:32:17 -0700
+X-CSE-ConnectionGUID: D/jxxk4eSUyuNxr3KhRwVQ==
+X-CSE-MsgGUID: kRr1EY7YQr+aG1JA8Aseug==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="170624611"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Aug 2025 12:31:57 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Aug 2025 12:32:15 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us4p7-000UuV-1K;
-	Fri, 29 Aug 2025 19:31:47 +0000
-Date: Sat, 30 Aug 2025 03:31:28 +0800
+	id 1us4pH-000UuX-0B;
+	Fri, 29 Aug 2025 19:32:02 +0000
+Date: Sat, 30 Aug 2025 03:31:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-perf-core-ANBZ23411 0/26]
- mm/shrinker.c:698: warning: This comment starts with '/**', but isn't a
- kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202508300345.gGhx2rwg-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2790/2790] mm/mempolicy.c:1115:25: warning:
+ variable 'vma' set but not used
+Message-ID: <202508300319.Biz2ibcG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,30 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-perf-core-ANBZ23411
-head:   ca90878d49ef2c923d72947e387bfafc2c6d1b89
-commit: 1e63c23f99e1610c8c483368df6922ec9076d95a [0/26] drm/ttm: introduce pool_shrink_rwsem
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250830/202508300345.gGhx2rwg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508300345.gGhx2rwg-lkp@intel.com/reproduce)
+Hi Ze,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   18ca24a6500a925830b6e87fc4279a7456b57a4b
+commit: dba69db9a5fc7c2c9c0cda0f32bb3b5f3d73ef93 [2790/2790] mm/damon/vaddr: Add demotion interface for migrating cold pages to target nodemask
+config: arm64-randconfig-004-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300319.Biz2ibcG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508300319.Biz2ibcG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508300345.gGhx2rwg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508300319.Biz2ibcG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/shrinker.c:698: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
+   mm/mempolicy.c: In function 'migrate_area_to_node':
+>> mm/mempolicy.c:1115:25: warning: variable 'vma' set but not used [-Wunused-but-set-variable]
+    1115 |  struct vm_area_struct *vma;
+         |                         ^~~
 
 
-vim +698 mm/shrinker.c
+vim +/vma +1115 mm/mempolicy.c
 
-   695	
-   696	
-   697	/**
- > 698	 * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
+  1106	
+  1107	/*
+  1108	 * Migrate area pages from one node to a target node.
+  1109	 * Returns error or the number of pages not migrated.
+  1110	 */
+  1111	static int migrate_area_to_node(struct mm_struct *mm, int source, int dest,
+  1112				   unsigned long start, unsigned long end, int flags)
+  1113	{
+  1114		nodemask_t nmask;
+> 1115		struct vm_area_struct *vma;
+  1116		LIST_HEAD(pagelist);
+  1117		int err = 0;
+  1118		struct migration_target_control mtc = {
+  1119			.nid = dest,
+  1120			.gfp_mask = GFP_HIGHUSER_MOVABLE | __GFP_THISNODE,
+  1121		};
+  1122	
+  1123		nodes_clear(nmask);
+  1124		node_set(source, nmask);
+  1125	
+  1126		/*
+  1127		 * This does not "check" the range but isolates all pages that
+  1128		 * need migration.  Between passing in the full user address
+  1129		 * space range and MPOL_MF_DISCONTIG_OK, this call can not fail.
+  1130		 */
+  1131		vma = find_vma(mm, 0);
+  1132		VM_BUG_ON(!(flags & (MPOL_MF_MOVE | MPOL_MF_MOVE_ALL)));
+  1133		queue_pages_range(mm, start, end, &nmask,
+  1134				flags | MPOL_MF_DISCONTIG_OK, &pagelist, false);
+  1135	
+  1136		if (!list_empty(&pagelist)) {
+  1137			err = migrate_pages(&pagelist, alloc_migration_target, NULL,
+  1138					(unsigned long)&mtc, MIGRATE_SYNC, MR_DAMON_DEMOTION, NULL);
+  1139			if (err)
+  1140				putback_movable_pages(&pagelist);
+  1141		}
+  1142	
+  1143		return err;
+  1144	}
+  1145	
 
 -- 
 0-DAY CI Kernel Test Service
