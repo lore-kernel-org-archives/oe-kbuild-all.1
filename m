@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162D432C32E;
-	Fri, 29 Aug 2025 15:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BDE32C330
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 15:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756482793; cv=none; b=ZDnOjohj6qltfD2mBORH7oqA+TEDJ9BCAkAftiIfy9SgDOoLGQ8FQ8BkLCCyDMunSORlD/5sQTz0azpiLKfWpdDC6BxVQdtr7Ls4zB9XwOhFck8HVZD0377JDouhEkdZyF0VJVzJCYYKeuEO8hEw2D6gKpgCoTW0qw76KGNS9qg=
+	t=1756482793; cv=none; b=TMU+rrf9NW2BAFKqCnrWL3+xW62CGKpCy+54bJdd5KrrHDomhJPjhquOZbDscKq+wvhk7ZgEuB6VWuOnKI2rDCwSYSmVh4mqFwesVGrIbPkb+Wp5XD4rLIrzArm3l7t/OxJTmgI7Xy81tTHkF9N/rKi3bDuuuV0A992XzQADIQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756482793; c=relaxed/simple;
-	bh=XKkRs/IcCE9mjve0Gx265u3Mj72r0BXCLoU7/fhGsA8=;
+	bh=r6o6tZrAu3+w3lcyJAMYfuRXyaYgtSBycjjyO1n469Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XoFsQz+j1jzBtQdcePZwdNqURqNVYJYzFch6Bw6EuAMqHKM3guvd1aXQ4jIcb7ctsw4jFyzgqvjmzhxKgM1FS/zOza+me+UKiwyKWFkNjdgUD5eKeJkTiaNXezohOTgCv4pw92Efgz6Japd1sb0XWZmndEtZudx91MiGW1HX6ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyDo0JtH; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=FnyZ4xhlYA43526HD1cg3egHgPNwb2KrgMlEjPqQO54eLDajtcb33RF5T13IFHLqcphd+us7PEa2mBfSFRvlpBOXOxnzaKSehxROTPzmna812UamxBSYuM07+ZNyXBwjCC4uDuT8xkmn9Wy/hCU/kLlfjdP5hMZC5U7tWbd4MQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHfCCbCM; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyDo0JtH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHfCCbCM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1756482792; x=1788018792;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XKkRs/IcCE9mjve0Gx265u3Mj72r0BXCLoU7/fhGsA8=;
-  b=nyDo0JtHG8ScJUL2z5LshOLJpNuheYdkRAxuwWBFJPt6HWrG4FvUwIX2
-   6sHrUqyD3h1vbLzCuA4tl7GWh6M7TB2iMoXrXpPjA15c8CqmSNhWXjZhd
-   tqT5i9ZSntHMvJYlCsnArBzAQjqpbFHDrSM2LbayZCri8e0fW8wFz+KeF
-   Yz7jAkxsIajXzo0GG3TAaaJH9nUGlkvSj8urIAs+P6s33SDYxuj5SrlMG
-   rJ18RqXx8B9aGkety4ZUZNG3GfOAz2krkKFZTG54MRAl3ZBu5FXz1JaJP
-   vLHPoC/cwhegrWj37nyMSfax85Nmz+M6ZMamIE7IvQZbcWbl9wmPaZz6o
-   A==;
-X-CSE-ConnectionGUID: FCBClCUjTai/wLrtXaaong==
-X-CSE-MsgGUID: hhTMnqJaRBm0TWgH1CbQbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58696866"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58696866"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 08:53:11 -0700
-X-CSE-ConnectionGUID: has8hhHqQSmMSLEh/PUMRg==
-X-CSE-MsgGUID: F+oGRAzLQ7KmWjIknfXp3A==
+  bh=r6o6tZrAu3+w3lcyJAMYfuRXyaYgtSBycjjyO1n469Y=;
+  b=hHfCCbCMmGrKUh+N7qwc5+ZM1CGKc5ibwAtUK36p9ftZ0hAhlvkFHJR/
+   WzF1WOv4pQUV50LMSpLOnnzlBJF8jLbDSNwT2+z9Yzm4g8MnalpLGTbfe
+   Yl+p4fPHG1Q3S+2i51wIntfXxRiQBj/n+hSNjb6qWB52603568jh2Zg9P
+   mDPCff9f9SbWQlkdtekOYiatNo9+sbcNLgbVx7v+mOfvaVTvaT2uAKMoM
+   BpdizoP4C7VFxngNodaAYOvncYqbBgaqGhNNoNO/r4jNXsLEzZu6/LiAc
+   n7ylbkUs45yV9Znb3/oS9iFEuZJvfmB1SvMBAg6VQXG6o8nrPG5pRSYqY
+   w==;
+X-CSE-ConnectionGUID: ojUYFaNBQpmm63/WFibrtQ==
+X-CSE-MsgGUID: DndOyuONTsC1mjTyYcfncw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="69479399"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="69479399"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 08:53:11 -0700
+X-CSE-ConnectionGUID: QImWmryqRbOtWb01gAjz0A==
+X-CSE-MsgGUID: opv4oweYSoisGenrwSOezA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="201324197"
+   d="scan'208";a="174582244"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Aug 2025 08:53:09 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Aug 2025 08:53:10 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us1PR-000UjD-2K;
+	id 1us1PX-000UjF-0y;
 	Fri, 29 Aug 2025 15:53:07 +0000
-Date: Fri, 29 Aug 2025 23:52:42 +0800
+Date: Fri, 29 Aug 2025 23:52:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:kpte 2/6] include/asm-generic/pgalloc.h:144:21:
- warning: variable 'ptdesc' is uninitialized when used here
-Message-ID: <202508292320.plYGOdi2-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20250814 2/8]
+ security/integrity/integrity.h:37:67: error: invalid application of 'sizeof'
+ to incomplete type 'struct evm_ima_xattr_data_hdr'
+Message-ID: <202508292352.Q9sA9NNG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,89 +65,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kpte
-head:   d5eaa925a3150c716e8ec564c51069fbdd303fbc
-commit: ccbd04de39826d130b67374e68599e128b53acab [2/6] mm: Actually mark kernel page table pages
-config: x86_64-buildonly-randconfig-004-20250829 (https://download.01.org/0day-ci/archive/20250829/202508292320.plYGOdi2-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508292320.plYGOdi2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20250814
+head:   4774a38f9cf278ece929331bdef17ab5db24684c
+commit: c2ca48406d8d7e98ac35251db90286b3b86f01c1 [2/8] Revert "integrity: Avoid -Wflex-array-member-not-at-end warnings"
+config: csky-randconfig-001-20250829 (https://download.01.org/0day-ci/archive/20250829/202508292352.Q9sA9NNG-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508292352.Q9sA9NNG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508292320.plYGOdi2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508292352.Q9sA9NNG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/fork.c:110:
-   In file included from arch/x86/include/asm/pgalloc.h:13:
->> include/asm-generic/pgalloc.h:144:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     144 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:139:23: note: initialize the variable 'ptdesc' to silence this warning
-     139 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   include/asm-generic/pgalloc.h:179:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     179 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:175:23: note: initialize the variable 'ptdesc' to silence this warning
-     175 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   include/asm-generic/pgalloc.h:235:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     235 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:231:23: note: initialize the variable 'ptdesc' to silence this warning
-     231 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   include/asm-generic/pgalloc.h:281:21: warning: variable 'ptdesc' is uninitialized when used here [-Wuninitialized]
-     281 |                 ptdesc_set_kernel(ptdesc);
-         |                                   ^~~~~~
-   include/asm-generic/pgalloc.h:277:23: note: initialize the variable 'ptdesc' to silence this warning
-     277 |         struct ptdesc *ptdesc;
-         |                              ^
-         |                               = NULL
-   4 warnings generated.
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/key.h:14,
+                    from include/linux/security.h:27,
+                    from security/integrity/iint.c:12:
+>> security/integrity/integrity.h:37:67: error: invalid application of 'sizeof' to incomplete type 'struct evm_ima_xattr_data_hdr'
+      37 | static_assert(offsetof(struct evm_ima_xattr_data, data) == sizeof(struct evm_ima_xattr_data_hdr),
+         |                                                                   ^~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   security/integrity/integrity.h:37:1: note: in expansion of macro 'static_assert'
+      37 | static_assert(offsetof(struct evm_ima_xattr_data, data) == sizeof(struct evm_ima_xattr_data_hdr),
+         | ^~~~~~~~~~~~~
+>> include/linux/stddef.h:16:32: error: expression in static assertion is not an integer
+      16 | #define offsetof(TYPE, MEMBER) __builtin_offsetof(TYPE, MEMBER)
+         |                                ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   security/integrity/integrity.h:37:1: note: in expansion of macro 'static_assert'
+      37 | static_assert(offsetof(struct evm_ima_xattr_data, data) == sizeof(struct evm_ima_xattr_data_hdr),
+         | ^~~~~~~~~~~~~
+   security/integrity/integrity.h:37:15: note: in expansion of macro 'offsetof'
+      37 | static_assert(offsetof(struct evm_ima_xattr_data, data) == sizeof(struct evm_ima_xattr_data_hdr),
+         |               ^~~~~~~~
+>> security/integrity/integrity.h:64:66: error: invalid application of 'sizeof' to incomplete type 'struct ima_digest_data_hdr'
+      64 | static_assert(offsetof(struct ima_digest_data, digest) == sizeof(struct ima_digest_data_hdr),
+         |                                                                  ^~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   security/integrity/integrity.h:64:1: note: in expansion of macro 'static_assert'
+      64 | static_assert(offsetof(struct ima_digest_data, digest) == sizeof(struct ima_digest_data_hdr),
+         | ^~~~~~~~~~~~~
+>> include/linux/stddef.h:16:32: error: expression in static assertion is not an integer
+      16 | #define offsetof(TYPE, MEMBER) __builtin_offsetof(TYPE, MEMBER)
+         |                                ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   security/integrity/integrity.h:64:1: note: in expansion of macro 'static_assert'
+      64 | static_assert(offsetof(struct ima_digest_data, digest) == sizeof(struct ima_digest_data_hdr),
+         | ^~~~~~~~~~~~~
+   security/integrity/integrity.h:64:15: note: in expansion of macro 'offsetof'
+      64 | static_assert(offsetof(struct ima_digest_data, digest) == sizeof(struct ima_digest_data_hdr),
+         |               ^~~~~~~~
 
 
-vim +/ptdesc +144 include/asm-generic/pgalloc.h
+vim +37 security/integrity/integrity.h
 
-   124	
-   125	#ifndef __HAVE_ARCH_PMD_ALLOC_ONE
-   126	/**
-   127	 * pmd_alloc_one - allocate memory for a PMD-level page table
-   128	 * @mm: the mm_struct of the current context
-   129	 *
-   130	 * Allocate memory for a page table and ptdesc and runs pagetable_pmd_ctor().
-   131	 *
-   132	 * Allocations use %GFP_PGTABLE_USER in user context and
-   133	 * %GFP_PGTABLE_KERNEL in kernel context.
-   134	 *
-   135	 * Return: pointer to the allocated memory or %NULL on error
-   136	 */
-   137	static inline pmd_t *pmd_alloc_one_noprof(struct mm_struct *mm, unsigned long addr)
-   138	{
-   139		struct ptdesc *ptdesc;
-   140		gfp_t gfp = GFP_PGTABLE_USER;
-   141	
-   142		if (mm == &init_mm) {
-   143			gfp = GFP_PGTABLE_KERNEL;
- > 144			ptdesc_set_kernel(ptdesc);
-   145		}
-   146		ptdesc = pagetable_alloc_noprof(gfp, 0);
-   147		if (!ptdesc)
-   148			return NULL;
-   149		if (!pagetable_pmd_ctor(mm, ptdesc)) {
-   150			pagetable_free(ptdesc);
-   151			return NULL;
-   152		}
-   153		return ptdesc_address(ptdesc);
-   154	}
-   155	#define pmd_alloc_one(...)	alloc_hooks(pmd_alloc_one_noprof(__VA_ARGS__))
-   156	#endif
-   157	
+6be5cc5246f807f Dmitry Kasatkin       2011-03-09  32  
+6be5cc5246f807f Dmitry Kasatkin       2011-03-09  33  struct evm_ima_xattr_data {
+6be5cc5246f807f Dmitry Kasatkin       2011-03-09  34  	u8 type;
+650b29dbdf2caf7 Thiago Jung Bauermann 2019-06-11  35  	u8 data[];
+650b29dbdf2caf7 Thiago Jung Bauermann 2019-06-11  36  } __packed;
+08ae3e5f5fc8edb Gustavo A. R. Silva   2024-08-08 @37  static_assert(offsetof(struct evm_ima_xattr_data, data) == sizeof(struct evm_ima_xattr_data_hdr),
+08ae3e5f5fc8edb Gustavo A. R. Silva   2024-08-08  38  	      "struct member likely outside of __struct_group()");
+650b29dbdf2caf7 Thiago Jung Bauermann 2019-06-11  39  
+650b29dbdf2caf7 Thiago Jung Bauermann 2019-06-11  40  /* Only used in the EVM HMAC code. */
+650b29dbdf2caf7 Thiago Jung Bauermann 2019-06-11  41  struct evm_xattr {
+c2ca48406d8d7e9 Gustavo A. R. Silva   2025-08-22  42  	struct evm_ima_xattr_data data;
+6be5cc5246f807f Dmitry Kasatkin       2011-03-09  43  	u8 digest[SHA1_DIGEST_SIZE];
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  44  } __packed;
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  45  
+398c42e2c46c88b Mimi Zohar            2021-11-24  46  #define IMA_MAX_DIGEST_SIZE	HASH_MAX_DIGESTSIZE
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  47  
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  48  struct ima_digest_data {
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  49  	u8 algo;
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  50  	u8 length;
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  51  	union {
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  52  		struct {
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  53  			u8 unused;
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  54  			u8 type;
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  55  		} sha1;
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  56  		struct {
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  57  			u8 type;
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  58  			u8 algo;
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  59  		} ng;
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  60  		u8 data[2];
+3ea7a56067e6632 Dmitry Kasatkin       2013-08-12  61  	} xattr;
+eb492c627a61b56 Gustavo A. R. Silva   2020-05-28  62  	u8 digest[];
+c7c8bb237fdbff9 Dmitry Kasatkin       2013-04-25  63  } __packed;
+08ae3e5f5fc8edb Gustavo A. R. Silva   2024-08-08 @64  static_assert(offsetof(struct ima_digest_data, digest) == sizeof(struct ima_digest_data_hdr),
+08ae3e5f5fc8edb Gustavo A. R. Silva   2024-08-08  65  	      "struct member likely outside of __struct_group()");
+6be5cc5246f807f Dmitry Kasatkin       2011-03-09  66  
+
+:::::: The code at line 37 was first introduced by commit
+:::::: 08ae3e5f5fc8edb9bd0c7ef9696ff29ef18b26ef integrity: Use static_assert() to check struct sizes
+
+:::::: TO: Gustavo A. R. Silva <gustavoars@kernel.org>
+:::::: CC: Mimi Zohar <zohar@linux.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
