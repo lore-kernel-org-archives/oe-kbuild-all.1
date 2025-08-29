@@ -1,198 +1,103 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E74309DB1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 10:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC2E263F32;
+	Fri, 29 Aug 2025 11:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756463500; cv=none; b=sE1rwvE8lGvstGE/hiXxEssTilz3JKiKxrN8UYuXiUTHohEnBrWJnwKj3CGOmLs/baPhnys1/oxE5wAUPfFQLDQ0hV23EL9BC7JpmFYDw1ckdNQntDvvxlm3Xh9RRXkJJmkwVbpSSCnwpP6Mvg8iMCzrGDUb6Sb3j5HS3qkZBpo=
+	t=1756465477; cv=none; b=tSab6Kk+YGSW1y4MxhjpDRYxYcljdSKxlknZzjM7eL0zP3Y1ujoNXIDYLgLrJHUFq4n1MKV+kvdJoE5F0oZzVZnsE8Rni4E4CH7tgkMQIcgbQAjNk3xRVEjVuC06/ILrBwTZgG8jX0/Bfcm8aMGT3xw9vJqvtFaXr88XzCu50QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756463500; c=relaxed/simple;
-	bh=rqjKaGnzMwGex2cVb1RmKu1TRj31agUAhMc+ewACMxs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=he99sYpgR9IKCYrUs2deqK5BGkVe4ZS9xtJER2l6/i0QDaP2jUJVgrzg2qIZwQVyVtq378FTLM/pZXT7PMeBnhrsPf3RMwVeQ8hUAk/ctXrgLFCzd5KOX9GKA2RetPZJ/6hjGu+vHtKaRdU6TaMt6l9Bg2C4SW98WNkWbC5RyJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jjnhf4/g; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756465477; c=relaxed/simple;
+	bh=MN1Il3XT7U/RcSriz2Tk4rsIzr1Tdk5cc/+Xb6ZDhtM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pqoyz6R0bxl2Vuy0k8bgr4tPVbPeD/cXne1FdwC8OcxNlWqBSUX5hRrC8fcMnggF+hS/ggkSos5HaYXnoQyWESLURVcGidwnqZ1CeYh9JFHcTRkJA0aQxsIPvGmyW8ulwLUjP6WVWRcjtDkekNpxghbq9spvAySVGn0GcIGoqmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7cmjufO; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jjnhf4/g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756463498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kOn3KXAKXg6FOxpANWl4YcPVu6tqit8Beeg42jZjH/4=;
-	b=Jjnhf4/gdaaoxZpzz5eay7HqPBHjhFJUi7lkDAtjiSNS8zUKktGJiFxRAEV1eoH15563wV
-	hFvO9b9By9528lKJ7MXMPH42FK+1AEA6SsVHcFWdeZgTQ0iw4C0gWR+zZexCSK/2oycn1m
-	m+TSehQaIe2nE5MA0756/PHHTd9iDOQ=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-sjlrL8IPMr-Xv3qOA09STA-1; Fri,
- 29 Aug 2025 06:31:32 -0400
-X-MC-Unique: sjlrL8IPMr-Xv3qOA09STA-1
-X-Mimecast-MFC-AGG-ID: sjlrL8IPMr-Xv3qOA09STA_1756463491
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BFA7180035B;
-	Fri, 29 Aug 2025 10:31:21 +0000 (UTC)
-Received: from [10.45.224.190] (unknown [10.45.224.190])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D2A021800952;
-	Fri, 29 Aug 2025 10:31:13 +0000 (UTC)
-Message-ID: <9294ad59-ac08-4666-9936-23b4e1d40c82@redhat.com>
-Date: Fri, 29 Aug 2025 12:31:11 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7cmjufO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756465475; x=1788001475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MN1Il3XT7U/RcSriz2Tk4rsIzr1Tdk5cc/+Xb6ZDhtM=;
+  b=f7cmjufOXQvJGQYrWL/REABmLDRk32TlTQOFS2CNKcEG7pSy7ONup59y
+   3zMYs8j8FK+QDtXTTcmP1fEEWt69i2GbVd0jJWezukDLiY8vlAePkSrqN
+   hR9Vv9lLvr8MNID670TwDqBE2ZfD4rCS4STVTG4THvzlJlgCF2CBf6eON
+   hKLPMkGPRLNMR3iLEh41xQr0IcW1v5ppjxcnr9k9DrJwDyqO6NWxwCcZ0
+   Xv9T6njYDNAKCq+elvM/zbrWG2tKkWy4O7eOcY13gIKsJaqxqrR4M+tCL
+   hwgy+n2/9qQh0faBcpBhvfUVvlzZKZmSgdgG7zkyZAsxd+AltS95ObFgl
+   g==;
+X-CSE-ConnectionGUID: GuI746b3QSm0JS3EltFQhg==
+X-CSE-MsgGUID: 1tx/a0c0TeedQnKTPZJlnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="57943829"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="57943829"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 04:04:35 -0700
+X-CSE-ConnectionGUID: wsY8eeOsTdabKwII9Rr7MA==
+X-CSE-MsgGUID: wmxIinv+ROSgUDAFQPOhmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="170739659"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 29 Aug 2025 04:04:29 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1urwtz-000Udr-1z;
+	Fri, 29 Aug 2025 11:04:26 +0000
+Date: Fri, 29 Aug 2025 19:03:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Elder <elder@riscstar.com>, lee@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, alexandre.belloni@bootlin.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, mat.jonczyk@o2.pl, dlan@gentoo.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, linux.amoon@gmail.com, troymitchell988@gmail.com,
+	guodong@riscstar.com, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v13 2/7] mfd: simple-mfd-i2c: add SpacemiT P1 support
+Message-ID: <202508291833.SY2MmoZx-lkp@intel.com>
+References: <20250825172057.163883-3-elder@riscstar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading
- functionality
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Jiri Pirko <jiri@resnulli.us>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
- Petr Oros <poros@redhat.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>
-References: <202508200929.zEY4ejFt-lkp@intel.com>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <202508200929.zEY4ejFt-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825172057.163883-3-elder@riscstar.com>
 
+Hi Alex,
 
+kernel test robot noticed the following build warnings:
 
-On 20. 08. 25 8:40 dop., Dan Carpenter wrote:
-> Hi Ivan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Add-functions-to-access-hardware-registers/20250814-014831
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20250813174408.1146717-4-ivecera%40redhat.com
-> patch subject: [PATCH net-next v3 3/5] dpll: zl3073x: Add firmware loading functionality
-> config: xtensa-randconfig-r073-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200929.zEY4ejFt-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 9.5.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202508200929.zEY4ejFt-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/dpll/zl3073x/fw.c:239 zl3073x_fw_component_load() warn: potential user controlled sizeof overflow 'count * 4' '0-u32max * 4'
-> 
-> vim +239 drivers/dpll/zl3073x/fw.c
-> 
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  202  static ssize_t
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  203  zl3073x_fw_component_load(struct zl3073x_dev *zldev,
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  204  			  struct zl3073x_fw_component **pcomp,
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  205  			  const char **psrc, size_t *psize,
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  206  			  struct netlink_ext_ack *extack)
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  207  {
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  208  	const struct zl3073x_fw_component_info *info;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  209  	struct zl3073x_fw_component *comp = NULL;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  210  	struct device *dev = zldev->dev;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  211  	enum zl3073x_fw_component_id id;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  212  	char buf[32], name[16];
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  213  	u32 count, size, *dest;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  214  	int pos, rc;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  215
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  216  	/* Fetch image name and size from input */
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  217  	strscpy(buf, *psrc, min(sizeof(buf), *psize));
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  218  	rc = sscanf(buf, "%15s %u %n", name, &count, &pos);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  219  	if (!rc) {
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  220  		/* No more data */
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  221  		return 0;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  222  	} else if (rc == 1) {
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  223  		ZL3073X_FW_ERR_MSG(zldev, extack, "invalid component size");
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  224  		return -EINVAL;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  225  	}
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  226  	*psrc += pos;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  227  	*psize -= pos;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  228
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  229  	dev_dbg(dev, "Firmware component '%s' found\n", name);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  230
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  231  	id = zl3073x_fw_component_id_get(name);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  232  	if (id == ZL_FW_COMPONENT_INVALID) {
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  233  		ZL3073X_FW_ERR_MSG(zldev, extack, "unknown component type '%s'",
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  234  				   name);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  235  		return -EINVAL;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  236  	}
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  237
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  238  	info = &component_info[id];
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13 @239  	size = count * sizeof(u32); /* get size in bytes */
-> 
-> This is an integer overflow.  Imagine count is 0x80000001.  That means
-> size is 4.
+[auto build test WARNING on 6c68f4c0a147c025ae0b25fab688c7c47964a02f]
 
-Will fix this in the next version.
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/dt-bindings-mfd-add-support-the-SpacemiT-P1-PMIC/20250826-012424
+base:   6c68f4c0a147c025ae0b25fab688c7c47964a02f
+patch link:    https://lore.kernel.org/r/20250825172057.163883-3-elder%40riscstar.com
+patch subject: [PATCH v13 2/7] mfd: simple-mfd-i2c: add SpacemiT P1 support
+config: x86_64-kismet-CONFIG_I2C_K1-CONFIG_MFD_SPACEMIT_P1-0-0 (https://download.01.org/0day-ci/archive/20250829/202508291833.SY2MmoZx-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250829/202508291833.SY2MmoZx-lkp@intel.com/reproduce)
 
-Thanks,
-Ivan
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508291833.SY2MmoZx-lkp@intel.com/
 
-> 
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  240
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  241  	/* Check image size validity */
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  242  	if (size > component_info[id].max_size) {
-> 
-> size is valid.
-> 
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  243  		ZL3073X_FW_ERR_MSG(zldev, extack,
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  244  				   "[%s] component is too big (%u bytes)\n",
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  245  				   info->name, size);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  246  		return -EINVAL;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  247  	}
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  248
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  249  	dev_dbg(dev, "Indicated component image size: %u bytes\n", size);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  250
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  251  	/* Alloc component */
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  252  	comp = zl3073x_fw_component_alloc(size);
-> 
-> The allocation succeeds.
-> 
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  253  	if (!comp) {
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  254  		ZL3073X_FW_ERR_MSG(zldev, extack, "failed to alloc memory");
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  255  		return -ENOMEM;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  256  	}
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  257  	comp->id = id;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  258
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  259  	/* Load component data from firmware source */
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  260  	for (dest = comp->data; count; count--, dest++) {
-> 
-> But count is invalid so so we will loop 134 million times.
-> 
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  261  		strscpy(buf, *psrc, min(sizeof(buf), *psize));
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  262  		rc = sscanf(buf, "%x %n", dest, &pos);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  263  		if (!rc)
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  264  			goto err_data;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  265
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  266  		*psrc += pos;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  267  		*psize -= pos;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  268  	}
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  269
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  270  	*pcomp = comp;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  271
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  272  	return 1;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  273
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  274  err_data:
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  275  	ZL3073X_FW_ERR_MSG(zldev, extack, "[%s] invalid or missing data",
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  276  			   info->name);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  277
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  278  	zl3073x_fw_component_free(comp);
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  279
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  280  	return -ENODATA;
-> cd5cfd9ddd76800 Ivan Vecera 2025-08-13  281  }
-> 
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for I2C_K1 when selected by MFD_SPACEMIT_P1
+   WARNING: unmet direct dependencies detected for I2C_K1
+     Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+     Selected by [y]:
+     - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
