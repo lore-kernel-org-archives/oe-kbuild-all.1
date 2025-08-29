@@ -1,62 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDF62BE646
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 21:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8090F4207A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 21:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756502864; cv=none; b=iOqScvCLLgkPGNzol3snLNEMBL0gM6jd9Jl4gKb1NZPVbqO0/1GhRq4rg0YSl3OTTScr81OGQoyWIwRyteBWnuMXtc0o+ucLbRtlRWBb5JRj0UCp9LHDrQccF8BseTnwZk3RQOWu252eQJJLOpG+pg2Bq7ufT7/AYljsWtbkROo=
+	t=1756503528; cv=none; b=R8AB2lAL38MSbxSOswW/Urloi4CTmQjvlTeDVlIbA2uNtaZPjOysHKD9HGYxmAQ/pyxrp2UkgPAOEXglTSrYfJFgZLw4GYfhNJki1OlSu32UX2tTBO8SRJy+kI9T358h82WOnLVyC9JHp7pIVYIj09eDyhSc8m6oJPwZNmn0jfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756502864; c=relaxed/simple;
-	bh=YyLsD8tbVmmQl8rOSyIGlld3kXynHmyMNUAcUWKg2+Q=;
+	s=arc-20240116; t=1756503528; c=relaxed/simple;
+	bh=wnooBNALWXL2Le0V+3NQG1rf7d6Hh5/yT8qzXsSPRfw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m+ETusD9GwTsxK+fn+BFdFxLRonGMPv847zKm22E/gFcWoNlNJkwQa4y7OUA6ih8tr454N9dOAIS8aMkM9kBy9AYgkb/iACdifwJWnpr+RXStq9kQxGjwf8zKWhmPMorcUMYLhka3gV2DMPY5PdAQ5Jtx/dD9ecbaaZicD15/K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ca9GnM8M; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=VzXlRm/xrtyEpGOH9pAPRW16t6bltZDyouXdaIjvo5C3BxuWWPwKjVUU8Oe0K7PhB6nJl9yy8zWVtJJVsbHpVW9ezoswBBJc5k3sOe2Mt2cnB/9ZxwKNoLE48UFgbgPbnOaaDBUJwZZ1lbDsn/auud+nD0/YsRwohwO+TUHSYLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dX2Ei1W6; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ca9GnM8M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dX2Ei1W6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756502863; x=1788038863;
+  t=1756503526; x=1788039526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YyLsD8tbVmmQl8rOSyIGlld3kXynHmyMNUAcUWKg2+Q=;
-  b=Ca9GnM8M8LlhLZXKR1CSWKxJ1bLg7IP3ml4t0FoEAVpQL7cFkdiU9LsS
-   ldete7w8p2IhjEh4MdFcCRv/5m7CDWA5HGOyMKqt4r5FBg3zChTBTrei8
-   bwFB7FIy10n6bRcHjgFyuhpBEI8I/FAKkb5jxncVVqqYTZWDJrpjvCNB8
-   nLyjupE9SVMad9NZxRKq/PR27+4cc1i6rLshRrBzPQbohGv12lReOPtTg
-   fr5YiIggCheGFHK74VVHOi0KsZvymfAS5wKPIuA/1FQI1CtG6J1R5MSRC
-   038jw5zngctLCE1DSwgADYqlxsWjPjBgmtcHsf3Ozot86LAzdHW9wZG2T
-   A==;
-X-CSE-ConnectionGUID: HbLsC66sT/2ybOHDfzvIRQ==
-X-CSE-MsgGUID: taWILrTNTxuuvsduwvK1CQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="58945965"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="58945965"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 14:27:43 -0700
-X-CSE-ConnectionGUID: w7+YqGwTQ/SXLTbA/wvX+Q==
-X-CSE-MsgGUID: EVcalZyGQxKw/1zCx84YxQ==
+  bh=wnooBNALWXL2Le0V+3NQG1rf7d6Hh5/yT8qzXsSPRfw=;
+  b=dX2Ei1W6agXFQf1Thxod1Gzppzv5qgut/G/VHl+ebHXQ1GNKPeD+KLoA
+   9CylUSMY7EndtFhVjvJu4zlaAybYuPGp97snGebdeFXKVYyiTW4MFDD78
+   zAZcKCyUswW+RaLFNR42ilGajDqaYLAkM5IgyA562KxY0ASgKZ4lUHX37
+   YAJ8wO4hoz2THi2vV8G1sXdaMWcXhiGruaHJIQQMfonZuWUnnCwCL9imS
+   IuN6zvNmwSEgIpIlz8Hp6v2fu+ROJsJYOBM2iJcXdvQ+3sghPzYK4qMrZ
+   0wrB1aFDj0tNKKDVxnLEeDi+vuodVXqicSPtfyM5lQ1cZElPZ64uqQoUF
+   Q==;
+X-CSE-ConnectionGUID: Jw4+HNYbRP2VPlkIam83FQ==
+X-CSE-MsgGUID: 4QvvLkgZSWi0fN1JfvDq+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62633025"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62633025"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 14:38:46 -0700
+X-CSE-ConnectionGUID: 1mEB/XOpQNqqF4LEnlu9jA==
+X-CSE-MsgGUID: i940bKgxREulrQ5dRBg2zg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="194143290"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Aug 2025 14:27:41 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 29 Aug 2025 14:38:45 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us6dB-000UzT-1o;
-	Fri, 29 Aug 2025 21:27:36 +0000
-Date: Sat, 30 Aug 2025 05:26:51 +0800
+	id 1us6ny-000Uzf-1C;
+	Fri, 29 Aug 2025 21:38:42 +0000
+Date: Sat, 30 Aug 2025 05:37:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
-Message-ID: <202508300556.9Mu5ETXB-lkp@intel.com>
+To: Huisong Li <lihuisong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: [linux-next:master 3555/5283] include/acpi/processor.h:451:13:
+ warning: 'acpi_processor_unregister_idle_driver' defined but not used
+Message-ID: <202508300519.tZQHY6HA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,24 +60,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fb679c832b6497f19fffb8274c419783909c0912
-commit: fd3b2c5f40a1e028bc813284260d430257444334 drm/panel: s6e3ha8: select CONFIG_DRM_DISPLAY_DSC_HELPER
-date:   11 months ago
-config: x86_64-kismet-CONFIG_DRM_DISPLAY_DSC_HELPER-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8-0-0 (https://download.01.org/0day-ci/archive/20250830/202508300556.9Mu5ETXB-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250830/202508300556.9Mu5ETXB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3cace99d63192a7250461b058279a42d91075d0c
+commit: 165e98b379d88fa95bf703989c1eb64732c39bad [3555/5283] ACPI: processor: idle: Optimize ACPI idle driver registration
+config: arm64-randconfig-001-20250830 (https://download.01.org/0day-ci/archive/20250830/202508300519.tZQHY6HA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508300519.tZQHY6HA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508300556.9Mu5ETXB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508300519.tZQHY6HA-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
-   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
-     Selected by [y]:
-     - DRM_PANEL_SAMSUNG_S6E3HA8 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && DRM_MIPI_DSI [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/arm64/kernel/acpi.c:33:
+>> include/acpi/processor.h:451:13: warning: 'acpi_processor_unregister_idle_driver' defined but not used [-Wunused-function]
+     451 | static void acpi_processor_unregister_idle_driver(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/acpi/processor.h:448:13: warning: 'acpi_processor_register_idle_driver' defined but not used [-Wunused-function]
+     448 | static void acpi_processor_register_idle_driver(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/acpi_processor_unregister_idle_driver +451 include/acpi/processor.h
+
+   443	
+   444	static inline int acpi_processor_hotplug(struct acpi_processor *pr)
+   445	{
+   446		return -ENODEV;
+   447	}
+ > 448	static void acpi_processor_register_idle_driver(void)
+   449	{
+   450	}
+ > 451	static void acpi_processor_unregister_idle_driver(void)
+   452	{
+   453	}
+   454	#endif /* CONFIG_ACPI_PROCESSOR_IDLE */
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
