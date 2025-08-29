@@ -1,103 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC2E263F32;
-	Fri, 29 Aug 2025 11:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D160257AEC;
+	Fri, 29 Aug 2025 11:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756465477; cv=none; b=tSab6Kk+YGSW1y4MxhjpDRYxYcljdSKxlknZzjM7eL0zP3Y1ujoNXIDYLgLrJHUFq4n1MKV+kvdJoE5F0oZzVZnsE8Rni4E4CH7tgkMQIcgbQAjNk3xRVEjVuC06/ILrBwTZgG8jX0/Bfcm8aMGT3xw9vJqvtFaXr88XzCu50QE=
+	t=1756467706; cv=none; b=MLWzdVCq/c33nzjaUO+pLMuy/lIrwbQcWjXsbvhUzyXA3l6ch/506itNI6pdF2xRvoaCOMYOBF1dE0KRIXOQ7xbZ1oA7v8DHfjgMTfDTMkba4gyJLWT2W0CuUCRCehwBQ3PIpulENVYR8FGDgyiiOXhb3XLiU2vRgmUzbaUshys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756465477; c=relaxed/simple;
-	bh=MN1Il3XT7U/RcSriz2Tk4rsIzr1Tdk5cc/+Xb6ZDhtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pqoyz6R0bxl2Vuy0k8bgr4tPVbPeD/cXne1FdwC8OcxNlWqBSUX5hRrC8fcMnggF+hS/ggkSos5HaYXnoQyWESLURVcGidwnqZ1CeYh9JFHcTRkJA0aQxsIPvGmyW8ulwLUjP6WVWRcjtDkekNpxghbq9spvAySVGn0GcIGoqmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7cmjufO; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756467706; c=relaxed/simple;
+	bh=Kl7R2kSgRrJ/G9k6bv3Q8j6NS1X8/WDfjhRe5Lze1cQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kXeO/3LTmZ7OScEK5wsVUGJlDV7cPbKfa4BqhBMQ0MEkRuWY4Q8jRu5Ih2+A3ek4IR3q0yA5kJwgUbDieanGXjfxqzK1tn5QG5Mr1Ai5BGn0U++g2pKMNSCNwgdC9JF1bdc9BkcvEN0Thp7iuJSvouFD+R3EPy3lVFWnFXavpkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=1FFJS1Pf; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7cmjufO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756465475; x=1788001475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MN1Il3XT7U/RcSriz2Tk4rsIzr1Tdk5cc/+Xb6ZDhtM=;
-  b=f7cmjufOXQvJGQYrWL/REABmLDRk32TlTQOFS2CNKcEG7pSy7ONup59y
-   3zMYs8j8FK+QDtXTTcmP1fEEWt69i2GbVd0jJWezukDLiY8vlAePkSrqN
-   hR9Vv9lLvr8MNID670TwDqBE2ZfD4rCS4STVTG4THvzlJlgCF2CBf6eON
-   hKLPMkGPRLNMR3iLEh41xQr0IcW1v5ppjxcnr9k9DrJwDyqO6NWxwCcZ0
-   Xv9T6njYDNAKCq+elvM/zbrWG2tKkWy4O7eOcY13gIKsJaqxqrR4M+tCL
-   hwgy+n2/9qQh0faBcpBhvfUVvlzZKZmSgdgG7zkyZAsxd+AltS95ObFgl
-   g==;
-X-CSE-ConnectionGUID: GuI746b3QSm0JS3EltFQhg==
-X-CSE-MsgGUID: 1tx/a0c0TeedQnKTPZJlnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="57943829"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="57943829"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 04:04:35 -0700
-X-CSE-ConnectionGUID: wsY8eeOsTdabKwII9Rr7MA==
-X-CSE-MsgGUID: wmxIinv+ROSgUDAFQPOhmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="170739659"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Aug 2025 04:04:29 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1urwtz-000Udr-1z;
-	Fri, 29 Aug 2025 11:04:26 +0000
-Date: Fri, 29 Aug 2025 19:03:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Elder <elder@riscstar.com>, lee@kernel.org, lgirdwood@gmail.com,
-	broonie@kernel.org, alexandre.belloni@bootlin.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, mat.jonczyk@o2.pl, dlan@gentoo.org,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, linux.amoon@gmail.com, troymitchell988@gmail.com,
-	guodong@riscstar.com, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13 2/7] mfd: simple-mfd-i2c: add SpacemiT P1 support
-Message-ID: <202508291833.SY2MmoZx-lkp@intel.com>
-References: <20250825172057.163883-3-elder@riscstar.com>
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="1FFJS1Pf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=lA+5nGJAjx3gqbvnBYhwThLNYsg3mRmlH7d2M7OsnuU=; b=1FFJS1PfdPZZQdcKLsKEEWVmHZ
+	54RJs4WWFDq/LTvCqt6pH4QhBqVRab21hdi0IjsXT3aBh86QBoSFN19rxXGoNG7AYvYmfy5fHCQUu
+	j1mZ9vnPh5xt3vum3i1+omDI+o1yXGzDjlbiQY8Vf8qlwkmsHb+9y3/Akd65/eQQzZwQWFC9ROC0L
+	UNUv7F1MqrpwlB7SJJYF/+8yO61MtNURxV+G/LstplMBjKe+Qq16Xc9Bh8PnOtu15lKlmAubH6bxn
+	nU7DX0meNm6yo8xfeCouq1MWglvmiHXFSc0SKpyqhcoHWw74+BOq9J/wkvfsmX4FfSx4+yfDYGKAl
+	Ay+IM5N+htWxxX77z9hx31EPJQjB6oREjLRRC9kWLLcjM2JJvH+0mZu39/rICtNpjfwCvBcxLvA4y
+	RjTABoD5Xk+SQDIOzDpgS468lU8Lq36K7plpG6Jg8Zm0bZ0jTEgIYQ0QNky8BkVEREL3wdqO6urHL
+	UJ1fuMKorb8HDGfdj6y7m5r4;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1urxU7-001Q6C-1R;
+	Fri, 29 Aug 2025 11:41:35 +0000
+Message-ID: <c18ba6b4-847e-4470-bd0e-9e5232add730@samba.org>
+Date: Fri, 29 Aug 2025 13:41:34 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825172057.163883-3-elder@riscstar.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [cifs:for-next-next 28/146] fs/smb/client/smbdirect.c:1856:25:
+ warning: stack frame size (1272) exceeds limit (1024) in
+ 'smbd_get_connection'
+To: Steve French <smfrench@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+ Steve French <stfrench@microsoft.com>, kernel test robot <lkp@intel.com>
+References: <202508291432.M5gWPqJX-lkp@intel.com>
+Content-Language: en-US
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <202508291432.M5gWPqJX-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Alex,
+Hi Steve,
 
-kernel test robot noticed the following build warnings:
+this is strange, but the following should fix the problem:
 
-[auto build test WARNING on 6c68f4c0a147c025ae0b25fab688c7c47964a02f]
+--- a/fs/smb/common/smbdirect/smbdirect_socket.h
++++ b/fs/smb/common/smbdirect/smbdirect_socket.h
+@@ -259,9 +259,11 @@ struct smbdirect_socket {
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/dt-bindings-mfd-add-support-the-SpacemiT-P1-PMIC/20250826-012424
-base:   6c68f4c0a147c025ae0b25fab688c7c47964a02f
-patch link:    https://lore.kernel.org/r/20250825172057.163883-3-elder%40riscstar.com
-patch subject: [PATCH v13 2/7] mfd: simple-mfd-i2c: add SpacemiT P1 support
-config: x86_64-kismet-CONFIG_I2C_K1-CONFIG_MFD_SPACEMIT_P1-0-0 (https://download.01.org/0day-ci/archive/20250829/202508291833.SY2MmoZx-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250829/202508291833.SY2MmoZx-lkp@intel.com/reproduce)
+  static __always_inline void smbdirect_socket_init(struct smbdirect_socket *sc)
+  {
+-       *sc = (struct smbdirect_socket) {
+-               .status = SMBDIRECT_SOCKET_CREATED,
+-       };
++       /*
++        * This also sets status = SMBDIRECT_SOCKET_CREATED
++        */
++       BUILD_BUG_ON(SMBDIRECT_SOCKET_CREATED != 0);
++       memset(sc, 0, sizeof(*sc));
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508291833.SY2MmoZx-lkp@intel.com/
+         init_waitqueue_head(&sc->status_wait);
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for I2C_K1 when selected by MFD_SPACEMIT_P1
-   WARNING: unmet direct dependencies detected for I2C_K1
-     Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-     Selected by [y]:
-     - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+It needs to be squashed into this commit:
+f2e2769275f4aa6e4d5fa98004301e91282a094a smb: smbdirect: introduce smbdirect_socket_init()
+
+Can you do that?
+
+I'm not sure if the following should be added
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202508291432.M5gWPqJX-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202508291615.Mxyg9D9N-lkp@intel.com/
+
+Thanks!
+metze
+
+Am 29.08.25 um 09:06 schrieb kernel test robot:
+> tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next-next
+> head:   b79712ce1752aa38da9553b06767f68367b0d7ff
+> commit: 36d70a0c8405556dea3d4e9beef708d7ed3c2b07 [28/146] smb: client: make use of smbdirect_socket_init()
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250829/202508291432.M5gWPqJX-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291432.M5gWPqJX-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508291432.M5gWPqJX-lkp@intel.com/
+
+
+> All warnings (new ones prefixed by >>):
+> 
+>>> fs/smb/client/smbdirect.c:1856:25: warning: stack frame size (1272) exceeds limit (1024) in 'smbd_get_connection' [-Wframe-larger-than]
+>      1856 | struct smbd_connection *smbd_get_connection(
+>           |                         ^
+>     1 warning generated.
+
+> 
+> vim +/smbd_get_connection +1856 fs/smb/client/smbdirect.c
+> 
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1855
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17 @1856  struct smbd_connection *smbd_get_connection(
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1857  	struct TCP_Server_Info *server, struct sockaddr *dstaddr)
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1858  {
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1859  	struct smbd_connection *ret;
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1860  	int port = SMBD_PORT;
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1861
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1862  try_again:
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1863  	ret = _smbd_get_connection(server, dstaddr, port);
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1864
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1865  	/* Try SMB_PORT if SMBD_PORT doesn't work */
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1866  	if (!ret && port == SMBD_PORT) {
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1867  		port = SMB_PORT;
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1868  		goto try_again;
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1869  	}
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1870  	return ret;
+> 399f9539d951adf fs/cifs/smbdirect.c Long Li 2017-11-17  1871  }
+> f64b78fd1835d1d fs/cifs/smbdirect.c Long Li 2017-11-22  1872
+> 
+> :::::: The code at line 1856 was first introduced by commit
+> :::::: 399f9539d951adf26a1078e38c1b0f10cf6c3e71 CIFS: SMBD: Implement function to create a SMB Direct connection
+> 
+> :::::: TO: Long Li <longli@microsoft.com>
+> :::::: CC: Steve French <smfrench@gmail.com>
+> 
+
