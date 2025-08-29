@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B6729AB05;
-	Fri, 29 Aug 2025 09:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6622F3C0E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Aug 2025 09:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756458150; cv=none; b=IbAkCPBQQALhqgdiSkrEBeoNwQBABamL3pjXkIAUjU8TMK75WgYpaOkQKTFnH9h1de/sqPVfdqq9b9tO6Kwdui6s0tHXoNw98PumvoSTalQ9VgOOZRe0TSmkONXtqVvd0UNVvwkfzmx7HfddwsR0MnsUVynwMMgp+0YWOeR0KOE=
+	t=1756459116; cv=none; b=Dc7JIqxr4AOr4x1dv3V8HBMOG56D76RgUUx51M6PTCgtveXyRxIYMDO5q/QRRmdDj8hPh2w3z+m+Pzkn7OSGs5VKfQ1y2FO/B9H4uuA0Xmpx3sIH4pc6VYDIm910xzbEehA24Xf9bM9aPU8KnMJGwsjkIkod+fvE1mt+vtygcYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756458150; c=relaxed/simple;
-	bh=SQSLpphWMykoH8kPT+YLQiiyooXF3JILysK635wGNzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EBFy6UjIDtOsxPkO2hzQMmz+38lhJ/3oLLXuWTNFGIA5kDComHWIzQ9WvKFi0DKykTYVm3qgzECRYuAL6eLrsUZNnzCeTBlLCTocsz8em9KZTeKs4bzDdbnriq/UpYLJ3LuNVpP63Ts8tgNSE0elZEnHir9DFUdSEdfyjubL/SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8HUVDZe; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1756459116; c=relaxed/simple;
+	bh=NBlAl/fkZniarUxoV8DY/7IVwSEbyoIoJhWl8W7043o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OpA5aCQ18vKBPBTRckFalcWlB8I7Lp66oseF9WKgc4T1Vs+MYs2faSy8pJJaQ+qrs8KdaKS7eSP+i/QwwfgavuVitrCIgF8WoCMZlLsORg+FON9bVrO7kNcYINvMaWMckhe6W+JH/cZDwR9b1/GzxkAYTtOlYgzM0J58GJADQBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFBtV8z0; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8HUVDZe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFBtV8z0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756458149; x=1787994149;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SQSLpphWMykoH8kPT+YLQiiyooXF3JILysK635wGNzY=;
-  b=Q8HUVDZedqDzabILUTG2W3Lh5vTZnLsTIXs+7uQFUuRQiHkAbfyMLRtI
-   0l0sQsy/2ExZg80E44u04bBTyV+qfMYrPWiAtZNzZ7MnKnC1eH+tKXUfE
-   FzakZo8BL4tyYHj32hYVdQas9YNtY1cGKK8cmL37xjdhKknnQP8sbppwa
-   mpUJrELcDJ6gh0xaLGP4hqsnkB97OFTTtbBcIj/IeA6Dw6rF1d0N7e7GG
-   mx8sYW6gy17ajR0ioqt3LzqsLImbM+rQZ9TSlgpFBL55CHOSqsFtMpVZg
-   AAhEuS8o8qd5kecuWIQOAwzmdpZJ74Hx18ZMSGL8wX8jHQ+sliLeHozpU
-   A==;
-X-CSE-ConnectionGUID: 7g9pXrg4QfK+R2xptlEVSg==
-X-CSE-MsgGUID: Ty8QGnA+QZq1weXXQ0Os4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="76194205"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="76194205"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 02:02:28 -0700
-X-CSE-ConnectionGUID: zfWFgw45QrCRaPZffBQEBA==
-X-CSE-MsgGUID: WLxkSuu8S4KbhA37pGGcVg==
+  t=1756459115; x=1787995115;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NBlAl/fkZniarUxoV8DY/7IVwSEbyoIoJhWl8W7043o=;
+  b=cFBtV8z0O+qjR+OprRl3c29hcYq8gn0dYeVRw+4rSKnnS8oFETPRAWA0
+   M+/gn8fUrfxcSovd2XltKdBDX2oL1mMG9BybkgW4I3BVLI0Cpzo7ADzFY
+   /SleNcaQGTRv3YdJhLodREDa+RepLwQOOlPSjo7zGg04k9tmuXjIvLHZj
+   fEedFRv+p5ohuG9Kp4wA/VxumStq4A4VMPsw66uClnCLox1NLy5w6Q0mW
+   0PFe788h1g1/ztMtYaUTle9sQqeGTK28JLQ8eHaRQcQDqIu+9a6HpVcJt
+   1vBvhpjn4zTu/WrvMEXvQJp+zCwOFe0sPsxWU8Q8qkw4/v/9JO9aPkxFV
+   w==;
+X-CSE-ConnectionGUID: A1h3MkJFQDeRfWzrg0378A==
+X-CSE-MsgGUID: pq1Qz82sQQSNini8x2vR3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58684639"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58684639"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 02:18:34 -0700
+X-CSE-ConnectionGUID: 5WNrupYfRqyf4qHQhFjQGg==
+X-CSE-MsgGUID: KVYl1vhwQPG5QC7t1wwYzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="201275238"
+   d="scan'208";a="175623668"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 Aug 2025 02:02:26 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Aug 2025 02:18:30 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1urv03-000UaZ-0w;
-	Fri, 29 Aug 2025 09:02:23 +0000
-Date: Fri, 29 Aug 2025 17:01:55 +0800
+	id 1urvF5-000Ual-2t;
+	Fri, 29 Aug 2025 09:18:06 +0000
+Date: Fri, 29 Aug 2025 17:17:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [sre-misc:thinkpad-t14s-x1e 43/95]
- drivers/media/platform/qcom/camss/camss-csiphy.c:821:59: warning: variable
- 'ret' is uninitialized when used here
-Message-ID: <202508291618.jy0uNieL-lkp@intel.com>
+To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Huisong Li <lihuisong@huawei.com>
+Subject: Re: [PATCH net-next v25 1/1] mctp pcc: Implement MCTP over PCC
+ Transport
+Message-ID: <202508291628.CPVGma07-lkp@intel.com>
+References: <20250827044810.152775-2-admiyo@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,77 +71,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250827044810.152775-2-admiyo@os.amperecomputing.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git thinkpad-t14s-x1e
-head:   9dd4135e4233415f1082b5addd91211121dad8af
-commit: 3fa94f0306a4a32794678ae6022ae7b0fe768316 [43/95] media: qcom: camss: Add support for PHY API devices
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250829/202508291618.jy0uNieL-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291618.jy0uNieL-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Implement-MCTP-over-PCC-Transport/20250827-124953
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250827044810.152775-2-admiyo%40os.amperecomputing.com
+patch subject: [PATCH net-next v25 1/1] mctp pcc: Implement MCTP over PCC Transport
+config: i386-randconfig-015-20250829 (https://download.01.org/0day-ci/archive/20250829/202508291628.CPVGma07-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250829/202508291628.CPVGma07-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508291618.jy0uNieL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508291628.CPVGma07-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/qcom/camss/camss-csiphy.c:821:59: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     821 |                 dev_err(dev, "failed to get phy %s %d\n", csiphy->name, ret);
-         |                                                                         ^~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-csiphy.c:808:9: note: initialize the variable 'ret' to silence this warning
-     808 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   ld: drivers/net/mctp/mctp-pcc.o: in function `mctp_pcc_tx':
+>> drivers/net/mctp/mctp-pcc.c:153: undefined reference to `mbox_send_message'
 
 
-vim +/ret +821 drivers/media/platform/qcom/camss/camss-csiphy.c
+vim +153 drivers/net/mctp/mctp-pcc.c
 
-   794	
-   795	/*
-   796	 * msm_csiphy_subdev_init - Initialize CSIPHY device structure and resources
-   797	 * @csiphy: CSIPHY device
-   798	 * @res: CSIPHY module resources table
-   799	 * @id: CSIPHY module id
-   800	 *
-   801	 * Return 0 on success or a negative error code otherwise
-   802	 */
-   803	int msm_csiphy_subdev_init(struct camss *camss,
-   804				   struct csiphy_device *csiphy,
-   805				   const struct camss_subdev_resources *res, u8 id)
-   806	{
-   807		struct device *dev = camss->dev;
-   808		int ret;
-   809	
-   810		csiphy->camss = camss;
-   811		csiphy->id = id;
-   812		csiphy->cfg.combo_mode = 0;
-   813		csiphy->res = &res->csiphy;
-   814	
-   815		snprintf(csiphy->name, ARRAY_SIZE(csiphy->name), "csiphy%d",
-   816			 csiphy->id);
-   817	
-   818		csiphy->phy = devm_phy_get(dev, csiphy->name);
-   819	
-   820		if (IS_ERR(csiphy->phy)) {
- > 821			dev_err(dev, "failed to get phy %s %d\n", csiphy->name, ret);
-   822			return PTR_ERR(csiphy->phy);
-   823		}
-   824	
-   825		ret = phy_init(csiphy->phy);
-   826		if (ret)
-   827			dev_err(dev, "phy %s init fail %d\n", csiphy->name, ret);
-   828	
-   829		return ret;
-   830	}
-   831	
+   130	
+   131	static netdev_tx_t mctp_pcc_tx(struct sk_buff *skb, struct net_device *ndev)
+   132	{
+   133		struct mctp_pcc_ndev *mpnd = netdev_priv(ndev);
+   134		struct pcc_header *pcc_header;
+   135		int len = skb->len;
+   136		int rc;
+   137	
+   138		rc = skb_cow_head(skb, sizeof(*pcc_header));
+   139		if (rc) {
+   140			dev_dstats_tx_dropped(ndev);
+   141			kfree_skb(skb);
+   142			return NETDEV_TX_OK;
+   143		}
+   144	
+   145		pcc_header = skb_push(skb, sizeof(*pcc_header));
+   146		pcc_header->signature = PCC_SIGNATURE | mpnd->outbox.index;
+   147		pcc_header->flags = PCC_CMD_COMPLETION_NOTIFY;
+   148		memcpy(&pcc_header->command, MCTP_SIGNATURE, MCTP_SIGNATURE_LENGTH);
+   149		pcc_header->length = len + MCTP_SIGNATURE_LENGTH;
+   150	
+   151		skb_queue_head(&mpnd->outbox.packets, skb);
+   152	
+ > 153		rc = mbox_send_message(mpnd->outbox.chan->mchan, skb->data);
+   154	
+   155		if (rc < 0) {
+   156			skb_unlink(skb, &mpnd->outbox.packets);
+   157			return NETDEV_TX_BUSY;
+   158		}
+   159	
+   160		dev_dstats_tx_add(ndev, len);
+   161		return NETDEV_TX_OK;
+   162	}
+   163	
 
 -- 
 0-DAY CI Kernel Test Service
