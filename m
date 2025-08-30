@@ -1,93 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F5722A4F8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 19:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F012DD5F0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 19:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756581693; cv=none; b=iHTQfRUdFjVBDdMVZE0/swJywIn3+C+Q4xy2S5blCM7ugevwBQpTP1tBgpiaW1c4GUN9OzSDJZFfau8NPmSD8372SsOYQ1vZu1QD4Ol/r6RIJ1iLQXE1Ls1YVfKovBNnnscutoLvajXUMs5nlhMfbwjDnNfldXiRbhreU5CyPTc=
+	t=1756582341; cv=none; b=r6qirxAtCHxRt754qBLKDm2u2WEsWRiuj5/AfzH/0dzsq/D5W8EAgEICm/kr+xqeb71PXh85UkGJRUrl+384Ay25MkSsSIAnUr1I9ZaFO1CwyOYoPsNhwgBvliZFCFofVz3ciVI+k12rRBZODIp0lSKVDliGHv24+mamgH5xDfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756581693; c=relaxed/simple;
-	bh=Ht+lju3+ZVgAKN1Zuxa7/0pjbR28lJCao+xRMni+ojY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jWWQclWvyFpnbBdnPETI3txk91Uhb1MwBWV5proyYQbce3WKErQ9VlwhkyRcLFHUDhDXT3OQj0kKmrIyTvDB5COXYfTq9QIUgtjYviYQJjQq7WQcIYMBiMs5egZroy7XSlb48Ke84fzyhJIL47F5ZRu9cXCH6KHuK5a0bW5iyso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T00mTCxh; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756582341; c=relaxed/simple;
+	bh=A7kOwLXfXYTqy6VkkzPnhYvUhmrg8KJbNZ7bE1IEsE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E7aFKWwf9lKhJOP58ALP6Toq8TA+UFieCFmvs8NLG56oWDbw9tI4Kn1yBFFIFJNSDoFmpbPDkK5K3Zh3hX2NtU42/caa2CKR1pk4OxySudIVnQf29lZCJL47vPiue6oyqGFirlIYHUOnkKOdEbO8Gp6y/o6oQLDY75A9FogZhzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=KnI46vCB; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T00mTCxh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756581691; x=1788117691;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ht+lju3+ZVgAKN1Zuxa7/0pjbR28lJCao+xRMni+ojY=;
-  b=T00mTCxh8XBkqxMSeF6FC7I5/fcJ3dK9pVarJEPyWxoqivuKs6w2ggQd
-   STbUCYyqR/rX+fG05aQJqkF+ilFzcETjyRqMwk5A1z4qXwhVWHiJ6vXS3
-   teBj6Ko78Tv3jbeEWvOhfAa/MZu1p7A3rqa++Hy+/rhQ7eoHZkSJf5KRs
-   mWqAmOEg2ZQpqrzZT7TACTjBeqfh+GgHDS/Qu3xd4IpjCG1rINGb4Yo7+
-   iQbk20Thi7tujuZE4p7PqA4pUtsbXUELG0Y2TqQ0skHQOJQDh4RwtXLlY
-   yZseCfSk5oKDyz5Kx+utoryPjH/0/nZs10ri42heVR9EhfwVVO+FOPWvv
-   A==;
-X-CSE-ConnectionGUID: /9bm6t5dS3WjPGsV3nzFOw==
-X-CSE-MsgGUID: D9yUs7ehTWa+g+Z+AN+NLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="58984326"
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="58984326"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 12:21:30 -0700
-X-CSE-ConnectionGUID: TVl0Xm4iSkCieSbAqSMPUQ==
-X-CSE-MsgGUID: EvpL8UBFRAiVtaCE3syYzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="171010127"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Aug 2025 12:21:28 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1usR8H-000Vdn-1X;
-	Sat, 30 Aug 2025 19:21:08 +0000
-Date: Sun, 31 Aug 2025 03:20:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [sre-misc:thinkpad-t14s-x1e 19/19] kismet: WARNING: unmet direct
- dependencies detected for LEDS_CLASS when selected by
- EC_LENOVO_THINKPAD_T14S
-Message-ID: <202508310333.MNcfJabf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="KnI46vCB"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-248e3ef1641so19778825ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 12:32:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1756582339; x=1757187139; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XHChkfQMkbV7SjUtwakYhLoytq+CyhHZTNbhfb0dUvg=;
+        b=KnI46vCBKkN64PAyGCSzj1xgGjFbRrP2Khtj52SbNh1wBexjVza5zVuz7YDp8CMkj2
+         Jy2B8s3Iyh+l3Ds1uLxtI6md21cUgmkBfIFBM6+HJTB45a1JU4yyLP96KqxBhsnVuc3Q
+         5OUmtXT6MZ1mEmR8wTfbs7Qd0LkApPXXOLYOhQV9YJ49A6zFhyqCeKeXtUn4TX7n5hha
+         cO1xLWlJ0BFSKYX9ePySsE8QE2+AuyaIUpyZtW8khU3FNJZRj4/b9zpX1Nu1teugEVGb
+         iSHkcQy1biHgkqPMaOHNFJDDmG0J06TufjAK8AWX9jUUeMqFagJTthsZD9lOXNX55cAQ
+         Zsjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756582339; x=1757187139;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XHChkfQMkbV7SjUtwakYhLoytq+CyhHZTNbhfb0dUvg=;
+        b=bQB4OixoQUz6OYAXB/LULVF34KfwJQLLaRpvSzLmsRi5cwxw0qYalv0Qf6fTofBk4z
+         BciXY/TvjYKfUGWpiYwonxyKd+k/TRgqvo77EPkXiVndPW9KW69eNQBZxlq0jYYmXX2G
+         1L3GrrjSukSDbYBrS8sss0gjfVai0O54YbB6qiKpttpLfi5G2vsq5jj36jCv64rt6+ag
+         FHqtiapkBov3ZO3Lh15AAYCgpIZpTWoCInwb7ef+GbY9qZEcOWo7JSmeRUN2U6LzwiBQ
+         PxaLSgWElJnt/kM2/KOvS1ReZGp8oYmO7Vj0TfUjR44RiW1VSuktX9ZAyP5jFgnggIMU
+         Y4cg==
+X-Forwarded-Encrypted: i=1; AJvYcCWB5dEkuP/z7tTykXZMB8R8NYsUGbz29lGunwv0wfDLwQZISVIKghg3ju+uQJaRvtPajJbjmnuaHz9di5o5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNG/xkTLk8Ly8nWyxpW3Fp8DZhs6FFUipPtosT+zP2vFQWTzU9
+	LY1Nj1/Cx+bt8Cv053Ny7PqTMK593NkvKsWTViMSXmDOda6yR3gPFUoBKFR/zU3pGo8=
+X-Gm-Gg: ASbGnctqqz5IZ14Dkam0l2gW7ivTiizn9iZrjW6zshdIKFKRFffCK8/+6kfnLSan0Fn
+	TLIKk0kYuwZYiBWXcYsa642lCicuZWxA4Ba5EGoZ4ICoOLgFbpEBzITpYrrBLbX6EwfV+e53tSO
+	FaZLLZSfhQ4kg/alAFi5aMlJbmaDOjomevQzBb0ESILee0PDSRo/zStgJXoIK32AH93Cz7WpVwj
+	DsJaS2Hul3zTzKgkTyDy+PT6Sii8wobyghjqBTLSFBVC2vmJkLsObM8lPdPkMwRuWAYWbbfxEgU
+	ZbxP9Uj/qpQbw1/Inx/UYqzwm1oJ5xPm4GiwJ4a4fgg5jyHN5KepiQ+7KS76SnBb1wUqrJrTZlH
+	qkEG74khuG3BW+po8zYAfyu5PsF3QEwAN3BA=
+X-Google-Smtp-Source: AGHT+IH+3miFeIR6tQUL0wfehVSxT31HOSJPjvKC8CX71Xx5VWWJuBvRY0vS/CA50IGWE4dB1x1ywg==
+X-Received: by 2002:a17:902:ebc9:b0:246:b15f:8d9d with SMTP id d9443c01a7336-24944a1ca58mr35922805ad.14.1756582338796;
+        Sat, 30 Aug 2025 12:32:18 -0700 (PDT)
+Received: from mozart.vkv.me ([192.184.167.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24903702396sm59584335ad.14.2025.08.30.12.32.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Aug 2025 12:32:18 -0700 (PDT)
+Date: Sat, 30 Aug 2025 12:32:15 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] Bluetooth: btmtksdio: Fix build after header cleanup
+Message-ID: <aLNRvzXE4O9dKZoN@mozart.vkv.me>
+References: <202508300413.OnIedvRh-lkp@intel.com>
+ <b78a4255d17adbb74140aa23f89cb7653af96c75.1756513671.git.calvin@wbinvd.org>
+ <84fd4012-966b-4983-b015-ffce06509b5e@molgen.mpg.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <84fd4012-966b-4983-b015-ffce06509b5e@molgen.mpg.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git thinkpad-t14s-x1e
-head:   0e21f1dbce44bad4bb05c2541344ff3fb9643230
-commit: 0e21f1dbce44bad4bb05c2541344ff3fb9643230 [19/19] arm64: dts: qcom: x1e80100-t14s: add EC
-config: arc-kismet-CONFIG_LEDS_CLASS-CONFIG_EC_LENOVO_THINKPAD_T14S-0-0 (https://download.01.org/0day-ci/archive/20250831/202508310333.MNcfJabf-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250831/202508310333.MNcfJabf-lkp@intel.com/reproduce)
+On Saturday 08/30 at 07:11 +0200, Paul Menzel wrote:
+> Dear Calvin,
+> 
+> 
+> Thank you for your patch, and addressing the regression right away.
+> 
+> Am 30.08.25 um 02:50 schrieb Calvin Owens:
+> > Syzbot found a randconfig which fails after my recent patch:
+> > 
+> >      drivers/bluetooth/btmtksdio.c:442:33: error: array type has incomplete element type ‘struct h4_recv_pkt’
+> >        442 | static const struct h4_recv_pkt mtk_recv_pkts[] = {
+> >            |                                 ^~~~~~~~~~~~~
+> >      drivers/bluetooth/btmtksdio.c:443:11: error: ‘H4_RECV_ACL’ undeclared here (not in a function)
+> >        443 |         { H4_RECV_ACL,      .recv = btmtksdio_recv_acl },
+> >            |           ^~~~~~~~~~~
+> >      drivers/bluetooth/btmtksdio.c:444:11: error: ‘H4_RECV_SCO’ undeclared here (not in a function)
+> >        444 |         { H4_RECV_SCO,      .recv = hci_recv_frame },
+> >            |           ^~~~~~~~~~~
+> >      drivers/bluetooth/btmtksdio.c:445:11: error: ‘H4_RECV_EVENT’ undeclared here (not in a function)
+> >        445 |         { H4_RECV_EVENT,    .recv = btmtksdio_recv_event },
+> > 
+> > ...because we can have BT_MTKSDIO=y with BT_HCIUART_H4=n, and the
+> > definitions used here are gated on BT_HCIUART_H4 in hci_uart.h.
+> 
+> The drivers below seem to be affected:
+> 
+>     drivers/bluetooth/bpa10x.c:     { H4_RECV_EVENT,   .recv =
+> hci_recv_frame },
+>     drivers/bluetooth/btmtksdio.c:  { H4_RECV_EVENT,    .recv =
+> btmtksdio_recv_event },
+>     drivers/bluetooth/btmtkuart.c:  { H4_RECV_EVENT,    .recv =
+> btmtkuart_recv_event },
+>     drivers/bluetooth/btnxpuart.c:  { H4_RECV_EVENT,        .recv =
+> hci_recv_frame },
+>
+> > I think the simplest way to fix this is to remove the gate on the
+> > definitions in hci_uart.h. Since the constants are macros, there's no
+> > runtime cost to doing so, and nothing seems to rely on their absence in
+> > the BT_HCIUART_H4=n case.
+> 
+> Looking at the implementation, it looks like they only work with the H4
+> protocol? So maybe, that should be denoted in the Kconfig files?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508310333.MNcfJabf-lkp@intel.com/
+Thanks for looking Paul.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_CLASS when selected by EC_LENOVO_THINKPAD_T14S
-   WARNING: unmet direct dependencies detected for SND_CTL_LED
-     Depends on [n]: SOUND [=n] && SND [=n]
-     Selected by [y]:
-     - EC_LENOVO_THINKPAD_T14S [=y] && ARM64_PLATFORM_DEVICES [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && I2C [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_CLASS
-     Depends on [n]: NEW_LEDS [=n]
-     Selected by [y]:
-     - EC_LENOVO_THINKPAD_T14S [=y] && ARM64_PLATFORM_DEVICES [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && I2C [=y]
+Yes, my fix will cause a link error with other randconfigs, which my
+'make randconfig drivers/bluetooth/' test loop missed after I made the
+function prototype always defined, whoops.
 
+We do need the dependencies here, as you note. The btmtksdio case syzbot
+found is the odd one out because it only uses the constants, and doesn't
+call h4_recv_buf().
+
+Hopefully this gets it all:
+
+-----8<-----
+From: Calvin Owens <calvin@wbinvd.org>
+Subject: [PATCH v2] Bluetooth: Fix build after header cleanup
+
+Some Kconfig dependencies are needed after my recent cleanup, since
+the core code has its own option.
+
+Since btmtksdio does not actually call h4_recv_buf(), move the
+definitions it uses outside the BT_HCIUART_H4 gate in hci_uart.h to
+avoid adding a dependency for btmtksdio.
+
+The rest I touched (bpa10x, btmtkuart, and btnxpuart) do really call
+h4_recv_buf(), so the dependency is required, add it for them.
+
+Fixes: 74bcec450eea ("Bluetooth: remove duplicate h4_recv_buf() in header")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202508300413.OnIedvRh-lkp@intel.com/
+Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+---
+ drivers/bluetooth/Kconfig    | 6 ++++++
+ drivers/bluetooth/hci_uart.h | 8 ++++----
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/bluetooth/Kconfig b/drivers/bluetooth/Kconfig
+index 4ab32abf0f48..7df69ccb6600 100644
+--- a/drivers/bluetooth/Kconfig
++++ b/drivers/bluetooth/Kconfig
+@@ -312,7 +312,9 @@ config BT_HCIBCM4377
+ 
+ config BT_HCIBPA10X
+ 	tristate "HCI BPA10x USB driver"
++	depends on BT_HCIUART
+ 	depends on USB
++	select BT_HCIUART_H4
+ 	help
+ 	  Bluetooth HCI BPA10x USB driver.
+ 	  This driver provides support for the Digianswer BPA 100/105 Bluetooth
+@@ -437,8 +439,10 @@ config BT_MTKSDIO
+ 
+ config BT_MTKUART
+ 	tristate "MediaTek HCI UART driver"
++	depends on BT_HCIUART
+ 	depends on SERIAL_DEV_BUS
+ 	depends on USB || !BT_HCIBTUSB_MTK
++	select BT_HCIUART_H4
+ 	select BT_MTK
+ 	help
+ 	  MediaTek Bluetooth HCI UART driver.
+@@ -483,7 +487,9 @@ config BT_VIRTIO
+ 
+ config BT_NXPUART
+ 	tristate "NXP protocol support"
++	depends on BT_HCIUART
+ 	depends on SERIAL_DEV_BUS
++	select BT_HCIUART_H4
+ 	select CRC32
+ 	select CRC8
+ 	help
+diff --git a/drivers/bluetooth/hci_uart.h b/drivers/bluetooth/hci_uart.h
+index 5ea5dd80e297..cbbe79b241ce 100644
+--- a/drivers/bluetooth/hci_uart.h
++++ b/drivers/bluetooth/hci_uart.h
+@@ -121,10 +121,6 @@ void hci_uart_set_flow_control(struct hci_uart *hu, bool enable);
+ void hci_uart_set_speeds(struct hci_uart *hu, unsigned int init_speed,
+ 			 unsigned int oper_speed);
+ 
+-#ifdef CONFIG_BT_HCIUART_H4
+-int h4_init(void);
+-int h4_deinit(void);
+-
+ struct h4_recv_pkt {
+ 	u8  type;	/* Packet type */
+ 	u8  hlen;	/* Header length */
+@@ -162,6 +158,10 @@ struct h4_recv_pkt {
+ 	.lsize = 2, \
+ 	.maxlen = HCI_MAX_FRAME_SIZE \
+ 
++#ifdef CONFIG_BT_HCIUART_H4
++int h4_init(void);
++int h4_deinit(void);
++
+ struct sk_buff *h4_recv_buf(struct hci_dev *hdev, struct sk_buff *skb,
+ 			    const unsigned char *buffer, int count,
+ 			    const struct h4_recv_pkt *pkts, int pkts_count);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.2
+
