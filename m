@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A735A21ABBB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 00:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153D530CDA5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 02:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756515338; cv=none; b=PAPd187D72O3Hhh3t2jnIQ1P4Mkz3/oayfRXbqW9RbhFSzDd64YGGPJCHvNnuyWMyaojoJ3A6RTB9KdN1GJbPJiKjiNUctBmYlwurNxvtbxBrOHt8unNnKfqSahEJnupsYb4SF9dj5RlELTzIb8JaK0cuj9kU4u7QjjXjLXTm5A=
+	t=1756520285; cv=none; b=u+v4Q3w1bM0Jv2zbq5phRope+w/cdCEElY2y2US7cc4pFUn/DBxsSMD2WZXLiaQMV62l/+OJE5wK0VnTRCSRtxJXsrIYT7YJ78gm8LExem9Nk5/oP9DMHLUjGBrtGPTkF5yVTbOR/zlkCADB7XRpuca6vwFsz0P6NrzlWPoysnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756515338; c=relaxed/simple;
-	bh=3cXPLvc0eRnag8MvjjaPsBwTWB6C31b46T8IqAhUCpk=;
+	s=arc-20240116; t=1756520285; c=relaxed/simple;
+	bh=GM2m4MWKlT81+VAOB8dEJ4NGwMhn5A/4kzypXMPTXN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=da9vFl57dpw47TbStpI29NhPSAhjfPSdop2t1dB39xpGu8m/DIEt05qqSUUmwc31qt0h4240FD+Dm446WGrep4/fWh4IkXNfCOtO3GmrKj0G/Rh4uUE9IehIoUHHO2/ql0P25bEqqQE4ueH9RHiBgCdtWFexLDiuLULJavoREbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGlaXiux; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=bCb7XtMsMmQ8o1/Y9Rhw/rJwHoIe4arBLU7fjIvPEaOEGnkFynojYwjvMbGuuNEV0xOKG3nm3NV2THhg7TXeW8lKhkNdMvHrt/7lF0Ke31VDfGP1VtcIoVJF1xZRCcJ+scjHYnl7OCCIO1oXg41zEk1YVpoYKWfQsPGiaixB4LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mohcx18F; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGlaXiux"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mohcx18F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756515336; x=1788051336;
+  t=1756520285; x=1788056285;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3cXPLvc0eRnag8MvjjaPsBwTWB6C31b46T8IqAhUCpk=;
-  b=WGlaXiuxRjownSrj1653Go1Kgn04FSG3BgxelLItlrf/CsjUVnZ7BzLq
-   dn9gu0v7eOwfd79DjretkqNjU4W2d8oFdxmqjU9joroMQoWuS0V+Ad4zJ
-   S725r9w0uWNWgsd4KMD8xtfi8hxNt8hTuRNO7p3jRs8z2oqOADgtKpP6a
-   9eMGPfgTUGUMrvE61KDPltRizLSrGDUBWp8wyCqJL02oxWlFO7t5z8D+9
-   qUZvGGrlWD5OywpZ+WFhD8kheyKA0N9F8UyaicqM0r7JY7n7UQ1eltneJ
-   qHzHxxVfW8gnvnI8Y52rUuPYG4DopLfYxbIOQtQB5vfKw2PyA6aTSBZ7s
-   A==;
-X-CSE-ConnectionGUID: n3ro9taNRmaID6XSgcEUkw==
-X-CSE-MsgGUID: jSz9JnFPSXigEEl6InnA3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="58515441"
+  bh=GM2m4MWKlT81+VAOB8dEJ4NGwMhn5A/4kzypXMPTXN4=;
+  b=mohcx18FKBGnos4+kw0lVNztumo6NgVjr3LZRafKEXj5HxBwYLAOEvNe
+   6wGsT4h/jfeG6SmoGcaf24Va2xKdFggD83papHCl6Wqg2qqX6KPra8c2a
+   oktR6UFjDx9JwENnbMSuZrwe2sWiNrkUNPK2wwe+DtH27Sa/JabcAGX6H
+   CqEhHOcEjjnXIzkMzynh0f0C72cuI3ZarmRlulBUcCKK79KiTGi4VGRBQ
+   Gnztt7+YL/lp+hB/+T9NPwYftmpopsjHgrcTMagITCGy6O1KXlsG5dXQm
+   Ef+WwtbgUzqGSJt/tqOzBMjy6lE3b86GJO7OxRIm8/83Wt8P34B+2bOKr
+   g==;
+X-CSE-ConnectionGUID: n+TWHuodQ4+q8U9NjPfy6Q==
+X-CSE-MsgGUID: bjaRI88JSjiDdsy8LfuYFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="70241071"
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="58515441"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 17:55:36 -0700
-X-CSE-ConnectionGUID: VnTE/QKiTPqHqm1mreM+9A==
-X-CSE-MsgGUID: Se3CU3L7S/uAgHT3UWLRSA==
+   d="scan'208";a="70241071"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 19:18:02 -0700
+X-CSE-ConnectionGUID: 8l1jZ9kuRbSaYx7VhiILeA==
+X-CSE-MsgGUID: OmG+18i/Qm2m3HaqmmkNTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="201442141"
+   d="scan'208";a="194180601"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 Aug 2025 17:55:34 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Aug 2025 19:18:00 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1us9sJ-000V5n-1Z;
-	Sat, 30 Aug 2025 00:55:26 +0000
-Date: Sat, 30 Aug 2025 08:54:57 +0800
+	id 1usBA9-000V7H-2x;
+	Sat, 30 Aug 2025 02:17:55 +0000
+Date: Sat, 30 Aug 2025 10:17:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- LEDS_EXPRESSWIRE when selected by BACKLIGHT_KTD2801
-Message-ID: <202508300808.CQS9RqHF-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.17-rc2 32/89]
+ drivers/resctrl/test_mpam_devices.c:16:32: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202508301008.ESW1SyHj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,24 +63,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   11e7861d680c3757eab18ec0a474ff680e007dc4
-commit: a5554f1b5bc3be5d01f41b7550aa5b05b7c88c09 backlight: Add Kinetic KTD2801 Backlight support
-date:   1 year, 6 months ago
-config: x86_64-kismet-CONFIG_LEDS_EXPRESSWIRE-CONFIG_BACKLIGHT_KTD2801-0-0 (https://download.01.org/0day-ci/archive/20250830/202508300808.CQS9RqHF-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250830/202508300808.CQS9RqHF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.17-rc2
+head:   c0646bf01fb5098c7d6cbc44af567a8bb2ca82d6
+commit: e93b6dbf010687fc7a6737cdca59788d3e3cf3c3 [32/89] arm_mpam: Add kunit test for bitmap reset
+config: arm64-randconfig-r132-20250829 (https://download.01.org/0day-ci/archive/20250830/202508301008.ESW1SyHj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce: (https://download.01.org/0day-ci/archive/20250830/202508301008.ESW1SyHj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508300808.CQS9RqHF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508301008.ESW1SyHj-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE when selected by BACKLIGHT_KTD2801
-   WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-     Depends on [n]: NEW_LEDS [=n] && GPIOLIB [=n]
-     Selected by [y]:
-     - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+sparse warnings: (new ones prefixed by >>)
+   drivers/resctrl/mpam_devices.c: note: in included file:
+>> drivers/resctrl/test_mpam_devices.c:16:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mapped_hwpage @@     got char *buf @@
+   drivers/resctrl/test_mpam_devices.c:16:32: sparse:     expected void [noderef] __iomem *mapped_hwpage
+   drivers/resctrl/test_mpam_devices.c:16:32: sparse:     got char *buf
+   drivers/resctrl/mpam_devices.c:744:34: sparse: sparse: context imbalance in '_mpam_ris_hw_probe_hw_nrdy' - different lock contexts for basic block
+   drivers/resctrl/mpam_devices.c:1245:34: sparse: sparse: context imbalance in '__ris_msmon_read' - different lock contexts for basic block
+   drivers/resctrl/mpam_devices.c:1346:17: sparse: sparse: context imbalance in 'mpam_msmon_reset_mbwu' - different lock contexts for basic block
+   drivers/resctrl/mpam_devices.c:1532:51: sparse: sparse: context imbalance in 'mpam_save_mbwu_state' - different lock contexts for basic block
+   drivers/resctrl/mpam_devices.c:1648:9: sparse: sparse: context imbalance in 'mpam_reprogram_msc' - wrong count at exit
+   drivers/resctrl/mpam_devices.c:2457:12: sparse: sparse: context imbalance in 'mpam_register_irqs' - wrong count at exit
+   drivers/resctrl/mpam_devices.c:2551:40: sparse: sparse: context imbalance in '__destroy_component_cfg' - different lock contexts for basic block
+   drivers/resctrl/mpam_devices.c:2580:17: sparse: sparse: context imbalance in '__allocate_component_cfg' - different lock contexts for basic block
+
+vim +16 drivers/resctrl/test_mpam_devices.c
+
+     6	
+     7	static void test_mpam_reset_msc_bitmap(struct kunit *test)
+     8	{
+     9		char *buf = kunit_kzalloc(test, SZ_16K, GFP_KERNEL);
+    10		struct mpam_msc fake_msc;
+    11		u32 *test_result;
+    12	
+    13		if (!buf)
+    14			return;
+    15	
+  > 16		fake_msc.mapped_hwpage = buf;
+    17		fake_msc.mapped_hwpage_sz = SZ_16K;
+    18		cpumask_copy(&fake_msc.accessibility, cpu_possible_mask);
+    19	
+    20		mutex_init(&fake_msc.part_sel_lock);
+    21		mutex_lock(&fake_msc.part_sel_lock);
+    22	
+    23		test_result = (u32 *)(buf + MPAMCFG_CPBM);
+    24	
+    25		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 0);
+    26		KUNIT_EXPECT_EQ(test, test_result[0], 0);
+    27		KUNIT_EXPECT_EQ(test, test_result[1], 0);
+    28		test_result[0] = 0;
+    29		test_result[1] = 0;
+    30	
+    31		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 1);
+    32		KUNIT_EXPECT_EQ(test, test_result[0], 1);
+    33		KUNIT_EXPECT_EQ(test, test_result[1], 0);
+    34		test_result[0] = 0;
+    35		test_result[1] = 0;
+    36	
+    37		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 16);
+    38		KUNIT_EXPECT_EQ(test, test_result[0], 0xffff);
+    39		KUNIT_EXPECT_EQ(test, test_result[1], 0);
+    40		test_result[0] = 0;
+    41		test_result[1] = 0;
+    42	
+    43		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 32);
+    44		KUNIT_EXPECT_EQ(test, test_result[0], 0xffffffff);
+    45		KUNIT_EXPECT_EQ(test, test_result[1], 0);
+    46		test_result[0] = 0;
+    47		test_result[1] = 0;
+    48	
+    49		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 33);
+    50		KUNIT_EXPECT_EQ(test, test_result[0], 0xffffffff);
+    51		KUNIT_EXPECT_EQ(test, test_result[1], 1);
+    52		test_result[0] = 0;
+    53		test_result[1] = 0;
+    54	
+    55		mutex_unlock(&fake_msc.part_sel_lock);
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
