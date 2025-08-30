@@ -1,70 +1,171 @@
-Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA19E19D8A7;
-	Sat, 30 Aug 2025 13:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D064E1632DD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 14:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756558909; cv=none; b=ef7C1O6LIlN67uRj+bPx5ceoLOi+UZRzLwOVQ3KsCVtadw/zpZJnR6vMGTSYXvtMLv5iypYa4OKjiAqgUqcHuVLELa9jmFQVZI8LaQem1bewmZXmTsZO90r3XR/0uG40EKcjwWED5FJRs7gGadgPPciAHbzkF7tRbKtmHCrHkUo=
+	t=1756563881; cv=none; b=L6AEhvFIENzSdQIyCl9LBRwLYkgIgCAnVL3K628hCui95urJbFXKFPHRECfect0vhjDTGlPED/AQnxY5q34faKSf6Rfug4I4wADaJT+NWE9XcrD18avgCdS6YH4AVPY/Pc+mawQDRXmAC1Ip7sE2dnZqZsLRzRkUoQT1tSVoZ+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756558909; c=relaxed/simple;
-	bh=1xN84HVnh5TKVt5zCoR4FPrED9BI3DwgO0JPtFWLZwA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nf0vxPv91q7mCEi767TWHb0SRzP2EtZjFtOH9gSXujQbtP4hgmdYNWLuVV+x9opJiUv0UCQnLy4htRkTaSFVbbw1TQCHSpEdKfMWZh1++TP5ZJvStuD6nulJwq4CH2Q08rQcTgWxw5cSnofv4trhHpN1thAt6gIlVPylqtELBpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=HnPkC1En; arc=none smtp.client-ip=144.76.82.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+	s=arc-20240116; t=1756563881; c=relaxed/simple;
+	bh=K6dZbx4+ofZIx9iuL/rctfJk+4LDerKxr00uHK0N5kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xkhz6P5PXitlkZ8VbtaV3MC/7awdebLzg5X46B5xUd7OloG8IMUWmT+vEoBdqt2RiTwlxnUNEguJAWj4meieXERxo4RkqBBoX9CTlQ0I7OIp8q/TSZ0sJtBlTJXQ9B1U6q7zx/62rt8PYea7GennhPIEvbmTJmWXeyjD8uBG898=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzlWUI0q; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="HnPkC1En"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=From:Cc:To:Date:Message-ID;
-	bh=w2r31b6ZTZZA1hM3FAitQ+11WoJRiWHiNo6ir0lqUzA=; b=HnPkC1EnBTCOFeXQmdM1hhfEjz
-	sfgcLJsHV+N7VkeNXAamtlMVl2IptrEfifO9VfB7+NbKaqSzeCTaya6mUpcem5SDGSIXE4TL0CAt4
-	kHxFad++mEPoWLOrWw5zuQb6Wtn1BRWpgK//EdHcKpoE/uFGlu1TubYJQZKaMLIyvJH/k0d5ax5DX
-	AMViecKVJEOOX78kKJswdHOYI0qhZeHIXZ0p9f4gsd94JQKYoEQJr+PBIGjkeMsSS3Y2DpexL79G5
-	uWAIhEnAhqKwhJygVjB9MOav9OHQamvbiC4SB1v6KOWrhwHii3F7G0F5VSDq2w4sJ8UIqF6ltgVRP
-	eOQujMZVit7wUi3NqOYtm3ryZgKtSu2wfhHbZOM5kvLx6X5k4XL9StUJjUSwjYGXltItuEyAsZcqk
-	D+fxZoeyjbj24Yw4/26Al87zgPsxsS4YZR5zoD99YZ/VtgJgu2D0GSLPWwmbFnyp/A0LY7i0ClCS2
-	8GP02QdtkuMJ+7DFdp1SaCTW;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1usLD9-001acg-1v;
-	Sat, 30 Aug 2025 13:01:39 +0000
-Message-ID: <6197b8f3-7f44-42a8-a2f5-061888898865@samba.org>
-Date: Sat, 30 Aug 2025 15:01:38 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzlWUI0q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756563878; x=1788099878;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K6dZbx4+ofZIx9iuL/rctfJk+4LDerKxr00uHK0N5kg=;
+  b=mzlWUI0qRH3yfwL38ja/+5jFHQogdOvhTT1VAiZJNRuVcwYopJtrdRwD
+   CNWAqedfkSVPzGUTk6QQcUTIbrzg0vSRN4tIHrdsHx/ze/Z4uUzEIzlAg
+   DMXuf9FARwr+kwAw6Ay9JCHz/kxJ7+k9RI576u+3uopH3RN1jDq8QsWhQ
+   ARTTTBJIuExKIHYArVuC0xCMJATvgM69s4dcSqalGfVTaE0yV76AXgGCo
+   dcei7Ik/T/dR1xDhzFkV7gP7wtFHRiWn4QD1oAN9kDePV1IIlOaWLEtiY
+   oyCCq6D2OjeZgko1WYioB9/999IvbwBWaRi97/5ZHatnU25DVQvL7UznO
+   g==;
+X-CSE-ConnectionGUID: nYMgxx6PQCO6qTmlbL1JNg==
+X-CSE-MsgGUID: H0DIsd4/S5alCcfGTDJ4gQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="69423213"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="69423213"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 07:24:38 -0700
+X-CSE-ConnectionGUID: ZkSAhwS6R0GgMSWl8mGGvA==
+X-CSE-MsgGUID: Dj+1V5mQRtWKPJ+97549Zw==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 30 Aug 2025 07:24:37 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1usMVO-000VQp-2M;
+	Sat, 30 Aug 2025 14:24:34 +0000
+Date: Sat, 30 Aug 2025 22:23:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sun YangKai <sunk67188@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: [btrfs:pr/1157 47/47] fs/btrfs/scrub.c:615:24: error: 'return' with
+ a value, in function returning void
+Message-ID: <202508302225.ainSyiW3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [cifs:for-next-next 28/146] fs/smb/client/smbdirect.c:1856:25:
- warning: stack frame size (1272) exceeds limit (1024) in
- 'smbd_get_connection'
-To: Steve French <smfrench@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
- Steve French <stfrench@microsoft.com>, kernel test robot <lkp@intel.com>,
- Meetakshi Setiya <meetakshisetiyaoss@gmail.com>
-References: <202508291432.M5gWPqJX-lkp@intel.com>
- <c18ba6b4-847e-4470-bd0e-9e5232add730@samba.org>
- <CAH2r5mvksbiH-D4FbVb0PVg1vnik+WU7d0kxRUk0S9h9S+=zvw@mail.gmail.com>
- <2854f742-a0bc-4456-a372-9fa2d4e2ee3f@samba.org>
- <CAH2r5muGufmSdjxqTv9wcpbZoMsoEq=1ufFo_Yty352uDf+3-w@mail.gmail.com>
-Content-Language: en-US
-From: Stefan Metzmacher <metze@samba.org>
-In-Reply-To: <CAH2r5muGufmSdjxqTv9wcpbZoMsoEq=1ufFo_Yty352uDf+3-w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am 30.08.25 um 00:31 schrieb Steve French:
-> updated " smb: smbdirect: introduce smbdirect_socket_init()" patch attached
-> 
-> Also updated cifs-2.6.git for-next-next
+tree:   https://github.com/btrfs/linux.git pr/1157
+head:   2d6338c6972523b39e105aab0adf90ce3ce9ea15
+commit: 2d6338c6972523b39e105aab0adf90ce3ce9ea15 [47/47] btrfs: more trivial BTRFS_PATH_AUTO_FREE conversions
+config: powerpc-randconfig-001-20250830 (https://download.01.org/0day-ci/archive/20250830/202508302225.ainSyiW3-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508302225.ainSyiW3-lkp@intel.com/reproduce)
 
-Thanks! Looks good now.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508302225.ainSyiW3-lkp@intel.com/
 
-metze
+All errors (new ones prefixed by >>):
 
+   fs/btrfs/scrub.c: In function 'scrub_print_common_warning':
+>> fs/btrfs/scrub.c:615:24: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+     615 |                 return ret;
+         |                        ^~~
+   fs/btrfs/scrub.c:584:13: note: declared here
+     584 | static void scrub_print_common_warning(const char *errstr, struct btrfs_device *dev,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/return +615 fs/btrfs/scrub.c
+
+   583	
+   584	static void scrub_print_common_warning(const char *errstr, struct btrfs_device *dev,
+   585					       bool is_super, u64 logical, u64 physical)
+   586	{
+   587		struct btrfs_fs_info *fs_info = dev->fs_info;
+   588		BTRFS_PATH_AUTO_FREE(path);
+   589		struct btrfs_key found_key;
+   590		struct extent_buffer *eb;
+   591		struct btrfs_extent_item *ei;
+   592		struct scrub_warning swarn;
+   593		u64 flags = 0;
+   594		u32 item_size;
+   595		int ret;
+   596	
+   597		/* Super block error, no need to search extent tree. */
+   598		if (is_super) {
+   599			btrfs_warn(fs_info, "scrub: %s on device %s, physical %llu",
+   600					  errstr, btrfs_dev_name(dev), physical);
+   601			return;
+   602		}
+   603		path = btrfs_alloc_path();
+   604		if (!path)
+   605			return;
+   606	
+   607		swarn.physical = physical;
+   608		swarn.logical = logical;
+   609		swarn.errstr = errstr;
+   610		swarn.dev = NULL;
+   611	
+   612		ret = extent_from_logical(fs_info, swarn.logical, path, &found_key,
+   613					  &flags);
+   614		if (ret < 0)
+ > 615			return ret;
+   616	
+   617		swarn.extent_item_size = found_key.offset;
+   618	
+   619		eb = path->nodes[0];
+   620		ei = btrfs_item_ptr(eb, path->slots[0], struct btrfs_extent_item);
+   621		item_size = btrfs_item_size(eb, path->slots[0]);
+   622	
+   623		if (flags & BTRFS_EXTENT_FLAG_TREE_BLOCK) {
+   624			unsigned long ptr = 0;
+   625			u8 ref_level;
+   626			u64 ref_root;
+   627	
+   628			while (true) {
+   629				ret = tree_backref_for_extent(&ptr, eb, &found_key, ei,
+   630							      item_size, &ref_root,
+   631							      &ref_level);
+   632				if (ret < 0) {
+   633					btrfs_warn(fs_info,
+   634			   "scrub: failed to resolve tree backref for logical %llu: %d",
+   635						   swarn.logical, ret);
+   636					break;
+   637				}
+   638				if (ret > 0)
+   639					break;
+   640				btrfs_warn(fs_info,
+   641	"scrub: %s at logical %llu on dev %s, physical %llu: metadata %s (level %d) in tree %llu",
+   642					errstr, swarn.logical, btrfs_dev_name(dev),
+   643					swarn.physical, (ref_level ? "node" : "leaf"),
+   644					ref_level, ref_root);
+   645			}
+   646			btrfs_release_path(path);
+   647		} else {
+   648			struct btrfs_backref_walk_ctx ctx = { 0 };
+   649	
+   650			btrfs_release_path(path);
+   651	
+   652			ctx.bytenr = found_key.objectid;
+   653			ctx.extent_item_pos = swarn.logical - found_key.objectid;
+   654			ctx.fs_info = fs_info;
+   655	
+   656			swarn.path = path;
+   657			swarn.dev = dev;
+   658	
+   659			iterate_extent_inodes(&ctx, true, scrub_print_warning_inode, &swarn);
+   660		}
+   661	}
+   662	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
