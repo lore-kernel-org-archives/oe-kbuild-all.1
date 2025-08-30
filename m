@@ -1,113 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E10BD528
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 04:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C2B2773FD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 05:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756529017; cv=none; b=l3hUV7s/Z2gA54NUmfv3v4X6jSvGsAMTM55lOC4apk307f9CSOArPeFDYPWphFQJZcarqf1gmz+QQzU09pwX4TaDUuhoz29CXhleQNzo+qAxjuG7gPNA+x7GyOJbnlh7FZeMyQelwWxuiyZAPZL/KePYaXGkIBQh5Ntq/XgpvNU=
+	t=1756530698; cv=none; b=KoSMvWEthvS8IC5RHS0A/C7siflltN0KxS9g9fnOH7pTibuv7TZ4r2Ur9bwNLLRorXtsw3iPiceZxxKTH7g6kejOW0ysvNqB5zC2I2lfb92xvsLfIY9D5lmYE60gy/DxoGywZdJeeHSr5D6IrkMZXPg+QN3PaVEeKeBBmY4RrMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756529017; c=relaxed/simple;
-	bh=rKIJ55u0ZFNX4pWO7VsSLkqsK27MYa6yOf5iaqtjXuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=emrvXXxOkHPiWJ805UsgksamZIocIZ1ebHTiLX4zdw7HXmr0yyKxxEQcHDVw2XBdccxgEUVYArhVlEojxlAWKu9llgNrBYSSN+UY5qK3Gj6u88PivkSEetfTdY0Sp4WF5gAsteGzRNPtyvy9y6smiFK+Ec/7DfBH4EeKRLXa82E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvwiCe5q; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvwiCe5q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756529014; x=1788065014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rKIJ55u0ZFNX4pWO7VsSLkqsK27MYa6yOf5iaqtjXuU=;
-  b=JvwiCe5qn/02+aZF+W1f+o60PiKfj8XcVZExMtjbHH4RjJeMQG4lED8G
-   nMSaznuEHNvCc/ZWNwGqe7ZXhF6slR/Sec1KeH12h7VYhcV6ek0L1ToAb
-   R8Y4QJqqJ8E5bJIAoo1/9Y4OOlDf4EubpbEu5XaFS1QrNtmTrhPjM6Ybz
-   0EhWVSk7Dj00CkjygAHI5VTEQU6q3SZyvV2bbP6rvtLVHhAySd/soVuNm
-   mwiy6jkOrSe4BndMAyJCNYQEDMSuizma1BrpirI46VBidPSRFAsll2/zC
-   onyUq6zzrzTdrCEtgvPnRptfHypkZLdvz5Ys0K/xvyPhqPX4WNntE1p0h
-   Q==;
-X-CSE-ConnectionGUID: BLOuUKv9SZ6x8CQ3kcGldQ==
-X-CSE-MsgGUID: ZGdr7jkxQwmF7Lje3Q1qSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="69406586"
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="69406586"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 21:43:34 -0700
-X-CSE-ConnectionGUID: k8v9cE4QSdO2I98IrDaZqQ==
-X-CSE-MsgGUID: 5Dt8D5dyRL6IvzXENfKYAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="169832202"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 29 Aug 2025 21:43:31 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1usDQj-000VAl-2Y;
-	Sat, 30 Aug 2025 04:43:14 +0000
-Date: Sat, 30 Aug 2025 12:42:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2791/2791] include/linux/psp-hygon.h:219:5:
- warning: no previous prototype for 'psp_register_cmd_notifier'
-Message-ID: <202508301216.R8Pg7xrR-lkp@intel.com>
+	s=arc-20240116; t=1756530698; c=relaxed/simple;
+	bh=FA+LaNAtSrDw22JkgVZ/MEEYs9lp2qPOgwnL7mosRHg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d31ZOE2eRwwXW1KDQbJ8NFWts93NYNA3QZhly7eO2B32dUijAapwB+joFvQj22vqrzqqPCt9uNvIQ7fXna3o3ZQVKPRvIWZi5uW479rYdbYEucfItOfHau30xvJDvX5TcoNRAdOCakGf5hoonnPOKm2hQuXgCVFsb+iAaGlDvK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.192] (ip5f5af7fb.dynamic.kabel-deutschland.de [95.90.247.251])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id AED366004C2C9;
+	Sat, 30 Aug 2025 07:11:10 +0200 (CEST)
+Message-ID: <84fd4012-966b-4983-b015-ffce06509b5e@molgen.mpg.de>
+Date: Sat, 30 Aug 2025 07:11:10 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Bluetooth: btmtksdio: Fix build after header cleanup
+To: Calvin Owens <calvin@wbinvd.org>
+Cc: linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+ oe-kbuild-all@lists.linux.dev, Marcel Holtmann <marcel@holtmann.org>,
+ Sean Wang <sean.wang@mediatek.com>, linux-mediatek@lists.infradead.org
+References: <202508300413.OnIedvRh-lkp@intel.com>
+ <b78a4255d17adbb74140aa23f89cb7653af96c75.1756513671.git.calvin@wbinvd.org>
+Content-Language: en-US
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <b78a4255d17adbb74140aa23f89cb7653af96c75.1756513671.git.calvin@wbinvd.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi niuyongwen,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   34513bb98544f7d61a383d9d15901d35e7767c06
-commit: 518c81d56c055affc71650b1ad1ba7f86e5ee867 [2791/2791] arch/x86/kvm: Support tkm virtualization
-config: x86_64-buildonly-randconfig-004-20250830 (https://download.01.org/0day-ci/archive/20250830/202508301216.R8Pg7xrR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250830/202508301216.R8Pg7xrR-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508301216.R8Pg7xrR-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/kvm/psp.c:15:
->> include/linux/psp-hygon.h:219:5: warning: no previous prototype for 'psp_register_cmd_notifier' [-Wmissing-prototypes]
-     219 | int psp_register_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/psp-hygon.h:220:5: warning: no previous prototype for 'psp_unregister_cmd_notifier' [-Wmissing-prototypes]
-     220 | int psp_unregister_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/psp.c:105:21: warning: no previous prototype for 'map_tbl_dump' [-Wmissing-prototypes]
-     105 | void __maybe_unused map_tbl_dump(const char *title, struct addr_map_tbls *tbls)
-         |                     ^~~~~~~~~~~~
-   arch/x86/kvm/psp.c:118:21: warning: no previous prototype for 'g2h_tbl_dump' [-Wmissing-prototypes]
-     118 | void __maybe_unused g2h_tbl_dump(const char *title, struct gpa2hva_tbls *tbls)
-         |                     ^~~~~~~~~~~~
+Dear Calvin,
 
 
-vim +/psp_register_cmd_notifier +219 include/linux/psp-hygon.h
+Thank you for your patch, and addressing the regression right away.
 
-d0b3a770d8e20d chench00 2024-08-01  218  
-d0b3a770d8e20d chench00 2024-08-01 @219  int psp_register_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-d0b3a770d8e20d chench00 2024-08-01 @220  int psp_unregister_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-d0b3a770d8e20d chench00 2024-08-01  221  
+Am 30.08.25 um 02:50 schrieb Calvin Owens:
+> Syzbot found a randconfig which fails after my recent patch:
+> 
+>      drivers/bluetooth/btmtksdio.c:442:33: error: array type has incomplete element type ‘struct h4_recv_pkt’
+>        442 | static const struct h4_recv_pkt mtk_recv_pkts[] = {
+>            |                                 ^~~~~~~~~~~~~
+>      drivers/bluetooth/btmtksdio.c:443:11: error: ‘H4_RECV_ACL’ undeclared here (not in a function)
+>        443 |         { H4_RECV_ACL,      .recv = btmtksdio_recv_acl },
+>            |           ^~~~~~~~~~~
+>      drivers/bluetooth/btmtksdio.c:444:11: error: ‘H4_RECV_SCO’ undeclared here (not in a function)
+>        444 |         { H4_RECV_SCO,      .recv = hci_recv_frame },
+>            |           ^~~~~~~~~~~
+>      drivers/bluetooth/btmtksdio.c:445:11: error: ‘H4_RECV_EVENT’ undeclared here (not in a function)
+>        445 |         { H4_RECV_EVENT,    .recv = btmtksdio_recv_event },
+> 
+> ...because we can have BT_MTKSDIO=y with BT_HCIUART_H4=n, and the
+> definitions used here are gated on BT_HCIUART_H4 in hci_uart.h.
 
-:::::: The code at line 219 was first introduced by commit
-:::::: d0b3a770d8e20d953fe2a74ea8c4b5f4767c4add crypto: command co-processor: Add another mailbox interrupt support for PSP sending command to X86
+The drivers below seem to be affected:
 
-:::::: TO: chench00 <chench@hygon.cn>
-:::::: CC: chench00 <chench@hygon.cn>
+     drivers/bluetooth/bpa10x.c:     { H4_RECV_EVENT,   .recv = 
+hci_recv_frame },
+     drivers/bluetooth/btmtksdio.c:  { H4_RECV_EVENT,    .recv = 
+btmtksdio_recv_event },
+     drivers/bluetooth/btmtkuart.c:  { H4_RECV_EVENT,    .recv = 
+btmtkuart_recv_event },
+     drivers/bluetooth/btnxpuart.c:  { H4_RECV_EVENT,        .recv = 
+hci_recv_frame },
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> I think the simplest way to fix this is to remove the gate on the
+> definitions in hci_uart.h. Since the constants are macros, there's no
+> runtime cost to doing so, and nothing seems to rely on their absence in
+> the BT_HCIUART_H4=n case.
+
+Looking at the implementation, it looks like they only work with the H4 
+protocol? So maybe, that should be denoted in the Kconfig files?
+
+> I let randconfig builds run for awhile in drivers/bluetooth/ and didn't
+> hit anything else, so hopefully this was the only fallout.
+> 
+> Fixes: 74bcec450eea ("Bluetooth: remove duplicate h4_recv_buf() in header")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202508300413.OnIedvRh-lkp@intel.com/
+> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+> ---
+>   drivers/bluetooth/hci_uart.h | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/bluetooth/hci_uart.h b/drivers/bluetooth/hci_uart.h
+> index 5ea5dd80e297..fd0624988aba 100644
+> --- a/drivers/bluetooth/hci_uart.h
+> +++ b/drivers/bluetooth/hci_uart.h
+> @@ -121,7 +121,6 @@ void hci_uart_set_flow_control(struct hci_uart *hu, bool enable);
+>   void hci_uart_set_speeds(struct hci_uart *hu, unsigned int init_speed,
+>   			 unsigned int oper_speed);
+>   
+> -#ifdef CONFIG_BT_HCIUART_H4
+>   int h4_init(void);
+>   int h4_deinit(void);
+>   
+> @@ -165,7 +164,6 @@ struct h4_recv_pkt {
+>   struct sk_buff *h4_recv_buf(struct hci_dev *hdev, struct sk_buff *skb,
+>   			    const unsigned char *buffer, int count,
+>   			    const struct h4_recv_pkt *pkts, int pkts_count);
+> -#endif
+>   
+>   #ifdef CONFIG_BT_HCIUART_BCSP
+>   int bcsp_init(void);
+
+It’s a valid fix.
+
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+
+
+Kind regards,
+
+Paul
