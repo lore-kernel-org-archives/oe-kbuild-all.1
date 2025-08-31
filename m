@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A902343B6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Aug 2025 14:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEBC3770B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Aug 2025 18:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756649478; cv=none; b=aDfBOqeGaEFD05NhCO132jyrTGoQ+RV62XwnYmt929ZPra94wC+JYnolmG8As+X2uBmC9NRsOWGOmmVHAYfEnkz61HMOk/piRJ1VTjoSnfJCWXfFRZf+lsEbUq+BVbGGqT40Ojf3++4AU0ZWajGbv9JfCC9BspUSsnO0uqsomqs=
+	t=1756665941; cv=none; b=KkhT6aVHFl+W3DSrdmnxbZ3pXD/JsXrtTiNElgnsHTBZwnEc87ao+6NXn3E7U2iQxnAuGNqor6l1uEPZMxIecIwyd/T9RylLZt2r03cUHZJ277qLyd42A70/wGM5K4YFkgwJi+T1II1Vcav5c5IwYfvaYITdTj96wDrQ8KmAtHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756649478; c=relaxed/simple;
-	bh=RHLB6SbhJ6NwlIcJN+U0qOt1DNSxNE6wDis/g760GdA=;
+	s=arc-20240116; t=1756665941; c=relaxed/simple;
+	bh=LHy9zw0Nfi/Fu8CPLzyGlNrjqksIa7095KqF1x/CAj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5XV+BOTsyKbl/97QRHJiEE/p/D/TmUyJsNjnOe2AsUb9ZnUP4EgkU1ME36AJRK2lT7INxNg52mRRYuAWWgW3tDYdliwoGl19bJ7PQU8DAydL8j2tmveTwKSQNg6SWo1euCfdG0eIqaKaozTrnEIvOQZTTIK7GIDBlbbIutcI/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJbvMsBZ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGJ9nPunhXTkurK5mRDIQfhmrujAiHs14D2Kilzr3zdc3P7k/bmkstfEI09Gm6beG512oJ9ojUXmbPCSKiCAVkQ05F6PhJHj7fWnn1Vca1odOzhuukVpJJyF2bBN9grpeIaI7+Wswq20ikHnNDJyEqUl+Gp21v6vh7Kyd5vVFag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sdumsal9; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJbvMsBZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sdumsal9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756649477; x=1788185477;
+  t=1756665939; x=1788201939;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RHLB6SbhJ6NwlIcJN+U0qOt1DNSxNE6wDis/g760GdA=;
-  b=nJbvMsBZK7UOBiLDYtJ3Xy05ANtu1AX6vdF0ml4gZNv711Nhjk45MNPz
-   HoMqiaUkeVKENeMu9PYnRI/eJtn+VB11OU3C1Sx4oWEbgEOQsNDFT6aaY
-   S2MKowCRrsnYAJ2rfETInivY4hljGji9yi7rfY+maUOHkET7uBXutDnLN
-   esn9pB1ZF2t7PNqqx7SIIDg5Mlx6xHlG0Y/8PRvAEBVgzxPa0iG0QqGkF
-   LZI9KeLjwczcayBaHpBzSoZDuameGGa6YDnfZep6u9p2SqW5Lrv1Ofp/E
-   wjgWtP8kbVBYXNnHShmCiZ5coADi0X2M3fI+Eha6uYrDZ2p9Vlj5d6EPC
-   Q==;
-X-CSE-ConnectionGUID: r7w0X4njS2Kso6F/BXklXA==
-X-CSE-MsgGUID: Pk7jwRh/Tt+9tGbcM3PwMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62706090"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62706090"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 07:11:16 -0700
-X-CSE-ConnectionGUID: 5+1nmxwsQNKT8tp6ZRSkXg==
-X-CSE-MsgGUID: eV10036mSVWJ8jR5YWddlQ==
+  bh=LHy9zw0Nfi/Fu8CPLzyGlNrjqksIa7095KqF1x/CAj0=;
+  b=Sdumsal9+efgJ9LTisz1hun5V/QfIIWglS20xmzBrA+dDbofuXscUJuS
+   NuEfUs2Yiha5CmR4qGB5TCsF1A6EdMpXw5q2xjITqvRiagfKfJN9Durco
+   8fU0B+Fzf4dQQmCd+CbwbNHjuievizqT38t/2Z5vhlJu47GF9vwDrCLKJ
+   OfSBPvsvpj6e6aR2VRoR+mgEcIn1SFdAK5z7xqZQuNUivlMU2cGX/lQGF
+   hec9aYWwuOyReSPo/KYNgxown8+GrhJXU4A4axU6nHYGmg2AbjtXLPAnE
+   aYYNdIYLMc3Z8IfKWNtDq2nxl4kmgbk0oxH70VnpRudn9L5GVWoqcb/cA
+   w==;
+X-CSE-ConnectionGUID: 7P4pI6VoTDm45w2hX5BA2g==
+X-CSE-MsgGUID: WcNHvOVuTYmGN2kxIan2mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="70240597"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="70240597"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 11:45:39 -0700
+X-CSE-ConnectionGUID: sYkHO2TjQG2LgkVJUzBUUQ==
+X-CSE-MsgGUID: sLM3d35eQ0KI/LBpTIBw6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="201676250"
+   d="scan'208";a="176102416"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Aug 2025 07:11:13 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2025 11:45:38 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usilz-000W9n-1S;
-	Sun, 31 Aug 2025 14:11:11 +0000
-Date: Sun, 31 Aug 2025 22:11:05 +0800
+	id 1usn37-000WIF-1W;
+	Sun, 31 Aug 2025 18:45:22 +0000
+Date: Mon, 1 Sep 2025 02:45:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Tran <alex.t.tran@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alex Tran <alex.t.tran@gmail.com>
-Subject: Re: [PATCH net v1] Fixes: xircom auto-negoation timer
-Message-ID: <202508312115.rbF0CO44-lkp@intel.com>
-References: <20250825012821.492355-1-alex.t.tran@gmail.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/5] clk: samsung: add Exynos ACPM clock driver
+Message-ID: <202509010221.Q7juHzvW-lkp@intel.com>
+References: <20250827-acpm-clk-v2-3-de5c86b49b64@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,90 +62,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825012821.492355-1-alex.t.tran@gmail.com>
+In-Reply-To: <20250827-acpm-clk-v2-3-de5c86b49b64@linaro.org>
 
-Hi Alex,
+Hi Tudor,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net/main]
+[auto build test ERROR on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Tran/Fixes-xircom-auto-negoation-timer/20250825-093026
-base:   net/main
-patch link:    https://lore.kernel.org/r/20250825012821.492355-1-alex.t.tran%40gmail.com
-patch subject: [PATCH net v1] Fixes: xircom auto-negoation timer
-config: i386-randconfig-r073-20250831 (https://download.01.org/0day-ci/archive/20250831/202508312115.rbF0CO44-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tudor-Ambarus/dt-bindings-firmware-google-gs101-acpm-ipc-add-clock-cells/20250827-204355
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250827-acpm-clk-v2-3-de5c86b49b64%40linaro.org
+patch subject: [PATCH v2 3/5] clk: samsung: add Exynos ACPM clock driver
+config: xtensa-randconfig-r073-20250831 (https://download.01.org/0day-ci/archive/20250901/202509010221.Q7juHzvW-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250901/202509010221.Q7juHzvW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508312115.rbF0CO44-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509010221.Q7juHzvW-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/xircom/xirc2ps_cs.c:1643 init_mii() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/net/ethernet/xircom/xirc2ps_cs.c:1208 xirc2ps_tx_timeout_task() warn: inconsistent indenting
-drivers/net/ethernet/xircom/xirc2ps_cs.c:1685 init_mii() warn: inconsistent indenting
+   xtensa-linux-ld: drivers/clk/samsung/clk-acpm.o: in function `acpm_clk_set_rate':
+>> drivers/clk/samsung/clk-acpm.c:55: undefined reference to `devm_acpm_get_by_node'
+>> xtensa-linux-ld: drivers/clk/samsung/clk-acpm.c:55: undefined reference to `devm_acpm_get_by_node'
 
-vim +1643 drivers/net/ethernet/xircom/xirc2ps_cs.c
 
-  1633	
-  1634	/****************
-  1635	 * Initialize the Media-Independent-Interface
-  1636	 * Returns: True if we have a good MII
-  1637	 */
-  1638	static int
-  1639	init_mii(struct net_device *dev)
-  1640	{
-  1641	    struct local_info *local = netdev_priv(dev);
-  1642	    unsigned int ioaddr = dev->base_addr;
-> 1643		unsigned int control, status;
-  1644	
-  1645	    if (if_port == 4 || if_port == 1) { /* force 100BaseT or 10BaseT */
-  1646		dev->if_port = if_port;
-  1647		local->probe_port = 0;
-  1648		return 1;
-  1649	    }
-  1650	
-  1651	    status = mii_rd(ioaddr,  0, 1);
-  1652	    if ((status & 0xff00) != 0x7800)
-  1653		return 0; /* No MII */
-  1654	
-  1655	    local->new_mii = (mii_rd(ioaddr, 0, 2) != 0xffff);
-  1656	    
-  1657	    if (local->probe_port)
-  1658		control = 0x1000; /* auto neg */
-  1659	    else if (dev->if_port == 4)
-  1660		control = 0x2000; /* no auto neg, 100mbs mode */
-  1661	    else
-  1662		control = 0x0000; /* no auto neg, 10mbs mode */
-  1663	    mii_wr(ioaddr,  0, 0, control, 16);
-  1664	    udelay(100);
-  1665	    control = mii_rd(ioaddr, 0, 0);
-  1666	
-  1667	    if (control & 0x0400) {
-  1668		netdev_notice(dev, "can't take PHY out of isolation mode\n");
-  1669		local->probe_port = 0;
-  1670		return 0;
-  1671	    }
-  1672	
-  1673	    if (local->probe_port) {
-  1674		/* according to the DP83840A specs the auto negotiation process
-  1675		 * may take up to 3.5 sec, so we use this also for our ML6692
-  1676		 */
-  1677		local->dev = dev;
-  1678		local->autoneg_attempts = 0;
-  1679		init_completion(&local->autoneg_done);
-  1680		timer_setup(&local->timer, autoneg_timer, 0);
-  1681		local->timer.expires = RUN_AT(AUTONEG_TIMEOUT); /* 100msec intervals*/
-  1682		add_timer(&local->timer);
-  1683		}
-  1684	
-  1685		return 1;
-  1686	}
-  1687	
+vim +55 drivers/clk/samsung/clk-acpm.c
+
+    47	
+    48	static int acpm_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+    49				     unsigned long parent_rate)
+    50	{
+    51		struct acpm_clk *clk = to_acpm_clk(hw);
+    52	
+    53		return clk->handle->ops.dvfs_ops.set_rate(clk->handle,
+    54						clk->mbox_chan_id, clk->id, rate);
+  > 55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
