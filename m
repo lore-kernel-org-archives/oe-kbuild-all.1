@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEBC3770B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Aug 2025 18:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB10D21B9C1;
+	Sun, 31 Aug 2025 23:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756665941; cv=none; b=KkhT6aVHFl+W3DSrdmnxbZ3pXD/JsXrtTiNElgnsHTBZwnEc87ao+6NXn3E7U2iQxnAuGNqor6l1uEPZMxIecIwyd/T9RylLZt2r03cUHZJ277qLyd42A70/wGM5K4YFkgwJi+T1II1Vcav5c5IwYfvaYITdTj96wDrQ8KmAtHs=
+	t=1756681820; cv=none; b=FRJyEBp7at/ALLM1DObMr3bfISLdlI9sI4fVH1Z71QCExPxD6ZNtoueXY4BDASKl4B8mwDsY72j/Hh8yXMeo6l2V4OOdzCtL+c/O6e6kiH/xON7TG8td3LWWT5O6f0E1b6qcSlhHwi6bUUd6IxFGys0u7d8G9PQGkkio/KWPA/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756665941; c=relaxed/simple;
-	bh=LHy9zw0Nfi/Fu8CPLzyGlNrjqksIa7095KqF1x/CAj0=;
+	s=arc-20240116; t=1756681820; c=relaxed/simple;
+	bh=JHxfvkrM73Us6LupwzXgxuKeYqfKxIOsGkL5/+zL4bk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGJ9nPunhXTkurK5mRDIQfhmrujAiHs14D2Kilzr3zdc3P7k/bmkstfEI09Gm6beG512oJ9ojUXmbPCSKiCAVkQ05F6PhJHj7fWnn1Vca1odOzhuukVpJJyF2bBN9grpeIaI7+Wswq20ikHnNDJyEqUl+Gp21v6vh7Kyd5vVFag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sdumsal9; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dst89IwoGJHASqcy+7wgwUMw+lRTpF2gpA9Bkn3/XBY1ZsWMRBz7ImCzBD2pLpWf4hQbE5vdMt0q3/5Y9W1fegSUUU0jD8EVH/BmMFdmoa74MP8QrTd7PBGFFKpELRKyZMXjibM5I3s8sOl39+TASB6u90EXHD/W6uP+oBR/uBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMY/R9O9; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sdumsal9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMY/R9O9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756665939; x=1788201939;
+  t=1756681819; x=1788217819;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LHy9zw0Nfi/Fu8CPLzyGlNrjqksIa7095KqF1x/CAj0=;
-  b=Sdumsal9+efgJ9LTisz1hun5V/QfIIWglS20xmzBrA+dDbofuXscUJuS
-   NuEfUs2Yiha5CmR4qGB5TCsF1A6EdMpXw5q2xjITqvRiagfKfJN9Durco
-   8fU0B+Fzf4dQQmCd+CbwbNHjuievizqT38t/2Z5vhlJu47GF9vwDrCLKJ
-   OfSBPvsvpj6e6aR2VRoR+mgEcIn1SFdAK5z7xqZQuNUivlMU2cGX/lQGF
-   hec9aYWwuOyReSPo/KYNgxown8+GrhJXU4A4axU6nHYGmg2AbjtXLPAnE
-   aYYNdIYLMc3Z8IfKWNtDq2nxl4kmgbk0oxH70VnpRudn9L5GVWoqcb/cA
+  bh=JHxfvkrM73Us6LupwzXgxuKeYqfKxIOsGkL5/+zL4bk=;
+  b=hMY/R9O91ExABuptuNS2KZ5DBte4BqdhJpCEH5Sl+flk/WZPtfBT8wJT
+   j/G1wmXOKn5jw4VOlp75yAeNeM82w2Hxj73f/0zNnBQpsBUpYzJqWZFOA
+   H7qaDShnWEZ1A2juF6FvNq9RMjS/ISbbwxs8u+/Bp0f4CwcsrolftF6bq
+   rdAPzpOcGkt4zXdRELwx7UegdARduGxbWtfAP/2VDVlugokNd3rhsc5U+
+   nisJ+G4B/XsRlxS853inUsGIK02F6HrkU3PlWC28ZJcjSbWBJ7kGuEK6t
+   tpb2eE7wz/35joeWsorP76Dpr+uicq8n0x8HgLQOD8DsnkgjbdB/Mb7CY
    w==;
-X-CSE-ConnectionGUID: 7P4pI6VoTDm45w2hX5BA2g==
-X-CSE-MsgGUID: WcNHvOVuTYmGN2kxIan2mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="70240597"
+X-CSE-ConnectionGUID: 3I45RwaGQJy89djIC+9Jng==
+X-CSE-MsgGUID: nKQPAk8qShyaIBlXTqWeVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="59030220"
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="70240597"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 11:45:39 -0700
-X-CSE-ConnectionGUID: sYkHO2TjQG2LgkVJUzBUUQ==
-X-CSE-MsgGUID: sLM3d35eQ0KI/LBpTIBw6A==
+   d="scan'208";a="59030220"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 16:10:18 -0700
+X-CSE-ConnectionGUID: h4h1AFO5StiB55Nb2vzFQA==
+X-CSE-MsgGUID: 5mTPMZo7RNay6oWvGeIHcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="176102416"
+   d="scan'208";a="170129257"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 31 Aug 2025 11:45:38 -0700
+  by orviesa010.jf.intel.com with ESMTP; 31 Aug 2025 16:10:15 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usn37-000WIF-1W;
-	Sun, 31 Aug 2025 18:45:22 +0000
-Date: Mon, 1 Sep 2025 02:45:02 +0800
+	id 1usrBT-000WP9-0k;
+	Sun, 31 Aug 2025 23:10:09 +0000
+Date: Mon, 1 Sep 2025 07:09:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 3/5] clk: samsung: add Exynos ACPM clock driver
-Message-ID: <202509010221.Q7juHzvW-lkp@intel.com>
-References: <20250827-acpm-clk-v2-3-de5c86b49b64@linaro.org>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shuah@kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Subject: Re: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
+Message-ID: <202509010654.5oiN6YTZ-lkp@intel.com>
+References: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +71,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250827-acpm-clk-v2-3-de5c86b49b64@linaro.org>
+In-Reply-To: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
 
-Hi Tudor,
+Hi Bharadwaj,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
+[auto build test WARNING on 8742b2d8935f476449ef37e263bc4da3295c7b58]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tudor-Ambarus/dt-bindings-firmware-google-gs101-acpm-ipc-add-clock-cells/20250827-204355
-base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-patch link:    https://lore.kernel.org/r/20250827-acpm-clk-v2-3-de5c86b49b64%40linaro.org
-patch subject: [PATCH v2 3/5] clk: samsung: add Exynos ACPM clock driver
-config: xtensa-randconfig-r073-20250831 (https://download.01.org/0day-ci/archive/20250901/202509010221.Q7juHzvW-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250901/202509010221.Q7juHzvW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bharadwaj-Raju/dt-bindings-iio-imu-Add-ICM-20948/20250831-024726
+base:   8742b2d8935f476449ef37e263bc4da3295c7b58
+patch link:    https://lore.kernel.org/r/20250831-icm20948-v1-3-1fe560a38de4%40gmail.com
+patch subject: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
+config: arm-randconfig-r123-20250901 (https://download.01.org/0day-ci/archive/20250901/202509010654.5oiN6YTZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac23f7465eedd0dd565ffb201f573e7a69695fa3)
+reproduce: (https://download.01.org/0day-ci/archive/20250901/202509010654.5oiN6YTZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509010221.Q7juHzvW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509010654.5oiN6YTZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/inv_icm20948/inv_icm20948_gyro.c:21:12: sparse: sparse: Initializer entry defined twice
+   drivers/iio/imu/inv_icm20948/inv_icm20948_gyro.c:24:12: sparse:   also defined here
 
-   xtensa-linux-ld: drivers/clk/samsung/clk-acpm.o: in function `acpm_clk_set_rate':
->> drivers/clk/samsung/clk-acpm.c:55: undefined reference to `devm_acpm_get_by_node'
->> xtensa-linux-ld: drivers/clk/samsung/clk-acpm.c:55: undefined reference to `devm_acpm_get_by_node'
+vim +21 drivers/iio/imu/inv_icm20948/inv_icm20948_gyro.c
 
-
-vim +55 drivers/clk/samsung/clk-acpm.c
-
-    47	
-    48	static int acpm_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-    49				     unsigned long parent_rate)
-    50	{
-    51		struct acpm_clk *clk = to_acpm_clk(hw);
-    52	
-    53		return clk->handle->ops.dvfs_ops.set_rate(clk->handle,
-    54						clk->mbox_chan_id, clk->id, rate);
-  > 55	}
-    56	
+    11	
+    12	/* IIO int + nano format */
+    13	static const int inv_icm20948_gyro_scale[] = {
+    14		/* 250 dps == 0.000133158 rad/s per LSB */
+    15		[2 * INV_ICM20948_GYRO_FS_250] = 0,
+    16		[2 * INV_ICM20948_GYRO_FS_250 + 1] = 133158,
+    17		/* 500 dps == 0.000266316 rad/s per LSB */
+    18		[2 * INV_ICM20948_GYRO_FS_500] = 0,
+    19		[2 * INV_ICM20948_GYRO_FS_500 + 1] = 266316,
+    20		/* 1000 dps == 0.000532632 rad/s per LSB */
+  > 21		[2 * INV_ICM20948_GYRO_FS_1000] = 0,
+    22		[2 * INV_ICM20948_GYRO_FS_1000 + 1] = 532632,
+    23		/* 2000 dps == 0.001065264 rad/s per LSB */
+    24		[2 * INV_ICM20948_GYRO_FS_1000] = 0,
+    25		[2 * INV_ICM20948_GYRO_FS_1000 + 1] = 1065264,
+    26	};
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
