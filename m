@@ -1,57 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDFFEEDE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Aug 2025 10:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FD242065;
+	Sun, 31 Aug 2025 10:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756635344; cv=none; b=YlGssw7e/FT9xp09C8wL53fLceoreuX2mBQckgZaqhAH9Oboru90H+ZzK/UmtrD6RSJ+A2ufK/95uq75wLHNwASNg/NCD6cCG1cPMqzYZAD03yeKWQZpYRATUyhQowHvSjiE4022JRl/4Br34JxiLP8NcxcA/bCPOEzrJ3lo5M8=
+	t=1756636068; cv=none; b=jk0/xgqC5IsOzbiZQgm84Hn1RrsL/l4aQ1NUCoiFO85i+rx3Gvr4nnqIoiFstXjGwqriAoNMDnE8+KeIhOyYcRFf8OBfQ71cauu4saRSQCpZ1GTd9M6BxzYQdYzdyASee8z+riDo+xp1tD/GF9TBQI1CR4auT5XmM06u5voVVp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756635344; c=relaxed/simple;
-	bh=p3WI4FCDeL4So+P3eBVdNKKy1LNMbXqDY5+OtJLZkQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bWw83cWWhhwjLpB8lmdVjg2ZwLIGcuvrtjs0btJ4WBLVtSow4IQtjq3rc6BcIEgfdlA5EXdx2kIZbxg4NV9KzhFvQB7se15PXqMA5IuPLIjaWhGkK7rGuW7YegDUfyKVMY+k5FP3eRj3kBWMczdWAy4t/rifet1ElfjIOWOLPe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFpKJ7Tn; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1756636068; c=relaxed/simple;
+	bh=G3VUUUy+Z0eEDLbmnC2uWZmW+NftXH+FJS/0FINvCZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ed7/nEImxAfIyjD7/UgwlZVjnI0ZBGkuAcf+6KLBLGF09GE8qdrLJfylYq4CUogRUpqlXejzWjqoP0fsvOAMHVEKMilT5ZeqLu2KgsSuU/qmdunjS8t+D2YYgARhgmDFqtBpuCucWT5ps+tXZ7BJNpdfkmtoCd2m1aE2eFXpVP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e9AqPRA/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFpKJ7Tn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9AqPRA/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756635343; x=1788171343;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p3WI4FCDeL4So+P3eBVdNKKy1LNMbXqDY5+OtJLZkQc=;
-  b=mFpKJ7TnDzKwVODTcYTctosqrrg7UzUPWJw80fDvUeElTjYuxhTTwCBU
-   LEn17pVEcvIU+r43T+leFbzDQu3X72uijWqfvxOhRmufV4I1qxy5ZDUQ0
-   DZ5VvtAB8o/Y3uUe1opTckU7JgXDVCQ39+2KXibNQPAcunQ/Ddp0xGuC5
-   VcD9eyAWbwxZnEySyWNiUWHlzgUKD0mPQjAVlPoSC8CzKLPRSdHRwrmr6
-   9pa5AK939wYxgcbUcJAQYLuU53iSq34uDM63O/jTj64EqyjKVT8AkzNg+
-   7kvRvh6kYhyLy0JsR60anqstKFQTBW/AUxONw+MK9ug846iXxV+dVi2Ms
-   w==;
-X-CSE-ConnectionGUID: yytO1BTXQo+DYqOL2VLMww==
-X-CSE-MsgGUID: P+YxN47eRF+4OU4UxYDVlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="61492378"
+  t=1756636067; x=1788172067;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G3VUUUy+Z0eEDLbmnC2uWZmW+NftXH+FJS/0FINvCZo=;
+  b=e9AqPRA/vkBV/lz7FLBaNLxmuJfgwemMMHQqAZODxxxAmiqvvd8Jmvd3
+   DXN9VoUCEkRcAZ2084HEjdX7gxAvXeN3X+IitBq+Xk+z4glCRCeVbAMuY
+   nxcxiEA3g+3e7FrjHMW7Q7QezxYVg9Wqb080mS8bnpZcf4oYmRZsV8HBL
+   tx/QjS915KW5CJqh1fg55p0FsdkoVBFcol2RNdwoqzGnEjg0fAN8ag1hT
+   7fLXw9S2Al2+U/a9uoX3ed3u751gXIF7ng7BvCiOU2Vha6/yL0uPs2t1D
+   q+XF8D3NIMH7+scNZsLmyfsNg2/H7ojZLcus1oPllbOeJtfo6PYmJyzGa
+   Q==;
+X-CSE-ConnectionGUID: b+VVS9ylRNKHsXsabprPuQ==
+X-CSE-MsgGUID: 798QD4IKTzSXcRA3+Qw8eA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="46429011"
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="61492378"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 03:15:42 -0700
-X-CSE-ConnectionGUID: Yd7pGHJCS8a9JmBAGnJB0g==
-X-CSE-MsgGUID: FjUQrYhLTKmLfPBtkw2XBg==
+   d="scan'208";a="46429011"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 03:27:46 -0700
+X-CSE-ConnectionGUID: XAOUGNalRseEqI7XAhA2rA==
+X-CSE-MsgGUID: t8fpDd0QR+6w+3bfnX9N/Q==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="169989735"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Aug 2025 03:15:41 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 Aug 2025 03:27:42 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usf5x-000W4h-1a;
-	Sun, 31 Aug 2025 10:15:35 +0000
-Date: Sun, 31 Aug 2025 18:15:31 +0800
+	id 1usfH3-000W4p-1J;
+	Sun, 31 Aug 2025 10:27:07 +0000
+Date: Sun, 31 Aug 2025 18:26:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: mm/mprotect.c:450:23: sparse: sparse: cast to non-scalar
-Message-ID: <202508311724.Mp4RhDNi-lkp@intel.com>
+To: "Roy, Patrick" <roypat@amazon.co.uk>,
+	"david@redhat.com" <david@redhat.com>,
+	"seanjc@google.com" <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Roy, Patrick" <roypat@amazon.co.uk>,
+	"tabba@google.com" <tabba@google.com>,
+	"ackerleytng@google.com" <ackerleytng@google.com>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"rppt@kernel.org" <rppt@kernel.org>,
+	"will@kernel.org" <will@kernel.org>,
+	"vbabka@suse.cz" <vbabka@suse.cz>,
+	"Cali, Marco" <xmarcalx@amazon.co.uk>,
+	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+	"Thomson, Jack" <jackabt@amazon.co.uk>,
+	"Manwaring, Derek" <derekmn@amazon.com>
+Subject: Re: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP
+Message-ID: <202508311805.yfcdeaFC-lkp@intel.com>
+References: <20250828093902.2719-4-roypat@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,103 +79,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250828093902.2719-4-roypat@amazon.co.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c8bc81a52d5a2ac2e4b257ae123677cf94112755
-commit: cb0f01beb16669e91510fcdb2cea213931aee017 mm/mprotect: fix dax pud handlings
-date:   12 months ago
-config: arm64-randconfig-r121-20250831 (https://download.01.org/0day-ci/archive/20250831/202508311724.Mp4RhDNi-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac23f7465eedd0dd565ffb201f573e7a69695fa3)
-reproduce: (https://download.01.org/0day-ci/archive/20250831/202508311724.Mp4RhDNi-lkp@intel.com/reproduce)
+Hi Patrick,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a6ad54137af92535cfe32e19e5f3bc1bb7dbd383]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Patrick/filemap-Pass-address_space-mapping-to-free_folio/20250828-174202
+base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383
+patch link:    https://lore.kernel.org/r/20250828093902.2719-4-roypat%40amazon.co.uk
+patch subject: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP
+config: loongarch-randconfig-r133-20250831 (https://download.01.org/0day-ci/archive/20250831/202508311805.yfcdeaFC-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250831/202508311805.yfcdeaFC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508311724.Mp4RhDNi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508311805.yfcdeaFC-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   mm/mprotect.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, include/linux/pagewalk.h):
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   mm/mprotect.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'change_pte_range' - unexpected unlock
->> mm/mprotect.c:450:23: sparse: sparse: cast to non-scalar
->> mm/mprotect.c:450:23: sparse: sparse: cast from non-scalar
-   mm/mprotect.c: note: in included file (through include/linux/mm.h, include/linux/pagewalk.h):
-   include/linux/pgtable.h:324:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:324:16: sparse: sparse: cast from non-scalar
-   mm/mprotect.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, include/linux/pagewalk.h):
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   arch/arm64/include/asm/pgtable.h:315:16: sparse: sparse: cast from non-scalar
+>> mm/secretmem.c:155:39: sparse: sparse: symbol 'secretmem_aops' was not declared. Should it be static?
 
-vim +450 mm/mprotect.c
+vim +/secretmem_aops +155 mm/secretmem.c
 
-   428	
-   429	static inline long change_pud_range(struct mmu_gather *tlb,
-   430			struct vm_area_struct *vma, p4d_t *p4d, unsigned long addr,
-   431			unsigned long end, pgprot_t newprot, unsigned long cp_flags)
-   432	{
-   433		struct mmu_notifier_range range;
-   434		pud_t *pudp, pud;
-   435		unsigned long next;
-   436		long pages = 0, ret;
-   437	
-   438		range.start = 0;
-   439	
-   440		pudp = pud_offset(p4d, addr);
-   441		do {
-   442	again:
-   443			next = pud_addr_end(addr, end);
-   444			ret = change_prepare(vma, pudp, pmd, addr, cp_flags);
-   445			if (ret) {
-   446				pages = ret;
-   447				break;
-   448			}
-   449	
- > 450			pud = READ_ONCE(*pudp);
-   451			if (pud_none(pud))
-   452				continue;
-   453	
-   454			if (!range.start) {
-   455				mmu_notifier_range_init(&range,
-   456							MMU_NOTIFY_PROTECTION_VMA, 0,
-   457							vma->vm_mm, addr, end);
-   458				mmu_notifier_invalidate_range_start(&range);
-   459			}
-   460	
-   461			if (pud_leaf(pud)) {
-   462				if ((next - addr != PUD_SIZE) ||
-   463				    pgtable_split_needed(vma, cp_flags)) {
-   464					__split_huge_pud(vma, pudp, addr);
-   465					goto again;
-   466				} else {
-   467					ret = change_huge_pud(tlb, vma, pudp,
-   468							      addr, newprot, cp_flags);
-   469					if (ret == 0)
-   470						goto again;
-   471					/* huge pud was handled */
-   472					if (ret == HPAGE_PUD_NR)
-   473						pages += HPAGE_PUD_NR;
-   474					continue;
-   475				}
-   476			}
-   477	
-   478			pages += change_pmd_range(tlb, vma, pudp, addr, next, newprot,
-   479						  cp_flags);
-   480		} while (pudp++, addr = next, addr != end);
-   481	
-   482		if (range.start)
-   483			mmu_notifier_invalidate_range_end(&range);
-   484	
-   485		return pages;
-   486	}
-   487	
+1507f51255c9ff Mike Rapoport           2021-07-07  154  
+1507f51255c9ff Mike Rapoport           2021-07-07 @155  const struct address_space_operations secretmem_aops = {
+46de8b979492e1 Matthew Wilcox (Oracle  2022-02-09  156) 	.dirty_folio	= noop_dirty_folio,
+6612ed24a24273 Matthew Wilcox (Oracle  2022-05-02  157) 	.free_folio	= secretmem_free_folio,
+5409548df3876a Matthew Wilcox (Oracle  2022-06-06  158) 	.migrate_folio	= secretmem_migrate_folio,
+1507f51255c9ff Mike Rapoport           2021-07-07  159  };
+1507f51255c9ff Mike Rapoport           2021-07-07  160  
 
 -- 
 0-DAY CI Kernel Test Service
