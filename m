@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67700231C91
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Aug 2025 22:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614FC7E9;
+	Sun, 31 Aug 2025 00:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756591805; cv=none; b=m/eVGPkHe+DuH48NXVRA74b8xDpOzfcZhs1sawTzDyLqc/p+FnrL1ybdh4wn+0sDJrMCIJzcSrkqGR8noPRt4im8PDnQhbbG9wZmbmnLv0Bt4J6/HUr92GIR8nQn8fLDc/3Np41bC79zj1lpsjEknovwrzmbq7qpo0XOoXSuRUg=
+	t=1756598601; cv=none; b=KkZBgLg2K7A30mQZGw2TxaUxRrgD83uNfbgGsNIq3rBrkkaVhYO7zic0fikf8fsVBUGZyTDo53Ou2AeVvPLtO1aDDytsDI02DK5k+S8UlIiAO+wJm5CbfmjXNtxhpL32YF7iuwvlFCpCC6FIhCdRNk83U31hRuP5mBez20zKFos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756591805; c=relaxed/simple;
-	bh=t8hwzsDau1jGuAcqrIc1tdaoEAOr6NdcoVaRdP/uLGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rzn4q2ZgvVCxNBZj33/tCDXKfisOultzTF0P1VGti/6UqewI/YSwlDk4DoD+zX8JZ5FavvFw7AhX4L6EuneckUzZC2fNlIVNk8HrIQEzob4SEWThy/zdaaKWUS6t7fw6AgD7fpQM5hACK/cbm6jzQLp4Pv9ZYXx5GQD/Js6fRQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fofaAg4O; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1756598601; c=relaxed/simple;
+	bh=2BrtOcf57CNuvwDSSNXh0IHPVsyE5b1IIP0ktB5bFGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W4j6s4XhL1k8BnHXQJjJ3cZP1xP9Caf9hKAVmoUDQXF27YU5nYIcTJIemILvEwuhKyQVF9DPsUFNvIZ8Z8Dbd9qSaRwZbozH89NoJgeq3PJfJnqtpwZUf4O6LAUd0a9p9leuFACVYSvyPu6mizmspkKEBDZObA8u35b0GDfm/p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNMObcSI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fofaAg4O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNMObcSI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756591803; x=1788127803;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t8hwzsDau1jGuAcqrIc1tdaoEAOr6NdcoVaRdP/uLGI=;
-  b=fofaAg4Ot6oAglpV+v2evN03KRFxelZ+BbecjUMqtD7/mf29i2djcQNC
-   4w0+PD4Orgas0a33Com8Y2uHH0s5NWssV/CJE0slOTZ1SvGAt+SGn1zPw
-   zBRtGg8nmf5+rvxDc4kAdphDz4P0wHVxELwn+pmpPSXgqAzYqrnPmKp9H
-   3tVasTkeu2462V2LT0bSEGwgrdW/3mbz6zqzQQg3L5LHVbz3nTEejbRpW
-   bElJsbCh+lISjeg/sqmRq2Kc1c2fZOTQnGJFmlvwFdoAN/YbHl283Dy7i
-   24gJXcTMX1/g4pcRxu17WtW9x34ZFLchLOET4e16hMVvip+6OrgdAHs32
-   g==;
-X-CSE-ConnectionGUID: /WNBnM3rRnWrdsp7u7S1qQ==
-X-CSE-MsgGUID: NGAtCAumROCpo9qxYSJIWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58788260"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58788260"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 15:10:03 -0700
-X-CSE-ConnectionGUID: SYOVRlJkQkaEwmWpN6rZLA==
-X-CSE-MsgGUID: UEnkhFNyRIO/B1kcRr2Ytw==
+  t=1756598600; x=1788134600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2BrtOcf57CNuvwDSSNXh0IHPVsyE5b1IIP0ktB5bFGY=;
+  b=gNMObcSIfygMflqgUhVXNKK4w6M+TvV03R3TshPlKbDNqGXyzbu1Jw/i
+   SpfSi6NYKcFPp7x4hS2nMbLND7xgpjH+wk7l2PbmIZSipt1M+TGE4xzvU
+   eKyhiWf7N1Hvl40BVf1g5UwHdXmPTRKxekaUdpOAJ1KgfJ5Sj3LugGboq
+   5bDSbGF48MHt+HKP6pMyW8BLd7VReNbCpLjOOxkGjAk87BM+HyQdci7Dm
+   P/QCCW+X4nLd/LpOt6abihWeKoRAOB+edIIpaDmIeH81WaC1iJ92iiuaU
+   8GgIvd2qoIsnNjBPTtoAuu4InMeJPPdXAvFbb5E1HKt7GXRLNPT5w88xP
+   A==;
+X-CSE-ConnectionGUID: 0CmVHthBSFS3D8Izfcb9dA==
+X-CSE-MsgGUID: qIz29dmaS2CETsSgjmku0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="62483079"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="62483079"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2025 17:03:19 -0700
+X-CSE-ConnectionGUID: G1aVsjfxSaeV3Hw0YOtS8A==
+X-CSE-MsgGUID: XEJPcX4ORb+wvMIcIDjafQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="171039534"
+   d="scan'208";a="170577587"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Aug 2025 15:09:59 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Aug 2025 17:03:17 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1usTlk-000Vin-04;
-	Sat, 30 Aug 2025 22:09:56 +0000
-Date: Sun, 31 Aug 2025 06:09:05 +0800
+	id 1usVXP-000VmJ-00;
+	Sun, 31 Aug 2025 00:03:15 +0000
+Date: Sun, 31 Aug 2025 08:02:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [sre-misc:thinkpad-t14s-x1e 19/19] kismet: WARNING: unmet direct
- dependencies detected for LEDS_TRIGGERS when selected by IWLEGACY
-Message-ID: <202508310606.VnCCH6pS-lkp@intel.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: Re: [PATCH] mfd: max77705: rework interrupts
+Message-ID: <202508310735.f7Evkqz7-lkp@intel.com>
+References: <20250831-max77705-fix_interrupt_handling-v1-1-73e078012e51@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +66,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250831-max77705-fix_interrupt_handling-v1-1-73e078012e51@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git thinkpad-t14s-x1e
-head:   0e21f1dbce44bad4bb05c2541344ff3fb9643230
-commit: 0e21f1dbce44bad4bb05c2541344ff3fb9643230 [19/19] arm64: dts: qcom: x1e80100-t14s: add EC
-config: arc-kismet-CONFIG_LEDS_TRIGGERS-CONFIG_IWLEGACY-0-0 (https://download.01.org/0day-ci/archive/20250831/202508310606.VnCCH6pS-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250831/202508310606.VnCCH6pS-lkp@intel.com/reproduce)
+Hi Dzmitry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3cace99d63192a7250461b058279a42d91075d0c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/mfd-max77705-rework-interrupts/20250831-061657
+base:   3cace99d63192a7250461b058279a42d91075d0c
+patch link:    https://lore.kernel.org/r/20250831-max77705-fix_interrupt_handling-v1-1-73e078012e51%40gmail.com
+patch subject: [PATCH] mfd: max77705: rework interrupts
+config: hexagon-randconfig-002-20250831 (https://download.01.org/0day-ci/archive/20250831/202508310735.f7Evkqz7-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250831/202508310735.f7Evkqz7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508310606.VnCCH6pS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508310735.f7Evkqz7-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_TRIGGERS when selected by IWLEGACY
-   WARNING: unmet direct dependencies detected for SND_CTL_LED
-     Depends on [n]: SOUND [=n] && SND [=n]
-     Selected by [y]:
-     - EC_LENOVO_THINKPAD_T14S [=y] && ARM64_PLATFORM_DEVICES [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && I2C [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_CLASS
-     Depends on [n]: NEW_LEDS [=n]
-     Selected by [y]:
-     - EC_LENOVO_THINKPAD_T14S [=y] && ARM64_PLATFORM_DEVICES [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && I2C [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_TRIGGERS
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y]
-     Selected by [y]:
-     - MAC80211_LEDS [=y] && NET [=y] && WIRELESS [=y] && MAC80211 [=y] && (LEDS_CLASS [=y]=y [=y] || LEDS_CLASS [=y]=MAC80211 [=y])
-     - IWLEGACY [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_INTEL [=y]
-     - IWLWIFI_LEDS [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_INTEL [=y] && IWLWIFI [=y] && (LEDS_CLASS [=y]=y [=y] || LEDS_CLASS [=y]=MAC80211 [=y]) && (IWLMVM [=n] || IWLDVM [=y])
-   
-   WARNING: unmet direct dependencies detected for INPUT_SPARSEKMAP
-     Depends on [n]: INPUT [=n]
-     Selected by [y]:
-     - EC_LENOVO_THINKPAD_T14S [=y] && ARM64_PLATFORM_DEVICES [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && I2C [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/mfd/max77705.c:89:37: warning: unused variable 'max77705_topsys_irq_chip' [-Wunused-const-variable]
+      89 | static const struct regmap_irq_chip max77705_topsys_irq_chip = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/max77705_topsys_irq_chip +89 drivers/mfd/max77705.c
+
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  88  
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23 @89  static const struct regmap_irq_chip max77705_topsys_irq_chip = {
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  90  	.name		= "max77705-topsys",
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  91  	.status_base	= MAX77705_PMIC_REG_SYSTEM_INT,
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  92  	.mask_base	= MAX77705_PMIC_REG_SYSTEM_INT_MASK,
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  93  	.num_regs	= 1,
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  94  	.irqs		= max77705_topsys_irqs,
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  95  	.num_irqs	= ARRAY_SIZE(max77705_topsys_irqs),
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  96  };
+c8d50f029748b7 Dzmitry Sankouski 2025-01-23  97  
 
 -- 
 0-DAY CI Kernel Test Service
