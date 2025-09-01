@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602631CD15
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 01:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232F610785;
+	Mon,  1 Sep 2025 01:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756688522; cv=none; b=h8fSOnEbPtu5TdPlvc1F3Hk7IdXi9NS18fIGIUPsiqXYeKZYA2s9DbSG/wvzfYzHX1YQ/vYjF3TxMpc41GFQu6FuuZZXBu2Sa8SWDAZ7KT4c4Xf4ELWNCHQAzz+zNO5B66a+to+2IJrmzwbKF1GiRymBIq352iL/48ofN8UUGlk=
+	t=1756691173; cv=none; b=RL5qtXdOwaOS+qcB5Lqlv0bOgQTBKOg7MEp8BzwU7MYogk/s6ldsQS+qQGnFdrmhn3f2HQvTkB8EGgSaYTDSe4Bcp871DTIgwG8raC7uuQGrWSZtotGOOqz6q7Mj65mFlEuJsMlhxUfmzNP38vvLolPEhaPmz5mCwOjLOmQN0T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756688522; c=relaxed/simple;
-	bh=g4/tUGE+bPBFZqyr43BhsY0IspuBvt4O6j4K3lSP2Rs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i35c1sNVHVHIc0TLS4V6JmvcyiOv3fbaRZKPvC/76CA2LdZymhaH1AtOTeAHPCMPR0Ssx5eGGRzfWcbHQci4w7uaAlApKbq1COD6Yhv5vnc70/Y4TBLio3qKeiNI0CM81qu8yWpIiYbYs3jsH9s+70ht0Rb3BQQPTRFwbjJsEzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzc8yb7E; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1756691173; c=relaxed/simple;
+	bh=RzLdyNU+06UIw3pVzj6lLN2PZ24YjO7bcjxEXmXqMqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qvsyd+f0T02g079V5xwx0hWlR+Ek64sNBfc+awaCIR4WLCOem2MykXMDsWWnDOa2BvMrqy+YQXMCmVGuXINq6wFcFMS1TtezFYevYe32ke0pFtDl3zsSp9eW5VShFS9VyHbIykyngOTUKt5GmAH3xhrBuEhFJZk6ZuC71YNV8wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CA8XMlFi; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzc8yb7E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CA8XMlFi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756688521; x=1788224521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g4/tUGE+bPBFZqyr43BhsY0IspuBvt4O6j4K3lSP2Rs=;
-  b=nzc8yb7Ea7AF4BzY/uM0BIYhjvJYJ47O6+iLEoCpEGJ025IdDmHYfCvJ
-   7FOaEF2zEefkT2xeOLejXwanJVPLw43LzPNY2BCUM+h5Tsrb0ubBQN42J
-   VCWuqjENPqv/2EaNUqnZJ1l7h1Mbm10YMGsc1GeiyyYwuXafYEww4UPZj
-   i2v/lJtNvt/3NcxlCnRo/8EV1dJtfA0PVg64qqKP9tQAKNzxiSaGTGMgg
-   40dGgXqbZG/tXIghtjjXGMQMhfGAZEyP+zO+dx3YGKs3EJbuDsjqDbou6
-   B8i4CkuDiFBD6HWSxMN06ztFm/eiDvPSo976BQRtvLJf3MsWBOTXnpiaM
-   Q==;
-X-CSE-ConnectionGUID: 4hsJ5elsRXWUqfID8wY+DA==
-X-CSE-MsgGUID: P0jaOaS9Qwqg0fZ4UzK1Jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="70317145"
+  t=1756691172; x=1788227172;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RzLdyNU+06UIw3pVzj6lLN2PZ24YjO7bcjxEXmXqMqM=;
+  b=CA8XMlFi/RBK/SC5hhSnGwwa3vV+DC1BzUX4Kl9nBhRn5tnF31o7lP0B
+   T7b53iTNv+F3lQB7bYSK5rYe4cJZuqgRGE4DssF5kKF/rFmMEoBVimnIU
+   m+y02U9UlZbJe4VCC2oTQlOaaT34bcDhAXw5jwJzW/Vb7pbwBvGwk/e2Q
+   IQDnporluPT7XKxlHW89sTFr1V7ro2z8oBoIGKOGGAZDQEWkx5wcYqWw4
+   zeDJoR2LQlbycCnBaJIGXcoj6TbdbFhSxHE89r098hD/GjC6ETp0bQd8c
+   /LbuP0L4561FKrkh6bOnjix64vXb7Few4spf1r9PWTBUy5s7lrDjqgUza
+   w==;
+X-CSE-ConnectionGUID: UfN2vqSyRhCuuNiAX+btNQ==
+X-CSE-MsgGUID: n2j80rKXQtGNtZF8lt82DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="59034247"
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="70317145"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 18:02:00 -0700
-X-CSE-ConnectionGUID: YBAYBBgIRjWiXE8g0nf3+g==
-X-CSE-MsgGUID: mcUgq/DZQ+2cl1WEB+7uVg==
+   d="scan'208";a="59034247"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 18:46:11 -0700
+X-CSE-ConnectionGUID: EVNJIULMQYGFusoItCAZlg==
+X-CSE-MsgGUID: /i+qggwiSRS06VOV5df//A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="171005205"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 31 Aug 2025 18:01:59 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+   d="scan'208";a="175203000"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 31 Aug 2025 18:46:09 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ussvP-000WSF-2k;
-	Mon, 01 Sep 2025 01:01:41 +0000
-Date: Mon, 1 Sep 2025 09:00:45 +0800
+	id 1ustcT-000011-2A;
+	Mon, 01 Sep 2025 01:46:05 +0000
+Date: Mon, 1 Sep 2025 09:36:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: arch/riscv/mm/init.c:354 relocate_kernel() warn: always true
- condition '(relocated_addr >= (((0)))) => (0-u32max >= 0)'
-Message-ID: <202509010849.b4WcaJtA-lkp@intel.com>
+To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shuah@kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Bharadwaj Raju <bharadwaj.raju777@gmail.com>
+Subject: Re: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
+Message-ID: <202509010950.z3ZOTLrS-lkp@intel.com>
+References: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +71,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b320789d6883cc00ac78ce83bccbfe7ed58afcf0
-commit: ea2bde36a46d5724c1b44d80cc9fafbd73c2ecf9 riscv: Support CONFIG_RELOCATABLE on riscv32
-date:   5 months ago
-config: riscv-randconfig-r073-20250901 (https://download.01.org/0day-ci/archive/20250901/202509010849.b4WcaJtA-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 9.5.0
+Hi Bharadwaj,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8742b2d8935f476449ef37e263bc4da3295c7b58]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bharadwaj-Raju/dt-bindings-iio-imu-Add-ICM-20948/20250831-024726
+base:   8742b2d8935f476449ef37e263bc4da3295c7b58
+patch link:    https://lore.kernel.org/r/20250831-icm20948-v1-3-1fe560a38de4%40gmail.com
+patch subject: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
+config: parisc-randconfig-r132-20250901 (https://download.01.org/0day-ci/archive/20250901/202509010950.z3ZOTLrS-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250901/202509010950.z3ZOTLrS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509010849.b4WcaJtA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509010950.z3ZOTLrS-lkp@intel.com/
 
-smatch warnings:
-arch/riscv/mm/init.c:354 relocate_kernel() warn: always true condition '(relocated_addr >= (((0)))) => (0-u32max >= 0)'
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +354 arch/riscv/mm/init.c
-
-51b766c79a3d74 Samuel Holland 2024-10-26  326  
-51b766c79a3d74 Samuel Holland 2024-10-26  327  static void __init relocate_kernel(void)
-51b766c79a3d74 Samuel Holland 2024-10-26  328  {
-ea2bde36a46d57 Samuel Holland 2024-10-26  329  	Elf_Rela *rela = (Elf_Rela *)&__rela_dyn_start;
-51b766c79a3d74 Samuel Holland 2024-10-26  330  	/*
-51b766c79a3d74 Samuel Holland 2024-10-26  331  	 * This holds the offset between the linked virtual address and the
-51b766c79a3d74 Samuel Holland 2024-10-26  332  	 * relocated virtual address.
-51b766c79a3d74 Samuel Holland 2024-10-26  333  	 */
-51b766c79a3d74 Samuel Holland 2024-10-26  334  	uintptr_t reloc_offset = kernel_map.virt_addr - KERNEL_LINK_ADDR;
-51b766c79a3d74 Samuel Holland 2024-10-26  335  	/*
-51b766c79a3d74 Samuel Holland 2024-10-26  336  	 * This holds the offset between kernel linked virtual address and
-51b766c79a3d74 Samuel Holland 2024-10-26  337  	 * physical address.
-51b766c79a3d74 Samuel Holland 2024-10-26  338  	 */
-51b766c79a3d74 Samuel Holland 2024-10-26  339  	uintptr_t va_kernel_link_pa_offset = KERNEL_LINK_ADDR - kernel_map.phys_addr;
-51b766c79a3d74 Samuel Holland 2024-10-26  340  
-ea2bde36a46d57 Samuel Holland 2024-10-26  341  	for ( ; rela < (Elf_Rela *)&__rela_dyn_end; rela++) {
-ea2bde36a46d57 Samuel Holland 2024-10-26  342  		Elf_Addr addr = (rela->r_offset - va_kernel_link_pa_offset);
-ea2bde36a46d57 Samuel Holland 2024-10-26  343  		Elf_Addr relocated_addr = rela->r_addend;
-51b766c79a3d74 Samuel Holland 2024-10-26  344  
-51b766c79a3d74 Samuel Holland 2024-10-26  345  		if (rela->r_info != R_RISCV_RELATIVE)
-51b766c79a3d74 Samuel Holland 2024-10-26  346  			continue;
-51b766c79a3d74 Samuel Holland 2024-10-26  347  
-51b766c79a3d74 Samuel Holland 2024-10-26  348  		/*
-51b766c79a3d74 Samuel Holland 2024-10-26  349  		 * Make sure to not relocate vdso symbols like rt_sigreturn
-51b766c79a3d74 Samuel Holland 2024-10-26  350  		 * which are linked from the address 0 in vmlinux since
-51b766c79a3d74 Samuel Holland 2024-10-26  351  		 * vdso symbol addresses are actually used as an offset from
-51b766c79a3d74 Samuel Holland 2024-10-26  352  		 * mm->context.vdso in VDSO_OFFSET macro.
-51b766c79a3d74 Samuel Holland 2024-10-26  353  		 */
-51b766c79a3d74 Samuel Holland 2024-10-26 @354  		if (relocated_addr >= KERNEL_LINK_ADDR)
-51b766c79a3d74 Samuel Holland 2024-10-26  355  			relocated_addr += reloc_offset;
-51b766c79a3d74 Samuel Holland 2024-10-26  356  
-ea2bde36a46d57 Samuel Holland 2024-10-26  357  		*(Elf_Addr *)addr = relocated_addr;
-51b766c79a3d74 Samuel Holland 2024-10-26  358  	}
-51b766c79a3d74 Samuel Holland 2024-10-26  359  }
-51b766c79a3d74 Samuel Holland 2024-10-26  360  #endif /* CONFIG_RELOCATABLE */
-51b766c79a3d74 Samuel Holland 2024-10-26  361  
-
-:::::: The code at line 354 was first introduced by commit
-:::::: 51b766c79a3d741fb97419c3da1c58fce5e66f0e riscv: Support CONFIG_RELOCATABLE on NOMMU
-
-:::::: TO: Samuel Holland <samuel.holland@sifive.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+ERROR: modpost: "__divdi3" [drivers/iio/imu/inv_icm20948/inv-icm20948.ko] undefined!
+>> ERROR: modpost: "__moddi3" [drivers/iio/imu/inv_icm20948/inv-icm20948.ko] undefined!
+ERROR: modpost: "inv_icm20948_core_probe" [drivers/iio/imu/inv_icm20948/inv-icm20948-i2c.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
