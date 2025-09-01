@@ -1,194 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com [18.199.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7099D33EAF3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 13:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551392F361A;
+	Mon,  1 Sep 2025 14:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.199.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756733996; cv=none; b=rS6dgCCQdL8swou4z+o9Qi70N+EHzCi22jbkDSSXuzQt5+0qlmySI1xVdzvfkOh6PaHfIiCrTqRUjhbs9mdPy4w56ab4YaG4yadrgvnaeYqNxi09ttE5+TQ560cyAZpJLYrh53loByNr0i3GVTZB03XHnsJQGnHDqj5FQ/uY8So=
+	t=1756735532; cv=none; b=q40LsVQmeokf1sCnt1jI2c5bPlDs4OMN6vjDRPeO5h4TPU5G1akwSODHmE6RWhmY8wTJBBRRQE83cbUF7hg6tyJPzM+QOt9oqwq8nsN5xnE8Xtt7NATcDXJRnPQuAJYnIuN5B6g5ONpf+Ugmggd2LBz+Nf+2Z1naUsDQuUWMYaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756733996; c=relaxed/simple;
-	bh=RiJFaNluTlI+c0511hC10vJko1Y3jWs2wQrIwpjs24E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MTjLc4xXTr3Na8oUjMLKgAbEXpt9VzAqw/TRLA27PfNgCh3ZDw/oIyQejSGN38Ck3s8HDxDYEeQ2b8WR9m63j+q4Cha1RIfJPNdweMWLf8IqvdbCgROdcvlfio/wV87vS+ELE41BQJjgCDn7E3hZIxtKA2EhoGjbEK/SLRrY8kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czvDHYQC; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756735532; c=relaxed/simple;
+	bh=ItZqN5Op7g9rIJ5RShixnsRk5gMblgw67xQPu8prjug=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=rcomB+KurN9dEhxgPcMGWVHVI4TcO0y5Iov0/HfzO3a2dkZsu3+z8KkMO8LUsvVcv6CmadWDV/aYXgjICaivPaJDP0D4aS/tYgiW/DetXrXqaTAD4dMUyLxJMpKw6hFcgJ0uVIhr5m3LWRNEQEEEh3/reb07rfKsx34iX+LfKZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=IeHKIisd; arc=none smtp.client-ip=18.199.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czvDHYQC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756733995; x=1788269995;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RiJFaNluTlI+c0511hC10vJko1Y3jWs2wQrIwpjs24E=;
-  b=czvDHYQCXqoGYXk9Pd6bMMoGbj2MbQ/y2KLkIUdTUy9TOcEzzakPFRfy
-   Gt71HWtOOwaKLFIa2NtVxmNyixFEZnd3RKxcwiRB53SZUk9k1YBTR5MNJ
-   uFfQb20kP68/ZcynyCAF36ftazrXZ9V9rC2SERcitZfKWelw6mJA34dvS
-   +TaM9wJwdlvXsESPzVDO/DbyaDifC0Cfkx5HKcJIIoma+RnjK4wNxzasY
-   zR60i4CYAK/8jjNcLLbeWbx/AwLcaxJbqPdakAWlH4M0lstO7IUIC1MpY
-   c6Dg25m8LWvZVPqktEGiD8yPAxOtPOIPKpqzeWnMVv0s5MyV/7N2W8k1l
-   w==;
-X-CSE-ConnectionGUID: hHU06GPETC6e0gey+YmiqA==
-X-CSE-MsgGUID: p9GLTJv6RWaMPcEkJZhYWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58020851"
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="58020851"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 06:39:54 -0700
-X-CSE-ConnectionGUID: nG+nZiGdSquVLTap8UY2Lw==
-X-CSE-MsgGUID: PTY/2Q77Q/2AMHiYwLdCYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="170303241"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Sep 2025 06:39:52 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ut4k7-0000fJ-0l;
-	Mon, 01 Sep 2025 13:39:10 +0000
-Date: Mon, 1 Sep 2025 21:36:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1740/1740]
- include/linux/mem_reliable.h:41:15: sparse: sparse: restricted gfp_t
- degrades to integer
-Message-ID: <202509012150.u8RYNbiq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="IeHKIisd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazoncorp2; t=1756735527; x=1788271527;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Kse27neqs7TZ5sTIdJhbs0CXmugDWDcv4gD+1oQQ4ac=;
+  b=IeHKIisdRCXoZ5+V441l9oXqa7nrbEkpfLyaC0umnYkFL/LbuVXeiFnj
+   BhgsLae20Tlq1w4DSiqC48YHBv+GVqku1yOGfD0fdk6/0lZGbRbuiGVWP
+   63r5/nUvd6FMLgpueoH8UgaLfdkjnUSJeOhhv3YaOBZo4m7adb83Tpa7G
+   lfEYZRYD4j3yDKoylKH9GKksATNVzCcNeDSd78BLXHlvXyVtH2rIYdW5r
+   V7xIJkNaGSvlKMF9+nKvGVtRSIK2LFwVGLqshvlOG5z/KI1SM1ErRbR2q
+   tT5PMXQRYJ+SO91KGf1UA/nn9gscfAZJhw0SoT80PRAyGPEepUT8AgZWr
+   Q==;
+X-CSE-ConnectionGUID: 6cHdMLo7TCuPNE/i2oSWAA==
+X-CSE-MsgGUID: 9a3n9BLESJaLUrTeRH3vhg==
+X-IronPort-AV: E=Sophos;i="6.17,290,1747699200"; 
+   d="scan'208";a="1361090"
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+  by internal-fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 14:05:17 +0000
+Received: from EX19MTAEUB001.ant.amazon.com [54.240.197.234:5495]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.18.194:2525] with esmtp (Farcaster)
+ id b74a8fdc-df20-4ffe-a94c-ca7bfc8d3d2d; Mon, 1 Sep 2025 14:05:17 +0000 (UTC)
+X-Farcaster-Flow-ID: b74a8fdc-df20-4ffe-a94c-ca7bfc8d3d2d
+Received: from EX19D015EUB004.ant.amazon.com (10.252.51.13) by
+ EX19MTAEUB001.ant.amazon.com (10.252.51.26) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.17;
+ Mon, 1 Sep 2025 14:05:17 +0000
+Received: from EX19D015EUB004.ant.amazon.com (10.252.51.13) by
+ EX19D015EUB004.ant.amazon.com (10.252.51.13) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Mon, 1 Sep 2025 14:05:16 +0000
+Received: from EX19D015EUB004.ant.amazon.com ([fe80::2dc9:7aa9:9cd3:fc8a]) by
+ EX19D015EUB004.ant.amazon.com ([fe80::2dc9:7aa9:9cd3:fc8a%3]) with mapi id
+ 15.02.2562.020; Mon, 1 Sep 2025 14:05:16 +0000
+From: "Roy, Patrick" <roypat@amazon.co.uk>
+To: "lkp@intel.com" <lkp@intel.com>
+CC: "ackerleytng@google.com" <ackerleytng@google.com>, "david@redhat.com"
+	<david@redhat.com>, "Manwaring, Derek" <derekmn@amazon.com>, "Thomson, Jack"
+	<jackabt@amazon.co.uk>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "Roy, Patrick"
+	<roypat@amazon.co.uk>, "rppt@kernel.org" <rppt@kernel.org>,
+	"seanjc@google.com" <seanjc@google.com>, "tabba@google.com"
+	<tabba@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>, "will@kernel.org"
+	<will@kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>
+Subject: Re: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP
+Thread-Topic: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP
+Thread-Index: AQHcG0lxZt1T5YHk+UqqKLGu1cJJ3g==
+Date: Mon, 1 Sep 2025 14:05:16 +0000
+Message-ID: <20250901140515.15769-1-roypat@amazon.co.uk>
+References: <202508311805.yfcdeaFC-lkp@intel.com>
+In-Reply-To: <202508311805.yfcdeaFC-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   291b31b5afcf0c223cd3305c734a298f3193f9d3
-commit: 33d1f46ad98ea3a13752a6360d97732ab4e119b9 [1740/1740] mm: Introduce memory reliable
-config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20250901/202509012150.u8RYNbiq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250901/202509012150.u8RYNbiq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509012150.u8RYNbiq-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:140:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
->> include/linux/mem_reliable.h:41:15: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:4572:13: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:4573:27: sparse: sparse: invalid assignment: |=
-   mm/page_alloc.c:4573:27: sparse:    left side has type restricted gfp_t
-   mm/page_alloc.c:4573:27: sparse:    right side has type unsigned int
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c: In function 'mem_init_print_info':
-   mm/page_alloc.c:7373:27: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 20-      |                           ^~
-   mm/page_alloc.c:7377:9: note: in expansion of macro 'adj_init_size'
-    7377 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: note: use '&__init_begin[0] <= &_sinittext[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 26-      |                           ^~
-   mm/page_alloc.c:7377:9: note: in expansion of macro 'adj_init_size'
-    7377 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 32-      |                                         ^
-   mm/page_alloc.c:7377:9: note: in expansion of macro 'adj_init_size'
-    7377 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: note: use '&_sinittext[0] < &__init_end[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 38-      |                                         ^
-   mm/page_alloc.c:7377:9: note: in expansion of macro 'adj_init_size'
-    7377 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 44-      |                           ^~
-   mm/page_alloc.c:7379:9: note: in expansion of macro 'adj_init_size'
-    7379 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: note: use '&_stext[0] <= &_sinittext[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 50-      |                           ^~
-   mm/page_alloc.c:7379:9: note: in expansion of macro 'adj_init_size'
-    7379 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 56-      |                                         ^
-   mm/page_alloc.c:7379:9: note: in expansion of macro 'adj_init_size'
-    7379 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: note: use '&_sinittext[0] < &_etext[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 62-      |                                         ^
-   mm/page_alloc.c:7379:9: note: in expansion of macro 'adj_init_size'
-    7379 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 68-      |                           ^~
-   mm/page_alloc.c:7380:9: note: in expansion of macro 'adj_init_size'
-    7380 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: note: use '&_sdata[0] <= &__init_begin[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 74-      |                           ^~
-   mm/page_alloc.c:7380:9: note: in expansion of macro 'adj_init_size'
-    7380 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 80-      |                                         ^
-   mm/page_alloc.c:7380:9: note: in expansion of macro 'adj_init_size'
-    7380 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: note: use '&__init_begin[0] < &_edata[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 86-      |                                         ^
-   mm/page_alloc.c:7380:9: note: in expansion of macro 'adj_init_size'
-    7380 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 92-      |                           ^~
-   mm/page_alloc.c:7381:9: note: in expansion of macro 'adj_init_size'
-    7381 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:27: note: use '&_stext[0] <= &__start_rodata[0]' to compare the addresses
-    7373 |                 if (start <= pos && pos < end && size > adj) 98-      |                           ^~
-   mm/page_alloc.c:7381:9: note: in expansion of macro 'adj_init_size'
-    7381 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7373:41: warning: comparison between two arrays [-Warray-compare]
-    7373 |                 if (start <= pos && pos < end && size > adj) 104-      |                                         ^
-   mm/page_alloc.c:7381:9: note: in expansion of macro 'adj_init_size'
-    7381 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-
-vim +41 include/linux/mem_reliable.h
-
-    31	
-    32	static inline bool skip_none_movable_zone(gfp_t gfp, struct zoneref *z)
-    33	{
-    34		if (!mem_reliable_is_enabled())
-    35			return false;
-    36	
-    37		if (!current->mm || (current->flags & PF_KTHREAD))
-    38			return false;
-    39	
-    40		/* user tasks can only alloc memory from non-mirrored region */
-  > 41		if (!(gfp & ___GFP_RELIABILITY) && (gfp & __GFP_HIGHMEM) &&
-    42		    (gfp & __GFP_MOVABLE)) {
-    43			if (zonelist_zone_idx(z) < ZONE_MOVABLE)
-    44				return true;
-    45		}
-    46	
-    47		return false;
-    48	}
-    49	#else
-    50	#define reliable_enabled 0
-    51	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+=0A=
+On Sun, 2025-08-31 at 11:26 +0100, kernel test robot wrote:=0A=
+> Hi Patrick,=0A=
+> =0A=
+> kernel test robot noticed the following build warnings:=0A=
+> =0A=
+> [auto build test WARNING on a6ad54137af92535cfe32e19e5f3bc1bb7dbd383]=0A=
+> =0A=
+> url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Patrick/filema=
+p-Pass-address_space-mapping-to-free_folio/20250828-174202=0A=
+> base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383=0A=
+> patch link:    https://lore.kernel.org/r/20250828093902.2719-4-roypat%40a=
+mazon.co.uk=0A=
+> patch subject: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP=0A=
+> config: loongarch-randconfig-r133-20250831 (https://download.01.org/0day-=
+ci/archive/20250831/202508311805.yfcdeaFC-lkp@intel.com/config)=0A=
+> compiler: loongarch64-linux-gcc (GCC) 14.3.0=0A=
+> reproduce: (https://download.01.org/0day-ci/archive/20250831/202508311805=
+.yfcdeaFC-lkp@intel.com/reproduce)=0A=
+> =0A=
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of=0A=
+> the same patch/commit), kindly add following tags=0A=
+> | Reported-by: kernel test robot <lkp@intel.com>=0A=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508311805.yfcdeaFC-lkp=
+@intel.com/=0A=
+> =0A=
+> sparse warnings: (new ones prefixed by >>)=0A=
+>>> mm/secretmem.c:155:39: sparse: sparse: symbol 'secretmem_aops' was not =
+declared. Should it be static?=0A=
+> =0A=
+> vim +/secretmem_aops +155 mm/secretmem.c=0A=
+> =0A=
+> 1507f51255c9ff Mike Rapoport           2021-07-07  154=0A=
+> 1507f51255c9ff Mike Rapoport           2021-07-07 @155  const struct addr=
+ess_space_operations secretmem_aops =3D {=0A=
+> 46de8b979492e1 Matthew Wilcox (Oracle  2022-02-09  156)         .dirty_fo=
+lio    =3D noop_dirty_folio,=0A=
+> 6612ed24a24273 Matthew Wilcox (Oracle  2022-05-02  157)         .free_fol=
+io     =3D secretmem_free_folio,=0A=
+> 5409548df3876a Matthew Wilcox (Oracle  2022-06-06  158)         .migrate_=
+folio  =3D secretmem_migrate_folio,=0A=
+> 1507f51255c9ff Mike Rapoport           2021-07-07  159  };=0A=
+> 1507f51255c9ff Mike Rapoport           2021-07-07  160=0A=
+> =0A=
+> --=0A=
+> 0-DAY CI Kernel Test Service=0A=
+> https://github.com/intel/lkp-tests/wiki=0A=
+=0A=
+This is the same thing Mike already pointed out (making `secretmem_aops` st=
+atic)=0A=
