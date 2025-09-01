@@ -1,103 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232F610785;
-	Mon,  1 Sep 2025 01:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807F7F9D9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 04:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756691173; cv=none; b=RL5qtXdOwaOS+qcB5Lqlv0bOgQTBKOg7MEp8BzwU7MYogk/s6ldsQS+qQGnFdrmhn3f2HQvTkB8EGgSaYTDSe4Bcp871DTIgwG8raC7uuQGrWSZtotGOOqz6q7Mj65mFlEuJsMlhxUfmzNP38vvLolPEhaPmz5mCwOjLOmQN0T8=
+	t=1756701039; cv=none; b=WDduC2anp7s2ENlJYkyr/pfVC+mtAzXc3qlhyhK9Dhd7VtjWSSk74VzlqjYfsVDLycYsu28OzKMa7MX9EupNARZBn6dr6RPO3L30qTQYetTcsXqSpYhUvqttkwSgo915j3A5RE3gsAMH08K+tI4vyP7uXWlni4VcqDDFH3F3eA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756691173; c=relaxed/simple;
-	bh=RzLdyNU+06UIw3pVzj6lLN2PZ24YjO7bcjxEXmXqMqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qvsyd+f0T02g079V5xwx0hWlR+Ek64sNBfc+awaCIR4WLCOem2MykXMDsWWnDOa2BvMrqy+YQXMCmVGuXINq6wFcFMS1TtezFYevYe32ke0pFtDl3zsSp9eW5VShFS9VyHbIykyngOTUKt5GmAH3xhrBuEhFJZk6ZuC71YNV8wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CA8XMlFi; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756701039; c=relaxed/simple;
+	bh=pSzCqOyvvoq5Jt9kSV5uDNs9QJ567H1LEks3EmaQerM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M5uFB+Wt6LMC6wvxAJHBVCs5ZGwiWVtfDd95vpM7Ruqij2mvOgsBicpO+myzCRiovKI74Tonq88J3icuGQIslEVqW4om2eeQmZ25Pi7ERvRE4sNjc1gkXPVq/ca872SbW0xQv5g0wqj9ou925GOf32C0QU34F8///1qQH+uAbpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=NmpTKA+g; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CA8XMlFi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756691172; x=1788227172;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RzLdyNU+06UIw3pVzj6lLN2PZ24YjO7bcjxEXmXqMqM=;
-  b=CA8XMlFi/RBK/SC5hhSnGwwa3vV+DC1BzUX4Kl9nBhRn5tnF31o7lP0B
-   T7b53iTNv+F3lQB7bYSK5rYe4cJZuqgRGE4DssF5kKF/rFmMEoBVimnIU
-   m+y02U9UlZbJe4VCC2oTQlOaaT34bcDhAXw5jwJzW/Vb7pbwBvGwk/e2Q
-   IQDnporluPT7XKxlHW89sTFr1V7ro2z8oBoIGKOGGAZDQEWkx5wcYqWw4
-   zeDJoR2LQlbycCnBaJIGXcoj6TbdbFhSxHE89r098hD/GjC6ETp0bQd8c
-   /LbuP0L4561FKrkh6bOnjix64vXb7Few4spf1r9PWTBUy5s7lrDjqgUza
-   w==;
-X-CSE-ConnectionGUID: UfN2vqSyRhCuuNiAX+btNQ==
-X-CSE-MsgGUID: n2j80rKXQtGNtZF8lt82DQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="59034247"
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="59034247"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 18:46:11 -0700
-X-CSE-ConnectionGUID: EVNJIULMQYGFusoItCAZlg==
-X-CSE-MsgGUID: /i+qggwiSRS06VOV5df//A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="175203000"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 31 Aug 2025 18:46:09 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ustcT-000011-2A;
-	Mon, 01 Sep 2025 01:46:05 +0000
-Date: Mon, 1 Sep 2025 09:36:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bharadwaj Raju <bharadwaj.raju777@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shuah@kernel.org, linux-kernel-mentees@lists.linux.dev,
-	Bharadwaj Raju <bharadwaj.raju777@gmail.com>
-Subject: Re: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
-Message-ID: <202509010950.z3ZOTLrS-lkp@intel.com>
-References: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
+	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="NmpTKA+g"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b0428b537e5so90850066b.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Aug 2025 21:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1756701036; x=1757305836; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LDQIe0i3X76egFX6529AeV7wfu/j7t3pxfvYUfSQIbM=;
+        b=NmpTKA+gB2W8Bc/FHBw4qFyLD1aMM5GP/JYSK8UhNTnc4b8qOXTIP6MwQGmdO8rZUy
+         2KSmjagD7VHqs2Zlcnxgz2owW2omj087WAHxMrpkxDG5GIHMfjOh29CEciSFgA7sVax9
+         uf6FQydUHCD7KZtgo98ODaEuL+a6Rx2sZIpIa1vDUpLjhZ9heciH3xn9mGXldLr2lOZ5
+         pN/GSMH3HMe0jt+rBRmzruBRB72xyFIUnJchv6XV53HJFfINIOAtpRPgyqM97gAuR3sw
+         i0HDdjal2zrZp8IeX22nOueFxXQmS2v5t0JOJw1cVXMhIEgYIWdeWlmPDqFYW0935ulG
+         p1GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756701036; x=1757305836;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LDQIe0i3X76egFX6529AeV7wfu/j7t3pxfvYUfSQIbM=;
+        b=pbZLF4Jt06kanpmVLuIm5qvlKAHzH6LltwNUtNFSBNBDEOALX70/PAMTuJzdajm/JF
+         8Z3ICDH7N8VAyTu1PUOcSYQnzhv1R9tapmyhBK0EMi0lt9F+tyf7BfPVLXWFlSnau4pE
+         0g48atbCPRcuEDRlOtY2gU81cf0yvmRb4YEopkIMQYprCiHXPA8MtQIt4itZPgrs2U6a
+         RM1yZngAHKsEdu91sQfWSQ53g6hPJG5nV0Ijn3d1/SroONt4t0B0oJu0txACTIt2nKhx
+         hQbLfxVNh8ShLLLcgJbcqAehplFsnoLXvinDu4MQHxL07xXvAXWPyKKtJuKV2O1vE45+
+         QB4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWLyFGTGCc20Zh+Ng7Shj3bd2pI38Rr4JbAt0mHPehfxcSww4uONw53jaUJIIYhsk8GESwU7+5KXQ+ZNB0D@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyo5DZl0l0A4etb5dDZCPdCNXMx0LD0VsWZB3AnZmMTLeGOfIpc
+	KIA8LFNpyDrYJbSr7iLNI1odk/seyn1nJGxhhUM7oXBv9Kbfjp5wxdYCjHtvmccEmDvm6WIWGG7
+	zH0XONoBD0kFwlUfVWNp1xPj5wIkSBC8kF95dufGrrg==
+X-Gm-Gg: ASbGncuugNcd3yyRzMH2AYeKMcCcay8vJL+4JBSFEpX+zgDiNSdSstBpJe849hLXvJZ
+	xTwSlVXjFVt6OLUApDa8ZB17i3m4OCS/n7dlbLO6HzFaNy5Xv5HjOH57UZ9/xNj6GgFVxbNoJNK
+	olRgZaqMNKmtpLrgqt4CnJAf9qdWovjtZbCu7ptd7BhogKky4CfjuUyDJ4v6IxbTvvbX1eXaH/J
+	eMH6Pk4cNGgIWpzAvTdXLyn5wabx89li4rneJuqs9lnqg==
+X-Google-Smtp-Source: AGHT+IGfZ9IK7/pUtfeHc6DgLv6HZzhwz9kNk2kkDLAQy9Iwa65qh4E0Ue47kA3UHq9LU15ooN9UNEALddPaiQniOhA=
+X-Received: by 2002:a17:907:3f10:b0:af6:2f1d:a73f with SMTP id
+ a640c23a62f3a-b01d976e782mr648284266b.53.1756701035779; Sun, 31 Aug 2025
+ 21:30:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250831-icm20948-v1-3-1fe560a38de4@gmail.com>
+References: <20250831093918.2815332-9-max.kellermann@ionos.com> <202509010724.bSPPSD1X-lkp@intel.com>
+In-Reply-To: <202509010724.bSPPSD1X-lkp@intel.com>
+From: Max Kellermann <max.kellermann@ionos.com>
+Date: Mon, 1 Sep 2025 06:30:24 +0200
+X-Gm-Features: Ac12FXx1zNxU809yDaeQgGpOMM6Li-1LYjsJkwZ1JPL5dRiRDC0y6VWcjO3jTXw
+Message-ID: <CAKPOu+_7w9kd7aOp2J2YtYMDbrV1pfrdUT-CnPmHfexGb7RScg@mail.gmail.com>
+Subject: Re: [PATCH v2 08/12] arch, mm/util: add const to arch_pick_mmap_layout()
+ parameter
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, david@redhat.com, axelrasmussen@google.com, 
+	yuanchu@google.com, willy@infradead.org, hughd@google.com, mhocko@suse.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
+	vishal.moola@gmail.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bharadwaj,
+On Mon, Sep 1, 2025 at 1:44=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+> All errors (new ones prefixed by >>):
+>
+> >> arch/sparc/kernel/sys_sparc_64.c:1:1: error: unknown type name 'ickj'
+>        1 | ickj// SPDX-License-Identifier: GPL-2.0
+>          | ^
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8742b2d8935f476449ef37e263bc4da3295c7b58]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bharadwaj-Raju/dt-bindings-iio-imu-Add-ICM-20948/20250831-024726
-base:   8742b2d8935f476449ef37e263bc4da3295c7b58
-patch link:    https://lore.kernel.org/r/20250831-icm20948-v1-3-1fe560a38de4%40gmail.com
-patch subject: [PATCH 3/5] iio: imu: icm20948: add support for gyroscope
-config: parisc-randconfig-r132-20250901 (https://download.01.org/0day-ci/archive/20250901/202509010950.z3ZOTLrS-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250901/202509010950.z3ZOTLrS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509010950.z3ZOTLrS-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-ERROR: modpost: "__divdi3" [drivers/iio/imu/inv_icm20948/inv-icm20948.ko] undefined!
->> ERROR: modpost: "__moddi3" [drivers/iio/imu/inv_icm20948/inv-icm20948.ko] undefined!
-ERROR: modpost: "inv_icm20948_core_probe" [drivers/iio/imu/inv_icm20948/inv-icm20948-i2c.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oops how did that slip in here...
