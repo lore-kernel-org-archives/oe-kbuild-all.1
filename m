@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F754409
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 20:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E1B1A7264
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 20:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756757137; cv=none; b=MDcZwxvaj0GHNQ+hADPLqjl55hTmpHX8QlRqffoos9fiGee9R42RUwctX1qiomhzhqoYJyvZfKdge+gQagGedkVXMyBbJoIsWRM6tmIjhOvXhJZKCisELM5qbQKATayL0N/sexvk81iHYixXAmcTRUQwkyXj8AFqiKXJ2HlwX+8=
+	t=1756757196; cv=none; b=kPa58wQdnDiBd5DTqCT5G/42ZbTzts38L6hnyAJfCrdLAoRQc7hHv5oJEfizZpdNu0XMZHWbVH0eZWjVUGLCO0aDayH+ApXYnC9Qg4Z2/HyN3ZLHPMkDeh+3ZT2wq1eacCa7fwc+l/v1i3hp/ZybndAN6kjdh6We3+bltjF+QPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756757137; c=relaxed/simple;
-	bh=ugBG5cQoXmcogFZt3+ALzGNU0lt+VlYMnPl02lCO0h4=;
+	s=arc-20240116; t=1756757196; c=relaxed/simple;
+	bh=rL13/Q83wmLacmqii2/LHYDv3bSWlz1ySCx4PwOVloE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OfLRWYJi+0hao3uedarhFYcfwE4LDeKUwxOfX3wmEihC4yWZ8atPaDfzKUkWQ0TiNh4ufZOJLod1vqFVjIYf9aM/o68hASlRDnfr10SUrCXOKSk5HZ547L4SlotKQ6ZD71KojoRxJFUounG40Sd4FXJpNe/2Ix+1iTVUUkoUVqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KW0LA9uf; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=H+mDGxLwoSlhUxFAyZd1Wt4T8DLT4O4qoc+q38afrsQ1TxbnJ/lEMNdDLniBUDih7rwwJqhHYZwvNVraIzr0eH0dABMUuF2Se6bzVvVivAx/UvR+2L1sZafWLWwOF37bGAcUAD5+cFdTghmWZnRd/NVevcZKzH8o4YZ1FaI2i94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfgJ3viZ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KW0LA9uf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfgJ3viZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756757135; x=1788293135;
+  t=1756757195; x=1788293195;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ugBG5cQoXmcogFZt3+ALzGNU0lt+VlYMnPl02lCO0h4=;
-  b=KW0LA9ufX0D+yFIWbyDWCGpaK7KqICmbmJ2gTI/tuf6m770bCYKvnCOs
-   +dwKQSbQ+KhV7tPyZWpE3+1WW0fdIDhDXqdv133xuI2B6UyEEZPlxWGfn
-   lazz3ie1w3IVzZOAPABoUwXRG0JsPQHgRUB80u3MTMBX7Dr0OW63f8yFT
-   jLzupveDmk+xxRZifcfEs19vA7ZQiki/PKHxia4Gj0AvT3dxx3ysDqnW9
-   +d7pI66XBQCsOOEKUCMxpylnW1NYqv0KNj8gdi8+fNlQNwsFAfaopAtcU
-   LV8bQ0K/Rtck9jhR2Z8LRAm/rdrj1X28o5j+FASsty6hAf7ePNqZubmm6
+  bh=rL13/Q83wmLacmqii2/LHYDv3bSWlz1ySCx4PwOVloE=;
+  b=QfgJ3viZhc/k78qHeb2U52yVndJd4XzDhMyI+a+QMcqvXC5PJ2xLQ/dF
+   oFnpZ7d8UAlgK88ti5i8kyA02FJ3dlK7p40gbtqlSbHMdkq7mSIu9UFhp
+   NqNEQTjpp8vYrGAO0yZ48aViNUdv3R8p1O/rRRMvMjFGRR0tfT+QmGUmX
+   1m9uWwBMR1OaCs+25Jt8TlVsOnNntu7npeJdFLt/ZMtlsucS8HXZxQ7sz
+   7ZDasm8RX5zxi9qME5w9jgxB1lDv/2yBrZ4nmSBwuzNpMq3/utMlMYMd/
+   N7brXfgcfApBRkuqy2K0l7QtMKN92t4uxHJuQqLq4rXzTtV+wbZrOFi8f
    Q==;
-X-CSE-ConnectionGUID: ZIPhZeG8Rum+veTsVRHGEA==
-X-CSE-MsgGUID: QOQY/lYrTbCWFFx+HcIuZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59088694"
+X-CSE-ConnectionGUID: 6w32DgzNRdu5PZW0GSuqjA==
+X-CSE-MsgGUID: D6/WqAFtSyaw+Hk8dHw71Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="46598282"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="59088694"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 13:05:35 -0700
-X-CSE-ConnectionGUID: tq9ELqSxSWu0nYeZczjaNA==
-X-CSE-MsgGUID: POr1p5caSuSdEMmQRrKwvQ==
+   d="scan'208";a="46598282"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 13:06:34 -0700
+X-CSE-ConnectionGUID: jLzj2F2+SSmVujrsSJqa3w==
+X-CSE-MsgGUID: 2j6e4MhMRUKzrACDQyiJ9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170653860"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Sep 2025 13:05:34 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 01 Sep 2025 13:06:33 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utAmA-00010F-1B;
-	Mon, 01 Sep 2025 20:05:19 +0000
-Date: Tue, 2 Sep 2025 04:05:06 +0800
+	id 1utAnP-00010J-13;
+	Mon, 01 Sep 2025 20:06:31 +0000
+Date: Tue, 2 Sep 2025 04:05:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [leon-rdma:dmabuf-vfio 3/27] kernel/dma/debug.c:1232:24: warning:
- unused variable 'offset'
-Message-ID: <202509020359.c8THVyka-lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:bugfix/syzbot 3/4] fs/f2fs/node.c:1528:3: error: a label can
+ only be part of a statement and a declaration is not a statement
+Message-ID: <202509020309.KOSXlxMX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,177 +60,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
-head:   4318dbe63bda33b36f0359de75ad0a30bb01138b
-commit: 426e2878d936d4f23b1e7132beca699528ea99a5 [3/27] dma-debug: refactor to use physical addresses for page mapping
-config: riscv-randconfig-001-20250902 (https://download.01.org/0day-ci/archive/20250902/202509020359.c8THVyka-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020359.c8THVyka-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
+head:   e78352f91a47b493a1627cfb57e13c845a5da6ef
+commit: 55c4622c9b2238d6a793200235bdec0f45003e35 [3/4] f2fs: fix to do sanity check on node footer before node folio writeback
+config: s390-randconfig-002-20250902 (https://download.01.org/0day-ci/archive/20250902/202509020309.KOSXlxMX-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020309.KOSXlxMX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509020359.c8THVyka-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509020309.KOSXlxMX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/dma/debug.c: In function 'check_for_stack':
-   kernel/dma/debug.c:1063:21: error: implicit declaration of function 'PhysHighMem'; did you mean 'PageHighMem'? [-Werror=implicit-function-declaration]
-    1063 |                 if (PhysHighMem(phys))
-         |                     ^~~~~~~~~~~
-         |                     PageHighMem
-   kernel/dma/debug.c: In function 'debug_dma_map_phys':
->> kernel/dma/debug.c:1232:24: warning: unused variable 'offset' [-Wunused-variable]
-    1232 |                 size_t offset = offset_in_page(page);
-         |                        ^~~~~~
-   kernel/dma/debug.c: In function 'debug_dma_map_sg':
->> kernel/dma/debug.c:1309:38: warning: passing argument 2 of 'check_for_stack' makes integer from pointer without a cast [-Wint-conversion]
-    1309 |                 check_for_stack(dev, sg_page(s), s->offset);
-         |                                      ^~~~~~~~~~
-         |                                      |
-         |                                      struct page *
-   kernel/dma/debug.c:1056:61: note: expected 'phys_addr_t' {aka 'unsigned int'} but argument is of type 'struct page *'
-    1056 | static void check_for_stack(struct device *dev, phys_addr_t phys)
-         |                                                 ~~~~~~~~~~~~^~~~
-   kernel/dma/debug.c:1309:17: error: too many arguments to function 'check_for_stack'
-    1309 |                 check_for_stack(dev, sg_page(s), s->offset);
-         |                 ^~~~~~~~~~~~~~~
-   kernel/dma/debug.c:1056:13: note: declared here
-    1056 | static void check_for_stack(struct device *dev, phys_addr_t phys)
-         |             ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   fs/f2fs/node.c: In function 'sanity_check_node_footer':
+>> fs/f2fs/node.c:1528:3: error: a label can only be part of a statement and a declaration is not a statement
+    1528 |   struct f2fs_inode *ri = &F2FS_NODE(folio)->i;
+         |   ^~~~~~
+>> fs/f2fs/node.c:1529:3: error: expected expression before 'umode_t'
+    1529 |   umode_t m = le16_to_cpu(ri->i_mode);
+         |   ^~~~~~~
+   In file included from include/linux/stat.h:7,
+                    from include/linux/fs.h:11,
+                    from fs/f2fs/node.c:8:
+>> fs/f2fs/node.c:1532:17: error: 'm' undeclared (first use in this function); did you mean 'tm'?
+    1532 |    if (!S_ISLNK(m) && !S_ISREG(m) && !S_ISDIR(m) &&
+         |                 ^
+   include/uapi/linux/stat.h:21:23: note: in definition of macro 'S_ISLNK'
+      21 | #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+         |                       ^
+   fs/f2fs/node.c:1532:17: note: each undeclared identifier is reported only once for each function it appears in
+    1532 |    if (!S_ISLNK(m) && !S_ISREG(m) && !S_ISDIR(m) &&
+         |                 ^
+   include/uapi/linux/stat.h:21:23: note: in definition of macro 'S_ISLNK'
+      21 | #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+         |                       ^
+   fs/f2fs/node.c:1528:22: warning: unused variable 'ri' [-Wunused-variable]
+    1528 |   struct f2fs_inode *ri = &F2FS_NODE(folio)->i;
+         |                      ^~
 
 
-vim +/offset +1232 kernel/dma/debug.c
+vim +1528 fs/f2fs/node.c
 
-  1206	
-  1207	void debug_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
-  1208			int direction, dma_addr_t dma_addr, unsigned long attrs)
-  1209	{
-  1210		struct dma_debug_entry *entry;
-  1211	
-  1212		if (unlikely(dma_debug_disabled()))
-  1213			return;
-  1214	
-  1215		if (dma_mapping_error(dev, dma_addr))
-  1216			return;
-  1217	
-  1218		entry = dma_entry_alloc();
-  1219		if (!entry)
-  1220			return;
-  1221	
-  1222		entry->dev       = dev;
-  1223		entry->type      = dma_debug_phy;
-  1224		entry->paddr	 = phys;
-  1225		entry->dev_addr  = dma_addr;
-  1226		entry->size      = size;
-  1227		entry->direction = direction;
-  1228		entry->map_err_type = MAP_ERR_NOT_CHECKED;
-  1229	
-  1230		if (!(attrs & DMA_ATTR_MMIO)) {
-  1231			struct page *page = phys_to_page(phys);
-> 1232			size_t offset = offset_in_page(page);
-  1233	
-  1234			check_for_stack(dev, phys);
-  1235	
-  1236			if (!PhysHighMem(phys))
-  1237				check_for_illegal_area(dev, phys_to_virt(phys), size);
-  1238		}
-  1239	
-  1240		add_dma_entry(entry, attrs);
-  1241	}
-  1242	
-  1243	void debug_dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
-  1244	{
-  1245		struct dma_debug_entry ref;
-  1246		struct dma_debug_entry *entry;
-  1247		struct hash_bucket *bucket;
-  1248		unsigned long flags;
-  1249	
-  1250		if (unlikely(dma_debug_disabled()))
-  1251			return;
-  1252	
-  1253		ref.dev = dev;
-  1254		ref.dev_addr = dma_addr;
-  1255		bucket = get_hash_bucket(&ref, &flags);
-  1256	
-  1257		list_for_each_entry(entry, &bucket->list, list) {
-  1258			if (!exact_match(&ref, entry))
-  1259				continue;
-  1260	
-  1261			/*
-  1262			 * The same physical address can be mapped multiple
-  1263			 * times. Without a hardware IOMMU this results in the
-  1264			 * same device addresses being put into the dma-debug
-  1265			 * hash multiple times too. This can result in false
-  1266			 * positives being reported. Therefore we implement a
-  1267			 * best-fit algorithm here which updates the first entry
-  1268			 * from the hash which fits the reference value and is
-  1269			 * not currently listed as being checked.
-  1270			 */
-  1271			if (entry->map_err_type == MAP_ERR_NOT_CHECKED) {
-  1272				entry->map_err_type = MAP_ERR_CHECKED;
-  1273				break;
-  1274			}
-  1275		}
-  1276	
-  1277		put_hash_bucket(bucket, flags);
-  1278	}
-  1279	EXPORT_SYMBOL(debug_dma_mapping_error);
-  1280	
-  1281	void debug_dma_unmap_phys(struct device *dev, dma_addr_t dma_addr,
-  1282				  size_t size, int direction)
-  1283	{
-  1284		struct dma_debug_entry ref = {
-  1285			.type           = dma_debug_phy,
-  1286			.dev            = dev,
-  1287			.dev_addr       = dma_addr,
-  1288			.size           = size,
-  1289			.direction      = direction,
-  1290		};
-  1291	
-  1292		if (unlikely(dma_debug_disabled()))
-  1293			return;
-  1294		check_unmap(&ref);
-  1295	}
-  1296	
-  1297	void debug_dma_map_sg(struct device *dev, struct scatterlist *sg,
-  1298			      int nents, int mapped_ents, int direction,
-  1299			      unsigned long attrs)
-  1300	{
-  1301		struct dma_debug_entry *entry;
-  1302		struct scatterlist *s;
-  1303		int i;
-  1304	
-  1305		if (unlikely(dma_debug_disabled()))
-  1306			return;
-  1307	
-  1308		for_each_sg(sg, s, nents, i) {
-> 1309			check_for_stack(dev, sg_page(s), s->offset);
-  1310			if (!PageHighMem(sg_page(s)))
-  1311				check_for_illegal_area(dev, sg_virt(s), s->length);
-  1312		}
-  1313	
-  1314		for_each_sg(sg, s, mapped_ents, i) {
-  1315			entry = dma_entry_alloc();
-  1316			if (!entry)
-  1317				return;
-  1318	
-  1319			entry->type           = dma_debug_sg;
-  1320			entry->dev            = dev;
-  1321			entry->paddr	      = sg_phys(s);
-  1322			entry->size           = sg_dma_len(s);
-  1323			entry->dev_addr       = sg_dma_address(s);
-  1324			entry->direction      = direction;
-  1325			entry->sg_call_ents   = nents;
-  1326			entry->sg_mapped_ents = mapped_ents;
-  1327	
-  1328			check_sg_segment(dev, s);
-  1329	
-  1330			add_dma_entry(entry, attrs);
-  1331		}
-  1332	}
-  1333	
+  1502	
+  1503	static int sanity_check_node_footer(struct f2fs_sb_info *sbi,
+  1504						struct folio *folio, pgoff_t nid,
+  1505						enum node_type ntype)
+  1506	{
+  1507		bool is_inode;
+  1508	
+  1509		if (unlikely(nid != nid_of_node(folio)))
+  1510			goto out_err;
+  1511	
+  1512		is_inode = IS_INODE(folio);
+  1513	
+  1514		switch (ntype) {
+  1515		case NODE_TYPE_INODE:
+  1516			if (!is_inode)
+  1517				goto out_err;
+  1518			break;
+  1519		case NODE_TYPE_XATTR:
+  1520			if (is_inode || !f2fs_has_xattr_block(ofs_of_node(folio)))
+  1521				goto out_err;
+  1522			break;
+  1523		case NODE_TYPE_NON_INODE:
+  1524			if (is_inode)
+  1525				goto out_err;
+  1526			break;
+  1527		case NODE_TYPE_UNKNOWN:
+> 1528			struct f2fs_inode *ri = &F2FS_NODE(folio)->i;
+> 1529			umode_t m = le16_to_cpu(ri->i_mode);
+  1530	
+  1531			if (is_inode) {
+> 1532				if (!S_ISLNK(m) && !S_ISREG(m) && !S_ISDIR(m) &&
+  1533					!S_ISCHR(m) && !S_ISBLK(m) && !S_ISFIFO(m) &&
+  1534					!S_ISSOCK(m))
+  1535					goto out_err;
+  1536	
+  1537				if (f2fs_has_xattr_block(ofs_of_node(folio)))
+  1538					goto out_err;
+  1539			}
+  1540			break;
+  1541		default:
+  1542			break;
+  1543		}
+  1544		if (time_to_inject(sbi, FAULT_INCONSISTENT_FOOTER))
+  1545			goto out_err;
+  1546		return 0;
+  1547	out_err:
+  1548		f2fs_warn(sbi, "inconsistent node block, node_type:%d, nid:%lu, "
+  1549			  "node_footer[nid:%u,ino:%u,ofs:%u,cpver:%llu,blkaddr:%u]",
+  1550			  ntype, nid, nid_of_node(folio), ino_of_node(folio),
+  1551			  ofs_of_node(folio), cpver_of_node(folio),
+  1552			  next_blkaddr_of_node(folio));
+  1553		set_sbi_flag(sbi, SBI_NEED_FSCK);
+  1554		f2fs_handle_error(sbi, ERROR_INCONSISTENT_FOOTER);
+  1555		return -EFSCORRUPTED;
+  1556	}
+  1557	
 
 -- 
 0-DAY CI Kernel Test Service
