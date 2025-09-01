@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB042AD14
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 21:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CE62CCDB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 22:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756763595; cv=none; b=TiyIZ+5EmfEAUI78OtbmVHQR1SvrMD44o7nqxVLoOsTwZPn3JRzXdCYg8nFX/NOfBcw5b5JWmOlYcCVOueK6lfNMnDabsSZsm+7aI3EIpsOyuVqdEK3qZjuPwuCpex2KHH9RVPtk0KrCeYG9Ys60hV698zV94/aBKUQFmGNj3uw=
+	t=1756765464; cv=none; b=pzwpFfWXvhyYHQXMVExneIYNJoa5P2oT1e3AfGDORHjF0M7pakPDDGJuthwn3XPcgcUJOziFNwihu8Uj7EPIGB+Q3h/gmBOQwF3uozkvGsL1qe0DzVTb3iMbvcH/Ux61nzM0R0mud0erok3yrHInSHwuBMW/MsMODOIAfOTuzzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756763595; c=relaxed/simple;
-	bh=yCiNuaVDAoNiJs27P53eXzSxOUh1hlF8eWbRhSPf5hk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BPoAC+D+DipSOZqs/mXaDDuluAi+2X7khu6UMnVR3NcMU7xFj44B2AZC9SNFJOHfri4QRC9AzfTf1+nypFWg4kfBe8HMCsFiB6msZ/63V1Oq+k+KHN2gg0w5rZMGhd7SrLpF3eaNCLgupHPqzwGh4dDUtaOW72MSYm/8ufn1OtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csca2Cuk; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1756765464; c=relaxed/simple;
+	bh=CskA38wb5TYBMTOWHKn53pBQvrb2Cqr8nEqyhWL8n4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cTLn5se+XC8qHrqDvANXbG23L00/+iKF6WWicpRaoiSS9+syBiDQ+yXwgDyg+wryxPKeGCkttHAl70P6POm/99+G4rb/WXYt5fFNzYq1Imk1CXjn/FtP158YiGrxavZ8DZ9s1al9mX3h9sL+F/xaC186z8B5nFSYpW3RWbRbX9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0shQsl3; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csca2Cuk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0shQsl3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756763593; x=1788299593;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yCiNuaVDAoNiJs27P53eXzSxOUh1hlF8eWbRhSPf5hk=;
-  b=csca2Cuk69GWndToEIHfv6v8Cqz174IUxuPqLcuvYBOIlx/qDtlKQMzJ
-   vfic1XWSgo3+/90oA75zM1VAqh2SsCgL6wxgiY5GUGpNo/YbpL/zO4l0N
-   MzCo0HdVnksOMh00lufh1axwNkklRdBO4X9U5kYE9zoRVz26I7lc+DdLd
-   UtTczAozUl1IwuWQawN/FjVF4H3bjacEMNJEX+Tgn+pj421L2aH/y9cR4
-   uH5FFl3rhZH1ypHrKv3st6rP85VNxvjpCpPNd+KFyzwosOpNk4Lw21qJu
-   sJMkZGk1N0bcwHBKO+/L/GpIZHYDXvCN075ITIoefkTa2FXghr4FFgHMa
+  t=1756765463; x=1788301463;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CskA38wb5TYBMTOWHKn53pBQvrb2Cqr8nEqyhWL8n4g=;
+  b=Q0shQsl3IwPBaFu+j3FE7P6O3IcfmQCFZQcxwFLH1ujCVy0ZQxRAUr2F
+   d1z9DURlmCN5Hnlnv/52AuZrE0c9XNdb2t8wZn1Y/0ODQ9dynAudX8Jl3
+   8eAMl+xEAPDx7+ptgRTvN7v9LIA7g1Yub7+Y4PiRos2jIi1gLDi3LVcRu
+   Vd9Uci952OcbGKwZJ2RKSZQ9MgEeNmzXgtBhiHXk5lm06Lf+d5cKCboKm
+   rvZgvmIebHjI1lmcFHZ+eUyij0kyqz8X20VPGfUYedK7iJ9YeJK50ZLH9
+   aGifeJjfdZFtXvZIKDKSZcXk3Kwqa0v1s3FNXQKxut5cNMldkPiWRsawq
    Q==;
-X-CSE-ConnectionGUID: PJxqJMabRb2qotVF0KwFvw==
-X-CSE-MsgGUID: xaaH44/cQGWv4JvLL713Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="62840357"
+X-CSE-ConnectionGUID: OIj7qlj7TCW/nJLAKWrFNw==
+X-CSE-MsgGUID: VMA31H2WQruNpmI5ignGpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="61658588"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="62840357"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 14:53:11 -0700
-X-CSE-ConnectionGUID: b6UBfpWyS325mKd4Xs7Jkw==
-X-CSE-MsgGUID: 9MRIAChlT4eOtPMavE1AOA==
+   d="scan'208";a="61658588"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 15:24:22 -0700
+X-CSE-ConnectionGUID: /xEQ8/f7TUWFmYMfhjrGyQ==
+X-CSE-MsgGUID: Iw9JlJZiTq2aEIhcNBW5QQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="202060714"
+   d="scan'208";a="170376345"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2025 14:53:11 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Sep 2025 15:24:19 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utCSZ-00014t-2l;
-	Mon, 01 Sep 2025 21:53:08 +0000
-Date: Tue, 2 Sep 2025 05:52:12 +0800
+	id 1utCwe-00019b-0t;
+	Mon, 01 Sep 2025 22:24:13 +0000
+Date: Tue, 2 Sep 2025 06:24:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1774/1774] mm/maccess.c:64:6: warning:
- no previous prototype for function '__probe_user_read'
-Message-ID: <202509020546.DO94LENh-lkp@intel.com>
+To: Shuai Zhang <quic_shuaz@quicinc.com>, dmitry.baryshkov@oss.qualcomm.com,
+	marcel@holtmann.org, luiz.dentz@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	stable@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_chejiang@quicinc.com,
+	Shuai Zhang <quic_shuaz@quicinc.com>
+Subject: Re: [PATCH v8] Bluetooth: hci_qca: Fix SSR (SubSystem Restart) fail
+ when BT_EN is pulled up by hw
+Message-ID: <202509020557.cSBn6IwZ-lkp@intel.com>
+References: <20250822123605.757306-1-quic_shuaz@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,61 +67,168 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250822123605.757306-1-quic_shuaz@quicinc.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   54968bf23106d2ac31ede8dca013a7fadeb3dd75
-commit: 5c5bac1227aee80ee106ec07b32c981558049304 [1774/1774] uaccess: Add non-pagefault user-space read functions
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250902/202509020546.DO94LENh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020546.DO94LENh-lkp@intel.com/reproduce)
+Hi Shuai,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master linus/master v6.17-rc4 next-20250901]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Zhang/Bluetooth-hci_qca-Fix-SSR-SubSystem-Restart-fail-when-BT_EN-is-pulled-up-by-hw/20250822-203836
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20250822123605.757306-1-quic_shuaz%40quicinc.com
+patch subject: [PATCH v8] Bluetooth: hci_qca: Fix SSR (SubSystem Restart) fail when BT_EN is pulled up by hw
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250902/202509020557.cSBn6IwZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020557.cSBn6IwZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509020546.DO94LENh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509020557.cSBn6IwZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/maccess.c:64:6: warning: no previous prototype for function '__probe_user_read' [-Wmissing-prototypes]
-      64 | long __probe_user_read(void *dst, const void __user *src, size_t size)
-         |      ^
-   mm/maccess.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      64 | long __probe_user_read(void *dst, const void __user *src, size_t size)
-         | ^
-         | static 
-   1 warning generated.
+   In file included from include/linux/kernel.h:23,
+                    from drivers/bluetooth/hci_qca.c:18:
+   drivers/bluetooth/hci_qca.c: In function 'qca_hw_error':
+>> drivers/bluetooth/hci_qca.c:1669:60: error: 'struct hci_dev' has no member named 'quirks'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                            ^~
+   include/linux/bitops.h:44:44: note: in definition of macro 'bitop'
+      44 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+         |                                            ^~~~
+   drivers/bluetooth/hci_qca.c:1669:14: note: in expansion of macro 'test_bit'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |              ^~~~~~~~
+>> drivers/bluetooth/hci_qca.c:1669:60: error: 'struct hci_dev' has no member named 'quirks'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                            ^~
+   include/linux/bitops.h:45:23: note: in definition of macro 'bitop'
+      45 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
+         |                       ^~~~
+   drivers/bluetooth/hci_qca.c:1669:14: note: in expansion of macro 'test_bit'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |              ^~~~~~~~
+>> drivers/bluetooth/hci_qca.c:1669:60: error: 'struct hci_dev' has no member named 'quirks'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                            ^~
+   include/linux/bitops.h:46:57: note: in definition of macro 'bitop'
+      46 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
+         |                                                         ^~~~
+   drivers/bluetooth/hci_qca.c:1669:14: note: in expansion of macro 'test_bit'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |              ^~~~~~~~
+>> drivers/bluetooth/hci_qca.c:1669:60: error: 'struct hci_dev' has no member named 'quirks'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                            ^~
+   include/linux/bitops.h:47:24: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                        ^~~~
+   drivers/bluetooth/hci_qca.c:1669:14: note: in expansion of macro 'test_bit'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |              ^~~~~~~~
+>> drivers/bluetooth/hci_qca.c:1669:60: error: 'struct hci_dev' has no member named 'quirks'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |                                                            ^~
+   include/linux/bitops.h:47:39: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                       ^~~~
+   drivers/bluetooth/hci_qca.c:1669:14: note: in expansion of macro 'test_bit'
+    1669 |         if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+         |              ^~~~~~~~
 
 
-vim +/__probe_user_read +64 mm/maccess.c
+vim +1669 drivers/bluetooth/hci_qca.c
 
-    50	
-    51	/**
-    52	 * probe_user_read(): safely attempt to read from a user-space location
-    53	 * @dst: pointer to the buffer that shall take the data
-    54	 * @src: address to read from. This must be a user address.
-    55	 * @size: size of the data chunk
-    56	 *
-    57	 * Safely read from user address @src to the buffer at @dst. If a kernel fault
-    58	 * happens, handle that and return -EFAULT.
-    59	 */
-    60	
-    61	long __weak probe_user_read(void *dst, const void __user *src, size_t size)
-    62	    __attribute__((alias("__probe_user_read")));
-    63	
-  > 64	long __probe_user_read(void *dst, const void __user *src, size_t size)
-    65	{
-    66		long ret = -EFAULT;
-    67		mm_segment_t old_fs = get_fs();
-    68	
-    69		set_fs(USER_DS);
-    70		if (access_ok(src, size))
-    71			ret = probe_read_common(dst, src, size);
-    72		set_fs(old_fs);
-    73	
-    74		return ret;
-    75	}
-    76	EXPORT_SYMBOL_GPL(probe_user_read);
-    77	
+  1609	
+  1610	static void qca_hw_error(struct hci_dev *hdev, u8 code)
+  1611	{
+  1612		struct hci_uart *hu = hci_get_drvdata(hdev);
+  1613		struct qca_data *qca = hu->priv;
+  1614	
+  1615		set_bit(QCA_SSR_TRIGGERED, &qca->flags);
+  1616		set_bit(QCA_HW_ERROR_EVENT, &qca->flags);
+  1617		bt_dev_info(hdev, "mem_dump_status: %d", qca->memdump_state);
+  1618	
+  1619		if (qca->memdump_state == QCA_MEMDUMP_IDLE) {
+  1620			/* If hardware error event received for other than QCA
+  1621			 * soc memory dump event, then we need to crash the SOC
+  1622			 * and wait here for 8 seconds to get the dump packets.
+  1623			 * This will block main thread to be on hold until we
+  1624			 * collect dump.
+  1625			 */
+  1626			set_bit(QCA_MEMDUMP_COLLECTION, &qca->flags);
+  1627			qca_send_crashbuffer(hu);
+  1628			qca_wait_for_dump_collection(hdev);
+  1629		} else if (qca->memdump_state == QCA_MEMDUMP_COLLECTING) {
+  1630			/* Let us wait here until memory dump collected or
+  1631			 * memory dump timer expired.
+  1632			 */
+  1633			bt_dev_info(hdev, "waiting for dump to complete");
+  1634			qca_wait_for_dump_collection(hdev);
+  1635		}
+  1636	
+  1637		mutex_lock(&qca->hci_memdump_lock);
+  1638		if (qca->memdump_state != QCA_MEMDUMP_COLLECTED) {
+  1639			bt_dev_err(hu->hdev, "clearing allocated memory due to memdump timeout");
+  1640			hci_devcd_abort(hu->hdev);
+  1641			if (qca->qca_memdump) {
+  1642				kfree(qca->qca_memdump);
+  1643				qca->qca_memdump = NULL;
+  1644			}
+  1645			qca->memdump_state = QCA_MEMDUMP_TIMEOUT;
+  1646			cancel_delayed_work(&qca->ctrl_memdump_timeout);
+  1647		}
+  1648		mutex_unlock(&qca->hci_memdump_lock);
+  1649	
+  1650		if (qca->memdump_state == QCA_MEMDUMP_TIMEOUT ||
+  1651		    qca->memdump_state == QCA_MEMDUMP_COLLECTED) {
+  1652			cancel_work_sync(&qca->ctrl_memdump_evt);
+  1653			skb_queue_purge(&qca->rx_memdump_q);
+  1654		}
+  1655	
+  1656		/*
+  1657		 * If the BT chip's bt_en pin is connected to a 3.3V power supply via
+  1658		 * hardware and always stays high, driver cannot control the bt_en pin.
+  1659		 * As a result, during SSR (SubSystem Restart), QCA_SSR_TRIGGERED and
+  1660		 * QCA_IBS_DISABLED flags cannot be cleared, which leads to a reset
+  1661		 * command timeout.
+  1662		 * Add an msleep delay to ensure controller completes the SSR process.
+  1663		 *
+  1664		 * Host will not download the firmware after SSR, controller to remain
+  1665		 * in the IBS_WAKE state, and the host needs to synchronize with it
+  1666		 *
+  1667		 * Since the bluetooth chip has been reset, clear the memdump state.
+  1668		 */
+> 1669		if (!test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks)) {
+  1670			/*
+  1671			 * When the SSR (SubSystem Restart) duration exceeds 2 seconds,
+  1672			 * it triggers host tx_idle_delay, which sets host TX state
+  1673			 * to sleep. Reset tx_idle_timer after SSR to prevent
+  1674			 * host enter TX IBS_Sleep mode.
+  1675			 */
+  1676			mod_timer(&qca->tx_idle_timer, jiffies +
+  1677					  msecs_to_jiffies(qca->tx_idle_delay));
+  1678	
+  1679			/* Controller reset completion time is 50ms */
+  1680			msleep(50);
+  1681	
+  1682			clear_bit(QCA_SSR_TRIGGERED, &qca->flags);
+  1683			clear_bit(QCA_IBS_DISABLED, &qca->flags);
+  1684	
+  1685			qca->tx_ibs_state = HCI_IBS_TX_AWAKE;
+  1686			qca->memdump_state = QCA_MEMDUMP_IDLE;
+  1687		}
+  1688	
+  1689		clear_bit(QCA_HW_ERROR_EVENT, &qca->flags);
+  1690	}
+  1691	
 
 -- 
 0-DAY CI Kernel Test Service
