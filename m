@@ -1,71 +1,68 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E0335977
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 10:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A812135977
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 10:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756724173; cv=none; b=sBD5x3ro81mcr1GuZpOQz0irouA6XVVax6jfllqf9GAi+vb2JANKu0xjj4HXECB/mWa6AdCCJqeuN4f6KmNutMgWp9jHYOJOwFeOjf7gznua40f6YTg7Dgxa1gILDu7IQOVfqYg+CVKB5UMjzt8Hsq8JnWRzqlKd6IirpH1L50I=
+	t=1756724227; cv=none; b=ITHBuqqvebBQ5myXykmGm9984ex9h2WDYH/rQZKKPc1TGW/E+h+Vqa3UucIBpn15R/c8IKjxkil4QOhEWRpgpFb6jKWCa5qAh7TdBsZbLWG0f9x63qgZiuPEfX3x/mneZwwA9Wb4H4vf9s/Ajn5gpiFRrvEjmOtc4bYTSXQInXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756724173; c=relaxed/simple;
-	bh=cBxzMBrBdfX1S9upUiMnP7ZToiXDgNKMJ0RKfQaxhTA=;
+	s=arc-20240116; t=1756724227; c=relaxed/simple;
+	bh=wRSiENhfrzWA+pAaqLHx1eWqkBYeNuIOKOhFBAUy4rM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a7RaRpC6sQ7DIhmig6xkg7kna/q2hHkjS+ws5ZUcCH3VyKIWvjkZV8EALkwfbQO+YL4RN8xSHXnMTZ4gqmy6RSVZDQ8H6iNDoqgxtqJe03Z/9RLTKkW1wB4zUAIhD6CCiUiiCWPvUa9QyLVvpv9DpCWp2ohGjoZcZTJEV+VtR+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bSUstjtj; arc=none smtp.client-ip=209.85.221.43
+	 Content-Disposition; b=lZWGWbXyJwtwZDevTAuU8RVBPqmABUZV81rrj900uOn1GxaUMIutdgD/MiBl5QBFBVIzIRXg0w4iuHXWScnE+JbPho1D8cQ7plejZU3kMYAZaNC5UvfI0QOv8ncelEpCKSXeR/tI2O1TXtAlg1Be/FIOOOVrVgTpY9La4rROEzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cdhs94TG; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bSUstjtj"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3cbe70a7923so3243435f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Sep 2025 03:56:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cdhs94TG"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45b88bff3ebso7531015e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Sep 2025 03:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756724170; x=1757328970; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1756724224; x=1757329024; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=s51XmWZJp5DHxpHOLeJmnLNp4ozg3yH12eVI2vl1w5Y=;
-        b=bSUstjtjxRBUue89thxEw1zTphTAv0C93kZMEsy5HBV7ECR8sFkTihuj6FV6loYO+5
-         0kNIbxGpNmcdFOoP9phm1UYUCYu916dDz9XWfLfhAHzgJCzgRQuTTNuEDCqmA6WQ+tZ9
-         z7+V2UJ17c5jfBueK6AKvnRfrMlYbPbOPoD7CCTxG/GcCrvV1oMmeCeAQOgQsRj8hu+4
-         pETuN2WTExlMipmh0E8y3lrXnv68Rxw/jIEMyrmfFmvdD/jK1F6OLzq6/z6+vIKBxRnQ
-         oP+aAzmkBp9WQpjDqhyFzu8FmgzGmdQoWPSNJy0V3OFMfK4dBsffNKdO1Uhj8znBxDR1
-         PkMA==
+        bh=r3JfaXSVismHLeDzpO31jS/oWc9tPZEe3raZE7nLpos=;
+        b=cdhs94TGzVHBhdfKTEa6bRJ/Tu/6h0d/EgWVN1GdVYjGpw5npNI4WD7AtyiuHrnoEC
+         aAmQIoyRCgJqlfklmG6CgJcB5g4tIh6kNeMfy7xo7lMkLidSE71FRL6RXGNHLhkvK/qj
+         taTfvCDP6413iaJvmlYxOXkPC/lPS4qyULYdcbLyk+0zMOlOUSfjTcStq8occB93jPNc
+         2yYQKn+oIjTCKMIpHsgL2Ipcltz844PQdzmQIiUOJlzhVl5mLOCtWtGENV6T+vMmhI9x
+         b3+LgfXPLMXAuT9qmVADs6Js4g38PkFS4qfaYjEzGxtzFkqUwU1vKkbZBb4INSoyHeHR
+         1Msw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756724170; x=1757328970;
+        d=1e100.net; s=20230601; t=1756724224; x=1757329024;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s51XmWZJp5DHxpHOLeJmnLNp4ozg3yH12eVI2vl1w5Y=;
-        b=YbhQ3mYwMEXm2Ru0Hv7XlvzHcSWLAhzR4fuMYuypoiak2IXduMhO4tQYNsBaix32f0
-         ZPkOsQZF6yaFlNvNo7xfZB0KPoo26cjzj3J7GAhss/TiFHQkyo0MS57xwBaJFBmdyLIg
-         EHgnWZX1dcxy90AeHN/UhEanUmwwjQL0jf1rhUXZMVhJ5N0cq2oUqB/tFycp0G9RajDX
-         kaboElr959kebi4wvMylplUuXpewx5tLzkn6jRYfTENHzOb7XQLBN7yYBHBVgEnxwT7H
-         ekyreNyUR/HR4W/qamGr7aYdAc96H8IhdXV/ehB/y5CIzY5cVo/LTUHTjEY56m5FlZqh
-         Cpzw==
-X-Forwarded-Encrypted: i=1; AJvYcCWoApt1ijzZ06XuobH0wlh6iSjD06OQ+oCWVGWoc7zR+lpH86Y7BLdLS+sOJSQAhXIH4WQu4BLvXqv4Zqqz@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOYCJiJPLGKg5RRZGd9clmcoZN+UDzSFRiS3XIOwdHrXFO1edV
-	GA/olZEFj1WYjsFiQF7ufCl6XGCd82COfNPhRWpknAjwkdEFcxr8EKK2jxc+z5YXwSk=
-X-Gm-Gg: ASbGnctTYVa9YOOmyYVJzlcxwy6K2ksS/U9RJfTfLJX7v1oArtLDnOMPebWJjYBwFAk
-	auskkfmlfoM09tz3zJL2RdS+R/ElldRbsOUf2LDCqNUz7NZ6d5faD6PXX/u2J8dOUBBMFCjkWmK
-	CV65kfVFOHDC6gpYJLm2XKs4KAULP5wVcV5no14Nc89QEX3FkVGq7Te/523RD3r5Tv1bHz5i2mn
-	9WxCy6havk2Rsu97RP+0afU2JYiEJysXhNzRk22sKxZDtpxo5BjzuSX2e6UbhXpaeSgIPFSrYsq
-	7UUY16kwUD1JMSTeD4S9b8CqrztPJ8E5YLlir3aW80f3H3SP8xzdkW35Iy/xvZ/fox2azWa5WqG
-	QyyOGpb33GXeRFX7JDsY8zRPcUh13tLTK+uoCqg==
-X-Google-Smtp-Source: AGHT+IFiaIyiVHKBvWcuJ7j9OGQvV5jS+bUEoZBiN7Wnh2kb+IM8kDKm5zixCaYx5Z385dGIbHqAEA==
-X-Received: by 2002:a05:6000:26c6:b0:3c9:fc3c:3aa3 with SMTP id ffacd0b85a97d-3d1dfc07101mr7147467f8f.40.1756724169658;
-        Mon, 01 Sep 2025 03:56:09 -0700 (PDT)
+        bh=r3JfaXSVismHLeDzpO31jS/oWc9tPZEe3raZE7nLpos=;
+        b=vy4buyrmlf/+/hVHtUC80kbf2efQ8jGWFkV4P4QbhcH7IyuC64APYYc/OetT0YNq/8
+         5hVB0lp3yfJC8jpo5hzXHTKgXOJ6mOVdlm6WiwVsQ4j0DHQg53Qe+1lmjxWcJMf7mRRw
+         Pne0TlSIukVjonzorOZuXmBd39vAd+RFVVnfFMvOjCpwbkjxajKhl9kdDmOPPAFmQ/Uw
+         0d7i7ft3MWjiT+fIdq1cSYWMK+IWiUxmy7A7v0GfHb08GRoCkmxx57gYrRs4ED0N/aPv
+         ccrFk+Sw3eXAOA/da04mIsSdO/66UVb8GdX2/JAdLPeqByHfFjnhgUKHc+vBeaQNU3nm
+         u8hg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYeGQDdU5qP05drvnDSt1ueTzrRN0lcE+aelK2YywFdYJATBtezy9TqH0Kn6PRf7ZujJ5932PHh0vejI9c@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUxNquzS5EtSNln8fsgEKwxduI3+AecNU0Lxi0JedOL+f44Pw8
+	fROBmnkiCcaDjQrl2/P2U756UTuJhbog2JJ3nqV9r+GiAeEt6fxzK2mI1tcowL0q99g=
+X-Gm-Gg: ASbGncsheLxLCya4sIKvlT8mawkFdkiDs4I5KZxv4jrJvUY3gJnieRdXcJbfucmBHrm
+	xJRzPGBs8zyuix0ArJVNWB0RInVMQssGyMi/beuU2UM7k9QqxA8oJhO9LxjaJUExmNFSVJW8wl3
+	+Iwo/SAuJxFD/syH32kGo5vQ6i+BTQXNPbn0rVPeOPkeQkl7z9+oDMHiDQhZXb336glvIvACnLl
+	UmjGFpFJAxLhhKwWliEHFomE9/0e+CYB1Jx+a8yRDsz1R8S1O7R6OK+xrEuhy2JQB0at8kUA9p/
+	SbrgYhmg7hMqE31qeci6EguO9GKXDIDAraA/WX7R6sGvi0fW95UBr6rd7xEwOCUrKUYA6W2aGCS
+	HsMa9jadahsjLbAEzcJc9Mp7oriasLiCJafTKoA==
+X-Google-Smtp-Source: AGHT+IE/CJtDdNxrehHlmbmBU+xgmZTeiVp3KwtACJpRbf8j4XWImHdbWkEao92fiVlMd+LO4wjFow==
+X-Received: by 2002:a05:600c:4c08:b0:45b:7db5:2c7a with SMTP id 5b1f17b1804b1-45b855286b0mr38988535e9.1.1756724223954;
+        Mon, 01 Sep 2025 03:57:03 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3d3a7492001sm8737165f8f.42.2025.09.01.03.56.08
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b8efb280csm11582865e9.3.2025.09.01.03.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 03:56:09 -0700 (PDT)
-Date: Mon, 1 Sep 2025 13:56:05 +0300
+        Mon, 01 Sep 2025 03:57:03 -0700 (PDT)
+Date: Mon, 1 Sep 2025 13:57:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 4756/5283] kernel/fork.c:457
- account_kernel_stack() warn: we never enter this loop
-Message-ID: <202508300929.TrRovUMu-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Dave Hansen <dave.hansen@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:kpte 2/6] include/asm-generic/pgalloc.h:281
+ __pgd_alloc_noprof() error: uninitialized symbol 'ptdesc'.
+Message-ID: <202508301127.c2I2lcpb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,77 +72,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3cace99d63192a7250461b058279a42d91075d0c
-commit: e0aa7237ef4323a66ed06953225d9b07cf039530 [4756/5283] mm: tag kernel stack pages
-config: hexagon-randconfig-r072-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300929.TrRovUMu-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kpte
+head:   d5eaa925a3150c716e8ec564c51069fbdd303fbc
+commit: ccbd04de39826d130b67374e68599e128b53acab [2/6] mm: Actually mark kernel page table pages
+config: hexagon-randconfig-r072-20250829 (https://download.01.org/0day-ci/archive/20250830/202508301127.c2I2lcpb-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508300929.TrRovUMu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508301127.c2I2lcpb-lkp@intel.com/
 
 smatch warnings:
-kernel/fork.c:457 account_kernel_stack() warn: we never enter this loop
-kernel/fork.c:457 account_kernel_stack() warn: unsigned 'i' is never less than zero.
-kernel/fork.c:479 exit_task_stack_account() warn: we never enter this loop
-kernel/fork.c:479 exit_task_stack_account() warn: unsigned 'i' is never less than zero.
+include/asm-generic/pgalloc.h:281 __pgd_alloc_noprof() error: uninitialized symbol 'ptdesc'.
 
-vim +457 kernel/fork.c
+vim +/ptdesc +281 include/asm-generic/pgalloc.h
 
-ba14a194a434cc Andy Lutomirski           2016-08-11  437  static void account_kernel_stack(struct task_struct *tsk, int account)
-c6a7f5728a1db4 KOSAKI Motohiro           2009-09-21  438  {
-0ce055f85335e4 Sebastian Andrzej Siewior 2022-02-17  439  	if (IS_ENABLED(CONFIG_VMAP_STACK)) {
-449e0b4ed5a16c Pasha Tatashin            2025-05-09  440  		struct vm_struct *vm_area = task_stack_vm_area(tsk);
-27faca83a7e955 Muchun Song               2021-04-29  441  		int i;
-efdc94907977d2 Andy Lutomirski           2016-07-28  442  
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  443) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++) {
-449e0b4ed5a16c Pasha Tatashin            2025-05-09  444  			mod_lruvec_page_state(vm_area->pages[i], NR_KERNEL_STACK_KB,
-27faca83a7e955 Muchun Song               2021-04-29  445  					      account * (PAGE_SIZE / 1024));
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  446) 			__SetPageStack(vm_area->pages[i]);
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  447) 		}
-27faca83a7e955 Muchun Song               2021-04-29  448  	} else {
-0ce055f85335e4 Sebastian Andrzej Siewior 2022-02-17  449  		void *stack = task_stack_page(tsk);
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  450) 		struct page *page = virt_to_head_page(stack);
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  451) 		int i;
-0ce055f85335e4 Sebastian Andrzej Siewior 2022-02-17  452  
-991e7673859ed4 Shakeel Butt              2020-08-06  453  		/* All stack pages are in the same node. */
-da3ceeff923e3b Muchun Song               2020-12-14  454  		mod_lruvec_kmem_state(stack, NR_KERNEL_STACK_KB,
-efdc94907977d2 Andy Lutomirski           2016-07-28  455  				      account * (THREAD_SIZE / 1024));
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  456) 
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20 @457) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++, page++)
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  458) 			__SetPageStack(page);
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  274  static inline pgd_t *__pgd_alloc_noprof(struct mm_struct *mm, unsigned int order)
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  275  {
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  276  	gfp_t gfp = GFP_PGTABLE_USER;
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  277  	struct ptdesc *ptdesc;
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  278  
+ccbd04de39826d Dave Hansen   2025-08-28  279  	if (mm == &init_mm) {
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  280  		gfp = GFP_PGTABLE_KERNEL;
+ccbd04de39826d Dave Hansen   2025-08-28 @281  		ptdesc_set_kernel(ptdesc);
 
-Apparently in the linked config the THREAD_SIZE / PAGE_SIZE is zero.
-Is this the expected behavior?  I don't know mm enough to say the
-answer...
+Not initialized until line 285.
 
-ba14a194a434cc Andy Lutomirski           2016-08-11  459  	}
-27faca83a7e955 Muchun Song               2021-04-29  460  }
-c6a7f5728a1db4 KOSAKI Motohiro           2009-09-21  461  
-1a03d3f13ffe5d Sebastian Andrzej Siewior 2022-02-17  462  void exit_task_stack_account(struct task_struct *tsk)
-9b6f7e163cd0f4 Roman Gushchin            2018-10-26  463  {
-1a03d3f13ffe5d Sebastian Andrzej Siewior 2022-02-17  464  	account_kernel_stack(tsk, -1);
-991e7673859ed4 Shakeel Butt              2020-08-06  465  
-1a03d3f13ffe5d Sebastian Andrzej Siewior 2022-02-17  466  	if (IS_ENABLED(CONFIG_VMAP_STACK)) {
-449e0b4ed5a16c Pasha Tatashin            2025-05-09  467  		struct vm_struct *vm_area;
-9b6f7e163cd0f4 Roman Gushchin            2018-10-26  468  		int i;
-9b6f7e163cd0f4 Roman Gushchin            2018-10-26  469  
-449e0b4ed5a16c Pasha Tatashin            2025-05-09  470  		vm_area = task_stack_vm_area(tsk);
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  471) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++) {
-449e0b4ed5a16c Pasha Tatashin            2025-05-09  472  			memcg_kmem_uncharge_page(vm_area->pages[i], 0);
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  473) 			__ClearPageStack(vm_area->pages[i]);
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  474) 		}
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  475) 	} else {
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  476) 		struct page *page = virt_to_head_page(task_stack_page(tsk));
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  477) 		int i;
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  478) 
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20 @479) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++, page++)
-e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  480) 			__ClearPageStack(page);
-9b6f7e163cd0f4 Roman Gushchin            2018-10-26  481  	}
-9b6f7e163cd0f4 Roman Gushchin            2018-10-26  482  }
+ccbd04de39826d Dave Hansen   2025-08-28  282  	}
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  283  	gfp &= ~__GFP_HIGHMEM;
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  284  
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  285  	ptdesc = pagetable_alloc_noprof(gfp, order);
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  286  	if (!ptdesc)
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  287  		return NULL;
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  288  
+d95936a2267c11 Kevin Brodsky 2025-01-03  289  	pagetable_pgd_ctor(ptdesc);
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  290  	return ptdesc_address(ptdesc);
+a9b3c355c2e638 Kevin Brodsky 2025-01-03  291  }
 
 -- 
 0-DAY CI Kernel Test Service
