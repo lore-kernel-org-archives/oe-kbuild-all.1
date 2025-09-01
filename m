@@ -1,74 +1,71 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0889F30E0F1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 10:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E0335977
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 10:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756722429; cv=none; b=M6I4B/7rmFR2RUNVZivlUNTHBqqnpUFfD/bxJAWuBL3Q0nI3wTfdfC+DNlSepe8mPxRiiMvwOTGXIUKNZhGGLxnxMboiMRd6/HjdVxgWHBZvbXa8VfOr1emZjUVhspgoDaxDUDgBJ+SWovklsFcl4DdNDIorMhe79aF4rq85L0s=
+	t=1756724173; cv=none; b=sBD5x3ro81mcr1GuZpOQz0irouA6XVVax6jfllqf9GAi+vb2JANKu0xjj4HXECB/mWa6AdCCJqeuN4f6KmNutMgWp9jHYOJOwFeOjf7gznua40f6YTg7Dgxa1gILDu7IQOVfqYg+CVKB5UMjzt8Hsq8JnWRzqlKd6IirpH1L50I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756722429; c=relaxed/simple;
-	bh=6h/YI/Py/XlG4xBbZJ7thzV4uG9Z0BsZDM3FqQjDBdE=;
+	s=arc-20240116; t=1756724173; c=relaxed/simple;
+	bh=cBxzMBrBdfX1S9upUiMnP7ZToiXDgNKMJ0RKfQaxhTA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BGXQ1jUOkqrJyC12C3u4f1zJohYOU8X/ym2oTOP/mZRzeytNgVy75DCqsR49m/XR3cNVaxcz0nldCuRmnaURHv6bJx3MjHBmV/ZqAGHETJ2/V30lisCdkisgbtiaGom+NNPD12DkZVRav5uJksGKCdEfe2BxLHMD8zpbx7SeUzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AzsDycdw; arc=none smtp.client-ip=209.85.221.44
+	 Content-Disposition; b=a7RaRpC6sQ7DIhmig6xkg7kna/q2hHkjS+ws5ZUcCH3VyKIWvjkZV8EALkwfbQO+YL4RN8xSHXnMTZ4gqmy6RSVZDQ8H6iNDoqgxtqJe03Z/9RLTKkW1wB4zUAIhD6CCiUiiCWPvUa9QyLVvpv9DpCWp2ohGjoZcZTJEV+VtR+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bSUstjtj; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AzsDycdw"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ceb9c3d98cso1827833f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Sep 2025 03:27:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bSUstjtj"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3cbe70a7923so3243435f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 01 Sep 2025 03:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756722425; x=1757327225; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U3wMAXUg6TcQMtXg5Lgxugiws7d3wfWBJLDrvyAva+k=;
-        b=AzsDycdwnxdOueuZOxw7TMJPm14R27Thq9gTMoS9VW8naxp+QyPnt8ktFkJjzkWudI
-         tBgVqEQjRS3nYFYfReoDep0kreFxz1sGGanZvRARhfWxL4Av1MPmsuHxx5AJ+MZ8p5fS
-         UZeYQysmhqltDGCmopG8gbdZUYSxzMTJ4IFeMPG//AZ5enHa6lSVBFm/lRMfl2WAdA6k
-         9LnkrfUn7TG1vhvMXl8OrTaXS1gojgKNoYMzBUFCdGfGu79nDmBkuxmX+dt0vOFzpEoI
-         XeFERvAAISZDaTDOHE/RcrYO/DKwQqLGJZpAv9nV3JOYYBWOTadfaO8L/F+bQ13QEWP1
-         m5KA==
+        d=linaro.org; s=google; t=1756724170; x=1757328970; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s51XmWZJp5DHxpHOLeJmnLNp4ozg3yH12eVI2vl1w5Y=;
+        b=bSUstjtjxRBUue89thxEw1zTphTAv0C93kZMEsy5HBV7ECR8sFkTihuj6FV6loYO+5
+         0kNIbxGpNmcdFOoP9phm1UYUCYu916dDz9XWfLfhAHzgJCzgRQuTTNuEDCqmA6WQ+tZ9
+         z7+V2UJ17c5jfBueK6AKvnRfrMlYbPbOPoD7CCTxG/GcCrvV1oMmeCeAQOgQsRj8hu+4
+         pETuN2WTExlMipmh0E8y3lrXnv68Rxw/jIEMyrmfFmvdD/jK1F6OLzq6/z6+vIKBxRnQ
+         oP+aAzmkBp9WQpjDqhyFzu8FmgzGmdQoWPSNJy0V3OFMfK4dBsffNKdO1Uhj8znBxDR1
+         PkMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756722425; x=1757327225;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U3wMAXUg6TcQMtXg5Lgxugiws7d3wfWBJLDrvyAva+k=;
-        b=Ici/nyn5CRA8/4bXt81aQ7ubtuiysXdhkYerGENArF022mGmJZXZTwz/g/CiG2B3Kk
-         tsq2MlcSzmQNU4UjinjkCgDRe0qnmr3EtuAFD/xs+bCRU1ZcsRFVmv+7zfpjS27uvePr
-         2qJowvvWHEEsClH0rlHfGYHHJX2wfYIozSHx+0i5X8kNX52EhUH+ug8v6hxY0IHeWWUv
-         AD40HGlvrveqe2o+ECy8zlfT/jCVMtQWWOK0gVQHnWl+arolGLM46TQHeOYYO+0q6zaU
-         y4EN6yqAwb0SL8esp1m4JtrP8loa61+Mw8ofU3ik6Rd6GznWiWHUwNiCy1o4rc3LzmYo
-         6tZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUY6JhrrNUs3mKLGgg+9N57A5Y0SabMOeLDNV6Vlzu1+KuLdg9peA34FEYckZMErc0E4dEsjhkhHvBula8D@lists.linux.dev
-X-Gm-Message-State: AOJu0YxK9q8mgV3QUipJrG5ZaYP4RRZZCcooOrOovs3HW4FhIjjVA9tD
-	+QIrUSZJ8x0rJdZiU468lYbH00JWaGgqrdkE7qFXLeicrTiFYbPo2vas1fjaCOufCM4=
-X-Gm-Gg: ASbGncsiLv07RT5U/XENeYJW1Lkx7hU64H7tpICHQLF40Fi4d9zb3TzyMOCtfZljc7n
-	5ECNikEjQAW2CYxED2j2pmuw+nolKdS3qNnxqvs7Q/3I56FjnaFkX1OZfNGxWEP+ybSO7/W9d3d
-	Kpr9DDuxXTtMmLhdMBD9qrqFU4k1O1/zl+EbDaBAWrJ9RqNS5nUPj05KMpc8ZvdqE0zPjIhmq4/
-	JL6JFscJVBDGHuoiCsH7A6/KmMmhPgZC34y+XE7WiQf7oP6/ZHu2pqpPkCfSbjAsg0uDq7prJZP
-	IzW/FBln86aUfN9J81m+qSXWeyLrk992TBLfS9BagxFxL+oOJWPt3p+dfikfMFfDeBTjcNgS4lQ
-	uPayEdT6dGVbx7haxKdBU4zMinI1ES9Wxh2UxHg==
-X-Google-Smtp-Source: AGHT+IE2RqWOouUNKF0LuMwYDv8VNEg+V4AVmzf6zsck7npghoz21h/jWKBn3nN0q+raGVTCFFwHxQ==
-X-Received: by 2002:a05:6000:2510:b0:3d7:7def:8435 with SMTP id ffacd0b85a97d-3d77def8d9dmr1055874f8f.18.1756722425227;
-        Mon, 01 Sep 2025 03:27:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756724170; x=1757328970;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s51XmWZJp5DHxpHOLeJmnLNp4ozg3yH12eVI2vl1w5Y=;
+        b=YbhQ3mYwMEXm2Ru0Hv7XlvzHcSWLAhzR4fuMYuypoiak2IXduMhO4tQYNsBaix32f0
+         ZPkOsQZF6yaFlNvNo7xfZB0KPoo26cjzj3J7GAhss/TiFHQkyo0MS57xwBaJFBmdyLIg
+         EHgnWZX1dcxy90AeHN/UhEanUmwwjQL0jf1rhUXZMVhJ5N0cq2oUqB/tFycp0G9RajDX
+         kaboElr959kebi4wvMylplUuXpewx5tLzkn6jRYfTENHzOb7XQLBN7yYBHBVgEnxwT7H
+         ekyreNyUR/HR4W/qamGr7aYdAc96H8IhdXV/ehB/y5CIzY5cVo/LTUHTjEY56m5FlZqh
+         Cpzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoApt1ijzZ06XuobH0wlh6iSjD06OQ+oCWVGWoc7zR+lpH86Y7BLdLS+sOJSQAhXIH4WQu4BLvXqv4Zqqz@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOYCJiJPLGKg5RRZGd9clmcoZN+UDzSFRiS3XIOwdHrXFO1edV
+	GA/olZEFj1WYjsFiQF7ufCl6XGCd82COfNPhRWpknAjwkdEFcxr8EKK2jxc+z5YXwSk=
+X-Gm-Gg: ASbGnctTYVa9YOOmyYVJzlcxwy6K2ksS/U9RJfTfLJX7v1oArtLDnOMPebWJjYBwFAk
+	auskkfmlfoM09tz3zJL2RdS+R/ElldRbsOUf2LDCqNUz7NZ6d5faD6PXX/u2J8dOUBBMFCjkWmK
+	CV65kfVFOHDC6gpYJLm2XKs4KAULP5wVcV5no14Nc89QEX3FkVGq7Te/523RD3r5Tv1bHz5i2mn
+	9WxCy6havk2Rsu97RP+0afU2JYiEJysXhNzRk22sKxZDtpxo5BjzuSX2e6UbhXpaeSgIPFSrYsq
+	7UUY16kwUD1JMSTeD4S9b8CqrztPJ8E5YLlir3aW80f3H3SP8xzdkW35Iy/xvZ/fox2azWa5WqG
+	QyyOGpb33GXeRFX7JDsY8zRPcUh13tLTK+uoCqg==
+X-Google-Smtp-Source: AGHT+IFiaIyiVHKBvWcuJ7j9OGQvV5jS+bUEoZBiN7Wnh2kb+IM8kDKm5zixCaYx5Z385dGIbHqAEA==
+X-Received: by 2002:a05:6000:26c6:b0:3c9:fc3c:3aa3 with SMTP id ffacd0b85a97d-3d1dfc07101mr7147467f8f.40.1756724169658;
+        Mon, 01 Sep 2025 03:56:09 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf34493b8csm14441165f8f.59.2025.09.01.03.27.04
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3d3a7492001sm8737165f8f.42.2025.09.01.03.56.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 03:27:04 -0700 (PDT)
-Date: Mon, 1 Sep 2025 13:27:01 +0300
+        Mon, 01 Sep 2025 03:56:09 -0700 (PDT)
+Date: Mon, 1 Sep 2025 13:56:05 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jisheng Zhang <jszhang@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/14] dmaengine: dma350: Alloc command[] from dma pool
-Message-ID: <202508291556.kjNumYgR-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4756/5283] kernel/fork.c:457
+ account_kernel_stack() warn: we never enter this loop
+Message-ID: <202508300929.TrRovUMu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,73 +74,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250823154009.25992-11-jszhang@kernel.org>
 
-Hi Jisheng,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/dmaengine-dma350-Fix-CH_CTRL_USESRCTRIGIN-definition/20250824-000425
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20250823154009.25992-11-jszhang%40kernel.org
-patch subject: [PATCH 10/14] dmaengine: dma350: Alloc command[] from dma pool
-config: arm-randconfig-r073-20250829 (https://download.01.org/0day-ci/archive/20250829/202508291556.kjNumYgR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3cace99d63192a7250461b058279a42d91075d0c
+commit: e0aa7237ef4323a66ed06953225d9b07cf039530 [4756/5283] mm: tag kernel stack pages
+config: hexagon-randconfig-r072-20250829 (https://download.01.org/0day-ci/archive/20250830/202508300929.TrRovUMu-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202508291556.kjNumYgR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202508300929.TrRovUMu-lkp@intel.com/
 
 smatch warnings:
-drivers/dma/arm-dma350.c:387 d350_get_residue() error: uninitialized symbol 'sgcur'.
+kernel/fork.c:457 account_kernel_stack() warn: we never enter this loop
+kernel/fork.c:457 account_kernel_stack() warn: unsigned 'i' is never less than zero.
+kernel/fork.c:479 exit_task_stack_account() warn: we never enter this loop
+kernel/fork.c:479 exit_task_stack_account() warn: unsigned 'i' is never less than zero.
 
-vim +/sgcur +387 drivers/dma/arm-dma350.c
+vim +457 kernel/fork.c
 
-5d099706449d54 Robin Murphy  2025-03-12  360  static u32 d350_get_residue(struct d350_chan *dch)
-5d099706449d54 Robin Murphy  2025-03-12  361  {
-eae79fde2ff50c Jisheng Zhang 2025-08-23  362  	u32 res, xsize, xsizehi, linkaddr, linkaddrhi, hi_new;
-eae79fde2ff50c Jisheng Zhang 2025-08-23  363  	int i, sgcur, retries = 3; /* 1st time unlucky, 2nd improbable, 3rd just broken */
-eae79fde2ff50c Jisheng Zhang 2025-08-23  364  	struct d350_desc *desc = dch->desc;
-5d099706449d54 Robin Murphy  2025-03-12  365  
-5d099706449d54 Robin Murphy  2025-03-12  366  	hi_new = readl_relaxed(dch->base + CH_XSIZEHI);
-5d099706449d54 Robin Murphy  2025-03-12  367  	do {
-5d099706449d54 Robin Murphy  2025-03-12  368  		xsizehi = hi_new;
-5d099706449d54 Robin Murphy  2025-03-12  369  		xsize = readl_relaxed(dch->base + CH_XSIZE);
-5d099706449d54 Robin Murphy  2025-03-12  370  		hi_new = readl_relaxed(dch->base + CH_XSIZEHI);
-5d099706449d54 Robin Murphy  2025-03-12  371  	} while (xsizehi != hi_new && --retries);
-5d099706449d54 Robin Murphy  2025-03-12  372  
-eae79fde2ff50c Jisheng Zhang 2025-08-23  373  	hi_new = readl_relaxed(dch->base + CH_LINKADDRHI);
-eae79fde2ff50c Jisheng Zhang 2025-08-23  374  	do {
-eae79fde2ff50c Jisheng Zhang 2025-08-23  375  		linkaddrhi = hi_new;
-eae79fde2ff50c Jisheng Zhang 2025-08-23  376  		linkaddr = readl_relaxed(dch->base + CH_LINKADDR);
-eae79fde2ff50c Jisheng Zhang 2025-08-23  377  		hi_new = readl_relaxed(dch->base + CH_LINKADDRHI);
-eae79fde2ff50c Jisheng Zhang 2025-08-23  378  	} while (linkaddrhi != hi_new && --retries);
-eae79fde2ff50c Jisheng Zhang 2025-08-23  379  
-eae79fde2ff50c Jisheng Zhang 2025-08-23  380  	for (i = 0; i < desc->sglen; i++) {
-eae79fde2ff50c Jisheng Zhang 2025-08-23  381  		if (desc->sg[i].phys == (((u64)linkaddrhi << 32) | (linkaddr & ~CH_LINKADDR_EN)))
-eae79fde2ff50c Jisheng Zhang 2025-08-23  382  			sgcur = i;
+ba14a194a434cc Andy Lutomirski           2016-08-11  437  static void account_kernel_stack(struct task_struct *tsk, int account)
+c6a7f5728a1db4 KOSAKI Motohiro           2009-09-21  438  {
+0ce055f85335e4 Sebastian Andrzej Siewior 2022-02-17  439  	if (IS_ENABLED(CONFIG_VMAP_STACK)) {
+449e0b4ed5a16c Pasha Tatashin            2025-05-09  440  		struct vm_struct *vm_area = task_stack_vm_area(tsk);
+27faca83a7e955 Muchun Song               2021-04-29  441  		int i;
+efdc94907977d2 Andy Lutomirski           2016-07-28  442  
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  443) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++) {
+449e0b4ed5a16c Pasha Tatashin            2025-05-09  444  			mod_lruvec_page_state(vm_area->pages[i], NR_KERNEL_STACK_KB,
+27faca83a7e955 Muchun Song               2021-04-29  445  					      account * (PAGE_SIZE / 1024));
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  446) 			__SetPageStack(vm_area->pages[i]);
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  447) 		}
+27faca83a7e955 Muchun Song               2021-04-29  448  	} else {
+0ce055f85335e4 Sebastian Andrzej Siewior 2022-02-17  449  		void *stack = task_stack_page(tsk);
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  450) 		struct page *page = virt_to_head_page(stack);
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  451) 		int i;
+0ce055f85335e4 Sebastian Andrzej Siewior 2022-02-17  452  
+991e7673859ed4 Shakeel Butt              2020-08-06  453  		/* All stack pages are in the same node. */
+da3ceeff923e3b Muchun Song               2020-12-14  454  		mod_lruvec_kmem_state(stack, NR_KERNEL_STACK_KB,
+efdc94907977d2 Andy Lutomirski           2016-07-28  455  				      account * (THREAD_SIZE / 1024));
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  456) 
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20 @457) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++, page++)
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  458) 			__SetPageStack(page);
 
-I'm suprised there isn't a break statement after this assignment.
-What if we exit the loop with i == desc->sglen?
+Apparently in the linked config the THREAD_SIZE / PAGE_SIZE is zero.
+Is this the expected behavior?  I don't know mm enough to say the
+answer...
 
-eae79fde2ff50c Jisheng Zhang 2025-08-23  383  	}
-eae79fde2ff50c Jisheng Zhang 2025-08-23  384  
-5d099706449d54 Robin Murphy  2025-03-12  385  	res = FIELD_GET(CH_XY_DES, xsize);
-5d099706449d54 Robin Murphy  2025-03-12  386  	res |= FIELD_GET(CH_XY_DES, xsizehi) << 16;
-eae79fde2ff50c Jisheng Zhang 2025-08-23 @387  	res <<= desc->sg[sgcur].tsz;
-                                                                 ^^^^^
-Uninitialized.
-
-eae79fde2ff50c Jisheng Zhang 2025-08-23  388  
-eae79fde2ff50c Jisheng Zhang 2025-08-23  389  	for (i = sgcur + 1; i < desc->sglen; i++)
-eae79fde2ff50c Jisheng Zhang 2025-08-23  390  		res += (((u32)desc->sg[i].xsizehi << 16 | desc->sg[i].xsize) << desc->sg[i].tsz);
-5d099706449d54 Robin Murphy  2025-03-12  391  
-eae79fde2ff50c Jisheng Zhang 2025-08-23  392  	return res;
-5d099706449d54 Robin Murphy  2025-03-12  393  }
+ba14a194a434cc Andy Lutomirski           2016-08-11  459  	}
+27faca83a7e955 Muchun Song               2021-04-29  460  }
+c6a7f5728a1db4 KOSAKI Motohiro           2009-09-21  461  
+1a03d3f13ffe5d Sebastian Andrzej Siewior 2022-02-17  462  void exit_task_stack_account(struct task_struct *tsk)
+9b6f7e163cd0f4 Roman Gushchin            2018-10-26  463  {
+1a03d3f13ffe5d Sebastian Andrzej Siewior 2022-02-17  464  	account_kernel_stack(tsk, -1);
+991e7673859ed4 Shakeel Butt              2020-08-06  465  
+1a03d3f13ffe5d Sebastian Andrzej Siewior 2022-02-17  466  	if (IS_ENABLED(CONFIG_VMAP_STACK)) {
+449e0b4ed5a16c Pasha Tatashin            2025-05-09  467  		struct vm_struct *vm_area;
+9b6f7e163cd0f4 Roman Gushchin            2018-10-26  468  		int i;
+9b6f7e163cd0f4 Roman Gushchin            2018-10-26  469  
+449e0b4ed5a16c Pasha Tatashin            2025-05-09  470  		vm_area = task_stack_vm_area(tsk);
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  471) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++) {
+449e0b4ed5a16c Pasha Tatashin            2025-05-09  472  			memcg_kmem_uncharge_page(vm_area->pages[i], 0);
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  473) 			__ClearPageStack(vm_area->pages[i]);
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  474) 		}
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  475) 	} else {
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  476) 		struct page *page = virt_to_head_page(task_stack_page(tsk));
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  477) 		int i;
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  478) 
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20 @479) 		for (i = 0; i < THREAD_SIZE / PAGE_SIZE; i++, page++)
+e0aa7237ef4323 Vishal Moola (Oracle      2025-08-20  480) 			__ClearPageStack(page);
+9b6f7e163cd0f4 Roman Gushchin            2018-10-26  481  	}
+9b6f7e163cd0f4 Roman Gushchin            2018-10-26  482  }
 
 -- 
 0-DAY CI Kernel Test Service
