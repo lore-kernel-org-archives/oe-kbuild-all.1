@@ -1,88 +1,106 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807F7F9D9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 04:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A544A4502A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 04:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756701039; cv=none; b=WDduC2anp7s2ENlJYkyr/pfVC+mtAzXc3qlhyhK9Dhd7VtjWSSk74VzlqjYfsVDLycYsu28OzKMa7MX9EupNARZBn6dr6RPO3L30qTQYetTcsXqSpYhUvqttkwSgo915j3A5RE3gsAMH08K+tI4vyP7uXWlni4VcqDDFH3F3eA8=
+	t=1756701112; cv=none; b=HM35Jp1i5qzEYDi9AJKnwCY6v/YNZbvHqY/6S/wviHsfAaD0FvOmRo7E7UBYmPtAUbawZBrAm86VZmfnsR9JPR+f0oDt47QuQQMnTu6Gyv3rLzhe2XDUVbq6RoPhNNgaCBXO3PhbaO7E14emUzesl0Fc9HpLBlDnRs4edCcrlyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756701039; c=relaxed/simple;
-	bh=pSzCqOyvvoq5Jt9kSV5uDNs9QJ567H1LEks3EmaQerM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M5uFB+Wt6LMC6wvxAJHBVCs5ZGwiWVtfDd95vpM7Ruqij2mvOgsBicpO+myzCRiovKI74Tonq88J3icuGQIslEVqW4om2eeQmZ25Pi7ERvRE4sNjc1gkXPVq/ca872SbW0xQv5g0wqj9ou925GOf32C0QU34F8///1qQH+uAbpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=NmpTKA+g; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	s=arc-20240116; t=1756701112; c=relaxed/simple;
+	bh=wRBT+lq4YJiy6IQgIZzKL3xA3Arh+lDChAlcYajdWG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Byi9z4FVSKRgedaMkVK0a9z9te5WF+YYI5hMWT5/5Ej3prdLFPI65DjcS4/MMEn/nr6HlqhRpJG/2QANDmuiLqxuCwHHuoMaiqBg/ynFOFK9LWxsTU6/6D5sdy0ROnirfJeHo/QhUy7oBteRB0G8sQR01EU0X2ChklawijQV/Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRt7i8O6; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="NmpTKA+g"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b0428b537e5so90850066b.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 31 Aug 2025 21:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1756701036; x=1757305836; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LDQIe0i3X76egFX6529AeV7wfu/j7t3pxfvYUfSQIbM=;
-        b=NmpTKA+gB2W8Bc/FHBw4qFyLD1aMM5GP/JYSK8UhNTnc4b8qOXTIP6MwQGmdO8rZUy
-         2KSmjagD7VHqs2Zlcnxgz2owW2omj087WAHxMrpkxDG5GIHMfjOh29CEciSFgA7sVax9
-         uf6FQydUHCD7KZtgo98ODaEuL+a6Rx2sZIpIa1vDUpLjhZ9heciH3xn9mGXldLr2lOZ5
-         pN/GSMH3HMe0jt+rBRmzruBRB72xyFIUnJchv6XV53HJFfINIOAtpRPgyqM97gAuR3sw
-         i0HDdjal2zrZp8IeX22nOueFxXQmS2v5t0JOJw1cVXMhIEgYIWdeWlmPDqFYW0935ulG
-         p1GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756701036; x=1757305836;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LDQIe0i3X76egFX6529AeV7wfu/j7t3pxfvYUfSQIbM=;
-        b=pbZLF4Jt06kanpmVLuIm5qvlKAHzH6LltwNUtNFSBNBDEOALX70/PAMTuJzdajm/JF
-         8Z3ICDH7N8VAyTu1PUOcSYQnzhv1R9tapmyhBK0EMi0lt9F+tyf7BfPVLXWFlSnau4pE
-         0g48atbCPRcuEDRlOtY2gU81cf0yvmRb4YEopkIMQYprCiHXPA8MtQIt4itZPgrs2U6a
-         RM1yZngAHKsEdu91sQfWSQ53g6hPJG5nV0Ijn3d1/SroONt4t0B0oJu0txACTIt2nKhx
-         hQbLfxVNh8ShLLLcgJbcqAehplFsnoLXvinDu4MQHxL07xXvAXWPyKKtJuKV2O1vE45+
-         QB4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWLyFGTGCc20Zh+Ng7Shj3bd2pI38Rr4JbAt0mHPehfxcSww4uONw53jaUJIIYhsk8GESwU7+5KXQ+ZNB0D@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyo5DZl0l0A4etb5dDZCPdCNXMx0LD0VsWZB3AnZmMTLeGOfIpc
-	KIA8LFNpyDrYJbSr7iLNI1odk/seyn1nJGxhhUM7oXBv9Kbfjp5wxdYCjHtvmccEmDvm6WIWGG7
-	zH0XONoBD0kFwlUfVWNp1xPj5wIkSBC8kF95dufGrrg==
-X-Gm-Gg: ASbGncuugNcd3yyRzMH2AYeKMcCcay8vJL+4JBSFEpX+zgDiNSdSstBpJe849hLXvJZ
-	xTwSlVXjFVt6OLUApDa8ZB17i3m4OCS/n7dlbLO6HzFaNy5Xv5HjOH57UZ9/xNj6GgFVxbNoJNK
-	olRgZaqMNKmtpLrgqt4CnJAf9qdWovjtZbCu7ptd7BhogKky4CfjuUyDJ4v6IxbTvvbX1eXaH/J
-	eMH6Pk4cNGgIWpzAvTdXLyn5wabx89li4rneJuqs9lnqg==
-X-Google-Smtp-Source: AGHT+IGfZ9IK7/pUtfeHc6DgLv6HZzhwz9kNk2kkDLAQy9Iwa65qh4E0Ue47kA3UHq9LU15ooN9UNEALddPaiQniOhA=
-X-Received: by 2002:a17:907:3f10:b0:af6:2f1d:a73f with SMTP id
- a640c23a62f3a-b01d976e782mr648284266b.53.1756701035779; Sun, 31 Aug 2025
- 21:30:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRt7i8O6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756701110; x=1788237110;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wRBT+lq4YJiy6IQgIZzKL3xA3Arh+lDChAlcYajdWG8=;
+  b=KRt7i8O6aZXMyOK7g1Q9ey0a24R92PWOsqUHrW7bJlUVSSmqyU+SK3c4
+   S4bY9nyHj3ghmG+ZjOX3YEa96EtYI094wnnPZz9QQroI3ss2uYJaq05cH
+   ggrzpuVhk6cPiXZdUtJHEI/VkfX6szg+Z69A75NZsuOjkHDzsH7x09Xv4
+   K1SPs2g2fLiqYGOQD77t1ZrPD/yrVFMCBZLy+nxanzAFIaGhqxhWVqCza
+   4nfwkUIhxRWcKRcc/ODJ1HBVu7+um4jBv2Zd6gdEsACQwQTRKZhHoWHkW
+   IMts6Ad4bhZRHJarfPCvOLSaYT8qJ2J8kA0CSyYSy3q6lWTdPZUeWeTub
+   w==;
+X-CSE-ConnectionGUID: k1ClUTBfT1qaFVH71WhrPA==
+X-CSE-MsgGUID: mLsSbYmdTRCQkWdM8s942A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="70325986"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="70325986"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2025 21:31:50 -0700
+X-CSE-ConnectionGUID: oQB9wzbRTlWsWL5LqWmi1w==
+X-CSE-MsgGUID: 8vbuBYoMSA+TjiipuPHFnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="201793388"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2025 21:31:50 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uswC5-0000DL-14;
+	Mon, 01 Sep 2025 04:31:22 +0000
+Date: Mon, 1 Sep 2025 12:26:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 150/150]
+ kernel/events/ring_buffer.c:22:9: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202509011229.F49FqqMo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250831093918.2815332-9-max.kellermann@ionos.com> <202509010724.bSPPSD1X-lkp@intel.com>
-In-Reply-To: <202509010724.bSPPSD1X-lkp@intel.com>
-From: Max Kellermann <max.kellermann@ionos.com>
-Date: Mon, 1 Sep 2025 06:30:24 +0200
-X-Gm-Features: Ac12FXx1zNxU809yDaeQgGpOMM6Li-1LYjsJkwZ1JPL5dRiRDC0y6VWcjO3jTXw
-Message-ID: <CAKPOu+_7w9kd7aOp2J2YtYMDbrV1pfrdUT-CnPmHfexGb7RScg@mail.gmail.com>
-Subject: Re: [PATCH v2 08/12] arch, mm/util: add const to arch_pick_mmap_layout()
- parameter
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, axelrasmussen@google.com, 
-	yuanchu@google.com, willy@infradead.org, hughd@google.com, mhocko@suse.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
-	vishal.moola@gmail.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Sep 1, 2025 at 1:44=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
-> All errors (new ones prefixed by >>):
->
-> >> arch/sparc/kernel/sys_sparc_64.c:1:1: error: unknown type name 'ickj'
->        1 | ickj// SPDX-License-Identifier: GPL-2.0
->          | ^
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   77354ed8fe97f2e66ce08870a5cd54e222a15c53
+commit: ef0398cf5cf150364839ffea0b0dd7c71edf2e62 [150/150] perf/ring_buffer: Allow the EPOLLRDNORM flag for poll
+config: arm-randconfig-r133-20250727 (https://download.01.org/0day-ci/archive/20250901/202509011229.F49FqqMo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250901/202509011229.F49FqqMo-lkp@intel.com/reproduce)
 
-Oops how did that slip in here...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509011229.F49FqqMo-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> kernel/events/ring_buffer.c:22:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected int volatile @@     got restricted __poll_t @@
+   kernel/events/ring_buffer.c:22:9: sparse:     expected int volatile
+   kernel/events/ring_buffer.c:22:9: sparse:     got restricted __poll_t
+   kernel/events/ring_buffer.c:170:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/ring_buffer.c:170:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/ring_buffer.c:170:14: sparse:    struct perf_buffer *
+   kernel/events/ring_buffer.c:170:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/ring_buffer.c:170:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/ring_buffer.c:170:14: sparse:    struct perf_buffer *
+   kernel/events/ring_buffer.c:170:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/ring_buffer.c:170:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/ring_buffer.c:170:14: sparse:    struct perf_buffer *
+
+vim +22 kernel/events/ring_buffer.c
+
+    19	
+    20	static void perf_output_wakeup(struct perf_output_handle *handle)
+    21	{
+  > 22		atomic_set(&handle->rb->poll, EPOLLIN | EPOLLRDNORM);
+    23	
+    24		handle->event->pending_wakeup = 1;
+    25		irq_work_queue(&handle->event->pending);
+    26	}
+    27	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
