@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0481EEC0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 20:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB042AD14
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 21:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756759824; cv=none; b=Po+qPWilwqcHDu59+Nv4xafWvxfDB3qS06OTeuADzQlkyokgMLacYZVzyHOwTUSmx76nO6b7W0jpY55TkrM5KTFM77hCgjflBjWEDzUOtNhCU3v2Gm/JR18VIS7icd4TwCOmBRJb6V/CP9iUNjUByo106FWo8Q/CCDpKnmLPaZ4=
+	t=1756763595; cv=none; b=TiyIZ+5EmfEAUI78OtbmVHQR1SvrMD44o7nqxVLoOsTwZPn3JRzXdCYg8nFX/NOfBcw5b5JWmOlYcCVOueK6lfNMnDabsSZsm+7aI3EIpsOyuVqdEK3qZjuPwuCpex2KHH9RVPtk0KrCeYG9Ys60hV698zV94/aBKUQFmGNj3uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756759824; c=relaxed/simple;
-	bh=H4bP4l3N6TS6xNahtZCzR43APkkgBt314SVSLoYwJhw=;
+	s=arc-20240116; t=1756763595; c=relaxed/simple;
+	bh=yCiNuaVDAoNiJs27P53eXzSxOUh1hlF8eWbRhSPf5hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LK82U+HqinoxDZYVYfDLDlKzsqn64yV6YG+szvpfLSrAtc/W6igjEEVdgE2SOhv3KoixgG+97ySXzVepU1GTIJIT4aJ8fFbBfyJDm3I2gQqCBJLKe29NW6DTQR+pYIi8H1SkmxWUn6ql7JNcmzG2VdzbIbiZ8Qa7s2fo/4OmN1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fEo4YpdX; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=BPoAC+D+DipSOZqs/mXaDDuluAi+2X7khu6UMnVR3NcMU7xFj44B2AZC9SNFJOHfri4QRC9AzfTf1+nypFWg4kfBe8HMCsFiB6msZ/63V1Oq+k+KHN2gg0w5rZMGhd7SrLpF3eaNCLgupHPqzwGh4dDUtaOW72MSYm/8ufn1OtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csca2Cuk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fEo4YpdX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csca2Cuk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756759823; x=1788295823;
+  t=1756763593; x=1788299593;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H4bP4l3N6TS6xNahtZCzR43APkkgBt314SVSLoYwJhw=;
-  b=fEo4YpdXhL0jhLOunKLiMXENzWvXrfCHAXzpMGiRIlDYRMSEpLcp7oPS
-   sHbv0VRDNdgVP5cOFokCYgpiZEsFrdeUIE+LswkGxdYKk5pMiybjsj50/
-   /vdj79LJgMd4PtDfELbJsEX0ep6Z9rTL9zm2N3GH99w4o21zOXTLZ/Rv7
-   SdR6BHP1wNSczH7XTsqX0Wydg8iv+d5ePRlG/imKJbhvQNeIVdfwlK8QQ
-   N+dPVV28SgxAVEfdvtISdo3maezjOBUhUT+Dr1L/X8p5piXO/PftpBAB5
-   wTmKokum73RjaqTOxSOzA3BOnmxXS4O1rPHMzyKh7HSf8Z9vG5Wzy4CLn
-   g==;
-X-CSE-ConnectionGUID: 66YyJwTGQsOUwDCOpQ3q4Q==
-X-CSE-MsgGUID: ZEf7nuMvRzWiswo99FLocg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="70395714"
+  bh=yCiNuaVDAoNiJs27P53eXzSxOUh1hlF8eWbRhSPf5hk=;
+  b=csca2Cuk69GWndToEIHfv6v8Cqz174IUxuPqLcuvYBOIlx/qDtlKQMzJ
+   vfic1XWSgo3+/90oA75zM1VAqh2SsCgL6wxgiY5GUGpNo/YbpL/zO4l0N
+   MzCo0HdVnksOMh00lufh1axwNkklRdBO4X9U5kYE9zoRVz26I7lc+DdLd
+   UtTczAozUl1IwuWQawN/FjVF4H3bjacEMNJEX+Tgn+pj421L2aH/y9cR4
+   uH5FFl3rhZH1ypHrKv3st6rP85VNxvjpCpPNd+KFyzwosOpNk4Lw21qJu
+   sJMkZGk1N0bcwHBKO+/L/GpIZHYDXvCN075ITIoefkTa2FXghr4FFgHMa
+   Q==;
+X-CSE-ConnectionGUID: PJxqJMabRb2qotVF0KwFvw==
+X-CSE-MsgGUID: xaaH44/cQGWv4JvLL713Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="62840357"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="70395714"
+   d="scan'208";a="62840357"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 13:50:19 -0700
-X-CSE-ConnectionGUID: NY4ezkI6Tj+sGEuo8gL/KQ==
-X-CSE-MsgGUID: yjR6Pg1iRX23Ihk1saCDPQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 14:53:11 -0700
+X-CSE-ConnectionGUID: b6UBfpWyS325mKd4Xs7Jkw==
+X-CSE-MsgGUID: 9MRIAChlT4eOtPMavE1AOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="202050971"
+   d="scan'208";a="202060714"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2025 13:50:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 01 Sep 2025 14:53:11 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utBTk-00011y-0a;
-	Mon, 01 Sep 2025 20:50:16 +0000
-Date: Tue, 2 Sep 2025 04:50:07 +0800
+	id 1utCSZ-00014t-2l;
+	Mon, 01 Sep 2025 21:53:08 +0000
+Date: Tue, 2 Sep 2025 05:52:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 3231/5291] include/linux/compiler_types.h:572:38:
- error: call to '__compiletime_assert_659' declared with attribute error:
- min(__x, __y) signedness error
-Message-ID: <202509020426.WJtrdwOU-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1774/1774] mm/maccess.c:64:6: warning:
+ no previous prototype for function '__probe_user_read'
+Message-ID: <202509020546.DO94LENh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   33bcf93b9a6b028758105680f8b538a31bc563cf
-commit: 429884ff35f75a8ac3e8f822f483e220e3ea6394 [3231/5291] io_uring/kbuf: use struct io_br_sel for multiple buffers picking
-config: sparc-randconfig-002-20250902 (https://download.01.org/0day-ci/archive/20250902/202509020426.WJtrdwOU-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020426.WJtrdwOU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   54968bf23106d2ac31ede8dca013a7fadeb3dd75
+commit: 5c5bac1227aee80ee106ec07b32c981558049304 [1774/1774] uaccess: Add non-pagefault user-space read functions
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250902/202509020546.DO94LENh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020546.DO94LENh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509020426.WJtrdwOU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509020546.DO94LENh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'io_recv_buf_select',
-       inlined from 'io_recv' at io_uring/net.c:1199:9:
->> include/linux/compiler_types.h:572:38: error: call to '__compiletime_assert_659' declared with attribute error: min(__x, __y) signedness error
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:553:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:572:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
-     ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
-     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
-    #define min(x, y) __careful_cmp(min, x, y)
-                      ^~~~~~~~~~~~~
-   include/linux/minmax.h:179:39: note: in expansion of macro 'min'
-     __x == 0 ? __y : ((__y == 0) ? __x : min(__x, __y)); })
-                                          ^~~
-   io_uring/net.c:1130:18: note: in expansion of macro 'min_not_zero'
-       arg.max_len = min_not_zero(sel->val, (size_t) kmsg->msg.msg_inq);
-                     ^~~~~~~~~~~~
+>> mm/maccess.c:64:6: warning: no previous prototype for function '__probe_user_read' [-Wmissing-prototypes]
+      64 | long __probe_user_read(void *dst, const void __user *src, size_t size)
+         |      ^
+   mm/maccess.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      64 | long __probe_user_read(void *dst, const void __user *src, size_t size)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/__compiletime_assert_659 +572 include/linux/compiler_types.h
+vim +/__probe_user_read +64 mm/maccess.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
-
-:::::: The code at line 572 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+    50	
+    51	/**
+    52	 * probe_user_read(): safely attempt to read from a user-space location
+    53	 * @dst: pointer to the buffer that shall take the data
+    54	 * @src: address to read from. This must be a user address.
+    55	 * @size: size of the data chunk
+    56	 *
+    57	 * Safely read from user address @src to the buffer at @dst. If a kernel fault
+    58	 * happens, handle that and return -EFAULT.
+    59	 */
+    60	
+    61	long __weak probe_user_read(void *dst, const void __user *src, size_t size)
+    62	    __attribute__((alias("__probe_user_read")));
+    63	
+  > 64	long __probe_user_read(void *dst, const void __user *src, size_t size)
+    65	{
+    66		long ret = -EFAULT;
+    67		mm_segment_t old_fs = get_fs();
+    68	
+    69		set_fs(USER_DS);
+    70		if (access_ok(src, size))
+    71			ret = probe_read_common(dst, src, size);
+    72		set_fs(old_fs);
+    73	
+    74		return ret;
+    75	}
+    76	EXPORT_SYMBOL_GPL(probe_user_read);
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
