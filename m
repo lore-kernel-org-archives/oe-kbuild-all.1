@@ -1,138 +1,139 @@
-Received: from fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com [18.199.210.3])
+Received: from fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.74.81.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551392F361A;
-	Mon,  1 Sep 2025 14:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.199.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7AD33EB01;
+	Mon,  1 Sep 2025 14:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.74.81.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756735532; cv=none; b=q40LsVQmeokf1sCnt1jI2c5bPlDs4OMN6vjDRPeO5h4TPU5G1akwSODHmE6RWhmY8wTJBBRRQE83cbUF7hg6tyJPzM+QOt9oqwq8nsN5xnE8Xtt7NATcDXJRnPQuAJYnIuN5B6g5ONpf+Ugmggd2LBz+Nf+2Z1naUsDQuUWMYaA=
+	t=1756737014; cv=none; b=eeAHUpFGRpEJ/4L3qW23OGfl6rEiMsQaenMxzVWKNvu4GFL9Zp0+kS4ad0otjtEQlmEyur5LU85AQQ+nClh6S9KMddMl1MVNFG09XA4FEgHujNvtB+kUSIYhwDidNKUJ6IQ6kv+T9/qx4nrmrXwUCh5Si6CFkjR9AnuYecalr6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756735532; c=relaxed/simple;
-	bh=ItZqN5Op7g9rIJ5RShixnsRk5gMblgw67xQPu8prjug=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rcomB+KurN9dEhxgPcMGWVHVI4TcO0y5Iov0/HfzO3a2dkZsu3+z8KkMO8LUsvVcv6CmadWDV/aYXgjICaivPaJDP0D4aS/tYgiW/DetXrXqaTAD4dMUyLxJMpKw6hFcgJ0uVIhr5m3LWRNEQEEEh3/reb07rfKsx34iX+LfKZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=IeHKIisd; arc=none smtp.client-ip=18.199.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+	s=arc-20240116; t=1756737014; c=relaxed/simple;
+	bh=qSkaqIips+4MLEo4Zp8mEeudv7ytxIUgJAsoPjt+h/c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dBbblhhJIS+KkSeM0mo7sdFXzP1x9PBsX5cyf5oS+u9dXlJws3x4e6fGLAq1TVSdbJc/v56uOc+4Tz5IQITJqL5nxYbnS7e26NguptfUUG4Y3VXXWyNXRveVyDpq/EGYjlzBYyuOiXFL0txqiwAuZ3dv/gaou04S+9umQY+eGB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=i58tV0JG; arc=none smtp.client-ip=3.74.81.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="IeHKIisd"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="i58tV0JG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1756735527; x=1788271527;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Kse27neqs7TZ5sTIdJhbs0CXmugDWDcv4gD+1oQQ4ac=;
-  b=IeHKIisdRCXoZ5+V441l9oXqa7nrbEkpfLyaC0umnYkFL/LbuVXeiFnj
-   BhgsLae20Tlq1w4DSiqC48YHBv+GVqku1yOGfD0fdk6/0lZGbRbuiGVWP
-   63r5/nUvd6FMLgpueoH8UgaLfdkjnUSJeOhhv3YaOBZo4m7adb83Tpa7G
-   lfEYZRYD4j3yDKoylKH9GKksATNVzCcNeDSd78BLXHlvXyVtH2rIYdW5r
-   V7xIJkNaGSvlKMF9+nKvGVtRSIK2LFwVGLqshvlOG5z/KI1SM1ErRbR2q
-   tT5PMXQRYJ+SO91KGf1UA/nn9gscfAZJhw0SoT80PRAyGPEepUT8AgZWr
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1756737012; x=1788273012;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=+uHBZTpRi5ucUMryB+eBopJlrYLUcWv6+yyQSUEyLxg=;
+  b=i58tV0JGt5/KFwJZWTlh2842BHTFY6q2EdbQ5jr8ykJawInEw5uYEv4E
+   S51sMzfU3W7ifp+KY+ycIRkIgqNIIDVfL3KC9D5f6dlS7zGgd7q4ou4iE
+   q58Kqc/N5rVT4RJYN/XLCVJP3HjIUW3PtlFg2avXFjvRIJbKZvT6XsqGM
+   dbI2nhN6y/n2em53rqf6z1xp6OODx2An4G0fpVmrXUO9u1pxFcd85RL5t
+   zJ00jeSw5htqfJGISkesblieZ7yu2OmwynvlNa/DFkjKS2ihDmPVn0sE5
+   UXcmcQrx6rqTyLi/X2ke0mohyLAYgnKna8c2qY19ci5i7Q4d4cXNt4Nui
    Q==;
-X-CSE-ConnectionGUID: 6cHdMLo7TCuPNE/i2oSWAA==
-X-CSE-MsgGUID: 9a3n9BLESJaLUrTeRH3vhg==
-X-IronPort-AV: E=Sophos;i="6.17,290,1747699200"; 
-   d="scan'208";a="1361090"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 14:05:17 +0000
-Received: from EX19MTAEUB001.ant.amazon.com [54.240.197.234:5495]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.18.194:2525] with esmtp (Farcaster)
- id b74a8fdc-df20-4ffe-a94c-ca7bfc8d3d2d; Mon, 1 Sep 2025 14:05:17 +0000 (UTC)
-X-Farcaster-Flow-ID: b74a8fdc-df20-4ffe-a94c-ca7bfc8d3d2d
-Received: from EX19D015EUB004.ant.amazon.com (10.252.51.13) by
- EX19MTAEUB001.ant.amazon.com (10.252.51.26) with Microsoft SMTP Server
+X-CSE-ConnectionGUID: kiEDH9xIR0aujLgFjO6lnw==
+X-CSE-MsgGUID: s9FOoKmtQR+HopUw9GuFYA==
+X-IronPort-AV: E=Sophos;i="6.18,214,1751241600"; 
+   d="scan'208";a="1469011"
+Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
+  by internal-fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 14:30:02 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:23272]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.43.161:2525] with esmtp (Farcaster)
+ id 6107cd3d-5fbe-4c88-a87b-1e89852fe40b; Mon, 1 Sep 2025 14:30:01 +0000 (UTC)
+X-Farcaster-Flow-ID: 6107cd3d-5fbe-4c88-a87b-1e89852fe40b
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.17;
- Mon, 1 Sep 2025 14:05:17 +0000
-Received: from EX19D015EUB004.ant.amazon.com (10.252.51.13) by
- EX19D015EUB004.ant.amazon.com (10.252.51.13) with Microsoft SMTP Server
+ Mon, 1 Sep 2025 14:30:01 +0000
+Received: from [192.168.30.195] (10.106.83.14) by
+ EX19D022EUC002.ant.amazon.com (10.252.51.137) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 1 Sep 2025 14:05:16 +0000
-Received: from EX19D015EUB004.ant.amazon.com ([fe80::2dc9:7aa9:9cd3:fc8a]) by
- EX19D015EUB004.ant.amazon.com ([fe80::2dc9:7aa9:9cd3:fc8a%3]) with mapi id
- 15.02.2562.020; Mon, 1 Sep 2025 14:05:16 +0000
-From: "Roy, Patrick" <roypat@amazon.co.uk>
-To: "lkp@intel.com" <lkp@intel.com>
-CC: "ackerleytng@google.com" <ackerleytng@google.com>, "david@redhat.com"
-	<david@redhat.com>, "Manwaring, Derek" <derekmn@amazon.com>, "Thomson, Jack"
-	<jackabt@amazon.co.uk>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "Roy, Patrick"
-	<roypat@amazon.co.uk>, "rppt@kernel.org" <rppt@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>, "tabba@google.com"
-	<tabba@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>, "will@kernel.org"
-	<will@kernel.org>, "Cali, Marco" <xmarcalx@amazon.co.uk>
-Subject: Re: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP
-Thread-Topic: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP
-Thread-Index: AQHcG0lxZt1T5YHk+UqqKLGu1cJJ3g==
-Date: Mon, 1 Sep 2025 14:05:16 +0000
-Message-ID: <20250901140515.15769-1-roypat@amazon.co.uk>
-References: <202508311805.yfcdeaFC-lkp@intel.com>
-In-Reply-To: <202508311805.yfcdeaFC-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Mon, 1 Sep 2025 14:30:00 +0000
+Message-ID: <8dd43501-80be-43bf-8eac-a4265e7595ea@amazon.com>
+Date: Mon, 1 Sep 2025 15:29:59 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [PATCH v4 1/2] KVM: guest_memfd: add generic population via write
+To: David Hildenbrand <david@redhat.com>, kernel test robot <lkp@intel.com>,
+	"Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "pbonzini@redhat.com"
+	<pbonzini@redhat.com>, "shuah@kernel.org" <shuah@kernel.org>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"jthoughton@google.com" <jthoughton@google.com>, "Roy, Patrick"
+	<roypat@amazon.co.uk>, "Thomson, Jack" <jackabt@amazon.co.uk>, "Manwaring,
+ Derek" <derekmn@amazon.com>, "Cali, Marco" <xmarcalx@amazon.co.uk>
+References: <20250828153049.3922-2-kalyazin@amazon.com>
+ <202508310252.E5uFh1hx-lkp@intel.com>
+ <be511fb0-217e-43b2-9744-f9b001bff389@redhat.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
+ CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
+ i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
+In-Reply-To: <be511fb0-217e-43b2-9744-f9b001bff389@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EX19D001EUA004.ant.amazon.com (10.252.50.19) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-=0A=
-On Sun, 2025-08-31 at 11:26 +0100, kernel test robot wrote:=0A=
-> Hi Patrick,=0A=
-> =0A=
-> kernel test robot noticed the following build warnings:=0A=
-> =0A=
-> [auto build test WARNING on a6ad54137af92535cfe32e19e5f3bc1bb7dbd383]=0A=
-> =0A=
-> url:    https://github.com/intel-lab-lkp/linux/commits/Roy-Patrick/filema=
-p-Pass-address_space-mapping-to-free_folio/20250828-174202=0A=
-> base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383=0A=
-> patch link:    https://lore.kernel.org/r/20250828093902.2719-4-roypat%40a=
-mazon.co.uk=0A=
-> patch subject: [PATCH v5 03/12] mm: introduce AS_NO_DIRECT_MAP=0A=
-> config: loongarch-randconfig-r133-20250831 (https://download.01.org/0day-=
-ci/archive/20250831/202508311805.yfcdeaFC-lkp@intel.com/config)=0A=
-> compiler: loongarch64-linux-gcc (GCC) 14.3.0=0A=
-> reproduce: (https://download.01.org/0day-ci/archive/20250831/202508311805=
-.yfcdeaFC-lkp@intel.com/reproduce)=0A=
-> =0A=
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of=0A=
-> the same patch/commit), kindly add following tags=0A=
-> | Reported-by: kernel test robot <lkp@intel.com>=0A=
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508311805.yfcdeaFC-lkp=
-@intel.com/=0A=
-> =0A=
-> sparse warnings: (new ones prefixed by >>)=0A=
->>> mm/secretmem.c:155:39: sparse: sparse: symbol 'secretmem_aops' was not =
-declared. Should it be static?=0A=
-> =0A=
-> vim +/secretmem_aops +155 mm/secretmem.c=0A=
-> =0A=
-> 1507f51255c9ff Mike Rapoport           2021-07-07  154=0A=
-> 1507f51255c9ff Mike Rapoport           2021-07-07 @155  const struct addr=
-ess_space_operations secretmem_aops =3D {=0A=
-> 46de8b979492e1 Matthew Wilcox (Oracle  2022-02-09  156)         .dirty_fo=
-lio    =3D noop_dirty_folio,=0A=
-> 6612ed24a24273 Matthew Wilcox (Oracle  2022-05-02  157)         .free_fol=
-io     =3D secretmem_free_folio,=0A=
-> 5409548df3876a Matthew Wilcox (Oracle  2022-06-06  158)         .migrate_=
-folio  =3D secretmem_migrate_folio,=0A=
-> 1507f51255c9ff Mike Rapoport           2021-07-07  159  };=0A=
-> 1507f51255c9ff Mike Rapoport           2021-07-07  160=0A=
-> =0A=
-> --=0A=
-> 0-DAY CI Kernel Test Service=0A=
-> https://github.com/intel/lkp-tests/wiki=0A=
-=0A=
-This is the same thing Mike already pointed out (making `secretmem_aops` st=
-atic)=0A=
+
+
+On 01/09/2025 11:09, David Hildenbrand wrote:
+
+> On 30.08.25 20:56, kernel test robot wrote:
+>> Hi Nikita,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on a6ad54137af92535cfe32e19e5f3bc1bb7dbd383]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Kalyazin- 
+>> Nikita/KVM-guest_memfd-add-generic-population-via-write/20250828-233437
+>> base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383
+>> patch link:    https://lore.kernel.org/r/20250828153049.3922-2- 
+>> kalyazin%40amazon.com
+>> patch subject: [PATCH v4 1/2] KVM: guest_memfd: add generic population 
+>> via write
+>> config: x86_64-randconfig-001-20250830 (https://download.01.org/0day- 
+>> ci/archive/20250831/202508310252.E5uFh1hx-lkp@intel.com/config)
+>> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 
+>> 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/ 
+>> archive/20250831/202508310252.E5uFh1hx-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new 
+>> version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202508310252.E5uFh1hx- 
+>> lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>
+>>>> ERROR: modpost: "filemap_remove_folio" [arch/x86/kvm/kvm.ko] undefined!
+> 
+> Right, that one is not exported.
+
+Indeed.  Having a look at other .write_end implementations, it looks 
+like the convention is zeroing the uncopied part instead of trying to 
+remove the folio from the cache.  Will do it in the next version.
+
+> 
+> -- 
+> Cheers
+> 
+> David / dhildenb
+> 
+
