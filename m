@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E70320A00
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 18:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC3523D283
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Sep 2025 18:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756750074; cv=none; b=THLj3ZDjwZCMiPBnB6zUn4/EGumN/v5QPXbo8YOQugNnhq8Qs4X/Ff7bQ/472tVk6gOHGoj1guODYHrk0LFX5aoMVarRFA1GojI/EPnaVly1Kgn4/O6E4o9XU9nkWvZuO/093n9vZcRBCpRiYGb7NOSEH14+p2SpN1L4wo3rjds=
+	t=1756753077; cv=none; b=ZEHbbKzwXo9GGW7y9FGo9Gqy/XxYiNyw5PqgKZp1KT6KV82ANoclkYkmlrCmfYH4SPHd51x15WT55wdnrnlBz2bzmFtUo34tN8kQgedugie4BTHKTQSLx5RELhmk1n9XyQ0AFdbGiNttPplImeYmcrokBKvv/H4caJqQkzrnJ30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756750074; c=relaxed/simple;
-	bh=qUHEx3K9Fy8B+KsZYMB+IIP81VsmjWAE994TUdk8HXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fTBRlrpDq84QfCXnQXsTykn21y3qeXPzygcG9qZqADKQ7SdTSuI1F0lL91XlGvcze3HnYt9UkEbNJAkfyd7vUMp//0u0nYO553DPDQhU02WPTFzGt2jDoTIaimj7yYK0EIT1dJa/hMCgtb9jLDnZCuEM/hTN/GnLnraUuf7lg78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lA/ok2BR; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1756753077; c=relaxed/simple;
+	bh=xMqcOt3ELvvgyapfI+26vNbtMX9ySont1YEMK3Za6cs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=hEAqktBm8wm1sXT7BFrjyuuq2/cUkSzyBQnbbIgINQNJOqLvO3fv677Jh1KIsaqNW8Taxph3m7PUkz7XlwICIL6C13A5cSXvyrDxMlTEW9jrClrRrorweHXQgQy6/EhK1297nTL5TUpp6xvHP7BGkYOi6vBGqfR7csyFsXpYIgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V2jJQjdN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lA/ok2BR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V2jJQjdN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756750073; x=1788286073;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qUHEx3K9Fy8B+KsZYMB+IIP81VsmjWAE994TUdk8HXo=;
-  b=lA/ok2BRNUNzubRienCJIW6zpOe2zsUoAlSDcoU0LEacn7ybQ4aYeTUK
-   P9zrYAD6YbOyI712xgyW7SRv206XQRP5vZVYsY0LsIfIvlojc+93qgSnD
-   LPj9u/pFFKVSpSstaLOSl6WZWZW4RNO8l/25obgtGWKFqMCQ/Yiw73mdX
-   3uKJ333nSmQ0LmkwAKDYLdmjZCOPFbpmYKCENVYH57vck0HTUsMx5dSFh
-   3gd1S3UYLoKgpLN2MAXp6PsI1UWXYVBl9hw7Qy9EmII8QZnIJp8Jo18jr
-   7HQBgFV16yol2tCfCAXf9TF9kg4p5sLDyUrNKcZbm1s660tWvOL9guspr
+  t=1756753076; x=1788289076;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=xMqcOt3ELvvgyapfI+26vNbtMX9ySont1YEMK3Za6cs=;
+  b=V2jJQjdN5s55CAMctz8sf3lUS0+WYcPkdZtNJWRR4ntpeWBT1dJtBTsC
+   GGdy7fWqnZH5+gWESaZ3194ZR7bZEl1qOwnq4xw7jPi1DUWzxuWWwm2hg
+   dnASFOYRaFvJ00cl0pu6eVb9fPIQzJ0+agSnBePkn378XyZmJqmzzUyEm
+   gY8+mIkhJzZiGvS4+UK6dBPQdIDjzQmJKArpwisBtOVmAPDRdmCRqUC32
+   33tgV6BmfJdxt+XKuBAVffhWsKrXp8qYz5852uV+/r+HI1C0seMY+2B1J
+   o7kuCDQg4R6pqxj7Wd2p8k7RjA01qMGWXXd0AmjHJ/e1/ZUXSw9PWi+Cy
    g==;
-X-CSE-ConnectionGUID: 2kGgoGQoR9qbt0k8RZPLVg==
-X-CSE-MsgGUID: IrZ9F8MqSBOFS7BZlt2LBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="46591626"
+X-CSE-ConnectionGUID: fCysMvivR7OpokA1tYzK4w==
+X-CSE-MsgGUID: xGw59UiPQCecODsLOWrQfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="70447864"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="46591626"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 11:07:52 -0700
-X-CSE-ConnectionGUID: GY/rp180RaOLchUaSJ/+NA==
-X-CSE-MsgGUID: OsIOuWyIQnOfS6IZpzdaoA==
+   d="scan'208";a="70447864"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 11:57:55 -0700
+X-CSE-ConnectionGUID: m7264n5rTNOAo5vM7jqNzw==
+X-CSE-MsgGUID: GmtwzmokR02G99iTrUX5zA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="175426955"
+   d="scan'208";a="171940815"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 01 Sep 2025 11:07:48 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 01 Sep 2025 11:57:54 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ut8wT-0000tP-2s;
-	Mon, 01 Sep 2025 18:07:45 +0000
-Date: Tue, 2 Sep 2025 02:07:23 +0800
+	id 1ut9iy-0000wd-06;
+	Mon, 01 Sep 2025 18:57:52 +0000
+Date: Tue, 2 Sep 2025 02:57:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akashdeep Kaur <a-kaur@ti.com>, praneeth@ti.com, nm@ti.com, afd@ti.com,
-	vigneshr@ti.com, d-gole@ti.com, kristo@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, vishalm@ti.com, sebin.francis@ti.com
-Subject: Re: [PATCH v2 3/3] arm64: dts: ti: k3-pinctrl: Add the remaining
- macros
-Message-ID: <202509020155.fcjWQKFc-lkp@intel.com>
-References: <20250901122835.3022850-4-a-kaur@ti.com>
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 1/2] drm/buddy: Optimize free block management with RB
+ tree
+Message-ID: <aLXsgf_b-uftt1if@c51ed5950d49>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,65 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901122835.3022850-4-a-kaur@ti.com>
+In-Reply-To: <20250901185604.2222-1-Arunpravin.PaneerSelvam@amd.com>
 
-Hi Akashdeep,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.17-rc4 next-20250901]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akashdeep-Kaur/arm64-dts-ti-k3-am62p5-sk-Remove-the-unused-config-from-USB1_DRVVBUS/20250901-203422
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250901122835.3022850-4-a-kaur%40ti.com
-patch subject: [PATCH v2 3/3] arm64: dts: ti: k3-pinctrl: Add the remaining macros
-config: arm64-randconfig-053-20250901 (https://download.01.org/0day-ci/archive/20250902/202509020155.fcjWQKFc-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2e122990391b2ba062e6308a12cfedf7206270ba)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509020155.fcjWQKFc-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509020155.fcjWQKFc-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm64/boot/dts/ti/k3-am625-beagleplay.dts:14:
-   In file included from arch/arm64/boot/dts/ti/k3-am625.dtsi:12:
-   In file included from arch/arm64/boot/dts/ti/k3-am62.dtsi:13:
->> arch/arm64/boot/dts/ti/k3-pinctrl.h:18:34: error: invalid token in macro parameter list
-      18 | #define DS_ISO_OVERRIDE_EN_SHIFT(22)
-         |                                  ^
-   1 error generated.
-
-
-vim +18 arch/arm64/boot/dts/ti/k3-pinctrl.h
-
-    10	
-    11	#define WKUP_LVL_EN_SHIFT       (7)
-    12	#define WKUP_LVL_POL_SHIFT      (8)
-    13	#define ST_EN_SHIFT		(14)
-    14	#define PULLUDEN_SHIFT		(16)
-    15	#define PULLTYPESEL_SHIFT	(17)
-    16	#define RXACTIVE_SHIFT		(18)
-    17	#define DRV_STR_SHIFT           (19)
-  > 18	#define DS_ISO_OVERRIDE_EN_SHIFT(22)
-    19	#define DS_ISO_BYPASS_EN_SHIFT  (23)
-    20	#define DEBOUNCE_SHIFT		(11)
-    21	#define FORCE_DS_EN_SHIFT	(15)
-    22	#define DS_EN_SHIFT		(24)
-    23	#define DS_OUT_DIS_SHIFT	(25)
-    24	#define DS_OUT_VAL_SHIFT	(26)
-    25	#define DS_PULLUD_EN_SHIFT	(27)
-    26	#define DS_PULLTYPE_SEL_SHIFT	(28)
-    27	#define WKUP_EN_SHIFT           (29)
-    28	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v5 1/2] drm/buddy: Optimize free block management with RB tree
+Link: https://lore.kernel.org/stable/20250901185604.2222-1-Arunpravin.PaneerSelvam%40amd.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
