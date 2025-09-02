@@ -1,94 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6FA231827
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 17:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC9E532779E;
+	Tue,  2 Sep 2025 17:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756834269; cv=none; b=exJ2d5/mmMlc/Pu1bTkNav/6sRhj2uD86e6Ispt2LePGSCYdpr5sIL7eXue7S6oOmo8vjZCZg8qVYIMY9n56LwDGRNAmCnWS29Ybm6ikFcb9/Bzm+iTjA3V6Y1u+tk1nNbcpjMIELd+eBiW0AsnO1DC5eUHcWf7PkkiwPcxu0Is=
+	t=1756835438; cv=none; b=nJB05sxsoOgIL4a8h9dfQA2nDFEigBqcHkqL7uWy5vyt0/WHlFErnvz0eqWS+GBIzOixBI9Zy+H6Y7ed7DLLHhIA3ge+IsD+MldAAU79BPDvwF/GU+W7iLCGW3JbDelPmYNUPP8970NXhn/GWxlF+w5/1t4N+TZTSspkKO+UZYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756834269; c=relaxed/simple;
-	bh=kPEmyGzk7JOan62bPq1mkq8RSoXauUy1CfZeQlkrVxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FS9zpPSInue7Uc8hnfamgCgOolWwib3qGWWg8OHAOqXMXqYo5R+mQdpVpyrFCyg3x0CHYtGftTrMDz/lJ+GsWBDSbJ273D6MPEFTSZR86VggjD2JZbWiD2eI382XyoqUm/8yXmV1U7KUMYahO/YjzZV2OJcv5IhGnIqMQ5amhp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkB+zrN4; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkB+zrN4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756834267; x=1788370267;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kPEmyGzk7JOan62bPq1mkq8RSoXauUy1CfZeQlkrVxM=;
-  b=ZkB+zrN47IX9t9iqM9HPzy5YkFpjSF0wRUBaomZVhrtPNVsJ01QDBIzu
-   aA3lIHuBrWTH++rRBLWrPIS3LaOjj6fnEupWUa1kJIQV44QhafpBKbOOn
-   arktTylZaVTsqlOO3Jm42Laxcu5Nz+HFhG3od0FIA4s4Uykp4zVw+yy3R
-   8fYqa7ReCmTY2d/prumAJt7rXFQqPnPpOQvFsd9fNNPb7cSgyXgEZ/Oho
-   m6oZRqXdlRXJiCBdzB8weDCRnnbEwOiexbNNiNI8XRcR67NQ/Xf6a6umV
-   03kDTXGplTJD4pIjO+K+UQSLoBLkkdHHQj7ojW0qFcI5wjltQ8ni9sKSh
-   w==;
-X-CSE-ConnectionGUID: UpHEBYLnQOSE9sqbQECq/g==
-X-CSE-MsgGUID: IcehgKuTRaCq2p1TFwOfDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58821655"
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="58821655"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 10:31:07 -0700
-X-CSE-ConnectionGUID: fwjbrePgQLOWpzaivIUBYQ==
-X-CSE-MsgGUID: 8Y9CYjwPT7SzUV7Ei9L3xQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="202253178"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 02 Sep 2025 10:31:06 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1utUqV-0002oS-0N;
-	Tue, 02 Sep 2025 17:31:03 +0000
-Date: Wed, 3 Sep 2025 01:30:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Ober <dober6023@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 3839/5641] ld.lld: error:
- vmlinux.a(virt/kvm/eventfd.o):(function kvm_notify_acked_gsi: .text+0x3a8):
- relocation R_LARCH_B26 out of range: 255363640 is not in [-134217728,
- 134217727]; references 'lock_is_held_type'
-Message-ID: <202509030125.8uFYoFGf-lkp@intel.com>
+	s=arc-20240116; t=1756835438; c=relaxed/simple;
+	bh=Aq1WnnougfqYGW5u50W1ElCIH6JBPnqu0IRamuLPR9A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U0NHCBOfjrEMSOvjD229ygGueucS6kRdMwWmqT9sLzlf2ynVwuFZ7CUgPK7cakhzg6ZLCGeSSPdhFVu72SI1Tq4gyS+U7gw7k2DBvYxHV8dUkUXPklw9Vt/RH9gScxnIGgL4ekLWtUnI1JbyWeVTTefsEkfjRaZ0fvWfOvKn8xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4cGXlY69KQz9sRy;
+	Tue,  2 Sep 2025 19:28:41 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YhglP0DjrnDx; Tue,  2 Sep 2025 19:28:41 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4cGXlY56Rkz9sRk;
+	Tue,  2 Sep 2025 19:28:41 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 90E0F8B796;
+	Tue,  2 Sep 2025 19:28:41 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id ohauBnR9cmAj; Tue,  2 Sep 2025 19:28:41 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 3DD868B77B;
+	Tue,  2 Sep 2025 19:28:41 +0200 (CEST)
+Message-ID: <df5573d5-e133-4b76-9a5b-d9c98f4e1e96@csgroup.eu>
+Date: Tue, 2 Sep 2025 19:28:41 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/7] soc: fsl: qe: Add support of IRQ in QE GPIO
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+References: <1234b2b7105443654c5f2bb97d25cf16408d6003.1756727747.git.christophe.leroy@csgroup.eu>
+ <202509021830.uakzVIlK-lkp@intel.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Language: fr-FR
+In-Reply-To: <202509021830.uakzVIlK-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3db46a82d467bd23d9ebc473d872a865785299d8
-commit: 79e3197384f1735354132e73e383b9ea9ccd7027 [3839/5641] hwmon: (lenovo-ec-sensors) Update P8 supprt
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250903/202509030125.8uFYoFGf-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2e122990391b2ba062e6308a12cfedf7206270ba)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030125.8uFYoFGf-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509030125.8uFYoFGf-lkp@intel.com/
 
-Note: the linux-next/master HEAD 3db46a82d467bd23d9ebc473d872a865785299d8 builds fine.
-      It may have been fixed somewhere.
+Le 02/09/2025 à 12:50, kernel test robot a écrit :
+> Hi Christophe,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on robh/for-next]
+> [also build test WARNING on powerpc/next powerpc/fixes linus/master v6.17-rc4]
+> [cannot apply to next-20250902]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-format-patch%23_base_tree_information&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075803525%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2BniURYrufRzhFQ7KXwgpmnJIfeJWcTMavXkEndbtHYA%3D&reserved=0]
+> 
+> url:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FChristophe-Leroy%2Fsoc-fsl-qe-Add-an-interrupt-controller-for-QUICC-Engine-Ports%2F20250901-202447&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075825139%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=v43MiEVTfpflIobzhrSvzs4IZcmfHuSrXyUJHafSLNk%3D&reserved=0
+> base:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Frobh%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075840967%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=g1r1XaGeDG5nZqIU1b61fCZlve9VQaMIliHoufnXFLU%3D&reserved=0 for-next
+> patch link:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fr%2F1234b2b7105443654c5f2bb97d25cf16408d6003.1756727747.git.christophe.leroy%2540csgroup.eu&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075856717%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BWYYNgbEu2UZWOS8XRlq%2FdGddmBDeQ%2BjDb%2FIorMXSmc%3D&reserved=0
+> patch subject: [PATCH v5 4/7] soc: fsl: qe: Add support of IRQ in QE GPIO
+> config: powerpc64-randconfig-003-20250902 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250902%2F202509021830.uakzVIlK-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075872388%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=M6TMS23JmgSVi3aQZDvjZcOn9vX7HyUc8%2BcoLOjfN6E%3D&reserved=0)
+> compiler: clang version 22.0.0git (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075888080%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3uIHxd8uhuDUbQRCQbcW%2BFnR1uvJZeN3AQWOR039L7A%3D&reserved=0 2e122990391b2ba062e6308a12cfedf7206270ba)
+> reproduce (this is a W=1 build): (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250902%2F202509021830.uakzVIlK-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075903628%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=y13g2bKm6FrjWSiErSO83akrf3BclbaIQ4142F9f5Tk%3D&reserved=0)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202509021830.uakzVIlK-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Ca3ddcbd613fd48271bba08ddea0eb403%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638924071075921207%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=j%2BMDWBvsHHtgzjiHc83gr3OguP22jVJ41AmVgFtT6eM%3D&reserved=0
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     In file included from <built-in>:3:
+>     In file included from include/linux/compiler_types.h:171:
+>     include/linux/compiler-clang.h:37:9: warning: '__SANITIZE_THREAD__' macro redefined [-Wmacro-redefined]
+>        37 | #define __SANITIZE_THREAD__
+>           |         ^
+>     <built-in>:352:9: note: previous definition is here
+>       352 | #define __SANITIZE_THREAD__ 1
+>           |         ^
+>>> drivers/soc/fsl/qe/gpio.c:316:9: warning: cast to smaller integer type 'u32' (aka 'unsigned int') from 'const void *' [-Wvoid-pointer-to-int-cast]
+>       316 |         mask = (u32)of_device_get_match_data(dev);
+>           |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     2 warnings generated.
+> 
 
-All errors (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(virt/kvm/eventfd.o):(function kvm_notify_acked_gsi: .text+0x3a8): relocation R_LARCH_B26 out of range: 255363640 is not in [-134217728, 134217727]; references 'lock_is_held_type'
-   >>> referenced by eventfd.c
-   >>> defined in vmlinux.a(kernel/locking/lockdep.o)
---
->> ld.lld: error: vmlinux.a(virt/kvm/eventfd.o):(function kvm_notify_acked_irq: .text+0x7c8): relocation R_LARCH_B26 out of range: 255411352 is not in [-134217728, 134217727]; references 'dynamic_preempt_schedule_notrace'
-   >>> referenced by eventfd.c
-   >>> defined in vmlinux.a(kernel/sched/core.o)
+Will be fixed with the following change in the patch:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/soc/fsl/qe/gpio.c b/drivers/soc/fsl/qe/gpio.c
+index 8632b0d37255..7a23eb220217 100644
+--- a/drivers/soc/fsl/qe/gpio.c
++++ b/drivers/soc/fsl/qe/gpio.c
+@@ -305,7 +305,7 @@ static int qe_gpio_probe(struct platform_device *ofdev)
+  	struct device_node *np = dev->of_node;
+  	struct qe_gpio_chip *qe_gc;
+  	struct gpio_chip *gc;
+-	u32 mask;
++	unsigned long mask;
+
+  	qe_gc = devm_kzalloc(dev, sizeof(*qe_gc), GFP_KERNEL);
+  	if (!qe_gc)
+@@ -313,7 +313,7 @@ static int qe_gpio_probe(struct platform_device *ofdev)
+
+  	spin_lock_init(&qe_gc->lock);
+
+-	mask = (u32)of_device_get_match_data(dev);
++	mask = (unsigned long)of_device_get_match_data(dev);
+  	if (mask) {
+  		int i, j;
+
+
