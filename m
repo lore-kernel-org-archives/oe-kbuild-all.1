@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0F925394A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 01:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB2E23B0;
+	Tue,  2 Sep 2025 03:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756776922; cv=none; b=lCxV/n7BYw8VfDx0oCpS8NznelQFX7Wp0H2Sm93Eb4MLanJCqVFSzbuOQBw9F0hEoYqimGB51bo8ez4i0D2PzQF7wbGfBjTtPNEGS71jch7GlEAtWduyFzaSwi8ou6BEwTlEtklm29cYr+man1WQFbj8wpzRVt/an2OCMcuDgDg=
+	t=1756782149; cv=none; b=CHjmwflhXXcG+j92ZPm4VOa4qXJbtRfJeJGZqq9O1Fz9EFaKx/Qz1DL18e1bb81RUs3WyAyPRmR1KV0zn3h9qL6/J7hHwMzaV2vDfYBcV+xCoK80s8ethbDBwjf5SCu9xVCj+OrLjMGSWylPAQCrqLl4ChYHVPDxRGwfk1j2e2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756776922; c=relaxed/simple;
-	bh=Puhny1wjCMl88TJxS0H8KukwLRBVKRmMMtWzDxfhg/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=a944y9JQ2W6FdjZdrZ5ecwQ5Dobqky3Q8MfeHV8lTELVptfrrYzGNdB70+TZewlIYoH5b8h7Xp/luNuuqI5UTpRRibZt1E724jGJBaeOsq/K2CfDxqjABGlmikEGBub0BBGPcpnLVXyU6Pr98htL6xpZjJOWjm+beKOCXzbvhqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVjQv6kR; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1756782149; c=relaxed/simple;
+	bh=1Gh4BqMKqszZroZ6M2m0kcCxrk3b/eSwMhjntGGwUtw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K2NCyyB3ryNq3dm38QGafa3oCSQtHrZksJWRlwo7sVH2HtBgGyAYGREiQdgw3DNIIyFVEXZ85ZlTcxQKxJCqeLc5n8yPOfFtUUyPGfFqSawC4VXgn6zaTKu5plNmYSND3+3CsdWpkmUBtQ+1XFvkNbzJF+Rl+3w27zruOhxkUJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MO+f1OVG; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVjQv6kR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MO+f1OVG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756776921; x=1788312921;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Puhny1wjCMl88TJxS0H8KukwLRBVKRmMMtWzDxfhg/k=;
-  b=AVjQv6kR5S6jbsdGCi4FlvaLZ3oXftw0XCKjIZfWnoU7TG4uOIN7bhYT
-   65GezQ1PZ8Aj4EwGJY9NayMk6W+nP0yI/Eg6zY7hRr2RCaMsBnpB1hW5R
-   viyzYIA/Dnjn9ZuuLh5NKRXg+JLTuzO9vw2gFdM6Adlr7vbEneiunPRl1
-   BNrntxJEwTDyXEKlfx/653jRoIrObotALRg+1AYvA/MfAafj7PHy+TCTf
-   ssvZuTCKt5lkxhsMTFHwLJUA5b57O/Mi+Nz8xCqCJnYrISoJnzOCDnIsr
-   4DKCiXJHXnDPzpyHV7FtW8UdPosNLoUfcE07Y5n85hm6n+oa5XEISOZMh
-   A==;
-X-CSE-ConnectionGUID: o7JOBo+6Rgqa2DOqQSA0hw==
-X-CSE-MsgGUID: Zfunc+11SaWGab6/N5f2nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="61666936"
+  t=1756782147; x=1788318147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1Gh4BqMKqszZroZ6M2m0kcCxrk3b/eSwMhjntGGwUtw=;
+  b=MO+f1OVGh6T69jok9amrdlK5B1KyPSeAuIi6drtWTwxAIwkk9OyjGCnf
+   QQSwst5jxcx8Z+pXMe2Usyg4B3uTjhauNbeKjm491mVKRAHMzkp/BDUAh
+   uHcO8IzEkCw/Ke39Va4qfM6KMO7c0txD4TBnfv/bEEfB/Zww1L5M8UuDa
+   keNrzR9PcKTJTp9IlIECKWuBpz7Yd81zBV7NZtt8ufU4pL/sa2ZButWdY
+   kmZXURq4LVyBkxYKr2c7BF7rlmkxbnVy8aCtShT2fgQFZhYeGUVQ4lC8m
+   CvvzCw/eyj/B/+L5ao1yMZs5XiegqTdskOXffKg8ol+5ygJVLALESuqrA
+   w==;
+X-CSE-ConnectionGUID: KRNOZM/AQ/K/coFf50Q9og==
+X-CSE-MsgGUID: UDtItDogQUuoPm8giMCP2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58894613"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="61666936"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 18:35:20 -0700
-X-CSE-ConnectionGUID: bUwWodIuR4SDG09PgzrsEA==
-X-CSE-MsgGUID: 0Fwl6N04TFGU935YaxKvew==
+   d="scan'208";a="58894613"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 20:02:26 -0700
+X-CSE-ConnectionGUID: NTeTGezGRzW8J2udFwWO2w==
+X-CSE-MsgGUID: dIH/17HRQsa3Uq9uWbJ+hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170414163"
+   d="scan'208";a="202075857"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Sep 2025 18:35:19 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Sep 2025 20:02:25 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utFug-0001JH-1s;
-	Tue, 02 Sep 2025 01:34:32 +0000
-Date: Tue, 2 Sep 2025 09:33:29 +0800
+	id 1utHHc-0001Nj-0q;
+	Tue, 02 Sep 2025 03:02:11 +0000
+Date: Tue, 2 Sep 2025 11:00:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abin Joseph <abin.joseph@amd.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net v2] net: xilinx: axienet: Add error handling for RX
- metadata pointer retrieval
-Message-ID: <aLZJaXYEG1xK_pou@c51ed5950d49>
+To: Yu Kuai <yukuai1@huaweicloud.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v3 11/15] md/md-linear: convert to use
+ bio_submit_split_bioset()
+Message-ID: <202509021006.fXvkxKHg-lkp@intel.com>
+References: <20250901033220.42982-12-yukuai1@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +63,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902013205.2849707-1-abin.joseph@amd.com>
+In-Reply-To: <20250901033220.42982-12-yukuai1@huaweicloud.com>
 
-Hi,
+Hi Yu,
 
-Thanks for your patch.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.17-rc4 next-20250901]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/block-cleanup-bio_issue/20250901-114701
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20250901033220.42982-12-yukuai1%40huaweicloud.com
+patch subject: [PATCH RFC v3 11/15] md/md-linear: convert to use bio_submit_split_bioset()
+config: i386-buildonly-randconfig-004-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021006.fXvkxKHg-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021006.fXvkxKHg-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net v2] net: xilinx: axienet: Add error handling for RX metadata pointer retrieval
-Link: https://lore.kernel.org/stable/20250902013205.2849707-1-abin.joseph%40amd.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509021006.fXvkxKHg-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/md/md-linear.c:260:22: error: too many arguments to function call, expected 3, have 4
+     259 |                 bio = bio_submit_split_bioset(bio, end_sector - bio_sector,
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~
+     260 |                                               GFP_NOIO, &mddev->bio_set);
+         |                                                         ^~~~~~~~~~~~~~~
+   include/linux/blkdev.h:1003:13: note: 'bio_submit_split_bioset' declared here
+    1003 | struct bio *bio_submit_split_bioset(struct bio *bio, unsigned int split_sectors,
+         |             ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1004 |                                     struct bio_set *bs);
+         |                                     ~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +260 drivers/md/md-linear.c
+
+127186cfb184ea Yu Kuai 2025-01-02  231  
+127186cfb184ea Yu Kuai 2025-01-02  232  static bool linear_make_request(struct mddev *mddev, struct bio *bio)
+127186cfb184ea Yu Kuai 2025-01-02  233  {
+127186cfb184ea Yu Kuai 2025-01-02  234  	struct dev_info *tmp_dev;
+127186cfb184ea Yu Kuai 2025-01-02  235  	sector_t start_sector, end_sector, data_offset;
+127186cfb184ea Yu Kuai 2025-01-02  236  	sector_t bio_sector = bio->bi_iter.bi_sector;
+127186cfb184ea Yu Kuai 2025-01-02  237  
+127186cfb184ea Yu Kuai 2025-01-02  238  	if (unlikely(bio->bi_opf & REQ_PREFLUSH)
+127186cfb184ea Yu Kuai 2025-01-02  239  	    && md_flush_request(mddev, bio))
+127186cfb184ea Yu Kuai 2025-01-02  240  		return true;
+127186cfb184ea Yu Kuai 2025-01-02  241  
+127186cfb184ea Yu Kuai 2025-01-02  242  	tmp_dev = which_dev(mddev, bio_sector);
+127186cfb184ea Yu Kuai 2025-01-02  243  	start_sector = tmp_dev->end_sector - tmp_dev->rdev->sectors;
+127186cfb184ea Yu Kuai 2025-01-02  244  	end_sector = tmp_dev->end_sector;
+127186cfb184ea Yu Kuai 2025-01-02  245  	data_offset = tmp_dev->rdev->data_offset;
+127186cfb184ea Yu Kuai 2025-01-02  246  
+127186cfb184ea Yu Kuai 2025-01-02  247  	if (unlikely(bio_sector >= end_sector ||
+127186cfb184ea Yu Kuai 2025-01-02  248  		     bio_sector < start_sector))
+127186cfb184ea Yu Kuai 2025-01-02  249  		goto out_of_bounds;
+127186cfb184ea Yu Kuai 2025-01-02  250  
+127186cfb184ea Yu Kuai 2025-01-02  251  	if (unlikely(is_rdev_broken(tmp_dev->rdev))) {
+127186cfb184ea Yu Kuai 2025-01-02  252  		md_error(mddev, tmp_dev->rdev);
+127186cfb184ea Yu Kuai 2025-01-02  253  		bio_io_error(bio);
+127186cfb184ea Yu Kuai 2025-01-02  254  		return true;
+127186cfb184ea Yu Kuai 2025-01-02  255  	}
+127186cfb184ea Yu Kuai 2025-01-02  256  
+127186cfb184ea Yu Kuai 2025-01-02  257  	if (unlikely(bio_end_sector(bio) > end_sector)) {
+127186cfb184ea Yu Kuai 2025-01-02  258  		/* This bio crosses a device boundary, so we have to split it */
+bb50131f159ad3 Yu Kuai 2025-09-01  259  		bio = bio_submit_split_bioset(bio, end_sector - bio_sector,
+127186cfb184ea Yu Kuai 2025-01-02 @260  					      GFP_NOIO, &mddev->bio_set);
+bb50131f159ad3 Yu Kuai 2025-09-01  261  		if (!bio) {
+127186cfb184ea Yu Kuai 2025-01-02  262  			return true;
+127186cfb184ea Yu Kuai 2025-01-02  263  		}
+127186cfb184ea Yu Kuai 2025-01-02  264  	}
+127186cfb184ea Yu Kuai 2025-01-02  265  
+127186cfb184ea Yu Kuai 2025-01-02  266  	md_account_bio(mddev, &bio);
+127186cfb184ea Yu Kuai 2025-01-02  267  	bio_set_dev(bio, tmp_dev->rdev->bdev);
+127186cfb184ea Yu Kuai 2025-01-02  268  	bio->bi_iter.bi_sector = bio->bi_iter.bi_sector -
+127186cfb184ea Yu Kuai 2025-01-02  269  		start_sector + data_offset;
+127186cfb184ea Yu Kuai 2025-01-02  270  
+127186cfb184ea Yu Kuai 2025-01-02  271  	if (unlikely((bio_op(bio) == REQ_OP_DISCARD) &&
+127186cfb184ea Yu Kuai 2025-01-02  272  		     !bdev_max_discard_sectors(bio->bi_bdev))) {
+127186cfb184ea Yu Kuai 2025-01-02  273  		/* Just ignore it */
+127186cfb184ea Yu Kuai 2025-01-02  274  		bio_endio(bio);
+127186cfb184ea Yu Kuai 2025-01-02  275  	} else {
+127186cfb184ea Yu Kuai 2025-01-02  276  		if (mddev->gendisk)
+127186cfb184ea Yu Kuai 2025-01-02  277  			trace_block_bio_remap(bio, disk_devt(mddev->gendisk),
+127186cfb184ea Yu Kuai 2025-01-02  278  					      bio_sector);
+127186cfb184ea Yu Kuai 2025-01-02  279  		mddev_check_write_zeroes(mddev, bio);
+127186cfb184ea Yu Kuai 2025-01-02  280  		submit_bio_noacct(bio);
+127186cfb184ea Yu Kuai 2025-01-02  281  	}
+127186cfb184ea Yu Kuai 2025-01-02  282  	return true;
+127186cfb184ea Yu Kuai 2025-01-02  283  
+127186cfb184ea Yu Kuai 2025-01-02  284  out_of_bounds:
+127186cfb184ea Yu Kuai 2025-01-02  285  	pr_err("md/linear:%s: make_request: Sector %llu out of bounds on dev %pg: %llu sectors, offset %llu\n",
+127186cfb184ea Yu Kuai 2025-01-02  286  	       mdname(mddev),
+127186cfb184ea Yu Kuai 2025-01-02  287  	       (unsigned long long)bio->bi_iter.bi_sector,
+127186cfb184ea Yu Kuai 2025-01-02  288  	       tmp_dev->rdev->bdev,
+127186cfb184ea Yu Kuai 2025-01-02  289  	       (unsigned long long)tmp_dev->rdev->sectors,
+127186cfb184ea Yu Kuai 2025-01-02  290  	       (unsigned long long)start_sector);
+127186cfb184ea Yu Kuai 2025-01-02  291  	bio_io_error(bio);
+127186cfb184ea Yu Kuai 2025-01-02  292  	return true;
+127186cfb184ea Yu Kuai 2025-01-02  293  }
+127186cfb184ea Yu Kuai 2025-01-02  294  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
