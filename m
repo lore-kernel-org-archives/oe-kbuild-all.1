@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D35826CE2A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 14:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D6730F94D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 14:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756821987; cv=none; b=B+6/siS0VrSPuq5jK0ESNatTwCR9QFOnN0iVUlDADvvOOwHn0p/WAMwXGK3qQTnKH/ssGBkle633ZXI9gr40kJX0oyzef523FRhXy9eTSl2kRHoJutSqgYyUBK118k1i+sEv38jWS6ylA8P7mvNThoUFWOU7QL8mAYEayoDDC78=
+	t=1756824976; cv=none; b=hkGn3U6Qq8lvRxsRazuhoEEAWa4YC/FIsv1bLFn/mdzIUh3r4i7Wy4+QLLI3L6QjEoL4Ng5Xx4vzP4dAPYN3JW/44fDP/r0EcAXtJ5XN6rCVExRu4ud81uQsF/8qSAtw+axfM9cgxCi0NBQ7O0IVGhJxPVSjU6w7gzy1tLX9+pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756821987; c=relaxed/simple;
-	bh=uwmqyW4iguh3yd9Z0HFBXF3emGZrOuKjxQU095FIrNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upL8I+27xJI4xPKExvimpBG7BsjhlVOSWTKB2S0/qVF+biMFRtFA5U36Iz7eOIwwCL6Fmf3wDS3qT8hSs73ejbYx2Pu1Dh43C8REhWfNcTczlIqhZJWXdQD0ouQ+QghB8nNCxYOYLDXVCjXGiG9aR/kTMhS0O6dM6Jdy+M867bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USbtrNuq; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1756824976; c=relaxed/simple;
+	bh=qr5GJ5JPXH7dUytShZZTZKeTR7YJk/ZWJ1lrfaTaEoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ivDZhs9mgamTxQB8MNynEB0Bk/NZ2ixiQRAENWdG04LICPa929rPr074xEusfYBTRA/rShB1O9uqE3nYarB8V9P9DhnzEB7FMmxBpv+uctpoo0iDZWiKPZrQ+L+FkJk7CbWFaCw9NpiFujd5LEEBHUBbW0cN55KUVVKDqa1nz9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYUWFgUj; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USbtrNuq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYUWFgUj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756821986; x=1788357986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uwmqyW4iguh3yd9Z0HFBXF3emGZrOuKjxQU095FIrNM=;
-  b=USbtrNuq9NjhloYlYBePt/fIIEn5i0XFmkanW3/m3XWYsrSmWE+qvRqr
-   qW4b8udDEDfrhTHdZkKkyNlSqhzIomWFoJohITc+KjwnA4WLSYz2I1vSz
-   Za30OFhbbdZMg/hRxZXbXTrxES/4Lob8y1Ber1weXCCkXLkE0gcr1Fz/h
-   LJ7O15URoqc8MB4Y/Ti2zU4qvSigXTV4EPvKIiSYEXC6JQHcJlXF3KLwL
-   hEyLNtOK87Fh1p/2VYjOAHfJ812EvkmcEm2UgLjF0+8Uta5bCbIPGVzhV
-   7ibS55xyxtCYAjTP4UFXWDAmbZtakrQt2RAQjY22ulVWufO38blApptW9
+  t=1756824974; x=1788360974;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qr5GJ5JPXH7dUytShZZTZKeTR7YJk/ZWJ1lrfaTaEoo=;
+  b=lYUWFgUjU7Qvn2bcR56r7vuGbfzFaqChjdfH/Amcbaecr15vYNrWMsTx
+   DHdGfMRDLB5MTyKeToTmQADwlkZTV9TC1T7cPlIcSNqiCtj5/UOw9dN1t
+   1bv0XSrQZSovPaf9dYo8Un2d06nIzr50L1C0TwWvixPsuiCDEEECAE8ni
+   5RJCNo7Q7XvVK77Fe9Ljag3D7kRm38EojMDwezObYowOOY7BHLNvEWKXg
+   mzo2GxpJCPzySTSTGr+XYWkBFiTu+jS9POgFgZbN/iss4k8xbjZhl13Mb
+   WxCA+ih6SXiQvK53PWq/f9BGPdnwxwe19idJf1SbBEuHvuY1uU63E0eTG
    A==;
-X-CSE-ConnectionGUID: doIqRn0RRHu5jaJ5SMYU0Q==
-X-CSE-MsgGUID: aBwAxsHhTX2d6lyNJzdQTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="69709887"
+X-CSE-ConnectionGUID: FOMEr/LTRoO7h+H92ZYXHA==
+X-CSE-MsgGUID: RQwH1MiDRJaAfGjqBpL24g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="62744968"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="69709887"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 07:06:25 -0700
-X-CSE-ConnectionGUID: LV02f38gTGSkQzu7FDitTQ==
-X-CSE-MsgGUID: yfdIjjIhTgGrWpgYE94IdA==
+   d="scan'208";a="62744968"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 07:56:14 -0700
+X-CSE-ConnectionGUID: J3+7ywyOQb2r2IGlLz0PXQ==
+X-CSE-MsgGUID: KMaQhmC0R+GAuAxcgUXVmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="194932705"
+   d="scan'208";a="202246400"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Sep 2025 07:06:23 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 02 Sep 2025 07:56:13 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utReO-0002aB-2v;
-	Tue, 02 Sep 2025 14:06:20 +0000
-Date: Tue, 2 Sep 2025 22:06:14 +0800
+	id 1utSQc-0002e2-2M;
+	Tue, 02 Sep 2025 14:56:10 +0000
+Date: Tue, 2 Sep 2025 22:52:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anton Nadezhdin <anton.nadezhdin@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com, richardcochran@gmail.com,
-	Milena Olech <milena.olech@intel.com>,
-	Anton Nadezhdin <anton.nadezhdin@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next 2/2] idpf: add direct method
- for disciplining Tx timestamping
-Message-ID: <202509022155.uBpemgov-lkp@intel.com>
-References: <20250902105321.5750-3-anton.nadezhdin@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 77/77] Warning:
+ drivers/media/v4l2-core/v4l2-subdev.c:51 struct member 'streaming' not
+ described in 'v4l2_subdev_stream_config'
+Message-ID: <202509022246.qxiTeQrS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,66 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902105321.5750-3-anton.nadezhdin@intel.com>
 
-Hi Anton,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 1235d14de922bc4367c24553bc6b278d56dc3433]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Nadezhdin/idpf-add-direct-access-to-discipline-the-main-timer/20250902-170325
-base:   1235d14de922bc4367c24553bc6b278d56dc3433
-patch link:    https://lore.kernel.org/r/20250902105321.5750-3-anton.nadezhdin%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next 2/2] idpf: add direct method for disciplining Tx timestamping
-config: powerpc-randconfig-002-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022155.uBpemgov-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022155.uBpemgov-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   dbb6c78ee163822abba87ee352b67b7cfec3a023
+commit: dbb6c78ee163822abba87ee352b67b7cfec3a023 [77/77] count them
+config: i386-buildonly-randconfig-003-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022246.qxiTeQrS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022246.qxiTeQrS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509022155.uBpemgov-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509022246.qxiTeQrS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:5:
->> drivers/net/ethernet/intel/idpf/idpf_ptp.h:399:11: error: expected ';', ',' or ')' before 'struct'
-              struct idpf_tx_splitq_params *params)
-              ^~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.c: In function 'idpf_tx_read_tstamp':
->> drivers/net/ethernet/intel/idpf/idpf_txrx.c:1673:10: error: too many arguments to function 'idpf_ptp_get_tx_tstamp'
-       err = idpf_ptp_get_tx_tstamp(tx_tstamp_caps->vport, tx_tstamp);
-             ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:5:
-   drivers/net/ethernet/intel/idpf/idpf_ptp.h:374:19: note: declared here
-    static inline int idpf_ptp_get_tx_tstamp(struct idpf_vport *vport)
-                      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.c: In function 'idpf_tx_splitq_frame':
->> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2763:34: error: passing argument 3 of 'idpf_tx_tstamp' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     idx = idpf_tx_tstamp(tx_q, skb, &tx_params);
-                                     ^~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/idpf_txrx.c:2635:37: note: expected 'struct idpf_tx_offload_params *' but argument is of type 'struct idpf_tx_splitq_params *'
-         struct idpf_tx_offload_params *params)
-         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/ethernet/intel/idpf/idpf_lib.c:6:
->> drivers/net/ethernet/intel/idpf/idpf_ptp.h:399:11: error: expected ';', ',' or ')' before 'struct'
-              struct idpf_tx_splitq_params *params)
-              ^~~~~~
-
-
-vim +399 drivers/net/ethernet/intel/idpf/idpf_ptp.h
-
-   396	
-   397	static inline int idpf_ptp_request_ts(struct idpf_tx_queue *tx_q,
-   398					      struct sk_buff *skb, u32 *idx
- > 399					      struct idpf_tx_splitq_params *params)
-   400	{
-   401		return -EOPNOTSUPP;
-   402	}
-   403	
+>> Warning: drivers/media/v4l2-core/v4l2-subdev.c:51 struct member 'streaming' not described in 'v4l2_subdev_stream_config'
 
 -- 
 0-DAY CI Kernel Test Service
