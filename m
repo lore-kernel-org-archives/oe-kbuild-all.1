@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888DD247298
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 11:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A475A28850E;
+	Tue,  2 Sep 2025 11:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756812912; cv=none; b=N8MzSBiNe04e1YfeDUp86yE7YwTANr3s2xWIaCkRDhgMnao5XjF2EQFtOwi/7qhX5SPVHmc7LvguzLmKvG6dz5AlbmsDpGUM1RlxcK+L2nvcA92ITGSOqisByBlI6oFRBIxTHOtTKKyKQ88yo+XtntKnje25M+0E9tQiaGr30RI=
+	t=1756812914; cv=none; b=gQaasKiZpPS5vrbjxUE7dZcvdOd9LDQqn1PcEOzSDRMnQYNP6Uu7GHWffCvcnwzlcq6sM1WJdXG25LVJTWqJRTPHmAUrTwE8qVSgEPF4YAbw/u6pgoCr2c4Jm7/OAZ+IksFeX8FPCEC8OIgu8KoKPpbKkG2Ro0yeo5vqKV4PlNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756812912; c=relaxed/simple;
-	bh=DWZZHw0s0ZU+2fa/TZRR2bg5Wp+8a4qs93yTu6ArKbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jocz4cL1xyfuKx0TenpqndH7Wy0al8dAg3wf8gJuMVUIPk9kIU8vGLzytY5rKjPJeeU82PF5JItpX5IxXYFUldmAkTY50pEbGPvRM/K0cD7I0RNek2X93zQMzPgDr7Hf5nmscWzqShy+sIe5G1SdAuEEnqtDLuCJbtpMWsUqGmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eOwA3rH3; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1756812914; c=relaxed/simple;
+	bh=rIDxfPOWbDbOIrhqwYq1sr15Abv6ryso4TG4tH6RirQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VrDYsG9tDm93BD249rjmQ3/6dAD8ULk5IW/DZrhmLLrb6UNp5AGal1sCNF9yupjohJ5Pk7JOt1NcCwePM2Q2tK783qBVw2aVozE0vEk4sRnutem0VqWBmbOHjZPEipMNnoiQ2ABSBqbbeRtY8SPzZQTXRi4lzleB8KFz4QwayQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtfE1sYi; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eOwA3rH3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtfE1sYi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756812910; x=1788348910;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DWZZHw0s0ZU+2fa/TZRR2bg5Wp+8a4qs93yTu6ArKbM=;
-  b=eOwA3rH3Z7p8Abr9O0W8OI5PhkoRFFcqDyQVETFYveK6fUHylZzGF/n6
-   wE63Kka35yCN3MzRM8Y/3Ycdgd/oq4vUFwZztaNib0dp02WursAesOpQx
-   mkmj5D1aK2oxh5nyNTQnDDWFeebrDQhBdPJl/H1RIukgxbDKKgRY8b/Xq
-   jGxTOze5tzPCDLUuYqgrMMH/JRozlVoo6Nurzi2jkGI+8rG6g6Y2xXRN5
-   B2MV+pgLvBnraYzo1lXUD+FuLWT7OkBLzgEF3AoJDzErnVmX3QA2eAaGj
-   Y+CMbrgNrVzlKi1wcd9/h/HwOs5bZVv8gmGN6tBOoiw7jh9R5MDQJH1W7
-   g==;
-X-CSE-ConnectionGUID: F0VR//0JRESjhyFHabAZ4Q==
-X-CSE-MsgGUID: xtz40kaPTyqHk7MzEuQtJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62912317"
+  t=1756812912; x=1788348912;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rIDxfPOWbDbOIrhqwYq1sr15Abv6ryso4TG4tH6RirQ=;
+  b=BtfE1sYi01HUFK809LHuebV1wqbzcbIoZBBBu7vzx/RHlU04JsuB+G7a
+   vRosG+GB5Wrd1tu9FDrsFaI38IXHX4TLUQ4BO36UqFAgNJsz935eCbHAU
+   gG7r0FX6rPSDciE3ROqx/rmliGUgE1XiUMP1YjCdu4FvbpfQycRISVd5z
+   6OC/i3vsKJdy4d0LPnFF6awaJrqLQqujJjDvoeDYSTPGg+7lcsPMxNEEO
+   0I9wLmWBz6yBOnyhKPTK+hAjHC6eMbATUu3GR9SEQRlWvoh2aC3N1ARnO
+   f6klNGe5wAmRHG1Z3XHVp92ldeyd5TquofG86Au8vOsGbtO0YnAAKjU0A
+   w==;
+X-CSE-ConnectionGUID: ljQ8FK0zTQ+wcp9BL5JcUg==
+X-CSE-MsgGUID: OvC4lpQRQRiWPJxuv5+t8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62912318"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62912317"
+   d="scan'208";a="62912318"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 04:35:10 -0700
-X-CSE-ConnectionGUID: Lnka/R+9RR6hxD5fOVWNMA==
-X-CSE-MsgGUID: 6EqmavS2REambavg6P+smw==
+X-CSE-ConnectionGUID: /NhvF/YaQemutRrM3Ttnqg==
+X-CSE-MsgGUID: xxUa6dEeSbWXwCSAmdMMWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="175389318"
+   d="scan'208";a="175389317"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
   by orviesa003.jf.intel.com with ESMTP; 02 Sep 2025 04:35:09 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utPI2-0001uc-1z;
+	id 1utPI2-0001ue-24;
 	Tue, 02 Sep 2025 11:35:06 +0000
-Date: Tue, 2 Sep 2025 19:34:30 +0800
+Date: Tue, 2 Sep 2025 19:34:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/6] tracing: wprobe: Add wprobe event trigger
-Message-ID: <202509021922.cDLHk0GU-lkp@intel.com>
-References: <175673791934.478080.13510585438052558733.stgit@devnote2>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/genexis-xg6846b-v6.17-rc1 7/9]
+ drivers/i2c/busses/i2c-bcmbca.c:113:9: error: call to undeclared function
+ 'readl'; ISO C99 and later do not support implicit function declarations
+Message-ID: <202509021931.0iObHyQR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +62,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <175673791934.478080.13510585438052558733.stgit@devnote2>
 
-Hi Masami,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on tip/x86/core perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools peterz-queue/sched/core linus/master v6.17-rc4 next-20250902]
-[cannot apply to acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-wprobe-Add-watchpoint-probe-event-based-on-hardware-breakpoint/20250901-225207
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/175673791934.478080.13510585438052558733.stgit%40devnote2
-patch subject: [RFC PATCH 4/6] tracing: wprobe: Add wprobe event trigger
-config: arm64-randconfig-001-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021922.cDLHk0GU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021922.cDLHk0GU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/genexis-xg6846b-v6.17-rc1
+head:   e48e1a2def8a9105cfaf3ccbf10260bde3e75f78
+commit: 90cd351fb3a974ada20c5b4128b65d7d8965f24e [7/9] i2c: bcmbca: Add BCMBCA I2C adapter
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250902/202509021931.0iObHyQR-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021931.0iObHyQR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509021922.cDLHk0GU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509021931.0iObHyQR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/trace/trace_wprobe.c: In function '__trace_wprobe_create':
-   kernel/trace/trace_wprobe.c:573:2: error: cleanup argument not a function
-     const char *tplog __free(trace_probe_log_clear) = NULL;
-     ^~~~~
-   kernel/trace/trace_wprobe.c:585:8: error: void value not ignored as it ought to be
-     tplog = trace_probe_log_init("wprobe", argc, argv);
-           ^
-   kernel/trace/trace_wprobe.c:573:14: warning: variable 'tplog' set but not used [-Wunused-but-set-variable]
-     const char *tplog __free(trace_probe_log_clear) = NULL;
-                 ^~~~~
-   At top level:
->> kernel/trace/trace_wprobe.c:60:27: warning: 'trace_wprobe_local_perf' defined but not used [-Wunused-function]
-    static struct perf_event *trace_wprobe_local_perf(struct trace_wprobe *tw)
-                              ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/i2c/busses/i2c-bcmbca.c:113:9: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     113 |                 val = readl(b->base + I2C_BCMBCA_IIC_ENABLE);
+         |                       ^
+>> drivers/i2c/busses/i2c-bcmbca.c:138:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     138 |         writel(chip_addr << I2C_CHIP_ADDRESS_SHIFT, b->base + I2C_BCMBCA_CHIP_ADDRESS);
+         |         ^
+   drivers/i2c/busses/i2c-bcmbca.c:144:8: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     144 |         val = readl(b->base + I2C_BCMBCA_CTL);
+         |               ^
+   drivers/i2c/busses/i2c-bcmbca.c:170:3: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     170 |                 writel(0, b->base + I2C_BCMBCA_IIC_ENABLE);
+         |                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:205:31: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     205 |                                 buf[i*fifo_len + j] = (u8)readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4);
+         |                                                           ^
+   drivers/i2c/busses/i2c-bcmbca.c:214:7: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     214 |                                                 readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4);
+         |                                                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:217:14: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     217 |                                                 swab32(readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4));
+         |                                                        ^
+   include/linux/swab.h:8:17: note: expanded from macro 'swab32'
+       8 | # define swab32 __swab32
+         |                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:222:8: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     222 |                                                         readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4);
+         |                                                         ^
+   drivers/i2c/busses/i2c-bcmbca.c:225:15: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     225 |                                                         swab32(readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4));
+         |                                                                ^
+   include/linux/swab.h:8:17: note: expanded from macro 'swab32'
+       8 | # define swab32 __swab32
+         |                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:235:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     235 |         writel(0, b->base + I2C_BCMBCA_IIC_ENABLE);
+         |         ^
+   drivers/i2c/busses/i2c-bcmbca.c:260:3: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     260 |                 writel(0, b->base + I2C_BCMBCA_IIC_ENABLE);
+         |                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:313:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     313 |         writel(0, b->base + I2C_BCMBCA_IIC_ENABLE);
+         |         ^
+   drivers/i2c/busses/i2c-bcmbca.c:325:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     325 |         writel(0, b->base + I2C_BCMBCA_IIC_ENABLE);
+         |         ^
+   drivers/i2c/busses/i2c-bcmbca.c:364:20: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     364 |                         p->buf[j] = (u8)readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4);
+         |                                         ^
+   drivers/i2c/busses/i2c-bcmbca.c:373:6: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     373 |                                         readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4);
+         |                                         ^
+   drivers/i2c/busses/i2c-bcmbca.c:376:13: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     376 |                                         swab32(readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4));
+         |                                                ^
+   include/linux/swab.h:8:17: note: expanded from macro 'swab32'
+       8 | # define swab32 __swab32
+         |                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:383:6: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     383 |                                         readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4);
+         |                                         ^
+   drivers/i2c/busses/i2c-bcmbca.c:386:13: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     386 |                                         swab32(readl(b->base + I2C_BCMBCA_DATAOUT_0 + j*4));
+         |                                                ^
+   include/linux/swab.h:8:17: note: expanded from macro 'swab32'
+       8 | # define swab32 __swab32
+         |                 ^
+   drivers/i2c/busses/i2c-bcmbca.c:407:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     407 |         writel(0, b->base + I2C_BCMBCA_IIC_ENABLE);
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +/trace_wprobe_local_perf +60 kernel/trace/trace_wprobe.c
+vim +/readl +113 drivers/i2c/busses/i2c-bcmbca.c
 
-    58	
-    59	/* This must be called under cpu locked (e.g. preempt off, irq off) */
-  > 60	static struct perf_event *trace_wprobe_local_perf(struct trace_wprobe *tw)
-    61	{
-    62		return *this_cpu_ptr(tw->bp_event);
-    63	}
-    64	
+   105	
+   106	/*  Keep polling until the bcm63000 completes the I2C transaction or timeout */
+   107	static int bcmbca_i2c_wait_xfer_done(struct i2c_bcmbca *b)
+   108	{
+   109		int i;
+   110		u32 val;
+   111	
+   112		for (i = 0; i < b->xfer_timeout; i++) {
+ > 113			val = readl(b->base + I2C_BCMBCA_IIC_ENABLE);
+   114	
+   115			if (val & I2C_IIC_NO_ACK) {
+   116				dev_err(b->dev, "No ACK received\n");
+   117				return -EIO;
+   118			}
+   119			/*
+   120			 * The xfer is complete and successful when INTRP is set
+   121			 * and NOACK is not set.
+   122			 */
+   123			if (val & I2C_IIC_INTRP)
+   124				return 0;
+   125	
+   126			/* TBD: use usleep_range() */
+   127			udelay(1);
+   128		}
+   129	
+   130		return -ETIMEDOUT;
+   131	}
+   132	
+   133	static void bcmbca_i2c_rd_wr_common(struct i2c_bcmbca *b, u8 chip_addr, u16 xfer_cnt, u8 dtf)
+   134	{
+   135		u32 val;
+   136	
+   137		/* Write the Address */
+ > 138		writel(chip_addr << I2C_CHIP_ADDRESS_SHIFT, b->base + I2C_BCMBCA_CHIP_ADDRESS);
+   139	
+   140		/* Write the Transfer Count */
+   141		writel(xfer_cnt, b->base + I2C_BCMBCA_CNT);
+   142	
+   143		/* Set the Control Register Data Transfer Format in the lowest bits */
+   144		val = readl(b->base + I2C_BCMBCA_CTL);
+   145		val &= ~I2C_CTL_DTF_MASK;
+   146		val |= dtf;
+   147		writel(val, b->base + I2C_BCMBCA_CTL);
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
