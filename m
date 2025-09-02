@@ -1,76 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC62635A2B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 21:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964901E9B0D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 22:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756848933; cv=none; b=V7td5TewctxIKwAE+lQC5SznUlSyJ4aMCBAlhA5eAFicgxUeUytOHwj9tvLIKTGoMnYLlanN1g23Nw8hq8D9YN5ze9nnayP6UVmtG1F8vsHoKpTHlLfGeMV5n7QCDMGUpCJfoORHxnea7WwDkhqY19jI5HT1cf3GjDwDl3W7bOk=
+	t=1756852733; cv=none; b=UqaGKtFFiakLLBxnveRqGwnk42VccEbGFRQueossp8jPg/D8dK3mkn69kqmtf++Btx/O97nxluP8Gim1Z5GsMxJZish7h05/VPZw2YQaBp0UFWP1Ec6885iE/mG+3bxhS5XRcOarZ3K/tHB08GeP2SmUBbovGDmc+Wqdk9ZQuPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756848933; c=relaxed/simple;
-	bh=feSylG8v5RU948ye3Aa4+gNuJQDlGa8ABq1tWoE+Wc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTomB3+IpvrgbeUw5MLBSPettiwjtc3f3mLqeeqpW/yzafU643i1bhvJd5BGn+DzZESm3sfJva6XUj3ZVpa8x67fuaOslb4gqCVf/zLtx35ifVws0fwZmI7VnKXv5SMA8gKG0FHsRdQQQY2fjF9SC8u5ca1tHNnCHocIG/r8UPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myVExmJC; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1756852733; c=relaxed/simple;
+	bh=dYX8FKpe0BiZzqP/Ssrbjwno4EfI605QugG9/XS5r0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Aab1dMhDSYo+HrhJXPjjPzCNv5PnsXHz/TQokYeQZyKp6L6ZD6NaFPQPxvqSKN44XeAhyBs4mPCzG3+51AHeXlVBzxLVDzd4qE7haoiEU23AamanUjbBBAEAp8s1Azu+MwumgxallbehSFsiRGmeH9G7oMu+C4mTqgqQAQ7xZQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6vPhv85; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myVExmJC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6vPhv85"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756848932; x=1788384932;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=feSylG8v5RU948ye3Aa4+gNuJQDlGa8ABq1tWoE+Wc4=;
-  b=myVExmJCtRlQa9BLigploF8dXYoWhF0hquDnaKgMyxiR3gs6ZdqC5Qdn
-   hdeNusuwggDCFmNBQh186vId1U6+C86a8rsiOEpykbkgQAAMQxfPMnJ9n
-   MQarhV5LjiF/9y4Md+9OzJNzeLPIyhG3nFNAyXzh0CgWhREnz+F2HJKgW
-   sshVt+EmdQPEfpFYAZqHrSldz85DRXjhu2HjsyCTp/TfpFNP9IAEhItiR
-   wBblUG3ovWHW0dv0GuTkZxpl5EEpQmwk2r9+EF6AttyteTXw4B5nrpq4l
-   CNAiwi6/iO5uw1+4w8WGb+XWoA3K5svydvMSpwLi4RzR82bA9tGAbZ4o/
+  t=1756852731; x=1788388731;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dYX8FKpe0BiZzqP/Ssrbjwno4EfI605QugG9/XS5r0Y=;
+  b=f6vPhv85XiWRwYau2/t3H7tdSGEctH59EB4Y2yG3GGO4aFRW5aYEKok9
+   yRKQdD7EZuu34r2NlPdUmQj7HJC3E9ssbgUOxDRmF51w0gZA+1f0vCYQF
+   /7L2XmKmOHimR/ggzNJJsMbO+oamlZu+fdvNd6QJK9YNZ1AvP9cg2Z4ct
+   AngRLvYK+g5ZcgSxaSRP33tbcXoOqR7Fr32DFVRC6Vr9Y0VI1YMcZ5Any
+   ADkI5p8UUXeAtImzZWhvvYI+4xv5u19wlzUifOqLktQvNm1yzwdRlLctW
+   ZJinH3GUVsYX6TtvV/3SqJjEtsGLhcy/V+WgOi98aEoNOg9oVs+JEWKvq
    Q==;
-X-CSE-ConnectionGUID: L7RUQ4rFRaOoWV8rrih27A==
-X-CSE-MsgGUID: 32dEUVsZRge5GafmEXPhzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="59001794"
+X-CSE-ConnectionGUID: Uk9HmIsfSOyAvBjulqXguw==
+X-CSE-MsgGUID: HXBDgTZmRICVvYUCZTqY+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="59287825"
 X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="59001794"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 14:35:32 -0700
-X-CSE-ConnectionGUID: DLHUacnhR3mqLdlPaKYduA==
-X-CSE-MsgGUID: /Bh1eTHdThyfOCxrG7T+XA==
+   d="scan'208";a="59287825"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 15:38:50 -0700
+X-CSE-ConnectionGUID: kqeGIUv5R7+/aHbUOiACBQ==
+X-CSE-MsgGUID: LejKBvRATwmdL07j1DHMjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="171553507"
+   d="scan'208";a="175787240"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Sep 2025 14:35:15 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 02 Sep 2025 15:38:49 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utYeh-00033D-0S;
-	Tue, 02 Sep 2025 21:35:07 +0000
-Date: Wed, 3 Sep 2025 05:35:05 +0800
+	id 1utZdW-00035X-0o;
+	Tue, 02 Sep 2025 22:38:17 +0000
+Date: Wed, 3 Sep 2025 06:37:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 06/11] firmware: qcom: scm: add support for object
- invocation
-Message-ID: <202509030554.WR3MNpCE-lkp@intel.com>
-References: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5@oss.qualcomm.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 109/109] include/linux/kern_levels.h:5:25: warning:
+ format '%lu' expects argument of type 'long unsigned int', but argument 16
+ has type 'int'
+Message-ID: <202509030638.L4D1o07A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,85 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5@oss.qualcomm.com>
 
-Hi Amirreza,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 33bcf93b9a6b028758105680f8b538a31bc563cf]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250902-125821
-base:   33bcf93b9a6b028758105680f8b538a31bc563cf
-patch link:    https://lore.kernel.org/r/20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5%40oss.qualcomm.com
-patch subject: [PATCH v9 06/11] firmware: qcom: scm: add support for object invocation
-config: i386-buildonly-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509030554.WR3MNpCE-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   b40ae505a5ff6123396b42b79f42ad45df461634
+commit: b40ae505a5ff6123396b42b79f42ad45df461634 [109/109] mm/show_mem: temporal build fix
+config: i386-buildonly-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509030638.L4D1o07A-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030554.WR3MNpCE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030638.L4D1o07A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509030554.WR3MNpCE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509030638.L4D1o07A-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:5,
-                    from drivers/firmware/qcom/qcom_scm.c:13:
-   drivers/firmware/qcom/qcom_scm.c: In function 'qcom_scm_qtee_init':
->> drivers/firmware/qcom/qcom_scm.c:2208:35: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/qcom/qcom_scm.c:2208:17: note: in expansion of macro 'dev_err'
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                 ^~~~~~~
-   drivers/firmware/qcom/qcom_scm.c:2208:63: note: format string is defined here
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                                                              ~^
-         |                                                               |
-         |                                                               int
-         |                                                              %ld
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from include/linux/bug.h:5,
+                    from include/linux/vfsdebug.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/blkdev.h:9,
+                    from mm/show_mem.c:8:
+   mm/show_mem.c: In function 'show_free_areas':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 16 has type 'int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   mm/show_mem.c:298:17: note: in expansion of macro 'printk'
+     298 |                 printk(KERN_CONT
+         |                 ^~~~~~
+   include/linux/kern_levels.h:24:25: note: in expansion of macro 'KERN_SOH'
+      24 | #define KERN_CONT       KERN_SOH "c"
+         |                         ^~~~~~~~
+   mm/show_mem.c:298:24: note: in expansion of macro 'KERN_CONT'
+     298 |                 printk(KERN_CONT
+         |                        ^~~~~~~~~
 
 
-vim +2208 drivers/firmware/qcom/qcom_scm.c
+vim +5 include/linux/kern_levels.h
 
-  2188	
-  2189	static void qcom_scm_qtee_init(struct qcom_scm *scm)
-  2190	{
-  2191		struct platform_device *qtee_dev;
-  2192		u64 result, response_type;
-  2193		int ret;
-  2194	
-  2195		/*
-  2196		 * Probe for smcinvoke support. This will fail due to invalid buffers,
-  2197		 * but first, it checks whether the call is supported in QTEE syscall
-  2198		 * handler. If it is not supported, -EIO is returned.
-  2199		 */
-  2200		ret = qcom_scm_qtee_invoke_smc(0, 0, 0, 0, &result, &response_type);
-  2201		if (ret == -EIO)
-  2202			return;
-  2203	
-  2204		/* Setup QTEE interface device. */
-  2205		qtee_dev = platform_device_register_data(scm->dev, "qcomtee",
-  2206							 PLATFORM_DEVID_NONE, NULL, 0);
-  2207		if (IS_ERR(qtee_dev)) {
-> 2208			dev_err(scm->dev, "qcomtee: register failed: %d\n",
-  2209				PTR_ERR(qtee_dev));
-  2210			return;
-  2211		}
-  2212	
-  2213		ret = devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
-  2214		if (ret)
-  2215			dev_err(scm->dev, "qcomtee: add action failed: %d\n", ret);
-  2216	}
-  2217	
+314ba3520e513a7 Joe Perches 2012-07-30  4  
+04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
