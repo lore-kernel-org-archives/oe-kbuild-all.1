@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC6C32A824
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 13:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D35826CE2A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 14:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756820824; cv=none; b=D6PcWYqdbZ0fkgEwvT8nX3XwlwE79dVRi8x4hQL0nne+k5VlI5tPDMudZ8avfpnMVnG1Mwquxlf+SN10knA1Z+njPmi8iGULSpkplH4Yh0GhfcNflACYDp2Vbcb4dapA0/y/U3SqnK2kloZkJrNQFDrbjBnHSdR/m1k10G7CcYs=
+	t=1756821987; cv=none; b=B+6/siS0VrSPuq5jK0ESNatTwCR9QFOnN0iVUlDADvvOOwHn0p/WAMwXGK3qQTnKH/ssGBkle633ZXI9gr40kJX0oyzef523FRhXy9eTSl2kRHoJutSqgYyUBK118k1i+sEv38jWS6ylA8P7mvNThoUFWOU7QL8mAYEayoDDC78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756820824; c=relaxed/simple;
-	bh=y8Aaks2rnTCouTsa1CsUny38MHkkSl/Alem6UcmdZag=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UH+kXluhF43FFIKQI00DtuKrGQ2k+qC6hupen1z7Zv47S/tVvlC/Mr3VfQRGqxMYdsSrCjcu1LEBlw3pLEuA7mH9MtVq0bsX/cOs+EnhsqOc42vJMv2TLB0e6YvmEb/20hi8fMTUiVGIR8i74yzA4QVDh5hvynJC8ptIhlMK1TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4gFC3G0; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1756821987; c=relaxed/simple;
+	bh=uwmqyW4iguh3yd9Z0HFBXF3emGZrOuKjxQU095FIrNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=upL8I+27xJI4xPKExvimpBG7BsjhlVOSWTKB2S0/qVF+biMFRtFA5U36Iz7eOIwwCL6Fmf3wDS3qT8hSs73ejbYx2Pu1Dh43C8REhWfNcTczlIqhZJWXdQD0ouQ+QghB8nNCxYOYLDXVCjXGiG9aR/kTMhS0O6dM6Jdy+M867bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USbtrNuq; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4gFC3G0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USbtrNuq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756820823; x=1788356823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y8Aaks2rnTCouTsa1CsUny38MHkkSl/Alem6UcmdZag=;
-  b=L4gFC3G0tUUqCEfDSmyZRc40Lcuz/NGtRMDkj0o7ACxOu69ughdqi/L/
-   vFJnc/ntfJmcfWGwcRTrRZKJp+N0u8j7UeZP768jDW80hhv1EWLmapREA
-   ZDorIkrLwe+/IxKFKq9WOdVYeJ3Z01XQO6nUObY3XK+hzicgrQNMXLtLL
-   EOg5GM52i+lIpPEZnZvGMcYetqDS07021jCChWnFMAwe2iO1Ph6Sfn3dQ
-   L07lz+0quMYrMxSCgGAcantQpZajNG0odzYniWzFhh02RPb9Hb48FTxeo
-   nujl5n5uLpJr4K2BVvt/QCzU89f73Q1pzjwHpxcEfNnO9h0prbcgdlj0n
-   w==;
-X-CSE-ConnectionGUID: o3xZVPw0S1KaMbUdX9e0uA==
-X-CSE-MsgGUID: qVfZig63T0a3Hq0vUFX2lQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="61735145"
+  t=1756821986; x=1788357986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uwmqyW4iguh3yd9Z0HFBXF3emGZrOuKjxQU095FIrNM=;
+  b=USbtrNuq9NjhloYlYBePt/fIIEn5i0XFmkanW3/m3XWYsrSmWE+qvRqr
+   qW4b8udDEDfrhTHdZkKkyNlSqhzIomWFoJohITc+KjwnA4WLSYz2I1vSz
+   Za30OFhbbdZMg/hRxZXbXTrxES/4Lob8y1Ber1weXCCkXLkE0gcr1Fz/h
+   LJ7O15URoqc8MB4Y/Ti2zU4qvSigXTV4EPvKIiSYEXC6JQHcJlXF3KLwL
+   hEyLNtOK87Fh1p/2VYjOAHfJ812EvkmcEm2UgLjF0+8Uta5bCbIPGVzhV
+   7ibS55xyxtCYAjTP4UFXWDAmbZtakrQt2RAQjY22ulVWufO38blApptW9
+   A==;
+X-CSE-ConnectionGUID: doIqRn0RRHu5jaJ5SMYU0Q==
+X-CSE-MsgGUID: aBwAxsHhTX2d6lyNJzdQTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="69709887"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="61735145"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 06:47:02 -0700
-X-CSE-ConnectionGUID: 9tLHy2i6ShyG+ghwcB79DQ==
-X-CSE-MsgGUID: CRD0ITYQS9uyJcg6divbxg==
+   d="scan'208";a="69709887"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 07:06:25 -0700
+X-CSE-ConnectionGUID: LV02f38gTGSkQzu7FDitTQ==
+X-CSE-MsgGUID: yfdIjjIhTgGrWpgYE94IdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="175648257"
+   d="scan'208";a="194932705"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 02 Sep 2025 06:47:01 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 02 Sep 2025 07:06:23 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utRLe-0002TB-1S;
-	Tue, 02 Sep 2025 13:46:58 +0000
-Date: Tue, 2 Sep 2025 21:46:11 +0800
+	id 1utReO-0002aB-2v;
+	Tue, 02 Sep 2025 14:06:20 +0000
+Date: Tue, 2 Sep 2025 22:06:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 76/77]
- drivers/media/v4l2-core/v4l2-subdev.c:2292:14: warning: variable 'is_source'
- set but not used
-Message-ID: <202509022128.hDkCkWCt-lkp@intel.com>
+To: Anton Nadezhdin <anton.nadezhdin@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	anthony.l.nguyen@intel.com, richardcochran@gmail.com,
+	Milena Olech <milena.olech@intel.com>,
+	Anton Nadezhdin <anton.nadezhdin@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next 2/2] idpf: add direct method
+ for disciplining Tx timestamping
+Message-ID: <202509022155.uBpemgov-lkp@intel.com>
+References: <20250902105321.5750-3-anton.nadezhdin@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,142 +68,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250902105321.5750-3-anton.nadezhdin@intel.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   dbb6c78ee163822abba87ee352b67b7cfec3a023
-commit: df6177be8173130bd39345bb16da0bd2a8787470 [76/77] source
-config: i386-buildonly-randconfig-003-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022128.hDkCkWCt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022128.hDkCkWCt-lkp@intel.com/reproduce)
+Hi Anton,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1235d14de922bc4367c24553bc6b278d56dc3433]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Nadezhdin/idpf-add-direct-access-to-discipline-the-main-timer/20250902-170325
+base:   1235d14de922bc4367c24553bc6b278d56dc3433
+patch link:    https://lore.kernel.org/r/20250902105321.5750-3-anton.nadezhdin%40intel.com
+patch subject: [Intel-wired-lan] [PATCH iwl-next 2/2] idpf: add direct method for disciplining Tx timestamping
+config: powerpc-randconfig-002-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022155.uBpemgov-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022155.uBpemgov-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509022128.hDkCkWCt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509022155.uBpemgov-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_enable_streams':
->> drivers/media/v4l2-core/v4l2-subdev.c:2292:14: warning: variable 'is_source' set but not used [-Wunused-but-set-variable]
-    2292 |         bool is_source = true;
-         |              ^~~~~~~~~
+   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:5:
+>> drivers/net/ethernet/intel/idpf/idpf_ptp.h:399:11: error: expected ';', ',' or ')' before 'struct'
+              struct idpf_tx_splitq_params *params)
+              ^~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.c: In function 'idpf_tx_read_tstamp':
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.c:1673:10: error: too many arguments to function 'idpf_ptp_get_tx_tstamp'
+       err = idpf_ptp_get_tx_tstamp(tx_tstamp_caps->vport, tx_tstamp);
+             ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/intel/idpf/idpf_txrx.c:5:
+   drivers/net/ethernet/intel/idpf/idpf_ptp.h:374:19: note: declared here
+    static inline int idpf_ptp_get_tx_tstamp(struct idpf_vport *vport)
+                      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.c: In function 'idpf_tx_splitq_frame':
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2763:34: error: passing argument 3 of 'idpf_tx_tstamp' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     idx = idpf_tx_tstamp(tx_q, skb, &tx_params);
+                                     ^~~~~~~~~~
+   drivers/net/ethernet/intel/idpf/idpf_txrx.c:2635:37: note: expected 'struct idpf_tx_offload_params *' but argument is of type 'struct idpf_tx_splitq_params *'
+         struct idpf_tx_offload_params *params)
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/intel/idpf/idpf_lib.c:6:
+>> drivers/net/ethernet/intel/idpf/idpf_ptp.h:399:11: error: expected ';', ',' or ')' before 'struct'
+              struct idpf_tx_splitq_params *params)
+              ^~~~~~
 
 
-vim +/is_source +2292 drivers/media/v4l2-core/v4l2-subdev.c
+vim +399 drivers/net/ethernet/intel/idpf/idpf_ptp.h
 
-  2282	
-  2283	int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
-  2284				       u64 streams_mask)
-  2285	{
-  2286		struct device *dev = sd->entity.graph_obj.mdev->dev;
-  2287		struct v4l2_subdev_state *state;
-  2288		u64 enabled_streams;
-  2289		u64 found_streams;
-  2290		bool already_streaming;
-  2291		bool use_s_stream;
-> 2292		bool is_source = true;
-  2293		int ret;
-  2294	
-  2295		dev_dbg(dev, "enable streams \"%s\":%u/%#llx\n", sd->entity.name, pad,
-  2296			streams_mask);
-  2297	
-  2298		/* A few basic sanity checks first. */
-  2299		if (pad >= sd->entity.num_pads)
-  2300			return -EINVAL;
-  2301	
-  2302		if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
-  2303			return -EOPNOTSUPP;
-  2304	
-  2305		/*
-  2306		 * We use a 64-bit bitmask for tracking enabled pads, so only subdevices
-  2307		 * with 64 pads or less can be supported.
-  2308		 */
-  2309		if (pad >= sizeof(sd->enabled_pads) * BITS_PER_BYTE)
-  2310			return -EOPNOTSUPP;
-  2311	
-  2312		if (!streams_mask)
-  2313			return 0;
-  2314	
-  2315		/* Fallback on .s_stream() if .enable_streams() isn't available. */
-  2316		use_s_stream = !v4l2_subdev_has_op(sd, pad, enable_streams);
-  2317	
-  2318		/* Figure out if the sub-device is a source sub-device. */
-  2319		for (unsigned int i = 0; i < sd->entity.num_pads; i++) {
-  2320			if (!(sd->entity.pads[i].flags & MEDIA_PAD_FL_SINK))
-  2321				continue;
-  2322	
-  2323			is_source = false;
-  2324			break;
-  2325		}
-  2326	
-  2327		if (!use_s_stream)
-  2328			state = v4l2_subdev_lock_and_get_active_state(sd);
-  2329		else
-  2330			state = NULL;
-  2331	
-  2332		/*
-  2333		 * Verify that the requested streams exist and that they are not
-  2334		 * already enabled.
-  2335		 */
-  2336	
-  2337		v4l2_subdev_collect_streams(sd, state, pad, streams_mask,
-  2338					    &found_streams, &enabled_streams);
-  2339	
-  2340		if (found_streams != streams_mask) {
-  2341			dev_dbg(dev, "streams 0x%llx not found on %s:%u\n",
-  2342				streams_mask & ~found_streams, sd->entity.name, pad);
-  2343			ret = -EINVAL;
-  2344			goto done;
-  2345		}
-  2346	
-  2347		if (enabled_streams) {
-  2348			dev_dbg(dev, "streams 0x%llx already enabled on %s:%u\n",
-  2349				enabled_streams, sd->entity.name, pad);
-  2350			ret = -EALREADY;
-  2351			goto done;
-  2352		}
-  2353	
-  2354		already_streaming = v4l2_subdev_is_streaming(sd);
-  2355	
-  2356		if (!use_s_stream) {
-  2357			/* Call the .enable_streams() operation. */
-  2358			ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
-  2359					       streams_mask);
-  2360		} else {
-  2361			/* Start streaming when the first pad is enabled. */
-  2362			if (!already_streaming)
-  2363				ret = v4l2_subdev_call(sd, video, s_stream, 1);
-  2364			else
-  2365				ret = 0;
-  2366		}
-  2367	
-  2368		if (ret) {
-  2369			dev_dbg(dev, "enable streams %u:%#llx failed: %d\n", pad,
-  2370				streams_mask, ret);
-  2371			goto done;
-  2372		}
-  2373	
-  2374		/* Mark the streams as enabled. */
-  2375		v4l2_subdev_set_streams_enabled(sd, state, pad, streams_mask, true);
-  2376	
-  2377		/*
-  2378		 * TODO: When all the drivers have been changed to use
-  2379		 * v4l2_subdev_enable_streams() and v4l2_subdev_disable_streams(),
-  2380		 * instead of calling .s_stream() operation directly, we can remove
-  2381		 * the privacy LED handling from call_s_stream() and do it here
-  2382		 * for all cases.
-  2383		 */
-  2384		if (!use_s_stream && !already_streaming)
-  2385			v4l2_subdev_enable_privacy_led(sd);
-  2386	
-  2387	done:
-  2388		if (!use_s_stream)
-  2389			v4l2_subdev_unlock_state(state);
-  2390	
-  2391		return ret;
-  2392	}
-  2393	EXPORT_SYMBOL_GPL(v4l2_subdev_enable_streams);
-  2394	
+   396	
+   397	static inline int idpf_ptp_request_ts(struct idpf_tx_queue *tx_q,
+   398					      struct sk_buff *skb, u32 *idx
+ > 399					      struct idpf_tx_splitq_params *params)
+   400	{
+   401		return -EOPNOTSUPP;
+   402	}
+   403	
 
 -- 
 0-DAY CI Kernel Test Service
