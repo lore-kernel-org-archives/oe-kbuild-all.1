@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A742F548D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 11:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888DD247298
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 11:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756812295; cv=none; b=uI9l42IuRZJZru49BjzLMuQ7iz9MsricLO+mVTCT6TOJT/qmXMLiTfow9rMSx0tl4+xNJTTtV2qYLfxzKPrnMRk51MZXH4ibp1aqhVGtLQx6Ux/z3eDp1MIGMcOQxRZn0za2uC40XhX0uzlX9uHDqMNMgAZ/u9Q3gqVYNUtFxwI=
+	t=1756812912; cv=none; b=N8MzSBiNe04e1YfeDUp86yE7YwTANr3s2xWIaCkRDhgMnao5XjF2EQFtOwi/7qhX5SPVHmc7LvguzLmKvG6dz5AlbmsDpGUM1RlxcK+L2nvcA92ITGSOqisByBlI6oFRBIxTHOtTKKyKQ88yo+XtntKnje25M+0E9tQiaGr30RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756812295; c=relaxed/simple;
-	bh=rnzaOQuxTScDn7ysIBToMNNj9BiNuSVPElmId2+/0Xo=;
+	s=arc-20240116; t=1756812912; c=relaxed/simple;
+	bh=DWZZHw0s0ZU+2fa/TZRR2bg5Wp+8a4qs93yTu6ArKbM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=us4OKhhOPSRR8MPqFKdVypQxJGbNB3THwS+qyi0IMuErioF36j0aRy878UlOPzB+J1hro3NIkyWzv4O0cbrc2CXXX8aooueqUgxsTzm8Wg2jcxT+Et6kURhwY+EJYHCrBWhFu8ZVFfUPycaFwjTfRPS+TDwh6Iaz9hQVTfHJUZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9xYIMU4; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jocz4cL1xyfuKx0TenpqndH7Wy0al8dAg3wf8gJuMVUIPk9kIU8vGLzytY5rKjPJeeU82PF5JItpX5IxXYFUldmAkTY50pEbGPvRM/K0cD7I0RNek2X93zQMzPgDr7Hf5nmscWzqShy+sIe5G1SdAuEEnqtDLuCJbtpMWsUqGmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eOwA3rH3; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9xYIMU4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eOwA3rH3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756812294; x=1788348294;
+  t=1756812910; x=1788348910;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rnzaOQuxTScDn7ysIBToMNNj9BiNuSVPElmId2+/0Xo=;
-  b=H9xYIMU43nMhibphcLxFfhAPIBRp1jqbDyh+TrR/jPkNITZe4YcwhLHG
-   ukx15zov4Hnwqu3Q3ifb/UVIeE8u3zTpAsDOueYOyN+WBVhinKg8aKaSP
-   kxtYGZgvFaenqM2Y8cccrF5FeJWYt9pxPFkJhDwpvD9d1xOGVjP3fmmet
-   RbZDQWJM/TNPqSY2IFY7WeQ742XhloXGFZ4L3yHiy0OSY1eHs9BZHpY4T
-   FEHKN2dM4if/UsEjCaaCWVXi0lE8Rn355QZaBiqDm0OLyutOdl14STGLA
-   wBfGnWxxn5KFweIJTKRm3C7gKbBz97Eddc31Fdnnukpafhg+7MlrHAmqY
-   w==;
-X-CSE-ConnectionGUID: lzgw2k7IT0CNDXt7d09jqw==
-X-CSE-MsgGUID: qkijEdAeRH+RBu+/wms7Jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59017751"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="59017751"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 04:24:53 -0700
-X-CSE-ConnectionGUID: OPoOrR7OTGCtVWqxtm+8pg==
-X-CSE-MsgGUID: 60cEhCt6QYqf1a2wIiS0kg==
+  bh=DWZZHw0s0ZU+2fa/TZRR2bg5Wp+8a4qs93yTu6ArKbM=;
+  b=eOwA3rH3Z7p8Abr9O0W8OI5PhkoRFFcqDyQVETFYveK6fUHylZzGF/n6
+   wE63Kka35yCN3MzRM8Y/3Ycdgd/oq4vUFwZztaNib0dp02WursAesOpQx
+   mkmj5D1aK2oxh5nyNTQnDDWFeebrDQhBdPJl/H1RIukgxbDKKgRY8b/Xq
+   jGxTOze5tzPCDLUuYqgrMMH/JRozlVoo6Nurzi2jkGI+8rG6g6Y2xXRN5
+   B2MV+pgLvBnraYzo1lXUD+FuLWT7OkBLzgEF3AoJDzErnVmX3QA2eAaGj
+   Y+CMbrgNrVzlKi1wcd9/h/HwOs5bZVv8gmGN6tBOoiw7jh9R5MDQJH1W7
+   g==;
+X-CSE-ConnectionGUID: F0VR//0JRESjhyFHabAZ4Q==
+X-CSE-MsgGUID: xtz40kaPTyqHk7MzEuQtJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62912317"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62912317"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 04:35:10 -0700
+X-CSE-ConnectionGUID: Lnka/R+9RR6hxD5fOVWNMA==
+X-CSE-MsgGUID: 6EqmavS2REambavg6P+smw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="171411846"
+   d="scan'208";a="175389318"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Sep 2025 04:24:51 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Sep 2025 04:35:09 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utP83-0001tb-2j;
-	Tue, 02 Sep 2025 11:24:47 +0000
-Date: Tue, 2 Sep 2025 19:23:37 +0800
+	id 1utPI2-0001uc-1z;
+	Tue, 02 Sep 2025 11:35:06 +0000
+Date: Tue, 2 Sep 2025 19:34:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH 3/3] drm/panel: visionox-rm69299: Add backlight support
-Message-ID: <202509021907.mZZ38HtR-lkp@intel.com>
-References: <20250901-shift6mq-panel-v1-3-444b4abbfaea@sigxcpu.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 4/6] tracing: wprobe: Add wprobe event trigger
+Message-ID: <202509021922.cDLHk0GU-lkp@intel.com>
+References: <175673791934.478080.13510585438052558733.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,53 +62,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901-shift6mq-panel-v1-3-444b4abbfaea@sigxcpu.org>
+In-Reply-To: <175673791934.478080.13510585438052558733.stgit@devnote2>
 
-Hi Guido,
+Hi Masami,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on b320789d6883cc00ac78ce83bccbfe7ed58afcf0]
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on tip/x86/core perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools peterz-queue/sched/core linus/master v6.17-rc4 next-20250902]
+[cannot apply to acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guido-G-nther/drm-panel-visionox-rm69299-Fix-clock-frequency-for-SHIFT6mq/20250901-222400
-base:   b320789d6883cc00ac78ce83bccbfe7ed58afcf0
-patch link:    https://lore.kernel.org/r/20250901-shift6mq-panel-v1-3-444b4abbfaea%40sigxcpu.org
-patch subject: [PATCH 3/3] drm/panel: visionox-rm69299: Add backlight support
-config: x86_64-randconfig-123-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021907.mZZ38HtR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021907.mZZ38HtR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-wprobe-Add-watchpoint-probe-event-based-on-hardware-breakpoint/20250901-225207
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/175673791934.478080.13510585438052558733.stgit%40devnote2
+patch subject: [RFC PATCH 4/6] tracing: wprobe: Add wprobe event trigger
+config: arm64-randconfig-001-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021922.cDLHk0GU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021922.cDLHk0GU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509021907.mZZ38HtR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509021922.cDLHk0GU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/panel/panel-visionox-rm69299.c:341:24: sparse: sparse: Using plain integer as NULL pointer
-   drivers/gpu/drm/panel/panel-visionox-rm69299.c:411:42: sparse: sparse: symbol 'visionox_rm69299_1080p_display_desc' was not declared. Should it be static?
-   drivers/gpu/drm/panel/panel-visionox-rm69299.c:417:42: sparse: sparse: symbol 'visionox_rm69299_shift_desc' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +341 drivers/gpu/drm/panel/panel-visionox-rm69299.c
+   kernel/trace/trace_wprobe.c: In function '__trace_wprobe_create':
+   kernel/trace/trace_wprobe.c:573:2: error: cleanup argument not a function
+     const char *tplog __free(trace_probe_log_clear) = NULL;
+     ^~~~~
+   kernel/trace/trace_wprobe.c:585:8: error: void value not ignored as it ought to be
+     tplog = trace_probe_log_init("wprobe", argc, argv);
+           ^
+   kernel/trace/trace_wprobe.c:573:14: warning: variable 'tplog' set but not used [-Wunused-but-set-variable]
+     const char *tplog __free(trace_probe_log_clear) = NULL;
+                 ^~~~~
+   At top level:
+>> kernel/trace/trace_wprobe.c:60:27: warning: 'trace_wprobe_local_perf' defined but not used [-Wunused-function]
+    static struct perf_event *trace_wprobe_local_perf(struct trace_wprobe *tw)
+                              ^~~~~~~~~~~~~~~~~~~~~~~
 
-   329	
-   330	static struct backlight_device *
-   331	visionox_rm69299_create_backlight(struct visionox_rm69299 *ctx)
-   332	{
-   333		struct device *dev = &ctx->dsi->dev;
-   334		const struct backlight_properties props = {
-   335			.type = BACKLIGHT_RAW,
-   336			.brightness = ctx->desc->initial_brightness,
-   337			.max_brightness = ctx->desc->max_brightness,
-   338		};
-   339	
-   340		if (!ctx->desc->max_brightness)
- > 341			return 0;
-   342	
-   343		return devm_backlight_device_register(dev, dev_name(dev), dev, ctx->dsi,
-   344						      &visionox_rm69299_bl_ops,
-   345						      &props);
-   346	}
-   347	
+
+vim +/trace_wprobe_local_perf +60 kernel/trace/trace_wprobe.c
+
+    58	
+    59	/* This must be called under cpu locked (e.g. preempt off, irq off) */
+  > 60	static struct perf_event *trace_wprobe_local_perf(struct trace_wprobe *tw)
+    61	{
+    62		return *this_cpu_ptr(tw->bp_event);
+    63	}
+    64	
 
 -- 
 0-DAY CI Kernel Test Service
