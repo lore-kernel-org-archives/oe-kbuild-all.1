@@ -1,66 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E0F350D42;
-	Tue,  2 Sep 2025 19:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1253820E00B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 20:10:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756843071; cv=none; b=uIZdQTCJ+pdE38qZSqe3Vo97/apMkeQK16yAJG21S2yiG+r0RGkUbycA2aXPFlMlH3px1Xrn4dqRaMfBTJCCusIc7t8dQwHRYtp1j/sj6R1p026yg5acf++jg8ojJL88Isaq+tTMwAxpIp/by1w/t9d44aQEGNW7nRYX+MLjymk=
+	t=1756843844; cv=none; b=Ap+Hi97Z7k4T05vrGn5fQmY+/S8RZ0Bgnz0tsfWIu+W/uJ5zqa5jiM0ohH3XyvtcEiM1ONQgHbfz3Om9Co/JQjQkUUER5DbzC74wAekPIvsjbEYdjS3EeD9nDNLQklyYZVe5pmnNa6HDi2q9AQITyf2bwSN2ICqzHEQfTfntPfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756843071; c=relaxed/simple;
-	bh=WG20E1PYl6zQTGosd4M112pEByXyuxZIRP6y1iHCS5I=;
+	s=arc-20240116; t=1756843844; c=relaxed/simple;
+	bh=YSX3ayXvCq2CuS4CQ/bYGZn6jqqI1INvzwUeD7fjKTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZRl/onYdH8tB955R2E0WDPULYCfRLG5Lghl+A/Z+7CfEcDjXAi+BMO/ZE67TsZxCir2Bu2ZfpSbl4T2MSKee4qaMgMlVa9kDXVUlR/Vo3XFLgX10x0jZecg42OdukdMUu0dMiqgpRNs8qgxEL3UqkkGfcyLZX6Lew/fN331074=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DC7XUSI7; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=TxMGf8AwGb+2XZx53l5QnnWr7rX+Os7tAmUnQAEjq74vEeRNTffw9h9IJaT9i20AL7og2lktVSj5oA8s4hDIzHavYThe5+wiA/5uHzNuESACfx7E5fhFwPnuI9dqkRt1YL7bcJ6AdSfrYkH5K07UH3JV67LcBtXqd+SO2mpHxXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpUhC/l0; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DC7XUSI7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpUhC/l0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756843070; x=1788379070;
+  t=1756843842; x=1788379842;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WG20E1PYl6zQTGosd4M112pEByXyuxZIRP6y1iHCS5I=;
-  b=DC7XUSI7BWgxM+rvYREzOollahiqwxKD8+xRVbPbGnZGMJ30PCVMuMnh
-   cauwACMfFRcMdyHPB86GP7tkfrq2255eo4xp+Ylt9xNFrkHP9cs05GdPI
-   fflTTQ+oSJfanSoaEKEjzlODQLqi0ojU7fIfxp7QRWZn50rNsCi4FKlpm
-   g4OqoaZpKu7Ot9B5Fv2nU8jW4GTsJlkiGnb91PNx3omLuBesYwH6QqBpm
-   4bXP+AfpnNUnCY3fDgCPdXKoXD9EPfc8ESieEL4jMc27j01DuPUvVOuPv
-   wk+tzLi2yO3tqv+2KU7Gi/ttv6q77R5FGxVd/n3fbGA/ugvJrj7dTTvzU
+  bh=YSX3ayXvCq2CuS4CQ/bYGZn6jqqI1INvzwUeD7fjKTo=;
+  b=SpUhC/l03Z7I6QQrgUePbPR6hc2xptFqlqNH/HtZV63nd8t8EmeHILjw
+   gWIHq8cokmVqvGwo/71Rb12WoSC/qUiXHa8SH9qz85lae2EkgO1ph0QAE
+   fumzVehaRajrK/QJm2ZkqDQF4p/OEzT4KrzejtlAIaWCpSk3Gzocv3w/5
+   OSRrTij8Lzjl1B0t3UfTmwQkT+nPB3H3Y1Kmft9ce34S1+UXuHBmiGkSF
+   8PNuVLj5JhNawsCaWMZH3teAZEvgyiCYcmp5DHPB5BTznZ31eZG4DP1am
+   W6AFVrCAaog1jzShDp4Ot9uAE09IwEUYQ6tbrqTh0ZSvDfWU1WxtrKkJ0
    Q==;
-X-CSE-ConnectionGUID: bIZCOidxR8u8MecIln7/OQ==
-X-CSE-MsgGUID: FISE0aTPQv+sGdiZgdqneg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62967189"
+X-CSE-ConnectionGUID: JB8qZqCfSFWoSdvYK4gSUA==
+X-CSE-MsgGUID: PYnWg/oHRUGhTug1hPVBjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62968934"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62967189"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 12:57:50 -0700
-X-CSE-ConnectionGUID: k62XfXQIQmuVDv1f8T8fmA==
-X-CSE-MsgGUID: 4ImPeJBGRRiVYLHkJVP4Ig==
+   d="scan'208";a="62968934"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 13:10:42 -0700
+X-CSE-ConnectionGUID: JqVyyvvhQ7m/l28TUMxOow==
+X-CSE-MsgGUID: BlvYY114S769WpPW3JXOug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="170647122"
+   d="scan'208";a="202281602"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 02 Sep 2025 12:57:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 02 Sep 2025 13:10:36 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utX8Q-0002z7-08;
-	Tue, 02 Sep 2025 19:57:42 +0000
-Date: Wed, 3 Sep 2025 03:56:55 +0800
+	id 1utXJx-0002zX-0W;
+	Tue, 02 Sep 2025 20:09:52 +0000
+Date: Wed, 3 Sep 2025 04:09:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ankur Arora <ankur.a.arora@oracle.com>, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, x86@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, david@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
-	mjguzik@gmail.com, luto@kernel.org, peterz@infradead.org,
-	acme@kernel.org, namhyung@kernel.org, tglx@linutronix.de,
-	willy@infradead.org, raghavendra.kt@amd.com,
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	david@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	hpa@zytor.com, mingo@redhat.com, mjguzik@gmail.com, luto@kernel.org,
+	peterz@infradead.org, acme@kernel.org, namhyung@kernel.org,
+	tglx@linutronix.de, willy@infradead.org, raghavendra.kt@amd.com,
 	boris.ostrovsky@oracle.com, konrad.wilk@oracle.com,
 	ankur.a.arora@oracle.com
 Subject: Re: [PATCH v6 11/15] mm: define clear_pages(), clear_user_pages()
-Message-ID: <202509030341.jBuh7Fma-lkp@intel.com>
+Message-ID: <202509030338.DlQJTxIk-lkp@intel.com>
 References: <20250902080816.3715913-12-ankur.a.arora@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -74,57 +73,106 @@ In-Reply-To: <20250902080816.3715913-12-ankur.a.arora@oracle.com>
 
 Hi Ankur,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on akpm-mm/mm-everything]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Ankur-Arora/perf-bench-mem-Remove-repetition-around-time-measurement/20250902-161417
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20250902080816.3715913-12-ankur.a.arora%40oracle.com
 patch subject: [PATCH v6 11/15] mm: define clear_pages(), clear_user_pages()
-config: arm-randconfig-002-20250903 (https://download.01.org/0day-ci/archive/20250903/202509030341.jBuh7Fma-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030341.jBuh7Fma-lkp@intel.com/reproduce)
+config: sparc-defconfig (https://download.01.org/0day-ci/archive/20250903/202509030338.DlQJTxIk-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030338.DlQJTxIk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509030341.jBuh7Fma-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509030338.DlQJTxIk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm/kernel/asm-offsets.c:12:
->> include/linux/mm.h:3886:3: error: call to undeclared function 'clear_user_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   clear_user_page(addr + i * PAGE_SIZE,
-                   ^
-   include/linux/mm.h:3886:3: note: did you mean 'clear_user_pages'?
-   include/linux/mm.h:3882:20: note: 'clear_user_pages' declared here
-   static inline void clear_user_pages(void *addr, unsigned long vaddr,
-                      ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=1003087465
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1282: prepare0] Error 2 shuffle=1003087465
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1003087465
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1003087465
-   make: Target 'prepare' not remade because of errors.
+   In file included from arch/sparc/include/asm/page.h:8,
+                    from arch/sparc/include/asm/string_32.h:13,
+                    from arch/sparc/include/asm/string.h:7,
+                    from include/linux/string.h:65,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from arch/sparc/include/asm/smp_32.h:15,
+                    from arch/sparc/include/asm/smp.h:7,
+                    from arch/sparc/include/asm/switch_to_32.h:5,
+                    from arch/sparc/include/asm/switch_to.h:7,
+                    from arch/sparc/include/asm/ptrace.h:120,
+                    from arch/sparc/include/asm/thread_info_32.h:19,
+                    from arch/sparc/include/asm/thread_info.h:7,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/sparc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from init/main.c:18:
+   include/linux/mm.h: In function 'clear_user_pages':
+   arch/sparc/include/asm/page_32.h:22:17: error: implicit declaration of function 'sparc_flush_page_to_ram' [-Wimplicit-function-declaration]
+      22 |                 sparc_flush_page_to_ram(page);  \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mm.h:3886:17: note: in expansion of macro 'clear_user_page'
+    3886 |                 clear_user_page(addr + i * PAGE_SIZE,
+         |                 ^~~~~~~~~~~~~~~
+   In file included from arch/sparc/include/asm/cacheflush.h:11,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:23,
+                    from include/linux/bpf.h:31,
+                    from include/linux/security.h:35,
+                    from include/linux/perf_event.h:53,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:95,
+                    from init/main.c:22:
+   arch/sparc/include/asm/cacheflush_32.h: At top level:
+>> arch/sparc/include/asm/cacheflush_32.h:38:6: warning: conflicting types for 'sparc_flush_page_to_ram'; have 'void(struct page *)'
+      38 | void sparc_flush_page_to_ram(struct page *page);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/sparc/include/asm/page_32.h:22:17: note: previous implicit declaration of 'sparc_flush_page_to_ram' with type 'void(struct page *)'
+      22 |                 sparc_flush_page_to_ram(page);  \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mm.h:3886:17: note: in expansion of macro 'clear_user_page'
+    3886 |                 clear_user_page(addr + i * PAGE_SIZE,
+         |                 ^~~~~~~~~~~~~~~
 
 
-vim +/clear_user_page +3886 include/linux/mm.h
+vim +38 arch/sparc/include/asm/cacheflush_32.h
 
-  3880	
-  3881	#ifndef clear_user_pages
-  3882	static inline void clear_user_pages(void *addr, unsigned long vaddr,
-  3883					    struct page *pg, unsigned int npages)
-  3884	{
-  3885		for (int i = 0; i < npages; i++)
-> 3886			clear_user_page(addr + i * PAGE_SIZE,
-  3887					vaddr + i * PAGE_SIZE, pg + i);
-  3888	}
-  3889	#endif
-  3890	
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  19  
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  20  #define copy_to_user_page(vma, page, vaddr, dst, src, len) \
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  21  	do {							\
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  22  		flush_cache_page(vma, vaddr, page_to_pfn(page));\
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  23  		memcpy(dst, src, len);				\
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  24  	} while (0)
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  25  #define copy_from_user_page(vma, page, vaddr, dst, src, len) \
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  26  	do {							\
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  27  		flush_cache_page(vma, vaddr, page_to_pfn(page));\
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  28  		memcpy(dst, src, len);				\
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  29  	} while (0)
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  30  
+5d83d66635bb16 arch/sparc/include/asm/cacheflush_32.h David S. Miller         2012-05-13  31  #define __flush_page_to_ram(addr) \
+5d83d66635bb16 arch/sparc/include/asm/cacheflush_32.h David S. Miller         2012-05-13  32  	sparc32_cachetlb_ops->page_to_ram(addr)
+5d83d66635bb16 arch/sparc/include/asm/cacheflush_32.h David S. Miller         2012-05-13  33  #define flush_sig_insns(mm,insn_addr) \
+5d83d66635bb16 arch/sparc/include/asm/cacheflush_32.h David S. Miller         2012-05-13  34  	sparc32_cachetlb_ops->sig_insns(mm, insn_addr)
+5d83d66635bb16 arch/sparc/include/asm/cacheflush_32.h David S. Miller         2012-05-13  35  #define flush_page_for_dma(addr) \
+5d83d66635bb16 arch/sparc/include/asm/cacheflush_32.h David S. Miller         2012-05-13  36  	sparc32_cachetlb_ops->page_for_dma(addr)
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  37  
+f05a68653e56ca arch/sparc/include/asm/cacheflush_32.h Sam Ravnborg            2014-05-16 @38  void sparc_flush_page_to_ram(struct page *page);
+665f640294540a arch/sparc/include/asm/cacheflush_32.h Matthew Wilcox (Oracle  2023-08-02  39) void sparc_flush_folio_to_ram(struct folio *folio);
+f5e706ad886b6a include/asm-sparc/cacheflush_32.h      Sam Ravnborg            2008-07-17  40  
 
 -- 
 0-DAY CI Kernel Test Service
