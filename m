@@ -1,63 +1,85 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00F62DF120;
-	Tue,  2 Sep 2025 06:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542662DF120
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 06:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756794013; cv=none; b=h75sryMCXkTHjxm0agDNoFyTuwfJ0YOwy8yPsiyreixDUN5k77UGtoy5wdI6UacH2/HeCbopty9EzkOx5Po1ga4cRMJG0E/d9Si4PPpwQ4hjVIcUpkNFHAgYNIKbk+xyEHP/bDVh6nqvvTiiRWOBZwt1R35KUeHIaBtAxZOyGmM=
+	t=1756794018; cv=none; b=qZ9YUg4actyo6eSeWDOenhh3JG84tL8BEeIUeR3keaiPb1i6g2ut1lOsYkyzmFr2zWt29C+rAWR8K1z9y0mlW71ofiHGvBQiIt4Eycq2zb6LOQb/TDLqMlEjOcVNAdtVbKN1SNH9tYSkKH9Adk4RDJD/1OIatN3XfFMMdPSAuiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756794013; c=relaxed/simple;
-	bh=NT1ttR5EgNfHEK6YgGDTK/2lGmsZiCOZNcfgI9sFHTI=;
+	s=arc-20240116; t=1756794018; c=relaxed/simple;
+	bh=kvHTUMZPvClcGpw+A7pNpjYD7JH4ZyYt27CoRde4604=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hKn6epjy4VmL9Hy97gfAIr9T1yhAt7oLsTkkJxVc21+gQ3mai3fxt0B9bBxkHd3JCT+5zuAxEeUb2bwdu2wq/WI3aVkmfLQhNpxXGsiQrPlByh3XU0IdCCmscwCEUFTDXsmP7QWldcLpi0PmHLwWy6nbuVs8hlmw6GdYqdirIF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxT4nl0/; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=WhLSgASwsKSZ7i/KJC8kZrTdMcuu/YtNyN/L9peJ8Y8X36g/gIznukv1cz02ZA/W5rlA+W9DZX0jzVC8SqE3U5SfuMXt11qQ0oL9cvu1rEfyOaH+sxuZdtsYRIvqlAb8/m/16LGPHxdahn/dEnExzAnrqmb1iW4zxH5pXi0F1ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JESpDajF; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxT4nl0/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JESpDajF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756794011; x=1788330011;
+  t=1756794016; x=1788330016;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NT1ttR5EgNfHEK6YgGDTK/2lGmsZiCOZNcfgI9sFHTI=;
-  b=IxT4nl0/hvbEBijuL5RJjfy0k+0yB9Jhrzgpvbl1mwOgdiSyTHF6SU9H
-   0Y1ADmJtfTn/+tLdNWYJsrT1MTcHyMGzkJVQlxzQIAH9qQB0M/TgDUCbv
-   s83jbVuSerIMAhrnq1iX09ICPc0AqJEbEQOMzMXZ2Tcr4LCf1/RcGF3+T
-   tsTqzf4zHqbdyrQa79h6oSjzMsPckri1nqfnF3SwWCnRZeEgmV19wT3Gp
-   j+u8NZawpQ2J+UQXE0WvOXdQK4e+f+aulb1zQfAF6xnGGFSS9OXJ4rGfI
-   FXqcldIlJ692tkGn+rSv5G22eHUPxz2J0koBW8naRAhvPtsxFtCQIGUJ6
+  bh=kvHTUMZPvClcGpw+A7pNpjYD7JH4ZyYt27CoRde4604=;
+  b=JESpDajFa9juhy2b+y+OrxXlqLOIxWD7L/A/J7f9VKiQjBLQA1EpUVwW
+   Iga24+k+draSkCbPM8cwuww+QPsKahGvWqp8jkZ7rjLkVSRQ1636YCxft
+   m2c7ITNFw896fY9kQXfs8WX2qYG7S20okTHpyczM/Glyhy2k5iO0auTnJ
+   B0uOnbx5rbANTPFQFDX99iLhHXC3XXDPATtG7FIjosHAN4zCBLyo1hjWB
+   D2AUnNT0gloou9chNURd/Uerl7UBJkYKiNdkwgj7GwLDh1s2/PQ/PlOJA
+   RbAmUZJz4xOqhrngh+QrRPcQuZaEldtnSTkt85YmZlZs7dg7k3Ruf0GLs
    A==;
-X-CSE-ConnectionGUID: uUvKSwcYRfWGGMKuzQAaiw==
-X-CSE-MsgGUID: YrhTceG1RIiPN3xNw4bxEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58907140"
+X-CSE-ConnectionGUID: h964jKy1Qo+VNnIVgReq5w==
+X-CSE-MsgGUID: GDRpeRBmRze0KQP2O56lxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58907159"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="58907140"
+   d="scan'208";a="58907159"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 23:20:10 -0700
-X-CSE-ConnectionGUID: CPNpn/ijSL6JuAr7TeaBWA==
-X-CSE-MsgGUID: TCrgNW2ATAeh18FvpouQ5Q==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 23:20:16 -0700
+X-CSE-ConnectionGUID: qiDgWfaGSbmUwSaIPteqBg==
+X-CSE-MsgGUID: aZ+HaOMFTumAyZ23yY1+XQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="202113603"
+   d="scan'208";a="202113663"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 01 Sep 2025 23:20:09 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utKNB-0001VH-39;
-	Tue, 02 Sep 2025 06:20:05 +0000
-Date: Tue, 2 Sep 2025 14:19:36 +0800
+	id 1utKNC-0001VJ-01;
+	Tue, 02 Sep 2025 06:20:06 +0000
+Date: Tue, 2 Sep 2025 14:19:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Uday Shankar <ushankar@purestorage.com>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH 09/23] ublk: handle UBLK_U_IO_COMMIT_IO_CMDS
-Message-ID: <202509021316.7z4i5qbA-lkp@intel.com>
-References: <20250901100242.3231000-10-ming.lei@redhat.com>
+To: Zihuan Zhang <zhangzihuan@kylinos.cn>,
+	"Rafael J . wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ben Horgan <ben.horgan@arm.com>,
+	zhenglifeng <zhenglifeng1@huawei.com>,
+	Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH v3 11/12] thermal/drivers/ti-soc-thermal: Use scope-based
+ cleanup helper
+Message-ID: <202509021413.NLo9zuEp-lkp@intel.com>
+References: <20250901085748.36795-12-zhangzihuan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,103 +88,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901100242.3231000-10-ming.lei@redhat.com>
+In-Reply-To: <20250901085748.36795-12-zhangzihuan@kylinos.cn>
 
-Hi Ming,
+Hi Zihuan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes axboe-block/for-next linus/master v6.17-rc4 next-20250901]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge rafael-pm/thermal arm64/for-next/core linus/master v6.17-rc4 next-20250901]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/ublk-add-parameter-struct-io_uring_cmd-to-ublk_prep_auto_buf_reg/20250901-181042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20250901100242.3231000-10-ming.lei%40redhat.com
-patch subject: [PATCH 09/23] ublk: handle UBLK_U_IO_COMMIT_IO_CMDS
-config: i386-buildonly-randconfig-004-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021316.7z4i5qbA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021316.7z4i5qbA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zihuan-Zhang/arm64-topology-Use-scope-based-cleanup-helper/20250901-170106
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250901085748.36795-12-zhangzihuan%40kylinos.cn
+patch subject: [PATCH v3 11/12] thermal/drivers/ti-soc-thermal: Use scope-based cleanup helper
+config: mips-randconfig-r073-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021413.NLo9zuEp-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2e122990391b2ba062e6308a12cfedf7206270ba)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021413.NLo9zuEp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509021316.7z4i5qbA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509021413.NLo9zuEp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/block/ublk_drv.c:2803:4: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-    2801 |                 pr_warn("%s: dev %u queue %u io %ld: commit failure %d\n",
-         |                                                 ~~~
-         |                                                 %d
-    2802 |                         __func__, ubq->dev->dev_info.dev_id, ubq->q_id,
-    2803 |                         io - ubq->ios, ret);
-         |                         ^~~~~~~~~~~~~
-   include/linux/printk.h:567:37: note: expanded from macro 'pr_warn'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:514:60: note: expanded from macro 'printk'
-     514 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:486:19: note: expanded from macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+>> drivers/thermal/ti-soc-thermal/ti-thermal-common.c:243:50: error: no member named 'policy' in 'struct ti_thermal_data'
+     243 |         data->cool_dev = cpufreq_cooling_register(data->policy);
+         |                                                   ~~~~  ^
+   1 error generated.
 
 
-vim +2803 drivers/block/ublk_drv.c
+vim +243 drivers/thermal/ti-soc-thermal/ti-thermal-common.c
 
-  2768	
-  2769	static int ublk_batch_commit_io(struct ublk_io *io,
-  2770					const struct ublk_batch_io_data *data)
-  2771	{
-  2772		const struct ublk_batch_io *uc = io_uring_sqe_cmd(data->cmd->sqe);
-  2773		struct ublk_queue *ubq = data->ubq;
-  2774		u16 buf_idx = UBLK_INVALID_BUF_IDX;
-  2775		union ublk_io_buf buf = { 0 };
-  2776		struct request *req = NULL;
-  2777		bool auto_reg = false;
-  2778		bool compl = false;
-  2779		int ret;
-  2780	
-  2781		if (ublk_support_auto_buf_reg(data->ubq)) {
-  2782			buf.auto_reg = ublk_batch_auto_buf_reg(uc, data->elem);
-  2783			auto_reg = true;
-  2784		} else if (ublk_need_map_io(data->ubq))
-  2785			buf.addr = ublk_batch_buf_addr(uc, data->elem);
-  2786	
-  2787		ublk_io_lock(io);
-  2788		ret = ublk_batch_commit_io_check(ubq, io, &buf);
-  2789		if (!ret) {
-  2790			io->res = data->elem->result;
-  2791			io->buf = buf;
-  2792			req = ublk_fill_io_cmd(io, data->cmd);
-  2793	
-  2794			if (auto_reg)
-  2795				__ublk_handle_auto_buf_reg(io, data->cmd, &buf_idx);
-  2796			compl = ublk_need_complete_req(ubq, io);
-  2797		}
-  2798		ublk_io_unlock(io);
-  2799	
-  2800		if (unlikely(ret)) {
-  2801			pr_warn("%s: dev %u queue %u io %ld: commit failure %d\n",
-  2802				__func__, ubq->dev->dev_info.dev_id, ubq->q_id,
-> 2803				io - ubq->ios, ret);
-  2804			return ret;
-  2805		}
-  2806	
-  2807		/* can't touch 'ublk_io' any more */
-  2808		if (buf_idx != UBLK_INVALID_BUF_IDX)
-  2809			io_buffer_unregister_bvec(data->cmd, buf_idx, data->issue_flags);
-  2810		if (req_op(req) == REQ_OP_ZONE_APPEND)
-  2811			req->__sector = ublk_batch_zone_lba(uc, data->elem);
-  2812		if (compl)
-  2813			__ublk_complete_rq(req);
-  2814		return 0;
-  2815	}
-  2816	
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  215  
+03e859d344267c drivers/staging/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-03-19  216  int ti_thermal_register_cpu_cooling(struct ti_bandgap *bgp, int id)
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  217  {
+03e859d344267c drivers/staging/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-03-19  218  	struct ti_thermal_data *data;
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  219  	struct device_node *np = bgp->dev->of_node;
+01d493f192a73c drivers/thermal/ti-soc-thermal/ti-thermal-common.c Zihuan Zhang     2025-09-01  220  	struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(0);
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  221  
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  222  	/*
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  223  	 * We are assuming here that if one deploys the zone
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  224  	 * using DT, then it must be aware that the cooling device
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  225  	 * loading has to happen via cpufreq driver.
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  226  	 */
+86df7d19083c66 drivers/thermal/ti-soc-thermal/ti-thermal-common.c Rob Herring      2023-03-10  227  	if (of_property_present(np, "#thermal-sensor-cells"))
+26d9cc65fa769d drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-07-04  228  		return 0;
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  229  
+03e859d344267c drivers/staging/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-03-19  230  	data = ti_bandgap_get_sensor_data(bgp, id);
+0c12b5ac82fbae drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-05-29  231  	if (!data || IS_ERR(data))
+03e859d344267c drivers/staging/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-03-19  232  		data = ti_thermal_build_data(bgp, id);
+04a4d10d07b101 drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-09-11  233  
+04a4d10d07b101 drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-09-11  234  	if (!data)
+04a4d10d07b101 drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-09-11  235  		return -EINVAL;
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  236  
+01d493f192a73c drivers/thermal/ti-soc-thermal/ti-thermal-common.c Zihuan Zhang     2025-09-01  237  	if (!policy) {
+4d753aa7b6279e drivers/thermal/ti-soc-thermal/ti-thermal-common.c Viresh Kumar     2017-04-25  238  		pr_debug("%s: CPUFreq policy not found\n", __func__);
+4d753aa7b6279e drivers/thermal/ti-soc-thermal/ti-thermal-common.c Viresh Kumar     2017-04-25  239  		return -EPROBE_DEFER;
+4d753aa7b6279e drivers/thermal/ti-soc-thermal/ti-thermal-common.c Viresh Kumar     2017-04-25  240  	}
+4d753aa7b6279e drivers/thermal/ti-soc-thermal/ti-thermal-common.c Viresh Kumar     2017-04-25  241  
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  242  	/* Register cooling device */
+4d753aa7b6279e drivers/thermal/ti-soc-thermal/ti-thermal-common.c Viresh Kumar     2017-04-25 @243  	data->cool_dev = cpufreq_cooling_register(data->policy);
+0c12b5ac82fbae drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-05-29  244  	if (IS_ERR(data->cool_dev)) {
+cffafc32473560 drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2014-12-12  245  		int ret = PTR_ERR(data->cool_dev);
+4d753aa7b6279e drivers/thermal/ti-soc-thermal/ti-thermal-common.c Viresh Kumar     2017-04-25  246  		dev_err(bgp->dev, "Failed to register cpu cooling device %d\n",
+cffafc32473560 drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2014-12-12  247  			ret);
+cffafc32473560 drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2014-12-12  248  
+cffafc32473560 drivers/thermal/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2014-12-12  249  		return ret;
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  250  	}
+03e859d344267c drivers/staging/ti-soc-thermal/ti-thermal-common.c Eduardo Valentin 2013-03-19  251  	ti_bandgap_set_sensor_data(bgp, id, data);
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  252  
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  253  	return 0;
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  254  }
+445eaf871bf94e drivers/staging/omap-thermal/omap-thermal-common.c Eduardo Valentin 2012-07-12  255  
 
 -- 
 0-DAY CI Kernel Test Service
