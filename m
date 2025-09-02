@@ -1,351 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476F442065;
-	Tue,  2 Sep 2025 12:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CAB42065
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 12:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756815717; cv=none; b=iFMEPtBjsjXRLzjtc1542O2aaSHbFa3bEk4Y5cfx2GmCTiTn2vba8JWCoNmAOAKMDjGU4miMe+EOQkkWIQsmCrTg0vIiZBx9ziedo4jQY/FJexE+YptkzPJ6K78kgRUsluXlrz208U4jLBiP3u3B9ZxDZqyebNCOnfhC3Y3PJHI=
+	t=1756815722; cv=none; b=aX15VgSaQ6nsmlbyWBJemyEzZZ6znzimdNSAFcno0ixtxRRxXcL0WxPi9oQqrLhbmjdOjxh+k4GVJPJk8W9i86FHDsDUIJH93cJlE2pI7WsEHifxOHladsO3FVYEkAophnfyZMYAIZALnDAzaUupxBA78/i4M3QB+e/FE6+OraI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756815717; c=relaxed/simple;
-	bh=jIfgoxS+ycbv8ODOPvXhcs50ic/4jXs/oOX8iLGdUPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svJL5LIan7IoYAxzytXl2gUxnVrV8QMha59IePg1hNCnDlcP8wsYI9wlYYsGQSrPf03c4yqcH5Q0n8KQ22DehfS9deDlXrsBNuoZXSCYBJK061Jqnc3Kqw1w6KZWXwfNz8iD981wWpyjfGMJ5u+t5u93N7on+FedInge8f0x2zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVf0hsb9; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756815722; c=relaxed/simple;
+	bh=ap3kBXpxvyJ7Lb20rKEK5xpWR0asUl3cXM4pqomtyeE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bzr8mmE/upzdJG0DBSfuiSY6DC3qwsZFEkIWHU3kAWp4AmdRwNc9FdUbT/BTAZWjni83djIbSUCNvR6LnGyGIYmNwCcSeXhs+ryo/D1gwT7Asj9aRrVoCBTzlM0xEpBRwrSQKUGcriGQ3ioJBjDPpl6RvTfz65BuweWjV89aVro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VnOqo/4O; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVf0hsb9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756815715; x=1788351715;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jIfgoxS+ycbv8ODOPvXhcs50ic/4jXs/oOX8iLGdUPo=;
-  b=kVf0hsb9wwFljkqHT1ZznZa3IAvdka1mTxbFniguDcfcAq2pWOfnVvbv
-   QO70s9nA5kv/NflJ5WCx/xreKoW7HlJTnaRKoyveqVM9f5tmXyL6aEpXS
-   a81anM+7krzNwawA005Ps1VujOPfMO+/KV0F9jn4JhMm/SqkaVeRGLPdf
-   olx+vzQEoovIJ3+3FVsTrJvPazXcrEnemXvPELilEeS8bPJlzfqNVawZL
-   6Er+sjeQMPkxAg1TqhIy1ljC9Ow17CwncQRcH+8AXBxbMHeGFFRx4/JpQ
-   gHBnUHTmp7wDa+LfxryBLRkLcmOq3hHIUhpuV2rTpPTfviljrxGwyrTru
-   A==;
-X-CSE-ConnectionGUID: PvLF+VGhTh6mCh0nJdDW/Q==
-X-CSE-MsgGUID: 2GwTBt+fTRSSCG6Vj8Dd3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59022926"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="59022926"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 05:21:53 -0700
-X-CSE-ConnectionGUID: 2iFQg7u+QAqGAqL4vpJb1g==
-X-CSE-MsgGUID: dpHk/SKLQKC8iqFz7MKcvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="171229754"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Sep 2025 05:21:52 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1utQ10-0001yB-1m;
-	Tue, 02 Sep 2025 12:21:38 +0000
-Date: Tue, 2 Sep 2025 20:20:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] mm: show_mem: show number of zspages in show_free_areas
-Message-ID: <202509022038.Yh6ZuTfU-lkp@intel.com>
-References: <20250901183729.3900578-1-cascardo@igalia.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VnOqo/4O"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582Aeq6P030068
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 2 Sep 2025 12:22:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GdDcm1pPA+690g+TUeCkBcNloEFTwRmM8eHgs04Vf+E=; b=VnOqo/4ORtqBxRxu
+	dHeScBQBuYdbLYZnx/DhTH92bz9d1ZQhOEL+jpx/WYq5PEk8Vp2morLRjXoJN4lS
+	By5lxcTSfVSZHenAg3lAux58/+oreiC3xlGL1gwki6VFbA2Bu+UedTNwqLZJFXCc
+	4y5OqBmNzRqVlTLr0o3Kuad0uDzqqYhfPV534+YjF4XBX3QpXff1mgr/RTAvORYb
+	dFgDZS/e0m+Sw4unQP1cDDWcFbtUBDdPRGji/lxXgk6aOmNQo3lnTY5G7fzrU6uK
+	jn6tM/PumqY+JKdgGZftoiT+/6J1HmtqpPku3vwJ25blkO9HxjjeXjUiD4T2GeOq
+	4MnAwQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48w8wy3jn6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Sep 2025 12:22:00 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-718cb6230afso28256156d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Sep 2025 05:21:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756815719; x=1757420519;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GdDcm1pPA+690g+TUeCkBcNloEFTwRmM8eHgs04Vf+E=;
+        b=fRUiJWa9brCcqnWCEEHhnqt0culDJ1deH0VwherN8+u3sSnuNhwWyerDVISodVJYWo
+         AvJO51zaAZubwRZES2bX1IGROyMfFbgo9n9xb66WGlM49jexE5vBsuWf6Ir70E9X5efd
+         KuDxOfgbhBFVna5oZZ2uVedHKSzbK/eSD414/6s2kDXt6692L0hbfI3sPM0CnSVbu51W
+         KRque7Sp3GFGC5Ox69CElNeDJ2C/ZSfaM3C08xx8rnEqY+hBlYSsF55YM5GuuLGBAs+b
+         RKJ0Q65kN6UgLe5JImu2pOgZYXTfBwb4xaf+gPwV0/z7XY0G9uvASyPwOf35iKGg+G/r
+         JGxA==
+X-Forwarded-Encrypted: i=1; AJvYcCXsB5EDONTRujGQRtiyWIxuGopSk/KHx1+Wa6bK5sSVlbHcRz8wd2Mwj12GVc24nbIIsHGZZZg1TF54j6nz@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBY9+5sSi5+dodh/JBgt+P0tfpfWifMx77mJT8Xy7cYVg58JlL
+	CYCVvpC7k+Q3yyHIq4o1+mq28aInvkg+weueCsbPzDssakcamLpLoK/SG+lu8LFshEEJp1dIVAi
+	3Cll347aukDuNV0vT/Binc5zLhn78rpUIiKs1Z6BZKK1q0Et/Lq7RA9VqZCO28l4k8QSd
+X-Gm-Gg: ASbGncuPnqX6C9//rVzYiIo2UGmWHo/JvDzW77Xt0TtBV14eop6N41N4b6AKIL/SpcB
+	hwOQR8HE0xFLuWKchCFPzh7GQctZKn3CXViz437RtUibXEGs+Mf/nYZuXLUFkL4uiy/42OvRDQ4
+	X/mG1vQzx3J/bTYIniCBCQVsPjvzKQnPjpoALfsMlFSrO1Q4Epqn900vDrdgBoA9thV8ZWqaQ0l
+	4TG8EsWfJBmQcHi0fiuYcOXVSCIQoe8uB1zFKdzvrMQfD2wSE5AO0F4fSe7LrPjHy/b41pxouYs
+	ICaMbv+18v6ZrLt5gJkOLZJsmI31MEQptv/xwjhVTsv1ZS7Gx17Zv2KDXJHx17Hb1II=
+X-Received: by 2002:a05:6214:2b0a:b0:715:b3b4:3dca with SMTP id 6a1803df08f44-715b4008c59mr89663546d6.61.1756815719028;
+        Tue, 02 Sep 2025 05:21:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9wa99YxWc0KmCjnw35EiTSnM8Lj2uAWvqOXuvGUw99Z2V2CZAizJnqDpJXZko+cJCA5uqgA==
+X-Received: by 2002:a05:6214:2b0a:b0:715:b3b4:3dca with SMTP id 6a1803df08f44-715b4008c59mr89662976d6.61.1756815718141;
+        Tue, 02 Sep 2025 05:21:58 -0700 (PDT)
+Received: from [192.168.68.118] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-45b85090262sm146498895e9.17.2025.09.02.05.21.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Sep 2025 05:21:57 -0700 (PDT)
+Message-ID: <a5343bae-af16-48ed-b113-aa8a76986691@oss.qualcomm.com>
+Date: Tue, 2 Sep 2025 13:21:56 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901183729.3900578-1-cascardo@igalia.com>
-
-Hi Thadeu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thadeu-Lima-de-Souza-Cascardo/mm-show_mem-show-number-of-zspages-in-show_free_areas/20250902-023852
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250901183729.3900578-1-cascardo%40igalia.com
-patch subject: [PATCH] mm: show_mem: show number of zspages in show_free_areas
-config: i386-buildonly-randconfig-004-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022038.Yh6ZuTfU-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022038.Yh6ZuTfU-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509022038.Yh6ZuTfU-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> mm/show_mem.c:336:28: error: use of undeclared identifier 'NR_ZSPAGES'; did you mean 'NR_STATS'?
-     336 |                         K(zone_page_state(zone, NR_ZSPAGES)),
-         |                                                 ^~~~~~~~~~
-         |                                                 NR_STATS
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                            ^
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^
-   mm/internal.h:560:16: note: expanded from macro 'K'
-     560 | #define K(x) ((x) << (PAGE_SHIFT-10))
-         |                ^
-   include/linux/kernel_stat.h:33:2: note: 'NR_STATS' declared here
-      33 |         NR_STATS,
-         |         ^
-   mm/show_mem.c:336:28: warning: implicit conversion from enumeration type 'enum cpu_usage_stat' to different enumeration type 'enum zone_stat_item' [-Wenum-conversion]
-     336 |                         K(zone_page_state(zone, NR_ZSPAGES)),
-         |                           ~~~~~~~~~~~~~~~       ^~~~~~~~~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                            ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   mm/internal.h:560:16: note: expanded from macro 'K'
-     560 | #define K(x) ((x) << (PAGE_SHIFT-10))
-         |                ^
-   1 warning and 1 error generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] of: base: Add of_property_read_u8_index
+To: kernel test robot <lkp@intel.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        robh@kernel.org, krzk+dt@kernel.org, vkoul@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, conor+dt@kernel.org,
+        srini@kernel.org, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250901195037.47156-2-srinivas.kandagatla@oss.qualcomm.com>
+ <202509021915.6WBFuf9m-lkp@intel.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <202509021915.6WBFuf9m-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Ycq95xRf c=1 sm=1 tr=0 ts=68b6e168 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
+ a=CoiT50wjLESuYxH19fwA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+ a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-GUID: RC45C9m-SLn4HORHhIbKIwbpBhhmRFV8
+X-Proofpoint-ORIG-GUID: RC45C9m-SLn4HORHhIbKIwbpBhhmRFV8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAxMDEwMSBTYWx0ZWRfX2m+Slgrjd5Ln
+ itQWfsA8awPMKCY7KtdfP+XGkTK9uQowJzWFLdYRqKuXk85QIX3lszPKhzUUspwQC//Ut/yeeDF
+ dra7b4R0ILizIh+rkyno2TZbT7nJDOLmIbPHahihexJ3dYL+0alDfxDpmw3Tx3no2J4f8PyCXJz
+ 2qyAnggfW1czhV1Wf2MFX2cARWYb6TtWrjfiIcb2B0o0AaTO5JVbFBxstBebBSKClo95iYvQ0Lh
+ AuJkT2R9gaOk78PohH2E756xfNeZ3UsjzCpFMfRjU0y28/N3+th+w0o24qQ2G6zjhZ1C2fu0b/w
+ GfDI7MrW/DpAzxycuwfDlVJNsM/IZdmL0O3PurWEb/d9ytq8db6Q4UXbpdR5trpP0Fwi1VFXWSh
+ ZCudAEec
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509010101
 
 
-vim +336 mm/show_mem.c
 
-   170	
-   171	/*
-   172	 * Show free area list (used inside shift_scroll-lock stuff)
-   173	 * We also calculate the percentage fragmentation. We do this by counting the
-   174	 * memory on each free list with the exception of the first item on the list.
-   175	 *
-   176	 * Bits in @filter:
-   177	 * SHOW_MEM_FILTER_NODES: suppress nodes that are not allowed by current's
-   178	 *   cpuset.
-   179	 */
-   180	static void show_free_areas(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
-   181	{
-   182		unsigned long free_pcp = 0;
-   183		int cpu, nid;
-   184		struct zone *zone;
-   185		pg_data_t *pgdat;
-   186	
-   187		for_each_populated_zone(zone) {
-   188			if (zone_idx(zone) > max_zone_idx)
-   189				continue;
-   190			if (show_mem_node_skip(filter, zone_to_nid(zone), nodemask))
-   191				continue;
-   192	
-   193			for_each_online_cpu(cpu)
-   194				free_pcp += per_cpu_ptr(zone->per_cpu_pageset, cpu)->count;
-   195		}
-   196	
-   197		printk("active_anon:%lu inactive_anon:%lu isolated_anon:%lu\n"
-   198			" active_file:%lu inactive_file:%lu isolated_file:%lu\n"
-   199			" unevictable:%lu dirty:%lu writeback:%lu\n"
-   200			" slab_reclaimable:%lu slab_unreclaimable:%lu\n"
-   201			" mapped:%lu shmem:%lu pagetables:%lu\n"
-   202			" sec_pagetables:%lu bounce:%lu\n"
-   203			" kernel_misc_reclaimable:%lu\n"
-   204			" free:%lu free_pcp:%lu free_cma:%lu\n",
-   205			global_node_page_state(NR_ACTIVE_ANON),
-   206			global_node_page_state(NR_INACTIVE_ANON),
-   207			global_node_page_state(NR_ISOLATED_ANON),
-   208			global_node_page_state(NR_ACTIVE_FILE),
-   209			global_node_page_state(NR_INACTIVE_FILE),
-   210			global_node_page_state(NR_ISOLATED_FILE),
-   211			global_node_page_state(NR_UNEVICTABLE),
-   212			global_node_page_state(NR_FILE_DIRTY),
-   213			global_node_page_state(NR_WRITEBACK),
-   214			global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B),
-   215			global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B),
-   216			global_node_page_state(NR_FILE_MAPPED),
-   217			global_node_page_state(NR_SHMEM),
-   218			global_node_page_state(NR_PAGETABLE),
-   219			global_node_page_state(NR_SECONDARY_PAGETABLE),
-   220			0UL,
-   221			global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE),
-   222			global_zone_page_state(NR_FREE_PAGES),
-   223			free_pcp,
-   224			global_zone_page_state(NR_FREE_CMA_PAGES));
-   225	
-   226		for_each_online_pgdat(pgdat) {
-   227			if (show_mem_node_skip(filter, pgdat->node_id, nodemask))
-   228				continue;
-   229			if (!node_has_managed_zones(pgdat, max_zone_idx))
-   230				continue;
-   231	
-   232			printk("Node %d"
-   233				" active_anon:%lukB"
-   234				" inactive_anon:%lukB"
-   235				" active_file:%lukB"
-   236				" inactive_file:%lukB"
-   237				" unevictable:%lukB"
-   238				" isolated(anon):%lukB"
-   239				" isolated(file):%lukB"
-   240				" mapped:%lukB"
-   241				" dirty:%lukB"
-   242				" writeback:%lukB"
-   243				" shmem:%lukB"
-   244	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-   245				" shmem_thp:%lukB"
-   246				" shmem_pmdmapped:%lukB"
-   247				" anon_thp:%lukB"
-   248	#endif
-   249				" kernel_stack:%lukB"
-   250	#ifdef CONFIG_SHADOW_CALL_STACK
-   251				" shadow_call_stack:%lukB"
-   252	#endif
-   253				" pagetables:%lukB"
-   254				" sec_pagetables:%lukB"
-   255				" all_unreclaimable? %s"
-   256				" Balloon:%lukB"
-   257				"\n",
-   258				pgdat->node_id,
-   259				K(node_page_state(pgdat, NR_ACTIVE_ANON)),
-   260				K(node_page_state(pgdat, NR_INACTIVE_ANON)),
-   261				K(node_page_state(pgdat, NR_ACTIVE_FILE)),
-   262				K(node_page_state(pgdat, NR_INACTIVE_FILE)),
-   263				K(node_page_state(pgdat, NR_UNEVICTABLE)),
-   264				K(node_page_state(pgdat, NR_ISOLATED_ANON)),
-   265				K(node_page_state(pgdat, NR_ISOLATED_FILE)),
-   266				K(node_page_state(pgdat, NR_FILE_MAPPED)),
-   267				K(node_page_state(pgdat, NR_FILE_DIRTY)),
-   268				K(node_page_state(pgdat, NR_WRITEBACK)),
-   269				K(node_page_state(pgdat, NR_SHMEM)),
-   270	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-   271				K(node_page_state(pgdat, NR_SHMEM_THPS)),
-   272				K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
-   273				K(node_page_state(pgdat, NR_ANON_THPS)),
-   274	#endif
-   275				node_page_state(pgdat, NR_KERNEL_STACK_KB),
-   276	#ifdef CONFIG_SHADOW_CALL_STACK
-   277				node_page_state(pgdat, NR_KERNEL_SCS_KB),
-   278	#endif
-   279				K(node_page_state(pgdat, NR_PAGETABLE)),
-   280				K(node_page_state(pgdat, NR_SECONDARY_PAGETABLE)),
-   281				str_yes_no(pgdat->kswapd_failures >= MAX_RECLAIM_RETRIES),
-   282				K(node_page_state(pgdat, NR_BALLOON_PAGES)));
-   283		}
-   284	
-   285		for_each_populated_zone(zone) {
-   286			int i;
-   287	
-   288			if (zone_idx(zone) > max_zone_idx)
-   289				continue;
-   290			if (show_mem_node_skip(filter, zone_to_nid(zone), nodemask))
-   291				continue;
-   292	
-   293			free_pcp = 0;
-   294			for_each_online_cpu(cpu)
-   295				free_pcp += per_cpu_ptr(zone->per_cpu_pageset, cpu)->count;
-   296	
-   297			show_node(zone);
-   298			printk(KERN_CONT
-   299				"%s"
-   300				" free:%lukB"
-   301				" boost:%lukB"
-   302				" min:%lukB"
-   303				" low:%lukB"
-   304				" high:%lukB"
-   305				" reserved_highatomic:%luKB"
-   306				" free_highatomic:%luKB"
-   307				" active_anon:%lukB"
-   308				" inactive_anon:%lukB"
-   309				" active_file:%lukB"
-   310				" inactive_file:%lukB"
-   311				" unevictable:%lukB"
-   312				" writepending:%lukB"
-   313				" zspages:%lukB"
-   314				" present:%lukB"
-   315				" managed:%lukB"
-   316				" mlocked:%lukB"
-   317				" bounce:%lukB"
-   318				" free_pcp:%lukB"
-   319				" local_pcp:%ukB"
-   320				" free_cma:%lukB"
-   321				"\n",
-   322				zone->name,
-   323				K(zone_page_state(zone, NR_FREE_PAGES)),
-   324				K(zone->watermark_boost),
-   325				K(min_wmark_pages(zone)),
-   326				K(low_wmark_pages(zone)),
-   327				K(high_wmark_pages(zone)),
-   328				K(zone->nr_reserved_highatomic),
-   329				K(zone->nr_free_highatomic),
-   330				K(zone_page_state(zone, NR_ZONE_ACTIVE_ANON)),
-   331				K(zone_page_state(zone, NR_ZONE_INACTIVE_ANON)),
-   332				K(zone_page_state(zone, NR_ZONE_ACTIVE_FILE)),
-   333				K(zone_page_state(zone, NR_ZONE_INACTIVE_FILE)),
-   334				K(zone_page_state(zone, NR_ZONE_UNEVICTABLE)),
-   335				K(zone_page_state(zone, NR_ZONE_WRITE_PENDING)),
- > 336				K(zone_page_state(zone, NR_ZSPAGES)),
-   337				K(zone->present_pages),
-   338				K(zone_managed_pages(zone)),
-   339				K(zone_page_state(zone, NR_MLOCK)),
-   340				0UL,
-   341				K(free_pcp),
-   342				K(this_cpu_read(zone->per_cpu_pageset->count)),
-   343				K(zone_page_state(zone, NR_FREE_CMA_PAGES)));
-   344			printk("lowmem_reserve[]:");
-   345			for (i = 0; i < MAX_NR_ZONES; i++)
-   346				printk(KERN_CONT " %ld", zone->lowmem_reserve[i]);
-   347			printk(KERN_CONT "\n");
-   348		}
-   349	
-   350		for_each_populated_zone(zone) {
-   351			unsigned int order;
-   352			unsigned long nr[NR_PAGE_ORDERS], flags, total = 0;
-   353			unsigned char types[NR_PAGE_ORDERS];
-   354	
-   355			if (zone_idx(zone) > max_zone_idx)
-   356				continue;
-   357			if (show_mem_node_skip(filter, zone_to_nid(zone), nodemask))
-   358				continue;
-   359			show_node(zone);
-   360			printk(KERN_CONT "%s: ", zone->name);
-   361	
-   362			spin_lock_irqsave(&zone->lock, flags);
-   363			for (order = 0; order < NR_PAGE_ORDERS; order++) {
-   364				struct free_area *area = &zone->free_area[order];
-   365				int type;
-   366	
-   367				nr[order] = area->nr_free;
-   368				total += nr[order] << order;
-   369	
-   370				types[order] = 0;
-   371				for (type = 0; type < MIGRATE_TYPES; type++) {
-   372					if (!free_area_empty(area, type))
-   373						types[order] |= 1 << type;
-   374				}
-   375			}
-   376			spin_unlock_irqrestore(&zone->lock, flags);
-   377			for (order = 0; order < NR_PAGE_ORDERS; order++) {
-   378				printk(KERN_CONT "%lu*%lukB ",
-   379				       nr[order], K(1UL) << order);
-   380				if (nr[order])
-   381					show_migration_types(types[order]);
-   382			}
-   383			printk(KERN_CONT "= %lukB\n", K(total));
-   384		}
-   385	
-   386		for_each_online_node(nid) {
-   387			if (show_mem_node_skip(filter, nid, nodemask))
-   388				continue;
-   389			hugetlb_show_meminfo_node(nid);
-   390		}
-   391	
-   392		printk("%ld total pagecache pages\n", global_node_page_state(NR_FILE_PAGES));
-   393	
-   394		show_swap_cache_info();
-   395	}
-   396	
+On 9/2/25 12:34 PM, kernel test robot wrote:
+> Hi Srinivas,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on robh/for-next]
+> [also build test ERROR on linus/master v6.17-rc4 next-20250902]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/of-base-Add-of_property_read_u8_index/20250902-035407
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> patch link:    https://lore.kernel.org/r/20250901195037.47156-2-srinivas.kandagatla%40oss.qualcomm.com
+> patch subject: [PATCH 1/7] of: base: Add of_property_read_u8_index
+> config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20250902/202509021915.6WBFuf9m-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2e122990391b2ba062e6308a12cfedf7206270ba)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021915.6WBFuf9m-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509021915.6WBFuf9m-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from init/main.c:56:
+>    In file included from include/linux/tick.h:8:
+>    In file included from include/linux/clockchips.h:14:
+>    In file included from include/linux/clocksource.h:19:
+>>> include/linux/of.h:645:8: error: unknown type name 'inlinen'; did you mean 'inline'?
+>      645 | static inlinen int of_property_read_u8_index(const struct device_node *np,
+>          |        ^~~~~~~
+>          |        inline
+>    1 error generated.
+Opps sorry, not sure how it ended up this way,.. will fix this in v2.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--srini
+> 
+> 
+> vim +645 include/linux/of.h
+> 
+>    644	
+>  > 645	static inlinen int of_property_read_u8_index(const struct device_node *np,
+>    646				const char *propname, u32 index, u8 *out_value)
+>    647	{
+>    648		return -ENOSYS;
+>    649	}
+>    650	
+> 
+
