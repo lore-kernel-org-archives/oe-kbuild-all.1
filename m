@@ -1,107 +1,197 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C613F2C21CB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 12:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8C52D4B6C;
+	Tue,  2 Sep 2025 12:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756817114; cv=none; b=snSKLrABb4FgWkxo2jCqg6n2kGouXSA4AcGwoBmChTx5IwjNiZucTu4LBTNK5N7ujBXBqwFGGUvfId7ZLFHoCtg9bZt2h+cMhaQTGVK+OphlGIbP0qF7RJcr7PD6G95dJ0hCeqRm/EcNxSTg7CLkUuWI8p2am7E7pfL8KwVKgIc=
+	t=1756817234; cv=none; b=Sy1e/2ZbDlkzYN39TIQgPTntIrafrkABUTETN+9NGGL2j7WaLf9Nt1HwC6DOqMzVAVACMvaTKr7Udr0n5QjbeyXo3A4edEMrizW2pXcSeGtuVd/rVazkmMuQ5ZV03lJxbUg0A5w7qsC5NnmvsAZzxN4ERjf9hiK8MyXH1o79HlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756817114; c=relaxed/simple;
-	bh=l951ZK4S1f3tIiSDBShGa468lBAxFCi81zepYBiVkXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TrfbjthOMx6G6QbmUdGmDi+dtEj3uh88i2BKPNGeOgUrQiRhCkm71IKtdUb3VHLCzGCJXrH3joBFox7hJl7zsbTwsKqND593tO1ejAJRoPC07YIkdaHVMndHxHaXBNIqlP4ODT64LlYU0aksuryXBdTb0TSsFoC0rOKLz2rSGp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XhGP8Ngv; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756817234; c=relaxed/simple;
+	bh=NEJK4G6YL2LNIJ4N/EQ/2yXbIcRULbZqJJAqf1ZPdb0=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Rnk2ZWjcRpwB6I3LD5QCbnQC7mi9y6WgT3n92JlBZ+sf2kDZABGR12ibD0Sf7FBbaNi1XfETVh1g1hJkzdlZvvYMbBUcaHU8oexgSpfwjfgrkUw+M/H8Mmxe+r/afLpWqGpgJ4Ci94e3DAnLOyOoB+5bF8kRJEt+kgIAs8KmAAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+7RInFI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XhGP8Ngv"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76e1fc69f86so4734236b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 Sep 2025 05:45:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756817111; x=1757421911; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QSVHuT6d5cGpBm458ZOIFLdHsXtW4cGTYDXaMxzLyBk=;
-        b=XhGP8NgvTlxxOPaQtPsjOIFCicbdowH6Wi94YqIhZTlosW2cmclJ9J6X5/f61JppgD
-         2wL6DL0z77/B25mI+mqbzU90dZh2AmiSjazuzaG3+ezGUPm7S9isrwOY8LX2cXeLIg6T
-         OEMxJn3Y+Y6DTL535b9dFDv7oivd8OzssqVWKSTcw2I8oB8CvrVQ+OOLxLLkTR+75XtT
-         KpyeWc9YqT7hermDabL5DpeKXXOXfvZaGOxvrlrpNCUSyvA80Lxry4UM6pFW0LGQ5tqg
-         o3rZ3n/DVeAQmJq/dLcRlVL7SCCJoFfeJea606Fs89wctPHDtKc5WaZPMhPlZd7bv+Od
-         8ODA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756817111; x=1757421911;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QSVHuT6d5cGpBm458ZOIFLdHsXtW4cGTYDXaMxzLyBk=;
-        b=clvzjB1W6toxZ9grWcmIPSJ2W4hgPOw0MfSlU4x5mUtwkexgOQ64RPb9fl8fjqxZxE
-         JfKFMmnlLaAdxeZuVqR8eZetzF5rLospVd1I6Gp59h/Z7whXSyj4irJ4wlpTVG9AlZw4
-         2DagonCeA3tbxCwPW5dAensoa0CyYnFFg00fK8WdXYvCgOexBJm2AT8XfT19JAkj4TmF
-         PRjbIv7SkkQXZdqZJLbYT7rShnOjVaJ8pfykRFL4YR/fS3Q0IopALVGrtVskaMqCX/7V
-         mTwUs6CkJqj+fHF8YvsOlAJcRDLXwxG1nmyTGX1pmmn81cdzc+We4cp0rTFqWLMXHIrM
-         x8+A==
-X-Forwarded-Encrypted: i=1; AJvYcCWo/F2NnbYu9x9WqNi6fqTkp2Pkgeg/3SBGnikKyWC+d8Nn52WkdxQn1vUJdfKkyXjtfkfwjB2jCq+d1rnz@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVGb13Q8vvU3BneEkaEatSaBT9jdbE6WQCe6DQMuSfg3sImvtX
-	/sZQ4Jc1cibLc2x0DuG8f15Rh2Fn5z64PVbiLDdQKNrOhcJzJ8qnJmjU
-X-Gm-Gg: ASbGnctVXPDcJi5jT1pABkVb009hWhUfIHwIL3phd8oQDy/kAVUK0cUmyC+jcAR0izr
-	m3ytf7HJY/HXvX8flKb55+ntpZ8ozRPmeq/LZBXtG+GLVLJmMo5x4pNt/OuX9UsTYApDTFqfItt
-	y7mSkvXKQg8/liZ9KrZTHHtsRfgLDroDNqyBA7QY0++DMUW59Go/cUstB6Wj7TK3LEzwvkMjKF3
-	bcg/Mn25EbiRrWvkH8x6VUnQYhuR9bggi0pdJBmIL+/ySFoABOWSCaYTHCAmzapDx3km+1+ZNev
-	ZLto/dR0WwhDnDG36C0yeuOqQNNM771jyfAyjAdt7gkcstw7D5Ix7NPu8JZ4JZSq5AzpX2N0Cfx
-	yTa8Ts6N6fkGHqNXJkRQ+awsT/Xsah2VXEXM6zC3GCBRSDQ==
-X-Google-Smtp-Source: AGHT+IEhqmIbQyxJ6MlVMW89fIF9FKRQ6pvNg918nxTQ3N6tEH4/HYPEQ8cRRp3G2v1dZiLXD1He0w==
-X-Received: by 2002:a05:6a20:728d:b0:23d:c7aa:a6f0 with SMTP id adf61e73a8af0-243d6f39414mr14323450637.22.1756817110949;
-        Tue, 02 Sep 2025 05:45:10 -0700 (PDT)
-Received: from dragon (104.245.102.166.16clouds.com. [104.245.102.166])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276f5a0bf9sm20057925a91.13.2025.09.02.05.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 05:45:10 -0700 (PDT)
-Date: Tue, 2 Sep 2025 20:45:03 +0800
-From: Shawn Guo <shawn.gsc@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [linux-next:master 4756/5291]
- arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb:
- isp@32e10000 (fsl,imx8mp-isp): clocks: [[2, 276], [2, 270], [2, 269]] is too
- short
-Message-ID: <aLbmz--3Y2eKVuYN@dragon>
-References: <202509021101.Bz8COtDw-lkp@intel.com>
- <20250902092012.GG13448@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+7RInFI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18FCC4CEED;
+	Tue,  2 Sep 2025 12:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756817232;
+	bh=NEJK4G6YL2LNIJ4N/EQ/2yXbIcRULbZqJJAqf1ZPdb0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=H+7RInFIxdyaSnphVnAOK96zKFX3vCsWJHRvbmao97pOt1JXKZF9/4Jkq8ZnKWRpg
+	 2MnjTdjMFMMuQxnBasRO9Q2ulxlrWg0SH4vuWzpLXjcnW4tHBi1Gsg0w82gzIGBymB
+	 9HCe3o9h+g5+JxwuKLHIt0p+cNgEdNFelJsy8CwsJpPtP9O0IAsHaWMWcY1/2vuLSF
+	 yURW0TVzyieyACHWyq420pKtAxqXW40k6hSAvS7NdSjh02pLZUUCudL/dVCOMtbYVp
+	 rdLu+29q8ThlUe9YYbNR/mOkEzDEkQMN0NJ+Z+3LQ9OEzXkpaBNYqyUBA9GSIgWWGg
+	 pu45ZytYZ4P+g==
+Date: Tue, 2 Sep 2025 21:47:10 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/6] tracing: wprobe: Add watchpoint probe event
+ based on hardware breakpoint
+Message-Id: <20250902214710.f0e5e9cc3293826f86f8f856@kernel.org>
+In-Reply-To: <202509021603.hCevXAL5-lkp@intel.com>
+References: <175673788575.478080.17611922836391707019.stgit@devnote2>
+	<202509021603.hCevXAL5-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902092012.GG13448@pendragon.ideasonboard.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 02, 2025 at 11:20:12AM +0200, Laurent Pinchart wrote:
-> CC'ing Shawn.
-> 
-> On Tue, Sep 02, 2025 at 11:33:28AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   33bcf93b9a6b028758105680f8b538a31bc563cf
-> > commit: acfaba169385bfa243a10a027f8272a974b2288a [4756/5291] dt-bindings: media: rkisp1: Require pclk clock on i.MX8MP variant
-> > config: arm64-randconfig-052-20250831 (https://download.01.org/0day-ci/archive/20250902/202509021101.Bz8COtDw-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ac23f7465eedd0dd565ffb201f573e7a69695fa3)
-> > dtschema version: 2025.6.2.dev4+g8f79ddd
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021101.Bz8COtDw-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202509021101.Bz8COtDw-lkp@intel.com/
-> 
-> This is fixed by https://lore.kernel.org/all/20250616011115.19515-7-laurent.pinchart@ideasonboard.com/
-> 
-> Shawn, could you merge that one quickly if possible ?
+On Tue, 2 Sep 2025 16:58:21 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-Done.  Sorry for the delay!
+> Hi Masami,
+> 
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on trace/for-next]
+> [also build test ERROR on tip/x86/core perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools peterz-queue/sched/core linus/master v6.17-rc4 next-20250902]
+> [cannot apply to acme/perf/core]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-wprobe-Add-watchpoint-probe-event-based-on-hardware-breakpoint/20250901-225207
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+> patch link:    https://lore.kernel.org/r/175673788575.478080.17611922836391707019.stgit%40devnote2
+> patch subject: [RFC PATCH 1/6] tracing: wprobe: Add watchpoint probe event based on hardware breakpoint
+> config: i386-buildonly-randconfig-001-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021603.hCevXAL5-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021603.hCevXAL5-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509021603.hCevXAL5-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/trace/trace_wprobe.c:562:20: error: use of undeclared identifier '__free_trace_probe_log_clear'; did you mean 'trace_probe_log_clear'?
+>      562 |         const char *tplog __free(trace_probe_log_clear) = NULL;
 
-Shawn
+Oops, this series is based on probes/for-next, which already merged [1]
+which provides this free function. Sorry for confusion.
+
+[1] https://lore.kernel.org/all/175509538609.193596.16646724647358218778.stgit@devnote2/
+
+>          |                           ^
+>    include/linux/cleanup.h:213:33: note: expanded from macro '__free'
+>      213 | #define __free(_name)   __cleanup(__free_##_name)
+>          |                                   ^
+>    <scratch space>:55:1: note: expanded from here
+>       55 | __free_trace_probe_log_clear
+>          | ^
+>    kernel/trace/trace_probe.h:584:6: note: 'trace_probe_log_clear' declared here
+>      584 | void trace_probe_log_clear(void);
+>          |      ^
+> >> kernel/trace/trace_wprobe.c:562:20: error: 'cleanup' function 'trace_probe_log_clear' must take 1 parameter
+>      562 |         const char *tplog __free(trace_probe_log_clear) = NULL;
+>          |                           ^
+>    include/linux/cleanup.h:213:33: note: expanded from macro '__free'
+>      213 | #define __free(_name)   __cleanup(__free_##_name)
+>          |                                   ^
+>    <scratch space>:55:1: note: expanded from here
+>       55 | __free_trace_probe_log_clear
+>          | ^
+> >> kernel/trace/trace_wprobe.c:574:8: error: assigning to 'const char *' from incompatible type 'void'
+>      574 |         tplog = trace_probe_log_init("wprobe", argc, argv);
+>          |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    3 errors generated.
+> 
+> 
+> vim +562 kernel/trace/trace_wprobe.c
+> 
+>    549	
+>    550	static int __trace_wprobe_create(int argc, const char *argv[])
+>    551	{
+>    552		/*
+>    553		 * Argument syntax:
+>    554		 *  b[:[GRP/][EVENT]] SPEC
+>    555		 *
+>    556		 * SPEC:
+>    557		 *  [r|w|rw]@[ADDR|SYMBOL[+OFFS]][:LEN]
+>    558		 */
+>    559		struct traceprobe_parse_context *ctx __free(traceprobe_parse_context) = NULL;
+>    560		struct trace_wprobe *tw __free(free_trace_wprobe) = NULL;
+>    561		const char *event = NULL, *group = WPROBE_EVENT_SYSTEM;
+>  > 562		const char *tplog __free(trace_probe_log_clear) = NULL;
+>    563		char *symbol = NULL;
+>    564		unsigned long addr;
+>    565		int len, type, i;
+>    566		int ret = 0;
+>    567	
+>    568		if (argv[0][0] != 'w')
+>    569			return -ECANCELED;
+>    570	
+>    571		if (argc < 2)
+>    572			return -EINVAL;
+>    573	
+>  > 574		tplog = trace_probe_log_init("wprobe", argc, argv);
+>    575	
+>    576		if (argv[0][1] != '\0') {
+>    577			if (argv[0][1] != ':') {
+>    578				trace_probe_log_set_index(0);
+>    579				trace_probe_log_err(1, BAD_MAXACT_TYPE);
+>    580				/* Invalid format */
+>    581				return -EINVAL;
+>    582			}
+>    583			event = &argv[0][2];
+>    584		}
+>    585	
+>    586		trace_probe_log_set_index(1);
+>    587		ret = parse_address_spec(argv[1], &addr, &type, &len, &symbol);
+>    588		if (ret < 0)
+>    589			return ret;
+>    590	
+>    591		if (!event)
+>    592			event = symbol ? symbol : "wprobe";
+>    593	
+>    594		argc -= 2; argv += 2;
+>    595		tw = alloc_trace_wprobe(group, event, symbol, addr, len, type, argc);
+>    596		if (IS_ERR(tw))
+>    597			return PTR_ERR(tw);
+>    598	
+>    599		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+>    600		if (!ctx)
+>    601			return -ENOMEM;
+>    602	
+>    603		ctx->flags = TPARG_FL_KERNEL | TPARG_FL_WPROBE;
+>    604	
+>    605		/* parse arguments */
+>    606		for (i = 0; i < argc; i++) {
+>    607			trace_probe_log_set_index(i + 2);
+>    608			ctx->offset = 0;
+>    609			ret = traceprobe_parse_probe_arg(&tw->tp, i, argv[i], ctx);
+>    610			if (ret)
+>    611				return ret;	/* This can be -ENOMEM */
+>    612		}
+>    613	
+>    614		ret = traceprobe_set_print_fmt(&tw->tp, PROBE_PRINT_NORMAL);
+>    615		if (ret < 0)
+>    616			return ret;
+>    617	
+>    618		ret = register_trace_wprobe_event(tw);
+>    619		if (!ret)
+>    620			tw = NULL; /* To avoid free */
+>    621	
+>    622		return ret;
+>    623	}
+>    624	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
