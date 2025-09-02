@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48806288C0E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E139E288C16
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 11:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756814351; cv=none; b=tAmzJX2pGT09pgsVv7uRC6iEYJJEc4aWSGeXkrFJwCOTQ/1fdE29RgD1PCpFfj5mhenA6ahiEUWskPGr0Xsazd9rIkf0Li2Yne6gErgyhh3KvYzfAQ1eHQADlieTMuPB/xZlvu1XeUd4UTSCuqXXyle2MVe7LuGY0ohkOwr7cPI=
+	t=1756814352; cv=none; b=G6QR0wCRURFxIv/cbSy1HBlhZbd7EV4OsRb4rHxW1ukI4gbm1JTgzciacIKzCAi5t2zehioLaOL0JsljSjgZBlnH7lHrAOlu1AScQg6VCh0FeWakA+R/Vxw33agIT36Ko+abChEbpz7KerspNdzDarEn2IrKyadieX3ojaU5+G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756814351; c=relaxed/simple;
-	bh=NfzQVvRz0j66jaf9EREGGd1Fm6hBT4Jg8bWSkq8Nx7A=;
+	s=arc-20240116; t=1756814352; c=relaxed/simple;
+	bh=UIJr+iZX4Gdn9DfL3DCRNxvwmEFkh1CFaLFimkc0EO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UE7HHDeDkK4QTpTGIzsI4i3WobybC7B8O0M0F5YMeKRfL0jPnPzlESsr1UmKFzqehkCxIXnqFbw4Emg+jHfTCOCbobEXXVQRtsXWHGDLOyhvr4PLr9Tq4AltBdBpePtu7NDvIT1qoolzITX+yEnR5y4kNUBYesDQv3NQT0q7SrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsjJkqcT; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=r+3+pqa9huspIa41otDPfSUVpJzzlFlV42ws0BGIgOhEaHhiSKVo/NwAXoxOBPpxFv139azSIFl4fqH/df2H1ryno+1Vg74Fr5EiX7QqvNkM5vFIkNov9aJvCZDkBOq763dViEpqTNTm7JDi8jtkLdePZtVqOfv+CCujPhDLw7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1FpAVcC; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsjJkqcT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1FpAVcC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756814349; x=1788350349;
+  t=1756814350; x=1788350350;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NfzQVvRz0j66jaf9EREGGd1Fm6hBT4Jg8bWSkq8Nx7A=;
-  b=jsjJkqcTEzK5VxWZKbUFmi82C+E46E3OQ0WwAZsm0OAncw9MbEhq0ot0
-   9rYr7LQq+Cdic4Qxra8+pxZsoSl23JWrCpMZgWljuRO6H1VSmB20TZEJa
-   UIozSlLvstGClOovTxXRX9HJmQrsVQXLl61U+877H0Uo//hnokp6pgcn2
-   jGY7/Jh9fjedcXBnEojbew13CTxcOCWJy1mEJqZseHMTHGME3Nsfrr61e
-   gC94pTmp35gRgnicnNRCs9kMDEpyF3CZ/hcSB8z5DWOz5NgWiVyjKvDVs
-   0TVNoIH7CNpLf+VqzupYxdySXE4nKwL4PTj9XuuMD6URGgB+MjrIVjXbU
-   g==;
-X-CSE-ConnectionGUID: iK4m1prSRjCNmMEDkcNNug==
-X-CSE-MsgGUID: BWhqRVQcTtumVujgI1MnXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58939860"
+  bh=UIJr+iZX4Gdn9DfL3DCRNxvwmEFkh1CFaLFimkc0EO8=;
+  b=T1FpAVcCZjWbeZ46AtoK7c3O8RmQs3LJDzY6HVXBPSo4QEnd+jdAwxv6
+   gaGtygqMzeg46PsYoNAlgVFU1K8Z6MdqKB8GqVzMHRiz+94aHab17BWHE
+   GTOhkyGJzmnV27tk6G5Jnd3mxGYiHTd+Q8wSFIpwBMT1GUUcIyNMtMvNC
+   baLrVUXG+7eXepBzXBObzHIpEPJyI/1KUV2BGFySvCHFANuW1q3Q3iQjp
+   sUJ1CuTKA+b6kXdwzRcdifqOTToEp8ytb8CEEXzYbO3U/Yuv/hBMVeMNf
+   t1IDxIiS0NvVvq914YnoQCS39qjjXyQmD6wIZ+AI9jjUg9N+OYEOfoUZl
+   A==;
+X-CSE-ConnectionGUID: kDgJTJvXT2Wn1ZVxqvLbBg==
+X-CSE-MsgGUID: FZ3kH3LQR0iTGez93oAbDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58939862"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="58939860"
+   d="scan'208";a="58939862"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 04:59:06 -0700
-X-CSE-ConnectionGUID: 99glYnfASCauBUJFlprU6g==
-X-CSE-MsgGUID: RaflenF7Sk+XxfIUJNPTqA==
+X-CSE-ConnectionGUID: kQDm3EjJS3iMbcHgnSwlxA==
+X-CSE-MsgGUID: P0pgDrAyQHO7vgftwu+RwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="194896904"
+   d="scan'208";a="194896903"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 02 Sep 2025 04:59:05 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utPfD-0001vp-1V;
-	Tue, 02 Sep 2025 11:59:03 +0000
-Date: Tue, 2 Sep 2025 19:56:42 +0800
+	id 1utPei-0001vb-19;
+	Tue, 02 Sep 2025 11:58:49 +0000
+Date: Tue, 2 Sep 2025 19:57:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-sparc64-generic-2 15/17]
- kernel/signal.c:1307:48: error: 'struct pt_regs' has no member named 'tpc'
-Message-ID: <202509021932.U5jZQgUC-lkp@intel.com>
+Subject: [android-common:android-mainline 0/1]
+ drivers/power/supply/power_supply_core.c:590:5: error: conflicting types for
+ 'power_supply_get_by_phandle_array'; have 'int(struct device_node *, const
+ char *, struct power_supply **, ssize_t)' {aka 'int(struct device_node *,
+ const char *, struct power_su...
+Message-ID: <202509021922.sxWTjMHg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,87 +65,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-sparc64-generic-2
-head:   d78a8d1f7fa83130264660695f2d256b1397190f
-commit: 2da69dbe3dd23aa15c46678bc96e3cef9ee010e4 [15/17] debug signal
-config: i386-buildonly-randconfig-003-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021932.U5jZQgUC-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   684da1412dd3eb4567a3355be10af89a43b42a44
+commit: 64e2ee084b16924dde01aad0849acbc08c9ee506 [0/1] Merge 07b43820437b ("Merge tag 'for-v6.17' of git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply") into android-mainline
+config: x86_64-buildonly-randconfig-006-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021922.sxWTjMHg-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021932.U5jZQgUC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021922.sxWTjMHg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509021932.U5jZQgUC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509021922.sxWTjMHg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/signal.c: In function 'force_sig_info_to_task':
->> kernel/signal.c:1307:48: error: 'struct pt_regs' has no member named 'tpc'
-    1307 |                       t->mm->context.vdso, regs->tpc, regs->tpc - (unsigned long)t->mm->context.vdso);
-         |                                                ^~
-   kernel/signal.c:1307:59: error: 'struct pt_regs' has no member named 'tpc'
-    1307 |                       t->mm->context.vdso, regs->tpc, regs->tpc - (unsigned long)t->mm->context.vdso);
-         |                                                           ^~
+>> drivers/power/supply/power_supply_core.c:590:5: error: conflicting types for 'power_supply_get_by_phandle_array'; have 'int(struct device_node *, const char *, struct power_supply **, ssize_t)' {aka 'int(struct device_node *, const char *, struct power_supply **, long int)'}
+     590 | int power_supply_get_by_phandle_array(struct device_node *np,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/power/supply/power_supply_core.c:21:
+   include/linux/power_supply.h:823:1: note: previous definition of 'power_supply_get_by_phandle_array' with type 'int(struct device_node *, const char *, struct power_supply **, int)'
+     823 | power_supply_get_by_phandle_array(struct device_node *np,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/power_supply_core.c: In function 'power_supply_get_by_phandle_array':
+   drivers/power/supply/power_supply_core.c:596:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     596 |         int ret;
+         |             ^~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+   Depends on [n]: X86_PLATFORM_DEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_SVA
+   Depends on [n]: IOMMU_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +1307 kernel/signal.c
+vim +590 drivers/power/supply/power_supply_core.c
 
-  1281	
-  1282	/*
-  1283	 * Force a signal that the process can't ignore: if necessary
-  1284	 * we unblock the signal and change any SIG_IGN to SIG_DFL.
-  1285	 *
-  1286	 * Note: If we unblock the signal, we always reset it to SIG_DFL,
-  1287	 * since we do not want to have a signal handler that was blocked
-  1288	 * be invoked when user space had explicitly blocked it.
-  1289	 *
-  1290	 * We don't want to have recursive SIGSEGV's etc, for example,
-  1291	 * that is why we also clear SIGNAL_UNKILLABLE.
-  1292	 */
-  1293	static int
-  1294	force_sig_info_to_task(struct kernel_siginfo *info, struct task_struct *t,
-  1295		enum sig_handler handler)
-  1296	{
-  1297		unsigned long int flags;
-  1298		int ret, blocked, ignored;
-  1299		struct k_sigaction *action;
-  1300		int sig = info->si_signo;
-  1301	
-  1302		if (unlikely(is_global_init(t)) && sig == SIGSEGV) {
-  1303			struct pt_regs *regs = task_pt_regs(t);
-  1304	
-  1305			panic("killing init, sig=%d errno=%d code=%d addr=%px vdso=%px pc=0x%lx vdsopc=0x%lx",
-  1306			      info->si_signo, info->si_errno, info->si_code, info->si_addr,
-> 1307			      t->mm->context.vdso, regs->tpc, regs->tpc - (unsigned long)t->mm->context.vdso);
-  1308		}
-  1309	
-  1310		spin_lock_irqsave(&t->sighand->siglock, flags);
-  1311		action = &t->sighand->action[sig-1];
-  1312		ignored = action->sa.sa_handler == SIG_IGN;
-  1313		blocked = sigismember(&t->blocked, sig);
-  1314		if (blocked || ignored || (handler != HANDLER_CURRENT)) {
-  1315			action->sa.sa_handler = SIG_DFL;
-  1316			if (handler == HANDLER_EXIT)
-  1317				action->sa.sa_flags |= SA_IMMUTABLE;
-  1318			if (blocked)
-  1319				sigdelset(&t->blocked, sig);
-  1320		}
-  1321		/*
-  1322		 * Don't clear SIGNAL_UNKILLABLE for traced tasks, users won't expect
-  1323		 * debugging to leave init killable. But HANDLER_EXIT is always fatal.
-  1324		 */
-  1325		if (action->sa.sa_handler == SIG_DFL &&
-  1326		    (!t->ptrace || (handler == HANDLER_EXIT)))
-  1327			t->signal->flags &= ~SIGNAL_UNKILLABLE;
-  1328		ret = send_signal_locked(sig, info, t, PIDTYPE_PID);
-  1329		/* This can happen if the signal was already pending and blocked */
-  1330		if (!task_sigpending(t))
-  1331			signal_wake_up(t, 0);
-  1332		spin_unlock_irqrestore(&t->sighand->siglock, flags);
-  1333	
-  1334		return ret;
-  1335	}
-  1336	
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  569  
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  570  /**
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  571   * power_supply_get_by_phandle_array() - Similar to
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  572   * power_supply_get_by_phandle but returns an array of power supply
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  573   * objects which are associated with the phandle.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  574   * @np: Pointer to device node holding phandle property.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  575   * @property: Name of property holding a power supply name.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  576   * @psy: Array of power_supply pointers provided by the client which is
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  577   * filled by power_supply_get_by_phandle_array.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  578   * @size: size of power_supply pointer array.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  579   *
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  580   * If power supply was found, it increases reference count for the
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  581   * internal power supply's device. The user should power_supply_put()
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  582   * after usage.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  583   *
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  584   * Return: On success returns the number of power supply objects filled
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  585   * in the @psy array.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  586   * -EOVERFLOW when size of @psy array is not suffice.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  587   * -EINVAL when @psy is NULL or @size is 0.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  588   * -ENODEV when matching device_node is not found.
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  589   */
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01 @590  int power_supply_get_by_phandle_array(struct device_node *np,
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  591  				      const char *property,
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  592  				      struct power_supply **psy,
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  593  				      ssize_t size)
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  594  {
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  595  	struct device_node *power_supply_np;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  596  	int ret;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  597  	struct match_device_node_array_param param;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  598  
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  599  	if (!psy || !size)
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  600  		return -EINVAL;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  601  
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  602  	power_supply_np = of_parse_phandle(np, property, 0);
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  603  	if (!power_supply_np)
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  604  		return -ENODEV;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  605  
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  606  	param.parent_of_node = power_supply_np;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  607  	param.psy = psy;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  608  	param.psy_size = size;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  609  	param.psy_count = 0;
+9f81255173e97d Lee Jones              2024-04-08  610  	ret = class_for_each_device(&power_supply_class, NULL, &param,
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  611  				    power_supply_match_device_node_array);
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  612  
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  613  	of_node_put(power_supply_np);
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  614  
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  615  	return param.psy_count;
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  616  }
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  617  EXPORT_SYMBOL_GPL(power_supply_get_by_phandle_array);
+dea1a925f6a164 Badhri Jagan Sridharan 2020-09-01  618  
+
+:::::: The code at line 590 was first introduced by commit
+:::::: dea1a925f6a164bc2b21ac2484983ae40347f012 ANDROID: power_supply: Add a helper function to retrieve psy array from phandle
+
+:::::: TO: Badhri Jagan Sridharan <badhri@google.com>
+:::::: CC: Alistair Delva <adelva@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
