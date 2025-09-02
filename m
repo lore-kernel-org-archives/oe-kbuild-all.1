@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D6730F94D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 14:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7F52EDD6B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 15:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756824976; cv=none; b=hkGn3U6Qq8lvRxsRazuhoEEAWa4YC/FIsv1bLFn/mdzIUh3r4i7Wy4+QLLI3L6QjEoL4Ng5Xx4vzP4dAPYN3JW/44fDP/r0EcAXtJ5XN6rCVExRu4ud81uQsF/8qSAtw+axfM9cgxCi0NBQ7O0IVGhJxPVSjU6w7gzy1tLX9+pQ=
+	t=1756825563; cv=none; b=Chv6jiCJJ3p+9QnqDQTc/CqupCgL/24A8BD2HXD6yEJIFOhtaBUxm9JJyfA1+dPxeKnl/Rt73Xduoh0bDl6ymblDcFHooqs8p7/KRFzoDV9Qpdu6MTFUmIwAcVY4hFfDNyNtagh6jFcsnW9BOP3aIPGsK6GFLQ9JCwhBs8fZUDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756824976; c=relaxed/simple;
-	bh=qr5GJ5JPXH7dUytShZZTZKeTR7YJk/ZWJ1lrfaTaEoo=;
+	s=arc-20240116; t=1756825563; c=relaxed/simple;
+	bh=f6wVUdChfXUC2dIghTBCKp/nFqlakl6+MJ0LfeFuz5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ivDZhs9mgamTxQB8MNynEB0Bk/NZ2ixiQRAENWdG04LICPa929rPr074xEusfYBTRA/rShB1O9uqE3nYarB8V9P9DhnzEB7FMmxBpv+uctpoo0iDZWiKPZrQ+L+FkJk7CbWFaCw9NpiFujd5LEEBHUBbW0cN55KUVVKDqa1nz9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYUWFgUj; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition:In-Reply-To; b=O1/PUaVNYOUk+vu7788PW4oCeD5h8Mh3RPy/3oxB7f7Kv1U1N8hSEReBvN0jiSDd3tEDT8fBN05V5FHU4OLnv5fK8sI2xWN2pbRH12okko0d0GtlfBxMVkbbvBNL9aVfVsOX6KusTnwche8twSzBfnabvN4iX89swu9W7b8MnMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DyQUhdrS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYUWFgUj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DyQUhdrS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756824974; x=1788360974;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qr5GJ5JPXH7dUytShZZTZKeTR7YJk/ZWJ1lrfaTaEoo=;
-  b=lYUWFgUjU7Qvn2bcR56r7vuGbfzFaqChjdfH/Amcbaecr15vYNrWMsTx
-   DHdGfMRDLB5MTyKeToTmQADwlkZTV9TC1T7cPlIcSNqiCtj5/UOw9dN1t
-   1bv0XSrQZSovPaf9dYo8Un2d06nIzr50L1C0TwWvixPsuiCDEEECAE8ni
-   5RJCNo7Q7XvVK77Fe9Ljag3D7kRm38EojMDwezObYowOOY7BHLNvEWKXg
-   mzo2GxpJCPzySTSTGr+XYWkBFiTu+jS9POgFgZbN/iss4k8xbjZhl13Mb
-   WxCA+ih6SXiQvK53PWq/f9BGPdnwxwe19idJf1SbBEuHvuY1uU63E0eTG
-   A==;
-X-CSE-ConnectionGUID: FOMEr/LTRoO7h+H92ZYXHA==
-X-CSE-MsgGUID: RQwH1MiDRJaAfGjqBpL24g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="62744968"
+  t=1756825562; x=1788361562;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=f6wVUdChfXUC2dIghTBCKp/nFqlakl6+MJ0LfeFuz5Q=;
+  b=DyQUhdrSpPuLi2O0Z4VpNlKG1oHYZCK6pGeTDf9+wyMP2sBM8rzZ0dsV
+   NuB5TDNjYOwQ8gbAmHnrZm017evWDfPZgxVlDCmJpPCvNEtU76E7qK+Es
+   UZNmANBjg3NAzbdWnyFX3jDEoE74jPwmUoQs7ve35HDF7HGo5Ts+5VbWx
+   2f2+fd4kjwUMbTuy+6A50GIYLaY99AR47Krq/i7TfTUQam5pY6XZsHFjB
+   QYsLBEwWNsOeCrw22bIooEztWf7ckAhUVETUjf6/ZTdq5/fzSlGAMlLWt
+   ArxIGEvrEfXRH8HIA2B0K/+fGHeTFFcXZ2f+l00KD7OC9GSfe+ukCiVks
+   w==;
+X-CSE-ConnectionGUID: vbVKB91qS8qGPLUjH1v5og==
+X-CSE-MsgGUID: YrT0mdQ3SVC74YOv461jwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="69810441"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="62744968"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 07:56:14 -0700
-X-CSE-ConnectionGUID: J3+7ywyOQb2r2IGlLz0PXQ==
-X-CSE-MsgGUID: KMaQhmC0R+GAuAxcgUXVmw==
+   d="scan'208";a="69810441"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:06:01 -0700
+X-CSE-ConnectionGUID: 5zkmMphsRDaW0/JKtrCP0w==
+X-CSE-MsgGUID: aIKbk75ISI+G600qJcfLQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="202246400"
+   d="scan'208";a="176610566"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Sep 2025 07:56:13 -0700
+  by orviesa005.jf.intel.com with ESMTP; 02 Sep 2025 08:06:01 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utSQc-0002e2-2M;
-	Tue, 02 Sep 2025 14:56:10 +0000
-Date: Tue, 2 Sep 2025 22:52:30 +0800
+	id 1utSa0-0002f1-0G;
+	Tue, 02 Sep 2025 15:05:54 +0000
+Date: Tue, 2 Sep 2025 23:05:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 77/77] Warning:
- drivers/media/v4l2-core/v4l2-subdev.c:51 struct member 'streaming' not
- described in 'v4l2_subdev_stream_config'
-Message-ID: <202509022246.qxiTeQrS-lkp@intel.com>
+To: Oscar Maes <oscmaes92@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net v5] selftests: net: add test for destination in
+ broadcast packets
+Message-ID: <aLcHyJDorSjgy9p8@c25d56e612e5>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250902150240.4272-1-oscmaes92@gmail.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   dbb6c78ee163822abba87ee352b67b7cfec3a023
-commit: dbb6c78ee163822abba87ee352b67b7cfec3a023 [77/77] count them
-config: i386-buildonly-randconfig-003-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022246.qxiTeQrS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022246.qxiTeQrS-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509022246.qxiTeQrS-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> Warning: drivers/media/v4l2-core/v4l2-subdev.c:51 struct member 'streaming' not described in 'v4l2_subdev_stream_config'
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net v5] selftests: net: add test for destination in broadcast packets
+Link: https://lore.kernel.org/stable/20250902150240.4272-1-oscmaes92%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
