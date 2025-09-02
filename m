@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517F62F39DE;
-	Tue,  2 Sep 2025 10:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79619258CC1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 10:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756810302; cv=none; b=GsfYAK+DWq7DLxz7VTTzmioDLYsG/xY4rCShhKE2/m4WIR/Kzt5tOGfY3e0FWebJ30to/f89+Aeo3+14gO6KlsgFylDViZySwcCZq9zHwtjkxLjGfEPjK2STZVoFlU1SiHq7hiVsf4Qc0ILclZxAXvuCcm868+EhUWCqgkpCvj0=
+	t=1756810303; cv=none; b=Rvt5DAi6Xty9BfTcuq9/k6LO9nBKdaMsKN/xNyWZvuod0ZPxSW+dqk2BKbyrERA7rdjbZszrAXq7qI4Wl9OpBHwADqvP1OjWfe5SnrqSRLTqe4UjvKI+EWU/OvyiHbhp8byE0S2MY5AtzB0kJmdM46v5NZJLLaCFUQp6X+CPemw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756810302; c=relaxed/simple;
-	bh=6voiUtFCPIIZkK9FvK1ZTdpHcuU2vsOzBOEaHB2C5Z4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ONo5wteroNZHqZw8pVjTLWK2uP5H5siT3fXFQC4wBXX1hkYgbf14bm6288WQtgBDOw+jTexLrkHWWCFfvTI+S4qHUpBCclQGeubj8CMOOrw5CnFPBtvX54R+PTnbCVMmw8DKGAY79NIXEi78DyiKQs+pH2rP+/5OJL+aqqX+rYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bl2ZofJQ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1756810303; c=relaxed/simple;
+	bh=2Exn2X6HktxviddJstIsX3O4FGOQhkMpP8GEsT67oD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C9bhWyN5rvBNzMPuMixeR4EdV0Ef4mUBYVEI3F+/RiqdrMabQECvmU56sXSJbI0/9b5s23vEleVw4ouuhERApWFnHtB/f3fls8yLSOvCdkPiBKKZ74HgFjQpL1JiBUKXc3N1wHgDPGVfSfaukwCpmBk9vZkbHgoV3svw60Nupxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXgAMz1r; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bl2ZofJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXgAMz1r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1756810301; x=1788346301;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6voiUtFCPIIZkK9FvK1ZTdpHcuU2vsOzBOEaHB2C5Z4=;
-  b=Bl2ZofJQ6yVOmeFvRsGK6wYQouhNGcZYfai/RsgxUfZhX2FAUugXU6Wo
-   mtu7uI+TXpLkp//cKhcgecBS5zAW7ci70Wqh71BhNiThJbBK/r4yhy9D1
-   k1DPZUk9UHBxpj/vOuhYfsIqhrRVNPItSHLmKqtzHujZUOKZAjvTxhenf
-   80SYXwUvpFUzV6QDgsekMMpgQ5o/j+mL4n+daP78umMM01Y390xqh1kca
-   jC9qdVZf7fKHke/CJlp9bav2mPzPjl8TKX9A1n++xvBpp4945Y3Vzdx4c
-   Ow+Fm/OCj8Tu/zr2Tkwdkk9uxXPABghV3ZqbA1swVpUTRxVY4NhijeOFO
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2Exn2X6HktxviddJstIsX3O4FGOQhkMpP8GEsT67oD8=;
+  b=bXgAMz1r/uFjjOZAKisS2XTyoLymMfPuKbHykr3z8mNcHcSf0fPLGTkK
+   AVeGYZxRd/dLJQtI0HvkuLX0XlG5+IySmyqr/4DfX9sieWR6r9ICCJzjt
+   1O4tzHTu65Be7MH0uZ8Ds9M2LdsZ3xpO0T/FRuX+hACp8lc90XuYvHqAo
+   Rw+Jw0XghaBJYKLLZvzE84GkipmFt8iLJ0yYsHXYJCtEnxKNhFYfcNyhv
+   vDwDa5KvO3BiWl0zGalSSkJtoTMD6UjSFKY+h/yOY+om0uMdd5HyMEnC0
+   B5+9Zkspg2t2BvXgbTP8M4sM3e/GuJ0hhp+OJlrEl4WoHad0qhI2MSNhT
    A==;
-X-CSE-ConnectionGUID: bXI+7plKS3+6RA0+VrCOrg==
-X-CSE-MsgGUID: LdkxTZqIQNmLDrE4Ojk4rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59014776"
+X-CSE-ConnectionGUID: 8bI7gDVJTqWyh+4nVxuyZg==
+X-CSE-MsgGUID: tLhpf22ERH20aJ13A//erg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="76677885"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="59014776"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:51:40 -0700
-X-CSE-ConnectionGUID: sNwDSsDoSt6kk2HK9sIkYw==
-X-CSE-MsgGUID: caws2EPTSTOwRdb4BA+nYw==
+   d="scan'208";a="76677885"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:51:40 -0700
+X-CSE-ConnectionGUID: i4oDyOH8QKGRRmFKRfWmuA==
+X-CSE-MsgGUID: dJxheEHrQmCn8LVaFagAww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="175609646"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 02 Sep 2025 03:51:39 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Sep 2025 03:51:39 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utObw-0001rR-1z;
+	id 1utObw-0001rT-24;
 	Tue, 02 Sep 2025 10:51:36 +0000
-Date: Tue, 2 Sep 2025 18:50:37 +0800
+Date: Tue, 2 Sep 2025 18:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 4/7] soc: fsl: qe: Add support of IRQ in QE GPIO
-Message-ID: <202509021830.uakzVIlK-lkp@intel.com>
-References: <1234b2b7105443654c5f2bb97d25cf16408d6003.1756727747.git.christophe.leroy@csgroup.eu>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 6/6] mm/khugepaged.c:2112: warning:
+ Function parameter or member 'cc' not described in 'collapse_file'
+Message-ID: <202509021821.5NsutKb2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,100 +59,440 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1234b2b7105443654c5f2bb97d25cf16408d6003.1756727747.git.christophe.leroy@csgroup.eu>
 
-Hi Christophe,
+Hi Weilin,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on powerpc/next powerpc/fixes linus/master v6.17-rc4]
-[cannot apply to next-20250902]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/soc-fsl-qe-Add-an-interrupt-controller-for-QUICC-Engine-Ports/20250901-202447
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/1234b2b7105443654c5f2bb97d25cf16408d6003.1756727747.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v5 4/7] soc: fsl: qe: Add support of IRQ in QE GPIO
-config: powerpc64-randconfig-003-20250902 (https://download.01.org/0day-ci/archive/20250902/202509021830.uakzVIlK-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   119e72f374248c57f950f0658c1e1099b40e2ffa
+commit: 3ab761d2a7a1fc006adaf133a8a0d8a14f4c1058 [6/6] anolis: mm: honor THP defrag setting for direct file collapse
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250902/202509021821.5NsutKb2-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2e122990391b2ba062e6308a12cfedf7206270ba)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021830.uakzVIlK-lkp@intel.com/reproduce)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021821.5NsutKb2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509021830.uakzVIlK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509021821.5NsutKb2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:37:9: warning: '__SANITIZE_THREAD__' macro redefined [-Wmacro-redefined]
-      37 | #define __SANITIZE_THREAD__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_THREAD__ 1
-         |         ^
->> drivers/soc/fsl/qe/gpio.c:316:9: warning: cast to smaller integer type 'u32' (aka 'unsigned int') from 'const void *' [-Wvoid-pointer-to-int-cast]
-     316 |         mask = (u32)of_device_get_match_data(dev);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+   mm/khugepaged.c:164: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'nr_adapt_vma' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'adapt_vmas' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'adaptive_regions' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'work' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'evict_timestamp' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'state' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'recheck_hugetext' not described in 'mm_slot'
+   mm/khugepaged.c:164: warning: Function parameter or member 'nr_hugetext' not described in 'mm_slot'
+   mm/khugepaged.c:1875: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1875: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:2112: warning: Function parameter or member 'mm' not described in 'collapse_file'
+   mm/khugepaged.c:2112: warning: Function parameter or member 'file' not described in 'collapse_file'
+   mm/khugepaged.c:2112: warning: Function parameter or member 'start' not described in 'collapse_file'
+   mm/khugepaged.c:2112: warning: Function parameter or member 'hpage' not described in 'collapse_file'
+   mm/khugepaged.c:2112: warning: Function parameter or member 'node' not described in 'collapse_file'
+>> mm/khugepaged.c:2112: warning: Function parameter or member 'cc' not described in 'collapse_file'
 
 
-vim +316 drivers/soc/fsl/qe/gpio.c
+vim +2112 mm/khugepaged.c
 
-   301	
-   302	static int qe_gpio_probe(struct platform_device *ofdev)
-   303	{
-   304		struct device *dev = &ofdev->dev;
-   305		struct device_node *np = dev->of_node;
-   306		struct qe_gpio_chip *qe_gc;
-   307		struct gpio_chip *gc;
-   308		u32 mask;
-   309	
-   310		qe_gc = devm_kzalloc(dev, sizeof(*qe_gc), GFP_KERNEL);
-   311		if (!qe_gc)
-   312			return -ENOMEM;
-   313	
-   314		spin_lock_init(&qe_gc->lock);
-   315	
- > 316		mask = (u32)of_device_get_match_data(dev);
-   317		if (mask) {
-   318			int i, j;
-   319	
-   320			for (i = 0, j = 0; i < ARRAY_SIZE(qe_gc->irq); i++)
-   321				if (mask & PIN_MASK(i))
-   322					qe_gc->irq[i] = irq_of_parse_and_map(np, j++);
-   323		}
-   324	
-   325		gc = &qe_gc->gc;
-   326	
-   327		gc->base = -1;
-   328		gc->ngpio = QE_PIO_PINS;
-   329		gc->direction_input = qe_gpio_dir_in;
-   330		gc->direction_output = qe_gpio_dir_out;
-   331		gc->get = qe_gpio_get;
-   332		gc->set = qe_gpio_set;
-   333		gc->set_multiple = qe_gpio_set_multiple;
-   334		gc->to_irq = qe_gpio_to_irq;
-   335		gc->parent = dev;
-   336		gc->owner = THIS_MODULE;
-   337	
-   338		gc->label = devm_kasprintf(dev, GFP_KERNEL, "%pOF", np);
-   339		if (!gc->label)
-   340			return -ENOMEM;
-   341	
-   342		qe_gc->regs = devm_of_iomap(dev, np, 0, NULL);
-   343		if (IS_ERR(qe_gc->regs))
-   344			return PTR_ERR(qe_gc->regs);
-   345	
-   346		qe_gpio_save_regs(qe_gc);
-   347	
-   348		return devm_gpiochip_add_data(dev, gc, qe_gc);
-   349	}
-   350	
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2089  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2090  /**
+99cb0dbd47a15d3 Song Liu                2019-09-23  2091   * collapse_file - collapse filemap/tmpfs/shmem pages into huge one.
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2092   *
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2093   * Basic scheme is simple, details are more complex:
+87c460a0bded561 Hugh Dickins            2018-11-30  2094   *  - allocate and lock a new huge page;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2095   *  - scan page cache replacing old pages with the new one
+99cb0dbd47a15d3 Song Liu                2019-09-23  2096   *    + swap/gup in pages if necessary;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2097   *    + fill in gaps;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2098   *    + keep old pages around in case rollback is required;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2099   *  - if replacing succeeds:
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2100   *    + copy data over;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2101   *    + free old pages;
+87c460a0bded561 Hugh Dickins            2018-11-30  2102   *    + unlock huge page;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2103   *  - if replacing failed;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2104   *    + put all pages back and unfreeze them;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2105   *    + restore gaps in the page cache;
+87c460a0bded561 Hugh Dickins            2018-11-30  2106   *    + unlock and free huge page;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2107   */
+579c571e2efdb8e Song Liu                2019-09-23  2108  static void collapse_file(struct mm_struct *mm,
+579c571e2efdb8e Song Liu                2019-09-23  2109  		struct file *file, pgoff_t start,
+3ab761d2a7a1fc0 Weilin Tong             2025-07-29  2110  		struct page **hpage, int node,
+3ab761d2a7a1fc0 Weilin Tong             2025-07-29  2111  		struct collapse_control *cc)
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26 @2112  {
+579c571e2efdb8e Song Liu                2019-09-23  2113  	struct address_space *mapping = file->f_mapping;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2114  	gfp_t gfp;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2115  	struct page *new_page;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2116  	pgoff_t index, end = start + HPAGE_PMD_NR;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2117  	LIST_HEAD(pagelist);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2118  	XA_STATE_ORDER(xas, &mapping->i_pages, start, HPAGE_PMD_ORDER);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2119  	int nr_none = 0, result = SCAN_SUCCEED;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2120  	bool is_shmem = shmem_file(file);
+01406028a5a96bb Muchun Song             2021-02-24  2121  	int nr;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2122  
+99cb0dbd47a15d3 Song Liu                2019-09-23  2123  	VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2124  	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2125  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2126  	/* Only allocate from the target node */
+3ab761d2a7a1fc0 Weilin Tong             2025-07-29  2127  	if (cc->hugetext_direct_vma)
+3ab761d2a7a1fc0 Weilin Tong             2025-07-29  2128  		gfp = vma_thp_gfp_mask(cc->hugetext_direct_vma) | __GFP_THISNODE;
+3ab761d2a7a1fc0 Weilin Tong             2025-07-29  2129  	else
+41b6167e8f746b4 Michal Hocko            2017-01-10  2130  		gfp = alloc_hugepage_khugepaged_gfpmask() | __GFP_THISNODE;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2131  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2132  	new_page = khugepaged_alloc_page(hpage, gfp, node);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2133  	if (!new_page) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2134  		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2135  		goto out;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2136  	}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2137  
+d9eb1ea2bf8734a Johannes Weiner         2020-06-03  2138  	if (unlikely(mem_cgroup_charge(new_page, mm, gfp))) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2139  		result = SCAN_CGROUP_CHARGE_FAIL;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2140  		goto out;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2141  	}
+9d82c69438d0dff Johannes Weiner         2020-06-03  2142  	count_memcg_page_event(new_page, THP_COLLAPSE_ALLOC);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2143  
+95feeabb77149f7 Hugh Dickins            2018-11-30  2144  	/* This will be less messy when we use multi-index entries */
+95feeabb77149f7 Hugh Dickins            2018-11-30  2145  	do {
+95feeabb77149f7 Hugh Dickins            2018-11-30  2146  		xas_lock_irq(&xas);
+95feeabb77149f7 Hugh Dickins            2018-11-30  2147  		xas_create_range(&xas);
+95feeabb77149f7 Hugh Dickins            2018-11-30  2148  		if (!xas_error(&xas))
+95feeabb77149f7 Hugh Dickins            2018-11-30  2149  			break;
+95feeabb77149f7 Hugh Dickins            2018-11-30  2150  		xas_unlock_irq(&xas);
+95feeabb77149f7 Hugh Dickins            2018-11-30  2151  		if (!xas_nomem(&xas, GFP_KERNEL)) {
+95feeabb77149f7 Hugh Dickins            2018-11-30  2152  			result = SCAN_FAIL;
+95feeabb77149f7 Hugh Dickins            2018-11-30  2153  			goto out;
+95feeabb77149f7 Hugh Dickins            2018-11-30  2154  		}
+95feeabb77149f7 Hugh Dickins            2018-11-30  2155  	} while (1);
+95feeabb77149f7 Hugh Dickins            2018-11-30  2156  
+042a30824871fa3 Hugh Dickins            2018-11-30  2157  	__SetPageLocked(new_page);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2158  	if (is_shmem)
+042a30824871fa3 Hugh Dickins            2018-11-30  2159  		__SetPageSwapBacked(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2160  	new_page->index = start;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2161  	new_page->mapping = mapping;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2162  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2163  	/*
+87c460a0bded561 Hugh Dickins            2018-11-30  2164  	 * At this point the new_page is locked and not up-to-date.
+87c460a0bded561 Hugh Dickins            2018-11-30  2165  	 * It's safe to insert it into the page cache, because nobody would
+87c460a0bded561 Hugh Dickins            2018-11-30  2166  	 * be able to map it or use it in another way until we unlock it.
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2167  	 */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2168  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2169  	xas_set(&xas, start);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2170  	for (index = start; index < end; index++) {
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2171  		struct page *page = xas_next(&xas);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2172  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2173  		VM_BUG_ON(index != xas.xa_index);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2174  		if (is_shmem) {
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2175  			if (!page) {
+701270fa193aadf Hugh Dickins            2018-11-30  2176  				/*
+99cb0dbd47a15d3 Song Liu                2019-09-23  2177  				 * Stop if extent has been truncated or
+99cb0dbd47a15d3 Song Liu                2019-09-23  2178  				 * hole-punched, and is now completely
+99cb0dbd47a15d3 Song Liu                2019-09-23  2179  				 * empty.
+701270fa193aadf Hugh Dickins            2018-11-30  2180  				 */
+701270fa193aadf Hugh Dickins            2018-11-30  2181  				if (index == start) {
+701270fa193aadf Hugh Dickins            2018-11-30  2182  					if (!xas_next_entry(&xas, end - 1)) {
+701270fa193aadf Hugh Dickins            2018-11-30  2183  						result = SCAN_TRUNCATED;
+042a30824871fa3 Hugh Dickins            2018-11-30  2184  						goto xa_locked;
+701270fa193aadf Hugh Dickins            2018-11-30  2185  					}
+701270fa193aadf Hugh Dickins            2018-11-30  2186  					xas_set(&xas, index);
+701270fa193aadf Hugh Dickins            2018-11-30  2187  				}
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2188  				if (!shmem_charge(mapping->host, 1)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2189  					result = SCAN_FAIL;
+042a30824871fa3 Hugh Dickins            2018-11-30  2190  					goto xa_locked;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2191  				}
+4101196b19d7f90 Matthew Wilcox (Oracle  2019-09-23  2192) 				xas_store(&xas, new_page);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2193  				nr_none++;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2194  				continue;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2195  			}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2196  
+3159f943aafdbac Matthew Wilcox          2017-11-03  2197  			if (xa_is_value(page) || !PageUptodate(page)) {
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2198  				xas_unlock_irq(&xas);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2199  				/* swap in or instantiate fallocated page */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2200  				if (shmem_getpage(mapping->host, index, &page,
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2201  						  SGP_NOHUGE)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2202  					result = SCAN_FAIL;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2203  					goto xa_unlocked;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2204  				}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2205  			} else if (trylock_page(page)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2206  				get_page(page);
+042a30824871fa3 Hugh Dickins            2018-11-30  2207  				xas_unlock_irq(&xas);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2208  			} else {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2209  				result = SCAN_PAGE_LOCK;
+042a30824871fa3 Hugh Dickins            2018-11-30  2210  				goto xa_locked;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2211  			}
+99cb0dbd47a15d3 Song Liu                2019-09-23  2212  		} else {	/* !is_shmem */
+99cb0dbd47a15d3 Song Liu                2019-09-23  2213  			if (!page || xa_is_value(page)) {
+99cb0dbd47a15d3 Song Liu                2019-09-23  2214  				xas_unlock_irq(&xas);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2215  				page_cache_sync_readahead(mapping, &file->f_ra,
+99cb0dbd47a15d3 Song Liu                2019-09-23  2216  							  file, index,
+e5a59d308f52bb0 David Howells           2020-09-04  2217  							  end - index);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2218  				/* drain pagevecs to help isolate_lru_page() */
+99cb0dbd47a15d3 Song Liu                2019-09-23  2219  				lru_add_drain();
+99cb0dbd47a15d3 Song Liu                2019-09-23  2220  				page = find_lock_page(mapping, index);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2221  				if (unlikely(page == NULL)) {
+99cb0dbd47a15d3 Song Liu                2019-09-23  2222  					result = SCAN_FAIL;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2223  					goto xa_unlocked;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2224  				}
+75f360696ce9d8e Song Liu                2019-11-30  2225  			} else if (PageDirty(page)) {
+75f360696ce9d8e Song Liu                2019-11-30  2226  				/*
+75f360696ce9d8e Song Liu                2019-11-30  2227  				 * khugepaged only works on read-only fd,
+75f360696ce9d8e Song Liu                2019-11-30  2228  				 * so this page is dirty because it hasn't
+75f360696ce9d8e Song Liu                2019-11-30  2229  				 * been flushed since first write. There
+75f360696ce9d8e Song Liu                2019-11-30  2230  				 * won't be new dirty pages.
+75f360696ce9d8e Song Liu                2019-11-30  2231  				 *
+75f360696ce9d8e Song Liu                2019-11-30  2232  				 * Trigger async flush here and hope the
+75f360696ce9d8e Song Liu                2019-11-30  2233  				 * writeback is done when khugepaged
+75f360696ce9d8e Song Liu                2019-11-30  2234  				 * revisits this page.
+75f360696ce9d8e Song Liu                2019-11-30  2235  				 *
+75f360696ce9d8e Song Liu                2019-11-30  2236  				 * This is a one-off situation. We are not
+75f360696ce9d8e Song Liu                2019-11-30  2237  				 * forcing writeback in loop.
+75f360696ce9d8e Song Liu                2019-11-30  2238  				 */
+75f360696ce9d8e Song Liu                2019-11-30  2239  				xas_unlock_irq(&xas);
+75f360696ce9d8e Song Liu                2019-11-30  2240  				filemap_flush(mapping);
+75f360696ce9d8e Song Liu                2019-11-30  2241  				result = SCAN_FAIL;
+75f360696ce9d8e Song Liu                2019-11-30  2242  				goto xa_unlocked;
+69a7fa5cb0de06c Rongwei Wang            2021-10-28  2243  			} else if (PageWriteback(page)) {
+69a7fa5cb0de06c Rongwei Wang            2021-10-28  2244  				xas_unlock_irq(&xas);
+69a7fa5cb0de06c Rongwei Wang            2021-10-28  2245  				result = SCAN_FAIL;
+69a7fa5cb0de06c Rongwei Wang            2021-10-28  2246  				goto xa_unlocked;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2247  			} else if (trylock_page(page)) {
+99cb0dbd47a15d3 Song Liu                2019-09-23  2248  				get_page(page);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2249  				xas_unlock_irq(&xas);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2250  			} else {
+99cb0dbd47a15d3 Song Liu                2019-09-23  2251  				result = SCAN_PAGE_LOCK;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2252  				goto xa_locked;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2253  			}
+99cb0dbd47a15d3 Song Liu                2019-09-23  2254  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2255  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2256  		/*
+b93b016313b3ba8 Matthew Wilcox          2018-04-10  2257  		 * The page must be locked, so we can drop the i_pages lock
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2258  		 * without racing with truncate.
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2259  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2260  		VM_BUG_ON_PAGE(!PageLocked(page), page);
+4655e5e5f387264 Song Liu                2019-11-15  2261  
+4655e5e5f387264 Song Liu                2019-11-15  2262  		/* make sure the page is up to date */
+4655e5e5f387264 Song Liu                2019-11-15  2263  		if (unlikely(!PageUptodate(page))) {
+4655e5e5f387264 Song Liu                2019-11-15  2264  			result = SCAN_FAIL;
+4655e5e5f387264 Song Liu                2019-11-15  2265  			goto out_unlock;
+4655e5e5f387264 Song Liu                2019-11-15  2266  		}
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2267  
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2268  		/*
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2269  		 * If file was truncated then extended, or hole-punched, before
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2270  		 * we locked the first page, then a THP might be there already.
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2271  		 */
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2272  		if (PageTransCompound(page)) {
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2273  			result = SCAN_PAGE_COMPOUND;
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2274  			goto out_unlock;
+06a5e1268a5fb9c Hugh Dickins            2018-11-30  2275  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2276  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2277  		if (page_mapping(page) != mapping) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2278  			result = SCAN_TRUNCATED;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2279  			goto out_unlock;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2280  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2281  
+69a7fa5cb0de06c Rongwei Wang            2021-10-28  2282  		if (!is_shmem && (PageDirty(page) ||
+69a7fa5cb0de06c Rongwei Wang            2021-10-28  2283  				  PageWriteback(page))) {
+4655e5e5f387264 Song Liu                2019-11-15  2284  			/*
+4655e5e5f387264 Song Liu                2019-11-15  2285  			 * khugepaged only works on read-only fd, so this
+4655e5e5f387264 Song Liu                2019-11-15  2286  			 * page is dirty because it hasn't been flushed
+4655e5e5f387264 Song Liu                2019-11-15  2287  			 * since first write.
+4655e5e5f387264 Song Liu                2019-11-15  2288  			 */
+4655e5e5f387264 Song Liu                2019-11-15  2289  			result = SCAN_FAIL;
+4655e5e5f387264 Song Liu                2019-11-15  2290  			goto out_unlock;
+4655e5e5f387264 Song Liu                2019-11-15  2291  		}
+4655e5e5f387264 Song Liu                2019-11-15  2292  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2293  		if (isolate_lru_page(page)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2294  			result = SCAN_DEL_PAGE_LRU;
+042a30824871fa3 Hugh Dickins            2018-11-30  2295  			goto out_unlock;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2296  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2297  
+99cb0dbd47a15d3 Song Liu                2019-09-23  2298  		if (page_has_private(page) &&
+99cb0dbd47a15d3 Song Liu                2019-09-23  2299  		    !try_to_release_page(page, GFP_KERNEL)) {
+99cb0dbd47a15d3 Song Liu                2019-09-23  2300  			result = SCAN_PAGE_HAS_PRIVATE;
+2f33a706027c94c Hugh Dickins            2020-05-27  2301  			putback_lru_page(page);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2302  			goto out_unlock;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2303  		}
+99cb0dbd47a15d3 Song Liu                2019-09-23  2304  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2305  		if (page_mapped(page))
+977fbdcd5986c9f Matthew Wilcox          2018-01-31  2306  			unmap_mapping_pages(mapping, index, 1, false);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2307  
+b15cd4ad8aad698 Xu Yu                   2021-11-02  2308  		dedup_page(page, false);
+b15cd4ad8aad698 Xu Yu                   2021-11-02  2309  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2310  		xas_lock_irq(&xas);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2311  		xas_set(&xas, index);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2312  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2313  		VM_BUG_ON_PAGE(page != xas_load(&xas), page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2314  		VM_BUG_ON_PAGE(page_mapped(page), page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2315  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2316  		/*
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2317  		 * The page is expected to have page_count() == 3:
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2318  		 *  - we hold a pin on it;
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2319  		 *  - one reference from page cache;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2320  		 *  - one from isolate_lru_page;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2321  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2322  		if (!page_ref_freeze(page, 3)) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2323  			result = SCAN_PAGE_COUNT;
+042a30824871fa3 Hugh Dickins            2018-11-30  2324  			xas_unlock_irq(&xas);
+042a30824871fa3 Hugh Dickins            2018-11-30  2325  			putback_lru_page(page);
+042a30824871fa3 Hugh Dickins            2018-11-30  2326  			goto out_unlock;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2327  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2328  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2329  		/*
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2330  		 * Add the page to the list to be able to undo the collapse if
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2331  		 * something go wrong.
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2332  		 */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2333  		list_add_tail(&page->lru, &pagelist);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2334  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2335  		/* Finally, replace with the new page. */
+4101196b19d7f90 Matthew Wilcox (Oracle  2019-09-23  2336) 		xas_store(&xas, new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2337  		continue;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2338  out_unlock:
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2339  		unlock_page(page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2340  		put_page(page);
+042a30824871fa3 Hugh Dickins            2018-11-30  2341  		goto xa_unlocked;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2342  	}
+01406028a5a96bb Muchun Song             2021-02-24  2343  	nr = thp_nr_pages(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2344  
+99cb0dbd47a15d3 Song Liu                2019-09-23  2345  	if (is_shmem)
+2dc7dbc6022b72e Muchun Song             2021-02-24  2346  		__mod_lruvec_page_state(new_page, NR_SHMEM_THPS, nr);
+09d91cda0e8207c Song Liu                2019-09-23  2347  	else {
+01406028a5a96bb Muchun Song             2021-02-24  2348  		__mod_lruvec_page_state(new_page, NR_FILE_THPS, nr);
+09d91cda0e8207c Song Liu                2019-09-23  2349  		filemap_nr_thps_inc(mapping);
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2350  		/*
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2351  		 * Paired with smp_mb() in do_dentry_open() to ensure
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2352  		 * i_writecount is up to date and the update to nr_thps is
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2353  		 * visible. Ensures the page cache will be truncated if the
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2354  		 * file is opened writable.
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2355  		 */
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2356  		smp_mb();
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2357  		if (inode_is_open_for_write(mapping->host)) {
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2358  			result = SCAN_FAIL;
+01406028a5a96bb Muchun Song             2021-02-24  2359  			__mod_lruvec_page_state(new_page, NR_FILE_THPS, -nr);
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2360  			filemap_nr_thps_dec(mapping);
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2361  			goto xa_locked;
+118d14d3e6ee957 Collin Fijalkovich      2021-08-03  2362  		}
+09d91cda0e8207c Song Liu                2019-09-23  2363  	}
+99cb0dbd47a15d3 Song Liu                2019-09-23  2364  
+042a30824871fa3 Hugh Dickins            2018-11-30  2365  	if (nr_none) {
+9d82c69438d0dff Johannes Weiner         2020-06-03  2366  		__mod_lruvec_page_state(new_page, NR_FILE_PAGES, nr_none);
+99cb0dbd47a15d3 Song Liu                2019-09-23  2367  		if (is_shmem)
+9d82c69438d0dff Johannes Weiner         2020-06-03  2368  			__mod_lruvec_page_state(new_page, NR_SHMEM, nr_none);
+042a30824871fa3 Hugh Dickins            2018-11-30  2369  	}
+042a30824871fa3 Hugh Dickins            2018-11-30  2370  
+042a30824871fa3 Hugh Dickins            2018-11-30  2371  xa_locked:
+042a30824871fa3 Hugh Dickins            2018-11-30  2372  	xas_unlock_irq(&xas);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2373  xa_unlocked:
+042a30824871fa3 Hugh Dickins            2018-11-30  2374  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2375  	if (result == SCAN_SUCCEED) {
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2376  		struct page *page, *tmp;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2377  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2378  		/*
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2379  		 * Replacing old pages with new one has succeeded, now we
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2380  		 * need to copy the content and free the old pages.
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2381  		 */
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2382  		index = start;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2383  		list_for_each_entry_safe(page, tmp, &pagelist, lru) {
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2384  			while (index < page->index) {
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2385  				clear_highpage(new_page + (index % HPAGE_PMD_NR));
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2386  				index++;
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2387  			}
+390a2159a49817b Kaihao Bai              2024-12-02  2388  			mod_lruvec_page_state(page, NR_FILE_PAGES, -1);
+390a2159a49817b Kaihao Bai              2024-12-02  2389  			if (is_shmem)
+390a2159a49817b Kaihao Bai              2024-12-02  2390  				mod_lruvec_page_state(page, NR_SHMEM, -1);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2391  			copy_highpage(new_page + (page->index % HPAGE_PMD_NR),
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2392  					page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2393  			list_del(&page->lru);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2394  			page->mapping = NULL;
+042a30824871fa3 Hugh Dickins            2018-11-30  2395  			page_ref_unfreeze(page, 1);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2396  			ClearPageActive(page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2397  			ClearPageUnevictable(page);
+042a30824871fa3 Hugh Dickins            2018-11-30  2398  			unlock_page(page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2399  			put_page(page);
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2400  			index++;
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2401  		}
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2402  		while (index < end) {
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2403  			clear_highpage(new_page + (index % HPAGE_PMD_NR));
+2af8ff291848cc4 Hugh Dickins            2018-11-30  2404  			index++;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2405  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2406  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2407  		SetPageUptodate(new_page);
+87c460a0bded561 Hugh Dickins            2018-11-30  2408  		page_ref_add(new_page, HPAGE_PMD_NR - 1);
+6058eaec816f29f Johannes Weiner         2020-06-03  2409  		if (is_shmem)
+99cb0dbd47a15d3 Song Liu                2019-09-23  2410  			set_page_dirty(new_page);
+6058eaec816f29f Johannes Weiner         2020-06-03  2411  		lru_cache_add(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2412  
+042a30824871fa3 Hugh Dickins            2018-11-30  2413  		/*
+042a30824871fa3 Hugh Dickins            2018-11-30  2414  		 * Remove pte page tables, so we can re-fault the page as huge.
+042a30824871fa3 Hugh Dickins            2018-11-30  2415  		 */
+042a30824871fa3 Hugh Dickins            2018-11-30  2416  		retract_page_tables(mapping, start);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2417  		*hpage = NULL;
+87aa752906ecf69 Yang Shi                2018-08-17  2418  
+390a2159a49817b Kaihao Bai              2024-12-02  2419  		mod_lruvec_page_state(new_page, NR_FILE_PAGES, nr - nr_none);
+390a2159a49817b Kaihao Bai              2024-12-02  2420  		if (is_shmem)
+390a2159a49817b Kaihao Bai              2024-12-02  2421  			mod_lruvec_page_state(new_page, NR_SHMEM, nr - nr_none);
+390a2159a49817b Kaihao Bai              2024-12-02  2422  
+87aa752906ecf69 Yang Shi                2018-08-17  2423  		khugepaged_pages_collapsed++;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2424  	} else {
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2425  		struct page *page;
+aaa52e340073b7f Hugh Dickins            2018-11-30  2426  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2427  		/* Something went wrong: roll back page cache changes */
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2428  		xas_lock_irq(&xas);
+aaa52e340073b7f Hugh Dickins            2018-11-30  2429  		mapping->nrpages -= nr_none;
+99cb0dbd47a15d3 Song Liu                2019-09-23  2430  
+99cb0dbd47a15d3 Song Liu                2019-09-23  2431  		if (is_shmem)
+aaa52e340073b7f Hugh Dickins            2018-11-30  2432  			shmem_uncharge(mapping->host, nr_none);
+aaa52e340073b7f Hugh Dickins            2018-11-30  2433  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2434  		xas_set(&xas, start);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2435  		xas_for_each(&xas, page, end - 1) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2436  			page = list_first_entry_or_null(&pagelist,
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2437  					struct page, lru);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2438  			if (!page || xas.xa_index < page->index) {
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2439  				if (!nr_none)
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2440  					break;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2441  				nr_none--;
+59749e6ce53735d Johannes Weiner         2016-12-12  2442  				/* Put holes back where they were */
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2443  				xas_store(&xas, NULL);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2444  				continue;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2445  			}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2446  
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2447  			VM_BUG_ON_PAGE(page->index != xas.xa_index, page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2448  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2449  			/* Unfreeze the page. */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2450  			list_del(&page->lru);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2451  			page_ref_unfreeze(page, 2);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2452  			xas_store(&xas, page);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2453  			xas_pause(&xas);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2454  			xas_unlock_irq(&xas);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2455  			unlock_page(page);
+042a30824871fa3 Hugh Dickins            2018-11-30  2456  			putback_lru_page(page);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2457  			xas_lock_irq(&xas);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2458  		}
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2459  		VM_BUG_ON(nr_none);
+77da9389b9d5f07 Matthew Wilcox          2017-12-04  2460  		xas_unlock_irq(&xas);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2461  
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2462  		new_page->mapping = NULL;
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2463  	}
+042a30824871fa3 Hugh Dickins            2018-11-30  2464  
+042a30824871fa3 Hugh Dickins            2018-11-30  2465  	unlock_page(new_page);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2466  out:
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2467  	VM_BUG_ON(!list_empty(&pagelist));
+9d82c69438d0dff Johannes Weiner         2020-06-03  2468  	if (!IS_ERR_OR_NULL(*hpage))
+9d82c69438d0dff Johannes Weiner         2020-06-03  2469  		mem_cgroup_uncharge(*hpage);
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2470  	/* TODO: tracepoints */
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2471  }
+f3f0e1d2150b2b9 Kirill A. Shutemov      2016-07-26  2472  
+
+:::::: The code at line 2112 was first introduced by commit
+:::::: f3f0e1d2150b2b99da2cbdfaad000089efe9bf30 khugepaged: add support of collapse for tmpfs/shmem pages
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
