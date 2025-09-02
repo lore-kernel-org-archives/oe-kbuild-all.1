@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E4A298CA3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Sep 2025 12:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180E729BDBA;
+	Tue,  2 Sep 2025 12:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756817039; cv=none; b=kKQxhBy8GAYdZ+5lUNY/MnDAkmcFqT/SPCKOeN3krTyeRiIYaTCm4aLonGZFzdVl7k70r0DJVYaVNuzCc2Ignu2chnF9uE11bOALrN7FB2Fzo3gSS8ZSOyNIR87wFrUvI/AInglmhXVHhytgE0bTLCMvSpV01ts3xbs5ZtOnMMQ=
+	t=1756817074; cv=none; b=khEq+F89mC3re8zvJOwYTiHB9d5UeUBN1QATDK4HG3Fv84dw4Y9fOuROQDdjGQiHWEttkZr92q4HlO8lbkANI5q0qrkDop6J4sEIqxSE6vJfZ10UkiCArlM2SeFguVmIUJYRc6QJp4VTpNSVo9BhvKuEnQSlKqnGrZqNVW4cGgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756817039; c=relaxed/simple;
-	bh=0IXLRdVoZwaASQSSGSklpHyvVG+xoY+tYLOYJCdMzv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YRBmhQPcXWYpKgAoZQBNDF8QDXbgI+mGcSWRmh1CvwiaYUFDn0QtiGTWjPvNNljQSIH2K7HtqkPPct1e9ZGo7U4H9euXfNb44nk8MKJF3M7SDaenfI/gH1Q6pbUGwIVE5Q1FGZ5vS4bPuPM4mRmQizO5AkAKO3/9S9W2UsJ+HKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rc87+rh+; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1756817074; c=relaxed/simple;
+	bh=R2RCICYQh0bmGfUwJGJV4T9ruKuRJOqTjWj8SrJJkQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lP41MMVN4gNW3So/2EabuWxN/TA00g1fYuoK9E3QAzu0qHIaMV0VmWNqUATTnDBZ7ECYkao5fUszVW8uDNYo039P6/KKUil6ac+ZHzNH/4trEIgriNxNBtiJsFSxKdcZt+EHBhk85e9rhfIG7LBc8YlsOrvFaOSQ40vQ6sHDRAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UpzTCy/V; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rc87+rh+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UpzTCy/V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756817037; x=1788353037;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0IXLRdVoZwaASQSSGSklpHyvVG+xoY+tYLOYJCdMzv8=;
-  b=Rc87+rh+mAH8/02LnbNokcMLznk9oFSctgAt0UPvHWmdqMKzlH7YmNdG
-   DXgBLD/NIheQykTsY9KtvKAeX4czGKe1N42Ed7U0kTGcQjqR3Ijk91eCZ
-   h3LodsF7g24wP9IO6cQrjzOtgK+KSOyN9cOcoUBYiCAhPnEqJkQO1ULEP
-   y68zch7EDieCxIkF/CGBMHB6JQ5XNqsaekbKlbHOQ7TmcbaIDgeIfde+U
-   JjNvN0dlpRDKaU5Hk28eB7VzkCKiiXc7i4ipTXtwjPmTuI/woPwr9IH7v
-   rkKXDoNsvtbOa3ZQHNvRLI2hN+EKH27jaWDbeMwcTbIEyzdj7o+Qx7Pu3
-   w==;
-X-CSE-ConnectionGUID: 0Il3gZAkSE2oRA/wXvYfgg==
-X-CSE-MsgGUID: Ze+0HD+aS1+CNNjaN6WPvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="69699316"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="69699316"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 05:43:56 -0700
-X-CSE-ConnectionGUID: K9IzRZTfRFuOIhmKtiShWQ==
-X-CSE-MsgGUID: TL2R56R4QleSzVx1iRKycw==
+  t=1756817073; x=1788353073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R2RCICYQh0bmGfUwJGJV4T9ruKuRJOqTjWj8SrJJkQk=;
+  b=UpzTCy/VEWYoxMVNqrI9U//JHtWDDDH9M/1AnZ9oYtNZmQbJiW5RNNZY
+   obRxzznPjs3K1+JActM8tVgbLOmKzwF49Fzt6c9LyZZavt8segw+mvi1C
+   5RNALp2qrqQ21mUlW/1+gL7nP2FqLciHO1hr+/b1+Qt7fCGiWlTCSX9wt
+   D6Vx0q7izV4VwO844XvDc8r2E5vhwF2gnjhTIpgylWvMPzRmViGoI6DAi
+   fwUCUV6NHUxXrTWEupebBwGfu4hd4mIacYAVja4HSQhGSGjPp8rGn479K
+   IC/adZ9EOoaWjRaLW/Ko5puoN2pejOxpYZaAmFNTuvu/IIxw2YhVFFStL
+   Q==;
+X-CSE-ConnectionGUID: LD3q5K2QRk+0wpLrVoB7RQ==
+X-CSE-MsgGUID: Ek5KoPSuQeu5XVi002sDPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62920300"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62920300"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 05:44:32 -0700
+X-CSE-ConnectionGUID: 95i9zhkrQMiNJ1vBeJSU9A==
+X-CSE-MsgGUID: 5taccYprTmSVxwPWqg+u6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170826382"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 02 Sep 2025 05:43:55 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="171233054"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Sep 2025 05:44:28 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utQMa-0003J1-2z;
-	Tue, 02 Sep 2025 12:43:52 +0000
-Date: Tue, 2 Sep 2025 14:43:46 +0200
+	id 1utQMF-00020J-32;
+	Tue, 02 Sep 2025 12:43:42 +0000
+Date: Tue, 2 Sep 2025 20:42:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 1/1]
- drivers/net/xen-netfront.c:680:17: warning: no previous prototype for
- function 'bounce_skb'
-Message-ID: <202509021429.OZnuwTDD-lkp@intel.com>
+To: Puranjay Mohan <puranjay@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Xu Kuohai <xukuohai@huaweicloud.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH bpf-next v5 3/4] bpf: Report arena faults to BPF stderr
+Message-ID: <202509022034.z1178h4W-lkp@intel.com>
+References: <20250901193730.43543-4-puranjay@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +75,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250901193730.43543-4-puranjay@kernel.org>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   119e72f374248c57f950f0658c1e1099b40e2ffa
-commit: 4923217af5742a796821272ee03f8d6de15c0cca [1/1] xen/netfront: force data bouncing when backend is untrusted
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250902/202509021429.OZnuwTDD-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509021429.OZnuwTDD-lkp@intel.com/reproduce)
+Hi Puranjay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/bpf-arm64-simplify-exception-table-handling/20250902-033833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250901193730.43543-4-puranjay%40kernel.org
+patch subject: [PATCH bpf-next v5 3/4] bpf: Report arena faults to BPF stderr
+config: x86_64-buildonly-randconfig-002-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022034.z1178h4W-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022034.z1178h4W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509021429.OZnuwTDD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509022034.z1178h4W-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/xen-netfront.c:680:17: warning: no previous prototype for function 'bounce_skb' [-Wmissing-prototypes]
-     680 | struct sk_buff *bounce_skb(const struct sk_buff *skb)
-         |                 ^
-   drivers/net/xen-netfront.c:680:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     680 | struct sk_buff *bounce_skb(const struct sk_buff *skb)
-         | ^
-         | static 
-   drivers/net/xen-netfront.c:2618:16: warning: variable 'target' set but not used [-Wunused-but-set-variable]
-    2618 |         unsigned long target;
-         |                       ^
-   2 warnings generated.
+>> kernel/bpf/arena.c:637:6: error: redefinition of 'bpf_prog_report_arena_violation'
+     637 | void bpf_prog_report_arena_violation(bool write, unsigned long addr, unsigned long fault_ip)
+         |      ^
+   include/linux/bpf.h:2050:20: note: previous definition is here
+    2050 | static inline void bpf_prog_report_arena_violation(bool write, unsigned long addr,
+         |                    ^
+   1 error generated.
 
 
-vim +/bounce_skb +680 drivers/net/xen-netfront.c
+vim +/bpf_prog_report_arena_violation +637 kernel/bpf/arena.c
 
-   679	
- > 680	struct sk_buff *bounce_skb(const struct sk_buff *skb)
-   681	{
-   682		unsigned int headerlen = skb_headroom(skb);
-   683		/* Align size to allocate full pages and avoid contiguous data leaks */
-   684		unsigned int size = ALIGN(skb_end_offset(skb) + skb->data_len,
-   685					  XEN_PAGE_SIZE);
-   686		struct sk_buff *n = alloc_skb(size, GFP_ATOMIC | __GFP_ZERO);
-   687	
-   688		if (!n)
-   689			return NULL;
-   690	
-   691		if (!IS_ALIGNED((uintptr_t)n->head, XEN_PAGE_SIZE)) {
-   692			WARN_ONCE(1, "misaligned skb allocated\n");
-   693			kfree_skb(n);
-   694			return NULL;
-   695		}
-   696	
-   697		/* Set the data pointer */
-   698		skb_reserve(n, headerlen);
-   699		/* Set the tail pointer and length */
-   700		skb_put(n, skb->len);
-   701	
-   702		BUG_ON(skb_copy_bits(skb, -headerlen, n->head, headerlen + skb->len));
-   703	
-   704		skb_copy_header(n, skb);
-   705		return n;
-   706	}
-   707	
+   636	
+ > 637	void bpf_prog_report_arena_violation(bool write, unsigned long addr, unsigned long fault_ip)
 
 -- 
 0-DAY CI Kernel Test Service
