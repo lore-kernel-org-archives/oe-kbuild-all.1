@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EB22C187
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 03:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B7D1DFE09;
+	Wed,  3 Sep 2025 03:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756870456; cv=none; b=SXKfBi6zXydaL3s7oLMhEEIecU/2rSFVkswa1epiqgoyVSl/L2utNrdm0mWMXs9Z/QJSkQfss7cbE9sqq+jp+L/EvPljowA3Uk4QjKXdmGqOT+yS3O0ReKy/JKYHpEwn7oh/rHkQvOoNnTjtVB0mtzvEjN/u7zpfDY7Fhxbs51g=
+	t=1756871007; cv=none; b=YIzTMqjL166YZ33o9Z+6vatvp9pjldoYosd2R1TVVL2DpzBQ17Vmj+eueKlPUYu5SvMPHgJoanAXf0BTCCABMZv8NlExsIKzvJ+abNoVErNym42Wz60ro8MUiX6z2T4YaqFJPHkH7e5hZ3iEUPLhjq/1x/ttXZRoOx0cANLDtjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756870456; c=relaxed/simple;
-	bh=GT+w7R53TN4U82IK7+ynC/kbDyjPCW364v+r7Rfy3v4=;
+	s=arc-20240116; t=1756871007; c=relaxed/simple;
+	bh=3/H3D++jBOi0YL40SQsDdbNfj63iF0hF6QE19mQ6O/Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NASdLxPrXtKcv4uFRu6agJTa2ZaUJIIrp/lbvGov5xk6pnQNg0soK9f4RMUcTO9B2Z4p2ZWOrubokIDIPb2p2wbZMYApMc0sMyueGaX2x/+o0ZkVNold+xwDn39xiyqOzjwZ5oY+++fvTpXSFREfW294/Q7VFVGoca7zPzxQJRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPt9Xjh3; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=AJi+VMhHSZ+oJFhrS/8F0He0orh+471lMmVfExp19k5AMgAEzCaTpUr0WRyEACLpSC6VYIkRc3zgWyJN6i0BO/yTDjd8YR+IkfHSw1aZd2E1SZHSWEEOPhazgPgU2SBa+49aTJ3kw8+cUJeTfIZc/2/wQncLv3qOACC4Tsdm5Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PoaXdbBI; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPt9Xjh3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PoaXdbBI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756870454; x=1788406454;
+  t=1756871006; x=1788407006;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GT+w7R53TN4U82IK7+ynC/kbDyjPCW364v+r7Rfy3v4=;
-  b=QPt9Xjh3PszdCO7IC43tfdEaFFXgXPC8XHw/MPWmzsWlswn2LMwwEaoy
-   kdTSWOg6ga0NLvuQXlt0Pav3fLcIrvrDnm4N/0KQiF8kvPBB5N9EKj05s
-   vREu2AokB1lc+Gd0fFXS042Lv2L58Va1ASuf5qkcazSAYHWF3WGwhgNBI
-   xIvSKYIZ3mkJSgBgwvpg9r1+RPPztjWG41/1ORmJKnIYLzu36o+xIFnUH
-   IJ9l1spJCjtCspeMxkAPCSFXZ6bPW/wUMH1cLGX5O9/nXGH98Fp1VcVy8
-   COzH8jbzofqrWAB5hlBGrmqvRqGVamXsxv9B6yjPIPSnktH9V/49va1ED
-   A==;
-X-CSE-ConnectionGUID: ysLsmgzqRtO4hYI+xh1WQA==
-X-CSE-MsgGUID: t8qNtVoxSiq3wuim3wBD5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="62991732"
+  bh=3/H3D++jBOi0YL40SQsDdbNfj63iF0hF6QE19mQ6O/Y=;
+  b=PoaXdbBI9XXTga4jXc/S36C879w1/80kMdrtGBrPtzIeyWDLsmUNDc+s
+   Q/3U9tl53VI8wAxUotqvhFkvkh92HKdMJJ/Jkgy9sqinGniqUDPXul1S0
+   Ww133wlN2UkXpd6h+BJotQmPjO1EpBXcMNZjcoP5rUV+3f0eu9C7Lxpi9
+   4TNnD2jcRD1iMZhpn4wcmFOZusJ8xxypDe7fAjN7wVu4QjgGZQSZuIEQw
+   1nRKFu009JJ9IyS/h7NWM0EBo3+u9JbUF2zMVg4vkvLFWjywGQthpOHi6
+   Um9AICbK73HEVc3GgcMTo0+T+I+zgIsqo/ESpTqprlgXrcsPaYCJl96F1
+   Q==;
+X-CSE-ConnectionGUID: 1V+2UUtDTM2kWViwU/wwhw==
+X-CSE-MsgGUID: xC8hfO4eQuO34XRyoZIOZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="59239521"
 X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="62991732"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 20:34:14 -0700
-X-CSE-ConnectionGUID: rSEFnjZCQ/WoXAeL+LEOgg==
-X-CSE-MsgGUID: f4EMu7MwShavow9v4fRk7A==
+   d="scan'208";a="59239521"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 20:43:25 -0700
+X-CSE-ConnectionGUID: BNOKFyPcQhSe/ezBefGvdA==
+X-CSE-MsgGUID: LOBuq2HDTz6A7jRiIA9b6Q==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="170749413"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Sep 2025 20:34:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Sep 2025 20:43:23 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uteFV-0003Jd-3C;
-	Wed, 03 Sep 2025 03:33:41 +0000
-Date: Wed, 3 Sep 2025 11:32:22 +0800
+	id 1uteP2-0003KP-2H;
+	Wed, 03 Sep 2025 03:43:20 +0000
+Date: Wed, 3 Sep 2025 11:43:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	x86@kernel.org, Song Liu <songliubraving@fb.com>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Hao Luo <haoluo@google.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH perf/core 03/11] perf: Add support to attach standard
- unique uprobe
-Message-ID: <202509031116.yIcyjvUx-lkp@intel.com>
-References: <20250902143504.1224726-4-jolsa@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Christian Brauner <christian@brauner.io>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andreas Gruenbacher <agruenba@redhat.com>, Jan Kara <jack@suse.com>,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gfs2, udf: update to use mmap_prepare
+Message-ID: <202509031109.QugeBzTq-lkp@intel.com>
+References: <20250902115341.292100-1-lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,54 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902143504.1224726-4-jolsa@kernel.org>
+In-Reply-To: <20250902115341.292100-1-lorenzo.stoakes@oracle.com>
 
-Hi Jiri,
+Hi Lorenzo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on next-20250902]
-[cannot apply to bpf-next/net bpf-next/master bpf/master perf-tools-next/perf-tools-next perf-tools/perf-tools trace/for-next linus/master acme/perf/core v6.17-rc4]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on gfs2/for-next linus/master v6.17-rc4 next-20250902]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/uprobes-Add-unique-flag-to-uprobe-consumer/20250902-224356
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20250902143504.1224726-4-jolsa%40kernel.org
-patch subject: [PATCH perf/core 03/11] perf: Add support to attach standard unique uprobe
-config: x86_64-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509031116.yIcyjvUx-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031116.yIcyjvUx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/gfs2-udf-update-to-use-mmap_prepare/20250902-200024
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250902115341.292100-1-lorenzo.stoakes%40oracle.com
+patch subject: [PATCH] gfs2, udf: update to use mmap_prepare
+config: x86_64-randconfig-004-20250903 (https://download.01.org/0day-ci/archive/20250903/202509031109.QugeBzTq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031109.QugeBzTq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509031116.yIcyjvUx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509031109.QugeBzTq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:95,
-                    from kernel/events/core.c:34:
->> include/linux/perf_event.h:2073:32: warning: 'format_attr_unique' defined but not used [-Wunused-variable]
-    2073 | static struct device_attribute format_attr_##_name = __ATTR_RO(_name)
-         |                                ^~~~~~~~~~~~
-   kernel/events/core.c:11055:1: note: in expansion of macro 'PMU_FORMAT_ATTR'
-   11055 | PMU_FORMAT_ATTR(unique, "config:1");
-         | ^~~~~~~~~~~~~~~
-
-
-vim +/format_attr_unique +2073 include/linux/perf_event.h
-
-b6c00fb9949fbd0 Kan Liang 2023-01-04  2069  
-b6c00fb9949fbd0 Kan Liang 2023-01-04  2070  #define PMU_FORMAT_ATTR(_name, _format)					\
-b6c00fb9949fbd0 Kan Liang 2023-01-04  2071  	PMU_FORMAT_ATTR_SHOW(_name, _format)				\
-641cc938815dfd0 Jiri Olsa 2012-03-15  2072  									\
-641cc938815dfd0 Jiri Olsa 2012-03-15 @2073  static struct device_attribute format_attr_##_name = __ATTR_RO(_name)
-641cc938815dfd0 Jiri Olsa 2012-03-15  2074  
+>> Warning: fs/gfs2/file.c:591 function parameter 'desc' not described in 'gfs2_mmap_prepare'
 
 -- 
 0-DAY CI Kernel Test Service
