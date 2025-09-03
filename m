@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65373596B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 21:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38243155333;
+	Wed,  3 Sep 2025 22:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756934181; cv=none; b=K1NQQillODo3bKvPSZi4kkOq2T8W0cNL82Y5/DcYtVQCBXVQbaZyGxsT0tPRETihtL7H7ZZDUDvnHxYsER2+K6ujit/kEZCV9ndhjHkEZhQy4G8WdX9uGclGlqAsi5X3DAc4ejLAItYoamGeVFBXHHRJlUcrpIwZNWoQhdPycI0=
+	t=1756937279; cv=none; b=SZvL80/buuBT2fS3LGZ45JzGOQrrQYegW36I1eaf/+fgQ5uz8pV2msJZVhw9e2Gpz96sAyiqPXpMVpL0t17IMw7bZCO6+vFDo9g7e+z27+kYGRjK7xaTQGuz2eEZb60ZftEqFhXoJxWm5Zb1wZlg1Xo1RtaPWX13GZ0vcJFbh14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756934181; c=relaxed/simple;
-	bh=UzDezVzqcx6neVGBx5JVwLNDCCuoPPE1J56Dg3JVFxM=;
+	s=arc-20240116; t=1756937279; c=relaxed/simple;
+	bh=A9qEpdV41NMyUc4ljsz9G5jdDlMKoP5XpDVSoLbSoGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Og4Sd7qLD3CN2lhPTbnQrxnxT6cFT6uvptPu/MOk1c06lvrZz7rvg/yaBHuFCHwuR+NPtK3ker/rrNxfJh+g9m+J1ivVivRn3WV8BOcj7EZDh8di2396gRXBcgyS/YHkD+QAVqAjql7tSXvtgm865/GKx+FyUng1F1BNjXfgEJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g0AvJSnm; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=etqIrmFUUPtkYvr+mzVy3bK5+8YXr8BxPWZWdwR2EKewR0ewRwkb+4A+grESJWB+fKjcT5bL9PJ/l6/AGcXfIeQQ+vC7l/4kx69oCZsmAzE5BexlQ5cu7PHTeU0/+/ifd0dTI4LyVn8xEkv3gRsKpIzkRgJem19+d/KW4mUh22g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjCM80cn; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g0AvJSnm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjCM80cn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756934179; x=1788470179;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=UzDezVzqcx6neVGBx5JVwLNDCCuoPPE1J56Dg3JVFxM=;
-  b=g0AvJSnmre5SN8QKZUIICTFPpCRnmsf5+ti0rudDK6IBa6syWUnydVnJ
-   5Cgn5W5i4WxEEynIXk32TYu+ZyFwEA7r4a9cnMIHfEi4deneKCcRqRtKh
-   VKfXOnweVhZV8/BlLCJGHyb/jA0y0yb+fKF3y5C9tJTWdIhv4rtOq7kIb
-   n63fcifZgI8n2UCa4VtTxl9rQmykUAjCuhZItiO3Xgxw8JQf+gJvo0pA9
-   KaOlbel50PSGANEAJrCWcDNXiZpnz2RsxQzupxYpr3l4UcGwSNv/76hN9
-   PotG+v+Di0iQf7OPXtJWMJkUBihYOhjAZH9aI2bOmcOm7EDA8NcexGi/5
+  t=1756937278; x=1788473278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A9qEpdV41NMyUc4ljsz9G5jdDlMKoP5XpDVSoLbSoGM=;
+  b=hjCM80cnPzu3FIPNVtFEOq3iLi1YetABwf+6UoF6Wzi8nguEdKrTan5t
+   8GZmhcxLE9Naxwr9XE/LPDKOoLM7JoY5gTlacaSfgWljvF8zki1gz7eBw
+   TEpAoxoqnMB3W4y7xplBmxFzmaA8uJ7Dv2IuTkIbBjYe4JmjQ27mcIOv7
+   ncvOVIn+TkkM+VBz+kh4fXtNUGGzOy/7zVaYBkaFSlW3AQuscO6GGUrNo
+   CZMmdanmsf2WayJ/3LqFzcM0SvH7apexxY1tCx09csXWRhrX/MO78YPMb
+   h1ZsgVLn5amaskFLW/mSFUPjHzOrhSsOMAVi1n7sc9WhHL5OlyzvBl00h
    Q==;
-X-CSE-ConnectionGUID: /AkBm6/KQXKB/e9DDG+6Zw==
-X-CSE-MsgGUID: o499VVe8TWWn0i8xDcnyEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63095422"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63095422"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 14:16:06 -0700
-X-CSE-ConnectionGUID: dS1Gzh/KS+OUVFXNRSXBng==
-X-CSE-MsgGUID: 97zVp05vSj2b7ur3Z9T9Jw==
+X-CSE-ConnectionGUID: sAYCIa95Rj2zoeU5szV+8g==
+X-CSE-MsgGUID: 4+3szSK+QySax2HpiYAt9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59376143"
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="59376143"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 15:07:58 -0700
+X-CSE-ConnectionGUID: Kz4haBCOQOObo4QcGRY6Pw==
+X-CSE-MsgGUID: mKTvKUjJQAuSsa7tc4Qzdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="171257036"
+   d="scan'208";a="202654287"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Sep 2025 14:16:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Sep 2025 15:07:56 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utuoi-0004Qv-0X;
-	Wed, 03 Sep 2025 21:15:41 +0000
-Date: Thu, 4 Sep 2025 05:13:02 +0800
+	id 1utvdy-0004TO-1V;
+	Wed, 03 Sep 2025 22:07:54 +0000
+Date: Thu, 4 Sep 2025 06:06:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5.4 only v2] powerpc: boot: Remove leading zero in label
- in udelay()
-Message-ID: <aLivXntAMi0RN47F@c0d94d4ed04f>
+To: Tejun Heo <tj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tj-sched-ext:scx-hier-prototype 9/14] clang diag:
+ include/linux/sched/ext.h:214:42: warning: declaration of 'struct
+ task_sturct' will not be visible outside of this function
+Message-ID: <202509040505.EWMZKYIj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903211158.2844032-1-nathan@kernel.org>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git scx-hier-prototype
+head:   7443f4ccb9e360cd50e991db81d27e3514f1be65
+commit: 9c899613efcfc4e07c3b6a57e45ad3f95e637bdb [9/14] sched_ext: Keep dying tasks on a separate list
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250904/202509040505.EWMZKYIj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509040505.EWMZKYIj-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509040505.EWMZKYIj-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
-
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 5.4 only v2] powerpc: boot: Remove leading zero in label in udelay()
-Link: https://lore.kernel.org/stable/20250903211158.2844032-1-nathan%40kernel.org
-
-Please ignore this mail if the patch is not relevant for upstream.
+>> clang diag: include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
+--
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:16:
+   In file included from include/linux/uprobes.h:18:
+   In file included from include/linux/timer.h:6:
+   In file included from include/linux/ktime.h:25:
+   In file included from include/linux/jiffies.h:10:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:11:
+   In file included from arch/x86/include/asm/msr.h:16:
+   In file included from include/linux/percpu.h:12:
+   In file included from include/linux/sched.h:88:
+   include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
+     214 | static inline void sched_ext_exit(struct task_sturct *p) {}
+         |                                          ^
+   1 warning generated.
+   llvm-nm: error: rust/helpers/helpers.o: No such file or directory
+>> clang diag: include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
+>> clang diag: include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
+>> clang diag: include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
