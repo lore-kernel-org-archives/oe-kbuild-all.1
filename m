@@ -1,81 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EB82BF3CA
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 16:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC9563CF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 16:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756916194; cv=none; b=Si16rQi8yM3TCDUehrdn7iKvultZU/ITWTh/LE/8e4DSmREhKhMixPsoKyDrq6/RHhBvpc0yp/6qKrEGMZj12x1WB7dy9lfO+eBNFcRK+iYd1ps5z13X5R8ka74eHKAvp94zFCoEwECB1seG5GdJgKAoTy2Xroe0ay2U8ngUZ9w=
+	t=1756917225; cv=none; b=ItgctMXBYBPU3CRPclgJy4XegUqPl9RsktFQCaP44YEc8sdLP8FEXLEFhOY7hDyMiFdhruzXhIekBU3ECgXU/Ua+0OVVhxPwHCztKNe6lSjG3VBri83k+XJ6ovI8meHkNLJJo6W4wjP5nNCOLk0Rogoo9WNb+qbv3Y6AoE2I2EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756916194; c=relaxed/simple;
-	bh=QrZ1xBXZfnmeUYwuf4tYL7a2LZz7hVimzmzBV48W7SM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=puV+eaLEvRwV/4roN6UVuyJqXTHMWDiLborIYltqpFij5SHocL/TKBtwW1vfvDaqQG81e0PATDzC6aeaEH76VizGlBxuCU3ION7g5uYLtxWZHCbeYtBJ5x4kFpGY39Iu87BUPje/Kf2bAFMwLVGa3gcko4JtusGbO8UZCuqJBNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBA7WGwj; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1756917225; c=relaxed/simple;
+	bh=wVmguet6Y18ImorR5iJz0YOu5aft7KpEU7pY0KQDr8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=dJtfaQVCWs8dbbxVvh+O9esMBHHTokWJZ7OQNa9oBvI7nX9S1cY+v58m0wT1wSka+kFnTrUhybYSgrSJxOuFO8Oj4XmgzhlJ8GUlimqILk/dY8apZk0LACkYUx9+Uc54DIR0OiYWIMHUzufaylrfQJhgNqS4O5Sbsxl1PBCxNqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGHBKJNI; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBA7WGwj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGHBKJNI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756916192; x=1788452192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QrZ1xBXZfnmeUYwuf4tYL7a2LZz7hVimzmzBV48W7SM=;
-  b=JBA7WGwj2Or5oMd5HOiHATXG48FhQVhOoguKwtM4sjOE3SCgbE7KnEYK
-   syuifLwyb/Xc4XnxibqpDhYnMyoVUR15Kl9k2D7dENrrNmVMtQbFacByi
-   tkxsZOVd2jVNXEdJE1Nt5hLO/OFyHDXr3Nhbeegf+NwlQLShuQEBEVqXE
-   4t/Wyi0TQr8UlvgNhpy9x/RGTIrSzcxo3YP+JdVjzksVegm+8tXo8/30w
-   Zd4GIF0Kkel11kWbOKKYj8a5CmHGZRvMzYda0GdYVDj7R2oBNGM2/heAT
-   i1LVoYE4Aw6YoppP+lqpDJYD88oDxFmgSWgSLO9+toX5XmnlkIUKmxyk7
-   w==;
-X-CSE-ConnectionGUID: E/8YAmcZSta28NDW/AfJMg==
-X-CSE-MsgGUID: KlOPh50RTbuZ0Rq9bCVbvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76839627"
+  t=1756917224; x=1788453224;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=wVmguet6Y18ImorR5iJz0YOu5aft7KpEU7pY0KQDr8g=;
+  b=WGHBKJNI/dJHutlEBxJoG7IVN821CRHxebJZ9ZWERsOmnEZBZFtWUwmj
+   +eAuXps+j4wppEvD2Ust3FZaRYbkgKFUwrhwO4povkvVA7yGvm96vBxTM
+   k9GCJMVpKzwH+IyG9i1W4q+6AO1MkVjhRZT5rGxcpr/ZfqPG1Cz3FBMux
+   ze9vFs8np8JEE9Lohh7pJKIee08aLLTjuoIcqlgm60aPm/XgJX32D+DiI
+   4DHI+zIrYTn6P9ajpz1968q2vqyoy7TkChlO3IG9AgBwIYfQWh49xlvLV
+   RH5aliu0SoUai1FsN5TD35z6atxbT6Edvw2FbVbHTBDiIYSVk5LiNKtsr
+   g==;
+X-CSE-ConnectionGUID: Bpl65b0+QZ+U4OzD5AzvEg==
+X-CSE-MsgGUID: f4oAAtW2QleEBvjmJ0QkVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59306363"
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="76839627"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 09:16:31 -0700
-X-CSE-ConnectionGUID: h2nnzHojS7WwighpkOdYcQ==
-X-CSE-MsgGUID: L3aVKnAYRX+fBoJTiDYFkQ==
+   d="scan'208";a="59306363"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 09:33:43 -0700
+X-CSE-ConnectionGUID: AGe3Fp7LQGCrP56rvHdcIg==
+X-CSE-MsgGUID: pzoqwtenSYOMGWuChC/C6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="195279702"
+   d="scan'208";a="171576600"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Sep 2025 09:16:25 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 Sep 2025 09:33:42 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utq8g-00047n-23;
-	Wed, 03 Sep 2025 16:15:24 +0000
-Date: Thu, 4 Sep 2025 00:14:25 +0800
+	id 1utqQV-0004C3-1U;
+	Wed, 03 Sep 2025 16:33:39 +0000
+Date: Thu, 4 Sep 2025 00:33:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: MD Danish Anwar <danishanwar@ti.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Mengyuan Lou <mengyuanlou@net-swift.com>,
-	Xin Guo <guoxin09@huawei.com>, Lei Wei <quic_leiwei@quicinc.com>,
-	Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
-	Fan Gong <gongfan1@huawei.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	Suman Anna <s-anna@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Tero Kristo <kristo@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 4/8] net: rpmsg-eth: Add basic rpmsg skeleton
-Message-ID: <202509032343.1y6JMbSq-lkp@intel.com>
-References: <20250902090746.3221225-5-danishanwar@ti.com>
+To: =?iso-8859-1?Q?H=E5kon?= Bugge <haakon.bugge@oracle.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net 1/2] rds: ib: Increment i_fastreg_wrs before bailing
+ out
+Message-ID: <aLhtxGn7Geb1naL7@94157fd02e22>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,105 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902090746.3221225-5-danishanwar@ti.com>
+In-Reply-To: <20250903163140.3864215-1-haakon.bugge@oracle.com>
 
-Hi MD,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on 2fd4161d0d2547650d9559d57fc67b4e0a26a9e3]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/MD-Danish-Anwar/dt-bindings-net-ti-rpmsg-eth-Add-DT-binding-for-RPMSG-ETH/20250902-171411
-base:   2fd4161d0d2547650d9559d57fc67b4e0a26a9e3
-patch link:    https://lore.kernel.org/r/20250902090746.3221225-5-danishanwar%40ti.com
-patch subject: [PATCH net-next v2 4/8] net: rpmsg-eth: Add basic rpmsg skeleton
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250903/202509032343.1y6JMbSq-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509032343.1y6JMbSq-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509032343.1y6JMbSq-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/rpmsg_eth.c: In function 'rpmsg_eth_get_shm_info':
->> drivers/net/ethernet/rpmsg_eth.c:88:29: error: implicit declaration of function 'devm_ioremap' [-Werror=implicit-function-declaration]
-      88 |         common->port->shm = devm_ioremap(common->dev, rmem->base, rmem->size);
-         |                             ^~~~~~~~~~~~
->> drivers/net/ethernet/rpmsg_eth.c:88:27: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      88 |         common->port->shm = devm_ioremap(common->dev, rmem->base, rmem->size);
-         |                           ^
-   cc1: some warnings being treated as errors
-
-
-vim +/devm_ioremap +88 drivers/net/ethernet/rpmsg_eth.c
-
-    34	
-    35	/**
-    36	 * rpmsg_eth_get_shm_info - Retrieve shared memory region for RPMsg Ethernet
-    37	 * @common: Pointer to rpmsg_eth_common structure
-    38	 *
-    39	 * This function locates and maps the reserved memory region for the RPMsg
-    40	 * Ethernet device by traversing the device tree hierarchy. It first identifies
-    41	 * the associated remote processor (rproc), then locates the "rpmsg-eth" child
-    42	 * node within the rproc's device tree node, and finally retrieves the
-    43	 * "memory-region" phandle that points to the reserved memory region.
-    44	 * Once found, the shared memory region is mapped into the
-    45	 * kernel's virtual address space using devm_ioremap()
-    46	 *
-    47	 * Return: 0 on success, negative error code on failure.
-    48	 */
-    49	static int rpmsg_eth_get_shm_info(struct rpmsg_eth_common *common)
-    50	{
-    51		struct device_node *np, *rpmsg_eth_node, *rmem_np;
-    52		struct reserved_mem *rmem;
-    53		struct rproc *rproc;
-    54	
-    55		/* Get the remote processor associated with this device */
-    56		rproc = rproc_get_by_child(&common->rpdev->dev);
-    57		if (!rproc) {
-    58			dev_err(common->dev, "rpmsg eth device not child of rproc\n");
-    59			return -EINVAL;
-    60		}
-    61	
-    62		/* Get the device node from rproc or its parent */
-    63		np = rproc->dev.of_node ?: (rproc->dev.parent ? rproc->dev.parent->of_node : NULL);
-    64		if (!np) {
-    65			dev_err(common->dev, "Cannot find rproc device node\n");
-    66			return -ENODEV;
-    67		}
-    68	
-    69		/* Get the rpmsg-eth child node */
-    70		rpmsg_eth_node = of_get_child_by_name(np, "rpmsg-eth");
-    71		if (!rpmsg_eth_node) {
-    72			dev_err(common->dev, "Couldn't get rpmsg-eth node from np\n");
-    73			return -ENODEV;
-    74		}
-    75	
-    76		/* Parse the memory-region phandle */
-    77		rmem_np = of_parse_phandle(rpmsg_eth_node, "memory-region", 0);
-    78		of_node_put(rpmsg_eth_node);
-    79		if (!rmem_np)
-    80			return -EINVAL;
-    81	
-    82		/* Lookup the reserved memory region */
-    83		rmem = of_reserved_mem_lookup(rmem_np);
-    84		of_node_put(rmem_np);
-    85		if (!rmem)
-    86			return -EINVAL;
-    87	
-  > 88		common->port->shm = devm_ioremap(common->dev, rmem->base, rmem->size);
-    89		if (IS_ERR(common->port->shm))
-    90			return PTR_ERR(common->port->shm);
-    91	
-    92		common->port->buf_size = rmem->size;
-    93	
-    94		return 0;
-    95	}
-    96	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net 1/2] rds: ib: Increment i_fastreg_wrs before bailing out
+Link: https://lore.kernel.org/stable/20250903163140.3864215-1-haakon.bugge%40oracle.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
