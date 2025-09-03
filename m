@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9CD28CF41
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 15:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAB7292B4B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 16:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756914823; cv=none; b=UzWYFcKWZbBeVKsxkWO638+Sgezyjz+yr8ryig8iJvL4X2OCmvN9mcWhgz+sWJyULW3djuevTwiEJW5cznM0vw52Ic/aikSgvxYe6xIyQ78E1WCB4G1NPnWV9PFj+n2r5VK/G3Rnt68OF6imUaf5HLCQjQToW4J7GJfp4cz/YfA=
+	t=1756915423; cv=none; b=OmnOnVsyaalnHr2pk/4oE/tbr7oWyoLg9hMu5XHbYtamajFVjyybcYKAGj9cjReZUBmjVHHIHS1rMvst4dAYBRnb3hu3mCLK0TryFSzTOoHhIuAoTHz5KOaW6xc9nHGsu8ZAo96eyr2iaePrYdMBczotEngMKsvzBB9aSzA6TtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756914823; c=relaxed/simple;
-	bh=4+d29CDo2isLdSQEJ2x639g6QrGngZo+P1Q4KfYpGyo=;
+	s=arc-20240116; t=1756915423; c=relaxed/simple;
+	bh=wkhP7pV3dqRhxx3EJElQgifFuS0YqJgJDKYyZYWbXs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MZAFW9LUEL63V+4Cx4uwcWtQqNUiC/D/2/JKoCW2Fm60fTMk7SBThmmMJcNM/JTIlVekXleFGWxffA51j/3e9raj/QNW/gXnVYFhUh0hLC5vtrTirVQIwQG8BnoaLbtXxY7oiL/KVuDQNye+BgV9WdCd1Dn4x9GS5DY06x9NM0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KxPKy6+9; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=WcOw4id09u/faCPICfIIdkWw+beBjCDL5TAyMfZcEhixXGtbvLEcUbuYwoKwV/dNuYzDaKpZvSYZFYnRoIP2PlJT5TwYRkx0FNl0LCSOtNoeaBKPW9cZdT8OWGZ+jOM6Gd0o67b2UQ+yoEsU7rUW/r2xnmbKLTdJOfrDzrMYr8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nH2gy1Hw; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KxPKy6+9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nH2gy1Hw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756914822; x=1788450822;
+  t=1756915422; x=1788451422;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4+d29CDo2isLdSQEJ2x639g6QrGngZo+P1Q4KfYpGyo=;
-  b=KxPKy6+9IpEcfBeYOZ6LSwXBOdir1GKzA/qfP8heUwl63EH2rEbia0jQ
-   pMeRAMJCCslk7IO3TfLxiGZw1L8VuxJWWChCfRiNloJ6dJ+z8RTnBDRJv
-   7tP0tbiMjZvmh3F+1+Shhg1vRGH7fMAcFYhGRC/pMdQBPnn2jvGxB66jO
-   du01GpOqJ0TH/2y1n2UdPF6lTiCCqJwSmWD1esIC9Su8uHSBnv9pW6Olh
-   3XobFW0CVXebqXY0VlZmFjkwQNYk3HJYE4Z7yJH9JCnQPNvMAH80h/tct
-   W5eE7Vk1yc1zrm8gUaoUhMDfFexDmAvBIH+nxbcJqp0uuDvQexdUfwYnZ
+  bh=wkhP7pV3dqRhxx3EJElQgifFuS0YqJgJDKYyZYWbXs4=;
+  b=nH2gy1Hw6v8Fpb5doOkUZwswerjGOGcnI5xLME6+v/I6NkiG8xoenZg2
+   q05L/L5YlQdJAe3cOyRcGq72qQu+tQoa2KS2kmvBNot37K1w4k/cA5yse
+   nLEy6YeUIi2+BAGu4fo5cFl/hV8U7hJS5wgEK6Ts9wUz3b5AKx5y6wfyK
+   74VmkvGC4Lzx5CHDXHQW/ZoYcCfMHR1RZjvMKTWElvbUKf3/jthvJI+LL
+   XyzSoqY6/D46hVIYqxoU+QHD9kasMSPrUc7Bz52/NulwnF9ycV5xED3xD
+   P/xDqY1yj2ptptaGeVtlrLDD7jX34/8gtImcUV9Qv+uejqiu6dXeNPdNc
    A==;
-X-CSE-ConnectionGUID: +MS6euo7Ss6n1wyDlRXFmg==
-X-CSE-MsgGUID: Y0MmxBkATlKg2NJsT9gTgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70333968"
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="70333968"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 08:53:40 -0700
-X-CSE-ConnectionGUID: v5o1qFZwTY66KnCNM9RufA==
-X-CSE-MsgGUID: 95EVW+ARSoqj4E/WC2Uc6Q==
+X-CSE-ConnectionGUID: IpgtyjVqTV6phJdwqt3QRg==
+X-CSE-MsgGUID: L99Zm3zrQfO/EpfpZIRW6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59302859"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59302859"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 09:03:41 -0700
+X-CSE-ConnectionGUID: O5r05jP1QjKxdCZJx8T6FQ==
+X-CSE-MsgGUID: G4RLr6BCT560fWhTzLi7TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="171998599"
+   d="scan'208";a="176908590"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Sep 2025 08:53:38 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Sep 2025 09:03:40 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utpnk-00046R-1o;
-	Wed, 03 Sep 2025 15:53:36 +0000
-Date: Wed, 3 Sep 2025 23:52:57 +0800
+	id 1utpxR-00046t-1J;
+	Wed, 03 Sep 2025 16:03:37 +0000
+Date: Thu, 4 Sep 2025 00:03:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Brodsky <kevin.brodsky@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:nested_lazy_mmu 2/7] mm/vmscan.c:3524:26: warning:
- variable 'lazy_mmu_state' set but not used
-Message-ID: <202509032340.luqGELNq-lkp@intel.com>
+To: Michael Walle <mwalle@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Job Sava <jsava@criticallink.com>
+Subject: [lee-mfd:ib-mfd-input-6.18 2/3] drivers/mfd/tps6594-core.c:753:7:
+ error: implicit declaration of function 'FIELD_GET'
+Message-ID: <202509032356.LGa5hygM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,157 +63,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git nested_lazy_mmu
-head:   95673e91d66295c538fe848aa7ce00753f02b2e1
-commit: 6bd8375a897e4aee7a5cb7a9583f3d365fe9c3de [2/7] mm: introduce local state for lazy_mmu sections
-config: i386-buildonly-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509032340.luqGELNq-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509032340.luqGELNq-lkp@intel.com/reproduce)
+[community] /zdci/src/lkp/sbin/sync-produce --item /zdci/kbuild/indicators/d7/d766ca01c208bdf0f36098607efe1e250ccf41c5-first_error_kconfig --flag create-dir
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-input-6.18
+head:   2215a87b02ad8d353cd3edebd1bed01db2458986
+commit: d766ca01c208bdf0f36098607efe1e250ccf41c5 [2/3] mfd: tps6594: Add power button functionality
+config: arc-randconfig-002-20250903 (https://download.01.org/0day-ci/archive/20250903/202509032356.LGa5hygM-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509032356.LGa5hygM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509032340.luqGELNq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509032356.LGa5hygM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/vmscan.c: In function 'walk_pte_range':
->> mm/vmscan.c:3524:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    3524 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/vmscan.c: In function 'walk_pmd_range_locked':
-   mm/vmscan.c:3604:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    3604 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/vmscan.c: In function 'lru_gen_look_around':
-   mm/vmscan.c:4232:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    4232 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
---
-   mm/mremap.c: In function 'move_ptes':
->> mm/mremap.c:196:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-     196 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
---
-   mm/vmalloc.c: In function 'vmap_pte_range':
->> mm/vmalloc.c:98:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-      98 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/vmalloc.c: In function 'vunmap_pte_range':
-   mm/vmalloc.c:358:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-     358 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/vmalloc.c: In function 'vmap_pages_pte_range':
-   mm/vmalloc.c:519:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-     519 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
---
-   mm/memory.c: In function 'copy_pte_range':
->> mm/memory.c:1082:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    1082 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/memory.c: In function 'zap_pte_range':
-   mm/memory.c:1698:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    1698 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/memory.c: In function 'remap_pte_range':
-   mm/memory.c:2688:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    2688 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
-   mm/memory.c: In function 'apply_to_pte_range':
-   mm/memory.c:2995:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-    2995 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
---
-   mm/mprotect.c: In function 'change_pte_range':
->> mm/mprotect.c:276:26: warning: variable 'lazy_mmu_state' set but not used [-Wunused-but-set-variable]
-     276 |         lazy_mmu_state_t lazy_mmu_state;
-         |                          ^~~~~~~~~~~~~~
+   drivers/mfd/tps6594-core.c: In function 'tps6594_device_init':
+>> drivers/mfd/tps6594-core.c:753:7: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+      if (FIELD_GET(TPS65224_MASK_EN_PB_VSENSE_CONFIG, pwr_on) == TPS65224_EN_SEL_PB ||
+          ^~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/lazy_mmu_state +3524 mm/vmscan.c
+vim +/FIELD_GET +753 drivers/mfd/tps6594-core.c
 
-  3520	
-  3521	static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
-  3522				   struct mm_walk *args)
-  3523	{
-> 3524		lazy_mmu_state_t lazy_mmu_state;
-  3525		int i;
-  3526		bool dirty;
-  3527		pte_t *pte;
-  3528		spinlock_t *ptl;
-  3529		unsigned long addr;
-  3530		int total = 0;
-  3531		int young = 0;
-  3532		struct folio *last = NULL;
-  3533		struct lru_gen_mm_walk *walk = args->private;
-  3534		struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
-  3535		struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
-  3536		DEFINE_MAX_SEQ(walk->lruvec);
-  3537		int gen = lru_gen_from_seq(max_seq);
-  3538		pmd_t pmdval;
-  3539	
-  3540		pte = pte_offset_map_rw_nolock(args->mm, pmd, start & PMD_MASK, &pmdval, &ptl);
-  3541		if (!pte)
-  3542			return false;
-  3543	
-  3544		if (!spin_trylock(ptl)) {
-  3545			pte_unmap(pte);
-  3546			return true;
-  3547		}
-  3548	
-  3549		if (unlikely(!pmd_same(pmdval, pmdp_get_lockless(pmd)))) {
-  3550			pte_unmap_unlock(pte, ptl);
-  3551			return false;
-  3552		}
-  3553	
-  3554		lazy_mmu_state = arch_enter_lazy_mmu_mode();
-  3555	restart:
-  3556		for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
-  3557			unsigned long pfn;
-  3558			struct folio *folio;
-  3559			pte_t ptent = ptep_get(pte + i);
-  3560	
-  3561			total++;
-  3562			walk->mm_stats[MM_LEAF_TOTAL]++;
-  3563	
-  3564			pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
-  3565			if (pfn == -1)
-  3566				continue;
-  3567	
-  3568			folio = get_pfn_folio(pfn, memcg, pgdat);
-  3569			if (!folio)
-  3570				continue;
-  3571	
-  3572			if (!ptep_clear_young_notify(args->vma, addr, pte + i))
-  3573				continue;
-  3574	
-  3575			if (last != folio) {
-  3576				walk_update_folio(walk, last, gen, dirty);
-  3577	
-  3578				last = folio;
-  3579				dirty = false;
-  3580			}
-  3581	
-  3582			if (pte_dirty(ptent))
-  3583				dirty = true;
-  3584	
-  3585			young++;
-  3586			walk->mm_stats[MM_LEAF_YOUNG]++;
-  3587		}
-  3588	
-  3589		walk_update_folio(walk, last, gen, dirty);
-  3590		last = NULL;
-  3591	
-  3592		if (i < PTRS_PER_PTE && get_next_vma(PMD_MASK, PAGE_SIZE, args, &start, &end))
-  3593			goto restart;
-  3594	
-  3595		arch_leave_lazy_mmu_mode(lazy_mmu_state);
-  3596		pte_unmap_unlock(pte, ptl);
-  3597	
-  3598		return suitable_to_scan(total, young);
-  3599	}
-  3600	
+   690	
+   691	int tps6594_device_init(struct tps6594 *tps, bool enable_crc)
+   692	{
+   693		struct device *dev = tps->dev;
+   694		int ret;
+   695		struct regmap_irq_chip *irq_chip;
+   696		unsigned int pwr_on, gpio3_cfg;
+   697		const struct mfd_cell *cells;
+   698		int n_cells;
+   699	
+   700		if (enable_crc) {
+   701			ret = tps6594_enable_crc(tps);
+   702			if (ret)
+   703				return dev_err_probe(dev, ret, "Failed to enable CRC\n");
+   704		}
+   705	
+   706		/* Keep PMIC in ACTIVE state */
+   707		ret = regmap_set_bits(tps->regmap, TPS6594_REG_FSM_NSLEEP_TRIGGERS,
+   708				      TPS6594_BIT_NSLEEP1B | TPS6594_BIT_NSLEEP2B);
+   709		if (ret)
+   710			return dev_err_probe(dev, ret, "Failed to set PMIC state\n");
+   711	
+   712		if (tps->chip_id == TPS65224) {
+   713			irq_chip = &tps65224_irq_chip;
+   714			n_cells = ARRAY_SIZE(tps65224_common_cells);
+   715			cells = tps65224_common_cells;
+   716		} else if (tps->chip_id == TPS652G1) {
+   717			irq_chip = &tps652g1_irq_chip;
+   718			n_cells = ARRAY_SIZE(tps652g1_common_cells);
+   719			cells = tps652g1_common_cells;
+   720		} else {
+   721			irq_chip = &tps6594_irq_chip;
+   722			n_cells = ARRAY_SIZE(tps6594_common_cells);
+   723			cells = tps6594_common_cells;
+   724		}
+   725	
+   726		irq_chip->irq_drv_data = tps;
+   727		irq_chip->name = devm_kasprintf(dev, GFP_KERNEL, "%s-%ld-0x%02x",
+   728						dev->driver->name, tps->chip_id, tps->reg);
+   729	
+   730		if (!irq_chip->name)
+   731			return -ENOMEM;
+   732	
+   733		ret = devm_regmap_add_irq_chip(dev, tps->regmap, tps->irq, IRQF_SHARED | IRQF_ONESHOT,
+   734					       0, irq_chip, &tps->irq_data);
+   735		if (ret)
+   736			return dev_err_probe(dev, ret, "Failed to add regmap IRQ\n");
+   737	
+   738		ret = devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, cells, n_cells, NULL, 0,
+   739					   regmap_irq_get_domain(tps->irq_data));
+   740		if (ret)
+   741			return dev_err_probe(dev, ret, "Failed to add common child devices\n");
+   742	
+   743		/* If either the PB/EN/VSENSE or GPIO3 is configured as PB, register a driver for it */
+   744		if (tps->chip_id == TPS65224 || tps->chip_id == TPS652G1) {
+   745			ret = regmap_read(tps->regmap, TPS6594_REG_NPWRON_CONF, &pwr_on);
+   746			if (ret)
+   747				return dev_err_probe(dev, ret, "Failed to read PB/EN/VSENSE config\n");
+   748	
+   749			ret = regmap_read(tps->regmap, TPS6594_REG_GPIOX_CONF(2), &gpio3_cfg);
+   750			if (ret)
+   751				return dev_err_probe(dev, ret, "Failed to read GPIO3 config\n");
+   752	
+ > 753			if (FIELD_GET(TPS65224_MASK_EN_PB_VSENSE_CONFIG, pwr_on) == TPS65224_EN_SEL_PB ||
+   754			    FIELD_GET(TPS65224_MASK_GPIO_SEL, gpio3_cfg) == TPS65224_GPIO3_SEL_PB) {
+   755				ret = devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO,
+   756							   &tps6594_pwrbutton_cell, 1, NULL, 0,
+   757							   regmap_irq_get_domain(tps->irq_data));
+   758				if (ret)
+   759					return dev_err_probe(dev, ret,
+   760							     "Failed to add power button device.\n");
+   761			}
+   762		}
+   763	
+   764		/* No RTC for LP8764, TPS65224 and TPS652G1 */
+   765		if (tps->chip_id != LP8764 && tps->chip_id != TPS65224 && tps->chip_id != TPS652G1) {
+   766			ret = devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, tps6594_rtc_cells,
+   767						   ARRAY_SIZE(tps6594_rtc_cells), NULL, 0,
+   768						   regmap_irq_get_domain(tps->irq_data));
+   769			if (ret)
+   770				return dev_err_probe(dev, ret, "Failed to add RTC child device\n");
+   771		}
+   772	
+   773		return 0;
+   774	}
+   775	EXPORT_SYMBOL_GPL(tps6594_device_init);
+   776	
 
 -- 
 0-DAY CI Kernel Test Service
