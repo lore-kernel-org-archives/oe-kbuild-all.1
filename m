@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB6635CED8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 19:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D991F0995
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 20:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756927318; cv=none; b=JjEd7KIRyMaNO8rA4ZtCjC/34jtmifLgszLREFze3GBa/0Yv/lMgxCCBFGh0E+A0uMT4Vu1B8mzcbBF4WzQKVedW9lcVioxUgiMpowyxJskfHg3uW8GewHSTwTwQL6B/WQNDfWMNjYs1efw+yKlgTZ/CkgNQwWi64LNq6eYgUC0=
+	t=1756930494; cv=none; b=mex/v06TEdlU63NHwoRJIMeVc+iJfgVKkfaFtAAqNKnb3o0tc44my5W50BkhUU2HIVX00dRZXiFv4iDSHf7zJSHvlivFIxr0U3ePwxGUR14UIskD3bLVKQJXy8pUfBsEK8aXx4op/HkygUYvMUsq8D4C6oOEa8LwKcxfiVv15a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756927318; c=relaxed/simple;
-	bh=wwh9NNgaYIFrGb9jnkl3O8hP6UoWuAVK7ZfnS6VZJV0=;
+	s=arc-20240116; t=1756930494; c=relaxed/simple;
+	bh=NmuBfM5LmeVF0aHh+7ic8Ih2jlRUXgBwWZzRQVCkhKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=c2S5g4IIUdxYHaCRxtkVf6XcpnoWtb9Qx58ZNMhULmj5G1yVkgr6aOW5r9CRf4Giv6vjVmznDDf/POB1yZZdwmLDKP0jEzFtIHZxblpBKSbHF/RdyidSQx8OnwMkbbtqVHmrpwJWPX35caY3duHOLLj5rNOVyT7lkCy4aYwgK/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7411U+k; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=jJAj5AulEpxU5bTu8NKGgKgYTJedc9P3slumb+UyMIB+uI3oP1l3SXs/d1XqIkrDQfq6G8EjK8GPvLErG+gOjKGI4HTy1ov5XDUNYxYDeiYnWOeOHTBhorqKmzqWD8mrvfN+/VqsgGviCNFFmc4T2GXOrKUGCPY343/kkexOMz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FxGbYgg6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7411U+k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FxGbYgg6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756927317; x=1788463317;
+  t=1756930493; x=1788466493;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wwh9NNgaYIFrGb9jnkl3O8hP6UoWuAVK7ZfnS6VZJV0=;
-  b=W7411U+k3HEybzsqhYcw2zjSUR6hRBgHLA2C8A/l6SS69Grccolg/1re
-   mEOez/yKJRbCXp4EPnGeaYgPsTGoUBi9OMgdHl1wBLRAkBjL12LJFe7hx
-   F7IZ3/ij3nnjrvh6va1MPZQoBr84CJ27qm9+gVeYWZqiBSxbEglxK4dHk
-   VsUTWs2sHTlrNHJbfFcZD9KZ5uM4uLS8G1mLrRZeu0VFQE8uW9JDUkunQ
-   jZASGUilQ7Jjp5OvaGYXhjG3plmww93nS6SdvKWUDwIf0Ab0Z3NAq3AGo
-   Qo4QPrmkKVzsvn4ln9K4LladsrkCNYC/ZOczvVUo/Ux1+OVNf6x4/22Ie
-   A==;
-X-CSE-ConnectionGUID: +9VXwX/3S/itWb9djeujCw==
-X-CSE-MsgGUID: nYUIuAVUQkmNynf6PG3mkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59110889"
+  bh=NmuBfM5LmeVF0aHh+7ic8Ih2jlRUXgBwWZzRQVCkhKA=;
+  b=FxGbYgg6thwfnOqqJe5+9cHUYV3eD8DYkbc4PBNV1Qh8+MeHDHU3Kb47
+   zDfE/6Cnd8wa6eMXJZxFmqWxWaZSUnKm9rUN+I8wyN/grE9TS2AQV0G77
+   7i2PJf+DWBtzJTwo696JvZZbk1Zrtdvi6CMeQaVbXDwmO4U4DJQafA2ak
+   S1wWksQkEtdY2DnZQ4d9XJ6VEA1a4wEr/zWmhRiRwrjT0dfe91sgnFgtd
+   OzoqbLjh44XxefF/BdTeK+rFOw+pZNPHYNhM8fGOaS0gWcxKtTfdvPXvY
+   S0dGI/Zq9c0Lv9/bYjxZXH44p49xMfYcmfaqj06t7HBWMUU4olH8Iigho
+   g==;
+X-CSE-ConnectionGUID: 3H5SHTJSRgWVyJTl2uVBEQ==
+X-CSE-MsgGUID: akdXubH3QhSan4FuTEyMzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59325881"
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="59110889"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 12:21:56 -0700
-X-CSE-ConnectionGUID: 4zv/kassSemcdxwsRLPsGQ==
-X-CSE-MsgGUID: CfgTtrV/T7OyDW5tkH5hTA==
+   d="scan'208";a="59325881"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 13:14:52 -0700
+X-CSE-ConnectionGUID: OCZnKYd+SfyHLE2M1lWhVw==
+X-CSE-MsgGUID: Wak1Mt9IRumkxJAkSq0Kxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="176905160"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Sep 2025 12:21:54 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+   d="scan'208";a="172135109"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2025 13:14:47 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utt3I-0004Ln-2m;
-	Wed, 03 Sep 2025 19:21:52 +0000
-Date: Thu, 4 Sep 2025 03:21:48 +0800
+	id 1uttsQ-0003br-0p;
+	Wed, 03 Sep 2025 20:14:42 +0000
+Date: Wed, 3 Sep 2025 22:13:57 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kevin Brodsky <kevin.brodsky@arm.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:nested_lazy_mmu 2/7]
- arch/powerpc/include/asm/book3s/64/tlbflush-hash.h:35:17: error: 'return'
- with no value, in function returning non-void
-Message-ID: <202509040307.50Z30uOL-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 1/1] kernel/sched/fair.c:1679:22:
+ warning: no previous prototype for function '__pick_first_entity'
+Message-ID: <202509032217.naO9EALS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,80 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-[community] /zdci/src/lkp/sbin/sync-produce --item /zdci/kbuild/indicators/6b/6bd8375a897e4aee7a5cb7a9583f3d365fe9c3de-first_error_kconfig --flag create-dir
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git nested_lazy_mmu
-head:   95673e91d66295c538fe848aa7ce00753f02b2e1
-commit: 6bd8375a897e4aee7a5cb7a9583f3d365fe9c3de [2/7] mm: introduce local state for lazy_mmu sections
-config: powerpc64-randconfig-001-20250904 (https://download.01.org/0day-ci/archive/20250904/202509040307.50Z30uOL-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509040307.50Z30uOL-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   119e72f374248c57f950f0658c1e1099b40e2ffa
+commit: 9372f9beab4213be5b70136fe15a6cdc3b034be3 [1/1] ck: sched: introduce group identity 'smt expeller'
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250903/202509032217.naO9EALS-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509032217.naO9EALS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509040307.50Z30uOL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509032217.naO9EALS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/include/asm/book3s/64/tlbflush.h:9,
-                    from arch/powerpc/include/asm/book3s/tlbflush.h:6,
-                    from arch/powerpc/include/asm/tlbflush.h:6,
-                    from arch/powerpc/include/asm/pgtable.h:11,
-                    from include/linux/pgtable.h:6,
-                    from arch/powerpc/include/asm/kup.h:43,
-                    from arch/powerpc/include/asm/uaccess.h:8,
-                    from include/linux/uaccess.h:12,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:34,
-                    from include/linux/compat.h:17,
-                    from arch/powerpc/kernel/asm-offsets.c:12:
-   arch/powerpc/include/asm/book3s/64/tlbflush-hash.h: In function 'arch_enter_lazy_mmu_mode':
->> arch/powerpc/include/asm/book3s/64/tlbflush-hash.h:35:17: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
-      35 |                 return;
-         |                 ^~~~~~
-   arch/powerpc/include/asm/book3s/64/tlbflush-hash.h:30:32: note: declared here
-      30 | static inline lazy_mmu_state_t arch_enter_lazy_mmu_mode(void)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: arch/powerpc/kernel/asm-offsets.s] Error 1 shuffle=3253080104
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1282: prepare0] Error 2 shuffle=3253080104
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3253080104
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3253080104
-   make: Target 'prepare' not remade because of errors.
+>> kernel/sched/fair.c:1679:22: warning: no previous prototype for function '__pick_first_entity' [-Wmissing-prototypes]
+    1679 | struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
+         |                      ^
+   kernel/sched/fair.c:1679:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1679 | struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
+         | ^
+         | static 
+   kernel/sched/fair.c:8052:7: warning: variable 'min_vruntime' set but not used [-Wunused-but-set-variable]
+    8052 |                 u64 min_vruntime;
+         |                     ^
+   kernel/sched/fair.c:794:20: warning: unused function 'is_underclass_task' [-Wunused-function]
+     794 | static inline bool is_underclass_task(struct task_struct *p)
+         |                    ^~~~~~~~~~~~~~~~~~
+   3 warnings generated.
 
 
-vim +/return +35 arch/powerpc/include/asm/book3s/64/tlbflush-hash.h
+vim +/__pick_first_entity +1679 kernel/sched/fair.c
 
-ee3b93ebfbed62 Aneesh Kumar K.V 2016-03-01  29  
-6bd8375a897e4a Kevin Brodsky    2025-07-31  30  static inline lazy_mmu_state_t arch_enter_lazy_mmu_mode(void)
-ee3b93ebfbed62 Aneesh Kumar K.V 2016-03-01  31  {
-1a472c9dba6b96 Aneesh Kumar K.V 2016-04-29  32  	struct ppc64_tlb_batch *batch;
-ee3b93ebfbed62 Aneesh Kumar K.V 2016-03-01  33  
-1a472c9dba6b96 Aneesh Kumar K.V 2016-04-29  34  	if (radix_enabled())
-1a472c9dba6b96 Aneesh Kumar K.V 2016-04-29 @35  		return;
-b9ef323ea1682f Nicholas Piggin  2022-10-14  36  	/*
-b9ef323ea1682f Nicholas Piggin  2022-10-14  37  	 * apply_to_page_range can call us this preempt enabled when
-b9ef323ea1682f Nicholas Piggin  2022-10-14  38  	 * operating on kernel page tables.
-b9ef323ea1682f Nicholas Piggin  2022-10-14  39  	 */
-b9ef323ea1682f Nicholas Piggin  2022-10-14  40  	preempt_disable();
-1a472c9dba6b96 Aneesh Kumar K.V 2016-04-29  41  	batch = this_cpu_ptr(&ppc64_tlb_batch);
-ee3b93ebfbed62 Aneesh Kumar K.V 2016-03-01  42  	batch->active = 1;
-6bd8375a897e4a Kevin Brodsky    2025-07-31  43  
-6bd8375a897e4a Kevin Brodsky    2025-07-31  44  	return LAZY_MMU_DEFAULT;
-ee3b93ebfbed62 Aneesh Kumar K.V 2016-03-01  45  }
-ee3b93ebfbed62 Aneesh Kumar K.V 2016-03-01  46  
+9372f9beab4213 kernel/sched/fair.c Michael Wang   2020-08-05  1678  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra 2011-10-25 @1679  struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1680  {
+b37e67a6c64803 kernel/sched/fair.c Michael Wang   2020-08-04  1681  	struct rb_node *left = id_rb_first_cached(cfs_rq);
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1682  
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1683  	if (!left)
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1684  		return NULL;
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1685  
+1e922847e9c480 kernel/sched/fair.c Peter Zijlstra 2021-05-31  1686  	return __node_2_se(left);
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1687  }
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1688  
 
-:::::: The code at line 35 was first introduced by commit
-:::::: 1a472c9dba6b9646fd36717968f6a531b4441c7d powerpc/mm/radix: Add tlbflush routines
+:::::: The code at line 1679 was first introduced by commit
+:::::: 029632fbb7b7c9d85063cc9eb470de6c54873df3 sched: Make separate sched*.c translation units
 
-:::::: TO: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
