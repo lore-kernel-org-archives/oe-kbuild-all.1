@@ -1,171 +1,119 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C45286892
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 14:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608A01F419B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 14:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756908369; cv=none; b=Pq4pU+ZPH02QRpyBMqoYlRXI30bshNfegD2qxRbO2HXZ1iWivBLir9JYFl8E9sY0fXAW0dsI4xtd92CIvcR3zXkn/ovXpbibEM0Oo08fqpwBrBOmKST5S08Evo2Si+FIRB/I8keFk3hqDgw/zeOExHef+VjZncfH0raplmwjkiM=
+	t=1756910189; cv=none; b=m8lO670UjT24MQMpfX8W7icErYT2tQK7bOdlRpFq/8DGue8wIfswSkVVeosdY6EtmNrYev4ZluZlc7ShbHhIaEfBrSjwgLZXQv8kBobiQ0xCC5hOWfYpZd4hxJIPrBLvZAEm7qHqSXZLpzyMclM/2Vq5JvPkmfdxPcU8PzeH8mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756908369; c=relaxed/simple;
-	bh=jJvjScnyctCjCrW9uH75zudbESAeHApJCJbWt0aaOPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6kkbHL25lRRaiZqHVZYaN5+1qjrscG7LOwfiCJV+yUGDtJzYF91FIL6hBka1LLqGAsBARnT3+aM2bYDadi1dJgR1ip8uH9+WlBkJxbkqJYaf40p6xohwjhSlnzj3rjL+oQHJ/fIdvBYcCIn0/96TnMaYVKhp3R4VHplUwkRXsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=PhecGjxb; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wbinvd.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
+	s=arc-20240116; t=1756910189; c=relaxed/simple;
+	bh=pHEds+uF0QwjkXJTphLTmXk7w0lXROFPS53O6CJxa1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uYQOTN+gJBjDa26JIEaK87gEe4RCE+xYcRFAZuibVTyzHaLAh3SswmeY/3/j+8uWyDejP5HnXLQEPrWS/ucLuwukEAfgbZshwufOpS/hKGHAt8x3RrzGG/0Rsj1bb5YxvdLdkvM7Bv4RUV4OILjB/eDFlqbKPQOe1lXMba8XKUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wj6QeUU4; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="PhecGjxb"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-248d5074ff7so7392595ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Sep 2025 07:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wbinvd.org; s=wbinvd; t=1756908367; x=1757513167; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MjiZpHaOGAzMnI40BIIZ11hI7GlxfYSDqRw3KpQJVjo=;
-        b=PhecGjxb5D6UkdDpj3Emf/NZRgf0odam1LQ9a5wOD/aUu90nfEbyCGcRUb7CY69pEv
-         2Y4WRGd/WgscOL5WTF9VbrwH0X1U1Hk5wv7OoAWcu6Dc3+OmSNYIhjK4O8uFCArJJKji
-         py2RepMfcZj4mnpS7U9L5FoaEXwyIM3Lmc5r1ZRd9S5tOp+Bykd+NpH/AMc23GQVjiIO
-         b+Lt8NQi5APIQuLXWDQWsjRLDSSKY1Xmn6mo4Vmrkk81e3yXsbz1Stia0czbPDZOlWNQ
-         pvvoBpLyvsJlfc21WK3KQa19XdcN/x1O0BwJlhYpTBzAOkcSza/z+1u9R3nZueRkTila
-         uAfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756908367; x=1757513167;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MjiZpHaOGAzMnI40BIIZ11hI7GlxfYSDqRw3KpQJVjo=;
-        b=bf7y4Y5MZlRpr+IAuuXEs13ZfEVeBJOZz7rRMGAHz7XpFQW00vPoWthk7Fm2HbOt9O
-         l59zopwbMyk85hci3a97dJ6cvtU6vpm+jtn32JyOR3WtVrIWrrHOjEcp7oHI2qviwfBL
-         kA/YPSPFbVmOZqHHUnM6u4yQxIb25FAHS/h05MopmnSom77thvcr9oVV6+acuOKx+yiT
-         Ak/VnKr01F4TpSaNr+bsQwZbldIq1UTIZanT2EPmWRJErMnN8ze6M8Xdo0SW0/4RCaea
-         Q4rN8ZmHh2q4Pdi3OJkNjgFXVCnLcvhSRTT83zP0Tq9L6zXbEYBqptT54r9ORV6zDvr+
-         1DZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUV8y2IiFu4SJ5mxahk+/SQc18pCEyiD2kHAemYtCwCWDodQMgal4jmkXKik/GnSNqL1LH9Sv7auLclP+Hr@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjB4v0dUBPWPyOk4BZUuvnpnHR25U584tzsynLiVDWJvVfvEsu
-	858LmHkQpRr+YenH3/V28sMVXt/00Vu1HAGEA35Oyz6eZ9W8zNou7w46EHx0quwx/pE=
-X-Gm-Gg: ASbGncusQy4xV/8d48BxfT9Ewpg4mfNg7D51UXGnV1q2Ax1iXRrqyU6wMRdIhoiqHom
-	LHMlRzapmjj4wLFZQbETbJhSI++itPLPykB052Gr2+9BQilpzLz3tmcdB96gsTOhSXeioTGah2U
-	ajJCkyj8Px30Y2yNZrIVYwtIYTazjcXRF5IrXfL0jEbGMxgv9yiWAIwJBzrVcPaSmk+2KXpcE0I
-	M9MvRlmyPdixw2iPUWpoOux9hr+elBOPzfPw9KtaSLnBMrFM0l7vyl1fXMAe8Vepz1CHW+rgXr7
-	kpGvL1C01XwfgPU42aHfvK0lgznfWsE4oNrLd2OzBB6OoZY7AdYx0ZXKr54HNeztHLKW5/QokVj
-	10jQiRRYPyagNq1VgxrBBeQXa
-X-Google-Smtp-Source: AGHT+IFlIeuwMod5aclkQ/QtX6cKW39pAdUeh1p1zXqs3QyuVJvhTttccp2Nuw4HcUpvwD0nuOddbQ==
-X-Received: by 2002:a17:903:186:b0:246:2cb3:5768 with SMTP id d9443c01a7336-24944b4323fmr220781315ad.30.1756908366468;
-        Wed, 03 Sep 2025 07:06:06 -0700 (PDT)
-Received: from mozart.vkv.me ([192.184.167.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24c9e39094dsm16821705ad.84.2025.09.03.07.06.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 07:06:05 -0700 (PDT)
-Date: Wed, 3 Sep 2025 07:06:06 -0700
-From: Calvin Owens <calvin@wbinvd.org>
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, linux-kernel@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Sean Wang <sean.wang@mediatek.com>,
-	linux-mediatek@lists.infradead.org, naresh.kamboju@linaro.org
-Subject: [PATCH v3] Bluetooth: Fix build after header cleanup
-Message-ID: <aLhLTiIMRnjHfvOn@mozart.vkv.me>
-References: <202508300413.OnIedvRh-lkp@intel.com>
- <b78a4255d17adbb74140aa23f89cb7653af96c75.1756513671.git.calvin@wbinvd.org>
- <84fd4012-966b-4983-b015-ffce06509b5e@molgen.mpg.de>
- <aLNRvzXE4O9dKZoN@mozart.vkv.me>
- <CABBYNZJBDgQHwmx82H2XJ-LCeOsxc77PPo6NA4zzT0dt7Uxddw@mail.gmail.com>
- <aLcQsE3x9o4BzXxp@mozart.vkv.me>
- <aLhK5wEHgxc3BIgb@mozart.vkv.me>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wj6QeUU4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756910187; x=1788446187;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pHEds+uF0QwjkXJTphLTmXk7w0lXROFPS53O6CJxa1s=;
+  b=Wj6QeUU4VsPIRJe43sBU+Yqdywrsw4LgtCa5s94M1c8OE86hqs46dXiE
+   BfeK9Bl1Rw9JviJvQPtFFJic9cnhkqmLxi5aewo53aOMhsvs9vfQ3WFJV
+   spHjd7XjGWgi4TLew6w5vcAVjyyoHclo6dfXj+upwGDKMyP1fHXxAP0Qh
+   4/L6CuHENrGa9nvtqCnA/uFFd2gsu4+FOr0YQviEbPUbfb20dzsYxySRH
+   2WuUHp0WKM5x2CVUSgzi2dc6mZ9J1IqJDbHOUCJiFUkvbdyCBdukDTB1H
+   tK2dv9MdcPNu7EPD1BlCH2d3cOaaziZ1euwas4u5/w4yy2WfjVxHaYe6f
+   g==;
+X-CSE-ConnectionGUID: WJgXxVRLRd+nYphhz820Gg==
+X-CSE-MsgGUID: 32PQgW+GQQ6VHeOWEDbygw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="63044357"
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="63044357"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:36:27 -0700
+X-CSE-ConnectionGUID: QORY7JXtRXqP/8N3PZinwg==
+X-CSE-MsgGUID: bXQsUgZZSBuRxdgGWwG+BA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="208809548"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa001.jf.intel.com with ESMTP; 03 Sep 2025 07:36:25 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1utob1-0003Yt-1W;
+	Wed, 03 Sep 2025 14:36:23 +0000
+Date: Wed, 3 Sep 2025 16:35:55 +0200
+From: kernel test robot <lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tj-sched-ext:scx-hier-prototype 9/14]
+ include/linux/sched/ext.h:214:42: warning: declaration of 'struct
+ task_sturct' will not be visible outside of this function
+Message-ID: <202509031639.E72qf2xU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aLhK5wEHgxc3BIgb@mozart.vkv.me>
 
-Some Kconfig dependencies are needed after my recent cleanup, since
-the core code has its own option.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git scx-hier-prototype
+head:   7443f4ccb9e360cd50e991db81d27e3514f1be65
+commit: 9c899613efcfc4e07c3b6a57e45ad3f95e637bdb [9/14] sched_ext: Keep dying tasks on a separate list
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250903/202509031639.E72qf2xU-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031639.E72qf2xU-lkp@intel.com/reproduce)
 
-Since btmtksdio does not actually call h4_recv_buf(), move the
-definitions it uses outside the BT_HCIUART_H4 gate in hci_uart.h to
-avoid adding a dependency for btmtksdio.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509031639.E72qf2xU-lkp@intel.com/
 
-The rest I touched (bpa10x, btmtkuart, and btnxpuart) do really call
-h4_recv_buf(), so the dependency is required, add it for them.
+All warnings (new ones prefixed by >>):
 
-Fixes: 0e272fc7e17d ("Bluetooth: remove duplicate h4_recv_buf() in header")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202508300413.OnIedvRh-lkp@intel.com/
-Signed-off-by: Calvin Owens <calvin@wbinvd.org>
----
- drivers/bluetooth/Kconfig    | 6 ++++++
- drivers/bluetooth/hci_uart.h | 8 ++++----
- 2 files changed, 10 insertions(+), 4 deletions(-)
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:16:
+   In file included from include/linux/uprobes.h:18:
+   In file included from include/linux/timer.h:6:
+   In file included from include/linux/ktime.h:25:
+   In file included from include/linux/jiffies.h:10:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:11:
+   In file included from arch/x86/include/asm/msr.h:16:
+   In file included from include/linux/percpu.h:12:
+   In file included from include/linux/sched.h:88:
+>> include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
+     214 | static inline void sched_ext_exit(struct task_sturct *p) {}
+         |                                          ^
+   1 warning generated.
+--
+>> clang diag: include/linux/sched/ext.h:214:42: warning: declaration of 'struct task_sturct' will not be visible outside of this function [-Wvisibility]
 
-diff --git a/drivers/bluetooth/Kconfig b/drivers/bluetooth/Kconfig
-index 4ab32abf0f48..7df69ccb6600 100644
---- a/drivers/bluetooth/Kconfig
-+++ b/drivers/bluetooth/Kconfig
-@@ -312,7 +312,9 @@ config BT_HCIBCM4377
- 
- config BT_HCIBPA10X
- 	tristate "HCI BPA10x USB driver"
-+	depends on BT_HCIUART
- 	depends on USB
-+	select BT_HCIUART_H4
- 	help
- 	  Bluetooth HCI BPA10x USB driver.
- 	  This driver provides support for the Digianswer BPA 100/105 Bluetooth
-@@ -437,8 +439,10 @@ config BT_MTKSDIO
- 
- config BT_MTKUART
- 	tristate "MediaTek HCI UART driver"
-+	depends on BT_HCIUART
- 	depends on SERIAL_DEV_BUS
- 	depends on USB || !BT_HCIBTUSB_MTK
-+	select BT_HCIUART_H4
- 	select BT_MTK
- 	help
- 	  MediaTek Bluetooth HCI UART driver.
-@@ -483,7 +487,9 @@ config BT_VIRTIO
- 
- config BT_NXPUART
- 	tristate "NXP protocol support"
-+	depends on BT_HCIUART
- 	depends on SERIAL_DEV_BUS
-+	select BT_HCIUART_H4
- 	select CRC32
- 	select CRC8
- 	help
-diff --git a/drivers/bluetooth/hci_uart.h b/drivers/bluetooth/hci_uart.h
-index 5ea5dd80e297..cbbe79b241ce 100644
---- a/drivers/bluetooth/hci_uart.h
-+++ b/drivers/bluetooth/hci_uart.h
-@@ -121,10 +121,6 @@ void hci_uart_set_flow_control(struct hci_uart *hu, bool enable);
- void hci_uart_set_speeds(struct hci_uart *hu, unsigned int init_speed,
- 			 unsigned int oper_speed);
- 
--#ifdef CONFIG_BT_HCIUART_H4
--int h4_init(void);
--int h4_deinit(void);
--
- struct h4_recv_pkt {
- 	u8  type;	/* Packet type */
- 	u8  hlen;	/* Header length */
-@@ -162,6 +158,10 @@ struct h4_recv_pkt {
- 	.lsize = 2, \
- 	.maxlen = HCI_MAX_FRAME_SIZE \
- 
-+#ifdef CONFIG_BT_HCIUART_H4
-+int h4_init(void);
-+int h4_deinit(void);
-+
- struct sk_buff *h4_recv_buf(struct hci_dev *hdev, struct sk_buff *skb,
- 			    const unsigned char *buffer, int count,
- 			    const struct h4_recv_pkt *pkts, int pkts_count);
+
+vim +214 include/linux/sched/ext.h
+
+   213	
+ > 214	static inline void sched_ext_exit(struct task_sturct *p) {}
+   215	static inline void sched_ext_free(struct task_struct *p) {}
+   216	static inline void print_scx_info(const char *log_lvl, struct task_struct *p) {}
+   217	static inline void scx_softlockup(u32 dur_s) {}
+   218	static inline bool scx_rcu_cpu_stall(void) { return false; }
+   219	
+
 -- 
-2.47.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
