@@ -1,76 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9F8155333
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 22:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2A532F744
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 23:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756938590; cv=none; b=LRsAnKZ8EUioyJ8/BwNKeo2Oki0Y/9BAyZs5Olk/5MeeIsL5Cb/gwg+dXklmRviXd6Ya2Nq3FrH2w8z+3zPOARDfVm5HCufkioGsyW+FKtAeWvPd8WEyT5osrpt79r+9GM/XkUUN7OzOm/jXQBPi3pSClE6DlJm7zKoC84Ere3Q=
+	t=1756942569; cv=none; b=tyPAF7y2gCi3Zo8DJG7Jz5xp3UqK4+tWOJbbfXGnJHGxwOLg+L/6379An+uDjNN4w6WpRsabXiLd7IIEmD7gUP2jUjfKeV75cwiC74M4x9T/1IwKKx4HTfkSJfdZh95ouTsHO6iT9ZAWNQTAk+UewtIzcZ2xAhRqPCUjr88ILjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756938590; c=relaxed/simple;
-	bh=PSEVuZUNWlueqS+Ui8pc2fm3qOdMiz+R5imI8e5EXAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjiDWyuo1Bwlul/RcXvP+leSWyX0mfzWItNhpvHz+NTqH5aUB1KySzB6GBV1MoReCVQuFcdpGb3wIBXo/RfAMCa8u1S+kVqDOIp0KAbeunThIZ5V1YqUBnVI28B9esIofiZIL/CZ2KEfjMsVaIcT8sNfiPOBQn3dnumgKEUzMBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NtvE7t/e; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1756942569; c=relaxed/simple;
+	bh=jOzolt/4L58sNNYxLt+TDKVivTg5m69Z8ISwMozH9qI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C5Jmt1w0KTm/gY1+99s9ddTzO4Q0xg8P2EgfYllkl0RQ5n8kAy+aT5oK0MSc84wK07UZjK1XKUI5jK9nI0g4hzsbXDpp65fZCgqG8aERuhhf+/7/Bt4tCZXWO3kDM39mETtVpNnsDefYU8x95Tef+Z+nbPoaszJbYVroAb2U2Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTw4KnXf; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NtvE7t/e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTw4KnXf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756938587; x=1788474587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PSEVuZUNWlueqS+Ui8pc2fm3qOdMiz+R5imI8e5EXAw=;
-  b=NtvE7t/ej0fCOVTutAqPrKLgVphBZmFn1p3wu19KZ2Qmz3qDJhoupzk+
-   nGCkew7DFaxuG3iokfv+4Vn0R1ftmgVoCfx9aFs1yI6bt4NXCxsh6SRG/
-   6xoRL/2EnM1i1+uhec5orY6j3VCZT18ctpnuBlbQ5fGPtNuqT/2ba9SvY
-   mcVmZQ2lSratNQSVxlyx+KFJ8ZD9fLA3kcswJ3i727XMFRfUPHG/aMz7Z
-   LRoXXkmLflSLnORuycJofDIeZgU+w3EXtpLE7f5B26sKcCsJrwjL5qPnw
-   ZeP3TfN3YzDLl91jsHNCNdoDrV8PSn3Xi3vvOBRud6sLGsHnMLzzinBTj
+  t=1756942567; x=1788478567;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jOzolt/4L58sNNYxLt+TDKVivTg5m69Z8ISwMozH9qI=;
+  b=CTw4KnXfWf+F4IzBaY0RqWPB0RwGKKMsxF7kcPWa3BZxdcTDwQiMFOOp
+   PsgRiSYCooqE95x74mm1smfR+d3Ytcn53RAEPNZkX8UhkGzyaaVlyVhCY
+   easfebXL4Mm4dRVWicxnzByxiZrBBtjaWMpc8xjZW3VwgJyHZfTQyA/jP
+   cZUVYMZUwFNjiDq5TmJAZ4RUSkQ85A/z3cViBWduVzPN/9Tv73H1CGxtf
+   xkmPOZKdto5EEdHemOAVgseNCQSikPdrJs3wpFXzv4OipTUTtFiW6zeqM
+   j3DV9XK55pxvqDQ8XfoUfyOINh6edjvajzYvy1I32Yg/eeuW4mT7hUncr
    g==;
-X-CSE-ConnectionGUID: AGMD3/GhRFysGhPJgoerzw==
-X-CSE-MsgGUID: PqH0wmSlS5GW6k6pQYUimQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59378140"
+X-CSE-ConnectionGUID: Qh5lc/YFQgiX6DdUBaIJew==
+X-CSE-MsgGUID: Tv54725kS6agUSgD36650A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70698261"
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="59378140"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 15:29:47 -0700
-X-CSE-ConnectionGUID: 40QyShBNR7CMykOLW2VH5Q==
-X-CSE-MsgGUID: mfOXVpV6SzGI80goFY9hpg==
+   d="scan'208";a="70698261"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 16:36:07 -0700
+X-CSE-ConnectionGUID: c3HAOFDOSa6rfF2rtbPAYg==
+X-CSE-MsgGUID: DGrVOG9jS+eK9aaji75mtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="172161049"
+   d="scan'208";a="171616135"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2025 15:29:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 03 Sep 2025 16:36:05 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utvyk-0004Tz-1o;
-	Wed, 03 Sep 2025 22:29:33 +0000
-Date: Thu, 4 Sep 2025 06:28:27 +0800
+	id 1utx05-0004WT-1N;
+	Wed, 03 Sep 2025 23:35:12 +0000
+Date: Thu, 4 Sep 2025 07:33:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marilene Andrade Garcia <marilene.agarcia@gmail.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Marilene Andrade Garcia <marilene.agarcia@gmail.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
-	Ceclan Dumitru <dumitru.ceclan@analog.com>,
-	Jonathan Santos <Jonathan.Santos@analog.com>,
-	Dragos Bogdan <dragos.bogdan@analog.com>
-Subject: Re: [PATCH v10 2/2] iio: adc: max14001: New driver
-Message-ID: <202509040617.gcAKQNlG-lkp@intel.com>
-References: <f3ea9c127b7836cc978def5d906740c6da1cfb1e.1756816682.git.marilene.agarcia@gmail.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/mem_reliable.c:126:5:
+ sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it
+ be static?
+Message-ID: <202509040747.kf1P19QW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,102 +62,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f3ea9c127b7836cc978def5d906740c6da1cfb1e.1756816682.git.marilene.agarcia@gmail.com>
 
-Hi Marilene,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d1487b0b78720b86ec2a2ac7acc683ec90627e5b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marilene-Andrade-Garcia/dt-bindings-iio-adc-add-max14001/20250902-212046
-base:   d1487b0b78720b86ec2a2ac7acc683ec90627e5b
-patch link:    https://lore.kernel.org/r/f3ea9c127b7836cc978def5d906740c6da1cfb1e.1756816682.git.marilene.agarcia%40gmail.com
-patch subject: [PATCH v10 2/2] iio: adc: max14001: New driver
-config: hexagon-randconfig-r113-20250904 (https://download.01.org/0day-ci/archive/20250904/202509040617.gcAKQNlG-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2e122990391b2ba062e6308a12cfedf7206270ba)
-reproduce: (https://download.01.org/0day-ci/archive/20250904/202509040617.gcAKQNlG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e89b998912c3f26072b4a79fba9fe4365c38ab19
+commit: 1845e7add95773a24019fb72bbea24a0a568663b [1740/1740] mm: Add reliable memory use limit for user tasks
+config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20250904/202509040747.kf1P19QW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20250904/202509040747.kf1P19QW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509040617.gcAKQNlG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509040747.kf1P19QW-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/max14001.c:109:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] spi_tx_buffer @@     got unsigned long @@
-   drivers/iio/adc/max14001.c:109:27: sparse:     expected restricted __be16 [usertype] spi_tx_buffer
-   drivers/iio/adc/max14001.c:109:27: sparse:     got unsigned long
->> drivers/iio/adc/max14001.c:110:29: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] spi_tx_buffer @@
-   drivers/iio/adc/max14001.c:110:29: sparse:     expected unsigned short [usertype] val
-   drivers/iio/adc/max14001.c:110:29: sparse:     got restricted __be16 [usertype] spi_tx_buffer
->> drivers/iio/adc/max14001.c:110:29: sparse: sparse: cast from restricted __be16
->> drivers/iio/adc/max14001.c:110:29: sparse: sparse: cast from restricted __be16
->> drivers/iio/adc/max14001.c:110:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] __x @@     got restricted __be16 [usertype] @@
-   drivers/iio/adc/max14001.c:110:29: sparse:     expected unsigned short [usertype] __x
-   drivers/iio/adc/max14001.c:110:29: sparse:     got restricted __be16 [usertype]
->> drivers/iio/adc/max14001.c:110:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] spi_tx_buffer @@     got int @@
-   drivers/iio/adc/max14001.c:110:27: sparse:     expected restricted __be16 [usertype] spi_tx_buffer
-   drivers/iio/adc/max14001.c:110:27: sparse:     got int
->> drivers/iio/adc/max14001.c:120:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] spi_rx_buffer @@     got int @@
-   drivers/iio/adc/max14001.c:120:27: sparse:     expected restricted __be16 [usertype] spi_rx_buffer
-   drivers/iio/adc/max14001.c:120:27: sparse:     got int
->> drivers/iio/adc/max14001.c:121:21: sparse: sparse: cast to restricted __be16
->> drivers/iio/adc/max14001.c:121:21: sparse: sparse: restricted __be16 degrades to integer
->> drivers/iio/adc/max14001.c:121:21: sparse: sparse: restricted __be16 degrades to integer
-   drivers/iio/adc/max14001.c:133:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] spi_tx_buffer @@     got unsigned long @@
-   drivers/iio/adc/max14001.c:133:27: sparse:     expected restricted __be16 [usertype] spi_tx_buffer
-   drivers/iio/adc/max14001.c:133:27: sparse:     got unsigned long
-   drivers/iio/adc/max14001.c:136:29: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] spi_tx_buffer @@
-   drivers/iio/adc/max14001.c:136:29: sparse:     expected unsigned short [usertype] val
-   drivers/iio/adc/max14001.c:136:29: sparse:     got restricted __be16 [usertype] spi_tx_buffer
-   drivers/iio/adc/max14001.c:136:29: sparse: sparse: cast from restricted __be16
-   drivers/iio/adc/max14001.c:136:29: sparse: sparse: cast from restricted __be16
-   drivers/iio/adc/max14001.c:136:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] __x @@     got restricted __be16 [usertype] @@
-   drivers/iio/adc/max14001.c:136:29: sparse:     expected unsigned short [usertype] __x
-   drivers/iio/adc/max14001.c:136:29: sparse:     got restricted __be16 [usertype]
-   drivers/iio/adc/max14001.c:136:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] spi_tx_buffer @@     got int @@
-   drivers/iio/adc/max14001.c:136:27: sparse:     expected restricted __be16 [usertype] spi_tx_buffer
-   drivers/iio/adc/max14001.c:136:27: sparse:     got int
+>> mm/mem_reliable.c:126:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:126:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
+     126 | int reliable_limit_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
-vim +109 drivers/iio/adc/max14001.c
+vim +/reliable_limit_handler +126 mm/mem_reliable.c
 
-    89	
-    90	static int max14001_read(struct max14001_state *st, u16 reg_addr, u16 *reg_data)
-    91	{
-    92		struct spi_transfer xfers[] = {
-    93			{
-    94				.tx_buf = &st->spi_tx_buffer,
-    95				.len = sizeof(st->spi_tx_buffer),
-    96				.cs_change = 1,
-    97			}, {
-    98				.rx_buf = &st->spi_rx_buffer,
-    99				.len = sizeof(st->spi_rx_buffer),
-   100			},
-   101		};
-   102		int ret;
-   103	
-   104		/*
-   105		 * Prepare SPI transmit buffer 16 bit-value big-endian format and
-   106		 * reverses bit order to align with the LSB-first input on SDI port
-   107		 * in order to meet the device communication requirements.
-   108		 */
- > 109		st->spi_tx_buffer = FIELD_PREP(MAX14001_MASK_ADDR, reg_addr);
- > 110		st->spi_tx_buffer = bitrev16(cpu_to_be16(st->spi_tx_buffer));
-   111	
-   112		ret = spi_sync_transfer(st->spi, xfers, ARRAY_SIZE(xfers));
-   113		if (ret)
-   114			return ret;
-   115	
-   116		/*
-   117		 * Convert received 16-bit value from big-endian to cpu-endian format
-   118		 * and reverses bit order.
-   119		 */
- > 120		st->spi_rx_buffer = bitrev16(be16_to_cpu(st->spi_rx_buffer));
- > 121		*reg_data = FIELD_GET(MAX14001_MASK_DATA, st->spi_rx_buffer);
-   122	
-   123		return 0;
-   124	}
-   125	
+   124	
+   125	#ifdef CONFIG_SYSCTL
+ > 126	int reliable_limit_handler(struct ctl_table *table, int write,
+   127		void __user *buffer, size_t *length, loff_t *ppos)
+   128	{
+   129		unsigned long old = task_reliable_limit;
+   130		int ret;
+   131	
+   132		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   133		if (ret == 0 && write) {
+   134			if (task_reliable_limit > total_reliable_mem_sz()) {
+   135				task_reliable_limit = old;
+   136				return -EINVAL;
+   137			}
+   138		}
+   139	
+   140		return ret;
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
