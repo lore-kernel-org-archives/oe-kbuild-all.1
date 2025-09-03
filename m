@@ -1,81 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632AA286D4C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 12:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8EA2FD1A0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 12:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756901263; cv=none; b=MvMqwFoQn38e+NOFqGTTLp2MpfxIYhLkM6036Gx5n9EuUnw6xBB9Q9b2mDFD7oOZT9rr3bTz0TUBudo6CghS4hix38SaYutUVCf3hTQ9B4lzPKeGwHZisdu9r0gy1ppeQXX1TY1lwrGS1CMEhu6fjV0QUlvSTqna5A0Ldtkg3cY=
+	t=1756901901; cv=none; b=XUgTA7sh5iLla3nmT3gfyuDbLw1WND3TflqsA0nuUU/85G22rnrcAAocnNaERPYIX3AEKjr+5yW2x6UgCixkzIrH1IRbeVV48ACYQpL/bHVOMhBhT5TuzO+SMe1nBsGkt6EXSXqxrHs0WdbUubuNwDNUugzczlQ0fgdCfJ55K/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756901263; c=relaxed/simple;
-	bh=MgBZIiU63PhDZRAMVyVp9++ETTOL9/NSN/2iNcCA55o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJv5nAVvruzGOUfFYti10S1d3PeNuWP3qYXr8A69Pz6bzyB5ffuk5ASgvNPLdljkKA96CJJWUFtsvpJHaD+929gbSgTcigrQS84RwKLZ0mAkqHlehfj8aRQVBesnxhZVWH+MYymEoJd9xKpq7nN6N/qAJlEvN9myTwZY/e3ga34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHia9FtA; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1756901901; c=relaxed/simple;
+	bh=p/GY5TwtAZWmeu2EfQbqcumEJXrq/XosHVctZYqZzbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mqx9V3T+Sl5thRJWTyJeCV+D969kcpQ3P6qx23uUS5b5Vbin9Qvgg1qsGzOLpeSO/gAUT5PwL9wUa4jQcXTe1XI+DoXKOqthHkNLTXzcwk9Cg8osqCcUq4wiYV+NeIHgUCEaduydvs3IBuqfNJcK9Smqnk+X9Mt3SF4k/c8wi1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yji9YHDU; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHia9FtA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yji9YHDU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756901261; x=1788437261;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MgBZIiU63PhDZRAMVyVp9++ETTOL9/NSN/2iNcCA55o=;
-  b=dHia9FtAIH+l4XG+WYJkRK5c907QULsBNm5KSLT6CddfP2m8+iqRE0jn
-   9f50prDfl9hCetM+88UInc0pDee1ufUX0GjxRRbOqdS9xs8kVs4ONcjeb
-   gixTsjCxIRss6VytfkwfoiB7FtPyICtKt0FjT0AOFGrfiNQx60eKwxmiC
-   6FHezCPWqrjBeLro8AgpDQW9bjYzwfPDL0wzqlEt7qqXvHgfqouHJgpUP
-   c0rUpz554PuIyuXFPMpjD27hF45v9lF2rblb3OOdqAwynar9oha6Eawi+
-   b/XKJCr5EPcCtxmQowi3Fv9R8chbSDLTAL4SU1lTf4AtcX04lGvkO+R4z
-   w==;
-X-CSE-ConnectionGUID: EcYkTu3HTLu0Sz8C3yBARw==
-X-CSE-MsgGUID: 8+Zp65DpQG27MIBmfwIBQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="59355719"
+  t=1756901899; x=1788437899;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p/GY5TwtAZWmeu2EfQbqcumEJXrq/XosHVctZYqZzbg=;
+  b=Yji9YHDUPsrJXAnG6wmJozoT88+Q/2xe/bG4EVO2S1TRrJwXnBOOja1+
+   xc51gS4WMPvgUsJsY1Qyp7Ce8rsCd6PN6cGcdfOfLRXsFI2Bx4JBvinux
+   gKNX+NYlGnFbuSYghJfLd8Tabvw1mUWJ5QyFWaj2TGptyX8sD2Ym9/RvR
+   RFADiERnsmR8/oqhOBslipedRx1gn9bQlGKJw/OhNRsF9Ufp9t1EmKb8s
+   9ym+llsRejoTCdY7eOt/jvKqJO+yJkr8yGpbE9FGc+cci3DQUbyHdokWQ
+   OYJSMa35GoPbsrrQTo/eI8pPcZm2uNwNJ61zfEmk2mdXWMwHBoRKb+NNx
+   A==;
+X-CSE-ConnectionGUID: oV/jA6MaSLeH0jcoQGl4DQ==
+X-CSE-MsgGUID: gagb6Vw7SkClk8msy6Erzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58244465"
 X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="59355719"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 05:06:30 -0700
-X-CSE-ConnectionGUID: xnoEev97Q2SK1BNCRg1grQ==
-X-CSE-MsgGUID: eVdKWMdaT4ywl7c+Qn4mMA==
+   d="scan'208";a="58244465"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 05:18:18 -0700
+X-CSE-ConnectionGUID: kYcrSzD/T0u4ae3On2vo1w==
+X-CSE-MsgGUID: IaB4BAq0TsmhzR9/Qzzxjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="172024814"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2025 05:06:23 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+   d="scan'208";a="171455513"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa007.jf.intel.com with ESMTP; 03 Sep 2025 05:18:18 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utmEs-0003nj-0s;
-	Wed, 03 Sep 2025 12:05:50 +0000
-Date: Wed, 3 Sep 2025 20:05:03 +0800
+	id 1utmRL-0003WN-0U;
+	Wed, 03 Sep 2025 12:18:15 +0000
+Date: Wed, 3 Sep 2025 14:17:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: MD Danish Anwar <danishanwar@ti.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Mengyuan Lou <mengyuanlou@net-swift.com>,
-	Xin Guo <guoxin09@huawei.com>, Lei Wei <quic_leiwei@quicinc.com>,
-	Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
-	Fan Gong <gongfan1@huawei.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	Suman Anna <s-anna@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Tero Kristo <kristo@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 5/8] net: rpmsg-eth: Register device as netdev
-Message-ID: <202509031942.reUez3UI-lkp@intel.com>
-References: <20250902090746.3221225-6-danishanwar@ti.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 1/1] fs/proc/meminfo.c:37:30:
+ warning: variable 'sunreclaim' set but not used
+Message-ID: <202509031418.AkXJu4Us-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,117 +61,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902090746.3221225-6-danishanwar@ti.com>
 
-Hi MD,
+Hi Xunlei,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 2fd4161d0d2547650d9559d57fc67b4e0a26a9e3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/MD-Danish-Anwar/dt-bindings-net-ti-rpmsg-eth-Add-DT-binding-for-RPMSG-ETH/20250902-171411
-base:   2fd4161d0d2547650d9559d57fc67b4e0a26a9e3
-patch link:    https://lore.kernel.org/r/20250902090746.3221225-6-danishanwar%40ti.com
-patch subject: [PATCH net-next v2 5/8] net: rpmsg-eth: Register device as netdev
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250903/202509031942.reUez3UI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031942.reUez3UI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   119e72f374248c57f950f0658c1e1099b40e2ffa
+commit: eedf4ae2be04591b38a81690ef85cefd83b78cb3 [1/1] ck: meminfo: Add meminfo support for rich container
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250903/202509031418.AkXJu4Us-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031418.AkXJu4Us-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509031942.reUez3UI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509031418.AkXJu4Us-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/of_reserved_mem.h:5,
-                    from drivers/net/ethernet/rpmsg_eth.c:8:
-   drivers/net/ethernet/rpmsg_eth.c: In function 'rpmsg_eth_validate_handshake':
->> drivers/net/ethernet/rpmsg_eth.c:26:44: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'unsigned int' [-Wformat=]
-      26 |                 dev_err(port->common->dev, "Buffer configuration mismatch in handshake: expected_buf_size=%lu, received_buf_size=%d\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/net/ethernet/rpmsg_eth.c:26:17: note: in expansion of macro 'dev_err'
-      26 |                 dev_err(port->common->dev, "Buffer configuration mismatch in handshake: expected_buf_size=%lu, received_buf_size=%d\n",
-         |                 ^~~~~~~
-   drivers/net/ethernet/rpmsg_eth.c:26:109: note: format string is defined here
-      26 |                 dev_err(port->common->dev, "Buffer configuration mismatch in handshake: expected_buf_size=%lu, received_buf_size=%d\n",
-         |                                                                                                           ~~^
-         |                                                                                                             |
-         |                                                                                                             long unsigned int
-         |                                                                                                           %u
->> drivers/net/ethernet/rpmsg_eth.c:42:44: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
-      42 |                 dev_err(port->common->dev, "TX/RX offset out of range in handshake: tx_offset=0x%x, rx_offset=0x%x, size=0x%llx\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/net/ethernet/rpmsg_eth.c:42:17: note: in expansion of macro 'dev_err'
-      42 |                 dev_err(port->common->dev, "TX/RX offset out of range in handshake: tx_offset=0x%x, rx_offset=0x%x, size=0x%llx\n",
-         |                 ^~~~~~~
-   drivers/net/ethernet/rpmsg_eth.c:42:127: note: format string is defined here
-      42 |                 dev_err(port->common->dev, "TX/RX offset out of range in handshake: tx_offset=0x%x, rx_offset=0x%x, size=0x%llx\n",
-         |                                                                                                                            ~~~^
-         |                                                                                                                               |
-         |                                                                                                                               long long unsigned int
-         |                                                                                                                            %x
+>> fs/proc/meminfo.c:37:30: warning: variable 'sunreclaim' set but not used [-Wunused-but-set-variable]
+      37 |         unsigned long sreclaimable, sunreclaim;
+         |                                     ^
+   1 warning generated.
 
 
-vim +26 drivers/net/ethernet/rpmsg_eth.c
+vim +/sunreclaim +37 fs/proc/meminfo.c
 
-   > 8	#include <linux/of_reserved_mem.h>
-     9	#include <linux/remoteproc.h>
-    10	#include "rpmsg_eth.h"
-    11	
-    12	/**
-    13	 * rpmsg_eth_validate_handshake - Validate handshake parameters from remote
-    14	 * @port: Pointer to rpmsg_eth_port structure
-    15	 * @shm_info: Pointer to shared memory info received from remote
-    16	 *
-    17	 * Checks buffer size, magic numbers, and TX/RX offsets in the handshake
-    18	 * response to ensure they match expected values and are within valid ranges.
-    19	 *
-    20	 * Return: 0 on success, -EINVAL on validation failure.
-    21	 */
-    22	static int rpmsg_eth_validate_handshake(struct rpmsg_eth_port *port,
-    23						struct rpmsg_eth_shm *shm_info)
-    24	{
-    25		if (shm_info->buff_slot_size != RPMSG_ETH_BUFFER_SIZE) {
-  > 26			dev_err(port->common->dev, "Buffer configuration mismatch in handshake: expected_buf_size=%lu, received_buf_size=%d\n",
-    27				RPMSG_ETH_BUFFER_SIZE,
-    28				shm_info->buff_slot_size);
-    29			return -EINVAL;
-    30		}
-    31	
-    32		if (readl(port->shm + port->tx_offset + HEAD_MAGIC_NUM_OFFSET) != RPMSG_ETH_SHM_MAGIC_NUM ||
-    33		    readl(port->shm + port->rx_offset + HEAD_MAGIC_NUM_OFFSET) != RPMSG_ETH_SHM_MAGIC_NUM ||
-    34		    readl(port->shm + port->tx_offset + TAIL_MAGIC_NUM_OFFSET(port->tx_max_buffers)) != RPMSG_ETH_SHM_MAGIC_NUM ||
-    35		    readl(port->shm + port->rx_offset + TAIL_MAGIC_NUM_OFFSET(port->rx_max_buffers)) != RPMSG_ETH_SHM_MAGIC_NUM) {
-    36			dev_err(port->common->dev, "Magic number mismatch in handshake at head/tail\n");
-    37			return -EINVAL;
-    38		}
-    39	
-    40		if (shm_info->tx_offset >= port->buf_size ||
-    41		    shm_info->rx_offset >= port->buf_size) {
-  > 42			dev_err(port->common->dev, "TX/RX offset out of range in handshake: tx_offset=0x%x, rx_offset=0x%x, size=0x%llx\n",
-    43				shm_info->tx_offset,
-    44				shm_info->rx_offset,
-    45				port->buf_size);
-    46			return -EINVAL;
-    47		}
-    48	
-    49		return 0;
-    50	}
-    51	
+e16e2d8e14a14b Joe Perches     2016-10-07  32  
+e1759c215bee5a Alexey Dobriyan 2008-10-15  33  static int meminfo_proc_show(struct seq_file *m, void *v)
+e1759c215bee5a Alexey Dobriyan 2008-10-15  34  {
+e1759c215bee5a Alexey Dobriyan 2008-10-15  35  	struct sysinfo i;
+e1759c215bee5a Alexey Dobriyan 2008-10-15  36  	unsigned long committed;
+61f94e18de94f7 Vlastimil Babka 2018-10-26 @37  	unsigned long sreclaimable, sunreclaim;
+e1759c215bee5a Alexey Dobriyan 2008-10-15  38  	int lru;
+e1759c215bee5a Alexey Dobriyan 2008-10-15  39  
+eedf4ae2be0459 Xunlei Pang     2021-06-04  40  	struct mem_cgroup *memcg = NULL;
+eedf4ae2be0459 Xunlei Pang     2021-06-04  41  	struct sysinfo_ext ext;
+eedf4ae2be0459 Xunlei Pang     2021-06-04  42  
+
+:::::: The code at line 37 was first introduced by commit
+:::::: 61f94e18de94f79abaad3bb83549ff78923ac785 mm, proc: add KReclaimable to /proc/meminfo
+
+:::::: TO: Vlastimil Babka <vbabka@suse.cz>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
