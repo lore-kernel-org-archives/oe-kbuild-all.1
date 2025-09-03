@@ -1,71 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D040C2D63EE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 05:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24B22DA758
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Sep 2025 07:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756877209; cv=none; b=MeUbLvEkTKJ6VG+EAhPy+J6FDhZ/Fa4nhrXIzFwatDptpPsoa42+2jxjth889x9pRnPl1gKg/fjhJSoIuTbBpKF/KoWuaBeEE+iKqQ7ptZcA3R/J6AL/LxyS93O+ekOwoydh1v0ATiLh0Ayp1e+bVKlLLad+wN2Zs+J9p8/56SM=
+	t=1756884870; cv=none; b=uEB1AxBgFJTmRckgI0NB3LdDsJA4MPCyRkdFcvoSVTZGXrKtCELbJKG3bcizhSrqVSvrZsbOL+8CCB76sPbBqdR0/b5xANeoK1Ze91PIqV7yrB/YoWGXRHcR0GtsTTSPQKQNIgSzHLgEKnoY8mglBLDUMCt+J0EvM612ch6uBMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756877209; c=relaxed/simple;
-	bh=+U/qyUVufuO9/Wxc0OWe61I/W1hyzeIS2pBPmz4WWRg=;
+	s=arc-20240116; t=1756884870; c=relaxed/simple;
+	bh=mcZxAQCUjWOAe7K5j4e21X5GqGArNeXKjvZ+cWF4x2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bOgY5xG3rfb7VQVZ8BaZl2KvB3fEGZTlKDx8nh+mMm9ydKlpcl42gxKL7du1UVLLUciBOKFmtrN0QGCJFakyvdq1ZCVHBhK9FK+nnOlW04S6YkogCCdLjkOFhpdLrTH5c+1QDlACo834sDyb/Bnx3TtHFd5WdjN1B1qGt8Mn5g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MI3hIWVb; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=H6OJVes3wA1c45oBXIcLk3RQ5rqdbwKnEvcbD9HDfUdHEGaez3hwPx1LyEYg/u6DKt3nOvYxuSS6KlF3Ty4uNEi+DJ4NcZBgKZGw/9M4PT8yyzuwKouOix3s5ihZqMLH7kOrXIfNWzXJ4v6+noHwndYr3G+9+BQJqX5qrqeI0us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1N/UGSpO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nuw7ZXz0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1N/UGSpO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nuw7ZXz0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MI3hIWVb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756877208; x=1788413208;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+U/qyUVufuO9/Wxc0OWe61I/W1hyzeIS2pBPmz4WWRg=;
-  b=MI3hIWVbBpG0OBI19jADcPMh4H6LxJnjop562fIfTQPhnoMfRUUjTCTS
-   W012YYi9qGXXCETqXTBDuZMIgmBUkx/Ae+61i+P9zRk2JpvMkvTMNF7Y1
-   jzh95ngoUmfmncmt6yES1ZrC0YqwZna8/Lu6fHJT1Ml9PXwHbkYYVG71z
-   N8iPDnV33fQkJndiYgNJVsw6pFghDPAkb+Xdap0+J8N5WR4BzPincl42y
-   PZZ4acjDTh4VDWmky8MhsdT3GdLHIhdhkWkTCbnroH3ZxRrRcxb3TiQ4D
-   ZxI4Av9vhq0nUd0EAK4YAd8hmVajoD5wuA3PkhTNtrDV01MXgGkDwNaMH
-   w==;
-X-CSE-ConnectionGUID: 6ohxSPp6ShOrHk8tM4mBzw==
-X-CSE-MsgGUID: BJUMmw1oSYShdoWyJXp8AA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59092867"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59092867"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 22:26:47 -0700
-X-CSE-ConnectionGUID: wIW/+0vBT3Oa/imtc797sg==
-X-CSE-MsgGUID: ucQq6avgRw2qGrKoH2kdIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
-   d="scan'208";a="171865325"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Sep 2025 22:26:43 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1utg12-0003NX-2f;
-	Wed, 03 Sep 2025 05:26:40 +0000
-Date: Wed, 3 Sep 2025 13:25:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Hildenbrand <david@redhat.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1N/UGSpO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nuw7ZXz0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1N/UGSpO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nuw7ZXz0"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C5BE2211B3;
+	Wed,  3 Sep 2025 07:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756884866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/gmnS8Lbbr5tva5ywgmmYTsBeEoqfSHcdoFxLATTI4A=;
+	b=1N/UGSpOow3koVOihoBs5joFlouPxI3j9zWWmpKex1XtbObd293BI2y8KgJUrkZwSTNzDR
+	HnCPPG9wyhmrVaEPQL2VUeZNfaM2MAUSWT7r48Uvd7qTLhg13BRJPqEBRL5ARTsd8s6bLE
+	UPo0tEQPSTgvWMt9KnTkZ3eWIc2AUn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756884866;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/gmnS8Lbbr5tva5ywgmmYTsBeEoqfSHcdoFxLATTI4A=;
+	b=nuw7ZXz0XKmdidOGse8byaHKawQvJ0Mq1GYbCxUKbHojH7hjAVXfGUjznPpTCQF89hg2VA
+	cn3nOQ/XAtXFJdBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756884866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/gmnS8Lbbr5tva5ywgmmYTsBeEoqfSHcdoFxLATTI4A=;
+	b=1N/UGSpOow3koVOihoBs5joFlouPxI3j9zWWmpKex1XtbObd293BI2y8KgJUrkZwSTNzDR
+	HnCPPG9wyhmrVaEPQL2VUeZNfaM2MAUSWT7r48Uvd7qTLhg13BRJPqEBRL5ARTsd8s6bLE
+	UPo0tEQPSTgvWMt9KnTkZ3eWIc2AUn0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756884866;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/gmnS8Lbbr5tva5ywgmmYTsBeEoqfSHcdoFxLATTI4A=;
+	b=nuw7ZXz0XKmdidOGse8byaHKawQvJ0Mq1GYbCxUKbHojH7hjAVXfGUjznPpTCQF89hg2VA
+	cn3nOQ/XAtXFJdBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B036413888;
+	Wed,  3 Sep 2025 07:34:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KyawKoLvt2ivQQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 03 Sep 2025 07:34:26 +0000
+Date: Wed, 3 Sep 2025 09:34:26 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Daniel Wagner <wagi@kernel.org>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	James Smart <james.smart@broadcom.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: do not assume file == vma->vm_file in
- compat_vma_mmap_prepare()
-Message-ID: <202509031346.N6FpuQIA-lkp@intel.com>
-References: <20250902104533.222730-1-lorenzo.stoakes@oracle.com>
+Subject: Re: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup
+ code
+Message-ID: <3b3bf8fc-592c-4732-8985-629e3baeaa34@flourine.local>
+References: <20250829-nvme-fc-sync-v3-2-d69c87e63aee@kernel.org>
+ <202508310442.lBWBZ5AC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,32 +90,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902104533.222730-1-lorenzo.stoakes@oracle.com>
+In-Reply-To: <202508310442.lBWBZ5AC-lkp@intel.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-Hi Lorenzo,
+Hi Dan,
 
-kernel test robot noticed the following build warnings:
+On Mon, Sep 01, 2025 at 02:46:07PM +0300, Dan Carpenter wrote:
+> Hi Daniel,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fabrics-introduce-ref-counting-for-nvmf_ctrl_options/20250829-234513
+> base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+> patch link:    https://lore.kernel.org/r/20250829-nvme-fc-sync-v3-2-d69c87e63aee%40kernel.org
+> patch subject: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup code
+> config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310442.lBWBZ5AC-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202508310442.lBWBZ5AC-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/nvme/host/fc.c:1492 nvme_fc_match_disconn_ls() warn: iterator used outside loop: 'ctrl'
+> 
+> Old smatch warnings:
+> drivers/nvme/host/fc.c:3180 nvme_fc_delete_association() warn: mixing irqsave and irq
+> 
+> vim +/ctrl +1492 drivers/nvme/host/fc.c
+> 
+> 14fd1e98afafc0 James Smart 2020-03-31  1465  static struct nvme_fc_ctrl *
+> 14fd1e98afafc0 James Smart 2020-03-31  1466  nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
+> 14fd1e98afafc0 James Smart 2020-03-31  1467  		      struct nvmefc_ls_rcv_op *lsop)
+> 14fd1e98afafc0 James Smart 2020-03-31  1468  {
+> 14fd1e98afafc0 James Smart 2020-03-31  1469  	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
+> 14fd1e98afafc0 James Smart 2020-03-31  1470  					&lsop->rqstbuf->rq_dis_assoc;
+> 14fd1e98afafc0 James Smart 2020-03-31  1471  	struct nvme_fc_ctrl *ctrl, *ret = NULL;
+> 14fd1e98afafc0 James Smart 2020-03-31  1472  	struct nvmefc_ls_rcv_op *oldls = NULL;
+> 14fd1e98afafc0 James Smart 2020-03-31  1473  	u64 association_id = be64_to_cpu(rqst->associd.association_id);
+> 14fd1e98afafc0 James Smart 2020-03-31  1474  	unsigned long flags;
+> 14fd1e98afafc0 James Smart 2020-03-31  1475  
+> 14fd1e98afafc0 James Smart 2020-03-31  1476  	spin_lock_irqsave(&rport->lock, flags);
+> 14fd1e98afafc0 James Smart 2020-03-31  1477  
+> 14fd1e98afafc0 James Smart 2020-03-31  1478  	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+> 14fd1e98afafc0 James Smart 2020-03-31  1479  		spin_lock(&ctrl->lock);
+> 14fd1e98afafc0 James Smart 2020-03-31  1480  		if (association_id == ctrl->association_id) {
+> 14fd1e98afafc0 James Smart 2020-03-31  1481  			oldls = ctrl->rcv_disconn;
+> 14fd1e98afafc0 James Smart 2020-03-31  1482  			ctrl->rcv_disconn = lsop;
+> 14fd1e98afafc0 James Smart 2020-03-31  1483  			ret = ctrl;
+> 
+> There should maybe be a break statement here?
 
-[auto build test WARNING on akpm-mm/mm-everything]
+Hmm, the commit 14fd1e98afafc0 has a break after the spin_unlock.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-do-not-assume-file-vma-vm_file-in-compat_vma_mmap_prepare/20250902-184946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250902104533.222730-1-lorenzo.stoakes%40oracle.com
-patch subject: [PATCH] mm: do not assume file == vma->vm_file in compat_vma_mmap_prepare()
-config: i386-buildonly-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509031346.N6FpuQIA-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509031346.N6FpuQIA-lkp@intel.com/reproduce)
++               spin_unlock(&ctrl->lock);
++               if (ret)
++                       /* leave the ctrl get reference */
++                       break;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509031346.N6FpuQIA-lkp@intel.com/
+And since then there aren't any changes applied.
 
-All warnings (new ones prefixed by >>):
+> 14fd1e98afafc0 James Smart 2020-03-31  1484  		}
+> 14fd1e98afafc0 James Smart 2020-03-31  1485  		spin_unlock(&ctrl->lock);
+> 14fd1e98afafc0 James Smart 2020-03-31  1486  	}
+> 14fd1e98afafc0 James Smart 2020-03-31  1487  
+> 14fd1e98afafc0 James Smart 2020-03-31  1488  	spin_unlock_irqrestore(&rport->lock, flags);
+> 14fd1e98afafc0 James Smart 2020-03-31  1489  
+> 14fd1e98afafc0 James Smart 2020-03-31  1490  	/* transmit a response for anything that was pending */
+> 14fd1e98afafc0 James Smart 2020-03-31  1491  	if (oldls) {
+> 14fd1e98afafc0 James Smart 2020-03-31 @1492  		dev_info(rport->lport->dev,
+> 14fd1e98afafc0 James Smart 2020-03-31  1493  			"NVME-FC{%d}: Multiple Disconnect Association "
+> 14fd1e98afafc0 James Smart 2020-03-31  1494  			"LS's received\n", ctrl->cnum);
+> 
+> ctrl->cnum is always an invalid pointer on this line.  Another
+> option would be to print ret->cnum instead ctrl->nmum.
 
->> Warning: mm/util.c:1145 function parameter 'f_op' not described in '__compat_vma_mmap_prepare'
->> Warning: mm/util.c:1145 function parameter 'file' not described in '__compat_vma_mmap_prepare'
+Yes, this makes sense. I'll send a patch for this. Thanks!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Daniel
