@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204583314C2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 17:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C873148D4;
+	Thu,  4 Sep 2025 18:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757008423; cv=none; b=fD93Qc+GNbcqK+PwXH/btgYPnnmgL/Qek0IPJrKlNmJ6++bNCdiZi00ittKQGQCKXIczT1MKPExPS23KOnVKnJwVhLVK8kd46abbCg22lh+n/B/gswKCr+TYpGetTvjVWTlKZGUvDFQRfCENvY32rTDIG2WURqu5nu81vLX4iUM=
+	t=1757009033; cv=none; b=j471FRhqHD00Eb1e5oIRHtqctwvu7txoMManBZBQFZlYrXAMnC8W0szE4iHS3r6ATOeYhV74bTRkd1Lxcdzoed0VOIvw/eiWvH/IktbP0Dz323YeXndrczQP8H5I3q043d7moZOct2iGER2YI6q5v/uAPxma+aojLSBQpjTVrgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757008423; c=relaxed/simple;
-	bh=JlgvOsLBEGNZdVik86vD72io0XPzFAMX1kVftnD9V4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bhPdV+p2rndvTEh68gyiHGuttMIxVT9C8V5srVApuv7e5sAA4KU/9L2QylHX/9a6ER+Ie97hvWgIi92U0vglwdDc6DgXqqfOkaveRr9wB9Uq8uqyf8HwODo+2Mett4iDMmLa9pQoXHi1lel2z3bBz+AWUC+Q9k3plgp9M62iNCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxjbTLku; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1757009033; c=relaxed/simple;
+	bh=ymrXcQJetdvND6FIBkZJMvg9Zf1rW9i5Xw3TcvudkzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQUixZm3y8KUgbRLNv5u7f7a/J+Q8xLUD3aUgn8Q/Yv/yLJb+07AwivDaKzKkzxRKzchRunzYUaoM/2C44AqYgBpIcPolYIaoxg+QlSfpluXlIViHLlm17PqfF8ZOZZtVrOK7hcWznodIHkGASzdQpgsAu8BBiZGPgPTWqRncAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTB/Jyds; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxjbTLku"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTB/Jyds"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757008422; x=1788544422;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JlgvOsLBEGNZdVik86vD72io0XPzFAMX1kVftnD9V4g=;
-  b=UxjbTLkuabfukthxiKyhcGzA6LNZqus3AI2BFWdvc8oCa5QljZV0dXmt
-   OnRdFmCpJb2AIYpJQEpZegKiQrW1iW3EzhvQqhotkRqnbJw07+FpzGn/e
-   jQl9MOx1uMBy4IS01JAE3XbbUBJYt7RReCzf88QR9p51l1ZP6BqJOIE3C
-   f240mLituJS8MWU1rX0jcfKvsm3bXcIxLvlyQ8f5b6pwyQ1ZKVXTAbQqY
-   TA9J4gX0lPNXxXsBqxI7VsVk660M1LEG/3xDhGNJQ8/rgjQVvrPVebjLC
-   wRvnXw4nGoT9X/3eIy1gflJZjFTRuchEIbr/T57l2NnuGp0Mdwv/BDXBV
-   w==;
-X-CSE-ConnectionGUID: IQrKSvbkQ+q+TBwWfYTjpw==
-X-CSE-MsgGUID: XccbLS3/R1yuKvJqT1PYNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="58571585"
+  t=1757009031; x=1788545031;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ymrXcQJetdvND6FIBkZJMvg9Zf1rW9i5Xw3TcvudkzQ=;
+  b=cTB/JydsEqqm8HZm+0/xYuM9kG5cQ6nwCq7vmUy7xMFdu0G/3gJ7u78g
+   GDlOzFCR5Tig8N1CfjodFzAUag1U0FJ82/WplCzdWITj2NuG/RfoKfA/P
+   M2rkTrGsZoNVtw6tGW7XZRDdkXxTbOA7vQppRffTAejfTPtbs2o0chuK8
+   +YaDrQqSw1mhDTuAkrleaJoVIcUX5VVGDgZBBpF0py17qBKrcN50h+BgD
+   TpsLeZaT/ajD6TZT3Se/aWpXATzCvtBeUFH7xRyWAaqjwKk6mpRHccs+j
+   sM9qaCxf7NRZIHedM1PpVrnv2HV+HG7OTRZiGH5jryewL0ofueyPFkoFf
+   Q==;
+X-CSE-ConnectionGUID: Z/JBrS+TTJOIsAWLuHL3MA==
+X-CSE-MsgGUID: poqZn6WwSW+ZqiU0lks8og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="76813767"
 X-IronPort-AV: E=Sophos;i="6.18,239,1751266800"; 
-   d="scan'208";a="58571585"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 10:53:41 -0700
-X-CSE-ConnectionGUID: KvDeaxpmQKSG7fJmf1oEmw==
-X-CSE-MsgGUID: sZkfqS0qQFy+BvTRDCF7Jg==
+   d="scan'208";a="76813767"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 11:03:51 -0700
+X-CSE-ConnectionGUID: FLrroYHCTxqjnDVywxxXNg==
+X-CSE-MsgGUID: L/CHNkqlRoGSYBA13Cnh+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,239,1751266800"; 
-   d="scan'208";a="176292586"
+   d="scan'208";a="177226633"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 04 Sep 2025 10:53:41 -0700
+  by orviesa005.jf.intel.com with ESMTP; 04 Sep 2025 11:03:49 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uuE8i-0005Zz-1V;
-	Thu, 04 Sep 2025 17:52:57 +0000
-Date: Fri, 5 Sep 2025 01:52:40 +0800
+	id 1uuEIe-0005aZ-38;
+	Thu, 04 Sep 2025 18:03:26 +0000
+Date: Fri, 5 Sep 2025 02:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2853/2853]
- drivers/net/ethernet/motorcomm/yt6801/yt6801_main.c:751:23: error: use of
- undeclared identifier 'IEEE_8021QAZ_MAX_TCS'
-Message-ID: <202509050145.rJ98GKyh-lkp@intel.com>
+To: Chen Yufeng <chenyufeng@iie.ac.cn>, axboe@kernel.dk
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-block@vger.kernel.org, Chen Yufeng <chenyufeng@iie.ac.cn>
+Subject: Re: [PATCH] Sanitize set_task_ioprio() permission checks
+Message-ID: <202509050122.1DzOHKji-lkp@intel.com>
+References: <20250904031312.887-1-chenyufeng@iie.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,88 +63,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250904031312.887-1-chenyufeng@iie.ac.cn>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4eddc7e6b3a11653b493da4617c18cdc2e6e6777
-commit: 6460d9d3c42d1357c8292d7be5c26cb7b84e84d7 [2853/2853] yt6801: Add Motorcomm yt6801 PCIe driver
-config: loongarch-randconfig-001-20250905 (https://download.01.org/0day-ci/archive/20250905/202509050145.rJ98GKyh-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509050145.rJ98GKyh-lkp@intel.com/reproduce)
+Hi Chen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.17-rc4 next-20250904]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yufeng/Sanitize-set_task_ioprio-permission-checks/20250904-112027
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20250904031312.887-1-chenyufeng%40iie.ac.cn
+patch subject: [PATCH] Sanitize set_task_ioprio() permission checks
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250905/202509050122.1DzOHKji-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509050122.1DzOHKji-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509050145.rJ98GKyh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509050122.1DzOHKji-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/motorcomm/yt6801/yt6801_main.c:751:23: error: use of undeclared identifier 'IEEE_8021QAZ_MAX_TCS'
-     751 |                 min_t(unsigned int, IEEE_8021QAZ_MAX_TCS, priv->rx_q_count);
-         |                                     ^
-   drivers/net/ethernet/motorcomm/yt6801/yt6801_main.c:752:8: error: use of undeclared identifier 'IEEE_8021QAZ_MAX_TCS'
-     752 |         ppq = IEEE_8021QAZ_MAX_TCS / prio_queues;
-         |               ^
-   drivers/net/ethernet/motorcomm/yt6801/yt6801_main.c:753:14: error: use of undeclared identifier 'IEEE_8021QAZ_MAX_TCS'
-     753 |         ppq_extra = IEEE_8021QAZ_MAX_TCS % prio_queues;
-         |                     ^
-   drivers/net/ethernet/motorcomm/yt6801/yt6801_main.c:1715:35: warning: variable 'mac_hfr2' set but not used [-Wunused-but-set-variable]
-    1715 |         unsigned int mac_hfr0, mac_hfr1, mac_hfr2, mac_hfr3;
-         |                                          ^
-   1 warning and 3 errors generated.
+>> block/blk-ioc.c:249:7: error: call to undeclared function 'ptrace_may_access'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     249 |         if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS)) {
+         |              ^
+>> block/blk-ioc.c:249:31: error: use of undeclared identifier 'PTRACE_MODE_READ_REALCREDS'
+     249 |         if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS)) {
+         |                                      ^
+   2 errors generated.
 
 
-vim +/IEEE_8021QAZ_MAX_TCS +751 drivers/net/ethernet/motorcomm/yt6801/yt6801_main.c
+vim +/ptrace_may_access +249 block/blk-ioc.c
 
-   742	
-   743	static void fxgmac_config_queue_mapping(struct fxgmac_pdata *priv)
-   744	{
-   745		unsigned int ppq, ppq_extra, prio_queues;
-   746		unsigned int __maybe_unused prio;
-   747		unsigned int reg, val, mask;
-   748	
-   749		/* Map the 8 VLAN priority values to available MTL Rx queues */
-   750		prio_queues =
- > 751			min_t(unsigned int, IEEE_8021QAZ_MAX_TCS, priv->rx_q_count);
-   752		ppq = IEEE_8021QAZ_MAX_TCS / prio_queues;
-   753		ppq_extra = IEEE_8021QAZ_MAX_TCS % prio_queues;
-   754	
-   755		reg = MAC_RQC2R;
-   756		for (u32 i = 0, prio = 0; i < prio_queues;) {
-   757			val = 0;
-   758			mask = 0;
-   759			for (u32 j = 0; j < ppq; j++) {
-   760				mask |= (1 << prio);
-   761				prio++;
-   762			}
-   763	
-   764			if (i < ppq_extra) {
-   765				mask |= (1 << prio);
-   766				prio++;
-   767			}
-   768	
-   769			val |= (mask << ((i++ % MAC_RQC2_Q_PER_REG) << 3));
-   770	
-   771			if ((i % MAC_RQC2_Q_PER_REG) && i != prio_queues)
-   772				continue;
-   773	
-   774			fxgmac_io_wr(priv, reg, val);
-   775			reg += MAC_RQC2_INC;
-   776		}
-   777	
-   778		/* Configure one to one, MTL Rx queue to DMA Rx channel mapping
-   779		 * ie Q0 <--> CH0, Q1 <--> CH1 ... Q7 <--> CH7
-   780		 */
-   781		val = fxgmac_io_rd(priv, MTL_RQDCM0R);
-   782		val |= (MTL_RQDCM0R_Q0MDMACH | MTL_RQDCM0R_Q1MDMACH |
-   783			MTL_RQDCM0R_Q2MDMACH | MTL_RQDCM0R_Q3MDMACH);
-   784		fxgmac_io_wr(priv, MTL_RQDCM0R, val);
-   785	
-   786		val = fxgmac_io_rd(priv, MTL_RQDCM0R + MTL_RQDCM_INC);
-   787		val |= (MTL_RQDCM1R_Q4MDMACH | MTL_RQDCM1R_Q5MDMACH |
-   788			MTL_RQDCM1R_Q6MDMACH | MTL_RQDCM1R_Q7MDMACH);
-   789		fxgmac_io_wr(priv, MTL_RQDCM0R + MTL_RQDCM_INC, val);
-   790	}
-   791	
+   243	
+   244	int set_task_ioprio(struct task_struct *task, int ioprio)
+   245	{
+   246		int err;
+   247	
+   248		rcu_read_lock();
+ > 249		if (!ptrace_may_access(task, PTRACE_MODE_READ_REALCREDS)) {
+   250			rcu_read_unlock();
+   251			return -EPERM;
+   252		}
+   253		rcu_read_unlock();
+   254	
+   255		err = security_task_setioprio(task, ioprio);
+   256		if (err)
+   257			return err;
+   258	
+   259		task_lock(task);
+   260		if (unlikely(!task->io_context)) {
+   261			struct io_context *ioc;
+   262	
+   263			task_unlock(task);
+   264	
+   265			ioc = alloc_io_context(GFP_ATOMIC, NUMA_NO_NODE);
+   266			if (!ioc)
+   267				return -ENOMEM;
+   268	
+   269			task_lock(task);
+   270			if (task->flags & PF_EXITING) {
+   271				kmem_cache_free(iocontext_cachep, ioc);
+   272				goto out;
+   273			}
+   274			if (task->io_context)
+   275				kmem_cache_free(iocontext_cachep, ioc);
+   276			else
+   277				task->io_context = ioc;
+   278		}
+   279		task->io_context->ioprio = ioprio;
+   280	out:
+   281		task_unlock(task);
+   282		return 0;
+   283	}
+   284	EXPORT_SYMBOL_GPL(set_task_ioprio);
+   285	
 
 -- 
 0-DAY CI Kernel Test Service
