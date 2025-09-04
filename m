@@ -1,65 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E1F2C21D4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 13:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160912FD7BE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 14:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756990967; cv=none; b=GMj8c8rgpmv1w4V0MsYbAE9LictnKX6ad8tQ+aoav/K/h0PZtfhqETx/3gWNX36zGcxkMhHEdp2sZoVIOw1Emrtp3tLNJ+NUaZOBjpWqcsPan4EI0jLTa61Nhlu8naJh8oNzFSNEBID7UncwVFDVsdeJaoHr+s7o5raZPr4YTRE=
+	t=1756994679; cv=none; b=dEzAtVj0GQJ9AX9aQt+97z+jLJirH3ZnHunQZYL95n/gJCx6XqepipXK4rbIVMiTn9FWG2vhaTC2tXox0SC8j1W45GcDyq6tCgdHo2GrxGpBwmcqoy+gcFLJym4+9R4pb8C6hBfB7DD5ukoqMbyq99JZF63+VvdwuGX0MqzqPGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756990967; c=relaxed/simple;
-	bh=ZeqVrEHeEE82CwedCgaY6aPUXavAZ7JXEvQ/3KQzbdA=;
+	s=arc-20240116; t=1756994679; c=relaxed/simple;
+	bh=8D15COu2exGUd3E0Qy8knhTqB4T/stT3kGk+YvNt1Xc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jm+2On5JUUaAWxG7J9v/6dKl4JE8UkmCkXBX2D1fgFvbT9Dkburi5pK5aR0iaggprbVbcyBpJe92NzDFea6oX0zg7UJ4CVD6+JXucyxhpaVB7xcOjK12ytzuoRTPhCfJdvZUENT7itTAJS9MMpd+YPpcwKpf32VoYJUll/Kbq2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LC1s1u0+; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=BtGJNnHqiAsLiPU25ARVPZjYgLNvKVd4UdnlFgS/1OMVsiss/8/lLDdB+NOB7m6XCEe8jNou9HJbFshHdqRu1qa5nACBSipqdYFWmIJRtcDk1Z0KWCf18f2+ZRSss1X9koT7pZqQ8DCJwerWs+VOBuCUQ7mZi9YC+oRrhAZKg+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KfJohFUH; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LC1s1u0+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KfJohFUH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756990965; x=1788526965;
+  t=1756994678; x=1788530678;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZeqVrEHeEE82CwedCgaY6aPUXavAZ7JXEvQ/3KQzbdA=;
-  b=LC1s1u0+1I6CR0VPhC3vAvuqa66/HFsq9EVnFJSNjDkZHL0Th/c3xoHc
-   27XPV5AxJpnweyT/RN0c59WBoXnKbriEIoZ5jZcn1yew/t8H+YLpr5w8O
-   K5WVBPcTXh4+K9JFL1ACgVm2HW5jLUnNagTlGlTa/lHbD9yo8YuujFX7G
-   c7b4NgjZCUylgGtYlWPDwjUAiYXW3Wdm0+VFMkW4zl/OsvxcjUl4eS6F7
-   TFc3jHgA6VlEarmzVcjLl0owcnQnzp8lyH8su9ojUf4J7v++2jN+7MEK7
-   QBJkgAc6O0fx5VMgmv80L2dqeEeqZS9n8dOscRf9th4TRrrQsFYeASum7
-   g==;
-X-CSE-ConnectionGUID: qDvNZeP4RXCGFyk7KMfWXw==
-X-CSE-MsgGUID: 6qTwG998QDCi0RnRP4RnhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59279316"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59279316"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 06:02:44 -0700
-X-CSE-ConnectionGUID: wjKjug+ISjiV38csdt2oaA==
-X-CSE-MsgGUID: z27HVbMAQjWCfKoOC/ObJw==
+  bh=8D15COu2exGUd3E0Qy8knhTqB4T/stT3kGk+YvNt1Xc=;
+  b=KfJohFUH7Hn1UeO43oPCiN3r+3F941+Cogr92jFKdEr40icswc/cO/Q1
+   P4ZXVOEFo4TOHlPuR/3xJYWVJqbuoj3LLbSOOUmWEF59xJhZaQ3xqLwIV
+   zZoIdG376fb/57Zl6nMqJdCHKUNd7dd0WnXBywvjPToeTaNJ72YD+D/tu
+   CJfOt1RX9do3P6jR3r2MnvnazJ302KTRUQ6dbBbpXXiZG7BmOdpt89X5Q
+   qjPZJ0WiQoBA4A6BVYaZ33ifaOVyiSKNgcjAHI3jgdLGIQKL/JIh53vMN
+   iqYLxc84JY6RmGVe1btPRJFy225gJwcXpk0s3EbEe1d4kWXe+lIfJPH+z
+   w==;
+X-CSE-ConnectionGUID: yqBIwuv7Tp27+MHW53FFrA==
+X-CSE-MsgGUID: w58CH1DFSle3lDzU9hOdnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70431584"
+X-IronPort-AV: E=Sophos;i="6.18,238,1751266800"; 
+   d="scan'208";a="70431584"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 07:04:37 -0700
+X-CSE-ConnectionGUID: jk3xqa1ERUuvLneeMH0DuQ==
+X-CSE-MsgGUID: ZlXGG7xRRzuIrTFtgMNG7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,238,1751266800"; 
-   d="scan'208";a="209064790"
+   d="scan'208";a="202827580"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 04 Sep 2025 06:02:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Sep 2025 07:04:31 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uu9ar-0005JX-0v;
-	Thu, 04 Sep 2025 13:01:54 +0000
-Date: Thu, 4 Sep 2025 21:00:33 +0800
+	id 1uuAYv-0005Mt-2U;
+	Thu, 04 Sep 2025 14:03:53 +0000
+Date: Thu, 4 Sep 2025 22:02:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Windsor <dave@nullcore.net>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	martin.lau@linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, eddyz87@gmail.com, song@kernel.org,
-	yonghong.song@linux.dev, john.fastabend@gmail.com,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, dwindsor@gmail.com
-Subject: Re: [PATCH 1/2] kernel/bpf: Add BPF_MAP_TYPE_CRED_STORAGE map type
- and kfuncs
-Message-ID: <202509042029.W1pcuqjU-lkp@intel.com>
-References: <20250903175841.232537-1-dwindsor@gmail.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Tobias Sperling <tobias.sperling@softing.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Esteban Blanc <eblanc@baylibre.com>,
+	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
+	Thomas Bonnefille <thomas.bonnefille@bootlin.com>,
+	Hans de Goede <hansg@kernel.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 2/3] iio: adc: Support ROHM BD79112 ADC/GPIO
+Message-ID: <202509042119.GiwpuwCl-lkp@intel.com>
+References: <08929460fe11dd0b749c50a72a634423f13f4104.1756813980.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,34 +81,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903175841.232537-1-dwindsor@gmail.com>
+In-Reply-To: <08929460fe11dd0b749c50a72a634423f13f4104.1756813980.git.mazziesaccount@gmail.com>
 
-Hi David,
+Hi Matti,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf-next/master bpf/master linus/master v6.17-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on d1487b0b78720b86ec2a2ac7acc683ec90627e5b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Windsor/selftests-bpf-Add-cred-local-storage-tests/20250904-015935
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20250903175841.232537-1-dwindsor%40gmail.com
-patch subject: [PATCH 1/2] kernel/bpf: Add BPF_MAP_TYPE_CRED_STORAGE map type and kfuncs
-config: nios2-randconfig-001-20250904 (https://download.01.org/0day-ci/archive/20250904/202509042029.W1pcuqjU-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509042029.W1pcuqjU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-iio-adc-ROHM-BD79112-ADC-GPIO/20250902-203558
+base:   d1487b0b78720b86ec2a2ac7acc683ec90627e5b
+patch link:    https://lore.kernel.org/r/08929460fe11dd0b749c50a72a634423f13f4104.1756813980.git.mazziesaccount%40gmail.com
+patch subject: [PATCH 2/3] iio: adc: Support ROHM BD79112 ADC/GPIO
+config: sparc-randconfig-r071-20250904 (https://download.01.org/0day-ci/archive/20250904/202509042119.GiwpuwCl-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509042029.W1pcuqjU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509042119.GiwpuwCl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/adc/rohm-bd79112.c:212 bd79112_read_raw() warn: inconsistent indenting
 
->> nios2-linux-ld: kernel/bpf/syscall.o:(.rodata+0x734): undefined reference to `cred_storage_map_ops'
+vim +212 drivers/iio/adc/rohm-bd79112.c
+
+   192	
+   193	static int bd79112_read_raw(struct iio_dev *indio_dev,
+   194				    struct iio_chan_spec const *chan, int *val,
+   195				    int *val2, long m)
+   196	{
+   197		struct bd79112_data *data = iio_priv(indio_dev);
+   198		int ret;
+   199	
+   200		switch (m) {
+   201		case IIO_CHAN_INFO_RAW:
+   202			ret = regmap_read(data->map, chan->channel, val);
+   203			if (ret < 0)
+   204				return ret;
+   205	
+   206			return IIO_VAL_INT;
+   207	
+   208		case IIO_CHAN_INFO_SCALE:
+   209			 *val = data->vref_mv;
+   210			 *val2 = 12;
+   211	
+ > 212			return IIO_VAL_FRACTIONAL_LOG2;
+   213		}
+   214	
+   215		return -EINVAL;
+   216	}
+   217	
 
 -- 
 0-DAY CI Kernel Test Service
