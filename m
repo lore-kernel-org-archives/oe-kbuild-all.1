@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBCB3D3B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 02:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955EF28B7CC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 03:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756954191; cv=none; b=V7pJU9CUt4fi2RpRLnC5SR+RYXY9zQPt7h/vDm8EpNIb/TUfKiDP30jl20WTc4d4VdFPZ5Zkk6fBTZasouaplQIGQ5UhduP3x5rTO9hKsWYkCNwkJm1hSYJuoprHULvuaeNW6jQk+B4Jng2fIVYDkUtHWOEcQkGeunaEGADLix8=
+	t=1756956157; cv=none; b=utr4zMsisg2Peg1MyUqkA5M79uBGqP/QwXkLohAhQlMcbtn8Jl/hvbpaIPFAg0pUCutCuUr6kDoKgocbPSy36sC+V0T+3OKhN9b3OFIdDGOwRCdq5+56YGMoRkmeGeALwo2ETwoWD/t1ApeUL4oGJH/nqAvbKKJ9AIuxHSmDUEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756954191; c=relaxed/simple;
-	bh=x2E1B5fKSAdDgIBrworKt7p8v7NVCzVUXCA1bR2/kDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bEEOLbgkivhK0uQKTABLvltV3xdCH90p6KuCgxWfh1+kB9fwd01tvkQmpmjmbctKMZunyUOdQkp7/AfU/ax8QGONs11EoVHwi026I6eSvlokMz8PtCjevwQKqyLyK/hhKrC9TNoDtmUxqmkawZR8otWoLXK7iazPB91rsOnJTaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zm+Ix4io; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1756956157; c=relaxed/simple;
+	bh=bNSAahrLsh5lIaRJtRcrZ2VrezcQXtPhuB+zZ94/O9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BkNZWFdPt1o4Nbr0ktpwPaoxVn4IpcUhU6b1rsQcdJUZ066F4T8P8/gJhAgoXSRyTb0+o0cA//pKXdL8ldCSNjsCZNzwjIf3kfVuSBoPZOc4S4myW12gIuH50/OaOwuOfyu64ABDNievEk/L5IBPmULaq5/9H41K03bdpVIshx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JT1+76Co; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zm+Ix4io"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JT1+76Co"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756954189; x=1788490189;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x2E1B5fKSAdDgIBrworKt7p8v7NVCzVUXCA1bR2/kDE=;
-  b=Zm+Ix4ioAf+fDP384L7hEqRA+PtCGuAGnBpNoQRtJ9nf/50jKceCE0+N
-   /3ChDC+88STrU9lX/NLhZ7R54xB+NPuLPiOUQIe14lMpW1MG9qkmI01m3
-   fa28fvzg4g1hqOi+/ZaZQ17+hp0oIFqwCSYKy0tolzrQ4mcCGIVtx+UbK
-   4vvj21ZK0W9ACqbfsH4NGraCxX7liQ+fm6UOiBryOLCCxWYwMNJEOeqhc
-   CogM2jkClSbIx2IfA2JVDABxfL3F6Oycbq7JgaJmsrbQ7wGIo+5dzYjmA
-   QVLoLtsVqJWh0n3r0H8dIPbZhYGYv7DeYNefVeBStHD/bUQNECwfP4AO+
+  t=1756956155; x=1788492155;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bNSAahrLsh5lIaRJtRcrZ2VrezcQXtPhuB+zZ94/O9Q=;
+  b=JT1+76CodNRHjykb3GrtBfQHpG9Hk6wMnxd7teysUYMeK+QhE7+p0feH
+   p0G04kYWeOjFAo0NqBpO81Kx1Qlaa6LMhW2ieMk95sydmT4q6RwlIiw+y
+   559xa7VFk5OLQ3n2GuZUI4azTNYCvvZe9LomPM+nX3o8l7S0ZLfLIaguC
+   VrJbJBvpqi469w70kVl/SZs5B8fRC81FwQZ74cuVxxFJN+7F4to6kT3YU
+   BxbCiaaU90mha3KfiDovuKcZR2dBHo48+z2RTHZfVK6635ep2jp+iN/O+
+   qRr2b/A2NV6aSh4S6XX2jCqvSpuJoHn+YvsW8258luWa58reomunYYkZa
    A==;
-X-CSE-ConnectionGUID: ZiTxbschTFOALb0kxtfulw==
-X-CSE-MsgGUID: XQIaohDGSzO9A77CkJ1CqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59222017"
+X-CSE-ConnectionGUID: NBNWflRhTqSYlOf5As1xnA==
+X-CSE-MsgGUID: AVFBh8nFSHyUX7LxT/L3IA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76888136"
 X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
-   d="scan'208";a="59222017"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 19:49:47 -0700
-X-CSE-ConnectionGUID: cdiQfrwgRKOrW2m/QV7kpA==
-X-CSE-MsgGUID: Onj1PM6ATemM7m/+7+bERA==
+   d="scan'208";a="76888136"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 20:22:35 -0700
+X-CSE-ConnectionGUID: 5lDAPx0BTNOEIpwwL2WBRA==
+X-CSE-MsgGUID: oUclYMeDRJiAetZVddROEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
-   d="scan'208";a="176117372"
+   d="scan'208";a="171056164"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Sep 2025 19:49:46 -0700
+  by orviesa010.jf.intel.com with ESMTP; 03 Sep 2025 20:22:31 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uu02J-0004f9-2e;
-	Thu, 04 Sep 2025 02:49:26 +0000
-Date: Thu, 4 Sep 2025 10:47:11 +0800
+	id 1uu0YO-0004hL-2j;
+	Thu, 04 Sep 2025 03:22:28 +0000
+Date: Thu, 4 Sep 2025 11:19:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1]
- include/linux/arm-smccc.h:429:49: error: expected string literal before
- 'SMCCC_HVC_INST'
-Message-ID: <202509041005.AmjIVytw-lkp@intel.com>
+To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Saravana Kannan <saravanak@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH v2 5/5] PCI: qcom: Allow pwrctrl core to toggle PERST#
+ for new DT binding
+Message-ID: <202509041110.4DgQKyf1-lkp@intel.com>
+References: <20250903-pci-pwrctrl-perst-v2-5-2d461ed0e061@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,524 +73,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250903-pci-pwrctrl-perst-v2-5-2d461ed0e061@oss.qualcomm.com>
 
-Hi David,
+Hi Manivannan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   a455768539a13859e1ac78424797cae95f0dfaa2
-commit: adc2b4c6af434db264d6e58e740fca5ae876df86 [1/1] CHROMIUM: BACKPORT: FROMLIST: cpufreq: add kvm-cpufreq driver
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250904/202509041005.AmjIVytw-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509041005.AmjIVytw-lkp@intel.com/reproduce)
+[auto build test ERROR on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/PCI-qcom-Wait-for-PCIE_RESET_CONFIG_WAIT_MS-after-PERST-deassert/20250903-151623
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250903-pci-pwrctrl-perst-v2-5-2d461ed0e061%40oss.qualcomm.com
+patch subject: [PATCH v2 5/5] PCI: qcom: Allow pwrctrl core to toggle PERST# for new DT binding
+config: i386-buildonly-randconfig-002-20250904 (https://download.01.org/0day-ci/archive/20250904/202509041110.4DgQKyf1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509041110.4DgQKyf1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509041005.AmjIVytw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509041110.4DgQKyf1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/cpufreq/kvm-cpufreq.c:7:
-   drivers/cpufreq/kvm-cpufreq.c: In function 'kvm_scale_freq_tick':
->> include/linux/arm-smccc.h:429:49: error: expected string literal before 'SMCCC_HVC_INST'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:23:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      23 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:23:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      23 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:23:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      23 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
->> include/linux/arm-smccc.h:413:49: error: expected string literal before 'SMCCC_SMC_INST'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:23:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      23 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:23:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      23 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:23:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      23 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c: In function 'remote_get_freqtbl_num_entries':
->> include/linux/arm-smccc.h:429:49: error: expected string literal before 'SMCCC_HVC_INST'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:50:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      50 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:50:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      50 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:50:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      50 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
->> include/linux/arm-smccc.h:413:49: error: expected string literal before 'SMCCC_SMC_INST'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:50:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      50 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:50:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      50 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:50:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      50 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c: In function 'remote_populate_freqtbl':
->> include/linux/arm-smccc.h:429:49: error: expected string literal before 'SMCCC_HVC_INST'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:78:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      78 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:78:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      78 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:78:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      78 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
->> include/linux/arm-smccc.h:413:49: error: expected string literal before 'SMCCC_SMC_INST'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:78:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      78 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:78:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      78 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:78:17: note: in expansion of macro 'arm_smccc_1_1_invoke'
-      78 |                 arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c: In function 'kvm_cpufreq_setutil_hyp':
->> include/linux/arm-smccc.h:429:49: error: expected string literal before 'SMCCC_HVC_INST'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:108:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-     108 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_UTIL_HINT_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:108:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-     108 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_UTIL_HINT_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:429:33: note: in expansion of macro '__arm_smccc_1_1'
-     429 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:463:25: note: in expansion of macro 'arm_smccc_1_1_hvc'
-     463 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:108:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-     108 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_UTIL_HINT_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
->> include/linux/arm-smccc.h:413:49: error: expected string literal before 'SMCCC_SMC_INST'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:392:30: note: in definition of macro '__arm_smccc_1_1'
-     392 |                 asm volatile(inst "\n" :                                \
-         |                              ^~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:108:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-     108 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_UTIL_HINT_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:332:29: warning: unused variable 'arg1' [-Wunused-variable]
-     332 |         register typeof(a1) arg1 asm("r1") = __a1
-         |                             ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:108:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-     108 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_UTIL_HINT_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:331:32: warning: unused variable 'arg0' [-Wunused-variable]
-     331 |         register unsigned long arg0 asm("r0") = (u32)a0;                        \
-         |                                ^~~~
-   include/linux/arm-smccc.h:372:37: note: in expansion of macro '__declare_arg_1'
-     372 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:373:37: note: in expansion of macro '___declare_args'
-     373 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
-         |                                     ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:391:17: note: in expansion of macro '__declare_args'
-     391 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
-         |                 ^~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:413:33: note: in expansion of macro '__arm_smccc_1_1'
-     413 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/arm-smccc.h:466:25: note: in expansion of macro 'arm_smccc_1_1_smc'
-     466 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/cpufreq/kvm-cpufreq.c:108:9: note: in expansion of macro 'arm_smccc_1_1_invoke'
-     108 |         arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_UTIL_HINT_FUNC_ID,
-         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-qcom.c: In function 'qcom_pcie_host_init':
+>> drivers/pci/controller/dwc/pcie-qcom.c:1405:23: error: 'struct pci_host_bridge' has no member named 'toggle_perst'
+    1405 |         pci->pp.bridge->toggle_perst = qcom_pcie_toggle_perst;
+         |                       ^~
 
 
-vim +/SMCCC_HVC_INST +429 include/linux/arm-smccc.h
+vim +1405 drivers/pci/controller/dwc/pcie-qcom.c
 
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  379  
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  380  /*
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  381   * We have an output list that is not necessarily used, and GCC feels
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  382   * entitled to optimise the whole sequence away. "volatile" is what
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  383   * makes it stick.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  384   */
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  385  #define __arm_smccc_1_1(inst, ...)					\
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  386  	do {								\
-0794a974d74dc7 Andrew Scull 2020-09-15  387  		register unsigned long r0 asm("r0");			\
-0794a974d74dc7 Andrew Scull 2020-09-15  388  		register unsigned long r1 asm("r1");			\
-0794a974d74dc7 Andrew Scull 2020-09-15  389  		register unsigned long r2 asm("r2");			\
-0794a974d74dc7 Andrew Scull 2020-09-15  390  		register unsigned long r3 asm("r3"); 			\
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  391  		__declare_args(__count_args(__VA_ARGS__), __VA_ARGS__);	\
-0794a974d74dc7 Andrew Scull 2020-09-15  392  		asm volatile(inst "\n" :				\
-0794a974d74dc7 Andrew Scull 2020-09-15  393  			     "=r" (r0), "=r" (r1), "=r" (r2), "=r" (r3)	\
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  394  			     __constraints(__count_args(__VA_ARGS__)));	\
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  395  		if (___res)						\
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  396  			*___res = (typeof(*___res)){r0, r1, r2, r3};	\
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  397  	} while (0)
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  398  
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  399  /*
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  400   * arm_smccc_1_1_smc() - make an SMCCC v1.1 compliant SMC call
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  401   *
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  402   * This is a variadic macro taking one to eight source arguments, and
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  403   * an optional return structure.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  404   *
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  405   * @a0-a7: arguments passed in registers 0 to 7
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  406   * @res: result values from registers 0 to 3
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  407   *
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  408   * This macro is used to make SMC calls following SMC Calling Convention v1.1.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  409   * The content of the supplied param are copied to registers 0 to 7 prior
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  410   * to the SMC instruction. The return values are updated with the content
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  411   * from register 0 to 3 on return from the SMC instruction if not NULL.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  412   */
-f2d3b2e8759a58 Marc Zyngier 2018-02-06 @413  #define arm_smccc_1_1_smc(...)	__arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  414  
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  415  /*
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  416   * arm_smccc_1_1_hvc() - make an SMCCC v1.1 compliant HVC call
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  417   *
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  418   * This is a variadic macro taking one to eight source arguments, and
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  419   * an optional return structure.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  420   *
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  421   * @a0-a7: arguments passed in registers 0 to 7
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  422   * @res: result values from registers 0 to 3
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  423   *
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  424   * This macro is used to make HVC calls following SMC Calling Convention v1.1.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  425   * The content of the supplied param are copied to registers 0 to 7 prior
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  426   * to the HVC instruction. The return values are updated with the content
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  427   * from register 0 to 3 on return from the HVC instruction if not NULL.
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  428   */
-f2d3b2e8759a58 Marc Zyngier 2018-02-06 @429  #define arm_smccc_1_1_hvc(...)	__arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-f2d3b2e8759a58 Marc Zyngier 2018-02-06  430  
-
-:::::: The code at line 429 was first introduced by commit
-:::::: f2d3b2e8759a5833df6f022e42df2d581e6d843c arm/arm64: smccc: Implement SMCCC v1.1 inline primitive
-
-:::::: TO: Marc Zyngier <marc.zyngier@arm.com>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+  1368	
+  1369	static int qcom_pcie_host_init(struct dw_pcie_rp *pp)
+  1370	{
+  1371		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+  1372		struct qcom_pcie *pcie = to_qcom_pcie(pci);
+  1373		int ret;
+  1374	
+  1375		qcom_ep_reset_assert(pcie, NULL);
+  1376	
+  1377		ret = pcie->cfg->ops->init(pcie);
+  1378		if (ret)
+  1379			return ret;
+  1380	
+  1381		ret = qcom_pcie_phy_power_on(pcie);
+  1382		if (ret)
+  1383			goto err_deinit;
+  1384	
+  1385		if (pcie->cfg->ops->post_init) {
+  1386			ret = pcie->cfg->ops->post_init(pcie);
+  1387			if (ret)
+  1388				goto err_disable_phy;
+  1389		}
+  1390	
+  1391		/*
+  1392		 * Only deassert PERST# for all devices here if legacy binding is used.
+  1393		 * For the new binding, pwrctrl driver is expected to toggle PERST# for
+  1394		 * individual devices.
+  1395		 */
+  1396		if (list_empty(&pcie->perst))
+  1397			qcom_ep_reset_deassert(pcie, NULL);
+  1398	
+  1399		if (pcie->cfg->ops->config_sid) {
+  1400			ret = pcie->cfg->ops->config_sid(pcie);
+  1401			if (ret)
+  1402				goto err_assert_reset;
+  1403		}
+  1404	
+> 1405		pci->pp.bridge->toggle_perst = qcom_pcie_toggle_perst;
+  1406	
+  1407		return 0;
+  1408	
+  1409	err_assert_reset:
+  1410		qcom_ep_reset_assert(pcie, NULL);
+  1411	err_disable_phy:
+  1412		qcom_pcie_phy_power_off(pcie);
+  1413	err_deinit:
+  1414		pcie->cfg->ops->deinit(pcie);
+  1415	
+  1416		return ret;
+  1417	}
+  1418	
 
 -- 
 0-DAY CI Kernel Test Service
