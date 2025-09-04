@@ -1,70 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955EF28B7CC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 03:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99C9F9CB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 03:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756956157; cv=none; b=utr4zMsisg2Peg1MyUqkA5M79uBGqP/QwXkLohAhQlMcbtn8Jl/hvbpaIPFAg0pUCutCuUr6kDoKgocbPSy36sC+V0T+3OKhN9b3OFIdDGOwRCdq5+56YGMoRkmeGeALwo2ETwoWD/t1ApeUL4oGJH/nqAvbKKJ9AIuxHSmDUEA=
+	t=1756958059; cv=none; b=s3OBj5B9YIcL3rtKrohbZiZBlcKgd1qZiB0UX//Y/NHGOPEfQjmTVWxRjYlgnGZSGKoUY7Plh2UHpzSCjoIDCTg2A1Sni7ZmoFGF2FD5A/itdVPQ+ZDAxsSkJshrhnESRnuuK9BTvNjrU+7UGRVYwCFeTO5zmBm2hdeLZjBiLaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756956157; c=relaxed/simple;
-	bh=bNSAahrLsh5lIaRJtRcrZ2VrezcQXtPhuB+zZ94/O9Q=;
+	s=arc-20240116; t=1756958059; c=relaxed/simple;
+	bh=bL4S3j5IpobuTXHA1ldwTe+c+EF1mQApq/pqds96ofc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BkNZWFdPt1o4Nbr0ktpwPaoxVn4IpcUhU6b1rsQcdJUZ066F4T8P8/gJhAgoXSRyTb0+o0cA//pKXdL8ldCSNjsCZNzwjIf3kfVuSBoPZOc4S4myW12gIuH50/OaOwuOfyu64ABDNievEk/L5IBPmULaq5/9H41K03bdpVIshx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JT1+76Co; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fW4Md/1Zl8zi/m4Tn+OiGpDssHcpt7PDZODROZR9+t/BMIpg2htVe6F2wF0HluguFRfRogRsJNR+xWbOQuSg0HnJ40HWCojs9LR2iHAKQYjjFLZeQvu36YDsQh4ZbmgIUuqKEe6W8bF/eivyEovAErzA15id1rFS0GDCm9V5kGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sTp9oaBQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JT1+76Co"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756956155; x=1788492155;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bNSAahrLsh5lIaRJtRcrZ2VrezcQXtPhuB+zZ94/O9Q=;
-  b=JT1+76CodNRHjykb3GrtBfQHpG9Hk6wMnxd7teysUYMeK+QhE7+p0feH
-   p0G04kYWeOjFAo0NqBpO81Kx1Qlaa6LMhW2ieMk95sydmT4q6RwlIiw+y
-   559xa7VFk5OLQ3n2GuZUI4azTNYCvvZe9LomPM+nX3o8l7S0ZLfLIaguC
-   VrJbJBvpqi469w70kVl/SZs5B8fRC81FwQZ74cuVxxFJN+7F4to6kT3YU
-   BxbCiaaU90mha3KfiDovuKcZR2dBHo48+z2RTHZfVK6635ep2jp+iN/O+
-   qRr2b/A2NV6aSh4S6XX2jCqvSpuJoHn+YvsW8258luWa58reomunYYkZa
-   A==;
-X-CSE-ConnectionGUID: NBNWflRhTqSYlOf5As1xnA==
-X-CSE-MsgGUID: AVFBh8nFSHyUX7LxT/L3IA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76888136"
-X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
-   d="scan'208";a="76888136"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 20:22:35 -0700
-X-CSE-ConnectionGUID: 5lDAPx0BTNOEIpwwL2WBRA==
-X-CSE-MsgGUID: oUclYMeDRJiAetZVddROEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
-   d="scan'208";a="171056164"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 03 Sep 2025 20:22:31 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uu0YO-0004hL-2j;
-	Thu, 04 Sep 2025 03:22:28 +0000
-Date: Thu, 4 Sep 2025 11:19:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Saravana Kannan <saravanak@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH v2 5/5] PCI: qcom: Allow pwrctrl core to toggle PERST#
- for new DT binding
-Message-ID: <202509041110.4DgQKyf1-lkp@intel.com>
-References: <20250903-pci-pwrctrl-perst-v2-5-2d461ed0e061@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sTp9oaBQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D35EC4CEF1;
+	Thu,  4 Sep 2025 03:54:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756958059;
+	bh=bL4S3j5IpobuTXHA1ldwTe+c+EF1mQApq/pqds96ofc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sTp9oaBQVwAzDfy07tko3su2itPvKLvwKInxr/nzOIdbq1/qtMZ1hHZotaSPxik1/
+	 sIVZd5fub0Yjykqvb/i9WXmIVmUJquNqPWfmocJSEqO8QLqudw0SFIM0Vq4Ekc6ZxB
+	 9iRospQtG9NDOzg472khV0MeB1KHQe8miwnSQThxXHG2rUh/BQx0ozXnxATAYD+FfI
+	 yUeTbfx9BtXUcJKV0W8USLEIjBV+qRbYimP/sSlFX2vjyhoQNbB6PE1Ltaf9jKGdhM
+	 6COPqaqbNOrx4VM1NVxH+Zcs88AzGx8vo45kMkc7PSoR859g6hdAsRMa/RYGydRgwt
+	 Nfgqb35LJOcmw==
+Date: Wed, 3 Sep 2025 20:54:18 -0700
+From: Kees Cook <kees@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [kees:for-next/kspp 17/18]
+ include/linux/compiler_types.h:572:45: error: call to
+ '__compiletime_assert_246' declared with attribute error: BUILD_BUG_ON
+ failed: init___fls < 32
+Message-ID: <202509032053.EDA3CC3CF5@keescook>
+References: <202509011237.Hf8MjkXU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,89 +44,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903-pci-pwrctrl-perst-v2-5-2d461ed0e061@oss.qualcomm.com>
+In-Reply-To: <202509011237.Hf8MjkXU-lkp@intel.com>
 
-Hi Manivannan,
+On Mon, Sep 01, 2025 at 12:49:17PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/kspp
+> head:   6a38fe1a7d9c9eba3330a8ae4ece2fa5d0f628cc
+> commit: 159746fccb2e000bbac46fe24034d38e7df6c6e2 [17/18] KUnit: ffs: Validate all the __attribute_const__ annotations
+> config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250901/202509011237.Hf8MjkXU-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250901/202509011237.Hf8MjkXU-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509011237.Hf8MjkXU-lkp@intel.com/
 
-kernel test robot noticed the following build errors:
+This should be fixed now:
+https://lore.kernel.org/all/20250831022352.it.055-kees@kernel.org/
 
-[auto build test ERROR on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+Thanks!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam-via-B4-Relay/PCI-qcom-Wait-for-PCIE_RESET_CONFIG_WAIT_MS-after-PERST-deassert/20250903-151623
-base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
-patch link:    https://lore.kernel.org/r/20250903-pci-pwrctrl-perst-v2-5-2d461ed0e061%40oss.qualcomm.com
-patch subject: [PATCH v2 5/5] PCI: qcom: Allow pwrctrl core to toggle PERST# for new DT binding
-config: i386-buildonly-randconfig-002-20250904 (https://download.01.org/0day-ci/archive/20250904/202509041110.4DgQKyf1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509041110.4DgQKyf1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509041110.4DgQKyf1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/pci/controller/dwc/pcie-qcom.c: In function 'qcom_pcie_host_init':
->> drivers/pci/controller/dwc/pcie-qcom.c:1405:23: error: 'struct pci_host_bridge' has no member named 'toggle_perst'
-    1405 |         pci->pp.bridge->toggle_perst = qcom_pcie_toggle_perst;
-         |                       ^~
-
-
-vim +1405 drivers/pci/controller/dwc/pcie-qcom.c
-
-  1368	
-  1369	static int qcom_pcie_host_init(struct dw_pcie_rp *pp)
-  1370	{
-  1371		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-  1372		struct qcom_pcie *pcie = to_qcom_pcie(pci);
-  1373		int ret;
-  1374	
-  1375		qcom_ep_reset_assert(pcie, NULL);
-  1376	
-  1377		ret = pcie->cfg->ops->init(pcie);
-  1378		if (ret)
-  1379			return ret;
-  1380	
-  1381		ret = qcom_pcie_phy_power_on(pcie);
-  1382		if (ret)
-  1383			goto err_deinit;
-  1384	
-  1385		if (pcie->cfg->ops->post_init) {
-  1386			ret = pcie->cfg->ops->post_init(pcie);
-  1387			if (ret)
-  1388				goto err_disable_phy;
-  1389		}
-  1390	
-  1391		/*
-  1392		 * Only deassert PERST# for all devices here if legacy binding is used.
-  1393		 * For the new binding, pwrctrl driver is expected to toggle PERST# for
-  1394		 * individual devices.
-  1395		 */
-  1396		if (list_empty(&pcie->perst))
-  1397			qcom_ep_reset_deassert(pcie, NULL);
-  1398	
-  1399		if (pcie->cfg->ops->config_sid) {
-  1400			ret = pcie->cfg->ops->config_sid(pcie);
-  1401			if (ret)
-  1402				goto err_assert_reset;
-  1403		}
-  1404	
-> 1405		pci->pp.bridge->toggle_perst = qcom_pcie_toggle_perst;
-  1406	
-  1407		return 0;
-  1408	
-  1409	err_assert_reset:
-  1410		qcom_ep_reset_assert(pcie, NULL);
-  1411	err_disable_phy:
-  1412		qcom_pcie_phy_power_off(pcie);
-  1413	err_deinit:
-  1414		pcie->cfg->ops->deinit(pcie);
-  1415	
-  1416		return ret;
-  1417	}
-  1418	
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
