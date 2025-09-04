@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391FF23B605
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 06:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FDB2264B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 08:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756966281; cv=none; b=mo1Dm/fp2TSAbbL4sUj0VA/nDCa37Te5y+U/vJS7LwhWZKqIzYpBGUCYk/ualaKKz+gaPL5IBEYr7RTpqR5rHrGRDiaToSgAJC1HWtOGI2hwsFtTtUAPgn3HPhwZlzbuJ644N0dT+dxlUiC/xkeQzi3O9vA7SzfvFaGW3Td0Zp4=
+	t=1756975771; cv=none; b=LPk1aBnaP5Feoam3MH2zMvsnSEJQ+8Z1ulaB/GacUBO8qmNRD4LQgfi3v4LdxGjAKTzrpTgJA7lQf7ekho4vRlVkR7ccw7b015BYV5grygZB3GWnP/KHF4CcgQ5nmmG2EQ8AtwDGjdrK2RMLlQVZXN7QNZlBQO1GF+NHWraXyrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756966281; c=relaxed/simple;
-	bh=7AqzS5YSjWL+1qHpHHzlHyhboSWQw9/u4WBTkGQsGDE=;
+	s=arc-20240116; t=1756975771; c=relaxed/simple;
+	bh=bQLMXk8dSStRGkO4OCby2gC8+1LEMJmUy4eWIQ5ktzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QQTx49YjDuu3OqSI0OERwOM1/bncZyjinJx6jIN181EGxciaANUTF4mBu8jqAGuKEC9ytIpCcywye+4i/Y/8HKIeZx51vL9Ug5YkLpXqouDKFgeqNuh7e94GFJGB1AkTzRKx6wzSBQq9e8HA5S9XErqkkvrbTY1w8Injo8kgMLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrhJwDjl; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=ZJ1E0iXQv6/5ykG3PA80IgY88P6QotF6FmqU/UYavyOIAPk07/tEKylFyxduJjhtMsiwHwNachv/xBXB3roKvue/Bx3Izjsg7dNRlysAHjO34bMhexsjECaogG16tMfUw2T3LmjRnkoekuVpTaDaF9J3eyQZQqNV9BoSiFEG/lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mq6JDatr; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrhJwDjl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mq6JDatr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756966280; x=1788502280;
+  t=1756975769; x=1788511769;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7AqzS5YSjWL+1qHpHHzlHyhboSWQw9/u4WBTkGQsGDE=;
-  b=hrhJwDjllX4KZ679/PMRxC2nS9FfQDQGOdBcxfyh/J7NJdLFe6cJ7zMf
-   SjB6Nsx1Is3eYCW08jtOY7QDkySDHZ3qJS+t3SNDhtZYI0Aytq21iE9VC
-   0zHLwz5vU43JfKkL8WTXsokqUTzs3xd0VQsOoTKodwDYkT9Sso0mx4qGw
-   zNu3ODwxiiOnpp/UleTyaLzrFMR29Gj9O2AMBwCujRsxN+MNvg71ff7+v
-   OIYBiN3vA1yebBfe61oAbmthz67KE79SFDkJOC36CT/a3BaaNVdDASUtj
-   gBqtH4P6IsR7eYzWEj5pUsTxH33mElAgeDaU52ovBvhntlr+suWq1pbfB
-   A==;
-X-CSE-ConnectionGUID: Lv0aUCP0TkelMtBjKqi/1g==
-X-CSE-MsgGUID: 9o4kDpCRRMSo9c+9f2ySAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70722049"
+  bh=bQLMXk8dSStRGkO4OCby2gC8+1LEMJmUy4eWIQ5ktzs=;
+  b=Mq6JDatr7nuCReSme5SXuNnMsCixZEIv3QuB4b1R0ixQQ7mJZeWKrBnj
+   R54W4UaTzPdZBg8Q5W1bq8PBW/qAUh9hvVm3usnpn+T47jIaCkA1x2GR3
+   bCSim/ucdyPg+5f6MiIRaGt7fbLHMdlQBfBRVd0MiD1p3czwwXB1VJGiI
+   8CMJ5AWl5jjeM5PMBSEgAk/T02jGsmldBhJSGjRa45s//LLwBcVwJe4o2
+   P/0hg5YcsA63QNG08DNsGKeNpqHy71fAE0+0WL525Z5p8fqjE0zfnb8X1
+   5FGi3tb2HsnR/WVaITFOve7xPyqpMhWHbV9B/0uby0TzwzWRoeQqAWxOD
+   Q==;
+X-CSE-ConnectionGUID: RVaDY+dkSn+SCf3dZ38sRQ==
+X-CSE-MsgGUID: pwYl0lv/TlqkZSlXtecDDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="69570633"
 X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
-   d="scan'208";a="70722049"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 23:11:19 -0700
-X-CSE-ConnectionGUID: oCsz4yY+R9S60ub0bmGDow==
-X-CSE-MsgGUID: BT238nY3QFS1qy25xdKINg==
+   d="scan'208";a="69570633"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 01:49:29 -0700
+X-CSE-ConnectionGUID: pdi/XMR/SESsH5k4k8FoaQ==
+X-CSE-MsgGUID: juqNr/CnRkCyPD9dIcDhdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
-   d="scan'208";a="172627414"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Sep 2025 23:11:17 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+   d="scan'208";a="171379752"
+Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
+  by orviesa009.jf.intel.com with ESMTP; 04 Sep 2025 01:49:28 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uu3Bi-0004qj-2G;
-	Thu, 04 Sep 2025 06:11:14 +0000
-Date: Thu, 4 Sep 2025 14:10:17 +0800
+	id 1uu5en-0003gb-0O;
+	Thu, 04 Sep 2025 08:49:25 +0000
+Date: Thu, 4 Sep 2025 10:48:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2846/2846] mm/page_cache_limit.c:103:52: sparse:
- sparse: incorrect type in argument 3 (different address spaces)
-Message-ID: <202509041301.Q6WCrlvW-lkp@intel.com>
+To: Nick Child <nchild@cornelisnetworks.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Subject: [cornelisnetworks:for-upstream-20250903-1 2/2]
+ drivers/infiniband/sw/rdmavt/qp.c:1275:5: warning: no previous prototype for
+ '__rvt_error_qp_locked'
+Message-ID: <202509041031.69B5OjmD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,129 +64,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a51e89910d963542ae989c5e4e70cbc0f79ef193
-commit: 7d1031b36ebd6c273d9aad316fd9e3e2daa01a85 [2846/2846] mm: support pagecache limit
-config: arm64-randconfig-r121-20250904 (https://download.01.org/0day-ci/archive/20250904/202509041301.Q6WCrlvW-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce: (https://download.01.org/0day-ci/archive/20250904/202509041301.Q6WCrlvW-lkp@intel.com/reproduce)
+tree:   https://github.com/cornelisnetworks/linux.git for-upstream-20250903-1
+head:   42ab16807bc676eb7d0d33ede83d44aca682abf2
+commit: 42ab16807bc676eb7d0d33ede83d44aca682abf2 [2/2] IB/rdmavt: Fix lock dependency in rvt_send/recv_cq
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250904/202509041031.69B5OjmD-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509041031.69B5OjmD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509041301.Q6WCrlvW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509041031.69B5OjmD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_cache_limit.c:61:5: sparse: sparse: symbol 'cache_reclaim_enable_handler' was not declared. Should it be static?
-   mm/page_cache_limit.c:77:5: sparse: sparse: symbol 'cache_reclaim_sysctl_handler' was not declared. Should it be static?
->> mm/page_cache_limit.c:103:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   mm/page_cache_limit.c:103:52: sparse:     expected void *
-   mm/page_cache_limit.c:103:52: sparse:     got void [noderef] __user *buffer
->> mm/page_cache_limit.c:94:5: sparse: sparse: symbol 'cache_limit_mbytes_sysctl_handler' was not declared. Should it be static?
->> mm/page_cache_limit.c:187:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   mm/page_cache_limit.c:187:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   mm/page_cache_limit.c:187:35: sparse:     got int ( * )( ... )
+All warnings (new ones prefixed by >>):
 
-vim +103 mm/page_cache_limit.c
+>> drivers/infiniband/sw/rdmavt/qp.c:1275:5: warning: no previous prototype for '__rvt_error_qp_locked' [-Wmissing-prototypes]
+    1275 | int __rvt_error_qp_locked(struct rvt_qp *qp, enum ib_wc_status err)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
-    93	
-  > 94	int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
-    95			void __user *buffer, size_t *length, loff_t *ppos)
-    96	{
-    97		int ret;
-    98		unsigned long vm_cache_limit_mbytes_max;
-    99		unsigned long origin_mbytes = vm_cache_limit_mbytes;
-   100		int nr_retries = MAX_RECLAIM_RETRIES;
-   101	
-   102		vm_cache_limit_mbytes_max = totalram_pages() >> (20 - PAGE_SHIFT);
- > 103		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
-   104		if (ret || !write)
-   105			return ret;
-   106	
-   107		if (vm_cache_limit_mbytes > vm_cache_limit_mbytes_max) {
-   108			vm_cache_limit_mbytes = origin_mbytes;
-   109			return -EINVAL;
-   110		}
-   111	
-   112		if (write) {
-   113			while (should_reclaim_page_cache() && page_cache_over_limit() &&
-   114					nr_retries--) {
-   115				if (signal_pending(current))
-   116					return -EINTR;
-   117	
-   118				shrink_memory(node_reclaim_num(), false);
-   119			}
-   120		}
-   121	
-   122		return 0;
-   123	}
-   124	
-   125	static void shrink_shepherd(struct work_struct *w)
-   126	{
-   127		int node;
-   128	
-   129		if (!should_periodical_reclaim())
-   130			return;
-   131	
-   132		for_each_online_node(node) {
-   133			if (!work_pending(&vmscan_works[node]))
-   134				queue_work_node(node, system_unbound_wq, &vmscan_works[node]);
-   135		}
-   136	
-   137		queue_delayed_work(system_unbound_wq, &shepherd,
-   138			round_jiffies_relative((unsigned long)vm_cache_reclaim_s * HZ));
-   139	}
-   140	
-   141	static void shrink_page_work(struct work_struct *w)
-   142	{
-   143		shrink_memory(node_reclaim_num(), true);
-   144	}
-   145	
-   146	static void shrink_shepherd_timer(void)
-   147	{
-   148		int i;
-   149	
-   150		for (i = 0; i < MAX_NUMNODES; i++)
-   151			INIT_WORK(&vmscan_works[i], shrink_page_work);
-   152	}
-   153	
-   154	static struct ctl_table page_cache_limit_table[] = {
-   155		{
-   156			.procname	= "cache_reclaim_s",
-   157			.data		= &vm_cache_reclaim_s,
-   158			.maxlen		= sizeof(vm_cache_reclaim_s),
-   159			.mode		= 0644,
-   160			.proc_handler	= cache_reclaim_sysctl_handler,
-   161			.extra1		= SYSCTL_ZERO,
-   162			.extra2		= &vm_cache_reclaim_s_max,
-   163		},
-   164		{
-   165			.procname	= "cache_reclaim_weight",
-   166			.data		= &vm_cache_reclaim_weight,
-   167			.maxlen		= sizeof(vm_cache_reclaim_weight),
-   168			.mode		= 0644,
-   169			.proc_handler	= proc_dointvec_minmax,
-   170			.extra1		= SYSCTL_ONE,
-   171			.extra2		= &vm_cache_reclaim_weight_max,
-   172		},
-   173		{
-   174			.procname	= "cache_reclaim_enable",
-   175			.data		= &vm_cache_reclaim_enable,
-   176			.maxlen		= sizeof(vm_cache_reclaim_enable),
-   177			.mode		= 0644,
-   178			.proc_handler	= cache_reclaim_enable_handler,
-   179			.extra1		= SYSCTL_ZERO,
-   180			.extra2		= SYSCTL_ONE,
-   181		},
-   182		{
-   183			.procname	= "cache_limit_mbytes",
-   184			.data		= &vm_cache_limit_mbytes,
-   185			.maxlen		= sizeof(vm_cache_limit_mbytes),
-   186			.mode		= 0644,
- > 187			.proc_handler	= cache_limit_mbytes_sysctl_handler,
-   188		},
-   189	};
-   190	
+
+vim +/__rvt_error_qp_locked +1275 drivers/infiniband/sw/rdmavt/qp.c
+
+  1274	
+> 1275	int __rvt_error_qp_locked(struct rvt_qp *qp, enum ib_wc_status err)
+  1276	{
+  1277		struct ib_wc wc;
+  1278		int ret = 0;
+  1279		struct rvt_dev_info *rdi = ib_to_rvt(qp->ibqp.device);
+  1280	
+  1281		lockdep_assert_held(&qp->r_lock);
+  1282		lockdep_assert_held(&qp->s_lock);
+  1283		if (qp->state == IB_QPS_ERR || qp->state == IB_QPS_RESET)
+  1284			goto bail;
+  1285	
+  1286		qp->state = IB_QPS_ERR;
+  1287	
+  1288		if (qp->s_flags & (RVT_S_TIMER | RVT_S_WAIT_RNR)) {
+  1289			qp->s_flags &= ~(RVT_S_TIMER | RVT_S_WAIT_RNR);
+  1290			timer_delete(&qp->s_timer);
+  1291		}
+  1292	
+  1293		if (qp->s_flags & RVT_S_ANY_WAIT_SEND)
+  1294			qp->s_flags &= ~RVT_S_ANY_WAIT_SEND;
+  1295	
+  1296		rdi->driver_f.notify_error_qp(qp);
+  1297	
+  1298		/* Schedule the sending tasklet to drain the send work queue. */
+  1299		if (READ_ONCE(qp->s_last) != qp->s_head)
+  1300			rdi->driver_f.schedule_send(qp);
+  1301	
+  1302		rvt_clear_mr_refs(qp, 0);
+  1303	
+  1304		memset(&wc, 0, sizeof(wc));
+  1305		wc.qp = &qp->ibqp;
+  1306		wc.opcode = IB_WC_RECV;
+  1307	
+  1308		if (test_and_clear_bit(RVT_R_WRID_VALID, &qp->r_aflags)) {
+  1309			wc.wr_id = qp->r_wr_id;
+  1310			wc.status = err;
+  1311			rvt_cq_enter(ibcq_to_rvtcq(qp->ibqp.recv_cq), &wc, 1);
+  1312		}
+  1313		wc.status = IB_WC_WR_FLUSH_ERR;
+  1314	
+  1315		if (qp->r_rq.kwq) {
+  1316			u32 head;
+  1317			u32 tail;
+  1318			struct rvt_rwq *wq = NULL;
+  1319			struct rvt_krwq *kwq = NULL;
+  1320	
+  1321			spin_lock(&qp->r_rq.kwq->c_lock);
+  1322			/* qp->ip used to validate if there is a  user buffer mmaped */
+  1323			if (qp->ip) {
+  1324				wq = qp->r_rq.wq;
+  1325				head = RDMA_READ_UAPI_ATOMIC(wq->head);
+  1326				tail = RDMA_READ_UAPI_ATOMIC(wq->tail);
+  1327			} else {
+  1328				kwq = qp->r_rq.kwq;
+  1329				head = kwq->head;
+  1330				tail = kwq->tail;
+  1331			}
+  1332			/* sanity check pointers before trusting them */
+  1333			if (head >= qp->r_rq.size)
+  1334				head = 0;
+  1335			if (tail >= qp->r_rq.size)
+  1336				tail = 0;
+  1337			while (tail != head) {
+  1338				wc.wr_id = rvt_get_rwqe_ptr(&qp->r_rq, tail)->wr_id;
+  1339				if (++tail >= qp->r_rq.size)
+  1340					tail = 0;
+  1341				rvt_cq_enter(ibcq_to_rvtcq(qp->ibqp.recv_cq), &wc, 1);
+  1342			}
+  1343			if (qp->ip)
+  1344				RDMA_WRITE_UAPI_ATOMIC(wq->tail, tail);
+  1345			else
+  1346				kwq->tail = tail;
+  1347			spin_unlock(&qp->r_rq.kwq->c_lock);
+  1348		} else if (qp->ibqp.event_handler) {
+  1349			ret = 1;
+  1350		}
+  1351	
+  1352	bail:
+  1353		return ret;
+  1354	}
+  1355	
 
 -- 
 0-DAY CI Kernel Test Service
