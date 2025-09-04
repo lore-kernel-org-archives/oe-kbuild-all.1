@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9FE15D1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 00:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CD73BBF2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Sep 2025 01:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756944570; cv=none; b=B3JV+LMvkY1pki8wuoCkGnAGX4OvryKPTyKmPKky2pqXUD3V9nWTf5c9VOjc4eKMqBv6rTIT271p1x1DPWbi5tkodH9TQtW3sHUuJNwjL4a7WUznDk+k1wxV9F5UhzGepFoXNg5K248Vtkb7mnMJ/HxtclvpGcvFqPdSihDcr1w=
+	t=1756948224; cv=none; b=n3uU4Omo/h6uhorGW5p7nwlIxJA1AwPqpMdkMNHKcQqlmBdnxiA/o+pZQOM+M7azGZB0RgAhVrmuetO/TuNEa3msgTTmPr9cqyxIierT7VreobJfxDu5NSH2Wp+L+aKqqug7HxrMgHhT0dnlxx9YBLtO5H63g2LN7mFG0T+r5ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756944570; c=relaxed/simple;
-	bh=562PxdjQEKiIe1wDC6joaukASfW3MJG+mHmRUE9M4rc=;
+	s=arc-20240116; t=1756948224; c=relaxed/simple;
+	bh=6FCBhKYb3NrgCsIyfOKKeiM9X6/CtL039joG2SkW/CA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ng2FxKFeRB/CjhfuCVSddps4kWtDGl5fdv5ZswZzLo5Q3NEkx2YT7gROLbnjaE8yYow+8VjF/kZ6p+BMZy5rFnz7VguURvEAE6C1lIss3R5Hdt4Sf8bTRxdc5aOdU7XDa6DWrRa7CER5ThfCwzVQCEDNwUL5s3beXW6VDkQbpSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e22YTS7n; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=HjhFUJc3rq9i2c4XON+i5w9fza0poqwpmV/Li5XoJ+wAPpIfxfzQLZaNao30WmGXNGdusFY/4uqvzps6GvWlsaXKpyiZsxq4ER98RZEj4LcZlgNbaiQ9EUTkkLZAG0TTEJF6DEAUrOY2bBoV+FzuXd2H0I8TBkvH8hgxMt2zX0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICgXveb4; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e22YTS7n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICgXveb4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756944569; x=1788480569;
+  t=1756948222; x=1788484222;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=562PxdjQEKiIe1wDC6joaukASfW3MJG+mHmRUE9M4rc=;
-  b=e22YTS7nfJKagu0q55yS0ajd8P6VB9Evk3IBePu4bbL2XID44KSkrUR1
-   3FMl2PFXkam38W0QLWmMbyqptC+ZeFcIT74Xh/V8peeuanyYgZOH5h548
-   2ONGtlvpMlw3dECYI60U/1n45jY9uUJM8S1u2IKDipbm/+eEOWmRkO3Tx
-   9TpWE2ZHma1WPDoTSW6ClKjuKLgPdqxF/XECUiwjbQBL8XOIepCSJNn4n
-   xfEz0IXZbGy5IYu+00zfIgV1tnFP+hxOhCfxu854uvC4kmH3PYOveIc4z
-   93qyjR25QqoQWhYcHDHEUCDpL414aDYL7Q4n36P+x9/1HspQxl9PY1cAi
-   w==;
-X-CSE-ConnectionGUID: 8MUp8uSXQ6WV5zPHj3s+Hw==
-X-CSE-MsgGUID: iJCJO+SNRo2j0+vKdhWuEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="63097547"
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="63097547"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 17:09:28 -0700
-X-CSE-ConnectionGUID: MgtYpmoZQTGKb9HLTO/8ig==
-X-CSE-MsgGUID: 6bxbHXDiTJqKkynWMXshxA==
+  bh=6FCBhKYb3NrgCsIyfOKKeiM9X6/CtL039joG2SkW/CA=;
+  b=ICgXveb40PpPzWqY/xQy4IG6ZIcHhT7nXf7hp5DW3URf1jCd8AETczLE
+   hTzGnW9igrLLiSd3x2C9EJfom8OUPpSXigwNhK/SbYy86DDq3WlfV0Tvk
+   +sj79uflDTAimhqRCfn3COcCIMbjLAZA5I9IW3E2+Cdgu3lZ/n9KEpk22
+   Ve+CDLGav0Ksuud53iBrlmwmxKY+tDngkjtqlLHEhg/zKjXqLhz/XfjXE
+   0gLRvwcgtx3OO7wOcIAWs9gAD7+4qkZJVzZE4Ij1YnWk7JidKreJ5ucKp
+   35z6HQDNLBH2vFB9BHCQMHHuRAaVZqa3QXd/6g8auewvSpxZQ6ZBUuzOP
+   g==;
+X-CSE-ConnectionGUID: KCJXIRG2QgWXiZNIokQ8WA==
+X-CSE-MsgGUID: hcLJvZnISgudpe+WXpGzxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="84704073"
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
+   d="scan'208";a="84704073"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 18:10:21 -0700
+X-CSE-ConnectionGUID: VO53nFOqQF2CS2IBQ7WIiA==
+X-CSE-MsgGUID: FNpHHKv6TdKjiPKAw1N0Mw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="176079267"
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
+   d="scan'208";a="171677908"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 03 Sep 2025 17:09:26 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 Sep 2025 18:10:20 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1utxWz-0004XF-3B;
-	Thu, 04 Sep 2025 00:09:07 +0000
-Date: Thu, 4 Sep 2025 08:07:50 +0800
+	id 1utyUU-0004ZT-0I;
+	Thu, 04 Sep 2025 01:10:18 +0000
+Date: Thu, 4 Sep 2025 09:09:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:rqspinlock/bug 1/2]
- include/linux/atomic/atomic-arch-fallback.h:242:27: error: initialization of
- 'struct mcs_spinlock **' from incompatible pointer type 'struct mcs_spinlock
- *'
-Message-ID: <202509040745.Bf5NBwsf-lkp@intel.com>
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:lkp_test 1/1] include/ras/ras_event.h:219:undefined
+ reference to `__tracepoint_non_standard_event'
+Message-ID: <202509040857.ezl0YsOZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,65 +63,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/kkdwivedi/linux rqspinlock/bug
-head:   7097697299471d7a596f3ed08edc869b8840ba62
-commit: d0166ca6f4be3e5a50fa57a221eb2c660083bede [1/2] rqspinlock: Enable timeouts on MCS handover
-config: arm64-randconfig-001-20250904 (https://download.01.org/0day-ci/archive/20250904/202509040745.Bf5NBwsf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509040745.Bf5NBwsf-lkp@intel.com/reproduce)
+[community] /zdci/src/lkp/sbin/sync-produce --item /zdci/kbuild/indicators/dd/ddf894ce18acd9a4ec8cc41a8f041706feda1eeb-first_error_kconfig --flag create-dir
+
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   ddf894ce18acd9a4ec8cc41a8f041706feda1eeb
+commit: ddf894ce18acd9a4ec8cc41a8f041706feda1eeb [1/1] APEI: GHES: Replace log_non_standard_event with direct tracepoint call
+config: x86_64-buildonly-randconfig-004-20250904 (https://download.01.org/0day-ci/archive/20250904/202509040857.ezl0YsOZ-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250904/202509040857.ezl0YsOZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509040745.Bf5NBwsf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509040857.ezl0YsOZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/atomic.h:80,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/arm64/include/asm/bitops.h:25,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from kernel/bpf/rqspinlock.c:16:
-   kernel/bpf/rqspinlock.c: In function 'resilient_queued_spin_lock_slowpath':
->> include/linux/atomic/atomic-arch-fallback.h:242:27: error: initialization of 'struct mcs_spinlock **' from incompatible pointer type 'struct mcs_spinlock *' [-Werror=incompatible-pointer-types]
-     typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-                              ^
-   include/linux/atomic/atomic-instrumented.h:4908:2: note: in expansion of macro 'raw_try_cmpxchg_relaxed'
-     raw_try_cmpxchg_relaxed(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-     ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/rqspinlock.c:541:8: note: in expansion of macro 'try_cmpxchg_relaxed'
-      if (!try_cmpxchg_relaxed(&prev->next, RES_NODE_NEXT(lock), node)) {
-           ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   ld: vmlinux.o: in function `arch_atomic_read':
+>> arch/x86/include/asm/atomic.h:23:(.text+0x1442ae8): undefined reference to `__tracepoint_non_standard_event'
+>> ld: arch/x86/include/asm/atomic.h:23:(.text+0x1442af3): undefined reference to `__tracepoint_non_standard_event'
+   ld: vmlinux.o: in function `__do_trace_non_standard_event':
+>> include/ras/ras_event.h:219:(.text+0x1442b91): undefined reference to `__tracepoint_non_standard_event'
+>> ld: include/ras/ras_event.h:219:(.text+0x1442b9d): undefined reference to `__tracepoint_non_standard_event'
+>> ld: include/ras/ras_event.h:219:(.text+0x1442bec): undefined reference to `__SCT__tp_func_non_standard_event'
+>> ld: vmlinux.o:(.static_call_sites+0x4184): undefined reference to `__SCK__tp_func_non_standard_event'
 
 
-vim +242 include/linux/atomic/atomic-arch-fallback.h
+vim +219 include/ras/ras_event.h
 
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  234  
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  235  #if defined(arch_try_cmpxchg_relaxed)
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  236  #define raw_try_cmpxchg_relaxed arch_try_cmpxchg_relaxed
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  237  #elif defined(arch_try_cmpxchg)
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  238  #define raw_try_cmpxchg_relaxed arch_try_cmpxchg
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  239  #else
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  240  #define raw_try_cmpxchg_relaxed(_ptr, _oldp, _new) \
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  241  ({ \
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29 @242  	typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  243  	___r = raw_cmpxchg_relaxed((_ptr), ___o, (_new)); \
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  244  	if (unlikely(___r != ___o)) \
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  245  		*___op = ___r; \
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  246  	likely(___r == ___o); \
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  247  })
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  248  #endif
-29f006fdefe6f8 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-08-29  249  
+e9279e83ad1f4b5 Tyler Baicar            2017-06-21  209  
+297b64c74385fc7 Tyler Baicar            2017-06-21  210  /*
+297b64c74385fc7 Tyler Baicar            2017-06-21  211   * Non-Standard Section Report
+297b64c74385fc7 Tyler Baicar            2017-06-21  212   *
+297b64c74385fc7 Tyler Baicar            2017-06-21  213   * This event is generated when hardware detected a hardware
+297b64c74385fc7 Tyler Baicar            2017-06-21  214   * error event, which may be of non-standard section as defined
+297b64c74385fc7 Tyler Baicar            2017-06-21  215   * in UEFI spec appendix "Common Platform Error Record", or may
+297b64c74385fc7 Tyler Baicar            2017-06-21  216   * be of sections for which TRACE_EVENT is not defined.
+297b64c74385fc7 Tyler Baicar            2017-06-21  217   *
+297b64c74385fc7 Tyler Baicar            2017-06-21  218   */
+297b64c74385fc7 Tyler Baicar            2017-06-21 @219  TRACE_EVENT(non_standard_event,
+297b64c74385fc7 Tyler Baicar            2017-06-21  220  
+9359a8cbcc77d4a Andy Shevchenko         2019-01-25  221  	TP_PROTO(const guid_t *sec_type,
+9359a8cbcc77d4a Andy Shevchenko         2019-01-25  222  		 const guid_t *fru_id,
+297b64c74385fc7 Tyler Baicar            2017-06-21  223  		 const char *fru_text,
+297b64c74385fc7 Tyler Baicar            2017-06-21  224  		 const u8 sev,
+297b64c74385fc7 Tyler Baicar            2017-06-21  225  		 const u8 *err,
+297b64c74385fc7 Tyler Baicar            2017-06-21  226  		 const u32 len),
+297b64c74385fc7 Tyler Baicar            2017-06-21  227  
+297b64c74385fc7 Tyler Baicar            2017-06-21  228  	TP_ARGS(sec_type, fru_id, fru_text, sev, err, len),
+297b64c74385fc7 Tyler Baicar            2017-06-21  229  
+297b64c74385fc7 Tyler Baicar            2017-06-21  230  	TP_STRUCT__entry(
+297b64c74385fc7 Tyler Baicar            2017-06-21  231  		__array(char, sec_type, UUID_SIZE)
+297b64c74385fc7 Tyler Baicar            2017-06-21  232  		__array(char, fru_id, UUID_SIZE)
+297b64c74385fc7 Tyler Baicar            2017-06-21  233  		__string(fru_text, fru_text)
+297b64c74385fc7 Tyler Baicar            2017-06-21  234  		__field(u8, sev)
+297b64c74385fc7 Tyler Baicar            2017-06-21  235  		__field(u32, len)
+297b64c74385fc7 Tyler Baicar            2017-06-21  236  		__dynamic_array(u8, buf, len)
+297b64c74385fc7 Tyler Baicar            2017-06-21  237  	),
+297b64c74385fc7 Tyler Baicar            2017-06-21  238  
+297b64c74385fc7 Tyler Baicar            2017-06-21  239  	TP_fast_assign(
+297b64c74385fc7 Tyler Baicar            2017-06-21  240  		memcpy(__entry->sec_type, sec_type, UUID_SIZE);
+297b64c74385fc7 Tyler Baicar            2017-06-21  241  		memcpy(__entry->fru_id, fru_id, UUID_SIZE);
+2c92ca849fcc6ee Steven Rostedt (Google  2024-05-16  242) 		__assign_str(fru_text);
+297b64c74385fc7 Tyler Baicar            2017-06-21  243  		__entry->sev = sev;
+297b64c74385fc7 Tyler Baicar            2017-06-21  244  		__entry->len = len;
+297b64c74385fc7 Tyler Baicar            2017-06-21  245  		memcpy(__get_dynamic_array(buf), err, len);
+297b64c74385fc7 Tyler Baicar            2017-06-21  246  	),
+297b64c74385fc7 Tyler Baicar            2017-06-21  247  
+297b64c74385fc7 Tyler Baicar            2017-06-21  248  	TP_printk("severity: %d; sec type:%pU; FRU: %pU %s; data len:%d; raw data:%s",
+297b64c74385fc7 Tyler Baicar            2017-06-21  249  		  __entry->sev, __entry->sec_type,
+297b64c74385fc7 Tyler Baicar            2017-06-21  250  		  __entry->fru_id, __get_str(fru_text),
+297b64c74385fc7 Tyler Baicar            2017-06-21  251  		  __entry->len,
+297b64c74385fc7 Tyler Baicar            2017-06-21  252  		  __print_hex(__get_dynamic_array(buf), __entry->len))
+297b64c74385fc7 Tyler Baicar            2017-06-21  253  );
+297b64c74385fc7 Tyler Baicar            2017-06-21  254  
 
-:::::: The code at line 242 was first introduced by commit
-:::::: 29f006fdefe6f88abde973a0b0f20d2704e93fd4 asm-generic/atomic: Add try_cmpxchg() fallbacks
+:::::: The code at line 219 was first introduced by commit
+:::::: 297b64c74385fc7ea5dfff66105ab6465f2df49a ras: acpi / apei: generate trace event for unrecognized CPER section
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Tyler Baicar <tbaicar@codeaurora.org>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
