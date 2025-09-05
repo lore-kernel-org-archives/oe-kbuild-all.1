@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDF226FDA8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 20:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C98220F3F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 20:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757102580; cv=none; b=acpx5G7K8DMr4BJyevz/dCqgsuBorbGWPBxEdhrJ3zCAuw3nCtO0F4iekezjgQw9xoWhwNK7Y+bZTRxfrbAqdS4tdcB1tnSeBhHeUqTKz6OmaZE9MfDqZNjg4ulyJPEc3Jr3zSbMFyXJhW3lRt1ZVyEULIzMrogEFF8N9HSCr74=
+	t=1757103784; cv=none; b=ILwYphDlgVJlCAogJK8Jn5xl2BtItYxSWrIKdM/P8unpQzWOODH0OJwTbgFCgZdr+XL5ksJRfB7bsNtvf96dcdB42SBYZKhFJH+W7FOtmshoThzUmQWfT73OOweQVWMPsVVwiUUTndaTY7f8O8cZkakUx5+R0lHo3yI2YfZu3tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757102580; c=relaxed/simple;
-	bh=5sZidaLqM7oXe10/VtyQm6qItLAjcKFHRx82/K9U6p8=;
+	s=arc-20240116; t=1757103784; c=relaxed/simple;
+	bh=f6OLloFhThn3NaaWX3BvqqemD69DuhVWLU/iwtCORqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lys/uxMCtejsIkhdmzu/5mxKpW8ZCCE0/jBFc1r2Ith/wWoxdu+ZBtBuY/wNfCZMfhrRf/fy1UcWUgUHVDl5BTszIn7+28oiPujVzT1U+c4+w0HTBBu/1avLrMUGKKRjm+kZpyacvOBCUs67CP6AmfDpltJCJ3sEA76Qj+WS4YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cEVZF++S; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=i+Knaih5xWZ8owmC3Ad+8o6IfeTY9BgOiUafumfZyCpUxqU5AI08fKklRJIzC3VcwqRaJM878R0TZNhUt10kuVlAUOtoF1JMEwz7T896qZCq5osuWz98okYLzd0np0QuLFHHSz/NQ+B7Kw2xqZchAwS37WEddVynmhZFAc/8N3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZxciliS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cEVZF++S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZxciliS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757102579; x=1788638579;
+  t=1757103782; x=1788639782;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5sZidaLqM7oXe10/VtyQm6qItLAjcKFHRx82/K9U6p8=;
-  b=cEVZF++S2R3ockG2R12u9wjg7Ily/5hXzRZpmfWrz6fuB3XjkJqNPErN
-   Yf9fM41Fe4YKWFbgGj0jQo0O0mJD/ejW0Tw1Pu91g/QuK5PvrwpExAbpo
-   tfWc3wkNDQxwFNOWuDs2cHODWcjmFGWHlRsT0e0ZGKeuy4jxJBftu8Ryq
-   fn7OvA8CZn1eunCxbWkyckLQfBNiv6tePkaSQ5168rnx01pAC4wO6Qw7e
-   mbb/7k6Jopr0KN0CtVIqVtf0pt5XsP++uhmojAkgSkIaADkvnQWGbRHhZ
-   ICKEhiuXPfQYZEtdxVPZhjabQdrpWDB5HfBZblRYjO7uhUjnVcqXaGbIy
-   Q==;
-X-CSE-ConnectionGUID: XOksCRbxSG2WNclKJqg4hw==
-X-CSE-MsgGUID: fi/dJ2brSbib6aSSvu35Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="70837460"
+  bh=f6OLloFhThn3NaaWX3BvqqemD69DuhVWLU/iwtCORqc=;
+  b=AZxciliS0/nK+IkBoR8Irh+xmGBF1tI+yRSAn9Dweohr5NBeuiM8a+1k
+   /wA3h1MG5IQXGYLRIXF4xHwVyfl/5I5eHWSaBo9eLZAi03I0DYT8Jf3wU
+   ZkbN09AA405igMRa7Bk3BkDVDDdEvVudMCI1XwvbsQtxUqJmHXoF9OXux
+   RmELlPw3VDH5ZUKlkgpPfcMid6m0e/RnX6eCJQFdgvLW8+7zeMcfCfSib
+   WhExdH5dw5SHOx7XXIrWkEPy7LE9gIecBv6a50dL2QJXAThu6TQM+sWw6
+   gl4aAkD8ZmRih2RcIziVtWqRMJZ4aQwm9kVVvvoSosXtZwmFw+Nt7W7zZ
+   w==;
+X-CSE-ConnectionGUID: Zr8jFquUSF6UCO7vUfdSaQ==
+X-CSE-MsgGUID: 5wAL1jpRRjeNxG8MNWmqNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="69719390"
 X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
-   d="scan'208";a="70837460"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 13:02:58 -0700
-X-CSE-ConnectionGUID: fBq7HCSuS3i0kKg4CE2hgA==
-X-CSE-MsgGUID: wZ1SATs9SJKb+N18BAGmoQ==
+   d="scan'208";a="69719390"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 13:23:00 -0700
+X-CSE-ConnectionGUID: NfKaYQgjTz2xaAyJhKxrUQ==
+X-CSE-MsgGUID: qowh5Zn4SOGClF4241NsNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
-   d="scan'208";a="177473704"
+   d="scan'208";a="172597600"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Sep 2025 13:02:57 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2025 13:22:59 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uuce6-0000mx-1I;
-	Fri, 05 Sep 2025 20:02:54 +0000
-Date: Sat, 6 Sep 2025 04:01:55 +0800
+	id 1uucxV-0000oR-0z;
+	Fri, 05 Sep 2025 20:22:57 +0000
+Date: Sat, 6 Sep 2025 04:22:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 5/5] mm/pgsize_migration.c:204:25:
- error: implicit declaration of function 'vma_start_read_locked'; did you
- mean 'vma_assert_write_locked'?
-Message-ID: <202509060322.UDKVKwNw-lkp@intel.com>
+Subject: [android-common:android12-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__blk_mq__trace_system_name' defined but not used
+Message-ID: <202509060435.LIUNAIbu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,129 +63,239 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   6904c56038528ab2fc76e7309fa4a2a4c4fbacf2
-commit: d702341275709c6d3d9ef7403bfa348ceb584e8b [5/5] ANDROID: look up vma under RCU in linker_ctx()
-config: x86_64-buildonly-randconfig-002-20250906 (https://download.01.org/0day-ci/archive/20250906/202509060322.UDKVKwNw-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060322.UDKVKwNw-lkp@intel.com/reproduce)
+Hi hao,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   effada2cf9523030a08d6bbc28fb054aa5e20b7e
+commit: 6912e0c8e9ff6035679c642c15ea31c077f248e2 [1/1] ANDROID: add hooks into blk-ma-tag.c for customized I/O scheduler
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250906/202509060435.LIUNAIbu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060435.LIUNAIbu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509060322.UDKVKwNw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509060435.LIUNAIbu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from arch/x86/include/asm/mem_encrypt.h:15,
-                    from include/linux/mem_encrypt.h:17,
-                    from arch/x86/include/asm/page_types.h:7,
-                    from arch/x86/include/asm/page.h:9,
-                    from include/linux/mm_types_task.h:13,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/pgsize_migration_inline.h:16,
-                    from include/linux/pgsize_migration.h:16,
-                    from mm/pgsize_migration.c:13:
-   mm/pgsize_migration.c: In function 'linker_ctx':
->> mm/pgsize_migration.c:204:25: error: implicit declaration of function 'vma_start_read_locked'; did you mean 'vma_assert_write_locked'? [-Werror=implicit-function-declaration]
-     204 |                 BUG_ON(!vma_start_read_locked(vma));
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   mm/pgsize_migration.c:204:17: note: in expansion of macro 'BUG_ON'
-     204 |                 BUG_ON(!vma_start_read_locked(vma));
-         |                 ^~~~~~
-   cc1: some warnings being treated as errors
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/creds.h:41,
+                    from drivers/android/vendor_hooks.c:53:
+   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/avc.h:33,
+                    from drivers/android/vendor_hooks.c:52:
+   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/traps.h:42,
+                    from drivers/android/vendor_hooks.c:51:
+   include/trace/trace_events.h:27:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sys.h:22,
+                    from drivers/android/vendor_hooks.c:50:
+   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cgroup.h:43,
+                    from drivers/android/vendor_hooks.c:49:
+   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/blk_mq.h:33,
+                    from drivers/android/vendor_hooks.c:48:
+>> include/trace/trace_events.h:27:23: warning: 'str__blk_mq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/block.h:119,
+                    from drivers/android/vendor_hooks.c:47:
+   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ufshcd.h:114,
+                    from drivers/android/vendor_hooks.c:46:
+   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/thermal.h:34,
+                    from drivers/android/vendor_hooks.c:45:
+   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/iommu.h:53,
+                    from drivers/android/vendor_hooks.c:44:
+   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fault.h:45,
+                    from drivers/android/vendor_hooks.c:43:
+   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +204 mm/pgsize_migration.c
+vim +/str__blk_mq__trace_system_name +27 include/trace/trace_events.h
 
-   156	
-   157	/*
-   158	 * The dynamic linker, or interpreter, operates within the process context
-   159	 * of the binary that necessitated dynamic linking.
-   160	 *
-   161	 * Consequently, process context identifiers; like PID, comm, ...; cannot
-   162	 * be used to differentiate whether the execution context belongs to the
-   163	 * dynamic linker or not.
-   164	 *
-   165	 * linker_ctx() deduces whether execution is currently in the dynamic linker's
-   166	 * context by correlating the current userspace instruction pointer with the
-   167	 * VMAs of the current task.
-   168	 *
-   169	 * Returns true if in linker context, otherwise false.
-   170	 */
-   171	static inline bool linker_ctx(void)
-   172	{
-   173		struct pt_regs *regs = task_pt_regs(current);
-   174		struct mm_struct *mm = current->mm;
-   175		struct vm_area_struct *vma;
-   176		struct file *file;
-   177	
-   178		if (!regs)
-   179			return false;
-   180	
-   181		vma = lock_vma_under_rcu(mm, instruction_pointer(regs));
-   182	
-   183		/*
-   184		 * lock_vma_under_rcu() is a try-lock that can fail if the
-   185		 * VMA is already locked for modification.
-   186		 *
-   187		 * Fallback to finding the vma under mmap read lock.
-   188		 */
-   189		if (!vma) {
-   190			mmap_read_lock(mm);
-   191	
-   192			vma = find_vma(mm, instruction_pointer(regs));
-   193	
-   194			/* Current execution context, the VMA must be present */
-   195			BUG_ON(!vma);
-   196	
-   197			/*
-   198			 * We cannot use vma_start_read() as it may fail due to
-   199			 * false locked (see comment in vma_start_read()). We
-   200			 * can avoid that by using vma_start_read_locked under
-   201			 * mmap_lock, which guarantees that nobody can lock the
-   202			 * vma for write (vma_start_write()) under us.
-   203			 */
- > 204			BUG_ON(!vma_start_read_locked(vma));
-   205	
-   206			mmap_read_unlock(mm);
-   207		}
-   208	
-   209		file = vma->vm_file;
-   210		if (!file)
-   211			goto out;
-   212	
-   213		if ((vma->vm_flags & VM_EXEC)) {
-   214			char buf[64];
-   215			const int bufsize = sizeof(buf);
-   216			char *path;
-   217	
-   218			memset(buf, 0, bufsize);
-   219			path = d_path(&file->f_path, buf, bufsize);
-   220	
-   221			/*
-   222			 * Depending on interpreter requested, valid paths could be any of:
-   223			 *   1. /system/bin/bootstrap/linker64
-   224			 *   2. /system/bin/linker64
-   225			 *   3. /apex/com.android.runtime/bin/linker64
-   226			 *
-   227			 * Check the base name (linker64).
-   228			 */
-   229			if (!strcmp(kbasename(path), "linker64")) {
-   230				vma_end_read(vma);
-   231				return true;
-   232			}
-   233		}
-   234	out:
-   235		vma_end_read(vma);
-   236		return false;
-   237	}
-   238	
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
