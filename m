@@ -1,51 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55F92ECD2D;
-	Fri,  5 Sep 2025 21:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC7F2765C3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 21:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757106551; cv=none; b=RSjSCF8lvk4ccraiTyxh4Syudd+t5AfGcBbbO67ge9UixGgjIyJbPr835HqCZEX9EICTphGU91j2aqfkbk2pYmVKozfkHXA6b8uYig6C6a9N1J9wucm5lAa069ztO7IYO2JB0swoxdZzpWpHh0cEqo6lLttw6I/ZeNMQtJLTfoY=
+	t=1757109080; cv=none; b=f12pNN83TrMk501sOcyYom2pQbonsKz0oZgY1h9Cb6fmq+nOqffAKynSzsqJRKEkq2VqrfRTP0rg0EOwdsm5ox/Q9PiP2057Iyw7V8KTCjZntgr7GHc7nyTtILnWoYOMEL9muNaW1ncuxbv4QWJaDcKx5odvAAsdgxpCiRpC7TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757106551; c=relaxed/simple;
-	bh=Q4/Hy3I/j5BNl0X6z2Pxo3w50TkPZNmdARahvFuu1ZQ=;
+	s=arc-20240116; t=1757109080; c=relaxed/simple;
+	bh=GvcxKewerZ0+efFLVvzsfq2leKXqx+I9KwmE1dj78WA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0DyxalI72hzrn4C1j5IFSdfFlYneFJ+wnndRcmTfYjr6IQTU6ZdXr19d+B/pmIbc2GBrtvBr2Zg/YbXCst9hmXA4AzuhLfA7cDNn+GNhPfmSUWE9jgy5iA2a15H941ArEwOkL0WhNMiH3qMYDfBt4ST+hNAQbyS/rYnCJtIjRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OUhiTyiG; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2x5k+1pa+hfG9P/VSARQhT2ne4QCNOY3bcA+00wS24yodMlVDrePF4LGlyY/IOrL4VOV067KRy0aYyp49HFS2YPeEM9Pe38mfinhh9nQJHkdx/chI0ZjicXMUJozXm7QTTmf9Cpq+M7+lI4pi3LeRl2dWvpMiE+QVBpaSZ2I3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsKC2u7b; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUhiTyiG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsKC2u7b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757106550; x=1788642550;
+  t=1757109079; x=1788645079;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q4/Hy3I/j5BNl0X6z2Pxo3w50TkPZNmdARahvFuu1ZQ=;
-  b=OUhiTyiGsWxhmX78IdDcEfhA14iXvJKCeyZvneladrfIQAPwhXlNczEJ
-   F3OhGaN9YPvns4hNLMrIEYE0J6E5NtJPl0s/ZbA7bnlUpPbig/JH+XByW
-   ieJbXNltStB1h/cApb/4HnIe1znHoq7RCdjt1u/ihMumQw1b63SJNG/Pg
-   wjKiHo8D0DHAmx8Gzd5yKtB41kL3tZwtZlFDfIcOOXRQnY/9bojTqFAwv
-   nNVnNpnkJ6bjV0G4qqI4btkHlyqObe8BgGDrDzgcTs/uiBjY+px3+NURH
-   ZhYTIp+WITLzUiT0nTmf6LdTclK1JiCf95OYIXyknIoco5AWrBJ33/UJx
-   g==;
-X-CSE-ConnectionGUID: bi9t7H/4R8GEfDjLxGJHvA==
-X-CSE-MsgGUID: q/4Jyy/qQEuaX+OkKvVk5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59531459"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59531459"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 14:09:09 -0700
-X-CSE-ConnectionGUID: VOWIU12ASdy49fjY+iID5g==
-X-CSE-MsgGUID: 1Ts5C591QMqIbNOwjdMlSQ==
+  bh=GvcxKewerZ0+efFLVvzsfq2leKXqx+I9KwmE1dj78WA=;
+  b=GsKC2u7b5Y7ZBnPtitN3oeDPJie+yq7bs8f9Jp5g4cw+O8tNXqu3yEt8
+   dbuIunyKg8+Y4WLSNpMEcBswQFifmkr4z5u5mj9CPpMGypKRh88GmhjZA
+   YCqOfrrMTP5EyCh3tAFgH5zGaFNIALn34pXvmxGWyUOUZ37wjYOb1y/70
+   s8cvhATtF0mCFbfdTq88joiaqQCVU4koJpyQcQ30laTtW32V5MT3gytN7
+   AwEbp56rEY+eJy0JNJ2ekHmZuMrV7qshmPa597CuVUYAb24w+Zh9Z0kCp
+   CutyxQSg/WSYDtzBi/5B5/cHj3ZfUxZ2iY/+mexQpIFLCid9dVuS4a+mP
+   Q==;
+X-CSE-ConnectionGUID: ptmUlikFQ1i8T/dtAdu1TA==
+X-CSE-MsgGUID: vrsNPzIOTJy8MJ1DgsX7VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="59402228"
+X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
+   d="scan'208";a="59402228"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 14:51:18 -0700
+X-CSE-ConnectionGUID: DBHBytIBTNiuRhjYQp8c7g==
+X-CSE-MsgGUID: ClmLue1+TsibjFz0ZWWC2w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
+   d="scan'208";a="172376665"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Sep 2025 14:09:05 -0700
+  by orviesa008.jf.intel.com with ESMTP; 05 Sep 2025 14:51:14 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uudg7-0000rF-1I;
-	Fri, 05 Sep 2025 21:09:03 +0000
-Date: Sat, 6 Sep 2025 05:08:40 +0800
+	id 1uueKt-0000tL-34;
+	Fri, 05 Sep 2025 21:51:11 +0000
+Date: Sat, 6 Sep 2025 05:50:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -58,12 +60,11 @@ To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	Dmitry Baryshkov <lumag@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Liu Ying <victor.liu@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>
 Subject: Re: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific
  infoframe
-Message-ID: <202509060412.LmXs40Rg-lkp@intel.com>
+Message-ID: <202509060506.8qlqQKQi-lkp@intel.com>
 References: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -77,29 +78,29 @@ In-Reply-To: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.co
 
 Hi Liu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 4ac65880ebca1b68495bd8704263b26c050ac010]
+[auto build test ERROR on 4ac65880ebca1b68495bd8704263b26c050ac010]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Ying/drm-bridge-ite-it6263-Support-HDMI-vendor-specific-infoframe/20250904-171143
 base:   4ac65880ebca1b68495bd8704263b26c050ac010
 patch link:    https://lore.kernel.org/r/20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634%40nxp.com
 patch subject: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific infoframe
-config: i386-buildonly-randconfig-001-20250906 (https://download.01.org/0day-ci/archive/20250906/202509060412.LmXs40Rg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060412.LmXs40Rg-lkp@intel.com/reproduce)
+config: xtensa-randconfig-002-20250906 (https://download.01.org/0day-ci/archive/20250906/202509060506.8qlqQKQi-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060506.8qlqQKQi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509060412.LmXs40Rg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509060506.8qlqQKQi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/bridge/ite-it6263.c:810:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     810 |                 const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
-         |                 ^
-   1 warning generated.
+   drivers/gpu/drm/bridge/ite-it6263.c: In function 'it6263_hdmi_write_infoframe':
+>> drivers/gpu/drm/bridge/ite-it6263.c:810:3: error: a label can only be part of a statement and a declaration is not a statement
+     810 |   const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
+         |   ^~~~~
 
 
 vim +810 drivers/gpu/drm/bridge/ite-it6263.c
