@@ -1,124 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA99306B3D;
-	Fri,  5 Sep 2025 14:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9EB31D750
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 16:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757084130; cv=none; b=Q15/WBoojf1KhrxmAi9O1q7pK8qpMjD68ZwjOY6YWj03PC9eahBmHMIitTj/d975coha9N2n4lgbVS77m2WwmdnqUepcAc1btqFzHTyyt+2kSbXqK8+Hhoa/j0lVQTg7L6xkynn/UP65b8uM2zHpchAdFuQi+3NfVltJNYmsDoo=
+	t=1757089119; cv=none; b=QGsD+UMwnR0XpTsWd5BDSVufojIQ/8GOej+nDdp3ookgpso2SBKXwSv5lwQM/lIgLnzhfEXjTE0qSYicWn1iYP4xvy7iiT/HUwP4mqxqte/iDI4E6J8H4foHRjx1E7K/DLSTlD+2IYDTATCNAIWWaDa2pGRgLoAeglCJT4GTfj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757084130; c=relaxed/simple;
-	bh=OCfVsz4GNG8tZpCHvCp7Pwkr+YCb7Q/NGZO1AQDPduA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=biDgpHvD4karHO7T5MtYX71RhY+v+wr2Xecjmxs18sU/X0KxTbUVuW/AqtEi7E4AlbIBjVeJaUN6rkzaJKbcGta6cV9XM9auz0ZatZpWwFis3prfjk/5yh3QbJtcJxioOeYRlvgq2N+fErtaZKCbdcBc+ZYkcNih4ppoGeHuNMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDeppUVf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757089119; c=relaxed/simple;
+	bh=9QBRrvW6PmncpOdYH8hcxPkHEAlQQ3fdIYF1QbiuVhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nCbN5/5yz0u6vN+2E/kfx+KQLLBSvEJIy4i8dcfKg7jjKTY558jwbqE5eGKjvXxq1o9nVQyO/5RZepfMiBC9Wblq1k1scFgsOxjYWCUcIGo1tNN1yUXA3qj1p/v7MqW9YTOc9tb6RLNE/g2dnhICAql9RXJDEkboFpUENcsGjxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SugGAY0i; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDeppUVf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433EEC4CEF1;
-	Fri,  5 Sep 2025 14:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757084129;
-	bh=OCfVsz4GNG8tZpCHvCp7Pwkr+YCb7Q/NGZO1AQDPduA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RDeppUVfo9rdn4rj2lFKj5nH1eCZTL3kk8iGOrmTHtHv9L12slp0wffsBj5avJX1O
-	 CVNQOPlLzISjQBwCM+MumnN+DkZ/Gad+sXtsv6pmn+s0gUINahBwBtynWPZQyGMTI1
-	 TEuY8NQlC622r863FKWPt1g8+jibRfKzDS4IsZP4Xfmmsxa35DUeB3jHuqJ+4t1XSu
-	 CLLh30qM3CmaXDDYsSShE6POIWFAbj3T/Sr5wf9lJhD+i3qhGdYbs4Ab2LzYeG+WtY
-	 a3P5aqBY2EhytsicqAHajqw2dDHfq6Wtndd0hy8jV3dWFvZ9wR9SHB/si7YeNcKXL8
-	 jLT6cSfo8wucg==
-Message-ID: <8009fd35-421b-4091-99a5-fda86e1cfaaa@kernel.org>
-Date: Fri, 5 Sep 2025 23:55:26 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SugGAY0i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757089117; x=1788625117;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9QBRrvW6PmncpOdYH8hcxPkHEAlQQ3fdIYF1QbiuVhQ=;
+  b=SugGAY0iQalBJ8dW5Xx4cTxDi2S46CzMtPw3P3meez1px6PcbwUVsj4K
+   +W0qkHr0AgBF7wsAAyZHmlSPcX3XV4GRgkpLgeJtZFgFnPB0VAP8SQ0Xf
+   f8oYxtbnyA/Wdi8ZPFIdxk1xZ6EblIbEDQXyT3rBaHUEMmPe98okiaQRD
+   QntCrRazV+yAmdLEfkFOy8JfHh6Hu8yGHkLSXwsceVHnDi1seC9Exiqzf
+   9ATXHgbnLGcPllp6V4r2ms2xInUYpQlhAK00vP9DCeKpQhAO0HIm1Qqmq
+   YPnHghBeiV/OWZAZ4sAHdN00w08c4lbfY1JLvyGZ/dzhByHxwFBB+tdce
+   w==;
+X-CSE-ConnectionGUID: SdyLTxwrSD2rM4mWP2k7Gg==
+X-CSE-MsgGUID: lAZt3lxfQ0ugkfNh6R7MZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="58476034"
+X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
+   d="scan'208";a="58476034"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 09:18:37 -0700
+X-CSE-ConnectionGUID: /y+nDpffRvqxaNk+iDb81Q==
+X-CSE-MsgGUID: 8EL30heDT/OTrWdBIy18bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
+   d="scan'208";a="172549633"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2025 09:18:36 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uuZ8z-0000c5-2F;
+	Fri, 05 Sep 2025 16:18:33 +0000
+Date: Sat, 6 Sep 2025 00:18:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [brgl:gpio/devel 20/28] drivers/gpio/gpio-brcmstb.c:509:27: warning:
+ variable 'gc' set but not used
+Message-ID: <202509060000.Rs09YhdM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/21] can: netlink: add can_validate_databittiming()
-To: kernel test robot <lkp@intel.com>, Marc Kleine-Budde
- <mkl@pengutronix.de>, Oliver Hartkopp <socketcan@hartkopp.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- =?UTF-8?Q?St=C3=A9phane_Grosjean?= <stephane.grosjean@hms-networks.com>,
- Robert Nawrath <mbro1689@gmail.com>, Minh Le <minh.le.aj@renesas.com>,
- Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250903-canxl-netlink-prep-v1-6-904bd6037cd9@kernel.org>
- <202509050259.NjPdQyAD-lkp@intel.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol@kernel.org>
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <202509050259.NjPdQyAD-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/09/2025 at 03:46, kernel test robot wrote:
-> Hi Vincent,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 2fd4161d0d2547650d9559d57fc67b4e0a26a9e3]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/devel
+head:   46880c17e85d6822b8c45c226dc932dae157cc07
+commit: 967e3cee02c1f72c158066cb1b1ec5192aca82b5 [20/28] gpio: brcmstb: use new generic GPIO chip API
+config: arm-randconfig-004-20250905 (https://download.01.org/0day-ci/archive/20250906/202509060000.Rs09YhdM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060000.Rs09YhdM-lkp@intel.com/reproduce)
 
-OK. I will silence it in v2, but I don't think this is anyhow problematic.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509060000.Rs09YhdM-lkp@intel.com/
 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/can-dev-move-struct-data_bittiming_params-to-linux-can-bittiming-h/20250903-170807
-> base:   2fd4161d0d2547650d9559d57fc67b4e0a26a9e3
-> patch link:    https://lore.kernel.org/r/20250903-canxl-netlink-prep-v1-6-904bd6037cd9%40kernel.org
-> patch subject: [PATCH 06/21] can: netlink: add can_validate_databittiming()
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250905/202509050259.NjPdQyAD-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509050259.NjPdQyAD-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509050259.NjPdQyAD-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/net/can/dev/netlink.c:111:6: warning: variable 'is_on' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->      111 |         if (ifla_can_data_bittiming == IFLA_CAN_DATA_BITTIMING) {
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/net/can/dev/netlink.c:119:6: note: uninitialized use occurs here
->      119 |         if (is_on) {
->          |             ^~~~~
->    drivers/net/can/dev/netlink.c:111:2: note: remove the 'if' if its condition is always true
+All warnings (new ones prefixed by >>):
 
-That's it. This if condition is always true at the moment because all the
-callers specify ifla_can_data_bittiming as IFLA_CAN_DATA_BITTIMING. But I do not
-want to remove the else branch because is serves to show to the reader what is
-coming up next and help to understand the refactor logic.
->      111 |         if (ifla_can_data_bittiming == IFLA_CAN_DATA_BITTIMING) {
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->      112 |                 data_tdc = data[IFLA_CAN_TDC];
->      113 |                 tdc_flags = flags & CAN_CTRLMODE_FD_TDC_MASK;
->      114 |                 is_on = flags & CAN_CTRLMODE_FD;
->      115 |         } else {
->          |           ~~~~~~
->      116 |                 WARN_ON(1); /* Place holder for CAN XL */
->          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The WARN_ON(1) was to point out that the else branch should never be reached.
-
-I will change this to:
-
-	return -EOPNOTSUPP; /* Place holder for CAN XL */
-
-in v2. This will serve the same purpose as the current WARN_ON(1) but will
-suppress the warning.
-
-I will do the exact same on patches 11/21 and 18/21 on which the kernel test
-robot also sent a similar report.
+   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_quiesce':
+>> drivers/gpio/gpio-brcmstb.c:509:27: warning: variable 'gc' set but not used [-Wunused-but-set-variable]
+     509 |         struct gpio_chip *gc;
+         |                           ^~
 
 
-Yours sincerely,
-Vincent Mailhol
+vim +/gc +509 drivers/gpio/gpio-brcmstb.c
 
+4714221b0c62e6 Doug Berger         2017-10-24  504  
+4714221b0c62e6 Doug Berger         2017-10-24  505  static void brcmstb_gpio_quiesce(struct device *dev, bool save)
+4714221b0c62e6 Doug Berger         2017-10-24  506  {
+4714221b0c62e6 Doug Berger         2017-10-24  507  	struct brcmstb_gpio_priv *priv = dev_get_drvdata(dev);
+4714221b0c62e6 Doug Berger         2017-10-24  508  	struct brcmstb_gpio_bank *bank;
+4714221b0c62e6 Doug Berger         2017-10-24 @509  	struct gpio_chip *gc;
+4714221b0c62e6 Doug Berger         2017-10-24  510  	u32 imask;
+4714221b0c62e6 Doug Berger         2017-10-24  511  
+4714221b0c62e6 Doug Berger         2017-10-24  512  	/* disable non-wake interrupt */
+4714221b0c62e6 Doug Berger         2017-10-24  513  	if (priv->parent_irq >= 0)
+4714221b0c62e6 Doug Berger         2017-10-24  514  		disable_irq(priv->parent_irq);
+4714221b0c62e6 Doug Berger         2017-10-24  515  
+4714221b0c62e6 Doug Berger         2017-10-24  516  	list_for_each_entry(bank, &priv->bank_list, node) {
+967e3cee02c1f7 Bartosz Golaszewski 2025-09-05  517  		gc = &bank->chip.gc;
+4714221b0c62e6 Doug Berger         2017-10-24  518  
+4714221b0c62e6 Doug Berger         2017-10-24  519  		if (save)
+4714221b0c62e6 Doug Berger         2017-10-24  520  			brcmstb_gpio_bank_save(priv, bank);
+4714221b0c62e6 Doug Berger         2017-10-24  521  
+4714221b0c62e6 Doug Berger         2017-10-24  522  		/* Unmask GPIOs which have been flagged as wake-up sources */
+4714221b0c62e6 Doug Berger         2017-10-24  523  		if (priv->parent_wake_irq)
+4714221b0c62e6 Doug Berger         2017-10-24  524  			imask = bank->wake_active;
+4714221b0c62e6 Doug Berger         2017-10-24  525  		else
+4714221b0c62e6 Doug Berger         2017-10-24  526  			imask = 0;
+967e3cee02c1f7 Bartosz Golaszewski 2025-09-05  527  		gpio_generic_write_reg(&bank->chip,
+967e3cee02c1f7 Bartosz Golaszewski 2025-09-05  528  				       priv->reg_base + GIO_MASK(bank->id),
+4714221b0c62e6 Doug Berger         2017-10-24  529  				       imask);
+4714221b0c62e6 Doug Berger         2017-10-24  530  	}
+4714221b0c62e6 Doug Berger         2017-10-24  531  }
+4714221b0c62e6 Doug Berger         2017-10-24  532  
+
+:::::: The code at line 509 was first introduced by commit
+:::::: 4714221b0c62e6dc3f7ac31d1f50478f16259e71 gpio: brcmstb: implement suspend/resume/shutdown
+
+:::::: TO: Doug Berger <opendmb@gmail.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
