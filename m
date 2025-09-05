@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B57C1C27
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 03:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AC9CA5A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 04:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757043379; cv=none; b=p95DH/6GfwujEC/w6XG6FOVxVksnPXPX6PZR3jgqZOm8rB5xRlLug6VO+kvpo6yOwEK3ETcB2VffRjC9WuL+ZiZSLF943eqmTJR6hzbXXAaqOvf2gHxX6+vLTgoReH1xKegOfVcUSBNR17+S/KKT9f7oCYvENKg1tURfP5MmV/4=
+	t=1757045247; cv=none; b=GEOVYB/J+CSxB+fqNKSixQkKnq1NNPgtqCrKkg/03YMld2M+uaiA4BDPSqFXofbae+Wi2XxZy8DxfDfaDYJPChY8x6JKvd9d8jUTjBikPLTgSeLQQpscKfSE0/CPI3GlsSIoPH1L1Swke2Vsbd51rQtv1CLaa1jBpN/ak2nLdPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757043379; c=relaxed/simple;
-	bh=X+0MpZI6N85JeM8RBzF8BdHbF0KK7WEakn7IWwhSIW4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nVPeg4AAI26+Em91LyVWybDtHhdF+YzkPSKRcfCzSQx/o849Lw0/m5pay2PCDjbCYxu0I+MZ4b7KjZFnh3pbVFvJwvu9mhPs91/CLNjMKuuRdkdVGXBvgmKduMWP9HRqP00bWnNouQ1nqyAcFLm9xFAUOGwAOm0a7ZYgTvMJLvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7TRIiQt; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1757045247; c=relaxed/simple;
+	bh=4ik2CJTqkP7JyZGKZODFZYdcNPSHjRkjR5R+MPvEcCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TrefZwKHfqJAaDL46BhAfD8JuVcidi63Tazpqaz+4EHdchcsxBeS7Q6NgbNYpXlILaXaRBb+uw81G9xyyFjYNQCMSARO3ld/rDRUojphiKLYZCmArd/zSPQNZ/NibYlaJHpdcr5ipPXK3xf0RAckO4sb/Hbhi1ZoeOD1MfTKzAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bl+X/SuG; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7TRIiQt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bl+X/SuG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757043377; x=1788579377;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X+0MpZI6N85JeM8RBzF8BdHbF0KK7WEakn7IWwhSIW4=;
-  b=i7TRIiQtkMGcwOKn4gn7v1HrkFgVIQIX9ugNrqXSBD+B5qi+W+9cXgq1
-   HaTg8hFS8DzpijJgWVaBfoIUFGtVpJ8blalnRSDw9ql8g6bWDobKtHkqo
-   MllICSMBIF7Gu1NhTUm+lomsyiOkmchlZoZMBKgRTUEzBwng8s2wGlk8S
-   6Dgh3W/xRLYr9KlaInd85YpEhtoheW0DhN0kO5Z8R7KF3rLIbkAdyIcRt
-   D1ALEkIBFUhSwNphHVXNcQaXIyRxWDktr6g8HFH0m4yop2s74N+RaOLu7
-   YZtw5Nc/v8DXI7pb4qvrLHuc8tvXbtD4ckEvm/t3RQjXtYR3JUbH47cv8
-   w==;
-X-CSE-ConnectionGUID: CLDxHIfGSW2G4R4P8vxosA==
-X-CSE-MsgGUID: mwDla8bMQd6kOs1gMIxfkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="70009624"
+  t=1757045245; x=1788581245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4ik2CJTqkP7JyZGKZODFZYdcNPSHjRkjR5R+MPvEcCo=;
+  b=bl+X/SuG80+n1Shi6YV3z6wNVopFVmjAAoSZAQIR7R9hTcvcJzFpbLkn
+   YmnufhvT/SjXDaHNl/GcBAZ0eZjZH1Kp3O1DWzNExTGiY7EcUCkUl+JSs
+   CX1q88aRdaAUO9OgWj0Rf+M2Zc/TuePvq/OnVtWGsQUJ3IykDD19GmjoD
+   ODfZYKprRAREcx28B9P0uxkaTyFJKo9IxkTng0/oB2Oadg+lyYzPvu2Rj
+   hCRG75/lieahx2L0r4gL00QZaoQ41qIgw7zBJ31LpWAFCnvM7e0vqdip+
+   y6ag9RdzjdD15Dfd0sm3hL7F+ccjCrI5PjyoNRSWXXwmH7/KGaRtwjH95
+   Q==;
+X-CSE-ConnectionGUID: 7d9euu72RnCHA0vIx/EI4Q==
+X-CSE-MsgGUID: AJUnpVMBQF23U3B75eAx3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="70773227"
 X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="70009624"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 20:36:15 -0700
-X-CSE-ConnectionGUID: /aQ7OfGVQIyLwybfZ/XsUQ==
-X-CSE-MsgGUID: yCsttWG/ROGB2gcfaXgryQ==
+   d="scan'208";a="70773227"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 21:07:24 -0700
+X-CSE-ConnectionGUID: UzhF1ARWTg+dFKBwSb3SZQ==
+X-CSE-MsgGUID: SZdZEBhnTWOI4Prh+5yVeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="176394985"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Sep 2025 20:36:14 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+   d="scan'208";a="195723838"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Sep 2025 21:07:20 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uuNFA-0006C3-0R;
-	Fri, 05 Sep 2025 03:36:09 +0000
-Date: Fri, 5 Sep 2025 11:35:17 +0800
+	id 1uuNjJ-00001H-2e;
+	Fri, 05 Sep 2025 04:07:17 +0000
+Date: Fri, 5 Sep 2025 12:06:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 1/1]
- include/trace/trace_events.h:27:23: warning:
- 'str__shmem_fs__trace_system_name' defined but not used
-Message-ID: <202509051133.ciOTDOyZ-lkp@intel.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>,
+	Mike Rapoport <rppt@kernel.org>, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 5/9] dma-buf: heaps: Add support for Tegra VPR
+Message-ID: <202509051132.C0y3nq6E-lkp@intel.com>
+References: <20250902154630.4032984-6-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,143 +76,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250902154630.4032984-6-thierry.reding@gmail.com>
 
-Hi Charan,
+Hi Thierry,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   effada2cf9523030a08d6bbc28fb054aa5e20b7e
-commit: 964220d0801b5141253e8a2195355d85616d66e0 [1/1] ANDROID: shmem: vendor hook in shmem_alloc_page
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250905/202509051133.ciOTDOyZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509051133.ciOTDOyZ-lkp@intel.com/reproduce)
+[auto build test WARNING on next-20250902]
+[also build test WARNING on v6.17-rc4]
+[cannot apply to robh/for-next akpm-mm/mm-everything tegra/for-next linus/master v6.17-rc4 v6.17-rc3 v6.17-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Reding/dt-bindings-reserved-memory-Document-Tegra-VPR/20250902-235038
+base:   next-20250902
+patch link:    https://lore.kernel.org/r/20250902154630.4032984-6-thierry.reding%40gmail.com
+patch subject: [PATCH 5/9] dma-buf: heaps: Add support for Tegra VPR
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250905/202509051132.C0y3nq6E-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509051132.C0y3nq6E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509051133.ciOTDOyZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509051132.C0y3nq6E-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/shmem_fs.h:17,
-                    from drivers/android/vendor_hooks.c:67:
->> include/trace/trace_events.h:27:23: warning: 'str__shmem_fs__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/remoteproc.h:21,
-                    from drivers/android/vendor_hooks.c:66:
-   include/trace/trace_events.h:27:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fips140.h:51,
-                    from drivers/android/vendor_hooks.c:65:
-   include/trace/trace_events.h:27:23: warning: 'str__fips140__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpuidle_psci.h:25,
-                    from drivers/android/vendor_hooks.c:64:
-   include/trace/trace_events.h:27:23: warning: 'str__cpuidle_psci__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/user.h:22,
-                    from drivers/android/vendor_hooks.c:63:
-   include/trace/trace_events.h:27:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/scmi.h:19,
-                    from drivers/android/vendor_hooks.c:62:
-   include/trace/trace_events.h:27:23: warning: 'str__scmi__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+   drivers/dma-buf/heaps/tegra-vpr.c: In function 'tegra_vpr_protect_pages':
+   drivers/dma-buf/heaps/tegra-vpr.c:192:21: error: implicit declaration of function '__ptep_get'; did you mean 'ptep_get'? [-Werror=implicit-function-declaration]
+     192 |         pte_t pte = __ptep_get(ptep);
+         |                     ^~~~~~~~~~
+         |                     ptep_get
+   drivers/dma-buf/heaps/tegra-vpr.c:192:21: error: invalid initializer
+   drivers/dma-buf/heaps/tegra-vpr.c:194:15: error: implicit declaration of function 'clear_pte_bit'; did you mean 'clear_ptes'? [-Werror=implicit-function-declaration]
+     194 |         pte = clear_pte_bit(pte, __pgprot(PROT_NORMAL));
+         |               ^~~~~~~~~~~~~
+         |               clear_ptes
+   In file included from arch/x86/include/asm/paravirt_types.h:11,
+                    from arch/x86/include/asm/ptrace.h:175,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:59,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7,
+                    from include/linux/debugfs.h:15,
+                    from drivers/dma-buf/heaps/tegra-vpr.c:12:
+   drivers/dma-buf/heaps/tegra-vpr.c:194:43: error: 'PROT_NORMAL' undeclared (first use in this function)
+     194 |         pte = clear_pte_bit(pte, __pgprot(PROT_NORMAL));
+         |                                           ^~~~~~~~~~~
+   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
+     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
+         |                                                ^
+   drivers/dma-buf/heaps/tegra-vpr.c:194:43: note: each undeclared identifier is reported only once for each function it appears in
+     194 |         pte = clear_pte_bit(pte, __pgprot(PROT_NORMAL));
+         |                                           ^~~~~~~~~~~
+   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
+     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
+         |                                                ^
+   drivers/dma-buf/heaps/tegra-vpr.c:195:15: error: implicit declaration of function 'set_pte_bit'; did you mean 'set_pte_at'? [-Werror=implicit-function-declaration]
+     195 |         pte = set_pte_bit(pte, __pgprot(PROT_DEVICE_nGnRnE));
+         |               ^~~~~~~~~~~
+         |               set_pte_at
+   drivers/dma-buf/heaps/tegra-vpr.c:195:41: error: 'PROT_DEVICE_nGnRnE' undeclared (first use in this function)
+     195 |         pte = set_pte_bit(pte, __pgprot(PROT_DEVICE_nGnRnE));
+         |                                         ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
+     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
+         |                                                ^
+   drivers/dma-buf/heaps/tegra-vpr.c:197:9: error: implicit declaration of function '__set_pte'; did you mean 'set_pte'? [-Werror=implicit-function-declaration]
+     197 |         __set_pte(ptep, pte);
+         |         ^~~~~~~~~
+         |         set_pte
+   drivers/dma-buf/heaps/tegra-vpr.c: In function 'tegra_vpr_unprotect_pages':
+   drivers/dma-buf/heaps/tegra-vpr.c:205:21: error: invalid initializer
+     205 |         pte_t pte = __ptep_get(ptep);
+         |                     ^~~~~~~~~~
+   drivers/dma-buf/heaps/tegra-vpr.c:207:43: error: 'PROT_DEVICE_nGnRnE' undeclared (first use in this function)
+     207 |         pte = clear_pte_bit(pte, __pgprot(PROT_DEVICE_nGnRnE));
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
+     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
+         |                                                ^
+   drivers/dma-buf/heaps/tegra-vpr.c:208:41: error: 'PROT_NORMAL' undeclared (first use in this function)
+     208 |         pte = set_pte_bit(pte, __pgprot(PROT_NORMAL));
+         |                                         ^~~~~~~~~~~
+   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
+     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
+         |                                                ^
+   drivers/dma-buf/heaps/tegra-vpr.c: In function 'tegra_vpr_add_heap':
+>> drivers/dma-buf/heaps/tegra-vpr.c:8:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       8 | #define pr_fmt(fmt) "tegra-vpr: " fmt
+         |                     ^~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'pr_fmt'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
+     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:636:9: note: in expansion of macro 'dynamic_pr_debug'
+     636 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/dma-buf/heaps/tegra-vpr.c:715:17: note: in expansion of macro 'pr_debug'
+     715 |                 pr_debug("  %2u: %pap-%pap (%lu MiB)\n", i, &start, &end,
+         |                 ^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/str__shmem_fs__trace_system_name +27 include/trace/trace_events.h
+vim +8 drivers/dma-buf/heaps/tegra-vpr.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+   > 8	#define pr_fmt(fmt) "tegra-vpr: " fmt
+     9	
 
 -- 
 0-DAY CI Kernel Test Service
