@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B154017597;
-	Fri,  5 Sep 2025 14:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EFF3705B0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 14:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757081548; cv=none; b=cOpIyu5yY5amXZ80unqaHEfXuvp4QUHnkRJ/U6TCRJeTTyydgXQS/3bo/RJF86+Osn0cmuqUtmUzRh8e9oCliX3imG17fSEFa1DfN1uVhiQMcJx+BxyIxOw/yGGRRRq+veFHS9j/Ew7N8CLEJR1MdOA8dfIoMQtnzQ0bqMS/7QA=
+	t=1757082210; cv=none; b=akQoIaJc7LYZpqv8yxIOpRJD2UDCWiLKAQ3t2AV/sYhgT7gdYlp+83KGKH8DzWzz2QI7Cp0eNtNehAhOPfP9g3pCa5VkNJoQORvTW20h8g4nrHf4PFfB7mshlCTZPpQOIxX7z/PH0qTCJ0SVobn7sBECJN8+Dylrge+fU3Qi+/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757081548; c=relaxed/simple;
-	bh=d623E1liTi60iAjibtCqAAj0iSP9kDrLBmukVMoZ1bw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjM9X/Ime8juQdzb/0xNyQRxJOj67G7dKvIjV+bG8nzXXsD+3WBn9N92CSp7+y84YC1QWMZR5v9rU3VM5e5JkIXCUVCPUZzhvDkz1+rI+HIjF+dH7Pk9YoBNyxamRjDnKex2QK7RLIxDnzb5WBBmuvcWOOolBHy0i3XxJvVJotQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjinW2AM; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1757082210; c=relaxed/simple;
+	bh=QbR3P7gsE0kLFJ5vYtRK8aa1YEYRPLtynE0eCrxoik4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cn/8mFxxEsvJJu8ruvvA+4luSCMnTmdmTonwYl47xpTZbR4A2a4YnzPSNL3amCrQA+leNyRxKV5PT6wXeqLn47/C0A1GbcDuMx97mUXp0wYOnqS1hyJDljpHsDuwG/ZZDukzYtFuo7X+6onmLQtfhhtAgxORQndSIxKCJujcmtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q5VsLl8o; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjinW2AM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q5VsLl8o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757081547; x=1788617547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d623E1liTi60iAjibtCqAAj0iSP9kDrLBmukVMoZ1bw=;
-  b=SjinW2AMkl6n+hWtGWiJfjLUszTi95scFPJuHB6xC4N9NMhYIppFTEOD
-   3QH+oUBAVvTaiTPNJOla4TARj+rCpgzwKPa83ZQwvIoyDNJbWvwOdoVRq
-   RdVMHJReSCymw7NyRSyfntY4i3TGSf3xDfr+z9Z8cVDX6b6K4FcmyDiMX
-   mt3tu+Fi1JrRDlIR0dzAnihx5yayBszH9aEi7zLlEvAqxhiZqKlzKwEX7
-   dxA1thkRgsFs2sCuNwmLv1dBKlw0UO/Vu8UYadQ9XDzIu6zFyhobF6xRu
-   QcUhJnAH1VD//86vmwnOuO4XkWorgX59aQAK7pOE7qriz4wTDcNWFjW1E
+  t=1757082207; x=1788618207;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QbR3P7gsE0kLFJ5vYtRK8aa1YEYRPLtynE0eCrxoik4=;
+  b=Q5VsLl8oOKlpuNvzKEG2NiC6l0mDwUKwC2fYG1dB5TUidTfhLlFwYLLE
+   gg/n6aZsa1MxQaQfB6JZ1IxphqeQYCBOnbZuiBjIbq1zekc5NE5TziNjt
+   VfKJ70Z3Ar0sDJgm0S+C7yq2aLmfHVoHh0UgRuTQZZ9b/8NqvZCqTl6eB
+   ctq1gxUViA7q2snoP30lUu1ZzDCCBAl4+bx1ncPg+IrxILnpdioM+6aXV
+   a+5J7oPVko2MhCATxOkGTzqUukQGWS151rLWVIovj0OhFLF+Mirjc6dkY
+   twVMTCvMWuu3/6Ufdmb1D7NZwi4ur2fj0fSlM08SJr3M6InzDATRayvHq
    A==;
-X-CSE-ConnectionGUID: JvpKaNFYSsmIYB4VaTYQHQ==
-X-CSE-MsgGUID: SiRBQMaaS3msccqXqiW+Pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="62065759"
+X-CSE-ConnectionGUID: 9oPmKtl4SDmxdyklWaepAA==
+X-CSE-MsgGUID: Z68SCdykQ9qsL9S9EfXo5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="84870604"
 X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="62065759"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 07:12:26 -0700
-X-CSE-ConnectionGUID: 9mM/JCghRqKBgJuUXE6PAQ==
-X-CSE-MsgGUID: X78LcsnRTRWksMka9TIijg==
+   d="scan'208";a="84870604"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 07:23:25 -0700
+X-CSE-ConnectionGUID: yfGd7dOTR3WkHr4N4wTBSA==
+X-CSE-MsgGUID: FEGcpEHtSQWk49W8qAbVLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="176511026"
+   d="scan'208";a="172050928"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Sep 2025 07:12:22 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Sep 2025 07:23:24 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uuXAq-0000UZ-1Z;
-	Fri, 05 Sep 2025 14:12:20 +0000
-Date: Fri, 5 Sep 2025 22:11:58 +0800
+	id 1uuXLV-0000VF-25;
+	Fri, 05 Sep 2025 14:23:21 +0000
+Date: Fri, 5 Sep 2025 22:22:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
-	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v2 2/7] net/handshake: Make handshake_req_cancel public
-Message-ID: <202509052149.ChcoGfkh-lkp@intel.com>
-References: <20250905024659.811386-3-alistair.francis@wdc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__pci__trace_system_name'
+ defined but not used
+Message-ID: <202509052217.F0XOQ7YQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,78 +62,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250905024659.811386-3-alistair.francis@wdc.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on net/main net-next/main linus/master linux-nvme/for-next v6.17-rc4 next-20250905]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20250905-105201
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250905024659.811386-3-alistair.francis%40wdc.com
-patch subject: [PATCH v2 2/7] net/handshake: Make handshake_req_cancel public
-config: x86_64-randconfig-001-20250905 (https://download.01.org/0day-ci/archive/20250905/202509052149.ChcoGfkh-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509052149.ChcoGfkh-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   effada2cf9523030a08d6bbc28fb054aa5e20b7e
+commit: bce9e7942ad39b8ecbbe592e6cae351c34b6991f [1/1] ANDROID: PCI/PM: Use usleep_range for d3hot_delay
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250905/202509052217.F0XOQ7YQ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509052217.F0XOQ7YQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509052149.ChcoGfkh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509052217.F0XOQ7YQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/handshake/handshake-test.c: In function 'handshake_req_submit_test4':
->> net/handshake/handshake-test.c:237:9: error: implicit declaration of function 'handshake_req_cancel'; did you mean 'handshake_req_next'? [-Werror=implicit-function-declaration]
-     237 |         handshake_req_cancel(sock->sk);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         handshake_req_next
-   cc1: some warnings being treated as errors
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/pci.h:22,
+                    from drivers/android/vendor_hooks.c:76:
+>> include/trace/trace_events.h:27:23: warning: 'str__pci__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ipv4.h:34,
+                    from drivers/android/vendor_hooks.c:75:
+   include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/snd_compr.h:24,
+                    from drivers/android/vendor_hooks.c:74:
+   include/trace/trace_events.h:27:23: warning: 'str__snd_compr__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sound.h:20,
+                    from drivers/android/vendor_hooks.c:73:
+   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ipv6.h:22,
+                    from drivers/android/vendor_hooks.c:72:
+   include/trace/trace_events.h:27:23: warning: 'str__ipv6__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/usb.h:26,
+                    from drivers/android/vendor_hooks.c:71:
+   include/trace/trace_events.h:27:23: warning: 'str__usb__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +237 net/handshake/handshake-test.c
+vim +/str__pci__trace_system_name +27 include/trace/trace_events.h
 
-88232ec1ec5ecf Chuck Lever 2023-04-17  207  
-88232ec1ec5ecf Chuck Lever 2023-04-17  208  static void handshake_req_submit_test4(struct kunit *test)
-88232ec1ec5ecf Chuck Lever 2023-04-17  209  {
-88232ec1ec5ecf Chuck Lever 2023-04-17  210  	struct handshake_req *req, *result;
-88232ec1ec5ecf Chuck Lever 2023-04-17  211  	struct socket *sock;
-18c40a1cc1d990 Chuck Lever 2023-05-19  212  	struct file *filp;
-88232ec1ec5ecf Chuck Lever 2023-04-17  213  	int err;
-88232ec1ec5ecf Chuck Lever 2023-04-17  214  
-88232ec1ec5ecf Chuck Lever 2023-04-17  215  	/* Arrange */
-88232ec1ec5ecf Chuck Lever 2023-04-17  216  	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
-88232ec1ec5ecf Chuck Lever 2023-04-17  217  	KUNIT_ASSERT_NOT_NULL(test, req);
-88232ec1ec5ecf Chuck Lever 2023-04-17  218  
-88232ec1ec5ecf Chuck Lever 2023-04-17  219  	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
-88232ec1ec5ecf Chuck Lever 2023-04-17  220  			    &sock, 1);
-88232ec1ec5ecf Chuck Lever 2023-04-17  221  	KUNIT_ASSERT_EQ(test, err, 0);
-18c40a1cc1d990 Chuck Lever 2023-05-19  222  	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-18c40a1cc1d990 Chuck Lever 2023-05-19  223  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
-88232ec1ec5ecf Chuck Lever 2023-04-17  224  	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
-18c40a1cc1d990 Chuck Lever 2023-05-19  225  	sock->file = filp;
-88232ec1ec5ecf Chuck Lever 2023-04-17  226  
-88232ec1ec5ecf Chuck Lever 2023-04-17  227  	err = handshake_req_submit(sock, req, GFP_KERNEL);
-88232ec1ec5ecf Chuck Lever 2023-04-17  228  	KUNIT_ASSERT_EQ(test, err, 0);
-88232ec1ec5ecf Chuck Lever 2023-04-17  229  
-88232ec1ec5ecf Chuck Lever 2023-04-17  230  	/* Act */
-88232ec1ec5ecf Chuck Lever 2023-04-17  231  	result = handshake_req_hash_lookup(sock->sk);
-88232ec1ec5ecf Chuck Lever 2023-04-17  232  
-88232ec1ec5ecf Chuck Lever 2023-04-17  233  	/* Assert */
-88232ec1ec5ecf Chuck Lever 2023-04-17  234  	KUNIT_EXPECT_NOT_NULL(test, result);
-88232ec1ec5ecf Chuck Lever 2023-04-17  235  	KUNIT_EXPECT_PTR_EQ(test, req, result);
-88232ec1ec5ecf Chuck Lever 2023-04-17  236  
-88232ec1ec5ecf Chuck Lever 2023-04-17 @237  	handshake_req_cancel(sock->sk);
-4a0f07d71b0483 Jinjie Ruan 2023-09-19  238  	fput(filp);
-88232ec1ec5ecf Chuck Lever 2023-04-17  239  }
-88232ec1ec5ecf Chuck Lever 2023-04-17  240  
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
