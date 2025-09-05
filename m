@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3843A3191C4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 17:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4731284B3E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 17:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757093264; cv=none; b=LT+AIlb5qp7OVcS94zwTP8RegTXCSmMS+WELWpXHaAG2FkfYHGIBV4dCRUgtGvXlsGxQ2vFnRVKq4Q5xy2R1gFjypjDco8dW1NSXj+E0iycp/9fWRD+/AnMj9zBW8McwxgUiDfhVIpLGKal13HQwk/8tvKkwH48Bm5dKNbu+W6M=
+	t=1757093568; cv=none; b=VvpmcGqlK6L14STPUmrqax5bjBBiUeI0RU39dV84frqiHv4BtIC/NfmYer8WVQJOX9XA9I0+6oNhIcbu4Hgy/QlhwdmmI3L8LCXfnA8B2DDdX/fpX1rwQ3MgffWvgLxz9A7WuR/VXrvL76gxzbR5NWuXiyNGfvQVlQYVPCTW3n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757093264; c=relaxed/simple;
-	bh=V4+JGgdf93oucTo4BeaHpLnpKdS12eXtoGZo0KDcnjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=VnixMzpQStxfIayL4RFMjkVxKlhqYA5O3Fsib9QuRP9KByio9nGDLk8ZsP5K+NMhsZDi3AlzNjZlSBG98ggpC7BVczRsaexV3I1pLcWXY6xLlqznGySawQojz0zyqpLPTFXsCd/4iDHwg1FpPza78EqF6Uyc46u23LSuMMTDKp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKGalNsk; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1757093568; c=relaxed/simple;
+	bh=lK2O/xBammCPdQBZhe/2hWMrEK5q7QWxiYFZFBdB/hY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=alUeC/MbZfAX75br6vqP/H9m4E7twsEZ62FaBi1MqE9rh6ubWKCLCjdfraf/UPUtHuhE5NZgFHXXPadi+VsAJEFzp5BKue6WOgI+zL7saUOClu7zl6ezHdqiDsTSonYQvm/heqrTmg1kcBo/P+4Ok9ehSVdzVBNMsAcUEumxMHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/AcEI5O; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKGalNsk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/AcEI5O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757093264; x=1788629264;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=V4+JGgdf93oucTo4BeaHpLnpKdS12eXtoGZo0KDcnjg=;
-  b=jKGalNsk7cplqJ6fQEjtneXn9sn2bTWr2dsSxllRLrsGpL+k8SZczFtz
-   DmFnVD1LePy8MbrgSrKJyLC5zI5jnEwAs0voNSFVKlgM5QfPUocpjUTrq
-   nNwXpEKa/sOoUrbczm8YyF4xRkR3fKuOX+7ED5vxIY5+AaRmUpSO4a8AM
-   BY0ppZ9FmBRG6WpO3+1fMjuoxoVWxrVb+N6A+0ZqaDhpKM4VeKbRDTRhh
-   FFzOi9tWLIW4ynAzZJ7DMcln1CaJXlPoByRQBZPvhjaZlHTA6uJ7iU+ef
-   e/UEJY4MXCzXIpf/loWF89OJI5XjmVrPWM8wQGnqSEc+98X6XnYLqbpTM
-   w==;
-X-CSE-ConnectionGUID: uWrOjuGwSGyznb+7/A251A==
-X-CSE-MsgGUID: 4Z0r89rDTrKPk08Eo1by6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="63089676"
+  t=1757093566; x=1788629566;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lK2O/xBammCPdQBZhe/2hWMrEK5q7QWxiYFZFBdB/hY=;
+  b=h/AcEI5O0kGICBFy21wYoWqdQ1ydezO1DNlE2Bsv+hga73ICTkT9qRj4
+   X5SUkCwNxltsjK+blqOyR0l3sYMNaDceLFDRNf34Bv6BZLAiY1NgP9Yd/
+   LJ6Em8Y0/Q0czKjO7O2LogXpMS/UhFSJPPO4/omx0V8dfhYaAW+8XAwEK
+   +ckdZCU0kfffkTpc1dYvzJmJ4L76GNqk7vLSdzd1C2pRf21SeqBWon+Qt
+   tnzfSvxQ3m1aGVUs9//5v9B8OHCnOUyyjGmVbshiQWUbYOQIMZVMiy8TU
+   bbj6kH2lV6FaYPsfNMvsjjRey6erdC7s94r1mlW2QQmrrsHk7f8Gw2vym
+   Q==;
+X-CSE-ConnectionGUID: cW+v1jGDSbySrCAS5c7c7Q==
+X-CSE-MsgGUID: 5r5E7D+DQCCaG5esMGiNWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="70153257"
 X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="63089676"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 10:27:43 -0700
-X-CSE-ConnectionGUID: xVNJLV2fSgq4FLezbuBzbg==
-X-CSE-MsgGUID: LV0oRFEKRGWUmpebTkF6YA==
+   d="scan'208";a="70153257"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 10:32:46 -0700
+X-CSE-ConnectionGUID: 1zmXb2lNR1mtf+jZtF9b3w==
+X-CSE-MsgGUID: r0ji+lcTSO2f/uurzWZMKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="171778449"
+   d="scan'208";a="176307365"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Sep 2025 10:27:42 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 Sep 2025 10:32:43 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uuaDr-0000fT-2L;
-	Fri, 05 Sep 2025 17:27:39 +0000
-Date: Sat, 6 Sep 2025 01:27:25 +0800
+	id 1uuaIi-0000fl-0W;
+	Fri, 05 Sep 2025 17:32:40 +0000
+Date: Sat, 6 Sep 2025 01:31:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net v3 2/3] selftest: netcons: refactor target creation
-Message-ID: <aLsdfeTte3sIXnbr@b7823f61de85>
+To: Richard Leitner <richard.leitner@linux.dev>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	Richard Leitner <richard.leitner@linux.dev>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v7 09/10] media: i2c: ov9282: implement try_ctrl for
+ strobe_duration
+Message-ID: <202509060108.kK81M3GB-lkp@intel.com>
+References: <20250901-ov9282-flash-strobe-v7-9-d58d5a694afc@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +71,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250905-netconsole_torture-v3-2-875c7febd316@debian.org>
+In-Reply-To: <20250901-ov9282-flash-strobe-v7-9-d58d5a694afc@linux.dev>
 
-Hi,
+Hi Richard,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on d9946fe286439c2aeaa7953b8c316efe5b83d515]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-v4l-ctrls-add-a-control-for-flash-strobe-duration/20250901-231141
+base:   d9946fe286439c2aeaa7953b8c316efe5b83d515
+patch link:    https://lore.kernel.org/r/20250901-ov9282-flash-strobe-v7-9-d58d5a694afc%40linux.dev
+patch subject: [PATCH v7 09/10] media: i2c: ov9282: implement try_ctrl for strobe_duration
+config: sh-randconfig-002-20250905 (https://download.01.org/0day-ci/archive/20250906/202509060108.kK81M3GB-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060108.kK81M3GB-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net v3 2/3] selftest: netcons: refactor target creation
-Link: https://lore.kernel.org/stable/20250905-netconsole_torture-v3-2-875c7febd316%40debian.org
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509060108.kK81M3GB-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "__udivdi3" [drivers/media/i2c/ov9282.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
