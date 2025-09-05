@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F3110E3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Sep 2025 01:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5D514E2F2;
+	Fri,  5 Sep 2025 02:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757035153; cv=none; b=cetlZURBOyIS9WVPRKEnkbhHIcJLqBrfgOyhqfB5gYl0XMdF5iqWl9O3+VElbk/QrhpQHJdSrktVKc8j+uIFK6yxjiTZa5TL9fpIXujDJME0lab0exrdplo4S+5aJF4xvRDwr0obTm2Wp7r784fp+FiHh8smWAlbXXnzJ8oreqU=
+	t=1757038951; cv=none; b=pvGV+5vDpvFlGf2KkQqJ52p5FxTDzRgbc1ZqKOsy84xuUgnGarDqtobh1vBNwzSkAA0Ex+YO4cYgE+zraerng/J0ZM0vuCztFguiWdSVu0otoJ1w6zYEXYdVef+3qElvuZssbOsPNeV/ZFIQLuDIHI7TsEq10YHczqNUguaMch8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757035153; c=relaxed/simple;
-	bh=Y3Eqa5t2smDCA43Xxi6XK1TpNhL5CZygzm23USeG5UA=;
+	s=arc-20240116; t=1757038951; c=relaxed/simple;
+	bh=knywOHehCDlqFUogdERVd6NewBksJlhHBTn2QlOem8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DfvXTmHnHcPb26/ux/CoTsd3Mz3KoECukYebZPQFLchHavxFDJuendUT6dxrjEKV4rZCOWnyTvZ3GUDUrizcxP7gjXthjMm9Hy6vE+Lk2zHDwgHTtbkdto98vNEpZvdllBf+wz2nczXliD2QC1GAS1PwG3kjnlfvFmW+Z+n0ecA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lHPlycJK; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=qUHwPi0a+CAVmWVvCP4mt6T05vRkqFdRaqyMlHF9QnfUf+Rp43v+iacD4qLw8LKSBlVnvIF1kLL0sXgKEZLOixei9xkKVyGK7Xy4ZveF9HsQYgxOX32Umw4twtqMjpiN/RCnnf9cvn/Jk+frrEiF+lLFTVLIE9o37kPl0xD1kHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cke/BzB9; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHPlycJK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cke/BzB9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757035151; x=1788571151;
+  t=1757038950; x=1788574950;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y3Eqa5t2smDCA43Xxi6XK1TpNhL5CZygzm23USeG5UA=;
-  b=lHPlycJKMQb+LV8XEyAzsB2IbLM5M7Vz2YvCu4v8gwTJ3QzoyJUIX1CC
-   aRLmJtJZyWhftEJPFNKn5uzuA6iWBaMpLjPt8vY10PPa8ifNBMlgKd7hn
-   HBioymsNmyW/NW1TlcrnXQksmavqmysPKhlCnciBRWldOpnLeYB852ROP
-   1CvKHJ8wf3di1M/oxSN/eXm7tVCdJ/BcAFZS8cftO61Q4nx8YeT7Ji5t8
-   QblirCteI/vwe2Qr7JCNuBpaS8zOr3UjOj2x6ZZeuHjIXIdv4C65f5EJt
-   yJLtdieXfXPr89MpHZAV4xKgC8mK4pCKJrJ27nKrCf+TP37G0Xi18eTev
+  bh=knywOHehCDlqFUogdERVd6NewBksJlhHBTn2QlOem8M=;
+  b=Cke/BzB9433n1vDqW4Xis/4gDivpLk81Mwu21k+EWe8hcqvYPwtNcidL
+   28FSwupIvOtdPOiMhKFqdyXFqlPbKtBnJlSXn62NgJSyiYE7TMbTd6P6C
+   tj52675HcNO3krZDgM+O8oO1lGsFYrecm1n0JIEc8A+fJwLNoV/SVBe74
+   sofLFKuwzfJhOXdvP5e1dGVMD0XVZsly2YVHH9JxzLlfGnLZr7Ov05okg
+   qYIuCMtvHtzpKRZSrNdv/3usiiJx2WbYIgsT3z7jmVGLSsU93BanEDqnV
+   eHM8LWZg3oWdq/ZEGGpc2uCSWTSYmMI+zKBuq/Dw7NeKhM2vavp2XA4Xh
    A==;
-X-CSE-ConnectionGUID: HJQbNbxXRD6j+yKT2KoF1Q==
-X-CSE-MsgGUID: 6VGCJ4FRRkO8492PwZSQow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="59326573"
-X-IronPort-AV: E=Sophos;i="6.18,239,1751266800"; 
-   d="scan'208";a="59326573"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 18:19:11 -0700
-X-CSE-ConnectionGUID: 6appALysSVSyHSRfmHSUdw==
-X-CSE-MsgGUID: msbVIFAjSDqFjW2A3R1rGw==
+X-CSE-ConnectionGUID: OCgXJcxiQ5WTOu9jDNg8wQ==
+X-CSE-MsgGUID: QdeW01PvRTm3jojgRoU8+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="46963308"
+X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
+   d="scan'208";a="46963308"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 19:22:29 -0700
+X-CSE-ConnectionGUID: 0Rn253ScSgGj44TT3Nko8Q==
+X-CSE-MsgGUID: RDlGAhGKTQKFQYOoztrlPA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,239,1751266800"; 
-   d="scan'208";a="171331695"
+X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
+   d="scan'208";a="171941816"
 Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 04 Sep 2025 18:19:09 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Sep 2025 19:22:27 -0700
 Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uuL6P-00064h-25;
-	Fri, 05 Sep 2025 01:19:02 +0000
-Date: Fri, 5 Sep 2025 09:18:41 +0800
+	id 1uuM5C-00067b-26;
+	Fri, 05 Sep 2025 02:21:56 +0000
+Date: Fri, 5 Sep 2025 10:21:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Child <nchild@cornelisnetworks.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
-Subject: [cornelisnetworks:for-upstream-20250903-1 2/2]
- drivers/infiniband/sw/rdmavt/qp.c:1378:17: sparse: sparse: incompatible
- types in comparison expression (different base types):
-Message-ID: <202509050952.SkudhLrr-lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: [linux-next:master 6089/6355]
+ include/linux/highmem-internal.h:86:39: error: passing 'const struct folio
+ *' to parameter of type 'struct folio *' discards qualifiers
+Message-ID: <202509051023.d6AUXYH1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,92 +66,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/cornelisnetworks/linux.git for-upstream-20250903-1
-head:   42ab16807bc676eb7d0d33ede83d44aca682abf2
-commit: 42ab16807bc676eb7d0d33ede83d44aca682abf2 [2/2] IB/rdmavt: Fix lock dependency in rvt_send/recv_cq
-config: x86_64-randconfig-122-20250904 (https://download.01.org/0day-ci/archive/20250905/202509050952.SkudhLrr-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4ac65880ebca1b68495bd8704263b26c050ac010
+commit: 598ad57d4b4687c7cbb9fc8af954143d250b03ae [6089/6355] mm: constify highmem related functions for improved const-correctness
+config: i386-buildonly-randconfig-002-20250905 (https://download.01.org/0day-ci/archive/20250905/202509051023.d6AUXYH1-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509050952.SkudhLrr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509051023.d6AUXYH1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509050952.SkudhLrr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509051023.d6AUXYH1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/infiniband/sw/rdmavt/qp.c:1375:17: sparse: sparse: typename in expression
-   drivers/infiniband/sw/rdmavt/qp.c:1375:26: sparse: sparse: Expected ; at end of statement
-   drivers/infiniband/sw/rdmavt/qp.c:1375:26: sparse: sparse: got long
-   drivers/infiniband/sw/rdmavt/qp.c:1375:17: sparse: sparse: undefined identifier 'unsigned'
-   drivers/infiniband/sw/rdmavt/qp.c:1378:17: sparse: sparse: undefined identifier 'flags'
->> drivers/infiniband/sw/rdmavt/qp.c:1378:17: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/infiniband/sw/rdmavt/qp.c:1378:17: sparse:    unsigned long *
-   drivers/infiniband/sw/rdmavt/qp.c:1378:17: sparse:    bad type *
-   drivers/infiniband/sw/rdmavt/qp.c:1378:17: sparse: sparse: undefined identifier 'flags'
-   drivers/infiniband/sw/rdmavt/qp.c:1382:53: sparse: sparse: undefined identifier 'flags'
+Note: the linux-next/master HEAD 4ac65880ebca1b68495bd8704263b26c050ac010 builds fine.
+      It may have been fixed somewhere.
 
-vim +1378 drivers/infiniband/sw/rdmavt/qp.c
+All errors (new ones prefixed by >>):
 
-  1355	
-  1356	/**
-  1357	 * rvt_error_qp - put a QP into the error state
-  1358	 * @qp: the QP to put into the error state
-  1359	 * @err: the receive completion error to signal if a RWQE is active
-  1360	 * @lock_state: caller ownership representation of r and s lock
-  1361	 *
-  1362	 * Flushes both send and receive work queues.
-  1363	 *
-  1364	 * Return: true if last WQE event should be generated.
-  1365	 * The QP r_lock and s_lock should be held and interrupts disabled.
-  1366	 * If we are already in error state, just return.
-  1367	 */
-  1368	int rvt_error_qp(struct rvt_qp *qp, enum ib_wc_status err,
-  1369			 enum rvt_qp_lock_state lock_state)
-  1370	{
-  1371		int ret;
-  1372	
-  1373		switch (lock_state) {
-  1374		case RVT_QP_LOCK_STATE_NONE:
-  1375			unsigned long flags;
-  1376	
-  1377			/* only case where caller may not have handled irqs */
-> 1378			spin_lock_irqsave(&qp->r_lock, flags);
-  1379			spin_lock(&qp->s_lock);
-  1380			ret = __rvt_error_qp_locked(qp, err);
-  1381			spin_unlock(&qp->s_lock);
-  1382			spin_unlock_irqrestore(&qp->r_lock, flags);
-  1383			break;
-  1384	
-  1385		case RVT_QP_LOCK_STATE_S:
-  1386			/* r_lock -> s_lock ordering can be broken here iff
-  1387			 * no one else is using the r_lock at the moment
-  1388			 */
-  1389			if (!spin_trylock(&qp->r_lock)) {
-  1390				/* otherwise we must respect ordering */
-  1391				spin_unlock(&qp->s_lock);
-  1392				spin_lock(&qp->r_lock);
-  1393				spin_lock(&qp->s_lock);
-  1394			}
-  1395			ret = __rvt_error_qp_locked(qp, err);
-  1396			spin_unlock(&qp->r_lock);
-  1397			break;
-  1398	
-  1399		case RVT_QP_LOCK_STATE_R:
-  1400			spin_lock(&qp->s_lock);
-  1401			ret = __rvt_error_qp_locked(qp, err);
-  1402			spin_unlock(&qp->s_lock);
-  1403			break;
-  1404	
-  1405		case RVT_QP_LOCK_STATE_RS:
-  1406			fallthrough;
-  1407		default:
-  1408			ret = __rvt_error_qp_locked(qp, err);
-  1409		}
-  1410	
-  1411		return ret;
-  1412	}
-  1413	EXPORT_SYMBOL(rvt_error_qp);
-  1414	
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:23:
+   In file included from include/linux/writeback.h:13:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:14:
+>> include/linux/highmem-internal.h:86:39: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      86 |         const struct page *page = folio_page(folio, offset / PAGE_SIZE);
+         |                                              ^~~~~
+   include/linux/page-flags.h:319:53: note: passing argument to parameter 'folio' here
+     319 | static inline struct page *folio_page(struct folio *folio, unsigned long n)
+         |                                                     ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=2013769869
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1282: prepare0] Error 2 shuffle=2013769869
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2013769869
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2013769869
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +86 include/linux/highmem-internal.h
+
+    83	
+    84	static inline void *kmap_local_folio(const struct folio *folio, size_t offset)
+    85	{
+  > 86		const struct page *page = folio_page(folio, offset / PAGE_SIZE);
+    87		return __kmap_local_page_prot(page, kmap_prot) + offset % PAGE_SIZE;
+    88	}
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
