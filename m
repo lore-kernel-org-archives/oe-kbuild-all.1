@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC22279DBA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 07:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E448819D071
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 08:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757144658; cv=none; b=Ihn9Df45ceJ9jW74NUpaH0+sv/0kSaXeNxbE9N8UVW7RqhKe9tUtpeI9Abs2fhNaotPSyjEkM7/8FecvUhugMEUnBmSxEsYMdTlpx5bucDw8wualHNcQ24UhBnlzkUt0wfOvm7DmgXqMC7CASlx7XL665n3cydNawy8Ms8DVHic=
+	t=1757146818; cv=none; b=O/2vgF7iA0yJKu3LJSN7cl1U1zNbl6pb5/xdzRJyB2IuwMJUEgFBsFYAGA88OzsR6BpZLbN50czL/Mw+2Wky3mXL/FLT/YZ62ZRoEfvKHpCcOp2Hl3K/h51PTgU4kxDagVvJcQAQfzWOii9xdPqTJgR/5P8D6C/5uiG5rxI8OEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757144658; c=relaxed/simple;
-	bh=pGmmzgbmSAkdbqgoS0aZowo6t4R1NEooaxG6YTxKioc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kAHcmfg7AsvdWi+yAwShypEbopvO2KhkRw9EMqHkqG62a/MojNz35rGfsB94ngzQn2tKCuLcfgzS1vkHE2jc3wW5nZJucEH6MuYoZ8utSdt8VEcJ+/bbExQizH3jD3iaOnjmDAg5+zBpkfbZqxSf9y+IeH9jV+6bGs2DBaF2W7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/e5kAHa; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1757146818; c=relaxed/simple;
+	bh=65fgzL9aHcehB8e5Ro0jhg/HmeW0MW9yg6xKlGR8tkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G9U+n5ky08MuZBjxCDgblOz1gJApE0a3WYy/mw9S7hCTS/bm21nVqSpARVd1VM94mbpnzSspV0KPzow/HEg7qOX6gtHpSxpo31rw5aE4lJXgRSfbFrhiXovmWvyuZijUgtDRtTYiXxkddC41ctS0zwpnardP/WvkyIWiJ5qhtNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLbd0iRV; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/e5kAHa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLbd0iRV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757144656; x=1788680656;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pGmmzgbmSAkdbqgoS0aZowo6t4R1NEooaxG6YTxKioc=;
-  b=B/e5kAHahw2kOeOiHnW0hCjvDVtMiTxU6faRQgy3rc+HCvs+ngtM7DK2
-   mkSIusonpU/aVhumQ3gxPhHJkd5AHWfQAwX09tgtiQzHxfXGTznGs2oKy
-   uMusXlOjRgJoCS7hxXXfWa/nXR8U81XUFcXW68LoNbMjL2v67D9bBLzc+
-   cyUEt15vUpLmn/PjrVY5mMIC3M0I+5hBQ/ta+5HZpMIY/7kyYdlih5Q1U
-   tLK8DjEjXQmRBu8GTiAVtShALTo7grAC3X1oXyGa1xNgmDhYsJtQPsrd4
-   e716H3ijTKJXnafnCqYYW4Sfh7BjiV+HEduUZU2fJR4j9RQ24kM+bGq/n
-   Q==;
-X-CSE-ConnectionGUID: tp7NaR6vRkiDFB5WKHpJQA==
-X-CSE-MsgGUID: HF5AaUpFT3SODdrd7/WJsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="59593268"
+  t=1757146816; x=1788682816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=65fgzL9aHcehB8e5Ro0jhg/HmeW0MW9yg6xKlGR8tkQ=;
+  b=cLbd0iRVX+ZKSx6GfohIm30BgqBU1vNsv+8Qkmcc3TM5pb750GG2X8Zq
+   nut7uPP/RRG3TS4YA38RmTaWTbBN+Wxvf1MhaLQmsYeO0oXPkW/e3d1YZ
+   4Ieazr/E2mcskXGPHPtHqNvyC5oBz/PqQE7hD4WSbvPhtp1jmLaR8DKcA
+   0E3FSAoMsRLumbvaCPoulmtnIsTus9KxxjfS2J7VQjYIpxvdofgfS0RNO
+   b4Lgmocrvg/oVPMud/zcGXwGEPi7yS84BLKctiSeYNiQ7h/F21HUI0h84
+   qswowEWdFvO2ilPmHFXAOw+L5X0b+swBp3/fxSqTIhotx6fB7iwYwjCd/
+   A==;
+X-CSE-ConnectionGUID: EZfAOobOTR61GAioMqh6jg==
+X-CSE-MsgGUID: kOZfmBKKSEuVETjT1SHLFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="69742528"
 X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
-   d="scan'208";a="59593268"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 00:44:13 -0700
-X-CSE-ConnectionGUID: GhU67gMdQWqpgEimKk0eXQ==
-X-CSE-MsgGUID: v1zNRUvlQ0iYPZwdJ/qfVA==
+   d="scan'208";a="69742528"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 01:20:16 -0700
+X-CSE-ConnectionGUID: qteZDaMqTdO2363FcPHQyg==
+X-CSE-MsgGUID: 3lvupHIER/qUGBAs2Rx60w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
-   d="scan'208";a="171889788"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Sep 2025 00:44:11 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="176671344"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 06 Sep 2025 01:20:12 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uunaj-000495-32;
-	Sat, 06 Sep 2025 07:44:09 +0000
-Date: Sat, 6 Sep 2025 09:43:50 +0200
+	id 1uuo9a-0001J1-1Q;
+	Sat, 06 Sep 2025 08:20:10 +0000
+Date: Sat, 6 Sep 2025 16:19:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/11] htmldocs:
- Documentation/virt/kvm/devices/vfio.rst:88: ERROR: Unexpected indentation.
- [docutils]
-Message-ID: <202509060937.TZgrpGNS-lkp@intel.com>
+To: David Yang <mmyangfl@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v7 3/3] net: dsa: yt921x: Add support for
+ Motorcomm YT921x
+Message-ID: <202509061559.nSYmNbyV-lkp@intel.com>
+References: <20250905181728.3169479-4-mmyangfl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +71,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250905181728.3169479-4-mmyangfl@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   b35af1e3cfa947b4447968903845ace580362cb3
-commit: 63c521232808f6389f5288ba7b67a853bd92d16e [0/11] ANDROID: KVM: arm64: Add documentation for pvIOMMU UAPI am: 8561efaa1b
-reproduce: (https://download.01.org/0day-ci/archive/20250906/202509060937.TZgrpGNS-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on linus/master v6.17-rc4 next-20250905]
+[cannot apply to net-next/main horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/dt-bindings-net-dsa-yt921x-Add-Motorcomm-YT921x-switch-support/20250906-021942
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250905181728.3169479-4-mmyangfl%40gmail.com
+patch subject: [PATCH net-next v7 3/3] net: dsa: yt921x: Add support for Motorcomm YT921x
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250906/202509061559.nSYmNbyV-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509061559.nSYmNbyV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509060937.TZgrpGNS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509061559.nSYmNbyV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   -------------------------------------- [docutils]
-   Documentation/virt/kvm/arm/mmio-guard.rst:94: ERROR: Unexpected indentation. [docutils]
-   Documentation/virt/kvm/devices/vfio.rst:21: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/virt/kvm/devices/vfio.rst:77: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/virt/kvm/devices/vfio.rst:84: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/virt/kvm/devices/vfio.rst:88: ERROR: Unexpected indentation. [docutils]
-   Documentation/virt/kvm/devices/vfio.rst:97: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/virt/kvm/devices/vfio.rst:105: ERROR: Unexpected indentation. [docutils]
-   Documentation/virt/kvm/devices/vfio.rst:106: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/virt/kvm/x86/pkvm-intel.rst:353: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/virt/kvm/x86/pkvm-intel.rst:432: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   drivers/net/dsa/yt921x.c: In function 'yt921x_set_eee':
+>> drivers/net/dsa/yt921x.c:1045:24: warning: unused variable 'dev' [-Wunused-variable]
+    1045 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_change_mtu':
+   drivers/net/dsa/yt921x.c:1110:24: warning: unused variable 'dev' [-Wunused-variable]
+    1110 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_mirror_add':
+   drivers/net/dsa/yt921x.c:1161:24: warning: unused variable 'dev' [-Wunused-variable]
+    1161 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_fdb_dump':
+   drivers/net/dsa/yt921x.c:1579:24: warning: unused variable 'dev' [-Wunused-variable]
+    1579 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_set_ageing_time':
+   drivers/net/dsa/yt921x.c:1611:24: warning: unused variable 'dev' [-Wunused-variable]
+    1611 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_fdb_del':
+   drivers/net/dsa/yt921x.c:1636:24: warning: unused variable 'dev' [-Wunused-variable]
+    1636 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_fdb_add':
+   drivers/net/dsa/yt921x.c:1651:24: warning: unused variable 'dev' [-Wunused-variable]
+    1651 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_mdb_del':
+   drivers/net/dsa/yt921x.c:1668:24: warning: unused variable 'dev' [-Wunused-variable]
+    1668 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_mdb_add':
+   drivers/net/dsa/yt921x.c:1686:24: warning: unused variable 'dev' [-Wunused-variable]
+    1686 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_vlan_filtering':
+   drivers/net/dsa/yt921x.c:1849:24: warning: unused variable 'dev' [-Wunused-variable]
+    1849 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_vlan_del':
+   drivers/net/dsa/yt921x.c:1867:24: warning: unused variable 'dev' [-Wunused-variable]
+    1867 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_vlan_add':
+   drivers/net/dsa/yt921x.c:1900:24: warning: unused variable 'dev' [-Wunused-variable]
+    1900 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_bridge_flags':
+   drivers/net/dsa/yt921x.c:2148:24: warning: unused variable 'dev' [-Wunused-variable]
+    2148 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_bridge_join':
+   drivers/net/dsa/yt921x.c:2187:24: warning: unused variable 'dev' [-Wunused-variable]
+    2187 |         struct device *dev = to_device(priv);
+         |                        ^~~
+   drivers/net/dsa/yt921x.c: In function 'yt921x_dsa_port_setup':
+   drivers/net/dsa/yt921x.c:2557:24: warning: unused variable 'dev' [-Wunused-variable]
+    2557 |         struct device *dev = to_device(priv);
+         |                        ^~~
 
 
-vim +88 Documentation/virt/kvm/devices/vfio.rst
+vim +/dev +1045 drivers/net/dsa/yt921x.c
 
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  63  
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  64  KVM_DEV_VFIO_PVIOMMU attributes:
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  65    KVM_DEV_VFIO_PVIOMMU_ATTACH: Create and attach a pvIOMMU instance to the
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  66      KVM VM associated with this device, returns a file descriptor "pviommufd"
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  67      for this IOMMU which supports some IOCTLs.
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  68  
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  69    KVM_DEV_VFIO_PVIOMMU_GET_INFO: Retrieve information about IOMMUs for a VFIO
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  70      devicefd, using the following struct:
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  71  
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  72  		struct kvm_vfio_iommu_info {
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  73  			__u32 size;
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  74  			__s32 device_fd;
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  75  			__u32 out_nr_sids;
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  76  			__u32 __reserved;
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  77  		};
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  78  
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  79  	  Where kvm_vfio_iommu_info.device_fd the input VFIO device ID, and
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  80  	  kvm_vfio_iommu_info.out_nr_sids is the number stream IDs(endpoint) for
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  81  	  this device, this similar to VFIO_DEVICE_GET_IRQ_INFO which returns the
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  82  	  number of irqs for a VFIO device.
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  83  	  size is added to allow the struct to be extended, while __reserved
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  84        must be zero.
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  85  
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  86    The rest of the IOCTLs are used to configure the pvIOMMU are part of
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22  87    the pviommufd returned from the attach operation:
-8561efaa1bdcb2 Mostafa Saleh 2024-07-22 @88      KVM_PVIOMMU_SET_CONFIG: Configure pvIOMMU for an endpoint for a device,
-
-:::::: The code at line 88 was first introduced by commit
-:::::: 8561efaa1bdcb2aa3d5c571ebe57e56204735632 ANDROID: KVM: arm64: Add documentation for pvIOMMU UAPI
-
-:::::: TO: Mostafa Saleh <smostafa@google.com>
-:::::: CC: Carlos Llamas <cmllamas@google.com>
+  1041	
+  1042	static int
+  1043	yt921x_set_eee(struct yt921x_priv *priv, int port, struct ethtool_keee *e)
+  1044	{
+> 1045		struct device *dev = to_device(priv);
+  1046		bool enable = e->eee_enabled;
+  1047		u16 new_mask;
+  1048		int res;
+  1049	
+  1050		/* Enable / disable global EEE */
+  1051		new_mask = priv->eee_ports_mask;
+  1052		new_mask &= ~BIT(port);
+  1053		new_mask |= !enable ? 0 : BIT(port);
+  1054	
+  1055		if (!!new_mask != !!priv->eee_ports_mask) {
+  1056			res = yt921x_reg_toggle_bits(priv, YT921X_PON_STRAP_FUNC,
+  1057						     YT921X_PON_STRAP_EEE, !!new_mask);
+  1058			if (res)
+  1059				return res;
+  1060			res = yt921x_reg_toggle_bits(priv, YT921X_PON_STRAP_VAL,
+  1061						     YT921X_PON_STRAP_EEE, !!new_mask);
+  1062			if (res)
+  1063				return res;
+  1064		}
+  1065	
+  1066		priv->eee_ports_mask = new_mask;
+  1067	
+  1068		/* Enable / disable port EEE */
+  1069		res = yt921x_reg_toggle_bits(priv, YT921X_EEE_CTRL,
+  1070					     YT921X_EEE_CTRL_ENn(port), enable);
+  1071		if (res)
+  1072			return res;
+  1073		res = yt921x_reg_toggle_bits(priv, YT921X_EEEn_VAL(port),
+  1074					     YT921X_EEE_VAL_DATA, enable);
+  1075		if (res)
+  1076			return res;
+  1077	
+  1078		return 0;
+  1079	}
+  1080	
 
 -- 
 0-DAY CI Kernel Test Service
