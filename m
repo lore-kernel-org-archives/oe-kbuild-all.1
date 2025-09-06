@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CD91C4609;
-	Sat,  6 Sep 2025 05:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316C9224B12
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 06:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757137323; cv=none; b=ZBIvoaUres88n68Sfs+LZFonS5r/iEW2Kw/Z1cSt/eRixxQT7CAEJLpMkUOIM9rEk4zLkb5+SmjfLKtbANC0ylRcBwrB+jjHgL8LXPAx0HXiNVtY3fcEkthbxjfxy5P+++rIbpLtsW0n8xrAbeR/pjbpniTVg9ZDYy2ZYa60Z8E=
+	t=1757138645; cv=none; b=JPtk91epIQWMc+KrA5ssrpkS750vCl3yCdr8Q6NsER/3jBsA5NYjAM3jkY7YeV5os716rJS4Aiss8WK62VzdDdi4thqj9BCjcEe3FEcJgMfjUAIupXtPeLkiJAnjpx67e0vM72UkAX5zinVkOVAqk+cmonv8RaoAvrtlNsWTb7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757137323; c=relaxed/simple;
-	bh=rK0a45cyPDU1+P/ijKgLaA8dHdauWPWjRPDDmwW1Tw0=;
+	s=arc-20240116; t=1757138645; c=relaxed/simple;
+	bh=J8gtbUbycvbyLctGoOBt9Iu4ac+pExb2owTdA8T+Qj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RRfCADxei2HuK7WqQ7uvzsSs7z0mHBHFLTq/vik7qcgX0T2JY3Kivv07lR91RXrjVm8q2EYQKzhCurU+CprlyVQQ5MvwIEICLqxOHF3Oen3klKZBLdLVSdkdi5wNxCEAhR+Jhk451Tt3cd4ivL4+sc5hpH+PpYUdQ+3oI0k7qjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCJGlK+J; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=dhHE9skh6f5e5eooQhAIPWhuPb8COgrkAni0+BrNdOfgSjztN07eS3aNNcmotKaiR4tFt2YwGLb2F6nYNIHo++wpXL0UkXUtNzFj1JjRX2ETV5lB4ye7Y7h+X6bWFgXthBpmw1SRlK+Q+B3EIVgkEbPB4yAl5NDVnKBFIKGDh8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQ4J5sa2; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCJGlK+J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQ4J5sa2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757137322; x=1788673322;
+  t=1757138643; x=1788674643;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rK0a45cyPDU1+P/ijKgLaA8dHdauWPWjRPDDmwW1Tw0=;
-  b=PCJGlK+JHrMeG3G9HUNC8XrpOHmlai+haZuZSiZhx0qNd7452keq/1eS
-   ERYXo0N39GdJioU40AWdlHcxiudHLcobNdcyMBCVBK0mgTYHmPO5hevMT
-   Wqty3q/owcwrCWcXrTgTGyDwTokoMGbMxHyreLG8zTkz0dTxW9FC4OTKl
-   YoCp2UvkX+2e6Dsn6AQauHrdLOcmNTAoVOH60iUl8msfdLKtbD9TPc8DN
-   lcWtHPvr5zkjFd0PKgPpLJywH+feaEkiZofH7Acl73kOcKb6wUV7CdOuh
-   tSDtIZ0K1hoiNFFF3Njw+09aSAUahjmVOu08A90MbKDrQTI2xb7YxLH13
-   Q==;
-X-CSE-ConnectionGUID: f9B1WoVQTsCG0+vYtXplqg==
-X-CSE-MsgGUID: MflXEqpeTP+4az3w0GwyHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="70910696"
+  bh=J8gtbUbycvbyLctGoOBt9Iu4ac+pExb2owTdA8T+Qj4=;
+  b=AQ4J5sa2vr+yGF5S0ZEPX2C8b3SvKaugDAeDUwhiadsXuGh41/+XwbYi
+   YZ/tBanAuupbYp19A0jlhMyBCG59ah9tsfYHlz35IjGP1QZcBUOGG0V++
+   IJWgPETPAAd9Z4DDkFDrtJkNYUJaZQjdA91MvJVok9RseRFEmIx+xoU+2
+   u3Ve7ZQXDBtZ6sPeq0QI+MK9aKtmJ5NeAAwuvXzYy36DuIbHfI37Y9qaX
+   Kyipm9y9XxaVgpOKWslG7+qqRg9AnRgcNIEUWCdC0Ge/dqRo4BYkkPkFO
+   ZXRGG4lLqvZNrWfApb2QGqyen6mC0HiD3UuSgpV75qaCoH/Kd5ZSmaSki
+   w==;
+X-CSE-ConnectionGUID: HFkHlCsySHC5mookOSnT8Q==
+X-CSE-MsgGUID: 8TB7lw6aTNaGeY0ni/5LpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="59179408"
 X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
-   d="scan'208";a="70910696"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 22:42:02 -0700
-X-CSE-ConnectionGUID: zgFDTCoTRVuvZAD8qs+F1Q==
-X-CSE-MsgGUID: UMvaLGJdTWitpbBwnk2U9g==
+   d="scan'208";a="59179408"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 23:04:02 -0700
+X-CSE-ConnectionGUID: AOKNTyKGSfuPQw8MlpFyRQ==
+X-CSE-MsgGUID: pOdMhe0eTHCBOwt09PDnYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
-   d="scan'208";a="176411187"
+   d="scan'208";a="172213082"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Sep 2025 22:41:59 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Sep 2025 23:04:01 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uulgS-0001Ed-2P;
-	Sat, 06 Sep 2025 05:41:56 +0000
-Date: Sat, 6 Sep 2025 13:41:47 +0800
+	id 1uum1m-0001FT-1i;
+	Sat, 06 Sep 2025 06:03:58 +0000
+Date: Sat, 6 Sep 2025 14:03:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Dmitry Osipenko <digetx@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] usb: phy: tegra: use phy type directly
-Message-ID: <202509061310.SU5Tf105-lkp@intel.com>
-References: <20250904163238.238105-2-clamor95@gmail.com>
+To: Joey Pabalinas <joeypabalinas@gmail.com>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cdrom: add parentheses around macro arguments
+Message-ID: <202509061338.yRYn1te8-lkp@intel.com>
+References: <13378f5c9cafc29425b6e420cad8b513f4a9f1e1.1757095005.git.joeypabalinas@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,102 +63,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250904163238.238105-2-clamor95@gmail.com>
+In-Reply-To: <13378f5c9cafc29425b6e420cad8b513f4a9f1e1.1757095005.git.joeypabalinas@gmail.com>
 
-Hi Svyatoslav,
+Hi Joey,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tegra/for-next]
-[cannot apply to usb/usb-testing usb/usb-next usb/usb-linus staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.17-rc4 next-20250905]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.17-rc4 next-20250905]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/usb-phy-tegra-use-phy-type-directly/20250905-003521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250904163238.238105-2-clamor95%40gmail.com
-patch subject: [PATCH v1 1/2] usb: phy: tegra: use phy type directly
-config: i386-buildonly-randconfig-006-20250906 (https://download.01.org/0day-ci/archive/20250906/202509061310.SU5Tf105-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509061310.SU5Tf105-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Pabalinas/cdrom-add-parentheses-around-macro-arguments/20250906-020047
+base:   linus/master
+patch link:    https://lore.kernel.org/r/13378f5c9cafc29425b6e420cad8b513f4a9f1e1.1757095005.git.joeypabalinas%40gmail.com
+patch subject: [PATCH] cdrom: add parentheses around macro arguments
+config: sh-randconfig-r071-20250906 (https://download.01.org/0day-ci/archive/20250906/202509061338.yRYn1te8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509061338.yRYn1te8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509061310.SU5Tf105-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509061338.yRYn1te8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/usb/phy/phy-tegra-usb.c:874:2: warning: variable 'err' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-     874 |         default:
-         |         ^~~~~~~
-   drivers/usb/phy/phy-tegra-usb.c:878:6: note: uninitialized use occurs here
-     878 |         if (err)
-         |             ^~~
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/usb/phy/phy-tegra-usb.c:860:9: note: initialize the variable 'err' to silence this warning
-     860 |         int err;
-         |                ^
-         |                 = 0
-   drivers/usb/phy/phy-tegra-usb.c:905:2: warning: variable 'err' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-     905 |         default:
-         |         ^~~~~~~
-   drivers/usb/phy/phy-tegra-usb.c:909:6: note: uninitialized use occurs here
-     909 |         if (err)
-         |             ^~~
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/usb/phy/phy-tegra-usb.c:891:9: note: initialize the variable 'err' to silence this warning
-     891 |         int err;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+   drivers/cdrom/cdrom.c: In function 'register_cdrom':
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:604:2: note: in expansion of macro 'ENSURE'
+     604 |  ENSURE(cdo, drive_status, CDC_DRIVE_STATUS);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:607:2: note: in expansion of macro 'ENSURE'
+     607 |  ENSURE(cdo, tray_move, CDC_CLOSE_TRAY | CDC_OPEN_TRAY);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:608:2: note: in expansion of macro 'ENSURE'
+     608 |  ENSURE(cdo, lock_door, CDC_LOCK);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:609:2: note: in expansion of macro 'ENSURE'
+     609 |  ENSURE(cdo, select_speed, CDC_SELECT_SPEED);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:610:2: note: in expansion of macro 'ENSURE'
+     610 |  ENSURE(cdo, get_last_session, CDC_MULTI_SESSION);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:611:2: note: in expansion of macro 'ENSURE'
+     611 |  ENSURE(cdo, get_mcn, CDC_MCN);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:612:2: note: in expansion of macro 'ENSURE'
+     612 |  ENSURE(cdo, reset, CDC_RESET);
+         |  ^~~~~~
+>> drivers/cdrom/cdrom.c:413:13: error: expected identifier before '(' token
+     413 |  if ((cdo)->(call) == NULL)    \
+         |             ^
+   drivers/cdrom/cdrom.c:613:2: note: in expansion of macro 'ENSURE'
+     613 |  ENSURE(cdo, generic_packet, CDC_GENERIC_PACKET);
+         |  ^~~~~~
 
 
-vim +/err +874 drivers/usb/phy/phy-tegra-usb.c
+vim +413 drivers/cdrom/cdrom.c
 
-   857	
-   858	static int tegra_usb_phy_power_on(struct tegra_usb_phy *phy)
-   859	{
-   860		int err;
-   861	
-   862		if (phy->powered_on)
-   863			return 0;
-   864	
-   865		switch (phy->phy_type) {
-   866		case USBPHY_INTERFACE_MODE_UTMI:
-   867			err = utmi_phy_power_on(phy);
-   868			break;
-   869	
-   870		case USBPHY_INTERFACE_MODE_ULPI:
-   871			err = ulpi_phy_power_on(phy);
-   872			break;
-   873	
- > 874		default:
-   875			break;
-   876		}
-   877	
-   878		if (err)
-   879			return err;
-   880	
-   881		phy->powered_on = true;
-   882	
-   883		/* Let PHY settle down */
-   884		usleep_range(2000, 2500);
-   885	
-   886		return 0;
-   887	}
-   888	
+   405	
+   406	/* This macro makes sure we don't have to check on cdrom_device_ops
+   407	 * existence in the run-time routines below. Change_capability is a
+   408	 * hack to have the capability flags defined const, while we can still
+   409	 * change it here without gcc complaining at every line.
+   410	 */
+   411	#define ENSURE(cdo, call, bits)					\
+   412	do {								\
+ > 413		if ((cdo)->(call) == NULL)				\
+   414			WARN_ON_ONCE((cdo)->capability & (bits));	\
+   415	} while (0)
+   416	
 
 -- 
 0-DAY CI Kernel Test Service
