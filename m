@@ -1,73 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E478F27FD48
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 13:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D841367;
+	Sat,  6 Sep 2025 14:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757165512; cv=none; b=srN+YgWRdryWZuICsV8dgEIDwR5vzUi1r+QEoydKk4tF65GLIRGMbc2EgfbkRfmGdpUeHL86dgkl5yOjBcrVjQf5ctbxMKJu4ogUZuC3i16dXf0Jcbgyshc92ybkLUo989Ihyy9bQLA4UsmzECOdqweL6y8OffN4lRyA9gHirvA=
+	t=1757168633; cv=none; b=mXr3e5WsBphmaV/QJLk7Gh/Vs15Q+xS5B4tUhpFQ1X68brxL6axifROc0QVeRCS8xCnh7XrWxj47l31mnxxTQSzfKATbWGR1IQ2am6PC2XKs9qiEuuTuFhXKEeGniUhEKvNBOseXTRLTsjdryIbdnAWqK6qqBCkNJBrFQkOiDMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757165512; c=relaxed/simple;
-	bh=JxpVAPprCj1/cOsB/r2kwrJ/LKeJT1ayD6hStYXR2fA=;
+	s=arc-20240116; t=1757168633; c=relaxed/simple;
+	bh=Ww9/g/RikH15RvIFCODDHkVdpfqdWwNe4n4hWG660hM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zj0VoSAyznui6IOpAli4F9+XNick1smtqr3gaRvfdNHOGK38owWbGsKuo19jmiPlyXWfu+H9zXITu4ZcTUbH1f+8QyLQQet1JxVo1xozR2Tsz31jsOfRbstNLbcyVYuWYQ21Suc9U2+EKfgywX9eVzyDmN99lwNKY2fUKGWYvyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cubhjgF3; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZfS8CoJIWexf6HXr/x+e1EKl/Z8qP5oEjgjXuxNYVnuJDr5hc4Ub9ZCoPoNXil3uWcb8/+2BynnSDazRSNdDiJS2Bf2oUkgf8V1VlK35OiQWigDi05hheI6YtoQ2CDiNOFyPNGNX5l2E+bCrxByM5H/IXRXkd8LYGckfsRd2hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q8P9P2pT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cubhjgF3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q8P9P2pT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757165509; x=1788701509;
+  t=1757168631; x=1788704631;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JxpVAPprCj1/cOsB/r2kwrJ/LKeJT1ayD6hStYXR2fA=;
-  b=cubhjgF3QLTm7UQokG7wB3RQijmLoQnj7zxf1gEWuTmqxnFcmlRtuA1I
-   KWAiUo0pZVIKedauK/bxh1h46kD3N1jgDBaWQRtwRti8JiBhLgCe6EM+k
-   qhN2rfRiJtoc+7bb6LMtyQKamdgW516mAzJbIQb6kWrmx2qyf4Z5kdnUi
-   sz6hOBLx0j2grXBngd0RPB+qFaOq57o/ZKDBi64SDhOLgVztfhh7jHT/c
-   DoJR1ZKCoun8s0tYPBXl441pe87JAZhDsz9+oro/PZ2rk2KglkAMPQ+aI
-   DFkFJByiIOqI90decw/5PnZht08rs5xo4aEha+e1z5EXneG6Y6f6vPWL1
-   g==;
-X-CSE-ConnectionGUID: WBiAv0rNSVqisaK0otN9fg==
-X-CSE-MsgGUID: hlLDwPd9R4yLgkjaAct75A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="82083287"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="82083287"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 06:31:48 -0700
-X-CSE-ConnectionGUID: 3JrKiGFBTfW5BencZrBXMw==
-X-CSE-MsgGUID: 9JDGkvDmT02J1DrNzFJAng==
+  bh=Ww9/g/RikH15RvIFCODDHkVdpfqdWwNe4n4hWG660hM=;
+  b=Q8P9P2pTyQPf/2+R+klaufXlRGRSaUm8qgHmjcoG9HYv2ow0u5T3QQWM
+   URj2n34mjP+HEyaX01C7zGt+D9xfPBt4AW7UqLbvJPSRLThpwiLJ5EEk/
+   oATFs6gfvho5huiTadYBLrAf2wflfia/EtNcywKMtJ98cMTsyXcIONsix
+   lR8mvKRzUq/749WLvylWKgpoyOVs+Db4PpryVZ2VQZ2KNj6cLHTsHjkbO
+   o1ISyhHpmCQLWkVKM5o4ahd8kuYi5r+CgEkMv5s+H8s9Zwh5BjGGsE5cq
+   4i8ksidBGo1jNPUqTFB9c00CWQcVT6/AMF7UlhSWZVE9ozuOugHneMOda
+   A==;
+X-CSE-ConnectionGUID: 7Qz+W/qkTDigKmVS2j7eeg==
+X-CSE-MsgGUID: KuzsFiIXSr6c1IpmxM/FDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="77106459"
+X-IronPort-AV: E=Sophos;i="6.18,244,1751266800"; 
+   d="scan'208";a="77106459"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 07:23:50 -0700
+X-CSE-ConnectionGUID: i2hIG7cwT0+aq5nj4jkT+w==
+X-CSE-MsgGUID: BsLZPeCiTX6FXTz1SsLAdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,244,1751266800"; 
-   d="scan'208";a="176730549"
+   d="scan'208";a="196054538"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Sep 2025 06:31:42 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Sep 2025 07:23:46 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uut12-0001VP-0c;
-	Sat, 06 Sep 2025 13:31:40 +0000
-Date: Sat, 6 Sep 2025 21:31:09 +0800
+	id 1uutpQ-0001X9-0E;
+	Sat, 06 Sep 2025 14:23:44 +0000
+Date: Sat, 6 Sep 2025 22:23:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chunyan Zhang <zhangchunyan@iscas.ac.cn>,
-	linux-riscv@lists.infradead.org, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Peter Xu <peterx@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Jan Kara <jack@suse.cz>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Wei Xu <weixugc@google.com>, David Hildenbrand <david@redhat.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>
-Subject: Re: [PATCH v9 2/5] mm: uffd_wp: Add pte_uffd_wp_available()
-Message-ID: <202509062145.1ipU0q7y-lkp@intel.com>
-References: <20250905103651.489197-3-zhangchunyan@iscas.ac.cn>
+To: Benno Lossin <lossin@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Fiona Behrens <me@kloenk.dev>,
+	Alban Kurti <kurti@invicto.ai>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: pin-init: add references to previously initialized
+ fields
+Message-ID: <202509062218.Mo9Wsmcd-lkp@intel.com>
+References: <20250905140047.3325945-1-lossin@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,211 +71,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250905103651.489197-3-zhangchunyan@iscas.ac.cn>
+In-Reply-To: <20250905140047.3325945-1-lossin@kernel.org>
 
-Hi Chunyan,
+Hi Benno,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.17-rc4]
-[cannot apply to akpm-mm/mm-everything arnd-asm-generic/master next-20250905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunyan-Zhang/mm-softdirty-Add-pte_soft_dirty_available/20250905-184138
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250905103651.489197-3-zhangchunyan%40iscas.ac.cn
-patch subject: [PATCH v9 2/5] mm: uffd_wp: Add pte_uffd_wp_available()
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250906/202509062145.1ipU0q7y-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509062145.1ipU0q7y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Benno-Lossin/rust-pin-init-add-references-to-previously-initialized-fields/20250905-220242
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250905140047.3325945-1-lossin%40kernel.org
+patch subject: [PATCH] rust: pin-init: add references to previously initialized fields
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250906/202509062218.Mo9Wsmcd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509062218.Mo9Wsmcd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509062145.1ipU0q7y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509062218.Mo9Wsmcd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/../mm/internal.h:13,
-                    from fs/exec.c:82:
-   include/linux/mm_inline.h: In function 'pte_install_uffd_wp_if_needed':
->> include/linux/mm_inline.h:573:56: error: implicit declaration of function 'pte_uffd_wp_available'; did you mean 'pte_soft_dirty_available'? [-Wimplicit-function-declaration]
-     573 |         if (!IS_ENABLED(CONFIG_PTE_MARKER_UFFD_WP) || !pte_uffd_wp_available())
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~
-         |                                                        pte_soft_dirty_available
-   In file included from include/asm-generic/bug.h:7,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from fs/exec.c:27:
->> include/linux/mm_inline.h:579:23: error: implicit declaration of function 'pte_none'; did you mean 'p4d_none'? [-Wimplicit-function-declaration]
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |                       ^~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/mm_inline.h:579:9: note: in expansion of macro 'WARN_ON_ONCE'
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |         ^~~~~~~~~~~~
->> include/linux/mm_inline.h:579:32: error: implicit declaration of function 'ptep_get' [-Wimplicit-function-declaration]
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |                                ^~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/mm_inline.h:579:9: note: in expansion of macro 'WARN_ON_ONCE'
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |         ^~~~~~~~~~~~
-   In file included from include/linux/file.h:9,
-                    from include/linux/kernel_read_file.h:5,
-                    from fs/exec.c:26:
->> include/linux/mm_inline.h:591:22: error: implicit declaration of function 'pte_present'; did you mean 'p4d_present'? [-Wimplicit-function-declaration]
-     591 |         if (unlikely(pte_present(pteval) && pte_uffd_wp(pteval)))
-         |                      ^~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
->> include/linux/mm_inline.h:591:45: error: implicit declaration of function 'pte_uffd_wp' [-Wimplicit-function-declaration]
-     591 |         if (unlikely(pte_present(pteval) && pte_uffd_wp(pteval)))
-         |                                             ^~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
->> include/linux/mm_inline.h:602:17: error: implicit declaration of function 'set_pte_at'; did you mean 'user_path_at'? [-Wimplicit-function-declaration]
-     602 |                 set_pte_at(vma->vm_mm, addr, pte,
-         |                 ^~~~~~~~~~
-         |                 user_path_at
->> include/linux/mm_inline.h:603:28: error: implicit declaration of function 'make_pte_marker' [-Wimplicit-function-declaration]
-     603 |                            make_pte_marker(PTE_MARKER_UFFD_WP));
-         |                            ^~~~~~~~~~~~~~~
->> include/linux/mm_inline.h:603:44: error: 'PTE_MARKER_UFFD_WP' undeclared (first use in this function)
-     603 |                            make_pte_marker(PTE_MARKER_UFFD_WP));
-         |                                            ^~~~~~~~~~~~~~~~~~
-   include/linux/mm_inline.h:603:44: note: each undeclared identifier is reported only once for each function it appears in
---
-   In file included from fs/splice.c:27:
-   include/linux/mm_inline.h: In function 'pte_install_uffd_wp_if_needed':
->> include/linux/mm_inline.h:573:56: error: implicit declaration of function 'pte_uffd_wp_available'; did you mean 'pte_soft_dirty_available'? [-Wimplicit-function-declaration]
-     573 |         if (!IS_ENABLED(CONFIG_PTE_MARKER_UFFD_WP) || !pte_uffd_wp_available())
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~
-         |                                                        pte_soft_dirty_available
-   In file included from include/asm-generic/bug.h:7,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from fs/splice.c:21:
->> include/linux/mm_inline.h:579:23: error: implicit declaration of function 'pte_none'; did you mean 'p4d_none'? [-Wimplicit-function-declaration]
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |                       ^~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/mm_inline.h:579:9: note: in expansion of macro 'WARN_ON_ONCE'
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |         ^~~~~~~~~~~~
->> include/linux/mm_inline.h:579:32: error: implicit declaration of function 'ptep_get' [-Wimplicit-function-declaration]
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |                                ^~~~~~~~
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   include/linux/mm_inline.h:579:9: note: in expansion of macro 'WARN_ON_ONCE'
-     579 |         WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-         |         ^~~~~~~~~~~~
-   In file included from include/asm-generic/bug.h:5:
->> include/linux/mm_inline.h:591:22: error: implicit declaration of function 'pte_present'; did you mean 'p4d_present'? [-Wimplicit-function-declaration]
-     591 |         if (unlikely(pte_present(pteval) && pte_uffd_wp(pteval)))
-         |                      ^~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
->> include/linux/mm_inline.h:591:45: error: implicit declaration of function 'pte_uffd_wp' [-Wimplicit-function-declaration]
-     591 |         if (unlikely(pte_present(pteval) && pte_uffd_wp(pteval)))
-         |                                             ^~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/mm_inline.h:602:17: error: implicit declaration of function 'set_pte_at' [-Wimplicit-function-declaration]
-     602 |                 set_pte_at(vma->vm_mm, addr, pte,
-         |                 ^~~~~~~~~~
->> include/linux/mm_inline.h:603:28: error: implicit declaration of function 'make_pte_marker' [-Wimplicit-function-declaration]
-     603 |                            make_pte_marker(PTE_MARKER_UFFD_WP));
-         |                            ^~~~~~~~~~~~~~~
->> include/linux/mm_inline.h:603:44: error: 'PTE_MARKER_UFFD_WP' undeclared (first use in this function)
-     603 |                            make_pte_marker(PTE_MARKER_UFFD_WP));
-         |                                            ^~~~~~~~~~~~~~~~~~
-   include/linux/mm_inline.h:603:44: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +573 include/linux/mm_inline.h
-
-   556	
-   557	/*
-   558	 * If this pte is wr-protected by uffd-wp in any form, arm the special pte to
-   559	 * replace a none pte.  NOTE!  This should only be called when *pte is already
-   560	 * cleared so we will never accidentally replace something valuable.  Meanwhile
-   561	 * none pte also means we are not demoting the pte so tlb flushed is not needed.
-   562	 * E.g., when pte cleared the caller should have taken care of the tlb flush.
-   563	 *
-   564	 * Must be called with pgtable lock held so that no thread will see the none
-   565	 * pte, and if they see it, they'll fault and serialize at the pgtable lock.
-   566	 *
-   567	 * Returns true if an uffd-wp pte was installed, false otherwise.
-   568	 */
-   569	static inline bool
-   570	pte_install_uffd_wp_if_needed(struct vm_area_struct *vma, unsigned long addr,
-   571				      pte_t *pte, pte_t pteval)
-   572	{
- > 573		if (!IS_ENABLED(CONFIG_PTE_MARKER_UFFD_WP) || !pte_uffd_wp_available())
-   574			return false;
-   575	
-   576		bool arm_uffd_pte = false;
-   577	
-   578		/* The current status of the pte should be "cleared" before calling */
- > 579		WARN_ON_ONCE(!pte_none(ptep_get(pte)));
-   580	
-   581		/*
-   582		 * NOTE: userfaultfd_wp_unpopulated() doesn't need this whole
-   583		 * thing, because when zapping either it means it's dropping the
-   584		 * page, or in TTU where the present pte will be quickly replaced
-   585		 * with a swap pte.  There's no way of leaking the bit.
-   586		 */
-   587		if (vma_is_anonymous(vma) || !userfaultfd_wp(vma))
-   588			return false;
-   589	
-   590		/* A uffd-wp wr-protected normal pte */
- > 591		if (unlikely(pte_present(pteval) && pte_uffd_wp(pteval)))
-   592			arm_uffd_pte = true;
-   593	
-   594		/*
-   595		 * A uffd-wp wr-protected swap pte.  Note: this should even cover an
-   596		 * existing pte marker with uffd-wp bit set.
-   597		 */
-   598		if (unlikely(pte_swp_uffd_wp_any(pteval)))
-   599			arm_uffd_pte = true;
-   600	
-   601		if (unlikely(arm_uffd_pte)) {
- > 602			set_pte_at(vma->vm_mm, addr, pte,
- > 603				   make_pte_marker(PTE_MARKER_UFFD_WP));
-   604			return true;
-   605		}
-   606	
-   607		return false;
-   608	}
-   609	
+>> error[E0308]: mismatched types
+   --> rust/kernel/devres.rs:154:66
+   |
+   154 |                     bindings::devm_add_action(dev.as_raw(), Some(callback), inner.cast())
+   |                                                             ---- ^^^^^^^^ expected fn pointer, found `&mut unsafe extern "C" fn(*mut c_void)`
+   |                                                             |
+   |                                                             arguments to this enum variant are incorrect
+   |
+   = note:     expected fn pointer `unsafe extern "C" fn(_)`
+   found mutable reference `&mut unsafe extern "C" fn(_)`
+   help: the type constructed contains `&mut unsafe extern "C" fn(*mut ffi::c_void)` due to the type of the argument passed
+   --> rust/kernel/devres.rs:154:61
+   |
+   154 |                     bindings::devm_add_action(dev.as_raw(), Some(callback), inner.cast())
+   |                                                             ^^^^^--------^
+   |                                                                  |
+   |                                                                  this argument influences the type of `Some`
+   note: tuple variant defined here
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.0/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
+   |
+   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+   |     ^^^^
+   help: consider dereferencing the borrow
+   |
+   154 |                     bindings::devm_add_action(dev.as_raw(), Some(*callback), inner.cast())
+   |                                                                  +
 
 -- 
 0-DAY CI Kernel Test Service
