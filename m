@@ -1,71 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FA71FE44B;
-	Sat,  6 Sep 2025 21:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9135D2773F6;
+	Sat,  6 Sep 2025 21:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757193394; cv=none; b=mt+JJnNeFtp3Wo8nnpf8LFSLAx64QX6nY0+zvnluM4Q7ct+yPvZ3c2e9ZLZUmfVtd0K+TUAsVdyF518KJodBYSmFd7nHffEpPVz0V/zEA3u+oX877LTPXaC4hp5jE/TpLj8aKQCcWX8dCvUV7kpNIktm0xX9WyrKWBcT+pvYEs4=
+	t=1757193992; cv=none; b=lm17LC6epfAzem4VJ8WvnHlUl+lwK3neOpKuO+mWhMipzp0X60bKa9NhalAnIsVnicsU8u0mF/tSaUiFAZW5QVPYhoqHI1IG4r9h+9Wy2NTMAKiJkfilKwqKQmH1u78/RKpg1lZIGVsn9iO8sjl31Hyi6tm3n0Hskp3OjcEvnqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757193394; c=relaxed/simple;
-	bh=rBLI7ukQHDWS6AwQcN6I5VytRlnwi7WAZKTS9iyO0tI=;
+	s=arc-20240116; t=1757193992; c=relaxed/simple;
+	bh=ke5wqDSXDzWZTjT1VQKkoHsP52zTCyKOa1jrumfRM+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nr1M/9Y3zRTCR61tnsPDiBakLWWjed2oNnRdRllTYKBS5pMXvLlNsbL+fHkijWy4+yfBhv/gbyX6jxKsy5MyVrHk+/FKPIkWH9yM6E98Zg41qar1W6OzzUMkuGbIm4s9LIK6r7cXvKVDMQxmnn1crAO2yxGCC3sZo06VZ+OhHk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5TTURoZ; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=TzU/xDEc8zbx8sw65dgiQr0dD3NLEwfIG/B5vIKbjZdKLun+VK73dCLy6f5pg35XsBrhgtrCAQhnKAP3ZgLToo9vKz+Ak4zufeuwjM7Pw7QJd2ERvp6iHvcVbD/D8HsK5eO21XBU8dI4mgZSKrT5C2P6jg7XCPhx1laOilc+Q0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EODzUgJS; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5TTURoZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EODzUgJS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757193393; x=1788729393;
+  t=1757193991; x=1788729991;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rBLI7ukQHDWS6AwQcN6I5VytRlnwi7WAZKTS9iyO0tI=;
-  b=I5TTURoZvLRKKRS2lsIxbGqi0qVvUGVa0Dbi2cuywtDE7okj0lq2stJ3
-   ZRg8kHId1s0YJ6vDMZ8zcA1vL9kgH90vZg3pWLF2YMVfBrutWR9d9pex5
-   H3SF0n1Xwgf8nEYpihJ/tT+Qeysi6TvaE3xm1tn9CBK6iTd/j9rSBej+0
-   xCEAbAIO9C7rFBfIjk3BgwKQM8xSdnFQq8/5LvCPvsP4zXUZV55czu7u0
-   cwsOpynD2tDPWlFnf3YiaqKUV/9mGkNpDMR5HGAFBTcsvqcQoTaeGryca
-   vrYR6L5HI60EMV1Q1yPSlS2+Gg17n2KTy1WKeN2wAQWe1CHM0FB+2gyoO
-   A==;
-X-CSE-ConnectionGUID: b0ghaXAYS0SP1X9Obud/VQ==
-X-CSE-MsgGUID: AatpIWy4STa5JTLpq7S9zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="62131851"
+  bh=ke5wqDSXDzWZTjT1VQKkoHsP52zTCyKOa1jrumfRM+w=;
+  b=EODzUgJSQ/o/vvSNxkUHH1kkADmk9UFARthRcm9430v/7b19NmQ+8VQr
+   iPmG6Q50BCFkLFb4a45sBJsuqig8xsIvrolJP9ZyJ0PF1AqpM7CO/5JoG
+   GmO9nZFGUqWxo+bV+prx3m5a2KI4y2RKdcN8hKOfObYNyrT1a+4Op9g0a
+   SBgCAdGwXZBdZBuN2TxWM+dWR600HME+PvN6j8P1hhyflxuj+0QJWNxCg
+   e3tQego4cygoBXlVE9lIHJ9/p/LcTEJ6fVmPzUCTOtz+wivnrzZZadkYR
+   oaykQw7AIAR4AGUx7sh0XU51OePyBKCYatihtsqItLW0bugQ9+GkVXfOH
+   Q==;
+X-CSE-ConnectionGUID: xJaYPY1ORJujFFXp0/Ylbg==
+X-CSE-MsgGUID: NpHOp8laR1uDfVPbjaNqLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="70601575"
 X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="62131851"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 14:16:31 -0700
-X-CSE-ConnectionGUID: m/SS9zIhS4m6vaHeaN13bg==
-X-CSE-MsgGUID: iPkamp7WRvKSUK+pal2eOw==
+   d="scan'208";a="70601575"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 14:26:31 -0700
+X-CSE-ConnectionGUID: vwB5n0t6RZeSc2w0Q4NDyA==
+X-CSE-MsgGUID: E6u5wxe3R8ipXlHmzbaKhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="172366458"
+   d="scan'208";a="176766876"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Sep 2025 14:16:27 -0700
+  by orviesa004.jf.intel.com with ESMTP; 06 Sep 2025 14:26:28 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uv0Gm-0001nX-2E;
-	Sat, 06 Sep 2025 21:16:24 +0000
-Date: Sun, 7 Sep 2025 05:15:57 +0800
+	id 1uv0QT-0001nn-1R;
+	Sat, 06 Sep 2025 21:26:25 +0000
+Date: Sun, 7 Sep 2025 05:26:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v3 02/10] net: stmmac: Add support for Allwinner
- A523 GMAC200
-Message-ID: <202509070456.CKA8CXUt-lkp@intel.com>
-References: <20250906041333.642483-3-wens@kernel.org>
+To: Artem Shimko <artyom.shimko@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Artem Shimko <artyom.shimko@gmail.com>,
+	Elie Morisse <syniurge@gmail.com>,
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] i2c: amd-mp2-pci: Simplify PM code using
+ DEFINE_RUNTIME_DEV_PM_OPS
+Message-ID: <202509070541.ilqlMkml-lkp@intel.com>
+References: <20250906001217.3792723-2-artyom.shimko@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,112 +68,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250906041333.642483-3-wens@kernel.org>
+In-Reply-To: <20250906001217.3792723-2-artyom.shimko@gmail.com>
 
-Hi Chen-Yu,
+Hi Artem,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.17-rc4 next-20250905]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-net-sun8i-emac-Add-A523-GMAC200-compatible/20250906-121610
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250906041333.642483-3-wens%40kernel.org
-patch subject: [PATCH net-next v3 02/10] net: stmmac: Add support for Allwinner A523 GMAC200
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250907/202509070456.CKA8CXUt-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070456.CKA8CXUt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Shimko/i2c-amd-mp2-pci-Simplify-PM-code-using-DEFINE_RUNTIME_DEV_PM_OPS/20250906-081304
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20250906001217.3792723-2-artyom.shimko%40gmail.com
+patch subject: [PATCH 1/1] i2c: amd-mp2-pci: Simplify PM code using DEFINE_RUNTIME_DEV_PM_OPS
+config: x86_64-buildonly-randconfig-002-20250907 (https://download.01.org/0day-ci/archive/20250907/202509070541.ilqlMkml-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070541.ilqlMkml-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509070456.CKA8CXUt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509070541.ilqlMkml-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c: In function 'sun55i_gmac200_set_syscon':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c:60:89: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
-      60 |                                              "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-         |                                                                                        ~^
-         |                                                                                         |
-         |                                                                                         int
-         |                                                                                        %ld
-   drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c:74:89: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
-      74 |                                              "RX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-         |                                                                                        ~^
-         |                                                                                         |
-         |                                                                                         int
-         |                                                                                        %ld
+>> drivers/i2c/busses/i2c-amd-mp2-pci.c:393:16: error: no member named 'suspend' in 'struct amd_i2c_common'
+     393 |                         i2c_common->suspend(i2c_common);
+         |                         ~~~~~~~~~~  ^
+>> drivers/i2c/busses/i2c-amd-mp2-pci.c:424:22: error: no member named 'resume' in 'struct amd_i2c_common'
+     424 |                         ret = i2c_common->resume(i2c_common);
+         |                               ~~~~~~~~~~  ^
+   2 errors generated.
 
 
-vim +60 drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
+vim +393 drivers/i2c/busses/i2c-amd-mp2-pci.c
 
-    39	
-    40	static int sun55i_gmac200_set_syscon(struct device *dev,
-    41					     struct plat_stmmacenet_data *plat)
-    42	{
-    43		struct device_node *node = dev->of_node;
-    44		struct regmap *regmap;
-    45		u32 val, reg = 0;
-    46		int ret;
-    47	
-    48		regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
-    49		if (IS_ERR(regmap))
-    50			return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
-    51	
-    52		if (!of_property_read_u32(node, "tx-internal-delay-ps", &val)) {
-    53			if (val % 100)
-    54				return dev_err_probe(dev, -EINVAL,
-    55						     "tx-delay must be a multiple of 100ps\n");
-    56			val /= 100;
-    57			dev_dbg(dev, "set tx-delay to %x\n", val);
-    58			if (!FIELD_FIT(SYSCON_ETXDC_MASK, val))
-    59				return dev_err_probe(dev, -EINVAL,
-  > 60						     "TX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-    61						     val, FIELD_MAX(SYSCON_ETXDC_MASK));
-    62	
-    63			reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
-    64		}
-    65	
-    66		if (!of_property_read_u32(node, "rx-internal-delay-ps", &val)) {
-    67			if (val % 100)
-    68				return dev_err_probe(dev, -EINVAL,
-    69						     "rx-delay must be a multiple of 100ps\n");
-    70			val /= 100;
-    71			dev_dbg(dev, "set rx-delay to %x\n", val);
-    72			if (!FIELD_FIT(SYSCON_ERXDC_MASK, val))
-    73				return dev_err_probe(dev, -EINVAL,
-    74						     "RX clock delay exceeds maximum (%d00ps > %d00ps)\n",
-    75						     val, FIELD_MAX(SYSCON_ERXDC_MASK));
-    76	
-    77			reg |= FIELD_PREP(SYSCON_ERXDC_MASK, val);
-    78		}
-    79	
-    80		switch (plat->mac_interface) {
-    81		case PHY_INTERFACE_MODE_MII:
-    82			/* default */
-    83			break;
-    84		case PHY_INTERFACE_MODE_RGMII:
-    85		case PHY_INTERFACE_MODE_RGMII_ID:
-    86		case PHY_INTERFACE_MODE_RGMII_RXID:
-    87		case PHY_INTERFACE_MODE_RGMII_TXID:
-    88			reg |= SYSCON_EPIT | SYSCON_ETCS_INT_GMII;
-    89			break;
-    90		case PHY_INTERFACE_MODE_RMII:
-    91			reg |= SYSCON_RMII_EN;
-    92			break;
-    93		default:
-    94			return dev_err_probe(dev, -EINVAL, "Unsupported interface mode: %s",
-    95					     phy_modes(plat->mac_interface));
-    96		}
-    97	
-    98		ret = regmap_write(regmap, SYSCON_REG, reg);
-    99		if (ret < 0)
-   100			return dev_err_probe(dev, ret, "Failed to write to syscon\n");
-   101	
-   102		return 0;
-   103	}
-   104	
+529766e0a01144 Elie Morisse    2019-03-05  381  
+529766e0a01144 Elie Morisse    2019-03-05  382  static int amd_mp2_pci_suspend(struct device *dev)
+529766e0a01144 Elie Morisse    2019-03-05  383  {
+529766e0a01144 Elie Morisse    2019-03-05  384  	struct pci_dev *pci_dev = to_pci_dev(dev);
+529766e0a01144 Elie Morisse    2019-03-05  385  	struct amd_mp2_dev *privdata = pci_get_drvdata(pci_dev);
+529766e0a01144 Elie Morisse    2019-03-05  386  	struct amd_i2c_common *i2c_common;
+529766e0a01144 Elie Morisse    2019-03-05  387  	unsigned int bus_id;
+529766e0a01144 Elie Morisse    2019-03-05  388  	int ret = 0;
+529766e0a01144 Elie Morisse    2019-03-05  389  
+529766e0a01144 Elie Morisse    2019-03-05  390  	for (bus_id = 0; bus_id < 2; bus_id++) {
+529766e0a01144 Elie Morisse    2019-03-05  391  		i2c_common = privdata->busses[bus_id];
+529766e0a01144 Elie Morisse    2019-03-05  392  		if (i2c_common)
+529766e0a01144 Elie Morisse    2019-03-05 @393  			i2c_common->suspend(i2c_common);
+529766e0a01144 Elie Morisse    2019-03-05  394  	}
+529766e0a01144 Elie Morisse    2019-03-05  395  
+529766e0a01144 Elie Morisse    2019-03-05  396  	ret = pci_save_state(pci_dev);
+529766e0a01144 Elie Morisse    2019-03-05  397  	if (ret) {
+267e82b9592d0d Richard Neumann 2021-02-01  398  		pci_err(pci_dev, "pci_save_state failed = %d\n", ret);
+529766e0a01144 Elie Morisse    2019-03-05  399  		return ret;
+529766e0a01144 Elie Morisse    2019-03-05  400  	}
+529766e0a01144 Elie Morisse    2019-03-05  401  
+529766e0a01144 Elie Morisse    2019-03-05  402  	pci_disable_device(pci_dev);
+529766e0a01144 Elie Morisse    2019-03-05  403  	return ret;
+529766e0a01144 Elie Morisse    2019-03-05  404  }
+529766e0a01144 Elie Morisse    2019-03-05  405  
+529766e0a01144 Elie Morisse    2019-03-05  406  static int amd_mp2_pci_resume(struct device *dev)
+529766e0a01144 Elie Morisse    2019-03-05  407  {
+529766e0a01144 Elie Morisse    2019-03-05  408  	struct pci_dev *pci_dev = to_pci_dev(dev);
+529766e0a01144 Elie Morisse    2019-03-05  409  	struct amd_mp2_dev *privdata = pci_get_drvdata(pci_dev);
+529766e0a01144 Elie Morisse    2019-03-05  410  	struct amd_i2c_common *i2c_common;
+529766e0a01144 Elie Morisse    2019-03-05  411  	unsigned int bus_id;
+529766e0a01144 Elie Morisse    2019-03-05  412  	int ret = 0;
+529766e0a01144 Elie Morisse    2019-03-05  413  
+529766e0a01144 Elie Morisse    2019-03-05  414  	pci_restore_state(pci_dev);
+529766e0a01144 Elie Morisse    2019-03-05  415  	ret = pci_enable_device(pci_dev);
+529766e0a01144 Elie Morisse    2019-03-05  416  	if (ret < 0) {
+267e82b9592d0d Richard Neumann 2021-02-01  417  		pci_err(pci_dev, "pci_enable_device failed = %d\n", ret);
+529766e0a01144 Elie Morisse    2019-03-05  418  		return ret;
+529766e0a01144 Elie Morisse    2019-03-05  419  	}
+529766e0a01144 Elie Morisse    2019-03-05  420  
+529766e0a01144 Elie Morisse    2019-03-05  421  	for (bus_id = 0; bus_id < 2; bus_id++) {
+529766e0a01144 Elie Morisse    2019-03-05  422  		i2c_common = privdata->busses[bus_id];
+529766e0a01144 Elie Morisse    2019-03-05  423  		if (i2c_common) {
+529766e0a01144 Elie Morisse    2019-03-05 @424  			ret = i2c_common->resume(i2c_common);
+529766e0a01144 Elie Morisse    2019-03-05  425  			if (ret < 0)
+529766e0a01144 Elie Morisse    2019-03-05  426  				return ret;
+529766e0a01144 Elie Morisse    2019-03-05  427  		}
+529766e0a01144 Elie Morisse    2019-03-05  428  	}
+529766e0a01144 Elie Morisse    2019-03-05  429  
+529766e0a01144 Elie Morisse    2019-03-05  430  	return ret;
+529766e0a01144 Elie Morisse    2019-03-05  431  }
+529766e0a01144 Elie Morisse    2019-03-05  432  
 
 -- 
 0-DAY CI Kernel Test Service
