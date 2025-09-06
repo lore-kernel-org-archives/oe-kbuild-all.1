@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F72625D20D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 11:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3164E1A316E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 12:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757159318; cv=none; b=oPMlP7Ibntq1G+mNb2r2UG3vkG5FRGHA/9oOqIJnD3SBag/N9fZSUtY+GfBCKVK9+9VubscaDWbRYEgPR3yzLLGzSYeoko69AjP+a/bwmarH5a3ioUPDPTh1IItfMO2jKwoQFFOkqlpnJ/T8HNRujrcxSf8aO2sOaHNLKPVNgnk=
+	t=1757162986; cv=none; b=DZnRAhxyBWNO3VEtWa5GPmQlMc9poz8FtlBgWM3F0HMCJuGC/mmVAvE7KBKfyymG3GiH1gxE02wV6vqMD1HAnvFm3JUbA2WZmX2uifr2wYOFTt72yujhB0GZLXq72wFCYNgoaWy1FrDI04jc5JDBxzl0TdJgl0RqxjK4eAQWLYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757159318; c=relaxed/simple;
-	bh=kT2Y52dUmGOmoD+14m/V62YAY/kb7QmRqMWkKssPc74=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=usFAk4JcP4nf3/u68ZoL6CIIrLv5pWvjTQ8yI7/hZ4jaU8cZBee5ptIzQa8qRLXSO9f7v96pvL8XxL1WS1eF0WzuAGZtPRGiXc1HPc/oitEbNywJcFo5GdMcuqbbg6gwJmdZCBN27XLciDYCZP6mPauZQF+/Vzd7LplpVn0ABys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nvw4Iot4; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1757162986; c=relaxed/simple;
+	bh=FGhroKiv+4xuX6AwZtAlp9mlzfwdRYEJPq+jCneMv/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c70LVnaTZeygScI6CleTW9jbTgcCaNZuwFMM+tXYkCF1cmf/pDQRDBBu9/hnYcGUnP4jVgll1MCuAoZWhUvxXXAIcXeXBO0DnYiCXDQoCf0imVVPZadcDnEViDUQ4MZsFCd6go+h1NrTgaS8G+1ysMnweEEUjhaL9mLe20Oleko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OS41MSDs; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nvw4Iot4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OS41MSDs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757159316; x=1788695316;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kT2Y52dUmGOmoD+14m/V62YAY/kb7QmRqMWkKssPc74=;
-  b=Nvw4Iot4j+jHXSxsEoxJ0PkGLPf/h96P9uQtDdHwdEMqz3smn83EOkbE
-   4qg49A8jWwEkwrBk3uMCxbe6IqdWjc0Sov8/zp5z98nBRbiWT0ya9CoNf
-   QIRRkR5dNZKyEJnQ/y7tQsHhmatUfGEzqdY/WMo/BCOPnsHhfV/Il/58p
-   Pqfe83zDnQyH5h3jL10trL15rH14JerBKfiyBWlZuKZ4or1vpZvneDYoX
-   BomAspmfx5hUg/q7CzfrvTyv/xDNjeI8H3yWQnEq7CFvAfdAqu4eZ9m+F
-   PE9BqL8eMIsp+xcN7UAjSmuUPvYlYTtCyeVI2prhhJMDo3Zr4FpUK4Xgt
-   g==;
-X-CSE-ConnectionGUID: TT9U5teLQD+4zhIOt3JHDw==
-X-CSE-MsgGUID: ZaQdewx5T3+kCT5KfySIzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="58526517"
+  t=1757162984; x=1788698984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FGhroKiv+4xuX6AwZtAlp9mlzfwdRYEJPq+jCneMv/A=;
+  b=OS41MSDsH5ON3ScEjbdBsuYnK3oOuBMfg7wVmhx1decpWoujYtxBd8qF
+   k3daR5jx/m4r2aQ4oEHkKdf+tteuAvoM+ryQyTxmUlS3I9kbl2NFx+AHT
+   gsQDWtjlvOivFpw8xhDB4/0BCIcMnr3k03bdXt8R6VF1lb4uAtva/q+Gi
+   Liac/pqoiSFFOpzqhqM9q0BfCKs1RKLkG9SQII9C78es2D0gsA1LJejVn
+   gSTIrZNNFYbROhrGwFsYpoaHkoRzqnUsYv6vWBMe7h4J5la3pklNM0aBE
+   EE9GZcwBh5pOHPZ0zjXgixgPu0RpABRTN4tPKvdRTuAeCi/xC9cC98Zc1
+   Q==;
+X-CSE-ConnectionGUID: zg8GVkyrSIOrQFMmksIKIA==
+X-CSE-MsgGUID: Sk4Tfis9Rx2Q3BdAxZ8OiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="59563140"
 X-IronPort-AV: E=Sophos;i="6.18,244,1751266800"; 
-   d="scan'208";a="58526517"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 04:48:33 -0700
-X-CSE-ConnectionGUID: 2VoetSuMSK2Vm6ffcgeryA==
-X-CSE-MsgGUID: 9LRs0mJZRT+6sIwB8PLCuw==
+   d="scan'208";a="59563140"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 05:49:43 -0700
+X-CSE-ConnectionGUID: bYM0iKV3TQW7Ok4R3aOEnw==
+X-CSE-MsgGUID: GySrpnKUQ3a8jrCQrRq2WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,244,1751266800"; 
-   d="scan'208";a="203177594"
+   d="scan'208";a="171652643"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Sep 2025 04:48:32 -0700
+  by orviesa010.jf.intel.com with ESMTP; 06 Sep 2025 05:49:39 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uurPB-0001Or-2O;
-	Sat, 06 Sep 2025 11:48:29 +0000
-Date: Sat, 6 Sep 2025 19:47:34 +0800
+	id 1uusMK-0001SJ-1J;
+	Sat, 06 Sep 2025 12:49:36 +0000
+Date: Sat, 6 Sep 2025 20:49:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 6220/6355] ERROR: modpost:
- "page_range_contiguous" [drivers/tee/tee.ko] undefined!
-Message-ID: <202509061924.O4PKPOfw-lkp@intel.com>
+To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	quic_vtanuku@quicinc.com
+Subject: Re: [PATCH v7 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+Message-ID: <202509062008.lSOdhd4U-lkp@intel.com>
+References: <20250903073059.2151837-3-quic_jseerapu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +73,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250903073059.2151837-3-quic_jseerapu@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   be5d4872e528796df9d7425f2bd9b3893eb3a42c
-commit: 42618a95aaa2e55e8152708a4b78caa85a5c8a02 [6220/6355] Merge branch 'next' of https://git.kernel.org/pub/scm/linux/kernel/git/jenswi/linux-tee.git
-config: arm-randconfig-r072-20250906 (https://download.01.org/0day-ci/archive/20250906/202509061924.O4PKPOfw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509061924.O4PKPOfw-lkp@intel.com/reproduce)
+Hi Jyothi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on andi-shyti/i2c/i2c-host linus/master v6.17-rc4 next-20250905]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jyothi-Kumar-Seerapu/dmaengine-qcom-gpi-Add-GPI-Block-event-interrupt-support/20250903-153745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20250903073059.2151837-3-quic_jseerapu%40quicinc.com
+patch subject: [PATCH v7 2/2] i2c: i2c-qcom-geni: Add Block event interrupt support
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250906/202509062008.lSOdhd4U-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509062008.lSOdhd4U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509061924.O4PKPOfw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509062008.lSOdhd4U-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: "page_range_contiguous" [security/keys/encrypted-keys/encrypted-keys.ko] undefined!
-ERROR: modpost: "page_range_contiguous" [crypto/krb5/krb5.ko] undefined!
-ERROR: modpost: "page_range_contiguous" [drivers/dma/sh/rcar-dmac.ko] undefined!
-ERROR: modpost: "page_range_contiguous" [drivers/mtd/nand/qpic_common.ko] undefined!
->> ERROR: modpost: "page_range_contiguous" [drivers/tee/tee.ko] undefined!
+   drivers/i2c/busses/i2c-qcom-geni.c: In function 'geni_i2c_gpi_multi_desc_unmap':
+>> drivers/i2c/busses/i2c-qcom-geni.c:576:42: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     576 |                                    NULL, (dma_addr_t)NULL);
+         |                                          ^
+
+
+vim +576 drivers/i2c/busses/i2c-qcom-geni.c
+
+   555	
+   556	/**
+   557	 * geni_i2c_gpi_multi_desc_unmap() - Unmaps DMA buffers post multi message TX transfers
+   558	 * @gi2c: I2C dev handle
+   559	 * @msgs: Array of I2C  messages
+   560	 * @peripheral: Pointer to gpi_i2c_config
+   561	 */
+   562	static void geni_i2c_gpi_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
+   563						  struct gpi_i2c_config *peripheral)
+   564	{
+   565		u32 msg_xfer_cnt, wr_idx = 0;
+   566		struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer = &gi2c->i2c_multi_desc_config;
+   567	
+   568		msg_xfer_cnt = gi2c->err ? tx_multi_xfer->msg_idx_cnt : tx_multi_xfer->irq_cnt;
+   569	
+   570		/* Unmap the processed DMA buffers based on the received interrupt count */
+   571		for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
+   572			wr_idx = tx_multi_xfer->unmap_msg_cnt;
+   573			geni_i2c_gpi_unmap(gi2c, &msgs[wr_idx],
+   574					   tx_multi_xfer->dma_buf[wr_idx],
+   575					   tx_multi_xfer->dma_addr[wr_idx],
+ > 576					   NULL, (dma_addr_t)NULL);
+   577	
+   578			if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs - 1) {
+   579				kfree(tx_multi_xfer->dma_buf);
+   580				kfree(tx_multi_xfer->dma_addr);
+   581				break;
+   582			}
+   583		}
+   584	}
+   585	
 
 -- 
 0-DAY CI Kernel Test Service
