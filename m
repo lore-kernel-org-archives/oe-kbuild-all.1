@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE611DA23
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 01:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6B722C339
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Sep 2025 03:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757123214; cv=none; b=ZHkl8+zz8S4tjUGXCloiEnejeeWOktj0Egy5um6DwTlklLDByNcBj7Tk7dwOFrl/6KHwt7peMTW489+RHobuFw9ND88Mpv5uWG8ocuT/nz86DAejJz8q9SoPH1/wresREk9blh7bacUywbqTaUq2Ig6QXedA+i45SduCQeMNn9k=
+	t=1757128970; cv=none; b=CMEhU7/4X+HQnziB8fyL7abj3+dsKJPpUUFcsxDEBw2my1cipHePnZHTk2RDxO9fH6QwhMZgd1ZtaW8Nt517E1Lhd32h05dWWQAiEQ73vgHBlSUrEsP6A66XWKmP8vHv4O73I3V2uGdiW8YpSV/xVdGhtn5wLAn78Bujnu/MIls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757123214; c=relaxed/simple;
-	bh=AcZ2qNQV9iXawRVgiV6mCswDRsJBvEc++vvVU5rCzx8=;
+	s=arc-20240116; t=1757128970; c=relaxed/simple;
+	bh=KObDRXggQqG+V1kipTtid3AfkhMbWNyRIQO9r5bBZaU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SriPh5qni8r5KJvYLpbQWSk7+wM8Epe/d9AMhAxdPzuD3UgGmfcsxMtMgnRbtFNM+yNQK5s2FkMF4Kbd2NlloupDhuUksVhZ4Ugw3fhyozn70Hnl4HJOcH8QkUiIoclI7gsEUhUu4tO1cbkRNxsF6MwU0eNHz9txP1pXy2seID0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5fomK+x; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition:In-Reply-To; b=TIP8w/NCMgWcqt9TW5U8BGThIW7tAiKAWUFd0LpjDUx06ev7nj+LlC+yX2nZPPQsiMSXP6bqqvbY2lQIHhPUwq0zO4erhoS+5NENuRSgxQ8mebUbbIN+R0ICeyNfToKx1bVds5bNmKUdo58W9NdW/QGTD8u7ImkISvDAtAtAJGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUfHmY/w; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5fomK+x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUfHmY/w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757123213; x=1788659213;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AcZ2qNQV9iXawRVgiV6mCswDRsJBvEc++vvVU5rCzx8=;
-  b=Z5fomK+xiwWqS81QB5lNMvVZ+opqyDnRm7JEUF2syPuP1MIEBUNjCdHX
-   W4BydGccc9hOqCVEVoeVTAo38XcDAzOOTIIc90hCJRxsZcqMgLKYMoVLs
-   w21g1UYvkqKqwLGfTVfBVsBaDfMcZ0gKbBnzIN5iJ+KZhS+BO1lG3oKuY
-   fAIiJP0/BS7u+UFV2bx+6sH4c/5CF0un8rdKMGrXXcTycLNBiPuZus1Zc
-   RWkVeDeGqtepLfHjcbxxFp7ZIuxnZT74HfTDaPEeWQYY2ene3C9WuIDqJ
-   RPe2MTJnZk8q+bMc74BnFpxg1BiWNTuzeuDbzicID94DXSKMRt3vbEIem
-   g==;
-X-CSE-ConnectionGUID: rsgyQjpcQIuZW/h66vQ2bw==
-X-CSE-MsgGUID: mbQyIo5OR0u4Rv/3+fUP4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="76930389"
-X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
-   d="scan'208";a="76930389"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 18:46:52 -0700
-X-CSE-ConnectionGUID: wtGsqIdPR5aYTjvy6/Bndg==
-X-CSE-MsgGUID: 9FzFo1y+TGWcz2LbGYU+LQ==
+  t=1757128968; x=1788664968;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=KObDRXggQqG+V1kipTtid3AfkhMbWNyRIQO9r5bBZaU=;
+  b=IUfHmY/w3/8FDDVt2QWyC9rmiOHuAcsZNP/yEVCtytw9w6c5OjU7A1jd
+   avNMxq1I9UR+xNCMVLg34PvV5Gktv+5Y04xI4jqMp2W9lRVLVDc/+q/jq
+   gPEIkEVTZl86HaJYzjEOUYkMF4TNGp7aVP1YKZgY1k9UUBza9OvymGURp
+   MJQMuT2F5Fyx5V4faj7WSv4Mkx1RNhvIcxDqnNGTFXa4Hlufq9GfzFPat
+   E0FjDYm2gxxonPt/gWGumg/tPK8Xk1f+3ejm8x2/P6NFszMz6DvqZfFXs
+   uY6E/fPw2Uij8s0NSZwaj/J3T0zncJWNqDTWLfoqr6Enh8Ak4FAptWu8q
+   w==;
+X-CSE-ConnectionGUID: O8JPHfwKRyiBlJSyH613qw==
+X-CSE-MsgGUID: tP1amCkRQA6J/aHX138RIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="58514501"
+X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
+   d="scan'208";a="58514501"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 20:22:47 -0700
+X-CSE-ConnectionGUID: xjdogmciTZSIIJkZERrK8Q==
+X-CSE-MsgGUID: /mLWqu07Rhiiou8bvSDbZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,242,1751266800"; 
-   d="scan'208";a="176381421"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 05 Sep 2025 18:46:51 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.18,243,1751266800"; 
+   d="scan'208";a="172668344"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2025 20:22:47 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uui0u-00046t-2o;
-	Sat, 06 Sep 2025 01:46:48 +0000
-Date: Sat, 6 Sep 2025 03:46:09 +0200
+	id 1uujVk-0001A3-1J;
+	Sat, 06 Sep 2025 03:22:44 +0000
+Date: Sat, 6 Sep 2025 11:22:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/11] htmldocs:
- Documentation/virt/kvm/x86/pkvm-intel.rst:349: WARNING: Bullet list ends
- without a blank line; unexpected unindent. [docutils]
-Message-ID: <202509060354.Hle6bQvN-lkp@intel.com>
+To: Andrew Guerrero <ajgja@amazon.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mm: memcontrol: fix memcg accounting during cpu hotplug
+Message-ID: <aLupAVl-DSxOXuza@b7823f61de85>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250906032108.30539-1-ajgja@amazon.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   60d0775cb83360cc7e618850d04f2e8d1c77d929
-commit: e24fbeb999488f1320ea19b2a0d0ec12aafe994c [0/11] ANDROID: [DOC]: Isolate pKVM & host
-reproduce: (https://download.01.org/0day-ci/archive/20250906/202509060354.Hle6bQvN-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509060354.Hle6bQvN-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/xz.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/fprobe.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/mutex.h' failed with return code 2
-   Documentation/virt/kvm/arm/hypercalls.rst:229: ERROR: Unexpected indentation. [docutils]
-   Documentation/virt/kvm/arm/mmio-guard.rst:94: ERROR: Unexpected indentation. [docutils]
->> Documentation/virt/kvm/x86/pkvm-intel.rst:349: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/incfs.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/sound/designs/compress-accel.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/trace/debugging.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/virt/kvm/x86/pkvm-intel.rst: WARNING: document isn't included in any toctree [toc.not_included]
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +349 Documentation/virt/kvm/x86/pkvm-intel.rst
-
-   347	
-   348	* Page-table management
- > 349	-----------------------
-   350	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] mm: memcontrol: fix memcg accounting during cpu hotplug
+Link: https://lore.kernel.org/stable/20250906032108.30539-1-ajgja%40amazon.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
