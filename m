@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34258801
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 04:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB719AD2C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 04:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757218275; cv=none; b=dYXB2AehXpUPj6DzoXFlUGk2z33B9oe8STLKNLHJ7MDk1StfIn9bGsiSDcPC9uwYffWmxjJlF4bz69370CiBqXG/hBjE41wVnGX/QXNxiex54qMb3KgTMyp+/0k6FgaF5T/S9souWq1SYRUsKhOYz07Q3cvgeLnQ+sasmIRAeNc=
+	t=1757219537; cv=none; b=N1xmAXriFLdJnI9t9N4IXqDUelBvqfBQVoPMzNm8jk7GiRlTBgKBxOo7FuBAjBAgAKY5Vd05+7w9g8yH+AyWlHmdROL/D+AuRgoxPGU6B2c9Nk712na6efM3RfW1+LtgKV1OHKazdrNEGX1gFt7Oj/7a15flGtqknQ8kcrYWpnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757218275; c=relaxed/simple;
-	bh=cYxBcCmTOo12YM48X4mOWGXeVa3FDhnpj3RjPyEsh6I=;
+	s=arc-20240116; t=1757219537; c=relaxed/simple;
+	bh=+8yI6fgJ5qXRBIy4nAJK63uggFckulfZtEQH+td3NO0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uwtC3qMTgc1UivaWSLR3kJ3owse3MG4iu0/g5hUveOvxQlNlhHNXPDe8DANK19uGdDbUfzogtpcYjHBGjnAvngIV+DeCZknx+cWg4nLV1h+7Xp0H53iVTDVXTo+UBvsf/OxOljxILCKPdI1/sq6QMYFM9fEhfxxesXW+QGn5BBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L40Cu04v; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=fiYOCJ1nWF5Z/jd3TqTLL/t5jgwmEJV/9muNsbkdzLVmD9Uz7rq4wyfQb+P/kj5ha0T+fdkhWJ95y8G3LBrV0cIJYBWHZBcSFMismgk+/KqxY7xGKqXCfQAkQ8iwe1wqHWALjGORSnMjDyQwM/W7BheXBZk5b8AinC+RDTTMkV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwbpFKb4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L40Cu04v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwbpFKb4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757218273; x=1788754273;
+  t=1757219535; x=1788755535;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cYxBcCmTOo12YM48X4mOWGXeVa3FDhnpj3RjPyEsh6I=;
-  b=L40Cu04vNtVgQBPSlY7nKb+Cbt0C6pwFud1dbix3KRgH3xQDweYjPRHY
-   Qm93lPOcloj0rOqHlKhrcejeDuyB+/k/+aJeE3eXnlpRLbWesVR9G1TJ4
-   cJdc5j6dZjDTHpetNw8kscfE7GRlnX90yOt8IG4zLS8kWdPKtlyG0FV8+
-   KSs1W0u1BWoBZz344QzEINtwepQBy07emDbdXwHYHfvTcI5Fvf4GETMcE
-   Q2mTD/1twqtHV/UzlUFvx9XciMBKWtcfI84mxxOUhxXMBm937TbdOKi2n
-   3UAz7owagKH/wInO8WHP1pxXvArN8gb/o/R9aaITJSD7fYx0mPevhHiI/
-   A==;
-X-CSE-ConnectionGUID: 2x1MEelTTo6nuNFSDXH9qg==
-X-CSE-MsgGUID: wyXTrc57SVWdtXgyJGBw0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="63340712"
+  bh=+8yI6fgJ5qXRBIy4nAJK63uggFckulfZtEQH+td3NO0=;
+  b=EwbpFKb4wIELtU+A746UlnzfvN45cjOSBntz48Ss1VSAH2zf+fwAxUEA
+   iaDVUgwQwZnllBC/I8XMy/1QO7Np10UPPW/2v3n8B8Ad6o8GphnkK0dXY
+   eisY0Hz45Xcg0JgZi6L1PCtAfs3xJ3WDQsBSE89Ru3gBpbOj2+iB5xCAe
+   +hRPoKYPEqt+j/aZXacc7gwPLTVi0NOOJapldceB8ARfEEe80o/3ZjgBK
+   PYcFpiMRKcHfOu7LJwwDLY5MyKDuxFf3MrDObL90tRFvXOUcjMMxENtjx
+   vdT/WC4NXLkO9NVix1+7PVYvb2Oeite5awuBzOc9TTHeLWJJZv9nWvenC
+   w==;
+X-CSE-ConnectionGUID: l0HTn/F+SLeDQl7cVZvmnw==
+X-CSE-MsgGUID: vWh8yWEETdWiCG1u9KrVog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="47082793"
 X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="63340712"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 21:11:13 -0700
-X-CSE-ConnectionGUID: ty+8UhvVTLSJ0fsxVRy7xQ==
-X-CSE-MsgGUID: UfJzP6pHS1Sx+e6eeJinZg==
+   d="scan'208";a="47082793"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 21:32:14 -0700
+X-CSE-ConnectionGUID: UEUAutZoTamiLqUEzDzCKg==
+X-CSE-MsgGUID: eIAw2afWROWQEf3aazZtwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="171761634"
+   d="scan'208";a="172599663"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Sep 2025 21:11:10 -0700
+  by orviesa008.jf.intel.com with ESMTP; 06 Sep 2025 21:32:11 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uv6k7-00021H-1s;
-	Sun, 07 Sep 2025 04:11:07 +0000
-Date: Sun, 7 Sep 2025 12:11:02 +0800
+	id 1uv74T-00021v-2A;
+	Sun, 07 Sep 2025 04:32:09 +0000
+Date: Sun, 7 Sep 2025 12:31:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fidal Palamparambil <rootuserhere@gmail.com>,
-	linux-modules@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mcgrof@kernel.org, petr.pavlu@suse.com,
-	da.gomez@kernel.org, samitolvanen@google.com,
-	linux-kernel@vger.kernel.org,
-	Fidal palamparambil <rootuserhere@gmail.com>
-Subject: Re: [PATCH] tracing: Fix multiple issues in trace_printk module
- handling
-Message-ID: <202509071126.l4plN0Qk-lkp@intel.com>
-References: <20250906134148.55-1-rootuserhere@gmail.com>
+To: Hongru Zhang <zhanghongru06@gmail.com>, paul@paul-moore.com,
+	stephen.smalley.work@gmail.com, omosnace@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	selinux@vger.kernel.org, Hongru Zhang <zhanghongru@xiaomi.com>
+Subject: Re: [PATCH] selinux: Make avc cache slot size configurable during
+ boot
+Message-ID: <202509071211.k5n864Gr-lkp@intel.com>
+References: <20250905100454.685866-1-zhanghongru@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,56 +65,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250906134148.55-1-rootuserhere@gmail.com>
+In-Reply-To: <20250905100454.685866-1-zhanghongru@xiaomi.com>
 
-Hi Fidal,
+Hi Hongru,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.17-rc4 next-20250905]
+[auto build test WARNING on pcmoore-selinux/next]
+[also build test WARNING on linus/master v6.17-rc4 next-20250905]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fidal-Palamparambil/tracing-Fix-multiple-issues-in-trace_printk-module-handling/20250906-214415
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250906134148.55-1-rootuserhere%40gmail.com
-patch subject: [PATCH] tracing: Fix multiple issues in trace_printk module handling
-config: s390-randconfig-002-20250907 (https://download.01.org/0day-ci/archive/20250907/202509071126.l4plN0Qk-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509071126.l4plN0Qk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hongru-Zhang/selinux-Make-avc-cache-slot-size-configurable-during-boot/20250905-180729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20250905100454.685866-1-zhanghongru%40xiaomi.com
+patch subject: [PATCH] selinux: Make avc cache slot size configurable during boot
+config: i386-randconfig-063-20250907 (https://download.01.org/0day-ci/archive/20250907/202509071211.k5n864Gr-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509071211.k5n864Gr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509071126.l4plN0Qk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509071211.k5n864Gr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/selinux/avc.c:37:5: sparse: sparse: symbol 'avc_cache_slots' was not declared. Should it be static?
 
-   kernel/trace/trace_printk.c: In function 'init_trace_printk_function_export':
->> kernel/trace/trace_printk.c:388:16: error: assignment to 'struct dentry *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     388 |         dentry = tracing_init_dentry();
-         |                ^
+vim +/avc_cache_slots +37 security/selinux/avc.c
 
-
-vim +388 kernel/trace/trace_printk.c
-
-   383	
-   384	static __init int init_trace_printk_function_export(void)
-   385	{
-   386		struct dentry *dentry;
-   387	
- > 388		dentry = tracing_init_dentry();
-   389		if (IS_ERR(dentry))
-   390			return 0;
-   391	
-   392		trace_create_file("printk_formats", TRACE_MODE_READ, NULL,
-   393					    NULL, &ftrace_formats_fops);
-   394	
-   395		return 0;
-   396	}
-   397	
+    36	
+  > 37	int avc_cache_slots __ro_after_init = 512;
+    38	#define AVC_DEF_CACHE_THRESHOLD		512
+    39	#define AVC_CACHE_RECLAIM		16
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
