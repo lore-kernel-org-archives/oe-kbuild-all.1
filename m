@@ -1,80 +1,59 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0709261586
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 11:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895D5183CC3
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 13:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757244392; cv=none; b=sXXc+AFE9OIzprmM3go/BSSQYMQiOLnbpCSOWbaROiH5m1tjFML/7OYuW+fubykW9khMuHQ9HuE7HZpMAFsdy98vKWBB1teI9cBRM13wTkQzl/cNnRP0FI0RKgFnorlD8ZrXHw1stQWWgRDcn35t8cHm2cJSKzkN2eEL2PVxYyM=
+	t=1757253365; cv=none; b=V7XvZxRMva1lzVA0oHWB64Y62dNQGfn7qsXY4mLZ+WmkEtd9lKR8SF0+RbH96cMo11XGfaq1R+eJEdPHi+yIrOHP6GD+Z1xBOPVBXcfoe4BdsKrbrkjbLKnjgtcerKgI4VX/wzbB9Ph9d6RBSFP9PC9kYQYUk4Hm3RLwXvhoCNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757244392; c=relaxed/simple;
-	bh=WplKFwssKc1f+3uh2xBYy47HhTBAUrgd7sJvb8Dd+AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=e/bXePTHpIpGTOvN3B8fuYWCquzp2fOzQX9A057GrhbCa8+R3qrHfINVBGSMAvT4eBT7shwH3DuzUmg2LkvXNb0pAxuYKxGJbiId3LkfB4nNAWwK/XSeMz4laY6lwVsYyR5lEN/iKCy5hnatmC4P1hbbxHD4P9Yh7bxJxGDGIA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rytJglpC; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757253365; c=relaxed/simple;
+	bh=aICSzrvEH0u9tNRV+p6XDIGtaLTmzuWISdeYx4X8QhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPJSr4c3JeCUwPHV8vlRQQxyYtKdBt6Yszm5QjEQYZm3ykhzUxWVRBRPkxcquUQRq3ZsoEKlh7SCu40eXBhzKNqVPISR216tOtAMnnLHs6iHPY1lXoDDnKQQoHQTKEbMU/GWbgWmJl7VzEsk2MMlOmpI24kXwqeAWu36KDJ44XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2N750GK; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rytJglpC"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45de1f2cdeeso2629165e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 07 Sep 2025 04:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757244388; x=1757849188; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aAYNdsBKYi67Oem/jYjGQylTcJt/iir5KzfK7uZa2Os=;
-        b=rytJglpCNwjQ+mUzaC17y5cIxDnvp1WBldhkK8HcToA/aOzF3W+qzPloUfrK35VvQh
-         nqtcLnkNGdxMrMCbttuwDwRpsIEJov20i8r/pcpe1YknhCw0td4NQmdUK7b58snXyUvs
-         ot2dTN+sWjCjwc2zxdU0hsBt+nwiQOO+q4pYwng02CVZLhAwhVF8y8GVDfJgEx/wkEnO
-         jS+9GBvVNBCp/b7Wc9DBQ1mYxGmDTzuzU09bQEW06agErAbt+Sql+HV7AtNjagQbbIRB
-         9HBrqdpp5k4YWQx4Qkf04zEdXFYKBgbY6jDRIgdtxfe2JLs55XzA+hh4XdnMVlhI4kqe
-         6LHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757244388; x=1757849188;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aAYNdsBKYi67Oem/jYjGQylTcJt/iir5KzfK7uZa2Os=;
-        b=YZvjiKirrqG8f9abfPADkBhKvu57LZlLIEoaJBoKJRj+0zrsUl5H/A1MKrEpMspRKD
-         u1vPbQDStQJlufj3vBNXZF4sgeiEjS70jw0xAy/q2uF9klh22eYlIrI0ycUu57pZlJJ5
-         bRQaCdKcxZj1Amz0aBo2zGUKqt/kmAiP/J/7DIe7uYEST7BtXR3gCzrULDjmUsYapEpW
-         Nb5DpGf6X2rtyJCcChaAgZt3UAdw4LVQ6/WmnKZWl2cYsEALIK9ae+lanMbYF3+TYejb
-         1fuUtFVzdhnnHhKKojJKpXZkM6z5lTqJNs1h/lfPWfVBRc3/1SOZkYucV49+riMgseAS
-         85tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1VlDke0bWstEJpttiJbVu5Zm7n5qjanB46V/7ozGQsOWnW6D0VkVpu1JiFaDW6qz/H3pLJNjNuobSmfTf@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUgPyujzP6zfaozoySSVtRlvn8HKLxXmrnJgvcOim4qeLDrQSM
-	hSsyZSlJng5kJQwCsi4KMth99cmZC4zfN0rNGLdo/c9AlFDacI39jbrAdQmZoPAs0sw=
-X-Gm-Gg: ASbGncudpBZBEspsbgMDBGdzBz8Kop7EfLcYOFAGpIX4mlFZ20O5xL06XRCHMqlBE2c
-	lLgU/OVCkrOB71+B1tcgY32+1bpP0iOzCiHtbAOIsYqrnntUU/TRD4SuM+2OpT43R7N1+84LOEK
-	PUFr0ExarcCy6lVhkVzXW+xpKN5sm3D5EtqT6asXSYqlmjnlQ3rR5syeOZW81T0w4BGdJ8vBGRM
-	8xDvQdgyGaeTRZunbP2b4CUje0fsL9h4LyZOUKZxE7PpdhWiyrr8DHYgR0AJSnhZOhbsSAVVge+
-	aa8REk7iBP3kPpRYLBm8huOqSz1ACPdebq3qzjBH2/KQyqa91TuMiSn6oob2dRNo6TFuZNH6HZ4
-	U046/d7U346IKtMtJukzYiG9rTkm6yKBD9LzAIg==
-X-Google-Smtp-Source: AGHT+IGH6H0mBFkDQVDcAbYMsb+ulzbOrfFiUgLrXxCyJBe2kwF4x8+y+psKdMwtQ84ERtsBks0g8g==
-X-Received: by 2002:a5d:5847:0:b0:3e5:190b:b04e with SMTP id ffacd0b85a97d-3e64317fdd0mr2511246f8f.37.1757244388066;
-        Sun, 07 Sep 2025 04:26:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e74893acecsm319047f8f.36.2025.09.07.04.26.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Sep 2025 04:26:27 -0700 (PDT)
-Date: Sun, 7 Sep 2025 14:26:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Andreas Kemnade <akemnade@kernel.org>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alistair Francis <alistair@alistair23.me>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Andreas Kemnade <akemnade@kernel.org>
-Subject: Re: [PATCH 3/4] regulator: sy7636a: add gpios and input regulator
-Message-ID: <202509071141.TSai6ltk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2N750GK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757253363; x=1788789363;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aICSzrvEH0u9tNRV+p6XDIGtaLTmzuWISdeYx4X8QhY=;
+  b=M2N750GKEQyl44s7FZn8Lnocy94pRc4ZIs6mV+ylr6K6/FHnaIMWxWeK
+   z3wtMj4yiw6j3OtDkqu8k6BPKq+cQLNaqyaQIBElYk4AE18YWma2d/ZXu
+   PolGw6ccUxR0p+uTDB1/w/fHpjowtup9d3fhtPEQwRzv+5dYL8CSp42zr
+   Sit0SlxooaRO2lTecsUtdFV1RqHX99eaPoZVCUe1KaSTSTkHr5wuuZKwS
+   IFEasytKWaZVYzLvsaQ2xghXQ9cLrwhjjgaTN8QB/bNKbFqnfek9TSzVp
+   UX8/b0in+NvUnfsp2Ek0ZERU48G+t0+oZaCbPfIhwjNPf+WyaORfPCS08
+   A==;
+X-CSE-ConnectionGUID: ytoQDOwJT26hxvBtX+U5YQ==
+X-CSE-MsgGUID: PELtP+eVSWWg8pxnlZ+rzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="59385442"
+X-IronPort-AV: E=Sophos;i="6.18,246,1751266800"; 
+   d="scan'208";a="59385442"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2025 06:56:02 -0700
+X-CSE-ConnectionGUID: +AxI0yVySUuw9TXV5Txp0w==
+X-CSE-MsgGUID: l86w8Fg4RLqxM34vTz3nKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,246,1751266800"; 
+   d="scan'208";a="171755645"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 07 Sep 2025 06:56:02 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uvFs7-0002Hr-1d;
+	Sun, 07 Sep 2025 13:55:59 +0000
+Date: Sun, 7 Sep 2025 21:55:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 18/22] phy: apple: Add Apple Type-C PHY
+Message-ID: <202509072156.F8s3V9JA-lkp@intel.com>
+References: <20250906-atcphy-6-17-v2-18-52c348623ef6@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,105 +62,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250906-sy7636-rsrc-v1-3-e2886a9763a7@kernel.org>
+In-Reply-To: <20250906-atcphy-6-17-v2-18-52c348623ef6@kernel.org>
 
-Hi Andreas,
+Hi Sven,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-mfd-sy7636a-Add-missing-gpio-pins-and-supply/20250906-171133
-base:   1b237f190eb3d36f52dffe07a40b5eb210280e00
-patch link:    https://lore.kernel.org/r/20250906-sy7636-rsrc-v1-3-e2886a9763a7%40kernel.org
-patch subject: [PATCH 3/4] regulator: sy7636a: add gpios and input regulator
-config: x86_64-randconfig-161-20250907 (https://download.01.org/0day-ci/archive/20250907/202509071141.TSai6ltk-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Peter/dt-bindings-usb-Add-Apple-dwc3/20250906-234603
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250906-atcphy-6-17-v2-18-52c348623ef6%40kernel.org
+patch subject: [PATCH v2 18/22] phy: apple: Add Apple Type-C PHY
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250907/202509072156.F8s3V9JA-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509072156.F8s3V9JA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509071141.TSai6ltk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509072156.F8s3V9JA-lkp@intel.com/
 
-smatch warnings:
-drivers/regulator/sy7636a-regulator.c:121 sy7636a_regulator_probe() warn: passing zero to 'PTR_ERR'
+All warnings (new ones prefixed by >>):
 
-vim +/PTR_ERR +121 drivers/regulator/sy7636a-regulator.c
+>> drivers/phy/apple/atc.c:2108:11: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+    2108 |                         return ret;
+         |                                ^~~
+   drivers/phy/apple/atc.c:2086:9: note: initialize the variable 'ret' to silence this warning
+    2086 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
-8c485bedfb7852 Alistair Francis 2021-06-15   77  static int sy7636a_regulator_probe(struct platform_device *pdev)
-8c485bedfb7852 Alistair Francis 2021-06-15   78  {
-cb17820ef71ed7 Alistair Francis 2021-10-15   79  	struct regmap *regmap = dev_get_regmap(pdev->dev.parent, NULL);
-8c485bedfb7852 Alistair Francis 2021-06-15   80  	struct regulator_config config = { };
-8c485bedfb7852 Alistair Francis 2021-06-15   81  	struct regulator_dev *rdev;
-8c485bedfb7852 Alistair Francis 2021-06-15   82  	struct gpio_desc *gdp;
-d38d49b140043b Alistair Francis 2021-08-03   83  	struct sy7636a_data *data;
-8c485bedfb7852 Alistair Francis 2021-06-15   84  	int ret;
-8c485bedfb7852 Alistair Francis 2021-06-15   85  
-27fdd3bbb7a138 Alistair Francis 2021-08-06   86  	if (!regmap)
-8c485bedfb7852 Alistair Francis 2021-06-15   87  		return -EPROBE_DEFER;
-8c485bedfb7852 Alistair Francis 2021-06-15   88  
-07678e530d8eab Andreas Kemnade  2025-09-06   89  	device_set_of_node_from_dev(&pdev->dev, pdev->dev.parent);
-07678e530d8eab Andreas Kemnade  2025-09-06   90  
-07678e530d8eab Andreas Kemnade  2025-09-06   91  	gdp = devm_gpiod_get(&pdev->dev, "epd-pwr-good", GPIOD_IN);
-8c485bedfb7852 Alistair Francis 2021-06-15   92  	if (IS_ERR(gdp)) {
-07678e530d8eab Andreas Kemnade  2025-09-06   93  		dev_err(&pdev->dev, "Power good GPIO fault %ld\n", PTR_ERR(gdp));
-8c485bedfb7852 Alistair Francis 2021-06-15   94  		return PTR_ERR(gdp);
-8c485bedfb7852 Alistair Francis 2021-06-15   95  	}
-8c485bedfb7852 Alistair Francis 2021-06-15   96  
-d38d49b140043b Alistair Francis 2021-08-03   97  	data = devm_kzalloc(&pdev->dev, sizeof(struct sy7636a_data), GFP_KERNEL);
-d38d49b140043b Alistair Francis 2021-08-03   98  	if (!data)
-d38d49b140043b Alistair Francis 2021-08-03   99  		return -ENOMEM;
-d38d49b140043b Alistair Francis 2021-08-03  100  
-27fdd3bbb7a138 Alistair Francis 2021-08-06  101  	data->regmap = regmap;
-d38d49b140043b Alistair Francis 2021-08-03  102  	data->pgood_gpio = gdp;
-d38d49b140043b Alistair Francis 2021-08-03  103  
-327603c2e83590 Andreas Kemnade  2025-09-06  104  	ret = devm_regulator_get_enable_optional(&pdev->dev, "vin");
-327603c2e83590 Andreas Kemnade  2025-09-06  105  	if (ret)
-327603c2e83590 Andreas Kemnade  2025-09-06  106  		return dev_err_probe(&pdev->dev, ret,
-327603c2e83590 Andreas Kemnade  2025-09-06  107  				     "failed to get vin regulator\n");
-327603c2e83590 Andreas Kemnade  2025-09-06  108  
-327603c2e83590 Andreas Kemnade  2025-09-06  109  	data->en_gpio = devm_gpiod_get_optional(&pdev->dev, "en",
-327603c2e83590 Andreas Kemnade  2025-09-06  110  						GPIOD_OUT_HIGH);
-327603c2e83590 Andreas Kemnade  2025-09-06  111  	if (IS_ERR(data->en_gpio))
-327603c2e83590 Andreas Kemnade  2025-09-06  112  		return dev_err_probe(&pdev->dev,
-327603c2e83590 Andreas Kemnade  2025-09-06  113  				     PTR_ERR(data->en_gpio),
-327603c2e83590 Andreas Kemnade  2025-09-06  114  				     "failed to get en gpio\n");
-327603c2e83590 Andreas Kemnade  2025-09-06  115  
-327603c2e83590 Andreas Kemnade  2025-09-06  116  	/* Let VCOM just follow the default power on sequence */
-327603c2e83590 Andreas Kemnade  2025-09-06  117  	data->vcom_en_gpio = devm_gpiod_get_optional(&pdev->dev,
-327603c2e83590 Andreas Kemnade  2025-09-06  118  						     "vcom-en", GPIOD_OUT_LOW);
-327603c2e83590 Andreas Kemnade  2025-09-06  119  	if (IS_ERR(data->vcom_en_gpio))
-327603c2e83590 Andreas Kemnade  2025-09-06  120  		return dev_err_probe(&pdev->dev,
-327603c2e83590 Andreas Kemnade  2025-09-06 @121  				     PTR_ERR(data->en_gpio),
-                                                                                             ^^^^^^^^^^^^^
-s/data->en_gpio/data->vcom_en_gpio/
 
-327603c2e83590 Andreas Kemnade  2025-09-06  122  				     "failed to get en gpio\n");
-327603c2e83590 Andreas Kemnade  2025-09-06  123  
-327603c2e83590 Andreas Kemnade  2025-09-06  124  	if (data->en_gpio)
-327603c2e83590 Andreas Kemnade  2025-09-06  125  		usleep_range(2500, 4000);
-327603c2e83590 Andreas Kemnade  2025-09-06  126  
-d38d49b140043b Alistair Francis 2021-08-03  127  	platform_set_drvdata(pdev, data);
-8c485bedfb7852 Alistair Francis 2021-06-15  128  
-27fdd3bbb7a138 Alistair Francis 2021-08-06  129  	ret = regmap_write(regmap, SY7636A_REG_POWER_ON_DELAY_TIME, 0x0);
-8c485bedfb7852 Alistair Francis 2021-06-15  130  	if (ret) {
-4cafe1aeb5fb4e Alistair Francis 2021-08-03  131  		dev_err(pdev->dev.parent, "Failed to initialize regulator: %d\n", ret);
-8c485bedfb7852 Alistair Francis 2021-06-15  132  		return ret;
-8c485bedfb7852 Alistair Francis 2021-06-15  133  	}
-8c485bedfb7852 Alistair Francis 2021-06-15  134  
-8c485bedfb7852 Alistair Francis 2021-06-15  135  	config.dev = &pdev->dev;
-27fdd3bbb7a138 Alistair Francis 2021-08-06  136  	config.regmap = regmap;
-8c485bedfb7852 Alistair Francis 2021-06-15  137  
-8c485bedfb7852 Alistair Francis 2021-06-15  138  	rdev = devm_regulator_register(&pdev->dev, &desc, &config);
-8c485bedfb7852 Alistair Francis 2021-06-15  139  	if (IS_ERR(rdev)) {
-4cafe1aeb5fb4e Alistair Francis 2021-08-03  140  		dev_err(pdev->dev.parent, "Failed to register %s regulator\n",
-8c485bedfb7852 Alistair Francis 2021-06-15  141  			pdev->name);
-8c485bedfb7852 Alistair Francis 2021-06-15  142  		return PTR_ERR(rdev);
-8c485bedfb7852 Alistair Francis 2021-06-15  143  	}
-8c485bedfb7852 Alistair Francis 2021-06-15  144  
-8c485bedfb7852 Alistair Francis 2021-06-15  145  	return 0;
-8c485bedfb7852 Alistair Francis 2021-06-15  146  }
+vim +/ret +2108 drivers/phy/apple/atc.c
+
+  2083	
+  2084	static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+  2085	{
+  2086		int ret;
+  2087		struct {
+  2088			const char *dt_name;
+  2089			struct apple_tunable **tunable;
+  2090		} tunables[] = {
+  2091			{ "apple,tunable-fuses", &atcphy->tunables.fuses },
+  2092			{ "apple,tunable-axi2af", &atcphy->tunables.axi2af },
+  2093			{ "apple,tunable-common", &atcphy->tunables.common },
+  2094			{ "apple,tunable-lane0-usb", &atcphy->tunables.lane_usb3[0] },
+  2095			{ "apple,tunable-lane1-usb", &atcphy->tunables.lane_usb3[1] },
+  2096			{ "apple,tunable-lane0-cio", &atcphy->tunables.lane_usb4[0] },
+  2097			{ "apple,tunable-lane1-cio", &atcphy->tunables.lane_usb4[1] },
+  2098			{ "apple,tunable-lane0-dp", &atcphy->tunables.lane_displayport[0] },
+  2099			{ "apple,tunable-lane1-dp", &atcphy->tunables.lane_displayport[1] },
+  2100		};
+  2101	
+  2102		for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
+  2103			*tunables[i].tunable =
+  2104				devm_apple_tunable_parse(atcphy->dev, atcphy->np, tunables[i].dt_name);
+  2105			if (IS_ERR(tunables[i].tunable)) {
+  2106				dev_err(atcphy->dev, "Failed to read tunable %s: %ld\n",
+  2107					tunables[i].dt_name, PTR_ERR(tunables[i].tunable));
+> 2108				return ret;
+  2109			}
+  2110		}
+  2111	
+  2112		return 0;
+  2113	}
+  2114	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
