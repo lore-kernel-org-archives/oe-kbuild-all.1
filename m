@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5026C191F84
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 02:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735F21A9F82
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 03:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757211485; cv=none; b=EOuHwkGiLV+CVIhNqTzJXaHm7AZYu3UzZMjHF4mAfl1d+nN2URdDjSmnWuQdKxgn4EurYe+MhUvSqaQU2Pxp6Zq9e7ffCNXBhiHGAEdciswfG/MtLTqmiMr5KGNgRwWl5OVtxofm+EikB//ZV57xgq1AYWJlpZuSQ5hIIjY+gVY=
+	t=1757216590; cv=none; b=lW9D9v2Ck35xikP1L9f3/j9WSlaOoirLQXjCjVBeah1goMunMmXhvX/xezDx3m8/gs5lnJGdM7nU49SFk7yZMfYKErE6CbAV4/pd8+lI9LIZo9y4cQHymKsqY3yQOtLmsIII5Q0e/r+gRhYfovFmBZ4NJMBG9jvDRONvvLKtKv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757211485; c=relaxed/simple;
-	bh=cm4G7KoIwtQuhL6NLnCWALNLTdV6r+4o7J4FRio5OcE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=spHcFX8YIWECnzfS16gzBYI3yFdQU5U2gVjZdCeMNwYenSEOVAi0wifSjd1dy0HJ31n4cjOqp1mV357vNmk6fose9WKXZcfJsx6zwY9v03RfYYEESuY0+NaJr3wSfJRa9tZEMqtjIqH+cQg2uBnk8IOOdTXzTr+WPtZx7X5dH9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYMtPDsW; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1757216590; c=relaxed/simple;
+	bh=EmoIZ6x2JkkGsvZvoJvyjb6Uau4ghlOR3ydbGs4pByE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=P7UW8fpmhyZCdmkp5sFn/1vV60UOIqTfSUHItVqi0yHJ1RXx4hn+M2m4HFvGhLgHBkoEnEVwUeUgUIXGHPUDHqYTtHt/F61gn69muh8AcCveZjngA2eik/gbNW77IoUAkHDckk4bRO0obRxyycqNc5vuaV61gbBFgRkTftv7A/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxWWn7QB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYMtPDsW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxWWn7QB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757211485; x=1788747485;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cm4G7KoIwtQuhL6NLnCWALNLTdV6r+4o7J4FRio5OcE=;
-  b=VYMtPDsW7XZnmNkV+alxrdcLZKfSXhC+grVq3Ffb85V+fECAXEdVdjZ+
-   DKFCVs1TWQn+cd18ax9pUFziBHM/1tP3fWnZ23q7H7QiVFHy5i6KQYieU
-   0MUoYIOjRp1xIkGvrU6ROC+EFOOGF0Ol315U9j5sF89fwmdbz2NOZS0nK
-   o/qp+HYRLi2UwZKufwiDUex9PW4CX88m7EiWbtcDUWSubdDWq2m0RNWbl
-   J3n8UobkXvvM1XQEz+uQXzG/Yx5ecEVTY7AVPd2iOfRq3YDVLoPSkVo0e
-   nvtVdihHPDm53cHcEgtGO3WuU9Hp8cQqwN9DBdGKmbT/4SdgNqQkc75Lq
+  t=1757216590; x=1788752590;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=EmoIZ6x2JkkGsvZvoJvyjb6Uau4ghlOR3ydbGs4pByE=;
+  b=YxWWn7QBg1wYqECLddu9k/3sjxilTml3ClGhIkoFxJY6OehTv8mSPa9d
+   QKEXd0InYbaQOiMkz7qr4s1n6eAYQXrdmDr0wCt3iURNrYib8Zjeg0rnp
+   nBmrnd9VWc+6C4zOs65vQs/aOw4eERQshCP6NpfszeW5HyTD4eo7uXp0t
+   jwuoUvGM77itJNkEWNKK0zBgZXrXs0983w4q3SeiBwW5FEVoWY4379WBg
+   O3HU+IuK8AgxaeFwLllgMiJDDKGAL80arKIfHfnjtVOrYbCgTpXNhY14P
+   3yyujoLSYfjoL7/rgSYZ2fYagHB+2FMRK90b+1AXlm6EsBwc9Ve9Jjlo9
    w==;
-X-CSE-ConnectionGUID: 1+iCdrg5Rn2O6MiD6JpDfA==
-X-CSE-MsgGUID: ZqJ459IxQ36shCexWlef3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="70128570"
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="70128570"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 19:18:01 -0700
-X-CSE-ConnectionGUID: AUCl7j+ySPGIuKkJm/WOLA==
-X-CSE-MsgGUID: yHmN+5CRQtCtt7eHPaszlg==
+X-CSE-ConnectionGUID: 3zSYSrXZQkmBE26XWHm3pQ==
+X-CSE-MsgGUID: sRwr/W4/QxmXdJOdRMKtuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59439270"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59439270"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 20:43:09 -0700
+X-CSE-ConnectionGUID: YTpK7AluRz+xjsgsqk+j0w==
+X-CSE-MsgGUID: PLbBC9T6TCKREzwwP/sYVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="172044037"
+   d="scan'208";a="203434392"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Sep 2025 19:17:59 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 06 Sep 2025 20:43:07 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uv4yb-0001x7-0o;
-	Sun, 07 Sep 2025 02:17:57 +0000
-Date: Sun, 7 Sep 2025 10:17:00 +0800
+	id 1uv6Iy-0001zf-2o;
+	Sun, 07 Sep 2025 03:43:04 +0000
+Date: Sun, 7 Sep 2025 11:42:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@ownmail.net>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 5/6] VFS/audit: introduce kern_path_parent() for audit
-Message-ID: <202509070916.8uBFTDCH-lkp@intel.com>
-References: <20250906050015.3158851-6-neilb@ownmail.net>
+To: GuangFei Luo <luogf2025@163.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ACPI: battery: prevent sysfs_add_battery re-entry on
+ rapid events
+Message-ID: <aLz_Mb2YcWzoUccu@c9fd1d3328ad>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,35 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250906050015.3158851-6-neilb@ownmail.net>
+In-Reply-To: <20250907033925.223849-1-luogf2025@163.com>
 
-Hi NeilBrown,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on pcmoore-audit/next viro-vfs/for-next linus/master v6.17-rc4 next-20250905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/fs-proc-Don-t-look-root-inode-when-creating-self-and-thread-self/20250906-130248
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250906050015.3158851-6-neilb%40ownmail.net
-patch subject: [PATCH 5/6] VFS/audit: introduce kern_path_parent() for audit
-config: x86_64-buildonly-randconfig-001-20250907 (https://download.01.org/0day-ci/archive/20250907/202509070916.8uBFTDCH-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070916.8uBFTDCH-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509070916.8uBFTDCH-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: fs/namei.c:2804 function parameter 'path' not described in 'kern_path_parent'
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] ACPI: battery: prevent sysfs_add_battery re-entry on rapid events
+Link: https://lore.kernel.org/stable/20250907033925.223849-1-luogf2025%40163.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
