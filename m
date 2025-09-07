@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837C0189BB0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 01:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB1F1E487
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Sep 2025 01:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757209999; cv=none; b=fTiizydaf9xMTjZeTR5Uwkk/jOKGHa0pRoLgElrV/llgQL2J6Vr4a0QU1Pqn/EAbxb0w841PEGs9sH8GmCC7YnUrZXeJ27icFF0oAtR/7vbxhUPPfpiV0FeMKRBDWecMHBEIUy+r2yxOiCIYWePGuWsuCC1+N/RLSqaC0IwAwbE=
+	t=1757210221; cv=none; b=cmDWlZ031G1QS1SnwzKElZbLL4NojsdbecEz+LbDM+CYa47uaYKdWcYod1UMSdAQDOIw85GofdvmefLr4U9mskSa2XvIYQHxZAzOGXMII5r/dWjfH76wh/55moPIbtrs90MHRc5twv1ACQz8kH6Skrm03+zgkRrTxPSorvYIB0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757209999; c=relaxed/simple;
-	bh=onua4uGiY8b06S0kaHxtedAho1jMgBQC9N7wPI006h0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZikD6STHLiGM0uJiEMCwk6TtiD/j8fg6XXV5lwGx/TSHK56gU2bvbm9uPaezTC+SoPezRRfmj4kQYWSxIK1eQr7Dqyq/wwKEdQ48ieyK9UiwBWnOqygPpXg2+7uLPL/CKtvBpX1gghSq5EMWbiA9wGru94EBEHv2lgYHXStUE18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcLdwkvJ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1757210221; c=relaxed/simple;
+	bh=4wMOzIRng/aDzFuS8qbTuFQOz2xnDUlDZ4jDRlwCzBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gPqIgp0eUlCB9zh95BulOrO6HQliuhGALVR/SXLpI9FAKhKdfXHKmRK6quR19wckEEWUCVbLpifFMU2gr2yyoRruEQr/rDFgaobS7U1hSvnCgDVb2IOaVXs2P3ew+gGAAgx/rBcTZMFo3QT4o4bF/+Q88Xt6HRZ2adjOGks3/9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9zV1fVj; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcLdwkvJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9zV1fVj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757209997; x=1788745997;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=onua4uGiY8b06S0kaHxtedAho1jMgBQC9N7wPI006h0=;
-  b=mcLdwkvJHhAWD13/xShlualwSIvozY/qtIDi1tOuzdbK2qTQAq/dqzzx
-   SnM+wW6AHh8odeb82a4Z9slqZKAxGw7ZkB/RIyOdLfz6cIL3QN7/byRgZ
-   pIbnhLJCxOFewyfVvDdL3NQu1Wlr3XLzSUNsQLH+DaZC+wn5FwQoDVbN+
-   vDgUujAcv3u0+M8uAlwBkp//rGSNdqB88FNrOsrxWO8UwS8Qq17jGoC+R
-   r0wdeiaZtjZbHwKNcXqkhFlbuhFYiqjR5JKQGE8aD/zABD24KEGpmBCdh
-   vUoE/iAjCNfumZ8PP8OqE4kmaNVe60pKWvWbkmcPenUoq/HvAXArmxL5D
+  t=1757210219; x=1788746219;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4wMOzIRng/aDzFuS8qbTuFQOz2xnDUlDZ4jDRlwCzBY=;
+  b=N9zV1fVjCQ6cPl1SP6OEf9XhTtRRwdAIl4TzABk2zCJNlK/u9yjAgw8e
+   Waacep+3qK6ze5uNxgMMKYerIPvD2Z6/Ul1GnY3zpm7Q/YquKQuOZFgKL
+   ImydbCWHYN5qZkcr/+Gew4JxMVOIYjDx7w3YJaWN0JjbOOoQWr9cNUVYn
+   FSNjU2Uc0mdA8mHuPonoPQB/bYBnfQUpqixFx+cOUzrcTjcA/9pg4ONdz
+   jvtD3W0yH+KzLEhbN8+L200gRyFW7wAqBqyxw3v61QoXSyF/AIunJsgmh
+   cvCoFp+nCCGzjnwO4BRlzEVVsFnAQmZbbLMosqAU/SZC6UC76BqFMAON7
    g==;
-X-CSE-ConnectionGUID: UQ8xmJGXShem0BaEgyaz9A==
-X-CSE-MsgGUID: /iQFbIQoTcyx9S34PFjSTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59578013"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59578013"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 18:53:17 -0700
-X-CSE-ConnectionGUID: Q2ewZRTwQHG7KgS+O9jxHg==
-X-CSE-MsgGUID: rDb0QugRTAqHusgz3nL/jQ==
+X-CSE-ConnectionGUID: K7cbWFEQRcKqnpevpKBvYw==
+X-CSE-MsgGUID: ztu5sHlbSKK0pjBcE/ZorA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="63337377"
+X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
+   d="scan'208";a="63337377"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 18:56:59 -0700
+X-CSE-ConnectionGUID: YMzh7tlUTkiNBnnCCN/FdQ==
+X-CSE-MsgGUID: TbKhXoR2RR2PiKbTPb5glQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="172030905"
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Sep 2025 18:53:15 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+   d="scan'208";a="172398269"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Sep 2025 18:56:57 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uv4af-0004GZ-0n;
-	Sun, 07 Sep 2025 01:53:13 +0000
-Date: Sun, 7 Sep 2025 03:52:33 +0200
+	id 1uv4eF-0001wF-0A;
+	Sun, 07 Sep 2025 01:56:55 +0000
+Date: Sun, 7 Sep 2025 09:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [groeck-staging:hwmon-next 37/37] htmldocs:
- Documentation/hwmon/hwmon-kernel-api.rst:291: WARNING: Inline emphasis
- start-string without end-string. [docutils]
-Message-ID: <202509070312.GIIw6No7-lkp@intel.com>
+To: Fidal Palamparambil <rootuserhere@gmail.com>,
+	linux-modules@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mcgrof@kernel.org, petr.pavlu@suse.com,
+	da.gomez@kernel.org, samitolvanen@google.com,
+	linux-kernel@vger.kernel.org,
+	Fidal palamparambil <rootuserhere@gmail.com>
+Subject: Re: [PATCH] tracing: Fix multiple issues in trace_printk module
+ handling
+Message-ID: <202509070951.9KQcO9l6-lkp@intel.com>
+References: <20250906134148.55-1-rootuserhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +67,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250906134148.55-1-rootuserhere@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   3c56a8e682e94ee9ac48c1fb2153becb861c0f7d
-commit: a2d68a9f51c27051c4b84990ffbd2531a6024389 [37/37] hwmon: Introduce 64-bit energy attribute support
-reproduce: (https://download.01.org/0day-ci/archive/20250907/202509070312.GIIw6No7-lkp@intel.com/reproduce)
+Hi Fidal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v6.17-rc4 next-20250905]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fidal-Palamparambil/tracing-Fix-multiple-issues-in-trace_printk-module-handling/20250906-214415
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20250906134148.55-1-rootuserhere%40gmail.com
+patch subject: [PATCH] tracing: Fix multiple issues in trace_printk module handling
+config: x86_64-buildonly-randconfig-001-20250907 (https://download.01.org/0day-ci/archive/20250907/202509070951.9KQcO9l6-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070951.9KQcO9l6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509070312.GIIw6No7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509070951.9KQcO9l6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
-   ERROR: Cannot find file ./include/linux/hid_bpf.h
-   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
-   ERROR: Cannot find file ./include/linux/hid.h
-   WARNING: No kernel-doc for file ./include/linux/hid.h
->> Documentation/hwmon/hwmon-kernel-api.rst:291: WARNING: Inline emphasis start-string without end-string. [docutils]
-   ERROR: Cannot find file ./include/linux/i2c-atr.h
-   WARNING: No kernel-doc for file ./include/linux/i2c-atr.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   kernel/trace/trace_printk.c: In function 'init_trace_printk_function_export':
+>> kernel/trace/trace_printk.c:388:16: warning: assignment to 'struct dentry *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     388 |         dentry = tracing_init_dentry();
+         |                ^
 
 
-vim +291 Documentation/hwmon/hwmon-kernel-api.rst
+vim +388 kernel/trace/trace_printk.c
 
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  274  
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  275  	int read_func(struct device *dev, enum hwmon_sensor_types type,
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  276  		      u32 attr, int channel, long *val)
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  277  
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  278  Parameters:
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  279  	dev:
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  280  		Pointer to the hardware monitoring device.
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  281  	type:
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  282  		The sensor type.
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  283  	attr:
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  284  		Attribute identifier associated with a specific attribute.
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  285  		For example, the attribute value for HWMON_T_INPUT would be
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  286  		hwmon_temp_input. For complete mappings please see
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  287  		include/linux/hwmon.h.
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  288  	channel:
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  289  		The sensor channel number.
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17  290  	val:
-b04f2f7d387b31 Documentation/hwmon/hwmon-kernel-api.txt Mauro Carvalho Chehab 2019-04-17 @291  		Pointer to attribute value.
-a2d68a9f51c270 Documentation/hwmon/hwmon-kernel-api.rst Guenter Roeck         2024-08-28  292  		For hwmon_energy64, 'val' is passed as long * but needs
-a2d68a9f51c270 Documentation/hwmon/hwmon-kernel-api.rst Guenter Roeck         2024-08-28  293  		a typecast to s64 *.
-bf7153fd2c6f70 Documentation/hwmon/hwmon-kernel-api.txt Guenter Roeck         2016-06-23  294  
-
-:::::: The code at line 291 was first introduced by commit
-:::::: b04f2f7d387b3160883c2a1f5e2285483a791e82 docs: hwmon: convert remaining files to ReST format
-
-:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-:::::: CC: Guenter Roeck <linux@roeck-us.net>
+   383	
+   384	static __init int init_trace_printk_function_export(void)
+   385	{
+   386		struct dentry *dentry;
+   387	
+ > 388		dentry = tracing_init_dentry();
+   389		if (IS_ERR(dentry))
+   390			return 0;
+   391	
+   392		trace_create_file("printk_formats", TRACE_MODE_READ, NULL,
+   393					    NULL, &ftrace_formats_fops);
+   394	
+   395		return 0;
+   396	}
+   397	
 
 -- 
 0-DAY CI Kernel Test Service
