@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D48028E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 21:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15A82E8B6B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 22:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757367963; cv=none; b=qeOwdE63rzJUAbD6Zz98kAAjNQPh9M9IMAE5Kfcz1W/uq1pUfDtcUlnULCJpaZF9j+rfZd2ZnTFWOiDIim59410Szlhzf3g+nIKhjQ/Kd1cT+Gn7YS+hq3m8QX1OYPmIRmlxVN5LFxv/wqIrzoq2c1D5BWr8madROqqGe0lZ4mg=
+	t=1757371098; cv=none; b=gTDvdHvL9IKtUDCfQeyCeM5MuHhTHHXPwbSDLo6ciumBkuk/dmRgBmPPWdODWvv7S2prT0qlaIDrMQs+RxDJfBHb6WnWsFYEtCjbcUZncMy6v1zHVsOApudpBJ7v3PXzQYaXCbodIB/49EKZlgtlBm/FjQ2fk6IFsV4luP8fk6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757367963; c=relaxed/simple;
-	bh=+VBdwy5swQiE4wpXOskzg09ZHpNQB8sM4PKTKvC0OVY=;
+	s=arc-20240116; t=1757371098; c=relaxed/simple;
+	bh=9vLu5kM6XogXTNmH1b/2/0MOQStQEypo2sphvZPsh6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qEQdfqnDIFLyOay0bw0rKlEkdgYnrlJuVgVV02cNivK7jBp7V/yN0zxBy875B5zO4Wp7unnnr4ntGzUzUTiTcTBSsioDssfG1w/3JdKGfXva6bizQJnTFYRS1gYB5NgiMaDnnb2nieOIZgOfGF0sobDaQ/9oK3IAdQUkZhOvri4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBy2TpJl; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=bCNyFMze9g5z0tygE04gQyTF1ADCzG8jeLGFxyY6wSAWEgDCjg7Kfvxv5sr4DrWCz3MrsKzhUxXYG/llc8fqARnF7XeMcz44+efnqRJ1qc8GYSNbykFsSH6TFzXKekQ1/f4FzSxzmtTUuixc7EDjDAiGWw1N3i9TZr0uuYSZLTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbEfM96T; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBy2TpJl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbEfM96T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757367961; x=1788903961;
+  t=1757371097; x=1788907097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+VBdwy5swQiE4wpXOskzg09ZHpNQB8sM4PKTKvC0OVY=;
-  b=EBy2TpJlXZwKtUd0iY0/tuEm1okwOTdXHqnj+L68ZBo5kZegrQkkHe0s
-   McJriq6qZmGTc6ufeaPwt7cb7wWabLBAqv3Ca30sYgRTwOh2W3vVp/1ZE
-   euiCtcDCmy7CVZxjRL9qlI8qehxf6WNMMJoMb9026etsZmww/SC7AoLy+
-   H3aZeocjD1CgKVLcLXBaUotYtns5z/7XmZjKelfE1mX2+uGV0oLYVqxTa
-   XlplqTCVuA8/Sfj9t3qzK+Y3RWqbk9O2/GJ1yb0Y5SRoPO10DnBTjO/s9
-   7+TZ8C6FI43rvrxUWD48uBIBI4FSAMVptOcMjuGaQE2tB7c83yeex3mZq
-   g==;
-X-CSE-ConnectionGUID: aosG9U1aRN+9vF6PXuJWtw==
-X-CSE-MsgGUID: kxl/eu6oTwmPg/dp258FwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59578183"
+  bh=9vLu5kM6XogXTNmH1b/2/0MOQStQEypo2sphvZPsh6k=;
+  b=nbEfM96TJZSROu6Bycf/k+DpiEnaaz3C5CDniwyMPJuE8+HyqK/Solyn
+   L8JgB8FLjvM06nOCr3KmG3P1hV+794r0FJfSUXOrUAVoi+jSvhX0zfn9w
+   X42oLlK1fJq/GtOYhZGSKZMvQh0OvHUrqahciVDu++F021UkKOqzCuFRz
+   mMi+axt7fWoktAubMgmwwBxZ83y9MM6Kfnt4umygclNIf1pNqfH0IY23X
+   SD/sfks3BT51YCwMSFdrTcjoUWeUoKMn0Jn6iUnvRmsVhWpRs0cRVx8+u
+   wrT08gckZNampZIC/J1zupL33fSsAXr9BQw8iMnjLNjO0yQpWKXHYANP5
+   Q==;
+X-CSE-ConnectionGUID: U1tqdn65QEesyqLW+M8CSA==
+X-CSE-MsgGUID: +lKPIX/RQP2pFuEWD3MeDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="69897711"
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="59578183"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 14:46:00 -0700
-X-CSE-ConnectionGUID: d8h1oU5dSZKxPF8kDlHv6g==
-X-CSE-MsgGUID: LASpCzXcQca59DYWHwsgLw==
+   d="scan'208";a="69897711"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 15:38:04 -0700
+X-CSE-ConnectionGUID: Cc8+LS8+SYWc/2wvItRIBg==
+X-CSE-MsgGUID: DvGaHWzKRFGQBubgLvEr2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="203684955"
+   d="scan'208";a="172494624"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Sep 2025 14:45:58 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 08 Sep 2025 15:38:02 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvjgS-0004BP-1a;
-	Mon, 08 Sep 2025 21:45:56 +0000
-Date: Tue, 9 Sep 2025 05:45:38 +0800
+	id 1uvkUq-0004Ct-2a;
+	Mon, 08 Sep 2025 22:38:00 +0000
+Date: Tue, 9 Sep 2025 06:37:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: [linux-next:master 6487/7110]
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse: sparse:
- incompatible types in comparison expression (different address spaces):
-Message-ID: <202509090529.Ftjikm1G-lkp@intel.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+Message-ID: <202509090625.upufh3AF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,45 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3e8e5822146bc396d2a7e5fbb7be13271665522a
-commit: 276e8beb2a0c390fdac8f11bb58d9fdf95a6d538 [6487/7110] drm/amdgpu/userq: add force completion helpers
-config: arc-randconfig-r123-20250908 (https://download.01.org/0day-ci/archive/20250909/202509090529.Ftjikm1G-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250909/202509090529.Ftjikm1G-lkp@intel.com/reproduce)
+Hi Darrick,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f777d1112ee597d7f7dd3ca232220873a34ad0c8
+commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
+date:   10 months ago
+config: arm-randconfig-r111-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090625.upufh3AF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250909/202509090625.upufh3AF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509090529.Ftjikm1G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090625.upufh3AF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:434:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse:    struct dma_fence [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse:    struct dma_fence *
+All errors (new ones prefixed by >>):
 
-vim +429 drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/semaphore.h:11,
+                    from fs/xfs/xfs_linux.h:24,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/xfs_super.c:7:
+   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
+      10 |  static_assert(sizeof(structname) == (size), \
+         |  ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:133:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     133 |  XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,  3);
+         |  ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
+      10 |  static_assert(sizeof(structname) == (size), \
+         |  ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:136:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     136 |  XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused, 6);
+         |  ^~~~~~~~~~~~~~~~~~~~~
 
-   418	
-   419	static void
-   420	amdgpu_userq_fence_driver_set_error(struct amdgpu_userq_fence *fence,
-   421					    int error)
-   422	{
-   423		struct amdgpu_userq_fence_driver *fence_drv = fence->fence_drv;
-   424		unsigned long flags;
-   425		struct dma_fence *f;
-   426	
-   427		spin_lock_irqsave(&fence_drv->fence_list_lock, flags);
-   428	
- > 429		f = rcu_dereference_protected(&fence->base,
-   430					      lockdep_is_held(&fence_drv->fence_list_lock));
-   431		if (f && !dma_fence_is_signaled_locked(f))
-   432			dma_fence_set_error(f, error);
-   433		spin_unlock_irqrestore(&fence_drv->fence_list_lock, flags);
-   434	}
-   435	
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
