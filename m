@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853872F7AA8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 11:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5C036124;
+	Mon,  8 Sep 2025 12:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757329892; cv=none; b=BDnFWMpqKR8JSuMbon8tjr3OBFDbyorSvd4dL8rYdhB05oT8bThunOR0StcosN2P9ApsbYEAqpfOjDRkRyM0vip0c3DeuxYg/ZA7Kyat1wC0oQfU32d5qjGz/gL2JXhoRe1FYyJWHdHtWt+D8GxmdfBCIC6UelyUdlcMxs4o3YQ=
+	t=1757334967; cv=none; b=Oyq0KTIS8Z+UxGLx3uiRvUDkvfQZEp1jKyDs2dxTpJtHujZRGugIwk+BMcADrJYVcIBwZ74WIT3cUk4yR4ip2ol5aAQktFv3PUKTivcjqUJy7XNWfiVCp4VJPb2WfkShiNveCCPb+4jZoZpu9UyEg1wxfBk3sMvIOLvBDSvigN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757329892; c=relaxed/simple;
-	bh=YKxz8hwWeDwaCafpl49+pOGiJDVL/k2+YeQ2QeYmbfg=;
+	s=arc-20240116; t=1757334967; c=relaxed/simple;
+	bh=e91ydkKqN3yDahSlGseGuJ1qgbBBc+4MO6R4jQpZaho=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lUUHOjo1WKu6a5RhF8a9rtdyMQRxfkx9+3iJl2HApK1M+WaM8nyH/+zUr7aobWfN6gLIZn6sluGXJ0vCyXTAwHc7xD/apND4ursMEfYWlLM4V2Ods1uryoJxKyXrSZnRXNyF34opZ9xQtrl/nMji4BAKTFDJwV2PN0lgRCKGr9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+KbvJyh; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=m0XvDFrH6IoO5TnCwT1qqxu9EzL2+t66oWmIwf8yZX6tcGMXosHoodxXYPEGl2JA7dYSpDMGQgt5tDT3SPp8rcDbfvivKuqdwaabiogfZ+0GzDjlJ/QROIA9flDuUoeNUwc3VpAPVQ1Ba/A3nAYQfeMFQYNs30B3Z9CtJ8R+9IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1bDz/YO; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+KbvJyh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1bDz/YO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757329891; x=1788865891;
+  t=1757334966; x=1788870966;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YKxz8hwWeDwaCafpl49+pOGiJDVL/k2+YeQ2QeYmbfg=;
-  b=g+KbvJyhkYxZdrdHrkLfxsz5/98oaz4kI6eOzLZy166uWFMKPRK8QEm/
-   SZFB3acqGGRNlKvC6+m75dGxQZC6/0ITJLhrtYOQk+QXAVKsQRrvPIoax
-   sot423FectYOHQaewSdndoktUanqQ+rZMojRI6veaqdijYUTdpTPz2SKJ
-   KTb7nSBAlimKwcKXZsAbF5Jd4gkiCo5JEdx2G1lIDfrd5AOyMXcbs1TLI
-   VBP+Hq/WO7hSMlIxwR1+gUFeKLDGK3SWonsruu5d2J3VEgbtEdboJ1sca
-   tdW0t75h3ah3boyb+fHmDq6ca9WBftxUMkRCRX8oRG/2ZVfBGsG8Iox+9
-   w==;
-X-CSE-ConnectionGUID: fDyJVCCDS1aTWzxo0OnvxA==
-X-CSE-MsgGUID: aVm91G19QbmxyUlacIUuDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="59692501"
+  bh=e91ydkKqN3yDahSlGseGuJ1qgbBBc+4MO6R4jQpZaho=;
+  b=M1bDz/YOl1r6P1JqMwcCZPQXeWq5+mqHUBrGLHnfRcAStz+8kc2usji6
+   pcI08mKToDW7jfIHukAnfnh57aGwHOP4iGIO4vaoiij+VvND/jcOcqvIW
+   zWnYSLi89NCpp1ZTy5CC72Qr7A/NxHyTzt3UWPa48dELOXXEiLvhHsPxc
+   6XTse0VLL4LEeY8x0RD/h7QiDqeplrSZqsbIpQATX3FWy2P3i0jXFKItz
+   acEso68STXOa/E5MpYelI4wkdjAOhekf4IS08CKOmPN/LSZRWcV3erMXM
+   D8uMb9hMHqLzx7Hy22nMnNWuv3yiqHJfJkxhfsl7PbO42TVEOG7V+XDsP
+   g==;
+X-CSE-ConnectionGUID: Twmlbp/ERmycf3eyF+8/Cg==
+X-CSE-MsgGUID: cNYKDbP0QLedWQSivdvQ4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="59736350"
 X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; 
-   d="scan'208";a="59692501"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 04:11:29 -0700
-X-CSE-ConnectionGUID: qWvMJAusSxuVgxvEKwzwpw==
-X-CSE-MsgGUID: bGxwBTUqRVKyCOxUX0fXyQ==
+   d="scan'208";a="59736350"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 05:36:05 -0700
+X-CSE-ConnectionGUID: jjiAbA9ZQj+vcKQrZL2JiA==
+X-CSE-MsgGUID: Or6Ds1YsSSGuhtJJJyUYTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; 
-   d="scan'208";a="172027837"
+   d="scan'208";a="203749615"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Sep 2025 04:11:27 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Sep 2025 05:36:03 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvZmO-0003kt-37;
-	Mon, 08 Sep 2025 11:11:24 +0000
-Date: Mon, 8 Sep 2025 19:11:12 +0800
+	id 1uvb6H-0003ob-1l;
+	Mon, 08 Sep 2025 12:36:01 +0000
+Date: Mon, 8 Sep 2025 20:35:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, ZhaoLong Wang <wangzhaolong1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2866/2866] ld.lld: error: undefined symbol:
- trace_event_buffer_reserve
-Message-ID: <202509081908.rkRF0I49-lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 118/128] mm/damon/tests/core-kunit.h:453:2: warning:
+ unannotated fall-through between switch labels
+Message-ID: <202509082042.24Nb5PCp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   00fccee10860a6b522c55bd4b2f4b40d349c2b52
-commit: 1119ec49ac4ac643e6d7c9a5a834040aef87612e [2866/2866] mm, fs: Add BPF_READAHEAD build option for bpf readhead
-config: x86_64-buildonly-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20250908/202509081908.rkRF0I49-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   387bf1dec467127e728b28dc7624723d7df2813c
+commit: d53726dd7bd14e94f2c46a842c8c45c2231090b7 [118/128] mm/damon/tests/core-kunit: split out damos_test_commit_quota_goal()
+config: i386-buildonly-randconfig-006-20250908 (https://download.01.org/0day-ci/archive/20250908/202509082042.24Nb5PCp-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250908/202509081908.rkRF0I49-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250908/202509082042.24Nb5PCp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509081908.rkRF0I49-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509082042.24Nb5PCp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: trace_event_buffer_reserve
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_initcall_level)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_initcall_start)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_initcall_finish)
-   >>> referenced 823 more times
---
->> ld.lld: error: undefined symbol: trace_event_buffer_commit
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_initcall_level)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_initcall_start)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_initcall_finish)
-   >>> referenced 823 more times
---
->> ld.lld: error: undefined symbol: trace_print_bitmask_seq
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_ipi_raise)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_ipi_send_cpumask)
---
->> ld.lld: error: undefined symbol: trace_output_call
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_pm_qos_update_flags)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_802154_rdev_set_short_addr)
---
->> ld.lld: error: undefined symbol: blk_fill_rwbs
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_block_rq_requeue)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(perf_trace_block_rq_requeue)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_event_raw_event_block_rq_completion)
-   >>> referenced 13 more times
---
->> ld.lld: error: undefined symbol: trace_print_hex_seq
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_host1x_cdma_push_gather)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_regmap_bulk)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_scsi_dispatch_cmd_start)
-   >>> referenced 9 more times
---
->> ld.lld: error: undefined symbol: __tracepoint_devres_log
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(add_dr)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(devres_remove)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(devres_release_all)
-   >>> referenced 15 more times
---
->> ld.lld: error: undefined symbol: __SCT__tp_func_devres_log
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(add_dr)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(devres_remove)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(devres_release_all)
-   >>> referenced 6 more times
---
->> ld.lld: error: undefined symbol: nvme_trace_disk_name
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_nvme_setup_cmd)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_nvme_complete_rq)
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_nvme_sq)
---
->> ld.lld: error: undefined symbol: nvme_trace_parse_fabrics_cmd
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_nvme_setup_cmd)
---
->> ld.lld: error: undefined symbol: nvme_trace_parse_nvm_cmd
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(trace_raw_output_nvme_setup_cmd)
-..
+   In file included from mm/damon/core.c:3156:
+>> mm/damon/tests/core-kunit.h:453:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     453 |         default:
+         |         ^
+   mm/damon/tests/core-kunit.h:453:2: note: insert 'break;' to avoid fall-through
+     453 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
+
+vim +453 mm/damon/tests/core-kunit.h
+
+   437	
+   438	static void damos_test_commit_quota_goal_ensure_committed(struct kunit *test,
+   439			struct damos_quota_goal *dst, struct damos_quota_goal *src,
+   440			u64 last_psi_total)
+   441	{
+   442		struct damos_quota_goal dst_cp, src_cp;
+   443	
+   444		KUNIT_EXPECT_EQ(test, dst->metric, src->metric);
+   445		KUNIT_EXPECT_EQ(test, dst->target_value, src->target_value);
+   446		KUNIT_EXPECT_EQ(test, dst->current_value, src->current_value);
+   447		/* last_psi_total is not updated */
+   448		KUNIT_EXPECT_EQ(test, dst->last_psi_total, last_psi_total);
+   449		switch (dst->metric) {
+   450		case DAMOS_QUOTA_NODE_MEM_USED_BP:
+   451		case DAMOS_QUOTA_NODE_MEM_FREE_BP:
+   452			KUNIT_EXPECT_EQ(test, dst->nid, src->nid);
+ > 453		default:
+   454			break;
+   455		}
+   456	
+   457		/* further check entire bits */
+   458		memcpy(&dst_cp, dst, sizeof(dst_cp));
+   459		memcpy(&src_cp, src, sizeof(src_cp));
+   460		dst_cp.list = src_cp.list;
+   461		dst_cp.last_psi_total = src_cp.last_psi_total;
+   462		dst_cp.nid = src_cp.nid;
+   463		dst_cp.memcg_id = src_cp.memcg_id;
+   464	
+   465		KUNIT_EXPECT_EQ(test, memcmp(&dst_cp, &src_cp, sizeof(dst_cp)), 0);
+   466	}
+   467	
 
 -- 
 0-DAY CI Kernel Test Service
