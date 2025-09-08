@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15A82E8B6B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 22:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34151EB5CE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 22:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757371098; cv=none; b=gTDvdHvL9IKtUDCfQeyCeM5MuHhTHHXPwbSDLo6ciumBkuk/dmRgBmPPWdODWvv7S2prT0qlaIDrMQs+RxDJfBHb6WnWsFYEtCjbcUZncMy6v1zHVsOApudpBJ7v3PXzQYaXCbodIB/49EKZlgtlBm/FjQ2fk6IFsV4luP8fk6k=
+	t=1757371747; cv=none; b=dbJTHfwSqCqs2BwS8mZ+hmipsPmerF4NyWQgS3ft1fDOORX7GSrNSXPSt5ecf56CTXgeoT5FIyfCDF5l2Sb3BUGK1LEGkuKQ+/Lx0frpAH64GzWIBJ51qSUvbasMrl40iSvh9bwj42bc7FJfh9P0HqQlGfaOrG8KWPlt29lb4FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757371098; c=relaxed/simple;
-	bh=9vLu5kM6XogXTNmH1b/2/0MOQStQEypo2sphvZPsh6k=;
+	s=arc-20240116; t=1757371747; c=relaxed/simple;
+	bh=OkCePolY7cDGgdqNxAbs/WJT/52i6H2FhBNbFIBYrM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bCNyFMze9g5z0tygE04gQyTF1ADCzG8jeLGFxyY6wSAWEgDCjg7Kfvxv5sr4DrWCz3MrsKzhUxXYG/llc8fqARnF7XeMcz44+efnqRJ1qc8GYSNbykFsSH6TFzXKekQ1/f4FzSxzmtTUuixc7EDjDAiGWw1N3i9TZr0uuYSZLTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbEfM96T; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=aOickl96pPLYnpFpWP4mb3yac2aDLLRmzvM3oRfLZYqLisTUMU7ip+ASNAiQicwHcuolH2j2gVB2JmHMSGo2mZzXUMfxsKZxn9vT3WJ+1wAWWL1D4dIxY1cbiBc0tXOKUIpFNa4ctOTuOVK2AJWu7Ez5KQngFcSO2PYnOIuCAa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USjzCSE6; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbEfM96T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USjzCSE6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757371097; x=1788907097;
+  t=1757371746; x=1788907746;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9vLu5kM6XogXTNmH1b/2/0MOQStQEypo2sphvZPsh6k=;
-  b=nbEfM96TJZSROu6Bycf/k+DpiEnaaz3C5CDniwyMPJuE8+HyqK/Solyn
-   L8JgB8FLjvM06nOCr3KmG3P1hV+794r0FJfSUXOrUAVoi+jSvhX0zfn9w
-   X42oLlK1fJq/GtOYhZGSKZMvQh0OvHUrqahciVDu++F021UkKOqzCuFRz
-   mMi+axt7fWoktAubMgmwwBxZ83y9MM6Kfnt4umygclNIf1pNqfH0IY23X
-   SD/sfks3BT51YCwMSFdrTcjoUWeUoKMn0Jn6iUnvRmsVhWpRs0cRVx8+u
-   wrT08gckZNampZIC/J1zupL33fSsAXr9BQw8iMnjLNjO0yQpWKXHYANP5
-   Q==;
-X-CSE-ConnectionGUID: U1tqdn65QEesyqLW+M8CSA==
-X-CSE-MsgGUID: +lKPIX/RQP2pFuEWD3MeDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="69897711"
+  bh=OkCePolY7cDGgdqNxAbs/WJT/52i6H2FhBNbFIBYrM0=;
+  b=USjzCSE6IjIv5Iyl+CRJTjQoUGMtUWfXsArWcDpHcaSe7HfGddy5B6cV
+   z7kOOnxAfDJK+RwTn7EVnPTSRHdQjM8/bply2ItUtpwk6BE9SAnIGoo1P
+   n6pX3UCXB5x9xrkk8w7CTinE09ReRpPqrRxdS3DKSpICwH2cuno4jATxi
+   OoTUtMYiWI23H4INLu5JFURWhgiY0QjOPmmJE/EQ9fqm8ubtv2gN2moYB
+   tSk5XmNhwGCvlMpZ6/wugZFz1B4zNUwOl5M46GvAJ6d2VtAmGy4MtQNfT
+   +gEbXEWOAtHcj2yPq0j7r1Yzoc5MhSVKOq3iuYDLF7NjHOL8/zYhG0moH
+   g==;
+X-CSE-ConnectionGUID: DsJPcV+bQNCfkuaxj7vomQ==
+X-CSE-MsgGUID: ZwTqY3EmQCe0K5HFMKBfaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="70263415"
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="69897711"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 15:38:04 -0700
-X-CSE-ConnectionGUID: Cc8+LS8+SYWc/2wvItRIBg==
-X-CSE-MsgGUID: DvGaHWzKRFGQBubgLvEr2g==
+   d="scan'208";a="70263415"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 15:49:05 -0700
+X-CSE-ConnectionGUID: GwM3MuFeSgy63kMLRKY6fg==
+X-CSE-MsgGUID: 5colQc8fRuq7YtvESl4UFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="172494624"
+   d="scan'208";a="173390149"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Sep 2025 15:38:02 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2025 15:49:04 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvkUq-0004Ct-2a;
-	Mon, 08 Sep 2025 22:38:00 +0000
-Date: Tue, 9 Sep 2025 06:37:59 +0800
+	id 1uvkfV-0004DP-2q;
+	Mon, 08 Sep 2025 22:49:01 +0000
+Date: Tue, 9 Sep 2025 06:48:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-Message-ID: <202509090625.upufh3AF-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org, Zihuan Zhang <zhangzihuan@kylinos.cn>
+Subject: [rafael-pm:bleeding-edge 97/99]
+ drivers/cpufreq/intel_pstate.c:1682:70: error: 'cpunum' undeclared
+Message-ID: <202509090605.9U0N21IK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +63,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Darrick,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f777d1112ee597d7f7dd3ca232220873a34ad0c8
-commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
-date:   10 months ago
-config: arm-randconfig-r111-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090625.upufh3AF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250909/202509090625.upufh3AF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   f201aa3fccf8e14001fba263e82af41c881498f9
+commit: dd08703a10a122a3018e2e4f43d693fffe3120aa [97/99] cpufreq: intel_pstate: Rearrange freq QoS updates using __free()
+config: x86_64-buildonly-randconfig-003-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090605.9U0N21IK-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090605.9U0N21IK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509090625.upufh3AF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090605.9U0N21IK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from fs/xfs/xfs_linux.h:24,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
-      10 |  static_assert(sizeof(structname) == (size), \
-         |  ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:133:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     133 |  XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,  3);
-         |  ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
-      10 |  static_assert(sizeof(structname) == (size), \
-         |  ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:136:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     136 |  XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused, 6);
-         |  ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from include/linux/kernel.h:23,
+                    from drivers/cpufreq/intel_pstate.c:11:
+   drivers/cpufreq/intel_pstate.c: In function 'update_cpu_qos_request':
+>> drivers/cpufreq/intel_pstate.c:1682:70: error: 'cpunum' undeclared (first use in this function)
+    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
+         |                                                                      ^~~~~~
+   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/cpufreq/intel_pstate.c:1682:17: note: in expansion of macro 'pr_warn'
+    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
+         |                 ^~~~~~~
+   drivers/cpufreq/intel_pstate.c:1682:70: note: each undeclared identifier is reported only once for each function it appears in
+    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
+         |                                                                      ^~~~~~
+   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/cpufreq/intel_pstate.c:1682:17: note: in expansion of macro 'pr_warn'
+    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
+         |                 ^~~~~~~
 
 
-vim +78 include/linux/build_bug.h
+vim +/cpunum +1682 drivers/cpufreq/intel_pstate.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  1654	
+  1655	static void update_cpu_qos_request(int cpu, enum freq_qos_req_type type)
+  1656	{
+  1657		struct cpudata *cpudata = all_cpu_data[cpu];
+  1658		struct freq_qos_request *req;
+  1659		unsigned int freq, perf_pct;
+  1660	
+  1661		struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(cpu);
+  1662		if (!policy)
+  1663			return;
+  1664	
+  1665		req = policy->driver_data;
+  1666		if (!req)
+  1667			return;
+  1668	
+  1669		if (hwp_active)
+  1670			intel_pstate_get_hwp_cap(cpudata);
+  1671	
+  1672		if (type == FREQ_QOS_MIN) {
+  1673			perf_pct = global.min_perf_pct;
+  1674		} else {
+  1675			req++;
+  1676			perf_pct = global.max_perf_pct;
+  1677		}
+  1678	
+  1679		freq = DIV_ROUND_UP(cpudata->pstate.turbo_freq * perf_pct, 100);
+  1680	
+  1681		if (freq_qos_update_request(req, freq) < 0)
+> 1682			pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
+  1683	}
+  1684	
 
 -- 
 0-DAY CI Kernel Test Service
