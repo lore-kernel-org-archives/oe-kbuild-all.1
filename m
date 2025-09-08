@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45E12F0C6C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 16:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2A830F7EA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 16:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757348416; cv=none; b=HSGNtYkIglzdPE+gMc4KPFtYKw/ccMU84Qs7wgWdVTbYpdVtFqMcdAIlDwYvJ/fEUGAIUQ+V/XFM7SHcVrQAqD54MY1Pr3MUbHsnm3469Qb+R9KDXd8j7alWWY5fagnYAdk+fnQ7S+9aedaSlRYdzZxXaeMmHQceINbdbnOLz+c=
+	t=1757349077; cv=none; b=B3jdjRh/p0Y/o5sLhIZb4V68MDhdRmuN1C5DD3MWlX2UzLNtrQZ+iYwOlweLHhH1wYfb0iK9UJQr+a7jHCCKtdX2rnqw/YGbjgpquc9NWTbdlNp2lOR00Yn9jP1jaFaRk7eektDsd999f9kfQI+UUEHYwMhpFs5EVs1qihXvOA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757348416; c=relaxed/simple;
-	bh=A3wOVSJJb2+aMWJSL1L4euYQwJIajJcx4igK14YeKyw=;
+	s=arc-20240116; t=1757349077; c=relaxed/simple;
+	bh=GYWfhtbvBIlMo6yBD6BpHZWN5TeYLuLnwmFplHTqVAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D6GfdHE15AxR0PIQIL2gbwkRidADCDrWsdEyPfXNNIaZbYQk6a0PQl9T4VnrAis+Nh65mfZ7o0EUUBSJZ4B+D4wVOknUho958RbhAC8Rr1KTBhYPU0PvBBJiJJEqx0b+ius1MQ4YFEAaRTaANkxI9V+EDs3rkDyZtDmwHPkWJB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFLSwOWx; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=IQxvvL2pEZRJx3P3WPRzN8xwV7qsCr9VxfzMlwWRX3+C5sWc4IWufOoaApojYq1WPid3kNgNERTYxTh0j1DSw1mDXpFX9nOM5trS6pUO7Q0jKUpsV2QetZj2f8DHbrlbyG34TjE0MGXbR9gKXKfp6ApSP1jTvO6cgQpLN6R7jyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npw3yk/A; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFLSwOWx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npw3yk/A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757348414; x=1788884414;
+  t=1757349076; x=1788885076;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A3wOVSJJb2+aMWJSL1L4euYQwJIajJcx4igK14YeKyw=;
-  b=hFLSwOWxOC0xVen4Vo7o6nVcNrIXtj5VzpZr7S4Sb9YXu8fq0+vP15h5
-   dkQbVafNhDkb8Uv32u0O94qkTzdPiPEhAyomTOmp3RCfTlqItXNZ/7SV5
-   QdWl2kPBpJXUOE6VexII41q/mDj2hSrqinxVbeDGCSyWxe4jTln32pjlu
-   KZh0VA0m0s6/aeTJLULE8ocfGwzdUuCKmnHqh0+UGkU6AGtePyzWbowg3
-   xEIFmWyETqLwDepoceuMj9jx+FMAYAQ7OypuPyx0TcFZA/hw6trSgxLMG
-   xDqDdGYL4rWBFCmp/lXtQ2XJ4uqSiGjTo63YgaSje03MchD/JqRyQZtgo
-   g==;
-X-CSE-ConnectionGUID: fmz5ajb0SP+BoonEuVS4EA==
-X-CSE-MsgGUID: w/rzHbIBTNGxH5fFlLydmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="58823805"
+  bh=GYWfhtbvBIlMo6yBD6BpHZWN5TeYLuLnwmFplHTqVAY=;
+  b=npw3yk/AWoa0PLLOIsWNSzmG9sZ/mJngbWLbzocdxpO5CFMarrpUkpQ3
+   BG2lg/xskTjiGA2V5+E3K5yQQZyV1ith1Dt6+SFdUbeMNGRBuhxeKq6RO
+   K7CJYW/PiRml/JfsJ6WWZGZNSklUudt7sCExd18X7lCu7inEL1Cbe3UO+
+   TuR9K/wruo1PYmNbj+eOoRuE2aE2onBWnHdr2NNKSGuq52nGTPM+kjVp1
+   vMBfOisbFN82jCgIR4cPUanTFs8e1vRHLjzV9v3rzbjUjlaCDmAfoXgJp
+   /ShrniG/CVAjBI3v/cH7YPaLK47NI8gHFEH3eDKgJfSJ8a/4AZxzmP7VE
+   Q==;
+X-CSE-ConnectionGUID: RXvDPaceQ7WU9EUkNyRylA==
+X-CSE-MsgGUID: jRub3B8fQQu/wGQJzNryyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63251927"
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="58823805"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:20:14 -0700
-X-CSE-ConnectionGUID: 2nZIDXtTTpazx2sx5m2jIQ==
-X-CSE-MsgGUID: VV91HK49TZ+0ouGoDV0Mrg==
+   d="scan'208";a="63251927"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:31:15 -0700
+X-CSE-ConnectionGUID: UlouMBmnTjuDrU+rcPMlGw==
+X-CSE-MsgGUID: w3RfERgYRP6YZa/yds+EiQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
+   d="scan'208";a="203817942"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Sep 2025 09:20:13 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Sep 2025 09:31:13 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvebC-0003yV-1U;
-	Mon, 08 Sep 2025 16:20:10 +0000
-Date: Tue, 9 Sep 2025 00:19:57 +0800
+	id 1uvelr-0003yp-0v;
+	Mon, 08 Sep 2025 16:31:11 +0000
+Date: Tue, 9 Sep 2025 00:30:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+To: kernel@openeuler.org, Zhang Qiao <zhangqiao22@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2868/2868] arch/arm64/kvm/sys_regs.c:282:19:
- warning: unused variable 'val'
-Message-ID: <202509090252.kSGtR6Xq-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3201/3201] kernel/sched/soft_domain.c:186:10:
+ error: implicit declaration of function 'cpu_util_cfs'
+Message-ID: <202509090052.9gEjUjCy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,139 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   00fccee10860a6b522c55bd4b2f4b40d349c2b52
-commit: bd2967e62cdff04cb036b503622eea13c5cfb1be [2868/2868] arm64: Fix actlr_el1 can not set problem in guest
-config: arm64-randconfig-003-20250908 (https://download.01.org/0day-ci/archive/20250909/202509090252.kSGtR6Xq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090252.kSGtR6Xq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   082f87c04789af128a3f27914b5d9aa8c5bbe517
+commit: dd6655291bf7230ef984e1d283a5ec05821f996f [3201/3201] sched: Attach task group to soft domain
+config: x86_64-buildonly-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090052.9gEjUjCy-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090052.9gEjUjCy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509090252.kSGtR6Xq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090052.9gEjUjCy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm64/kvm/sys_regs.c: In function 'access_actlr':
->> arch/arm64/kvm/sys_regs.c:282:19: warning: unused variable 'val' [-Wunused-variable]
-     282 |  u64 mask, shift, val;
-         |                   ^~~
-   arch/arm64/kvm/sys_regs.c: At top level:
-   arch/arm64/kvm/sys_regs.c:2373:59: warning: initialized field overwritten [-Woverride-init]
-    2373 |  { PMU_SYS_REG(PMCR_EL0), .access = access_pmcr, .reset = reset_pmcr,
-         |                                                           ^~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2373:59: note: (near initialization for 'sys_reg_descs[345].reset')
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:270,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bitfield.h:10,
-                    from arch/arm64/kvm/sys_regs.c:12:
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2387:39: note: in expansion of macro 'NULL'
-    2387 |    .access = access_pmswinc, .reset = NULL },
-         |                                       ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[349].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2387:39: note: in expansion of macro 'NULL'
-    2387 |    .access = access_pmswinc, .reset = NULL },
-         |                                       ^~~~
-   arch/arm64/kvm/sys_regs.c:2389:38: warning: initialized field overwritten [-Woverride-init]
-    2389 |    .access = access_pmselr, .reset = reset_pmselr, .reg = PMSELR_EL0 },
-         |                                      ^~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2389:38: note: (near initialization for 'sys_reg_descs[350].reset')
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:270,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bitfield.h:10,
-                    from arch/arm64/kvm/sys_regs.c:12:
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2391:38: note: in expansion of macro 'NULL'
-    2391 |    .access = access_pmceid, .reset = NULL },
-         |                                      ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[351].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2391:38: note: in expansion of macro 'NULL'
-    2391 |    .access = access_pmceid, .reset = NULL },
-         |                                      ^~~~
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2393:38: note: in expansion of macro 'NULL'
-    2393 |    .access = access_pmceid, .reset = NULL },
-         |                                      ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[352].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2393:38: note: in expansion of macro 'NULL'
-    2393 |    .access = access_pmceid, .reset = NULL },
-         |                                      ^~~~
-   arch/arm64/kvm/sys_regs.c:2395:42: warning: initialized field overwritten [-Woverride-init]
-    2395 |    .access = access_pmu_evcntr, .reset = reset_unknown,
-         |                                          ^~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c:2395:42: note: (near initialization for 'sys_reg_descs[353].reset')
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/arm64/include/asm/rwonce.h:71,
-                    from include/linux/compiler.h:270,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bitfield.h:10,
-                    from arch/arm64/kvm/sys_regs.c:12:
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2398:43: note: in expansion of macro 'NULL'
-    2398 |    .access = access_pmu_evtyper, .reset = NULL },
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[354].reset')
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2398:43: note: in expansion of macro 'NULL'
-    2398 |    .access = access_pmu_evtyper, .reset = NULL },
-         |                                           ^~~~
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   arch/arm64/kvm/sys_regs.c:2400:42: note: in expansion of macro 'NULL'
-    2400 |    .access = access_pmu_evcntr, .reset = NULL },
-         |                                          ^~~~
-   include/linux/stddef.h:8:14: note: (near initialization for 'sys_reg_descs[355].reset')
+>> kernel/sched/soft_domain.c:186:10: error: implicit declaration of function 'cpu_util_cfs' [-Werror,-Wimplicit-function-declaration]
+     186 |                 sum += cpu_util_cfs(cpu_rq(cpu));
+         |                        ^
+   kernel/sched/soft_domain.c:186:10: note: did you mean 'cpu_util_irq'?
+   kernel/sched/sched.h:3118:29: note: 'cpu_util_irq' declared here
+    3118 | static inline unsigned long cpu_util_irq(struct rq *rq)
+         |                             ^
+   kernel/sched/soft_domain.c:269:6: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+     269 |         int cpu;
+         |             ^
+   1 warning and 1 error generated.
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
    Selected by [y]:
-   - ARM64 [=y]
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
-vim +/val +282 arch/arm64/kvm/sys_regs.c
+vim +/cpu_util_cfs +186 kernel/sched/soft_domain.c
 
-   277	
-   278	static bool access_actlr(struct kvm_vcpu *vcpu,
-   279				 struct sys_reg_params *p,
-   280				 const struct sys_reg_desc *r)
-   281	{
- > 282		u64 mask, shift, val;
-   283	
+   179	
+   180	static unsigned long sum_util(struct cpumask *mask)
+   181	{
+   182		unsigned long sum = 0;
+   183		int cpu;
+   184	
+   185		for_each_cpu(cpu, mask)
+ > 186			sum += cpu_util_cfs(cpu_rq(cpu));
+   187	
+   188		return sum;
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
