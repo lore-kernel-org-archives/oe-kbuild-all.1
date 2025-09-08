@@ -1,101 +1,184 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8E46F2F2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 01:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9080C13FD86
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 04:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757295139; cv=none; b=eoompHCGv5T88MEfbQVsyt061iqt2AAgHYf+/cxqDKFtkJikAIAAoydc6aOoauSmgixfZSVjqye11r9IdhwS32DLpDOjfLCMRztQlywaXLmYSiAn4EyTUyiqccCiS9Kvm9mjQJRr2/ofOJlRKlc4W1W5oStGU31GHKJlm9puSnQ=
+	t=1757306931; cv=none; b=lfmHAHOaEq8trC28TuSE2PR61l34fRH1u6/ydggloiPg4wJFOK13O8nrLml1T0Zg/y3K1+KfWKBEsTbOZlddwmQ5zvYaQS0J1KkXZSitkTn69MJXI3IdAEN/SuXLRYgyue5Tl0aSFUtTD7nXMcG6lW2ymHGrMyuvEFSZgpbE6JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757295139; c=relaxed/simple;
-	bh=+eV1jTgxKlUFpHs6zB7ttmfep+nMsmqrdkfdLOJl5jM=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=bZg6Qv3YL8moIvrCBpa0P1pJYAqZ39dNycC0dI7UFNxhTajydVS7vwWY739qUTyjyXTSfvO6bYqWHEILgoOG/Xxo6SNF9rV0UWVI7sM0lZkO4CH7c2PXVxlSSQkIL7X0F27vqB97W3mdGgX6wIqmvhhGCoWAEMjQ/e767NU/Tkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4cKqFD3szlzYQtsW
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 09:32:16 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 0BE3F1A0E17
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 09:32:15 +0800 (CST)
-Received: from [10.174.179.143] (unknown [10.174.179.143])
-	by APP4 (Coremail) with SMTP id gCh0CgAncY0aMr5ome0LBw--.54766S3;
-	Mon, 08 Sep 2025 09:32:12 +0800 (CST)
-Subject: Re: [PATCH for-6.18/block 02/16] block: initialize bio issue time in
- blk_mq_submit_bio()
-To: Yu Kuai <hailan@yukuai.org.cn>, kernel test robot <lkp@intel.com>,
- Yu Kuai <yukuai1@huaweicloud.com>, hch@infradead.org, colyli@kernel.org,
- hare@suse.de, dlemoal@kernel.org, tieren@fnnas.com, bvanassche@acm.org,
- axboe@kernel.dk, tj@kernel.org, josef@toxicpanda.com, song@kernel.org,
- satyat@google.com, ebiggers@google.com, kmo@daterainc.com,
- akpm@linux-foundation.org, neil@brown.name
-Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-raid@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
- johnny.chenyi@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-References: <20250905070643.2533483-3-yukuai1@huaweicloud.com>
- <202509062332.tqE0Bc8k-lkp@intel.com>
- <9c763646-f320-4975-ae19-2a40607757b1@yukuai.org.cn>
-From: Yu Kuai <yukuai1@huaweicloud.com>
-Message-ID: <adb6b29c-ad24-0377-c5f3-17868f3e3116@huaweicloud.com>
-Date: Mon, 8 Sep 2025 09:32:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+	s=arc-20240116; t=1757306931; c=relaxed/simple;
+	bh=BsQ+/zPbfNn+6jDsO/5rKOGV/NwXhmbLZDWQQ6oVFFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SeJb5wGSAwfonpTNpYaikQahVhXttkpURLrQryCS7Tk9c5Ri+1J74LQZbAfu+iRYDEtXer/+RxERYtIGSRQKwHEolVZn0lZTjLLxFMqZZ/UDfTnZl/cjCWwJWnL7k5hFOvmvZtVjDt5NHwj119j8eAM1z7Nh3xck9RMndIbIJhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MKTV2KNb; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MKTV2KNb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757306930; x=1788842930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BsQ+/zPbfNn+6jDsO/5rKOGV/NwXhmbLZDWQQ6oVFFg=;
+  b=MKTV2KNbt/wERgMJ+VKNO8US90d6kAvQ3bZauYjgpMUoW+i22xuKC8HT
+   /Tyf72JG7QcffLOpczlHmBODho8aLClT1ZN6O3S/d6utsKbadiNWtunO5
+   ORxNGYHNWE/+arNBkMVHCZG9LH5429urqEtcEV6nHF9jBPjK+JozwisCK
+   gCmlcBxBrPpgQAy9mVwUUfP/YNzt57juCPWry8K2QB8FssUv7z3DK5SOt
+   4TvakglzLI8ILps3kmnwXNV7l81qJusfav2P8Cm1G3GQCzLirYSgK6KF1
+   lhA8neFMdoH1LctFbTvOcNgwAf3Kbx2IP7jR5Q3pPDhXM6MBIQooyJysW
+   g==;
+X-CSE-ConnectionGUID: rujv7L5qS8aWOvDWhf4hkw==
+X-CSE-MsgGUID: Ij7Sab0JTaiZZuQmydrliA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="59663939"
+X-IronPort-AV: E=Sophos;i="6.18,247,1751266800"; 
+   d="scan'208";a="59663939"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2025 21:48:49 -0700
+X-CSE-ConnectionGUID: hgcW9d3DTdatnapoivvxUg==
+X-CSE-MsgGUID: noW8dv0VQGOrlduJNjpIFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,247,1751266800"; 
+   d="scan'208";a="173150508"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 07 Sep 2025 21:48:48 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uvTo6-0003Vn-01;
+	Mon, 08 Sep 2025 04:48:46 +0000
+Date: Mon, 8 Sep 2025 12:48:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nathan Lynch via B4 Relay <devnull+nathan.lynch.amd.com@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 12/13] dmaengine: sdxi: Add Kconfig and Makefile
+Message-ID: <202509081218.MnJQkF7r-lkp@intel.com>
+References: <20250905-sdxi-base-v1-12-d0341a1292ba@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <9c763646-f320-4975-ae19-2a40607757b1@yukuai.org.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgAncY0aMr5ome0LBw--.54766S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw1fGFy7XrWxJw45ur1UGFg_yoWfGrgEgr
-	WjvwnrWFy8Jw4kJF4Du3sIvrZ7Kw1ktFyF9345AF12g3Z5Xr98uFZ5Gr9aqw1kCw48Za1U
-	CF4DXFZxXF43AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRRwID5UUUUU==
-X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250905-sdxi-base-v1-12-d0341a1292ba@amd.com>
 
-Hi,
+Hi Nathan,
 
-在 2025/09/07 15:57, Yu Kuai 写道:
->> If you fix the issue in a separate patch/commit (i.e. not just a new 
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: 
->> https://lore.kernel.org/oe-kbuild-all/202509062332.tqE0Bc8k-lkp@intel.com/ 
->>
->>
->> All errors (new ones prefixed by >>):
->>
->>     block/blk-mq.c: In function 'blk_mq_submit_bio':
->>>> block/blk-mq.c:3171:12: error: 'struct bio' has no member named 
->>>> 'issue_time_ns'
->>      3171 |         bio->issue_time_ns = blk_time_get_ns();
-> 
-> This should be included inside BLK_CGROUP config, sorry about this.
-> 
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-I should keep the blkcg_bio_issue_init() and call it here. I'll wait for
-sometime and let people revice other patches before I send a new
-version.
+[auto build test WARNING on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
 
-Thanks,
-Kuai
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Lynch-via-B4-Relay/PCI-Add-SNIA-SDXI-accelerator-sub-class/20250906-025019
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250905-sdxi-base-v1-12-d0341a1292ba%40amd.com
+patch subject: [PATCH RFC 12/13] dmaengine: sdxi: Add Kconfig and Makefile
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250908/202509081218.MnJQkF7r-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250908/202509081218.MnJQkF7r-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509081218.MnJQkF7r-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/vdso/const.h:5,
+                    from include/vdso/bits.h:5,
+                    from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/kunit/assert.h:13,
+                    from include/kunit/test.h:12,
+                    from include/kunit/device.h:16,
+                    from drivers/dma/sdxi/descriptor_kunit.c:7:
+   drivers/dma/sdxi/descriptor_kunit.c: In function 'copy':
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '4294967297' to '1' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   drivers/dma/sdxi/descriptor_kunit.c:34:20: note: in expansion of macro 'SZ_4G'
+      34 |         copy.len = SZ_4G + 1;
+         |                    ^~~~~
+   include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   drivers/dma/sdxi/descriptor_kunit.c:42:20: note: in expansion of macro 'SZ_4G'
+      42 |         copy.len = SZ_4G;
+         |                    ^~~~~
+--
+   In file included from include/vdso/const.h:5,
+                    from include/vdso/bits.h:5,
+                    from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/kunit/assert.h:13,
+                    from include/kunit/test.h:12,
+                    from include/kunit/device.h:16,
+                    from descriptor_kunit.c:7:
+   descriptor_kunit.c: In function 'copy':
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '4294967297' to '1' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   descriptor_kunit.c:34:20: note: in expansion of macro 'SZ_4G'
+      34 |         copy.len = SZ_4G + 1;
+         |                    ^~~~~
+   include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   descriptor_kunit.c:42:20: note: in expansion of macro 'SZ_4G'
+      42 |         copy.len = SZ_4G;
+         |                    ^~~~~
+
+
+vim +20 include/uapi/linux/const.h
+
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
+6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
