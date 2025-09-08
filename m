@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2A830F7EA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 16:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4442C859
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 18:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757349077; cv=none; b=B3jdjRh/p0Y/o5sLhIZb4V68MDhdRmuN1C5DD3MWlX2UzLNtrQZ+iYwOlweLHhH1wYfb0iK9UJQr+a7jHCCKtdX2rnqw/YGbjgpquc9NWTbdlNp2lOR00Yn9jP1jaFaRk7eektDsd999f9kfQI+UUEHYwMhpFs5EVs1qihXvOA8=
+	t=1757354734; cv=none; b=EKnjyjAJWPnl0LcCoquuxhOaL7JhPn/XK2TxQ016VZYiQtlUOedPKuJioiDp65m01a6kedOkDL1Ctr8XjtZ+6ybtfI7G7ribad6OGPx4aIBegoXRIStBGEQQcAikUM5m3f7k2BSAJyfr3HtzhxnDyMV7bj4s48mTC/T6X2bK8kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757349077; c=relaxed/simple;
-	bh=GYWfhtbvBIlMo6yBD6BpHZWN5TeYLuLnwmFplHTqVAY=;
+	s=arc-20240116; t=1757354734; c=relaxed/simple;
+	bh=URHjR8aVtHHJhW0/E6Nq+HThzNyY8OmF88pmXVN5WO4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IQxvvL2pEZRJx3P3WPRzN8xwV7qsCr9VxfzMlwWRX3+C5sWc4IWufOoaApojYq1WPid3kNgNERTYxTh0j1DSw1mDXpFX9nOM5trS6pUO7Q0jKUpsV2QetZj2f8DHbrlbyG34TjE0MGXbR9gKXKfp6ApSP1jTvO6cgQpLN6R7jyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npw3yk/A; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=uCUDGC7i4ZH4l6zZdqA2ooS0gi0V/1Z+BsQo45HAdYGsLDgt06PvpOXcGhaw1U39SlySbuDdAbPcSJKl5ti141o4Id+WMZT0bneN0EWHSGjM+hzjHptgb9qjPgj00S5dE5Vd2TpA07/+BlCxloYD3bs6GJeggSRKRRFtie+oKnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GKi8+UH7; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npw3yk/A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKi8+UH7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757349076; x=1788885076;
+  t=1757354733; x=1788890733;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GYWfhtbvBIlMo6yBD6BpHZWN5TeYLuLnwmFplHTqVAY=;
-  b=npw3yk/AWoa0PLLOIsWNSzmG9sZ/mJngbWLbzocdxpO5CFMarrpUkpQ3
-   BG2lg/xskTjiGA2V5+E3K5yQQZyV1ith1Dt6+SFdUbeMNGRBuhxeKq6RO
-   K7CJYW/PiRml/JfsJ6WWZGZNSklUudt7sCExd18X7lCu7inEL1Cbe3UO+
-   TuR9K/wruo1PYmNbj+eOoRuE2aE2onBWnHdr2NNKSGuq52nGTPM+kjVp1
-   vMBfOisbFN82jCgIR4cPUanTFs8e1vRHLjzV9v3rzbjUjlaCDmAfoXgJp
-   /ShrniG/CVAjBI3v/cH7YPaLK47NI8gHFEH3eDKgJfSJ8a/4AZxzmP7VE
-   Q==;
-X-CSE-ConnectionGUID: RXvDPaceQ7WU9EUkNyRylA==
-X-CSE-MsgGUID: jRub3B8fQQu/wGQJzNryyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="63251927"
-X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="63251927"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 09:31:15 -0700
-X-CSE-ConnectionGUID: UlouMBmnTjuDrU+rcPMlGw==
-X-CSE-MsgGUID: w3RfERgYRP6YZa/yds+EiQ==
+  bh=URHjR8aVtHHJhW0/E6Nq+HThzNyY8OmF88pmXVN5WO4=;
+  b=GKi8+UH7pixyhC7Uxy9UbaCh5QcNkwbWgoRHfZ2C0tItuEYuw965h1zh
+   umt6dXZjk2o94zejfCP523o6l3k72xcDe/VfFerxWcnEiVHvqgF+fK4Fa
+   hSPAqgh//kNqJjI3A1rudJegdNjOQnpehHi6MUxzMvAs4St6EoUs5AKOi
+   2tWYJdbKZWl61gnjiZizm+nC+WCFnPc1Xxixp9WOQhImeypyccvESyQSN
+   4seltVnrQpHKvzoUo54PgNrb4Trm+yJE3unflcHX5gp+g9JxVtN0W3M4a
+   2TwzzJzLQmwED4g8bqT697i4ZutdZ4S+TMZQXRnewCzbjwMwP7/SJ+I37
+   g==;
+X-CSE-ConnectionGUID: FAiM/qSbS0uVmEiGwY6PJA==
+X-CSE-MsgGUID: sGhkj3v4TIip93lwhndB1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="82213199"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="82213199"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 11:05:32 -0700
+X-CSE-ConnectionGUID: 8yOomfhJR3KQBgJ5rLRMsA==
+X-CSE-MsgGUID: EWvjrflaRSKqJe4ZI0HwIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="203817942"
+   d="scan'208";a="177170942"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Sep 2025 09:31:13 -0700
+  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2025 11:05:30 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvelr-0003yp-0v;
-	Mon, 08 Sep 2025 16:31:11 +0000
-Date: Tue, 9 Sep 2025 00:30:15 +0800
+	id 1uvgF5-00043T-1u;
+	Mon, 08 Sep 2025 18:05:27 +0000
+Date: Tue, 9 Sep 2025 02:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhang Qiao <zhangqiao22@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3201/3201] kernel/sched/soft_domain.c:186:10:
- error: implicit declaration of function 'cpu_util_cfs'
-Message-ID: <202509090052.9gEjUjCy-lkp@intel.com>
+To: Yishai Hadas <yishaih@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
+	Or Har-Toov <ohartoov@nvidia.com>,
+	Michael Guralnik <michaelgur@nvidia.com>,
+	Edward Srouji <edwards@nvidia.com>
+Subject: [leon-rdma:rdma-next 63/63] include/linux/kern_levels.h:5:25:
+ warning: format '%lu' expects argument of type 'long unsigned int', but
+ argument 3 has type 'unsigned int'
+Message-ID: <202509090116.E6ioDqw9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +66,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   082f87c04789af128a3f27914b5d9aa8c5bbe517
-commit: dd6655291bf7230ef984e1d283a5ec05821f996f [3201/3201] sched: Attach task group to soft domain
-config: x86_64-buildonly-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090052.9gEjUjCy-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090052.9gEjUjCy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   1d254c5fc86b6938f7faf09af56cc4cc3d92c8be
+commit: 1d254c5fc86b6938f7faf09af56cc4cc3d92c8be [63/63] IB/mlx5: Reduce IMR KSM size when 5-level paging is enabled
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20250909/202509090116.E6ioDqw9-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090116.E6ioDqw9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509090052.9gEjUjCy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090116.E6ioDqw9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/soft_domain.c:186:10: error: implicit declaration of function 'cpu_util_cfs' [-Werror,-Wimplicit-function-declaration]
-     186 |                 sum += cpu_util_cfs(cpu_rq(cpu));
-         |                        ^
-   kernel/sched/soft_domain.c:186:10: note: did you mean 'cpu_util_irq'?
-   kernel/sched/sched.h:3118:29: note: 'cpu_util_irq' declared here
-    3118 | static inline unsigned long cpu_util_irq(struct rq *rq)
-         |                             ^
-   kernel/sched/soft_domain.c:269:6: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-     269 |         int cpu;
-         |             ^
-   1 warning and 1 error generated.
+   In file included from include/asm-generic/bug.h:22,
+                    from ./arch/microblaze/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/scatterlist.h:7,
+                    from include/rdma/ib_umem.h:11,
+                    from include/rdma/ib_umem_odp.h:9,
+                    from drivers/infiniband/hw/mlx5/odp.c:33:
+   drivers/infiniband/hw/mlx5/odp.c: In function 'mlx5_ib_odp_init':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/infiniband/hw/mlx5/odp.c:1934:17: note: in expansion of macro 'pr_warn'
+    1934 |                 pr_warn("%s: implicit ODP is not supported for task size=%lu\n",
+         |                 ^~~~~~~
+--
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/microblaze/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/scatterlist.h:7,
+                    from include/rdma/ib_umem.h:11,
+                    from include/rdma/ib_umem_odp.h:9,
+                    from odp.c:33:
+   odp.c: In function 'mlx5_ib_odp_init':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   odp.c:1934:17: note: in expansion of macro 'pr_warn'
+    1934 |                 pr_warn("%s: implicit ODP is not supported for task size=%lu\n",
+         |                 ^~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
+vim +5 include/linux/kern_levels.h
 
-vim +/cpu_util_cfs +186 kernel/sched/soft_domain.c
+314ba3520e513a7 Joe Perches 2012-07-30  4  
+04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
 
-   179	
-   180	static unsigned long sum_util(struct cpumask *mask)
-   181	{
-   182		unsigned long sum = 0;
-   183		int cpu;
-   184	
-   185		for_each_cpu(cpu, mask)
- > 186			sum += cpu_util_cfs(cpu_rq(cpu));
-   187	
-   188		return sum;
-   189	}
-   190	
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
