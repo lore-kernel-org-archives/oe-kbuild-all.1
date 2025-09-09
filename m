@@ -1,140 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C062221FC7
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 01:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DA621B9C8;
+	Tue,  9 Sep 2025 01:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757380308; cv=none; b=L6urI3TGXA0kIdkPjoqn+nTFTRas1uaRy6kCArPpMKWSsHRnlhsUsJ8TOBR7SiAen8dTp6cJ+foW5km1KXB1udDICz7+/4cZX00HixYa4uKQy0qB8AsBBDU7kiaZgndANLeJh5OT/U+zy2of5BxZfo9rcnQH2ec8QH9liAUf4P0=
+	t=1757381012; cv=none; b=fjcZl2x+p2cgu4IJlhhp+T9QUs5jc5jh1zKkISKrMjFLFM/0gA1IN0zNKC2udaH9C4SI8nrxoZrrnmsTi9wV6THslpoWBTQSkoYoMdMCR5lJ4VeeEhbf6rjFsG6Dk4wfWdNmkixaJmfQJPy0Uyv0sJcT8FksJLAqSCRZ3ZAIOI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757380308; c=relaxed/simple;
-	bh=hFb6dqF6h31bAV9zo4gHs9FeiFt501sVn0q2lb0W2xg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=psXfPJWnhiKhf9F/SCae4aE4Ne+N38nM33YFUkfxoxzrS6M8H6Adpq1FMmxEotNNl+87ODes75YNXktDMSwN1Kph8cDu69wHBP+ePUnhfk/E3r4LdolmZyptL//KZFV/gYcLgDKBgvNX91szmDzoMAe/ZmIvfqFsDVRfqujJuh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UVcfec8N; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757381012; c=relaxed/simple;
+	bh=RZi5ocmJPJF9G1DcWXVwXv/MggPhU7VqkehKrP9eEQM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=NXpy+E2aMCZewSPWUmgxcamFjbov4owhHykuawJG5iwpLA4OAcfCoJPD/1CZT72uA9VrCzpmGzmGATd4JsNAKhl3K5KYwu2IbtG5bTN0pC9Wx5ZZYuFu4uEZv3MD0gbZ9prAAe1H79LgY6UE5fKZti5R+3VYz5ae4DaLDFGJTqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sWB+Zq9D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UVcfec8N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757380306; x=1788916306;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hFb6dqF6h31bAV9zo4gHs9FeiFt501sVn0q2lb0W2xg=;
-  b=UVcfec8NYA3ZMKwMOI8gCnUaRRJk5rMF6iqwmNlvfBK2e5t93QvvIFv8
-   S6K/evkdTdoeD3K0GQF7vLI1qWKkEJXEDQ0dRYfaXJnB+uleTkkB7k/6c
-   JwJPRkOJVicrYnHR8AAZp2EfFJu6xmk5Cf+02uiaICLKs2YnOToP0ZcLw
-   GMQ+qxkMbpAq7mk9NQjmvsgB26locoOa+1KuVEE4GSgYf4C4b5EvmA8kZ
-   i9PCxJTa8avcPexHKursv9qP41vAGdfkYbEs15gg/bGKoI0/arb/pqf9A
-   lcDReJlwXi2lvRLEpDHx964B2orfBU5Jn4iF59s+zqGdjyhaqihuIddgh
-   g==;
-X-CSE-ConnectionGUID: hncG8GYsQwiS8G+oaXrpxg==
-X-CSE-MsgGUID: EU6jxvP+Qm6i5NToIynQzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59512859"
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="59512859"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 18:11:42 -0700
-X-CSE-ConnectionGUID: QqqjgR2RSzec4uR5QNh8Xg==
-X-CSE-MsgGUID: 4ZPtCXQrTm2VRiyRCw2WwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="172119938"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Sep 2025 18:11:42 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uvmtX-0004IZ-25;
-	Tue, 09 Sep 2025 01:11:39 +0000
-Date: Tue, 9 Sep 2025 09:11:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rseq/slice 57/58] kernel/entry/common.c:40:30: error:
- implicit declaration of function 'rseq_grant_slice_extension'
-Message-ID: <202509090929.1NyNNr3t-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sWB+Zq9D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394A3C4CEF1;
+	Tue,  9 Sep 2025 01:23:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757381012;
+	bh=RZi5ocmJPJF9G1DcWXVwXv/MggPhU7VqkehKrP9eEQM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sWB+Zq9D+EPxcmEuSUN/CZ/QMxQCsbx/pQTaA2ypiYosTDjzW9x99+wFGlGLc6phF
+	 riySFglLMfZCk0vfKmop6U8SFUqAmEr2HVOVFkD8cCBgN8umZQjII7ncEI6s+Wmbaf
+	 mYbmXUXaBbsz1BN6P8Xxgn8BAuvh8+RyJpZKNeYj30oK9jNKYUO8dpD2D1/cek7pcl
+	 KXTDF4pfhv2Ggt5qEnU8ACLb+xpSWuEbQ6SIOV8BnklqZ950eEvFRKG/A3O4esXZbJ
+	 Srd+Sxe683V5+dqlRj4tTad7F6gnpwtDhFUpymiS+HJlIow3iE3MUSGcOUDAsNpM3e
+	 r67Y6iLAli75w==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 118/128] mm/damon/tests/core-kunit.h:453:2: warning: unannotated fall-through between switch labels
+Date: Mon,  8 Sep 2025 18:23:29 -0700
+Message-Id: <20250909012329.66924-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <202509082042.24Nb5PCp-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
-head:   a2e41ac0ef0218895394b1ac12abe5b67d6d62d0
-commit: baa2d48fdb68032a01a6c1a02c8758e14ad7edf9 [57/58] entry: Hook up rseq time slice extension
-config: i386-buildonly-randconfig-001-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090929.1NyNNr3t-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090929.1NyNNr3t-lkp@intel.com/reproduce)
+On Mon, 8 Sep 2025 20:35:07 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509090929.1NyNNr3t-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   387bf1dec467127e728b28dc7624723d7df2813c
+> commit: d53726dd7bd14e94f2c46a842c8c45c2231090b7 [118/128] mm/damon/tests/core-kunit: split out damos_test_commit_quota_goal()
+> config: i386-buildonly-randconfig-006-20250908 (https://download.01.org/0day-ci/archive/20250908/202509082042.24Nb5PCp-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250908/202509082042.24Nb5PCp-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509082042.24Nb5PCp-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from mm/damon/core.c:3156:
+> >> mm/damon/tests/core-kunit.h:453:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+>      453 |         default:
+>          |         ^
+>    mm/damon/tests/core-kunit.h:453:2: note: insert 'break;' to avoid fall-through
+>      453 |         default:
+>          |         ^
+>          |         break; 
+>    1 warning generated.
 
-All errors (new ones prefixed by >>):
-
-   kernel/entry/common.c: In function '__exit_to_user_mode_loop':
->> kernel/entry/common.c:40:30: error: implicit declaration of function 'rseq_grant_slice_extension' [-Werror=implicit-function-declaration]
-      40 |                         if (!rseq_grant_slice_extension(ti_work & TIF_SLICE_EXT_DENY))
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Thank you for reporting this!  I just pushed a fix to my tree:
+http://git.kernel.org/sj/c/922891e5eea9872058e013249d9aeab0eb6471d5
 
 
-vim +/rseq_grant_slice_extension +40 kernel/entry/common.c
+Thanks,
+SJ
 
-    27	
-    28	static __always_inline unsigned long __exit_to_user_mode_loop(struct pt_regs *regs,
-    29								      unsigned long ti_work)
-    30	{
-    31		/*
-    32		 * Before returning to user space ensure that all pending work
-    33		 * items have been completed.
-    34		 */
-    35		while (ti_work & EXIT_TO_USER_MODE_WORK_LOOP) {
-    36	
-    37			local_irq_enable_exit_to_user(ti_work);
-    38	
-    39			if (ti_work & (_TIF_NEED_RESCHED | _TIF_NEED_RESCHED_LAZY)) {
-  > 40				if (!rseq_grant_slice_extension(ti_work & TIF_SLICE_EXT_DENY))
-    41					schedule();
-    42			}
-    43	
-    44			if (ti_work & _TIF_UPROBE)
-    45				uprobe_notify_resume(regs);
-    46	
-    47			if (ti_work & _TIF_PATCH_PENDING)
-    48				klp_update_patch_state(current);
-    49	
-    50			if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
-    51				arch_do_signal_or_restart(regs);
-    52	
-    53			if (ti_work & _TIF_NOTIFY_RESUME)
-    54				resume_user_mode_work(regs);
-    55	
-    56			/* Architecture specific TIF work */
-    57			arch_exit_to_user_mode_work(regs, ti_work);
-    58	
-    59			/*
-    60			 * Disable interrupts and reevaluate the work flags as they
-    61			 * might have changed while interrupts and preemption was
-    62			 * enabled above.
-    63			 */
-    64			local_irq_disable_exit_to_user();
-    65	
-    66			/* Check if any of the above work has queued a deferred wakeup */
-    67			tick_nohz_user_enter_prepare();
-    68	
-    69			ti_work = read_thread_flags();
-    70		}
-    71	
-    72		/* Return the latest work state for arch_exit_to_user_mode() */
-    73		return ti_work;
-    74	}
-    75	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
