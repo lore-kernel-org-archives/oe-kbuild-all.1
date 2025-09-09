@@ -1,82 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DA621B9C8;
-	Tue,  9 Sep 2025 01:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A8470830
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 01:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757381012; cv=none; b=fjcZl2x+p2cgu4IJlhhp+T9QUs5jc5jh1zKkISKrMjFLFM/0gA1IN0zNKC2udaH9C4SI8nrxoZrrnmsTi9wV6THslpoWBTQSkoYoMdMCR5lJ4VeeEhbf6rjFsG6Dk4wfWdNmkixaJmfQJPy0Uyv0sJcT8FksJLAqSCRZ3ZAIOI0=
+	t=1757382769; cv=none; b=jumsDRjYNqcXJ0tw6pqzUQmx2jvuApedjIY8jy+KZAB/KVIusQoilCWRn0WzDcV72tuA5jSfNwI2EXx7rrhKo36tbVrEUFsW455CiMwucInwP4VwgNRIy3aHRp0namoG9YKsv+CwZ7a6jao9VEISQKjJcQ94bHTdweVIvbizs3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757381012; c=relaxed/simple;
-	bh=RZi5ocmJPJF9G1DcWXVwXv/MggPhU7VqkehKrP9eEQM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NXpy+E2aMCZewSPWUmgxcamFjbov4owhHykuawJG5iwpLA4OAcfCoJPD/1CZT72uA9VrCzpmGzmGATd4JsNAKhl3K5KYwu2IbtG5bTN0pC9Wx5ZZYuFu4uEZv3MD0gbZ9prAAe1H79LgY6UE5fKZti5R+3VYz5ae4DaLDFGJTqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sWB+Zq9D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757382769; c=relaxed/simple;
+	bh=B9S2zJkUgA7Gb3glcZpcazSTxL59xj86siXZPNaVkfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rb6wEHbEWJhHDuGszZY1uBbKXgL6LMYgVp4qpzEVGOKTMN1xG3wQffHoTYuUSYgWePt5rUvDe535zNcVDQQ4S5Iyb00PpCjugTFRfz5QBo8+UUhql8UCQNUsJm+L4ynZqjUplP0nUQmC6PSUM9miPFCf67AJZR61t9U466b5NpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAAhQ2RY; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sWB+Zq9D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394A3C4CEF1;
-	Tue,  9 Sep 2025 01:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757381012;
-	bh=RZi5ocmJPJF9G1DcWXVwXv/MggPhU7VqkehKrP9eEQM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sWB+Zq9D+EPxcmEuSUN/CZ/QMxQCsbx/pQTaA2ypiYosTDjzW9x99+wFGlGLc6phF
-	 riySFglLMfZCk0vfKmop6U8SFUqAmEr2HVOVFkD8cCBgN8umZQjII7ncEI6s+Wmbaf
-	 mYbmXUXaBbsz1BN6P8Xxgn8BAuvh8+RyJpZKNeYj30oK9jNKYUO8dpD2D1/cek7pcl
-	 KXTDF4pfhv2Ggt5qEnU8ACLb+xpSWuEbQ6SIOV8BnklqZ950eEvFRKG/A3O4esXZbJ
-	 Srd+Sxe683V5+dqlRj4tTad7F6gnpwtDhFUpymiS+HJlIow3iE3MUSGcOUDAsNpM3e
-	 r67Y6iLAli75w==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 118/128] mm/damon/tests/core-kunit.h:453:2: warning: unannotated fall-through between switch labels
-Date: Mon,  8 Sep 2025 18:23:29 -0700
-Message-Id: <20250909012329.66924-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <202509082042.24Nb5PCp-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAAhQ2RY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757382768; x=1788918768;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B9S2zJkUgA7Gb3glcZpcazSTxL59xj86siXZPNaVkfA=;
+  b=gAAhQ2RYt0OiCLzXvr04Rm5FPEjk79L9NYJNY2QHJEwJiPyRk+bDxv1q
+   qxO6ZmmM/zdN/O3lmSI6FOryDDeU0+NtkNl2tl74RXiXgGZ19uGLzxK04
+   76jz+rB1EFI4lOYCilTJB5l/IxNgGiFfl/8KBDlXLyeFVx/KkoTvzMpEd
+   d+XZCydhcz2gLSv6012vKzu6OyJauakrUrBqAApk6Tchhv+0RAksaGa1K
+   H58/+VEdmTH53o6JbE9kxiuZkbqTcRr4MKeCesFc9E+4UVwHmOcFh9tPX
+   QEUuHBxx9pXD43bwwLHCmpjy6pckCrjXIQehrTEFc1BZLlJgoUcEDmgq8
+   A==;
+X-CSE-ConnectionGUID: 8bsMZTW4QuKn2P2g8rVB7w==
+X-CSE-MsgGUID: 4SBpjmTzTlKtA3MvVcDNAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="47230751"
+X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
+   d="scan'208";a="47230751"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 18:52:47 -0700
+X-CSE-ConnectionGUID: SEq9HuMTSzeTIaYVRc3fjg==
+X-CSE-MsgGUID: uL3aHLzDTnOAWt9Wtj0e8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
+   d="scan'208";a="172533674"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 08 Sep 2025 18:52:47 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uvnXI-0004Jx-04;
+	Tue, 09 Sep 2025 01:52:44 +0000
+Date: Tue, 9 Sep 2025 09:52:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 320/388]
+ fs/bcachefs/sb-errors.c:62:17: sparse: sparse: restricted __le64 degrades to
+ integer
+Message-ID: <202509090923.26KdFSVG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 8 Sep 2025 20:35:07 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   fe7eb7dac39e94bb0542dfcd5ff88ad3af9be3a7
+commit: aa8c3edd73b9e5a2d9134211fb47a74bf68e2b32 [320/388] bcachefs: Print sb_field_errors sorted by datetime
+config: hexagon-randconfig-r113-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090923.26KdFSVG-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
+reproduce: (https://download.01.org/0day-ci/archive/20250909/202509090923.26KdFSVG-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   387bf1dec467127e728b28dc7624723d7df2813c
-> commit: d53726dd7bd14e94f2c46a842c8c45c2231090b7 [118/128] mm/damon/tests/core-kunit: split out damos_test_commit_quota_goal()
-> config: i386-buildonly-randconfig-006-20250908 (https://download.01.org/0day-ci/archive/20250908/202509082042.24Nb5PCp-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250908/202509082042.24Nb5PCp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509082042.24Nb5PCp-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from mm/damon/core.c:3156:
-> >> mm/damon/tests/core-kunit.h:453:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
->      453 |         default:
->          |         ^
->    mm/damon/tests/core-kunit.h:453:2: note: insert 'break;' to avoid fall-through
->      453 |         default:
->          |         ^
->          |         break; 
->    1 warning generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090923.26KdFSVG-lkp@intel.com/
 
-Thank you for reporting this!  I just pushed a fix to my tree:
-http://git.kernel.org/sj/c/922891e5eea9872058e013249d9aeab0eb6471d5
+sparse warnings: (new ones prefixed by >>)
+>> fs/bcachefs/sb-errors.c:62:17: sparse: sparse: restricted __le64 degrades to integer
+>> fs/bcachefs/sb-errors.c:62:17: sparse: sparse: restricted __le64 degrades to integer
+>> fs/bcachefs/sb-errors.c:62:17: sparse: sparse: restricted __le64 degrades to integer
+>> fs/bcachefs/sb-errors.c:62:17: sparse: sparse: restricted __le64 degrades to integer
 
+vim +62 fs/bcachefs/sb-errors.c
 
-Thanks,
-SJ
+    56	
+    57	static int error_entry_cmp(const void *_l, const void *_r)
+    58	{
+    59		const struct bch_sb_field_error_entry *l = _l;
+    60		const struct bch_sb_field_error_entry *r = _r;
+    61	
+  > 62		return -cmp_int(l->last_error_time, r->last_error_time);
+    63	}
+    64	
 
-[...]
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
