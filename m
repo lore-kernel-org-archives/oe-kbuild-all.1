@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2423D2AB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 07:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B71DDC5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 08:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757404593; cv=none; b=p7jdBWm/cTOPsJqrAmCH4+VaTrPI/4acRnlq/w9NzWGQ4pE10XUCXjB6tkCrK5HSfPE2nVbrJ5sVQcuVorhAcRwIp/80CQHvD5IhdZS7ruXKEpbAGI5nyk8NgYM6Ck0XyjM/eyZ/hs2V8fAFEKhPiO5wLub7D3K7xfDKcJ5gyf4=
+	t=1757405194; cv=none; b=GurcfR9XKuv1n6/hdhwzmiejM0zLZlkXRzVCWioVxln1Lu6njIL4wnN9yUQios3GH+bIpsokMiImovQxwm1K4eFjFTKHrOvKoNvqwWQIhkA0MDNxHyFKiB2cybtXUwmQJk9Csx5IEemJ0A9PzjJFP57f7pjH4s1qT2x/7fFnbiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757404593; c=relaxed/simple;
-	bh=RB75qbD5s/YjAIrT4C30TUaE2F2UyRiK6nCRbxlJKQo=;
+	s=arc-20240116; t=1757405194; c=relaxed/simple;
+	bh=1zg7YZnQN2aXAs9zdCv5Gjp6sRMM9Qj6f7YdT0z3xcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pUuqg0EppDnuOLMItexofvmV2WNtMJ7lDt+pEFAfRY0DsgsJSQA91jTBvGzl4tuwGW1MNOMJKOhN2drofZmv9F3Myv9ujv7+HnGFLWgZLwN7EGIq+qh1+nrrM0Tl7Kn3V5FKW+PlhUGVPYuCPflEdD99/Ife6e29X+0weUpeBSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rsh8VTYf; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=X1MXZzEigrS5PhjR5djNv1Ra/mbsSnq+b6RE3Nj7dqxr91+OlRLMOEo/PIqHWXhO7m6/5SYRY+FfFvP3NEv+d4TXoqsW1+MxiXe1GWZhcnEAIDnz5/LlLB9e3gaJnwRZreh1S+NBItqAqErKb22RnFRw73fowGmJj03nuDypAGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2y1hBsv; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rsh8VTYf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2y1hBsv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757404592; x=1788940592;
+  t=1757405193; x=1788941193;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RB75qbD5s/YjAIrT4C30TUaE2F2UyRiK6nCRbxlJKQo=;
-  b=Rsh8VTYftgTXRdWrS2YosszVEryoRST5I8N70uRbxPUiWNC497yv3+iv
-   4c6TT1V6IV96H/m1tx2VJ2RGMnFeWhNCzNOihsRvdy5U5aAn5HWMbTybO
-   Oc6HUuUOT7as3PaqqfPs/KDcVTbX43AAOzBKZJ1XgbIBAm5Jc2e4Nyy19
-   Hq6W+qM0V8Hl9a8AfsNV3cG6JHbF6sUtQQe0BhvB8/i3YFysbLMX96BKq
-   ttp3JuFoNgWDwR1sUNpeCjCbZqu+rYbFWKIohi5DS34yEEn3duHpsP2NS
-   RsfspvFLjIi6BLOYUQGSTUCrxRgV1C07v/ytICOfYcKiVp4cPQg5KiHlq
+  bh=1zg7YZnQN2aXAs9zdCv5Gjp6sRMM9Qj6f7YdT0z3xcg=;
+  b=N2y1hBsvV10dmo90NNltYoyrpI2uPynlaPhOnFtVtqtDW9d7ciDKZgNG
+   5VkM32MWtspPm1XluEI2dzZto5yD4qar5pmcJ5j39IdlFqzTPdY1ostda
+   CM6o85y4663m/4h1P0Sgi25lHVExHK0BnoqJn9YVmDOxdmuYU49M54P7C
+   GB6w+ztHIQPoPPEOpe9L/cjPoNayyXuRfH6GY0oh0A/sFQC7XRB1t0a8W
+   Y7CN2y433xLylnkTIuyHvvc8oKWXQsYFiNhgwXRNzNVH9qKm4/kclbOQA
+   EA9oj+hS/frQPKShAyqW8QZA3PsB3klznOf4+a/Z7cVcpIWZZPMU7mE1+
    Q==;
-X-CSE-ConnectionGUID: 8Ze9NSh7TliXBrKzl/LsSA==
-X-CSE-MsgGUID: buZIU5AoQFCdTUzX/prNtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59786514"
+X-CSE-ConnectionGUID: frqopyKdQVKbDuM3tWBj/w==
+X-CSE-MsgGUID: Bi2LR3WwSleiRicLpmP9Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59616193"
 X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="59786514"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 00:56:29 -0700
-X-CSE-ConnectionGUID: w/gl8B1lRwCjHvoW07MMKg==
-X-CSE-MsgGUID: 67WS6GPzTAKg+DyHISS2eg==
+   d="scan'208";a="59616193"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 01:06:29 -0700
+X-CSE-ConnectionGUID: NAPHNBaHTQGKiIM4jsKzoA==
+X-CSE-MsgGUID: 7EBMTazURoOGp/hBaTye/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="203792272"
+   d="scan'208";a="173403042"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Sep 2025 00:56:28 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2025 01:06:29 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvtDF-0004cC-2J;
-	Tue, 09 Sep 2025 07:56:25 +0000
-Date: Tue, 9 Sep 2025 15:55:47 +0800
+	id 1uvtMw-0004cx-2f;
+	Tue, 09 Sep 2025 08:06:26 +0000
+Date: Tue, 9 Sep 2025 16:06:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Wensheng <wangwensheng4@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2870/2870] mm/vmalloc.c:4443: warning: Function
- parameter or member 'pgoff' not described in
- 'remap_vmalloc_hugepage_range_partial'
-Message-ID: <202509091546.3rklFVnn-lkp@intel.com>
+Subject: [android-common:android14-6.1 3/3]
+ drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member
+ 'pm_nb' not described in 'gh_rm'
+Message-ID: <202509091807.3A6G5B6Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,94 +63,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Wang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   56b56ac9eef7eb836517da7cac03b570a664b49b
-commit: 9b1283f2bec2134030e1e099b900579f1f03840e [2870/2870] mm/vmalloc: Extend vmalloc usage about hugepage
-config: x86_64-buildonly-randconfig-001-20250909 (https://download.01.org/0day-ci/archive/20250909/202509091546.3rklFVnn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091546.3rklFVnn-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   8cde8d25c90b1eba83a82ef30f7fab4a2b2bf68c
+commit: 8cde8d25c90b1eba83a82ef30f7fab4a2b2bf68c [3/3] ANDROID: virt: gunyah: Fetch fresh Gunyah information after restore
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250909/202509091807.3A6G5B6Z-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091807.3A6G5B6Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509091546.3rklFVnn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509091807.3A6G5B6Z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/vmalloc.c:4443: warning: Function parameter or member 'pgoff' not described in 'remap_vmalloc_hugepage_range_partial'
+   drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'adev' not described in 'gh_rm'
+>> drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'pm_nb' not described in 'gh_rm'
+   drivers/virt/gunyah/rsc_mgr.c:669: warning: Function parameter or member '_rm' not described in 'gh_rm_call'
+   drivers/virt/gunyah/rsc_mgr.c:669: warning: Excess function parameter 'rm' description in 'gh_rm_call'
 
 
-vim +4443 mm/vmalloc.c
+vim +194 drivers/virt/gunyah/rsc_mgr.c
 
-  4423	
-  4424	/**
-  4425	 *      remap_vmalloc_hugepage_range_partial - map vmalloc hugepages
-  4426	 *      to userspace
-  4427	 *      @vma:           vma to cover
-  4428	 *      @uaddr:         target user address to start at
-  4429	 *      @kaddr:         virtual address of vmalloc hugepage kernel memory
-  4430	 *      @size:          size of map area
-  4431	 *
-  4432	 *      Returns:        0 for success, -Exxx on failure
-  4433	 *
-  4434	 *      This function checks that @kaddr is a valid vmalloc'ed area,
-  4435	 *      and that it is big enough to cover the range starting at
-  4436	 *      @uaddr in @vma. Will return failure if that criteria isn't
-  4437	 *      met.
-  4438	 *
-  4439	 *      Similar to remap_pfn_range() (see mm/memory.c)
-  4440	 */
-  4441	int remap_vmalloc_hugepage_range_partial(struct vm_area_struct *vma, unsigned long uaddr,
-  4442						 void *kaddr, unsigned long pgoff, unsigned long size)
-> 4443	{
-  4444		struct vm_struct *area;
-  4445		unsigned long off;
-  4446		unsigned long end_index;
-  4447	
-  4448		if (check_shl_overflow(pgoff, PMD_SHIFT, &off))
-  4449			return -EINVAL;
-  4450	
-  4451		size = ALIGN(size, PMD_SIZE);
-  4452	
-  4453		if (!IS_ALIGNED(uaddr, PMD_SIZE) || !IS_ALIGNED((unsigned long)kaddr, PMD_SIZE))
-  4454			return -EINVAL;
-  4455	
-  4456		area = find_vm_area(kaddr);
-  4457		if (!area)
-  4458			return -EINVAL;
-  4459	
-  4460		if (!(area->flags & VM_USERMAP))
-  4461			return -EINVAL;
-  4462	
-  4463		if (check_add_overflow(size, off, &end_index) ||
-  4464				end_index > get_vm_area_size(area))
-  4465			return -EINVAL;
-  4466		kaddr += off;
-  4467	
-  4468		do {
-  4469			struct page *page = vmalloc_to_page(kaddr);
-  4470			int ret;
-  4471	
-  4472			ret = hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, uaddr,
-  4473					vma->vm_page_prot, page_to_phys(page));
-  4474			if (ret)
-  4475				return ret;
-  4476	
-  4477			uaddr += PMD_SIZE;
-  4478			kaddr += PMD_SIZE;
-  4479			size -= PMD_SIZE;
-  4480		} while (size > 0);
-  4481	
-  4482		vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
-  4483	
-  4484		return 0;
-  4485	}
-  4486	EXPORT_SYMBOL(remap_vmalloc_hugepage_range_partial);
-  4487	
+d5e8df2cc4a170 Elliot Berman           2022-08-10  155  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  156  /**
+d5e8df2cc4a170 Elliot Berman           2022-08-10  157   * struct gh_rm - private data for communicating w/Gunyah resource manager
+705a9b5feb1ba9 Elliot Berman           2023-06-12  158   * @dev: pointer to RM platform device
+d5e8df2cc4a170 Elliot Berman           2022-08-10  159   * @tx_ghrsc: message queue resource to TX to RM
+d5e8df2cc4a170 Elliot Berman           2022-08-10  160   * @rx_ghrsc: message queue resource to RX from RM
+9a9fc8d1b2882c Elliot Berman           2023-04-17  161   * @msgq: mailbox instance of TX/RX resources above
+9a9fc8d1b2882c Elliot Berman           2023-04-17  162   * @msgq_client: mailbox client of above msgq
+d5e8df2cc4a170 Elliot Berman           2022-08-10  163   * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
+d5e8df2cc4a170 Elliot Berman           2022-08-10  164   * @last_tx_ret: return value of last mailbox tx
+d5e8df2cc4a170 Elliot Berman           2022-08-10  165   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
+d5e8df2cc4a170 Elliot Berman           2022-08-10  166   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
+d5e8df2cc4a170 Elliot Berman           2022-08-10  167   * @cache: cache for allocating Tx messages
+d5e8df2cc4a170 Elliot Berman           2022-08-10  168   * @send_lock: synchronization to allow only one request to be sent at a time
+d5e8df2cc4a170 Elliot Berman           2022-08-10  169   * @nh: notifier chain for clients interested in RM notification messages
+f251362242ba3e Elliot Berman           2022-10-14  170   * @miscdev: /dev/gunyah
+4cf9feacb7e4ba Elliot Berman           2022-12-13  171   * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
+d5e8df2cc4a170 Elliot Berman           2022-08-10  172   */
+d5e8df2cc4a170 Elliot Berman           2022-08-10  173  struct gh_rm {
+d5e8df2cc4a170 Elliot Berman           2022-08-10  174  	struct device *dev;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  175  	struct gh_resource tx_ghrsc;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  176  	struct gh_resource rx_ghrsc;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  177  	struct gh_msgq msgq;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  178  	struct mbox_client msgq_client;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  179  	struct gh_rm_connection *active_rx_connection;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  180  	int last_tx_ret;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  181  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  182  	struct xarray call_xarray;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  183  	u32 next_seq;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  184  
+d5e8df2cc4a170 Elliot Berman           2022-08-10  185  	struct kmem_cache *cache;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  186  	struct mutex send_lock;
+d5e8df2cc4a170 Elliot Berman           2022-08-10  187  	struct blocking_notifier_head nh;
+f251362242ba3e Elliot Berman           2022-10-14  188  
+1dce9d7d4deea1 Prakruthi Deepak Heragu 2023-02-27  189  	struct auxiliary_device adev;
+f251362242ba3e Elliot Berman           2022-10-14  190  	struct miscdevice miscdev;
+4cf9feacb7e4ba Elliot Berman           2022-12-13  191  	struct irq_domain *irq_domain;
+8cde8d25c90b1e Hrishabh Rajput         2025-08-13  192  
+8cde8d25c90b1e Hrishabh Rajput         2025-08-13  193  	struct notifier_block pm_nb;
+d5e8df2cc4a170 Elliot Berman           2022-08-10 @194  };
+d5e8df2cc4a170 Elliot Berman           2022-08-10  195  
+
+:::::: The code at line 194 was first introduced by commit
+:::::: d5e8df2cc4a17063dcebc67a939356ad49a665bd FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
+
+:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
+:::::: CC: Aleksei Vetrov <vvvvvv@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
