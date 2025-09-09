@@ -1,76 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563D3264608;
-	Tue,  9 Sep 2025 04:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4717E2DFA38
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 04:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757391710; cv=none; b=bz35fV4z6VSqwPUh6cujPcVlUgDgS1K+jnyJ1MXQt3p4wVYSdTky2B+rLZPfMs91lGiBgfGLEjX4H1aQSlr8FsYsXhqe0Sogd4Ju2UaqE4r+vHQNkKnRRCoBr3RPmtIW/+K0qqaiJmbiW29McCodyFMBZwH2bbbATZxrJjh7Pp8=
+	t=1757391712; cv=none; b=hMNeGh/2BwdRylE730RyjTWYWL3mfM063xT0x2rqEF3Meyp2N+zClpTfikik2dbj/gFusq07J5+GQSnbKwfg6gf7v1FWvmZ2J4rTA+K0O0nRmmisaniGjYsWi+H3GcXn+9dy9np8ROGY+O2Y3UDSkb9/WHnM5zzw2xgWQfDUDic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757391710; c=relaxed/simple;
-	bh=u2eWVDfOjZ/eUZU18XVmgcF0dNk+tPxSOkUryUdg0+k=;
+	s=arc-20240116; t=1757391712; c=relaxed/simple;
+	bh=83IHr3RYi4jPlofVspBny8MARB097YRqh9G1yRx5eX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k10lJe5QpIXsmiH9xMjcl5HDRVdyIQDfJi86g86bggrZB34UZbW5DC440xAzsZ0js+28uCOnnJcxQOp4Yylweo/er/NsAdt8ql8xnd/EaCfrypiJQ6aL2wZrYFeXnDI6wMHgFMR0z0N6CeAkSgmME1c7dcU8eo12hH68TRhDfqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FpqBSn5h; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=o5vxAEY+YO1Y67hxdgkUz0jjOwb1qySJXMDPfNte+ulCxR6QrwFDVWyGl5UHK/FCXBWAvnQpGDWtl3WnQWo4iu5DNPqxHWTLX57TbqX5yG0ZzkUyZxSl8okZSWCf9I1AYl8Z4zy2vNozfz9fcgFhcxQGajjWSUJB5i9hvssCpBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAi56F4I; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FpqBSn5h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAi56F4I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757391709; x=1788927709;
+  t=1757391710; x=1788927710;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=u2eWVDfOjZ/eUZU18XVmgcF0dNk+tPxSOkUryUdg0+k=;
-  b=FpqBSn5hwkPZVYmI5XKFDCmp73o8rH4ztJbkJocgi5N6BxV8HxmoeK5s
-   fzYqFTppRp9i2EZNGEWkFXFHWkLVKqsK0TA2Raja8YkTWDVBfNwMrl8+Q
-   YiLyYRwhXjb4db1Y7LHG7XkhkjFHy6k+XuMlowbX0SCA7W00W4dEY9A+9
-   LZwdc+cdH10ljKjAKjeiqdFH5vCqe1bcjhotQ/TsBHlR2sLVbZ3Gnc/HX
-   zPIWciPZRUWr4KN71k0zC47RALvpPTngls6mZxuHQNlj1fLFa3EYXQ/7B
-   La4Y5XA5rq1fw88XbEuQYJOXn7YDnUuX3DKOUqvNVWmEaXTiyQ2VdjE61
-   Q==;
-X-CSE-ConnectionGUID: vjqBl4IxTnKSunwxScIbJg==
-X-CSE-MsgGUID: 8VEmooJbTYuRkXB/zwZokQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="69920327"
+  bh=83IHr3RYi4jPlofVspBny8MARB097YRqh9G1yRx5eX4=;
+  b=nAi56F4I4Patf/Jfe14NIg8pNZzN+DwslvqvhW2WHOmkq+2/hP26IYku
+   P5FnMk1Jw7iu48ACuohgrKxGLvdmMCcM2nvHJKKr+6Quxt1YovSBXEe8a
+   7eX89BA9wAeMh/8nnc3sFmsdPxLfk4ZF8f5Dm3YxSK6RXut8yyc9muXlm
+   H/rjGkZHfE0xJERBbR2q4+D/TDxZsPf7ELlXn8u7+AYefNAa2olUoToPY
+   t7psQGI/7BeIG5OO99iTxedcUZMhrlDECdffRvXvwE11/DL5km64a57Qr
+   J1+NzXTrMgIHnW+RG5C3hrXXhT44IDyzCpAiDj/wRuUPd+oQ0ipwg/pM7
+   A==;
+X-CSE-ConnectionGUID: JX2RrgQKSMG4QENnyFaOkA==
+X-CSE-MsgGUID: 1OX9uHDpR9aJ5XZhbdCz3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="77121687"
 X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="69920327"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 21:21:48 -0700
-X-CSE-ConnectionGUID: rCcz4ynoSY2VL8BqXW/FiQ==
-X-CSE-MsgGUID: 2PP/FEzCTmSJGEBnXH18aw==
+   d="scan'208";a="77121687"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 21:21:50 -0700
+X-CSE-ConnectionGUID: Uq5mxd13TXORJYj/8nHSMg==
+X-CSE-MsgGUID: 5oENLADEQTCYVfwD75VJLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="196622451"
+   d="scan'208";a="172240800"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Sep 2025 21:21:44 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Sep 2025 21:21:44 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvprR-0004Qf-1j;
+	id 1uvprR-0004Qd-1X;
 	Tue, 09 Sep 2025 04:21:41 +0000
-Date: Tue, 9 Sep 2025 12:20:46 +0800
+Date: Tue, 9 Sep 2025 12:20:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vivian Wang <wangruikang@iscas.ac.cn>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Junhui Liu <junhui.liu@pigmoral.tech>,
-	Simon Horman <horms@kernel.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Subject: Re: [PATCH net-next v10 2/5] net: spacemit: Add K1 Ethernet MAC
-Message-ID: <202509091137.JnioPegN-lkp@intel.com>
-References: <20250908-net-k1-emac-v10-2-90d807ccd469@iscas.ac.cn>
+To: Aaron Lu <ziqianlu@bytedance.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, K Prateek Nayak <kprateek.nayak@amd.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Ben Segall <bsegall@google.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Xi Wang <xii@google.com>, linux-kernel@vger.kernel.org,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
+	Chuyi Zhou <zhouchuyi@bytedance.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Florian Bezdeka <florian.bezdeka@siemens.com>,
+	Songtang Liu <liusongtang@bytedance.com>,
+	Chen Yu <yu.c.chen@intel.com>,
+	Matteo Martelli <matteo.martelli@codethink.co.uk>,
+	Michal <mkoutny@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH] sched/fair: Propagate load for throttled cfs_rq
+Message-ID: <202509091233.f6nP3BVh-lkp@intel.com>
+References: <20250908110548.GA35@bytedance>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,55 +80,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250908-net-k1-emac-v10-2-90d807ccd469@iscas.ac.cn>
+In-Reply-To: <20250908110548.GA35@bytedance>
 
-Hi Vivian,
+Hi Aaron,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 062b3e4a1f880f104a8d4b90b767788786aa7b78]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vivian-Wang/dt-bindings-net-Add-support-for-SpacemiT-K1/20250908-203917
-base:   062b3e4a1f880f104a8d4b90b767788786aa7b78
-patch link:    https://lore.kernel.org/r/20250908-net-k1-emac-v10-2-90d807ccd469%40iscas.ac.cn
-patch subject: [PATCH net-next v10 2/5] net: spacemit: Add K1 Ethernet MAC
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250909/202509091137.JnioPegN-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091137.JnioPegN-lkp@intel.com/reproduce)
+
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250908-190724/Aaron-Lu/sched-fair-Add-related-data-structure-for-task-based-throttle/20250829-161501
+base:   the 3th patch of https://lore.kernel.org/r/20250829081120.806-4-ziqianlu%40bytedance.com
+patch link:    https://lore.kernel.org/r/20250908110548.GA35%40bytedance
+patch subject: [PATCH] sched/fair: Propagate load for throttled cfs_rq
+config: i386-buildonly-randconfig-001-20250909 (https://download.01.org/0day-ci/archive/20250909/202509091233.f6nP3BVh-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091233.f6nP3BVh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509091137.JnioPegN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509091233.f6nP3BVh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In function 'emac_get_stat_tx_dropped',
-       inlined from 'emac_get_stats64' at drivers/net/ethernet/spacemit/k1_emac.c:1234:24:
->> drivers/net/ethernet/spacemit/k1_emac.c:1218:24: warning: 'result' is used uninitialized [-Wuninitialized]
-    1218 |                 result += READ_ONCE(per_cpu(*priv->stat_tx_dropped, cpu));
-         |                        ^~
-   drivers/net/ethernet/spacemit/k1_emac.c: In function 'emac_get_stats64':
-   drivers/net/ethernet/spacemit/k1_emac.c:1214:13: note: 'result' was declared here
-    1214 |         u64 result;
-         |             ^~~~~~
+>> kernel/sched/fair.c:6747:1: error: expected identifier or '(' before '+' token
+    6747 | +static inline bool cfs_rq_pelt_clock_throttled(struct cfs_rq *cfs_rq)
+         | ^
 
 
-vim +/result +1218 drivers/net/ethernet/spacemit/k1_emac.c
+vim +6747 kernel/sched/fair.c
 
-  1211	
-  1212	static u64 emac_get_stat_tx_dropped(struct emac_priv *priv)
-  1213	{
-  1214		u64 result;
-  1215		int cpu;
-  1216	
-  1217		for_each_possible_cpu(cpu) {
-> 1218			result += READ_ONCE(per_cpu(*priv->stat_tx_dropped, cpu));
-  1219		}
-  1220	
-  1221		return result;
-  1222	}
-  1223	
+  6746	
+> 6747	+static inline bool cfs_rq_pelt_clock_throttled(struct cfs_rq *cfs_rq)
+  6748	{
+  6749		return false;
+  6750	}
+  6751	
 
 -- 
 0-DAY CI Kernel Test Service
