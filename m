@@ -1,71 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4750C35942
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 18:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD60025A651;
+	Tue,  9 Sep 2025 18:35:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757442326; cv=none; b=Tgdcyx10k24qkfHQm8QMrJ0SN2D3XxMw4q2ppdzpgb18H+v/7yxXyL0qd9VhJnrK+itHsqpEAsbkkkRWS18duD2qjWFrw+P8TMqAhxfYIR36rKQXr6q7+x6OUoldAfCqtV4AriIIy4HcQHb3D1rl5EF+IWRQv8oC/rJBGGD+JzE=
+	t=1757442926; cv=none; b=eTZ5zBUghTR8ky3gEOD0YlMQNCcK3gblQ3XCezJPKc1K/hut6g67dSv6X2vMMuPmeXC1Lr+4/KeWUrb9N4QXRIJESfk/DH6MSvkQMq0ll2/Xm4LdRZjGwAPK74rWTG/aOYoqApRdDAjkyZhBVaSJ7ONP+sjR62hIJSJRHlgDzeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757442326; c=relaxed/simple;
-	bh=jP+QEcU702l7EMgJt/L66MErc+79C+UsveNcHCtgkgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jEOAqLBP6Azc0YOEeKPpysZd0tnlonDFYlvgdSv2A2CPwim36XO1UKqagmDr8FKuW16S+p6dsIxZdPoepymfIQ4Q9BEGltNdvLiaxO7IqL+8ccwwJ13cAUaHQJABi/bSSxrQ0c9HbwLPUD9F1OoZM3RiqFQzUCdKBqNc+dGVoyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7WUnC/Q; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1757442926; c=relaxed/simple;
+	bh=owOjEvSUqhYxWUGwns+Pu2QmlSYEwlSNCSUwleRViPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LJYX4LbCoJYXDi/zeFRGApCWPEs1/xP/PLqFeXzEbNb1q5urfOhM6OkySMIQ0muq6DYLQbuKhSrKuHXfBlOg75wdRmt+sggmtijmaOGBjhjk/J3Lak+0ovJ9GGcmDkBzs6wkfoPb5FK6xKHCTXiKq/1HCY9+ldL6suSaoqVSWHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krA0gL++; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7WUnC/Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krA0gL++"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757442325; x=1788978325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jP+QEcU702l7EMgJt/L66MErc+79C+UsveNcHCtgkgk=;
-  b=Q7WUnC/QMWkxekBzCVOLmB3aYyLNeu5bDbDNaDXdZW0FF6Fp6Pg2SbrE
-   8vl8PPJnv4/Jrd3G6t9FxcOEh0j87RCPIV3ZQWAmcscqrPMDGCB6/sM8s
-   qaYYaA7jS8qIKCscg3yBDc+/DtmiZGSB2/8fvQE4nrEJxU6t5AR/Ea1z7
-   HRY3T28bScLUsynLWQ4QRg0ETj94dgMdFz65qqTFf2h6qrYWk+LU+XNby
-   /byNQB7K/XnqL7oPcwWDn1SjDIYvUEo6uOJgkGGhpJARYmWgb1i2n4v8g
-   das2T6treSh9aDO2/YQq0KOYeOD588NtCkPhSVe4mq+cTnI03N9BD/Cwa
-   A==;
-X-CSE-ConnectionGUID: vDPzYGzbQvCK9JYGCQ+gvA==
-X-CSE-MsgGUID: tyCiyf5+Qg29Ecq0WenRgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="63569053"
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; 
-   d="scan'208";a="63569053"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 11:25:24 -0700
-X-CSE-ConnectionGUID: ABg3IuvfQsWOZJ/S88AArw==
-X-CSE-MsgGUID: aTfHsRBlTh+Cedlmx8R+9g==
+  t=1757442924; x=1788978924;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=owOjEvSUqhYxWUGwns+Pu2QmlSYEwlSNCSUwleRViPU=;
+  b=krA0gL++lWR62/2iZ8ejLTX8/D2unc5NuRxu4WzQV9l1rFSUnndo9/PH
+   +BFXv3EmawK3VAtFyBK6xHZUKsMAjEvxaZt0vk6SKB1YE0KPEf8MSRRnO
+   I7JgyI1Ic8DysJWmLBs/5+4Av6Z/S4miVkuVFgmPJc66wMOZQuYLOVo+V
+   7nWh7WOO6iFGLYc55IkcSxtC3eR/l/fyKO2eDVAcmD9SOJF3MxfiR32c3
+   I6meRmCWxdNoYNFMr0bp1g6RDAaSm0+KvG0FF4CyKm9TQkePAEugzp4fN
+   oa1tTt/cpGwirWGVZRJ7XwEbcz1iiOO1RSxJ49dBR9Nr9zHssTyOTCEb3
+   g==;
+X-CSE-ConnectionGUID: kx3tOjxsSL6LHYu5CaMQzA==
+X-CSE-MsgGUID: yikH7kbeSqKhBgDzrV4nxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="63569870"
+X-IronPort-AV: E=Sophos;i="6.18,252,1751266800"; 
+   d="scan'208";a="63569870"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 11:35:24 -0700
+X-CSE-ConnectionGUID: /f+lrVe/RHKTLUpSZ1FSuw==
+X-CSE-MsgGUID: TAb7yJo4S4+xANFndvz91g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; 
-   d="scan'208";a="173552913"
+X-IronPort-AV: E=Sophos;i="6.18,252,1751266800"; 
+   d="scan'208";a="173957922"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2025 11:25:21 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Sep 2025 11:35:22 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uw31r-0005Al-0r;
-	Tue, 09 Sep 2025 18:25:19 +0000
-Date: Wed, 10 Sep 2025 02:24:20 +0800
+	id 1uw3BY-0005B3-18;
+	Tue, 09 Sep 2025 18:35:20 +0000
+Date: Wed, 10 Sep 2025 02:35:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Denzeel Oliva <wachiturroxd150@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sam Protsenko <semen.protsenko@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-i2c@vger.kernel.org,
-	Denzeel Oliva <wachiturroxd150@gmail.com>
-Subject: Re: [PATCH v2 6/8] arm64: dts: exynos990: Add UART nodes for PERIC0/1
-Message-ID: <202509100100.bccnVSbn-lkp@intel.com>
-References: <20250907-perics-add-usinodes-v2-6-58f41796d2d3@gmail.com>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [linuxtv-media-pending:next 102/122]
+ drivers/media/platform/qcom/camss/camss-vfe-340.c:186:21: error: call to
+ undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202509100228.xLeeYzpG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,31 +65,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250907-perics-add-usinodes-v2-6-58f41796d2d3@gmail.com>
 
-Hi Denzeel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 98ee0e036cfedf543c4728a604fd7870d0000efd]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Denzeel-Oliva/dt-bindings-soc-samsung-exynos-sysreg-Add-Exynos990-PERIC0-1-compatibles/20250908-061748
-base:   98ee0e036cfedf543c4728a604fd7870d0000efd
-patch link:    https://lore.kernel.org/r/20250907-perics-add-usinodes-v2-6-58f41796d2d3%40gmail.com
-patch subject: [PATCH v2 6/8] arm64: dts: exynos990: Add UART nodes for PERIC0/1
-config: arm64-randconfig-003-20250909 (https://download.01.org/0day-ci/archive/20250910/202509100100.bccnVSbn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509100100.bccnVSbn-lkp@intel.com/reproduce)
+tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+head:   39d919edea1dd9c254a10b36deeafdbe0c2b813c
+commit: b5e67bd1da323f125dd490d26948a2810b90e181 [102/122] media: qcom: camss: Add support for TFE (Spectra 340)
+config: hexagon-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250910/202509100228.xLeeYzpG-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509100228.xLeeYzpG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509100100.bccnVSbn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509100228.xLeeYzpG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   Error: arch/arm64/boot/dts/exynos/exynos990.dtsi:517.4-5 syntax error
->> FATAL ERROR: Unable to parse input tree
+>> drivers/media/platform/qcom/camss/camss-vfe-340.c:186:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     186 |                         if (bus_status & TFE_BUS_IRQ_MASK_RUP_DONE(i))
+         |                                          ^
+   drivers/media/platform/qcom/camss/camss-vfe-340.c:36:40: note: expanded from macro 'TFE_BUS_IRQ_MASK_RUP_DONE'
+      36 | #define         TFE_BUS_IRQ_MASK_RUP_DONE(sc)   FIELD_PREP(TFE_BUS_IRQ_MASK_RUP_DONE_MASK, BIT(sc))
+         |                                                 ^
+   drivers/media/platform/qcom/camss/camss-vfe-340.c:191:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     191 |                         if (bus_status & TFE_BUS_IRQ_MASK_BUF_DONE(i))
+         |                                          ^
+   drivers/media/platform/qcom/camss/camss-vfe-340.c:38:40: note: expanded from macro 'TFE_BUS_IRQ_MASK_BUF_DONE'
+      38 | #define         TFE_BUS_IRQ_MASK_BUF_DONE(sg)   FIELD_PREP(TFE_BUS_IRQ_MASK_BUF_DONE_MASK, BIT(sg))
+         |                                                 ^
+   2 errors generated.
+
+
+vim +/FIELD_PREP +186 drivers/media/platform/qcom/camss/camss-vfe-340.c
+
+   163	
+   164	static irqreturn_t vfe_isr(int irq, void *dev)
+   165	{
+   166		struct vfe_device *vfe = dev;
+   167		u32 status;
+   168		int i;
+   169	
+   170		status = readl_relaxed(vfe->base + TFE_IRQ_STATUS_0);
+   171		writel_relaxed(status, vfe->base + TFE_IRQ_CLEAR_0);
+   172		writel_relaxed(TFE_IRQ_CMD_CLEAR, vfe->base + TFE_IRQ_CMD);
+   173	
+   174		if (status & TFE_IRQ_MASK_0_RST_DONE) {
+   175			dev_dbg(vfe->camss->dev, "VFE%u: Reset done!", vfe->id);
+   176			vfe_isr_reset_ack(vfe);
+   177		}
+   178	
+   179		if (status & TFE_IRQ_MASK_0_BUS_WR) {
+   180			u32 bus_status = readl_relaxed(vfe->base + TFE_BUS_IRQ_STATUS_0);
+   181	
+   182			writel_relaxed(bus_status, vfe->base + TFE_BUS_IRQ_CLEAR_0);
+   183			writel_relaxed(TFE_BUS_IRQ_CMD_CLEAR, vfe->base + TFE_BUS_IRQ_CMD);
+   184	
+   185			for (i = 0; i < TFE_IFACE_NUM; i++) {
+ > 186				if (bus_status & TFE_BUS_IRQ_MASK_RUP_DONE(i))
+   187					vfe->res->hw_ops->reg_update_clear(vfe, __iface_to_line(i));
+   188			}
+   189	
+   190			for (i = 0; i < TFE_SUBGROUP_NUM; i++) {
+   191				if (bus_status & TFE_BUS_IRQ_MASK_BUF_DONE(i))
+   192					vfe_buf_done(vfe, __subgroup_to_line(i));
+   193			}
+   194	
+   195			if (bus_status & TFE_BUS_IRQ_MASK_0_CONS_VIOL)
+   196				dev_err_ratelimited(vfe->camss->dev, "VFE%u: Bad config violation",
+   197						    vfe->id);
+   198	
+   199			if (bus_status & TFE_BUS_IRQ_MASK_0_VIOL)
+   200				dev_err_ratelimited(vfe->camss->dev, "VFE%u: Input data violation",
+   201						    vfe->id);
+   202	
+   203			if (bus_status & TFE_BUS_IRQ_MASK_0_IMG_VIOL)
+   204				dev_err_ratelimited(vfe->camss->dev, "VFE%u: Image size violation",
+   205						    vfe->id);
+   206		}
+   207	
+   208		status = readl_relaxed(vfe->base + TFE_BUS_OVERFLOW_STATUS);
+   209		if (status) {
+   210			writel_relaxed(status, vfe->base + TFE_BUS_STATUS_CLEAR);
+   211			for (i = 0; i < TFE_WM_NUM; i++) {
+   212				if (status & BIT(i))
+   213					dev_err_ratelimited(vfe->camss->dev,
+   214							    "VFE%u: bus overflow for wm %u\n",
+   215							    vfe->id, i);
+   216			}
+   217		}
+   218	
+   219		return IRQ_HANDLED;
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
