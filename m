@@ -1,64 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F21246BA5;
-	Tue,  9 Sep 2025 05:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5D32550CA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 06:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757397448; cv=none; b=jkpQdQhIeORWExQawjViuz0wA9rp8HzfTaOYuqytNHQ+MnHL5CdgVduzt9wb6W/kwTYJf6AtKcGkpPqyznfxCpQb6BV6Rdd/rElfITfKOh8A8s+MV9B6Zoyb+9TNGErv5QzsiyXMTVdgoO+3AGh5yogCjZtbmYTWQp8n3R/A8CM=
+	t=1757398680; cv=none; b=cikWdbG/AzAozhPn+lUQTjn9MAoZG+EHLWSQsN0bsXCHzhcN+h/YIxIC9OK3Ed+wxsQF52o1XNyI9w27Sdb8vfSJCCFiTUym0ZxR/me1vp09Mcs2VJqOZmWJGdOPYyH2woQfy1Ed2wP3kr06CDgmXo1a3ltqVZl5Oj0yZbuzvJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757397448; c=relaxed/simple;
-	bh=wRIGqgU+LHDAj9RxqxY+/AD/mGH+3WQP2O8WuVivEqA=;
+	s=arc-20240116; t=1757398680; c=relaxed/simple;
+	bh=4WXIW00rUMuoH/LxiruMwl6Jw8DXTQAxkOm73/utT7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WXzhetReRRkZYRAqViI6OOOJeJTuPPPd+21BgLl/8HW4SEO/Z4csQ8CqFJjkFYrqbFWuqXTOYFjKtXyntd3/Lp0fapaPQnpeqkwXWWFP+S9jvZhaeeWAJU5NpORvemIX+IEY88CKAiBG9WdfqNQ8GPUxZs3XzmoWitBtGZGHajY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P2YpW6f0; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=k4pG8lloSyhePZzd4j0iY+shKCG38sqoNc9Z3G7iU9lDuHgTgFp83XNjWs8Fwy2B0C4YR4hSlHrR/IzPDsPL0CcH4MYDOZcgyCF9GCcTFMytY4Ygx9pAebIXv8QVqgNZ4zd1WRO7OQxB/odptaFFa3J21SGvYvmAarlDudDzi5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=N87mo8PV; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P2YpW6f0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757397447; x=1788933447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wRIGqgU+LHDAj9RxqxY+/AD/mGH+3WQP2O8WuVivEqA=;
-  b=P2YpW6f0XufvyLUfYj0vlW3evKAoKHjhE9xBeKxwW7Aae3Us0a+xPr8A
-   jYiIyngjfp8NjeUwyPOjCsnJmR7pE/2UgJnfynOtqxQscr16g7s5mWois
-   wjN2w2rrAr8s00WUApEq/i6r7xK5dL0Y05BnG+G3in9SOA/O+SLjXBXig
-   jG1wWI53CRRg1n6Ret42X3jsWhEQbtwJ8ebmfEV/T84MD9+1Tvnr4zFZE
-   3YTC5cx/JbWj74UorUGEhU3dJaKwhfoh8m8xrEs9+g+csbdSgStNbXynU
-   y9GkPg/wH0TzqhfLZ1CRuE0yFaJEJtT0SpmR+Yat4sUfSvtOPEFKg2ovZ
-   g==;
-X-CSE-ConnectionGUID: mqbR6qLuQ9mRwR6PAj0rFQ==
-X-CSE-MsgGUID: hd/xvYpMRhaUMAcZt+5S8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59777553"
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="59777553"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 22:55:32 -0700
-X-CSE-ConnectionGUID: OdGhGBqZTaujHPmSZAcvDA==
-X-CSE-MsgGUID: uK2ngv5BT5KhhrS2vkPPxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="196643725"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Sep 2025 22:55:28 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uvrK9-0004UV-2w;
-	Tue, 09 Sep 2025 05:55:25 +0000
-Date: Tue, 9 Sep 2025 13:55:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeongjun Park <aha310510@gmail.com>, mchehab@kernel.org,
-	hverkuil@xs4all.nl, hverkuil+cisco@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, aha310510@gmail.com,
-	syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2 1/2] media: az6007: fix out-of-bounds in
- az6007_i2c_xfer()
-Message-ID: <202509091306.eGl2abHr-lkp@intel.com>
-References: <20250908150730.24560-2-aha310510@gmail.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="N87mo8PV"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-24cd340377dso32250765ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Sep 2025 23:17:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1757398678; x=1758003478; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LArI4fz9z2RUHIMVRDEozej8RuFnnFsDypQBKDKEKlM=;
+        b=N87mo8PVOjUYJbrPl32Lc1qy0Pb3buC23eZ5Upo3J0K4S6u4/Mxd3pA6UxaB9koXDs
+         yZVZZw1ex/2rMlrBkSypdcrQdVpNnbZSV1OPXqjgNwLHLtafsVS6IpDoNGvm/Zh4sqwm
+         fYRC1lcL6t5HJCoqjS9YoODBCKrFaab/wg9Cfa/KGSQtf3d9uk4YcGehDsjD6zrHrflK
+         unKYwAUQEuRBjA0V63DKiX/yQZ3+47NXaLA4g8004H6PdlgusGJOkmxp5jzTNFHdm8Lr
+         HXhNC8lE3SXVbVWr6bjkqAWapHyrUw34itlCJOqgmw0aOIsxxrKBtm2Id37AFNCI1aTM
+         KRgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757398678; x=1758003478;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LArI4fz9z2RUHIMVRDEozej8RuFnnFsDypQBKDKEKlM=;
+        b=fgNE3qIb6IrGKnTHZ0XDhnm/ih6H2QJPqLRBcryFXREw+VocgVFooQrNKmyWr1Tone
+         vydA2VnTIEAD85UOi24ZLxa2sZE3NJql7RMjviGzqcMPkrF1hk6cFzTWFLrYd8Uo2P2e
+         tzLIx0HsEI1Bp7OOYG7YMJkcFCFcIgE+xPd8LbL5j38XWCr4k/TwLsqg8/tFZ94Pwd1k
+         figj22d1SeP/hmGiTqM467Xm6nl9pKGBUZ5Tx1vXqkq7KTowzZfU6VMdWPXo56mIIVM3
+         on/yX9VroGRo6rSpc97VSZhja++oaCBh+L7q3+DqehJhURRfJTwbuJuDkbRrc/6EBLgG
+         4NNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV13gK4EWf1Xmtc4mq760moipy5XESxfr4bLzE4qngYCptQBylF9cUMrkkBAQJpNZeUEUhLHFA8hBnG5Pfp@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOPYgV0hDjFHZ8A0a3CIQqZ/IErozI8ddVHWScr82pJhdf16CJ
+	oRoJh8wcgnZkbwMVjbCE4tWdL7vshzel5Qz39igOqi5y8QQfEqx9duNGtIA+qD8sjg==
+X-Gm-Gg: ASbGncuebtx2m/+UN5HQ3xQXI06Phshv47bIaq8wNB9gZnePsxSYMRKiH4ii7grAqPc
+	ZwqSjkJp7riwEH6JA0F/xHWOk9mVO4QFpOx4JUD5MorMgHcY6lY8PgaMEoQgP6jpS/bAx8Xl0n+
+	321smJjm3tkP/MN8xMOY3K66A7/m5fgSCugSUEh63J4IfuNY62M+nm4tZi0FFgvkBwhn7urta8/
+	Nz367nJSLYrdxtCSyB+/UYpm0NdHp0eC3LlhWvUnZlUepaW/p0h6PjbzQnTwyv4OltH3aV4/g6d
+	cxbJzPOgXANTtPs6O+icCyEAOL/b9pMTEXHteZoFoxRAVPgULXAdaWFVaC2W/NjSEU9hyg3Tcqw
+	oDhSKCWNr54cLt5ncpZXfxMqoUPI4aInkXOl1JdNcU8xeS4xbt5kTNmKOqfyV
+X-Google-Smtp-Source: AGHT+IEkHAzR6Xk0Y97cHdzqv3Qzt2g/2xG94+TwykxPgXHKx13j3+cFe6/+Cc21Ki8tIBcNSVxmEg==
+X-Received: by 2002:a17:903:2350:b0:252:1d6e:df75 with SMTP id d9443c01a7336-2521d6ee123mr132890615ad.41.1757398678082;
+        Mon, 08 Sep 2025 23:17:58 -0700 (PDT)
+Received: from bytedance ([61.213.176.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24cea3c7a83sm116669035ad.9.2025.09.08.23.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 23:17:57 -0700 (PDT)
+Date: Tue, 9 Sep 2025 14:17:46 +0800
+From: Aaron Lu <ziqianlu@bytedance.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, oe-kbuild-all@lists.linux.dev,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Ben Segall <bsegall@google.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Xi Wang <xii@google.com>, linux-kernel@vger.kernel.org,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
+	Chuyi Zhou <zhouchuyi@bytedance.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Florian Bezdeka <florian.bezdeka@siemens.com>,
+	Songtang Liu <liusongtang@bytedance.com>,
+	Chen Yu <yu.c.chen@intel.com>,
+	Matteo Martelli <matteo.martelli@codethink.co.uk>,
+	Michal <mkoutny@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH] sched/fair: Propagate load for throttled cfs_rq
+Message-ID: <20250909061746.GB35@bytedance>
+References: <20250908110548.GA35@bytedance>
+ <202509091233.f6nP3BVh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,101 +91,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250908150730.24560-2-aha310510@gmail.com>
+In-Reply-To: <202509091233.f6nP3BVh-lkp@intel.com>
 
-Hi Jeongjun,
+On Tue, Sep 09, 2025 at 12:20:47PM +0800, kernel test robot wrote:
+> Hi Aaron,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> 
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20250908-190724/Aaron-Lu/sched-fair-Add-related-data-structure-for-task-based-throttle/20250829-161501
+> base:   the 3th patch of https://lore.kernel.org/r/20250829081120.806-4-ziqianlu%40bytedance.com
+> patch link:    https://lore.kernel.org/r/20250908110548.GA35%40bytedance
+> patch subject: [PATCH] sched/fair: Propagate load for throttled cfs_rq
+> config: i386-buildonly-randconfig-001-20250909 (https://download.01.org/0day-ci/archive/20250909/202509091233.f6nP3BVh-lkp@intel.com/config)
+> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091233.f6nP3BVh-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509091233.f6nP3BVh-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/sched/fair.c:6747:1: error: expected identifier or '(' before '+' token
+>     6747 | +static inline bool cfs_rq_pelt_clock_throttled(struct cfs_rq *cfs_rq)
+>          | ^
 
-kernel test robot noticed the following build warnings:
+Sigh, I remembered I did a build test with !CFS_BANDWIDTH and now I went
+to check that build directory and noticed I didn't have CFS_BANDWIDTH
+disabled...
 
-[auto build test WARNING on linuxtv-media-pending/master]
-[also build test WARNING on linus/master v6.17-rc5 next-20250908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Sorry for the trouble, will send an updated patch later.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeongjun-Park/media-az6007-fix-out-of-bounds-in-az6007_i2c_xfer/20250908-231026
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20250908150730.24560-2-aha310510%40gmail.com
-patch subject: [PATCH v2 1/2] media: az6007: fix out-of-bounds in az6007_i2c_xfer()
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250909/202509091306.eGl2abHr-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091306.eGl2abHr-lkp@intel.com/reproduce)
+And thanks for the report, lkp.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509091306.eGl2abHr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/usb/dvb-usb-v2/az6007.c:107:16: warning: format specifies type 'unsigned long' but the argument has type '__size_t' (aka 'unsigned int') [-Wformat]
-     106 |                 pr_err("az6007: tried to read %d bytes, but I2C max size is %lu bytes\n",
-         |                                                                             ~~~
-         |                                                                             %zu
-     107 |                        blen, sizeof(st->data));
-         |                              ^~~~~~~~~~~~~~~~
-   include/linux/printk.h:557:33: note: expanded from macro 'pr_err'
-     557 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:514:60: note: expanded from macro 'printk'
-     514 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:486:19: note: expanded from macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   drivers/media/usb/dvb-usb-v2/az6007.c:154:16: warning: format specifies type 'unsigned long' but the argument has type '__size_t' (aka 'unsigned int') [-Wformat]
-     153 |                 pr_err("az6007: tried to write %d bytes, but I2C max size is %lu bytes\n",
-         |                                                                              ~~~
-         |                                                                              %zu
-     154 |                        blen, sizeof(st->data));
-         |                              ^~~~~~~~~~~~~~~~
-   include/linux/printk.h:557:33: note: expanded from macro 'pr_err'
-     557 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:514:60: note: expanded from macro 'printk'
-     514 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:486:19: note: expanded from macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +107 drivers/media/usb/dvb-usb-v2/az6007.c
-
-    99	
-   100	static int __az6007_read(struct usb_device *udev, struct az6007_device_state *st,
-   101				    u8 req, u16 value, u16 index, u8 *b, int blen)
-   102	{
-   103		int ret;
-   104	
-   105		if (blen > sizeof(st->data)) {
-   106			pr_err("az6007: tried to read %d bytes, but I2C max size is %lu bytes\n",
- > 107			       blen, sizeof(st->data));
-   108			return -EOPNOTSUPP;
-   109		}
-   110	
-   111		ret = usb_control_msg(udev,
-   112				      usb_rcvctrlpipe(udev, 0),
-   113				      req,
-   114				      USB_TYPE_VENDOR | USB_DIR_IN,
-   115				      value, index, b, blen, 5000);
-   116		if (ret < 0) {
-   117			pr_warn("usb read operation failed. (%d)\n", ret);
-   118			return -EIO;
-   119		}
-   120	
-   121		if (az6007_xfer_debug) {
-   122			printk(KERN_DEBUG "az6007: IN  req: %02x, value: %04x, index: %04x\n",
-   123			       req, value, index);
-   124			print_hex_dump_bytes("az6007: payload: ",
-   125					     DUMP_PREFIX_NONE, b, blen);
-   126		}
-   127	
-   128		return ret;
-   129	}
-   130	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> vim +6747 kernel/sched/fair.c
+> 
+>   6746	
+> > 6747	+static inline bool cfs_rq_pelt_clock_throttled(struct cfs_rq *cfs_rq)
+>   6748	{
+>   6749		return false;
+>   6750	}
+>   6751	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
