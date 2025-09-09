@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34151EB5CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Sep 2025 22:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B038218AC1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 01:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757371747; cv=none; b=dbJTHfwSqCqs2BwS8mZ+hmipsPmerF4NyWQgS3ft1fDOORX7GSrNSXPSt5ecf56CTXgeoT5FIyfCDF5l2Sb3BUGK1LEGkuKQ+/Lx0frpAH64GzWIBJ51qSUvbasMrl40iSvh9bwj42bc7FJfh9P0HqQlGfaOrG8KWPlt29lb4FA=
+	t=1757380306; cv=none; b=YD7FD/EOdYOWGgWLz3QYpT/pvbBjo05t4Q1SGumgoHHRGJwBbvJr8ShqwqtkRM7gfQxzUI1LYBlsUu01S9JC4CrMgiYy6RDLiAOglTQYh9xlJyHeWTSq5ueNmP14PsLBPP5waVG+ni+HEjEw9GCNsVa+xQP2hfyEwpEezjfMnu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757371747; c=relaxed/simple;
-	bh=OkCePolY7cDGgdqNxAbs/WJT/52i6H2FhBNbFIBYrM0=;
+	s=arc-20240116; t=1757380306; c=relaxed/simple;
+	bh=NKA4J0QtiAs+3PkPqnRqL7O8XXFgO6tEccrRdeWaAzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aOickl96pPLYnpFpWP4mb3yac2aDLLRmzvM3oRfLZYqLisTUMU7ip+ASNAiQicwHcuolH2j2gVB2JmHMSGo2mZzXUMfxsKZxn9vT3WJ+1wAWWL1D4dIxY1cbiBc0tXOKUIpFNa4ctOTuOVK2AJWu7Ez5KQngFcSO2PYnOIuCAa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USjzCSE6; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=QLlwMhG/hhdOv3Gwf8n1Qo++QkICL0svCb1QCKKRmtoRas3J3z8z3Px0hojRxwXkowFPgMqniAf8CiuGI23mOP0y7xD07BEDtTLZpdUmetM7V4uew8YkWAE2f2NnuvGQGfEbhq45ViKPHf0II33ozTkj5uPiGzry4Z3e50wyDg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9lYd9WF; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USjzCSE6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9lYd9WF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757371746; x=1788907746;
+  t=1757380304; x=1788916304;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OkCePolY7cDGgdqNxAbs/WJT/52i6H2FhBNbFIBYrM0=;
-  b=USjzCSE6IjIv5Iyl+CRJTjQoUGMtUWfXsArWcDpHcaSe7HfGddy5B6cV
-   z7kOOnxAfDJK+RwTn7EVnPTSRHdQjM8/bply2ItUtpwk6BE9SAnIGoo1P
-   n6pX3UCXB5x9xrkk8w7CTinE09ReRpPqrRxdS3DKSpICwH2cuno4jATxi
-   OoTUtMYiWI23H4INLu5JFURWhgiY0QjOPmmJE/EQ9fqm8ubtv2gN2moYB
-   tSk5XmNhwGCvlMpZ6/wugZFz1B4zNUwOl5M46GvAJ6d2VtAmGy4MtQNfT
-   +gEbXEWOAtHcj2yPq0j7r1Yzoc5MhSVKOq3iuYDLF7NjHOL8/zYhG0moH
+  bh=NKA4J0QtiAs+3PkPqnRqL7O8XXFgO6tEccrRdeWaAzU=;
+  b=A9lYd9WFF7LMu7EwrrsQ+358fq+v379TVyp6TUAgmNTIzjmVH6YHLFyT
+   yeg1o7/ghiX9vrrl296/pQ+PhgEP8eQ92t2mrIDJjkDzI7JycQrx9mXJJ
+   Y3JnasUk32FNH0DIfXMB7xLQOx+Ap0oWd5AGMVfWdTTm8SAKodSao8OHz
+   z91Z7LIN3KVcVIPdImk9HoXxUh5AG+XNjakH2bmhYYYWj+rt7yIk7u7DY
+   nARmmUsT5cIjX6DDtYJIvox7+lIeQKhlIIBkguKsjwQKalp1cFhuCsSEB
+   NwymMpDYEUktwuTbnN1nswBCHBp0ArzpAbO/GclB8ZEkLjRYYNeryigcJ
    g==;
-X-CSE-ConnectionGUID: DsJPcV+bQNCfkuaxj7vomQ==
-X-CSE-MsgGUID: ZwTqY3EmQCe0K5HFMKBfaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="70263415"
-X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="70263415"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 15:49:05 -0700
-X-CSE-ConnectionGUID: GwM3MuFeSgy63kMLRKY6fg==
-X-CSE-MsgGUID: 5colQc8fRuq7YtvESl4UFQ==
+X-CSE-ConnectionGUID: bbAaGI6OSumICgnTQM+jyQ==
+X-CSE-MsgGUID: h+nDWjAZQSqUveiyheo1RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59512857"
+X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
+   d="scan'208";a="59512857"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 18:11:42 -0700
+X-CSE-ConnectionGUID: 79xfsXjjSwGoGwRKx8z8AQ==
+X-CSE-MsgGUID: 4UDCd+s0S1uNMFJklwgc3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,249,1751266800"; 
-   d="scan'208";a="173390149"
+X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
+   d="scan'208";a="172119939"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2025 15:49:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 08 Sep 2025 18:11:42 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvkfV-0004DP-2q;
-	Mon, 08 Sep 2025 22:49:01 +0000
-Date: Tue, 9 Sep 2025 06:48:11 +0800
+	id 1uvmtX-0004IX-21;
+	Tue, 09 Sep 2025 01:11:39 +0000
+Date: Tue, 9 Sep 2025 09:11:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [rafael-pm:bleeding-edge 97/99]
- drivers/cpufreq/intel_pstate.c:1682:70: error: 'cpunum' undeclared
-Message-ID: <202509090605.9U0N21IK-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:rseq/slice 52/58]
+ ./arch/arc/include/generated/asm/syscall_table_32.h:471:16: error:
+ 'sys_rseq_sched_yield' undeclared here (not in a function); did you mean
+ 'sys_rseq_slice_yield'?
+Message-ID: <202509090936.FSl9ynmI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +64,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   f201aa3fccf8e14001fba263e82af41c881498f9
-commit: dd08703a10a122a3018e2e4f43d693fffe3120aa [97/99] cpufreq: intel_pstate: Rearrange freq QoS updates using __free()
-config: x86_64-buildonly-randconfig-003-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090605.9U0N21IK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090605.9U0N21IK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   a2e41ac0ef0218895394b1ac12abe5b67d6d62d0
+commit: e10fa02843f1a0c8abe9ea4953b04cbe9e11abca [52/58] rseq: Implement sys_rseq_slice_yield()
+config: arc-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20250909/202509090936.FSl9ynmI-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090936.FSl9ynmI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509090605.9U0N21IK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090936.FSl9ynmI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:103,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/kernel.h:23,
-                    from drivers/cpufreq/intel_pstate.c:11:
-   drivers/cpufreq/intel_pstate.c: In function 'update_cpu_qos_request':
->> drivers/cpufreq/intel_pstate.c:1682:70: error: 'cpunum' undeclared (first use in this function)
-    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
-         |                                                                      ^~~~~~
-   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cpufreq/intel_pstate.c:1682:17: note: in expansion of macro 'pr_warn'
-    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
-         |                 ^~~~~~~
-   drivers/cpufreq/intel_pstate.c:1682:70: note: each undeclared identifier is reported only once for each function it appears in
-    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
-         |                                                                      ^~~~~~
-   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cpufreq/intel_pstate.c:1682:17: note: in expansion of macro 'pr_warn'
-    1682 |                 pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
-         |                 ^~~~~~~
-
-
-vim +/cpunum +1682 drivers/cpufreq/intel_pstate.c
-
-  1654	
-  1655	static void update_cpu_qos_request(int cpu, enum freq_qos_req_type type)
-  1656	{
-  1657		struct cpudata *cpudata = all_cpu_data[cpu];
-  1658		struct freq_qos_request *req;
-  1659		unsigned int freq, perf_pct;
-  1660	
-  1661		struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(cpu);
-  1662		if (!policy)
-  1663			return;
-  1664	
-  1665		req = policy->driver_data;
-  1666		if (!req)
-  1667			return;
-  1668	
-  1669		if (hwp_active)
-  1670			intel_pstate_get_hwp_cap(cpudata);
-  1671	
-  1672		if (type == FREQ_QOS_MIN) {
-  1673			perf_pct = global.min_perf_pct;
-  1674		} else {
-  1675			req++;
-  1676			perf_pct = global.max_perf_pct;
-  1677		}
-  1678	
-  1679		freq = DIV_ROUND_UP(cpudata->pstate.turbo_freq * perf_pct, 100);
-  1680	
-  1681		if (freq_qos_update_request(req, freq) < 0)
-> 1682			pr_warn("Failed to update freq constraint: CPU%d\n", cpunum);
-  1683	}
-  1684	
+>> <stdin>:1624:2: warning: #warning syscall rseq_slice_yield not implemented [-Wcpp]
+--
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:462:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(461, sys_lsm_list_modules)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:463:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(462, sys_mseal)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[462]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:463:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(462, sys_mseal)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:464:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(463, sys_setxattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[463]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:464:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(463, sys_setxattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:465:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(464, sys_getxattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[464]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:465:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(464, sys_getxattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:466:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(465, sys_listxattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[465]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:466:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(465, sys_listxattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:467:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(466, sys_removexattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[466]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:467:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(466, sys_removexattrat)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:468:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(467, sys_open_tree_attr)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[467]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:468:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(467, sys_open_tree_attr)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:469:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(468, sys_file_getattr)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[468]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:469:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(468, sys_file_getattr)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: warning: initialized field overwritten [-Woverride-init]
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:470:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(469, sys_file_setattr)
+    ^~~~~~~~~
+   arch/arc/kernel/sys.c:13:36: note: (near initialization for 'sys_call_table[469]')
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                       ^
+   ./arch/arc/include/generated/asm/syscall_table_32.h:470:1: note: in expansion of macro '__SYSCALL'
+    __SYSCALL(469, sys_file_setattr)
+    ^~~~~~~~~
+>> ./arch/arc/include/generated/asm/syscall_table_32.h:471:16: error: 'sys_rseq_sched_yield' undeclared here (not in a function); did you mean 'sys_rseq_slice_yield'?
+    __SYSCALL(470, sys_rseq_sched_yield)
+                   ^~~~~~~~~~~~~~~~~~~~
+   arch/arc/kernel/sys.c:13:37: note: in definition of macro '__SYSCALL'
+    #define __SYSCALL(nr, call) [nr] = (call),
+                                        ^~~~
+--
+>> <stdin>:1624:2: warning: #warning syscall rseq_slice_yield not implemented [-Wcpp]
 
 -- 
 0-DAY CI Kernel Test Service
