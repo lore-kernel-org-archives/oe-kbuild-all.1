@@ -1,85 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817F554654;
-	Tue,  9 Sep 2025 04:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A47554654
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 04:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757390987; cv=none; b=uOVpIWggqX9y5zb0JYLGmQhWTSTHDsi3u1mFdW4+ptmzZ8uEOK/InRwbA0Xqtyxi+0v58ySJMusTjIzRgb2hTrYWJbKssJ2hx7vhnyq1diZLHNgU8qdn5Q3z/3bI7NIyUcjjtdxI/dQvZKTz7KZ9+8p/DiO9A+hm3LK9RG1B+7c=
+	t=1757391013; cv=none; b=oOt+GPBqWqAwgu08ebRrorv3EG7/CxR0sS5SRHdNJrXOiU+P5FDJMOEYcZPKzKGdrdkMwOjlth34em3vGxiIXtq0r/ZRTvNAmgf++fXNQI80iGT/iBKIp0d6iOzMPhoWZRzhplwvxLhPbHckeHN8FIWtaZqHJSeC2OqbYNkWVno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757390987; c=relaxed/simple;
-	bh=jhYZYCBzrdRs97Lp5NHmjYhyow4hwuVi+HJ47Uu6hEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mgEw8mbShGf4AuUZ/abNXplsA/gXhKNzofV0c3dGzP/SpoWTKIgvvPufRf6W/9u5ZjQzWWEUYrqn7sS+WesTYgcLg+usI73h73Ruj3VZ+wxYeFvs6mHBTNVIbyK+CXsfs5nACV6nHKMu0fwAw3BeAHiR7/cb1R226wrQc1xASeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoMz4YCf; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1757391013; c=relaxed/simple;
+	bh=kyjBtJcK2v0vjuP1nY0/INbwFDekbWsC9c/Zc0qpSdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HuiLMMcsq+nb752kb6PMqwHHhkeBN6N5C302iHob+TJSZyaNZnGmg5ie8b41D/JYJMuTcKZIudT/e8qVR+zCfd1OH1LDZJuf5vKyl2ZylQk9sqivT4SGgQrbo25T1OxbrLpLloJlpOyFEJ/5tPQOLXU5rj6Y08Y838FIqA/kn08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBM9kW+L; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoMz4YCf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBM9kW+L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757390985; x=1788926985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jhYZYCBzrdRs97Lp5NHmjYhyow4hwuVi+HJ47Uu6hEY=;
-  b=YoMz4YCfyqBZBt9iamBcydeGpAlmrBMzaKiS5SMnkSKpQIG991qeUrOk
-   TvppCy47yZYfswH03Hl1EFsiAqHI9iT48T9mxHmxm/PjrFQmMp7AcWd8h
-   /doJ4EnU4QskrIaVythcFJ25ccV7bwEe1jzDYAICuXZAJw9A9zdzkZMwM
-   1SKVCdV9k39y4ZcdDOlIfIlaoUVATEea/s0+Q/Ibyq8+ceJSJ2hO0SnU9
-   iUMcjMcs1Y3W87I4Eb6+2PsDu+L0R8DX/pvccrmuVnsxzJNfv4UBSwPZx
-   myU9cPN3Cm7dAHZfzFEOFBfLy7sRrz2eT9GBJeo+VA8xwSvIhkE1OgwWt
-   Q==;
-X-CSE-ConnectionGUID: 71aqZ8b/RBGJJm0yhMlarw==
-X-CSE-MsgGUID: DMqZBdgvRnKqKjzBLbdDhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="47239522"
+  t=1757391012; x=1788927012;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kyjBtJcK2v0vjuP1nY0/INbwFDekbWsC9c/Zc0qpSdI=;
+  b=JBM9kW+LcX4Du0cRgAfuqAsmEEHilugwqJrN0CtSlnmbjj1HA0HSo18k
+   /GMHGmwpn/2as54IpnpJVR+lyZPMN68vpMpygrpC5QMvU+1QkhDMGK2MY
+   ocTGoapbMHtdeF1TY1I63vhdQq7seniRyNJVHiaTUVR3oLI9F65eccn3+
+   lFloKoVWV5P+9oGjYoVwHmLG0loWTxwcnjysyUbdmyQNphabLaM0Bh/ZZ
+   8C9NanLFiwDtXvKZwmqKA4Pn/TJSt52GWqDTMsjeDjmkonoGLCz8dWRXi
+   2fxwgJyn5F3LFbDNaC2WRiezgAyymZrDD63ZED5oyheFdFZK1VKt4BKGS
+   w==;
+X-CSE-ConnectionGUID: Yp4eXZfHQKeCtSkKM2XXoA==
+X-CSE-MsgGUID: TQ8emnASSNmFgCdVRX4ruw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="71084067"
 X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="47239522"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 21:09:45 -0700
-X-CSE-ConnectionGUID: KZ/2k0LqTpC8WVCYgqnxaA==
-X-CSE-MsgGUID: 8I5xC4gsSpiBDJf3Eq8iug==
+   d="scan'208";a="71084067"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 21:10:11 -0700
+X-CSE-ConnectionGUID: A/mFBx60RNq1yMk3+y8cMg==
+X-CSE-MsgGUID: UJlBI7M4RoSyshdGpwku6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="172150183"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Sep 2025 21:09:37 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+   d="scan'208";a="173436905"
+Received: from unknown (HELO ca260db0ef79) ([10.91.175.65])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Sep 2025 21:10:11 -0700
+Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvpfi-0004Q3-2X;
-	Tue, 09 Sep 2025 04:09:34 +0000
-Date: Tue, 9 Sep 2025 12:09:20 +0800
+	id 1uvpgG-0004j5-1t;
+	Tue, 09 Sep 2025 04:10:08 +0000
+Date: Tue, 9 Sep 2025 06:09:32 +0200
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthew Wilcox <willy@infradead.org>, Guo Ren <guoren@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Nicolas Pitre <nico@fluxnic.net>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@redhat.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-	Dave Young <dyoung@redhat.com>, Tony Luck <tony.luck@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Dave Martin <Dave.Martin@arm.com>,
-	James Morse <james.morse@arm.com>
-Subject: Re: [PATCH 04/16] relay: update relay to use mmap_prepare
-Message-ID: <202509091137.FMoksKmh-lkp@intel.com>
-References: <9cfe531c6d250665dfae940afdb54c9bd2e9ba37.1757329751.git.lorenzo.stoakes@oracle.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/dev-bitstruct 21/21] warning: unresolved link to
+ `register`
+Message-ID: <202509090615.e2m8Hgop-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -88,34 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9cfe531c6d250665dfae940afdb54c9bd2e9ba37.1757329751.git.lorenzo.stoakes@oracle.com>
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on brauner-vfs/vfs.all char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus s390/features lwn/docs-next linus/master v6.17-rc5 next-20250908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-shmem-update-shmem-to-use-mmap_prepare/20250908-191516
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/9cfe531c6d250665dfae940afdb54c9bd2e9ba37.1757329751.git.lorenzo.stoakes%40oracle.com
-patch subject: [PATCH 04/16] relay: update relay to use mmap_prepare
-config: i386-buildonly-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20250909/202509091137.FMoksKmh-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/dev-bitstruct
+head:   354bc8b929b01ff2c5a095d0599346743c5cfa2d
+commit: 354bc8b929b01ff2c5a095d0599346743c5cfa2d [21/21] rust: Move register and bitfield macros out of Nova
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250909/202509090615.e2m8Hgop-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509091137.FMoksKmh-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090615.e2m8Hgop-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509091137.FMoksKmh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509090615.e2m8Hgop-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: kernel/relay.c:83 function parameter 'buf' not described in 'relay_mmap_prepare_buf'
+>> warning: unresolved link to `register`
+   --> rust/kernel/bits/bitfield.rs:6:66
+   |
+   6 | //! structures. Also used from things that need bitfields like [`register!`] macro.
+   |                                                                  ^^^^^^^^^ no item named `register` in scope
+   |
+   = note: `macro_rules` named `register` exists in this crate, but it is not in scope at this link's location
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+--
+>> warning: unresolved link to `bitfield`
+   --> rust/kernel/io/register.rs:59:26
+   |
+   59 | /// Please look at the [`bitfield`] macro for the complete syntax of fields definitions.
+   |                          ^^^^^^^^ no item named `bitfield` in scope
+   |
+   = note: `macro_rules` named `bitfield` exists in this crate, but it is not in scope at this link's location
+--
+>> warning: unclosed HTML tag `type`
+   --> rust/kernel/bits/bitfield.rs:29:60
+   |
+   29 | //! - `as <type>` simply returns the field value casted to <type>, typically `u32`, `u16`, `u8` or
+   |                                                            ^^^^^^
+   |
+   = note: `#[warn(rustdoc::invalid_html_tags)]` on by default
 
 -- 
 0-DAY CI Kernel Test Service
