@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FCB3451B4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Sep 2025 13:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E33522CBD9;
+	Tue,  9 Sep 2025 14:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757424787; cv=none; b=pludTpQIkxxsPQ6ydXrtUqGE+lU7c5HF4x9/iIJl1u9QfTulC47BvcvMjr5S7PLc0TWDlJp9mkeF/pVzd0ARZxR4/S+cSWADWwwcOHBB8cUQShRBG4xOyVSHa1B3BHTMJznGUynYrxTkxdT4S6/aAbSQmmJ+Lc4JtjjRCgzeiT8=
+	t=1757426656; cv=none; b=RtvlGG07oZQAYRtz77jDYK3ypIblQwqVxQWd5Lk20rJ+0NLYCUYz4H85tkMbUg8SVuyDVMtuDdRTgyNza5rPFmESxBxr2BIf1Rj5cZl67z2eHN0bei+UslH9bw0bg2HeHQD9wo4F7WrOkSlDp3fgyYHgH34RefJCRPBiNXTDrAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757424787; c=relaxed/simple;
-	bh=vQn5Ns/rZdju1+k5oJSvNbHwCpp74OomD9d/3hLJn54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AyzqrYaBn0EWKCUjAmwd2VWV4nYHu4HAzU4sFDYqpA/HPBq7RAMD46rHBoJHdgQ1CgNIcDWgYffSwuWz1oY8mO1DrPKf1NjMa59JdAxwkjxyz3lqnDdjQiMkwx4tvnA3tTG7h0tUvABu4dUJRsi3n+6btZ6fjwP/RQOtjpCJGxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQF87N48; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1757426656; c=relaxed/simple;
+	bh=bHE6tkhyuFOU4Er3uXFFGJEiL3T/RozdMiR0OMaLsJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FTgljDeotQcT/HhgNJQvrQhScij14RR3SrieBgLSgVn4YUFNawKaQ/dNIfhJitPuwuFdF3XoB4dJW7v4QwAEiCBdgc18G0Uic9XvzHA2WZsY36OeZGWgnBm3FjYG7Cdlv48ErRHbonTinKsXz5tZ5mcalhJPRbtkckabCwRWo2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUZQjaEt; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQF87N48"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUZQjaEt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757424786; x=1788960786;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vQn5Ns/rZdju1+k5oJSvNbHwCpp74OomD9d/3hLJn54=;
-  b=GQF87N485Ex6S6tErZDHOccD81iVEgoiUfSjRbKvLUftdnoOEajvushx
-   3iUn9bJa8NswtA0OpsrliA1tjjgyCoxIRxlnOdKySqH0APj6fGgmTNL4y
-   BTpe1djZdzuQ5U5ud2PmEpV+OmPPWM+UBLoVt24fXZ5xUbrq4O9Q9E+Or
-   E4fMAuuJ1VYawy2vmDi1wz70Jjtep9fyT5687xF+33vWBWmAE4rkrKsOj
-   Q8+hzzk8aI3rAq3QQKuSE/WIYpyU07MeCZq52KVbVhtRxo0AObdljNCLA
-   1xVZpvYZfKPCSSbVpFQhjkoEDpmp+KB2n1ELoD1+172jgQBcpKN5Tq6wm
+  t=1757426655; x=1788962655;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bHE6tkhyuFOU4Er3uXFFGJEiL3T/RozdMiR0OMaLsJ8=;
+  b=jUZQjaEtBi/ZevpKTUQ+b3BOmw/kuavHtBBXyiHuKPTMVehCro0slDnQ
+   0iiQ6GvxxQikksIpcCco3PJgSwXBt14c2rYgnRjy2CsyDP5WeMA0iais3
+   9kb7t5H055Y5aMvUSMlrNnighrYRBuydWw+pKTQyWkPfvr9/6Uxgv5NfW
+   BxKZg/EtBJWAen5ykXhZrfqB4XOT2sEJphEwW3GxI1WvJtTaBTEnIJG+/
+   eZsY1ZwrK5vcGcQPd1hm8Kpk6q7LEFUjC5zomDEHNHXF7Xtm/XoIb5+vM
+   v4yXhxcs7a4zKXhi+SbngUzEC/irnuWTiAlzlKKX809JiSkblU/TwrlY2
    Q==;
-X-CSE-ConnectionGUID: 3eyr49QrTJyT2kyxTxxkyg==
-X-CSE-MsgGUID: Od5UfmCAQcyxYegLXf5buA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59565890"
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; 
-   d="scan'208";a="59565890"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 06:33:06 -0700
-X-CSE-ConnectionGUID: nLT5NzcdSVCkdCXh5+noIg==
-X-CSE-MsgGUID: 62NvzgldQLiaeQuNNGmJ9w==
+X-CSE-ConnectionGUID: KhY89LSWT1CTGkvA6GBOGg==
+X-CSE-MsgGUID: ErN6IDXwTn+TwNoJSuQTzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59661675"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59661675"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 07:04:09 -0700
+X-CSE-ConnectionGUID: qH78s8DGQrinxnjbmXX5jQ==
+X-CSE-MsgGUID: feZHev2wSuizhO+3NpUhog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; 
-   d="scan'208";a="173471985"
+   d="scan'208";a="203865569"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2025 06:33:04 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 Sep 2025 07:04:08 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uvySz-0004uF-2v;
-	Tue, 09 Sep 2025 13:33:01 +0000
-Date: Tue, 9 Sep 2025 21:32:09 +0800
+	id 1uvyx3-0004vp-1g;
+	Tue, 09 Sep 2025 14:04:05 +0000
+Date: Tue, 9 Sep 2025 22:03:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mary Strodl <mstrodl@csh.rit.edu>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org, brgl@bgdev.pl,
-	linux-gpio@vger.kernel.org, Mary Strodl <mstrodl@csh.rit.edu>
-Subject: Re: [PATCH] gpio: mpsse: support bryx radio interface kit
-Message-ID: <202509092305.ncd9mzaZ-lkp@intel.com>
-References: <20250908173804.3816149-1-mstrodl@csh.rit.edu>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export-net 2/9] .b4-config: warning: ignored by one of the
+ .gitignore files
+Message-ID: <202509092140.B2VtiCnC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,86 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250908173804.3816149-1-mstrodl@csh.rit.edu>
 
-Hi Mary,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.17-rc5 next-20250909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mary-Strodl/gpio-mpsse-support-bryx-radio-interface-kit/20250909-014744
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20250908173804.3816149-1-mstrodl%40csh.rit.edu
-patch subject: [PATCH] gpio: mpsse: support bryx radio interface kit
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250909/202509092305.ncd9mzaZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509092305.ncd9mzaZ-lkp@intel.com/reproduce)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
+head:   001322eb512dfb2de4444190c10e82cf2f328d87
+commit: b0f2b972f6eeb989a7118b49bd45f0d52f962218 [2/9] DO-NOT-MERGE: git markup: net
+config: i386-randconfig-r113-20250909 (https://download.01.org/0day-ci/archive/20250909/202509092140.B2VtiCnC-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509092140.B2VtiCnC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509092305.ncd9mzaZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509092140.B2VtiCnC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/usb.h:19,
-                    from drivers/gpio/gpio-mpsse.c:13:
-   drivers/gpio/gpio-mpsse.c: In function 'mpsse_ensure_supported':
->> drivers/gpio/gpio-mpsse.c:211:25: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-     211 |                         "mpsse: GPIO %ld doesn't support %s\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/gpio/gpio-mpsse.c:210:17: note: in expansion of macro 'dev_err'
-     210 |                 dev_err(&priv->udev->dev,
-         |                 ^~~~~~~
-   drivers/gpio/gpio-mpsse.c:211:40: note: format string is defined here
-     211 |                         "mpsse: GPIO %ld doesn't support %s\n",
-         |                                      ~~^
-         |                                        |
-         |                                        long int
-         |                                      %d
-
-
-vim +211 drivers/gpio/gpio-mpsse.c
-
-   193	
-   194	static int mpsse_ensure_supported(struct gpio_chip *chip,
-   195					  unsigned long *mask, int direction)
-   196	{
-   197		unsigned long supported, unsupported;
-   198		char *type = "input";
-   199		struct mpsse_priv *priv = gpiochip_get_data(chip);
-   200	
-   201		supported = priv->dir_in;
-   202		if (direction == GPIO_LINE_DIRECTION_OUT) {
-   203			supported = priv->dir_out;
-   204			type = "output";
-   205		}
-   206	
-   207		/* An invalid bit was in the provided mask */
-   208		unsupported = *mask & supported;
-   209		if (unsupported) {
-   210			dev_err(&priv->udev->dev,
- > 211				"mpsse: GPIO %ld doesn't support %s\n",
-   212				find_first_bit(&unsupported, sizeof(unsupported) * 8),
-   213				type);
-   214			return -EOPNOTSUPP;
-   215		}
-   216	
-   217		return 0;
-   218	}
-   219	
+>> .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
