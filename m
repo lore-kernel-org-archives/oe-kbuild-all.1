@@ -1,85 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09313D984
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 05:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE9E258ED1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 05:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757482575; cv=none; b=V72Zh33T+GkmRcDg3RvZ0VNqG6uSQfg0w5pCbewsKjVOLkBqujZoAejahycV4O8i6qCo7WeO9tSYXh+GVvYfcw/OM7/PM2dyPM39AIrxvdukoK5B98af6VLl4XRk7rm61i9zv9CKOYeb9xc5nYQ+6IDbtHhxaa1mLKw6K4l1SNQ=
+	t=1757482658; cv=none; b=YW3VFLPug239qFLjPRD9DjvcH8ckUTzrQ74M+xMXAtxmuiZX6rx6h77+/QWxl0ZLGupWonJxucIXVmeK1VhYWm9wh7ceqRyKb3OftIgjf1dQfyfJJsYQGjqwMLgY1rtgVTlPg24Fj31lcjh712fmFu0fcvFFMKoTHDYX0axg0GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757482575; c=relaxed/simple;
-	bh=5/tGb29AoTR19zttNulm62dEg7qbxGYqbvexI4uRPYM=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=tuYUSetPZJRpfZ79MgPJzUTlDIdf3/TJxyWO2BdQ4zujjZpIyQWkCaIV1JWPLn4JjSkbaP0COMusVuf8LZ8KN87SWa1xwfg2vW+yMibsRRLbMaz5fUy+asIbGV5Ns2SI0IJgkX//qhvC+i0N/I2rplpiiV/G8ghbKIKMh8FV7iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=sOrIUiin; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757482658; c=relaxed/simple;
+	bh=iHHgcPaCsFLf8MyTZq941AN7FvV+U2MejTzrTRhAuCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r4mCXb88a2wayBuxe9UTKQ/gLJa6mn3CW1887SGehxnLvauEFybCNClowXFy9N57+Qv2KFi/pqpS70mEAuM2SOuqC3lKkSaiOK3nlvxhNRih4juguU7HwI0iatJDRnrF5yuRJpT/fiXBnsCYnOsajEqJX1EuUfYShqaNvj8YxwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qjrq4DI3; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="sOrIUiin"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDE7EC4CEF0;
-	Wed, 10 Sep 2025 05:36:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1757482574;
-	bh=5/tGb29AoTR19zttNulm62dEg7qbxGYqbvexI4uRPYM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sOrIUiing2YlYWY68MMv0n3bmumkyxurFIw2yqzdtXtypibY5ofZ0VMBH0DTAClr5
-	 /efTlONBPnLPOU1Juby7jAF2YSud/YuiCdT0NHwlzFHFaar/OVsTj27V09K3nZksPH
-	 UCYSgNY2UzWJhLsuNKVGthXPiRLq5F0KhgbVM1u8=
-Date: Tue, 9 Sep 2025 22:36:13 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Kairui Song <kasong@tencent.com>, oe-kbuild-all@lists.linux.dev, Linux
- Memory Management List <linux-mm@kvack.org>, Chris Li <chrisl@kernel.org>
-Subject: Re: [akpm-mm:mm-new 359/411] mm/swap.h:455:24: error: implicit
- declaration of function 'swp_offset'; did you mean 'bh_offset'?
-Message-Id: <20250909223613.6427ab904277aabbdbe1454a@linux-foundation.org>
-In-Reply-To: <202509100956.7q0VPOo2-lkp@intel.com>
-References: <202509100956.7q0VPOo2-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qjrq4DI3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757482657; x=1789018657;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iHHgcPaCsFLf8MyTZq941AN7FvV+U2MejTzrTRhAuCs=;
+  b=Qjrq4DI30hEy4EXb9QfcodaGaGQd7zItXwzHJV9rI6Ss3J/7YJBb3Kub
+   NMGD7BIPRANzXiXSpiAVIR7b8TcGADzomU1x0mNhoI3op1AyjBhCHHRYz
+   IBULW5TDouMayEmgS0LSDE+haiY69QU86/ci5MC0nkyLQqSCH48x+q38M
+   UAfQgbw1u34VTNt0Gb3sx6L0utnRFW/Ek/B3E6FJGhEgl8bpc5UbZSoGn
+   Z/ZJqbwQlmwW3CG+V89bbu/148kai8HQeKCw5SQM/7Hh+dnySYw9AhrmS
+   k8Z+elQ3XoBPv/bkRg4D27oLuLHlqHOvqw3nqZqVU0bTje7LQBPex5Vp+
+   g==;
+X-CSE-ConnectionGUID: KBZUN6EHRQKrfi6krYnyuA==
+X-CSE-MsgGUID: wxeSTAw9R12BT8GSmgmLHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59926030"
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
+   d="scan'208";a="59926030"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 22:37:36 -0700
+X-CSE-ConnectionGUID: 7HL6zpH3ToKbH420jadKEw==
+X-CSE-MsgGUID: cRjqMZyxSg2zhulDnKc0qA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
+   d="scan'208";a="173677850"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2025 22:37:32 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwDWM-0005Yx-27;
+	Wed, 10 Sep 2025 05:37:30 +0000
+Date: Wed, 10 Sep 2025 13:36:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lei Liu <liulei.rjpt@vivo.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Kairui Song <kasong@tencent.com>, Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
+	Chris Li <chrisl@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lei Liu <liulei.rjpt@vivo.com>
+Subject: Re: [PATCH v0 2/2] mm: swap: Forced swap entries release under
+ memory pressure
+Message-ID: <202509101302.pptHT8X8-lkp@intel.com>
+References: <20250909065349.574894-3-liulei.rjpt@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250909065349.574894-3-liulei.rjpt@vivo.com>
 
-On Wed, 10 Sep 2025 09:28:50 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Lei,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> head:   f4e8f46973fe0c0f579944a37e96ba9efbe00cca
-> commit: aabe1e0289084317ef7603c14132758fad3a975e [359/411] mm, swap: use the swap table for the swap cache and switch API
-> config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250910/202509100956.7q0VPOo2-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509100956.7q0VPOo2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509100956.7q0VPOo2-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from mm/filemap.c:65:
->    mm/swap.h: In function 'folio_index':
-> >> mm/swap.h:455:24: error: implicit declaration of function 'swp_offset'; did you mean 'bh_offset'? [-Wimplicit-function-declaration]
->      455 |                 return swp_offset(folio->swap);
->          |                        ^~~~~~~~~~
->          |                        bh_offset
+kernel test robot noticed the following build errors:
 
-Thanks.  I'll do this:
+[auto build test ERROR on akpm-mm/mm-everything]
 
---- a/mm/swap.h~mm-swap-use-the-swap-table-for-the-swap-cache-and-switch-api-fix
-+++ a/mm/swap.h
-@@ -451,8 +451,10 @@ static inline int non_swapcache_batch(sw
-  */
- static inline pgoff_t folio_index(struct folio *folio)
- {
-+#ifdef CONFIG_MMU
- 	if (unlikely(folio_test_swapcache(folio)))
- 		return swp_offset(folio->swap);
-+#endif
- 	return folio->index;
- }
- 
-_
+url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Liu/mm-swap-Gather-swap-entries-and-batch-async-release-core/20250909-145620
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250909065349.574894-3-liulei.rjpt%40vivo.com
+patch subject: [PATCH v0 2/2] mm: swap: Forced swap entries release under memory pressure
+config: sparc-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101302.pptHT8X8-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101302.pptHT8X8-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509101302.pptHT8X8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sparc64-linux-ld: kernel/exit.o: in function `do_exit':
+   exit.c:(.text+0x19f0): undefined reference to `exiting_task_count'
+   sparc64-linux-ld: exit.c:(.text+0x1a14): undefined reference to `exiting_task_count'
+   sparc64-linux-ld: exit.c:(.text+0x2124): undefined reference to `exiting_task_count'
+   sparc64-linux-ld: mm/memory.o: in function `unmap_page_range':
+   memory.c:(.text+0x46a4): undefined reference to `add_to_swap_gather_cache'
+   sparc64-linux-ld: mm/page_alloc.o: in function `__alloc_pages_slowpath.constprop.124':
+>> page_alloc.c:(.text+0xb44c): undefined reference to `flush_cache_if_needed'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
