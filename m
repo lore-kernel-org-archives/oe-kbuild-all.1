@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4962730EF95
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 10:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112203148D1;
+	Wed, 10 Sep 2025 10:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757501707; cv=none; b=lllpSixPRo6u3wqZGKxUObxCgue9ohZvzXTcLbaFP02kR7+oz3Gc2tHtSb/lyFfOkmNPoAU+A/x+AIwF99OpfNSZ8w4+Q4/m7lJ6lcK3bTGDruL0p8q0m9nmtozuScVUSbz8h71mv++5rkNnFwTpOKMLtteKVqIaVxuAlqvqFXI=
+	t=1757501770; cv=none; b=M5uKA0hGjvDXQ0a+Oo1+VDhyXW+Hm04QRH9ewgkZC19AP2WU9PZEgSnx/KPosGfiCLzgfOTKTduAHjkb+ZOTq1eoeaOKRX9JMO6Mo4T+852oI2SepIWzUmO/bYCya5QLTqVkOdYwYtceU9q2rCevA89YoGNSOR/GjV+2jisEHsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757501707; c=relaxed/simple;
-	bh=uAx299JcDZjCWTYD0f5NpEfnfmt5i9TOZB4kjp25Zro=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eP7XiLpPFsYmBj33iJp+Jbibb8nee5Yez/cheZxXF7QsAaqWyvkn6/j9bxG/tt8nlJzKfVoxwycNMN/GgFcPp4VHSvTvA7R6KNSjAUEYgHpMk9JbajNyWC4NzFbG601JPU0oDeA66WgXCrIFdjejz9R18mYZGr+IWbinhaUW4Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hdgBhCbS; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1757501770; c=relaxed/simple;
+	bh=pHpswxtRWQi3EOsPFZZJeb/sThV2Fod/Xfxn9Br6Mpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKwM+V6yP9kcRWg7FNhGHmmON+4+PAAveZF9tuq13FnM7VtzmAXKtw0IETi8GMQqcL5MrMMOZsYEztDoJPswV7cA43XLxkLaigvBwE7vuA3xPalR9xwnIyaXDIvKX949gtDaZ9C+0i0oG27aDGWbhx3qSSvf9sAfpuoPtb8A3Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DV6v2x5h; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hdgBhCbS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DV6v2x5h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757501706; x=1789037706;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uAx299JcDZjCWTYD0f5NpEfnfmt5i9TOZB4kjp25Zro=;
-  b=hdgBhCbSTTlm0xRhMBUV3FVKDLADutMH9/ZiTPi/QAYSIGxYkRG41FmE
-   EYKHEFzXDQ+k43Fkfyu63SCJZ3z4S98MpObApWOYX1xVNGVogv0W1n8jd
-   bbQNKZt+uzhSXr+eg6hf/slFH7PNrJ1rPe22KaCvV09b3a8mOYr0YcKeq
-   yZzQNGzlFbWrThIBMkGmQgSMNX3nACbJRacrjKZ9s23ErGPNLnkaZodX7
-   Z+0uv6pfl6vpywvr2LW87qYYeyWxxq7ZtYpQAW+o7QjyGw+PXxPZiopkH
-   go7tpONX92SyXSyG3J0z+2FQdBTTExSOE0UiOyI/fEB1czLHwlrEDPfYC
+  t=1757501769; x=1789037769;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pHpswxtRWQi3EOsPFZZJeb/sThV2Fod/Xfxn9Br6Mpo=;
+  b=DV6v2x5hBzrcmsV4BF49Ar8lzwtmkAG2j/7YrBtIXvFIOArM2NQCJutV
+   s1UHzHzQ4sJqYx1kT/lIr/JLXzwL99WBCc/VOoz7wl3I4cQsts6SHPZld
+   MGAmCU/5bONDlN3t3hSif7l39SrM7xUGpCvQPmTRzmKdPlDmWEalitlHg
+   rn4AssJ10TcgdNp5iP/Y1HIhAfLZABoMsRKB7cvh7ILGHaMYzwV37BfgS
+   aO0usjKTzPG4Ud9xED3vCixyXLh2Qg4M57IxpCt2iyi14Ac2akMQqbddm
+   cLqW8m6U1jPRT4u8dykNw74YT4HxsRb826J65nzFDOIqbPVQuRSgZd6rO
    w==;
-X-CSE-ConnectionGUID: HG+kd2vjSGOErn7J8O+goQ==
-X-CSE-MsgGUID: GuJ/q/zMQ8iQyOccZtqBiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59746557"
+X-CSE-ConnectionGUID: Z2JKd+4QSruOdEDBUrwZVg==
+X-CSE-MsgGUID: PxrFPp/nSFGiV0nncCkMfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="47379706"
 X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="59746557"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 03:55:05 -0700
-X-CSE-ConnectionGUID: NAL9cNw9RSmtKDncuokfJw==
-X-CSE-MsgGUID: mApGe61WReiRAT9ZePhUWg==
+   d="scan'208";a="47379706"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 03:56:08 -0700
+X-CSE-ConnectionGUID: K/bl4HYrR/qVZ5g0g3sg4A==
+X-CSE-MsgGUID: XnovDimTScqFoaCXKYjltA==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO ca260db0ef79) ([10.91.175.65])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Sep 2025 03:55:04 -0700
-Received: from kbuild by ca260db0ef79 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
+   d="scan'208";a="204121209"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2025 03:56:05 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwITe-0005DT-0C;
-	Wed, 10 Sep 2025 10:55:02 +0000
-Date: Wed, 10 Sep 2025 12:54:34 +0200
+	id 1uwIUc-0005r9-2l;
+	Wed, 10 Sep 2025 10:56:02 +0000
+Date: Wed, 10 Sep 2025 18:55:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Li <chrisl@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kairui Song <kasong@tencent.com>, linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-new 348/411] htmldocs:
- Documentation/mm/swap-table.rst:39: WARNING: duplicate label
- mm/swap-table:swap table, other instance in Documentation/mm/swap-table.rst
- [autosectionlabel.mm/swap-table]
-Message-ID: <202509101218.97pfd0jg-lkp@intel.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Andrew Lunn <andrew@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>
+Subject: Re: [PATCH net-next 3/4] net: dsa: mv88e6xxx: remove
+ chip->evcap_config
+Message-ID: <202509101826.aERYSElG-lkp@intel.com>
+References: <E1uw0Xk-00000004IOC-1EJd@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +69,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <E1uw0Xk-00000004IOC-1EJd@rmk-PC.armlinux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   3a0afa6640282ff559b6f4ff432cffc3ecc2bc77
-commit: ec9b9250f31f1560443efd2b4831e6d3404a135e [348/411] docs/mm: add document for swap table
-reproduce: (https://download.01.org/0day-ci/archive/20250910/202509101218.97pfd0jg-lkp@intel.com/reproduce)
+Hi Russell,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-dsa-mv88e6xxx-remove-mv88e6250_ptp_ops/20250910-034838
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/E1uw0Xk-00000004IOC-1EJd%40rmk-PC.armlinux.org.uk
+patch subject: [PATCH net-next 3/4] net: dsa: mv88e6xxx: remove chip->evcap_config
+config: i386-buildonly-randconfig-004-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101826.aERYSElG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101826.aERYSElG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509101218.97pfd0jg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509101826.aERYSElG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   WARNING: No kernel-doc for file ./include/linux/highmem.h
-   ERROR: Cannot find file ./include/linux/highmem-internal.h
-   WARNING: No kernel-doc for file ./include/linux/highmem-internal.h
-   ERROR: Cannot find file ./include/linux/migrate.h
-   WARNING: No kernel-doc for file ./include/linux/migrate.h
->> Documentation/mm/swap-table.rst:39: WARNING: duplicate label mm/swap-table:swap table, other instance in Documentation/mm/swap-table.rst [autosectionlabel.mm/swap-table]
-   ERROR: Cannot find file ./include/linux/ethtool.h
-   WARNING: No kernel-doc for file ./include/linux/ethtool.h
-   ERROR: Cannot find file ./include/linux/ethtool.h
-   WARNING: No kernel-doc for file ./include/linux/ethtool.h
-   ERROR: Cannot find file ./include/linux/ethtool.h
---
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/mm/swap-table.rst: WARNING: document isn't included in any toctree [toc.not_included]
+>> drivers/net/dsa/mv88e6xxx/ptp.c:182:2: error: use of undeclared identifier 'evcap_config'; did you mean 'evap_config'?
+     182 |         evcap_config = MV88E6XXX_TAI_CFG_CAP_OVERWRITE |
+         |         ^~~~~~~~~~~~
+         |         evap_config
+   drivers/net/dsa/mv88e6xxx/ptp.c:178:6: note: 'evap_config' declared here
+     178 |         u16 evap_config;
+         |             ^
+   drivers/net/dsa/mv88e6xxx/ptp.c:185:3: error: use of undeclared identifier 'evcap_config'; did you mean 'evap_config'?
+     185 |                 evcap_config |= MV88E6XXX_TAI_CFG_EVREQ_FALLING;
+         |                 ^~~~~~~~~~~~
+         |                 evap_config
+   drivers/net/dsa/mv88e6xxx/ptp.c:178:6: note: 'evap_config' declared here
+     178 |         u16 evap_config;
+         |             ^
+   drivers/net/dsa/mv88e6xxx/ptp.c:187:53: error: use of undeclared identifier 'evcap_config'; did you mean 'evap_config'?
+     187 |         err = mv88e6xxx_tai_write(chip, MV88E6XXX_TAI_CFG, evcap_config);
+         |                                                            ^~~~~~~~~~~~
+         |                                                            evap_config
+   drivers/net/dsa/mv88e6xxx/ptp.c:178:6: note: 'evap_config' declared here
+     178 |         u16 evap_config;
+         |             ^
+   3 errors generated.
 
 
-vim +39 Documentation/mm/swap-table.rst
+vim +182 drivers/net/dsa/mv88e6xxx/ptp.c
 
-    30	
-    31	2. folio: A folio has been allocated and bound to this swap entry. This is
-    32	   the transient state of swap out or swap in. The folio data can be in
-    33	   the folio or swap file, or both.
-    34	
-    35	3. shadow: The shadow contains the working set information of the swap
-    36	   outed folio. This is the normal state for a swap outed page.
-    37	
-    38	Swap Table
-  > 39	----------
-    40	
+   168	
+   169	/* mv88e6352_config_eventcap - configure TAI event capture
+   170	 * @event: PTP_CLOCK_PPS (internal) or PTP_CLOCK_EXTTS (external)
+   171	 * @rising: zero for falling-edge trigger, else rising-edge trigger
+   172	 *
+   173	 * This will also reset the capture sequence counter.
+   174	 */
+   175	static int mv88e6352_config_eventcap(struct mv88e6xxx_chip *chip, int event,
+   176					     int rising)
+   177	{
+   178		u16 evap_config;
+   179		u16 cap_config;
+   180		int err;
+   181	
+ > 182		evcap_config = MV88E6XXX_TAI_CFG_CAP_OVERWRITE |
+   183			       MV88E6XXX_TAI_CFG_CAP_CTR_START;
+   184		if (!rising)
+   185			evcap_config |= MV88E6XXX_TAI_CFG_EVREQ_FALLING;
+   186	
+   187		err = mv88e6xxx_tai_write(chip, MV88E6XXX_TAI_CFG, evcap_config);
+   188		if (err)
+   189			return err;
+   190	
+   191		if (event == PTP_CLOCK_PPS) {
+   192			cap_config = MV88E6XXX_TAI_EVENT_STATUS_CAP_TRIG;
+   193		} else if (event == PTP_CLOCK_EXTTS) {
+   194			/* if STATUS_CAP_TRIG is unset we capture PTP_EVREQ events */
+   195			cap_config = 0;
+   196		} else {
+   197			return -EINVAL;
+   198		}
+   199	
+   200		/* Write the capture config; this also clears the capture counter */
+   201		err = mv88e6xxx_tai_write(chip, MV88E6XXX_TAI_EVENT_STATUS,
+   202					  cap_config);
+   203	
+   204		return err;
+   205	}
+   206	
 
 -- 
 0-DAY CI Kernel Test Service
