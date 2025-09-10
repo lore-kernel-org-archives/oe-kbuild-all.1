@@ -1,72 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE9E258ED1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 05:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13282D73BC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 05:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757482658; cv=none; b=YW3VFLPug239qFLjPRD9DjvcH8ckUTzrQ74M+xMXAtxmuiZX6rx6h77+/QWxl0ZLGupWonJxucIXVmeK1VhYWm9wh7ceqRyKb3OftIgjf1dQfyfJJsYQGjqwMLgY1rtgVTlPg24Fj31lcjh712fmFu0fcvFFMKoTHDYX0axg0GA=
+	t=1757483860; cv=none; b=ostxhDdwWXjWxudaMfCKhWnijX6OFOdznHtzIxtiI5FGUP8Ua1K5fdmzQUtbJ4nPICJjhcONKOEeYPnN2Y16sBenHfltjtV06jwr01qaPG2ePz4G3YhZdn9VKaXtZ38dGlTZyMouEP3EC72uJ5zO2gnUUPUymfvozDHdXiu9cDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757482658; c=relaxed/simple;
-	bh=iHHgcPaCsFLf8MyTZq941AN7FvV+U2MejTzrTRhAuCs=;
+	s=arc-20240116; t=1757483860; c=relaxed/simple;
+	bh=mkYJqjsiORjHJd7c74oXowKFTaD/mx69o2VDb+oyXvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4mCXb88a2wayBuxe9UTKQ/gLJa6mn3CW1887SGehxnLvauEFybCNClowXFy9N57+Qv2KFi/pqpS70mEAuM2SOuqC3lKkSaiOK3nlvxhNRih4juguU7HwI0iatJDRnrF5yuRJpT/fiXBnsCYnOsajEqJX1EuUfYShqaNvj8YxwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qjrq4DI3; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=m/bQQpggK5NvZTr4xruoYAH/xkK2gzmqUZxokpvWhbVCxdRP36vQ0VSUh7YFkGeft2c36ouzsB9UJv/WyqaLs1SvJYLbhPo3/mnI50hzxhLs4Dw7jzD9ZYVvBkPWd7RImz+Td073wBi9u7g/Ptphk6QMtW4cUI6r9xa+nuksqpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hl2Hz52d; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qjrq4DI3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hl2Hz52d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757482657; x=1789018657;
+  t=1757483859; x=1789019859;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iHHgcPaCsFLf8MyTZq941AN7FvV+U2MejTzrTRhAuCs=;
-  b=Qjrq4DI30hEy4EXb9QfcodaGaGQd7zItXwzHJV9rI6Ss3J/7YJBb3Kub
-   NMGD7BIPRANzXiXSpiAVIR7b8TcGADzomU1x0mNhoI3op1AyjBhCHHRYz
-   IBULW5TDouMayEmgS0LSDE+haiY69QU86/ci5MC0nkyLQqSCH48x+q38M
-   UAfQgbw1u34VTNt0Gb3sx6L0utnRFW/Ek/B3E6FJGhEgl8bpc5UbZSoGn
-   Z/ZJqbwQlmwW3CG+V89bbu/148kai8HQeKCw5SQM/7Hh+dnySYw9AhrmS
-   k8Z+elQ3XoBPv/bkRg4D27oLuLHlqHOvqw3nqZqVU0bTje7LQBPex5Vp+
-   g==;
-X-CSE-ConnectionGUID: KBZUN6EHRQKrfi6krYnyuA==
-X-CSE-MsgGUID: wxeSTAw9R12BT8GSmgmLHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59926030"
+  bh=mkYJqjsiORjHJd7c74oXowKFTaD/mx69o2VDb+oyXvU=;
+  b=hl2Hz52dJfjLymb6gtEbhcAjo3TU1bHaxz+3dR34MrW2D4DRRWCv4j9r
+   KXCYWIJronfASMX2O7pJV1OhKc57kuaotlm/zF2X4RUr4ljQfPhYxij6a
+   hO/oM7ttkby2bQjaKtA/NgM4spGKJdlBXeuNDRTreKrTSTJpUyvSdUn8B
+   DiyQsSKxKx37G117ItPjOUUxd6E/GlLQHSR2WjpDk8vEpQc/5YZSIvUJA
+   iV3UFcMTGotROt1yralMFAZsYhflQGCrYdxnawamzI0mRrHKDRT431wL8
+   blGAmiR5eUU1MBQku4PS/rwhxtedBGyprfG4BdsIdilGU8H6Wz49sFWit
+   Q==;
+X-CSE-ConnectionGUID: 2O84D1ZbRUuH45LOVHuxEA==
+X-CSE-MsgGUID: xPkLH5IjQdetb9C5KTTLow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="71163856"
 X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="59926030"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 22:37:36 -0700
-X-CSE-ConnectionGUID: 7HL6zpH3ToKbH420jadKEw==
-X-CSE-MsgGUID: cRjqMZyxSg2zhulDnKc0qA==
+   d="scan'208";a="71163856"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 22:57:38 -0700
+X-CSE-ConnectionGUID: AHxEKrFcSV6kBnRbvkgHrg==
+X-CSE-MsgGUID: eYmD5IWQT8SCw4aoFXB6oA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="173677850"
+   d="scan'208";a="172457612"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2025 22:37:32 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Sep 2025 22:57:35 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwDWM-0005Yx-27;
-	Wed, 10 Sep 2025 05:37:30 +0000
-Date: Wed, 10 Sep 2025 13:36:34 +0800
+	id 1uwDpk-0005Zf-1e;
+	Wed, 10 Sep 2025 05:57:32 +0000
+Date: Wed, 10 Sep 2025 13:57:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lei Liu <liulei.rjpt@vivo.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Kairui Song <kasong@tencent.com>, Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
-	Chris Li <chrisl@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	open list <linux-kernel@vger.kernel.org>
+To: Durai Manickam KR <durai.manickamkr@microchip.com>,
+	linux-i3c@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alexandre.belloni@bootlin.com,
+	Frank.Li@nxp.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, balamanikandan.gunasundar@microchip.com,
+	nicolas.ferre@microchip.com
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Lei Liu <liulei.rjpt@vivo.com>
-Subject: Re: [PATCH v0 2/2] mm: swap: Forced swap entries release under
- memory pressure
-Message-ID: <202509101302.pptHT8X8-lkp@intel.com>
-References: <20250909065349.574894-3-liulei.rjpt@vivo.com>
+	Durai Manickam KR <durai.manickamkr@microchip.com>
+Subject: Re: [PATCH 2/4] i3c: master: add Microchip SAMA7D65 I3C HCI master
+ driver
+Message-ID: <202509101550.Bpclx47x-lkp@intel.com>
+References: <20250909111333.170016-3-durai.manickamkr@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,37 +69,203 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250909065349.574894-3-liulei.rjpt@vivo.com>
+In-Reply-To: <20250909111333.170016-3-durai.manickamkr@microchip.com>
 
-Hi Lei,
+Hi Durai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on robh/for-next linus/master v6.17-rc5 next-20250909]
+[cannot apply to abelloni/rtc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Liu/mm-swap-Gather-swap-entries-and-batch-async-release-core/20250909-145620
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250909065349.574894-3-liulei.rjpt%40vivo.com
-patch subject: [PATCH v0 2/2] mm: swap: Forced swap entries release under memory pressure
-config: sparc-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101302.pptHT8X8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101302.pptHT8X8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Durai-Manickam-KR/clk-at91-sama7d65-add-peripheral-clock-for-I3C/20250909-192231
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20250909111333.170016-3-durai.manickamkr%40microchip.com
+patch subject: [PATCH 2/4] i3c: master: add Microchip SAMA7D65 I3C HCI master driver
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250910/202509101550.Bpclx47x-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101550.Bpclx47x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509101302.pptHT8X8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509101550.Bpclx47x-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   sparc64-linux-ld: kernel/exit.o: in function `do_exit':
-   exit.c:(.text+0x19f0): undefined reference to `exiting_task_count'
-   sparc64-linux-ld: exit.c:(.text+0x1a14): undefined reference to `exiting_task_count'
-   sparc64-linux-ld: exit.c:(.text+0x2124): undefined reference to `exiting_task_count'
-   sparc64-linux-ld: mm/memory.o: in function `unmap_page_range':
-   memory.c:(.text+0x46a4): undefined reference to `add_to_swap_gather_cache'
-   sparc64-linux-ld: mm/page_alloc.o: in function `__alloc_pages_slowpath.constprop.124':
->> page_alloc.c:(.text+0xb44c): undefined reference to `flush_cache_if_needed'
+>> drivers/i3c/master/sama7d65-i3c-hci-master.c:2478:35: error: initialization of 'int (*)(struct i2c_dev_desc *, struct i2c_msg *, int)' from incompatible pointer type 'int (*)(struct i2c_dev_desc *, const struct i2c_msg *, int)' [-Wincompatible-pointer-types]
+    2478 |         .i2c_xfers              = mchp_i3c_hci_i2c_xfers,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/i3c/master/sama7d65-i3c-hci-master.c:2478:35: note: (near initialization for 'mchp_i3c_hci_ops.i2c_xfers')
+   drivers/i3c/master/sama7d65-i3c-hci-master.c:2283:12: note: 'mchp_i3c_hci_i2c_xfers' declared here
+    2283 | static int mchp_i3c_hci_i2c_xfers(struct i2c_dev_desc *dev,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/i3c/master/sama7d65-i3c-hci-master.c: In function 'mchp_i3c_hci_init':
+>> drivers/i3c/master/sama7d65-i3c-hci-master.c:2517:30: warning: variable 'mode_selector' set but not used [-Wunused-but-set-variable]
+    2517 |         bool size_in_dwords, mode_selector;
+         |                              ^~~~~~~~~~~~~
+   drivers/i3c/master/sama7d65-i3c-hci-master.c: At top level:
+>> drivers/i3c/master/sama7d65-i3c-hci-master.c:2695:10: error: 'struct platform_driver' has no member named 'remove_new'; did you mean 'remove'?
+    2695 |         .remove_new = mchp_i3c_hci_remove,
+         |          ^~~~~~~~~~
+         |          remove
+
+
+vim +2478 drivers/i3c/master/sama7d65-i3c-hci-master.c
+
+  2471	
+  2472	static const struct i3c_master_controller_ops mchp_i3c_hci_ops = {
+  2473		.bus_init		= mchp_i3c_hci_bus_init,
+  2474		.bus_cleanup		= mchp_i3c_hci_bus_cleanup,
+  2475		.do_daa			= mchp_i3c_hci_daa,
+  2476		.send_ccc_cmd		= mchp_i3c_hci_send_ccc_cmd,
+  2477		.priv_xfers		= mchp_i3c_hci_priv_xfers,
+> 2478		.i2c_xfers		= mchp_i3c_hci_i2c_xfers,
+  2479		.attach_i3c_dev		= mchp_i3c_hci_attach_i3c_dev,
+  2480		.reattach_i3c_dev	= mchp_i3c_hci_reattach_i3c_dev,
+  2481		.detach_i3c_dev		= mchp_i3c_hci_detach_i3c_dev,
+  2482		.attach_i2c_dev		= mchp_i3c_hci_attach_i2c_dev,
+  2483		.detach_i2c_dev		= mchp_i3c_hci_detach_i2c_dev,
+  2484		.request_ibi		= mchp_i3c_hci_request_ibi,
+  2485		.free_ibi		= mchp_i3c_hci_free_ibi,
+  2486		.enable_ibi		= mchp_i3c_hci_enable_ibi,
+  2487		.disable_ibi		= mchp_i3c_hci_disable_ibi,
+  2488		.recycle_ibi_slot	= mchp_i3c_hci_recycle_ibi_slot,
+  2489	};
+  2490	
+  2491	static irqreturn_t mchp_i3c_hci_irq_handler(int irq, void *dev_id)
+  2492	{
+  2493		struct mchp_i3c_hci *hci = dev_id;
+  2494		irqreturn_t result = IRQ_NONE;
+  2495		u32 val;
+  2496	
+  2497		val = reg_read(MCHP_INTR_STATUS);
+  2498		dev_dbg(&hci->master.dev,"INTR_STATUS = %#x", val);
+  2499	
+  2500		if (val & MCHP_INTR_HC_INTERNAL_ERR) {
+  2501			dev_err(&hci->master.dev, "Host Controller Internal Error\n");
+  2502			val &= ~MCHP_INTR_HC_INTERNAL_ERR;
+  2503		}
+  2504			
+  2505		hci->io->irq_handler(hci, 0);
+  2506		
+  2507		if (val)
+  2508			dev_err(&hci->master.dev, "unexpected INTR_STATUS %#x\n", val);
+  2509		else
+  2510			result = IRQ_HANDLED;
+  2511	
+  2512		return result;
+  2513	}
+  2514	
+  2515	static int mchp_i3c_hci_init(struct mchp_i3c_hci *hci)
+  2516	{
+> 2517		bool size_in_dwords, mode_selector;
+  2518		u32 regval, offset;
+  2519		int ret;
+  2520	
+  2521		/* Validate HCI hardware version */
+  2522		regval = reg_read(MCHP_HCI_VERSION);
+  2523		hci->version_major = (regval >> 8) & 0xf;
+  2524		hci->version_minor = (regval >> 4) & 0xf;
+  2525		hci->revision = regval & 0xf;
+  2526		dev_notice(&hci->master.dev, "MIPI I3C HCI v%u.%u r%02u\n",
+  2527			   hci->version_major, hci->version_minor, hci->revision);
+  2528		/* known versions */
+  2529		switch (regval & ~0xf) {
+  2530		case 0x100:	/* version 1.0 */
+  2531		case 0x110:	/* version 1.1 */
+  2532		case 0x200:	/* version 2.0 */
+  2533			break;
+  2534		default:
+  2535			dev_err(&hci->master.dev, "unsupported HCI version\n");
+  2536			return -EPROTONOSUPPORT;
+  2537		}
+  2538	
+  2539		hci->caps = reg_read(MCHP_HC_CAPABILITIES);
+  2540		dev_dbg(&hci->master.dev,"caps = %#x", hci->caps);
+  2541	
+  2542		size_in_dwords = hci->version_major < 1 ||
+  2543				 (hci->version_major == 1 && hci->version_minor < 1);
+  2544	
+  2545		regval = reg_read(MCHP_DAT_SECTION);
+  2546		offset = FIELD_GET(MCHP_DAT_TABLE_OFFSET, regval);
+  2547		hci->DAT_regs = offset ? hci->base_regs + offset : NULL;
+  2548		hci->DAT_entries = FIELD_GET(MCHP_DAT_TABLE_SIZE, regval);
+  2549		hci->DAT_entry_size = 8;
+  2550		if (size_in_dwords)
+  2551			hci->DAT_entries = 4 * hci->DAT_entries / hci->DAT_entry_size;
+  2552		dev_info(&hci->master.dev, "DAT: %u %u-bytes entries at offset %#x\n",
+  2553			 hci->DAT_entries, hci->DAT_entry_size, offset);
+  2554	
+  2555		regval = reg_read(MCHP_DCT_SECTION);
+  2556		offset = FIELD_GET(MCHP_DCT_TABLE_OFFSET, regval);
+  2557		hci->DCT_regs = offset ? hci->base_regs + offset : NULL;
+  2558		hci->DCT_entries = FIELD_GET(MCHP_DCT_TABLE_SIZE, regval);
+  2559		hci->DCT_entry_size = 16;
+  2560		if (size_in_dwords)
+  2561			hci->DCT_entries = 4 * hci->DCT_entries / hci->DCT_entry_size;
+  2562		dev_info(&hci->master.dev, "DCT: %u %u-bytes entries at offset %#x\n",
+  2563			 hci->DCT_entries, hci->DCT_entry_size, offset);
+  2564	
+  2565		regval = reg_read(MCHP_RING_HEADERS_SECTION);
+  2566		offset = FIELD_GET(MCHP_RING_HEADERS_OFFSET, regval);
+  2567		hci->RHS_regs = offset ? hci->base_regs + offset : NULL;
+  2568		dev_info(&hci->master.dev, "Ring Headers at offset %#x\n", offset);
+  2569	
+  2570		regval = reg_read(MCHP_PIO_SECTION);
+  2571		offset = FIELD_GET(MCHP_PIO_REGS_OFFSET, regval);
+  2572		hci->PIO_regs = offset ? hci->base_regs + offset : NULL;
+  2573		dev_info(&hci->master.dev, "PIO section at offset %#x\n", offset);
+  2574	
+  2575		regval = reg_read(MCHP_EXT_CAPS_SECTION);
+  2576		offset = FIELD_GET(MCHP_EXT_CAPS_OFFSET, regval);
+  2577		hci->EXTCAPS_regs = offset ? hci->base_regs + offset : NULL;
+  2578		dev_info(&hci->master.dev, "Extended Caps at offset %#x\n", offset);
+  2579	
+  2580		ret = i3c_hci_parse_ext_caps(hci);
+  2581		if (ret)
+  2582			return ret;
+  2583	
+  2584		/*
+  2585		 * Now let's reset the hardware.
+  2586		 * SOFT_RST must be clear before we write to it.
+  2587		 * Then we must wait until it clears again.
+  2588		 */
+  2589		ret = readx_poll_timeout(reg_read, MCHP_RESET_CONTROL, regval,
+  2590					 !(regval & MCHP_SOFT_RST), 1, 10000);
+  2591		if (ret)
+  2592			return -ENXIO;
+  2593		reg_write(MCHP_RESET_CONTROL, MCHP_SOFT_RST);
+  2594		ret = readx_poll_timeout(reg_read, MCHP_RESET_CONTROL, regval,
+  2595					 !(regval & MCHP_SOFT_RST), 1, 10000);
+  2596		if (ret)
+  2597			return -ENXIO;
+  2598	
+  2599		/* Disable all interrupts and allow all signal updates */
+  2600		reg_write(MCHP_INTR_SIGNAL_ENABLE, 0x0);
+  2601		reg_write(MCHP_INTR_STATUS_ENABLE, 0xffffffff);
+  2602		
+  2603		hci->cmd = &mchp_mipi_i3c_hci_cmd_v1;
+  2604		mode_selector = hci->version_major > 1 ||
+  2605					(hci->version_major == 1 && hci->version_minor > 0);
+  2606	
+  2607		/* Quirk for HCI_QUIRK_PIO_MODE on MICROCHIP platforms */
+  2608		if (hci->quirks & MCHP_HCI_QUIRK_PIO_MODE) {
+  2609				hci->RHS_regs = NULL;
+  2610		}
+  2611	
+  2612		hci->io = &mchp_mipi_i3c_hci_pio;
+  2613		dev_info(&hci->master.dev, "Using PIO\n");
+  2614		
+  2615		microchip_set_od_pp_timing(hci);
+  2616	
+  2617		return 0;
+  2618	}
+  2619	
 
 -- 
 0-DAY CI Kernel Test Service
