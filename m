@@ -1,157 +1,380 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496C32853F1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 11:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07270286887
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 11:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757504872; cv=none; b=AZ1i+xJrt+IJ6FHsgpbEZ//CukD0h0twch8eQzxKCjjf/t7id6GLXtKdXKhulVJ/RNYTDpvkAGAqfbpRVSErR6d5U6wvJCDeR0H7MeCGjD4LNfJXc2M0dCgebHNggKwm2isbEhk0kRpZYU1xuKsVyXnX2NdmhgAdKrUS4gXFp1E=
+	t=1757505139; cv=none; b=BM+p4rDjguDbcUlqV57jbu7Rd6KN533R3/HzCZXF20H2l00Fn/1cYhR4eN6FDwbEnq/vSftOY5SICFXyxmKQRVw/A9QgwbKBnjV7afL4coqkmwDl14ZjQHVT33AJvFHIa7WsGh1j9JrUYttqYn5UgIe34UhMp2bs9D+MLOvT5z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757504872; c=relaxed/simple;
-	bh=WbEtV0CPIKyH7FQXM3VCsQudJJTxDRA8dDx1E0cAO8k=;
+	s=arc-20240116; t=1757505139; c=relaxed/simple;
+	bh=5Hp/oKPkHsUuZA6Q1/6gbpTd2B7w0tSqt5NgaPd9o6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=gsxq11dsDzoBkuxLM/tQ7eLea/FiA3BeAkS6uScNA7lSDx/+dVOwNTMCNK2PGx6EnxkQRER+s4Eek27eHJFyy+hqhpLyn7k9tyTZ62GVGr0Nl1+6ZV+PiMDp4j3UtVsxRBX1xEZBDtnBxw+GgaLwDeooArtca3g9rVichFkVCVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lYfVPm7A; arc=none smtp.client-ip=209.85.221.53
+	 Content-Disposition; b=hqso42LntZ+FI7RQAZh2lKHj9jiKNIFynbCBHVUqzf/AxLlM6/iI3ALuHZ156yUlCIKRRftKQ3JcY9q8qR9rgadMT29m2T30+PEqlkw5e+ZxStOXRiM/Uk/ot9OoQUdmzduGMmLEnxSkDMxp4Bm3ehz2kHqPJUEpEdgZq6pfWfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PgpypB/Z; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lYfVPm7A"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3e4aeaa57b9so3738810f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 04:47:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PgpypB/Z"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3dad6252eacso3082538f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 04:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757504867; x=1758109667; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wg2Ph+PhoATIteAbw+PWkWD/06VwBl1ynTVTQY5RYgk=;
-        b=lYfVPm7Ami7Zd4dpSP1bMYj7j4/HC0u2FLwXZEUf2kmxU7OFFoQs3eO55A7FkGPv+A
-         vOdpkmjEeS7O6shVAPcfL0hgK5OlBr065kAevUbPQSXtqebkElLpHJtRDoH/gZ0Is0EB
-         9Ff8+Wfc9kgyp5+se4MaPe+Id3rmbPDbD37CNcBXAoz9D328jZjf5k4UrA+xQfEL+JOn
-         ma2FHav6DVBykkIxylgRMw2WII1Ms9QZdRG7oU8Lk7weklJh5O8HWX1+iIPFeujHShO+
-         yJ3XOMmoAiMO4FY9MdgPlsXd6rR0ZyTY1/RWMLaQro7cKrUObSUBwhqqBf8Gj7Eod3x4
-         RULw==
+        d=linaro.org; s=google; t=1757505135; x=1758109935; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fcIPCfwPAXxAXbJS6PXfX+4igHbW0m5QEjDzV/8XpOg=;
+        b=PgpypB/ZfIsDbHw8hzXj5ZCqn8BYjNs0OsTjfjM99Oh3zcLQFVApZpCTgnrM+6Iyk8
+         l7KgogfcKvYFXONf8WYhE4Ka+A2enndaPTEu6ZFUOwpV/k9+m8vqdoxvJdkq83Pb3SWD
+         WL9NPwLK/o7dEznxtjBIAZ8XjOU05sZDQKRgxnHIZNnd1bypQCqcz9w/neNASbc1KUFs
+         dVbMjY3g6ZS919BFfxlkP5BNRrqpyWdyKJpg2OECqYbUzjLxpusJAEpDGrYO+WOK2JoS
+         98nWuYDhzBGdtaTPnaBqAkvBnJopCpnU7KJup8+StHyOU9z8E9KpZeHH0LTQeDqoP0Mz
+         +loQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757504867; x=1758109667;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wg2Ph+PhoATIteAbw+PWkWD/06VwBl1ynTVTQY5RYgk=;
-        b=pAd8YsCHmWsERfJSRL/c5KNcxEEwipo5dnXdkRpTc+t40VenLwGlhP05KsLxDgUMXn
-         8kQm3dMX5Fl9+nffSQBYUAJ3SyoI4Z4DN1oRHm9k38Nkjt0y5Nd4BroxnLEQa2VPzicb
-         zLkXQO0q8K2aQf8MlhX32JQO/ObtO0S/LysyGONL8c4D1fkqHAQQ7llS6m5gl6hBheBm
-         ey9sZ9pwscdX1fsRkF+0z3f5T+0gvydV6Lv4rfxiGatzQVeUqUm3ztl1ALCPDYPFuLZa
-         gfjXzM0Fl4yQwZ8X7JUu7jGmXIiQD+mFJZA59EBON5FppFnMGUPTLLWz49BcCHxg5gPi
-         L0WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSYDU0+CyQx+73NQi1CKGYv33aM9NKlWOnEeuz6zXt2RM5PNa8LOpgkOdBQbRL2pAW9kYeDqX5Dri8x1is@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywu6O/VVB4tgEvnLlNAgjsp5wRqlHd+Z8BZGvxvTzGEox2Ux0Sw
-	OU1RiWWVJfpDxWJ6MIic0c13qj8rVQE2qQjPgur3RaGy0DsOzDZJtAD1I4JzJf/tDHs=
-X-Gm-Gg: ASbGncubyho+fTEtEVmwdtP6PI+2euzABCO/wWYFgVcJmzcrLr6LLkOW0uYwKDSrPHm
-	H3hUw8IzBCxuzVN8IMGKG3zzsPHrTPCIODnNxAh2diT0SRUYmGAzlZhc8WZPfqet071if1I5zqZ
-	V4Qm49dZP8n/d2ZLq9SSXV15t4YWKTzaN86WXEQqxBty8d6JD7HplwrE7pVF/inF99L5DeOZVPB
-	TGMniIzSoqpe9YYfzUiw6ByCVZD0A16d39ORDpmpxVhufLswoHI1UwijMCNNl4P5cqMPBK5eLB/
-	WTlhKvsqoN5vO0dxtqpL2Vz0iH6TIik15XbqcT6zP52uu55PDWjTyYTHe6eeJ61x8VmGD7+RDBF
-	SvRDuO1YjeLd4XyzMSvJHAfqmFTU=
-X-Google-Smtp-Source: AGHT+IHpMaxaSaJ4cnLK/bK8wa1YrfXhxVJLuuDTkuh1vmaIEZ84Pcyd9YYbH8IfZoLQCxj9xtJuUA==
-X-Received: by 2002:adf:b350:0:b0:3e7:41ac:45f8 with SMTP id ffacd0b85a97d-3e741ac4939mr7821201f8f.55.1757504867368;
-        Wed, 10 Sep 2025 04:47:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757505135; x=1758109935;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fcIPCfwPAXxAXbJS6PXfX+4igHbW0m5QEjDzV/8XpOg=;
+        b=mjR8QAF53pF1TD40UElTkWNQyf+IHtEW04fId9uhVkaSY0ERXYr2BQNhCFPBpTCuRr
+         2/N/GFE43xti85xiZXIGwdofQ51uR+84q/jFcUwUDQUCB+kIoc2+q/yLmVkPIpmfNpRv
+         O3Oyd15AJnpAGEXKmkBKu8rGZVgtLfNYs3yPRGQWUz71zE0DOYT6U9cdu9yabBZQMaZr
+         TMu3aVY39z5EoaOpJM8Aom7c9jk+N5s4K2DpXSGifHZR7F/p172LKLGpGSuzLLaJi4EQ
+         pzzzWc8q4Ew+17zmAS3+uofeAUPxdMs678LukD4WCuZGdVV4CO3j/dRTN8oTPYUvdZPO
+         vogg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0T48eHmEjLD5Zr+wtmXry0F9CPGj3z/+XsH9J/sVZcFTneQBG7anted+JznxK0+WJzEQcLvTB4hOOsu34@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy86EMXtQJj6m2N0JYKbMbdCiV3G2ZbIKLplkz/s24w8B71dHIY
+	xfMstm7MaTCkvHnJ3GaECWeKNeolkL8mnd+FUYIuDj0bqcjUBArHwe0SzeVintXudJw=
+X-Gm-Gg: ASbGnctfzZNXgFyhydST+WeNgPUS27ZnjNM/bbV80jDms9Vz0KDq4W40uTBwpOix2rd
+	YC1WfUOZVc7IITi8cirmpUG0EvPg2xPN3uONdNqE4KFOMmYlS8GQJKwzFl407u+AEnnYYXxKLtT
+	1pIrNAgbzIr+XFySfXqQ6FCujyHief9XtZtNg8pr3gi+rGHWowo1AXyhLmdoIydZAPoI3eRUrPU
+	mjcIRA36Rh/+eiMyszoqex7w8RtRsZVVEt6IjKFDFYQ1H0XUv4JjYAb49ueTrKL+8JUPwp4ibrL
+	WbtmJrunhK7646s1NMIVkjyngzea5HYCn8SiPPBBh6NwfpcgB+ui81tzGIdNqliX9m1Fvat1AmA
+	SJ3jH0YYSyPX9dakANr/WYSWDiyhcACKGCpEvCw==
+X-Google-Smtp-Source: AGHT+IH2F4ZDOcfdo6NantUsEJt8pV0AZL+w4GIUouTg1IIKOI6p2mM+egJzAwME+fYT1f1zPKOuKA==
+X-Received: by 2002:a05:6000:1a8c:b0:3e4:7f66:8ade with SMTP id ffacd0b85a97d-3e63736f0a6mr11420376f8f.6.1757505135030;
+        Wed, 10 Sep 2025 04:52:15 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7521bfe00sm6893713f8f.5.2025.09.10.04.47.46
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7521ca0e9sm7040166f8f.25.2025.09.10.04.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 04:47:46 -0700 (PDT)
-Date: Wed, 10 Sep 2025 14:47:43 +0300
+        Wed, 10 Sep 2025 04:52:14 -0700 (PDT)
+Date: Wed, 10 Sep 2025 14:52:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, GuangFei Luo <luogf2025@163.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
+To: oe-kbuild@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	luogf2025@163.com
-Subject: Re: [PATCH] ACPI: battery: prevent sysfs_add_battery re-entry on
- rapid events
-Message-ID: <202509101620.yI0HZ5gT-lkp@intel.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-new 398/411] mm/huge_memory.c:3069
+ __split_huge_pmd_locked() error: uninitialized symbol 'write'.
+Message-ID: <202509101756.jkC29gja-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250907035154.223983-1-luogf2025@163.com>
+Content-Transfer-Encoding: 8bit
 
-Hi GuangFei,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/GuangFei-Luo/ACPI-battery-prevent-sysfs_add_battery-re-entry-on-rapid-events/20250907-115505
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250907035154.223983-1-luogf2025%40163.com
-patch subject: [PATCH] ACPI: battery: prevent sysfs_add_battery re-entry on rapid events
-config: x86_64-randconfig-161-20250909 (https://download.01.org/0day-ci/archive/20250910/202509101620.yI0HZ5gT-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   3a0afa6640282ff559b6f4ff432cffc3ecc2bc77
+commit: 825d533acfd9573bd1b99f08a80c42fa41fbf07d [398/411] mm/huge_memory: implement device-private THP splitting
+config: i386-randconfig-141-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101756.jkC29gja-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509101620.yI0HZ5gT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509101756.jkC29gja-lkp@intel.com/
 
 smatch warnings:
-drivers/acpi/battery.c:1046 acpi_battery_update() warn: inconsistent returns '&battery->sysfs_lock'.
+mm/huge_memory.c:3069 __split_huge_pmd_locked() error: uninitialized symbol 'write'.
+mm/huge_memory.c:3078 __split_huge_pmd_locked() error: uninitialized symbol 'young'.
 
-vim +1046 drivers/acpi/battery.c
+vim +/write +3069 mm/huge_memory.c
 
-9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1001  static int acpi_battery_update(struct acpi_battery *battery, bool resume)
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1002  {
-82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1003  	int result = acpi_battery_get_status(battery);
-82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1004  
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1005  	if (result)
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1006  		return result;
-82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1007  
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1008  	if (!acpi_battery_present(battery)) {
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1009  		sysfs_remove_battery(battery);
-97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1010  		battery->update_time = 0;
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1011  		return 0;
-508df92d1f8d192 Andrey Borzenkov        2007-10-28  1012  	}
-9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1013  
-9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1014  	if (resume)
-9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1015  		return 0;
-9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1016  
-82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1017  	if (!battery->update_time) {
-97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1018  		result = acpi_battery_get_info(battery);
-97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1019  		if (result)
-97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1020  			return result;
-97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1021  		acpi_battery_init_alarm(battery);
-97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1022  	}
-12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1023  
-12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1024  	result = acpi_battery_get_state(battery);
-12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1025  	if (result)
-12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1026  		return result;
-12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1027  	acpi_battery_quirks(battery);
-12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1028  
-ce5e61beaad5c5a GuangFei Luo            2025-09-07  1029  	mutex_lock(&battery->sysfs_lock);
-297d716f6260cc9 Krzysztof Kozlowski     2015-03-12  1030  	if (!battery->bat) {
-eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1031  		result = sysfs_add_battery(battery);
-eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1032  		if (result)
-eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1033  			return result;
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2875  static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
+ba98828088ad3f Kirill A. Shutemov 2016-01-15  2876  		unsigned long haddr, bool freeze)
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2877  {
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2878  	struct mm_struct *mm = vma->vm_mm;
+91b2978a348073 David Hildenbrand  2023-12-20  2879  	struct folio *folio;
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2880  	struct page *page;
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2881  	pgtable_t pgtable;
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  2882  	pmd_t old_pmd, _pmd;
+825d533acfd957 Balbir Singh       2025-09-08  2883  	bool young, write, soft_dirty, uffd_wp = false;
+825d533acfd957 Balbir Singh       2025-09-08  2884  	bool anon_exclusive = false, dirty = false, present = false;
+2ac015e293bbe3 Kirill A. Shutemov 2016-02-24  2885  	unsigned long addr;
+c9c1ee20ee84b1 Hugh Dickins       2023-06-08  2886  	pte_t *pte;
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2887  	int i;
+825d533acfd957 Balbir Singh       2025-09-08  2888  	swp_entry_t swp_entry;
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2889  
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2890  	VM_BUG_ON(haddr & ~HPAGE_PMD_MASK);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2891  	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2892  	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PMD_SIZE, vma);
+825d533acfd957 Balbir Singh       2025-09-08  2893  
+825d533acfd957 Balbir Singh       2025-09-08  2894  	VM_WARN_ON(!is_pmd_migration_entry(*pmd) && !pmd_trans_huge(*pmd) &&
+825d533acfd957 Balbir Singh       2025-09-08  2895  			!is_pmd_device_private_entry(*pmd));
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2896  
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2897  	count_vm_event(THP_SPLIT_PMD);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2898  
+d21b9e57c74ce8 Kirill A. Shutemov 2016-07-26  2899  	if (!vma_is_anonymous(vma)) {
+ec8832d007cb7b Alistair Popple    2023-07-25  2900  		old_pmd = pmdp_huge_clear_flush(vma, haddr, pmd);
+953c66c2b22a30 Aneesh Kumar K.V   2016-12-12  2901  		/*
+953c66c2b22a30 Aneesh Kumar K.V   2016-12-12  2902  		 * We are going to unmap this huge page. So
+953c66c2b22a30 Aneesh Kumar K.V   2016-12-12  2903  		 * just go ahead and zap it
+953c66c2b22a30 Aneesh Kumar K.V   2016-12-12  2904  		 */
+953c66c2b22a30 Aneesh Kumar K.V   2016-12-12  2905  		if (arch_needs_pgtable_deposit())
+953c66c2b22a30 Aneesh Kumar K.V   2016-12-12  2906  			zap_deposited_table(mm, pmd);
+38607c62b34b46 Alistair Popple    2025-02-28  2907  		if (!vma_is_dax(vma) && vma_is_special_huge(vma))
+d21b9e57c74ce8 Kirill A. Shutemov 2016-07-26  2908  			return;
+99fa8a48203d62 Hugh Dickins       2021-06-15  2909  		if (unlikely(is_pmd_migration_entry(old_pmd))) {
+99fa8a48203d62 Hugh Dickins       2021-06-15  2910  			swp_entry_t entry;
+99fa8a48203d62 Hugh Dickins       2021-06-15  2911  
+99fa8a48203d62 Hugh Dickins       2021-06-15  2912  			entry = pmd_to_swp_entry(old_pmd);
+439992ff4637ad Kefeng Wang        2024-01-11  2913  			folio = pfn_swap_entry_folio(entry);
+38607c62b34b46 Alistair Popple    2025-02-28  2914  		} else if (is_huge_zero_pmd(old_pmd)) {
+38607c62b34b46 Alistair Popple    2025-02-28  2915  			return;
+99fa8a48203d62 Hugh Dickins       2021-06-15  2916  		} else {
+99fa8a48203d62 Hugh Dickins       2021-06-15  2917  			page = pmd_page(old_pmd);
+a8e61d584eda0d David Hildenbrand  2023-12-20  2918  			folio = page_folio(page);
+a8e61d584eda0d David Hildenbrand  2023-12-20  2919  			if (!folio_test_dirty(folio) && pmd_dirty(old_pmd))
+db44c658f798ad David Hildenbrand  2024-01-22  2920  				folio_mark_dirty(folio);
+a8e61d584eda0d David Hildenbrand  2023-12-20  2921  			if (!folio_test_referenced(folio) && pmd_young(old_pmd))
+a8e61d584eda0d David Hildenbrand  2023-12-20  2922  				folio_set_referenced(folio);
+a8e61d584eda0d David Hildenbrand  2023-12-20  2923  			folio_remove_rmap_pmd(folio, page, vma);
+a8e61d584eda0d David Hildenbrand  2023-12-20  2924  			folio_put(folio);
+99fa8a48203d62 Hugh Dickins       2021-06-15  2925  		}
+6b27cc6c66abf0 Kefeng Wang        2024-01-11  2926  		add_mm_counter(mm, mm_counter_file(folio), -HPAGE_PMD_NR);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2927  		return;
+99fa8a48203d62 Hugh Dickins       2021-06-15  2928  	}
+99fa8a48203d62 Hugh Dickins       2021-06-15  2929  
+3b77e8c8cde581 Hugh Dickins       2021-06-15  2930  	if (is_huge_zero_pmd(*pmd)) {
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2931  		/*
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2932  		 * FIXME: Do we want to invalidate secondary mmu by calling
+1af5a8109904b7 Alistair Popple    2023-07-25  2933  		 * mmu_notifier_arch_invalidate_secondary_tlbs() see comments below
+1af5a8109904b7 Alistair Popple    2023-07-25  2934  		 * inside __split_huge_pmd() ?
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2935  		 *
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2936  		 * We are going from a zero huge page write protected to zero
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2937  		 * small page also write protected so it does not seems useful
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2938  		 * to invalidate secondary mmu at this time.
+4645b9fe84bf48 Jérôme Glisse      2017-11-15  2939  		 */
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2940  		return __split_huge_zero_page_pmd(vma, haddr, pmd);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2941  	}
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2942  
+84c3fc4e9c563d Zi Yan             2017-09-08  2943  
+825d533acfd957 Balbir Singh       2025-09-08  2944  	present = pmd_present(*pmd);
+825d533acfd957 Balbir Singh       2025-09-08  2945  	if (unlikely(!present)) {
+825d533acfd957 Balbir Singh       2025-09-08  2946  		swp_entry = pmd_to_swp_entry(*pmd);
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2947  		old_pmd = *pmd;
+825d533acfd957 Balbir Singh       2025-09-08  2948  
+825d533acfd957 Balbir Singh       2025-09-08  2949  		folio = pfn_swap_entry_folio(swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  2950  		VM_WARN_ON(!is_migration_entry(swp_entry) &&
+825d533acfd957 Balbir Singh       2025-09-08  2951  				!is_device_private_entry(swp_entry));
+825d533acfd957 Balbir Singh       2025-09-08  2952  		page = pfn_swap_entry_to_page(swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  2953  
+825d533acfd957 Balbir Singh       2025-09-08  2954  		if (is_pmd_migration_entry(old_pmd)) {
+825d533acfd957 Balbir Singh       2025-09-08  2955  			write = is_writable_migration_entry(swp_entry);
+6c287605fd5646 David Hildenbrand  2022-05-09  2956  			if (PageAnon(page))
+825d533acfd957 Balbir Singh       2025-09-08  2957  				anon_exclusive =
+825d533acfd957 Balbir Singh       2025-09-08  2958  					is_readable_exclusive_migration_entry(
+825d533acfd957 Balbir Singh       2025-09-08  2959  								swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  2960  			young = is_migration_entry_young(swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  2961  			dirty = is_migration_entry_dirty(swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  2962  		} else if (is_pmd_device_private_entry(old_pmd)) {
+825d533acfd957 Balbir Singh       2025-09-08  2963  			write = is_writable_device_private_entry(swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  2964  			anon_exclusive = PageAnonExclusive(page);
+825d533acfd957 Balbir Singh       2025-09-08  2965  			if (freeze && anon_exclusive &&
+825d533acfd957 Balbir Singh       2025-09-08  2966  			    folio_try_share_anon_rmap_pmd(folio, page))
+825d533acfd957 Balbir Singh       2025-09-08  2967  				freeze = false;
+825d533acfd957 Balbir Singh       2025-09-08  2968  			if (!freeze) {
+825d533acfd957 Balbir Singh       2025-09-08  2969  				rmap_t rmap_flags = RMAP_NONE;
+825d533acfd957 Balbir Singh       2025-09-08  2970  
+825d533acfd957 Balbir Singh       2025-09-08  2971  				folio_ref_add(folio, HPAGE_PMD_NR - 1);
+825d533acfd957 Balbir Singh       2025-09-08  2972  				if (anon_exclusive)
+825d533acfd957 Balbir Singh       2025-09-08  2973  					rmap_flags |= RMAP_EXCLUSIVE;
+825d533acfd957 Balbir Singh       2025-09-08  2974  
+825d533acfd957 Balbir Singh       2025-09-08  2975  				folio_add_anon_rmap_ptes(folio, page, HPAGE_PMD_NR,
+825d533acfd957 Balbir Singh       2025-09-08  2976  						 vma, haddr, rmap_flags);
+825d533acfd957 Balbir Singh       2025-09-08  2977  			}
 
-mutex_unlock(&battery->sysfs_lock) before returning.
+young not initiazed on this path.
 
-eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1034  	}
-ce5e61beaad5c5a GuangFei Luo            2025-09-07  1035  	mutex_unlock(&battery->sysfs_lock);
-e0d1f09e311fafa Zhang Rui               2014-05-28  1036  
-e0d1f09e311fafa Zhang Rui               2014-05-28  1037  	/*
-e0d1f09e311fafa Zhang Rui               2014-05-28  1038  	 * Wakeup the system if battery is critical low
-e0d1f09e311fafa Zhang Rui               2014-05-28  1039  	 * or lower than the alarm level
-e0d1f09e311fafa Zhang Rui               2014-05-28  1040  	 */
-e0d1f09e311fafa Zhang Rui               2014-05-28  1041  	if ((battery->state & ACPI_BATTERY_STATE_CRITICAL) ||
-e0d1f09e311fafa Zhang Rui               2014-05-28  1042  	    (test_bit(ACPI_BATTERY_ALARM_PRESENT, &battery->flags) &&
-e0d1f09e311fafa Zhang Rui               2014-05-28  1043  	     (battery->capacity_now <= battery->alarm)))
-33e4f80ee69b516 Rafael J. Wysocki       2017-06-12  1044  		acpi_pm_wakeup_event(&battery->device->dev);
-e0d1f09e311fafa Zhang Rui               2014-05-28  1045  
-557d58687dcdee6 Zhang Rui               2010-10-22 @1046  	return result;
-4bd35cdb1e2d1a1 Vladimir Lebedev        2007-02-10  1047  }
+825d533acfd957 Balbir Singh       2025-09-08  2978  		}
+
+
+There isn't an else so young and write aren't initialized.
+
+825d533acfd957 Balbir Singh       2025-09-08  2979  
+2e83ee1d8694a6 Peter Xu           2018-12-21  2980  		soft_dirty = pmd_swp_soft_dirty(old_pmd);
+f45ec5ff16a75f Peter Xu           2020-04-06  2981  		uffd_wp = pmd_swp_uffd_wp(old_pmd);
+2e83ee1d8694a6 Peter Xu           2018-12-21  2982  	} else {
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2983  		/*
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2984  		 * Up to this point the pmd is present and huge and userland has
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2985  		 * the whole access to the hugepage during the split (which
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2986  		 * happens in place). If we overwrite the pmd with the not-huge
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2987  		 * version pointing to the pte here (which of course we could if
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2988  		 * all CPUs were bug free), userland could trigger a small page
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2989  		 * size TLB miss on the small sized TLB while the hugepage TLB
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2990  		 * entry is still established in the huge TLB. Some CPU doesn't
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2991  		 * like that. See
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2992  		 * http://support.amd.com/TechDocs/41322_10h_Rev_Gd.pdf, Erratum
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2993  		 * 383 on page 105. Intel should be safe but is also warns that
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2994  		 * it's only safe if the permission and cache attributes of the
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2995  		 * two entries loaded in the two TLB is identical (which should
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2996  		 * be the case here). But it is generally safer to never allow
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2997  		 * small and huge TLB entries for the same virtual address to be
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2998  		 * loaded simultaneously. So instead of doing "pmd_populate();
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  2999  		 * flush_pmd_tlb_range();" we first mark the current pmd
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3000  		 * notpresent (atomically because here the pmd_trans_huge must
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3001  		 * remain set at all times on the pmd until the split is
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3002  		 * complete for this pmd), then we flush the SMP TLB and finally
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3003  		 * we write the non-huge version of the pmd entry with
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3004  		 * pmd_populate.
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3005  		 */
+3a5a8d343e1cf9 Ryan Roberts       2024-05-01  3006  		old_pmd = pmdp_invalidate(vma, haddr, pmd);
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3007  		page = pmd_page(old_pmd);
+91b2978a348073 David Hildenbrand  2023-12-20  3008  		folio = page_folio(page);
+0ccf7f168e17bb Peter Xu           2022-08-11  3009  		if (pmd_dirty(old_pmd)) {
+0ccf7f168e17bb Peter Xu           2022-08-11  3010  			dirty = true;
+91b2978a348073 David Hildenbrand  2023-12-20  3011  			folio_set_dirty(folio);
+0ccf7f168e17bb Peter Xu           2022-08-11  3012  		}
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3013  		write = pmd_write(old_pmd);
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3014  		young = pmd_young(old_pmd);
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3015  		soft_dirty = pmd_soft_dirty(old_pmd);
+292924b2602474 Peter Xu           2020-04-06  3016  		uffd_wp = pmd_uffd_wp(old_pmd);
+6c287605fd5646 David Hildenbrand  2022-05-09  3017  
+91b2978a348073 David Hildenbrand  2023-12-20  3018  		VM_WARN_ON_FOLIO(!folio_ref_count(folio), folio);
+91b2978a348073 David Hildenbrand  2023-12-20  3019  		VM_WARN_ON_FOLIO(!folio_test_anon(folio), folio);
+6c287605fd5646 David Hildenbrand  2022-05-09  3020  
+6c287605fd5646 David Hildenbrand  2022-05-09  3021  		/*
+6c287605fd5646 David Hildenbrand  2022-05-09  3022  		 * Without "freeze", we'll simply split the PMD, propagating the
+6c287605fd5646 David Hildenbrand  2022-05-09  3023  		 * PageAnonExclusive() flag for each PTE by setting it for
+6c287605fd5646 David Hildenbrand  2022-05-09  3024  		 * each subpage -- no need to (temporarily) clear.
+6c287605fd5646 David Hildenbrand  2022-05-09  3025  		 *
+6c287605fd5646 David Hildenbrand  2022-05-09  3026  		 * With "freeze" we want to replace mapped pages by
+6c287605fd5646 David Hildenbrand  2022-05-09  3027  		 * migration entries right away. This is only possible if we
+6c287605fd5646 David Hildenbrand  2022-05-09  3028  		 * managed to clear PageAnonExclusive() -- see
+6c287605fd5646 David Hildenbrand  2022-05-09  3029  		 * set_pmd_migration_entry().
+6c287605fd5646 David Hildenbrand  2022-05-09  3030  		 *
+6c287605fd5646 David Hildenbrand  2022-05-09  3031  		 * In case we cannot clear PageAnonExclusive(), split the PMD
+6c287605fd5646 David Hildenbrand  2022-05-09  3032  		 * only and let try_to_migrate_one() fail later.
+088b8aa537c2c7 David Hildenbrand  2022-09-01  3033  		 *
+e3b4b1374f87c7 David Hildenbrand  2023-12-20  3034  		 * See folio_try_share_anon_rmap_pmd(): invalidate PMD first.
+6c287605fd5646 David Hildenbrand  2022-05-09  3035  		 */
+91b2978a348073 David Hildenbrand  2023-12-20  3036  		anon_exclusive = PageAnonExclusive(page);
+e3b4b1374f87c7 David Hildenbrand  2023-12-20  3037  		if (freeze && anon_exclusive &&
+e3b4b1374f87c7 David Hildenbrand  2023-12-20  3038  		    folio_try_share_anon_rmap_pmd(folio, page))
+6c287605fd5646 David Hildenbrand  2022-05-09  3039  			freeze = false;
+91b2978a348073 David Hildenbrand  2023-12-20  3040  		if (!freeze) {
+91b2978a348073 David Hildenbrand  2023-12-20  3041  			rmap_t rmap_flags = RMAP_NONE;
+91b2978a348073 David Hildenbrand  2023-12-20  3042  
+91b2978a348073 David Hildenbrand  2023-12-20  3043  			folio_ref_add(folio, HPAGE_PMD_NR - 1);
+91b2978a348073 David Hildenbrand  2023-12-20  3044  			if (anon_exclusive)
+91b2978a348073 David Hildenbrand  2023-12-20  3045  				rmap_flags |= RMAP_EXCLUSIVE;
+91b2978a348073 David Hildenbrand  2023-12-20  3046  			folio_add_anon_rmap_ptes(folio, page, HPAGE_PMD_NR,
+91b2978a348073 David Hildenbrand  2023-12-20  3047  						 vma, haddr, rmap_flags);
+91b2978a348073 David Hildenbrand  2023-12-20  3048  		}
+9d84604b845c38 Hugh Dickins       2022-03-22  3049  	}
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3050  
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3051  	/*
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3052  	 * Withdraw the table only after we mark the pmd entry invalid.
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3053  	 * This's critical for some architectures (Power).
+423ac9af3ceff9 Aneesh Kumar K.V   2018-01-31  3054  	 */
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3055  	pgtable = pgtable_trans_huge_withdraw(mm, pmd);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3056  	pmd_populate(mm, &_pmd, pgtable);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3057  
+c9c1ee20ee84b1 Hugh Dickins       2023-06-08  3058  	pte = pte_offset_map(&_pmd, haddr);
+c9c1ee20ee84b1 Hugh Dickins       2023-06-08  3059  	VM_BUG_ON(!pte);
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3060  
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3061  	/*
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3062  	 * Note that NUMA hinting access restrictions are not transferred to
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3063  	 * avoid any possibility of altering permissions across VMAs.
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3064  	 */
+825d533acfd957 Balbir Singh       2025-09-08  3065  	if (freeze || !present) {
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3066  		for (i = 0, addr = haddr; i < HPAGE_PMD_NR; i++, addr += PAGE_SIZE) {
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3067  			pte_t entry;
+825d533acfd957 Balbir Singh       2025-09-08  3068  			if (freeze || is_migration_entry(swp_entry)) {
+4dd845b5a3e57a Alistair Popple    2021-06-30 @3069  				if (write)
+
+Eventually we use write when it's uninitialized.
+
+4dd845b5a3e57a Alistair Popple    2021-06-30  3070  					swp_entry = make_writable_migration_entry(
+4dd845b5a3e57a Alistair Popple    2021-06-30  3071  								page_to_pfn(page + i));
+6c287605fd5646 David Hildenbrand  2022-05-09  3072  				else if (anon_exclusive)
+6c287605fd5646 David Hildenbrand  2022-05-09  3073  					swp_entry = make_readable_exclusive_migration_entry(
+6c287605fd5646 David Hildenbrand  2022-05-09  3074  								page_to_pfn(page + i));
+4dd845b5a3e57a Alistair Popple    2021-06-30  3075  				else
+4dd845b5a3e57a Alistair Popple    2021-06-30  3076  					swp_entry = make_readable_migration_entry(
+4dd845b5a3e57a Alistair Popple    2021-06-30  3077  								page_to_pfn(page + i));
+2e3468778dbe3e Peter Xu           2022-08-11 @3078  				if (young)
+
+young used here.
+
+2e3468778dbe3e Peter Xu           2022-08-11  3079  					swp_entry = make_migration_entry_young(swp_entry);
+2e3468778dbe3e Peter Xu           2022-08-11  3080  				if (dirty)
+2e3468778dbe3e Peter Xu           2022-08-11  3081  					swp_entry = make_migration_entry_dirty(swp_entry);
+ba98828088ad3f Kirill A. Shutemov 2016-01-15  3082  				entry = swp_entry_to_pte(swp_entry);
+804dd150468cfd Andrea Arcangeli   2016-08-25  3083  				if (soft_dirty)
+804dd150468cfd Andrea Arcangeli   2016-08-25  3084  					entry = pte_swp_mksoft_dirty(entry);
+f45ec5ff16a75f Peter Xu           2020-04-06  3085  				if (uffd_wp)
+f45ec5ff16a75f Peter Xu           2020-04-06  3086  					entry = pte_swp_mkuffd_wp(entry);
+825d533acfd957 Balbir Singh       2025-09-08  3087  			} else {
+825d533acfd957 Balbir Singh       2025-09-08  3088  				/*
+825d533acfd957 Balbir Singh       2025-09-08  3089  				 * anon_exclusive was already propagated to the relevant
+825d533acfd957 Balbir Singh       2025-09-08  3090  				 * pages corresponding to the pte entries when freeze
+825d533acfd957 Balbir Singh       2025-09-08  3091  				 * is false.
+825d533acfd957 Balbir Singh       2025-09-08  3092  				 */
+825d533acfd957 Balbir Singh       2025-09-08  3093  				if (write)
+825d533acfd957 Balbir Singh       2025-09-08  3094  					swp_entry = make_writable_device_private_entry(
+825d533acfd957 Balbir Singh       2025-09-08  3095  								page_to_pfn(page + i));
+825d533acfd957 Balbir Singh       2025-09-08  3096  				else
+825d533acfd957 Balbir Singh       2025-09-08  3097  					swp_entry = make_readable_device_private_entry(
+825d533acfd957 Balbir Singh       2025-09-08  3098  								page_to_pfn(page + i));
+825d533acfd957 Balbir Singh       2025-09-08  3099  				/*
+825d533acfd957 Balbir Singh       2025-09-08  3100  				 * Young and dirty bits are not progated via swp_entry
+825d533acfd957 Balbir Singh       2025-09-08  3101  				 */
+825d533acfd957 Balbir Singh       2025-09-08  3102  				entry = swp_entry_to_pte(swp_entry);
+825d533acfd957 Balbir Singh       2025-09-08  3103  				if (soft_dirty)
+825d533acfd957 Balbir Singh       2025-09-08  3104  					entry = pte_swp_mksoft_dirty(entry);
+825d533acfd957 Balbir Singh       2025-09-08  3105  				if (uffd_wp)
+825d533acfd957 Balbir Singh       2025-09-08  3106  					entry = pte_swp_mkuffd_wp(entry);
+825d533acfd957 Balbir Singh       2025-09-08  3107  			}
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3108  			VM_WARN_ON(!pte_none(ptep_get(pte + i)));
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3109  			set_pte_at(mm, addr, pte + i, entry);
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3110  		}
+ba98828088ad3f Kirill A. Shutemov 2016-01-15  3111  	} else {
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3112  		pte_t entry;
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3113  
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3114  		entry = mk_pte(page, READ_ONCE(vma->vm_page_prot));
+1462c52e9f2b99 David Hildenbrand  2023-04-11  3115  		if (write)
+161e393c0f6359 Rick Edgecombe     2023-06-12  3116  			entry = pte_mkwrite(entry, vma);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3117  		if (!young)
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3118  			entry = pte_mkold(entry);
+e833bc50340502 Peter Xu           2022-11-25  3119  		/* NOTE: this may set soft-dirty too on some archs */
+e833bc50340502 Peter Xu           2022-11-25  3120  		if (dirty)
+e833bc50340502 Peter Xu           2022-11-25  3121  			entry = pte_mkdirty(entry);
+804dd150468cfd Andrea Arcangeli   2016-08-25  3122  		if (soft_dirty)
+804dd150468cfd Andrea Arcangeli   2016-08-25  3123  			entry = pte_mksoft_dirty(entry);
+292924b2602474 Peter Xu           2020-04-06  3124  		if (uffd_wp)
+292924b2602474 Peter Xu           2020-04-06  3125  			entry = pte_mkuffd_wp(entry);
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3126  
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3127  		for (i = 0; i < HPAGE_PMD_NR; i++)
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3128  			VM_WARN_ON(!pte_none(ptep_get(pte + i)));
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3129  
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3130  		set_ptes(mm, haddr, pte, entry, HPAGE_PMD_NR);
+ba98828088ad3f Kirill A. Shutemov 2016-01-15  3131  	}
+2bdba9868a4ffc Ryan Roberts       2024-02-15  3132  	pte_unmap(pte);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3133  
+825d533acfd957 Balbir Singh       2025-09-08  3134  	if (!is_pmd_migration_entry(*pmd))
+a8e61d584eda0d David Hildenbrand  2023-12-20  3135  		folio_remove_rmap_pmd(folio, page, vma);
+96d82deb743ab4 Hugh Dickins       2022-11-22  3136  	if (freeze)
+96d82deb743ab4 Hugh Dickins       2022-11-22  3137  		put_page(page);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3138  
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3139  	smp_wmb(); /* make pte visible before pmd */
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3140  	pmd_populate(mm, pmd, pgtable);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  3141  }
 
 -- 
 0-DAY CI Kernel Test Service
