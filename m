@@ -1,69 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D73C315765;
-	Wed, 10 Sep 2025 11:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496C32853F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 11:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757503574; cv=none; b=lQ0/38vwy2IVlnBXmIcI3Tlbc5aO7snN9WzX6Fo2ZvJzuIJS2kI8WpCwwTprqyT7IYp+g6e/fir/LngdQTePpzYrHOOa37TyUn3ugdXOwcZoLlP1lOK40Bpd9uAhrQEr9T6bimwZGPjCJVO9L1RdC9lAFoxTSTBsVm4Ot2gSOlU=
+	t=1757504872; cv=none; b=AZ1i+xJrt+IJ6FHsgpbEZ//CukD0h0twch8eQzxKCjjf/t7id6GLXtKdXKhulVJ/RNYTDpvkAGAqfbpRVSErR6d5U6wvJCDeR0H7MeCGjD4LNfJXc2M0dCgebHNggKwm2isbEhk0kRpZYU1xuKsVyXnX2NdmhgAdKrUS4gXFp1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757503574; c=relaxed/simple;
-	bh=g1ZcYK7z0kSGnHDL6z7Fn7KjrnhP0j0B1BZniWcndEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOZKGVq7kHqZ3DcC1fwM1dudb680OHqb+oQE9FLHlyirs7V+j/5mk5ZExLNNIjpmtyUJf6mYmAQvTK5glJsOuVLmi6J/ejEmFCGZTi2QGzEC6J/VCQLvhC0tcqquWgmJTNszuDLOA2YTg79az8FmlW4Ux09tiIYXVz3So9IUDRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L0FwgFMm; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757504872; c=relaxed/simple;
+	bh=WbEtV0CPIKyH7FQXM3VCsQudJJTxDRA8dDx1E0cAO8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=gsxq11dsDzoBkuxLM/tQ7eLea/FiA3BeAkS6uScNA7lSDx/+dVOwNTMCNK2PGx6EnxkQRER+s4Eek27eHJFyy+hqhpLyn7k9tyTZ62GVGr0Nl1+6ZV+PiMDp4j3UtVsxRBX1xEZBDtnBxw+GgaLwDeooArtca3g9rVichFkVCVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lYfVPm7A; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L0FwgFMm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757503571; x=1789039571;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g1ZcYK7z0kSGnHDL6z7Fn7KjrnhP0j0B1BZniWcndEk=;
-  b=L0FwgFMmr9wn306EF5UN0kBMW0SMoKXFWtKUX6S626JJuKOFdDscU0bl
-   YcQQ6D2ZFWo6W9oE+I2Euaavh6FNLBZFu+j1kjCGqudlgzzIdvvvnYDRJ
-   U1K1h8yOsrSP8K9nYRDBrJNcQprI2bQYoRuFA4m0IW4qiD8npGcRMJxFU
-   LJMO1KsKBp3gF1i4VHLhy/rJtjZw8omaPXcD8f/ZobpL3L8ORn+Ac6axe
-   Y90Xggve/GqoDGn6xlrrxMSB9yvHwhiZ+WgOzFtY016voUizeIR6DeNHn
-   TUs4RZdfEiE1QfVR2CrXtF/G57k4Cio5fooQ+JxRP4IbCqMblfTVNl7uv
-   w==;
-X-CSE-ConnectionGUID: 2nVm1EszS1Wa/2isaAvOXQ==
-X-CSE-MsgGUID: x3zi7Y+sStSMmM0J8mwtLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59731082"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59731082"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 04:26:11 -0700
-X-CSE-ConnectionGUID: qM09ER3pRp2gbsaxIz/f+Q==
-X-CSE-MsgGUID: rw4ZeemyT0OvU3znIurURg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="178570009"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Sep 2025 04:26:07 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwIxh-0005sZ-18;
-	Wed, 10 Sep 2025 11:26:05 +0000
-Date: Wed, 10 Sep 2025 19:26:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Haowei Zheng <zhenghaowei@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] serial: 8250: Add Loongson uart driver support
-Message-ID: <202509102107.dmwhCV71-lkp@intel.com>
-References: <91ae8cd4f903ac452e337e4662bbabf8a412b061.1757318368.git.zhoubinbin@loongson.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lYfVPm7A"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3e4aeaa57b9so3738810f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 04:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757504867; x=1758109667; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wg2Ph+PhoATIteAbw+PWkWD/06VwBl1ynTVTQY5RYgk=;
+        b=lYfVPm7Ami7Zd4dpSP1bMYj7j4/HC0u2FLwXZEUf2kmxU7OFFoQs3eO55A7FkGPv+A
+         vOdpkmjEeS7O6shVAPcfL0hgK5OlBr065kAevUbPQSXtqebkElLpHJtRDoH/gZ0Is0EB
+         9Ff8+Wfc9kgyp5+se4MaPe+Id3rmbPDbD37CNcBXAoz9D328jZjf5k4UrA+xQfEL+JOn
+         ma2FHav6DVBykkIxylgRMw2WII1Ms9QZdRG7oU8Lk7weklJh5O8HWX1+iIPFeujHShO+
+         yJ3XOMmoAiMO4FY9MdgPlsXd6rR0ZyTY1/RWMLaQro7cKrUObSUBwhqqBf8Gj7Eod3x4
+         RULw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757504867; x=1758109667;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wg2Ph+PhoATIteAbw+PWkWD/06VwBl1ynTVTQY5RYgk=;
+        b=pAd8YsCHmWsERfJSRL/c5KNcxEEwipo5dnXdkRpTc+t40VenLwGlhP05KsLxDgUMXn
+         8kQm3dMX5Fl9+nffSQBYUAJ3SyoI4Z4DN1oRHm9k38Nkjt0y5Nd4BroxnLEQa2VPzicb
+         zLkXQO0q8K2aQf8MlhX32JQO/ObtO0S/LysyGONL8c4D1fkqHAQQ7llS6m5gl6hBheBm
+         ey9sZ9pwscdX1fsRkF+0z3f5T+0gvydV6Lv4rfxiGatzQVeUqUm3ztl1ALCPDYPFuLZa
+         gfjXzM0Fl4yQwZ8X7JUu7jGmXIiQD+mFJZA59EBON5FppFnMGUPTLLWz49BcCHxg5gPi
+         L0WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSYDU0+CyQx+73NQi1CKGYv33aM9NKlWOnEeuz6zXt2RM5PNa8LOpgkOdBQbRL2pAW9kYeDqX5Dri8x1is@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywu6O/VVB4tgEvnLlNAgjsp5wRqlHd+Z8BZGvxvTzGEox2Ux0Sw
+	OU1RiWWVJfpDxWJ6MIic0c13qj8rVQE2qQjPgur3RaGy0DsOzDZJtAD1I4JzJf/tDHs=
+X-Gm-Gg: ASbGncubyho+fTEtEVmwdtP6PI+2euzABCO/wWYFgVcJmzcrLr6LLkOW0uYwKDSrPHm
+	H3hUw8IzBCxuzVN8IMGKG3zzsPHrTPCIODnNxAh2diT0SRUYmGAzlZhc8WZPfqet071if1I5zqZ
+	V4Qm49dZP8n/d2ZLq9SSXV15t4YWKTzaN86WXEQqxBty8d6JD7HplwrE7pVF/inF99L5DeOZVPB
+	TGMniIzSoqpe9YYfzUiw6ByCVZD0A16d39ORDpmpxVhufLswoHI1UwijMCNNl4P5cqMPBK5eLB/
+	WTlhKvsqoN5vO0dxtqpL2Vz0iH6TIik15XbqcT6zP52uu55PDWjTyYTHe6eeJ61x8VmGD7+RDBF
+	SvRDuO1YjeLd4XyzMSvJHAfqmFTU=
+X-Google-Smtp-Source: AGHT+IHpMaxaSaJ4cnLK/bK8wa1YrfXhxVJLuuDTkuh1vmaIEZ84Pcyd9YYbH8IfZoLQCxj9xtJuUA==
+X-Received: by 2002:adf:b350:0:b0:3e7:41ac:45f8 with SMTP id ffacd0b85a97d-3e741ac4939mr7821201f8f.55.1757504867368;
+        Wed, 10 Sep 2025 04:47:47 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7521bfe00sm6893713f8f.5.2025.09.10.04.47.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 04:47:46 -0700 (PDT)
+Date: Wed, 10 Sep 2025 14:47:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, GuangFei Luo <luogf2025@163.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	luogf2025@163.com
+Subject: Re: [PATCH] ACPI: battery: prevent sysfs_add_battery re-entry on
+ rapid events
+Message-ID: <202509101620.yI0HZ5gT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,58 +76,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <91ae8cd4f903ac452e337e4662bbabf8a412b061.1757318368.git.zhoubinbin@loongson.cn>
+In-Reply-To: <20250907035154.223983-1-luogf2025@163.com>
 
-Hi Binbin,
+Hi GuangFei,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on b601e1f41edd4667062aa7cccb4e5199814979a3]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/dt-bindings-serial-Add-Loongson-UART-controller/20250909-201640
-base:   b601e1f41edd4667062aa7cccb4e5199814979a3
-patch link:    https://lore.kernel.org/r/91ae8cd4f903ac452e337e4662bbabf8a412b061.1757318368.git.zhoubinbin%40loongson.cn
-patch subject: [PATCH v4 2/3] serial: 8250: Add Loongson uart driver support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250910/202509102107.dmwhCV71-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509102107.dmwhCV71-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/GuangFei-Luo/ACPI-battery-prevent-sysfs_add_battery-re-entry-on-rapid-events/20250907-115505
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250907035154.223983-1-luogf2025%40163.com
+patch subject: [PATCH] ACPI: battery: prevent sysfs_add_battery re-entry on rapid events
+config: x86_64-randconfig-161-20250909 (https://download.01.org/0day-ci/archive/20250910/202509101620.yI0HZ5gT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509102107.dmwhCV71-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202509101620.yI0HZ5gT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/acpi/battery.c:1046 acpi_battery_update() warn: inconsistent returns '&battery->sysfs_lock'.
 
-   drivers/tty/serial/8250/8250_loongson.c: In function 'loongson_uart_probe':
-   drivers/tty/serial/8250/8250_loongson.c:102:9: error: implicit declaration of function 'device_property_read_u32' [-Wimplicit-function-declaration]
-     102 |         device_property_read_u32(dev, "clock-frequency", &uart.port.uartclk);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_loongson.c:117:28: error: implicit declaration of function 'device_get_match_data'; did you mean 'device_match_any'? [-Wimplicit-function-declaration]
-     117 |         flags = (uintptr_t)device_get_match_data(dev);
-         |                            ^~~~~~~~~~~~~~~~~~~~~
-         |                            device_match_any
-   drivers/tty/serial/8250/8250_loongson.c: At top level:
-   drivers/tty/serial/8250/8250_loongson.c:179:34: error: array type has incomplete element type 'struct of_device_id'
-     179 | static const struct of_device_id loongson_uart_of_ids[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
->> drivers/tty/serial/8250/8250_loongson.c:179:34: warning: 'loongson_uart_of_ids' defined but not used [-Wunused-variable]
+vim +1046 drivers/acpi/battery.c
 
+9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1001  static int acpi_battery_update(struct acpi_battery *battery, bool resume)
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1002  {
+82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1003  	int result = acpi_battery_get_status(battery);
+82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1004  
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1005  	if (result)
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1006  		return result;
+82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1007  
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1008  	if (!acpi_battery_present(battery)) {
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1009  		sysfs_remove_battery(battery);
+97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1010  		battery->update_time = 0;
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1011  		return 0;
+508df92d1f8d192 Andrey Borzenkov        2007-10-28  1012  	}
+9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1013  
+9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1014  	if (resume)
+9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1015  		return 0;
+9e50bc14a7f58b5 Lan Tianyu              2014-05-04  1016  
+82f2d30570b7ecd Lucas Rangit Magasweran 2018-07-14  1017  	if (!battery->update_time) {
+97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1018  		result = acpi_battery_get_info(battery);
+97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1019  		if (result)
+97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1020  			return result;
+97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1021  		acpi_battery_init_alarm(battery);
+97749cd9adbb298 Alexey Starikovskiy     2008-01-01  1022  	}
+12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1023  
+12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1024  	result = acpi_battery_get_state(battery);
+12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1025  	if (result)
+12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1026  		return result;
+12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1027  	acpi_battery_quirks(battery);
+12c78ca2ab5e64b Carlos Garnacho         2016-08-10  1028  
+ce5e61beaad5c5a GuangFei Luo            2025-09-07  1029  	mutex_lock(&battery->sysfs_lock);
+297d716f6260cc9 Krzysztof Kozlowski     2015-03-12  1030  	if (!battery->bat) {
+eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1031  		result = sysfs_add_battery(battery);
+eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1032  		if (result)
+eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1033  			return result;
 
-vim +/loongson_uart_of_ids +179 drivers/tty/serial/8250/8250_loongson.c
+mutex_unlock(&battery->sysfs_lock) before returning.
 
-   175	
-   176	static DEFINE_SIMPLE_DEV_PM_OPS(loongson_uart_pm_ops, loongson_uart_suspend,
-   177					loongson_uart_resume);
-   178	
- > 179	static const struct of_device_id loongson_uart_of_ids[] = {
-   180		{ .compatible = "loongson,ls2k0500-uart", .data = (void *)LS2K0500_UART_FLAG },
-   181		{ .compatible = "loongson,ls2k1500-uart", .data = (void *)LS2K1500_UART_FLAG },
-   182		{ /* sentinel */ },
-   183	};
-   184	MODULE_DEVICE_TABLE(of, loongson_uart_of_ids);
-   185	
+eb03cb02b74df6d Stefan Hajnoczi         2011-07-12  1034  	}
+ce5e61beaad5c5a GuangFei Luo            2025-09-07  1035  	mutex_unlock(&battery->sysfs_lock);
+e0d1f09e311fafa Zhang Rui               2014-05-28  1036  
+e0d1f09e311fafa Zhang Rui               2014-05-28  1037  	/*
+e0d1f09e311fafa Zhang Rui               2014-05-28  1038  	 * Wakeup the system if battery is critical low
+e0d1f09e311fafa Zhang Rui               2014-05-28  1039  	 * or lower than the alarm level
+e0d1f09e311fafa Zhang Rui               2014-05-28  1040  	 */
+e0d1f09e311fafa Zhang Rui               2014-05-28  1041  	if ((battery->state & ACPI_BATTERY_STATE_CRITICAL) ||
+e0d1f09e311fafa Zhang Rui               2014-05-28  1042  	    (test_bit(ACPI_BATTERY_ALARM_PRESENT, &battery->flags) &&
+e0d1f09e311fafa Zhang Rui               2014-05-28  1043  	     (battery->capacity_now <= battery->alarm)))
+33e4f80ee69b516 Rafael J. Wysocki       2017-06-12  1044  		acpi_pm_wakeup_event(&battery->device->dev);
+e0d1f09e311fafa Zhang Rui               2014-05-28  1045  
+557d58687dcdee6 Zhang Rui               2010-10-22 @1046  	return result;
+4bd35cdb1e2d1a1 Vladimir Lebedev        2007-02-10  1047  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
