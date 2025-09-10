@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A38D2F7ACB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 20:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAB63009E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 21:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757537349; cv=none; b=Xic27AvzVSq2Y2ZfPYcAfgY8wkVgPruzdtsDzTLFc7IulBMgxQN+44HSeON5WPTlNz4cEslgm5gulWRTzuY+9em5BTFGB727A++vOcJUWjupU1dd91o9FGznk8wPTePVC//c/luzWZifXbp53DjxFZ4P6cFHXq3mnQwj6WbKsig=
+	t=1757538007; cv=none; b=JRmhn6chsJdVgY4HWl3KIDLtSIse2tmFOuJbsDIQb1PFAgiQa/JlG0zAbYVUxZZOw6DukU7bu+c9WVrdCJxfZiu6Pd7ybkkwtyZRnLABkJBVaRpc45/qRkL/X3iW9dQ6pNEd+eDCYqgMpm4C5agsRi+nmmox7v4emLVnr285sb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757537349; c=relaxed/simple;
-	bh=WtcGnhGSlqX1dPRofkZYf6H49sJDwaITH4VnJPQAxlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YVTkh87kFcFEteCy7IhaGP26dj0UGr1EoxuKt5BqvC9QwxJIj6EewWctNEoBNFYhHS75Sz8KBegnB63A2LPVLB+VPK2iRYOJgBp2it286fd6OoKJB87Yy11Ns6NGnLEaA0M6pC+VVRRI1jpVOI03iWZVp7kLaK+cNqQahorf74U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cG+6dqf1; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1757538007; c=relaxed/simple;
+	bh=/jdM6SBPlU3FCMJ/Yc+PNEBETLRRaINEG9cNquM+uis=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a/IWC9Xben4BgO/Kal9WIfpTWanokCdA4LPIO9Gu6oS1Vo0yYJQKd+9iG5Y7hYLrdTvSjPmxBpZdJHhMhoY29WGn2q+cabTH+ptegQtVr6JDStzWCMRqrjLmrBHKe6LrE9HaHUZy/urX65hRVt3wDWgJfYcWLeGKUOsAVBrx4Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObhGUyyH; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cG+6dqf1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObhGUyyH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757537346; x=1789073346;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WtcGnhGSlqX1dPRofkZYf6H49sJDwaITH4VnJPQAxlY=;
-  b=cG+6dqf1W8BNn+UMZ9yR4OXm40GTfTP0RDIW++DET8EwdOccFdu/6rw4
-   htwrjAvFZOntzRptmn/YSbBy7IUxNU9ZlusfafLeCn72qqm6+64JcLH3o
-   6sVIG54cqap2vLp097HWTIoIz20iMmC94BIYN221lMizo9naUJiFTMzFA
-   tabfIFZ7Csrfhpqq2STPQ3f+XIDwrm4pEwfBckeX2fHIlSJzSkfHNuvq5
-   ienmGNRqgDQFgsXapl4qkrNf/0j9IYH+ipatuUNfvuJ87+PTEDPZAvRax
-   hwVMtrTJwddwQinpUPP53TnOCvwgg0eScc2qLg9dcuY4I7xh+0LKhqvJ5
-   g==;
-X-CSE-ConnectionGUID: z7EqoR40T5CdJ0J6yN6tYQ==
-X-CSE-MsgGUID: 0yxuu1/rSpaILWxGsMfchg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59807503"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59807503"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 13:49:05 -0700
-X-CSE-ConnectionGUID: 8g6kfFo3QeKOlWx6LJzulQ==
-X-CSE-MsgGUID: JuRMgH9WTI6tqmwLpGnPFA==
+  t=1757538006; x=1789074006;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/jdM6SBPlU3FCMJ/Yc+PNEBETLRRaINEG9cNquM+uis=;
+  b=ObhGUyyHJFx8l49JDtw/XPlmLD5tb6M0HJ98g45wUXNdRTdSX9foPdqK
+   YVwATigYxGpIj2SPKBtHjW31ENRxRZL/scvfrdEBsxcKaiKSQ/w7C7gh3
+   u4XnX+vEpwe/ucaQVjM34v48+zZzIAnzfoHGY22x/X4UEZuHQc/x0EJvI
+   5zCEGf3K+2M6UXsf9xtH0XyPi8n85Xt9OV+82JQctfkLVHoczWOFm2h+E
+   OkvOS+kJKZ5qIMkUHdtT2XQdS/lqcrPO4ZJ4lpyxIoi7oh5teCvdQ4J7d
+   nGlWKrq6GfjrxmyTW8g96vNJXMvumljkK/XZKTOX7JKBmGGb6LXNrMvA/
+   A==;
+X-CSE-ConnectionGUID: NbSf0gMDSHGeMVTjUhmjhg==
+X-CSE-MsgGUID: xq9isbN/Sm+g0rWsbW2yzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="71282027"
+X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
+   d="scan'208";a="71282027"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 14:00:06 -0700
+X-CSE-ConnectionGUID: N+cKSC2+TOKDR3M3TDQYhA==
+X-CSE-MsgGUID: NcmBqLPZRm6o4G1Huab/qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="173573317"
+   d="scan'208";a="210620367"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Sep 2025 13:49:02 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2025 14:00:04 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwRkS-0006HD-03;
-	Wed, 10 Sep 2025 20:49:00 +0000
-Date: Thu, 11 Sep 2025 04:48:44 +0800
+	id 1uwRv7-0006Hf-2s;
+	Wed, 10 Sep 2025 21:00:01 +0000
+Date: Thu, 11 Sep 2025 04:59:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Tariq Toukan <tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Carolina Jubran <cjubran@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next 1/4] ethtool: add FEC bins histogramm report
-Message-ID: <202509110407.uPUiJk7j-lkp@intel.com>
-References: <20250909184216.1524669-2-vadim.fedorenko@linux.dev>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 0/1]
+ include/trace/events/swiotlb.h:15:23: error: variable has incomplete type
+ 'enum SWIOTLB_NO_FORCE'
+Message-ID: <202509110448.uuGhHWlN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,85 +62,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250909184216.1524669-2-vadim.fedorenko@linux.dev>
 
-Hi Vadim,
+Hi Isaac,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/ethtool-add-FEC-bins-histogramm-report/20250910-025057
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250909184216.1524669-2-vadim.fedorenko%40linux.dev
-patch subject: [PATCH net-next 1/4] ethtool: add FEC bins histogramm report
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250911/202509110407.uPUiJk7j-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110407.uPUiJk7j-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   7baa61f0376aff7a4e3e86143e22d5dc5d4a50fa
+commit: 77c20b4cbcd0dca8e114cbcdcdaac61f3fb9555d [0/1] iommu/dma: Trace bounce buffer usage when mapping buffers
+config: i386-buildonly-randconfig-002-20250911 (https://download.01.org/0day-ci/archive/20250911/202509110448.uuGhHWlN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110448.uuGhHWlN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509110407.uPUiJk7j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110448.uuGhHWlN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c:1842:43: error: initialization of 'void (*)(struct net_device *, struct ethtool_fec_stats *, struct ethtool_fec_hist *)' from incompatible pointer type 'void (*)(struct net_device *, struct ethtool_fec_stats *)' [-Wincompatible-pointer-types]
-    1842 |         .get_fec_stats                  = fbnic_get_fec_stats,
-         |                                           ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c:1842:43: note: (near initialization for 'fbnic_ethtool_ops.get_fec_stats')
-   drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c:1661:1: note: 'fbnic_get_fec_stats' declared here
-    1661 | fbnic_get_fec_stats(struct net_device *netdev,
-         | ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+>> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                                     ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+>> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                                     ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+>> drivers/iommu/dma-iommu.c:821:42: error: argument type 'enum SWIOTLB_NO_FORCE' is incomplete
+     821 |                 trace_swiotlb_bounced(dev, phys, size, swiotlb_force);
+         |                                                        ^~~~~~~~~~~~~
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^~~~~~~~~~~~~~~~
+   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   7 warnings and 3 errors generated.
 
 
-vim +1842 drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
+vim +15 include/trace/events/swiotlb.h
 
-6913e873e7b2e4 Mohsin Bashir   2025-06-10  1805  
-bd2557a554a0d6 Mohsin Bashir   2024-09-02  1806  static const struct ethtool_ops fbnic_ethtool_ops = {
-f7d4c21667cc1a Jakub Kicinski  2025-06-24  1807  	.supported_coalesce_params	= ETHTOOL_COALESCE_USECS |
-7b5b7a597fbc19 Mohsin Bashir   2025-02-17  1808  					  ETHTOOL_COALESCE_RX_MAX_FRAMES,
-2b30fc01a6c788 Mohsin Bashir   2025-08-13  1809  	.supported_ring_params		= ETHTOOL_RING_USE_TCP_DATA_SPLIT |
-2b30fc01a6c788 Mohsin Bashir   2025-08-13  1810  					  ETHTOOL_RING_USE_HDS_THRS,
-260676ebb1f3b1 Daniel Zahka    2025-02-06  1811  	.rxfh_max_num_contexts		= FBNIC_RPC_RSS_TBL_COUNT,
-bd2557a554a0d6 Mohsin Bashir   2024-09-02  1812  	.get_drvinfo			= fbnic_get_drvinfo,
-3d12862b216d39 Mohsin Bashir   2024-11-12  1813  	.get_regs_len			= fbnic_get_regs_len,
-3d12862b216d39 Mohsin Bashir   2024-11-12  1814  	.get_regs			= fbnic_get_regs,
-fb9a3bb7f7f23b Alexander Duyck 2025-06-18  1815  	.get_link			= ethtool_op_get_link,
-7b5b7a597fbc19 Mohsin Bashir   2025-02-17  1816  	.get_coalesce			= fbnic_get_coalesce,
-7b5b7a597fbc19 Mohsin Bashir   2025-02-17  1817  	.set_coalesce			= fbnic_set_coalesce,
-6cbf18a05c0609 Jakub Kicinski  2025-03-06  1818  	.get_ringparam			= fbnic_get_ringparam,
-6cbf18a05c0609 Jakub Kicinski  2025-03-06  1819  	.set_ringparam			= fbnic_set_ringparam,
-e9faf4db5f2612 Mohsin Bashir   2025-08-25  1820  	.get_pause_stats		= fbnic_get_pause_stats,
-eb4c27edb4d8db Alexander Duyck 2025-06-18  1821  	.get_pauseparam			= fbnic_phylink_get_pauseparam,
-eb4c27edb4d8db Alexander Duyck 2025-06-18  1822  	.set_pauseparam			= fbnic_phylink_set_pauseparam,
-79da2aaa08ee99 Sanman Pradhan  2024-11-14  1823  	.get_strings			= fbnic_get_strings,
-79da2aaa08ee99 Sanman Pradhan  2024-11-14  1824  	.get_ethtool_stats		= fbnic_get_ethtool_stats,
-79da2aaa08ee99 Sanman Pradhan  2024-11-14  1825  	.get_sset_count			= fbnic_get_sset_count,
-7cb06a6a777cf5 Alexander Duyck 2024-12-19  1826  	.get_rxnfc			= fbnic_get_rxnfc,
-c23a1461bfee0a Alexander Duyck 2024-12-19  1827  	.set_rxnfc			= fbnic_set_rxnfc,
-7cb06a6a777cf5 Alexander Duyck 2024-12-19  1828  	.get_rxfh_key_size		= fbnic_get_rxfh_key_size,
-7cb06a6a777cf5 Alexander Duyck 2024-12-19  1829  	.get_rxfh_indir_size		= fbnic_get_rxfh_indir_size,
-7cb06a6a777cf5 Alexander Duyck 2024-12-19  1830  	.get_rxfh			= fbnic_get_rxfh,
-31ab733e999edb Alexander Duyck 2024-12-19  1831  	.set_rxfh			= fbnic_set_rxfh,
-2a34007ba9773e Jakub Kicinski  2025-06-11  1832  	.get_rxfh_fields		= fbnic_get_rss_hash_opts,
-2a34007ba9773e Jakub Kicinski  2025-06-11  1833  	.set_rxfh_fields		= fbnic_set_rss_hash_opts,
-260676ebb1f3b1 Daniel Zahka    2025-02-06  1834  	.create_rxfh_context		= fbnic_create_rxfh_context,
-260676ebb1f3b1 Daniel Zahka    2025-02-06  1835  	.modify_rxfh_context		= fbnic_modify_rxfh_context,
-260676ebb1f3b1 Daniel Zahka    2025-02-06  1836  	.remove_rxfh_context		= fbnic_remove_rxfh_context,
-3a481cc72673b2 Jakub Kicinski  2024-12-19  1837  	.get_channels			= fbnic_get_channels,
-3a481cc72673b2 Jakub Kicinski  2024-12-19  1838  	.set_channels			= fbnic_set_channels,
-be65bfc957eb70 Vadim Fedorenko 2024-10-08  1839  	.get_ts_info			= fbnic_get_ts_info,
-96f358f75d1a4e Vadim Fedorenko 2024-10-08  1840  	.get_ts_stats			= fbnic_get_ts_stats,
-fb9a3bb7f7f23b Alexander Duyck 2025-06-18  1841  	.get_link_ksettings		= fbnic_phylink_ethtool_ksettings_get,
-33c493791bc058 Mohsin Bashir   2025-08-25 @1842  	.get_fec_stats			= fbnic_get_fec_stats,
-fb9a3bb7f7f23b Alexander Duyck 2025-06-18  1843  	.get_fecparam			= fbnic_phylink_get_fecparam,
-33c493791bc058 Mohsin Bashir   2025-08-25  1844  	.get_eth_phy_stats		= fbnic_get_eth_phy_stats,
-4eb7f20bcf0614 Mohsin Bashir   2024-09-02  1845  	.get_eth_mac_stats		= fbnic_get_eth_mac_stats,
-6913e873e7b2e4 Mohsin Bashir   2025-06-10  1846  	.get_eth_ctrl_stats		= fbnic_get_eth_ctrl_stats,
-6913e873e7b2e4 Mohsin Bashir   2025-06-10  1847  	.get_rmon_stats			= fbnic_get_rmon_stats,
-bd2557a554a0d6 Mohsin Bashir   2024-09-02  1848  };
-bd2557a554a0d6 Mohsin Bashir   2024-09-02  1849  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  11  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  12  	TP_PROTO(struct device *dev,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  13  		 dma_addr_t dev_addr,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  14  		 size_t size,
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16 @15  		 enum swiotlb_force swiotlb_force),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  16  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  17  	TP_ARGS(dev, dev_addr, size, swiotlb_force),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  18  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  19  	TP_STRUCT__entry(
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  20  		__string(	dev_name,	dev_name(dev)		)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  21  		__field(	u64,	dma_mask			)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  22  		__field(	dma_addr_t,	dev_addr		)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  23  		__field(	size_t,	size				)
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16  24  		__field(	enum swiotlb_force,	swiotlb_force	)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  25  	),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  26  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  27  	TP_fast_assign(
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  28  		__assign_str(dev_name, dev_name(dev));
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  29  		__entry->dma_mask = (dev->dma_mask ? *dev->dma_mask : 0);
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  30  		__entry->dev_addr = dev_addr;
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  31  		__entry->size = size;
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  32  		__entry->swiotlb_force = swiotlb_force;
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  33  	),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  34  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  35  	TP_printk("dev_name: %s dma_mask=%llx dev_addr=%llx "
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  36  		"size=%zu %s",
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  37  		__get_str(dev_name),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  38  		__entry->dma_mask,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  39  		(unsigned long long)__entry->dev_addr,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  40  		__entry->size,
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16  41  		__print_symbolic(__entry->swiotlb_force,
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16  42  			{ SWIOTLB_NORMAL,	"NORMAL" },
+fff5d99225107f5 Geert Uytterhoeven 2016-12-16  43  			{ SWIOTLB_FORCE,	"FORCE" },
+fff5d99225107f5 Geert Uytterhoeven 2016-12-16  44  			{ SWIOTLB_NO_FORCE,	"NO_FORCE" }))
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  45  );
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  46  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: ae7871be189cb41184f1e05742b4a99e2c59774d swiotlb: Convert swiotlb_force from int to enum
+
+:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
+:::::: CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
