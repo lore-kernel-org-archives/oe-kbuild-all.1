@@ -1,105 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2571E47A3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 13:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E17217F29
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 13:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757511938; cv=none; b=oyhDVI4LDTi9XtoiHgG5wKBlv26ZVtdCHiGMbyga1L94LBtLi9gD8zOnW9XC83GNxlwNl35DwkZv9NqBF9oTX8fZT+Hnryc8mSlDpzE0j07NSTOS8zQDs75hRw1oSBsAHig1tQ4zxNyDqX+k3siZwdngyqyv7recKcuk/lzCO1Y=
+	t=1757511979; cv=none; b=jD6eUYmxidcz07fdNDBs8aDvmBX8xqhr218kUw8R6UCrSkBBX4FXaO1VinkuTAbQo7jcvINaiGmtIdh4G1vnEIpdx3ufz32LAU8iam8Hd9ZDanxbxxn+SuVF/6sIAUimTIHzqnJso1PBxxwIaSlbEWfPDuH014HUJJZf0nhjnlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757511938; c=relaxed/simple;
-	bh=LmkSYcfsUEbSoMcZ9wITnu8GeT1Dou8S6eS57/P/hdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pjisIX2og/ftqCx32e7Sl8JCL7y44yi0IeTZDlyko96ZjBpPkhZAyjZRT/1u5Tj7dtAS6QeBQvauOAHRFV8qB4zfpCzbDubWqoZypj7DLsRq896ClBnDSu8D0hDHrqkuWwZ6+xGHSi04sAohGUFujm/ImyQGSaoCmw2xa5ZWXTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmG/jZCO; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757511979; c=relaxed/simple;
+	bh=jckwo4DzWJoSXQynmvCEPazuqxT9RAb0hM2+LiiTOlE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f5K39BNH8OxpYC19gjIBNJsRYBi6EwNrG2pNIF/VHgJY8JAw/u2N8A1WBajVx/4xzWoiAS4zHO6XOmOo1WV9Vs1u3gPELBFziB36Sfg8hppa14g38QBcQaUvy8Y6Lq0F+8XIuwz0xIPiWJZGurqXHpV1UPWjt+MRpCxlxeCRg54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=fSqTiv6t; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmG/jZCO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757511937; x=1789047937;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LmkSYcfsUEbSoMcZ9wITnu8GeT1Dou8S6eS57/P/hdk=;
-  b=RmG/jZCOiuRpGKHjt2eb1IafdRFjXC/jk7iy9hNZJxza0ujf5TRd4fyO
-   zlwEqQv7pnketuBX6fRk0CMA/Mdue8JRGGgGyrZJCO3UJgSjlAh4tFNvT
-   Ib2TjD5qnG+YlKzNU4RUx0Nqv+xmNYwCtv00vnSHW9ZhuRDryjMpbLZXK
-   0f/ly+atqAdOh/E3kYkme3f89VcpVUKKfxJceq44AZ8SaNi8aZMKEFaD3
-   OqmkSAucvURXPqPi8W9nSd6w2WSr9kQk1cNSIVX4Ok5xQ2n7a5hhD5UWK
-   n2TgQH6SguNtBXkWzp5wJKzmzDPsCkYuXTQ5OuqhaVVhA5OzYAoeBfws9
-   Q==;
-X-CSE-ConnectionGUID: pktHshWZSJOnxy1/JRin3w==
-X-CSE-MsgGUID: wd6Cwc8ITuysa3U8NrM/HQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="70076597"
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="70076597"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 06:45:36 -0700
-X-CSE-ConnectionGUID: NxztgTrxTBakdGAzrosHng==
-X-CSE-MsgGUID: Hqr+d1o2Tgq04rgR9lAZ1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="210509793"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2025 06:45:36 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1uwL8e-0000000004H-28kQ;
-	Wed, 10 Sep 2025 13:45:32 +0000
-Date: Wed, 10 Sep 2025 15:45:08 +0200
-From: kernel test robot <lkp@intel.com>
-To: Yang Weijiang <weijiang.yang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>,
-	Chao Gao <chao.gao@intel.com>, linux-doc@vger.kernel.org
-Subject: [sean-jc:q/cet 44/55] htmldocs: Documentation/virt/kvm/api.rst:2917:
- WARNING: Block quote ends without a blank line; unexpected unindent.
- [docutils]
-Message-ID: <202509101552.nq7TgVwt-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="fSqTiv6t"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55f98e7782bso905779e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 06:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1757511975; x=1758116775; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jckwo4DzWJoSXQynmvCEPazuqxT9RAb0hM2+LiiTOlE=;
+        b=fSqTiv6tWN09r0sdJDA448JeWUvtGzS29G6xOY/ZL31CmTXfGivG3tuSCFnABy3se0
+         1oujoybukJFZG7mLqZNBBwZagwgsRiRu2Z+LXRfHk+VHBWPlo43wZDTQ9b60WlluV2Jy
+         49c2+jdTTEJ9abxI7a4JVAZlNOzMCEjpWqWvMY3JdkBlINZ9uNakskWCpiMb0sKPSbsK
+         0Exa9ccsw5WPgCdqtf1//xzX8fCJHMa1pMVL8vGe8hPqTZa0qHEd2y4GHrVyyro16xIe
+         hzzutkMBs69HtFFuDRyS8liVNyU7McTos5G2kjNPc+1gtAWQEsbtaRTeQHA4G2h236PD
+         do7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757511975; x=1758116775;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jckwo4DzWJoSXQynmvCEPazuqxT9RAb0hM2+LiiTOlE=;
+        b=rIOLfORWy7n2EQGjTemCeh3N/GFwOtWsJZA4G17s98xIdc5kO1CfOen4K97M03qDaU
+         s7Vqi4cvGyCPy/A9g54CGiSH+dLAvxNeZCgbvlv31EchInmENqaAtWsyFC/m2C7fsN0T
+         1k9m/uwb2nziLqAFugEqu6WYxZpYyf2U23mNwQW4u1buoMGSDRlNiw9MvlcueF6L+j2t
+         VpUuNiuwEF3crk+H4aGfAGYbrmjbzeA63kezm0jf1mncJpwxmmFMbolMbN9Qd3CbbN0X
+         kKhqrFlMJNhJAYswI1UVlGthc4jgQmjE+lc+mcCbMLgTKThbqBTokRZ6NC437n2X+1Ld
+         4ccQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5EM1RkW7UMYM3SzNk4hbpEKIbxlILzbhf7URUc3JzGP9bsHQ7aw9HefQHnyvp5roZuQAFOQKh6q7Rx5Nm@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJhCg9bvwRqQh4vTRL57jivfFea2XjGP2bi7tV1C/6vS2FKFK8
+	e2mP0aa0o3qJ19IgD9tSMHy9JI6to0cLCKhA/OC4itybdxlWjHxfpwmkcXWWi9kPK7nXnyn+u+p
+	K2JpfVseV5cLQL7gW6fKeRARIgzQ4I5nOfRSCki3e7Q==
+X-Gm-Gg: ASbGncsaQ3Otu6juzCNHu1oRxbpA0P0HmHnxXPXBSP7QGA29lFd930qRUUxq6zP46XU
+	Rsky1t6Rhk3aJ78OlqYl3rkp16Yn6qYCh21UMoeLgBDsg9S/0RupmfHBBcoNUsErdKe1wTc4MgO
+	Paga3Odt+y0YBuY74IP7qFtk9eIM59KfMtQ9tNDI20dhJGhQak/mYDPjjNTFsPkT6dpVP6sBSqt
+	H9fFN3BUEg+9qpNz+hzBLwPc+iaD2TABAf6e0E=
+X-Google-Smtp-Source: AGHT+IFgj2ppHdy6zATwu9/GkdKc4tc5zX1z5/CmlY1l1JQXLE6h9ZkRqOvbziFLq6eYgZNZaXGJJCpLLoi+L5GfeRk=
+X-Received: by 2002:a05:6512:1195:b0:55f:3c0b:9ca9 with SMTP id
+ 2adb3069b0e04-56273118a03mr5943244e87.1.1757511975363; Wed, 10 Sep 2025
+ 06:46:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250908173804.3816149-1-mstrodl@csh.rit.edu> <202509092305.ncd9mzaZ-lkp@intel.com>
+ <aMFzTaO7zGVgWNRK@ada.csh.rit.edu> <CAMRc=McBdJ16RYvJM_R7pL+u3zcs_+A0nj5_5twP7KxWhW6VDw@mail.gmail.com>
+ <aMF9QFIvXC5kI_9J@ada.csh.rit.edu>
+In-Reply-To: <aMF9QFIvXC5kI_9J@ada.csh.rit.edu>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 10 Sep 2025 15:46:03 +0200
+X-Gm-Features: Ac12FXw_b4dB1oBOSKat4kUqj6UH_gOF4z0OMCLiQ9S83rqNOEKPvjJcoe2D9qs
+Message-ID: <CAMRc=MfSOTTBv3spbyiedpMifMyfmTkpmbvuDuKcbs5S1B+Esg@mail.gmail.com>
+Subject: Re: [PATCH] gpio: mpsse: support bryx radio interface kit
+To: Mary Strodl <mstrodl@csh.rit.edu>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/sean-jc/linux q/cet
-head:   4a74767a033d98cd3e37a25c072d200d2d5545e2
-commit: 3ee447c42c42b6df04a5c8a0b9694bd0a5935078 [44/55] KVM: x86: Enable guest SSP read/write interface with new uAPIs
-reproduce: (https://download.01.org/0day-ci/archive/20250910/202509101552.nq7TgVwt-lkp@intel.com/reproduce)
+On Wed, Sep 10, 2025 at 3:29=E2=80=AFPM Mary Strodl <mstrodl@csh.rit.edu> w=
+rote:
+>
+> On Wed, Sep 10, 2025 at 03:15:46PM +0200, Bartosz Golaszewski wrote:
+> > I cannot really give you much feedback because this patch should be
+> > first split into smaller chunks that explain what each change is
+> > doing. As it is: it's so complex, I simply don't understand it and
+> > don't have enough time to try and decipher it. Please try to make it
+> > into a series of smaller patches.
+>
+> Got it. That's why I offered to break it up.
+>
+> Here's the order I did the work in:
+> 1. Add quirk support + brik quirk
+> 2. Label format (Only a few lines, could go into 1 or 3 if preferred)
+> 3. RCU stuff
+>
+> Is this a reasonable order for the series? This would be the easiest
+> way for me to do it given what I have in git.
+>
+> In a perfect world, I would like to have had:
+>
+> 1. RCU stuff (These are effectively bugfixes)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509101552.nq7TgVwt-lkp@intel.com/
+If these are bugfixes that should be backported to stable then they
+should indeed come first.
 
-All warnings (new ones prefixed by >>):
+FYI: Maybe consider also adding lock guards for rcu read locks if you're at=
+ it?
 
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
-   Documentation/virt/kvm/api.rst:2916: ERROR: Unexpected indentation. [docutils]
->> Documentation/virt/kvm/api.rst:2917: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+Bart
 
-
-vim +2917 Documentation/virt/kvm/api.rst
-
-  2908	
-  2909	  0x9030 0000 0002 <reg:16>
-  2910	
-  2911	x86 MSR registers have the following id bit patterns::
-  2912	  0x2030 0002 <msr number:32>
-  2913	
-  2914	Following are the KVM-defined registers for x86:
-  2915	======================= ========= =============================================
-  2916	    Encoding            Register  Description
-> 2917	======================= ========= =============================================
-  2918	  0x2030 0003 0000 0000 SSP       Shadow Stack Pointer
-  2919	======================= ========= =============================================
-  2920	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 2. Label stuff
+> 3. Quirks
+> 4. Brik quirk (possibly squashed into 3)
+>
+> Let me know what you think... Thank you!
