@@ -1,65 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9968418FC97
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 10:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0862DF148
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 11:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757501802; cv=none; b=OLpT3s7ul+rkhLT4l349ucwy4UVPkXIK+aFjBaI4ro/w27yTTccOjPXHOWUHhpvC6b7GmHEAXIv9Vvv7P58fIqkCyNT7nWSA7Luvnc94EYjmbDwzs9l8kpgVQ4Xkc2z4Epf3CyC6hIABWPw+DNAZQo6XxYGFBI1zboNjCMakCVc=
+	t=1757502371; cv=none; b=XpuG2rzyeuOocBRHZJChI50jB2NSkclHJZf5sS2LA1kZz/vUc6FR3QLBBMjEvJkzjRgL6caAJ6HpCQjqncW14DvBLUJSBeLsdlBVfeFgeNYvHSbpZmT1p6oIanqYM5KLprSLOqcMf39MFoa3RFvCJW5i619+ggN5TM6PgNQvg8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757501802; c=relaxed/simple;
-	bh=pBVcJoKXAJZweFQ5rgT41V5OYlFtYV3vyUh3EOiqDFQ=;
+	s=arc-20240116; t=1757502371; c=relaxed/simple;
+	bh=Fxptr2qexEblRNttIxD7S3z3TKAgwwVEg+pPWRBq01A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rDcBqkhWkH3JEygGzO+02rnUc7ypEz8mIl5YvplAPDt/NVlbut7TBjN/568fa923vxweUmexB5G8+4uPAVFmcRO8vekdWmk6I0HyxjKn7UvbK8DNe54YZqg95Tfp/Ld7qO2jbp2tRNTcJGeZi5Fya+7GyZDW8eENu/D5Ti7/1bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYHfQh/5; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=CaUpxOO1YWB+X6sVnCCmpjqdFxN39+ZC0X/S74JyM3mRtu9O0JjpH5G+Xa7daEr90NqBiSusuE5zr52pVeInDn4cQqpXXeE/ifknT7b3UEXCM8ingZuoDdBPwQ98x9/9bCyybF56Uiz4ryuDKpY2+fkYIS5V6stLHJ4ZhdF4uVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuPgdsxv; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYHfQh/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuPgdsxv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757501801; x=1789037801;
+  t=1757502370; x=1789038370;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pBVcJoKXAJZweFQ5rgT41V5OYlFtYV3vyUh3EOiqDFQ=;
-  b=eYHfQh/5sx033itPEeMEAkTk4zPyc3CeOYJCPhl4U+mfw0NDZ2I6vBeJ
-   VyQVJyczkUBeg44i4YGiYF9PTXv4CN2QgCuxPFAnXNK2l5BLtpptnEIPq
-   dgLqGRRMkn+4LhQDLsmXcsZL9/5j0wncLU294haWuPq31/9J2sq49oJ9w
-   QH1T9BajcZ7gfYsOtjNIT8ewmhw7GlvFm0S9iG3heCrMQZfJNd8pQWLMj
-   BSfZ5jhR9/crKAmPmCX601+ktbm5k1k/Pp+Ld9i92WADJ2WqCSAPEz9YU
-   iLZCQ+soEbdjM3gNEMu+09Ym9gIpMnR9Uha44JNssnGEt/w6g88R9Hj8r
+  bh=Fxptr2qexEblRNttIxD7S3z3TKAgwwVEg+pPWRBq01A=;
+  b=HuPgdsxvwYVeRgWXgVU15jWE+Y1bLzxxBERawXZvk9rt1bDrTQEBhCcp
+   GYEb0uP1yM8L9vU1kP45jjkdzZ0UVjEcY5frmJK0gIBfuVIDl2CWwqG35
+   G49KCQj2Fi94klootOgG7OVzbx82latk4xc2EH9dmWZHx4WFxOU2OKNMJ
+   ZiZxhUZsQCYdy4SOrdGZeLn65H1mqfrsfWr+PJWPqJgdoTy66T1b8qHvv
+   eJ/hqRXCsZaA64qtpmzbVHwGoGO1LRGAuzllpOj7Qb64f4ayYF23RUEuC
+   wdpOnnVyHkOmhMg7I7YlJUiLMGYSmeJ5eDfInxdBWu7BGyPsyNG7/6jXg
    Q==;
-X-CSE-ConnectionGUID: CxedKqKoROCu2Bf6smSK/w==
-X-CSE-MsgGUID: vEwGg6ErSDq086MY+Pz1SA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="77264249"
+X-CSE-ConnectionGUID: Q2vo/b/QQDWJJcNt2JRLig==
+X-CSE-MsgGUID: x/RQmD25R4mGm4dt6g/jew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="63437191"
 X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="77264249"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 03:56:08 -0700
-X-CSE-ConnectionGUID: EtKytUnYQpGDa2XuNsiMEQ==
-X-CSE-MsgGUID: IElsPQLKR7CLP4Ssup0CjQ==
+   d="scan'208";a="63437191"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 04:06:09 -0700
+X-CSE-ConnectionGUID: xUB8gn45TLq9bHG9qWK/Dw==
+X-CSE-MsgGUID: S7dTMi/zQGS8UXVg1xZs/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="197030708"
+   d="scan'208";a="173276811"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Sep 2025 03:56:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 Sep 2025 04:06:06 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwIUc-0005rB-2p;
-	Wed, 10 Sep 2025 10:56:02 +0000
-Date: Wed, 10 Sep 2025 18:55:04 +0800
+	id 1uwIeJ-0005rT-21;
+	Wed, 10 Sep 2025 11:06:03 +0000
+Date: Wed, 10 Sep 2025 19:05:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>
-Subject: Re: [PATCH net-next 3/4] net: dsa: mv88e6xxx: remove
- chip->evcap_config
-Message-ID: <202509101826.A1forxFL-lkp@intel.com>
-References: <E1uw0Xk-00000004IOC-1EJd@rmk-PC.armlinux.org.uk>
+To: Andre Carvalho <asantostc@gmail.com>, Breno Leitao <leitao@debian.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Andre Carvalho <asantostc@gmail.com>
+Subject: Re: [PATCH net-next 4/5] netconsole: resume previously deactivated
+ target
+Message-ID: <202509101818.wKicbxgJ-lkp@intel.com>
+References: <20250909-netcons-retrigger-v1-4-3aea904926cf@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,81 +70,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1uw0Xk-00000004IOC-1EJd@rmk-PC.armlinux.org.uk>
+In-Reply-To: <20250909-netcons-retrigger-v1-4-3aea904926cf@gmail.com>
 
-Hi Russell,
+Hi Andre,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on 3b4296f5893d3a4e19edfc3800cb79381095e55f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-dsa-mv88e6xxx-remove-mv88e6250_ptp_ops/20250910-034838
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1uw0Xk-00000004IOC-1EJd%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next 3/4] net: dsa: mv88e6xxx: remove chip->evcap_config
-config: i386-buildonly-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101826.A1forxFL-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101826.A1forxFL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Carvalho/netconsole-add-target_state-enum/20250910-051601
+base:   3b4296f5893d3a4e19edfc3800cb79381095e55f
+patch link:    https://lore.kernel.org/r/20250909-netcons-retrigger-v1-4-3aea904926cf%40gmail.com
+patch subject: [PATCH net-next 4/5] netconsole: resume previously deactivated target
+config: i386-randconfig-014-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101818.wKicbxgJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101818.wKicbxgJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509101826.A1forxFL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509101818.wKicbxgJ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/dsa/mv88e6xxx/ptp.c: In function 'mv88e6352_config_eventcap':
->> drivers/net/dsa/mv88e6xxx/ptp.c:182:9: error: 'evcap_config' undeclared (first use in this function); did you mean 'evap_config'?
-     182 |         evcap_config = MV88E6XXX_TAI_CFG_CAP_OVERWRITE |
-         |         ^~~~~~~~~~~~
-         |         evap_config
-   drivers/net/dsa/mv88e6xxx/ptp.c:182:9: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/dsa/mv88e6xxx/ptp.c:178:13: warning: unused variable 'evap_config' [-Wunused-variable]
-     178 |         u16 evap_config;
-         |             ^~~~~~~~~~~
-
-
-vim +182 drivers/net/dsa/mv88e6xxx/ptp.c
-
-   168	
-   169	/* mv88e6352_config_eventcap - configure TAI event capture
-   170	 * @event: PTP_CLOCK_PPS (internal) or PTP_CLOCK_EXTTS (external)
-   171	 * @rising: zero for falling-edge trigger, else rising-edge trigger
-   172	 *
-   173	 * This will also reset the capture sequence counter.
-   174	 */
-   175	static int mv88e6352_config_eventcap(struct mv88e6xxx_chip *chip, int event,
-   176					     int rising)
-   177	{
- > 178		u16 evap_config;
-   179		u16 cap_config;
-   180		int err;
-   181	
- > 182		evcap_config = MV88E6XXX_TAI_CFG_CAP_OVERWRITE |
-   183			       MV88E6XXX_TAI_CFG_CAP_CTR_START;
-   184		if (!rising)
-   185			evcap_config |= MV88E6XXX_TAI_CFG_EVREQ_FALLING;
-   186	
-   187		err = mv88e6xxx_tai_write(chip, MV88E6XXX_TAI_CFG, evcap_config);
-   188		if (err)
-   189			return err;
-   190	
-   191		if (event == PTP_CLOCK_PPS) {
-   192			cap_config = MV88E6XXX_TAI_EVENT_STATUS_CAP_TRIG;
-   193		} else if (event == PTP_CLOCK_EXTTS) {
-   194			/* if STATUS_CAP_TRIG is unset we capture PTP_EVREQ events */
-   195			cap_config = 0;
-   196		} else {
-   197			return -EINVAL;
-   198		}
-   199	
-   200		/* Write the capture config; this also clears the capture counter */
-   201		err = mv88e6xxx_tai_write(chip, MV88E6XXX_TAI_EVENT_STATUS,
-   202					  cap_config);
-   203	
-   204		return err;
-   205	}
-   206	
+>> Warning: drivers/net/netconsole.c:177 struct member 'resume_wq' not described in 'netconsole_target'
 
 -- 
 0-DAY CI Kernel Test Service
