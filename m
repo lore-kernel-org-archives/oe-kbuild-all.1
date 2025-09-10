@@ -1,75 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE679276051;
-	Wed, 10 Sep 2025 20:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A38D2F7ACB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 20:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757536747; cv=none; b=JLuZpEpPDzaEFjwKvqrKXVI0eZPLdVbgSSB7g81R9lWj3cj2YzLQoxmBqT2EoBGA74Y6euzcAjvhhqql19hhqrKnikoIYC9PHZr3hUrBn/pMQN0OJ0bvDRM/ptQsi6q4vO5tEHHTN8xkfss7NQP6r8Ue/Cgk9ZJJRFdvOK8DBCw=
+	t=1757537349; cv=none; b=Xic27AvzVSq2Y2ZfPYcAfgY8wkVgPruzdtsDzTLFc7IulBMgxQN+44HSeON5WPTlNz4cEslgm5gulWRTzuY+9em5BTFGB727A++vOcJUWjupU1dd91o9FGznk8wPTePVC//c/luzWZifXbp53DjxFZ4P6cFHXq3mnQwj6WbKsig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757536747; c=relaxed/simple;
-	bh=B6fkvpBK+Ee+0YOFckXyRfEu8C3ZmYjOmbvJLcYj7rE=;
+	s=arc-20240116; t=1757537349; c=relaxed/simple;
+	bh=WtcGnhGSlqX1dPRofkZYf6H49sJDwaITH4VnJPQAxlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oHdMcnh2VV+GoCnJ0/2BC9O5XjeB6RLlvkVGHMDduuDTBwfB7UbyulnhQhj5O3POB/PI7D2TB9yv7a2CKxcZr0SOZlK1wstKwvuHdLCH9rXcwtqW6Pn4khAF2dbKOWAbb+yoLn+nLCyuqnCDueuFKgRNmvyRxbdxjV5Kr6F6gTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EF3ia0m2; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YVTkh87kFcFEteCy7IhaGP26dj0UGr1EoxuKt5BqvC9QwxJIj6EewWctNEoBNFYhHS75Sz8KBegnB63A2LPVLB+VPK2iRYOJgBp2it286fd6OoKJB87Yy11Ns6NGnLEaA0M6pC+VVRRI1jpVOI03iWZVp7kLaK+cNqQahorf74U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cG+6dqf1; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EF3ia0m2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cG+6dqf1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757536746; x=1789072746;
+  t=1757537346; x=1789073346;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=B6fkvpBK+Ee+0YOFckXyRfEu8C3ZmYjOmbvJLcYj7rE=;
-  b=EF3ia0m2CVyH6+95CotBl+oX2wu960ATK/tsFzRpRM7vf1h0RBfefm71
-   /XcsuNusKaQLNVdAvIkSERh6j9wcqI0IIec4O3KOaWyjNfFDpI/PyTbrL
-   h3Xg/7vXYlQab+0gIWasyO9/8idPMPZkr2gxIm8nwo5zZnj+VBoS3Ij3D
-   dPQJv4ndGg9S2R2SFqf8UCpJrbhoEUXs51+2tdkYrq81DZMMQ0/twpc7b
-   cuOL0giJqcOliwTCyjnpU4JEO9gY8l8ytRZsJPNK3msAwMzE5nodHk8PB
-   cEuhwAq89qlqvqgqonwzC2mdYPM3lp5YDrYEqrFJecF4qjlHTT5YXbHMX
-   A==;
-X-CSE-ConnectionGUID: y7pB+KzPRC+hHuNOBORkFg==
-X-CSE-MsgGUID: q9xPx6BsQvW/HTVyj7HrsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59083177"
-X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="59083177"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 13:39:05 -0700
-X-CSE-ConnectionGUID: 0pc5aoHiT2OxenyLymEnVA==
-X-CSE-MsgGUID: Sz8c7R3oQ0WyCVA7akPy3A==
+  bh=WtcGnhGSlqX1dPRofkZYf6H49sJDwaITH4VnJPQAxlY=;
+  b=cG+6dqf1W8BNn+UMZ9yR4OXm40GTfTP0RDIW++DET8EwdOccFdu/6rw4
+   htwrjAvFZOntzRptmn/YSbBy7IUxNU9ZlusfafLeCn72qqm6+64JcLH3o
+   6sVIG54cqap2vLp097HWTIoIz20iMmC94BIYN221lMizo9naUJiFTMzFA
+   tabfIFZ7Csrfhpqq2STPQ3f+XIDwrm4pEwfBckeX2fHIlSJzSkfHNuvq5
+   ienmGNRqgDQFgsXapl4qkrNf/0j9IYH+ipatuUNfvuJ87+PTEDPZAvRax
+   hwVMtrTJwddwQinpUPP53TnOCvwgg0eScc2qLg9dcuY4I7xh+0LKhqvJ5
+   g==;
+X-CSE-ConnectionGUID: z7EqoR40T5CdJ0J6yN6tYQ==
+X-CSE-MsgGUID: 0yxuu1/rSpaILWxGsMfchg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59807503"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59807503"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 13:49:05 -0700
+X-CSE-ConnectionGUID: 8g6kfFo3QeKOlWx6LJzulQ==
+X-CSE-MsgGUID: JuRMgH9WTI6tqmwLpGnPFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="210615967"
+   d="scan'208";a="173573317"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2025 13:39:00 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 Sep 2025 13:49:02 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwRaj-0006GZ-2H;
-	Wed, 10 Sep 2025 20:38:57 +0000
-Date: Thu, 11 Sep 2025 04:38:15 +0800
+	id 1uwRkS-0006HD-03;
+	Wed, 10 Sep 2025 20:49:00 +0000
+Date: Thu, 11 Sep 2025 04:48:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Serge Semin <fancer.lancer@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Phil Edworthy <phil.edworthy@renesas.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
-Message-ID: <202509110402.OHHgtxRA-lkp@intel.com>
-References: <20250909120041.154459-4-herve.codina@bootlin.com>
+To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>,
+	intel-wired-lan@lists.osuosl.org,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Carolina Jubran <cjubran@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 1/4] ethtool: add FEC bins histogramm report
+Message-ID: <202509110407.uPUiJk7j-lkp@intel.com>
+References: <20250909184216.1524669-2-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,136 +70,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250909120041.154459-4-herve.codina@bootlin.com>
+In-Reply-To: <20250909184216.1524669-2-vadim.fedorenko@linux.dev>
 
-Hi Herve,
+Hi Vadim,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on tip/irq/core linus/master v6.17-rc5 next-20250910]
-[cannot apply to geert-renesas-devel/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/ARM-dts-r9a06g032-Add-GPIO-controllers/20250909-200642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250909120041.154459-4-herve.codina%40bootlin.com
-patch subject: [PATCH v2 3/8] of/irq: Introduce for_each_of_imap_item
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250911/202509110402.OHHgtxRA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110402.OHHgtxRA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/ethtool-add-FEC-bins-histogramm-report/20250910-025057
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250909184216.1524669-2-vadim.fedorenko%40linux.dev
+patch subject: [PATCH net-next 1/4] ethtool: add FEC bins histogramm report
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250911/202509110407.uPUiJk7j-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110407.uPUiJk7j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509110402.OHHgtxRA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110407.uPUiJk7j-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/base/platform.c:15:
->> include/linux/of_irq.h:123:29: warning: no previous prototype for function 'of_imap_parser_one' [-Wmissing-prototypes]
-     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-         |                             ^
-   include/linux/of_irq.h:123:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     123 | extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-         |        ^
-   1 warning generated.
+>> drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c:1842:43: error: initialization of 'void (*)(struct net_device *, struct ethtool_fec_stats *, struct ethtool_fec_hist *)' from incompatible pointer type 'void (*)(struct net_device *, struct ethtool_fec_stats *)' [-Wincompatible-pointer-types]
+    1842 |         .get_fec_stats                  = fbnic_get_fec_stats,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c:1842:43: note: (near initialization for 'fbnic_ethtool_ops.get_fec_stats')
+   drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c:1661:1: note: 'fbnic_get_fec_stats' declared here
+    1661 | fbnic_get_fec_stats(struct net_device *netdev,
+         | ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/of_imap_parser_one +123 include/linux/of_irq.h
+vim +1842 drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
 
-    58	
-    59	extern int of_irq_parse_raw(const __be32 *addr, struct of_phandle_args *out_irq);
-    60	extern unsigned int irq_create_of_mapping(struct of_phandle_args *irq_data);
-    61	extern int of_irq_to_resource(struct device_node *dev, int index,
-    62				      struct resource *r);
-    63	
-    64	#ifdef CONFIG_OF_IRQ
-    65	extern void of_irq_init(const struct of_device_id *matches);
-    66	extern int of_irq_parse_one(struct device_node *device, int index,
-    67				  struct of_phandle_args *out_irq);
-    68	extern int of_irq_count(struct device_node *dev);
-    69	extern int of_irq_get(struct device_node *dev, int index);
-    70	extern int of_irq_get_byname(struct device_node *dev, const char *name);
-    71	extern int of_irq_to_resource_table(struct device_node *dev,
-    72			struct resource *res, int nr_irqs);
-    73	extern struct device_node *of_irq_find_parent(struct device_node *child);
-    74	extern int of_imap_parser_init(struct of_imap_parser *parser,
-    75				       struct device_node *node,
-    76				       struct of_imap_item *item);
-    77	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-    78						       struct of_imap_item *item);
-    79	extern struct irq_domain *of_msi_get_domain(struct device *dev,
-    80						    const struct device_node *np,
-    81						    enum irq_domain_bus_token token);
-    82	extern struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
-    83								u32 id,
-    84								u32 bus_token);
-    85	extern void of_msi_configure(struct device *dev, const struct device_node *np);
-    86	extern u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in);
-    87	#else
-    88	static inline void of_irq_init(const struct of_device_id *matches)
-    89	{
-    90	}
-    91	static inline int of_irq_parse_one(struct device_node *device, int index,
-    92					   struct of_phandle_args *out_irq)
-    93	{
-    94		return -EINVAL;
-    95	}
-    96	static inline int of_irq_count(struct device_node *dev)
-    97	{
-    98		return 0;
-    99	}
-   100	static inline int of_irq_get(struct device_node *dev, int index)
-   101	{
-   102		return 0;
-   103	}
-   104	static inline int of_irq_get_byname(struct device_node *dev, const char *name)
-   105	{
-   106		return 0;
-   107	}
-   108	static inline int of_irq_to_resource_table(struct device_node *dev,
-   109						   struct resource *res, int nr_irqs)
-   110	{
-   111		return 0;
-   112	}
-   113	static inline void *of_irq_find_parent(struct device_node *child)
-   114	{
-   115		return NULL;
-   116	}
-   117	static inline int of_imap_parser_init(struct of_imap_parser *parser,
-   118					      struct device_node *node,
-   119					      struct of_imap_item *item)
-   120	{
-   121		return -ENOSYS;
-   122	}
- > 123	extern struct of_imap_item *of_imap_parser_one(struct of_imap_parser *parser,
-   124						       struct of_imap_item *item)
-   125	{
-   126		return NULL;
-   127	}
-   128	static inline struct irq_domain *of_msi_get_domain(struct device *dev,
-   129							   struct device_node *np,
-   130							   enum irq_domain_bus_token token)
-   131	{
-   132		return NULL;
-   133	}
-   134	static inline struct irq_domain *of_msi_map_get_device_domain(struct device *dev,
-   135							u32 id, u32 bus_token)
-   136	{
-   137		return NULL;
-   138	}
-   139	static inline void of_msi_configure(struct device *dev, struct device_node *np)
-   140	{
-   141	}
-   142	static inline u32 of_msi_xlate(struct device *dev, struct device_node **msi_np, u32 id_in)
-   143	{
-   144		return id_in;
-   145	}
-   146	#endif
-   147	
+6913e873e7b2e4 Mohsin Bashir   2025-06-10  1805  
+bd2557a554a0d6 Mohsin Bashir   2024-09-02  1806  static const struct ethtool_ops fbnic_ethtool_ops = {
+f7d4c21667cc1a Jakub Kicinski  2025-06-24  1807  	.supported_coalesce_params	= ETHTOOL_COALESCE_USECS |
+7b5b7a597fbc19 Mohsin Bashir   2025-02-17  1808  					  ETHTOOL_COALESCE_RX_MAX_FRAMES,
+2b30fc01a6c788 Mohsin Bashir   2025-08-13  1809  	.supported_ring_params		= ETHTOOL_RING_USE_TCP_DATA_SPLIT |
+2b30fc01a6c788 Mohsin Bashir   2025-08-13  1810  					  ETHTOOL_RING_USE_HDS_THRS,
+260676ebb1f3b1 Daniel Zahka    2025-02-06  1811  	.rxfh_max_num_contexts		= FBNIC_RPC_RSS_TBL_COUNT,
+bd2557a554a0d6 Mohsin Bashir   2024-09-02  1812  	.get_drvinfo			= fbnic_get_drvinfo,
+3d12862b216d39 Mohsin Bashir   2024-11-12  1813  	.get_regs_len			= fbnic_get_regs_len,
+3d12862b216d39 Mohsin Bashir   2024-11-12  1814  	.get_regs			= fbnic_get_regs,
+fb9a3bb7f7f23b Alexander Duyck 2025-06-18  1815  	.get_link			= ethtool_op_get_link,
+7b5b7a597fbc19 Mohsin Bashir   2025-02-17  1816  	.get_coalesce			= fbnic_get_coalesce,
+7b5b7a597fbc19 Mohsin Bashir   2025-02-17  1817  	.set_coalesce			= fbnic_set_coalesce,
+6cbf18a05c0609 Jakub Kicinski  2025-03-06  1818  	.get_ringparam			= fbnic_get_ringparam,
+6cbf18a05c0609 Jakub Kicinski  2025-03-06  1819  	.set_ringparam			= fbnic_set_ringparam,
+e9faf4db5f2612 Mohsin Bashir   2025-08-25  1820  	.get_pause_stats		= fbnic_get_pause_stats,
+eb4c27edb4d8db Alexander Duyck 2025-06-18  1821  	.get_pauseparam			= fbnic_phylink_get_pauseparam,
+eb4c27edb4d8db Alexander Duyck 2025-06-18  1822  	.set_pauseparam			= fbnic_phylink_set_pauseparam,
+79da2aaa08ee99 Sanman Pradhan  2024-11-14  1823  	.get_strings			= fbnic_get_strings,
+79da2aaa08ee99 Sanman Pradhan  2024-11-14  1824  	.get_ethtool_stats		= fbnic_get_ethtool_stats,
+79da2aaa08ee99 Sanman Pradhan  2024-11-14  1825  	.get_sset_count			= fbnic_get_sset_count,
+7cb06a6a777cf5 Alexander Duyck 2024-12-19  1826  	.get_rxnfc			= fbnic_get_rxnfc,
+c23a1461bfee0a Alexander Duyck 2024-12-19  1827  	.set_rxnfc			= fbnic_set_rxnfc,
+7cb06a6a777cf5 Alexander Duyck 2024-12-19  1828  	.get_rxfh_key_size		= fbnic_get_rxfh_key_size,
+7cb06a6a777cf5 Alexander Duyck 2024-12-19  1829  	.get_rxfh_indir_size		= fbnic_get_rxfh_indir_size,
+7cb06a6a777cf5 Alexander Duyck 2024-12-19  1830  	.get_rxfh			= fbnic_get_rxfh,
+31ab733e999edb Alexander Duyck 2024-12-19  1831  	.set_rxfh			= fbnic_set_rxfh,
+2a34007ba9773e Jakub Kicinski  2025-06-11  1832  	.get_rxfh_fields		= fbnic_get_rss_hash_opts,
+2a34007ba9773e Jakub Kicinski  2025-06-11  1833  	.set_rxfh_fields		= fbnic_set_rss_hash_opts,
+260676ebb1f3b1 Daniel Zahka    2025-02-06  1834  	.create_rxfh_context		= fbnic_create_rxfh_context,
+260676ebb1f3b1 Daniel Zahka    2025-02-06  1835  	.modify_rxfh_context		= fbnic_modify_rxfh_context,
+260676ebb1f3b1 Daniel Zahka    2025-02-06  1836  	.remove_rxfh_context		= fbnic_remove_rxfh_context,
+3a481cc72673b2 Jakub Kicinski  2024-12-19  1837  	.get_channels			= fbnic_get_channels,
+3a481cc72673b2 Jakub Kicinski  2024-12-19  1838  	.set_channels			= fbnic_set_channels,
+be65bfc957eb70 Vadim Fedorenko 2024-10-08  1839  	.get_ts_info			= fbnic_get_ts_info,
+96f358f75d1a4e Vadim Fedorenko 2024-10-08  1840  	.get_ts_stats			= fbnic_get_ts_stats,
+fb9a3bb7f7f23b Alexander Duyck 2025-06-18  1841  	.get_link_ksettings		= fbnic_phylink_ethtool_ksettings_get,
+33c493791bc058 Mohsin Bashir   2025-08-25 @1842  	.get_fec_stats			= fbnic_get_fec_stats,
+fb9a3bb7f7f23b Alexander Duyck 2025-06-18  1843  	.get_fecparam			= fbnic_phylink_get_fecparam,
+33c493791bc058 Mohsin Bashir   2025-08-25  1844  	.get_eth_phy_stats		= fbnic_get_eth_phy_stats,
+4eb7f20bcf0614 Mohsin Bashir   2024-09-02  1845  	.get_eth_mac_stats		= fbnic_get_eth_mac_stats,
+6913e873e7b2e4 Mohsin Bashir   2025-06-10  1846  	.get_eth_ctrl_stats		= fbnic_get_eth_ctrl_stats,
+6913e873e7b2e4 Mohsin Bashir   2025-06-10  1847  	.get_rmon_stats			= fbnic_get_rmon_stats,
+bd2557a554a0d6 Mohsin Bashir   2024-09-02  1848  };
+bd2557a554a0d6 Mohsin Bashir   2024-09-02  1849  
 
 -- 
 0-DAY CI Kernel Test Service
