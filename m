@@ -1,59 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from greygoose-centos7.csh.rit.edu (greygoose-centos7.csh.rit.edu [129.21.49.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDDB28853A;
-	Wed, 10 Sep 2025 12:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00923176E4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 12:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.21.49.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757507973; cv=none; b=KMyjRyDlqm/bkUck9j3p7VOW0jMNKYx6rrciHTU0hfmxgyGiceWas21sDsOEpRNMFhqDW/OgInrqb66T8VUrY1qwpr99NrhVQKGmnMPovipLGjZC0aUVRlvZ8BYFClf8gczgiONPnYs9QepRrqf5p+T3UERkyqGkmp/+XSaIaeM=
+	t=1757508445; cv=none; b=sg1ikEDlFvLt1kvUknJ+PH2cekMcW0B6S1sbAIhzHomNNrnPPKNRv1zAKMfqiQDrL4YODRmZODlwcyMea+P+EXUvrtvYjaZSBjqYrEZmBDy+I/nmS82OIGldOBRLt21rrgqUeiUpk0ugE1wdi5RUmsUHWUQzhSGcNBFRXACaGDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757507973; c=relaxed/simple;
-	bh=hjPl/kivd8rKY7NW9S7vBLylc64b1IKZDxEQXLdzBQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rUIR+/wG9OLCTdAt2iLEQOf3GFhmsNDN+rTQcNrdgJT+Bpnl8+p0n5qq+ya7tYirQGJcOUALJvtLBu+Q7ArHucSv5GQ2vjuGDUXvourM/OU0y/LjtuzVDNyOWsgg4OaG5vEVUrbhJoRWbpwclGCgFx3ATZIkcw2aQBWv4eLoSrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTmpz25i; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757508445; c=relaxed/simple;
+	bh=t1fJRuXU/a38aPuhlxIeVdENiyKxjXl52JKvZlKaua0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=imJ6h0Kr6zGIp9JVFS0XnCWJn0tSveOdw9lVKafa/bTjbG3gGt8KbxC1lQkpzmq/dg90vLc6s6ITUXu0UDZu1j03IH8kvDkIONiPXcQSc+xxG/af1yCZ+l4rJcy6NtdXt53VJ4VLOt37K0WZtby4BbxHRNim5xVx1n+7pxgd5No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csh.rit.edu; spf=pass smtp.mailfrom=csh.rit.edu; dkim=pass (1024-bit key) header.d=csh.rit.edu header.i=@csh.rit.edu header.b=RdrqhuLJ; arc=none smtp.client-ip=129.21.49.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csh.rit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csh.rit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTmpz25i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757507973; x=1789043973;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hjPl/kivd8rKY7NW9S7vBLylc64b1IKZDxEQXLdzBQg=;
-  b=TTmpz25i4uCoCXrB696qCSLyyXKImSUALAEwdAMLV51YgxkxUgsP2Umo
-   5ba2GOIIPty/yeNHB3Uh9ty/7BXtvLsKxn0W6SBM83IG6Yv0G6ND8K+vN
-   XGcEJpFUPxfrFyVkP+wCZAwPHhYbe1g6si77/Qh5tSvW+iuwy/99yeBmn
-   JPFqUXtp+tzZpCDl4S4k0kyi60lMcB+4ixN1rM1VP8tkWaAIfYlYO5fiO
-   bRQ+YHqxIjyMtP2/rayK9IwHqifMQTnFYRAg+t8XKpwOM/a7K9ivb2yWi
-   fi8DVkczK4+i0JDrRS88RC9wF+sCkBAnR5GGhfqPOQKBwgufPwR9HaDmF
-   w==;
-X-CSE-ConnectionGUID: EbEiE0PvRxCOlRXEbCJngw==
-X-CSE-MsgGUID: EdNV5FYTTN28vcHWecJxxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="77271537"
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="77271537"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 05:39:16 -0700
-X-CSE-ConnectionGUID: NnBKEI4DTfq1U5XR1tu2jA==
-X-CSE-MsgGUID: T3Yj0Vm7QRKP9yoqgnhh7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="197052739"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Sep 2025 05:39:14 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwK6R-0005vl-29;
-	Wed, 10 Sep 2025 12:39:11 +0000
-Date: Wed, 10 Sep 2025 20:38:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>
-Subject: [chanwoo-extcon:extcon-next 13/14] ERROR: modpost:
- "fwnode_typec_switch_get" [drivers/extcon/extcon-ptn5150.ko] undefined!
-Message-ID: <202509102038.MUz1UwM6-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=csh.rit.edu header.i=@csh.rit.edu header.b="RdrqhuLJ"
+Received: from localhost (localhost [127.0.0.1])
+	by greygoose-centos7.csh.rit.edu (Postfix) with ESMTP id 2DAE340ED4BA;
+	Wed, 10 Sep 2025 08:47:17 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=csh.rit.edu; h=
+	in-reply-to:content-disposition:content-type:content-type
+	:mime-version:references:message-id:subject:subject:from:from
+	:date:date:received:received; s=mail; t=1757508430; x=
+	1759322831; bh=t1fJRuXU/a38aPuhlxIeVdENiyKxjXl52JKvZlKaua0=; b=R
+	drqhuLJCV81+161uciWYnlWrz0yI7g0AnFXVxmSeUwe8A1gnaHSGiVIylTzGLgH7
+	5FgX0hlyrAkPlzPIZEI8/QOj0+Td9hkNjgp0MSfFImNkPdhVJlXv9ZoPlUr7x7pX
+	kpWikuYOSEZ+09PTeeCKJ192gdTp+SGH9g5FSOeKqk=
+X-Virus-Scanned: amavisd-new at csh.rit.edu
+Received: from greygoose-centos7.csh.rit.edu ([127.0.0.1])
+ by localhost (mail.csh.rit.edu [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 7VS5oyVckk4Q; Wed, 10 Sep 2025 08:47:10 -0400 (EDT)
+Received: from ada.csh.rit.edu (ada.csh.rit.edu [129.21.49.156])
+	by greygoose-centos7.csh.rit.edu (Postfix) with ESMTPS id B626140E9C9C;
+	Wed, 10 Sep 2025 08:47:10 -0400 (EDT)
+Date: Wed, 10 Sep 2025 08:47:09 -0400
+From: Mary Strodl <mstrodl@csh.rit.edu>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	linus.walleij@linaro.org, brgl@bgdev.pl, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] gpio: mpsse: support bryx radio interface kit
+Message-ID: <aMFzTaO7zGVgWNRK@ada.csh.rit.edu>
+References: <20250908173804.3816149-1-mstrodl@csh.rit.edu>
+ <202509092305.ncd9mzaZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +51,16 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202509092305.ncd9mzaZ-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-next
-head:   e6f75eba4a860cc419ed632313523e25689fd144
-commit: 0d6a9aca15c987b4774f7fdb34114ab0d483766a [13/14] extcon: ptn5150: Add Type-C orientation switch support
-config: i386-buildonly-randconfig-006-20250909 (https://download.01.org/0day-ci/archive/20250910/202509102038.MUz1UwM6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509102038.MUz1UwM6-lkp@intel.com/reproduce)
+On Tue, Sep 09, 2025 at 09:32:09PM +0800, kernel test robot wrote:
+>    drivers/gpio/gpio-mpsse.c: In function 'mpsse_ensure_supported':
+> >> drivers/gpio/gpio-mpsse.c:211:25: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
+>      211 |                         "mpsse: GPIO %ld doesn't support %s\n",
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509102038.MUz1UwM6-lkp@intel.com/
+Oops. Turns out this is m68k-specific weirdness. v2 will convert the
+result to an int and use %d.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "fwnode_typec_switch_get" [drivers/extcon/extcon-ptn5150.ko] undefined!
->> ERROR: modpost: "typec_switch_set" [drivers/extcon/extcon-ptn5150.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll hold off on posting it because I'm anticipating there will be some feedback
+on the actual code changes that will need a revision anyways ;)
