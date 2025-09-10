@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB542C0298
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 06:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9A6221739;
+	Wed, 10 Sep 2025 07:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757486386; cv=none; b=aOFmwNTIYKFIPIhz8vm1WMFpw3xO838Ih/k5ed3jvfYdwBY8VAZ12xXXGv4os9RHU6j/+gBiS/R9wy/SqZCH1PruTWZaAQ0R+Vd5jTtzAROBs/y/HFaairnyoHLtbTpXsKSOE/AhjNmMHjVxJXy6OxPDnG0HqgdsphTh6i0S4Ww=
+	t=1757488853; cv=none; b=bHSWrkjqKlzcOMKJcBdh8cnZnzE7yZwOViW9mU5w5dWXzvlWG5J1GGTOopTS9eUq6uizOCRSweFGPaHVocKF1+BB5dFoNYXXcbzFancczqkWPRX8ITsg4omOWoEqnWuq1aFOdk6f099xITkHMQJExjcXGj2QJCJppZr+ZXA0OgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757486386; c=relaxed/simple;
-	bh=zpOHZC/gXQcma22GGygnWRWcRNGegH/ozfLbDoXfWIY=;
+	s=arc-20240116; t=1757488853; c=relaxed/simple;
+	bh=vwghiswpYI7TXrHNriSxTn1AeR8u/UjYfD1TYxdWHII=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bGFTWSYG4vOjboEs+Zrf+VpFwXiNigrgrOscVhBmVci6P4lrdHcZGpy50DtNhOwlVcRokDWjbK5ikobo/E9rjmJnPf7zemBT4/giXzC2rqfHV1GpMD539qhAa1fDgv4qDYCNjjHNa4xYLncL6IGT4tCQgClrP+n/tvVzR4+8Jc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cu8/QVzT; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=s7ekZuiJo0RQ88MMSb7yNC9oi5Pk0LKJQtp9YjX3bXTViqR2i+Nq4vU0Y0D3nbCLiDjbhzsNhSb4wM759yoiNWC+OM1NrYniWVJyBL1Cuds5PXLinSFOSCFLogIwUOGFPxVV2+k1wSHOwmawW2+80V3qseer1lxdsckTV7yrAK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eBTJMKpp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cu8/QVzT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eBTJMKpp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757486383; x=1789022383;
+  t=1757488851; x=1789024851;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zpOHZC/gXQcma22GGygnWRWcRNGegH/ozfLbDoXfWIY=;
-  b=cu8/QVzT1KkZDwT0kxadbQSVSwTSVf7ZEOWWitZNNXd11TMaTPGgvy3b
-   IL+6EeDKNYTOLY6HJJ8VI3SPAZ/RkunzQe/ppjA51LppTJlB/zHzWOn98
-   c8afjBrf9uLPvIadcc2lC57cD5MVDhWpDDGVf8G7RCjXRwzJM17jB4RNE
-   YwxFpshu1Yfg06ffqvoD6HCU00ERODmyOiPvHWCw57ew19pvf9mgl/3Ec
-   gpbKtlR/3jGlBkUS6+mXKNLMq/d2XlFBO+cLQNoI0wkAEfsPK3SCGWm5J
-   NdaPmObIjCLNDy28cECPgr69gnMGOiGrBXa1jGiTvQEoI4amz7Ai+m6XS
-   w==;
-X-CSE-ConnectionGUID: PBEDSNsGQBGP7XSJjPDFYw==
-X-CSE-MsgGUID: WuWr51PdT+qpslugNIjkPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59861659"
+  bh=vwghiswpYI7TXrHNriSxTn1AeR8u/UjYfD1TYxdWHII=;
+  b=eBTJMKppeUgHYKY/5qn6gp6HML8ufXzUsPJA5SQaWdB8ZhnYPuKGeIVd
+   3QcdHjcEB0guQOKtO7Dn95vBrZowHIybNPoES2/nPVybmD/MjhPXIcpaM
+   MT5PzlqGFccjxucqKJgfTUkzh8mYc31pZUErAB6DD9eVj5MKJJTuEpA1f
+   HeOl/y9JgapbmZTrjVTf26Bbf9hF3fqxNUP48mDhAtwE7XE+k1Fd3fcT2
+   4hbeajmQ5peQEj0JftPjzadmPUTjB0jr80eIH+ZkkCM0iuYdjE+18+vKR
+   3S5oPxjKpT/Dn1GJuN2Ok5sXZgIAuToiiL2RC7qTLm1X9jBOOrek7cV2M
+   Q==;
+X-CSE-ConnectionGUID: MelniKn4QGG+YFAZ0A2t1w==
+X-CSE-MsgGUID: B2wxbc62TgerkxJF2ZIidA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="63419534"
 X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="59861659"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 23:39:42 -0700
-X-CSE-ConnectionGUID: PYuGWqYjQrSQjsZJI/J+1A==
-X-CSE-MsgGUID: zM8uovvHQZiOvlj6Zd0FSQ==
+   d="scan'208";a="63419534"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 00:20:51 -0700
+X-CSE-ConnectionGUID: 0fxhi66TTnKyjpK5TAuUng==
+X-CSE-MsgGUID: I5EVtNQTQNuuqUs0B5E2hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="178518386"
+   d="scan'208";a="196976033"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Sep 2025 23:39:40 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Sep 2025 00:20:48 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwEUS-0005bP-2L;
-	Wed, 10 Sep 2025 06:39:36 +0000
-Date: Wed, 10 Sep 2025 14:39:22 +0800
+	id 1uwF8C-0005dH-1X;
+	Wed, 10 Sep 2025 07:20:40 +0000
+Date: Wed, 10 Sep 2025 15:19:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gokul Praveen <g-praveen@ti.com>, j-keerthy@ti.com, vigneshr@ti.com,
-	wbg@kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, g-praveen@ti.com, u-kumar1@ti.com,
-	n-francis@ti.com
-Subject: Re: [PATCH 2/2] counter: ti-dmtimer-cap : capture driver support for
- OMAP DM timer
-Message-ID: <202509101412.ze6xyOUu-lkp@intel.com>
-References: <20250909080042.36127-3-g-praveen@ti.com>
+To: Lachlan Hodges <lachlan.hodges@morsemicro.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC wireless-next 1/3] wifi: cfg80211: correctly implement and
+ validate S1G chandef
+Message-ID: <202509101438.7YHHFQrG-lkp@intel.com>
+References: <20250909080758.1004956-2-lachlan.hodges@morsemicro.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,150 +63,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250909080042.36127-3-g-praveen@ti.com>
+In-Reply-To: <20250909080758.1004956-2-lachlan.hodges@morsemicro.com>
 
-Hi Gokul,
+Hi Lachlan,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.17-rc5 next-20250909]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on next-20250909]
+[cannot apply to wireless/main linus/master v6.17-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-Praveen/dt-bindings-counter-Add-new-ti-omap-dmtimer-cap-compatible/20250909-160651
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250909080042.36127-3-g-praveen%40ti.com
-patch subject: [PATCH 2/2] counter: ti-dmtimer-cap : capture driver support for OMAP DM timer
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250910/202509101412.ze6xyOUu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101412.ze6xyOUu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lachlan-Hodges/wifi-cfg80211-correctly-implement-and-validate-S1G-chandef/20250909-161105
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250909080758.1004956-2-lachlan.hodges%40morsemicro.com
+patch subject: [RFC wireless-next 1/3] wifi: cfg80211: correctly implement and validate S1G chandef
+config: i386-buildonly-randconfig-004-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101438.7YHHFQrG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101438.7YHHFQrG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509101412.ze6xyOUu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509101438.7YHHFQrG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/counter/ti-dmtimer-cap.c: In function 'cap_omap_dmtimer_is_enabled':
->> drivers/counter/ti-dmtimer-cap.c:73:31: error: 'const struct omap_dm_timer_ops' has no member named 'get_cap_status'; did you mean 'get_pwm_status'?
-      73 |         status = omap->pdata->get_cap_status(omap->dm_timer);
-         |                               ^~~~~~~~~~~~~~
-         |                               get_pwm_status
-   drivers/counter/ti-dmtimer-cap.c: In function 'cap_omap_dmtimer_apply':
->> drivers/counter/ti-dmtimer-cap.c:117:26: error: 'const struct omap_dm_timer_ops' has no member named 'set_cap'
-     117 |         ret = omap->pdata->set_cap(omap->dm_timer, true, true);
-         |                          ^~
-   drivers/counter/ti-dmtimer-cap.c: In function 'cap_omap_dmtimer_capture':
->> drivers/counter/ti-dmtimer-cap.c:140:34: error: 'const struct omap_dm_timer_ops' has no member named 'read_cap'
-     140 |         *duty_cycle = omap->pdata->read_cap(omap->dm_timer, false);
-         |                                  ^~
-   drivers/counter/ti-dmtimer-cap.c: In function 'cap_omap_dmtimer_period':
-   drivers/counter/ti-dmtimer-cap.c:161:29: error: 'const struct omap_dm_timer_ops' has no member named 'read_cap'
-     161 |         period = omap->pdata->read_cap(omap->dm_timer, true);
-         |                             ^~
-   drivers/counter/ti-dmtimer-cap.c: In function 'cap_omap_dmtimer_probe':
-   drivers/counter/ti-dmtimer-cap.c:355:19: error: 'const struct omap_dm_timer_ops' has no member named 'set_cap'
-     355 |             !pdata->set_cap ||
-         |                   ^~
-   drivers/counter/ti-dmtimer-cap.c:356:21: error: 'const struct omap_dm_timer_ops' has no member named 'get_cap_status'; did you mean 'get_pwm_status'?
-     356 |             !pdata->get_cap_status ||
-         |                     ^~~~~~~~~~~~~~
-         |                     get_pwm_status
-   drivers/counter/ti-dmtimer-cap.c:357:23: error: 'const struct omap_dm_timer_ops' has no member named 'read_cap'
-     357 |                 !pdata->read_cap ||
-         |                       ^~
+>> net/wireless/chan.c:370:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     370 |                 u32 control_khz, start_khz, end_khz;
+         |                 ^
+   1 warning generated.
 
 
-vim +73 drivers/counter/ti-dmtimer-cap.c
+vim +370 net/wireless/chan.c
 
-    62	
-    63	/**
-    64	 * cap_omap_dmtimer_is_enabled() -  Detect if the timer capture is enabled.
-    65	 * @omap:	Pointer to cap omap dm timer counter
-    66	 *
-    67	 * Return true if capture is enabled else false.
-    68	 */
-    69	static bool cap_omap_dmtimer_is_enabled(struct cap_omap_dmtimer_counter *omap)
-    70	{
-    71		u32 status;
-    72	
-  > 73		status = omap->pdata->get_cap_status(omap->dm_timer);
-    74	
-    75		return !!(status & OMAP_TIMER_CTRL_ST);
-    76	}
-    77	
-    78	static int cap_omap_dmtimer_clk_get_freq(struct counter_device *counter,
-    79					 struct counter_signal *signal, u64 *freq)
-    80	{
-    81		struct cap_omap_dmtimer_counter *omap = counter_priv(counter);
-    82		struct clk *fclk;
-    83	
-    84		fclk = omap->pdata->get_fclk(omap->dm_timer);
-    85		if (!fclk) {
-    86			dev_err(counter->parent, "invalid dmtimer fclk\n");
-    87			return -EINVAL;
-    88		}
-    89	
-    90		*freq = clk_get_rate(fclk);
-    91		if (!(*freq)) {
-    92			dev_err(counter->parent, "invalid dmtimer fclk rate\n");
-    93			return -EINVAL;
-    94		}
-    95	
-    96		return 0;
-    97	}
-    98	/**
-    99	 * cap_omap_dmtimer_apply() - Changes the state of the cap omap dm timer counter.
-   100	 * @counter:Pointer to capture counter.
-   101	 *
-   102	 * Return 0 if successfully changed the state else appropriate error.
-   103	 */
-   104	static int cap_omap_dmtimer_apply(struct counter_device *counter)
-   105	{
-   106		struct cap_omap_dmtimer_counter *omap = counter_priv(counter);
-   107		struct device *dev = &omap->dm_timer_pdev->dev;
-   108		int ret = 0;
-   109	
-   110		/* Ensure that the timer is in stop mode so that the configs can be changed. */
-   111		if (cap_omap_dmtimer_is_enabled(omap)) {
-   112			ret = omap->pdata->stop(omap->dm_timer);
-   113			if (ret)
-   114				dev_err(dev, "%d: Failed to stop timer.\n", ret);
-   115		}
-   116	
- > 117		ret = omap->pdata->set_cap(omap->dm_timer, true, true);
-   118		if (ret) {
-   119			dev_err(dev, "%d: Failed to set timer capture configuration.\n", ret);
-   120			return ret;
-   121		}
-   122	
-   123		cap_omap_dmtimer_start(omap);
-   124	
-   125		return ret;
-   126	}
-   127	
-   128	static int cap_omap_dmtimer_capture(struct counter_device *counter,
-   129						struct counter_count *count, u64 *duty_cycle)
-   130	{
-   131		struct cap_omap_dmtimer_counter *omap = counter_priv(counter);
-   132		*duty_cycle = 0;
-   133	
-   134		if (!omap->enabled) {
-   135			dev_err(counter->parent, "Timer is disabled.\n");
-   136			omap->pdata->stop(omap->dm_timer);
-   137			return 0;
-   138		}
-   139	
- > 140		*duty_cycle = omap->pdata->read_cap(omap->dm_timer, false);
-   141	
-   142		*duty_cycle = *duty_cycle > 0 ? *duty_cycle : 0;
-   143	
-   144		return *duty_cycle;
-   145	}
-   146	
+   341	
+   342	bool cfg80211_chandef_valid(const struct cfg80211_chan_def *chandef)
+   343	{
+   344		u32 control_freq;
+   345	
+   346		if (!chandef->chan)
+   347			return false;
+   348	
+   349		if (chandef->freq1_offset >= 1000)
+   350			return false;
+   351	
+   352		control_freq = chandef->chan->center_freq;
+   353	
+   354		switch (chandef->width) {
+   355		case NL80211_CHAN_WIDTH_5:
+   356		case NL80211_CHAN_WIDTH_10:
+   357		case NL80211_CHAN_WIDTH_20:
+   358		case NL80211_CHAN_WIDTH_20_NOHT:
+   359			if (ieee80211_chandef_to_khz(chandef) !=
+   360			    ieee80211_channel_to_khz(chandef->chan))
+   361				return false;
+   362			if (chandef->center_freq2)
+   363				return false;
+   364			break;
+   365		case NL80211_CHAN_WIDTH_1:
+   366		case NL80211_CHAN_WIDTH_2:
+   367		case NL80211_CHAN_WIDTH_4:
+   368		case NL80211_CHAN_WIDTH_8:
+   369		case NL80211_CHAN_WIDTH_16:
+ > 370			u32 control_khz, start_khz, end_khz;
+   371	
+   372			if (!cfg80211_chandef_is_s1g(chandef))
+   373				return false;
+   374			if (chandef->center_freq2)
+   375				return false;
+   376	
+   377			control_khz = ieee80211_channel_to_khz(chandef->chan);
+   378			start_khz = cfg80211_s1g_get_start_freq_khz(chandef);
+   379			end_khz = cfg80211_s1g_get_end_freq_khz(chandef);
+   380	
+   381			if (control_khz < start_khz || control_khz > end_khz)
+   382				return false;
+   383			break;
+   384		case NL80211_CHAN_WIDTH_80P80:
+   385			if (!chandef->center_freq2)
+   386				return false;
+   387			/* adjacent is not allowed -- that's a 160 MHz channel */
+   388			if (chandef->center_freq1 - chandef->center_freq2 == 80 ||
+   389			    chandef->center_freq2 - chandef->center_freq1 == 80)
+   390				return false;
+   391			break;
+   392		default:
+   393			if (chandef->center_freq2)
+   394				return false;
+   395			break;
+   396		}
+   397	
+   398		switch (chandef->width) {
+   399		case NL80211_CHAN_WIDTH_5:
+   400		case NL80211_CHAN_WIDTH_10:
+   401		case NL80211_CHAN_WIDTH_20:
+   402		case NL80211_CHAN_WIDTH_20_NOHT:
+   403		case NL80211_CHAN_WIDTH_1:
+   404		case NL80211_CHAN_WIDTH_2:
+   405		case NL80211_CHAN_WIDTH_4:
+   406		case NL80211_CHAN_WIDTH_8:
+   407		case NL80211_CHAN_WIDTH_16:
+   408			/* all checked above */
+   409			break;
+   410		case NL80211_CHAN_WIDTH_320:
+   411			if (chandef->center_freq1 == control_freq + 150 ||
+   412			    chandef->center_freq1 == control_freq + 130 ||
+   413			    chandef->center_freq1 == control_freq + 110 ||
+   414			    chandef->center_freq1 == control_freq + 90 ||
+   415			    chandef->center_freq1 == control_freq - 90 ||
+   416			    chandef->center_freq1 == control_freq - 110 ||
+   417			    chandef->center_freq1 == control_freq - 130 ||
+   418			    chandef->center_freq1 == control_freq - 150)
+   419				break;
+   420			fallthrough;
+   421		case NL80211_CHAN_WIDTH_160:
+   422			if (chandef->center_freq1 == control_freq + 70 ||
+   423			    chandef->center_freq1 == control_freq + 50 ||
+   424			    chandef->center_freq1 == control_freq - 50 ||
+   425			    chandef->center_freq1 == control_freq - 70)
+   426				break;
+   427			fallthrough;
+   428		case NL80211_CHAN_WIDTH_80P80:
+   429		case NL80211_CHAN_WIDTH_80:
+   430			if (chandef->center_freq1 == control_freq + 30 ||
+   431			    chandef->center_freq1 == control_freq - 30)
+   432				break;
+   433			fallthrough;
+   434		case NL80211_CHAN_WIDTH_40:
+   435			if (chandef->center_freq1 == control_freq + 10 ||
+   436			    chandef->center_freq1 == control_freq - 10)
+   437				break;
+   438			fallthrough;
+   439		default:
+   440			return false;
+   441		}
+   442	
+   443		if (!cfg80211_valid_center_freq(chandef->center_freq1, chandef->width))
+   444			return false;
+   445	
+   446		if (chandef->width == NL80211_CHAN_WIDTH_80P80 &&
+   447		    !cfg80211_valid_center_freq(chandef->center_freq2, chandef->width))
+   448			return false;
+   449	
+   450		/* channel 14 is only for IEEE 802.11b */
+   451		if (chandef->center_freq1 == 2484 &&
+   452		    chandef->width != NL80211_CHAN_WIDTH_20_NOHT)
+   453			return false;
+   454	
+   455		if (cfg80211_chandef_is_edmg(chandef) &&
+   456		    !cfg80211_edmg_chandef_valid(chandef))
+   457			return false;
+   458	
+   459		return valid_puncturing_bitmap(chandef);
+   460	}
+   461	EXPORT_SYMBOL(cfg80211_chandef_valid);
+   462	
 
 -- 
 0-DAY CI Kernel Test Service
