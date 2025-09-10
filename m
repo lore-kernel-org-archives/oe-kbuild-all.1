@@ -1,84 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3ED277CB1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 04:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09313D984
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 05:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757479710; cv=none; b=uunE+BDD6bU5Mb4xrXuG2RrcsZ2ZSHYPPpoQJhJaXoRH0GsvVvDZ8D5ww+cSl2J/ZLE4BKTXLlY1hzfiK4C87tzg/gj+TALms1RPuKRvbFBtmWPcQ3O6y/uyarl23N7/V2uw235UDUNyVCWJcvNwyPTY2BP7b1ckvH7Mrb/Rbfg=
+	t=1757482575; cv=none; b=V72Zh33T+GkmRcDg3RvZ0VNqG6uSQfg0w5pCbewsKjVOLkBqujZoAejahycV4O8i6qCo7WeO9tSYXh+GVvYfcw/OM7/PM2dyPM39AIrxvdukoK5B98af6VLl4XRk7rm61i9zv9CKOYeb9xc5nYQ+6IDbtHhxaa1mLKw6K4l1SNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757479710; c=relaxed/simple;
-	bh=f0SpJ2IrPwZF1LhmP94iC36OsdGVQ2ocyhgP3YokeuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=K9BWBiB1wZyHU3Ug5rNWZe0z/jR+l0dO6gr4ucNSdg0aToVmz+bQOzS/rPjVPWKym4tLKXQXL6ual/JvykDk8l2m8vWdObD9oM1vny4WCBeC50NysG5JKB2rqz5BmcFVYtms3SZ2fo+vcUUTfVWKayhKn2wDqd5ZR0n8DmHJN1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZkX+ifZ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757482575; c=relaxed/simple;
+	bh=5/tGb29AoTR19zttNulm62dEg7qbxGYqbvexI4uRPYM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=tuYUSetPZJRpfZ79MgPJzUTlDIdf3/TJxyWO2BdQ4zujjZpIyQWkCaIV1JWPLn4JjSkbaP0COMusVuf8LZ8KN87SWa1xwfg2vW+yMibsRRLbMaz5fUy+asIbGV5Ns2SI0IJgkX//qhvC+i0N/I2rplpiiV/G8ghbKIKMh8FV7iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=sOrIUiin; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZkX+ifZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757479709; x=1789015709;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=f0SpJ2IrPwZF1LhmP94iC36OsdGVQ2ocyhgP3YokeuI=;
-  b=bZkX+ifZepX0/gVW69s6cdx4/eestBGQymD14v8VMHh0Y1xLIGLv/kc9
-   u23HttCt3foGFUeeOpl0OA4gEW0MaLJLluqiD1x/agg2ic9F2RFLNsTqR
-   +HBpTggQ/N+YK8mMNq4VS5XO8dDWFTYf01HFjtnHt/q3tTHSXFhrTXHHT
-   gdTgArYEz77Soy0VZ8L+8n29sPnJQkmXnyA89EiX5zb8w6R0tzWsvCey1
-   aHpsfKNeEN/TmQ1/5/Q7DBVsMZU5nuXfXq+hHw/gWD30hrjcqm4hKfGCP
-   SEjfNFJ3FQO+HLSXv6xYAfE2ijOdwRcvr9jwo+FKIwjKUAWtb+lHRSsdA
-   A==;
-X-CSE-ConnectionGUID: eLPqcFc6SA6T/aH2Cs+0Jg==
-X-CSE-MsgGUID: LTnSxxrMSK2gNuEz7NnNyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59635720"
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="59635720"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 21:48:29 -0700
-X-CSE-ConnectionGUID: 4I4ADdzVShmn+0auIfXTWQ==
-X-CSE-MsgGUID: HKsfmBk0S4SmV4ZzdJ33xQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="173726420"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Sep 2025 21:48:27 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwCkr-0005XP-0O;
-	Wed, 10 Sep 2025 04:48:25 +0000
-Date: Wed, 10 Sep 2025 12:47:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1] arm64: dts: qcom: monaco-evk: Use correct sound card
- compatible to match SoC
-Message-ID: <aMEC4SyU7c2jZ3Pi@03ba77cd577f>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="sOrIUiin"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDE7EC4CEF0;
+	Wed, 10 Sep 2025 05:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1757482574;
+	bh=5/tGb29AoTR19zttNulm62dEg7qbxGYqbvexI4uRPYM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sOrIUiing2YlYWY68MMv0n3bmumkyxurFIw2yqzdtXtypibY5ofZ0VMBH0DTAClr5
+	 /efTlONBPnLPOU1Juby7jAF2YSud/YuiCdT0NHwlzFHFaar/OVsTj27V09K3nZksPH
+	 UCYSgNY2UzWJhLsuNKVGthXPiRLq5F0KhgbVM1u8=
+Date: Tue, 9 Sep 2025 22:36:13 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Kairui Song <kasong@tencent.com>, oe-kbuild-all@lists.linux.dev, Linux
+ Memory Management List <linux-mm@kvack.org>, Chris Li <chrisl@kernel.org>
+Subject: Re: [akpm-mm:mm-new 359/411] mm/swap.h:455:24: error: implicit
+ declaration of function 'swp_offset'; did you mean 'bh_offset'?
+Message-Id: <20250909223613.6427ab904277aabbdbe1454a@linux-foundation.org>
+In-Reply-To: <202509100956.7q0VPOo2-lkp@intel.com>
+References: <202509100956.7q0VPOo2-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910044512.1369640-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 10 Sep 2025 09:28:50 +0800 kernel test robot <lkp@intel.com> wrote:
 
-Thanks for your patch.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   f4e8f46973fe0c0f579944a37e96ba9efbe00cca
+> commit: aabe1e0289084317ef7603c14132758fad3a975e [359/411] mm, swap: use the swap table for the swap cache and switch API
+> config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250910/202509100956.7q0VPOo2-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509100956.7q0VPOo2-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509100956.7q0VPOo2-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from mm/filemap.c:65:
+>    mm/swap.h: In function 'folio_index':
+> >> mm/swap.h:455:24: error: implicit declaration of function 'swp_offset'; did you mean 'bh_offset'? [-Wimplicit-function-declaration]
+>      455 |                 return swp_offset(folio->swap);
+>          |                        ^~~~~~~~~~
+>          |                        bh_offset
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+Thanks.  I'll do this:
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v1] arm64: dts: qcom: monaco-evk: Use correct sound card compatible to match SoC
-Link: https://lore.kernel.org/stable/20250910044512.1369640-1-mohammad.rafi.shaik%40oss.qualcomm.com
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+--- a/mm/swap.h~mm-swap-use-the-swap-table-for-the-swap-cache-and-switch-api-fix
++++ a/mm/swap.h
+@@ -451,8 +451,10 @@ static inline int non_swapcache_batch(sw
+  */
+ static inline pgoff_t folio_index(struct folio *folio)
+ {
++#ifdef CONFIG_MMU
+ 	if (unlikely(folio_test_swapcache(folio)))
+ 		return swp_offset(folio->swap);
++#endif
+ 	return folio->index;
+ }
+ 
+_
 
