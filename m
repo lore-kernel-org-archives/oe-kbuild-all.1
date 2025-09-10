@@ -1,60 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F202BE7B1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 09:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68877277CBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 09:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757496479; cv=none; b=Pg7TwVUIm9OozI6um0/RtXqwgm3b4Iu0G9/Q6+8wfebb2fLyhD5dwfhS8/VPq5nCYgJfNEI0MQhoiL6ngQ7T/UK6ZxTvEA487xhAsBN9TH3pRu7ymSptcdhWMcHkgF8pg+Wiyc8kMOrB778aPA3884eMe+TVyXPya0WEVYps0A4=
+	t=1757498129; cv=none; b=kB0aQY1fn811KoYb4PalzwoD7OQ2VXbjOEBsPd3HmbEtUp/olxGgwCSvo0Ap+oGT7QDGR/BuZBOO677WjOrgCJQG/1UGx3r1yqfiY0k9/nkMj9YaovEO/n9QngH/5DwmmtUK3R2IP5bAr4xs2w3AWleBWbLeTd86lRXW3fg9Lgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757496479; c=relaxed/simple;
-	bh=rzoEv/oiH+IKBC26au6kXDl4IIS9rQEhwfcvPjRwjxo=;
+	s=arc-20240116; t=1757498129; c=relaxed/simple;
+	bh=xfTqnHdvgd+w7nvWVenmv/Zl+heyzHkpemmTdjv859E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q+Xw3dJm33iamDlTiPi+usb5HFOjMDr3geCWFIf1IBlpH1oEMGjZ4d6bU9aaLTSliA4rsyotd1mKlSzajfjuwnAcMIC859BUgG902X2egCft7sy9uEKUeSh54KagzXUuulQ5SVP+E4vQLcdM+YOmHh1u6E/ZA3gJpeqf8MUuwes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c9BgMl7i; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=rCPCg33mIUTBo9e3Dkvo/+kB5asqvncDviguPjmZjE1/vtCi7UQORVIDbUsapy8JPNLGh7gel1Edl+S8aSN8IBnJeiwAncU0hyuK2zPv4821cs8Wn/MAzP6Cjs39KyIYQ/BLD87Fe3nS+iuLuS9+EW6uicRNG/eiXfMFJQk6lgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dB8MFo25; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c9BgMl7i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757496478; x=1789032478;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rzoEv/oiH+IKBC26au6kXDl4IIS9rQEhwfcvPjRwjxo=;
-  b=c9BgMl7iCIyGZ5ylaq4VO153mDNEZP5A+MAOjW/AbXfdO6wIcdHA1iSn
-   CaLj9poI1A3aMaCSJwRIhYiXCa88jHPV7XVZb3j8dS2j76oNfu4MsDgD7
-   iJ8UxYbdFRHH3ib10gGI6gqBAmZCsltAGobrn531d8fKXV3seEjX2adnT
-   PZHO1ldKQeurrFNpTUwrdF9yrhqza9UZPjcmhr9T8pxMUO4yn41SAbURP
-   //Yk5+dKgPaSCvG9eJLbjUCes+SA65IHFyk7D9ZwhVFcjPsUSgnu5H2sW
-   DCJppqSHklo8oSTOGD+qQOC1gFiVmOGgkog0mS/4ky7btBngRVuiaC+uh
-   g==;
-X-CSE-ConnectionGUID: cyMQjG8QQ5ug00ZjiwWIog==
-X-CSE-MsgGUID: R9P8BYFGRMWh9/xWWsVuRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59494337"
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="59494337"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:27:57 -0700
-X-CSE-ConnectionGUID: hViZG+EJRcq7nGeq7qSSUg==
-X-CSE-MsgGUID: UeXm/vkQTy+X6X8yBwO+pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="174132360"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Sep 2025 02:27:56 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uwH7J-0005kp-2u;
-	Wed, 10 Sep 2025 09:27:53 +0000
-Date: Wed, 10 Sep 2025 17:27:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lachlan Hodges <lachlan.hodges@morsemicro.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC wireless-next 1/3] wifi: cfg80211: correctly implement and
- validate S1G chandef
-Message-ID: <202509101724.25F6pV0x-lkp@intel.com>
-References: <20250909080758.1004956-2-lachlan.hodges@morsemicro.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dB8MFo25"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-772301f8a4cso9225521b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 02:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1757498128; x=1758102928; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HCDCW1DJDwjeVUsbjWyUYxZAgB9l/KJebELwDQQoPFg=;
+        b=dB8MFo25C2LldXAhxYBQolCxUW33oeaPISbJz3TS83z7YYirPpJ5cpIOQTUFrQheOP
+         Vz5bwPgAIvgqIv0MyuF0Ior2jFK6cVLNrsdTjRj407uxaHLyBPgC+IsasR5IIfrbfmUA
+         m63IXO7TZbPGNayJgU1Gqryd9qyNyuChIa749TG8qVwZs1TLZFMIpSOIWQgh59bJyv8F
+         zvYdAivoFzGp/TcbLLQTSFYjjXJs2CXW6mcfevnmu2Uyxh/P5lZdn1/Xx8DUfICHqrlS
+         rsLAAhWhVmIsEvFR63RwmmK+5B/dq7OEDy+ARxngmTnjPEMSIHY8zJR0caw662cR1t3/
+         RKfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757498128; x=1758102928;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HCDCW1DJDwjeVUsbjWyUYxZAgB9l/KJebELwDQQoPFg=;
+        b=tMYEacD5ONAwEUGMRsLCKtDI8kTt6562L20+HDm+0qnen8ACsFb9HkNFvbPRln4jkT
+         qul3b0l5LCnCW3ycOjpD6giPETl+p2FAiAfi/ljb/iH+v/KvwRUlGz0WhAfG4Y+PDDIA
+         LnHCuZiKSKXpxQ75S4C2X1GDVT4q7pYNNf7QG0MVwtTPGolk/bvBjnwH1wgHuYH4SjRS
+         vSAaMwzFnUCtG+QjtFK4WiDaSgmjTDfrTLo65RSelGrlCXcQISj5SbJVpxXQIKGbY6nt
+         /Qth7alIDrBWZp6ZJZ6o/BlDEXpo0Duu26VbvT1n57Dpxk54Fts5Lm2ToD5OXvyyPazH
+         hEdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXx9ratWQ4qrJgOCYgQ4DScdx8crUj6cCHEGR4CA9rPlo7ki2XfLd5y8xCyOPqjzmVlvMSLZ9lDYqUAZrfi@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKn81tAz4nIvuiARp03+HeQ6Yl0ubdQL4B6ilRxu5u7gVtHE44
+	9h9l+Q4gwkBGrZej4auX1bGjcIJRHjcK7BPXQXH+FfS0L4fKdmBkjhor33+SaT1+PA==
+X-Gm-Gg: ASbGnctBvXDisPxoyjoe1LgOweF+e+WnTLj4nZ787Aqk3qkmeRgJhYJVPZc5Zv0Kmue
+	uVW3LbCHPGpzMI/ILKT0Cl0xoXmyqwPK/eKY9f25L8Ceg+I/GHV7nOGCLh2VMCXbdpHbE4TO5hG
+	MtLOEbwEyfs1ONT6emDfGZmuy1sChp4UceFzNLYVw8TaRfMweQucJ5JI230zLzQTQwE6iRRso8F
+	ozE3ohE19P4+9QXSWumsn1wkiPNWmppu8Gmug75Xb4J4DkCAmVemzOnZW6eLfd+O5qrTZad1ppj
+	GB4P1R+EgBhpzkwXlzvmUQTUs8o7DAL/Z2hiTuThNcxPbJQDJpNYOOZFWXR+d66kSRj8W/loGCl
+	h0IcIoD2kht30z7nA5sHJQEpGhdreFjUrUnRYdiYq1CSjmxxDdA==
+X-Google-Smtp-Source: AGHT+IFmU3xrUacDZpXLML8Y+6XKXJYFALe5fXyF/Z8mNdu2z6DBp0qPcfflXDumO96Ad3U8GHtFWg==
+X-Received: by 2002:a05:6a20:258c:b0:251:9f29:4544 with SMTP id adf61e73a8af0-2534441f61emr23884742637.34.1757498127563;
+        Wed, 10 Sep 2025 02:55:27 -0700 (PDT)
+Received: from bytedance ([61.213.176.56])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b548a50cb23sm2065239a12.19.2025.09.10.02.55.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 02:55:27 -0700 (PDT)
+Date: Wed, 10 Sep 2025 17:55:03 +0800
+From: Aaron Lu <ziqianlu@bytedance.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	Valentin Schneider <vschneid@redhat.com>,
+	Ben Segall <bsegall@google.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Xi Wang <xii@google.com>, linux-kernel@vger.kernel.org,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
+	Chuyi Zhou <zhouchuyi@bytedance.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Florian Bezdeka <florian.bezdeka@siemens.com>,
+	Songtang Liu <liusongtang@bytedance.com>,
+	Chen Yu <yu.c.chen@intel.com>,
+	Matteo Martelli <matteo.martelli@codethink.co.uk>,
+	Michal <mkoutny@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH] sched/fair: Propagate load for throttled cfs_rq
+Message-ID: <20250910095503.GA261@bytedance>
+References: <20250908110548.GA35@bytedance>
+ <202509091233.f6nP3BVh-lkp@intel.com>
+ <20250909061746.GB35@bytedance>
+ <fd017cc8-0eb0-4961-8f59-575505f27a68@amd.com>
+ <20250909062715.GC35@bytedance>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,166 +94,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250909080758.1004956-2-lachlan.hodges@morsemicro.com>
+In-Reply-To: <20250909062715.GC35@bytedance>
 
-Hi Lachlan,
+On Tue, Sep 09, 2025 at 02:27:15PM +0800, Aaron Lu wrote:
+> On Tue, Sep 09, 2025 at 11:52:55AM +0530, K Prateek Nayak wrote:
+> > Hello Aaron,
+> > 
+> > On 9/9/2025 11:47 AM, Aaron Lu wrote:
+> > >>>> kernel/sched/fair.c:6747:1: error: expected identifier or '(' before '+' token
+> > >>     6747 | +static inline bool cfs_rq_pelt_clock_throttled(struct cfs_rq *cfs_rq)
+> > >>          | ^
+> > > 
+> > > Sigh, I remembered I did a build test with !CFS_BANDWIDTH and now I went
+> > > to check that build directory and noticed I didn't have CFS_BANDWIDTH
+> > > disabled...
+> > > 
+> > > Sorry for the trouble, will send an updated patch later.
+> > 
+> > While at it, another nit.
+> > 
+> > On 9/8/2025 4:35 PM, Aaron Lu wrote:
+> > > @@ -13151,10 +13161,13 @@ static void propagate_entity_cfs_rq(struct sched_entity *se)
+> > >  {
+> > >  	struct cfs_rq *cfs_rq = cfs_rq_of(se);
+> > >  
+> > > -	if (cfs_rq_throttled(cfs_rq))
+> > > -		return;
+> > > -
+> > > -	if (!throttled_hierarchy(cfs_rq))
+> > > +	/*
+> > > +	 * If a task gets attached to this cfs_rq and before being queued,
+> > > +	 * it gets migrated to another CPU due to reasons like cpuset change,
+> > > +	 * we need to make sure this cfs_rq stays on leaf cfs_rq list to
+> > > +	 * have that removed load decayed or it can cause faireness problem.
+> > > +	 */
+> > > +	if(!cfs_rq_pelt_clock_throttled(cfs_rq))
+> > 
+> >           ^ Can you also add a space after the "if" here.
+> >
+> 
+> Yeah, I definitely should do that, thanks for catching this.
+> 
+> > >  		list_add_leaf_cfs_rq(cfs_rq);
+> > 
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on next-20250909]
-[cannot apply to wireless/main linus/master v6.17-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lachlan-Hodges/wifi-cfg80211-correctly-implement-and-validate-S1G-chandef/20250909-161105
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20250909080758.1004956-2-lachlan.hodges%40morsemicro.com
-patch subject: [RFC wireless-next 1/3] wifi: cfg80211: correctly implement and validate S1G chandef
-config: arm-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250910/202509101724.25F6pV0x-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509101724.25F6pV0x-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509101724.25F6pV0x-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   net/wireless/chan.c: In function 'cfg80211_chandef_valid':
->> net/wireless/chan.c:370:3: error: a label can only be part of a statement and a declaration is not a statement
-      u32 control_khz, start_khz, end_khz;
-      ^~~
-
-
-vim +370 net/wireless/chan.c
-
-   341	
-   342	bool cfg80211_chandef_valid(const struct cfg80211_chan_def *chandef)
-   343	{
-   344		u32 control_freq;
-   345	
-   346		if (!chandef->chan)
-   347			return false;
-   348	
-   349		if (chandef->freq1_offset >= 1000)
-   350			return false;
-   351	
-   352		control_freq = chandef->chan->center_freq;
-   353	
-   354		switch (chandef->width) {
-   355		case NL80211_CHAN_WIDTH_5:
-   356		case NL80211_CHAN_WIDTH_10:
-   357		case NL80211_CHAN_WIDTH_20:
-   358		case NL80211_CHAN_WIDTH_20_NOHT:
-   359			if (ieee80211_chandef_to_khz(chandef) !=
-   360			    ieee80211_channel_to_khz(chandef->chan))
-   361				return false;
-   362			if (chandef->center_freq2)
-   363				return false;
-   364			break;
-   365		case NL80211_CHAN_WIDTH_1:
-   366		case NL80211_CHAN_WIDTH_2:
-   367		case NL80211_CHAN_WIDTH_4:
-   368		case NL80211_CHAN_WIDTH_8:
-   369		case NL80211_CHAN_WIDTH_16:
- > 370			u32 control_khz, start_khz, end_khz;
-   371	
-   372			if (!cfg80211_chandef_is_s1g(chandef))
-   373				return false;
-   374			if (chandef->center_freq2)
-   375				return false;
-   376	
-   377			control_khz = ieee80211_channel_to_khz(chandef->chan);
-   378			start_khz = cfg80211_s1g_get_start_freq_khz(chandef);
-   379			end_khz = cfg80211_s1g_get_end_freq_khz(chandef);
-   380	
-   381			if (control_khz < start_khz || control_khz > end_khz)
-   382				return false;
-   383			break;
-   384		case NL80211_CHAN_WIDTH_80P80:
-   385			if (!chandef->center_freq2)
-   386				return false;
-   387			/* adjacent is not allowed -- that's a 160 MHz channel */
-   388			if (chandef->center_freq1 - chandef->center_freq2 == 80 ||
-   389			    chandef->center_freq2 - chandef->center_freq1 == 80)
-   390				return false;
-   391			break;
-   392		default:
-   393			if (chandef->center_freq2)
-   394				return false;
-   395			break;
-   396		}
-   397	
-   398		switch (chandef->width) {
-   399		case NL80211_CHAN_WIDTH_5:
-   400		case NL80211_CHAN_WIDTH_10:
-   401		case NL80211_CHAN_WIDTH_20:
-   402		case NL80211_CHAN_WIDTH_20_NOHT:
-   403		case NL80211_CHAN_WIDTH_1:
-   404		case NL80211_CHAN_WIDTH_2:
-   405		case NL80211_CHAN_WIDTH_4:
-   406		case NL80211_CHAN_WIDTH_8:
-   407		case NL80211_CHAN_WIDTH_16:
-   408			/* all checked above */
-   409			break;
-   410		case NL80211_CHAN_WIDTH_320:
-   411			if (chandef->center_freq1 == control_freq + 150 ||
-   412			    chandef->center_freq1 == control_freq + 130 ||
-   413			    chandef->center_freq1 == control_freq + 110 ||
-   414			    chandef->center_freq1 == control_freq + 90 ||
-   415			    chandef->center_freq1 == control_freq - 90 ||
-   416			    chandef->center_freq1 == control_freq - 110 ||
-   417			    chandef->center_freq1 == control_freq - 130 ||
-   418			    chandef->center_freq1 == control_freq - 150)
-   419				break;
-   420			fallthrough;
-   421		case NL80211_CHAN_WIDTH_160:
-   422			if (chandef->center_freq1 == control_freq + 70 ||
-   423			    chandef->center_freq1 == control_freq + 50 ||
-   424			    chandef->center_freq1 == control_freq - 50 ||
-   425			    chandef->center_freq1 == control_freq - 70)
-   426				break;
-   427			fallthrough;
-   428		case NL80211_CHAN_WIDTH_80P80:
-   429		case NL80211_CHAN_WIDTH_80:
-   430			if (chandef->center_freq1 == control_freq + 30 ||
-   431			    chandef->center_freq1 == control_freq - 30)
-   432				break;
-   433			fallthrough;
-   434		case NL80211_CHAN_WIDTH_40:
-   435			if (chandef->center_freq1 == control_freq + 10 ||
-   436			    chandef->center_freq1 == control_freq - 10)
-   437				break;
-   438			fallthrough;
-   439		default:
-   440			return false;
-   441		}
-   442	
-   443		if (!cfg80211_valid_center_freq(chandef->center_freq1, chandef->width))
-   444			return false;
-   445	
-   446		if (chandef->width == NL80211_CHAN_WIDTH_80P80 &&
-   447		    !cfg80211_valid_center_freq(chandef->center_freq2, chandef->width))
-   448			return false;
-   449	
-   450		/* channel 14 is only for IEEE 802.11b */
-   451		if (chandef->center_freq1 == 2484 &&
-   452		    chandef->width != NL80211_CHAN_WIDTH_20_NOHT)
-   453			return false;
-   454	
-   455		if (cfg80211_chandef_is_edmg(chandef) &&
-   456		    !cfg80211_edmg_chandef_valid(chandef))
-   457			return false;
-   458	
-   459		return valid_puncturing_bitmap(chandef);
-   460	}
-   461	EXPORT_SYMBOL(cfg80211_chandef_valid);
-   462	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Just a note that the updated patch is sent here:
+https://lore.kernel.org/lkml/20250910095044.278-2-ziqianlu@bytedance.com/
