@@ -1,140 +1,190 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E822D265292
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 16:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F297523BCEF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 17:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757521985; cv=none; b=pxQKjTn6a3YxO6pIVH0pGyagxmRMlEGb1rWWYyRBw/Xw+0Bw8cYKYftbfn2vavCM+tOcJog9g+uIh5/IPnmXeOOYTJyuLwz3rmn5/knIrVcaeYhXZRpM4Yx72pyce0as1Pc/4L33e4NdSVVfXmHhwy6gkJND9xSJXoowG5Bwutc=
+	t=1757524664; cv=none; b=E0G/O//qG9Id99Uz0RqdFKrofRV5DmNERuXynSlQanzijIOlMA//ChI5cdZiKU4xjdC3CWbmI0FOx/CqnPm7Qrft533sP37c+64NOP0qmKHiX9eVjmZ025P/cNlWigjuW/LlhtZgCrcYr/m5wVD9MJEr57WgB+tey3jE5/6kBcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757521985; c=relaxed/simple;
-	bh=6QWP6copzj9cf5FPkW3R7sbrZtIvIyER6xtRBGhVG/Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hAnNr+i8Yz/qyhc0TnIGB5iNeIM/4QzT9I1gfTwgcCtl4l5cP+Wp6hXaTSWrWkNdGf76aefG8AIlQBeNHChPXe8SHzsPC9Z+SoiWB21rw8nMrNvC/Sx3RnmnMYDOWoQDsPkUmrhA0PAzg0GgIxHwgNn8LeP7Moffrqvq4eJdwIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=asr7Awi0; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1757524664; c=relaxed/simple;
+	bh=u+RA/EJQOgmXkB2Ji+LO9jhZfBEoM6aFDPAWhKf5btE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HVhgH81EvtzqMkXcfS0av5cw5VWfASGya30BYfP6UVZjSYjofZ7YFuyJHOZ3tzZf1088HcZfFizbMY/ul1lsn08lLvnid7I4Z60jpC1UkxE2gGrphy9p8JjTCjGkb7RQAZwdUG6ggYbM1jRTMfiEru2HGqhw8qam4BR3uGuFx9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2s2iRnR; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="asr7Awi0"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-24eb713b2dfso49455825ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 09:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757521983; x=1758126783; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=crg9ulSxnVedet7AE0tAYFjDi5iUeW7YmzwRm7NeGuA=;
-        b=asr7Awi0D157UCjZ9/cMpv0JqFTRNX65Sz6rlmVM+e7BBjQq2VIP9+aBQQGaGVkEBT
-         tFULgELpL7XJJnhn7QtNmb+FjnYSAywN6XnB20n/R9vL7irttIF3FsJlml8/hIIuNT9B
-         aSxiy2eqh/pBFLIilM5pu2wgovYrGOeE0ooWl7bhG9MXTU/dhdK1GFkVTaepoP1jIjb9
-         1fjDY39qVhvIeuktaEGcf6fyKrJ/iJ6DfhvpkUGYqPOpoS28dcrqq5puQL3fPP08RkI9
-         rF3LiIxihg3IrdoFByaMMrJ31vEra3wkZKMEDC+EPP70vJPQ1/iPf1gL/LsIQkyvYJIE
-         nOHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757521983; x=1758126783;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=crg9ulSxnVedet7AE0tAYFjDi5iUeW7YmzwRm7NeGuA=;
-        b=t3yY8yFBaBcpeIRKysUGdmzaKvlxBn/4RentqNQVfd8H/JWIJVO2uIiErm621cTIvU
-         9gT+kQgY3w9j/3cLWu2xyTepLRg+EIuq4smapy4xAZWh2mmQiLBBDj/3+rLlERydPqcg
-         j7Nzbw0spngngk7Jy4bhnMfaiJZYTphYL1PKNFbMCblr+zMIQcD0uw9TJGCb+7gmFiFX
-         61XBX7PfM8wsa5v5T34ZOhj6CT6xU2b5emI23FhzaTc+I7iDXRkmB0mEBxSAitlF6N5H
-         bF8U/EszI6WkusGLETQLF8YoO5N+vAwdB3otJLrUGWvTxO4Syyc5ta1YFde5RKewqCY1
-         cvaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXvBBzY9qMZGmHb7GCcVRNACbsE0a1rblfGc1epb4dDWqxUE0BHtyZlHxNfSIkJG50hQJ7J2yVkK1iSIGpF@lists.linux.dev
-X-Gm-Message-State: AOJu0YwborZeILaa0EQeq3/C+aI2FG1GyZ/JxFvwSKyLap5vwrecP7DC
-	cAz0qeHOS1itEDgoIPbVzAloqJWaSbwRafTMbFaVYDsoDX5Iv6kQXDQey9L2sXDAW6CuEoufSvj
-	S06iRNEOO5SEkP4nKpr/SNNu919nLhto9cM91CnM8
-X-Gm-Gg: ASbGncvwDk0zDJFvWaC999lJPAotecHYGilvPBQZBt0aH1O9bheWGEamhfXnpPuWAH0
-	eAaLkBRlGbYukYk140zU8tEJz9scrolvYq0m5LnWq+a7swgdyDcN9+KPDvHKwZ6TxJuL2ZndX5b
-	XY3HF+fD2Qb4cnY3N2U7BtwbfffwRxG36BHJMxedjwMq4ljkchWroblV9Q8D3EuU0hxNE1JrJHJ
-	HLOpfLb/LP5y5CxIUujbJ2/PXMHop8+9mLE8AFZmrjY51g=
-X-Google-Smtp-Source: AGHT+IFygkRcH7mrdQ4Zhgc7n2vieMLoI6r6NoPaSe1OOy5LbAIzXpvm7rozB2gTILsaRSM0LL+d/usqZ1C3z4HoNpo=
-X-Received: by 2002:a17:902:f54a:b0:24b:25f:5f81 with SMTP id
- d9443c01a7336-2516dfcb5c4mr232806255ad.17.1757521982717; Wed, 10 Sep 2025
- 09:33:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2s2iRnR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757524663; x=1789060663;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u+RA/EJQOgmXkB2Ji+LO9jhZfBEoM6aFDPAWhKf5btE=;
+  b=n2s2iRnR2CoQj0ppRAw5LXt0nEBVw2c7g63ITtaUOtER5CnvqgPYKtlb
+   X4Oi7UvmXOxWf+ra9r148oki+4gnywtwKgv/0ZG/SMSRJroraT5NwgkW6
+   onFt1hq/H3vARGTSnL+br2sXZ+X2TAjJr01c8CYG81SMZ4YfdYcc4kNei
+   EPCaQbjaVmFCMyGPwcgvkC5ztSxZCA6leHjt+QNIVNbITMMKkb+WdWhvt
+   dSP8n9GSPxr6H/uSQY1frk4GHUDkpGFTlzzND2jhxBCZ2LkAsXiimGc68
+   UlmxSyZp1KiI7fxOhgpSt58D7oF4242WggwYCMggxlRXaYk7mxAs+QD7C
+   g==;
+X-CSE-ConnectionGUID: x0z0PjoRRJezHwjZB4GkSw==
+X-CSE-MsgGUID: 6pHb4QqERKigUSK7MKDO5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59537618"
+X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
+   d="scan'208";a="59537618"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 10:17:43 -0700
+X-CSE-ConnectionGUID: YPJmEbG4Q7mePQRvINVbRQ==
+X-CSE-MsgGUID: 2z7sanUST6SKUwI0LRmDXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
+   d="scan'208";a="178649057"
+Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 10 Sep 2025 10:17:41 -0700
+Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwORu-0006A9-2n;
+	Wed, 10 Sep 2025 17:17:38 +0000
+Date: Thu, 11 Sep 2025 01:17:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/auto-cleanup 208/210]
+ sound/sparc/amd7930.c:357:45: error: 'flags' undeclared
+Message-ID: <202509110130.PlGyYo4k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250909204632.3994767-4-kuniyu@google.com> <202509101912.ROjtP2uL-lkp@intel.com>
-In-Reply-To: <202509101912.ROjtP2uL-lkp@intel.com>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Wed, 10 Sep 2025 09:32:51 -0700
-X-Gm-Features: Ac12FXx6aKnMeDmD-Oqq_oMACp8aNPwM23p9lZayrp8qexUb1gFrzTNdorO62hI
-Message-ID: <CAAVpQUAXoxU4r1dgC3wtTxx6oVMpOWjd9q7Ub=SEsnHMpL3RAw@mail.gmail.com>
-Subject: Re: [PATCH v7 bpf-next/net 3/6] net-memcg: Introduce
- net.core.memcg_exclusive sysctl.
-To: kernel test robot <lkp@intel.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau <martin.lau@linux.dev>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Neal Cardwell <ncardwell@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Mina Almasry <almasrymina@google.com>, bpf@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Sep 10, 2025 at 4:58=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Kuniyuki,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on bpf-next/net]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/=
-tcp-Save-lock_sock-for-memcg-in-inet_csk_accept/20250910-044928
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-net
-> patch link:    https://lore.kernel.org/r/20250909204632.3994767-4-kuniyu%=
-40google.com
-> patch subject: [PATCH v7 bpf-next/net 3/6] net-memcg: Introduce net.core.=
-memcg_exclusive sysctl.
-> config: um-randconfig-001-20250910 (https://download.01.org/0day-ci/archi=
-ve/20250910/202509101912.ROjtP2uL-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7=
-fb1dc08d2f025aad5777bb779dfac1197e9ef87)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250910/202509101912.ROjtP2uL-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509101912.ROjtP2uL-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permis=
-sions
->    /usr/bin/ld: mm/memcontrol.o: in function `mem_cgroup_sk_set':
-> >> memcontrol.c:(.text+0xa1e0): undefined reference to `init_net'
->    clang: error: linker command failed with exit code 1 (use -v to see in=
-vocation)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/auto-cleanup
+head:   f29244cff0185975fee4f55293cca61cfd83af3e
+commit: db8ed7441c876cac679db2869b87b26633c89bde [208/210] ALSA: sparc/amd7930: Use guard() for spin locks
+config: sparc64-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250911/202509110130.PlGyYo4k-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110130.PlGyYo4k-lkp@intel.com/reproduce)
 
-CONFIG_NET=3Dn... will fix it in v8.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110130.PlGyYo4k-lkp@intel.com/
 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 0d017c8b8a00..b7d405b57e23 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -5002,8 +5002,10 @@ static void mem_cgroup_sk_set(struct sock *sk,
-struct mem_cgroup *memcg)
+All errors (new ones prefixed by >>):
 
-  sk->sk_memcg =3D memcg;
+   sound/sparc/amd7930.c: In function 'amd7930_enable_ints':
+>> sound/sparc/amd7930.c:357:45: error: 'flags' undeclared (first use in this function)
+     357 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |                                             ^~~~~
+   sound/sparc/amd7930.c:357:45: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/module.h:17,
+                    from sound/sparc/amd7930.c:33:
+>> include/linux/cleanup.h:291:17: error: too many arguments to function 'class_spinlock_irqsave_constructor'
+     291 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:401:9: note: in expansion of macro 'CLASS'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   sound/sparc/amd7930.c:357:9: note: in expansion of macro 'guard'
+     357 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |         ^~~~~
+   include/linux/cleanup.h:477:33: note: declared here
+     477 | static inline class_##_name##_t class_##_name##_constructor(_type *l)   \
+         |                                 ^~~~~~
+   include/linux/cleanup.h:496:1: note: in expansion of macro '__DEFINE_LOCK_GUARD_1'
+     496 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:585:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     585 | DEFINE_LOCK_GUARD_1(spinlock_irqsave, spinlock_t,
+         | ^~~~~~~~~~~~~~~~~~~
+   sound/sparc/amd7930.c: In function 'amd7930_disable_ints':
+   sound/sparc/amd7930.c:365:45: error: 'flags' undeclared (first use in this function)
+     365 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |                                             ^~~~~
+>> include/linux/cleanup.h:291:17: error: too many arguments to function 'class_spinlock_irqsave_constructor'
+     291 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:401:9: note: in expansion of macro 'CLASS'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   sound/sparc/amd7930.c:365:9: note: in expansion of macro 'guard'
+     365 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |         ^~~~~
+   include/linux/cleanup.h:477:33: note: declared here
+     477 | static inline class_##_name##_t class_##_name##_constructor(_type *l)   \
+         |                                 ^~~~~~
+   include/linux/cleanup.h:496:1: note: in expansion of macro '__DEFINE_LOCK_GUARD_1'
+     496 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:585:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     585 | DEFINE_LOCK_GUARD_1(spinlock_irqsave, spinlock_t,
+         | ^~~~~~~~~~~~~~~~~~~
+--
+   amd7930.c: In function 'amd7930_enable_ints':
+   amd7930.c:357:45: error: 'flags' undeclared (first use in this function)
+     357 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |                                             ^~~~~
+   amd7930.c:357:45: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/module.h:17,
+                    from amd7930.c:33:
+>> include/linux/cleanup.h:291:17: error: too many arguments to function 'class_spinlock_irqsave_constructor'
+     291 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:401:9: note: in expansion of macro 'CLASS'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   amd7930.c:357:9: note: in expansion of macro 'guard'
+     357 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |         ^~~~~
+   include/linux/cleanup.h:477:33: note: declared here
+     477 | static inline class_##_name##_t class_##_name##_constructor(_type *l)   \
+         |                                 ^~~~~~
+   include/linux/cleanup.h:496:1: note: in expansion of macro '__DEFINE_LOCK_GUARD_1'
+     496 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:585:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     585 | DEFINE_LOCK_GUARD_1(spinlock_irqsave, spinlock_t,
+         | ^~~~~~~~~~~~~~~~~~~
+   amd7930.c: In function 'amd7930_disable_ints':
+   amd7930.c:365:45: error: 'flags' undeclared (first use in this function)
+     365 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |                                             ^~~~~
+>> include/linux/cleanup.h:291:17: error: too many arguments to function 'class_spinlock_irqsave_constructor'
+     291 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:401:9: note: in expansion of macro 'CLASS'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   amd7930.c:365:9: note: in expansion of macro 'guard'
+     365 |         guard(spinlock_irqsave)(&amd->lock, flags);
+         |         ^~~~~
+   include/linux/cleanup.h:477:33: note: declared here
+     477 | static inline class_##_name##_t class_##_name##_constructor(_type *l)   \
+         |                                 ^~~~~~
+   include/linux/cleanup.h:496:1: note: in expansion of macro '__DEFINE_LOCK_GUARD_1'
+     496 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:585:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     585 | DEFINE_LOCK_GUARD_1(spinlock_irqsave, spinlock_t,
+         | ^~~~~~~~~~~~~~~~~~~
 
-+#ifdef CONFIG_NET
-  if (READ_ONCE(sock_net(sk)->core.sysctl_memcg_exclusive))
-    mem_cgroup_sk_set_flags(sk, SK_MEMCG_EXCLUSIVE);
-+#endif
- }
 
- void mem_cgroup_sk_alloc(struct sock *sk)
+vim +/flags +357 sound/sparc/amd7930.c
+
+   353	
+   354	/* Enable chip interrupts.  The amd->lock is not held.  */
+   355	static __inline__ void amd7930_enable_ints(struct snd_amd7930 *amd)
+   356	{
+ > 357		guard(spinlock_irqsave)(&amd->lock, flags);
+   358		sbus_writeb(AMR_INIT, amd->regs + AMD7930_CR);
+   359		sbus_writeb(AM_INIT_ACTIVE, amd->regs + AMD7930_DR);
+   360	}
+   361	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
