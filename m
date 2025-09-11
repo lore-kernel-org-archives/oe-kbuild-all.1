@@ -1,224 +1,157 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C0E25A34F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 19:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233762DCF6C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 21:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757618528; cv=none; b=cQR28ot4oNRZS00iD1Sam2H4FMnnGbSBBJz4+JidQAKpVxeP72uDMPrDfzPKlw1TaI+6iDgxiX53gvS3aCEcCv4HNWilpBKHWvQ8eBT/1BjCiULkyqOIl1BsvJpBoGE5a6VhRMlYerGPwoi1o3sAYBZRXV8vw/RWv9yfnpsMv94=
+	t=1757625990; cv=none; b=ZxXhweGvv+UVylalMpoHSgy4TArt2trtiqQwMOcdmzHnqQDKS7s8hIWAx08/fFEExP4GI1AD0fXjzY6Sv6mEoXoatydloN6ZFX26eBG5f1jYnwb4J4lKSpeT8DMC2U7jvOUD610Opzy8OwVjnTeu4QMSQCzF/4LjEO/0fjWGubQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757618528; c=relaxed/simple;
-	bh=lJSKtlCdSA8FR4fOHvIrXDNpM7SmVa3VC+s7wmRjvzY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c0DMzlf7s+QBP+6vfrvrYoDTYPXJguQ/dKrUF2DFgMoWA24ztUA9KWHNfLbD0YjEEWhm7ZRbyf0eHXW46OnwSH+Jt12xSJSlaA1LlXeKaPzFoMRB4BWFhkDmrELGdIZSqoeFFbUllFERsPIXikUmmuF52g7lh34TDAzhOM18EqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TMVfMn/k; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757625990; c=relaxed/simple;
+	bh=sFo11LJDFbgdEzVFkudN41eUwSXYsUo78kBXh07zsiw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tR+Tt4osn6gttpipQR5clfGN/KTiumBGbo58YI70h1kiBOiPOVFw490bbRu3o0W1A8MZOTowjS4PMob1opjAxAhzR0c90bIyKphA/sKzBn1kjDsJRvt2mgPNay573WfR4orDkpIJiODpzU+G+tQCLQGiTdb2BGJhvnxDhDCQL4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdEPqZ1m; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TMVfMn/k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757618525;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vPAAIBSdPkpUMbvgdCZ5DvLOlR8DyORx2hSMbeOUIlA=;
-	b=TMVfMn/kvO/vLICRakQ3x8Qhz2B625VmxH8ZeqW9z/4IJvA0rTZ+OgV6+sRvS9hrz4Wkzc
-	S8ANTIHZfsJJX0HgzzEa5o592IranQEtH1OhWBWZvf4CEMuk4SsCQiwi8WpUX1bKIuMfmz
-	TimBIJ1AfyePiVOzXvFLWIzdnYprenM=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-iqr6v0MjPaiNwxB1NClh_w-1; Thu, 11 Sep 2025 15:22:02 -0400
-X-MC-Unique: iqr6v0MjPaiNwxB1NClh_w-1
-X-Mimecast-MFC-AGG-ID: iqr6v0MjPaiNwxB1NClh_w_1757618521
-Received: by mail-yb1-f198.google.com with SMTP id 3f1490d57ef6-e96d57eb1d0so1309385276.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 12:22:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdEPqZ1m"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-25caef29325so7363335ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 14:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757625988; x=1758230788; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=EjquTq5MAgSVrD6End1v2/eMfRkFt39jWpb1aBSSPxk=;
+        b=BdEPqZ1mEyAivChqM3rT0Cdlw42oQ+pREsfn4BcDvuaiMbrv/tH7qejBLiGF546a/l
+         Ge6+Ww/kFPejai9IaKLDUKQjVINJXtwIroOb1dPbKYvL1R8n3d74WnT/EiqTCulB1k75
+         +McrefJO+ceIDmPcuG6e4OSsIISnKz0gWG/EghLX657JZlJR/1Nwz2KohD9IRLfzoelt
+         ibea3e3HTnwRkNjP/h1tcJ5Dh8GCpcJkbr0NxqGft9dhstTJNB7Y9u5RKsePZ3f2h/Gk
+         qeDh+h1yS84ckD0YnHDJjAKpEgD+qG86RgHQiTRjd8ZCXSygy+SskM9csTTzyPxQlTSm
+         k22g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757618521; x=1758223321;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vPAAIBSdPkpUMbvgdCZ5DvLOlR8DyORx2hSMbeOUIlA=;
-        b=kXNCeBbLoEs4+k8YLeRMvMhBYPbkKZmb8Z62RkMYh903DDjfQdarMNyXlF/Ji0ydP+
-         qZ9VWqjZsCWnRMDLFVprm9OKTyo/YGAxtxF9LZz0VAOwmHPKWc9dK1K8vN2iGVR9gV8m
-         ppaTHwyjgmFpzL7Bjcr2ty9AJpEevxGEEAJ4SbUpyvGtq0nKVwf2ccz6y5ZVStyvxPY6
-         logbwEc3GCf+VHipuDtjpjg8pWCHnZrUA/6UBjhpMctVWUtB5fFvSV/Mdsxt4lLmdepe
-         WoFCR/PdnWQS1GQcBXO9BYE603aBBgLFCbPu1Hl0S1AK4ZX537nJpAJr07SBpDVhJ5Pt
-         ETtw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/res7wHxuSpRVcdT6SHGugG1UzvO6ZHLXIAkh+WS7Bvpvk9Iwt14W7yYVmrWHhJbXH0icEPIjBfSU9Hgb@lists.linux.dev
-X-Gm-Message-State: AOJu0YyB0Cz4EWJGaSc4GztvG9KW3vHB/uyF6xRAaUJt2AQXeZHuqZFl
-	fc32OTiDaB8/qe+36pXiK9TqMGthRf4xifp2wwGD+I7dT2AUjXBg1we1642gxobz21ZVMAjVAz3
-	EMRoGBuv6lTAqblphRj5lJNKC9wrNhoDjefGkOlih5yua9Xh4hG+yXKKV3UvIYTYr6rwMqd/iQn
-	CBBBebbM8FYp7rUlgpQQ7uTELH2XKC74RaLaBNjJkhWQ==
-X-Gm-Gg: ASbGnctZeP2Lqacl9vNIBfbLreP/N8pN71jDFd27tDLPCn8X5qcGdkTPFp4ouKO7331
-	O1+DNV/ZOpoGIBmExDwvbx3+pYU/SawRk3iO10Q41/TQimVkmFB+393GSVirg4lJZgFEJ4D3v2A
-	yVU9tw3GmkiyD/UFHAJOLCWIYalIhxjxu9yBZPGIo5KdS5KooQ+Groqw==
-X-Received: by 2002:a05:6902:6184:b0:e97:84b3:96d0 with SMTP id 3f1490d57ef6-ea3d99eef8fmr304019276.11.1757618521293;
-        Thu, 11 Sep 2025 12:22:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVuQF6GFPmwF+PLi/eB0mkl/3ba9Iz7OdiTzhjWOSJbmY/G6DWp00LZmh091qOxLmVftjW+ssS7c6q051r8ms=
-X-Received: by 2002:a05:6902:6184:b0:e97:84b3:96d0 with SMTP id
- 3f1490d57ef6-ea3d99eef8fmr304001276.11.1757618520791; Thu, 11 Sep 2025
- 12:22:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757625988; x=1758230788;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EjquTq5MAgSVrD6End1v2/eMfRkFt39jWpb1aBSSPxk=;
+        b=MbuZ0BWjm0TvcI0v84RmDEs4MadKow1cv4NA8zjIQDyljMmidkVBD6fQX3fRPlEokF
+         YN80IShLb3OyY+k/kFenN6t9zPYNXNKxFMptUmXFNfDJOigbs2wgH7tSvOQSXvDjDUHe
+         1R37cQibavS1xugVCFbZZfwU6AXajEqd5P9JvN1Zof8pSN8cSSvcSx7/3WH0UbZ/ArHy
+         QZbFk3o/R0CnCkq5UL9+yqiSZBZqtV10XhWleoYIx19zyTPzuM7DBGDKWneTU6idkJT5
+         2vcw3XGcxIz0tqrsk7+ioIL7OoOfaatn4WJtCfgLxzPAHZCBMST+bEuHVzbWdzbhIyRh
+         zYqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHgWGecuLRQDpKEtqCVYqZEkarLcZ4pte0L1MzGs+VOML9q38lY8SX+LItC8Esida//C9ki0dZHtCRzAbQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaHmmKhsHoh+5QPASe/Ig2DVN5lb2PI7rCEvfbcGK/5EZUsgrA
+	B7ZJEF5fT5miNQ+91CC8YpPHTBj3VzGloliyJy5duE2HosPbFvfY/2oH
+X-Gm-Gg: ASbGncuaea8pAMWpQvkQqVYEGreec5/Ry48BvWRaAxZSFH4tdAglba0LAd2eeHP2x9D
+	kOJi9PkXAswCbwXVJ1DzRUVwZAMEXT/gDzbvm1qVWhsKeKJDKb7Kk+JObte7WGQY2ox61C5e3ws
+	ZqgqgNRIjFwFIlLwSwXM71Y78/1zA3tmuM3RJrB0rlSRK0WwBQrWCKxiXxSbF6+fzm0KTipMsUq
+	ivShUwy6Pf+Loi32zX2RcJrxQ2wtHv8f8ZT8jN5rhs110nWCrBZeO25bQR0JF2KMt/L/0b8xr85
+	CHvFRphY0+BN/9y2TtjF2my7Bi0NmL0yz9gMuRmcv5nIPRsmb8pKgppT14h1lLQ7felAUlbBbz5
+	l/rA/tPUNkuJid2vv1IA/WMFNImTeWw==
+X-Google-Smtp-Source: AGHT+IEjwfOvzZk84xflzxjLm5xONbXJLauvwJlikYGw0U/j6U74AKTutnNrVqldFjubLYTuTs0HYg==
+X-Received: by 2002:a17:903:1b08:b0:25c:9688:bdca with SMTP id d9443c01a7336-25d26e43a33mr7095795ad.50.1757625988238;
+        Thu, 11 Sep 2025 14:26:28 -0700 (PDT)
+Received: from [192.168.0.226] ([38.34.87.7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c37295f4fsm28513255ad.42.2025.09.11.14.26.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 14:26:27 -0700 (PDT)
+Message-ID: <c846a153010e40a52e98b8abe9db69f7d4cadd58.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v1 09/10] bpf: disable and remove registers
+ chain based liveness
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: kernel test robot <lkp@intel.com>, bpf@vger.kernel.org, ast@kernel.org, 
+	andrii@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ daniel@iogearbox.net, 	martin.lau@linux.dev, kernel-team@fb.com,
+ yonghong.song@linux.dev
+Date: Thu, 11 Sep 2025 14:26:24 -0700
+In-Reply-To: <202509112112.wkWw6wJW-lkp@intel.com>
+References: <20250911010437.2779173-10-eddyz87@gmail.com>
+	 <202509112112.wkWw6wJW-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202509120229.YpG1CcD3-lkp@intel.com>
-In-Reply-To: <202509120229.YpG1CcD3-lkp@intel.com>
-From: Denis Aleksandrov <daleksan@redhat.com>
-Date: Thu, 11 Sep 2025 15:21:49 -0400
-X-Gm-Features: Ac12FXwf_L1AGGZDpDhox13jXjFaaf_nkx5ME2J1foFJp4pRfqdXkBY6CcHANhI
-Message-ID: <CAG+gbFc=hxHSGxh5fFBSfs7GB1Z2aS-b0MkmyQaCP-o9P7Xw8g@mail.gmail.com>
-Subject: Re: [linux-next:master 7959/8263] drivers/char/tpm/tpm_ppi.c:349
- tpm_show_ppi_tcg_operations() warn: inconsistent returns 'global &tpm_ppi_lock'.
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Paul Menzel <pmenzel@molgen.mpg.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6fYAYUXxaBiKzXMoRBCEqJXxyisU2xxqY9tGoLCpRDE_1757618521
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 11, 2025 at 2:56=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   8f21d9da46702c4d6951ba60ca8a05f42870fe8f
-> commit: 18aada46edf7f79dba1ab89a100d0fc350d4a5c8 [7959/8263] tpm: Prevent=
- local DOS via tpm/tpm0/ppi/*operations
-> config: x86_64-randconfig-161-20250911 (https://download.01.org/0day-ci/a=
-rchive/20250912/202509120229.YpG1CcD3-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
->
+On Thu, 2025-09-11 at 22:19 +0800, kernel test robot wrote:
+> Hi Eduard,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on bpf-next/master]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/b=
+pf-bpf_verifier_state-cleaned-flag-instead-of-REG_LIVE_DONE/20250911-090604
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20250911010437.2779173-10-eddyz8=
+7%40gmail.com
+> patch subject: [PATCH bpf-next v1 09/10] bpf: disable and remove register=
+s chain based liveness
+> config: x86_64-buildonly-randconfig-003-20250911 (https://download.01.org=
+/0day-ci/archive/20250911/202509112112.wkWw6wJW-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250911/202509112112.wkWw6wJW-lkp@intel.com/reproduce)
+>=20
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202509120229.YpG1CcD3-lkp@intel.com/
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202509112112.wkWw6wJW-lkp=
+@intel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+> > > kernel/bpf/verifier.c:19305:11: warning: variable 'err' is uninitiali=
+zed when used here [-Wuninitialized]
+>     19305 |                                 err =3D err ? : push_jmp_hist=
+ory(env, cur, 0, 0);
+>           |                                       ^~~
+>    kernel/bpf/verifier.c:19140:12: note: initialize the variable 'err' to=
+ silence this warning
+>     19140 |         int n, err, states_cnt =3D 0;
+>           |                   ^
+>           |                    =3D 0
+>    1 warning generated.
+>=20
+>=20
+> vim +/err +19305 kernel/bpf/verifier.c
 
-Jarkko, would you like me to send a separate patch or a v5?
+This was sloppy on my side, should look as follows:
 
->
-> smatch warnings:
-> drivers/char/tpm/tpm_ppi.c:349 tpm_show_ppi_tcg_operations() warn: incons=
-istent returns 'global &tpm_ppi_lock'.
-> drivers/char/tpm/tpm_ppi.c:378 tpm_show_ppi_vs_operations() warn: inconsi=
-stent returns 'global &tpm_ppi_lock'.
->
-> vim +349 drivers/char/tpm/tpm_ppi.c
->
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  323  static ssize_t tpm_show=
-_ppi_tcg_operations(struct device *dev,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  324                         =
-                  struct device_attribute *attr,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  325                         =
-                  char *buf)
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  326  {
-> 9b774d5cf2db4b Jarkko Sakkinen   2015-04-14  327        struct tpm_chip *=
-chip =3D to_tpm_chip(dev);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  328        ssize_t len =3D 0=
-;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  329        u32 ret;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  330        int i;
-> 0dc553652102c5 Jarkko Sakkinen   2014-12-12  331
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  332        spin_lock(&tpm_pp=
-i_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  333        if (!ppi_cache_po=
-pulated) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  334                len =3D c=
-ache_ppi_operations(chip->acpi_dev_handle, buf);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  335                if (len <=
- 0)
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  336                        r=
-eturn len;
->
-> spin_unlock(&tpm_ppi_lock) before returning.
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -19297,9 +19297,12 @@ static int is_state_visited(struct bpf_verifier_en=
+v *env, int insn_idx)
+                         * the precision needs to be propagated back in
+                         * the current state.
+                         */
+-                       if (is_jmp_point(env, env->insn_idx))
+-                               err =3D err ? : push_jmp_history(env, cur, =
+0, 0);
+-                       err =3D err ? : propagate_precision(env, &sl->state=
+, cur, NULL);
++                       if (is_jmp_point(env, env->insn_idx)) {
++                               err =3D push_jmp_history(env, cur, 0, 0);
++                               if (err)
++                                       return err;
++                       }
++                       err =3D propagate_precision(env, &sl->state, cur, N=
+ULL);
+                        if (err)
+                                return err;
+                        /* When processing iterator based loops above propa=
+gate_liveness and
 
-Hi Dan, thanks for the catch!
 
->
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  337
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  338                ppi_cache=
-_populated =3D true;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  339        }
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  340
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  341        for (i =3D 0; i <=
-=3D PPI_TPM_REQ_MAX; i++) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  342                ret =3D p=
-pi_operations_cache[i];
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  343                if (ret >=
-=3D 0 && ret < ARRAY_SIZE(tpm_ppi_info))
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  344                        l=
-en +=3D sysfs_emit_at(buf, len, "%d %d: %s\n",
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  345                         =
-                               i, ret, tpm_ppi_info[ret]);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  346        }
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  347        spin_unlock(&tpm_=
-ppi_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  348
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10 @349        return len;
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  350  }
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  351
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  352  static ssize_t tpm_show=
-_ppi_vs_operations(struct device *dev,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  353                         =
-                 struct device_attribute *attr,
-> 81198078d7da42 Xiaoyan Zhang     2013-08-29  354                         =
-                 char *buf)
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  355  {
-> 9b774d5cf2db4b Jarkko Sakkinen   2015-04-14  356        struct tpm_chip *=
-chip =3D to_tpm_chip(dev);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  357        ssize_t len =3D 0=
-;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  358        u32 ret;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  359        int i;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  360
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  361        spin_lock(&tpm_pp=
-i_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  362        if (!ppi_cache_po=
-pulated) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  363                len =3D c=
-ache_ppi_operations(chip->acpi_dev_handle, buf);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  364                if (len <=
- 0)
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  365                        r=
-eturn len;
->
-> Same.
->
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  366
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  367                ppi_cache=
-_populated =3D true;
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  368        }
-> 0dc553652102c5 Jarkko Sakkinen   2014-12-12  369
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  370        for (i =3D PPI_VS=
-_REQ_START; i <=3D PPI_VS_REQ_END; i++) {
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  371                ret =3D p=
-pi_operations_cache[i];
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  372                if (ret >=
-=3D 0 && ret < ARRAY_SIZE(tpm_ppi_info))
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  373                        l=
-en +=3D sysfs_emit_at(buf, len, "%d %d: %s\n",
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  374                         =
-                               i, ret, tpm_ppi_info[ret]);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  375        }
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  376        spin_unlock(&tpm_=
-ppi_lock);
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10  377
-> 18aada46edf7f7 Denis Aleksandrov 2025-09-10 @378        return len;
-> f84fdff0fdcda7 Xiaoyan Zhang     2012-08-22  379  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
-
-Best,
-Denis
-
+[...]
