@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBB526CE28
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Sep 2025 23:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026F1282F5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 00:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757548104; cv=none; b=QYaj44itqXn9ogcjm6lEkkAvrnS2JMWpa1WNX9dETw/csUSGbird3ilCfmIbHKvmL9eXMl/N7RvL9i1jv4rnxohWvKmVsIZhKHC90IgTqdMV8Ki9EkT+V10iVkCDuKUfP30J4l+4ATfCLMqtUO/3s8UU071fzL/XYdHhtxH033A=
+	t=1757551826; cv=none; b=FkraK3UGkF7LT3dfhyyiGK0mz88bLGAu3HbNni1rPuiYqm9iE6+TJoFdDilzXz8o/xs1N1DCHTmRWl0prrW4hD/mkMP0FtSIo3TxKA4p0umhbDoycm4dZsjslgYqWbjKyybfVXYvr7JzNdP0bhBO7OGfprCofWpYHJYcEFcxNnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757548104; c=relaxed/simple;
-	bh=QevkYdBoBhU9h0Su1WTXFTCspLRf/nkZqd0Hz2v7PTQ=;
+	s=arc-20240116; t=1757551826; c=relaxed/simple;
+	bh=UTSGIVH6CQC3R0hcJP8H/hGItHpqrXfVkDbL9YqbCms=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MFqgUWRgjzzUjkux4Lu3QqzXllLpGq1Arm8ZdgAd24liqp8IG42vva7AuOIPL7HaQKR7kWEb0bmFTxKxZ7Tw4T1zIonvJBLKYevk75/q/xG0jDJd+QSagH4P90o/Qx3mzu+2+a4wONwHKofeQ6xLRp7QeVZsr+U+rLqkhljYaMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFe61/jJ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=BXi0zguURtDb5JRAHZt4oKJ36FP/dZG2tpnEaiglzDUMJmWTl+ghxnlHp96ZcGbB1UY2c8YKnVTD/VIzUsIC061evdZ01+cAJnm8FoKIHcB9Ty+ShHs3XSDkX4kv+gDhmwHrARoUbrVGz0ulmBYL/6NMyJPELZ0QGhZ5mvtRue0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCQqAXPh; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFe61/jJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCQqAXPh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757548102; x=1789084102;
+  t=1757551824; x=1789087824;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QevkYdBoBhU9h0Su1WTXFTCspLRf/nkZqd0Hz2v7PTQ=;
-  b=OFe61/jJ8WvhIZzPoZan8GiFWS/+Jbl9CuSZ2ciish8eg9/iFRXhg5g/
-   yGgag3vYE2V62UrSFjAmv1dh1Bo8lIZsTHlcMHhoGPwjOYyhDonKfjGjP
-   79mjIGvvPhbjaBMhT35nkh79DPFPOXXk68lAD/833V0b8u+pXLLBjAsbR
-   tS+c452ei2ItkXQc2dlJnaig5vunHnqyHBCgS11BTkb7MSdme0Y9m5cuK
-   cyv+Y42yn/tokG4k3F1Gi3xH1wfDYvwbYv/c6WRfcTZyHzXAi2i2J0Fdz
-   /IaBvXg5zYmPQpejxfAZiZcGaLwBBq864x34cQjzsN+OdIvmvNIW+2akQ
-   w==;
-X-CSE-ConnectionGUID: qhYOvSDKRumaXv4p8wDgQw==
-X-CSE-MsgGUID: xUGwofakSDynayBwOerKhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59096117"
+  bh=UTSGIVH6CQC3R0hcJP8H/hGItHpqrXfVkDbL9YqbCms=;
+  b=FCQqAXPhKNxhCNaCEqWqy701NwA3kmw0tpjSPfaDwQZ3CXyxzAR+I4G+
+   V9LwvsZLs6PeJO+G1fa46MXRBmjuGIBGp5t7QJMHh6PuA0Gkbl6whQ+l3
+   xvMAfXSYdOuXicrsEzLWg9iv0WwAsRTUu+I2GrWQfQm0q+BJ9wHBqQ2oY
+   cwYodDyhcG0IsAoYTgHNOM1t+mzMoY+srxNCSM9cOJDE54gcGEwpwHOLY
+   yJ+NTszj3PZ5dw/eJsULfEeXo4Pe5JpcJX+pzbiz5Z0VMyWP9eZh94bah
+   U4YDWSwBkK77XrcMh+Jbty4n8nZVeB4Jfu4Vi7goNmIv8qP9vAyykWw0y
+   g==;
+X-CSE-ConnectionGUID: 0XMiuYXoRqCQ7fPgaglyGg==
+X-CSE-MsgGUID: Qe/642YaSUOFYkuVeT3juQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="63510119"
 X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="59096117"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 16:48:19 -0700
-X-CSE-ConnectionGUID: Br/0NSeFQvyA2Rjiu9jDGQ==
-X-CSE-MsgGUID: HJMU+u4lRtuHLlj7DC1skQ==
+   d="scan'208";a="63510119"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 17:50:23 -0700
+X-CSE-ConnectionGUID: sC6K4m5LSnetS/ioiTCvFA==
+X-CSE-MsgGUID: md2T7Bl3TsGLeoCuNKQoWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; 
-   d="scan'208";a="173602472"
+   d="scan'208";a="204534545"
 Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Sep 2025 16:48:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Sep 2025 17:50:22 -0700
 Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwUXv-0006Mp-1F;
-	Wed, 10 Sep 2025 23:48:15 +0000
-Date: Thu, 11 Sep 2025 07:47:30 +0800
+	id 1uwVVz-0006OL-2V;
+	Thu, 11 Sep 2025 00:50:19 +0000
+Date: Thu, 11 Sep 2025 08:49:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 400/411] include/linux/compiler_types.h:572:38:
- error: call to '__compiletime_assert_486' declared with attribute error:
- BUILD_BUG failed
-Message-ID: <202509110742.wWjLDz1Q-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis/dev 33/34] crypto/scompress.c:251:3: warning:
+ releasing spinlock 'scratch->lock' that was not held
+Message-ID: <202509110847.6W8wR4NJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,75 +62,492 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   3a0afa6640282ff559b6f4ff432cffc3ecc2bc77
-commit: 5e59d4de7ff923ce84158f3357c4e964d2ec46af [400/411] mm/migrate_device: implement THP migration of zone device pages
-config: powerpc64-randconfig-003-20250911 (https://download.01.org/0day-ci/archive/20250911/202509110742.wWjLDz1Q-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110742.wWjLDz1Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
+head:   3ef29ea9bb447fcd2164b0d944add4b1757343cb
+commit: adcc2d83a6e6700db92855e77108b9be66c875e2 [33/34] crypto: Enable capability analysis
+config: hexagon-randconfig-002-20250911 (https://download.01.org/0day-ci/archive/20250911/202509110847.6W8wR4NJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250911/202509110847.6W8wR4NJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509110742.wWjLDz1Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509110847.6W8wR4NJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   mm/migrate_device.c: In function '__migrate_device_pages':
->> include/linux/compiler_types.h:572:38: error: call to '__compiletime_assert_486' declared with attribute error: BUILD_BUG failed
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:553:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:572:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-    #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-                        ^~~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:113:28: note: in expansion of macro 'BUILD_BUG'
-    #define HPAGE_PMD_SHIFT ({ BUILD_BUG(); 0; })
-                               ^~~~~~~~~
-   include/linux/huge_mm.h:117:26: note: in expansion of macro 'HPAGE_PMD_SHIFT'
-    #define HPAGE_PMD_ORDER (HPAGE_PMD_SHIFT-PAGE_SHIFT)
-                             ^~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:118:26: note: in expansion of macro 'HPAGE_PMD_ORDER'
-    #define HPAGE_PMD_NR (1<<HPAGE_PMD_ORDER)
-                             ^~~~~~~~~~~~~~~
-   mm/migrate_device.c:1101:10: note: in expansion of macro 'HPAGE_PMD_NR'
-        nr = HPAGE_PMD_NR;
-             ^~~~~~~~~~~~
+   In file included from crypto/blowfish_generic.c:15:
+   In file included from include/crypto/algapi.h:13:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   In file included from include/linux/srcu.h:59:
+>> include/linux/srcutiny.h:93:2: warning: releasing srcu_struct 'ssp' that was not held [-Wthread-safety-analysis]
+      93 |         __srcu_read_unlock(ssp, __srcu_ptr_to_ctr(ssp, scp));
+         |         ^
+   In file included from crypto/blowfish_generic.c:15:
+   In file included from include/crypto/algapi.h:13:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+>> include/linux/srcu.h:117:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     117 | }
+         | ^
+   include/linux/srcu.h:113:19: note: srcu_struct acquired here
+     113 | static inline int __srcu_read_lock_nmisafe(struct srcu_struct *ssp)
+         |                   ^
+   include/linux/srcu.h:272:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     272 | }
+         | ^
+   include/linux/srcu.h:263:19: note: srcu_struct acquired here
+     263 | static inline int srcu_read_lock(struct srcu_struct *ssp)
+         |                   ^
+   include/linux/srcu.h:299:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     299 | }
+         | ^
+   include/linux/srcu.h:291:41: note: srcu_struct acquired here
+     291 | static inline struct srcu_ctr __percpu *srcu_read_lock_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+   include/linux/srcu.h:317:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     317 | }
+         | ^
+   include/linux/srcu.h:312:41: note: srcu_struct acquired here
+     312 | static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+   include/linux/srcu.h:351:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     351 | }
+         | ^
+   include/linux/srcu.h:343:1: note: srcu_struct acquired here
+     343 | srcu_read_lock_notrace(struct srcu_struct *ssp)
+         | ^
+   include/linux/srcu.h:381:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     381 | }
+         | ^
+   include/linux/srcu.h:375:19: note: srcu_struct acquired here
+     375 | static inline int srcu_down_read(struct srcu_struct *ssp)
+         |                   ^
+>> include/linux/srcu.h:412:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     412 | }
+         | ^
+   include/linux/srcu.h:407:2: note: srcu_struct acquired here
+     407 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-capability-analysis.h:361:32: note: expanded from macro '__releases_shared'
+     361 | #define __releases_shared(...)  __releases_shared_cap(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:21:53: note: expanded from macro '__releases_shared_cap'
+      21 | # define __releases_shared_cap(...)             __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+   In file included from crypto/blowfish_generic.c:15:
+   In file included from include/crypto/algapi.h:13:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   include/linux/srcu.h:428:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     428 | }
+         | ^
+   include/linux/srcu.h:423:2: note: srcu_struct acquired here
+     423 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-capability-analysis.h:361:32: note: expanded from macro '__releases_shared'
+     361 | #define __releases_shared(...)  __releases_shared_cap(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:21:53: note: expanded from macro '__releases_shared_cap'
+      21 | # define __releases_shared_cap(...)             __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+   9 warnings generated.
+--
+   In file included from crypto/scompress.c:10:
+   In file included from include/crypto/internal/scompress.h:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:16:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   In file included from include/linux/srcu.h:59:
+>> include/linux/srcutiny.h:93:2: warning: releasing srcu_struct 'ssp' that was not held [-Wthread-safety-analysis]
+      93 |         __srcu_read_unlock(ssp, __srcu_ptr_to_ctr(ssp, scp));
+         |         ^
+   In file included from crypto/scompress.c:10:
+   In file included from include/crypto/internal/scompress.h:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:16:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+>> include/linux/srcu.h:117:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     117 | }
+         | ^
+   include/linux/srcu.h:113:19: note: srcu_struct acquired here
+     113 | static inline int __srcu_read_lock_nmisafe(struct srcu_struct *ssp)
+         |                   ^
+   include/linux/srcu.h:272:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     272 | }
+         | ^
+   include/linux/srcu.h:263:19: note: srcu_struct acquired here
+     263 | static inline int srcu_read_lock(struct srcu_struct *ssp)
+         |                   ^
+   include/linux/srcu.h:299:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     299 | }
+         | ^
+   include/linux/srcu.h:291:41: note: srcu_struct acquired here
+     291 | static inline struct srcu_ctr __percpu *srcu_read_lock_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+   include/linux/srcu.h:317:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     317 | }
+         | ^
+   include/linux/srcu.h:312:41: note: srcu_struct acquired here
+     312 | static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+   include/linux/srcu.h:351:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     351 | }
+         | ^
+   include/linux/srcu.h:343:1: note: srcu_struct acquired here
+     343 | srcu_read_lock_notrace(struct srcu_struct *ssp)
+         | ^
+   include/linux/srcu.h:381:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     381 | }
+         | ^
+   include/linux/srcu.h:375:19: note: srcu_struct acquired here
+     375 | static inline int srcu_down_read(struct srcu_struct *ssp)
+         |                   ^
+>> include/linux/srcu.h:412:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     412 | }
+         | ^
+   include/linux/srcu.h:407:2: note: srcu_struct acquired here
+     407 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-capability-analysis.h:361:32: note: expanded from macro '__releases_shared'
+     361 | #define __releases_shared(...)  __releases_shared_cap(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:21:53: note: expanded from macro '__releases_shared_cap'
+      21 | # define __releases_shared_cap(...)             __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+   In file included from crypto/scompress.c:10:
+   In file included from include/crypto/internal/scompress.h:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:16:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   include/linux/srcu.h:428:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     428 | }
+         | ^
+   include/linux/srcu.h:423:2: note: srcu_struct acquired here
+     423 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-capability-analysis.h:361:32: note: expanded from macro '__releases_shared'
+     361 | #define __releases_shared(...)  __releases_shared_cap(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:21:53: note: expanded from macro '__releases_shared_cap'
+      21 | # define __releases_shared_cap(...)             __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+>> crypto/scompress.c:251:3: warning: releasing spinlock 'scratch->lock' that was not held [-Wthread-safety-analysis]
+     251 |                 scomp_unlock_scratch(scratch);
+         |                 ^
+>> crypto/scompress.c:259:2: warning: spinlock '__ret->lock' is not held on every path through here [-Wthread-safety-analysis]
+     259 |         crypto_acomp_unlock_stream_bh(stream);
+         |         ^
+   crypto/scompress.c:239:35: note: spinlock acquired here
+     239 |                 struct scomp_scratch *scratch = scomp_lock_scratch();
+         |                                                 ^
+   crypto/scompress.c:144:33: note: expanded from macro 'scomp_lock_scratch'
+     144 | #define scomp_lock_scratch(...) __acquire_ret(_scomp_lock_scratch(__VA_ARGS__), &__ret->lock)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:389:3: note: expanded from macro '__acquire_ret'
+     389 |                 __acquire(ret_expr);            \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:315:23: note: expanded from macro '__acquire'
+     315 | #define __acquire(x)            __acquire_cap(x)
+         |                                 ^
+>> crypto/scompress.c:259:2: warning: releasing spinlock 'stream->lock' that was not held [-Wthread-safety-analysis]
+     259 |         crypto_acomp_unlock_stream_bh(stream);
+         |         ^
+   crypto/scompress.c:278:1: warning: spinlock '__ret->lock' is not held on every path through here [-Wthread-safety-analysis]
+     278 | }
+         | ^
+   crypto/scompress.c:236:39: note: spinlock acquired here
+     236 |         struct crypto_acomp_stream *stream = crypto_acomp_lock_stream_bh(&crypto_scomp_alg(scomp)->streams);
+         |                                              ^
+   include/crypto/internal/acompress.h:194:42: note: expanded from macro 'crypto_acomp_lock_stream_bh'
+     194 | #define crypto_acomp_lock_stream_bh(...) __acquire_ret(_crypto_acomp_lock_stream_bh(__VA_ARGS__), &__ret->lock);
+         |                                          ^
+   include/linux/compiler-capability-analysis.h:389:3: note: expanded from macro '__acquire_ret'
+     389 |                 __acquire(ret_expr);            \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:315:23: note: expanded from macro '__acquire'
+     315 | #define __acquire(x)            __acquire_cap(x)
+         |                                 ^
+   13 warnings generated.
+--
+   In file included from crypto/deflate.c:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:16:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   In file included from include/linux/srcu.h:59:
+>> include/linux/srcutiny.h:93:2: warning: releasing srcu_struct 'ssp' that was not held [-Wthread-safety-analysis]
+      93 |         __srcu_read_unlock(ssp, __srcu_ptr_to_ctr(ssp, scp));
+         |         ^
+   In file included from crypto/deflate.c:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:16:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+>> include/linux/srcu.h:117:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     117 | }
+         | ^
+   include/linux/srcu.h:113:19: note: srcu_struct acquired here
+     113 | static inline int __srcu_read_lock_nmisafe(struct srcu_struct *ssp)
+         |                   ^
+   include/linux/srcu.h:272:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     272 | }
+         | ^
+   include/linux/srcu.h:263:19: note: srcu_struct acquired here
+     263 | static inline int srcu_read_lock(struct srcu_struct *ssp)
+         |                   ^
+   include/linux/srcu.h:299:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     299 | }
+         | ^
+   include/linux/srcu.h:291:41: note: srcu_struct acquired here
+     291 | static inline struct srcu_ctr __percpu *srcu_read_lock_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+   include/linux/srcu.h:317:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     317 | }
+         | ^
+   include/linux/srcu.h:312:41: note: srcu_struct acquired here
+     312 | static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+   include/linux/srcu.h:351:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     351 | }
+         | ^
+   include/linux/srcu.h:343:1: note: srcu_struct acquired here
+     343 | srcu_read_lock_notrace(struct srcu_struct *ssp)
+         | ^
+   include/linux/srcu.h:381:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     381 | }
+         | ^
+   include/linux/srcu.h:375:19: note: srcu_struct acquired here
+     375 | static inline int srcu_down_read(struct srcu_struct *ssp)
+         |                   ^
+>> include/linux/srcu.h:412:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     412 | }
+         | ^
+   include/linux/srcu.h:407:2: note: srcu_struct acquired here
+     407 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-capability-analysis.h:361:32: note: expanded from macro '__releases_shared'
+     361 | #define __releases_shared(...)  __releases_shared_cap(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:21:53: note: expanded from macro '__releases_shared_cap'
+      21 | # define __releases_shared_cap(...)             __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+   In file included from crypto/deflate.c:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:16:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1513:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   include/linux/srcu.h:428:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     428 | }
+         | ^
+   include/linux/srcu.h:423:2: note: srcu_struct acquired here
+     423 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-capability-analysis.h:361:32: note: expanded from macro '__releases_shared'
+     361 | #define __releases_shared(...)  __releases_shared_cap(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-capability-analysis.h:21:53: note: expanded from macro '__releases_shared_cap'
+      21 | # define __releases_shared_cap(...)             __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+>> crypto/deflate.c:135:2: warning: releasing spinlock 's->lock' that was not held [-Wthread-safety-analysis]
+     135 |         crypto_acomp_unlock_stream_bh(s);
+         |         ^
+>> crypto/deflate.c:138:1: warning: spinlock '__ret->lock' is still held at the end of function [-Wthread-safety-analysis]
+     138 | }
+         | ^
+   crypto/deflate.c:121:6: note: spinlock acquired here
+     121 |         s = crypto_acomp_lock_stream_bh(&deflate_streams);
+         |             ^
+   include/crypto/internal/acompress.h:194:42: note: expanded from macro 'crypto_acomp_lock_stream_bh'
+     194 | #define crypto_acomp_lock_stream_bh(...) __acquire_ret(_crypto_acomp_lock_stream_bh(__VA_ARGS__), &__ret->lock);
+         |                                          ^
+   include/linux/compiler-capability-analysis.h:389:3: note: expanded from macro '__acquire_ret'
+     389 |                 __acquire(ret_expr);            \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:315:23: note: expanded from macro '__acquire'
+     315 | #define __acquire(x)            __acquire_cap(x)
+         |                                 ^
+   crypto/deflate.c:214:2: warning: releasing spinlock 's->lock' that was not held [-Wthread-safety-analysis]
+     214 |         crypto_acomp_unlock_stream_bh(s);
+         |         ^
+   crypto/deflate.c:217:1: warning: spinlock '__ret->lock' is still held at the end of function [-Wthread-safety-analysis]
+     217 | }
+         | ^
+   crypto/deflate.c:202:6: note: spinlock acquired here
+     202 |         s = crypto_acomp_lock_stream_bh(&deflate_streams);
+         |             ^
+   include/crypto/internal/acompress.h:194:42: note: expanded from macro 'crypto_acomp_lock_stream_bh'
+     194 | #define crypto_acomp_lock_stream_bh(...) __acquire_ret(_crypto_acomp_lock_stream_bh(__VA_ARGS__), &__ret->lock);
+         |                                          ^
+   include/linux/compiler-capability-analysis.h:389:3: note: expanded from macro '__acquire_ret'
+     389 |                 __acquire(ret_expr);            \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:315:23: note: expanded from macro '__acquire'
+     315 | #define __acquire(x)            __acquire_cap(x)
+         |                                 ^
+   13 warnings generated.
+..
 
 
-vim +/__compiletime_assert_486 +572 include/linux/compiler_types.h
+vim +251 crypto/scompress.c
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  558  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  561  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  562  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  566   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  569   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  570   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  573  
+c47e1f4142a382 Herbert Xu                2025-03-17  169  
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  170  static int scomp_acomp_comp_decomp(struct acomp_req *req, int dir)
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  171  {
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  172  	struct crypto_acomp *tfm = crypto_acomp_reqtfm(req);
+2d3553ecb4e316 Herbert Xu                2025-03-15  173  	struct crypto_scomp **tfm_ctx = acomp_tfm_ctx(tfm);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  174  	bool src_isvirt = acomp_request_src_isvirt(req);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  175  	bool dst_isvirt = acomp_request_dst_isvirt(req);
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  176  	struct crypto_scomp *scomp = *tfm_ctx;
+2d3553ecb4e316 Herbert Xu                2025-03-15  177  	unsigned int slen = req->slen;
+2d3553ecb4e316 Herbert Xu                2025-03-15  178  	unsigned int dlen = req->dlen;
+2d3553ecb4e316 Herbert Xu                2025-03-15  179  	struct page *spage, *dpage;
+2d3553ecb4e316 Herbert Xu                2025-03-15  180  	unsigned int n;
+2c1808e5fe5afd Herbert Xu                2025-03-15  181  	const u8 *src;
+8a6771cda3f48a Herbert Xu                2025-03-15  182  	size_t soff;
+8a6771cda3f48a Herbert Xu                2025-03-15  183  	size_t doff;
+2c1808e5fe5afd Herbert Xu                2025-03-15  184  	u8 *dst;
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  185  	int ret;
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  186  
+2d3553ecb4e316 Herbert Xu                2025-03-15  187  	if (!req->src || !slen)
+71052dcf4be70b Sebastian Andrzej Siewior 2019-03-29  188  		return -EINVAL;
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  189  
+2d3553ecb4e316 Herbert Xu                2025-03-15  190  	if (!req->dst || !dlen)
+71052dcf4be70b Sebastian Andrzej Siewior 2019-03-29  191  		return -EINVAL;
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  192  
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  193  	if (dst_isvirt)
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  194  		dst = req->dvirt;
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  195  	else {
+5f3437e9c89eec Herbert Xu                2025-04-07  196  		if (dlen <= req->dst->length) {
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  197  			dpage = sg_page(req->dst);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  198  			doff = req->dst->offset;
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  199  		} else
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  200  			return -ENOSYS;
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  201  
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  202  		dpage = nth_page(dpage, doff / PAGE_SIZE);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  203  		doff = offset_in_page(doff);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  204  
+e3f08b26257318 Herbert Xu                2025-04-23  205  		n = (dlen - 1) / PAGE_SIZE;
+e3f08b26257318 Herbert Xu                2025-04-23  206  		n += (offset_in_page(dlen - 1) + doff) / PAGE_SIZE;
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  207  		if (PageHighMem(dpage + n) &&
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  208  		    size_add(doff, dlen) > PAGE_SIZE)
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  209  			return -ENOSYS;
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  210  		dst = kmap_local_page(dpage) + doff;
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  211  	}
+c47e1f4142a382 Herbert Xu                2025-03-17  212  
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  213  	if (src_isvirt)
+2c1808e5fe5afd Herbert Xu                2025-03-15  214  		src = req->svirt;
+2c1808e5fe5afd Herbert Xu                2025-03-15  215  	else {
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  216  		src = NULL;
+8a6771cda3f48a Herbert Xu                2025-03-15  217  		do {
+5f3437e9c89eec Herbert Xu                2025-04-07  218  			if (slen <= req->src->length) {
+8a6771cda3f48a Herbert Xu                2025-03-15  219  				spage = sg_page(req->src);
+2d3553ecb4e316 Herbert Xu                2025-03-15  220  				soff = req->src->offset;
+8a6771cda3f48a Herbert Xu                2025-03-15  221  			} else
+8a6771cda3f48a Herbert Xu                2025-03-15  222  				break;
+8a6771cda3f48a Herbert Xu                2025-03-15  223  
+8a6771cda3f48a Herbert Xu                2025-03-15  224  			spage = nth_page(spage, soff / PAGE_SIZE);
+2d3553ecb4e316 Herbert Xu                2025-03-15  225  			soff = offset_in_page(soff);
+744e1885922a99 Chengming Zhou            2023-12-27  226  
+002ba346e3d76b Herbert Xu                2025-04-21  227  			n = (slen - 1) / PAGE_SIZE;
+002ba346e3d76b Herbert Xu                2025-04-21  228  			n += (offset_in_page(slen - 1) + soff) / PAGE_SIZE;
+8a6771cda3f48a Herbert Xu                2025-03-15  229  			if (PageHighMem(nth_page(spage, n)) &&
+8a6771cda3f48a Herbert Xu                2025-03-15  230  			    size_add(soff, slen) > PAGE_SIZE)
+8a6771cda3f48a Herbert Xu                2025-03-15  231  				break;
+2d3553ecb4e316 Herbert Xu                2025-03-15  232  			src = kmap_local_page(spage) + soff;
+8a6771cda3f48a Herbert Xu                2025-03-15  233  		} while (0);
+2c1808e5fe5afd Herbert Xu                2025-03-15  234  	}
+77292bb8ca69c8 Barry Song                2024-03-02  235  
+adcc2d83a6e670 Marco Elver               2025-02-19  236  	struct crypto_acomp_stream *stream = crypto_acomp_lock_stream_bh(&crypto_scomp_alg(scomp)->streams);
+8a6771cda3f48a Herbert Xu                2025-03-15  237  
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  238  	if (!src_isvirt && !src) {
+adcc2d83a6e670 Marco Elver               2025-02-19  239  		struct scomp_scratch *scratch = scomp_lock_scratch();
+adcc2d83a6e670 Marco Elver               2025-02-19  240  		const u8 *src = scratch->src;
+2d3553ecb4e316 Herbert Xu                2025-03-15  241  
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  242  		memcpy_from_sglist(scratch->src, req->src, 0, slen);
+2d3553ecb4e316 Herbert Xu                2025-03-15  243  
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  244  		if (dir)
+2d3553ecb4e316 Herbert Xu                2025-03-15  245  			ret = crypto_scomp_compress(scomp, src, slen,
+2d3553ecb4e316 Herbert Xu                2025-03-15  246  						    dst, &dlen, stream->ctx);
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  247  		else
+2d3553ecb4e316 Herbert Xu                2025-03-15  248  			ret = crypto_scomp_decompress(scomp, src, slen,
+2d3553ecb4e316 Herbert Xu                2025-03-15  249  						      dst, &dlen, stream->ctx);
+2d3553ecb4e316 Herbert Xu                2025-03-15  250  
+42d9f6c774790d Herbert Xu                2025-03-19 @251  		scomp_unlock_scratch(scratch);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  252  	} else if (dir)
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  253  		ret = crypto_scomp_compress(scomp, src, slen,
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  254  					    dst, &dlen, stream->ctx);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  255  	else
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  256  		ret = crypto_scomp_decompress(scomp, src, slen,
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  257  					      dst, &dlen, stream->ctx);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  258  
+42d9f6c774790d Herbert Xu                2025-03-19 @259  	crypto_acomp_unlock_stream_bh(stream);
+2d3553ecb4e316 Herbert Xu                2025-03-15  260  
+2d3553ecb4e316 Herbert Xu                2025-03-15  261  	req->dlen = dlen;
+77292bb8ca69c8 Barry Song                2024-03-02  262  
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  263  	if (!src_isvirt && src)
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  264  		kunmap_local(src);
+a7b1d0c5f1ca05 Herbert Xu                2025-03-19  265  	if (!dst_isvirt) {
+2d3553ecb4e316 Herbert Xu                2025-03-15  266  		kunmap_local(dst);
+2d3553ecb4e316 Herbert Xu                2025-03-15  267  		dlen += doff;
+2d3553ecb4e316 Herbert Xu                2025-03-15  268  		for (;;) {
+2d3553ecb4e316 Herbert Xu                2025-03-15  269  			flush_dcache_page(dpage);
+2d3553ecb4e316 Herbert Xu                2025-03-15  270  			if (dlen <= PAGE_SIZE)
+2d3553ecb4e316 Herbert Xu                2025-03-15  271  				break;
+2d3553ecb4e316 Herbert Xu                2025-03-15  272  			dlen -= PAGE_SIZE;
+2d3553ecb4e316 Herbert Xu                2025-03-15  273  			dpage = nth_page(dpage, 1);
+77292bb8ca69c8 Barry Song                2024-03-02  274  		}
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  275  	}
+2d3553ecb4e316 Herbert Xu                2025-03-15  276  
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  277  	return ret;
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  278  }
+1ab53a77b772bf Giovanni Cabiddu          2016-10-21  279  
 
-:::::: The code at line 572 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+:::::: The code at line 251 was first introduced by commit
+:::::: 42d9f6c774790d290c175e8775ce9f1366438098 crypto: acomp - Move scomp stream allocation code into acomp
 
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
