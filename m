@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20D133EAFD;
-	Thu, 11 Sep 2025 17:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D77A635
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 17:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757611695; cv=none; b=e6MPlFryVKzJhcruR+62VG/Dhl1GyGsip7yEP4oGNePQppkXGzgCC/BLGAaOp+0WQhufHJDNolNqD6OA0jM6ONxeej1NGxIMI+g8MBeRaQtXndSCQAl6yBVAgklDFPNji0r3nW/INx1V4aa2h2EsiE1WSuNp16gW/TER46E8yww=
+	t=1757613586; cv=none; b=JTUGWuM/+KvgKVjcrsUBTteJnWrU4O8WRpPviMugrXbuHSfB1iG1AmWwTt0EWkFP2hMiohauhzuzETBck+vnZO/D7aaSgTZto6TmKIFYAnv92m+40fa9sbhLolDPY2E6nghbo6YIBqVjKSzasImzlblp3tqSP8gzFG4Ggfa3+TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757611695; c=relaxed/simple;
-	bh=qTIFt+4Vmj2bVteOMnRB2LAUPk3klM1A7WKqCid9mfc=;
+	s=arc-20240116; t=1757613586; c=relaxed/simple;
+	bh=Iukzt6aNhsR+aY0Aq8R6QT1xq7aEs4qAi4SmRC0oG6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cttGnOQUwT+4e/N2WWUvgeb47GhmberzZEGyJc5Ki3pgXnraWAHpgcrnG3+etok6LX0Jxi41SycK0hFNAQ8s+zb3gjncAv5SudrF7d+yqSVPg6Ch3j8jbPSUkGN/rSbqqYQ7g1oCCtHni6M40YR3x4Id/1IDcXQaeD4fBR4Tq2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvgAcAuc; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=JwGomfD0sZK6q3nYLjirP9uD77FK+By5UW5gMQfT5VZ0iAf7kl0lXjU1CWk06cwLDi559qshz1U2T9XzUAkliEoeyWaT3uc5EY8B7iKvSXhwM8m3SWVpGVjW0vu42jHfsYuFg3OdBHgKDUyYCZdpp9KHzZgMLk3DIkcCxq55TdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAmEl4FE; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvgAcAuc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAmEl4FE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757611694; x=1789147694;
+  t=1757613585; x=1789149585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qTIFt+4Vmj2bVteOMnRB2LAUPk3klM1A7WKqCid9mfc=;
-  b=GvgAcAuca3wIFL8IAHE2+LpGRArDwE+DHJn4iF3A1a8P2Agbr/MbVtwt
-   dtqFW8/qhAo29aTBqYXXtffZx4aouV7APFrgILv/geaA9j/8LCLM8BRoF
-   EfI70a36KMs8WY5D717yIbPgGVWpkpUZg4W0TFmSC46vjqKD8rlrLUMpQ
-   G3AThF9aAfIA6dkyuq+QgPeeT0PZOsgE9qbQaS4QMOS7EAioDFsAzjEN1
-   wFkOHutuyU8p4bblC/PyoKBAiVoyeNAkeYItXbSotAqvERH/vhjHszUhc
-   HZz9qCVk7YT3sAuKtD+MkKp/vbzdXGxm1PLqI/TTMk5fFWDZmdiYGbXlw
+  bh=Iukzt6aNhsR+aY0Aq8R6QT1xq7aEs4qAi4SmRC0oG6M=;
+  b=iAmEl4FEBqZqQSkdgHqVpdzhygYoLl6eIGmMWe/dBDydKniTlQZFDcSa
+   JnfiHi20mP9t8cvcA9Pua08Qo5Gdy3rM6xHRXYxbv6oGntjmsvbfApcz7
+   PfzE5ve71u6GJym4HchYPYzGWx0iq3qsWap84BrESb/DhQ7e8DOW4ceVI
+   K4f7qz6rwiW0m51yZgd6vM+RAybdWSVlHN7r/T3TwtTIdvOS1aJmOL8ID
+   7GQBXCVwiIbTRPbesMQIffDMAabyC8BjqXoh0JSiGSmRWtzpw6L/rrRJ1
+   EYNKPq+6WE77p6I/t3LyV2TIAtXQZwKbRIq2MZASq9xds06YTzkSK4x9C
    Q==;
-X-CSE-ConnectionGUID: UuiqbMzKRdqD6xniuQTEHA==
-X-CSE-MsgGUID: QSDz7gX3TEeBrw5FleOeyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59811029"
+X-CSE-ConnectionGUID: tFPiZx5ZSNKriZbnG67YRQ==
+X-CSE-MsgGUID: RnFdzwuFTfG0+e1UO7pT9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="47526643"
 X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="59811029"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 10:28:13 -0700
-X-CSE-ConnectionGUID: Rirftl3QSgWPfv+Hj7eaCQ==
-X-CSE-MsgGUID: xkdWdPHURPSIN7wt7oX8Dw==
+   d="scan'208";a="47526643"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 10:59:44 -0700
+X-CSE-ConnectionGUID: rs4GM2wWRE2bXh3iVcI/JQ==
+X-CSE-MsgGUID: h5KEzvAPS82q/CF1iXKFJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; 
-   d="scan'208";a="178957197"
+   d="scan'208";a="174549230"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Sep 2025 10:28:12 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 11 Sep 2025 10:59:44 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uwl5T-0000Ww-1o;
-	Thu, 11 Sep 2025 17:28:04 +0000
-Date: Fri, 12 Sep 2025 01:26:43 +0800
+	id 1uwla9-0000Xo-1e;
+	Thu, 11 Sep 2025 17:59:41 +0000
+Date: Fri, 12 Sep 2025 01:59:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ulfh-pm:debug_pm 21/23] ld.lld: error: undefined symbol:
- __devm_auxiliary_device_create
-Message-ID: <202509120158.y4YLm1Ms-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:rseq/slice 29/58] rseq.c:(.text+0x1c2): dangerous
+ relocation: unsupported relocation
+Message-ID: <202509120155.pFgwfeUD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +62,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git debug_pm
-head:   1a9f6a1fa2007aed31a46bd6c01fcc49d519588c
-commit: 2ba6ba21fb5382bf3a7344a7218941b32e62c3b2 [21/23] pmdomain: Add driver for onecell PM domain providers
-config: arm-randconfig-003-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120158.y4YLm1Ms-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509120158.y4YLm1Ms-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   67e3ae80545f8f9dd42404e0ea3de266dc672942
+commit: c99cb5686546c4a8229b00a04d9ff146f71989f3 [29/58] rseq: Provide and use rseq_update_user_cs()
+config: arm-randconfig-002-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120155.pFgwfeUD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509120155.pFgwfeUD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509120158.y4YLm1Ms-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509120155.pFgwfeUD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __devm_auxiliary_device_create
-   >>> referenced by pm_domain_oc_test.c
-   >>>               drivers/pmdomain/pm_domain_oc_test.o:(pm_domain_oc_test_add_aux_dev) in archive vmlinux.a
+   arm-linux-gnueabi-ld: kernel/rseq.o: in function `rseq_debug_update_user_cs':
+   rseq.c:(.text+0x1c2): undefined reference to `__get_user_bad'
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+>> rseq.c:(.text+0x1c2): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: rseq.c:(.text+0x1fc): undefined reference to `__get_user_bad'
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   rseq.c:(.text+0x1fc): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: rseq.c:(.text+0x21c): undefined reference to `__get_user_bad'
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   rseq.c:(.text+0x21c): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: rseq.c:(.text+0x240): undefined reference to `__get_user_bad'
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   rseq.c:(.text+0x240): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: kernel/rseq.o: in function `__rseq_handle_notify_resume':
+   rseq.c:(.text+0x2b8): undefined reference to `__get_user_bad'
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   rseq.c:(.text+0x2b8): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: kernel/rseq.o:rseq.c:(.text+0x33e): more undefined references to `__get_user_bad' follow
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   kernel/rseq.o: in function `__rseq_handle_notify_resume':
+   rseq.c:(.text+0x33e): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   rseq.c:(.text+0x344): dangerous relocation: unsupported relocation
+   arm-linux-gnueabi-ld: (__get_user_bad): Unknown destination type (ARM/Thumb) in kernel/rseq.o
+   rseq.c:(.text+0x34a): dangerous relocation: unsupported relocation
 
 -- 
 0-DAY CI Kernel Test Service
