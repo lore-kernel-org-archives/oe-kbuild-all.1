@@ -1,120 +1,188 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35887320380
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 16:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C0A324B25;
+	Fri, 12 Sep 2025 18:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757695690; cv=none; b=HtbPSvX/yloZVDpigsGbuiAsvI92ViBV4d15ZyA8Tbv4qAvkcOFstC5a838q9syIauucP5lKhb/3OIlk62z9pnxqZfGhVuRqo+CfmR5M56AfLPPb5gPiuc9Qxsk8QYAZ/Lv2d3cqfmty0BSbGIzf2uo9zrYCkLXJPkG+vyXbMLE=
+	t=1757701627; cv=none; b=otYvGmwfKeBkWWwK0eFltY/aOdwLaONW1xdbnBIh20RSvR/y6wQo5M2HCWNxxiahh+GhHpW382sAJi0jNqrhp3q0QSqYTMPKEpK8rwbKhWnJk9vn9Z32N4XChrQmUwJrsM4lrBr/xU1n31dNjJYJz5LPqg/oUodf75+ZCaCghok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757695690; c=relaxed/simple;
-	bh=RvDEpeloizCGVbZM9h2TCHBDf+mfeFWHfJJ88MjWEOs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZIHsQdGwYojz0mkpNcUXQuXbjdXTs7ALsIgGGEiVhIBCtrgKD6d+RZ5t5Y2RBUMoXvDWgce0BMt3jZ9xS0vYSfHDesY2s93nSd4bWBorpiF9WQQC3tua9Q67z0JBzwjhQAAFdPmVpJnUBIfrheI2s6a1pquYzfKo/MMWTQwEwN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ettcUxyU; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757701627; c=relaxed/simple;
+	bh=uf1MpVa7hu3R+Dlp/s38NGIOLG55B82K/WwvCNFzo1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LEGGPJpzHrJRoBXcuopu/9XQHXJ8M+h6rsKl5CmxWC6f5MxT06MiZM+RgOWzvZejJyAj5HKOXpjmlPU2V1qNb9dzw5JMPyGOWIFlJUHsYCJi7Q71SUWgiYrN+Hl+7r8sc6fktcIpxn4rmmrG2kR+hhQnsc4RexEAeFTGH/6jqZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ByFZ4YU7; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ettcUxyU"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-24456ce0b96so25060895ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 09:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757695688; x=1758300488; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JojO/2M959zsBWVjUEkcgukb++2NDZNktHYDQOvCs0w=;
-        b=ettcUxyUZhPo6lKdBERSTkkKnUNkci5RwRQUpDSjiCOLxHjCUpBaCbsXRxYoeHOiBx
-         OU/OhRgh1XNcJjErVpPCUMzOYUjIGisAbM47lqMW78/9Cho6ZwhzAU1N3X5aEYi76Vam
-         7hBx9DQSxVtvm8MHJXQYU9Dx50KBwdLj0787c0qVKRr1Yct98AxOMQYMkBT8FIxXuKhD
-         B4L1/bQrMJB/K7jx3KFvDugJXspxQ/PxOj9/I5A63HDOIb8vRSFAeVebugW+yBkOt/oB
-         jXZfZkcD4xFz0C/Z3fV2hR2utI4jSg8hp1J0u8CvNq9XD9QR07xupKZTkky8PyM5zhgN
-         Kznw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757695688; x=1758300488;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JojO/2M959zsBWVjUEkcgukb++2NDZNktHYDQOvCs0w=;
-        b=lGwY+yPdzjMxJonA1GabfOlLavLLoyS4azQtPJl2c0Rcrp70VySpelHJi12VwKQWb4
-         8UImvcGcTxqOGgrjxxWFB+JNj+LYKZ88QgMCE+OkjycCDcAooSerGSxg7mkDqbJpIFyT
-         k/3DiTEWeUABXg3UqU9/6MPptDdBiwYWP4wewZXX14qYfYP8nX1HriOaqhH50XRBNbTS
-         HjJ4oyBZAS/Zb/Q+tSzEwLkenqjm5zkLoFN3Qr1N5XYci93FFvqr9qrvCJWWeWPMEonI
-         Mn2wbnae1v5vVQwu8I77iXhPxfXWx+vDpQ15mj4ATjsyb3hlvTFCWEKhQa5tsEyp+hn5
-         ZbLg==
-X-Forwarded-Encrypted: i=1; AJvYcCX0OAHfxuG943rWkkznzXNuBkjJzTTb1G1l4lILunq3m5zaO4B9Eo2hUIs8McXUKB6XLB5Zu/ZyPuuAgjxf@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKCvBD0CqExUkE91lcCA//CoaP3nUHMIIwws1a7lDmdMMLMkmm
-	hqyjRIKz2ELFUimY4OBRpZvMXYUalp2efXnct6O3P7gHl4a638fATB+0
-X-Gm-Gg: ASbGnctFEsA0W9f8P416HGzN9l6zdWUjwupZV9u/bfs4JB5VBHp6RmUpsJaI7ceap18
-	8UA5k4/bLyL1NS/zGGSPVVNQOD7F6vZ/+sXh+L5+f/cI7uzPSznSRMZ/+iflCC0sKZtFaO1rFxB
-	vgI464R9IMe+GdX8+u9JHDmNhVmoFOVWqpJ54uCBP8UyTEvM4EyIc42AkxoxkorVg5blQhtrUEm
-	/Zmy0ksW4nK5PkD5tp+9d8mMsfnao4bREkEHQvA12dVk8+PmtY4Di+ODsA/LR8qDxspyOEzZG0W
-	KyLSHOtzvK1OnE3nxQ+yaT9HrRSq6GgLSdiTqmf5GKaUoUn2HrEGbIvIVMyI3t0bqlsZhW2ssvg
-	LWyYXXGmAYiUZ4+m5dTa69hjqLXTCc0uvaTJTPw4LnN1k8Z1bzU9wQV/NRWI=
-X-Google-Smtp-Source: AGHT+IFbLPULombToQlgoB3lZt9f0p06h3JKUzxWJplHYpXNn/n7w1mHGDTg8MpZyVqCQim7jQ46fg==
-X-Received: by 2002:a17:902:e750:b0:24d:34:b9e7 with SMTP id d9443c01a7336-25bae8f39c5mr81665195ad.29.1757695688481;
-        Fri, 12 Sep 2025 09:48:08 -0700 (PDT)
-Received: from ?IPv6:2a03:83e0:115c:1:c48c:3b10:7546:af9b? ([2620:10d:c090:500::4:ca20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a35b7e31sm5111359a12.11.2025.09.12.09.48.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 09:48:08 -0700 (PDT)
-Message-ID: <b620881ec86c8074731c1ff414dbb7aa8bade3a5.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v1 09/10] bpf: disable and remove registers
- chain based liveness
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
-	bpf@vger.kernel.org, ast@kernel.org, andrii@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, 
-	martin.lau@linux.dev, kernel-team@fb.com, yonghong.song@linux.dev
-Date: Fri, 12 Sep 2025 09:48:06 -0700
-In-Reply-To: <202509120205.YfzyI2gp-lkp@intel.com>
-References: <202509120205.YfzyI2gp-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ByFZ4YU7"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5D0D240E0163;
+	Fri, 12 Sep 2025 18:27:03 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ZR8eo5wKTNnl; Fri, 12 Sep 2025 18:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1757701617; bh=tEkWpVShjHWN8G7HDsDrSrhuSPzivfZLLla+d0bsxFI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ByFZ4YU7fXS0RD4Vc6jeL+QZ6opIHVbXFQEoOI8YLYH5c2bjYO9K6zIe1AozwlUw8
+	 3WbTQpHQBtNsYq/eqbyCHuN0UtC4DpINy7y+VjOY82B5L1pNCNiQErCX8xXpxWCXx9
+	 2/3j2tG11ii+0roHNWr1E8oIcDyLzUfgKE382rujku4//U80cFxZaTB3vEcAh1vAfn
+	 kIB68SXMh1WVAjmnPJMcI6detW6gSz4Eg3iJXGkdDEOP2bM1rPbXP4nRyNLLDKkho0
+	 ixog7mcQdkFZPX/IFkjk017rx4rh4u+f75X8ijww8a9Wam/itTP/9Tnavqu9wzq2o2
+	 GF+5wH1sm3Lhyl9It/xpgZVt4voXl7ojHTGa4cKv1kwxObEuxPI+fzpfVswxbM3kI+
+	 7qjZbK1v8rmq1rcNcxM18LdCtfVxf3QB7mWUOWlDb+oU+uTLLKbKEyYRSTUBEbVbwT
+	 ZZ/UzS2JTH6hIc9XaapIOswUmWGpgfg4Q+KkLoGlnV4z+AyM+aoKd7387f21K3b8CX
+	 TNJHi4XENvGyFmRZMK09psqfInZMshCOV0w0lLH2DRtY/nR3hCegXrSgRKiei1Qlld
+	 aUZk/OjDcZhKA9YAsxTcOQcc7ABF+IYdWpjqgtqZX5lAe4YkokXcsy7tWIzI0BLLOJ
+	 JcHtpD5R7LivFs7x+p1riEmA=
+Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id E340040E00DD;
+	Fri, 12 Sep 2025 18:26:47 +0000 (UTC)
+Date: Fri, 12 Sep 2025 20:26:42 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Ard Biesheuvel <ardb@kernel.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: Re: [tip:x86/boot 10/10]
+ arch/x86/boot/compressed/sev-handle-vc.c:104 do_boot_stage2_vc() error: we
+ previously assumed 'boot_ghcb' could be null (see line 101)
+Message-ID: <20250912182642.GCaMRl4nu7R9C8uP6R@fat_crate.local>
+References: <202505100719.9pE7wDfB-lkp@intel.com>
+ <CAMj1kXHyVh7KwNyekd8ZAATufnMHyzyMismVf2xW8F=LfBJviQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXHyVh7KwNyekd8ZAATufnMHyzyMismVf2xW8F=LfBJviQ@mail.gmail.com>
 
-On Fri, 2025-09-12 at 11:17 +0300, Dan Carpenter wrote:
-> Hi Eduard,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/b=
-pf-bpf_verifier_state-cleaned-flag-instead-of-REG_LIVE_DONE/20250911-090604
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20250911010437.2779173-10-eddyz8=
-7%40gmail.com
-> patch subject: [PATCH bpf-next v1 09/10] bpf: disable and remove register=
-s chain based liveness
-> config: arm-randconfig-r071-20250911 (https://download.01.org/0day-ci/arc=
-hive/20250912/202509120205.YfzyI2gp-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2=
-1857ae337e0892a5522b6e7337899caa61de2a6)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Closes: https://lore.kernel.org/r/202509120205.YfzyI2gp-lkp@intel.com/
->=20
-> smatch warnings:
-> kernel/bpf/verifier.c:19305 is_state_visited() error: uninitialized symbo=
-l 'err'.
+On Sat, May 10, 2025 at 09:57:23AM +0200, Ard Biesheuvel wrote:
+> The logic is a bit clunky here: for clarity, it could be rewritten as
+> 
+> if (!boot_ghcb) {
+>   early_setup_ghcb();
+>   if (!boot_ghcb)
+>     sev_es_terminate(...);
+> }
 
-Hi Dan,
+I like that. Untested patch below:
 
-Thank you for the report, kernel test robot already notified me here:
-https://lore.kernel.org/bpf/20250911010437.2779173-1-eddyz87@gmail.com/T/#m=
-103a269f4c096b34043bef16fa5f1d629b794968
+---
 
-Thanks,
-Eduard
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Fri, 12 Sep 2025 20:21:39 +0200
+Subject: [PATCH] x86/sev: Clean up boot_ghcb assignment
 
-[...]
+Make it more obvious that early_setup_ghcb() assigns the boot_ghcb
+pointer by simply returning it. This way the code becomes a bit
+more readable and comprehensible.
+
+No functional changes intended.
+
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/202505100719.9pE7wDfB-lkp@intel.com
+---
+ arch/x86/boot/compressed/misc.h          |  2 +-
+ arch/x86/boot/compressed/sev-handle-vc.c |  5 ++++-
+ arch/x86/boot/compressed/sev.c           | 11 +++++++----
+ 3 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
+index db1048621ea2..648f751538de 100644
+--- a/arch/x86/boot/compressed/misc.h
++++ b/arch/x86/boot/compressed/misc.h
+@@ -150,7 +150,7 @@ void sev_prep_identity_maps(unsigned long top_level_pgt);
+ enum es_result vc_decode_insn(struct es_em_ctxt *ctxt);
+ bool insn_has_rep_prefix(struct insn *insn);
+ void sev_insn_decode_init(void);
+-bool early_setup_ghcb(void);
++struct ghcb *early_setup_ghcb(void);
+ #else
+ static inline void sev_enable(struct boot_params *bp)
+ {
+diff --git a/arch/x86/boot/compressed/sev-handle-vc.c b/arch/x86/boot/compressed/sev-handle-vc.c
+index 7530ad8b768b..66b29fbb9f57 100644
+--- a/arch/x86/boot/compressed/sev-handle-vc.c
++++ b/arch/x86/boot/compressed/sev-handle-vc.c
+@@ -101,7 +101,10 @@ void do_boot_stage2_vc(struct pt_regs *regs, unsigned long exit_code)
+ 	struct es_em_ctxt ctxt;
+ 	enum es_result result;
+ 
+-	if (!boot_ghcb && !early_setup_ghcb())
++	if (!boot_ghcb)
++		boot_ghcb = early_setup_ghcb();
++
++	if (!boot_ghcb)
+ 		sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SEV_ES_GEN_REQ);
+ 
+ 	vc_ghcb_invalidate(boot_ghcb);
+diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
+index 6e5c32a53d03..f9dcd1b795d7 100644
+--- a/arch/x86/boot/compressed/sev.c
++++ b/arch/x86/boot/compressed/sev.c
+@@ -75,10 +75,10 @@ void snp_set_page_shared(unsigned long paddr)
+ 	__page_state_change(paddr, paddr, &d);
+ }
+ 
+-bool early_setup_ghcb(void)
++struct ghcb *early_setup_ghcb(void)
+ {
+ 	if (set_page_decrypted((unsigned long)&boot_ghcb_page))
+-		return false;
++		return NULL;
+ 
+ 	/* Page is now mapped decrypted, clear it */
+ 	memset(&boot_ghcb_page, 0, sizeof(boot_ghcb_page));
+@@ -92,7 +92,7 @@ bool early_setup_ghcb(void)
+ 	if (sev_snp_enabled())
+ 		snp_register_ghcb_early(__pa(&boot_ghcb_page));
+ 
+-	return true;
++	return boot_ghcb;
+ }
+ 
+ void snp_accept_memory(phys_addr_t start, phys_addr_t end)
+@@ -216,6 +216,9 @@ void snp_check_features(void)
+ {
+ 	u64 unsupported;
+ 
++	if (!boot_ghcb)
++		boot_ghcb = early_setup_ghcb();
++
+ 	/*
+ 	 * Terminate the boot if hypervisor has enabled any feature lacking
+ 	 * guest side implementation. Pass on the unsupported features mask through
+@@ -224,7 +227,7 @@ void snp_check_features(void)
+ 	 */
+ 	unsupported = snp_get_unsupported_features(sev_status);
+ 	if (unsupported) {
+-		if (ghcb_version < 2 || (!boot_ghcb && !early_setup_ghcb()))
++		if (ghcb_version < 2 || !boot_ghcb)
+ 			sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SNP_UNSUPPORTED);
+ 
+ 		sev_es_ghcb_terminate(boot_ghcb, SEV_TERM_SET_GEN,
+-- 
+2.51.0
+
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
