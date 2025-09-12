@@ -1,131 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565C2311974;
-	Fri, 12 Sep 2025 14:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839CC311959
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 14:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757687519; cv=none; b=GoK6aN7N0xUVsG1cmMfs2tNjzXsew5gOZsGiOq3N49IGaiCjgOpKu45OZdpZ47+oA/500XU+eVbL44IfUgguSoBeV3guAFVb5ETgoI0rMnFaJaSNF5MGyo4tgxvubhQKkOcmdTYWUfgNsESEuvhLEcTdbWGw6LZ4uw9wPX7Z46c=
+	t=1757687748; cv=none; b=JqWE8i/wl+1/3/wigkYCSM6G9fFKbRiO8LiW/4Do3MySU826qAXSg7OHMJ+R2TTy+wyjDF9ZW2QkgsIv5ip/DisvdZHMdwUvj9zIJqEb4Ysb64/XwPyAr0Y/v7qXzXYmQbFyTytr+7L1ObdjcNFa0abfPk6PWUaMPUslGf/UHTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757687519; c=relaxed/simple;
-	bh=pkUfGkCmaT3RWgdS9J7jfl3CH8SCGQ7t0IFRJROM9Xo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Z7wx9REIdrNHT4TU91pvlpn66m4xAXYSWUsxYMCNhsry4IKv0DnKQ+NSyihMOWtEK4VrPOUqXmMh+ZlDcvqm+gTyTkMoPaVoSndM8NCk+SGo85Ma+R7gF9HVEmVj5fiB9kQxWsw5vDXVPjutYOFP8fQFnBoat7ulrS1/rhubvSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f27FcqYp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757687748; c=relaxed/simple;
+	bh=S98/wY0qAKnBh/Di4ip6sKuKmexA14ZWypJthXy2zO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eznVeH2p9sFrACzuk5whZs/KxKq44aB3EryAm0pFuVJv5La+Xrz3L7nNOLJvEFx908LE7jlYa1ssPy3ZlUAZcYqV2CKw+4mLTBfPk9CUdDyv1htuUBXT/qw8mUvPrXuZdX8uk/bZLgMkC2By7YNYajvnsrvmWy24J1RSl8xFPcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evV6pK35; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f27FcqYp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38065C4CEF5;
-	Fri, 12 Sep 2025 14:31:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757687518;
-	bh=pkUfGkCmaT3RWgdS9J7jfl3CH8SCGQ7t0IFRJROM9Xo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=f27FcqYpUt0PLnZfEphVydhQ/iaYIgawdxJxq/bZM6JLqzU5obg3zr18Pv5Fj+OKy
-	 u6aMgxB7gxM1F6Ixbm/LVJQf0b2FTna6AfMoRvpUbdn+Ezv5vPI2X8c+JzGU4B2rVz
-	 FxFazTvj6lFHsNp5s6XvRJKay/pH8AQcy/zmKatCmg26BuWbOLV6q9LEXFcVqk2uGD
-	 1/VHy9ppha/dEJkqNH6O6oqgDrsyVrghoRYAlwEr/ahFsU0ExGF69BbzM92IBLstgW
-	 xfQIj+sIvkSimqvSLFpflL89Su2DRW31q2jTOM2IH0ELgfpsOsAPBQygCjgHiZtdEf
-	 OzRoqJfaEqXww==
-Date: Fri, 12 Sep 2025 16:31:55 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: kernel test robot <lkp@intel.com>
-cc: Jeongjun Park <aha310510@gmail.com>, llvm@lists.linux.dev, 
-    oe-kbuild-all@lists.linux.dev, Benjamin Tissoires <bentiss@kernel.org>, 
-    linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] HID: steelseries: Fix STEELSERIES_SRWS1 handling in
- steelseries_remove() (was [linux-next:master 1042/7110] drivers/hid/hid-steelseries.c:599:1:
- warning: unused label 'srws1_remove')
-In-Reply-To: <202509090334.76D4qGtW-lkp@intel.com>
-Message-ID: <r1np627r-0734-23o1-s9sr-7pnqq0qn577o@xreary.bet>
-References: <202509090334.76D4qGtW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evV6pK35"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757687746; x=1789223746;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S98/wY0qAKnBh/Di4ip6sKuKmexA14ZWypJthXy2zO8=;
+  b=evV6pK35wUeZFp0Qy5TkNP4t//4cZtboWNqOBAVQH+SR6ckOUcN0c+lx
+   iY/4aThGoTBu5Pi9x/6bXBCsGmclfiMDvhzxQxdwW8KWT7reR+96p191F
+   PeKLwITYc9DWgjOxD/Gwam03Oj1HANoxf2Iv4b7s3gLfsJJbo4M3q8osu
+   WVQBKf94BaIHCyuls1HXNsh/e5vF8sbOPmKXltCZhsQwBWEcZhf9HkvTu
+   CH7vRo9CRTy+5f8ejqnyIp3YJ3ODC8C03bscahIWQqSZuBl6o67GboEKl
+   5CCSCq4loolw8ntTUl4fpHjiirJAdoaNE582+ng96gNJFaPj+vUlGxtnb
+   A==;
+X-CSE-ConnectionGUID: qXt+AY/cQpqjuR4ZB+qtdg==
+X-CSE-MsgGUID: 1TB+jfZYTXmPWZapMFZwoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63856194"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63856194"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 07:35:46 -0700
+X-CSE-ConnectionGUID: wus1ohaFQN6BnSvM6SSATg==
+X-CSE-MsgGUID: r7YtkK4RSAyLVqqXIy2YNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="197669403"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 12 Sep 2025 07:35:45 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ux4sI-000132-2V;
+	Fri, 12 Sep 2025 14:35:42 +0000
+Date: Fri, 12 Sep 2025 22:35:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 6797/8719] include/linux/compiler_types.h:572:45:
+ error: call to '__compiletime_assert_246' declared with attribute error:
+ BUILD_BUG_ON failed: init___fls < 32
+Message-ID: <202509122223.e2rgRgAI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 9 Sep 2025, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   590b221ed4256fd6c34d3dea77aa5bd6e741bbc1
+commit: 95719dfa323709c06ec34cc96e73e0788e19934f [6797/8719] KUnit: ffs: Validate all the __attribute_const__ annotations
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250912/202509122223.e2rgRgAI-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509122223.e2rgRgAI-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   3e8e5822146bc396d2a7e5fbb7be13271665522a
-> commit: a84eeacbf9325fd7f604b80f246aaba157730cd5 [1042/7110] HID: steelseries: refactor probe() and remove()
-> config: um-randconfig-002-20250908 (https://download.01.org/0day-ci/archive/20250909/202509090334.76D4qGtW-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250909/202509090334.76D4qGtW-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509090334.76D4qGtW-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/hid/hid-steelseries.c:13:
->    In file included from include/linux/hid.h:29:
->    In file included from include/linux/hid_bpf.h:6:
->    In file included from include/linux/bpf.h:31:
->    In file included from include/linux/memcontrol.h:13:
->    In file included from include/linux/cgroup.h:27:
->    In file included from include/linux/kernel_stat.h:8:
->    In file included from include/linux/interrupt.h:11:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:12:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->     1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
->          |                                                   ~~~~~~~~~~ ^
-> >> drivers/hid/hid-steelseries.c:599:1: warning: unused label 'srws1_remove' [-Wunused-label]
->      599 | srws1_remove:
->          | ^~~~~~~~~~~~~
->    2 warnings generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509122223.e2rgRgAI-lkp@intel.com/
 
-[ adding CCs ]
+Note: the linux-next/master HEAD 590b221ed4256fd6c34d3dea77aa5bd6e741bbc1 builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   lib/tests/ffs_kunit.c: In function 'build_test___fls.isra':
+>> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_246' declared with attribute error: BUILD_BUG_ON failed: init___fls < 32
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
+     553 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   lib/tests/ffs_kunit.c:510:9: note: in expansion of macro 'BUILD_BUG_ON'
+     510 |         BUILD_BUG_ON(init_##func < 32);                                 \
+         |         ^~~~~~~~~~~~
+   lib/tests/ffs_kunit.c:521:1: note: in expansion of macro 'CREATE_WRAPPER'
+     521 | CREATE_WRAPPER(__fls)
+         | ^~~~~~~~~~~~~~
 
 
+vim +/__compiletime_assert_246 +572 include/linux/compiler_types.h
 
-From: Jiri Kosina <jkosina@suse.com>
-Subject: [PATCH] HID: steelseries: Fix STEELSERIES_SRWS1 handling in steelseries_remove()
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
 
-srws1_remove label can be only reached only if LEDS subsystem is enabled. 
-To avoid putting horryfing ifdef second time around the label, just 
-perform the cleanup and exit immediately directly.
+:::::: The code at line 572 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-Fixes: a84eeacbf9325 ("HID: steelseries: refactor probe() and remove()")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202509090334.76D4qGtW-lkp@intel.com/
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
----
- drivers/hid/hid-steelseries.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-steelseries.c b/drivers/hid/hid-steelseries.c
-index 8af98d67959e..f98435631aa1 100644
---- a/drivers/hid/hid-steelseries.c
-+++ b/drivers/hid/hid-steelseries.c
-@@ -582,7 +582,7 @@ static void steelseries_remove(struct hid_device *hdev)
- 	if (hdev->product == USB_DEVICE_ID_STEELSERIES_SRWS1) {
- #if IS_BUILTIN(CONFIG_LEDS_CLASS) || \
-     (IS_MODULE(CONFIG_LEDS_CLASS) && IS_MODULE(CONFIG_HID_STEELSERIES))
--		goto srws1_remove;
-+		hid_hw_stop(hdev);
- #endif
- 		return;
- 	}
-@@ -596,7 +596,6 @@ static void steelseries_remove(struct hid_device *hdev)
- 	cancel_delayed_work_sync(&sd->battery_work);
- 
- 	hid_hw_close(hdev);
--srws1_remove:
- 	hid_hw_stop(hdev);
- }
- 
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
