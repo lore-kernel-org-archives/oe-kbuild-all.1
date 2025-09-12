@@ -1,76 +1,68 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5983C2D0634
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 08:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A222D0614;
+	Fri, 12 Sep 2025 08:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665312; cv=none; b=ITpCiNDnHdZeJcb15lUrWtaOUQarr3R5Fip4DcBO26/7/dQHQVlb/YScZOHvkfuLzrvezwQZu1vaIARIxGVuTwvgbzEF90nEQAEm7Qvss8enPOe6UMffZ2he0rPWVLY1vt/keBfPjIPx8Atn7Zp/rFKNpkxCQVxqDldytrvNNBY=
+	t=1757666502; cv=none; b=V/TOKXk50TTIUrQbAi+y7IQgIIpgkXAiVV0c2EMq8bw6YxMAozVGH2HlojGBqrpCJjrirJ8BChLE9EkqSSnC9UfKeWf3521Pf9aTu6dssmrI9rDtYxgwa2fmVCMxl6SXeQXLWVLVM/kXmnp/Zxdol+EvdiE2b7cHH772wL1w+2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757665312; c=relaxed/simple;
-	bh=qZUNdYRrarMZrx/I2jScYFyIRFcUWFIjiLtabn+O6tY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=aZxSV9k/uVtZ1/7NESsKm7Qh7NT8G4CayTcHrNsoZmXs3ehcIhx2jlHcPd3HufvG6N89tkbN3kccUYstjYNftanW5udlMHIJAa7wZWoObLCohsQQIsm7DGtK61JzpVnS2hB5QrCqDw6/+UyEyFoblZKe/Btfj0FypS4qOV3zGoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lhUP9OBa; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757666502; c=relaxed/simple;
+	bh=s5L8KoQhFU2ZA3F7R+EwAJEVzdr9sPoSaPCLEf7lhGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AqKZI0x5CTvF/LhYSXtJJuda4UfbOKr1fGzaZTt7mJfJMQeQcWH0fFnCBY1k61JqGF2Yhb0EHX/m1TMOOI6LqgJ1yjBvOnc1ZazLLOeqK88RnhzVrJzvRdG1ZjexxYcSX2TLirBf6SjHTrxIMbrroahfvgfaHeWDtAisCIRHVac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQB7FqmP; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lhUP9OBa"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45f2313dd86so3074445e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 01:21:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757665308; x=1758270108; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W60sZMoMdyLE26ZTuIL3nBsOV3BIJdUY+5uCUKpKW8g=;
-        b=lhUP9OBaxvTf8/iC25ITgvx/afzNhcSF25A4oJGu8bx0lHAGw1vIU3UIErOM6euCe1
-         Cf8E1hnuptHY/lW9RxCriahqCqrRZcH1btC+AzvumfAPGSRpz4CeKd4g7nFJM3RgVevX
-         gtGON9uDvc2aVOE6yxy9Z/xoWRn1x/iD2eQEYBl6uxxlPMjxC2LTLlx52U3ixVZrN5ZH
-         3gxV/Pyi7Y6rGGhAwXZlXzs7pKK4nI/B/yJ53RNL92CeZ1AFA5RbDCpokQ8BXstEoLdm
-         sMbyySTZLkMJswA0NPu/dMG6JZYw1ioSqKoLn7YSQJE1xserPLPhR57/5hEYuogohVsF
-         oTNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665308; x=1758270108;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W60sZMoMdyLE26ZTuIL3nBsOV3BIJdUY+5uCUKpKW8g=;
-        b=VvUjbp10YRvillsJCSpOYFITPI+cCS9nLEHBNHrLS+f3n9aG3J2lhG/JTN3X33FnJG
-         RfZK7oJmRzCISLerzHgmxoF3h9oa6zeDDC/nSgbwnyvkLh2hUh5T53uW8ZmqOFo6mf7I
-         GQ/ZqhMOYArIzNH8j54kEYgSvYJksHv+7OOm1IoEdEgdoTvzb1kIqLx8lmQ1ym6pvvOW
-         leCp/Mi/E7YMEIxqItZZtmrJqkGqfsxRehPELhSu9i0jz1sg1iYPFc9851FjtOwwMAhe
-         eSSDs8gkk1YrT5gmEr2jazOvDnbeIcFIgMtRxtDhnPLhc16heLIiG4quhekcB1pG1lLe
-         8okQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX88iZKbH5XNoGNYVXGlX5czt9O8yb25W6Dc7SL2O52o1EUJ738i/n5+DjNa+ixTc+sN9+/dRwd4dJYb0Zd@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMvAHhZutPcv5UBV9R6kKHYiDtjEvykD2wbKtti+UcUv7WlP4O
-	Thg3sTHS0ka5M5eX8D5tEMvGjYOktTl2noGJRl2AR/IjdU35jX3aU8PYXEkDHIL71NQ=
-X-Gm-Gg: ASbGncunXwsX5kmwT4vwSH/0qkxitTOGLph+aVebwh699awY9iMm5s0XX6eroXSp5/A
-	1DsY7mdSWCiwnRy+cDQ5md7eeqXkv+XYgrCXJrCd9KKBV6ByNhem86i/G+M9RQy83uGG7+77X1e
-	iAk0g5bK1a3AnYgx04F/zad7r6JaN8OPfu7YW7C0cuIdFXk7zylQJhFV0+uyWMFrCI7/apb4uOr
-	IQT7muLNrYlRiNf6jxuJrG85MBzHMnyXqkBUcln2014g+5AhGT9U628VArRwL5Co7mPZ3SnuVxb
-	ofkho/RIIa5SREIfirSnwXhytswpruYcWB2mFgNOTJnDHAeHMjvzUVy6whDYIUqd0Jfg35B8dr5
-	D+dkwSFaJLTlHUaZbQMjrAW5HMr33IBWXTLX/Gg==
-X-Google-Smtp-Source: AGHT+IFTVzbYTElrhk+3fv8FZJj0pkcZ0zRcQ2nWpXCv1OCHxc8/2XmvcN8Ey7vGOZneILg1INJRRw==
-X-Received: by 2002:a7b:c006:0:b0:45a:236a:23ba with SMTP id 5b1f17b1804b1-45f211f6b92mr13416655e9.22.1757665307562;
-        Fri, 12 Sep 2025 01:21:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45e016b5cbcsm56441345e9.11.2025.09.12.01.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 01:21:47 -0700 (PDT)
-Date: Fri, 12 Sep 2025 11:21:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Thomas Bertschinger <tahbertschinger@gmail.com>,
-	io-uring@vger.kernel.org, axboe@kernel.dk,
-	linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, linux-nfs@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Thomas Bertschinger <tahbertschinger@gmail.com>,
-	Amir Goldstein <amir73il@gmail.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Subject: Re: [PATCH 07/10] exportfs: new FILEID_CACHED flag for non-blocking
- fh lookup
-Message-ID: <202509120423.cZlR8oLY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQB7FqmP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757666500; x=1789202500;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s5L8KoQhFU2ZA3F7R+EwAJEVzdr9sPoSaPCLEf7lhGk=;
+  b=hQB7FqmPMhuHUGGbhEYs0/+FNK/NDBx25CE9+C4rg6I2KmIGveSUCyS3
+   dXMbkvmRd6AYCa4RcX3TijAoOCZbCWjI3ZAMwAmYOapUnfFZeUzp59bS/
+   fvTwyL98rn4dfiLzLmY62BKyNM6sCFLpPJY1qNMlFJvsEUfw4n2zjXOUa
+   zqaSq+yOvUo2xQggpSAloQujm+egzaTAAG5LMhsHGaxAb111jh+MVmEb0
+   ysjeQ7l/fjUyeDHLZC5pQ6wepi/+442CEXjdgdTddyl97O5gcoouD9JVm
+   GgchqWPOJW0QJFsOi6AuethRTLJKgfDBnzgFm1Bhd4uyvSbLa6d23uYPJ
+   Q==;
+X-CSE-ConnectionGUID: E6Gjb82bRmOWfU9C1dB5ZQ==
+X-CSE-MsgGUID: VYDCc5w4QKqyN4nfCMLcoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="71383689"
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="71383689"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 01:41:39 -0700
+X-CSE-ConnectionGUID: j6s540COTtGz3/1djA5P9A==
+X-CSE-MsgGUID: zAsxY1E6RuKF6m59R8TUcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
+   d="scan'208";a="173825302"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 12 Sep 2025 01:41:35 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwzLY-0000vY-24;
+	Fri, 12 Sep 2025 08:41:32 +0000
+Date: Fri, 12 Sep 2025 16:41:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	rust-for-linux@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, daniel@sedlak.dev,
+	dirk.behme@de.bosch.com, felipe_life@live.com, tamird@gmail.com,
+	dakr@kernel.org, tmgross@umich.edu, aliceryhl@google.com,
+	a.hindborg@kernel.org, lossin@kernel.org, bjorn3_gh@protonmail.com,
+	gary@garyguo.net, boqun.feng@gmail.com, alex.gaynor@gmail.com,
+	ojeda@kernel.org,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Subject: Re: [PATCH v2 1/1] rust: refactor to_result to return the original
+ value
+Message-ID: <202509121607.yxpZ3HBS-lkp@intel.com>
+References: <20250909170013.16025-2-work@onurozkan.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,200 +71,360 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250910214927.480316-8-tahbertschinger@gmail.com>
+In-Reply-To: <20250909170013.16025-2-work@onurozkan.dev>
 
-Hi Thomas,
+Hi Onur,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Bertschinger/fhandle-create-helper-for-name_to_handle_at-2/20250911-054830
-base:   76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
-patch link:    https://lore.kernel.org/r/20250910214927.480316-8-tahbertschinger%40gmail.com
-patch subject: [PATCH 07/10] exportfs: new FILEID_CACHED flag for non-blocking fh lookup
-config: arm-randconfig-r071-20250911 (https://download.01.org/0day-ci/archive/20250912/202509120423.cZlR8oLY-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+[auto build test ERROR on broonie-regulator/for-next]
+[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus rafael-pm/linux-next rafael-pm/bleeding-edge rust/alloc-next rust/rust-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus akpm-mm/mm-everything pci/next pci/for-linus rust/rust-block-next linus/master v6.17-rc5 next-20250912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/rust-refactor-to_result-to-return-the-original-value/20250910-010803
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250909170013.16025-2-work%40onurozkan.dev
+patch subject: [PATCH v2 1/1] rust: refactor to_result to return the original value
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250912/202509121607.yxpZ3HBS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509121607.yxpZ3HBS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509120423.cZlR8oLY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509121607.yxpZ3HBS-lkp@intel.com/
 
-smatch warnings:
-fs/exportfs/expfs.c:539 exportfs_decode_fh_raw() warn: maybe use && instead of &
+All errors (new ones prefixed by >>):
 
-vim +539 fs/exportfs/expfs.c
-
-d045465fc6cbfa4 Trond Myklebust     2020-11-30  437  struct dentry *
-d045465fc6cbfa4 Trond Myklebust     2020-11-30  438  exportfs_decode_fh_raw(struct vfsmount *mnt, struct fid *fid, int fh_len,
-620c266f394932e Christian Brauner   2024-05-24  439  		       int fileid_type, unsigned int flags,
-d045465fc6cbfa4 Trond Myklebust     2020-11-30  440  		       int (*acceptable)(void *, struct dentry *),
-d045465fc6cbfa4 Trond Myklebust     2020-11-30  441  		       void *context)
-d37065cd6d6bbe9 Christoph Hellwig   2007-07-17  442  {
-39655164405940d Christoph Hellwig   2007-10-21  443  	const struct export_operations *nop = mnt->mnt_sb->s_export_op;
-638205375afdc8a Thomas Bertschinger 2025-09-10  444  	bool decode_cached = fileid_type & FILEID_CACHED;
-2596110a3994593 Christoph Hellwig   2007-10-21  445  	struct dentry *result, *alias;
-f3f8e17571934ea Al Viro             2008-08-11  446  	char nbuf[NAME_MAX+1];
-2596110a3994593 Christoph Hellwig   2007-10-21  447  	int err;
-d37065cd6d6bbe9 Christoph Hellwig   2007-07-17  448  
-4a530a7c751d27f Amir Goldstein      2024-10-11  449  	if (fileid_type < 0 || FILEID_USER_FLAGS(fileid_type))
-4a530a7c751d27f Amir Goldstein      2024-10-11  450  		return ERR_PTR(-EINVAL);
-4a530a7c751d27f Amir Goldstein      2024-10-11  451  
-2596110a3994593 Christoph Hellwig   2007-10-21  452  	/*
-2596110a3994593 Christoph Hellwig   2007-10-21  453  	 * Try to get any dentry for the given file handle from the filesystem.
-2596110a3994593 Christoph Hellwig   2007-10-21  454  	 */
-66c62769bcf6aa1 Amir Goldstein      2023-10-23  455  	if (!exportfs_can_decode_fh(nop))
-becfd1f37544798 Aneesh Kumar K.V    2011-01-29  456  		return ERR_PTR(-ESTALE);
-638205375afdc8a Thomas Bertschinger 2025-09-10  457  
-638205375afdc8a Thomas Bertschinger 2025-09-10  458  	if (decode_cached && !(nop->flags & EXPORT_OP_NONBLOCK))
-638205375afdc8a Thomas Bertschinger 2025-09-10  459  		return ERR_PTR(-EAGAIN);
-638205375afdc8a Thomas Bertschinger 2025-09-10  460  
-2596110a3994593 Christoph Hellwig   2007-10-21  461  	result = nop->fh_to_dentry(mnt->mnt_sb, fid, fh_len, fileid_type);
-09bb8bfffd29c3d NeilBrown           2016-08-04  462  	if (IS_ERR_OR_NULL(result))
-d045465fc6cbfa4 Trond Myklebust     2020-11-30  463  		return result;
-2596110a3994593 Christoph Hellwig   2007-10-21  464  
-620c266f394932e Christian Brauner   2024-05-24  465  	if ((flags & EXPORT_FH_DIR_ONLY) && !d_is_dir(result)) {
-620c266f394932e Christian Brauner   2024-05-24  466  		err = -ENOTDIR;
-620c266f394932e Christian Brauner   2024-05-24  467  		goto err_result;
-620c266f394932e Christian Brauner   2024-05-24  468  	}
-620c266f394932e Christian Brauner   2024-05-24  469  
-8a22efa15b46d52 Amir Goldstein      2018-03-09  470  	/*
-8a22efa15b46d52 Amir Goldstein      2018-03-09  471  	 * If no acceptance criteria was specified by caller, a disconnected
-8a22efa15b46d52 Amir Goldstein      2018-03-09  472  	 * dentry is also accepatable. Callers may use this mode to query if
-8a22efa15b46d52 Amir Goldstein      2018-03-09  473  	 * file handle is stale or to get a reference to an inode without
-8a22efa15b46d52 Amir Goldstein      2018-03-09  474  	 * risking the high overhead caused by directory reconnect.
-8a22efa15b46d52 Amir Goldstein      2018-03-09  475  	 */
-8a22efa15b46d52 Amir Goldstein      2018-03-09  476  	if (!acceptable)
-8a22efa15b46d52 Amir Goldstein      2018-03-09  477  		return result;
-8a22efa15b46d52 Amir Goldstein      2018-03-09  478  
-e36cb0b89ce20b4 David Howells       2015-01-29  479  	if (d_is_dir(result)) {
-2596110a3994593 Christoph Hellwig   2007-10-21  480  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  481  		 * This request is for a directory.
-2596110a3994593 Christoph Hellwig   2007-10-21  482  		 *
-2596110a3994593 Christoph Hellwig   2007-10-21  483  		 * On the positive side there is only one dentry for each
-2596110a3994593 Christoph Hellwig   2007-10-21  484  		 * directory inode.  On the negative side this implies that we
-2596110a3994593 Christoph Hellwig   2007-10-21  485  		 * to ensure our dentry is connected all the way up to the
-2596110a3994593 Christoph Hellwig   2007-10-21  486  		 * filesystem root.
-2596110a3994593 Christoph Hellwig   2007-10-21  487  		 */
-2596110a3994593 Christoph Hellwig   2007-10-21  488  		if (result->d_flags & DCACHE_DISCONNECTED) {
-638205375afdc8a Thomas Bertschinger 2025-09-10  489  			err = -EAGAIN;
-638205375afdc8a Thomas Bertschinger 2025-09-10  490  			if (decode_cached)
-638205375afdc8a Thomas Bertschinger 2025-09-10  491  				goto err_result;
-638205375afdc8a Thomas Bertschinger 2025-09-10  492  
-f3f8e17571934ea Al Viro             2008-08-11  493  			err = reconnect_path(mnt, result, nbuf);
-2596110a3994593 Christoph Hellwig   2007-10-21  494  			if (err)
-2596110a3994593 Christoph Hellwig   2007-10-21  495  				goto err_result;
-2596110a3994593 Christoph Hellwig   2007-10-21  496  		}
-2596110a3994593 Christoph Hellwig   2007-10-21  497  
-2596110a3994593 Christoph Hellwig   2007-10-21  498  		if (!acceptable(context, result)) {
-2596110a3994593 Christoph Hellwig   2007-10-21  499  			err = -EACCES;
-2596110a3994593 Christoph Hellwig   2007-10-21  500  			goto err_result;
-2596110a3994593 Christoph Hellwig   2007-10-21  501  		}
-2596110a3994593 Christoph Hellwig   2007-10-21  502  
-2596110a3994593 Christoph Hellwig   2007-10-21  503  		return result;
-2596110a3994593 Christoph Hellwig   2007-10-21  504  	} else {
-2596110a3994593 Christoph Hellwig   2007-10-21  505  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  506  		 * It's not a directory.  Life is a little more complicated.
-2596110a3994593 Christoph Hellwig   2007-10-21  507  		 */
-2596110a3994593 Christoph Hellwig   2007-10-21  508  		struct dentry *target_dir, *nresult;
-2596110a3994593 Christoph Hellwig   2007-10-21  509  
-2596110a3994593 Christoph Hellwig   2007-10-21  510  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  511  		 * See if either the dentry we just got from the filesystem
-2596110a3994593 Christoph Hellwig   2007-10-21  512  		 * or any alias for it is acceptable.  This is always true
-2596110a3994593 Christoph Hellwig   2007-10-21  513  		 * if this filesystem is exported without the subtreecheck
-2596110a3994593 Christoph Hellwig   2007-10-21  514  		 * option.  If the filesystem is exported with the subtree
-2596110a3994593 Christoph Hellwig   2007-10-21  515  		 * check option there's a fair chance we need to look at
-2596110a3994593 Christoph Hellwig   2007-10-21  516  		 * the parent directory in the file handle and make sure
-2596110a3994593 Christoph Hellwig   2007-10-21  517  		 * it's connected to the filesystem root.
-2596110a3994593 Christoph Hellwig   2007-10-21  518  		 */
-2596110a3994593 Christoph Hellwig   2007-10-21  519  		alias = find_acceptable_alias(result, acceptable, context);
-2596110a3994593 Christoph Hellwig   2007-10-21  520  		if (alias)
-2596110a3994593 Christoph Hellwig   2007-10-21  521  			return alias;
-2596110a3994593 Christoph Hellwig   2007-10-21  522  
-2596110a3994593 Christoph Hellwig   2007-10-21  523  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  524  		 * Try to extract a dentry for the parent directory from the
-2596110a3994593 Christoph Hellwig   2007-10-21  525  		 * file handle.  If this fails we'll have to give up.
-2596110a3994593 Christoph Hellwig   2007-10-21  526  		 */
-2596110a3994593 Christoph Hellwig   2007-10-21  527  		err = -ESTALE;
-2596110a3994593 Christoph Hellwig   2007-10-21  528  		if (!nop->fh_to_parent)
-2596110a3994593 Christoph Hellwig   2007-10-21  529  			goto err_result;
-2596110a3994593 Christoph Hellwig   2007-10-21  530  
-2596110a3994593 Christoph Hellwig   2007-10-21  531  		target_dir = nop->fh_to_parent(mnt->mnt_sb, fid,
-2596110a3994593 Christoph Hellwig   2007-10-21  532  				fh_len, fileid_type);
-a4f4d6df5373682 J. Bruce Fields     2008-12-08  533  		if (!target_dir)
-a4f4d6df5373682 J. Bruce Fields     2008-12-08  534  			goto err_result;
-2596110a3994593 Christoph Hellwig   2007-10-21  535  		err = PTR_ERR(target_dir);
-2596110a3994593 Christoph Hellwig   2007-10-21  536  		if (IS_ERR(target_dir))
-2596110a3994593 Christoph Hellwig   2007-10-21  537  			goto err_result;
-638205375afdc8a Thomas Bertschinger 2025-09-10  538  		err = -EAGAIN;
-638205375afdc8a Thomas Bertschinger 2025-09-10 @539  		if (decode_cached & (target_dir->d_flags & DCACHE_DISCONNECTED)) {
-
-It needs to be &&.  DCACHE_DISCONNECTED is BIT(5).
-
-638205375afdc8a Thomas Bertschinger 2025-09-10  540  			goto err_result;
-638205375afdc8a Thomas Bertschinger 2025-09-10  541  		}
-2596110a3994593 Christoph Hellwig   2007-10-21  542  
-2596110a3994593 Christoph Hellwig   2007-10-21  543  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  544  		 * And as usual we need to make sure the parent directory is
-2596110a3994593 Christoph Hellwig   2007-10-21  545  		 * connected to the filesystem root.  The VFS really doesn't
-2596110a3994593 Christoph Hellwig   2007-10-21  546  		 * like disconnected directories..
-2596110a3994593 Christoph Hellwig   2007-10-21  547  		 */
-f3f8e17571934ea Al Viro             2008-08-11  548  		err = reconnect_path(mnt, target_dir, nbuf);
-2596110a3994593 Christoph Hellwig   2007-10-21  549  		if (err) {
-2596110a3994593 Christoph Hellwig   2007-10-21  550  			dput(target_dir);
-2596110a3994593 Christoph Hellwig   2007-10-21  551  			goto err_result;
-2596110a3994593 Christoph Hellwig   2007-10-21  552  		}
-2596110a3994593 Christoph Hellwig   2007-10-21  553  
-2596110a3994593 Christoph Hellwig   2007-10-21  554  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  555  		 * Now that we've got both a well-connected parent and a
-2596110a3994593 Christoph Hellwig   2007-10-21  556  		 * dentry for the inode we're after, make sure that our
-2596110a3994593 Christoph Hellwig   2007-10-21  557  		 * inode is actually connected to the parent.
-2596110a3994593 Christoph Hellwig   2007-10-21  558  		 */
-e38f981758118d8 Christoph Hellwig   2007-10-21  559  		err = exportfs_get_name(mnt, target_dir, nbuf, result);
-a2ece088882666e Al Viro             2019-11-08  560  		if (err) {
-a2ece088882666e Al Viro             2019-11-08  561  			dput(target_dir);
-a2ece088882666e Al Viro             2019-11-08  562  			goto err_result;
-a2ece088882666e Al Viro             2019-11-08  563  		}
-a2ece088882666e Al Viro             2019-11-08  564  
-ce3490038971a20 NeilBrown           2025-06-09  565  		nresult = lookup_one_unlocked(mnt_idmap(mnt), &QSTR(nbuf), target_dir);
-2596110a3994593 Christoph Hellwig   2007-10-21  566  		if (!IS_ERR(nresult)) {
-a2ece088882666e Al Viro             2019-11-08  567  			if (unlikely(nresult->d_inode != result->d_inode)) {
-2596110a3994593 Christoph Hellwig   2007-10-21  568  				dput(nresult);
-a2ece088882666e Al Viro             2019-11-08  569  				nresult = ERR_PTR(-ESTALE);
-2596110a3994593 Christoph Hellwig   2007-10-21  570  			}
-2596110a3994593 Christoph Hellwig   2007-10-21  571  		}
-2596110a3994593 Christoph Hellwig   2007-10-21  572  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  573  		 * At this point we are done with the parent, but it's pinned
-2596110a3994593 Christoph Hellwig   2007-10-21  574  		 * by the child dentry anyway.
-2596110a3994593 Christoph Hellwig   2007-10-21  575  		 */
-2596110a3994593 Christoph Hellwig   2007-10-21  576  		dput(target_dir);
-2596110a3994593 Christoph Hellwig   2007-10-21  577  
-a2ece088882666e Al Viro             2019-11-08  578  		if (IS_ERR(nresult)) {
-a2ece088882666e Al Viro             2019-11-08  579  			err = PTR_ERR(nresult);
-a2ece088882666e Al Viro             2019-11-08  580  			goto err_result;
-a2ece088882666e Al Viro             2019-11-08  581  		}
-a2ece088882666e Al Viro             2019-11-08  582  		dput(result);
-a2ece088882666e Al Viro             2019-11-08  583  		result = nresult;
-a2ece088882666e Al Viro             2019-11-08  584  
-2596110a3994593 Christoph Hellwig   2007-10-21  585  		/*
-2596110a3994593 Christoph Hellwig   2007-10-21  586  		 * And finally make sure the dentry is actually acceptable
-2596110a3994593 Christoph Hellwig   2007-10-21  587  		 * to NFSD.
-2596110a3994593 Christoph Hellwig   2007-10-21  588  		 */
-2596110a3994593 Christoph Hellwig   2007-10-21  589  		alias = find_acceptable_alias(result, acceptable, context);
-2596110a3994593 Christoph Hellwig   2007-10-21  590  		if (!alias) {
-2596110a3994593 Christoph Hellwig   2007-10-21  591  			err = -EACCES;
-2596110a3994593 Christoph Hellwig   2007-10-21  592  			goto err_result;
-2596110a3994593 Christoph Hellwig   2007-10-21  593  		}
-2596110a3994593 Christoph Hellwig   2007-10-21  594  
-2596110a3994593 Christoph Hellwig   2007-10-21  595  		return alias;
-2596110a3994593 Christoph Hellwig   2007-10-21  596  	}
-2596110a3994593 Christoph Hellwig   2007-10-21  597  
-2596110a3994593 Christoph Hellwig   2007-10-21  598   err_result:
-2596110a3994593 Christoph Hellwig   2007-10-21  599  	dput(result);
-2596110a3994593 Christoph Hellwig   2007-10-21  600  	return ERR_PTR(err);
-10f11c341da8c0e Christoph Hellwig   2007-07-17  601  }
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/configfs.rs:181:17
+   |
+>> 179 |             crate::error::to_result(
+   |             ----------------------- required by a bound introduced by this call
+   180 |                 // SAFETY: We initialized `this.subsystem` according to C API contract above.
+   181 |                 unsafe { bindings::configfs_register_subsystem(this.subsystem.get()) },
+   |                 ^^^^^^^^^-----------------------------------------------------------^^
+   |                 |        |
+   |                 |        this tail expression is of type `i32`
+   |                 the trait `From<()>` is not implemented for `i32`
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy/reg.rs:122:19
+   |
+   122 |           to_result(unsafe {
+   |  _________---------_^
+   | |         |
+   | |         required by a bound introduced by this call
+   123 | |             bindings::mdiobus_write((*phydev).mdio.bus, (*phydev).mdio.addr, self.0.into(), val)
+   | |             ------------------------------------------------------------------------------------ this tail expression is of type `i32`
+   124 | |         })
+   | |_________^ the trait `From<()>` is not implemented for `i32`
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy/reg.rs:211:19
+   |
+   211 |           to_result(unsafe {
+   |  _________---------_^
+   | |         |
+   | |         required by a bound introduced by this call
+   212 | |             bindings::phy_write_mmd(phydev, self.devad.0.into(), self.regnum.into(), val)
+   | |             ----------------------------------------------------------------------------- this tail expression is of type `i32`
+   213 | |         })
+   | |_________^ the trait `From<()>` is not implemented for `i32`
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:219:19
+   |
+   219 |         to_result(unsafe { bindings::genphy_soft_reset(phydev) })
+   |         --------- ^^^^^^^^^-----------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:227:19
+   |
+   227 |         to_result(unsafe { bindings::phy_init_hw(phydev) })
+   |         --------- ^^^^^^^^^-----------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:235:19
+   |
+   235 |         to_result(unsafe { bindings::_phy_start_aneg(phydev) })
+   |         --------- ^^^^^^^^^---------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:243:19
+   |
+   243 |         to_result(unsafe { bindings::genphy_resume(phydev) })
+   |         --------- ^^^^^^^^^-------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:251:19
+   |
+   251 |         to_result(unsafe { bindings::genphy_suspend(phydev) })
+   |         --------- ^^^^^^^^^--------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:264:19
+   |
+   264 |         to_result(unsafe { bindings::genphy_update_link(phydev) })
+   |         --------- ^^^^^^^^^------------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:272:19
+   |
+   272 |         to_result(unsafe { bindings::genphy_read_lpa(phydev) })
+   |         --------- ^^^^^^^^^---------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+--
+>> error[E0277]: the trait bound `i32: From<()>` is not satisfied
+   --> rust/kernel/net/phy.rs:280:19
+   |
+   280 |         to_result(unsafe { bindings::genphy_read_abilities(phydev) })
+   |         --------- ^^^^^^^^^---------------------------------------^^
+   |         |         |        |
+   |         |         |        this tail expression is of type `i32`
+   |         |         the trait `From<()>` is not implemented for `i32`
+   |         required by a bound introduced by this call
+   |
+   = help: the following other types implement trait `From<T>`:
+   `i32` implements `From<CpuId>`
+   `i32` implements `From<bool>`
+   `i32` implements `From<i16>`
+   `i32` implements `From<i8>`
+   `i32` implements `From<u16>`
+   `i32` implements `From<u8>`
+   = note: required for `()` to implement `Into<i32>`
+   = note: required for `i32` to implement `TryFrom<()>`
+   = note: required for `()` to implement `TryInto<i32>`
+   note: required by a bound in `error::to_result`
+   --> rust/kernel/error.rs:382:15
+   |
+   380 | pub fn to_result<T>(code: T) -> Result<T>
+   |        --------- required by a bound in this function
+   381 | where
+   382 |     T: Copy + TryInto<i32>,
+   |               ^^^^^^^^^^^^ required by this bound in `to_result`
+..
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
