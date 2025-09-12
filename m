@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F931EA7DD;
-	Fri, 12 Sep 2025 10:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E342E6126
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 12:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757674679; cv=none; b=gtTo9ywb6MaDWz49Lm1XzFRUGEroOuHp+QbGYHvY05bbuCvp2DJzWOrz8BZUM4vwuXkyHni4dzXENbsUZMlDxh4dzBi6uPBXJw20OZcwcurAl1qWRLTKTAH6WPcRbR81W/zo4P/lwchAYCS65jzHe3rBu5Pcw51nT/1qp+/4alQ=
+	t=1757679694; cv=none; b=O/yfRr+1oX5AoCmG+5sGzYGU2pvP4Nkf3+WeVXg36PiKlDe2wpRgexECFVGJlUVQrwRp59zgZFRGvN8MiddOIw5gRj3MaOTregwdSzmMsVduWOEnp1CMWRO4iZ2EdcKzDRyFbBEgmg9uR7LzfSB9XCO1Hhar04FlrXYosu+mNWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757674679; c=relaxed/simple;
-	bh=ZxNqMJsmk6/wcW3b5rg08Gmg73xzyfYqmgUVvwakoTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MOL14/yutNKA1CvPiRBucBk6Qf9S8tq9pICekvXxD38T4fFKBm4zfbL2QFjvwHBu9NlvxGYEX7Dp7dVq8HnzpAXKHv1SjO27UKxNf/Q12mUs4imPlSLrl/VjjqhkxC3eRhplwLLVblVDsfuvCvBYOCz0L3BDVQCo3+PQS24dRvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XXp6QrK+; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1757679694; c=relaxed/simple;
+	bh=b5WHxd4xwn9rgvCSXcEEDbW+90LANpn1Bb2s22tI1ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZ04kPwidz1D2v4/LWE8kZPdNRVH71Oh6fDkKSCs7kT27HQprJhkPFLzIlNQMVK6ujaRUf729VmVIjXkdTFrMAv0LLhF69/9Wj3tADZqTqPx312iDgq6sOsBXI1/V0SxaiUdGXiM4s+LcigytSYjXEJYkMqfTCndxSjWu5QNDGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0J9tdwh; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXp6QrK+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0J9tdwh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757674678; x=1789210678;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZxNqMJsmk6/wcW3b5rg08Gmg73xzyfYqmgUVvwakoTw=;
-  b=XXp6QrK+jRhhyielinM+YT3xEQ+80P0GxisG9drQWkT8T03f1kyNhHpR
-   aIM6n3lrG/Bdq8EX/Fi1DliEp8NNIFvtvTt0eQxvQb7evtf60Lkp3gtfT
-   pegtFI+JxQHHsaLQgr8AzyNu2ojC5fdNzerYfbmuUY+nMa71KgJCLN9N6
-   cUP7hb8+ynlitGMHJ4uhfdSNsZ1txAoJLFqVLMK5eSHc1ryFovds7ZrRK
-   pm7BTM7Mxk47vTGFXj2JqkGDV0Ncy3reRobLql0awlYUKpyiQ2Lye0ov0
-   TMnQIJlX9NQ2vMuoBHYANVScyC1sWL8pBAV9qIEdh/mqhBVZk5R7/d6H2
-   w==;
-X-CSE-ConnectionGUID: S2QCRJdXQU2o4uy8HjvkWg==
-X-CSE-MsgGUID: FO4ThXpxS+iaMCznstXMww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="71119575"
+  t=1757679692; x=1789215692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b5WHxd4xwn9rgvCSXcEEDbW+90LANpn1Bb2s22tI1ac=;
+  b=D0J9tdwhhZXY/4tXtLa5GI6ZInnhrCv20rGFGnQkNNbM/O9Au4wF1hAR
+   Op4gwkbHkxX1mxoEGlLeYCyOgAGxqsm373N9f6KcbeeeKKYCkQH6ulvNV
+   eUtkZrDgsxtmrcpJJyFXJu08OE0hVELzx245TwPK33yvAxMLol33gqc0g
+   rzTjslLJ3RFGcIzgHHWkJM4QsaJBuJQbi78EUE+mqy/OFiQftzGp8OGGw
+   KFE4TNibHrh2+PjSgJi5+TV7tWcoYZowMuqE17xcb8IcQjNGAxPViykCC
+   3QA4omfMFZqRCTiZwqL9W8HCcUPAaPZjSsbX8Y6NYZfkNamncbeG7tKCd
+   A==;
+X-CSE-ConnectionGUID: ZKN61xicT8uz/oV7kTddFQ==
+X-CSE-MsgGUID: KMD+iJ1OTDOxrqcHMeF9NA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="70647308"
 X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
-   d="scan'208";a="71119575"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 03:57:57 -0700
-X-CSE-ConnectionGUID: NIJG8MIYRSeYJkkJ4CW8FA==
-X-CSE-MsgGUID: 33Wx/Z2pSYy0w7jeBxbeTQ==
+   d="scan'208";a="70647308"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 05:21:31 -0700
+X-CSE-ConnectionGUID: GEbi4FkfSrOFGVHD0mHSpQ==
+X-CSE-MsgGUID: TN0X/Ch1QVyqm85T/0E1MA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
-   d="scan'208";a="174719308"
+   d="scan'208";a="174396413"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Sep 2025 03:57:55 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 12 Sep 2025 05:21:29 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ux1TV-0000yG-0l;
-	Fri, 12 Sep 2025 10:57:53 +0000
-Date: Fri, 12 Sep 2025 18:57:25 +0800
+	id 1ux2mM-00010m-2S;
+	Fri, 12 Sep 2025 12:21:26 +0000
+Date: Fri, 12 Sep 2025 20:21:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morse:mpam/snapshot/v6.17-rc4 68/88]
- drivers/resctrl/mpam_resctrl.c:416:14: warning: result of comparison of
- constant 65536 with expression of type 'u16' (aka 'unsigned short') is
- always false
-Message-ID: <202509121830.gMaSfEnY-lkp@intel.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Shayne Chen <shayne.chen@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH mt76 5/5] wifi: mt76: mt7996: Add NPU offload support to
+ MT7996 driver
+Message-ID: <202509122047.IrKGvn3P-lkp@intel.com>
+References: <20250910-mt76-npu-devel-v1-5-dbde4a37b9c0@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,115 +70,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250910-mt76-npu-devel-v1-5-dbde4a37b9c0@kernel.org>
 
-Hi James,
+Hi Lorenzo,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.17-rc4
-head:   1e5b9e907a3fa515c3745ed2969a1f285dcc03d2
-commit: ee1ef14f8f760bcf104788390161f092691a366a [68/88] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250912/202509121830.gMaSfEnY-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509121830.gMaSfEnY-lkp@intel.com/reproduce)
+[auto build test WARNING on 8620dfbed395fc72f968dfd07f1b50eba352bae6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/wifi-mt76-Move-Q_READ-Q_WRITE-definitions-in-dma-h/20250910-230350
+base:   8620dfbed395fc72f968dfd07f1b50eba352bae6
+patch link:    https://lore.kernel.org/r/20250910-mt76-npu-devel-v1-5-dbde4a37b9c0%40kernel.org
+patch subject: [PATCH mt76 5/5] wifi: mt76: mt7996: Add NPU offload support to MT7996 driver
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250912/202509122047.IrKGvn3P-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509122047.IrKGvn3P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509121830.gMaSfEnY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509122047.IrKGvn3P-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/resctrl/mpam_resctrl.c:416:14: warning: result of comparison of constant 65536 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-     416 |         if (cfg.mon == USE_RMID_IDX) {
-         |             ~~~~~~~ ^  ~~~~~~~~~~~~
-   drivers/resctrl/mpam_resctrl.c:419:15: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-     419 |                 if (cfg.mon == -1)
-         |                     ~~~~~~~ ^  ~~
-   drivers/resctrl/mpam_resctrl.c:467:14: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-     467 |         if (cfg.mon == -1)
-         |             ~~~~~~~ ^  ~~
-   3 warnings generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/net/wireless/mediatek/mt76/mt7996/main.c:2261:2: warning: use of a '#elifdef' directive is a C23 extension [-Wc23-extensions]
+    2261 | #elifdef CONFIG_MT7996_NPU
+         |  ^
+   2 warnings generated.
 
 
-vim +416 drivers/resctrl/mpam_resctrl.c
+vim +2261 drivers/net/wireless/mediatek/mt76/mt7996/main.c
 
-08ea0634012302 James Morse 2023-03-09  380  
-6a2be13d0ae78b James Morse 2021-06-25  381  int resctrl_arch_rmid_read(struct rdt_resource	*r, struct rdt_mon_domain *d,
-6a2be13d0ae78b James Morse 2021-06-25  382  			   u32 closid, u32 rmid, enum resctrl_event_id eventid,
-6a2be13d0ae78b James Morse 2021-06-25  383  			   u64 *val, void *arch_mon_ctx)
-6a2be13d0ae78b James Morse 2021-06-25  384  {
-6a2be13d0ae78b James Morse 2021-06-25  385  	int err;
-6a2be13d0ae78b James Morse 2021-06-25  386  	u64 cdp_val;
-6a2be13d0ae78b James Morse 2021-06-25  387  	struct mon_cfg cfg;
-6a2be13d0ae78b James Morse 2021-06-25  388  	enum mpam_device_features type;
-6a2be13d0ae78b James Morse 2021-06-25  389  	struct mpam_resctrl_dom *l3_dom;
-6a2be13d0ae78b James Morse 2021-06-25  390  	struct mpam_component *mon_comp;
-6a2be13d0ae78b James Morse 2021-06-25  391  	u32 mon_idx = *(u32 *)arch_mon_ctx;
-6a2be13d0ae78b James Morse 2021-06-25  392  	struct mpam_resctrl_mon *mon = &mpam_resctrl_counters[eventid];
-6a2be13d0ae78b James Morse 2021-06-25  393  
-6a2be13d0ae78b James Morse 2021-06-25  394  	resctrl_arch_rmid_read_context_check();
-6a2be13d0ae78b James Morse 2021-06-25  395  
-6a2be13d0ae78b James Morse 2021-06-25  396  	if (!mon->class)
-6a2be13d0ae78b James Morse 2021-06-25  397  		return -EINVAL;
-6a2be13d0ae78b James Morse 2021-06-25  398  
-6a2be13d0ae78b James Morse 2021-06-25  399  	l3_dom = container_of(d, struct mpam_resctrl_dom, resctrl_mon_dom);
-6a2be13d0ae78b James Morse 2021-06-25  400  	mon_comp = l3_dom->mon_comp[eventid];
-6a2be13d0ae78b James Morse 2021-06-25  401  
-6a2be13d0ae78b James Morse 2021-06-25  402  	switch (eventid) {
-6a2be13d0ae78b James Morse 2021-06-25  403  	case QOS_L3_OCCUP_EVENT_ID:
-6a2be13d0ae78b James Morse 2021-06-25  404  		type = mpam_feat_msmon_csu;
-6a2be13d0ae78b James Morse 2021-06-25  405  		break;
-6a2be13d0ae78b James Morse 2021-06-25  406  	case QOS_L3_MBM_LOCAL_EVENT_ID:
-6a2be13d0ae78b James Morse 2021-06-25  407  	case QOS_L3_MBM_TOTAL_EVENT_ID:
-6a2be13d0ae78b James Morse 2021-06-25  408  		type = mpam_feat_msmon_mbwu;
-6a2be13d0ae78b James Morse 2021-06-25  409  		break;
-6a2be13d0ae78b James Morse 2021-06-25  410  	default:
-6a2be13d0ae78b James Morse 2021-06-25  411  	case QOS_NUM_EVENTS:
-6a2be13d0ae78b James Morse 2021-06-25  412  		return -EINVAL;
-6a2be13d0ae78b James Morse 2021-06-25  413  	}
-6a2be13d0ae78b James Morse 2021-06-25  414  
-6a2be13d0ae78b James Morse 2021-06-25  415  	cfg.mon = mon_idx;
-6a2be13d0ae78b James Morse 2021-06-25 @416  	if (cfg.mon == USE_RMID_IDX) {
-6a2be13d0ae78b James Morse 2021-06-25  417  		cfg.mon = resctrl_arch_rmid_idx_encode(closid, rmid);
-6a2be13d0ae78b James Morse 2021-06-25  418  		cfg.mon = mon->mbwu_idx_to_mon[cfg.mon];
-6a2be13d0ae78b James Morse 2021-06-25  419  		if (cfg.mon == -1)
-6a2be13d0ae78b James Morse 2021-06-25  420  			return -EINVAL;
-6a2be13d0ae78b James Morse 2021-06-25  421  	}
-6a2be13d0ae78b James Morse 2021-06-25  422  
-6a2be13d0ae78b James Morse 2021-06-25  423  	cfg.match_pmg = true;
-6a2be13d0ae78b James Morse 2021-06-25  424  	cfg.pmg = rmid;
-08ea0634012302 James Morse 2023-03-09  425  	cfg.opts = resctrl_evt_config_to_mpam(l3_dom->mbm_local_evt_cfg);
-6a2be13d0ae78b James Morse 2021-06-25  426  
-6a2be13d0ae78b James Morse 2021-06-25  427  	if (irqs_disabled()) {
-6a2be13d0ae78b James Morse 2021-06-25  428  		/* Check if we can access this domain without an IPI */
-6a2be13d0ae78b James Morse 2021-06-25  429  		err = -EIO;
-6a2be13d0ae78b James Morse 2021-06-25  430  	} else {
-6a2be13d0ae78b James Morse 2021-06-25  431  		if (cdp_enabled) {
-6a2be13d0ae78b James Morse 2021-06-25  432  			cfg.partid = closid << 1;
-6a2be13d0ae78b James Morse 2021-06-25  433  			err = mpam_msmon_read(mon_comp, &cfg, type, val);
-6a2be13d0ae78b James Morse 2021-06-25  434  			if (err)
-6a2be13d0ae78b James Morse 2021-06-25  435  				return err;
-6a2be13d0ae78b James Morse 2021-06-25  436  
-6a2be13d0ae78b James Morse 2021-06-25  437  			cfg.partid += 1;
-6a2be13d0ae78b James Morse 2021-06-25  438  			err = mpam_msmon_read(mon_comp, &cfg, type, &cdp_val);
-6a2be13d0ae78b James Morse 2021-06-25  439  			if (!err)
-6a2be13d0ae78b James Morse 2021-06-25  440  				*val += cdp_val;
-6a2be13d0ae78b James Morse 2021-06-25  441  		} else {
-6a2be13d0ae78b James Morse 2021-06-25  442  			cfg.partid = closid;
-6a2be13d0ae78b James Morse 2021-06-25  443  			err = mpam_msmon_read(mon_comp, &cfg, type, val);
-6a2be13d0ae78b James Morse 2021-06-25  444  		}
-6a2be13d0ae78b James Morse 2021-06-25  445  	}
-6a2be13d0ae78b James Morse 2021-06-25  446  
-6a2be13d0ae78b James Morse 2021-06-25  447  	return err;
-6a2be13d0ae78b James Morse 2021-06-25  448  }
-6a2be13d0ae78b James Morse 2021-06-25  449  
-
-:::::: The code at line 416 was first introduced by commit
-:::::: 6a2be13d0ae78b4cc1506f94ea595b043bfab548 arm_mpam: resctrl: Add resctrl_arch_rmid_read() and resctrl_arch_reset_rmid()
-
-:::::: TO: James Morse <james.morse@arm.com>
-:::::: CC: James Morse <james.morse@arm.com>
+  2205	
+  2206	const struct ieee80211_ops mt7996_ops = {
+  2207		.add_chanctx = mt76_add_chanctx,
+  2208		.remove_chanctx = mt76_remove_chanctx,
+  2209		.change_chanctx = mt76_change_chanctx,
+  2210		.assign_vif_chanctx = mt76_assign_vif_chanctx,
+  2211		.unassign_vif_chanctx = mt76_unassign_vif_chanctx,
+  2212		.switch_vif_chanctx = mt76_switch_vif_chanctx,
+  2213		.tx = mt7996_tx,
+  2214		.start = mt7996_start,
+  2215		.stop = mt7996_stop,
+  2216		.add_interface = mt7996_add_interface,
+  2217		.remove_interface = mt7996_remove_interface,
+  2218		.config = mt7996_config,
+  2219		.conf_tx = mt7996_conf_tx,
+  2220		.configure_filter = mt7996_configure_filter,
+  2221		.vif_cfg_changed = mt7996_vif_cfg_changed,
+  2222		.link_info_changed = mt7996_link_info_changed,
+  2223		.sta_state = mt7996_sta_state,
+  2224		.sta_pre_rcu_remove = mt76_sta_pre_rcu_remove,
+  2225		.link_sta_rc_update = mt7996_link_sta_rc_update,
+  2226		.set_key = mt7996_set_key,
+  2227		.ampdu_action = mt7996_ampdu_action,
+  2228		.set_rts_threshold = mt7996_set_rts_threshold,
+  2229		.wake_tx_queue = mt76_wake_tx_queue,
+  2230		.hw_scan = mt76_hw_scan,
+  2231		.cancel_hw_scan = mt76_cancel_hw_scan,
+  2232		.remain_on_channel = mt76_remain_on_channel,
+  2233		.cancel_remain_on_channel = mt76_cancel_remain_on_channel,
+  2234		.release_buffered_frames = mt76_release_buffered_frames,
+  2235		.get_txpower = mt7996_get_txpower,
+  2236		.channel_switch_beacon = mt7996_channel_switch_beacon,
+  2237		.get_stats = mt7996_get_stats,
+  2238		.get_et_sset_count = mt7996_get_et_sset_count,
+  2239		.get_et_stats = mt7996_get_et_stats,
+  2240		.get_et_strings = mt7996_get_et_strings,
+  2241		.get_tsf = mt7996_get_tsf,
+  2242		.set_tsf = mt7996_set_tsf,
+  2243		.offset_tsf = mt7996_offset_tsf,
+  2244		.get_survey = mt76_get_survey,
+  2245		.get_antenna = mt76_get_antenna,
+  2246		.set_antenna = mt7996_set_antenna,
+  2247		.set_bitrate_mask = mt7996_set_bitrate_mask,
+  2248		.set_coverage_class = mt7996_set_coverage_class,
+  2249		.sta_statistics = mt7996_sta_statistics,
+  2250		.sta_set_4addr = mt7996_sta_set_4addr,
+  2251		.sta_set_decap_offload = mt7996_sta_set_decap_offload,
+  2252		.add_twt_setup = mt7996_mac_add_twt_setup,
+  2253		.twt_teardown_request = mt7996_twt_teardown_request,
+  2254	#ifdef CONFIG_MAC80211_DEBUGFS
+  2255		.sta_add_debugfs = mt7996_sta_add_debugfs,
+  2256	#endif
+  2257		.set_radar_background = mt7996_set_radar_background,
+  2258		.net_fill_forward_path = mt7996_net_fill_forward_path,
+  2259	#ifdef CONFIG_NET_MEDIATEK_SOC_WED
+  2260		.net_setup_tc = mt76_wed_net_setup_tc,
+> 2261	#elifdef CONFIG_MT7996_NPU
 
 -- 
 0-DAY CI Kernel Test Service
