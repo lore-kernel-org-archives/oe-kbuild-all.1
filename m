@@ -1,115 +1,145 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA0F341AAC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 22:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E7B1F948;
+	Fri, 12 Sep 2025 00:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757628477; cv=none; b=RdqHCjhKR6syA+eJgGQnTwrJOdD+3qsVNLAzg0rbBsiIG/lmvSfj/7k19gReSeDMya2Bb/AvC1gyyWXtQtJyq5O1Uiqz/BqD7f45Ycj3uUFntuwQCW83dB10aA7QrE6UbDGvzMhE/M0XEzzmQE8jwwNrFT/FUzYRmPEPY9BTnAI=
+	t=1757635711; cv=none; b=QtbMK1S+B9hGz7QRzm2jjSkrbS6kaRhipcCYHXGzYXwKs1dCsHkNmmvtL9aoVuTyGtOCPLgXjPHoY///EFV+mwqsWkr0MyORy04JB8LKmhmVxqjBeD84w4lfF9MqCV8PHLmZ840l/uKQAG58zpNEDowSPW6qtvR60imIvfF1F3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757628477; c=relaxed/simple;
-	bh=jtcnfarZA6UzrvRtmWR0Evc6ldU/VzjjNKluiCCXV3g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=giITvBeHDmbDENU4mV/CBwkMRzR2iWnOsFW/2mY/ES5PVW5u+iFzQOtBEAJRqA5jvfJxSr81hRnuAByoQy/Tl+iGkoTA2Q93JFJHIxzFxst3XM3efWNNpxsvmsT3wRrLBl8V6EBRy74NGYpEOBa+Q9QkrE04ygwKLZcN6isZRcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rr9MwOBB; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757635711; c=relaxed/simple;
+	bh=UxcuXC6sExcpG8BeW6MP7jgxfMtnH1Fa8tN/NA404Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bV1LhvnOLznGIJdl7tBbnDwFeY8UgDPgfEBKV/PT0GLX2QSlD31ZunRWAZkU1OdjxgblQWq7rs/fi+I7gRixoB03+4OqeIcBGuoIINk4/J525RbV66bnYDnBJF1oCVxlUD8pJ81wLv45JXq38ar7EQq7J2R/bVwKBXWx1tduOMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPcHy8dV; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rr9MwOBB"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7723f0924a3so1619389b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Sep 2025 15:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757628475; x=1758233275; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PIzLX4YwMmt2w1/Or//9q2o4ZqfSWElSTB34sVpm3Zk=;
-        b=Rr9MwOBBdyUN2A+7vikVw8c4JMi4FwxhYeIJ8Jr4Y37iXRXw2GgfKSdfGLp3yGoSwv
-         ahS7lg3mStHqi88mP3xFxknQuReyyzM+HDsPtfWSJXZPuagMK8D5oUaIXn1w6x0bW/gU
-         NXB2anTT4DG9TNN1pxq3GtFI/HlhjDsbztwcqNPk/P7179Zl45cZ1DLQXXcGI/+3ATQH
-         q0bNnTDVtgX9t0TLVoIfOUqPfLJ+3F4fUOmoPy06kAVntAGEBHmXnZNhqQQllmrzyB7T
-         FfSLBUnI4DkltYkWjCH5CjrltHRI/ro6/MMa1DM3dZ3a6WJZDOuyyQbJBucmUoN7Iigk
-         zC8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757628475; x=1758233275;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PIzLX4YwMmt2w1/Or//9q2o4ZqfSWElSTB34sVpm3Zk=;
-        b=jhwDRtR5e9qTlmBWEuckPCHHuprkTrhKKumvbm6/qNqPxWIg4j2uadrSKON3/Y6RXe
-         Ox9xMP5PLV07+C+camNdWm76HKTDvQGAzApJl4h0ruySX50OQEV5MGnthePc8rTWhhOF
-         bLAi0+sJkqzs84yH46M24kNu+1cmgMIaggu5tJ7IJv8V0kpgqYYS2m0N4cCJGgYNudEt
-         b8ZQc8BGHfhdMRuTBYgbhRNaSLKcWHXR6LD7jmM/qcsG10Su/W9wdq0dry/vhIjOWBQY
-         3Bow5W/1NtuZm8D8DHgAqPJUT+YYbKxTdolb27YxnJr0uuU5khL7pEpgQkmzd7Zei+ZL
-         T7Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTLQOKGPlTKeRgz0M+FPX4nE81Iwv67bl/hdWz3iPymO9lrHoujB89MWYaUHQ3yEsE0xXvE2HrF4s2ygBF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxRW6xl+FpHS9l4Vtj+HeHslhdJ1HIYG8dWRK3HqiX0LrOuwkER
-	+VFyEONi0/5yXmBrqdDTXtVcKxBleuc9i4vuVR1GGXo7BcUq/iXAMBL5
-X-Gm-Gg: ASbGncvkETwNUyERfxLo1BzIjiRjnWw2jFs9+RzCK7cDLey9/gIhCq1EQEkL0HI4ChF
-	dusFV6TdEJClMoGtZ/0s4wtKlgi2Hn1YeWJ81oHlRXY8CkGJUB+Sn/aNhPNxSwddvl1I2CZY433
-	GOicoiAZRfpkpdRpUxtWqXEMBdqAV8GKJnXlT7CwTa/OVVNioWberVwkSpkHZBwXQRGzMXzcN5H
-	aCcSpefTWlXyLAuPCUFAWzGALDb0p8joOKZx0ZOpSn3BOrMeTMrIglRRdmblNd5B9kfE8Idi2me
-	YPyXb6kiddTZTKssyUBOetJ53OW/sI181MxI3g1LZPV/uTdLALZy2+UD/7Ure7tRJVnmHaBjjS7
-	bwa9IbQ1wIN/SGwBHMJo=
-X-Google-Smtp-Source: AGHT+IGfIKtuAcKICp7ZxJp8lOEaeeLF1BaJMcTC3R/RXVkYiy5e+/ccc4815OulQS5TGLefpo1+Zw==
-X-Received: by 2002:a05:6a20:3c8f:b0:248:7a71:c25 with SMTP id adf61e73a8af0-2602c71ab31mr890725637.50.1757628474841;
-        Thu, 11 Sep 2025 15:07:54 -0700 (PDT)
-Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607a69a8csm3148324b3a.44.2025.09.11.15.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 15:07:54 -0700 (PDT)
-Message-ID: <6fd0e1fdf651f0728d1daf4fad3d6e4d4c11d221.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v1 09/10] bpf: disable and remove registers
- chain based liveness
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, bpf <bpf@vger.kernel.org>, Alexei
- Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- clang-built-linux <llvm@lists.linux.dev>, 	oe-kbuild-all@lists.linux.dev,
- Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau
- <martin.lau@linux.dev>, Kernel Team <kernel-team@fb.com>, Yonghong Song	
- <yonghong.song@linux.dev>
-Date: Thu, 11 Sep 2025 15:07:51 -0700
-In-Reply-To: <CAADnVQKGwghC=+V8u0tSPdkJ1f4usY5LeYUpxnJno=3xW8tYGg@mail.gmail.com>
-References: <20250911010437.2779173-10-eddyz87@gmail.com>
-	 <202509112112.wkWw6wJW-lkp@intel.com>
-	 <c846a153010e40a52e98b8abe9db69f7d4cadd58.camel@gmail.com>
-	 <CAADnVQKGwghC=+V8u0tSPdkJ1f4usY5LeYUpxnJno=3xW8tYGg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPcHy8dV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757635710; x=1789171710;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UxcuXC6sExcpG8BeW6MP7jgxfMtnH1Fa8tN/NA404Fg=;
+  b=NPcHy8dVB0iuvC5pQB64RBtcao1jIpE4xNT+WfIoc/WSsQ75R+37P58c
+   j3IIdXvUFDH8lYPJDBAJ5lLBJJ83lmlCDV5m5T4W9XzedVbOHPbeL8njA
+   bw8DaUSrV1jEnmw9ExrNVk4SfQSBjqoWx7zyiB5Xr6pYxMMXHuMDuvrWf
+   84bWNdm6L2ukojSLkBe2dh48i/1Ku4AgbuRIVv7s1CglNKSN0D/NK7iMH
+   iRFLL8UxUlW8OUNsLt4H3VYcZBmS8jhNpfOuyQuY9f5vFcfKtbTEJ6osK
+   iEf3tP4b8a3x7ziE6tg33BdIsf4IVRDl03pUOyFBHvCyP3VENFyOgCVYi
+   Q==;
+X-CSE-ConnectionGUID: nu8Bulr7SxKJ9VREcYKlPQ==
+X-CSE-MsgGUID: NisRXcZ4QfaT0LncsvKEOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60040654"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60040654"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 17:08:29 -0700
+X-CSE-ConnectionGUID: JkE15ZKyT4Wcs/nc8sjVrw==
+X-CSE-MsgGUID: jm0+/LUrS322nD6lO7OCzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
+   d="scan'208";a="178163399"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 11 Sep 2025 17:08:26 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwrKx-0000iO-2Z;
+	Fri, 12 Sep 2025 00:08:23 +0000
+Date: Fri, 12 Sep 2025 08:08:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	arm-scmi@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 2/2] firmware: imx: sm-misc: Dump syslog info
+Message-ID: <202509120758.omltrDMi-lkp@intel.com>
+References: <20250910-sm-syslog-v1-2-5b36f8f21da6@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250910-sm-syslog-v1-2-5b36f8f21da6@nxp.com>
 
-On Thu, 2025-09-11 at 15:00 -0700, Alexei Starovoitov wrote:
+Hi Peng,
 
-[...]
+kernel test robot noticed the following build errors:
 
-> > --- a/kernel/bpf/verifier.c
-> > +++ b/kernel/bpf/verifier.c
-> > @@ -19297,9 +19297,12 @@ static int is_state_visited(struct bpf_verifie=
-r_env *env, int insn_idx)
-> >                          * the precision needs to be propagated back in
-> >                          * the current state.
-> >                          */
-> > -                       if (is_jmp_point(env, env->insn_idx))
-> > -                               err =3D err ? : push_jmp_history(env, c=
-ur, 0, 0);
-> > -                       err =3D err ? : propagate_precision(env, &sl->s=
-tate, cur, NULL);
-> > +                       if (is_jmp_point(env, env->insn_idx)) {
-> > +                               err =3D push_jmp_history(env, cur, 0, 0=
-);
-> > +                               if (err)
-> > +                                       return err;
-> > +                       }
-> > +                       err =3D propagate_precision(env, &sl->state, cu=
-r, NULL);
->=20
-> hmm. init err=3D0 instead and avoid explicit if (err)return err ?
+[auto build test ERROR on 65dd046ef55861190ecde44c6d9fcde54b9fb77d]
 
-Or like that, yes.
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/firmware-arm_scmi-imx-Support-getting-syslog-of-MISC-protocol/20250910-223316
+base:   65dd046ef55861190ecde44c6d9fcde54b9fb77d
+patch link:    https://lore.kernel.org/r/20250910-sm-syslog-v1-2-5b36f8f21da6%40nxp.com
+patch subject: [PATCH 2/2] firmware: imx: sm-misc: Dump syslog info
+config: i386-buildonly-randconfig-004-20250912 (https://download.01.org/0day-ci/archive/20250912/202509120758.omltrDMi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509120758.omltrDMi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509120758.omltrDMi-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/firmware/imx/sm-misc.c:54:39: error: use of undeclared identifier 'SZ_4K'
+      54 |         void *syslog __free(kfree) = kmalloc(SZ_4K, GFP_KERNEL);
+         |                                              ^
+>> drivers/firmware/imx/sm-misc.c:54:39: error: use of undeclared identifier 'SZ_4K'
+>> drivers/firmware/imx/sm-misc.c:54:39: error: use of undeclared identifier 'SZ_4K'
+   drivers/firmware/imx/sm-misc.c:56:13: error: use of undeclared identifier 'SZ_4K'
+      56 |         u16 size = SZ_4K / 4;
+         |                    ^
+   drivers/firmware/imx/sm-misc.c:64:14: error: use of undeclared identifier 'SZ_4K'
+      64 |                 if (size > SZ_4K / 4) {
+         |                            ^
+   drivers/firmware/imx/sm-misc.c:64:14: error: use of undeclared identifier 'SZ_4K'
+   drivers/firmware/imx/sm-misc.c:64:14: error: use of undeclared identifier 'SZ_4K'
+   7 errors generated.
+
+
+vim +/SZ_4K +54 drivers/firmware/imx/sm-misc.c
+
+    49	
+    50	static int syslog_show(struct seq_file *file, void *priv)
+    51	{
+    52		struct device *dev = file->private;
+    53		/* 4KB is large enough for syslog */
+  > 54		void *syslog __free(kfree) = kmalloc(SZ_4K, GFP_KERNEL);
+    55		/* syslog API use num words, not num bytes */
+    56		u16 size = SZ_4K / 4;
+    57		int ret;
+    58	
+    59		if (!ph)
+    60			return -ENODEV;
+    61	
+    62		ret = imx_misc_ctrl_ops->misc_syslog(ph, &size, syslog);
+    63		if (ret) {
+    64			if (size > SZ_4K / 4) {
+    65				dev_err(dev, "syslog size is larger than 4KB, please enlarge\n");
+    66				return ret;
+    67			}
+    68		}
+    69	
+    70		seq_hex_dump(file, " ", DUMP_PREFIX_NONE, 16, sizeof(u32), syslog, size * 4, false);
+    71		seq_putc(file, '\n');
+    72	
+    73		return 0;
+    74	}
+    75	DEFINE_SHOW_ATTRIBUTE(syslog);
+    76	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
