@@ -1,172 +1,254 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E342E6126
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 12:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726B530FC19
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Sep 2025 13:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757679694; cv=none; b=O/yfRr+1oX5AoCmG+5sGzYGU2pvP4Nkf3+WeVXg36PiKlDe2wpRgexECFVGJlUVQrwRp59zgZFRGvN8MiddOIw5gRj3MaOTregwdSzmMsVduWOEnp1CMWRO4iZ2EdcKzDRyFbBEgmg9uR7LzfSB9XCO1Hhar04FlrXYosu+mNWQ=
+	t=1757683396; cv=none; b=aKsv/hh9GlZ2oHEEFJBd0K13K8hf6aCFc8if1mivZWwbsmsOWE02J2GXtRKKsWAMR68RRVWmLzXSGQrOVLe2LyshDyLDiLNiFbM/Iu+Y6dCbkj2Kwu9XrCJRjCtwC3ZnP7rJul31WDwOH97aGeF6G/zEKd/WWspFo/GK4HN/2qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757679694; c=relaxed/simple;
-	bh=b5WHxd4xwn9rgvCSXcEEDbW+90LANpn1Bb2s22tI1ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JZ04kPwidz1D2v4/LWE8kZPdNRVH71Oh6fDkKSCs7kT27HQprJhkPFLzIlNQMVK6ujaRUf729VmVIjXkdTFrMAv0LLhF69/9Wj3tADZqTqPx312iDgq6sOsBXI1/V0SxaiUdGXiM4s+LcigytSYjXEJYkMqfTCndxSjWu5QNDGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0J9tdwh; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757683396; c=relaxed/simple;
+	bh=HX0a3ccR+QITRaRHH7dRV+A3AX+uY2b7ywRoyQhDG/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=noaUAxdpYl+4yF2Yh/rITfiPlc1//ZQNt8fWoX2qPaEwcfBxeBUkz6XFmCr1ebmwte0KYpiLMijDPG2iJSXkA6c8B5Lm1kyCKwITfOoO2uIfTUdm2/GNH+K9QOrVyzlvN2Hf3MJpOTOOqsc7YLCCgOUUEFP0JOpOEh+BRnujHsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FIhA3Uyv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xGzRxfDo; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=r9NFTES6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IMI9huKC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0J9tdwh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757679692; x=1789215692;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b5WHxd4xwn9rgvCSXcEEDbW+90LANpn1Bb2s22tI1ac=;
-  b=D0J9tdwhhZXY/4tXtLa5GI6ZInnhrCv20rGFGnQkNNbM/O9Au4wF1hAR
-   Op4gwkbHkxX1mxoEGlLeYCyOgAGxqsm373N9f6KcbeeeKKYCkQH6ulvNV
-   eUtkZrDgsxtmrcpJJyFXJu08OE0hVELzx245TwPK33yvAxMLol33gqc0g
-   rzTjslLJ3RFGcIzgHHWkJM4QsaJBuJQbi78EUE+mqy/OFiQftzGp8OGGw
-   KFE4TNibHrh2+PjSgJi5+TV7tWcoYZowMuqE17xcb8IcQjNGAxPViykCC
-   3QA4omfMFZqRCTiZwqL9W8HCcUPAaPZjSsbX8Y6NYZfkNamncbeG7tKCd
-   A==;
-X-CSE-ConnectionGUID: ZKN61xicT8uz/oV7kTddFQ==
-X-CSE-MsgGUID: KMD+iJ1OTDOxrqcHMeF9NA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="70647308"
-X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
-   d="scan'208";a="70647308"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 05:21:31 -0700
-X-CSE-ConnectionGUID: GEbi4FkfSrOFGVHD0mHSpQ==
-X-CSE-MsgGUID: TN0X/Ch1QVyqm85T/0E1MA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; 
-   d="scan'208";a="174396413"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Sep 2025 05:21:29 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ux2mM-00010m-2S;
-	Fri, 12 Sep 2025 12:21:26 +0000
-Date: Fri, 12 Sep 2025 20:21:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, Felix Fietkau <nbd@nbd.name>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Shayne Chen <shayne.chen@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH mt76 5/5] wifi: mt76: mt7996: Add NPU offload support to
- MT7996 driver
-Message-ID: <202509122047.IrKGvn3P-lkp@intel.com>
-References: <20250910-mt76-npu-devel-v1-5-dbde4a37b9c0@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FIhA3Uyv";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xGzRxfDo";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="r9NFTES6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IMI9huKC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EA4BE21002;
+	Fri, 12 Sep 2025 13:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1757683391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VoE3Dg1oBpiGBChJQrjIFUPIH9aCo1cpIPZjfwEUPqI=;
+	b=FIhA3UyvlutNw+ce2h5LfcCwvEelZEqmHYOHngabNDG3QxBRs6Li055oja8d1lL0xcAphO
+	Nr0e7MshbfPELtv/iiVfp8XlV+5lCcDxCyeaIAb6w97810Lan3XT3+1tBALIRcp16K22nz
+	Ukk2TCfM8vAJIsNuQjXOdk8BVcFmKH0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1757683391;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VoE3Dg1oBpiGBChJQrjIFUPIH9aCo1cpIPZjfwEUPqI=;
+	b=xGzRxfDo/SPnIXch4G/vYV2LqWav71a5D4t+8UDj01BxixSoEMlqDDX0IMlcy09R3vKxC9
+	VTFT2dGSaNKgF6Cw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1757683390; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VoE3Dg1oBpiGBChJQrjIFUPIH9aCo1cpIPZjfwEUPqI=;
+	b=r9NFTES6lLfyfe54LgPQiD7eAgRMsrA7+buaNB3YxFAwGwPxHwv0yt5hRLQeYr+Vkuegbf
+	jFeZ90Y8Z8uq+Ot9Ie4CxtXQ3VYu2Q6Qj3di+oC9vQU8RweilmcGp5Bam/QuwDs2qQF4jb
+	s7M1TzjqdvpAo3tG8DjxhVqAvDqQQDc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1757683390;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VoE3Dg1oBpiGBChJQrjIFUPIH9aCo1cpIPZjfwEUPqI=;
+	b=IMI9huKCDx3GxP/D2jj4kSLzGZQlm2lvMND9SsTOx570bFiK/QZDImH313Zp7BxSibBhta
+	SSxcBImYnpOCkwAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D931B13869;
+	Fri, 12 Sep 2025 13:23:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pPF/Mr4exGgpEAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 12 Sep 2025 13:23:10 +0000
+Message-ID: <8fe99133-3322-4e39-9b58-80df547b8d1f@suse.cz>
+Date: Fri, 12 Sep 2025 15:23:10 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910-mt76-npu-devel-v1-5-dbde4a37b9c0@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [vbabka-slab:slab/for-6.18/kmalloc_nolock 14/14]
+ mm/slub.c:3866:2: warning: variable 'flags' is used uninitialized whenever
+ '&&' condition is false
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Alexei Starovoitov <ast@kernel.org>,
+ Harry Yoo <harry.yoo@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org
+References: <202509121822.aOV6H1ts-lkp@intel.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <202509121822.aOV6H1ts-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,intel.com:email,suse.cz:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 
-Hi Lorenzo,
+On 9/12/25 12:25, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git slab/for-6.18/kmalloc_nolock
+> head:   8014922e0e72dde7684abebeab3404720401679f
+> commit: 8014922e0e72dde7684abebeab3404720401679f [14/14] slab: Introduce kmalloc_nolock() and kfree_nolock().
+> config: x86_64-buildonly-randconfig-004-20250912 (https://download.01.org/0day-ci/archive/20250912/202509121822.aOV6H1ts-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509121822.aOV6H1ts-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509121822.aOV6H1ts-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> mm/slub.c:3866:2: warning: variable 'flags' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+>     3866 |         local_lock_cpu_slab(s, flags);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    mm/slub.c:3776:2: note: expanded from macro 'local_lock_cpu_slab'
+>     3776 |         lockdep_assert(local_trylock_irqsave(&(s)->cpu_slab->lock, flags))
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/lockdep.h:279:15: note: expanded from macro 'lockdep_assert'
+>      279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+>          |                      ^~~~~~~~~~~
+>    include/asm-generic/bug.h:171:25: note: expanded from macro 'WARN_ON'
+>      171 |         int __ret_warn_on = !!(condition);                              \
+>          |                                ^~~~~~~~~
+>    mm/slub.c:3891:27: note: uninitialized use occurs here
+>     3891 |         local_unlock_cpu_slab(s, flags);
+>          |                                  ^~~~~
+>    mm/slub.c:3780:48: note: expanded from macro 'local_unlock_cpu_slab'
+>     3780 |         local_unlock_irqrestore(&(s)->cpu_slab->lock, flags)
+>          |                                                       ^~~~~
+>    include/linux/local_lock.h:52:48: note: expanded from macro 'local_unlock_irqrestore'
+>       52 |         __local_unlock_irqrestore(this_cpu_ptr(lock), flags)
+>          |                                                       ^~~~~
+>    include/linux/local_lock_internal.h:202:21: note: expanded from macro '__local_unlock_irqrestore'
+>      202 |                 local_irq_restore(flags);                       \
+>          |                                   ^~~~~
+>    include/linux/irqflags.h:240:61: note: expanded from macro 'local_irq_restore'
+>      240 | #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+>          |                                                             ^~~~~
+>    include/linux/irqflags.h:179:26: note: expanded from macro 'raw_local_irq_restore'
+>      179 |                 arch_local_irq_restore(flags);          \
+>          |                                        ^~~~~
+>    mm/slub.c:3866:2: note: remove the '&&' if its condition is always true
+>     3866 |         local_lock_cpu_slab(s, flags);
+>          |         ^
+>    mm/slub.c:3776:2: note: expanded from macro 'local_lock_cpu_slab'
+>     3776 |         lockdep_assert(local_trylock_irqsave(&(s)->cpu_slab->lock, flags))
+>          |         ^
+>    include/linux/lockdep.h:279:15: note: expanded from macro 'lockdep_assert'
+>      279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+>          |                      ^
+>    mm/slub.c:3863:21: note: initialize the variable 'flags' to silence this warning
+>     3863 |         unsigned long flags;
+>          |                            ^
+>          |                             = 0
+>    1 warning generated.
+> 
+> 
+> vim +3866 mm/slub.c
 
-kernel test robot noticed the following build warnings:
+>   3852	
+>   3853	/*
+>   3854	 * Put a slab into a partial slab slot if available.
+>   3855	 *
+>   3856	 * If we did not find a slot then simply move all the partials to the
+>   3857	 * per node partial list.
+>   3858	 */
+>   3859	static void put_cpu_partial(struct kmem_cache *s, struct slab *slab, int drain)
+>   3860	{
+>   3861		struct slab *oldslab;
+>   3862		struct slab *slab_to_put = NULL;
+>   3863		unsigned long flags;
+>   3864		int slabs = 0;
+>   3865	
+>> 3866		local_lock_cpu_slab(s, flags);
 
-[auto build test WARNING on 8620dfbed395fc72f968dfd07f1b50eba352bae6]
+I guess this?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/wifi-mt76-Move-Q_READ-Q_WRITE-definitions-in-dma-h/20250910-230350
-base:   8620dfbed395fc72f968dfd07f1b50eba352bae6
-patch link:    https://lore.kernel.org/r/20250910-mt76-npu-devel-v1-5-dbde4a37b9c0%40kernel.org
-patch subject: [PATCH mt76 5/5] wifi: mt76: mt7996: Add NPU offload support to MT7996 driver
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250912/202509122047.IrKGvn3P-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509122047.IrKGvn3P-lkp@intel.com/reproduce)
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3772,8 +3772,11 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
+ #define local_lock_cpu_slab(s, flags)  \
+        local_lock_irqsave(&(s)->cpu_slab->lock, flags)
+ #else
+-#define local_lock_cpu_slab(s, flags)  \
+-       lockdep_assert(local_trylock_irqsave(&(s)->cpu_slab->lock, flags))
++#define local_lock_cpu_slab(s, flags)                                         \
++       do {                                                                   \
++               bool __l = local_trylock_irqsave(&(s)->cpu_slab->lock, flags); \
++               lockdep_assert(__l);                                           \
++       } while (0)
+ #endif
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509122047.IrKGvn3P-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:371:9: note: previous definition is here
-     371 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> drivers/net/wireless/mediatek/mt76/mt7996/main.c:2261:2: warning: use of a '#elifdef' directive is a C23 extension [-Wc23-extensions]
-    2261 | #elifdef CONFIG_MT7996_NPU
-         |  ^
-   2 warnings generated.
-
-
-vim +2261 drivers/net/wireless/mediatek/mt76/mt7996/main.c
-
-  2205	
-  2206	const struct ieee80211_ops mt7996_ops = {
-  2207		.add_chanctx = mt76_add_chanctx,
-  2208		.remove_chanctx = mt76_remove_chanctx,
-  2209		.change_chanctx = mt76_change_chanctx,
-  2210		.assign_vif_chanctx = mt76_assign_vif_chanctx,
-  2211		.unassign_vif_chanctx = mt76_unassign_vif_chanctx,
-  2212		.switch_vif_chanctx = mt76_switch_vif_chanctx,
-  2213		.tx = mt7996_tx,
-  2214		.start = mt7996_start,
-  2215		.stop = mt7996_stop,
-  2216		.add_interface = mt7996_add_interface,
-  2217		.remove_interface = mt7996_remove_interface,
-  2218		.config = mt7996_config,
-  2219		.conf_tx = mt7996_conf_tx,
-  2220		.configure_filter = mt7996_configure_filter,
-  2221		.vif_cfg_changed = mt7996_vif_cfg_changed,
-  2222		.link_info_changed = mt7996_link_info_changed,
-  2223		.sta_state = mt7996_sta_state,
-  2224		.sta_pre_rcu_remove = mt76_sta_pre_rcu_remove,
-  2225		.link_sta_rc_update = mt7996_link_sta_rc_update,
-  2226		.set_key = mt7996_set_key,
-  2227		.ampdu_action = mt7996_ampdu_action,
-  2228		.set_rts_threshold = mt7996_set_rts_threshold,
-  2229		.wake_tx_queue = mt76_wake_tx_queue,
-  2230		.hw_scan = mt76_hw_scan,
-  2231		.cancel_hw_scan = mt76_cancel_hw_scan,
-  2232		.remain_on_channel = mt76_remain_on_channel,
-  2233		.cancel_remain_on_channel = mt76_cancel_remain_on_channel,
-  2234		.release_buffered_frames = mt76_release_buffered_frames,
-  2235		.get_txpower = mt7996_get_txpower,
-  2236		.channel_switch_beacon = mt7996_channel_switch_beacon,
-  2237		.get_stats = mt7996_get_stats,
-  2238		.get_et_sset_count = mt7996_get_et_sset_count,
-  2239		.get_et_stats = mt7996_get_et_stats,
-  2240		.get_et_strings = mt7996_get_et_strings,
-  2241		.get_tsf = mt7996_get_tsf,
-  2242		.set_tsf = mt7996_set_tsf,
-  2243		.offset_tsf = mt7996_offset_tsf,
-  2244		.get_survey = mt76_get_survey,
-  2245		.get_antenna = mt76_get_antenna,
-  2246		.set_antenna = mt7996_set_antenna,
-  2247		.set_bitrate_mask = mt7996_set_bitrate_mask,
-  2248		.set_coverage_class = mt7996_set_coverage_class,
-  2249		.sta_statistics = mt7996_sta_statistics,
-  2250		.sta_set_4addr = mt7996_sta_set_4addr,
-  2251		.sta_set_decap_offload = mt7996_sta_set_decap_offload,
-  2252		.add_twt_setup = mt7996_mac_add_twt_setup,
-  2253		.twt_teardown_request = mt7996_twt_teardown_request,
-  2254	#ifdef CONFIG_MAC80211_DEBUGFS
-  2255		.sta_add_debugfs = mt7996_sta_add_debugfs,
-  2256	#endif
-  2257		.set_radar_background = mt7996_set_radar_background,
-  2258		.net_fill_forward_path = mt7996_net_fill_forward_path,
-  2259	#ifdef CONFIG_NET_MEDIATEK_SOC_WED
-  2260		.net_setup_tc = mt76_wed_net_setup_tc,
-> 2261	#elifdef CONFIG_MT7996_NPU
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
