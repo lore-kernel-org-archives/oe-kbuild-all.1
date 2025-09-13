@@ -1,70 +1,72 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263752367A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 10:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D4E18E25
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 10:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757759668; cv=none; b=WLcRPUv+lpqdmMckrqfoUkQkjoQn3JE7hiiua7ccZNsD4cVTTm8CX9MWQe7JUpw+frfpxtMHhH/dmC4LUjg7C6BfJpf8pSxE8SfyqnsU8rPy/rcOYG7iP1st1eb5vmEA5KpzqekvupyNJsEAwy4JV0YPIUtorrRtaMkrEnhN8bc=
+	t=1757760027; cv=none; b=EWXvBK0PJRd6n4LxBziWtqBYbEAPxWhfl4KS4s5ZugDL3BNaoRA+SWT4SktW5wt12/aI71nsIebRvN7LwbE3pnH8d3cQNAUTNQVyOrt9buBNxGtRNlNF8Ae6EJToGxcLZGpuBZZquuW835xG4Xda7CVODK+YMGe+XCxSsy8wplU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757759668; c=relaxed/simple;
-	bh=h8JwbvwyW2P7gQFG2zaN5MiksCvFsFDvf6U9oStazJA=;
+	s=arc-20240116; t=1757760027; c=relaxed/simple;
+	bh=kLtfXPmYB+KuknDSpxhRC0+QZLQkjemtqDVqdfuRcDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f/jvRINsCdKT/um/LgpGbw6ks+/ZZgAZSNAs/XErrvKbecgkcH2OE76M9sf4ZoDDdk6ZN3Rv4SB7k4mrmvIatWqHwb0CiRp+3ND/8CiKpny4UbZy89jfME/80zwrU7MxV9/XkNig7R1r7heRP5/7ny/yeSxIo2K3y1+2KQIO9kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N1xIt8jA; arc=none smtp.client-ip=209.85.128.44
+	 Content-Disposition; b=GkZsxWaSlCCqWqXEA/4CjDlRIuILPuVw3taLKaWSN28UYrjtf1es0y9auSGetdkWV6PV46VJypnb7omS16eqv1zofw5LXK6kig9JU7XQAQBBAiE6aH/3nLcF1XTmJXDUVVXIZUA+NT4D5Csakx9P3GEa1epsfE9wIABpqGfE+88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CxpEv6qp; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N1xIt8jA"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so24342525e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 03:34:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CxpEv6qp"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45df656889cso18290215e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 03:40:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757759664; x=1758364464; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1757760024; x=1758364824; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v+GA69unbvtgXr6RVU3bFQ9DEodnNP5kqSiglG4UkRU=;
-        b=N1xIt8jAvwroW6OM6LetZSoBSDwvCycw7GLOtMMKNuqHZb7EF26vcN0opUCqQoj0o0
-         Y2KItF+g8mm34bqmD2RdWJbwgQJr+GY6a2FjCUkfdTrOj0WAS1NV3NbwAc3GAU9Rx7/O
-         ZNFyE6lF4GJlV8UMo7KfFhoDHIUL3e/eIvNf6GZNTi8tONQm8T87IvkPrRSps74WvINN
-         R3p+rWxPBRWW3gQyq3hC93npEa4G3BE+O4N7R6NMtm1Ml9JBY4QtbDSnOxsmVnNtUuQy
-         Gs9xTMe5oisCVBYvYgdpbQI64LhmIkXyf890DCqCy/S43ri8S9OBq3uIyGGTgcuRIQU1
-         aXcg==
+        bh=q5BKHucIFgOXz7a9j2WPAjvN/qO0vCK/Y//j+sYjdTs=;
+        b=CxpEv6qp8+5XzKoE0eH94mgVB8eopsf1ZEb3zQBM9/xlyMHoLgP1LsaCz2lyt0fiZp
+         6xB3V6FrQmjk8rmi/83PHx2hldc5bFTRnRGWkHIJen3Or6hxKhprtKcsz0+vjwqsd6yz
+         0S1Xqrwwc/dGnXhG3xzg9UWtT2Uy6phtWEnGaiQfUcXJ2d9R/4r3btd/fbEazHYLcKIU
+         Ov8P93ZNnpHVKejCA5IzyjkJ4k0CseyzgURfNQrGuXVfA0B4BTQRaDjbm44jX6R96+fj
+         CZTBt3BkNGFoghslodYPbB/bmMcHrMqaWJ1FL8U93pNZwcv5CDLwtcgSBKxwnON2Vjc5
+         h13A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757759664; x=1758364464;
+        d=1e100.net; s=20230601; t=1757760024; x=1758364824;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+GA69unbvtgXr6RVU3bFQ9DEodnNP5kqSiglG4UkRU=;
-        b=m0kzDwEPWUg1hm3OblupXi1GEsBXOgm0b0VBaTrtgu7djgbheQ6ThXVqdzsa2qkFYz
-         pRI11hniMvdTQutNhJ2xceotyihr0YxjS7XZ/+L2S1+ztBF06TWik9T9zOznmkMTZvZP
-         gpPRE7kP08SO1TdSdTohStgJ0c/Ua0XxFkGVT1iIaCJDADK4LikBCZxzA7tRczibVbII
-         UD0V0QLrLJIuEfZPUwJ6xRmWobmFxYaSNFngTeUhM1tVZuI+x2V//e4jwS3ufrbqjz7p
-         8SQ3Ga+/1NYifd82p1SAGflcA7g1mm4VcGTeSPwHlQfk1GN4Gt6a1apWUK7Uvz8DggWY
-         kHIA==
-X-Forwarded-Encrypted: i=1; AJvYcCXlATUjjf+7YZx9ozTU8flVBak1JZ+vDBsGu4maZKOpXX5MlIndgAdpmg+DJ+8JaAitYN0cgJhx+1uL4E0G@lists.linux.dev
-X-Gm-Message-State: AOJu0YzydX82wBxBKD6r6sE2LlC56eI1B0uFyvzvdrwFGOVpKEs+jCDz
-	M0fRwN6WdCMg1gfXvrRC/lKQa7iTd0quieRdr2oDggJ+kIw0+bJDAX5MuQW+nyLMiJ8=
-X-Gm-Gg: ASbGnctr1OOtx7MKsu/Ewt0SPjsSHhWDK2FbC/wtaug87BYO2tOe3wFbfgu5MElp1P4
-	DT2JR5U34QNK5jLUBs5h70SJO414FDsogsJrPajOpUEABphD5EXA8YmvjQm7nKPfdl+yffHVY2R
-	HKGrWm7PhKnOlwqHDA0NC8YIS1rEKX2eoT9zvY+bEV6p4m2yygJ7VsFLXUye0lXzVUAkM3ywJJj
-	3dKFFGQTV2QBUhMcZJEeRawEqM/3fsejrYOB9H0PaPLFkODH1fi9gbZC7Qq4p20Sg3VyjJaAlMo
-	ue/nWuDEyRPW5+ev5x9vjzumpNSfIrFCqdS7zVnqDuP0gEe298iDW0+Roz0NCj5XIF+ZIa8bx34
-	d9z2HIjls2PJ2NZTlfqELVE/QONw=
-X-Google-Smtp-Source: AGHT+IG+KxBywTWC73f20ZIoRXzpjdjLkuMkfOI+yS//wh7s1CqTwE5rmFi7w8RMhHIM5dY/jksVVQ==
-X-Received: by 2002:a05:600c:49a2:b0:45b:92a6:63e3 with SMTP id 5b1f17b1804b1-45dfd5e3d5bmr65229385e9.9.1757759664273;
-        Sat, 13 Sep 2025 03:34:24 -0700 (PDT)
+        bh=q5BKHucIFgOXz7a9j2WPAjvN/qO0vCK/Y//j+sYjdTs=;
+        b=QwIfGUc7JbfDieK9w8raLu8YQhB+6kwjj7Dzfjg4USXDVVN91taJO5b+88wvnAPOWg
+         w2ohmz1kE4inldAXySNvzjn3RzIcPUJIom5tKozFJEt84Up31DGGjDIDwK5NiF7WeLgl
+         6eG6ygnP89s4BjHlZ6zcBgaVDrv/G+UPtjIrpIMbK2icsvzEdWeyYN6++1OI65yQSQdd
+         BtKaiE8P/zYUpxnh9dvsnxRmRgHLIxNFkerYB1vSWyzMuTizJOpTGllRvebGOeQFJoQm
+         TDQgFDyon2r9aMnlXaPDnIoCPRXtS4UnLLkA6hmqlNHNhnunyjmWNRo4XF7hF0Ra+7kq
+         iJqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUzHHtvYcxpEGl3jhd2h1TdeUgtHPfA1kJptsgw1jXXHRDbNuUzxg4zDdwtPXKkWyxqw2FWdvt/kRET4evV@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJeXe6CT2gI9QcfkS1/nyKrLDrMiJSHuxPK8lzKWPQV1kjIxqo
+	xAFv9+pYTwgseU5rKeMBLWLeuVZfOV4MrQpe61Zs7ftXKKM9/54W1ZE1X/0NFdLd8EX/KeIGRhy
+	/ucpV
+X-Gm-Gg: ASbGncu4rp1CKil1eBdqTt9tSXFtUMJebdwQ5gTmnUj05MnkrLe9hsf8pqev8aOH9+x
+	7rA3XcutWW8VKjDCQOpNRQzlMhIyugKIZyx+6EheIeEZYhYRA7S944vZ/f8gvF2tzp7gApE7Q0p
+	T+KOwm9uYhGNOCCDSPis7cZ9GnsXPCkWEcDS7kmRI1ScGp3/uvzLPCWmoCuAOqxydGCl1vPC0c+
+	LbTw47qdwGE+pEHxjGKjzGTqJ5BVekEQg0WIRD5jZz6yzfwdJHkHeRpGV3Y/VLOSyrATWpFp/83
+	J6/aYlq1iS8AhYTsaU672c6Snh47a1KTdr+HpfqcxYcw747Re1s1rKVVgP0velhHRtMgtbj0xLr
+	tJLVpwrxG8cadSovZBgape6FH6bNNyFbIsxbjmA==
+X-Google-Smtp-Source: AGHT+IHFJxrzI0YL0T7zVE7ndW1CIlLUCogNKauwgyVBmxPQ6MPyzkLA+lkEvAB7y7kgI/P1W/YdPg==
+X-Received: by 2002:a05:600c:3b87:b0:45d:dba1:b4d3 with SMTP id 5b1f17b1804b1-45f2576b108mr32072105e9.0.1757760023963;
+        Sat, 13 Sep 2025 03:40:23 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e760777851sm9950677f8f.4.2025.09.13.03.34.23
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7607cd6absm9944380f8f.34.2025.09.13.03.40.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Sep 2025 03:34:23 -0700 (PDT)
-Date: Sat, 13 Sep 2025 13:34:20 +0300
+        Sat, 13 Sep 2025 03:40:23 -0700 (PDT)
+Date: Sat, 13 Sep 2025 13:40:20 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, NeilBrown <neil@brown.name>
+To: oe-kbuild@lists.linux.dev,
+	Stefan Binding <sbinding@opensource.cirrus.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [cel:nfsd-testing 45/50] fs/nfsd/nfs4recover.c:406 purge_old()
- error: uninitialized symbol 'child'.
-Message-ID: <202509131751.4STnDcZg-lkp@intel.com>
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:20250912_sbinding_support_reading_subsystem_id_from_device_tree
+ 2/2] sound/soc/codecs/cs35l41.c:1163 cs35l41_get_system_name() warn: passing
+ zero to 'PTR_ERR'
+Message-ID: <202509131704.J6ztKjC1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,66 +76,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   454e99ac23dc63c1472eb5df8f97c961c0f178c9
-commit: 30424fb94b7bea14e27922669924948d6320e991 [45/50] nfsd: move name lookup out of nfsd4_list_rec_dir()
-config: sparc64-randconfig-r072-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131751.4STnDcZg-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20250912_sbinding_support_reading_subsystem_id_from_device_tree
+head:   6a7fa83fafcf594a3d2454b15afbae4e09c804fc
+commit: 6a7fa83fafcf594a3d2454b15afbae4e09c804fc [2/2] ASoC: cs35l41: Fallback to reading Subsystem ID property if not ACPI
+config: i386-randconfig-141-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131704.J6ztKjC1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509131751.4STnDcZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509131704.J6ztKjC1-lkp@intel.com/
 
-smatch warnings:
-fs/nfsd/nfs4recover.c:406 purge_old() error: uninitialized symbol 'child'.
+New smatch warnings:
+sound/soc/codecs/cs35l41.c:1163 cs35l41_get_system_name() warn: passing zero to 'PTR_ERR'
 
-vim +/child +406 fs/nfsd/nfs4recover.c
+vim +/PTR_ERR +1163 sound/soc/codecs/cs35l41.c
 
-c7b9a45927e74c8 NeilBrown         2005-06-23  398  static int
-30424fb94b7bea1 NeilBrown         2025-09-08  399  purge_old(struct dentry *parent, char *cname, struct nfsd_net *nn)
-c7b9a45927e74c8 NeilBrown         2005-06-23  400  {
-c7b9a45927e74c8 NeilBrown         2005-06-23  401  	int status;
-30424fb94b7bea1 NeilBrown         2025-09-08  402  	struct dentry *child;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  403  	struct xdr_netobj name;
-c7b9a45927e74c8 NeilBrown         2005-06-23  404  
-30424fb94b7bea1 NeilBrown         2025-09-08  405  	if (strlen(cname) != HEXDIR_LEN - 1) {
-6b1891052a3f8e3 Scott Mayhew      2019-03-26 @406  		printk("%s: illegal name %pd in recovery directory\n",
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  407  				__func__, child);
-                                                                                          ^^^^^
-s/child/cname/
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1151  static int cs35l41_get_system_name(struct cs35l41_private *cs35l41)
+c1ad138822a1be Stefan Binding 2022-07-07  1152  {
+1d44a30ae3f919 Stefan Binding 2025-02-05  1153  	struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1154  	const char *sub = NULL;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1155  	const char *tmp;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1156  	int ret = 0;
+c1ad138822a1be Stefan Binding 2022-07-07  1157  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1158  	/* If there is no acpi_device, there is no ACPI for this system, skip checking ACPI */
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1159  	if (adev) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1160  		acpi_handle handle = acpi_device_handle(adev);
+c1ad138822a1be Stefan Binding 2022-07-07  1161  
+c1ad138822a1be Stefan Binding 2022-07-07  1162  		sub = acpi_get_subsystem_id(handle);
+6a7fa83fafcf59 Stefan Binding 2025-09-12 @1163  		ret = PTR_ERR(sub);
 
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  408  		/* Keep trying; maybe the others are OK: */
-b37ad28bcaa7c48 Al Viro           2006-10-19  409  		return 0;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  410  	}
-30424fb94b7bea1 NeilBrown         2025-09-08  411  	name.data = kstrdup(cname, GFP_KERNEL);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  412  	if (!name.data) {
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  413  		dprintk("%s: failed to allocate memory for name.data!\n",
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  414  			__func__);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  415  		goto out;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  416  	}
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  417  	name.len = HEXDIR_LEN;
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  418  	if (nfs4_has_reclaimed_state(name, nn))
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  419  		goto out_free;
-c7b9a45927e74c8 NeilBrown         2005-06-23  420  
-30424fb94b7bea1 NeilBrown         2025-09-08  421  	inode_lock_nested(d_inode(parent), I_MUTEX_PARENT);
-30424fb94b7bea1 NeilBrown         2025-09-08  422  	child = lookup_one(&nop_mnt_idmap, &QSTR(cname), parent);
-30424fb94b7bea1 NeilBrown         2025-09-08  423  	if (!IS_ERR(child)) {
-abf08576afe3150 Christian Brauner 2023-01-13  424  		status = vfs_rmdir(&nop_mnt_idmap, d_inode(parent), child);
-c7b9a45927e74c8 NeilBrown         2005-06-23  425  		if (status)
-a6a9f18f0a9f943 Al Viro           2013-09-16  426  			printk("failed to remove client recovery directory %pd\n",
-a6a9f18f0a9f943 Al Viro           2013-09-16  427  			       child);
-30424fb94b7bea1 NeilBrown         2025-09-08  428  		dput(child);
-30424fb94b7bea1 NeilBrown         2025-09-08  429  	}
-30424fb94b7bea1 NeilBrown         2025-09-08  430  	inode_unlock(d_inode(parent));
-30424fb94b7bea1 NeilBrown         2025-09-08  431  
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  432  out_free:
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  433  	kfree(name.data);
-6b1891052a3f8e3 Scott Mayhew      2019-03-26  434  out:
-c7b9a45927e74c8 NeilBrown         2005-06-23  435  	/* Keep trying, success or failure: */
-b37ad28bcaa7c48 Al Viro           2006-10-19  436  	return 0;
-c7b9a45927e74c8 NeilBrown         2005-06-23  437  }
+It's strange to me to see this warning that "sub" is NULL...  That seems
+wrong since as far as I can see it's always valid or an error pointer.
+But also the code is wrong.  This was supposed to be PTR_ERR_OR_ZERO()
+
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1164  		if (ret) {
+
+In the current code ret will always be true.
+
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1165  			sub = NULL;
+1d44a30ae3f919 Stefan Binding 2025-02-05  1166  			/* If no _SUB, fallback to _HID, otherwise fail */
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1167  			if (ret == -ENODATA) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1168  				tmp = acpi_device_hid(adev);
+1d44a30ae3f919 Stefan Binding 2025-02-05  1169  				/* If dummy hid, return 0 and fallback to legacy firmware path */
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1170  				if (!strcmp(tmp, "device")) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1171  					ret = 0;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1172  					goto err;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1173  				}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1174  				sub = kstrdup(tmp, GFP_KERNEL);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1175  				if (!sub) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1176  					ret = -ENOMEM;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1177  					goto err;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1178  				}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1179  			}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1180  		}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1181  	} else {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1182  		if (!device_property_read_string(cs35l41->dev, "cirrus,subsystem-id", &tmp)) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1183  			sub = kstrdup(tmp, GFP_KERNEL);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1184  			if (!sub) {
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1185  				ret = -ENOMEM;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1186  				goto err;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1187  			}
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1188  		}
+c1ad138822a1be Stefan Binding 2022-07-07  1189  	}
+c1ad138822a1be Stefan Binding 2022-07-07  1190  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1191  err:
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1192  	if (sub) {
+c1ad138822a1be Stefan Binding 2022-07-07  1193  		cs35l41->dsp.system_name = sub;
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1194  		dev_info(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1195  	} else
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1196  		dev_warn(cs35l41->dev, "Subsystem ID not found\n");
+c1ad138822a1be Stefan Binding 2022-07-07  1197  
+6a7fa83fafcf59 Stefan Binding 2025-09-12  1198  	return ret;
+b19181638182d1 Stefan Binding 2025-02-10  1199  }
 
 -- 
 0-DAY CI Kernel Test Service
