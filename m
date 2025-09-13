@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9013D984
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 04:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D9B2E0903
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 04:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757738486; cv=none; b=Uhl8LounT+D3wPr97ytqHoVrc3plAKY7wfSsHl+EAWSzRk/VQrT4o41cstjwTQcqPeyxVbsrFnkQqPEfcrQOcr0f+uWgMJt9Zq1cOlec+n8+2W2n5CL1ll1A+vXp6JS5wxpkkdQgQn2f6+s5elbYUKx6JDsr32lHs2ps+kDebVQ=
+	t=1757739271; cv=none; b=YwQCSTR3meX8YzPf6XTH36rAS2HR2+XHJKTAihDQIyx7INFqFFT5eGjosIQ46HrQGQ0lZ/tXtoKZ4DBkYaqFo0bBnwX1Of7C4hPi1ocLVhlpIEHl0MDBGbYpnh32F7sbbkSOi+RMZGL1pYR9qhVCK67SlVTn6jXq1XaoaqADKSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757738486; c=relaxed/simple;
-	bh=NAYB6lnjVTQI6ZcOU+Maae0uv3vAz0siphHJy9q7CZU=;
+	s=arc-20240116; t=1757739271; c=relaxed/simple;
+	bh=vf17++RMcUm1uTKoA7SlmMgh6YPFEz2iKCiWctknxnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LflDOVz+OjfkfTvuUMiRWXxMGGWWIJzY1ytkjPDH+E58ggjjQM8pPHsWlx/+N7fuy2NIL/hOw4HAKzzxcDeAQp8OvDy27ivgj4CuNSy6p6HG7vZsvo3ke866Lh3zQfUG7rt/XjaM8AmOcGKfsytU3x3/tOKCHyumY8d6TIHwZCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcUBBGkz; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=BrpiE6/yr795DeJeyIARxlp9MC92kSwd+KsnTUUoqfQEn0WUoG/Q+2h6Sfjpc3VmnansFzXhd8jwCnrSNdVWH/e65kwZcK2oUHEQ6wTcgWzpEmtxLWOxIy9yV4plKqpjbqz5zUxrJvI5ajaYegNs7gpPMWblcYd8omNOotZ8XpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FuWjdRA3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcUBBGkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FuWjdRA3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757738484; x=1789274484;
+  t=1757739270; x=1789275270;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NAYB6lnjVTQI6ZcOU+Maae0uv3vAz0siphHJy9q7CZU=;
-  b=gcUBBGkzbElDeyh4BOxTgoHbgoQGQ5zX6RnXQ+QunSiqZ3Lkd0gOXLVt
-   +XktgC66xnCAS/VG+Kpa0WBsN6fjfvShmd9nNNCYAhDtdb2Ys/NlwRBhy
-   dz9TQBpWzTMydZmcOZD5kfuoqfsjBQLl0SEpZ0mZ3/2tjDXDszehPpCw9
-   dGxcr5HG1Tw+keakZeuYWSJuMlVlfnL9EYm88pXXREb94aGUt/AtF2HPO
-   X8bP2ezoPY5rIhtXdxNN7nQnKHGJSXUEizZjlykbE2mr3BfHJhNqei/4U
-   Pn/Ni8I2o8wpGYTPoOOF3L8zg6ntgoDuVLRP3J3doHzvkDgkgYsGsf7+L
-   g==;
-X-CSE-ConnectionGUID: BLePhaXETxaHtM+Gbf7OoA==
-X-CSE-MsgGUID: PmDLNh3TRy2tNKM8478RvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="59121939"
+  bh=vf17++RMcUm1uTKoA7SlmMgh6YPFEz2iKCiWctknxnQ=;
+  b=FuWjdRA3vt7fChcgqgjIsZMTRofon7tASJZrEkiFEVUqKV5J/JMK107B
+   HFIQsEApnAbMbakMEMzjIDhRWYEPfwfUuFKAmjfOHXgOv0IOuwNxIMzjV
+   IkiEnhg4lkvl2Mmwni53D1xDZrvQ0NyNpWL5X2sjSl4tRBDeZyh/OMtqn
+   3V6brk+qyACSpxO92VVUjkTFlWduUP2eAmvTeeQmfRZ6SJXAyKyI2EUXd
+   UnRRBydlNEyd3UsWtbk3MKvEqEEtRW6ceYNvdRjv3InNH1dMPI6sCuuAm
+   Mo3J1Qqtk70ga9MFt8afdL7dP8M/75XgIMGsOnDGbLeovFD/ifE1wMGMY
+   Q==;
+X-CSE-ConnectionGUID: 8EPNpHZRRVCbqEc+YReJKA==
+X-CSE-MsgGUID: KF8whiZfTPqbg5smPeUGPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="60151369"
 X-IronPort-AV: E=Sophos;i="6.18,260,1751266800"; 
-   d="scan'208";a="59121939"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 21:41:23 -0700
-X-CSE-ConnectionGUID: xajm7aUXQrOZOFKWXzEVQA==
-X-CSE-MsgGUID: uNFZFIIVRqWyMlYqu3nqsw==
+   d="scan'208";a="60151369"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2025 21:54:28 -0700
+X-CSE-ConnectionGUID: dl5LpduZQZerRsKIL84RQQ==
+X-CSE-MsgGUID: HCSkTh/JRZSJmYTWN0jrog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,260,1751266800"; 
-   d="scan'208";a="173695160"
+   d="scan'208";a="197872578"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 12 Sep 2025 21:41:22 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 Sep 2025 21:54:27 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxI4d-0001MS-2l;
-	Sat, 13 Sep 2025 04:41:19 +0000
-Date: Sat, 13 Sep 2025 12:41:05 +0800
+	id 1uxIHJ-0001Mo-05;
+	Sat, 13 Sep 2025 04:54:25 +0000
+Date: Sat, 13 Sep 2025 12:53:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:pinctrl 16/19] drivers/pinctrl/pinctrl-mpfs-mssio.c:164
- mpfs_pinctrl_set_pin_func() warn: unsigned 'reg' is never less than zero.
-Message-ID: <202509131257.HqMfXwyf-lkp@intel.com>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 39/428] include/linux/pgtable.h:235:36: error:
+ expected expression before 'do'
+Message-ID: <202509131255.x9EfvIGt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +64,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
-head:   127422b6eef0f6155406ac37019332bae8403333
-commit: f49c1fded333005467d9480d4cba62dfb8059501 [16/19] more wip wip wip
-config: riscv-randconfig-r073-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131257.HqMfXwyf-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   8ded915c4409a5190b1c9c57c172d62ab5534274
+commit: f6748cc302fdca7c486c6098f315bd4174f5c614 [39/428] kasan: Fix warnings caused by use of arch_enter_lazy_mmu_mode()
+config: s390-randconfig-002-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131255.x9EfvIGt-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250913/202509131255.x9EfvIGt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509131257.HqMfXwyf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509131255.x9EfvIGt-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/pinctrl-mpfs-mssio.c:164 mpfs_pinctrl_set_pin_func() warn: unsigned 'reg' is never less than zero.
-drivers/pinctrl/pinctrl-mpfs-mssio.c:164 mpfs_pinctrl_set_pin_func() warn: unsigned 'offset' is never less than zero.
-drivers/pinctrl/pinctrl-mpfs-mssio.c:164 mpfs_pinctrl_set_pin_func() warn: error code type promoted to positive: 'offset'
-drivers/pinctrl/pinctrl-mpfs-mssio.c:402 mpfs_pinctrl_pinconf_group_set() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +/reg +164 drivers/pinctrl/pinctrl-mpfs-mssio.c
+   In file included from include/linux/kasan.h:37,
+                    from mm/kasan/shadow.c:14:
+   mm/kasan/shadow.c: In function 'kasan_populate_vmalloc_pte':
+>> include/linux/pgtable.h:235:36: error: expected expression before 'do'
+    #define arch_enter_lazy_mmu_mode() do {} while (0)
+                                       ^~
+   mm/kasan/shadow.c:322:8: note: in expansion of macro 'arch_enter_lazy_mmu_mode'
+     (void)arch_enter_lazy_mmu_mode();
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/shadow.c: In function 'kasan_depopulate_vmalloc_pte':
+>> include/linux/pgtable.h:235:36: error: expected expression before 'do'
+    #define arch_enter_lazy_mmu_mode() do {} while (0)
+                                       ^~
+   mm/kasan/shadow.c:497:8: note: in expansion of macro 'arch_enter_lazy_mmu_mode'
+     (void)arch_enter_lazy_mmu_mode();
+           ^~~~~~~~~~~~~~~~~~~~~~~~
 
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  156  
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  157  static int mpfs_pinctrl_set_pin_func(struct mpfs_pinctrl *pctrl, u8 pin, u32 config)
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  158  {
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  159  	struct device *dev = pctrl->dev;
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  160  	u32 reg, func, offset;
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  161  
-ce0bb0403e273f drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-05  162  	reg = mpfs_pinctrl_pin_to_iomux_reg(pin);
-ce0bb0403e273f drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-05  163  	offset = mpfs_pinctrl_pin_to_iomux_offset(pin);
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04 @164  	if (reg < 0 || offset < 0)
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  165  		return -EINVAL;
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  166  
-1fa50f0c06db6a drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-08  167  	func = config & GENMASK(3, 0); //TODO explain -> dt macro
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  168  	func <<= offset;
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  169  
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  170  	dev_dbg(dev, "Setting pin %u. reg: %x offset %u func %x\n", pin, reg, offset, func);
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  171  
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  172  	regmap_write(pctrl->regmap, reg, func);
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  173  
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  174  	return 0;
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  175  }
-98e3f929041181 drivers/pinctrl/pinctrl-mpfs.c Conor Dooley 2025-09-04  176  
 
-:::::: The code at line 164 was first introduced by commit
-:::::: 98e3f929041181bf82071767b73ba8963ef58d25 progress
+vim +/do +235 include/linux/pgtable.h
 
-:::::: TO: Conor Dooley <conor.dooley@microchip.com>
-:::::: CC: Conor Dooley <conor.dooley@microchip.com>
+533c67e63584067 Kinsey Ho               2023-12-27  214  
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  215) /*
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  216)  * A facility to provide lazy MMU batching.  This allows PTE updates and
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  217)  * page invalidations to be delayed until a call to leave lazy MMU mode
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  218)  * is issued.  Some architectures may benefit from doing this, and it is
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  219)  * beneficial for both shadow and direct mode hypervisors, which may batch
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  220)  * the PTE updates which happen during this window.  Note that using this
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  221)  * interface requires that read hazards be removed from the code.  A read
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  222)  * hazard could result in the direct mode hypervisor case, since the actual
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  223)  * write to the page tables may not yet have taken place, so reads though
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  224)  * a raw PTE pointer after it has been modified are not guaranteed to be
+691ee97e1a9de0c Ryan Roberts            2025-03-03  225   * up to date.
+691ee97e1a9de0c Ryan Roberts            2025-03-03  226   *
+691ee97e1a9de0c Ryan Roberts            2025-03-03  227   * In the general case, no lock is guaranteed to be held between entry and exit
+691ee97e1a9de0c Ryan Roberts            2025-03-03  228   * of the lazy mode. So the implementation must assume preemption may be enabled
+691ee97e1a9de0c Ryan Roberts            2025-03-03  229   * and cpu migration is possible; it must take steps to be robust against this.
+691ee97e1a9de0c Ryan Roberts            2025-03-03  230   * (In practice, for user PTE updates, the appropriate page table lock(s) are
+691ee97e1a9de0c Ryan Roberts            2025-03-03  231   * held, but for kernel PTE updates, no lock is held). Nesting is not permitted
+691ee97e1a9de0c Ryan Roberts            2025-03-03  232   * and the mode cannot be used in interrupt context.
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  233)  */
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  234) #ifndef __HAVE_ARCH_ENTER_LAZY_MMU_MODE
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02 @235) #define arch_enter_lazy_mmu_mode()	do {} while (0)
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  236) #define arch_leave_lazy_mmu_mode()	do {} while (0)
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  237) #define arch_flush_lazy_mmu_mode()	do {} while (0)
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  238) #endif
+bcc6cc832573a99 Matthew Wilcox (Oracle  2023-08-02  239) 
+
+:::::: The code at line 235 was first introduced by commit
+:::::: bcc6cc832573a99d1f935c89a28e2c71fd1aaf0c mm: add default definition of set_ptes()
+
+:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
