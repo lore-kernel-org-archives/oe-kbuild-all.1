@@ -1,129 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1206C635
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 20:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F5235948
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 20:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757793944; cv=none; b=Ucjvn7fB7YRVkSX0NOyBB1MmqXdV2ftz2W9KIPACx1oTQklLybgbZhPFGM1vDTA4G5keNwxyOaWqxvu90ZiY2EErLQymxXdnn+amN+MWuTGbkTAtyGmDxqH56gRZJZWImODz/FwAlXSVgTX+RCkdfVZRUVaD20dS9Omt4yBOxdo=
+	t=1757796411; cv=none; b=oO6PAkvr/JJZTmqIryuSucdrUiDMtnPbxuK6G8iRQTc2xrH7+sTD8/CjDw7Px3wv9wV6VsJut+g0+zUXak2L/9ytl/TVC3LbCdiBHoSST3IuKJwKPtSZlPXdAEC5FeH3/IgwGE2ub0OtAGt+EB1TkFttwRAjkYflhwdn7BSjs4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757793944; c=relaxed/simple;
-	bh=/UzPRFVXWbIMzY3M92op5YprIO11L+Rnv7KJyB9sQMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M9RsDh5GI7tjneADpa9bVYzuGHTX67F9QB10uv9i8hSnSSpB6uMGTMdVMub2kRTHlygZEGzLJoZI7ATX0pxCdR1Br52us2QZeEtLEyXSwyZNZnLFdlwshzJ6vRJPVOtgHROYVqvQu9rORr1BlCmVRCQ1r1D+CUELc8sw66TZNrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcgJH+ms; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757796411; c=relaxed/simple;
+	bh=7Z7MCzQL01ky3hCuIBFWkKjCmjaCW3oov0qmsAX2Ass=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XoxqW3la3G0jaBYxbvZ2gKqq/EDm5n8IPrGzro/GKw/3UQUFlFCsUjU1xHVbWOGX/rD11JTN2MTrvP4v3JzzjeNj5IImv+CcZetdnxljmZAOlaq5/WLG70q4I1b6KtvJH3HxNZT6xfnWvqv4Il4iYoDg3XL31onMimJkHsA9AAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vl1wE06q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mnytsj7B; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vl1wE06q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mnytsj7B; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcgJH+ms"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757793942; x=1789329942;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/UzPRFVXWbIMzY3M92op5YprIO11L+Rnv7KJyB9sQMk=;
-  b=gcgJH+msO3WrQlQ7b6boP/jK2CaJamkKvhmHXN4r9uakkBI7HpEmWA19
-   Rm8P081n7uCrnBdaClukvvg9QS9c1guyh5zDLzEQf7QEvLFS82kW8imcW
-   uofjJKCV5J4P6ppjZSLtoIeULywhKjjK1barOEnpi/Gufcpuj8AuY98Xw
-   E0x6c6osXKBoUVGp4XVGKIVlwvZqgn27caXDPBpOShNtfN1WqoUlQ9QGk
-   VhKCwNAtMTXEAufWyi5jJZqXon5Al0KRvbVRzSgppp2IxtRNhQLVpu0Zx
-   hqlIIanWCOZSzBv8d/tyERXRhdrXS1X6gU+GHku6f7Zdt2pjkh4MC5hdO
-   g==;
-X-CSE-ConnectionGUID: Hw+eWr1IQD6J0WSXaq6kdg==
-X-CSE-MsgGUID: XhbZTyAGSaqQ0rZ4+6wuAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="71473251"
-X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
-   d="scan'208";a="71473251"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 13:05:42 -0700
-X-CSE-ConnectionGUID: gmiPmKDsQluuLo8lC+r3Kg==
-X-CSE-MsgGUID: GeX27iRfR7mEVlcaBoHD4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
-   d="scan'208";a="197981062"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Sep 2025 13:05:40 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uxWV8-0001pI-1M;
-	Sat, 13 Sep 2025 20:05:38 +0000
-Date: Sun, 14 Sep 2025 04:04:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 3/3]
- include/linux/minmax.h:93:30: warning: large integer implicitly truncated to
- unsigned type
-Message-ID: <202509140439.6WqXQvAK-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vl1wE06q";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mnytsj7B";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vl1wE06q";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mnytsj7B"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AD4703EB95;
+	Sat, 13 Sep 2025 20:46:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1757796406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
+	b=Vl1wE06qrNqMW0HqlqZ/M+jT5XnJfPIujr/Qb0Xs9xEj/Tk9x1GBSOMOl86kc7Er4faLmC
+	sapigQUSDzhXgI4x4khq9IcYklyzWxaWRWGvibBTPmGiTJw5mWTSqKdXF5234efuVYWuh4
+	hcUPmVa0SL4cIpXLA6FfomQWaAx4OgU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1757796406;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
+	b=Mnytsj7BFrJRllabJ3CaQTCHsRj6GG4ORvjb6d7DlXVcBjTz9D2Ymrewba1pGD39R3iiQI
+	I2KPaYW3SufbnNAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Vl1wE06q;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Mnytsj7B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1757796406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
+	b=Vl1wE06qrNqMW0HqlqZ/M+jT5XnJfPIujr/Qb0Xs9xEj/Tk9x1GBSOMOl86kc7Er4faLmC
+	sapigQUSDzhXgI4x4khq9IcYklyzWxaWRWGvibBTPmGiTJw5mWTSqKdXF5234efuVYWuh4
+	hcUPmVa0SL4cIpXLA6FfomQWaAx4OgU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1757796406;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
+	b=Mnytsj7BFrJRllabJ3CaQTCHsRj6GG4ORvjb6d7DlXVcBjTz9D2Ymrewba1pGD39R3iiQI
+	I2KPaYW3SufbnNAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93ECA1372E;
+	Sat, 13 Sep 2025 20:46:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KfLDIjbYxWjcZAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Sat, 13 Sep 2025 20:46:46 +0000
+Message-ID: <b1628e73-92d6-4b2a-b0a0-0f7e26f8c3a1@suse.cz>
+Date: Sat, 13 Sep 2025 22:46:46 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [vbabka-slab:slab/for-6.18/kmalloc_nolock 14/14]
+ mm/slub.c:3866:2: warning: variable 'flags' is used uninitialized whenever
+ '&&' condition is false
+Content-Language: en-US
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Alexei Starovoitov <ast@kernel.org>,
+ Harry Yoo <harry.yoo@oracle.com>, clang-built-linux <llvm@lists.linux.dev>,
+ oe-kbuild-all@lists.linux.dev, linux-mm <linux-mm@kvack.org>
+References: <202509121822.aOV6H1ts-lkp@intel.com>
+ <8fe99133-3322-4e39-9b58-80df547b8d1f@suse.cz>
+ <CAADnVQJWXk+Zzsf_oVTaJkpm4nO3iq34bGcUDQRarOVSX+tLbA@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <CAADnVQJWXk+Zzsf_oVTaJkpm4nO3iq34bGcUDQRarOVSX+tLbA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: AD4703EB95
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.01
 
-Hi Huang,
+On 9/12/25 18:39, Alexei Starovoitov wrote:
+> On Fri, Sep 12, 2025 at 6:23 AM Vlastimil Babka <vbabka@suse.cz> wrote:
+>>
+>> --- a/mm/slub.c
+>> +++ b/mm/slub.c
+>> @@ -3772,8 +3772,11 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
+>>  #define local_lock_cpu_slab(s, flags)  \
+>>         local_lock_irqsave(&(s)->cpu_slab->lock, flags)
+>>  #else
+>> -#define local_lock_cpu_slab(s, flags)  \
+>> -       lockdep_assert(local_trylock_irqsave(&(s)->cpu_slab->lock, flags))
+>> +#define gg(s, flags)                                         \
+>> +       do {                                                                   \
+>> +               bool __l = local_trylock_irqsave(&(s)->cpu_slab->lock, flags); \
+>> +               lockdep_assert(__l);
+> 
+> That works, but would raise questions for anyone looking at
+> these two lines as-is, since it's an implementation
+> detail of lockdep_assert() and combination of .config flags.
 
-FYI, the error/warning still remains.
+TBH when I see some code with a side-effect wrapped in a WARN or assert that
+can be configured off, it already raises a question if that gets executed
+when configured off. There are examples where it does, and where it doesn't.
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2a596b3e63caa79c42eb06d6824fe7d25586e8c1
-commit: 99185c10d5d9214d0d0c8b7866660203e344ee3b [3/3] resource, kunit: add test case for region_intersects()
-config: arm-randconfig-r132-20250914 (https://download.01.org/0day-ci/archive/20250914/202509140439.6WqXQvAK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509140439.6WqXQvAK-lkp@intel.com/reproduce)
+> what clang warning suggested is imo cleaner:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509140439.6WqXQvAK-lkp@intel.com/
+That silences the warning about flags, however it means that when lockdep
+gets disabled on runtime, the locks stop locking (but not unlocking). While
+debug_locks_off() only seems to get called in a serious situations
+currently, we should not make things even worse then.
 
-All warnings (new ones prefixed by >>):
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 4079abb5d0e1..a6b50cd1d95f 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3865,7 +3865,7 @@ static void put_cpu_partial(struct kmem_cache
+> *s, struct slab *slab, int drain)
+>  {
+>         struct slab *oldslab;
+>         struct slab *slab_to_put = NULL;
+> -       unsigned long flags;
+> +       unsigned long flags = 0;
+>         int slabs = 0;
+> 
+> Could you fold one of them in?
 
-   In file included from include/linux/ioport.h:15:0,
-                    from kernel/resource.c:15:
-   kernel/resource.c: In function 'gfr_start':
->> include/linux/minmax.h:93:30: warning: large integer implicitly truncated to unsigned type [-Woverflow]
-     ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-                                 ^
-   include/linux/minmax.h:96:2: note: in expansion of macro '__cmp_once_unique'
-     __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
-    #define min_t(type, x, y) __cmp_once(min, type, x, y)
-                              ^~~~~~~~~~
-   kernel/resource.c:1838:9: note: in expansion of macro 'min_t'
-      end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-            ^~~~~
-   kernel/resource.c: In function 'gfr_continue':
->> include/linux/minmax.h:93:30: warning: large integer implicitly truncated to unsigned type [-Woverflow]
-     ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-                                 ^
-   include/linux/minmax.h:96:2: note: in expansion of macro '__cmp_once_unique'
-     __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-     ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:213:27: note: in expansion of macro '__cmp_once'
-    #define min_t(type, x, y) __cmp_once(min, type, x, y)
-                              ^~~~~~~~~~
-   kernel/resource.c:1855:11: note: in expansion of macro 'min_t'
-      addr <= min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-              ^~~~~
-
-
-vim +93 include/linux/minmax.h
-
-d03eba99f5bf7c David Laight   2023-09-18  91  
-017fa3e8918784 Linus Torvalds 2024-07-28  92  #define __cmp_once_unique(op, type, x, y, ux, uy) \
-017fa3e8918784 Linus Torvalds 2024-07-28 @93  	({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-017fa3e8918784 Linus Torvalds 2024-07-28  94  
-
-:::::: The code at line 93 was first introduced by commit
-:::::: 017fa3e89187848fd056af757769c9e66ac3e93d minmax: simplify and clarify min_t()/max_t() implementation
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+And so I've folded in mine.
