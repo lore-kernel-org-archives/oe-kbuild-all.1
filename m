@@ -1,223 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F5235948
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 20:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85B428C87C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 21:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757796411; cv=none; b=oO6PAkvr/JJZTmqIryuSucdrUiDMtnPbxuK6G8iRQTc2xrH7+sTD8/CjDw7Px3wv9wV6VsJut+g0+zUXak2L/9ytl/TVC3LbCdiBHoSST3IuKJwKPtSZlPXdAEC5FeH3/IgwGE2ub0OtAGt+EB1TkFttwRAjkYflhwdn7BSjs4I=
+	t=1757800061; cv=none; b=tY2wmQbWnleUufqFSFCF8sOompKPD4I1OUZ3k/Ug6y6bPNwL9mglUbK0oX1Yj/qdF2PMREIQcdyv/gta0CNMIDQXDaOypFZn6aPS/6A0L1hZ9kTrmqRErVTBTRmy+0uzQzOUo0lumNCITw0ekG3H0J/RAFHmvnCVUam1uUWyzhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757796411; c=relaxed/simple;
-	bh=7Z7MCzQL01ky3hCuIBFWkKjCmjaCW3oov0qmsAX2Ass=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XoxqW3la3G0jaBYxbvZ2gKqq/EDm5n8IPrGzro/GKw/3UQUFlFCsUjU1xHVbWOGX/rD11JTN2MTrvP4v3JzzjeNj5IImv+CcZetdnxljmZAOlaq5/WLG70q4I1b6KtvJH3HxNZT6xfnWvqv4Il4iYoDg3XL31onMimJkHsA9AAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vl1wE06q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mnytsj7B; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vl1wE06q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mnytsj7B; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1757800061; c=relaxed/simple;
+	bh=UIhBGziXXCfrD9r0wscDda/2MUxwh1Kn2yXznbGBwCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HwRkL6HyMapTzGbhw2FAWlPKsQoX9y3vJxCrNT6ht7Mu7S7b683d1CbXjwDWvyEe1p7tij5Z5tnYPrJL/7wR+0fOLMQmuSIostzGMPZ0PViGcyOgy266EE0wKxd43u8TYTjiqoZ2RlYG3lpokmRiUhDFilXVZwtrTixVBnYSeEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bh9GpVEF; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vl1wE06q";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mnytsj7B";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vl1wE06q";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mnytsj7B"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AD4703EB95;
-	Sat, 13 Sep 2025 20:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1757796406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
-	b=Vl1wE06qrNqMW0HqlqZ/M+jT5XnJfPIujr/Qb0Xs9xEj/Tk9x1GBSOMOl86kc7Er4faLmC
-	sapigQUSDzhXgI4x4khq9IcYklyzWxaWRWGvibBTPmGiTJw5mWTSqKdXF5234efuVYWuh4
-	hcUPmVa0SL4cIpXLA6FfomQWaAx4OgU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1757796406;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
-	b=Mnytsj7BFrJRllabJ3CaQTCHsRj6GG4ORvjb6d7DlXVcBjTz9D2Ymrewba1pGD39R3iiQI
-	I2KPaYW3SufbnNAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Vl1wE06q;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Mnytsj7B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1757796406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
-	b=Vl1wE06qrNqMW0HqlqZ/M+jT5XnJfPIujr/Qb0Xs9xEj/Tk9x1GBSOMOl86kc7Er4faLmC
-	sapigQUSDzhXgI4x4khq9IcYklyzWxaWRWGvibBTPmGiTJw5mWTSqKdXF5234efuVYWuh4
-	hcUPmVa0SL4cIpXLA6FfomQWaAx4OgU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1757796406;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=38MKvmoG9sJlDP35qP5Jp0TIm1uAH+pH6cn4t8ko1Cc=;
-	b=Mnytsj7BFrJRllabJ3CaQTCHsRj6GG4ORvjb6d7DlXVcBjTz9D2Ymrewba1pGD39R3iiQI
-	I2KPaYW3SufbnNAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93ECA1372E;
-	Sat, 13 Sep 2025 20:46:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KfLDIjbYxWjcZAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Sat, 13 Sep 2025 20:46:46 +0000
-Message-ID: <b1628e73-92d6-4b2a-b0a0-0f7e26f8c3a1@suse.cz>
-Date: Sat, 13 Sep 2025 22:46:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bh9GpVEF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757800060; x=1789336060;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UIhBGziXXCfrD9r0wscDda/2MUxwh1Kn2yXznbGBwCw=;
+  b=Bh9GpVEFbUQnYJGBjCoHgxo/nk+tcuDptYDygTGHh8GvQLGcGRPBTm+b
+   NjfepCPfZIE8U4HU93OmkQJ979zRsRry/7FMc0fb9KFwpd8anmEyZXU74
+   MWBaFqJC+NpbYoHhYHIYLSBYC1naXH63r8nUtAEZ1LaWRBB/5cv6dE+Hu
+   A2OR2o/+0R4Usj+yCsDYj7bIfrYzaLYGHphHnsAoICj3J+4OhY88Nn0di
+   wSi/an3MR4Hl9H4q2pC3wppB5GtH2gn5rFP6i7fX9LSPcotfkDLk3DVhF
+   7qMnZvlSIx0E7PgQneFwryEKJp+9Xx7+Nm9HWRyFs63Ue3zN7igFGftxw
+   Q==;
+X-CSE-ConnectionGUID: jNUht4jYRhiUlApeq+UauQ==
+X-CSE-MsgGUID: 5v6Np3XsT4uLy4hCD2EbvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="63926197"
+X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
+   d="scan'208";a="63926197"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 14:47:39 -0700
+X-CSE-ConnectionGUID: HcDpmYbpTBGCn4GBJS23cw==
+X-CSE-MsgGUID: zMVwNoTyRvGvsMxgyfICdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
+   d="scan'208";a="178298705"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 13 Sep 2025 14:47:38 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uxY5j-0001t2-0v;
+	Sat, 13 Sep 2025 21:47:32 +0000
+Date: Sun, 14 Sep 2025 05:47:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen Wang <unicornxw@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 3/7] PCI: sg2042: Add Sophgo SG2042 PCIe driver
+Message-ID: <202509140558.2l1PajGn-lkp@intel.com>
+References: <162d064228261ccd0bf9313a20288e510912effd.1757467895.git.unicorn_wang@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [vbabka-slab:slab/for-6.18/kmalloc_nolock 14/14]
- mm/slub.c:3866:2: warning: variable 'flags' is used uninitialized whenever
- '&&' condition is false
-Content-Language: en-US
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Alexei Starovoitov <ast@kernel.org>,
- Harry Yoo <harry.yoo@oracle.com>, clang-built-linux <llvm@lists.linux.dev>,
- oe-kbuild-all@lists.linux.dev, linux-mm <linux-mm@kvack.org>
-References: <202509121822.aOV6H1ts-lkp@intel.com>
- <8fe99133-3322-4e39-9b58-80df547b8d1f@suse.cz>
- <CAADnVQJWXk+Zzsf_oVTaJkpm4nO3iq34bGcUDQRarOVSX+tLbA@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <CAADnVQJWXk+Zzsf_oVTaJkpm4nO3iq34bGcUDQRarOVSX+tLbA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: AD4703EB95
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <162d064228261ccd0bf9313a20288e510912effd.1757467895.git.unicorn_wang@outlook.com>
 
-On 9/12/25 18:39, Alexei Starovoitov wrote:
-> On Fri, Sep 12, 2025 at 6:23 AM Vlastimil Babka <vbabka@suse.cz> wrote:
->>
->> --- a/mm/slub.c
->> +++ b/mm/slub.c
->> @@ -3772,8 +3772,11 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
->>  #define local_lock_cpu_slab(s, flags)  \
->>         local_lock_irqsave(&(s)->cpu_slab->lock, flags)
->>  #else
->> -#define local_lock_cpu_slab(s, flags)  \
->> -       lockdep_assert(local_trylock_irqsave(&(s)->cpu_slab->lock, flags))
->> +#define gg(s, flags)                                         \
->> +       do {                                                                   \
->> +               bool __l = local_trylock_irqsave(&(s)->cpu_slab->lock, flags); \
->> +               lockdep_assert(__l);
-> 
-> That works, but would raise questions for anyone looking at
-> these two lines as-is, since it's an implementation
-> detail of lockdep_assert() and combination of .config flags.
+Hi Chen,
 
-TBH when I see some code with a side-effect wrapped in a WARN or assert that
-can be configured off, it already raises a question if that gets executed
-when configured off. There are examples where it does, and where it doesn't.
+kernel test robot noticed the following build errors:
 
-> what clang warning suggested is imo cleaner:
+[auto build test ERROR on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
 
-That silences the warning about flags, however it means that when lockdep
-gets disabled on runtime, the locks stop locking (but not unlocking). While
-debug_locks_off() only seems to get called in a serious situations
-currently, we should not make things even worse then.
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-pci-Add-Sophgo-SG2042-PCIe-host/20250910-101159
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/162d064228261ccd0bf9313a20288e510912effd.1757467895.git.unicorn_wang%40outlook.com
+patch subject: [PATCH v2 3/7] PCI: sg2042: Add Sophgo SG2042 PCIe driver
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250914/202509140558.2l1PajGn-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509140558.2l1PajGn-lkp@intel.com/reproduce)
 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 4079abb5d0e1..a6b50cd1d95f 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -3865,7 +3865,7 @@ static void put_cpu_partial(struct kmem_cache
-> *s, struct slab *slab, int drain)
->  {
->         struct slab *oldslab;
->         struct slab *slab_to_put = NULL;
-> -       unsigned long flags;
-> +       unsigned long flags = 0;
->         int slabs = 0;
-> 
-> Could you fold one of them in?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509140558.2l1PajGn-lkp@intel.com/
 
-And so I've folded in mine.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "cdns_pcie_pm_ops" [drivers/pci/controller/cadence/pcie-sg2042.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
