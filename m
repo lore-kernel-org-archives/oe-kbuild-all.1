@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403EE19644B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 07:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040FC28313A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 09:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757746862; cv=none; b=inRMlO/I5LsoUhnC60gSmpDwxvynnHtwfEzGFxW3FbXd2mizgdh8xf95GXUwbogdilpLiWMWj4lsQ7uZNfCF53YDKguh3aIaVAGJQ5CgweTkuJn4JnDLWt/hSSj6jjNOWQ+7PULY7Bu3MlsAL9a/6Yj9+p/HWgB9wXxkj/lXY8Q=
+	t=1757755041; cv=none; b=bjm10v3e8UXAU46u8PUw/roFydwYmL0Uk9xKYwPSkKIg2cLji+/n+E98Dn+WbEp5J255KAyRCBo0i4a7pWeMS4oz/jjitodC2xlwer7R0L+Hd3mKwJn7+LruGCSCiIr45yFDhoBxLRfhIsEHpsP7ERA2rfNioP+ZkhJ/D34HlkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757746862; c=relaxed/simple;
-	bh=8ThCdeAvTRKkdU5Rr9E7Uc/AVAz6MSd28rN3gb5BIPk=;
+	s=arc-20240116; t=1757755041; c=relaxed/simple;
+	bh=Q9LfKhHvFcvyde/+wypfglTQOXkLShUYFrxlOsZ/Ipc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IDBi1g5u7Iec7205h0RE8PJPqXoxLU2yyNjHcoefG1hXpn72xS1jZ9/fwamNhptJ1OfPI9wS9u0vpp6UrPpOZDKB0hwOPYgrEbsvdipzAJljCqSITSh7uLQ5Ecycs4Ol64lEiWh2h5QdykK5yjUywKRNVx0TuL6/8W3xsWVpLFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AXuCVB/b; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=f2zL6UtFKUpNJ2kCNs7Lh+43AFHazK309Lx0g8ELXs/Etk410GE3nqYPSutr3OTv1KHsiVtsN2x53xNHqg8OjTPVK7AMD0bO+vBBx56xYI2u5slXB86FIL14C3pZcUdBI3SqtWOVQYGCLSFIZcNH+feZEmcHLyu/SacOkBtnMYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhjSYOOI; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AXuCVB/b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhjSYOOI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757746860; x=1789282860;
+  t=1757755040; x=1789291040;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ThCdeAvTRKkdU5Rr9E7Uc/AVAz6MSd28rN3gb5BIPk=;
-  b=AXuCVB/bEi7xBuE7eh/VRlDkje/0Q8Yf27iuKaYVhz3sov3UMuqI3FDa
-   sb35Jnlm1dVUuuj0bprJo6qfnaFKRYzF8fka5OITGnCDN9zf4ECK/A9hb
-   Lnb8RcOpQrJ00r0XVpaU2rOTgwLo4AHtYI66l5/EEVts2hC2CzUnZNj1j
-   Xivsu+CJlOeL55aMTWmzNy+nPQhCcLKdg3lpQKnitK6dCjjxK9/xhEMFM
-   cLiYFnGwRtSLz0gYdrLmm8XmN2qRkxAb5k7jdrpHhtS7HzCztrZ8+IFYQ
-   Kmo5c64rK3hwbZpct5p+CNamSw7z3aeJhn0XbD7RqordEYwWXK2p92dyi
+  bh=Q9LfKhHvFcvyde/+wypfglTQOXkLShUYFrxlOsZ/Ipc=;
+  b=OhjSYOOIGMBby3/4+st3l2bg9XVS32rBmPwSe9f2TYLiBXcqC2EBZp+D
+   zbrGai6+B2R5a9Sz8AH8ektIEEMw2/CuzwTysaCBSvVeHOZmD7ee5bl2L
+   +fZMkzE6XUMxI0K/ZN3OJ28alT8hFWx8tFI/Mr8tgfESZ/Zyovw1/zPIv
+   hstaW9v0Fijv//C4JmyfYdoqQvlbxLD12Ff669I6nhUEKNC56lvibl1WS
+   OMbaB3ruA8+bB+pW+jswL7obB/+8tyxXuylCelYlS9Xz9s8amx52Ms9yN
+   gCRbvvxP7VSFCiC/mY3/eZ/6HhXUDFVGoTJv3eX3hsN2cyL3ia7fU759a
    A==;
-X-CSE-ConnectionGUID: tD3o0i2qQfaJancyE+r7jA==
-X-CSE-MsgGUID: HQ/Y7SznRHuAgZEALJYw5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="60190683"
+X-CSE-ConnectionGUID: aBhyQeO/S3O2naW0THckyw==
+X-CSE-MsgGUID: 8U8Z1UMXSAmQTkPd+7Sb1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11551"; a="47656707"
 X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
-   d="scan'208";a="60190683"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 00:01:00 -0700
-X-CSE-ConnectionGUID: wUBEmxk6TdeE82i486vH4Q==
-X-CSE-MsgGUID: viNm20UGQLG0KpXaDITh5g==
+   d="scan'208";a="47656707"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 02:17:19 -0700
+X-CSE-ConnectionGUID: C0SJ88xdTV21WghnTdFRWw==
+X-CSE-MsgGUID: NvYlfKJeTZOcn26dvK0YwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,261,1751266800"; 
-   d="scan'208";a="178190410"
+   d="scan'208";a="178516977"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 13 Sep 2025 00:00:55 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Sep 2025 02:17:18 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxKFX-0001Ou-3D;
-	Sat, 13 Sep 2025 07:00:52 +0000
-Date: Sat, 13 Sep 2025 14:59:51 +0800
+	id 1uxMNc-0001R2-24;
+	Sat, 13 Sep 2025 09:17:13 +0000
+Date: Sat, 13 Sep 2025 17:17:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/staging/gpib/eastwood/fluke_gpib.c:1013:21: error: call to
- undeclared function 'ioremap'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202509131412.Yordu9eb-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>
+Subject: [cel:direct-io 52/54] fs/nfsd/filecache.c:1069:9: error: implicit
+ declaration of function 'trace_nfsd_file_get_dio_attrs'; did you mean
+ 'trace_nfsd_file_get_dio_attr'?
+Message-ID: <202509131748.GCYDTfYC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,226 +64,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dave,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   22f20375f5b71f30c0d6896583b93b6e4bba7279
-commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
-date:   11 months ago
-config: s390-randconfig-r133-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131412.Yordu9eb-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250913/202509131412.Yordu9eb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux direct-io
+head:   bcd61e34b795f9544846e92d568aae005e20746d
+commit: 388ddf4d5d45b5a056034a1d8b54c2c4c8790af8 [52/54] NFSD: filecache: add STATX_DIOALIGN and STATX_DIO_READ_ALIGN support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250913/202509131748.GCYDTfYC-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250913/202509131748.GCYDTfYC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509131412.Yordu9eb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509131748.GCYDTfYC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/staging/gpib/eastwood/fluke_gpib.c:10:
-   In file included from drivers/staging/gpib/eastwood/fluke_gpib.h:9:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/staging/gpib/eastwood/fluke_gpib.c:10:
-   In file included from drivers/staging/gpib/eastwood/fluke_gpib.h:9:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/staging/gpib/eastwood/fluke_gpib.c:10:
-   In file included from drivers/staging/gpib/eastwood/fluke_gpib.h:9:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   drivers/staging/gpib/eastwood/fluke_gpib.c:196:23: warning: variable 'nec_priv' set but not used [-Wunused-but-set-variable]
-           struct nec7210_priv *nec_priv;
-                                ^
->> drivers/staging/gpib/eastwood/fluke_gpib.c:1013:21: error: call to undeclared function 'ioremap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           nec_priv->iobase = ioremap(e_priv->gpib_iomem_res->start,
-                              ^
->> drivers/staging/gpib/eastwood/fluke_gpib.c:1013:19: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-           nec_priv->iobase = ioremap(e_priv->gpib_iomem_res->start,
-                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/eastwood/fluke_gpib.c:1050:33: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-           e_priv->write_transfer_counter = ioremap(e_priv->write_transfer_counter_res->start,
-                                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   13 warnings and 3 errors generated.
+   fs/nfsd/filecache.c: In function 'nfsd_file_get_dio_attrs':
+>> fs/nfsd/filecache.c:1069:9: error: implicit declaration of function 'trace_nfsd_file_get_dio_attrs'; did you mean 'trace_nfsd_file_get_dio_attr'? [-Wimplicit-function-declaration]
+    1069 |         trace_nfsd_file_get_dio_attrs(inode, &stat);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         trace_nfsd_file_get_dio_attr
 
 
-vim +/ioremap +1013 drivers/staging/gpib/eastwood/fluke_gpib.c
+vim +1069 fs/nfsd/filecache.c
 
-55936779f49612 Dave Penkler 2024-09-18   973  
-55936779f49612 Dave Penkler 2024-09-18   974  static int fluke_attach_impl(gpib_board_t *board, const gpib_board_config_t *config,
-55936779f49612 Dave Penkler 2024-09-18   975  			     unsigned int handshake_mode)
-55936779f49612 Dave Penkler 2024-09-18   976  {
-55936779f49612 Dave Penkler 2024-09-18   977  	struct fluke_priv *e_priv;
-55936779f49612 Dave Penkler 2024-09-18   978  	struct nec7210_priv *nec_priv;
-55936779f49612 Dave Penkler 2024-09-18   979  	int isr_flags = 0;
-55936779f49612 Dave Penkler 2024-09-18   980  	int retval;
-55936779f49612 Dave Penkler 2024-09-18   981  	int irq;
-55936779f49612 Dave Penkler 2024-09-18   982  	struct resource *res;
-55936779f49612 Dave Penkler 2024-09-18   983  	dma_cap_mask_t dma_cap;
-55936779f49612 Dave Penkler 2024-09-18   984  
-55936779f49612 Dave Penkler 2024-09-18   985  	if (!fluke_gpib_pdev) {
-55936779f49612 Dave Penkler 2024-09-18   986  		pr_err("No gpib platform device was found, attach failed.\n");
-55936779f49612 Dave Penkler 2024-09-18   987  		return -ENODEV;
-55936779f49612 Dave Penkler 2024-09-18   988  	}
-55936779f49612 Dave Penkler 2024-09-18   989  
-55936779f49612 Dave Penkler 2024-09-18   990  	retval = fluke_generic_attach(board);
-55936779f49612 Dave Penkler 2024-09-18   991  	if (retval)
-55936779f49612 Dave Penkler 2024-09-18   992  		return retval;
-55936779f49612 Dave Penkler 2024-09-18   993  
-55936779f49612 Dave Penkler 2024-09-18   994  	e_priv = board->private_data;
-55936779f49612 Dave Penkler 2024-09-18   995  	nec_priv = &e_priv->nec7210_priv;
-55936779f49612 Dave Penkler 2024-09-18   996  	nec_priv->offset = fluke_reg_offset;
-55936779f49612 Dave Penkler 2024-09-18   997  	board->dev = &fluke_gpib_pdev->dev;
-55936779f49612 Dave Penkler 2024-09-18   998  
-55936779f49612 Dave Penkler 2024-09-18   999  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 0);
-55936779f49612 Dave Penkler 2024-09-18  1000  	if (!res) {
-55936779f49612 Dave Penkler 2024-09-18  1001  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for cb7210 gpib\n");
-55936779f49612 Dave Penkler 2024-09-18  1002  		return -ENODEV;
-55936779f49612 Dave Penkler 2024-09-18  1003  	}
-55936779f49612 Dave Penkler 2024-09-18  1004  
-55936779f49612 Dave Penkler 2024-09-18  1005  	if (request_mem_region(res->start,
-55936779f49612 Dave Penkler 2024-09-18  1006  			       resource_size(res),
-55936779f49612 Dave Penkler 2024-09-18  1007  			       fluke_gpib_pdev->name) == NULL) {
-55936779f49612 Dave Penkler 2024-09-18  1008  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
-55936779f49612 Dave Penkler 2024-09-18  1009  		return -ENXIO;
-55936779f49612 Dave Penkler 2024-09-18  1010  	}
-55936779f49612 Dave Penkler 2024-09-18  1011  	e_priv->gpib_iomem_res = res;
-55936779f49612 Dave Penkler 2024-09-18  1012  
-55936779f49612 Dave Penkler 2024-09-18 @1013  	nec_priv->iobase = ioremap(e_priv->gpib_iomem_res->start,
-55936779f49612 Dave Penkler 2024-09-18  1014  				   resource_size(e_priv->gpib_iomem_res));
-55936779f49612 Dave Penkler 2024-09-18  1015  	pr_info("gpib: iobase %lx remapped to %p, length=%d\n",
-55936779f49612 Dave Penkler 2024-09-18  1016  		(unsigned long)e_priv->gpib_iomem_res->start,
-55936779f49612 Dave Penkler 2024-09-18  1017  		nec_priv->iobase, (int)resource_size(e_priv->gpib_iomem_res));
-55936779f49612 Dave Penkler 2024-09-18  1018  	if (!nec_priv->iobase) {
-55936779f49612 Dave Penkler 2024-09-18  1019  		dev_err(&fluke_gpib_pdev->dev, "Could not map I/O memory\n");
-55936779f49612 Dave Penkler 2024-09-18  1020  		return -ENOMEM;
-55936779f49612 Dave Penkler 2024-09-18  1021  	}
-55936779f49612 Dave Penkler 2024-09-18  1022  
-55936779f49612 Dave Penkler 2024-09-18  1023  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 1);
-55936779f49612 Dave Penkler 2024-09-18  1024  	if (!res) {
-55936779f49612 Dave Penkler 2024-09-18  1025  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for gpib dma port\n");
-55936779f49612 Dave Penkler 2024-09-18  1026  		return -ENODEV;
-55936779f49612 Dave Penkler 2024-09-18  1027  	}
-55936779f49612 Dave Penkler 2024-09-18  1028  	if (request_mem_region(res->start,
-55936779f49612 Dave Penkler 2024-09-18  1029  			       resource_size(res),
-55936779f49612 Dave Penkler 2024-09-18  1030  			       fluke_gpib_pdev->name) == NULL) {
-55936779f49612 Dave Penkler 2024-09-18  1031  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
-55936779f49612 Dave Penkler 2024-09-18  1032  		return -ENXIO;
-55936779f49612 Dave Penkler 2024-09-18  1033  	}
-55936779f49612 Dave Penkler 2024-09-18  1034  	e_priv->dma_port_res = res;
-55936779f49612 Dave Penkler 2024-09-18  1035  
-55936779f49612 Dave Penkler 2024-09-18  1036  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 2);
-55936779f49612 Dave Penkler 2024-09-18  1037  	if (!res) {
-55936779f49612 Dave Penkler 2024-09-18  1038  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for write transfer counter\n");
-55936779f49612 Dave Penkler 2024-09-18  1039  		return -ENODEV;
-55936779f49612 Dave Penkler 2024-09-18  1040  	}
-55936779f49612 Dave Penkler 2024-09-18  1041  
-55936779f49612 Dave Penkler 2024-09-18  1042  	if (request_mem_region(res->start,
-55936779f49612 Dave Penkler 2024-09-18  1043  			       resource_size(res),
-55936779f49612 Dave Penkler 2024-09-18  1044  			       fluke_gpib_pdev->name) == NULL) {
-55936779f49612 Dave Penkler 2024-09-18  1045  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
-55936779f49612 Dave Penkler 2024-09-18  1046  		return -ENXIO;
-55936779f49612 Dave Penkler 2024-09-18  1047  	}
-55936779f49612 Dave Penkler 2024-09-18  1048  	e_priv->write_transfer_counter_res = res;
-55936779f49612 Dave Penkler 2024-09-18  1049  
-55936779f49612 Dave Penkler 2024-09-18  1050  	e_priv->write_transfer_counter = ioremap(e_priv->write_transfer_counter_res->start,
-55936779f49612 Dave Penkler 2024-09-18  1051  						 resource_size(e_priv->write_transfer_counter_res));
-55936779f49612 Dave Penkler 2024-09-18  1052  	pr_info("gpib: write transfer counter %lx remapped to %p, length=%d\n",
-55936779f49612 Dave Penkler 2024-09-18  1053  		(unsigned long)e_priv->write_transfer_counter_res->start,
-55936779f49612 Dave Penkler 2024-09-18  1054  		e_priv->write_transfer_counter,
-55936779f49612 Dave Penkler 2024-09-18  1055  		(int)resource_size(e_priv->write_transfer_counter_res));
-55936779f49612 Dave Penkler 2024-09-18  1056  	if (!e_priv->write_transfer_counter) {
-55936779f49612 Dave Penkler 2024-09-18  1057  		dev_err(&fluke_gpib_pdev->dev, "Could not map I/O memory\n");
-55936779f49612 Dave Penkler 2024-09-18  1058  		return -ENOMEM;
-55936779f49612 Dave Penkler 2024-09-18  1059  	}
-55936779f49612 Dave Penkler 2024-09-18  1060  
-55936779f49612 Dave Penkler 2024-09-18  1061  	irq = platform_get_irq(fluke_gpib_pdev, 0);
-55936779f49612 Dave Penkler 2024-09-18  1062  	pr_info("gpib: irq %d\n", irq);
-55936779f49612 Dave Penkler 2024-09-18  1063  	if (irq < 0) {
-55936779f49612 Dave Penkler 2024-09-18  1064  		dev_err(&fluke_gpib_pdev->dev, "fluke_gpib: request for IRQ failed\n");
-55936779f49612 Dave Penkler 2024-09-18  1065  		return -EBUSY;
-55936779f49612 Dave Penkler 2024-09-18  1066  	}
-55936779f49612 Dave Penkler 2024-09-18  1067  	retval = request_irq(irq, fluke_gpib_interrupt, isr_flags, fluke_gpib_pdev->name, board);
-55936779f49612 Dave Penkler 2024-09-18  1068  	if (retval) {
-55936779f49612 Dave Penkler 2024-09-18  1069  		dev_err(&fluke_gpib_pdev->dev,
-55936779f49612 Dave Penkler 2024-09-18  1070  			"cannot register interrupt handler err=%d\n",
-55936779f49612 Dave Penkler 2024-09-18  1071  			retval);
-55936779f49612 Dave Penkler 2024-09-18  1072  		return retval;
-55936779f49612 Dave Penkler 2024-09-18  1073  	}
-55936779f49612 Dave Penkler 2024-09-18  1074  	e_priv->irq = irq;
-55936779f49612 Dave Penkler 2024-09-18  1075  
-55936779f49612 Dave Penkler 2024-09-18  1076  	dma_cap_zero(dma_cap);
-55936779f49612 Dave Penkler 2024-09-18  1077  	dma_cap_set(DMA_SLAVE, dma_cap);
-55936779f49612 Dave Penkler 2024-09-18  1078  	e_priv->dma_channel = dma_request_channel(dma_cap, gpib_dma_channel_filter, NULL);
-55936779f49612 Dave Penkler 2024-09-18  1079  	if (!e_priv->dma_channel) {
-55936779f49612 Dave Penkler 2024-09-18  1080  		pr_err("fluke_gpib: failed to allocate a dma channel.\n");
-55936779f49612 Dave Penkler 2024-09-18  1081  		// we don't error out here because unaccel interface will still
-55936779f49612 Dave Penkler 2024-09-18  1082  		// work without dma
-55936779f49612 Dave Penkler 2024-09-18  1083  	}
-55936779f49612 Dave Penkler 2024-09-18  1084  
-55936779f49612 Dave Penkler 2024-09-18  1085  	return fluke_init(e_priv, board, handshake_mode);
-55936779f49612 Dave Penkler 2024-09-18  1086  }
-55936779f49612 Dave Penkler 2024-09-18  1087  
-
-:::::: The code at line 1013 was first introduced by commit
-:::::: 55936779f4961299efa99a6843c8ff3b019d3858 staging: gpib: Add Fluke cda based cards GPIB driver
-
-:::::: TO: Dave Penkler <dpenkler@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  1053	
+  1054	static __be32
+  1055	nfsd_file_get_dio_attrs(const struct svc_fh *fhp, struct nfsd_file *nf)
+  1056	{
+  1057		struct inode *inode = file_inode(nf->nf_file);
+  1058		struct kstat stat;
+  1059		__be32 status;
+  1060	
+  1061		/* Currently only need to get DIO alignment info for regular files */
+  1062		if (!S_ISREG(inode->i_mode))
+  1063			return nfs_ok;
+  1064	
+  1065		status = fh_getattr(fhp, &stat);
+  1066		if (status != nfs_ok)
+  1067			return status;
+  1068	
+> 1069		trace_nfsd_file_get_dio_attrs(inode, &stat);
+  1070	
+  1071		if (stat.result_mask & STATX_DIOALIGN) {
+  1072			nf->nf_dio_mem_align = stat.dio_mem_align;
+  1073			nf->nf_dio_offset_align = stat.dio_offset_align;
+  1074		}
+  1075		if (stat.result_mask & STATX_DIO_READ_ALIGN)
+  1076			nf->nf_dio_read_offset_align = stat.dio_read_offset_align;
+  1077		else
+  1078			nf->nf_dio_read_offset_align = nf->nf_dio_offset_align;
+  1079	
+  1080		return nfs_ok;
+  1081	}
+  1082	
 
 -- 
 0-DAY CI Kernel Test Service
