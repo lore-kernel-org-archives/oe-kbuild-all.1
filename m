@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB872522B5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 06:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF4D277C8C;
+	Sun, 14 Sep 2025 06:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757829640; cv=none; b=aSAmCM/w/RVdql5EU8zhmGVGfTyFCxZj3WNNJA/3caE6CuJWIJKMhVJHA+y01YzIWB65Y0e5xNtKB851F7ZFuQgPrafN5JAFytG0QB3y995AXryU1BOlTDMDUCmPgYPAftwnPy6puSaY/Cyi9utFz9vQ6GCHIc5zPfFV0Ups43E=
+	t=1757830241; cv=none; b=AgssDOdFbHa+bbmPK04g94LYAgt3iagWuk3ufIeRiC9K8yh8vMJbkNYg4r9ezhsqlN582EnYL4qginmcGe45/fcwuRbxbKqcY4jgSClGR0CaT9nYMv0LEpEFNospxEAHTPVudNOb/He105TxMvJqI0Xel02UsZqzNvJqizQdLwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757829640; c=relaxed/simple;
-	bh=iI578K9EXtgnXcwY3ayKFjbSAv74vQwac96+AcfV9y4=;
+	s=arc-20240116; t=1757830241; c=relaxed/simple;
+	bh=TnYOG+zU80fUH9AlYIHN4VWeKwWBClKGHV+KnhdenSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qoJrLMTMXaX2sCdMXFkM+aJH6kRYHatAtuZ6ODtsIkgtr/O6nbuEoe7NzbHOA/qryTzAljZZwowTwtvd4228o13YNJtuhWbZBBc9/nSUhyc3tP9Fazu7vZwfTLgDK5aJj6tNZMdyyN/TWFfXa26PhVbZwvs876obZode0G2Mdfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P24tj1zv; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=F1kmYQVpeM5HxAR3HoPIAUuAURVnh55oAQ7b6uEiEGfUsQaBpRdHrcO41LcbN2NuawB3RnDqgOQSJ04aD53npVris3A2O2oXSzC48hRK9zvOIuN6gzt3Deh/xrPv8aP8+i5MGp2kju5o7UhSvI2d803lZIp6eKVF/gvjUtQpjVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVdKwwxB; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P24tj1zv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVdKwwxB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757829639; x=1789365639;
+  t=1757830240; x=1789366240;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iI578K9EXtgnXcwY3ayKFjbSAv74vQwac96+AcfV9y4=;
-  b=P24tj1zv8bKgW9w0QFAobQtNZrluEsXJORfNOeGFFvQwC6yWA9tpN7da
-   NV6x0XmUyziCoY1AvF/1DBMxy+MOlzC69mCWT9FF6C2ZFRuVhKtBMQ9ot
-   ETBYZ7CnSsa0/t0VateUmG2rtu9kFhFE5sU469CWab6uKAUEPhzoS9vPF
-   zI47/Y90FUptPVqfRxv59KSkwifRH4d1ShWnkWGSmUxSm1vccpZ5QJXGX
-   BDOY/ms+Yjp5PWKMuiAPQUHpCSIxSYwfMmgo2jgpVKQILln8xoqEx93Dn
-   uXbREL7A0Z56Ugt9f+8Elndhgv0O3FiW/jrT2eRruLv1lyJNXhRYT0OK5
-   Q==;
-X-CSE-ConnectionGUID: mvbSawiKTZCpVrjXp5WtLw==
-X-CSE-MsgGUID: BX4y4QOPSZeI3aqkVvE7GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="60222120"
+  bh=TnYOG+zU80fUH9AlYIHN4VWeKwWBClKGHV+KnhdenSo=;
+  b=PVdKwwxBFn4wyJFy7hTMGxJ8er5P06D0tGwuNTOkGdubfQ/ix+i9WZIn
+   PvYEReyh1L0Vwo6hoP4TAQpIb5hgg3ik3IxrcQhictjW1DnMluERKsw49
+   LeDZfJiGRRm/EANyu+Eb4Unx3hqe4+McKWt7f3W3AlwMCpkbc5sIN1TOr
+   n9MZRZP9uhFqBV1bivdR4MpIoVUEK2NmFyeT2FA8tB+p/U0bzCId/1eiB
+   7UaLlecq/azS/BDlbk9OLkMHc71cln9CcXVRuM4I98u4UVP4OOKcDIVsT
+   DSao2uGnjjpzTTeCVO0O2Yv3dTK1oHNuzDHZE3d3TlV+TcJ5rDpAAmXmu
+   A==;
+X-CSE-ConnectionGUID: gHDo03ImSYmDceIVKgHqBw==
+X-CSE-MsgGUID: BOLNJZ9tSuKPcoqbkAmu1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="60186122"
 X-IronPort-AV: E=Sophos;i="6.18,263,1751266800"; 
-   d="scan'208";a="60222120"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 23:00:38 -0700
-X-CSE-ConnectionGUID: 25uFyIjHQZK8/JjEtVlBiQ==
-X-CSE-MsgGUID: 0/Ual7V0TtiCdiCF2NCJYA==
+   d="scan'208";a="60186122"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 23:10:39 -0700
+X-CSE-ConnectionGUID: 2ICbEcbwTYKefiZAIZPEyQ==
+X-CSE-MsgGUID: b9+ZbyOvQfq6A7QlUK1q+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,263,1751266800"; 
-   d="scan'208";a="178351018"
+   d="scan'208";a="198048155"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 13 Sep 2025 23:00:36 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Sep 2025 23:10:37 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxfmr-00029E-1J;
-	Sun, 14 Sep 2025 06:00:33 +0000
-Date: Sun, 14 Sep 2025 13:59:57 +0800
+	id 1uxfwY-00029d-33;
+	Sun, 14 Sep 2025 06:10:34 +0000
+Date: Sun, 14 Sep 2025 14:10:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: [linux-next:master 7654/8719]
- arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: flash@0 (atmel,at45db021d):
- Unevaluated properties are not allowed ('spi-cpha', 'spi-cpol' were
- unexpected)
-Message-ID: <202509141353.QYkxZMMj-lkp@intel.com>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alice Ryhl <aliceryhl@google.com>, Benno Lossin <lossin@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>
+Subject: [tip:locking/core 1/13] error[E0425]: cannot find function
+ `atomic_add` in crate `bindings`
+Message-ID: <202509141437.5iiM1sOF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,32 +66,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   590b221ed4256fd6c34d3dea77aa5bd6e741bbc1
-commit: 5ed941c73b7f501e32610ef0e82affa7ec36a71f [7654/8719] ARM: dts: ls1021a: Rename node name nor to flash
-config: arm-randconfig-052-20250912 (https://download.01.org/0day-ci/archive/20250914/202509141353.QYkxZMMj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141353.QYkxZMMj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
+head:   502ae97746ab6d7b7b48d54b6a85a11815f390d0
+commit: eb57133305f61b612252382d0c1478bba7f57b67 [1/13] rust: sync: Add basic atomic operation mapping framework
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250914/202509141437.5iiM1sOF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141437.5iiM1sOF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509141353.QYkxZMMj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509141437.5iiM1sOF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: memory-controller@1530000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bank-width', 'compatible', 'device-width', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: mdio-mux-emi1 (mdio-mux-mmioreg): compatible: ['mdio-mux-mmioreg'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mdio-mux-mmioreg.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: mdio-mux-emi1 (mdio-mux-mmioreg): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mdio-mux-mmioreg.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('bus-width' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: flash@0 (atmel,at45db021d): Unevaluated properties are not allowed ('spi-cpha', 'spi-cpol' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/atmel,dataflash.yaml#
+All errors (new ones prefixed by >>):
+
+>> error[E0425]: cannot find function `atomic_read_acquire` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   201 | / declare_and_impl_atomic_methods!(
+   202 | |     /// Basic atomic operations
+   203 | |     pub trait AtomicBasicOps {
+   204 | |         /// Atomic read (load).
+   ...   |
+   216 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic_read` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   201 | / declare_and_impl_atomic_methods!(
+   202 | |     /// Basic atomic operations
+   203 | |     pub trait AtomicBasicOps {
+   204 | |         /// Atomic read (load).
+   ...   |
+   216 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic_xchg_relaxed` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+   help: consider importing this function
+   |
+   7   + use core::intrinsics::atomic_xchg_relaxed;
+   |
+--
+>> error[E0425]: cannot find function `atomic_xchg` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic_try_cmpxchg_acquire` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic_try_cmpxchg_release` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic_try_cmpxchg_relaxed` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic_try_cmpxchg` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic64_xchg_acquire` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic64_xchg_release` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `atomic64_xchg_relaxed` in crate `bindings`
+   --> rust/kernel/sync/atomic/internal.rs:124:37
+   |
+   124 |                   $unsafe { bindings::[< $ctype _ $func >]($($c_arg,)*) }
+   |                                       ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   ...
+   218 | / declare_and_impl_atomic_methods!(
+   219 | |     /// Exchange and compare-and-exchange atomic operations
+   220 | |     pub trait AtomicExchangeOps {
+   221 | |         /// Atomic exchange.
+   ...   |
+   243 | | );
+   | |_- in this macro invocation
+   |
+   = note: this error originates in the macro `impl_atomic_method` which comes from the expansion of the macro `declare_and_impl_atomic_methods` (in Nightly builds, run with -Z macro-backtrace for more info)
+..
 
 -- 
 0-DAY CI Kernel Test Service
