@@ -1,666 +1,255 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F13211F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 02:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F39F1891AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 02:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757816737; cv=none; b=jtM+FFjMikqmUtOKUqcR416/OYO9iZf6vWuFGz35tx6e4z0FvJ4G4hOfFNfjNfNSYKICWX/NazVO//2/EzYkrdvmrRCSyEZus4CD65oONrKNAHSCCC8dSIqxK5gG5/x7DD4zmkU+Mt23psIhSsrntQvcr3WhQF4HEUGz+kbVPWM=
+	t=1757818178; cv=none; b=qGf64AdC+k/okkB1npP6IEmvc7a7nVzRUhT4cRO5PSvD9+A0TXbMKAPmRECohWnwYNrCQTEjH3VLoHairuHV2ZEDbpNH9nfTwQLHeEsLlZ9EdHEzlDpkyVZ78+CcbDKGxGfhkIXsOdw7T4AShvNmDc62sPqR/imVu3JZEp+Ylfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757816737; c=relaxed/simple;
-	bh=4QvOZf+j1Pkr5FdnmtKM45SdJm396/uca+NxshukJW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oHoKn9xOpS703YSgujQSWP+UQ7Ybjy8QNmzisHvLFtcf9uH6u3v3emDxZ8n4qkgplmMEGyxTmNJ6JUAfzKHisipjaFBvd2eTJ6qMY4yCqOZwtmx+Oym3QqdNgxDXn+nLoyRRtzTnZROqmjPzTsEU9Dv7HbvVrKF0qtqHeFRgsyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zc0AS05u; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757818178; c=relaxed/simple;
+	bh=/ocrDdQqG9fW+geJ98ijPvowjxtpgo25jcfqXLbwHro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mb4m/q2v8Pw4xZHmWjzT5bG03Ahms5lpKw9j+C324mBMJW7Lm/Cl+cc4/72mk1jujVb+KhT9BmBnlPT7hoz6F+FQhYZxPymgBXmtIlJt2Ki3MQazrQeUVMViAt4NVTUcKRdM1Dkiq+MlV/RQYLClYAx1lN0wKZkWvY/7cRi/Ljk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/2Ku/UL; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zc0AS05u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757816735; x=1789352735;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4QvOZf+j1Pkr5FdnmtKM45SdJm396/uca+NxshukJW0=;
-  b=Zc0AS05uStGtuHKazQzgTNrPS7o1TXF4irzJZJsRslLQsIoIth+8CY4n
-   i0KJPv3ObEn+hKJVHorE+3ahHeRQmHVsmVqy8BDI2rDLRHZTYG3ppM85t
-   rNQyQvZBqt8gyv6dnH7NxOInvwRKkjggjx1CvtOvGfVEfBQT6piqiv4uq
-   e+H+ylc/kTABnLEcmHz07HXafNnpQR5W+7HPzjpYnEcslWP2gnrPcT6Cq
-   LpOPu51C6QoGABt/T9PusNM38MxRlINTyKJNGQpmxUaMrXJaC6pZBrVLi
-   vDALvEmGfk19GbrE4cqoJe02MfqAUGH0YjLRYvy+SkvrD8hckz9/YCOfN
-   Q==;
-X-CSE-ConnectionGUID: BAKZiF9yQreW1cnk5+4Mhg==
-X-CSE-MsgGUID: T8fnoEYuQ+CHZE+0aLVxQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="62741657"
-X-IronPort-AV: E=Sophos;i="6.18,263,1751266800"; 
-   d="scan'208";a="62741657"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 19:25:34 -0700
-X-CSE-ConnectionGUID: wg3PZICURieZne35g7PuYw==
-X-CSE-MsgGUID: mN2drkujR5qmtBDAemakcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,263,1751266800"; 
-   d="scan'208";a="178672707"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Sep 2025 19:25:32 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uxcQf-00022G-19;
-	Sun, 14 Sep 2025 02:25:28 +0000
-Date: Sun, 14 Sep 2025 10:25:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find_first_size 31/38]
- drivers/pci/controller/dwc/pci-dra7xx.c:617:1: warning: 'alias' attribute
- ignored
-Message-ID: <202509141052.oDk828Lq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/2Ku/UL"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-76ce24d1dcaso14546096d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 19:49:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757818175; x=1758422975; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LFavhNV1lWZBO2CYtF6B2ruxGVEn2hxFtUjzEBzIPFo=;
+        b=E/2Ku/ULfBJ/RADP9oLyz5GCOllFdx631LeanR/LMPgVWMcl13C/7kKsWEVddh/FOq
+         UunKB4zbjHsoUc0xr1UyqPiAXUaXxJvl6eZ0Q7IdJxy2r7uEOX4FnCcBCAIzHCJWHLyf
+         2E2cajeP7O9ttWp6CAw0f+lQDJHRV8yTZMAe/dgOYhhIkjJVEcbHSzwPehWI6+LJw8hh
+         d+BlpsXV3hUTQ5VeJhQwI3kgRv4ZFGl6fGO8Jbjk7ihOa6A0DF+v4gdujOJS38tkh9Vw
+         7PViD1wIB/np457We10NyFRTZysGtcDyp+27loIWuUpDiHT2CvXuKkamiSwY0HxiIoNk
+         LLfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757818175; x=1758422975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LFavhNV1lWZBO2CYtF6B2ruxGVEn2hxFtUjzEBzIPFo=;
+        b=bnUZKIVc9WA8heBZGrIqiwia/tUN2cc6tNN0WCxpBm8NHC7tHrDeVbchlpj3heWY6U
+         uX0yAS4B4nezjghWg7D4m25K+A35YuDxBp8v1HLz7uxf1lotevfaow+KWAskTglVXT+n
+         4gs6/VSn7ED6e3ija0hW97OGGYt1IE4AAG1s77vzwcJ2wa9oDLR1ld4eKZ9783zwhbf5
+         yN2MmFA6KmxZTCNZQwIgKNyZjgMX37wTz8OHlDdvbpnHSSBxLEqirY1813P0H1o4+iPO
+         AZuhZuwnhk4YD/zq39R5bHCJvLUGRqk5RYb8og4tZ/8MMkgWFEBJSETr9NnBx4xclJCc
+         CbIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXT5D5K/pNhGO2GHmVeOzErfSoeZMLoSGOafJSuAGOX0F3ANNOXpKesT2tHNik80QPVavJhCa2Xnlx33ITd@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2wGEXP7hw600V/lOlgFEOWcyb0trug/gszG+Ey3pNMo4M2u7u
+	uK3inFQh7Qkc9kl0bg3INX9G9zYehhLWPiiiLnOSl/5Gj1sk0bwZ5GXcd5OQGLsNINXUBkPJfYz
+	uvquYjZK0aM222+CLlkAONRuEvdKcbFk=
+X-Gm-Gg: ASbGncuoUBtr3SLFJ6hjwUzZSpbR/U36cBJgQceNsJfhFoD1sEatOVmSf9KNrRnO41x
+	Mru0I70xQMd1fnhK3R2NePr82EI5bblGEcZMfbS94LoXj8LFwgJijti0Y33RrM7nJ8TEuV8TL9E
+	2itWmx2fEEg8f7LuLE55TEly9O3ozDSoUWA3IbaV8xbtTLhOrWPXgT+3PCCp/TckQkI8CIsoTRf
+	P8c26CJ3edTrgwgt4evEPc67sdpdSryTRnM6LQ8vbFKz5+ionc=
+X-Google-Smtp-Source: AGHT+IHu4nD3kgKhcw1xieNm3ZVi/4aJiGK44+ie7MDg9WJVIme29An0JlKCztQhHPTvo3RppfrMwRprZmHweH0qAnU=
+X-Received: by 2002:ad4:5aad:0:b0:728:4af1:e4f9 with SMTP id
+ 6a1803df08f44-767c46cccf4mr121368526d6.47.1757818175268; Sat, 13 Sep 2025
+ 19:49:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20250910024447.64788-2-laoar.shao@gmail.com> <202509110109.PSgSHb31-lkp@intel.com>
+ <49b70945-7483-4af1-95ba-e128eb9f6d7e@linux.dev> <DF4CA2C0-25AF-462B-A6D2-888DB20E0DFA@nvidia.com>
+ <7d4548ce-e381-47fe-8bb3-5ea38a172527@lucifer.local>
+In-Reply-To: <7d4548ce-e381-47fe-8bb3-5ea38a172527@lucifer.local>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sun, 14 Sep 2025 10:48:59 +0800
+X-Gm-Features: AS18NWCQoXZMjj8Obq1_xmQrE5op8oMXWfkf-LaS63VH7m9IskWXpSuwhtt-rJU
+Message-ID: <CALOAHbAK54mrpWYbCzWjMPrrRFOb7-8kAM7Ud7s6tCMyU7fjsg@mail.gmail.com>
+Subject: Re: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task from khugepaged_mm_slot
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, Lance Yang <ioworker0@gmail.com>, akpm@linux-foundation.org, 
+	gutierrez.asier@huawei-partners.com, rientjes@google.com, andrii@kernel.org, 
+	david@redhat.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, 
+	ameryhung@gmail.com, ryan.roberts@arm.com, usamaarif642@gmail.com, 
+	willy@infradead.org, corbet@lwn.net, npache@redhat.com, dev.jain@arm.com, 
+	21cnbao@gmail.com, shakeel.butt@linux.dev, ast@kernel.org, 
+	daniel@iogearbox.net, hannes@cmpxchg.org, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/norov/linux find_first_size
-head:   19fff28fbf729956258aeb0cd260f8dc1186952f
-commit: 6096b790f1e896e0add2679630eba8bb0659022e [31/38] PCI: dra7xx: switch dra7xx_pcie_handle_msi() to using for_each()
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250914/202509141052.oDk828Lq-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141052.oDk828Lq-lkp@intel.com/reproduce)
+On Thu, Sep 11, 2025 at 9:47=E2=80=AFPM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Wed, Sep 10, 2025 at 10:28:30PM -0400, Zi Yan wrote:
+> > On 10 Sep 2025, at 22:12, Lance Yang wrote:
+> >
+> > > Hi Yafang,
+> > >
+> > > On 2025/9/11 01:27, kernel test robot wrote:
+> > >> Hi Yafang,
+> > >>
+> > >> kernel test robot noticed the following build errors:
+> > >>
+> > >> [auto build test ERROR on akpm-mm/mm-everything]
+> > >>
+> > >> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/m=
+m-thp-remove-disabled-task-from-khugepaged_mm_slot/20250910-144850
+> > >> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git =
+mm-everything
+> > >> patch link:    https://lore.kernel.org/r/20250910024447.64788-2-laoa=
+r.shao%40gmail.com
+> > >> patch subject: [PATCH v7 mm-new 01/10] mm: thp: remove disabled task=
+ from khugepaged_mm_slot
+> > >> config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/=
+20250911/202509110109.PSgSHb31-lkp@intel.com/config)
+> > >> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project=
+ 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > >> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/=
+archive/20250911/202509110109.PSgSHb31-lkp@intel.com/reproduce)
+> > >>
+> > >> If you fix the issue in a separate patch/commit (i.e. not just a new=
+ version of
+> > >> the same patch/commit), kindly add following tags
+> > >> | Reported-by: kernel test robot <lkp@intel.com>
+> > >> | Closes: https://lore.kernel.org/oe-kbuild-all/202509110109.PSgSHb3=
+1-lkp@intel.com/
+> > >>
+> > >> All errors (new ones prefixed by >>):
+> > >>
+> > >>>> kernel/sys.c:2500:6: error: call to undeclared function 'hugepage_=
+pmd_enabled'; ISO C99 and later do not support implicit function declaratio=
+ns [-Wimplicit-function-declaration]
+> > >>      2500 |             hugepage_pmd_enabled())
+> > >>           |             ^
+> > >>>> kernel/sys.c:2501:3: error: call to undeclared function '__khugepa=
+ged_enter'; ISO C99 and later do not support implicit function declarations=
+ [-Wimplicit-function-declaration]
+> > >>      2501 |                 __khugepaged_enter(mm);
+> > >>           |                 ^
+> > >>     2 errors generated.
+> > >
+> > > Oops, seems like hugepage_pmd_enabled() and __khugepaged_enter() are =
+only
+> > > available when CONFIG_TRANSPARENT_HUGEPAGE is enabled ;)
+> > >
+> > >>
+> > >>
+> > >> vim +/hugepage_pmd_enabled +2500 kernel/sys.c
+> > >>
+> > >>    2471
+> > >>    2472    static int prctl_set_thp_disable(bool thp_disable, unsign=
+ed long flags,
+> > >>    2473                                     unsigned long arg4, unsi=
+gned long arg5)
+> > >>    2474    {
+> > >>    2475            struct mm_struct *mm =3D current->mm;
+> > >>    2476
+> > >>    2477            if (arg4 || arg5)
+> > >>    2478                    return -EINVAL;
+> > >>    2479
+> > >>    2480            /* Flags are only allowed when disabling. */
+> > >>    2481            if ((!thp_disable && flags) || (flags & ~PR_THP_D=
+ISABLE_EXCEPT_ADVISED))
+> > >>    2482                    return -EINVAL;
+> > >>    2483            if (mmap_write_lock_killable(current->mm))
+> > >>    2484                    return -EINTR;
+> > >>    2485            if (thp_disable) {
+> > >>    2486                    if (flags & PR_THP_DISABLE_EXCEPT_ADVISED=
+) {
+> > >>    2487                            mm_flags_clear(MMF_DISABLE_THP_CO=
+MPLETELY, mm);
+> > >>    2488                            mm_flags_set(MMF_DISABLE_THP_EXCE=
+PT_ADVISED, mm);
+> > >>    2489                    } else {
+> > >>    2490                            mm_flags_set(MMF_DISABLE_THP_COMP=
+LETELY, mm);
+> > >>    2491                            mm_flags_clear(MMF_DISABLE_THP_EX=
+CEPT_ADVISED, mm);
+> > >>    2492                    }
+> > >>    2493            } else {
+> > >>    2494                    mm_flags_clear(MMF_DISABLE_THP_COMPLETELY=
+, mm);
+> > >>    2495                    mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADV=
+ISED, mm);
+> > >>    2496            }
+> > >>    2497
+> > >>    2498            if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm=
+) &&
+> > >>    2499                !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
+> > >>> 2500                  hugepage_pmd_enabled())
+> > >>> 2501                      __khugepaged_enter(mm);
+> > >>    2502            mmap_write_unlock(current->mm);
+> > >>    2503            return 0;
+> > >>    2504    }
+> > >>    2505
+> > >
+> > > So, let's wrap the new logic in an #ifdef CONFIG_TRANSPARENT_HUGEPAGE=
+ block.
+> > >
+> > > diff --git a/kernel/sys.c b/kernel/sys.c
+> > > index a1c1e8007f2d..c8600e017933 100644
+> > > --- a/kernel/sys.c
+> > > +++ b/kernel/sys.c
+> > > @@ -2495,10 +2495,13 @@ static int prctl_set_thp_disable(bool thp_dis=
+able, unsigned long flags,
+> > >                 mm_flags_clear(MMF_DISABLE_THP_EXCEPT_ADVISED, mm);
+> > >         }
+> > >
+> > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > >         if (!mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm) &&
+> > >             !mm_flags_test(MMF_VM_HUGEPAGE, mm) &&
+> > >             hugepage_pmd_enabled())
+> > >                 __khugepaged_enter(mm);
+> > > +#endif
+> > > +
+> > >         mmap_write_unlock(current->mm);
+> > >         return 0;
+> > >  }
+> >
+> > Or in the header file,
+> >
+> > #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > ...
+> > #else
+> > bool hugepage_pmd_enabled()
+> > {
+> >       return false;
+> > }
+> >
+> > int __khugepaged_enter(struct mm_struct *mm)
+> > {
+> >       return 0;
+> > }
+>
+> It seems we have a convention of just not implementing things here if the=
+y're
+> necessarily used in core code paths (and _with my suggested change_) it's=
+ _just_
+> khugepaged that's invoking them).
+>
+> Anyway with my suggestion we can fix this entirely with:
+>
+> #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>
+> void khugepaged_enter_mm(struct mm_struct *mm);
+>
+> #else
+>
+> void khugepaged_enter_mm(struct mm_struct *mm)
+> {
+> }
+>
+> #endif
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509141052.oDk828Lq-lkp@intel.com/
+ack
 
-All error/warnings (new ones prefixed by >>):
+Thanks for all the suggestions.
 
-   drivers/pci/controller/dwc/pci-dra7xx.c: In function 'dra7xx_pcie_handle_msi':
-   drivers/pci/controller/dwc/pci-dra7xx.c:223:13: error: invalid storage class for function 'dra7xx_pcie_handle_msi_irq'
-     223 | static void dra7xx_pcie_handle_msi_irq(struct dw_pcie_rp *pp)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:250:13: error: invalid storage class for function 'dra7xx_pcie_msi_irq_handler'
-     250 | static void dra7xx_pcie_msi_irq_handler(struct irq_desc *desc)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:284:20: error: invalid storage class for function 'dra7xx_pcie_irq_handler'
-     284 | static irqreturn_t dra7xx_pcie_irq_handler(int irq, void *arg)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:343:12: error: invalid storage class for function 'dra7xx_pcie_init_irq_domain'
-     343 | static int dra7xx_pcie_init_irq_domain(struct dw_pcie_rp *pp)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:373:13: error: invalid storage class for function 'dra7xx_pcie_ep_init'
-     373 | static void dra7xx_pcie_ep_init(struct dw_pcie_ep *ep)
-         |             ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:385:13: error: invalid storage class for function 'dra7xx_pcie_raise_intx_irq'
-     385 | static void dra7xx_pcie_raise_intx_irq(struct dra7xx_pcie *dra7xx)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:392:13: error: invalid storage class for function 'dra7xx_pcie_raise_msi_irq'
-     392 | static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:402:12: error: invalid storage class for function 'dra7xx_pcie_raise_irq'
-     402 | static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:429:1: error: invalid storage class for function 'dra7xx_pcie_get_features'
-     429 | dra7xx_pcie_get_features(struct dw_pcie_ep *ep)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:435:17: error: initializer element is not constant
-     435 |         .init = dra7xx_pcie_ep_init,
-         |                 ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:435:17: note: (near initialization for 'pcie_ep_ops.init')
-   drivers/pci/controller/dwc/pci-dra7xx.c:436:22: error: initializer element is not constant
-     436 |         .raise_irq = dra7xx_pcie_raise_irq,
-         |                      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:436:22: note: (near initialization for 'pcie_ep_ops.raise_irq')
-   drivers/pci/controller/dwc/pci-dra7xx.c:437:25: error: initializer element is not constant
-     437 |         .get_features = dra7xx_pcie_get_features,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:437:25: note: (near initialization for 'pcie_ep_ops.get_features')
-   drivers/pci/controller/dwc/pci-dra7xx.c:440:12: error: invalid storage class for function 'dra7xx_add_pcie_ep'
-     440 | static int dra7xx_add_pcie_ep(struct dra7xx_pcie *dra7xx,
-         |            ^~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:478:12: error: invalid storage class for function 'dra7xx_add_pcie_port'
-     478 | static int dra7xx_add_pcie_port(struct dra7xx_pcie *dra7xx,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:519:13: error: invalid storage class for function 'dra7xx_pcie_disable_phy'
-     519 | static void dra7xx_pcie_disable_phy(struct dra7xx_pcie *dra7xx)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:529:12: error: invalid storage class for function 'dra7xx_pcie_enable_phy'
-     529 | static int dra7xx_pcie_enable_phy(struct dra7xx_pcie *dra7xx)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/controller/dwc/pci-dra7xx.c:617:1: warning: 'alias' attribute ignored [-Wattributes]
-     617 | MODULE_DEVICE_TABLE(of, of_dra7xx_pcie_match);
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:630:12: error: invalid storage class for function 'dra7xx_pcie_unaligned_memaccess'
-     630 | static int dra7xx_pcie_unaligned_memaccess(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:651:12: error: invalid storage class for function 'dra7xx_pcie_configure_two_lane'
-     651 | static int dra7xx_pcie_configure_two_lane(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:674:12: error: invalid storage class for function 'dra7xx_pcie_probe'
-     674 | static int dra7xx_pcie_probe(struct platform_device *pdev)
-         |            ^~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:862:12: error: invalid storage class for function 'dra7xx_pcie_suspend'
-     862 | static int dra7xx_pcie_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:879:12: error: invalid storage class for function 'dra7xx_pcie_resume'
-     879 | static int dra7xx_pcie_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:896:12: error: invalid storage class for function 'dra7xx_pcie_suspend_noirq'
-     896 | static int dra7xx_pcie_suspend_noirq(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:905:12: error: invalid storage class for function 'dra7xx_pcie_resume_noirq'
-     905 | static int dra7xx_pcie_resume_noirq(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:919:13: error: invalid storage class for function 'dra7xx_pcie_shutdown'
-     919 | static void dra7xx_pcie_shutdown(struct platform_device *pdev)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:36,
-                    from include/linux/clk.h:13,
-                    from drivers/pci/controller/dwc/pci-dra7xx.c:10:
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:314:20: note: in expansion of macro 'pm_sleep_ptr'
-     314 |         .suspend = pm_sleep_ptr(suspend_fn), \
-         |                    ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.suspend')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:314:20: note: in expansion of macro 'pm_sleep_ptr'
-     314 |         .suspend = pm_sleep_ptr(suspend_fn), \
-         |                    ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:315:19: note: in expansion of macro 'pm_sleep_ptr'
-     315 |         .resume = pm_sleep_ptr(resume_fn), \
-         |                   ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.resume')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:315:19: note: in expansion of macro 'pm_sleep_ptr'
-     315 |         .resume = pm_sleep_ptr(resume_fn), \
-         |                   ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:316:19: note: in expansion of macro 'pm_sleep_ptr'
-     316 |         .freeze = pm_sleep_ptr(suspend_fn), \
-         |                   ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.freeze')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:316:19: note: in expansion of macro 'pm_sleep_ptr'
-     316 |         .freeze = pm_sleep_ptr(suspend_fn), \
-         |                   ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:317:17: note: in expansion of macro 'pm_sleep_ptr'
-     317 |         .thaw = pm_sleep_ptr(resume_fn), \
-         |                 ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.thaw')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:317:17: note: in expansion of macro 'pm_sleep_ptr'
-     317 |         .thaw = pm_sleep_ptr(resume_fn), \
-         |                 ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:318:21: note: in expansion of macro 'pm_sleep_ptr'
-     318 |         .poweroff = pm_sleep_ptr(suspend_fn), \
-         |                     ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.poweroff')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:318:21: note: in expansion of macro 'pm_sleep_ptr'
-     318 |         .poweroff = pm_sleep_ptr(suspend_fn), \
-         |                     ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:319:20: note: in expansion of macro 'pm_sleep_ptr'
-     319 |         .restore = pm_sleep_ptr(resume_fn),
-         |                    ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.restore')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:319:20: note: in expansion of macro 'pm_sleep_ptr'
-     319 |         .restore = pm_sleep_ptr(resume_fn),
-         |                    ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:938:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     938 |         SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend, dra7xx_pcie_resume)
-         |         ^~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:330:26: note: in expansion of macro 'pm_sleep_ptr'
-     330 |         .suspend_noirq = pm_sleep_ptr(suspend_fn), \
-         |                          ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.suspend_noirq')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:330:26: note: in expansion of macro 'pm_sleep_ptr'
-     330 |         .suspend_noirq = pm_sleep_ptr(suspend_fn), \
-         |                          ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:331:25: note: in expansion of macro 'pm_sleep_ptr'
-     331 |         .resume_noirq = pm_sleep_ptr(resume_fn), \
-         |                         ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.resume_noirq')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:331:25: note: in expansion of macro 'pm_sleep_ptr'
-     331 |         .resume_noirq = pm_sleep_ptr(resume_fn), \
-         |                         ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:332:25: note: in expansion of macro 'pm_sleep_ptr'
-     332 |         .freeze_noirq = pm_sleep_ptr(suspend_fn), \
-         |                         ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.freeze_noirq')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:332:25: note: in expansion of macro 'pm_sleep_ptr'
-     332 |         .freeze_noirq = pm_sleep_ptr(suspend_fn), \
-         |                         ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:333:23: note: in expansion of macro 'pm_sleep_ptr'
-     333 |         .thaw_noirq = pm_sleep_ptr(resume_fn), \
-         |                       ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.thaw_noirq')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:333:23: note: in expansion of macro 'pm_sleep_ptr'
-     333 |         .thaw_noirq = pm_sleep_ptr(resume_fn), \
-         |                       ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:334:27: note: in expansion of macro 'pm_sleep_ptr'
-     334 |         .poweroff_noirq = pm_sleep_ptr(suspend_fn), \
-         |                           ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.poweroff_noirq')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:334:27: note: in expansion of macro 'pm_sleep_ptr'
-     334 |         .poweroff_noirq = pm_sleep_ptr(suspend_fn), \
-         |                           ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/util_macros.h:136:33: error: initializer element is not constant
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:335:26: note: in expansion of macro 'pm_sleep_ptr'
-     335 |         .restore_noirq = pm_sleep_ptr(resume_fn),
-         |                          ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:33: note: (near initialization for 'dra7xx_pcie_pm_ops.restore_noirq')
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                 ^
-   include/linux/pm.h:473:28: note: in expansion of macro 'PTR_IF'
-     473 | #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
-         |                            ^~~~~~
-   include/linux/pm.h:335:26: note: in expansion of macro 'pm_sleep_ptr'
-     335 |         .restore_noirq = pm_sleep_ptr(resume_fn),
-         |                          ^~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:939:9: note: in expansion of macro 'NOIRQ_SYSTEM_SLEEP_PM_OPS'
-     939 |         NOIRQ_SYSTEM_SLEEP_PM_OPS(dra7xx_pcie_suspend_noirq,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:944:18: error: initializer element is not constant
-     944 |         .probe = dra7xx_pcie_probe,
-         |                  ^~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:944:18: note: (near initialization for 'dra7xx_pcie_driver.probe')
-   drivers/pci/controller/dwc/pci-dra7xx.c:951:21: error: initializer element is not constant
-     951 |         .shutdown = dra7xx_pcie_shutdown,
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:951:21: note: (near initialization for 'dra7xx_pcie_driver.shutdown')
-   In file included from include/linux/device.h:32,
-                    from drivers/pci/controller/dwc/pci-dra7xx.c:12:
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:24: error: invalid storage class for function 'dra7xx_pcie_driver_init'
-     953 | module_platform_driver(dra7xx_pcie_driver);
-         |                        ^~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:258:19: note: in definition of macro 'module_driver'
-     258 | static int __init __driver##_init(void) \
-         |                   ^~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:1: note: in expansion of macro 'module_platform_driver'
-     953 | module_platform_driver(dra7xx_pcie_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/device/driver.h:21:
->> include/linux/module.h:132:49: error: invalid storage class for function '__inittest'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
-     262 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
-     292 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:1: note: in expansion of macro 'module_platform_driver'
-     953 | module_platform_driver(dra7xx_pcie_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:1: warning: 'alias' attribute ignored [-Wattributes]
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:24: error: invalid storage class for function 'dra7xx_pcie_driver_exit'
-     953 | module_platform_driver(dra7xx_pcie_driver);
-         |                        ^~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:263:20: note: in definition of macro 'module_driver'
-     263 | static void __exit __driver##_exit(void) \
-         |                    ^~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:1: note: in expansion of macro 'module_platform_driver'
-     953 | module_platform_driver(dra7xx_pcie_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/module.h:140:49: error: invalid storage class for function '__exittest'
-     140 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
-     267 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
-     292 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:1: note: in expansion of macro 'module_platform_driver'
-     953 | module_platform_driver(dra7xx_pcie_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-dra7xx.c:953:1: warning: 'alias' attribute ignored [-Wattributes]
-   drivers/pci/controller/dwc/pci-dra7xx.c:957:1: error: expected declaration or statement at end of input
-     957 | MODULE_LICENSE("GPL v2");
-         | ^~~~~~~~~~~~~~
-..
-
-
-vim +/alias +617 drivers/pci/controller/dwc/pci-dra7xx.c
-
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  477  
-e259c2926c016d drivers/pci/controller/dwc/pci-dra7xx.c Tony Lindgren          2021-03-10 @478  static int dra7xx_add_pcie_port(struct dra7xx_pcie *dra7xx,
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  479  				struct platform_device *pdev)
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  480  {
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  481  	int ret;
-442ec4c04d1235 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-02-15  482  	struct dw_pcie *pci = dra7xx->pci;
-60b3c27fb9b92b drivers/pci/controller/dwc/pci-dra7xx.c Serge Semin            2022-06-24  483  	struct dw_pcie_rp *pp = &pci->pp;
-442ec4c04d1235 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-02-15  484  	struct device *dev = pci->dev;
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  485  
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  486  	pp->irq = platform_get_irq(pdev, 1);
-caecb05c800081 drivers/pci/controller/dwc/pci-dra7xx.c Krzysztof Wilczyński   2020-08-02  487  	if (pp->irq < 0)
-2f3ec75245ee9c drivers/pci/dwc/pci-dra7xx.c            Fabio Estevam          2017-08-31  488  		return pp->irq;
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  489  
-5bcb1757e637a4 drivers/pci/controller/dwc/pci-dra7xx.c Rob Herring            2020-11-05  490  	/* MSI IRQ is muxed */
-db388348acffe9 drivers/pci/controller/dwc/pci-dra7xx.c Dmitry Baryshkov       2022-07-22  491  	pp->msi_irq[0] = -ENODEV;
-5bcb1757e637a4 drivers/pci/controller/dwc/pci-dra7xx.c Rob Herring            2020-11-05  492  
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  493  	ret = dra7xx_pcie_init_irq_domain(pp);
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  494  	if (ret < 0)
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  495  		return ret;
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  496  
-936fa5cd7b8e3e drivers/pci/controller/dwc/pci-dra7xx.c Dejin Zheng            2020-07-09  497  	pci->dbi_base = devm_platform_ioremap_resource_byname(pdev, "rc_dbics");
-011cb23c40e99e drivers/pci/dwc/pci-dra7xx.c            Gustavo Pimentel       2018-05-14  498  	if (IS_ERR(pci->dbi_base))
-011cb23c40e99e drivers/pci/dwc/pci-dra7xx.c            Gustavo Pimentel       2018-05-14  499  		return PTR_ERR(pci->dbi_base);
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  500  
-71890ea0a0b563 drivers/pci/dwc/pci-dra7xx.c            Niklas Cassel          2017-12-20  501  	pp->ops = &dra7xx_pcie_host_ops;
-71890ea0a0b563 drivers/pci/dwc/pci-dra7xx.c            Niklas Cassel          2017-12-20  502  
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  503  	ret = dw_pcie_host_init(pp);
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  504  	if (ret) {
-c7f8146b7c56f7 drivers/pci/host/pci-dra7xx.c           Bjorn Helgaas          2016-10-06  505  		dev_err(dev, "failed to initialize host\n");
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  506  		return ret;
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  507  	}
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  508  
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  509  	return 0;
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  510  }
-47ff3de911a728 drivers/pci/host/pci-dra7xx.c           Kishon Vijay Abraham I 2014-07-22  511  
-442ec4c04d1235 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-02-15  512  static const struct dw_pcie_ops dw_pcie_ops = {
-2ed6cc71e6f726 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-13  513  	.cpu_addr_fixup = dra7xx_pcie_cpu_addr_fixup,
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  514  	.start_link = dra7xx_pcie_establish_link,
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  515  	.stop_link = dra7xx_pcie_stop_link,
-442ec4c04d1235 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-02-15  516  	.link_up = dra7xx_pcie_link_up,
-442ec4c04d1235 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-02-15  517  };
-442ec4c04d1235 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-02-15  518  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  519  static void dra7xx_pcie_disable_phy(struct dra7xx_pcie *dra7xx)
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  520  {
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  521  	int phy_count = dra7xx->phy_count;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  522  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  523  	while (phy_count--) {
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  524  		phy_power_off(dra7xx->phy[phy_count]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  525  		phy_exit(dra7xx->phy[phy_count]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  526  	}
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  527  }
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  528  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  529  static int dra7xx_pcie_enable_phy(struct dra7xx_pcie *dra7xx)
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  530  {
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  531  	int phy_count = dra7xx->phy_count;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  532  	int ret;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  533  	int i;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  534  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  535  	for (i = 0; i < phy_count; i++) {
-65c839a134e6af drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  536  		ret = phy_set_mode(dra7xx->phy[i], PHY_MODE_PCIE);
-65c839a134e6af drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  537  		if (ret < 0)
-65c839a134e6af drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  538  			goto err_phy;
-65c839a134e6af drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  539  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  540  		ret = phy_init(dra7xx->phy[i]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  541  		if (ret < 0)
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  542  			goto err_phy;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  543  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  544  		ret = phy_power_on(dra7xx->phy[i]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  545  		if (ret < 0) {
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  546  			phy_exit(dra7xx->phy[i]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  547  			goto err_phy;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  548  		}
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  549  	}
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  550  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  551  	return 0;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  552  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  553  err_phy:
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  554  	while (--i >= 0) {
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  555  		phy_power_off(dra7xx->phy[i]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  556  		phy_exit(dra7xx->phy[i]);
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  557  	}
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  558  
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  559  	return ret;
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  560  }
-1f6c4501c667a6 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-01-11  561  
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  562  static const struct dra7xx_pcie_of_data dra7xx_pcie_rc_of_data = {
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  563  	.mode = DW_PCIE_RC_TYPE,
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  564  };
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  565  
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  566  static const struct dra7xx_pcie_of_data dra7xx_pcie_ep_of_data = {
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  567  	.mode = DW_PCIE_EP_TYPE,
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  568  };
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  569  
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  570  static const struct dra7xx_pcie_of_data dra746_pcie_rc_of_data = {
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  571  	.b1co_mode_sel_mask = BIT(2),
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  572  	.mode = DW_PCIE_RC_TYPE,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  573  };
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  574  
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  575  static const struct dra7xx_pcie_of_data dra726_pcie_rc_of_data = {
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  576  	.b1co_mode_sel_mask = GENMASK(3, 2),
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  577  	.mode = DW_PCIE_RC_TYPE,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  578  };
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  579  
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  580  static const struct dra7xx_pcie_of_data dra746_pcie_ep_of_data = {
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  581  	.b1co_mode_sel_mask = BIT(2),
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  582  	.mode = DW_PCIE_EP_TYPE,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  583  };
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  584  
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  585  static const struct dra7xx_pcie_of_data dra726_pcie_ep_of_data = {
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  586  	.b1co_mode_sel_mask = GENMASK(3, 2),
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  587  	.mode = DW_PCIE_EP_TYPE,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  588  };
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  589  
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  590  static const struct of_device_id of_dra7xx_pcie_match[] = {
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  591  	{
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  592  		.compatible = "ti,dra7-pcie",
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  593  		.data = &dra7xx_pcie_rc_of_data,
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  594  	},
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  595  	{
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  596  		.compatible = "ti,dra7-pcie-ep",
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  597  		.data = &dra7xx_pcie_ep_of_data,
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  598  	},
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  599  	{
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  600  		.compatible = "ti,dra746-pcie-rc",
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  601  		.data = &dra746_pcie_rc_of_data,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  602  	},
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  603  	{
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  604  		.compatible = "ti,dra726-pcie-rc",
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  605  		.data = &dra726_pcie_rc_of_data,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  606  	},
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  607  	{
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  608  		.compatible = "ti,dra746-pcie-ep",
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  609  		.data = &dra746_pcie_ep_of_data,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  610  	},
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  611  	{
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  612  		.compatible = "ti,dra726-pcie-ep",
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  613  		.data = &dra726_pcie_ep_of_data,
-c232c0df9610bf drivers/pci/controller/dwc/pci-dra7xx.c Kishon Vijay Abraham I 2019-01-24  614  	},
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  615  	{},
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  616  };
-3b868d150efd3c drivers/pci/controller/dwc/pci-dra7xx.c Luca Ceresoli          2021-05-31 @617  MODULE_DEVICE_TABLE(of, of_dra7xx_pcie_match);
-608793e27b3313 drivers/pci/dwc/pci-dra7xx.c            Kishon Vijay Abraham I 2017-03-27  618  
-
-:::::: The code at line 617 was first introduced by commit
-:::::: 3b868d150efd3c586762cee4410cfc75f46d2a07 PCI: dra7xx: Make it a kernel module
-
-:::::: TO: Luca Ceresoli <luca@lucaceresoli.net>
-:::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Regards
+Yafang
