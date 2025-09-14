@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484242475CF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 11:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A6C257820
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 12:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757849273; cv=none; b=OS7CEES7wHLt6scP22V3Izukmafx1trJYTv67nqpdVeUVJm5MguZvgbxWU4Uu9tSBWxg2SVfpcquEi8dTKgTAmA6fHeTMxDF5lRh1qaZsIGqZjbIQ1b0nnJMdZ+0+ckm4jzQq7VlStF8Bw+WzAF1t71i9AMPZ0u6l3fWFatkAqk=
+	t=1757851215; cv=none; b=fzo2guBJpgAzePXklv8tqGD2p1xQ3PGoKkrdRqv3EciLE/E/8uZSkW7FvBKMU2jGiRvutMFFVPH3v/BQ3T1oab82iTlVKzyqMPDujKOZDspB/t8/HRiHmtm+qYStdQHp/xzuAx78dXlYcR0ubUhVCaCOdXKFvslrLCB6YjwQUCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757849273; c=relaxed/simple;
-	bh=PXfTRY9RJkQx3ZxizTnsn/mRFPJ96l2AyeLMZifqmJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rhy0DflbHEq+lU+ERPar+k5FXWytBciU12vSi2ylIoP4Cs95L3dWk5oIKSlGTueZK6P+UA5zlrthVqH1bpNDEInmjojj6z4f0j2vimxtRB5yuFvkTGTBaxVWJfmSHaV7dlZ79WDTi/9N3EZg218wIIYR5x5Jjnj7IwDsIhB82ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/edQqI8; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1757851215; c=relaxed/simple;
+	bh=Q/khpBhsamShcDYBg4MB9xHmxMsxWZwwITglIWO75xs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=APiXQvTtE14Hefs1GtElrwQexApNk4ZMZr+1+Olw3Vyyb+M2k5PMm00qYzu/nXBewxgy8Pt85Bxfav/lLN5FozrtbgUdDjw2mRJwo0riVK9Zc3ULbJxPAimynEWwihrYeyA7Sj5fhpDKK3UbsTpHRNb6CwvNWrTbSO4c/XpPuWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1cGxNLx; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/edQqI8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1cGxNLx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757849271; x=1789385271;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PXfTRY9RJkQx3ZxizTnsn/mRFPJ96l2AyeLMZifqmJA=;
-  b=g/edQqI8WF9wCucJg5w6NBrBh0y2rAKG3KFFqWTDgdqfAoPlgpTOSXZD
-   21uzvPZ6svuAEvhiDRqCKETqjY8nGOVKSops6JKFUnM4RRJomJG7mt7rG
-   /PppdvK2GRoRUZhKh76m1tJeNZ5D9QjdlxRAsmFNdFbr781UibB/I6d44
-   wxIo+jxnrxH5y0ep9cwWc//tJEJPi1mqpYStNLPMb3PKT4+yhhe+CaL2d
-   N2LqkcJLJ0SL9kCAre30cKt0yxvfkx826ES6EokJSSqu1GU190A/N4gD3
-   1f1w7jhjpNdA/enmByzC1J37TeG/DP6w88m4gKRSfoMK936qbndSzViWU
-   g==;
-X-CSE-ConnectionGUID: I0DOzASpR9eDXJY+5EW1FA==
-X-CSE-MsgGUID: JfVQWT33RHeBiK/ZZHtbzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="71550839"
+  t=1757851213; x=1789387213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q/khpBhsamShcDYBg4MB9xHmxMsxWZwwITglIWO75xs=;
+  b=e1cGxNLxrHbn5qjIApzHdFmNqJALiI24h9ETPrPn9GjYw0t3am7441Pp
+   nk1WuJ81tAR+KzDSQgxj3wssiu1sTulxxGtWhvHZZq9yVc9s/au66yw+K
+   kSCZgwldkqru8Z3kOUuVpa0lWYbAYHZdHTit3MeHROzDSSrBiAO2uip2f
+   dgxCYrziy+/fKOOrtF/9bEL+EBjBT/OjyQEK56XQEbmuFWwow/Jxyy4yn
+   C7JBzzz9PmDCr1Khj9hCT1gd5IVHMkJrlO+cC8I17g6dCncqKiN1PONF8
+   ndunz1tGFLGbtRsMKorGYWVwA/606Jt3FEVY8fY0lbDwOsd1K0UOkXCWJ
+   A==;
+X-CSE-ConnectionGUID: LmhkzE5RSWKVYXY0iJmzAg==
+X-CSE-MsgGUID: RHZ01lUnTeuuCFLV1H8NlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="59823419"
 X-IronPort-AV: E=Sophos;i="6.18,264,1751266800"; 
-   d="scan'208";a="71550839"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 04:27:51 -0700
-X-CSE-ConnectionGUID: ejaDQrRjQYyd2K9OofVxFg==
-X-CSE-MsgGUID: gJ1LdCIGTWq3VLPPV4e8Fg==
+   d="scan'208";a="59823419"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 05:00:11 -0700
+X-CSE-ConnectionGUID: QbH8Hb9qS8mzuO1eJjHrJg==
+X-CSE-MsgGUID: XRBMci2rQC+NtI3gwLeabw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,264,1751266800"; 
-   d="scan'208";a="174458951"
+   d="scan'208";a="178743631"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 14 Sep 2025 04:27:49 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Sep 2025 05:00:10 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxktX-0002LY-0q;
-	Sun, 14 Sep 2025 11:27:47 +0000
-Date: Sun, 14 Sep 2025 19:27:07 +0800
+	id 1uxlOn-0002NA-0g;
+	Sun, 14 Sep 2025 12:00:06 +0000
+Date: Sun, 14 Sep 2025 19:59:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: JiangJianJun <jiangjianjun3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.17-r4lite 101/104]
- arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@11290000
- (mediatek,mt7988-pcie): Unevaluated properties are not allowed ('compatible'
- was unexpected)
-Message-ID: <202509141938.tDvbRpXk-lkp@intel.com>
+Subject: Re: [RFC PATCH v4 8/9] scsi: scsi_error: Add a general LUN based
+ error handler
+Message-ID: <202509141933.GikctXJJ-lkp@intel.com>
+References: <20250914104145.2239901-9-jiangjianjun3@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,54 +63,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250914104145.2239901-9-jiangjianjun3@huawei.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.17-r4lite
-head:   d845dce6a3e1a5a8793a804f1307b71499b1e27e
-commit: 6bb765fe24ef67aa5d7934e9f18bea1259ad3d89 [101/104] arm64: dts: mt7987-bpi-r4lite: change to 2 pcie per default and change 1pcie2L overlay
-config: arm64-randconfig-051-20250914 (https://download.01.org/0day-ci/archive/20250914/202509141938.tDvbRpXk-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141938.tDvbRpXk-lkp@intel.com/reproduce)
+Hi JiangJianJun,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.17-rc5 next-20250912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/JiangJianJun/scsi-scsi_error-Define-framework-for-LUN-based-error-handle/20250914-181340
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20250914104145.2239901-9-jiangjianjun3%40huawei.com
+patch subject: [RFC PATCH v4 8/9] scsi: scsi_error: Add a general LUN based error handler
+config: arc-randconfig-002-20250914 (https://download.01.org/0day-ci/archive/20250914/202509141933.GikctXJJ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509141933.GikctXJJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509141938.tDvbRpXk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509141933.GikctXJJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@11290000 (mediatek,mt7988-pcie): clock-names: ['pl_250m', 'tl_26m', 'peri_26m', 'top_133m', 'pextp_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@11290000 (mediatek,mt7988-pcie): clocks: [[22, 66], [22, 64], [22, 70], [22, 68], [4, 47]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@11290000 (mediatek,mt7988-pcie): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-pcie', 'mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7988-pcie' is not one of ['mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@11290000 (mediatek,mt7988-pcie): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/pcie@11290000: failed to match any schema with compatible: ['mediatek,mt7988-pcie', 'mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/pcie@11290000: failed to match any schema with compatible: ['mediatek,mt7988-pcie', 'mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@11290000 (mediatek,mt7988-pcie): compatible: ['mediatek,mt7988-pcie', 'mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie'] has non-unique elements
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@0,0: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@0,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@0,0: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pcie@0,0: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/topmisc@10021000: failed to match any schema with compatible: ['mediatek,mt7987-topmisc', 'syscon', 'mediatek,mt7987-power-controller']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/topmisc@10021000: failed to match any schema with compatible: ['mediatek,mt7987-topmisc', 'syscon', 'mediatek,mt7987-power-controller']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: efuse@11d30000 (mediatek,efuse): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,efuse'] is too short
-   	'mediatek,mt8188-efuse' was expected
-   	'mediatek,mt8186-efuse' was expected
-   	'mediatek,efuse' is not one of ['mediatek,mt8186-efuse', 'mediatek,mt8188-efuse']
-   	'mediatek,efuse' is not one of ['mediatek,mt7622-efuse', 'mediatek,mt7623-efuse', 'mediatek,mt7981-efuse', 'mediatek,mt7986-efuse', 'mediatek,mt7988-efuse', 'mediatek,mt8173-efuse', 'mediatek,mt8183-efuse', 'mediatek,mt8192-efuse', 'mediatek,mt8195-efuse', 'mediatek,mt8516-efuse']
-   	'mediatek,mt8173-efuse' was expected
+All warnings (new ones prefixed by >>):
+
+   drivers/scsi/scsi_error.c: In function 'sdev_eh_work':
+>> drivers/scsi/scsi_error.c:2770:20: warning: unused variable 'shost' [-Wunused-variable]
+    2770 |  struct Scsi_Host *shost = sdev->host;
+         |                    ^~~~~
+
+
+vim +/shost +2770 drivers/scsi/scsi_error.c
+
+  2753	
+  2754	/*
+  2755	 * error handle strategy based on LUN, following steps
+  2756	 * is applied to recovery error commands in list:
+  2757	 *    check sense data
+  2758	 *    send start unit
+  2759	 *    reset lun
+  2760	 * if there are still error commands, it would fallback to
+  2761	 * host based error handler for further recovery.
+  2762	 */
+  2763	static void sdev_eh_work(struct work_struct *work)
+  2764	{
+  2765		unsigned long flags;
+  2766		struct scsi_lun_eh *luneh =
+  2767				container_of(work, struct scsi_lun_eh, eh_handle_work);
+  2768		struct scsi_device *sdev = luneh->sdev;
+  2769		struct scsi_device_eh *eh = sdev->eh;
+> 2770		struct Scsi_Host *shost = sdev->host;
+  2771		struct scsi_cmnd *scmd, *next;
+  2772		LIST_HEAD(eh_work_q);
+  2773		LIST_HEAD(eh_done_q);
+  2774	
+  2775		spin_lock_irqsave(&luneh->eh_lock, flags);
+  2776		list_splice_init(&luneh->eh_cmd_q, &eh_work_q);
+  2777		spin_unlock_irqrestore(&luneh->eh_lock, flags);
+  2778	
+  2779		if (scsi_sdev_eh(sdev, &eh_work_q, &eh_done_q))
+  2780			goto out_flush_done;
+  2781	
+  2782		if (!luneh->fallback) {
+  2783			list_for_each_entry_safe(scmd, next, &eh_work_q, eh_entry)
+  2784				scsi_eh_finish_cmd(scmd, &eh_done_q);
+  2785	
+  2786			sdev_printk(KERN_INFO, sdev,
+  2787				"%s:luneh: Device offlined - not ready after error recovery\n",
+  2788				current->comm);
+  2789	
+  2790			mutex_lock(&sdev->state_mutex);
+  2791			scsi_device_set_state(sdev, SDEV_OFFLINE);
+  2792			mutex_unlock(&sdev->state_mutex);
+  2793	
+  2794			goto out_flush_done;
+  2795		}
+  2796	
+  2797		/*
+  2798		 * fallback to host based error handler
+  2799		 */
+  2800		SCSI_LOG_ERROR_RECOVERY(2, sdev_printk(KERN_INFO, sdev,
+  2801			"%s:luneh fallback to further recovery\n", current->comm));
+  2802		list_for_each_entry_safe(scmd, next, &eh_work_q, eh_entry) {
+  2803			list_del_init(&scmd->eh_entry);
+  2804			scsi_eh_scmd_add_shost(scmd);
+  2805		}
+  2806	
+  2807		eh->get_sense_done = 1;
+  2808		eh->stu_done = 1;
+  2809		eh->reset_done = 1;
+  2810	
+  2811	out_flush_done:
+  2812		scsi_eh_flush_done_q(&eh_done_q);
+  2813		spin_lock_irqsave(&luneh->eh_lock, flags);
+  2814		luneh->eh_num = 0;
+  2815		spin_unlock_irqrestore(&luneh->eh_lock, flags);
+  2816	}
+  2817	static void sdev_eh_add_cmnd(struct scsi_cmnd *scmd)
+  2818	{
+  2819		unsigned long flags;
+  2820		struct scsi_lun_eh *luneh;
+  2821		struct scsi_device *sdev = scmd->device;
+  2822	
+  2823		luneh = scsi_eh_device_priv(sdev->eh);
+  2824	
+  2825		spin_lock_irqsave(&luneh->eh_lock, flags);
+  2826		list_add_tail(&scmd->eh_entry, &luneh->eh_cmd_q);
+  2827		luneh->eh_num++;
+  2828		spin_unlock_irqrestore(&luneh->eh_lock, flags);
+  2829	}
+  2830	static bool sdev_eh_is_busy(struct scsi_device *sdev)
+  2831	{
+  2832		int ret = 0;
+  2833		unsigned long flags;
+  2834		struct scsi_lun_eh *luneh;
+  2835	
+  2836		if (!sdev->eh)
+  2837			return false;
+  2838	
+  2839		luneh = scsi_eh_device_priv(sdev->eh);
+  2840	
+  2841		spin_lock_irqsave(&luneh->eh_lock, flags);
+  2842		ret = luneh->eh_num;
+  2843		spin_unlock_irqrestore(&luneh->eh_lock, flags);
+  2844	
+  2845		return ret != 0;
+  2846	}
+  2847	static void sdev_eh_wakeup(struct scsi_device *sdev)
+  2848	{
+  2849		unsigned long flags;
+  2850		unsigned int nr_error;
+  2851		unsigned int nr_busy;
+  2852		struct scsi_lun_eh *luneh;
+  2853	
+  2854		luneh = scsi_eh_device_priv(sdev->eh);
+  2855	
+  2856		spin_lock_irqsave(&luneh->eh_lock, flags);
+  2857		nr_error = luneh->eh_num;
+  2858		spin_unlock_irqrestore(&luneh->eh_lock, flags);
+  2859	
+  2860		nr_busy = scsi_device_busy(sdev);
+  2861	
+  2862		if (!nr_error || nr_busy != nr_error) {
+  2863			SCSI_LOG_ERROR_RECOVERY(5, sdev_printk(KERN_INFO, sdev,
+  2864				"%s:luneh: do not wake up, busy/error: %d/%d\n",
+  2865				current->comm, nr_busy, nr_error));
+  2866			return;
+  2867		}
+  2868	
+  2869		SCSI_LOG_ERROR_RECOVERY(2, sdev_printk(KERN_INFO, sdev,
+  2870			"%s:luneh: waking up, busy/error: %d/%d\n",
+  2871			current->comm, nr_busy, nr_error));
+  2872	
+  2873		schedule_work(&luneh->eh_handle_work);
+  2874	}
+  2875	
 
 -- 
 0-DAY CI Kernel Test Service
