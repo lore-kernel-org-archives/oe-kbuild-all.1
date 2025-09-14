@@ -1,146 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD1B1EEE6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Sep 2025 23:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA76E1FDD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 00:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757807464; cv=none; b=Ckvz7JwBHGbP2wwSv70YAq6G4POr7C155wh67NQ5sBq2MspmfhbHRkIb+SklQv/SxFSVOnuyoRF4TSCtnqhbTn09tZrl+BH6NFS7d3pLXMfi/oTixQSoOIJc08I8blNoSLRi9sNW8Hmt2+hhbyRouwpAlX/pSypIbbaTokLOdYQ=
+	t=1757808389; cv=none; b=s7KQn5s8pti2UJAgOkUvJbjQcw3utmihMF5Cwulruy2W7qEHGU2zHbLIYdORZ0p1TKMOADkXYApo6YYW05R1+kVSerXOHh3T5XVnNxxnEZRPyMI2e+PAcq1uUP3e5y4bbhPo5uGnJMcVPlLWmlH2v8jNGnCeAJUDXGfDmtWyzV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757807464; c=relaxed/simple;
-	bh=7vo2g0TYDWqrKLey55w3muNbyhbPH/u850P98VwoRZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K6AEnE+22ePIZCcSuj78RiqUIzrUrw4gDEMivCIqgmpeCVkR+ukqN6rU9hI+KO8JhY6wPNEDg353NNOMHXi/w0BONYBRFC3DLzqwYpSfP8ROpynu4AQu5Vsg6AT+PwS0gQ8l9dhqmqtwhA+kRl/d3yJvCwi93kGhd6yZnYnUwZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cKUsZl2J; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757808389; c=relaxed/simple;
+	bh=ouYjPInHOlfRxlwFI4BxmFmkWpQ2zHtUxhVB1TGP/10=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Goti463Ob3wZwYPUOj9KIWLFe0RmTOU5291of2+Aa+a5lOYMGefQI2NnNJJXyzEuPpws9Ci/zraByBWSWD5FEE5d5JC6iy6B6sQZfXofJZo1CIEvcjCigdc62LD7BKN7ULfBvGkWoXz3twKNQGE22xD2+jUmowuM/THse3IUiC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ANijnlqb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKUsZl2J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757807461; x=1789343461;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7vo2g0TYDWqrKLey55w3muNbyhbPH/u850P98VwoRZE=;
-  b=cKUsZl2J46Sj0cKDaQXMjC0+V+kElsPUrz0zq4hZq0uRiR+69nEQFLvd
-   o2GR66D16bh/saZsinUeJsMJwYFB6AjSfBPyYZmlMbGEPWqMvR3SPN7CY
-   mPvkhSBIIELwKYlFZ3kXVJ/lp2e6VyGZjpNp/tgZyu8LYvCGmGt6VF8P0
-   dvirv+kKXv4P5sK5UFiGEIA56jpLv5H9RaUbAoSnDaTA3cY7l77jXWsJo
-   q2Ukr+SzB/gHKuCJaNclnL5Ig1BlpxMhPfsleRZ2GNbWHA/d07YdviarC
-   dsdbtZz7/NQ8KuJfeKN8wCYxPq4yHrZ+7BgLlgpXOLCYah6wwKBvU9pze
-   Q==;
-X-CSE-ConnectionGUID: slBxvyJQS+qHOAfGO4QHZw==
-X-CSE-MsgGUID: qqjXw0ZwRnWQfilFkfHJYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11552"; a="71533391"
-X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
-   d="scan'208";a="71533391"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2025 16:51:00 -0700
-X-CSE-ConnectionGUID: D7k7fDnsS6SG09qZQbQCmQ==
-X-CSE-MsgGUID: ErsNvpFYQn28fS85speBEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,262,1751266800"; 
-   d="scan'208";a="179465091"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 13 Sep 2025 16:50:59 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uxa1A-0001wy-0u;
-	Sat, 13 Sep 2025 23:50:56 +0000
-Date: Sun, 14 Sep 2025 07:50:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:find_first_size 35/38] drivers/perf/cxl_pmu.c:551:18:
- warning: variable 'i' is uninitialized when used here
-Message-ID: <202509140732.k24XeFLX-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ANijnlqb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16588C4CEEB;
+	Sun, 14 Sep 2025 00:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1757808389;
+	bh=ouYjPInHOlfRxlwFI4BxmFmkWpQ2zHtUxhVB1TGP/10=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ANijnlqbF3kZ216A80p19N3GXncBRxeswY6ZgfMqOOs851s6H67Fkxcp7oLM1aO6H
+	 uJ+qCk4CD19qDimwFNH3qyyum/QOZsGd0u0qBGW2GmJ9O2WTxtpc4lrRETYYYuyr1h
+	 kAhi18OCxD+k4pdF4xazg4t+I5sgimC5ADY+Q1qM=
+Date: Sat, 13 Sep 2025 17:06:28 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
+ Memory Management List <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-unstable 39/428] include/linux/pgtable.h:235:36:
+ error: expected expression before 'do'
+Message-Id: <20250913170628.e76ed73413b58aef022aba3c@linux-foundation.org>
+In-Reply-To: <b96ea27d-6e8a-40d9-8fa6-677cd8134363@nvidia.com>
+References: <202509131255.x9EfvIGt-lkp@intel.com>
+	<20250912230313.117341d5491a3145e7bcf311@linux-foundation.org>
+	<b96ea27d-6e8a-40d9-8fa6-677cd8134363@nvidia.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/norov/linux find_first_size
-head:   19fff28fbf729956258aeb0cd260f8dc1186952f
-commit: 6fb390cff19244a617ca75c1f3bedfa2a3116268 [35/38] PCI: dwc: simplify cxl_pmu_get_event_idx()
-config: loongarch-randconfig-001-20250914 (https://download.01.org/0day-ci/archive/20250914/202509140732.k24XeFLX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250914/202509140732.k24XeFLX-lkp@intel.com/reproduce)
+On Sun, 14 Sep 2025 08:57:29 +1000 Balbir Singh <balbirs@nvidia.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509140732.k24XeFLX-lkp@intel.com/
+> On 9/13/25 16:03, Andrew Morton wrote:
+> > On Sat, 13 Sep 2025 12:53:27 +0800 kernel test robot <lkp@intel.com> wrote:
+> > 
+> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+> >> head:   8ded915c4409a5190b1c9c57c172d62ab5534274
+> >> commit: f6748cc302fdca7c486c6098f315bd4174f5c614 [39/428] kasan: Fix warnings caused by use of arch_enter_lazy_mmu_mode()
+> >> config: s390-randconfig-002-20250913 (https://download.01.org/0day-ci/archive/20250913/202509131255.x9EfvIGt-lkp@intel.com/config)
+> >> compiler: s390-linux-gcc (GCC) 8.5.0
+> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250913/202509131255.x9EfvIGt-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202509131255.x9EfvIGt-lkp@intel.com/
+> >>
+> >> All errors (new ones prefixed by >>):
+> >>
+> >>    In file included from include/linux/kasan.h:37,
+> >>                     from mm/kasan/shadow.c:14:
+> >>    mm/kasan/shadow.c: In function 'kasan_populate_vmalloc_pte':
+> >>>> include/linux/pgtable.h:235:36: error: expected expression before 'do'
+> >>     #define arch_enter_lazy_mmu_mode() do {} while (0)
+> >>                                        ^~
+> >>    mm/kasan/shadow.c:322:8: note: in expansion of macro 'arch_enter_lazy_mmu_mode'
+> >>      (void)arch_enter_lazy_mmu_mode();
+> >>            ^~~~~~~~~~~~~~~~~~~~~~~~
+> >>    mm/kasan/shadow.c: In function 'kasan_depopulate_vmalloc_pte':
+> >>>> include/linux/pgtable.h:235:36: error: expected expression before 'do'
+> >>     #define arch_enter_lazy_mmu_mode() do {} while (0)
+> >>                                     ^~
+> > 
+> > Huh, thanks.  Another reason why static inlines are better than macros.
+> > 
+> >>    mm/kasan/shadow.c:497:8: note: in expansion of macro 'arch_enter_lazy_mmu_mode'
+> >>      (void)arch_enter_lazy_mmu_mode();
+> >>            ^~~~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > You can't do that with them!
+> > 
+> 
+> [...]
+> 
+> AFAICT, The issue I saw and fixed only occurs on top of 
+> 
+> commit 116191f326bce79aefa0ed540caade5a55fbd33f
+> Author: Kevin Brodsky <kevin.brodsky@arm.com>
+> Date:   Mon Sep 8 08:39:26 2025 +0100
+> 
+>     mm: introduce local state for lazy_mmu sections
+> 
+> Which changes the definition of arch_*_lazy_mmu_mode
+> 
+> -#define arch_enter_lazy_mmu_mode()     do {} while (0)
+> -#define arch_leave_lazy_mmu_mode()     do {} while (0)
+> +typedef int lazy_mmu_state_t;
+> +
+> +#define arch_enter_lazy_mmu_mode()     (LAZY_MMU_DEFAULT)
+> +#define arch_leave_lazy_mmu_mode(state)        ((void)(state))
+> 
 
-All warnings (new ones prefixed by >>):
-
-   drivers/perf/cxl_pmu.c:521:17: warning: unused variable 'configurable_and_free' [-Wunused-variable]
-     521 |         DECLARE_BITMAP(configurable_and_free, CXL_PMU_MAX_COUNTERS);
-         |                        ^~~~~~~~~~~~~~~~~~~~~
->> drivers/perf/cxl_pmu.c:551:18: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-     551 |                 *counter_idx = i;
-         |                                ^
-   drivers/perf/cxl_pmu.c:525:7: note: initialize the variable 'i' to silence this warning
-     525 |         int i;
-         |              ^
-         |               = 0
-   2 warnings generated.
+No, this error happens on maainline + this-patch
 
 
-vim +/i +551 drivers/perf/cxl_pmu.c
+#define arch_enter_lazy_mmu_mode()	do {} while (0)
 
-5d7107c72796df Jonathan Cameron    2023-05-26  515  
-5d7107c72796df Jonathan Cameron    2023-05-26  516  /* If counter_idx == NULL, don't try to allocate a counter. */
-5d7107c72796df Jonathan Cameron    2023-05-26  517  static int cxl_pmu_get_event_idx(struct perf_event *event, int *counter_idx,
-5d7107c72796df Jonathan Cameron    2023-05-26  518  				 int *event_idx)
-5d7107c72796df Jonathan Cameron    2023-05-26  519  {
-5d7107c72796df Jonathan Cameron    2023-05-26  520  	struct cxl_pmu_info *info = pmu_to_cxl_pmu_info(event->pmu);
-5d7107c72796df Jonathan Cameron    2023-05-26 @521  	DECLARE_BITMAP(configurable_and_free, CXL_PMU_MAX_COUNTERS);
-5d7107c72796df Jonathan Cameron    2023-05-26  522  	struct cxl_pmu_ev_cap *pmu_ev;
-5d7107c72796df Jonathan Cameron    2023-05-26  523  	u32 mask;
-5d7107c72796df Jonathan Cameron    2023-05-26  524  	u16 gid, vid;
-5d7107c72796df Jonathan Cameron    2023-05-26  525  	int i;
-5d7107c72796df Jonathan Cameron    2023-05-26  526  
-5d7107c72796df Jonathan Cameron    2023-05-26  527  	vid = cxl_pmu_config_get_vid(event);
-5d7107c72796df Jonathan Cameron    2023-05-26  528  	gid = cxl_pmu_config_get_gid(event);
-5d7107c72796df Jonathan Cameron    2023-05-26  529  	mask = cxl_pmu_config_get_mask(event);
-5d7107c72796df Jonathan Cameron    2023-05-26  530  
-5d7107c72796df Jonathan Cameron    2023-05-26  531  	pmu_ev = cxl_pmu_find_fixed_counter_ev_cap(info, vid, gid, mask);
-5d7107c72796df Jonathan Cameron    2023-05-26  532  	if (!IS_ERR(pmu_ev)) {
-5d7107c72796df Jonathan Cameron    2023-05-26  533  		if (!counter_idx)
-5d7107c72796df Jonathan Cameron    2023-05-26  534  			return 0;
-5d7107c72796df Jonathan Cameron    2023-05-26  535  		if (!test_bit(pmu_ev->counter_idx, info->used_counter_bm)) {
-5d7107c72796df Jonathan Cameron    2023-05-26  536  			*counter_idx = pmu_ev->counter_idx;
-5d7107c72796df Jonathan Cameron    2023-05-26  537  			return 0;
-5d7107c72796df Jonathan Cameron    2023-05-26  538  		}
-5d7107c72796df Jonathan Cameron    2023-05-26  539  		/* Fixed counter is in use, but maybe a configurable one? */
-5d7107c72796df Jonathan Cameron    2023-05-26  540  	}
-5d7107c72796df Jonathan Cameron    2023-05-26  541  
-5d7107c72796df Jonathan Cameron    2023-05-26  542  	pmu_ev = cxl_pmu_find_config_counter_ev_cap(info, vid, gid, mask);
-5d7107c72796df Jonathan Cameron    2023-05-26  543  	if (!IS_ERR(pmu_ev)) {
-5d7107c72796df Jonathan Cameron    2023-05-26  544  		if (!counter_idx)
-5d7107c72796df Jonathan Cameron    2023-05-26  545  			return 0;
-5d7107c72796df Jonathan Cameron    2023-05-26  546  
-6fb390cff19244 Yury Norov (NVIDIA  2025-09-13  547) 		if (bitmap_empty_andnot(info->conf_counter_bm,
-6fb390cff19244 Yury Norov (NVIDIA  2025-09-13  548) 					info->used_counter_bm, CXL_PMU_MAX_COUNTERS))
-5d7107c72796df Jonathan Cameron    2023-05-26  549  			return -EINVAL;
-5d7107c72796df Jonathan Cameron    2023-05-26  550  
-5d7107c72796df Jonathan Cameron    2023-05-26 @551  		*counter_idx = i;
-5d7107c72796df Jonathan Cameron    2023-05-26  552  		return 0;
-5d7107c72796df Jonathan Cameron    2023-05-26  553  	}
-5d7107c72796df Jonathan Cameron    2023-05-26  554  
-5d7107c72796df Jonathan Cameron    2023-05-26  555  	return -EINVAL;
-5d7107c72796df Jonathan Cameron    2023-05-26  556  }
-5d7107c72796df Jonathan Cameron    2023-05-26  557  
+plus
 
-:::::: The code at line 551 was first introduced by commit
-:::::: 5d7107c72796df3be2ba574f1cf6eca75c60d5ef perf: CXL Performance Monitoring Unit driver
+	(void)arch_enter_lazy_mmu_mode();
 
-:::::: TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+expands to
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	(void)do {} while (0)
+
+which is nonsensical.
+
+
+
+In fact let's do this:
+
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: include/linux/pgtable.h: convert arch_enter_lazy_mmu_mode() and friends to static inlines
+Date: Sat Sep 13 05:03:39 PM PDT 2025
+
+For all the usual reasons, plus a new one.  Calling
+
+	(void)arch_enter_lazy_mmu_mode();
+
+deservedly blows up.
+
+Cc: Balbir Singh <balbirs@nvidia.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ include/linux/pgtable.h |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+--- a/include/linux/pgtable.h~include-linux-pgtableh-convert-arch_enter_lazy_mmu_mode-and-friends-to-static-inlines
++++ a/include/linux/pgtable.h
+@@ -232,9 +232,9 @@ static inline int pmd_dirty(pmd_t pmd)
+  * and the mode cannot be used in interrupt context.
+  */
+ #ifndef __HAVE_ARCH_ENTER_LAZY_MMU_MODE
+-#define arch_enter_lazy_mmu_mode()	do {} while (0)
+-#define arch_leave_lazy_mmu_mode()	do {} while (0)
+-#define arch_flush_lazy_mmu_mode()	do {} while (0)
++static inline void arch_enter_lazy_mmu_mode(void) {}
++static inline void arch_leave_lazy_mmu_mode(void) {}
++static inline void arch_flush_lazy_mmu_mode(void) {}
+ #endif
+ 
+ #ifndef pte_batch_hint
+_
+
