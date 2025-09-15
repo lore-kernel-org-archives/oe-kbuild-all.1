@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873BC227B95
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Sep 2025 23:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C0C17A303
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 00:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757891365; cv=none; b=j9M8Nauxi0wln9sSOA2PQxeHphkGHKMr8cNDaFZ96OG1RDZsMgzMTVKMONb8mJTz9qCj/CjVDOqEkKKwTtrOHYlGcBcmrNZ5P4FRANaL5IidfMkAP5eDWfYciUk4//xmL9atr0d5pBBJgtSRI2u8eyzhvCgJ0ZmXAb8Wpl2jbeY=
+	t=1757895741; cv=none; b=uO+c6KdBa1uaXEaaVzf8kXO9asfd79RQoW2xO86+2OFRw3jH0Vwz0kw4Zg1fhnQly9eOJXmS1gVM6gj9njkjCN4ogL8KbCwOPjKNJGb3IUEV0IZxGXGLNmfwsRjDh4Du+eNQY7DfX65iBLb3sRhS76u2dXON3hH52eNpWXzLQGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757891365; c=relaxed/simple;
-	bh=jmm9oNqOEB/vZbMX958Bm4hanXLsuwHP6eKD47h5un8=;
+	s=arc-20240116; t=1757895741; c=relaxed/simple;
+	bh=gJkSQYxOXWu0k2KJiuOVXO5kgH5MayDdvjvPAtGHGYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K1gTjZnPCgBif4uCX78Y2OkS7cp2pcRg/shYPgj5bzPsJityitBmk0bpjW8Xor7wG2pouBzuKKGE5vBdqU4InP3OWf+xM7wc9XwRCbwyNjMpzm+fJnZu5JG2oDwEeX1JUzfENFod19ltB0LC4/RIkq18inihB0Bm+aSklieU5GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnG3X6u8; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=p5Nv9PhOga/uLTLYquiPtaqnhiws7LDqAvAf9xLGixgZuA7yHh+U6Fhp2yAek08BDkt1K8ovZhujnNYJCrSOJk6Ka0i81wSQ0FlMUCB7zkE7hcKawZBsivUkBcTELJ+UcA5T7yeRG98YC/YvhaSvKymMGlkmuJf8QAe33A0sWow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JWg6BA7U; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnG3X6u8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWg6BA7U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757891363; x=1789427363;
+  t=1757895740; x=1789431740;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jmm9oNqOEB/vZbMX958Bm4hanXLsuwHP6eKD47h5un8=;
-  b=fnG3X6u8aOw88NfLT+W8F4llKm5j9siPuFmdk7diICndOYkDy3mO7lHK
-   +Pw35DhuwG+zZa57iuuy6N//a/ATQmJgxaJ1h7ClRjbBFeqcd3ylvmbmH
-   aV/5MFaOTnjPxmkDV0HkDnobb02WWFsr5zYK0uAaeyT/26TYZThQ6yO3D
-   aUXEdHdQkhbzuMR9g+M5DuNGN3qlVecDiyh2xYDbtVouRB8WQOpgIGt/t
-   ci+JOBE94m98LtQ3pvPveNTve+tZzHAhyI1N02UTULfbx0eh+LccTRMz0
-   j4tYooHZifgKsMUQItYE6S031WB8H/p/NSxnM5fV1ryCqGDT9Ce6cdeoC
-   A==;
-X-CSE-ConnectionGUID: sYEY++GWSwO6BUjvC6OzSA==
-X-CSE-MsgGUID: FHKMKxGHTeeM4ZytFJeLew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="77597320"
-X-IronPort-AV: E=Sophos;i="6.18,264,1751266800"; 
-   d="scan'208";a="77597320"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 16:09:21 -0700
-X-CSE-ConnectionGUID: EZ/UGdqkTgygyBx7uWdhGw==
-X-CSE-MsgGUID: Z0vcSEsiTB+Eufj7TlPdMQ==
+  bh=gJkSQYxOXWu0k2KJiuOVXO5kgH5MayDdvjvPAtGHGYM=;
+  b=JWg6BA7UboyzQL9m1GMld+VWmbRSc5CfyzdxDhqXHgzF13euKPhxeQyQ
+   oyP+ReLLskTH+OsHYdvcDTP2I5/SXrKrmN84LcWasQ2pp79k4LYGUq+Vv
+   Oan7vRdmGlRrUHEH+fW7HMGmejh3qDOPj7PJs4k+Wkj7IgsY9NE8fYC5o
+   HufulvkOGNjTuJD6lzUJpQLJ4WqjAx+/R4n2Y//gWAA9UjtkSiXzBAbB9
+   bRM6jY7jqtqTC8RIvj/uSPHWRaPDYkrsuI9V23WlVmbpAQBvbIXofYr3M
+   dLO7s1fi41LBUijkn1yOiAChX3ok82FcpG5OiKR99vaHajUf8xQf/r1m3
+   w==;
+X-CSE-ConnectionGUID: KfXb5r1FS02RWJcJDq2PTQ==
+X-CSE-MsgGUID: 7dTiEikKQCmqdwgKXQZ+nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="60251936"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="60251936"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 17:22:19 -0700
+X-CSE-ConnectionGUID: H4K4DE/5R4WuP3WF+ZS+CA==
+X-CSE-MsgGUID: eoQFNU4cQfqxFcJGZx4+RA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,264,1751266800"; 
-   d="scan'208";a="174912174"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="174549673"
 Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Sep 2025 16:09:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 Sep 2025 17:22:18 -0700
 Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uxvqP-0002n6-0y;
-	Sun, 14 Sep 2025 23:09:17 +0000
-Date: Mon, 15 Sep 2025 07:09:07 +0800
+	id 1uxwyw-0002pI-0B;
+	Mon, 15 Sep 2025 00:22:11 +0000
+Date: Mon, 15 Sep 2025 08:21:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: [linux-next:master 7655/8719]
- arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: memory-controller@1530000
- (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed
- ('#address-cells', '#size-cells', 'bank-width', 'compatible',
- 'device-width', 'mdio-mux@54', 'ranges', 'reg' were unex...
-Message-ID: <202509150626.eA3caXAW-lkp@intel.com>
+To: Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Marc Zyngier <maz@kernel.org>
+Subject: [arm-platforms:irq/ppi-affinity 18/25] drivers/perf/arm_pmu.c:68:35:
+ sparse: sparse: cast removes address space '__percpu' of expression
+Message-ID: <202509150852.4ziBllm5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   590b221ed4256fd6c34d3dea77aa5bd6e741bbc1
-commit: 6067121fbe1ac30c525da6069e0865e91db50541 [7655/8719] ARM: dts: ls1021a: Rename 'mdio-mux-emi1' to 'mdio-mux@54'
-config: arm-randconfig-052-20250912 (https://download.01.org/0day-ci/archive/20250915/202509150626.eA3caXAW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git irq/ppi-affinity
+head:   136dedfe26e7de871029de6ed7dcf555e840fadc
+commit: 49964285d3074f0494d8f09dce6e120d623b7843 [18/25] perf: arm_pmu: Request specific affinities for percpu NMI/IRQ
+config: arm-randconfig-r132-20250915 (https://download.01.org/0day-ci/archive/20250915/202509150852.4ziBllm5-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509150626.eA3caXAW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509150852.4ziBllm5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509150626.eA3caXAW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509150852.4ziBllm5-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   		'fsl,p1022ds-fpga' was expected
-   		'simple-mfd' is not one of ['fsl,ls1088aqds-fpga', 'fsl,ls1088ardb-fpga', 'fsl,ls2080aqds-fpga', 'fsl,ls2080ardb-fpga']
-   		'simple-mfd' is not one of ['fsl,ls1043aqds-fpga', 'fsl,ls1043ardb-fpga', 'fsl,ls1046aqds-fpga', 'fsl,ls1046ardb-fpga', 'fsl,ls208xaqds-fpga']
-   		'simple-mfd' is not one of ['fsl,ls1043ardb-cpld', 'fsl,ls1046ardb-cpld', 'fsl,t1040rdb-cpld', 'fsl,t1042rdb-cpld', 'fsl,t1042rdb_pi-cpld']
-   	arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: memory-controller@1530000 (fsl,ifc): board-control@3,0:compatible: 'oneOf' conditional failed, one must be fixed:
-   		['simple-mfd'] is too short
-   		'simple-mfd' is not one of ['amd,s29gl01gp', 'amd,s29gl032a', 'amd,s29gl256n', 'amd,s29gl512n', 'arm,versatile-flash', 'arm,vexpress-flash', 'cortina,gemini-flash', 'cypress,hyperflash', 'ge,imp3a-firmware-mirror', 'ge,imp3a-paged-flash', 'gef,ppc9a-firmware-mirror', 'gef,ppc9a-paged-flash', 'gef,sbc310-firmware-mirror', 'gef,sbc310-paged-flash', 'gef,sbc610-firmware-mirror', 'gef,sbc610-paged-flash', 'intel,28f128j3', 'intel,dt28f160', 'intel,ixp4xx-flash', 'intel,JS28F128', 'intel,JS28F640', 'intel,PC28F640P30T85', 'numonyx,js28f00a', 'numonyx,js28f128', 'sst,sst39vf320', 'xlnx,xps-mch-emc-2.00.a']
-   		'simple-mfd' is not one of ['cypress,cy7c1019dv33-10zsxi', 'arm,vexpress-psram']
-   		'simple-mfd' is not one of ['cfi-flash', 'jedec-flash', 'mtd-ram', 'mtd-rom']
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: memory-controller@1530000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bank-width', 'compatible', 'device-width', 'mdio-mux@54', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('bus-width' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: flash@0 (atmel,at45db021d): Unevaluated properties are not allowed ('spi-cpha', 'spi-cpol' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/atmel,dataflash.yaml#
+sparse warnings: (new ones prefixed by >>)
+>> drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
+>> drivers/perf/arm_pmu.c:68:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got void ** @@
+   drivers/perf/arm_pmu.c:68:35: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/perf/arm_pmu.c:68:35: sparse:     got void **
+>> drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
+>> drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
+   drivers/perf/arm_pmu.c:95:35: sparse: sparse: cast removes address space '__percpu' of expression
+   drivers/perf/arm_pmu.c:95:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got void ** @@
+   drivers/perf/arm_pmu.c:95:35: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/perf/arm_pmu.c:95:35: sparse:     got void **
+   drivers/perf/arm_pmu.c:95:35: sparse: sparse: cast removes address space '__percpu' of expression
+   drivers/perf/arm_pmu.c:95:35: sparse: sparse: cast removes address space '__percpu' of expression
+
+vim +/__percpu +68 drivers/perf/arm_pmu.c
+
+    64	
+    65	static void armpmu_free_percpu_pmuirq(unsigned int irq, int cpu,
+    66					   void __percpu *devid)
+    67	{
+  > 68		struct arm_pmu *armpmu = *per_cpu_ptr((void **)devid, cpu);
+    69	
+    70		if (armpmu_count_irq_users(&armpmu->supported_cpus, irq) == 1)
+    71			free_percpu_irq(irq, devid);
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
