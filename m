@@ -1,131 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2EE2C1A2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 08:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118D72FD7A0;
+	Mon, 15 Sep 2025 10:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757925627; cv=none; b=hb2tN/hbGaEcaN+n3n2kAf5mwni8mZqoUjMDtPV+ho30HtDDKAczbYVaCywayUJthv6QRd0E27WimE14mCvtaVX9ezl676skk+DJ0lSUBVIM6mLZPhNGFLbQhW2Xhj5GtJvb/ns07+c95g6WeNsgc75WURYNd70rfyqILEZ7wes=
+	t=1757932821; cv=none; b=EYTtBDKGoRTlI6uk5fLM5LFpiGTL5spWDelBv5pSsCPxpHPcyEnfdpyrqRNUla1MQJxUaRUy/sPpg/JLgn4SbAjmKhWJZ+nf07L1nK5Gy+Z5haDSFWkwiEHesE/fOT9qS7dvasXACY6ezZeW9TlhOe4q7loYL/QV2fuBQU7K2zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757925627; c=relaxed/simple;
-	bh=1jCFiBr+qjXT/5UiDcf8H2ZeLPlBgMeCldx90ZjHgKA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uIEmX5ZUw580pz8jmcWGwAijLjRRvZe4jjebyvI2oizIHtXFx306WCBUbmmpol5HygUjLcjsWnCyx7gtGbFaMhr7oH8MGOFf2gjG0Tro2TH69Ej6/DpKmZBEUYnYTec9you1gKOlqZtbwit+YLgArLt8q01YXVDv+RoUPWaCjbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0X5lOfN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757932821; c=relaxed/simple;
+	bh=Nzk/WGSFbYXU/3XfPyxSdJhM2+qxUftU2FcBdAr8OJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oxanHlWn/268rraULow/9mRx3lusG1zCde65HuVqo2N6yMqzaAY35uiAsmtoIDmEc4DEQ3+6baUzU2qP2UuO0dEWKEklACC3qTENb6ljwJt18ZaFZGrxrtg0g12L7NuFg0pu6Fa78dZSUn4p6IJZWvFRUNBtXm+0PlTs4a31T9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EqSLhXHh; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0X5lOfN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF715C4CEF1;
-	Mon, 15 Sep 2025 08:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757925626;
-	bh=1jCFiBr+qjXT/5UiDcf8H2ZeLPlBgMeCldx90ZjHgKA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=N0X5lOfNW8lUdgTtjI+cgthoXYqlrLiP9ITymqBg7KZGrKq7j5jeBU7eo3MJHJoD7
-	 3TDmh6l2VS47dbySiNlkOqxBPiEO5Brsoa8pF4/jvq+jbAsNoYW8XgRWBPIwwD2kdB
-	 TVJ4+3kyuChD8O+BXLZQf+QGCqMcLHkEpYJK6pKw/sUD5ksaAvy7GcVeeQGYMeCXW2
-	 szZs8AfeRmxpgkwi/wTHNuPMJy+aVuhQJNYL1PKUr9P6/dtOz3R/J+qoeoUaoC5CJZ
-	 b0pNgrwwxa2LXISoYssZaN0TW4Bhk+VMIn55xijkB9jwoi9sV1K2sjVqefosP6kHMe
-	 WWMRpMVsJyMfg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1uy4l6-00000006HwN-2YsP;
-	Mon, 15 Sep 2025 08:40:24 +0000
-Date: Mon, 15 Sep 2025 09:40:24 +0100
-Message-ID: <861po8cdmv.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Will Deacon <will@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: 	oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [arm-platforms:irq/ppi-affinity 18/25] drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
-In-Reply-To: <202509150852.4ziBllm5-lkp@intel.com>
-References: <202509150852.4ziBllm5-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EqSLhXHh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757932820; x=1789468820;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nzk/WGSFbYXU/3XfPyxSdJhM2+qxUftU2FcBdAr8OJY=;
+  b=EqSLhXHh203T1aNowmFHhwqbydsdaChHTFbAzCmDS3Sayt0lhiue/V29
+   NQbnsWlAYrdGvQIaVejsV+JtyzIpUKYxGxAYyC9AsW2SwWxDWIUBolMOt
+   YbOimMHYnE5+EUnkH+VhHW6Be+qB+mqDgljnySnWQYKOB2+onAqaCuIJc
+   Yd3n93xGD3s/2KSykFHzQ9be2mBgrL5LXyeU9ja9D7DaY9guoCD8E+urY
+   MRTmcwdMdaS7vRRYIgSmyO+eAdxtY4zCr6d9pKXtERZ/n1S1SKRzz3clm
+   fuxy3S5UdIONXAgQC7hVroRMbfGpPIiMneR2EZx8SQzusri/Wb24qKzep
+   Q==;
+X-CSE-ConnectionGUID: BXPih9SvSlqxokwudAR2NA==
+X-CSE-MsgGUID: F3E+xO6iTCOvV/UMY471VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="60051246"
+X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
+   d="scan'208";a="60051246"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 03:40:20 -0700
+X-CSE-ConnectionGUID: 8iJJl0gJQhq5nxP18SkwKw==
+X-CSE-MsgGUID: zy0r3AIKSySNYAJ2rb6mUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="173881637"
+Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 15 Sep 2025 03:40:17 -0700
+Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uy6d4-00008h-1O;
+	Mon, 15 Sep 2025 10:40:14 +0000
+Date: Mon, 15 Sep 2025 18:40:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Berg <benjamin@sipsolutions.net>, linux-um@lists.infradead.org,
+	Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kselftest@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Tiwei Bie <tiwei.btw@antgroup.com>,
+	Benjamin Berg <benjamin.berg@intel.com>
+Subject: Re: [PATCH 2/9] um: use tools/include for user files
+Message-ID: <202509151828.S0qPk6Du-lkp@intel.com>
+References: <20250915071115.1429196-3-benjamin@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: will@kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250915071115.1429196-3-benjamin@sipsolutions.net>
 
-On Mon, 15 Sep 2025 01:21:29 +0100,
-kernel test robot <lkp@intel.com> wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git irq/ppi-affinity
-> head:   136dedfe26e7de871029de6ed7dcf555e840fadc
-> commit: 49964285d3074f0494d8f09dce6e120d623b7843 [18/25] perf: arm_pmu: Request specific affinities for percpu NMI/IRQ
-> config: arm-randconfig-r132-20250915 (https://download.01.org/0day-ci/archive/20250915/202509150852.4ziBllm5-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509150852.4ziBllm5-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509150852.4ziBllm5-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
-> >> drivers/perf/arm_pmu.c:68:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got void ** @@
->    drivers/perf/arm_pmu.c:68:35: sparse:     expected void const [noderef] __percpu *__vpp_verify
->    drivers/perf/arm_pmu.c:68:35: sparse:     got void **
-> >> drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
-> >> drivers/perf/arm_pmu.c:68:35: sparse: sparse: cast removes address space '__percpu' of expression
->    drivers/perf/arm_pmu.c:95:35: sparse: sparse: cast removes address space '__percpu' of expression
->    drivers/perf/arm_pmu.c:95:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got void ** @@
->    drivers/perf/arm_pmu.c:95:35: sparse:     expected void const [noderef] __percpu *__vpp_verify
->    drivers/perf/arm_pmu.c:95:35: sparse:     got void **
->    drivers/perf/arm_pmu.c:95:35: sparse: sparse: cast removes address space '__percpu' of expression
->    drivers/perf/arm_pmu.c:95:35: sparse: sparse: cast removes address space '__percpu' of expression
-> 
-> vim +/__percpu +68 drivers/perf/arm_pmu.c
-> 
->     64	
->     65	static void armpmu_free_percpu_pmuirq(unsigned int irq, int cpu,
->     66					   void __percpu *devid)
->     67	{
->   > 68		struct arm_pmu *armpmu = *per_cpu_ptr((void **)devid, cpu);
->     69	
->     70		if (armpmu_count_irq_users(&armpmu->supported_cpus, irq) == 1)
->     71			free_percpu_irq(irq, devid);
->     72	}
->     73	
+Hi Benjamin,
 
-I'll squash this in before posting the series:
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-index e427675446894..7171d8e0d27a5 100644
---- a/drivers/perf/arm_pmu.c
-+++ b/drivers/perf/arm_pmu.c
-@@ -65,7 +65,7 @@ static void armpmu_enable_percpu_pmuirq(unsigned int irq)
- static void armpmu_free_percpu_pmuirq(unsigned int irq, int cpu,
- 				   void __percpu *devid)
- {
--	struct arm_pmu *armpmu = *per_cpu_ptr((void **)devid, cpu);
-+	struct arm_pmu *armpmu = *per_cpu_ptr((void * __percpu *)devid, cpu);
- 
- 	if (armpmu_count_irq_users(&armpmu->supported_cpus, irq) == 1)
- 		free_percpu_irq(irq, devid);
-@@ -92,7 +92,7 @@ static void armpmu_disable_percpu_pmunmi(unsigned int irq)
- static void armpmu_free_percpu_pmunmi(unsigned int irq, int cpu,
- 				      void __percpu *devid)
- {
--	struct arm_pmu *armpmu = *per_cpu_ptr((void **)devid, cpu);
-+	struct arm_pmu *armpmu = *per_cpu_ptr((void * __percpu *)devid, cpu);
- 
- 	if (armpmu_count_irq_users(&armpmu->supported_cpus, irq) == 1)
- 		free_percpu_nmi(irq, devid);
+[auto build test ERROR on uml/next]
+[also build test ERROR on uml/fixes linus/master v6.17-rc6 next-20250912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Berg/tools-compiler-h-fix-__used-definition/20250915-152550
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+patch link:    https://lore.kernel.org/r/20250915071115.1429196-3-benjamin%40sipsolutions.net
+patch subject: [PATCH 2/9] um: use tools/include for user files
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20250915/202509151828.S0qPk6Du-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 65ad21d730d25789454d18e811f8ff5db79cb5d4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509151828.S0qPk6Du-lkp@intel.com/reproduce)
 
-	M.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509151828.S0qPk6Du-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> <built-in>:3:10: fatal error: 'include/generated/autoconf.h' file not found
+       3 | #include "include/generated/autoconf.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/x86/um/user-offsets.s] Error 1
+   make[3]: Target 'include/generated/user_constants.h' not remade because of errors.
+   make[2]: *** [arch/um/Makefile:121: archprepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
-Without deviation from the norm, progress is not possible.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
