@@ -1,111 +1,161 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C8430BF64
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 14:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B933A03D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 14:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757947270; cv=none; b=n9CEqfN1ZKposmBX76iRrE5QmEnEh4WPysyYCs1YRDlMdbDgEQmrWt22imkmryPnGLVjgtCLbWsYcbC3J4gKrlG4/WRtJpUAQTD13A9u7kMFvk19stAjLOW/6FItDtCx1aKaZelD2DGi2CvrtMldK1pJX3ZpAeJ7kuAB11TJxwE=
+	t=1757947764; cv=none; b=ThOXjlqWOfzw8bYsEIGWkGIRq8V/WLOTQi+3UCkM8SBhHlF5FOiNbqqWi2KFBhtcB9Ppfb+STyMNyavcvg5eRGXP1TRLrFrlYdu34oXG3kLHnfW2Dm+LBdtn7hvbzU+u7UoQ4dS+QdCtxFtprPWp73VYBHRbIKWYsqJiWDcU0lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757947270; c=relaxed/simple;
-	bh=UCT0GiCK1YOW+PhYr1Pzbcbe42IkXxQYZBGZKDcKnug=;
+	s=arc-20240116; t=1757947764; c=relaxed/simple;
+	bh=qzDJZ6MIVaKjCDoPQ7eYvhjd24ErbN5nstetVspBJWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J48db2znAz6f5SYkD1BF0TeDUWMbpiNaatwtgPdKTBr5pJNKwe49g8ab8a+HprlbGR6hL34lz/gXXJ1HHFwczfbG6jiwS5y/5UgU1nvUcffhS3TVeJ4uR2nv1VIa/6rIzYNYUJoaAyfQ6b5Sq29KAyz88xx9IEYn96BxOLeSv7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N2q0dBS2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bFg5dVuobOJgmfOJlcq6sbvLrWnwbKyDReC74nvNh15vvHVBZAeB13o5TVf1pBup7c4CVCV4H2bVYeTvSSdltIAAbU6TnTc4GldvZQ5X09yvAfiFoQzDfLOHY+WqL0p8pdNeh32Z33zhf2rS8AKFU/h5ppALbLBw2EQKIhErJ3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mW3pBb3M; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N2q0dBS2"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A17D36DF;
-	Mon, 15 Sep 2025 16:39:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757947188;
-	bh=UCT0GiCK1YOW+PhYr1Pzbcbe42IkXxQYZBGZKDcKnug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N2q0dBS2ofT7pUa8jiujbAVSOMtx8wdhwtbRZwtFcdSaOZ+MxGhLqK4oh3ntDZ8Ax
-	 FsDYMGCxuOsCmtbznoi9p6baEWTAK0Ij6QkkreAai3ITqpYLUHF1TxJbH++gbYj6vJ
-	 Ql8gIMnJ/8P6F8rg8UbitM6gzX48+/uUQxj15t/k=
-Date: Mon, 15 Sep 2025 17:40:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Keke Li <keke.li@amlogic.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 5/8] media: v4l2-core: Introduce v4l2-params.c
-Message-ID: <20250915144040.GA8821@pendragon.ideasonboard.com>
-References: <20250820-extensible-parameters-validation-v4-5-30fe5a99cb1f@ideasonboard.com>
- <202508240704.AZwGXBaw-lkp@intel.com>
- <jhynzoppwi22vnrdzrvqixsbvntsli7sj2vtsxrevtmxluveps@q6yzgvlqmxxb>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mW3pBb3M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757947762; x=1789483762;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qzDJZ6MIVaKjCDoPQ7eYvhjd24ErbN5nstetVspBJWE=;
+  b=mW3pBb3MOWTp7jG2McTbY1YsqbvzOzVLHGmPXrAl7kQrMlfd22zf275E
+   nrbwLc9+y/wLPdzpkbEFveC2E+HgpdNB6Z9v3FxgMPkJq3ytLzuqjPr8N
+   fT8nzLeGeW8+hhRW4Kd3hMCAagBGEIE7Zuk6GYSxtgv6BCX6h+TH7LvGf
+   LvEAm0U1+tW0hGat05Z+FqALabA9+VTBACxYQJbghxyK1jGCbupZhINL2
+   skdAfCqruCEegi1Th4BhYxoVLUZqRLQyCbnH/GvaWm6idQQnO0GgN1J+b
+   H3/4hUOuZcG+/tCHzT5bWjZGDRKkqsdkYDkryFYP3oUZOXtsO673FXh8z
+   g==;
+X-CSE-ConnectionGUID: JQNpkot1S+qtqrI8rFtdzw==
+X-CSE-MsgGUID: gEDhuFAAQT6LCK383BgmtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="62837285"
+X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
+   d="scan'208";a="62837285"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 07:37:03 -0700
+X-CSE-ConnectionGUID: icW+tYUUQeqOVdgjfXiksg==
+X-CSE-MsgGUID: wUiI5kB1Sm6pIh+A7sUphA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
+   d="scan'208";a="174477461"
+Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2025 07:36:59 -0700
+Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uyAJp-0000Jn-0W;
+	Mon, 15 Sep 2025 14:36:37 +0000
+Date: Mon, 15 Sep 2025 22:35:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ryan.Wanner@microchip.com, claudiu.beznea@tuxon.dev, sre@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+	linux@armlinux.org.uk
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] ARM: at91: PM: implement selection of LPM
+Message-ID: <202509152248.NjJj2xwQ-lkp@intel.com>
+References: <e72d9af1326cf44888059270263afde875ccc994.1757519351.git.Ryan.Wanner@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <jhynzoppwi22vnrdzrvqixsbvntsli7sj2vtsxrevtmxluveps@q6yzgvlqmxxb>
+In-Reply-To: <e72d9af1326cf44888059270263afde875ccc994.1757519351.git.Ryan.Wanner@microchip.com>
 
-On Mon, Sep 15, 2025 at 03:31:58PM +0200, Jacopo Mondi wrote:
-> Question for media maintainers...
-> 
-> I'm not sure how I should better handle this one
-> 
-> On Sun, Aug 24, 2025 at 07:16:21AM +0800, kernel test robot wrote:
-> > Hi Jacopo,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on a75b8d198c55e9eb5feb6f6e155496305caba2dc]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-uapi-Introduce-V4L2-extensible-params/20250820-210503
-> > base:   a75b8d198c55e9eb5feb6f6e155496305caba2dc
-> > patch link:    https://lore.kernel.org/r/20250820-extensible-parameters-validation-v4-5-30fe5a99cb1f%40ideasonboard.com
-> > patch subject: [PATCH v4 5/8] media: v4l2-core: Introduce v4l2-params.c
-> > config: nios2-randconfig-002-20250824 (https://download.01.org/0day-ci/archive/20250824/202508240704.AZwGXBaw-lkp@intel.com/config)
-> > compiler: nios2-linux-gcc (GCC) 9.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240704.AZwGXBaw-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202508240704.AZwGXBaw-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    nios2-linux-ld: drivers/media/v4l2-core/v4l2-params.o: in function `v4l2_params_buffer_validate':
-> >    v4l2-params.c:(.text+0x124): undefined reference to `vb2_plane_vaddr'
-> > >> v4l2-params.c:(.text+0x124): relocation truncated to fit: R_NIOS2_CALL26 against `vb2_plane_vaddr'
-> 
-> Clearly v4l2-params.c (now v4l2-isp.c) depends on VIDEOBUF2_CORE
-> 
-> Right now v4l2-params.c gets compiled in as part of the
-> videodev-objs Makefile target. IOW is not gated by a KConfig option.
-> 
-> To select (or better, depend) on VIDEOBUF2_CORE I should guard
-> v4l2-params.c with a KConfig option so that I can 'depend on
-> VIDEOBUF2_CORE'. Drivers that use the v4l2-params.c helper would then
-> have to 'select V4L2_PARAMS` (or similar).
+Hi,
 
-Make it V4L2_ISP :-)
+kernel test robot noticed the following build warnings:
 
-> Is this the best approach or are there alternatives I might be missing ?
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on cbeznea/tests linus/master v6.17-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-We don't want VIDEODEV depending on VB2. I think it also makes sense to
-have a separate Kconfig option for these helpers, are they will be used
-by a small number of drivers.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wanner-microchip-com/dt-bindings-power-reset-atmel-sama5d2-shdwc-add-lpm-binding/20250911-002354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/e72d9af1326cf44888059270263afde875ccc994.1757519351.git.Ryan.Wanner%40microchip.com
+patch subject: [PATCH 2/4] ARM: at91: PM: implement selection of LPM
+config: arm-randconfig-r131-20250915 (https://download.01.org/0day-ci/archive/20250915/202509152248.NjJj2xwQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509152248.NjJj2xwQ-lkp@intel.com/reproduce)
 
-Make CONFIG_V4L2_ISP an option that drivers select, not depend on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509152248.NjJj2xwQ-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm/mach-at91/pm.c:283:75: sparse: sparse: Using plain integer as NULL pointer
+   arch/arm/mach-at91/pm.c:1101:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void ( *static [assigned] [toplevel] at91_suspend_sram_fn )( ... ) @@     got void [noderef] __iomem * @@
+   arch/arm/mach-at91/pm.c:1101:30: sparse:     expected void ( *static [assigned] [toplevel] at91_suspend_sram_fn )( ... )
+   arch/arm/mach-at91/pm.c:1101:30: sparse:     got void [noderef] __iomem *
+
+vim +283 arch/arm/mach-at91/pm.c
+
+   271	
+   272	static int at91_pm_prepare_lpm(unsigned int pm_mode)
+   273	{
+   274		struct platform_device *pdev;
+   275		int ndevices, i, ret;
+   276		struct of_phandle_args lpmspec;
+   277	
+   278		if ((pm_mode != AT91_PM_ULP0 && pm_mode != AT91_PM_ULP1) ||
+   279		    !soc_pm.shdwc_np)
+   280			return 0;
+   281	
+   282		ndevices = of_count_phandle_with_args(soc_pm.shdwc_np,
+ > 283						      "microchip,lpm-connection", 0);
+   284		if (ndevices < 0)
+   285			return 0;
+   286	
+   287		soc_pm.data.lpm = 1;
+   288		for (i = 0; i < ndevices; i++) {
+   289			ret = of_parse_phandle_with_args(soc_pm.shdwc_np,
+   290							 "microchip,lpm-connection",
+   291							 NULL, i, &lpmspec);
+   292			if (ret < 0) {
+   293				if (ret == -ENOENT) {
+   294					continue;
+   295				} else {
+   296					soc_pm.data.lpm = 0;
+   297					return ret;
+   298				}
+   299			}
+   300	
+   301			pdev = of_find_device_by_node(lpmspec.np);
+   302			if (!pdev)
+   303				continue;
+   304	
+   305			if (device_may_wakeup(&pdev->dev)) {
+   306				if (pm_mode == AT91_PM_ULP1) {
+   307					/*
+   308					 * ULP1 wake-up sources are limited. Ignore it if not
+   309					 * in soc_pm.ws_ids.
+   310					 */
+   311					if (at91_pm_device_in_list(pdev, soc_pm.ws_ids))
+   312						soc_pm.data.lpm = 0;
+   313				} else {
+   314					soc_pm.data.lpm = 0;
+   315				}
+   316			}
+   317	
+   318			put_device(&pdev->dev);
+   319			if (!soc_pm.data.lpm)
+   320				break;
+   321		}
+   322	
+   323		return 0;
+   324	}
+   325	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
