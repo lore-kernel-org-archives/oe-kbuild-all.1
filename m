@@ -1,234 +1,137 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8BBD27E;
-	Mon, 15 Sep 2025 02:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8342D221FAE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 03:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757904919; cv=none; b=DyNaDElO/eaDfwaw/+BVXOkcDOVLiZS51BqaQ9+Qmv/qhkdH0EunBy2ppkNIuQFg/DroCCbEydc1LbBdgNNI+zYAmDb+yqAWV19uIOvI9vvtqO3jStU9cuu8I3Zc5Yc8W4y565qzvvbVzn/x8yxhmDkxxfGD6IpcTX5/QWeO3Ss=
+	t=1757908061; cv=none; b=qmFH7SFP0EuVgiJFla7tSdQx3A5D5MHOYgD9zw5X4fPG86pfLrXvihAJULNeZ5izcKBaB0Cr8ygLxfkRDSGpRQBOtBKoVGsC03iqYHL867IQqKcEdhv27JrfLQ77DJ1dt+mSpBvos9bvif5JyWgLmwYLGWKhB+4nqmNPY0XiFnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757904919; c=relaxed/simple;
-	bh=IcWSfeIOE297IVqGKoD6IECaR09iGnU05NU8FxKyW1U=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=RV/wJwGhwy/MWFVP7kb/ajCcMpMvpig4w5pSnO4gWAF0tRETaesiffZ9//597sCwbxPWJRaeXFeJH3G3Y1yep+VCAITOJ+U3k7wpSG583+50skWMmLxzqXKWaTCdooUNNqaXAzWVvCyqynnBYtKDQ2dgr9hSyMZaYSwyrhTmrnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=hbivKRhD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nqHqD94O; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1757908061; c=relaxed/simple;
+	bh=ATcqmhO4zO6S8Z6mwXqmWFUNnlT+T385TfHZ3kQoDwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RO66qJ4blrqjrxcTMOWkbLPZr4gwf24U9C/S4z3/aRLkfncupBQkQLBvS6+8B69tTRArZY1148+ZFq/HNJ1BVoKMFGghSkMtQomelxvMzJA/SlqOcoWpLuUx7Bc5G8jG8yYO+p0/4DQeKYAO7IAQRp2WOFkUkRq0NShRmy08xAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvD5PqXN; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="hbivKRhD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nqHqD94O"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4BA821D0006F;
-	Sun, 14 Sep 2025 22:55:17 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sun, 14 Sep 2025 22:55:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1757904917; x=1757991317; bh=bfaOXEdDqa5GrRfrxNxCth59U70Zc4uwsfT
-	eXy42sfA=; b=hbivKRhD/jj+ktNHZEYzQtfgzjMo0OX05brRabYP4+kz5mUSALQ
-	Tna7rhq7p2nUt1dqhV+PE9ZUnjhLsAYTk+doj4sWhmFUqY9yAizbKxD7DEIypswO
-	6+wGcP3JLZZFIw6vRLJ7YI/yoQtUB18rnloubyZICd/h/qxgiQyzsr64wrhAIgNT
-	3Z4GrSd3z0ZFI3aQvZ6EImrWcCh1mZn1O33nfFHR/pg1kiHc9kXS490FnaDqvxgI
-	2IfbQiNuB1/wblzV79vaCyR8oSa3oRyTgxScgAJf7j56RUSAZurvcrgZNCvdXyoC
-	59kLLBIEQqd/NRbeLw3GWBeogeHtdKCTazg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757904917; x=
-	1757991317; bh=bfaOXEdDqa5GrRfrxNxCth59U70Zc4uwsfTeXy42sfA=; b=n
-	qHqD94OZhyo+W0Sz9GiFnxeT88jO+W4JJlEplfxBLBwlb3KvEVbILdEcqZ46pXNW
-	xWPpktVt9HgfC3PurKK5FSqSkqdYpt2Xqb8meClCnb6SgoqcNM2XimMOK+1GK/xV
-	4/JjL6HyNssW/p5h8SR2xm8d6N6mmhDL0OQW0u1iZs7gFuYKU5txTRHGcrxHxAu/
-	W0FXvqjaIZwBcEEHXy9U+qju3dlLMK4JDxeMBo2TEWN+fqBtFNj0JXgCDM5zsaHO
-	nNvmV2aUQ/qIRlRYRWxU1+fIE79IvsBzyMGcK1T7jNx0eY7O6bOJidcFgSsV54Fc
-	AaKq9WGP3iIZzghFI+gaA==
-X-ME-Sender: <xms:FIDHaAy_WQxV3hbgJFzqZ8kTME8DDQllNRQiJrnncuSil07-Zlt3bg>
-    <xme:FIDHaFDvYNGhszcVixnzAt0K3J5Gu0VhOSzQ9nRAlJcwucrxTGkJ3X5k8tRy8grjQ
-    ZmqxeCEp7bESw>
-X-ME-Received: <xmr:FIDHaOfjN8rhquWdCepMO4QMrpZrfWB8XRL-5ghxZ2JmEPr8RYZaPQ6wDaQLfiO7OtMtcgIsr8Cs2jUekZmzv2X6VF9XAza--Z3EBoCj8x3g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefieehgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpegtgfgghffvvefujghffffkrhesthhqredttddtjeenucfhrhhomheppfgvihhluehr
-    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    eljedtfeegueekieetudevheduveefffevudetgfetudfhgedvgfdtieeguedujeenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
-    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdprhgtph
-    htthhopehovgdqkhgsuhhilhgusehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthht
-    ohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
-    htthhopegurghnrdgtrghrphgvnhhtvghrsehlihhnrghrohdrohhrghdprhgtphhtthho
-    pehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlkhhpsehinhhtvg
-    hlrdgtohhm
-X-ME-Proxy: <xmx:FIDHaPkJislqiuYz_tkpi6Mn5PFZkqDeAtWjEbUHBDSy2yMZeyv1vQ>
-    <xmx:FIDHaFH5FfNFJFpYocPU3fxcBD7KMI82lyOVVtlosWX6wf2PbgXHJQ>
-    <xmx:FIDHaH7JST6voGwG1gLSG2vp0f-QTBWblYVNWLr9J2gH5wxZO-vKAw>
-    <xmx:FIDHaNlsSWOCJB_UDq8jprZQqRtd37qE_qgVl9TReNNv14cQ2TgsxA>
-    <xmx:FYDHaGiQyEYAINQyvSXftIp7ukOWo9XnJvRaVDEU3HojaiAb23uZC0av>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Sep 2025 22:55:14 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvD5PqXN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757908059; x=1789444059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ATcqmhO4zO6S8Z6mwXqmWFUNnlT+T385TfHZ3kQoDwE=;
+  b=QvD5PqXNNwZnM7mtK1fHP1GU0kpjmFuCUdGxa1L10ZBQtljuSWigB2XL
+   fuGIYk6DKNjGf5nwtPn0KJmoe9/NTZ7HGpN7BFpyR/TeKacIklNl+lieG
+   pcY5GqN46P3NQPMo4LpJ00gIn9vMCoabv2RanV7p9tF6SRyVivf7d/aAL
+   t/A9GGDFfY1JxzYYMQU6FKMTalNqpYyTJrb4QKbawwwVrdsd9yU8DuaUm
+   tYKQTOUaCnQDO9yu7koqz1z3hNAH+WfpTSDAbyoK2s5j1l+DKV6NIF6YJ
+   96onNHk7lkom5zMevXV4JJ9NuzLESHwgIzsf1KZhAIl+6QJP7Y6fIFF74
+   w==;
+X-CSE-ConnectionGUID: OfDx4r/jReSb/YANKHI6ag==
+X-CSE-MsgGUID: CPOFHL7JTDuBCuuulY7o5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="77765786"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="77765786"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 20:47:38 -0700
+X-CSE-ConnectionGUID: XFJSSZxuRjigpUnM95a8CA==
+X-CSE-MsgGUID: /is72rpSTrWwCGsayGXgtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="174946287"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Sep 2025 20:47:35 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uy0Bg-0002vw-33;
+	Mon, 15 Sep 2025 03:47:32 +0000
+Date: Mon, 15 Sep 2025 11:46:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, nic_swsd@realtek.com,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org, "Wang, Crag" <Crag.Wang@dell.com>,
+	"Chen, Alan" <Alan.Chen6@dell.com>,
+	"Alex Shen@Dell" <Yijun.Shen@dell.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH v2] r8169: enable ASPM on Dell platforms
+Message-ID: <202509151143.M8cTV3NE-lkp@intel.com>
+References: <20250915013555.365230-1-acelan.kao@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Chuck Lever" <chuck.lever@oracle.com>
-Cc: "Dan Carpenter" <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- "Jeff Layton" <jlayton@kernel.org>
-Subject: [PATCH v2] nfsd: move name lookup out of nfsd4_list_rec_dir()
-In-reply-to: <b89886a8-c6f3-4789-bf03-4e8da7e142db@oracle.com>
-References: <202509131751.4STnDcZg-lkp@intel.com>,
- <175781199938.1696783.3669146136396360246@noble.neil.brown.name>,
- <35db1d4a-c75f-4419-b0a5-71ef0f80603c@oracle.com>,
- <175788975119.1696783.10090163184150858167@noble.neil.brown.name>,
- <b89886a8-c6f3-4789-bf03-4e8da7e142db@oracle.com>
-Date: Mon, 15 Sep 2025 12:55:13 +1000
-Message-id: <175790491325.1696783.7680474323247431624@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250915013555.365230-1-acelan.kao@canonical.com>
+
+Hi Chia-Lin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.17-rc6 next-20250912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chia-Lin-Kao-AceLan/r8169-enable-ASPM-on-Dell-platforms/20250915-093648
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250915013555.365230-1-acelan.kao%40canonical.com
+patch subject: [PATCH v2] r8169: enable ASPM on Dell platforms
+config: csky-randconfig-002-20250915 (https://download.01.org/0day-ci/archive/20250915/202509151143.M8cTV3NE-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509151143.M8cTV3NE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509151143.M8cTV3NE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/realtek/r8169_main.c:5370:6: warning: no previous prototype for 'rtl_aspm_new_dell_platforms' [-Wmissing-prototypes]
+    5370 | bool rtl_aspm_new_dell_platforms(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-nfsd4_list_rec_dir() is called with two different callbacks.
-One of the callbacks uses vfs_rmdir() to remove the directory.
-The other doesn't use the dentry at all, just the name.
+vim +/rtl_aspm_new_dell_platforms +5370 drivers/net/ethernet/realtek/r8169_main.c
 
-As only one callback needs the dentry, this patch moves the lookup into
-that callback.  This prepares of changes to how directory operations
-are locked.
+  5369	
+> 5370	bool rtl_aspm_new_dell_platforms(void)
+  5371	{
+  5372		const char *family = dmi_get_system_info(DMI_PRODUCT_FAMILY);
+  5373		static const char * const dell_product_families[] = {
+  5374			"Alienware",
+  5375			"Dell Laptops",
+  5376			"Dell Pro Laptops",
+  5377			"Dell Pro Max Laptops",
+  5378			"Dell Desktops",
+  5379			"Dell Pro Desktops",
+  5380			"Dell Pro Max Desktops",
+  5381			"Dell Pro Rugged Laptops"
+  5382		};
+  5383		int i;
+  5384	
+  5385		if (!family)
+  5386			return false;
+  5387	
+  5388		for (i = 0; i < ARRAY_SIZE(dell_product_families); i++) {
+  5389			if (str_has_prefix(family, dell_product_families[i]))
+  5390				return true;
+  5391		}
+  5392	
+  5393		return false;
+  5394	}
+  5395	
 
-Signed-off-by: NeilBrown <neil@brown.name>
----
-
-This time with the fix applied to the right patch :-(
-
- fs/nfsd/nfs4recover.c | 54 +++++++++++++++++++++----------------------
- 1 file changed, 26 insertions(+), 28 deletions(-)
-
-diff --git a/fs/nfsd/nfs4recover.c b/fs/nfsd/nfs4recover.c
-index e2b9472e5c78..e9d09541161c 100644
---- a/fs/nfsd/nfs4recover.c
-+++ b/fs/nfsd/nfs4recover.c
-@@ -237,7 +237,7 @@ nfsd4_create_clid_dir(struct nfs4_client *clp)
- 	nfs4_reset_creds(original_cred);
- }
-=20
--typedef int (recdir_func)(struct dentry *, struct dentry *, struct nfsd_net =
-*);
-+typedef int (recdir_func)(struct dentry *, char *, struct nfsd_net *);
-=20
- struct name_list {
- 	char name[HEXDIR_LEN];
-@@ -291,24 +291,14 @@ nfsd4_list_rec_dir(recdir_func *f, struct nfsd_net *nn)
- 	}
-=20
- 	status =3D iterate_dir(nn->rec_file, &ctx.ctx);
--	inode_lock_nested(d_inode(dir), I_MUTEX_PARENT);
-=20
- 	list_for_each_entry_safe(entry, tmp, &ctx.names, list) {
--		if (!status) {
--			struct dentry *dentry;
--			dentry =3D lookup_one(&nop_mnt_idmap,
--					    &QSTR(entry->name), dir);
--			if (IS_ERR(dentry)) {
--				status =3D PTR_ERR(dentry);
--				break;
--			}
--			status =3D f(dir, dentry, nn);
--			dput(dentry);
--		}
-+		if (!status)
-+			status =3D f(dir, entry->name, nn);
-+
- 		list_del(&entry->list);
- 		kfree(entry);
- 	}
--	inode_unlock(d_inode(dir));
- 	nfs4_reset_creds(original_cred);
-=20
- 	list_for_each_entry_safe(entry, tmp, &ctx.names, list) {
-@@ -406,18 +396,19 @@ nfsd4_remove_clid_dir(struct nfs4_client *clp)
- }
-=20
- static int
--purge_old(struct dentry *parent, struct dentry *child, struct nfsd_net *nn)
-+purge_old(struct dentry *parent, char *cname, struct nfsd_net *nn)
- {
- 	int status;
-+	struct dentry *child;
- 	struct xdr_netobj name;
-=20
--	if (child->d_name.len !=3D HEXDIR_LEN - 1) {
--		printk("%s: illegal name %pd in recovery directory\n",
--				__func__, child);
-+	if (strlen(cname) !=3D HEXDIR_LEN - 1) {
-+		printk("%s: illegal name %s in recovery directory\n",
-+				__func__, cname);
- 		/* Keep trying; maybe the others are OK: */
- 		return 0;
- 	}
--	name.data =3D kmemdup_nul(child->d_name.name, child->d_name.len, GFP_KERNEL=
-);
-+	name.data =3D kstrdup(cname, GFP_KERNEL);
- 	if (!name.data) {
- 		dprintk("%s: failed to allocate memory for name.data!\n",
- 			__func__);
-@@ -427,10 +418,17 @@ purge_old(struct dentry *parent, struct dentry *child, =
-struct nfsd_net *nn)
- 	if (nfs4_has_reclaimed_state(name, nn))
- 		goto out_free;
-=20
--	status =3D vfs_rmdir(&nop_mnt_idmap, d_inode(parent), child);
--	if (status)
--		printk("failed to remove client recovery directory %pd\n",
--				child);
-+	inode_lock_nested(d_inode(parent), I_MUTEX_PARENT);
-+	child =3D lookup_one(&nop_mnt_idmap, &QSTR(cname), parent);
-+	if (!IS_ERR(child)) {
-+		status =3D vfs_rmdir(&nop_mnt_idmap, d_inode(parent), child);
-+		if (status)
-+			printk("failed to remove client recovery directory %pd\n",
-+			       child);
-+		dput(child);
-+	}
-+	inode_unlock(d_inode(parent));
-+
- out_free:
- 	kfree(name.data);
- out:
-@@ -461,18 +459,18 @@ nfsd4_recdir_purge_old(struct nfsd_net *nn)
- }
-=20
- static int
--load_recdir(struct dentry *parent, struct dentry *child, struct nfsd_net *nn)
-+load_recdir(struct dentry *parent, char *cname, struct nfsd_net *nn)
- {
- 	struct xdr_netobj name;
- 	struct xdr_netobj princhash =3D { .len =3D 0, .data =3D NULL };
-=20
--	if (child->d_name.len !=3D HEXDIR_LEN - 1) {
--		printk("%s: illegal name %pd in recovery directory\n",
--				__func__, child);
-+	if (strlen(cname) !=3D HEXDIR_LEN - 1) {
-+		printk("%s: illegal name %s in recovery directory\n",
-+				__func__, cname);
- 		/* Keep trying; maybe the others are OK: */
- 		return 0;
- 	}
--	name.data =3D kmemdup_nul(child->d_name.name, child->d_name.len, GFP_KERNEL=
-);
-+	name.data =3D kstrdup(cname, GFP_KERNEL);
- 	if (!name.data) {
- 		dprintk("%s: failed to allocate memory for name.data!\n",
- 			__func__);
---=20
-2.50.0.107.gf914562f5916.dirty
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
