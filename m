@@ -1,160 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CA7308F2A;
-	Mon, 15 Sep 2025 12:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF9D315D31
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 13:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757940813; cv=none; b=gz6F9TqMqRpAIE2EfzJpy0NF0cQo2U70VHjj4dXo43kABksx4BJO1JIteqOt4PO0bhA32m5hJeRkpkvD8aEDQ5kMS+Qs+yPq0tnP7V64EDYqNXiNjHKk/RDGapexPjX8znGaYXD2whPSM9c2DbsiDBG1UctQ8dZutWRUhg5rv/w=
+	t=1757943130; cv=none; b=UQUFrEXpqKQWeA1RNan1AR2bCmXjW8zEOG73Uq2loZQKW5C42zm7Hp1E+rkUJC+LQpbTkYGtfsbhZcQxKSPRA3v2wCe0EbsGk6FMrmhPaREm6enQx/obskIPQiIQqNqizesqXBB19A/DDtGsINXNAqi7RCJrJbdGNId2yIU2/y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757940813; c=relaxed/simple;
-	bh=SdX8AjQVlaitGassOJiFuSnW7pCyzl/B3JGxEkxwdFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BUEWeasZn/DAL272uOQ9nPqae1OHXkOR0EFhniLIJCaaVZtwW2QvYY7leRaNuAhNG86RedE4zs+I3Q9bRv4VbeeiFFuD2XxabBKgoBXH8lxUslc7RRWAlw4WrKCRhe7E2kNXN758Kd38ZSwVon0rMzcK/NH/bk7SFmBUu+Agre8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BqZqXhmD; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757943130; c=relaxed/simple;
+	bh=k7APw+7V8PNd8IB0fAO6nOf+PeE0WSb2I+w3OW89x10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TAN3OxBQAb+Gmn7dshdQuf902xuM2d3j+B9AA9K14UxQ/yxXF7OiqljpcTK21usXfHRQBZbJX2PhM2R2hRiNEREHyggHWYjf4V53Ch58yuuchDwNNC1K/tw63ZfwkTCmEm6fwJBVUxLeYWRpm88DBgyaSLM3jH35UT7+bul/ogM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iP/hQB7Z; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqZqXhmD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757940812; x=1789476812;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SdX8AjQVlaitGassOJiFuSnW7pCyzl/B3JGxEkxwdFg=;
-  b=BqZqXhmDssk5Hqedc21SfQ8VXzbFm9Mis6bqMeOkpugVkkMTn90wGdo8
-   1mE0tz2xKvm+I1RYfASU++bfufiqCzggOWSqsbDGTqnoYFuD2NvaJXRMY
-   8jHS5fTf8J55OjRWSOa9NaaixG3p2fWfX2IGqLN1iNK5Bg4sFSK2/VHW5
-   cTCxtgzc8I2Qwdl4Jun/+gQpE1o08oXUDSYlNoBFzV2NdAWlnC/Ft87oj
-   dxSAQEv/hiDG7LEc7v03yE+ChFX9KuwBaowxbRPnAYR+B/udf5V4RJvgu
-   6Ur478/7Yt2yiVUzONVvwXETyXO/X6pyz5WTrB88lSc+iZI/cl5ohKqHF
-   A==;
-X-CSE-ConnectionGUID: GCvuV0PUQ9aYaF4bVJSSAA==
-X-CSE-MsgGUID: CeZw7iZWSLeMxY5HJP1XMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64004788"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64004788"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 05:53:31 -0700
-X-CSE-ConnectionGUID: KoSN1MMZTIShKfBJ20X8QA==
-X-CSE-MsgGUID: b3fkp+YZQsWUjbL3TfZuZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="174450894"
-Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2025 05:53:30 -0700
-Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uy8hz-0000Eh-2C;
-	Mon, 15 Sep 2025 12:53:27 +0000
-Date: Mon, 15 Sep 2025 20:52:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:kho/vmalloc/v4 3/4] kernel/kexec_handover.c:849:15: warning:
- variable 'num_elms' is uninitialized when used here
-Message-ID: <202509152038.NqSCwQU9-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iP/hQB7Z"
+Received: from ideasonboard.com (mob-5-90-56-182.net.vodafone.it [5.90.56.182])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5F748D4;
+	Mon, 15 Sep 2025 15:30:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757943049;
+	bh=k7APw+7V8PNd8IB0fAO6nOf+PeE0WSb2I+w3OW89x10=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iP/hQB7Zutz0NwyinWcdTqovZFAdiTd98hd3Zh9P3IRrC7xx8nwYCjOdI8bmEneG+
+	 6cd5+8mHWijpos30s62l1cJr9B+bTxhWdsZmfGHSTKZnQl0aSat3+tzpdr4u+BxcIr
+	 utZhbyITMiYF7QCZRBecgNc27yhL+/kzxzzJtZd4=
+Date: Mon, 15 Sep 2025 15:31:58 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 5/8] media: v4l2-core: Introduce v4l2-params.c
+Message-ID: <jhynzoppwi22vnrdzrvqixsbvntsli7sj2vtsxrevtmxluveps@q6yzgvlqmxxb>
+References: <20250820-extensible-parameters-validation-v4-5-30fe5a99cb1f@ideasonboard.com>
+ <202508240704.AZwGXBaw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202508240704.AZwGXBaw-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/vmalloc/v4
-head:   4198c802be71f6b2ce7716a8f89fb779b09575a2
-commit: 01ea1bd238b11a157114d172bc88608ed08c3b17 [3/4] kho: add support for preserving vmalloc allocations
-config: arm64-randconfig-001-20250915 (https://download.01.org/0day-ci/archive/20250915/202509152038.NqSCwQU9-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 65ad21d730d25789454d18e811f8ff5db79cb5d4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509152038.NqSCwQU9-lkp@intel.com/reproduce)
+Question for media maintainers...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509152038.NqSCwQU9-lkp@intel.com/
+I'm not sure how I should better handle this one
 
-All warnings (new ones prefixed by >>):
+On Sun, Aug 24, 2025 at 07:16:21AM +0800, kernel test robot wrote:
+> Hi Jacopo,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on a75b8d198c55e9eb5feb6f6e155496305caba2dc]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-uapi-Introduce-V4L2-extensible-params/20250820-210503
+> base:   a75b8d198c55e9eb5feb6f6e155496305caba2dc
+> patch link:    https://lore.kernel.org/r/20250820-extensible-parameters-validation-v4-5-30fe5a99cb1f%40ideasonboard.com
+> patch subject: [PATCH v4 5/8] media: v4l2-core: Introduce v4l2-params.c
+> config: nios2-randconfig-002-20250824 (https://download.01.org/0day-ci/archive/20250824/202508240704.AZwGXBaw-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 9.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240704.AZwGXBaw-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508240704.AZwGXBaw-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    nios2-linux-ld: drivers/media/v4l2-core/v4l2-params.o: in function `v4l2_params_buffer_validate':
+>    v4l2-params.c:(.text+0x124): undefined reference to `vb2_plane_vaddr'
+> >> v4l2-params.c:(.text+0x124): relocation truncated to fit: R_NIOS2_CALL26 against `vb2_plane_vaddr'
+>
 
->> kernel/kexec_handover.c:849:15: warning: variable 'num_elms' is uninitialized when used here [-Wuninitialized]
-     849 |                 chunk->phys[num_elms++] = phys;
-         |                             ^~~~~~~~
-   kernel/kexec_handover.c:824:37: note: initialize the variable 'num_elms' to silence this warning
-     824 |         unsigned int order, flags, num_elms, nr_contig_pages;
-         |                                            ^
-         |                                             = 0
-   1 warning generated.
+Clearly v4l2-params.c (now v4l2-isp.c) depends on VIDEOBUF2_CORE
 
+Right now v4l2-params.c gets compiled in as part of the
+videodev-objs Makefile target. IOW is not gated by a KConfig option.
 
-vim +/num_elms +849 kernel/kexec_handover.c
+To select (or better, depend) on VIDEOBUF2_CORE I should guard
+v4l2-params.c with a KConfig option so that I can 'depend on
+VIDEOBUF2_CORE'. Drivers that use the v4l2-params.c helper would then
+have to 'select V4L2_PARAMS` (or similar).
 
-   804	
-   805	/**
-   806	 * kho_preserve_vmalloc - preserve memory allocated with vmalloc() across kexec
-   807	 * @ptr: pointer to the area in vmalloc address space
-   808	 * @preservation: placeholder for preservation metadata
-   809	 *
-   810	 * Instructs KHO to preserve the area in vmalloc address space at @ptr. The
-   811	 * physical pages mapped at @ptr will be preserved and on successful return
-   812	 * @preservation will hold the physical address of a structure that describes
-   813	 * the preservation.
-   814	 *
-   815	 * NOTE: The memory allocated with vmalloc_node() variants cannot be reliably
-   816	 * restored on the same node
-   817	 *
-   818	 * Return: 0 on success, error code on failure
-   819	 */
-   820	int kho_preserve_vmalloc(void *ptr, struct kho_vmalloc *preservation)
-   821	{
-   822		struct kho_vmalloc_chunk *chunk;
-   823		struct vm_struct *vm = find_vm_area(ptr);
-   824		unsigned int order, flags, num_elms, nr_contig_pages;
-   825		int err;
-   826	
-   827		if (!vm)
-   828			return -EINVAL;
-   829	
-   830		if (vm->flags & ~KHO_VMALLOC_FLAGS_MASK)
-   831			return -EOPNOTSUPP;
-   832	
-   833		flags = vm->flags & KHO_VMALLOC_FLAGS_MASK;
-   834		order = get_vm_area_page_order(vm);
-   835	
-   836		chunk = new_vmalloc_chunk(NULL);
-   837		if (!chunk)
-   838			return -ENOMEM;
-   839		KHOSER_STORE_PTR(preservation->first, chunk);
-   840	
-   841		nr_contig_pages = (1 << order);
-   842		for (int i = 0; i < vm->nr_pages; i += nr_contig_pages) {
-   843			phys_addr_t phys = page_to_phys(vm->pages[i]);
-   844	
-   845			err = kho_preserve_pages(vm->pages[i], nr_contig_pages);
-   846			if (err)
-   847				goto err_free;
-   848	
- > 849			chunk->phys[num_elms++] = phys;
-   850			if (num_elms == ARRAY_SIZE(chunk->phys)) {
-   851				chunk = new_vmalloc_chunk(chunk);
-   852				if (!chunk)
-   853					goto err_free;
-   854			}
-   855		}
-   856	
-   857		preservation->total_pages = vm->nr_pages;
-   858		preservation->flags = flags;
-   859		preservation->order = order;
-   860	
-   861		return 0;
-   862	
-   863	err_free:
-   864		kho_vmalloc_free_chunks(preservation);
-   865		return err;
-   866	}
-   867	EXPORT_SYMBOL_GPL(kho_preserve_vmalloc);
-   868	
+Is this the best approach or are there alternatives I might be missing ?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
