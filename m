@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754F0238142
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 18:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E968B279DDA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 19:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757961253; cv=none; b=ZvfJoaN/bjxcB05kpLpVokR6xp82uHgteoeSN7NXDN+jufU6tos+mKSPckvQPEgynnyi/6OkQvRNx1BwhQMqT/21+2442SZ5kM3uAzQF0MDdGbCMzDUAd7erjXeJ2H++E7h6ZzOqLKQnxWfgHwrgSIP/I+eFsROdWjnP1DDKM7A=
+	t=1757964980; cv=none; b=AMIK7sgmSoJmqS1wsLz4uFFYTM77SSRoD0PKj8SoXNUmiMNVVxXG7DrDz8kJumO8KiuawmNouN4fFDy2PVztRj2N9kpBmPfPQ/CykmJYIa+b0tpWH/RgjrcJ7RONN5h/+i3NXPd8q4cIB77ihSEuH8o/DrdppmSprBx2G9MP9do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757961253; c=relaxed/simple;
-	bh=TZC+H6eRGc+Z3JEU3E9ernW85DbRAtUT36rFei+847E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dfx8qQ3/a2iUivygoNIlXMnFWKzCrhCmyK+/FqeMb0EpXhZgAUWnXF/7LT7J+kVGbEATUIUW073hrmToYF/xa2TwhqmDtauowQyByIz6t0OYdZMUnlQ7ztKuceDKQuGXqeKaGl85DbMllJzluLdyiNqe792njVLCO0FGRpvdXjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDrHjpX7; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1757964980; c=relaxed/simple;
+	bh=xIiCA6XEsrWkWIw6mHGpGZiKaHps/gNNAYLbHZYqqj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WOYQtYejYSk2WtkWeml8EwecsWt3e/VOjWG17tB8uTV7ihAtxFuUlfg7HHm8Q+AtdqNZOi9qbvehzJquzA0RsjEQIfRJOygc15nOXkpVbIfIANSTwb+GJgLDU/8ttX9Yie9hMqTOgJnOgUgzKpHlon4xF4b338nf+LZVOnQDKdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tq5XpbLa; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDrHjpX7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tq5XpbLa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757961251; x=1789497251;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TZC+H6eRGc+Z3JEU3E9ernW85DbRAtUT36rFei+847E=;
-  b=XDrHjpX7Ow/5k6IumeKtg5w5cXVYt9L1y8fRcWIguuxRsVeGpFVSK+mS
-   wrzBPqraSbc9WAoHcbO0TW9eSQLoW0s96TmoqoEyUK5hpBl6xXorPzk5n
-   T+UK2UXjnlbmdNS5bCSXJ/YQFMq3n5+E+KkGikQFj4uX0Do9Qup0LneDp
-   gCQqipx/9xsqbzs8+cTasDbO4gM92OeTKwKEd2peWuuV86dfeRlunMUG6
-   S15APrzZ3pxHQC23Wot9iiTwt8ZvGadKL6fV6GeIlgXt8RD7mGSAjRpah
-   j+MQvsBc/U8zt0Z4H8A2yo6SreqiYMui0Pr2JGDA1SRyJ+rKaPXG4iotg
-   w==;
-X-CSE-ConnectionGUID: Z73bFEDjSlOWsz32hjYyvQ==
-X-CSE-MsgGUID: QDXSiHLLQjW9UCAjoFHf4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64036630"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64036630"
+  t=1757964979; x=1789500979;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xIiCA6XEsrWkWIw6mHGpGZiKaHps/gNNAYLbHZYqqj8=;
+  b=Tq5XpbLaNHBbKlScR4AuNz3HZvfHWQfNBqmF1fXKkaWy5cI1Xk06QK9j
+   BxoDNx6upziijcNr/AZ6skLcDml0tqsOxrogBM8K3K2vFqxx2+TMG/lR0
+   +ZMdCF+TCXFVyGzesPIyaWW5tRa+gs5Rfa2TOetqEKeT1GFkiciY6Xqfm
+   DqnZZHq6RYX640wB6ats7begSTBnf/1KIqXrR1AXrf9CUT9UXBrJTQ8wr
+   5P6J+E2czrl3JgcRZl3k60viVn07kHnhe/QPvR8dhKah4QO9MYcD40m8v
+   bbjlK71sbxSN5jK+L3ChWSZ9rS5oHYIsuQmTfvrcB7uyLPpos8gFYSCgD
+   Q==;
+X-CSE-ConnectionGUID: FX+zdNJZQQ+U9zlccHGqAQ==
+X-CSE-MsgGUID: ZSdZt05tSVaxjf2rcD/UGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="82827221"
+X-IronPort-AV: E=Sophos;i="6.18,267,1751266800"; 
+   d="scan'208";a="82827221"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 11:34:10 -0700
-X-CSE-ConnectionGUID: 8/5D6YqKSJu/tMIX803gYA==
-X-CSE-MsgGUID: lcODT8ceRA2A5kunGGrhTQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 12:36:18 -0700
+X-CSE-ConnectionGUID: Y8hQESkPS4qErw9rZtB5/g==
+X-CSE-MsgGUID: ite+/TU1Qyacu+j/+yt5kA==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2025 11:34:09 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2025 12:36:15 -0700
 Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyE1e-0000ZT-2x;
-	Mon, 15 Sep 2025 18:34:06 +0000
-Date: Tue, 16 Sep 2025 02:33:42 +0800
+	id 1uyEzl-0000cl-0J;
+	Mon, 15 Sep 2025 19:36:13 +0000
+Date: Tue, 16 Sep 2025 03:36:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	SeongJae Park <sj@kernel.org>
-Subject: [akpm-mm:mm-unstable 187/225] arch/m68k/include/asm/page.h:20:27:
- error: lvalue required as unary '&' operand
-Message-ID: <202509160214.gDtkbWC8-lkp@intel.com>
+To: Lakshay Piplani <lakshay.piplani@nxp.com>, wbg@kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
+	Lakshay Piplani <lakshay.piplani@nxp.com>
+Subject: Re: [PATCH 2/2] counter: nxp-pcf85363-stopwatch: Add driver for NXP
+ PCF85263/PCF85363 stopwatch
+Message-ID: <202509160317.ig0aBXeu-lkp@intel.com>
+References: <20250915071415.1956219-2-lakshay.piplani@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +66,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250915071415.1956219-2-lakshay.piplani@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   0f409ed671a46de4b172899f7814a5bf37a33d86
-commit: 00cd88c03fd1c3242be5726998b3bf47afbf17a1 [187/225] mm/rmap: extend rmap and migration support device-private entries
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250916/202509160214.gDtkbWC8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509160214.gDtkbWC8-lkp@intel.com/reproduce)
+Hi Lakshay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.17-rc6 next-20250912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/counter-nxp-pcf85363-stopwatch-Add-driver-for-NXP-PCF85263-PCF85363-stopwatch/20250915-152227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250915071415.1956219-2-lakshay.piplani%40nxp.com
+patch subject: [PATCH 2/2] counter: nxp-pcf85363-stopwatch: Add driver for NXP PCF85263/PCF85363 stopwatch
+config: i386-randconfig-141-20250916 (https://download.01.org/0day-ci/archive/20250916/202509160317.ig0aBXeu-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509160317.ig0aBXeu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509160214.gDtkbWC8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509160317.ig0aBXeu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from mm/page_idle.c:2:
-   mm/page_idle.c: In function 'page_idle_clear_pte_refs_one':
->> arch/m68k/include/asm/page.h:20:27: error: lvalue required as unary '&' operand
-      20 | #define pmd_val(x)      ((&x)->pmd)
-         |                           ^
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   arch/m68k/include/asm/motorola_pgtable.h:116:34: note: in expansion of macro 'pmd_val'
-     116 | #define pmd_present(pmd)        (pmd_val(pmd) & _PAGE_TABLE)
+>> drivers/counter/nxp-pcf85363-stopwatch.c:375:34: warning: unused variable 'dev_ids' [-Wunused-const-variable]
+     375 | static const struct of_device_id dev_ids[] = {
          |                                  ^~~~~~~
-   mm/page_idle.c:74:36: note: in expansion of macro 'pmd_present'
-      74 |                         if (likely(pmd_present(pmdp_get(pvmw.pmd))))
-         |                                    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +20 arch/m68k/include/asm/page.h
+vim +/dev_ids +375 drivers/counter/nxp-pcf85363-stopwatch.c
 
-138ff3462f53a7 Greg Ungerer   2010-09-07  14  
-138ff3462f53a7 Greg Ungerer   2010-09-07  15  /*
-138ff3462f53a7 Greg Ungerer   2010-09-07  16   * These are used to make use of C type-checking..
-138ff3462f53a7 Greg Ungerer   2010-09-07  17   */
-60e50f34b13e9e Mike Rapoport  2019-12-04  18  #if !defined(CONFIG_MMU) || CONFIG_PGTABLE_LEVELS == 3
-ef22d8abd876e8 Peter Zijlstra 2020-01-31  19  typedef struct { unsigned long pmd; } pmd_t;
-ef22d8abd876e8 Peter Zijlstra 2020-01-31 @20  #define pmd_val(x)	((&x)->pmd)
-ef22d8abd876e8 Peter Zijlstra 2020-01-31  21  #define __pmd(x)	((pmd_t) { (x) } )
-60e50f34b13e9e Mike Rapoport  2019-12-04  22  #endif
-60e50f34b13e9e Mike Rapoport  2019-12-04  23  
-
-:::::: The code at line 20 was first introduced by commit
-:::::: ef22d8abd876e805b604e8f655127de2beee2869 m68k: mm: Restructure Motorola MMU page-table layout
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
+   374	
+ > 375	static const struct of_device_id dev_ids[] = {
+   376		{ .compatible = "nxp,pcf85263atl", .data = &pcf_85263_config },
+   377		{ .compatible = "nxp,pcf85363atl", .data = &pcf_85363_config },
+   378		{ }
+   379	};
+   380	MODULE_DEVICE_TABLE(of, dev_ids);
+   381	
 
 -- 
 0-DAY CI Kernel Test Service
