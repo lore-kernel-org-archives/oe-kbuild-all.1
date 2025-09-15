@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B933A03D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 14:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A25345758
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Sep 2025 14:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757947764; cv=none; b=ThOXjlqWOfzw8bYsEIGWkGIRq8V/WLOTQi+3UCkM8SBhHlF5FOiNbqqWi2KFBhtcB9Ppfb+STyMNyavcvg5eRGXP1TRLrFrlYdu34oXG3kLHnfW2Dm+LBdtn7hvbzU+u7UoQ4dS+QdCtxFtprPWp73VYBHRbIKWYsqJiWDcU0lU=
+	t=1757947860; cv=none; b=VQLfPflAXD164pZMQ5/4TI89TRTe4I5sy67aP59iRNNnEMWak8kog35Qz1M/6Yiocger7ABhIiO07j9LADwgwTm/jsVlImdC2GptplHMs+YHQT7P4yqPo9dwNH8zjjfH/iENiMey2j3mftlXGTbEFIGGfrhBc+lRBwg4Cdmgxdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757947764; c=relaxed/simple;
-	bh=qzDJZ6MIVaKjCDoPQ7eYvhjd24ErbN5nstetVspBJWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bFg5dVuobOJgmfOJlcq6sbvLrWnwbKyDReC74nvNh15vvHVBZAeB13o5TVf1pBup7c4CVCV4H2bVYeTvSSdltIAAbU6TnTc4GldvZQ5X09yvAfiFoQzDfLOHY+WqL0p8pdNeh32Z33zhf2rS8AKFU/h5ppALbLBw2EQKIhErJ3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mW3pBb3M; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1757947860; c=relaxed/simple;
+	bh=iIZ5DSiVVplj6AM5E8ejwH0d1F+Sl4ouOFvd9n5rdOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=prsdk9tde6LQhHHjaBh8cX79JEcwyBs1e8ZoapyR5NQgnM/kyjzd+rbkWqL+Q3Pkj7CTPSQNCOUOa3a6yqf3e14mLSVWtTOg/6UpIJg/GRDTSO2s9/lQMi2I61SjFLRxyo/KntaTFPndEboE/ylqCc0QckepYOo9B+FSACsDM1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQcEeSdR; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mW3pBb3M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQcEeSdR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757947762; x=1789483762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qzDJZ6MIVaKjCDoPQ7eYvhjd24ErbN5nstetVspBJWE=;
-  b=mW3pBb3MOWTp7jG2McTbY1YsqbvzOzVLHGmPXrAl7kQrMlfd22zf275E
-   nrbwLc9+y/wLPdzpkbEFveC2E+HgpdNB6Z9v3FxgMPkJq3ytLzuqjPr8N
-   fT8nzLeGeW8+hhRW4Kd3hMCAagBGEIE7Zuk6GYSxtgv6BCX6h+TH7LvGf
-   LvEAm0U1+tW0hGat05Z+FqALabA9+VTBACxYQJbghxyK1jGCbupZhINL2
-   skdAfCqruCEegi1Th4BhYxoVLUZqRLQyCbnH/GvaWm6idQQnO0GgN1J+b
-   H3/4hUOuZcG+/tCHzT5bWjZGDRKkqsdkYDkryFYP3oUZOXtsO673FXh8z
+  t=1757947858; x=1789483858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iIZ5DSiVVplj6AM5E8ejwH0d1F+Sl4ouOFvd9n5rdOU=;
+  b=KQcEeSdRwYpQJh3w2cUVvMwSDI1FJLNSHMrDJwfWm+qQLUTCv+ZbSJOX
+   Wr2xCghgaibLbjHX29t/bW844XV78BjA2x+81Dp2nYS2kl0kh4TKoh9NU
+   z1qF7CkDvZ1I9/5rnesYzFtguc7GX0htBDbYyFpv36A5bFn5LOMTo9BbJ
+   TPDcjdBNj1qjKxwPTU+Vo2r8M45S8l2UPufnpuHi0NX4QcfgAhPmFDCls
+   TE1RHtbdaQgVZ9AgicDWql8b5+i8O1MTFrS1ze4WFOBhipcmgZ0BcEwf6
+   6LmiQfV9Ico0uUw7XD+nPwnY7ivCzS6Yk8gMJ/2ythgqSVvT6sK/UJ3Eh
    g==;
-X-CSE-ConnectionGUID: JQNpkot1S+qtqrI8rFtdzw==
-X-CSE-MsgGUID: gEDhuFAAQT6LCK383BgmtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="62837285"
+X-CSE-ConnectionGUID: 5OBmF7HjSdGJI9GhWyh0MQ==
+X-CSE-MsgGUID: aHgP1iQUQ5uIy2rr8TMS4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="60277359"
 X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="62837285"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 07:37:03 -0700
-X-CSE-ConnectionGUID: icW+tYUUQeqOVdgjfXiksg==
-X-CSE-MsgGUID: wUiI5kB1Sm6pIh+A7sUphA==
+   d="scan'208";a="60277359"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 07:46:41 -0700
+X-CSE-ConnectionGUID: B0HgGquYQ12++wP+tnBdZQ==
+X-CSE-MsgGUID: EwTQ6MRtQNCRH6VERRqnOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="174477461"
+   d="scan'208";a="174581809"
 Received: from lkp-server01.sh.intel.com (HELO 5b01dd97f97c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2025 07:36:59 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Sep 2025 07:46:40 -0700
 Received: from kbuild by 5b01dd97f97c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyAJp-0000Jn-0W;
-	Mon, 15 Sep 2025 14:36:37 +0000
-Date: Mon, 15 Sep 2025 22:35:40 +0800
+	id 1uyATV-0000KL-2q;
+	Mon, 15 Sep 2025 14:46:37 +0000
+Date: Mon, 15 Sep 2025 22:46:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan.Wanner@microchip.com, claudiu.beznea@tuxon.dev, sre@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	linux@armlinux.org.uk
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] ARM: at91: PM: implement selection of LPM
-Message-ID: <202509152248.NjJj2xwQ-lkp@intel.com>
-References: <e72d9af1326cf44888059270263afde875ccc994.1757519351.git.Ryan.Wanner@microchip.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1782/1782] mm/page_alloc.c:3005:
+ warning: Function parameter or member 'mt' not described in
+ '__putback_isolated_page'
+Message-ID: <202509152248.Glnloqtx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,94 +62,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e72d9af1326cf44888059270263afde875ccc994.1757519351.git.Ryan.Wanner@microchip.com>
 
-Hi,
+Hi Alexander,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on cbeznea/tests linus/master v6.17-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wanner-microchip-com/dt-bindings-power-reset-atmel-sama5d2-shdwc-add-lpm-binding/20250911-002354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/e72d9af1326cf44888059270263afde875ccc994.1757519351.git.Ryan.Wanner%40microchip.com
-patch subject: [PATCH 2/4] ARM: at91: PM: implement selection of LPM
-config: arm-randconfig-r131-20250915 (https://download.01.org/0day-ci/archive/20250915/202509152248.NjJj2xwQ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509152248.NjJj2xwQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   8975e9a49fdd2f6402cc5fe68bc08d3c2b7a35a5
+commit: 91bac2310ae7eca9d9869222c96fcc3d02851eea [1782/1782] mm: add function __putback_isolated_page
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250915/202509152248.Glnloqtx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509152248.Glnloqtx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509152248.NjJj2xwQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509152248.Glnloqtx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mach-at91/pm.c:283:75: sparse: sparse: Using plain integer as NULL pointer
-   arch/arm/mach-at91/pm.c:1101:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void ( *static [assigned] [toplevel] at91_suspend_sram_fn )( ... ) @@     got void [noderef] __iomem * @@
-   arch/arm/mach-at91/pm.c:1101:30: sparse:     expected void ( *static [assigned] [toplevel] at91_suspend_sram_fn )( ... )
-   arch/arm/mach-at91/pm.c:1101:30: sparse:     got void [noderef] __iomem *
+All warnings (new ones prefixed by >>):
 
-vim +283 arch/arm/mach-at91/pm.c
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from '__build_all_zonelists' at mm/page_alloc.c:5529:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/page_alloc.c: In function '__build_all_zonelists':
+   mm/page_alloc.c:5527:32: note: object 'lock' of size 4
+    5527 |         static DEFINE_SPINLOCK(lock);
+         |                                ^~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'adjust_managed_page_count' at mm/page_alloc.c:7188:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/page_alloc.c: In function 'adjust_managed_page_count':
+   mm/page_alloc.c:127:24: note: object 'managed_page_count_lock' of size 4
+     127 | static DEFINE_SPINLOCK(managed_page_count_lock);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'adjust_managed_page_count' at mm/page_alloc.c:7188:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/page_alloc.c: In function 'adjust_managed_page_count':
+   mm/page_alloc.c:127:24: note: object 'managed_page_count_lock' of size 4
+     127 | static DEFINE_SPINLOCK(managed_page_count_lock);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'setup_per_zone_wmarks' at mm/page_alloc.c:7504:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/page_alloc.c: In function 'setup_per_zone_wmarks':
+   mm/page_alloc.c:7502:32: note: object 'lock' of size 4
+    7502 |         static DEFINE_SPINLOCK(lock);
+         |                                ^~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'setup_per_zone_wmarks' at mm/page_alloc.c:7504:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/page_alloc.c: In function 'setup_per_zone_wmarks':
+   mm/page_alloc.c:7502:32: note: object 'lock' of size 4
+    7502 |         static DEFINE_SPINLOCK(lock);
+         |                                ^~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+>> mm/page_alloc.c:3005: warning: Function parameter or member 'mt' not described in '__putback_isolated_page'
 
-   271	
-   272	static int at91_pm_prepare_lpm(unsigned int pm_mode)
-   273	{
-   274		struct platform_device *pdev;
-   275		int ndevices, i, ret;
-   276		struct of_phandle_args lpmspec;
-   277	
-   278		if ((pm_mode != AT91_PM_ULP0 && pm_mode != AT91_PM_ULP1) ||
-   279		    !soc_pm.shdwc_np)
-   280			return 0;
-   281	
-   282		ndevices = of_count_phandle_with_args(soc_pm.shdwc_np,
- > 283						      "microchip,lpm-connection", 0);
-   284		if (ndevices < 0)
-   285			return 0;
-   286	
-   287		soc_pm.data.lpm = 1;
-   288		for (i = 0; i < ndevices; i++) {
-   289			ret = of_parse_phandle_with_args(soc_pm.shdwc_np,
-   290							 "microchip,lpm-connection",
-   291							 NULL, i, &lpmspec);
-   292			if (ret < 0) {
-   293				if (ret == -ENOENT) {
-   294					continue;
-   295				} else {
-   296					soc_pm.data.lpm = 0;
-   297					return ret;
-   298				}
-   299			}
-   300	
-   301			pdev = of_find_device_by_node(lpmspec.np);
-   302			if (!pdev)
-   303				continue;
-   304	
-   305			if (device_may_wakeup(&pdev->dev)) {
-   306				if (pm_mode == AT91_PM_ULP1) {
-   307					/*
-   308					 * ULP1 wake-up sources are limited. Ignore it if not
-   309					 * in soc_pm.ws_ids.
-   310					 */
-   311					if (at91_pm_device_in_list(pdev, soc_pm.ws_ids))
-   312						soc_pm.data.lpm = 0;
-   313				} else {
-   314					soc_pm.data.lpm = 0;
-   315				}
-   316			}
-   317	
-   318			put_device(&pdev->dev);
-   319			if (!soc_pm.data.lpm)
-   320				break;
-   321		}
-   322	
-   323		return 0;
-   324	}
-   325	
+
+vim +3005 mm/page_alloc.c
+
+  2995	
+  2996	/**
+  2997	 * __putback_isolated_page - Return a now-isolated page back where we got it
+  2998	 * @page: Page that was isolated
+  2999	 * @order: Order of the isolated page
+  3000	 *
+  3001	 * This function is meant to return a page pulled from the free lists via
+  3002	 * __isolate_free_page back to the free lists they were pulled from.
+  3003	 */
+  3004	void __putback_isolated_page(struct page *page, unsigned int order, int mt)
+> 3005	{
+  3006		struct zone *zone = page_zone(page);
+  3007	
+  3008		/* zone lock should be held when this function is called */
+  3009		lockdep_assert_held(&zone->lock);
+  3010	
+  3011		/* Return isolated page to tail of freelist. */
+  3012		__free_one_page(page, page_to_pfn(page), zone, order, mt);
+  3013	}
+  3014	
 
 -- 
 0-DAY CI Kernel Test Service
