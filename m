@@ -1,200 +1,189 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B546330C61A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 12:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAEC1A5B8F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 13:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758026380; cv=none; b=axw31qJkhyXJO7K+LtQ2XCApRis0jtPgwgJlBEDiIsmBzQq8jukQz5bO68/mBY8Ssi4kpKhN6E0HDBUr0SF/uPgiHln+BU35Kd8QcRQ17hEURm3m6LscRvKLi9N9l19pB3vqQ7EGq1WheNnBlF3wqCPtm1i7RKe4s0coJbjIIpA=
+	t=1758028328; cv=none; b=Olok89AYAHXgnNX/vz17Um+YtCJiccr3lsjLpy3LP9DDan847V9LS3fmA6MkW4NSrQhxvhhwVrn+8bvy80kmvZ76fhiLxzSjbiIptagHQsKnkjIwAWIYMIrsGwGwMPss+c9BbASeZkhlWPpxkQVV+OeW5j6tv12uPTs+Z59yyro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758026380; c=relaxed/simple;
-	bh=/nr/RV4+6Ya3JsPeMQRmLlubUZrACV5W6+rHLSzZCV8=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=tCGZqmVhA/7u5Iv1GaPPx0rHheTZ5FoF/U0GvRjIGuw0/diFEj47ZvKokqXMBQl+TkQWZQT6Bc23qrFR8rzk90KYayfsxeN7DmsDLBfRwsziaIW1mzPq7f+bjYmpVoHGDE1jw02+wCw7OdbM3APnowrT3yaiK5tS6wMe+PyDdjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mFcgkVlZ; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758028328; c=relaxed/simple;
+	bh=fal/nAYfVniOmy7nq5p95hFpTwJxWElkDshx65CgdKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IT3Yvim4kKVyTTZJYaGibUHNGqBzXK03rG9hENFFjTGIk9PIFJk+UlEHHj1QPcuy4Ic9az/Nm2OZ0Kv3oMoF+uvXBXsiHw68LHgxlHG0x0lpzj2vSSlC7gqjql7QbmBZsGEytIBOHxTL/W+IV6tbY1imtAdfpTGVVpbPEFeynGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K19lgWxr; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFcgkVlZ"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45df0cde41bso39891935e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 05:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758026377; x=1758631177; darn=lists.linux.dev;
-        h=mime-version:date:user-agent:references:in-reply-to:subject:cc:to
-         :from:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=gt0ZwE2fkLuC8Rptt0cI2XAd8Dj/MEqvhQxNXmrCN3E=;
-        b=mFcgkVlZEJBgeLStIr0uoeNxm7T4N804Sxkx+Wz2DCp0uKwLRu45EAbZ3AOEcfsNtN
-         Fnhqze2NBcnzKZsmpyDbHhkRxndz2L0ZgcjaMRiLf20AcEYu3o5Tfq3W5FUX7ccp27uV
-         HsyTscGQc3yOpM4JnbbpUrGv9gvSJuJ4MWbEMnFBRz7KGat44fy8MjGb4dJjPP7h091K
-         4yHcyuMbez7M0djfvbPVzU5mb3mk+JzdVlh+L+Gk4lyB0UsliIMtHgUTLRo+2KrQwyUG
-         sS2dWYcenXT3WWZq2v+2bcAYfzJJNaY7P4TTjGeh3v3NRqFiQ+93cR0xo+zQ1Y9KaByP
-         PJwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758026377; x=1758631177;
-        h=mime-version:date:user-agent:references:in-reply-to:subject:cc:to
-         :from:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gt0ZwE2fkLuC8Rptt0cI2XAd8Dj/MEqvhQxNXmrCN3E=;
-        b=LQQhHQsqoz7ec/k/KvlFMiA8bgR1eyqrARHZ7IPLXp5LGNiMFO19ywjZU0yC9/v3yg
-         gufh2s4Om7eptr66s73lo5CISMu4o9V7kPDRSdj7Dnjq+LuSF2xvJeRT3xI3bUCLn2IC
-         lfQWGMQSp9xI/sZGjwsQN1CVjd/ThRKeCVT72ChoiuemFUeQi47k6lM2pKAAolWOpLex
-         I2kipMI1Gq732CKFvCUlvcW81/jY7cq/4ROoU7yauBRL6PzkHkuLdhZGot8oLM29xDHr
-         iLQ0Re+gIX9Q6zIcW2nRbW5HtJs5fTm1NrOUoYr4NX4aS6VoLO/9bpNODA6lKqq8F1WZ
-         zprA==
-X-Forwarded-Encrypted: i=1; AJvYcCVA3U4wLTV/XCHHsI66gPMWZNwqcIXKXjWD5nQV61eJlM5RTXDBxAm3xu6EHDlN4bY4tbFQRy/keTCoHkP4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbsUAjTsYJctMrJrzH+oNjZJUw4uRnmKoOG9Mi4cvL9C2eWadw
-	HQNOsgCZ78DHMTvV15mlT2uf+Q3KbP9+EPGH43vQ94/8aEP52ZLgkJqh
-X-Gm-Gg: ASbGncs5k6Ka1GKmbJK2aHvTgCcUiZNmoHqNb3XfCE6ZbXBZIYkaqbl99YiGmhxFcS7
-	AO6nbM/Gi6G/a3D0I4LI8E/LZ5fvKu+58o11CyKeYKzwR6+F2XCMIsC3eIdMWgb/L8qF442GW4E
-	9JO0FxYn3kkFlLXant6z/OY8Pwn+eA7g1fu2uN7J8ECQ2avkegbO4KJT8FvHKoyMmPqT5sOYlLI
-	XQ+PPHakVca08nOkvtYVNW1m3Awe7PmE78xa0JWMEwvvUnD8qkb4MDNAYy5IegmD3PMvCF/Atzo
-	7N/1ddO4f/2szm0n0J7x6rl5JPXuN6i+IOK7zj2Nne/DXZ/f4V6PvtVJ8KR8jfFE6zQqTmC/rEh
-	XSxr42OdcH6oJiYQIqNQWC0A6Sy8=
-X-Google-Smtp-Source: AGHT+IEDyzCIO/ZrWzZXXRqUqdpxBC3NkftkP3PMQ8QxO7unshVAe8c94K1S3RCZ/wnrdlM3sihzmg==
-X-Received: by 2002:a05:600c:a4b:b0:45c:b5eb:b0c6 with SMTP id 5b1f17b1804b1-45f211c856dmr165318615e9.5.1758026376551;
-        Tue, 16 Sep 2025 05:39:36 -0700 (PDT)
-Received: from localhost ([37.72.3.43])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e81dbf9acdsm14817927f8f.55.2025.09.16.05.39.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Sep 2025 05:39:35 -0700 (PDT)
-Message-ID: <68c95a87.050a0220.362e95.5aa5@mx.google.com>
-X-Google-Original-Message-ID: <877bxylgft.fsf@>
-From: =?utf-8?Q?Miquel_Sabat=C3=A9_Sol=C3=A0?= <mikisabate@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-riscv@lists.infradead.org,  oe-kbuild-all@lists.linux.dev,
-  linux-kernel@vger.kernel.org,  pjw@kernel.org,  palmer@dabbelt.com,
-  alex@ghiti.fr,  wangyuli@uniontech.com,  chenhuacai@kernel.org
-Subject: Re: [PATCH] riscv: kgdb: Prefer strscpy instead of strcpy
-In-Reply-To: <202509161619.eJeLbfU0-lkp@intel.com> (kernel test robot's
-	message of "Tue, 16 Sep 2025 17:10:50 +0800")
-References: <20250915200644.200498-1-mikisabate@gmail.com>
-	<202509161619.eJeLbfU0-lkp@intel.com>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Tue, 16 Sep 2025 14:39:34 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K19lgWxr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758028326; x=1789564326;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fal/nAYfVniOmy7nq5p95hFpTwJxWElkDshx65CgdKI=;
+  b=K19lgWxrMOgM6thwPdACYh0dxBhAuRw5QuQqPvMQ82trf7pwmOTAnEiR
+   XURfSaeKb/TBKAF/w6wwB9Z4YStplXH2zoEacxMq4euDiCXD60mo9LsSP
+   WW2Yd2Gf8V4ISVXYcA9ExGVg3QW4mH+rNKSj7Iz9D+qumNSXI+KJFhkwQ
+   +2iri0bJFRUw0cGPJGE6BvE4E+fYJJlLQ7kfcYmSg1hF85/Q9zboucT3q
+   QAeB1oT5WJEnxoL4MbkXw3ym+FuwynXfKNgvd24yKi6XL3uwlczkdSMdi
+   I/LH/OG7AB/LRPiPcWUDT9+yCzQNsOX2h7ozoJiG2jph94LNWaXEjxECR
+   w==;
+X-CSE-ConnectionGUID: VPbXKVA0Q3Op7ceomoxCYw==
+X-CSE-MsgGUID: prsvDuNfT4KG94SgGwdi+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="60416369"
+X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
+   d="scan'208";a="60416369"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 06:12:05 -0700
+X-CSE-ConnectionGUID: QFXWE9E4RdO50gp/89NoJw==
+X-CSE-MsgGUID: ls3xdA86T+OnshIDpVmgkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
+   d="scan'208";a="175716991"
+Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Sep 2025 06:12:04 -0700
+Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uyVTV-0000J9-2l;
+	Tue, 16 Sep 2025 13:12:01 +0000
+Date: Tue, 16 Sep 2025 21:11:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Donald Dutile <ddutile@redhat.com>
+Subject: [jgunthorpe:pcie_switch_groups 7/13] drivers/iommu/iommu.c:1512:34:
+ warning: unused variable 'devfns'
+Message-ID: <202509162120.dPKPWVKV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---=-=-=
-Content-Type: text/plain
+tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
+head:   359e58e015929f167700789bde9365e492d57b00
+commit: 82200d264461e06d24e496a8b583e95995740170 [7/13] iommu: Compute iommu_groups properly for PCIe MFDs
+config: i386-buildonly-randconfig-001-20250916 (https://download.01.org/0day-ci/archive/20250916/202509162120.dPKPWVKV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509162120.dPKPWVKV-lkp@intel.com/reproduce)
 
-Hello,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509162120.dPKPWVKV-lkp@intel.com/
 
-kernel test robot @ 2025-09-16 17:10 +08:
+All warnings (new ones prefixed by >>):
 
-> Hi Miquel,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.17-rc6 next-20250915]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Sabat-Sol/riscv-kgdb-Prefer-strscpy-instead-of-strcpy/20250916-040750
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20250915200644.200498-1-mikisabate%40gmail.com
-> patch subject: [PATCH] riscv: kgdb: Prefer strscpy instead of strcpy
-> config: riscv-randconfig-002-20250916 (https://download.01.org/0day-ci/archive/20250916/202509161619.eJeLbfU0-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509161619.eJeLbfU0-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509161619.eJeLbfU0-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from include/linux/ptrace.h:5,
->                     from arch/riscv/kernel/kgdb.c:6:
->    arch/riscv/kernel/kgdb.c: In function 'kgdb_arch_handle_qxfer_pkt':
->>> include/linux/compiler.h:197:67: error: static assertion failed: "must be array"
->      197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
->          |                                                                   ^~~~~~~~~~~~~~
->    include/linux/compiler.h:202:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
->      202 | #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
->          |                            ^~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/string.h:80:40: note: in expansion of macro '__must_be_array'
->       80 |  sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) + \
->          |                                        ^~~~~~~~~~~~~~~
->    include/linux/args.h:25:24: note: in expansion of macro '__strscpy0'
->       25 | #define __CONCAT(a, b) a ## b
->          |                        ^
->    include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
->       26 | #define CONCATENATE(a, b) __CONCAT(a, b)
->          |                           ^~~~~~~~
->    include/linux/string.h:114:2: note: in expansion of macro 'CONCATENATE'
->      114 |  CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
->          |  ^~~~~~~~~~~
->    arch/riscv/kernel/kgdb.c:268:3: note: in expansion of macro 'strscpy'
->      268 |   strscpy(remcom_out_buffer, riscv_gdb_stub_target_desc);
->          |   ^~~~~~~
->>> include/linux/compiler.h:197:67: error: static assertion failed: "must be array"
->      197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
->          |                                                                   ^~~~~~~~~~~~~~
->    include/linux/compiler.h:202:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
->      202 | #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
->          |                            ^~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/string.h:80:40: note: in expansion of macro '__must_be_array'
->       80 |  sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) + \
->          |                                        ^~~~~~~~~~~~~~~
->    include/linux/args.h:25:24: note: in expansion of macro '__strscpy0'
->       25 | #define __CONCAT(a, b) a ## b
->          |                        ^
->    include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
->       26 | #define CONCATENATE(a, b) __CONCAT(a, b)
->          |                           ^~~~~~~~
->    include/linux/string.h:114:2: note: in expansion of macro 'CONCATENATE'
->      114 |  CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
->          |  ^~~~~~~~~~~
->    arch/riscv/kernel/kgdb.c:271:3: note: in expansion of macro 'strscpy'
->      271 |   strscpy(remcom_out_buffer, riscv_gdb_stub_cpuxml);
->          |   ^~~~~~~
->
->
-> vim +197 include/linux/compiler.h
->
-> 230fa253df6352 Christian Borntraeger 2014-11-25  193
-> cb7380de9e4cbc Kees Cook             2025-02-05  194  #ifdef __CHECKER__
-> 243c90e917f5cf Vincent Mailhol       2025-03-29  195  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) (0)
-> cb7380de9e4cbc Kees Cook             2025-02-05  196  #else /* __CHECKER__ */
-> 243c90e917f5cf Vincent Mailhol       2025-03-29 @197  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-> cb7380de9e4cbc Kees Cook             2025-02-05  198  #endif /* __CHECKER__ */
-> cb7380de9e4cbc Kees Cook             2025-02-05  199
+   In file included from drivers/iommu/iommu.c:24:
+   include/linux/pci.h:866:9: warning: "/*" within comment [-Wcomment]
+     866 |         /*
+   include/linux/pci.h:871:9: warning: data definition has no type or storage class
+     871 |         PCIE_ISOLATED,
+         |         ^~~~~~~~~~~~~
+   include/linux/pci.h:871:9: error: type defaults to 'int' in declaration of 'PCIE_ISOLATED' [-Wimplicit-int]
+   include/linux/pci.h:876:9: error: type defaults to 'int' in declaration of 'PCIE_SWITCH_DSP_NON_ISOLATED' [-Wimplicit-int]
+     876 |         PCIE_SWITCH_DSP_NON_ISOLATED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:878:9: error: type defaults to 'int' in declaration of 'PCIE_NON_ISOLATED' [-Wimplicit-int]
+     878 |         PCIE_NON_ISOLATED,
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/pci.h:884:9: error: type defaults to 'int' in declaration of 'PCI_BUS_NON_ISOLATED' [-Wimplicit-int]
+     884 |         PCI_BUS_NON_ISOLATED,
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:889:9: error: type defaults to 'int' in declaration of 'PCI_BRIDGE_NON_ISOLATED' [-Wimplicit-int]
+     889 |         PCI_BRIDGE_NON_ISOLATED,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:890:1: error: expected identifier or '(' before '}' token
+     890 | };
+         | ^
+   include/linux/pci.h:1280:35: warning: 'struct pci_reachable_set' declared inside parameter list will not be visible outside of this definition or declaration
+    1280 |                            struct pci_reachable_set *devfns,
+         |                                   ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c: In function 'pci_get_function_group':
+   drivers/iommu/iommu.c:1512:34: error: storage size of 'devfns' isn't known
+    1512 |         struct pci_reachable_set devfns;
+         |                                  ^~~~~~
+   In file included from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/mutex.h:17,
+                    from include/linux/notifier.h:14,
+                    from include/linux/clk.h:14,
+                    from include/linux/amba/bus.h:14,
+                    from drivers/iommu/iommu.c:9:
+   include/linux/find.h:586:69: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                                                                     ^
+   drivers/iommu/iommu.c:1540:9: note: in expansion of macro 'for_each_set_bit'
+    1540 |         for_each_set_bit(devfn, devfns.devfns, NR_DEVFNS) {
+         |         ^~~~~~~~~~~~~~~~
+>> drivers/iommu/iommu.c:1512:34: warning: unused variable 'devfns' [-Wunused-variable]
+    1512 |         struct pci_reachable_set devfns;
+         |                                  ^~~~~~
+   drivers/iommu/iommu.c: In function 'pci_device_group':
+   drivers/iommu/iommu.c:1663:17: error: invalid use of undefined type 'enum pci_bus_isolation'
+    1663 |         switch (pci_bus_isolated(pci_physfn(pdev)->bus)) {
+         |                 ^~~~~~~~~~~~~~~~
 
-I was testing on the RISC-V tree, but I should've definitely tested this
-on 'next' instead to catch this compiler error.
 
-Since this is not too important, feel free to drop this patch.
+vim +/devfns +1512 drivers/iommu/iommu.c
 
-Sorry for the noise,
-Miquel
+  1505	
+  1506	/*
+  1507	 * Return a group if the function has isolation restrictions related to
+  1508	 * aliases or MFD ACS.
+  1509	 */
+  1510	static struct iommu_group *pci_get_function_group(struct pci_dev *pdev)
+  1511	{
+> 1512		struct pci_reachable_set devfns;
+  1513		const unsigned int NR_DEVFNS = sizeof(devfns.devfns) * BITS_PER_BYTE;
+  1514		unsigned int devfn;
+  1515	
+  1516		/*
+  1517		 * Look for existing groups on device aliases and multi-function ACS. If
+  1518		 * we alias another device or another device aliases us, use the same
+  1519		 * group.
+  1520		 *
+  1521		 * pci_reachable_bus_set() should return the same bitmap if called for
+  1522		 * any device in the set and we want all devices in the set to have the
+  1523		 * same group.
+  1524		 */
+  1525		pci_reachable_bus_set(pdev, &devfns, pci_devs_are_same_group);
+  1526		/* start is known to have iommu_group_get() == NULL */
+  1527		__clear_bit(pdev->devfn, devfns.devfns);
+  1528	
+  1529		/*
+  1530		 * When MFD functions are included in the set due to ACS we assume that
+  1531		 * if ACS permits an internal loopback between functions it also permits
+  1532		 * the loopback to go downstream if any function is a bridge.
+  1533		 *
+  1534		 * It is less clear what aliases mean when applied to a bridge. For now
+  1535		 * be conservative and also propagate the group downstream.
+  1536		 */
+  1537		if (bitmap_empty(devfns.devfns, NR_DEVFNS))
+  1538			return NULL;
+  1539	
+  1540		for_each_set_bit(devfn, devfns.devfns, NR_DEVFNS) {
+  1541			struct iommu_group *group;
+  1542			struct pci_dev *pdev_slot;
+  1543	
+  1544			pdev_slot = pci_get_slot(pdev->bus, devfn);
+  1545			group = iommu_group_get(&pdev_slot->dev);
+  1546			pci_dev_put(pdev_slot);
+  1547			if (group) {
+  1548				if (WARN_ON(!(group->bus_data &
+  1549					      BUS_DATA_PCI_NON_ISOLATED)))
+  1550					group->bus_data |= BUS_DATA_PCI_NON_ISOLATED;
+  1551				return group;
+  1552			}
+  1553		}
+  1554		return iommu_group_alloc_data(BUS_DATA_PCI_NON_ISOLATED);
+  1555	}
+  1556	
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJlBAEBCgBPFiEEG6U8esk9yirP39qXlr6Mb9idZWUFAmjJWoYbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyFRxtaWtpc2FiYXRlQGdtYWlsLmNvbQAKCRCWvoxv
-2J1lZeTYD/9XO7FVYKCzIaCQhLxyHR3kNYkwsvWUl/OCr1dbInnW87CuFXOKZGY1
-Skj7F1e8SQXoDWit5UvL7+C8MSH9KOxAmA4H5GFtQ2N/Y4cQlTgi5IjrxeWG42iy
-NTG5FMkVxgVNh1QUJzwiz1RcC9HwVzsKPy0IcyaEoMcJ15bIjItWi4Q7ntyU+U+L
-4yY+GWc5E/8li+RPDGW32eVvfejgwhJfdhrimINRHxfqcJdwVbmsj1hDgqecQP7+
-w5xzHvcj8m/WP/tlJhGw0ed8NE3SQyIrTj23dr4aOD7XI2pOTyDHp2zRJgIDu5mA
-zNzZ3PbesW7PwRKWmjCDnrYVgZolnZnjMvYTnfxfLQMLNaa7bCYPmf4j2BYrO2sV
-XpYvqDM6vkL6fyrfnIpSnfeu603H90/jJPGRFgLUIpSJYumzu40XRlNVyvDGolSq
-btqPneJ7XFKqHFDd3TsUqk//XQseTxGUFWh+ol27SYaGLxP/Y2iAMM5AaFCry7Rs
-nVLtOAjPKfu0Nwopjn7FmLcwGG3QDEym4Pr9pxVSdThPLVxPlbGWZNk6reyiL8o5
-JcgyiMFHI/u1PCgEsqJbur1uSzoQOEj4nYPBuVAZq0hYG92B7wpUUcFuxKlAtGmD
-X3ys2ZjYEENYy/rcU/mU+6XeUjhVDCZ0Fkrn+NUBzuiMnmcwzvthwQ==
-=KjrK
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
