@@ -1,156 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F862D6E64
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 11:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4951B4231
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 11:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758022077; cv=none; b=ShOC60j5tYpGwkBZfI0d72PHRaQ+64064v0g3CD0qXNVoOf99DsvKWfNABOLopTTevLd3E6ESnTljttj2vNIQ0A6KcdhJjJOahDoR4aI/34aD7TewY4t+RWT3WdavZdsjwufXneL2GT6btjkiNJ6RXgjpix2BoR8JSFcrbh8MpA=
+	t=1758023302; cv=none; b=IXMpWGZrlBxkEhblLWTOVF+jelrZd6dM2MaEjI78FTbutLS/XhMZ42zppKT+SYVXO2j3APdOZmHr2vNIdRTmXAtEUcnT6B1Yn5DxN9t/3XaxQcKB8FqODNchovGAdY2PgUe5Rkv72ICXRvAqxm60TfTacBy+OcXqO3wR+3l6E1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758022077; c=relaxed/simple;
-	bh=Ul++FY4vTykYZeVsRUAzHo2ppNbjTjju+zhPNoEJav0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gXJFxvV7EizSjxX0Gq9kfSWil690gBF3A/2nEITmVkarO4oq40D3QiphP13Y6L6as/6MVjAUzidWO4DaigRWMppI5LWg6PaYxhQfSnZ8iNBnXUO0vIc3LbRLtdO97gu8pCGm2y6BsK/FjMRdQRnU3dG1uKbr4mXsrS+l27aKL40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AcJmdaGj; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758023302; c=relaxed/simple;
+	bh=bD0hsGvLlVb/tas6TC+cVNel3bkWgVhCw1S2N1NdjQU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rJgNjwTl5XnZtDSUa83m6mjvWzrROkwDiyeZoO5SrF1FAqNJpfYKJPGSoTX4TO0cu4/hSjIQ/8Ed+Jh34dfuZ/Ld+rY+nNBLREJ707Y+z1GbTxMQixR/QgHb6wKyd7lvmAQ3GDEoQ9khefXNZGwc2N90pXdK/Kk9ljzXxUoMES0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uhJlc9Pj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AcJmdaGj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758022075; x=1789558075;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ul++FY4vTykYZeVsRUAzHo2ppNbjTjju+zhPNoEJav0=;
-  b=AcJmdaGjHQz6YbxIh42BZArRh3E9CqW9vT8HAgnNM57ZXry9Oa4DWhBO
-   LWQ9CY4lGf8gBE65xWJaNNigLfc4m+6n+EvvzwltwtMcJ+Jp51f50/egp
-   A+LK3RGevyIclvuOJzaFJPcZ5s4AK4LL0vgiT9FNnfwU5f6EukhionCvi
-   dF2UTF6RTmd3jt7sa1TOYJJvXEIjgQZ1i57NDZNqGAw5AOTT0+5Qqowg+
-   2ZRcak+20bywhOZV382feNbUycA6Ft0cZGev3FamI7bwRgsCZkhI2qtdR
-   qgYszR/kWsdxYC/oIM7+7l8gpWOaRYku8fcKAVnx2IruBmRL5IF+cRqWA
-   g==;
-X-CSE-ConnectionGUID: TCcte1PhRr+4BPlcgjWj/w==
-X-CSE-MsgGUID: ctXcaHTnRMyNVdpQlUV8Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="85736070"
-X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
-   d="scan'208";a="85736070"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 04:27:54 -0700
-X-CSE-ConnectionGUID: xNvzwoHmTBqr7HgikMz4Hw==
-X-CSE-MsgGUID: 5m18YeHaQ6qyPNkLXVekmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
-   d="scan'208";a="175335577"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2025 04:27:52 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uyTqg-0000Df-0F;
-	Tue, 16 Sep 2025 11:27:50 +0000
-Date: Tue, 16 Sep 2025 19:27:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Donald Dutile <ddutile@redhat.com>
-Subject: [jgunthorpe:pcie_switch_groups 6/13] include/linux/pci.h:866:9:
- warning: "/*" within comment
-Message-ID: <202509161957.c3t4ec9Q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uhJlc9Pj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C603C4CEEB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 11:48:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758023301;
+	bh=bD0hsGvLlVb/tas6TC+cVNel3bkWgVhCw1S2N1NdjQU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uhJlc9Pj/7TKVV1Fl3ZLrXUeH/+OSLV+FltMIpZwMWNotUmq9ic4QYW41nti/gS4O
+	 OLBvP2Mubw+fDuPUAQJViPj5eg1IMMUMEtRQyPcMVDZrfP695nmoj2IiFhrge+hp1n
+	 JGoaJKWmxbyAgVVEoFD1NPT5HdBjf0JbRqwkgctDWdWCdVH+9ZEzyT426bkXgxH6Cs
+	 pUA81S9GHw/7TgFvO59QY0wVkQojY/YDbre1UvLEebz3ckDADIDfeFMqHEpmBhj+bt
+	 KccYgaG3oit3bpTsApsBwKaEYMb1pJUmYrk6zoUDvPcVbEwv/3l/Au7amkwGg2K+3O
+	 vcYvscY50nw0g==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b0418f6fc27so906086766b.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 04:48:21 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxcQMpClJGpG3xCRM4HeE3Tu/Sm/jNwt1ay3Ulm2zBwIvvrXkS9
+	kGHDKJiqb5NOeBytTafjUHaAvx7SxgIp9lI60XT+U4fAXC+HdjNa5jSMv+fdIervhfeP1WmoKaS
+	sCRM5hB6Cn7po5gnEY1suvczCty4oifM=
+X-Google-Smtp-Source: AGHT+IH+K2EgkALjcG5qipbxqq1Gkx4UgNLGq6l+SGNUlgP5RzUhchFl+GK1jdEa0pK69+umRXRqnS/1gqUt4x23Puc=
+X-Received: by 2002:a17:906:6a0c:b0:afe:e7f1:289d with SMTP id
+ a640c23a62f3a-b07c37b3d5amr1470493866b.62.1758023300013; Tue, 16 Sep 2025
+ 04:48:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <247e1013735943cecfe4942a4a163376552cc562.1757271913.git.fdmanana@suse.com>
+ <202509161356.JTeWVygY-lkp@intel.com>
+In-Reply-To: <202509161356.JTeWVygY-lkp@intel.com>
+From: Filipe Manana <fdmanana@kernel.org>
+Date: Tue, 16 Sep 2025 12:47:43 +0100
+X-Gmail-Original-Message-ID: <CAL3q7H5LU1GhvSOixu-0w=RxD7Cbm-46XTDu6hq_LORVDn+DzA@mail.gmail.com>
+X-Gm-Features: AS18NWDzWSnTDbure3rwrSccPrz57yrVTRoWglay9dlhkB80-rOUd5vsT50sagA
+Message-ID: <CAL3q7H5LU1GhvSOixu-0w=RxD7Cbm-46XTDu6hq_LORVDn+DzA@mail.gmail.com>
+Subject: Re: [PATCH v2 22/33] btrfs: add current log leaf, key and slot to
+ struct walk_control
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
-head:   359e58e015929f167700789bde9365e492d57b00
-commit: 688297d25e0f7174014a30f873b36632eae65c38 [6/13] PCI: Add pci_reachable_bus_set()
-config: i386-buildonly-randconfig-004-20250916 (https://download.01.org/0day-ci/archive/20250916/202509161957.c3t4ec9Q-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509161957.c3t4ec9Q-lkp@intel.com/reproduce)
+On Tue, Sep 16, 2025 at 7:06=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on kdave/for-next]
+> [cannot apply to linus/master v6.17-rc6 next-20250915]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-or=
+g/btrfs-fix-invalid-extref-key-setup-when-replaying-dentry/20250908-180010
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git f=
+or-next
+> patch link:    https://lore.kernel.org/r/247e1013735943cecfe4942a4a163376=
+552cc562.1757271913.git.fdmanana%40suse.com
+> patch subject: [PATCH v2 22/33] btrfs: add current log leaf, key and slot=
+ to struct walk_control
+> config: s390-randconfig-r122-20250916 (https://download.01.org/0day-ci/ar=
+chive/20250916/202509161356.JTeWVygY-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 13.4.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250916/202509161356.JTeWVygY-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509161356.JTeWVygY-lkp=
+@intel.com/
+>
+> Note: it may well be a FALSE warning. FWIW you are at least aware of it n=
+ow.
+> http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from fs/btrfs/ctree.h:21,
+>                     from fs/btrfs/tree-log.c:12:
+>    In function 'btrfs_inode_mode',
+>        inlined from 'replay_one_buffer' at fs/btrfs/tree-log.c:2649:11:
+> >> fs/btrfs/accessors.h:66:16: warning: 'inode_item' may be used uninitia=
+lized [-Wmaybe-uninitialized]
+>       66 |         return btrfs_get_##bits(eb, s, offsetof(type, member))=
+;         \
+>          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    fs/btrfs/accessors.h:270:1: note: in expansion of macro 'BTRFS_SETGET_=
+FUNCS'
+>      270 | BTRFS_SETGET_FUNCS(inode_mode, struct btrfs_inode_item, mode, =
+32);
+>          | ^~~~~~~~~~~~~~~~~~
+>    fs/btrfs/tree-log.c: In function 'replay_one_buffer':
+>    fs/btrfs/tree-log.c:2607:42: note: 'inode_item' was declared here
+>     2607 |                 struct btrfs_inode_item *inode_item;
+>          |                                          ^~~~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509161957.c3t4ec9Q-lkp@intel.com/
+This is a false positive.
+inode_item is initialized only when wc->log_key.type =3D=3D
+BTRFS_INODE_ITEM_KEY and it's only accessed in other if blocks when
+wc->log_key.type =3D=3D BTRFS_INODE_ITEM_KEY is one of the conditions, so
+no risk of accessing inode_item without being initialized.
 
-All warnings (new ones prefixed by >>):
+Thanks.
 
-   In file included from include/linux/pci-p2pdma.h:14,
-                    from kernel/dma/direct.c:16:
->> include/linux/pci.h:866:9: warning: "/*" within comment [-Wcomment]
-     866 |         /*
->> include/linux/pci.h:871:9: warning: data definition has no type or storage class
-     871 |         PCIE_ISOLATED,
-         |         ^~~~~~~~~~~~~
-   include/linux/pci.h:871:9: error: type defaults to 'int' in declaration of 'PCIE_ISOLATED' [-Wimplicit-int]
-   include/linux/pci.h:876:9: error: type defaults to 'int' in declaration of 'PCIE_SWITCH_DSP_NON_ISOLATED' [-Wimplicit-int]
-     876 |         PCIE_SWITCH_DSP_NON_ISOLATED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:878:9: error: type defaults to 'int' in declaration of 'PCIE_NON_ISOLATED' [-Wimplicit-int]
-     878 |         PCIE_NON_ISOLATED,
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/pci.h:884:9: error: type defaults to 'int' in declaration of 'PCI_BUS_NON_ISOLATED' [-Wimplicit-int]
-     884 |         PCI_BUS_NON_ISOLATED,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:889:9: error: type defaults to 'int' in declaration of 'PCI_BRIDGE_NON_ISOLATED' [-Wimplicit-int]
-     889 |         PCI_BRIDGE_NON_ISOLATED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pci.h:890:1: error: expected identifier or '(' before '}' token
-     890 | };
-         | ^
->> include/linux/pci.h:2099:39: warning: 'struct pci_reachable_set' declared inside parameter list will not be visible outside of this definition or declaration
-    2099 |         struct pci_dev *start, struct pci_reachable_set *devfns,
-         |                                       ^~~~~~~~~~~~~~~~~
-   include/linux/pci.h:2103:38: error: return type is an incomplete type
-    2103 | static inline enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
-         |                                      ^~~~~~~~~~~~~~~~
-   include/linux/pci.h: In function 'pci_bus_isolated':
-   include/linux/pci.h:2104:10: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
-    2104 | { return PCIE_NON_ISOLATED; }
-         |          ^~~~~~~~~~~~~~~~~
-   include/linux/pci.h:2103:38: note: declared here
-    2103 | static inline enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
-         |                                      ^~~~~~~~~~~~~~~~
-
-
-vim +866 include/linux/pci.h
-
-688297d25e0f71 Jason Gunthorpe 2025-06-26  864  
-516f3934ddf718 Jason Gunthorpe 2025-06-27  865  enum pci_bus_isolation {
-516f3934ddf718 Jason Gunthorpe 2025-06-27 @866  	/*
-516f3934ddf718 Jason Gunthorpe 2025-06-27  867  	 * The bus is off a root port and the root port has isolated ACS flags
-516f3934ddf718 Jason Gunthorpe 2025-06-27  868  	 * or the bus is part of a PCIe switch and the switch has isolated ACS
-516f3934ddf718 Jason Gunthorpe 2025-06-27  869  	 * flags.
-516f3934ddf718 Jason Gunthorpe 2025-06-27  870  	 */
-516f3934ddf718 Jason Gunthorpe 2025-06-27 @871  	PCIE_ISOLATED,
-516f3934ddf718 Jason Gunthorpe 2025-06-27  872  	/*
-516f3934ddf718 Jason Gunthorpe 2025-06-27  873  	 * The switch's DSP's are not isolated from each other but are isolated
-516f3934ddf718 Jason Gunthorpe 2025-06-27  874  	 * from the USP.
-516f3934ddf718 Jason Gunthorpe 2025-06-27  875  	 */
-516f3934ddf718 Jason Gunthorpe 2025-06-27  876  	PCIE_SWITCH_DSP_NON_ISOLATED,
-516f3934ddf718 Jason Gunthorpe 2025-06-27  877  	/* The above and the USP's MMIO is not isolated. */
-516f3934ddf718 Jason Gunthorpe 2025-06-27  878  	PCIE_NON_ISOLATED,
-516f3934ddf718 Jason Gunthorpe 2025-06-27  879  	/*
-516f3934ddf718 Jason Gunthorpe 2025-06-27  880  	 * A PCI/PCI-X bus, no isolation. This is like
-516f3934ddf718 Jason Gunthorpe 2025-06-27  881  	 * PCIE_SWITCH_DSP_NON_ISOLATED in that the upstream bridge is isolated
-516f3934ddf718 Jason Gunthorpe 2025-06-27  882  	 * from the bus. The bus itself may also have a shared alias of devfn=0.
-516f3934ddf718 Jason Gunthorpe 2025-06-27  883  	 */
-516f3934ddf718 Jason Gunthorpe 2025-06-27  884  	PCI_BUS_NON_ISOLATED,
-516f3934ddf718 Jason Gunthorpe 2025-06-27  885  	/*
-516f3934ddf718 Jason Gunthorpe 2025-06-27  886  	 * The above and the bridge's MMIO is not isolated and the bridge's RID
-516f3934ddf718 Jason Gunthorpe 2025-06-27  887  	 * may be an alias.
-516f3934ddf718 Jason Gunthorpe 2025-06-27  888  	 */
-516f3934ddf718 Jason Gunthorpe 2025-06-27  889  	PCI_BRIDGE_NON_ISOLATED,
-516f3934ddf718 Jason Gunthorpe 2025-06-27  890  };
-f7625980f5820e Bjorn Helgaas   2013-11-14  891  
-
-:::::: The code at line 866 was first introduced by commit
-:::::: 516f3934ddf7189eb3e137e05ef645a5b9b8e83b PCI: Add pci_bus_isolated()
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+> vim +/inode_item +66 fs/btrfs/accessors.h
+>
+> 07e81dc94474eb Josef Bacik  2022-10-19  60
+> 07e81dc94474eb Josef Bacik  2022-10-19  61  #define BTRFS_SETGET_FUNCS(na=
+me, type, member, bits)                        \
+> 07e81dc94474eb Josef Bacik  2022-10-19  62  static inline u##bits btrfs_#=
+#name(const struct extent_buffer *eb,  \
+> 07e81dc94474eb Josef Bacik  2022-10-19  63                               =
+  const type *s)                       \
+> 07e81dc94474eb Josef Bacik  2022-10-19  64  {                            =
+                                       \
+> 98efb4eb310d0d David Sterba 2023-07-13  65      static_assert(sizeof(u##b=
+its) =3D=3D sizeof_field(type, member));   \
+> 07e81dc94474eb Josef Bacik  2022-10-19 @66      return btrfs_get_##bits(e=
+b, s, offsetof(type, member));         \
+> 07e81dc94474eb Josef Bacik  2022-10-19  67  }                            =
+                                       \
+> 07e81dc94474eb Josef Bacik  2022-10-19  68  static inline void btrfs_set_=
+##name(const struct extent_buffer *eb, type *s, \
+> 07e81dc94474eb Josef Bacik  2022-10-19  69                               =
+   u##bits val)                        \
+> 07e81dc94474eb Josef Bacik  2022-10-19  70  {                            =
+                                       \
+> 98efb4eb310d0d David Sterba 2023-07-13  71      static_assert(sizeof(u##b=
+its) =3D=3D sizeof_field(type, member));   \
+> 07e81dc94474eb Josef Bacik  2022-10-19  72      btrfs_set_##bits(eb, s, o=
+ffsetof(type, member), val);           \
+> 07e81dc94474eb Josef Bacik  2022-10-19  73  }
+> 07e81dc94474eb Josef Bacik  2022-10-19  74
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
