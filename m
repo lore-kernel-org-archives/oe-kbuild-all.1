@@ -1,79 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE650295DBD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258CF296BB6
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 09:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758013909; cv=none; b=oszF0fPTO87e80DkO76PPEqrHu044mk057HG936MopTG4KDZkjmbUlWmLHs5z1U2qTsL5QdRPN3/0/pf8NTXjmH/5jGB+Takngnc6OIHfjFgcfEKSbUlmnKwMgWuTeRXGMnfWUz0njvek7EDmwoLZxEBz0mxlXFibZEzk87wuzk=
+	t=1758013909; cv=none; b=EZn1Z4E+rbaCGgADLFicux1mF8L9PQDLOCNtorxCUcsyNGU5XljHNcuMGfM8xnRR32VBGrIA8pHBt67mXFoCTsb/Nyq4M8/+509EIS5HrMO40wjGhfYZOyG0vU9dZ74Rd+ZHyKkS2tdLRuUl/AaG94KALJmGR4uUVq6G6rcK1x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758013909; c=relaxed/simple;
-	bh=KGS6xHvRHALnU+yVH6gbxm3FBFSO2w9dkDKMZYSuzQQ=;
+	bh=zMt+lj07w4o0jqg5XJ/ynsRarpPmoVl62tOzbhSFTo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ointEM070XFF+vXvE5py28PZhtSB1LvRe1+iMsimkbuzEZFcruEJSW7P9X9CFDeWk36Oi1h9wsX0qxYnY6iYnwDfWge4uUeS3YWhcTT6LKCpkc0veuYp6CgMnGApwJS4UYSF11cEc9Ero1uq+TEhC6jmHVRSuMBRaQbO9SGvzJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGegUwRE; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=J6sxhTOGMgCajON0PXzETWsUPqF/z60ONiateD130PyDQ7F3JpuFLb3E6WOVV0/NDS2vG9zoNwxEw/aCjmrRkLhJ6kTMCt8kEEjo1j3MYaais6yU2xcNJyVClDr2A22NDuBVqgv8xsv7yRKm37orvPLM6A6xPVuq5pq3hQXuD1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQ6C4vPi; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGegUwRE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQ6C4vPi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1758013908; x=1789549908;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KGS6xHvRHALnU+yVH6gbxm3FBFSO2w9dkDKMZYSuzQQ=;
-  b=EGegUwRErcGgQFfYt4T8DwBoqgSYlnyTb/ink9pEAl+mirO3LmbJ7GET
-   kFB3DzfTAXGHaSh+hsNpZ+KFRdm4k2hWrS2BcTPDsuzDpNeg9OA1xuCis
-   cGrLQ0bG/k72Pg0hbAFpTY+hXXQZZ4CdhYYxnGGEq5shJYhnBxi7ja+44
-   vCXVAKCCt30bXRqOp2WF6md0AYOTshH35R58gpkyAocJvxjenhzKESpNh
-   8PQFiYv42gazz7rx/fkp6wqFUOSYr9uMf3YOUivX/wHSijgmTqmxgq2B3
-   qp0jti3dEVjTE1nI+9dFW3oboSTf+oyN3CnHfPK/4dTOLki8ZlFJgeHFB
+  bh=zMt+lj07w4o0jqg5XJ/ynsRarpPmoVl62tOzbhSFTo4=;
+  b=mQ6C4vPi6xTlDTcKuPQfIf6NvmgiV5F08dExvsSP4iUu4ooHyzqYjgxJ
+   CErfwJM3tmZgIlb7S3mQKPV2838CTIEq4n4X2LYsM9f6cjMVaijVR6KRW
+   XMO9Y6A+eGPLXRpc/iG+ezFdUCaGf5zSBZyQGH05dQSrb3HgA9xvbl0sx
+   fMekRHN23vIW8HdyZ999BpOCdDlKf1X+rlir1pEuhAwINnc78TtKeqBfS
+   3yrDez06Vj5ad8FH/e98D5pkh1Bc9TuefBbvy4Cu+VEaBhOwY3x/kPtr2
+   WXDX/9dX1NDGm04XgOufn0eMqfYWUMOMkpMwYyimqWCoIex+hUg2HoNtr
    Q==;
-X-CSE-ConnectionGUID: /d4TsvejTJq98cKTg7wxIw==
-X-CSE-MsgGUID: LfSE4q+nTaGeqRml2czBew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60233880"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60233880"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 02:11:47 -0700
-X-CSE-ConnectionGUID: AJPUD1/RTxC3gONuqZe8SQ==
-X-CSE-MsgGUID: 17UoQdQuRR6NEQgSBudLqA==
+X-CSE-ConnectionGUID: kj1vbI4nSVGCrcmJyi+Leg==
+X-CSE-MsgGUID: HssJgUQXQjaX9p+FvhFVSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="60156181"
+X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; 
+   d="scan'208";a="60156181"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 02:11:42 -0700
+X-CSE-ConnectionGUID: uZhwW8IrSsG2Bt+G9sPI2Q==
+X-CSE-MsgGUID: vXVH7QybRG+5S4cYC1RT9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; 
-   d="scan'208";a="212052853"
+   d="scan'208";a="205672250"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Sep 2025 02:11:40 -0700
+  by orviesa002.jf.intel.com with ESMTP; 16 Sep 2025 02:11:40 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyRir-00008X-22;
+	id 1uyRir-00008V-1z;
 	Tue, 16 Sep 2025 09:11:37 +0000
-Date: Tue, 16 Sep 2025 17:10:55 +0800
+Date: Tue, 16 Sep 2025 17:10:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>, akpm@linux-foundation.org,
-	minchan@kernel.org, lorenzo.stoakes@oracle.com, david@redhat.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, pfalcato@suse.de
-Cc: oe-kbuild-all@lists.linux.dev, kernel-team@android.com,
-	android-mm@google.com, Kalesh Singh <kaleshsingh@google.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Kees Cook <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Jann Horn <jannh@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 5/7] mm: harden vma_count against direct modification
-Message-ID: <202509161708.EnaFVJbi-lkp@intel.com>
-References: <20250915163838.631445-6-kaleshsingh@google.com>
+To: Miquel =?iso-8859-1?Q?Sabat=E9_Sol=E0?= <mikisabate@gmail.com>,
+	linux-riscv@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	pjw@kernel.org, palmer@dabbelt.com, alex@ghiti.fr,
+	wangyuli@uniontech.com, chenhuacai@kernel.org, mikisabate@gmail.com
+Subject: Re: [PATCH] riscv: kgdb: Prefer strscpy instead of strcpy
+Message-ID: <202509161619.eJeLbfU0-lkp@intel.com>
+References: <20250915200644.200498-1-mikisabate@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,62 +65,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250915163838.631445-6-kaleshsingh@google.com>
+In-Reply-To: <20250915200644.200498-1-mikisabate@gmail.com>
 
-Hi Kalesh,
+Hi Miquel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on f83ec76bf285bea5727f478a68b894f5543ca76e]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.17-rc6 next-20250915]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kalesh-Singh/mm-fix-off-by-one-error-in-VMA-count-limit-checks/20250916-005018
-base:   f83ec76bf285bea5727f478a68b894f5543ca76e
-patch link:    https://lore.kernel.org/r/20250915163838.631445-6-kaleshsingh%40google.com
-patch subject: [PATCH v2 5/7] mm: harden vma_count against direct modification
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250916/202509161708.EnaFVJbi-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509161708.EnaFVJbi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Sabat-Sol/riscv-kgdb-Prefer-strscpy-instead-of-strcpy/20250916-040750
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250915200644.200498-1-mikisabate%40gmail.com
+patch subject: [PATCH] riscv: kgdb: Prefer strscpy instead of strcpy
+config: riscv-randconfig-002-20250916 (https://download.01.org/0day-ci/archive/20250916/202509161619.eJeLbfU0-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509161619.eJeLbfU0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509161708.EnaFVJbi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509161619.eJeLbfU0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/nommu.c: In function 'cleanup_vma_from_mm':
->> mm/nommu.c:579:30: error: decrement of read-only member 'vma_count'
-     579 |         vma->vm_mm->vma_count--;
-         |                              ^~
-   mm/nommu.c: In function 'do_mmap':
->> mm/nommu.c:1201:31: error: increment of read-only member 'vma_count'
-    1201 |         current->mm->vma_count++;
-         |                               ^~
-   mm/nommu.c: In function 'split_vma':
-   mm/nommu.c:1369:22: error: increment of read-only member 'vma_count'
-    1369 |         mm->vma_count++;
-         |                      ^~
+   In file included from include/linux/ptrace.h:5,
+                    from arch/riscv/kernel/kgdb.c:6:
+   arch/riscv/kernel/kgdb.c: In function 'kgdb_arch_handle_qxfer_pkt':
+>> include/linux/compiler.h:197:67: error: static assertion failed: "must be array"
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                   ^~~~~~~~~~~~~~
+   include/linux/compiler.h:202:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/string.h:80:40: note: in expansion of macro '__must_be_array'
+      80 |  sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) + \
+         |                                        ^~~~~~~~~~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__strscpy0'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/linux/string.h:114:2: note: in expansion of macro 'CONCATENATE'
+     114 |  CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |  ^~~~~~~~~~~
+   arch/riscv/kernel/kgdb.c:268:3: note: in expansion of macro 'strscpy'
+     268 |   strscpy(remcom_out_buffer, riscv_gdb_stub_target_desc);
+         |   ^~~~~~~
+>> include/linux/compiler.h:197:67: error: static assertion failed: "must be array"
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                   ^~~~~~~~~~~~~~
+   include/linux/compiler.h:202:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/string.h:80:40: note: in expansion of macro '__must_be_array'
+      80 |  sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) + \
+         |                                        ^~~~~~~~~~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__strscpy0'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/linux/string.h:114:2: note: in expansion of macro 'CONCATENATE'
+     114 |  CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |  ^~~~~~~~~~~
+   arch/riscv/kernel/kgdb.c:271:3: note: in expansion of macro 'strscpy'
+     271 |   strscpy(remcom_out_buffer, riscv_gdb_stub_cpuxml);
+         |   ^~~~~~~
 
 
-vim +/vma_count +579 mm/nommu.c
+vim +197 include/linux/compiler.h
 
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  576) 
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  577) static void cleanup_vma_from_mm(struct vm_area_struct *vma)
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  578) {
-53045ecb29a61f Kalesh Singh            2025-09-15 @579  	vma->vm_mm->vma_count--;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  580  	/* remove the VMA from the mapping */
-^1da177e4c3f41 Linus Torvalds          2005-04-16  581  	if (vma->vm_file) {
-7964cf8caa4dfa Liam R. Howlett         2022-09-06  582  		struct address_space *mapping;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  583  		mapping = vma->vm_file->f_mapping;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  584  
-83cde9e8ba95d1 Davidlohr Bueso         2014-12-12  585  		i_mmap_lock_write(mapping);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  586  		flush_dcache_mmap_lock(mapping);
-6b2dbba8b6ac4d Michel Lespinasse       2012-10-08  587  		vma_interval_tree_remove(vma, &mapping->i_mmap);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  588  		flush_dcache_mmap_unlock(mapping);
-83cde9e8ba95d1 Davidlohr Bueso         2014-12-12  589  		i_mmap_unlock_write(mapping);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  590  	}
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  591) }
-47d9644de92c1a Liam R. Howlett         2023-01-20  592  
+230fa253df6352 Christian Borntraeger 2014-11-25  193  
+cb7380de9e4cbc Kees Cook             2025-02-05  194  #ifdef __CHECKER__
+243c90e917f5cf Vincent Mailhol       2025-03-29  195  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) (0)
+cb7380de9e4cbc Kees Cook             2025-02-05  196  #else /* __CHECKER__ */
+243c90e917f5cf Vincent Mailhol       2025-03-29 @197  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+cb7380de9e4cbc Kees Cook             2025-02-05  198  #endif /* __CHECKER__ */
+cb7380de9e4cbc Kees Cook             2025-02-05  199  
 
 -- 
 0-DAY CI Kernel Test Service
