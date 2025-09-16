@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0CC1E0DEA;
-	Tue, 16 Sep 2025 19:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873DA27FD40
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 19:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758049546; cv=none; b=IE1mA8BCQEzcaewUiE27TJv988/4hvHniVc2hU4bJXByImlYT1xKZjnnW/lIGLdHYlqZb41AYOTxHor8FW6Pz+g8mUij2dbabAk3zUB0pMZDkZr7xrTM07v/w+bQB3PVvphMPWm3FKrcBRrKghhmoGy1c4qS4sN9JH+5HWPyvKY=
+	t=1758049546; cv=none; b=ZP2LS4d8F8IP4tgoLg1D77Euh8eC+nygzO5n4EvSfDdqjk+MCVKbF5yzji12TEIvcIaqyec+DEeGxLegiq3hkQDO9xTjQCEWIVu5zxS8V8aAw+tOIcUrx6nprrzhwDfh3JBFyS1WfyRo50EwRCvuNDJkbcNZlXgdvLIz6QmeDUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758049546; c=relaxed/simple;
-	bh=BfDdP84L5xOmBhKa86Q1DbJ54jiRq+ZZaP+DmO78rVA=;
+	bh=dc1O+7n2Hk8I2YEJDI0KZ1OerJNAV0Jf6ShHSHlta8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PyQIjROm0QOJ/ZZqbvXx/QLBK6omhMEl0dN3A0rAlRia9SJu8wfLKSnQp0AVR8e5B5uYWNQIEGwvhu5FFjFHjEINAh1OkRFLN+MgP6RnbSKM4BVdCxTxZNjWYOwaas1Qk2sAZHu14s34lyQraRp+nF/rFXqD0hlZE1/hpOd1Gsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BzDELeGm; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=RbWT//BSH1tDLEtdxAL81O+Z1u6coHo0LG31onCh0ZhyIwm95hYVh5Vdm6DfEQ7arJ5km4N1Z3vS/IXayCM6kAs/LrZIn4sjK6wEwXeocYv05Y3F9RBJI46LrD+Jn+PHxp90vAbDWG4xCHx5NoUhmg0DCBDcklIXIPCD0lkJ1WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNE+ZBEH; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BzDELeGm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aNE+ZBEH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1758049544; x=1789585544;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BfDdP84L5xOmBhKa86Q1DbJ54jiRq+ZZaP+DmO78rVA=;
-  b=BzDELeGmo9ZXr67rPEEtHtNzr0fOaGAKdIf94Vlw6T+p7tuC1C3zuRtx
-   mcO3qJrDCtlV6UEGyNqdzYdjjhpsP9GDngBViyWcMHU3bfCOCDnPYS2m/
-   S83RcI6Qqg6m3vG7oKFkSconwWqEugMJJXZVZzdmV5v+vYGE8Fe76n/Sf
-   VnXT6ss/4WlodBnoO5qAu8Cu5IR3IFVHvUVOfV1t3mFFGCfYakhsw+aOR
-   bYBa/7ZmwPkU5rhiomRy3hoX8ffFL1MtvmmL1OD67BtYMzcK7El4yRmE9
-   gt/t9oKRF6oxr/XY2hmTsNq13y8uRtwm730/UvDLpYturFoybCwnbprct
-   g==;
-X-CSE-ConnectionGUID: 96BgmGnVTZiU21DNs+Yrxw==
-X-CSE-MsgGUID: NmZYIdPaQBq8BHNukfGPBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="47921199"
+  bh=dc1O+7n2Hk8I2YEJDI0KZ1OerJNAV0Jf6ShHSHlta8s=;
+  b=aNE+ZBEHk2DtJXXQpr7zuUj6PoE8NjX1BzjdmTaVmeItILexh2gh9Izj
+   HxTC6NPgOJbzrWPJI9myub7/mtKrq3oVSFmZXcwKo/xVVCh5/1EyYvaAo
+   LGq84UDY5vYc9YoXoOYrSzpchr3/nI0YKdOSzT7Yao+b4q931ntHrptJ/
+   WzUNVDSJgOHOEHDCR1GWT/EVUwBuHJ+I3IXKYpMDmw7eXuT2V+5sTFmOW
+   +5SEp2fdwizGEnvgsBIUWk4sRqQ2SS297yS1V6nRu2lu/j/2XH1xsKkt+
+   H27Z4NjGMKH8+KpEmD0vSeAYCyHJrzC3qVtaD+KNY6Zov3jkoXKl03bfw
+   A==;
+X-CSE-ConnectionGUID: 40kJ4E6YTCO7dA5Q0h3aSw==
+X-CSE-MsgGUID: VsccXK4nThyi6nVvBdFrDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="59387908"
 X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
-   d="scan'208";a="47921199"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 12:05:43 -0700
-X-CSE-ConnectionGUID: YgES6+EkRxqgVYdBzBbcgA==
-X-CSE-MsgGUID: xtgg/fNuTtK2TqLibQVciw==
+   d="scan'208";a="59387908"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 12:05:43 -0700
+X-CSE-ConnectionGUID: iX0GtgfBQLWf3fCgGaqhcQ==
+X-CSE-MsgGUID: LtP1UIYvQDaaxl+olQUrVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
-   d="scan'208";a="180286255"
+   d="scan'208";a="179323284"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Sep 2025 12:05:42 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Sep 2025 12:05:41 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyazk-0000ff-0s;
+	id 1uyazk-0000fh-0x;
 	Tue, 16 Sep 2025 19:05:40 +0000
-Date: Wed, 17 Sep 2025 03:04:58 +0800
+Date: Wed, 17 Sep 2025 03:04:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Leon Romanovsky <leonro@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dmabuf-vfio 32/42] drivers/xen/swiotlb-xen.c:215:34:
- error: use of undeclared identifier 'dma_addr'; did you mean 'dev_addr'?
-Message-ID: <202509170329.YL4Xthwq-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:dmabuf-vfio 37/42] arch/powerpc/kernel/iommu.c:866:8:
+ warning: assignment to 'void *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202509170224.8ScJTbjN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,126 +65,76 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
 head:   887b59804850b679831fda6eba707cc1b1b077e0
-commit: e6bbade3239e8025dd7c7bec3d639d05aa49ef2b [32/42] xen: swiotlb: Switch to physical address mapping callbacks
-config: x86_64-buildonly-randconfig-002-20250916 (https://download.01.org/0day-ci/archive/20250917/202509170329.YL4Xthwq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509170329.YL4Xthwq-lkp@intel.com/reproduce)
+commit: 7b4af8522254f58e9c812362d173b7417a7cc3da [37/42] powerpc: Convert to physical address DMA mapping
+config: powerpc64-randconfig-002-20250916 (https://download.01.org/0day-ci/archive/20250917/202509170224.8ScJTbjN-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509170224.8ScJTbjN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509170329.YL4Xthwq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509170224.8ScJTbjN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/xen/swiotlb-xen.c:215:34: error: use of undeclared identifier 'dma_addr'; did you mean 'dev_addr'?
-     215 |                 if (unlikely(!dma_capable(dev, dma_addr, size, false))) {
-         |                                                ^~~~~~~~
-         |                                                dev_addr
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   drivers/xen/swiotlb-xen.c:210:13: note: 'dev_addr' declared here
-     210 |         dma_addr_t dev_addr = xen_phys_to_dma(dev, phys);
-         |                    ^
-   drivers/xen/swiotlb-xen.c:219:6: error: use of undeclared identifier 'dma_addr'; did you mean 'dev_addr'?
-     219 |                                 &dma_addr, size, *dev->dma_mask,
-         |                                  ^~~~~~~~
-         |                                  dev_addr
-   include/linux/dev_printk.h:199:38: note: expanded from macro 'dev_err_once'
-     199 |         dev_level_once(dev_err, dev, fmt, ##__VA_ARGS__)
-         |                                             ^
-   include/linux/dev_printk.h:181:25: note: expanded from macro 'dev_level_once'
-     181 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                                       ^
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                        ^
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^
-   drivers/xen/swiotlb-xen.c:210:13: note: 'dev_addr' declared here
-     210 |         dma_addr_t dev_addr = xen_phys_to_dma(dev, phys);
-         |                    ^
-   2 errors generated.
+   arch/powerpc/kernel/iommu.c: In function 'iommu_map_phys':
+   arch/powerpc/kernel/iommu.c:866:10: error: implicit declaration of function 'phsy_to_virt'; did you mean 'phys_to_virt'? [-Werror=implicit-function-declaration]
+     vaddr = phsy_to_virt(phys);
+             ^~~~~~~~~~~~
+             phys_to_virt
+>> arch/powerpc/kernel/iommu.c:866:8: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     vaddr = phsy_to_virt(phys);
+           ^
+   cc1: some warnings being treated as errors
 
 
-vim +215 drivers/xen/swiotlb-xen.c
+vim +866 arch/powerpc/kernel/iommu.c
 
-   197	
-   198	/*
-   199	 * Map a single buffer of the indicated size for DMA in streaming mode.  The
-   200	 * physical address to use is returned.
-   201	 *
-   202	 * Once the device is given the dma address, the device owns this memory until
-   203	 * either xen_swiotlb_unmap_phys or xen_swiotlb_dma_sync_single is performed.
-   204	 */
-   205	static dma_addr_t xen_swiotlb_map_phys(struct device *dev, phys_addr_t phys,
-   206					size_t size, enum dma_data_direction dir,
-   207					unsigned long attrs)
-   208	{
-   209		phys_addr_t map;
-   210		dma_addr_t dev_addr = xen_phys_to_dma(dev, phys);
-   211	
-   212		BUG_ON(dir == DMA_NONE);
-   213	
-   214		if (attrs & DMA_ATTR_MMIO) {
- > 215			if (unlikely(!dma_capable(dev, dma_addr, size, false))) {
-   216				dev_err_once(
-   217					dev,
-   218					"DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
-   219					&dma_addr, size, *dev->dma_mask,
-   220					dev->bus_dma_limit);
-   221				WARN_ON_ONCE(1);
-   222				return DMA_MAPPING_ERROR;
-   223			}
-   224			return phys;
-   225		}
-   226	
-   227		/*
-   228		 * If the address happens to be in the device's DMA window,
-   229		 * we can safely return the device addr and not worry about bounce
-   230		 * buffering it.
-   231		 */
-   232		if (dma_capable(dev, dev_addr, size, true) &&
-   233		    !dma_kmalloc_needs_bounce(dev, size, dir) &&
-   234		    !range_straddles_page_boundary(phys, size) &&
-   235			!xen_arch_need_swiotlb(dev, phys, dev_addr) &&
-   236			!is_swiotlb_force_bounce(dev))
-   237			goto done;
-   238	
-   239		/*
-   240		 * Oh well, have to allocate and map a bounce buffer.
-   241		 */
-   242		trace_swiotlb_bounced(dev, dev_addr, size);
-   243	
-   244		map = swiotlb_tbl_map_single(dev, phys, size, 0, dir, attrs);
-   245		if (map == (phys_addr_t)DMA_MAPPING_ERROR)
-   246			return DMA_MAPPING_ERROR;
-   247	
-   248		phys = map;
-   249		dev_addr = xen_phys_to_dma(dev, map);
-   250	
-   251		/*
-   252		 * Ensure that the address returned is DMA'ble
-   253		 */
-   254		if (unlikely(!dma_capable(dev, dev_addr, size, true))) {
-   255			__swiotlb_tbl_unmap_single(dev, map, size, dir,
-   256					attrs | DMA_ATTR_SKIP_CPU_SYNC,
-   257					swiotlb_find_pool(dev, map));
-   258			return DMA_MAPPING_ERROR;
-   259		}
-   260	
-   261	done:
-   262		if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)) {
-   263			if (pfn_valid(PFN_DOWN(dma_to_phys(dev, dev_addr))))
-   264				arch_sync_dma_for_device(phys, size, dir);
-   265			else
-   266				xen_dma_sync_for_device(dev, dev_addr, size, dir);
-   267		}
-   268		return dev_addr;
-   269	}
-   270	
+   848	
+   849	/* Creates TCEs for a user provided buffer.  The user buffer must be
+   850	 * contiguous real kernel storage (not vmalloc).  The address passed here
+   851	 * is physical address into that page. The dma_addr_t returned will point
+   852	 * to the same byte within the page as was passed in.
+   853	 */
+   854	dma_addr_t iommu_map_phys(struct device *dev, struct iommu_table *tbl,
+   855				  phys_addr_t phys, size_t size, unsigned long mask,
+   856				  enum dma_data_direction direction,
+   857				  unsigned long attrs)
+   858	{
+   859		dma_addr_t dma_handle = DMA_MAPPING_ERROR;
+   860		void *vaddr;
+   861		unsigned long uaddr;
+   862		unsigned int npages, align;
+   863	
+   864		BUG_ON(direction == DMA_NONE);
+   865	
+ > 866		vaddr = phsy_to_virt(phys);
+   867		uaddr = (unsigned long)vaddr;
+   868	
+   869		if (tbl) {
+   870			npages = iommu_num_pages(uaddr, size, IOMMU_PAGE_SIZE(tbl));
+   871			align = 0;
+   872			if (tbl->it_page_shift < PAGE_SHIFT && size >= PAGE_SIZE &&
+   873			    ((unsigned long)vaddr & ~PAGE_MASK) == 0)
+   874				align = PAGE_SHIFT - tbl->it_page_shift;
+   875	
+   876			dma_handle = iommu_alloc(dev, tbl, vaddr, npages, direction,
+   877						 mask >> tbl->it_page_shift, align,
+   878						 attrs);
+   879			if (dma_handle == DMA_MAPPING_ERROR) {
+   880				if (!(attrs & DMA_ATTR_NO_WARN) &&
+   881				    printk_ratelimit())  {
+   882					dev_info(dev, "iommu_alloc failed, tbl %p "
+   883						 "vaddr %p npages %d\n", tbl, vaddr,
+   884						 npages);
+   885				}
+   886			} else
+   887				dma_handle |= (uaddr & ~IOMMU_PAGE_MASK(tbl));
+   888		}
+   889	
+   890		return dma_handle;
+   891	}
+   892	
 
 -- 
 0-DAY CI Kernel Test Service
