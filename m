@@ -1,160 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4951B4231
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 11:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73AD1B4231
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 11:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758023302; cv=none; b=IXMpWGZrlBxkEhblLWTOVF+jelrZd6dM2MaEjI78FTbutLS/XhMZ42zppKT+SYVXO2j3APdOZmHr2vNIdRTmXAtEUcnT6B1Yn5DxN9t/3XaxQcKB8FqODNchovGAdY2PgUe5Rkv72ICXRvAqxm60TfTacBy+OcXqO3wR+3l6E1U=
+	t=1758023337; cv=none; b=OtvDo4z2Z6tYQY29XQnx5bLxljHHfFr5AP7pC5pVLe6Tun21BIAJ82Phc8TTl/3AX9FBLTTDmvQzqqfYd6OWzPRNj/yXe7/gD3vrxhoqV5w6+cAHqFnrbMBVHCO/K9c7sn58qn3gmHgTZJf1M96PvCwqPjz1NU5HXJtYdLF7Vbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758023302; c=relaxed/simple;
-	bh=bD0hsGvLlVb/tas6TC+cVNel3bkWgVhCw1S2N1NdjQU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rJgNjwTl5XnZtDSUa83m6mjvWzrROkwDiyeZoO5SrF1FAqNJpfYKJPGSoTX4TO0cu4/hSjIQ/8Ed+Jh34dfuZ/Ld+rY+nNBLREJ707Y+z1GbTxMQixR/QgHb6wKyd7lvmAQ3GDEoQ9khefXNZGwc2N90pXdK/Kk9ljzXxUoMES0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uhJlc9Pj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758023337; c=relaxed/simple;
+	bh=yv9s83oGL9lpj8AunoArAqcUM4PJp6TyyLdBpoDnrZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=emdePMcqeeHEKK5Re8XaJtynZJ8xjEnYVC/OjOaGJkUEcVEnmRqY5EzxgSq/48ayl7Vqi75SdW1aYIY0NHXRYZBoCS+TN2rFukH8a/PlLgGe+k+3zzw+h0kIkK8I8HhzTENZZfMwY6uE8+lVScSyfxLmQ6o56vIaoqMGZqw7acE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gaqnd462; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uhJlc9Pj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C603C4CEEB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 11:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758023301;
-	bh=bD0hsGvLlVb/tas6TC+cVNel3bkWgVhCw1S2N1NdjQU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=uhJlc9Pj/7TKVV1Fl3ZLrXUeH/+OSLV+FltMIpZwMWNotUmq9ic4QYW41nti/gS4O
-	 OLBvP2Mubw+fDuPUAQJViPj5eg1IMMUMEtRQyPcMVDZrfP695nmoj2IiFhrge+hp1n
-	 JGoaJKWmxbyAgVVEoFD1NPT5HdBjf0JbRqwkgctDWdWCdVH+9ZEzyT426bkXgxH6Cs
-	 pUA81S9GHw/7TgFvO59QY0wVkQojY/YDbre1UvLEebz3ckDADIDfeFMqHEpmBhj+bt
-	 KccYgaG3oit3bpTsApsBwKaEYMb1pJUmYrk6zoUDvPcVbEwv/3l/Au7amkwGg2K+3O
-	 vcYvscY50nw0g==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b0418f6fc27so906086766b.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Sep 2025 04:48:21 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxcQMpClJGpG3xCRM4HeE3Tu/Sm/jNwt1ay3Ulm2zBwIvvrXkS9
-	kGHDKJiqb5NOeBytTafjUHaAvx7SxgIp9lI60XT+U4fAXC+HdjNa5jSMv+fdIervhfeP1WmoKaS
-	sCRM5hB6Cn7po5gnEY1suvczCty4oifM=
-X-Google-Smtp-Source: AGHT+IH+K2EgkALjcG5qipbxqq1Gkx4UgNLGq6l+SGNUlgP5RzUhchFl+GK1jdEa0pK69+umRXRqnS/1gqUt4x23Puc=
-X-Received: by 2002:a17:906:6a0c:b0:afe:e7f1:289d with SMTP id
- a640c23a62f3a-b07c37b3d5amr1470493866b.62.1758023300013; Tue, 16 Sep 2025
- 04:48:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gaqnd462"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758023336; x=1789559336;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yv9s83oGL9lpj8AunoArAqcUM4PJp6TyyLdBpoDnrZo=;
+  b=Gaqnd462SQhrWdeoC879/+u3Sce2ffGTQI/CYjSgnyim/NnJSeegdr/M
+   hA1Y+jgfUPCDOwqp9KlGdnphC5Xt69CtO0xz6dyzAtOQ8iCXsQnMho8tx
+   fSkukQXlH5lDyqEB+0/0pBGXFKFzs7PC+Q0yUvACASPibrM9qU4Xhr59F
+   BXEUXfcRetuNsBMS8Zf5D1XEJI28DhvGyTU2rhdCU+R8RU5tn6/59VDWY
+   FX3xbU9bgW2YHpJr3zJJPxDc3c6UTAbsdVAua9TAyKN1ZefJRtamZD/k/
+   AUBWjgklKGH1qhn02ItsdSKFQ2+r83EOtSUEnIfhDlX6VPmwYdBUjUYZA
+   Q==;
+X-CSE-ConnectionGUID: cejEApYJTeCLLyXsXGKdjg==
+X-CSE-MsgGUID: sR3at3IHSXes/oY9Z+K84w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="77907874"
+X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
+   d="scan'208";a="77907874"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 04:48:55 -0700
+X-CSE-ConnectionGUID: peQdw1WCSf2ziAHKeBWNOQ==
+X-CSE-MsgGUID: gtJYz5ZrR6eF/9YGh5G/XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,269,1751266800"; 
+   d="scan'208";a="174525700"
+Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 16 Sep 2025 04:48:54 -0700
+Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uyUB1-0000EF-2V;
+	Tue, 16 Sep 2025 11:48:51 +0000
+Date: Tue, 16 Sep 2025 19:48:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-drm-fix-6.16 13/61] lib/test_dynamic_debug.c:63:25: error:
+ variable has incomplete type 'struct _ddebug_class_map'
+Message-ID: <202509161935.vY7w7TDf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <247e1013735943cecfe4942a4a163376552cc562.1757271913.git.fdmanana@suse.com>
- <202509161356.JTeWVygY-lkp@intel.com>
-In-Reply-To: <202509161356.JTeWVygY-lkp@intel.com>
-From: Filipe Manana <fdmanana@kernel.org>
-Date: Tue, 16 Sep 2025 12:47:43 +0100
-X-Gmail-Original-Message-ID: <CAL3q7H5LU1GhvSOixu-0w=RxD7Cbm-46XTDu6hq_LORVDn+DzA@mail.gmail.com>
-X-Gm-Features: AS18NWDzWSnTDbure3rwrSccPrz57yrVTRoWglay9dlhkB80-rOUd5vsT50sagA
-Message-ID: <CAL3q7H5LU1GhvSOixu-0w=RxD7Cbm-46XTDu6hq_LORVDn+DzA@mail.gmail.com>
-Subject: Re: [PATCH v2 22/33] btrfs: add current log leaf, key and slot to
- struct walk_control
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Sep 16, 2025 at 7:06=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on kdave/for-next]
-> [cannot apply to linus/master v6.17-rc6 next-20250915]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-or=
-g/btrfs-fix-invalid-extref-key-setup-when-replaying-dentry/20250908-180010
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git f=
-or-next
-> patch link:    https://lore.kernel.org/r/247e1013735943cecfe4942a4a163376=
-552cc562.1757271913.git.fdmanana%40suse.com
-> patch subject: [PATCH v2 22/33] btrfs: add current log leaf, key and slot=
- to struct walk_control
-> config: s390-randconfig-r122-20250916 (https://download.01.org/0day-ci/ar=
-chive/20250916/202509161356.JTeWVygY-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.4.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250916/202509161356.JTeWVygY-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509161356.JTeWVygY-lkp=
-@intel.com/
->
-> Note: it may well be a FALSE warning. FWIW you are at least aware of it n=
-ow.
-> http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from fs/btrfs/ctree.h:21,
->                     from fs/btrfs/tree-log.c:12:
->    In function 'btrfs_inode_mode',
->        inlined from 'replay_one_buffer' at fs/btrfs/tree-log.c:2649:11:
-> >> fs/btrfs/accessors.h:66:16: warning: 'inode_item' may be used uninitia=
-lized [-Wmaybe-uninitialized]
->       66 |         return btrfs_get_##bits(eb, s, offsetof(type, member))=
-;         \
->          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    fs/btrfs/accessors.h:270:1: note: in expansion of macro 'BTRFS_SETGET_=
-FUNCS'
->      270 | BTRFS_SETGET_FUNCS(inode_mode, struct btrfs_inode_item, mode, =
-32);
->          | ^~~~~~~~~~~~~~~~~~
->    fs/btrfs/tree-log.c: In function 'replay_one_buffer':
->    fs/btrfs/tree-log.c:2607:42: note: 'inode_item' was declared here
->     2607 |                 struct btrfs_inode_item *inode_item;
->          |                                          ^~~~~~~~~~
+tree:   https://github.com/jimc/linux.git dd-drm-fix-6.16
+head:   0ceda2081f53d69e686e8f91742c1491b9a68f99
+commit: e27e2bfaccfdaa4a0a5b9571197ff5bfffe63870 [13/61] dyndbg: DECLARE_DYNDBG_CLASSMAP needs stub defn
+config: i386-randconfig-141-20250914 (https://download.01.org/0day-ci/archive/20250916/202509161935.vY7w7TDf-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250916/202509161935.vY7w7TDf-lkp@intel.com/reproduce)
 
-This is a false positive.
-inode_item is initialized only when wc->log_key.type =3D=3D
-BTRFS_INODE_ITEM_KEY and it's only accessed in other if blocks when
-wc->log_key.type =3D=3D BTRFS_INODE_ITEM_KEY is one of the conditions, so
-no risk of accessing inode_item without being initialized.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509161935.vY7w7TDf-lkp@intel.com/
 
-Thanks.
+Note: the jimc/dd-drm-fix-6.16 HEAD 0ceda2081f53d69e686e8f91742c1491b9a68f99 builds fine.
+      It only hurts bisectability.
 
->
->
-> vim +/inode_item +66 fs/btrfs/accessors.h
->
-> 07e81dc94474eb Josef Bacik  2022-10-19  60
-> 07e81dc94474eb Josef Bacik  2022-10-19  61  #define BTRFS_SETGET_FUNCS(na=
-me, type, member, bits)                        \
-> 07e81dc94474eb Josef Bacik  2022-10-19  62  static inline u##bits btrfs_#=
-#name(const struct extent_buffer *eb,  \
-> 07e81dc94474eb Josef Bacik  2022-10-19  63                               =
-  const type *s)                       \
-> 07e81dc94474eb Josef Bacik  2022-10-19  64  {                            =
-                                       \
-> 98efb4eb310d0d David Sterba 2023-07-13  65      static_assert(sizeof(u##b=
-its) =3D=3D sizeof_field(type, member));   \
-> 07e81dc94474eb Josef Bacik  2022-10-19 @66      return btrfs_get_##bits(e=
-b, s, offsetof(type, member));         \
-> 07e81dc94474eb Josef Bacik  2022-10-19  67  }                            =
-                                       \
-> 07e81dc94474eb Josef Bacik  2022-10-19  68  static inline void btrfs_set_=
-##name(const struct extent_buffer *eb, type *s, \
-> 07e81dc94474eb Josef Bacik  2022-10-19  69                               =
-   u##bits val)                        \
-> 07e81dc94474eb Josef Bacik  2022-10-19  70  {                            =
-                                       \
-> 98efb4eb310d0d David Sterba 2023-07-13  71      static_assert(sizeof(u##b=
-its) =3D=3D sizeof_field(type, member));   \
-> 07e81dc94474eb Josef Bacik  2022-10-19  72      btrfs_set_##bits(eb, s, o=
-ffsetof(type, member), val);           \
-> 07e81dc94474eb Josef Bacik  2022-10-19  73  }
-> 07e81dc94474eb Josef Bacik  2022-10-19  74
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All errors (new ones prefixed by >>):
+
+>> lib/test_dynamic_debug.c:63:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      63 | DECLARE_DYNDBG_CLASSMAP(map_disjoint_bits, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         |                         ^
+   lib/test_dynamic_debug.c:63:1: note: forward declaration of 'struct _ddebug_class_map'
+      63 | DECLARE_DYNDBG_CLASSMAP(map_disjoint_bits, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   lib/test_dynamic_debug.c:79:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      79 | DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
+         |                         ^
+   lib/test_dynamic_debug.c:63:1: note: forward declaration of 'struct _ddebug_class_map'
+      63 | DECLARE_DYNDBG_CLASSMAP(map_disjoint_bits, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   lib/test_dynamic_debug.c:86:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      86 | DECLARE_DYNDBG_CLASSMAP(map_level_num, DD_CLASS_TYPE_LEVEL_NUM, 14,
+         |                         ^
+   lib/test_dynamic_debug.c:63:1: note: forward declaration of 'struct _ddebug_class_map'
+      63 | DECLARE_DYNDBG_CLASSMAP(map_disjoint_bits, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   lib/test_dynamic_debug.c:93:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      93 | DECLARE_DYNDBG_CLASSMAP(map_level_names, DD_CLASS_TYPE_LEVEL_NAMES, 22,
+         |                         ^
+   lib/test_dynamic_debug.c:63:1: note: forward declaration of 'struct _ddebug_class_map'
+      63 | DECLARE_DYNDBG_CLASSMAP(map_disjoint_bits, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   4 errors generated.
+--
+>> drivers/gpu/drm/drm_crtc_helper.c:53:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      53 | DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         |                         ^
+   drivers/gpu/drm/drm_crtc_helper.c:53:1: note: forward declaration of 'struct _ddebug_class_map'
+      53 | DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   1 error generated.
+--
+>> drivers/gpu/drm/display/drm_dp_helper.c:46:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      46 | DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         |                         ^
+   drivers/gpu/drm/display/drm_dp_helper.c:46:1: note: forward declaration of 'struct _ddebug_class_map'
+      46 | DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   1 error generated.
+--
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:77:25: error: variable has incomplete type 'struct _ddebug_class_map'
+      77 | DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         |                         ^
+   drivers/gpu/drm/nouveau/nouveau_drm.c:77:1: note: forward declaration of 'struct _ddebug_class_map'
+      77 | DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+         | ^
+   include/linux/dynamic_debug.h:127:16: note: expanded from macro 'DECLARE_DYNDBG_CLASSMAP'
+     127 |         static struct _ddebug_class_map __aligned(8) __used             \
+         |                       ^
+   1 error generated.
+
+
+vim +63 lib/test_dynamic_debug.c
+
+683263a5e075ac Jim Cromie 2022-09-04  31  
+6ea3bf466ac6ad Jim Cromie 2022-09-04  32  /*
+6ea3bf466ac6ad Jim Cromie 2022-09-04  33   * Using the CLASSMAP api:
+6ea3bf466ac6ad Jim Cromie 2022-09-04  34   * - classmaps must have corresponding enum
+6ea3bf466ac6ad Jim Cromie 2022-09-04  35   * - enum symbols must match/correlate with class-name strings in the map.
+6ea3bf466ac6ad Jim Cromie 2022-09-04  36   * - base must equal enum's 1st value
+6ea3bf466ac6ad Jim Cromie 2022-09-04  37   * - multiple maps must set their base to share the 0-30 class_id space !!
+6ea3bf466ac6ad Jim Cromie 2022-09-04  38   *   (build-bug-on tips welcome)
+6ea3bf466ac6ad Jim Cromie 2022-09-04  39   * Additionally, here:
+6ea3bf466ac6ad Jim Cromie 2022-09-04  40   * - tie together sysname, mapname, bitsname, flagsname
+6ea3bf466ac6ad Jim Cromie 2022-09-04  41   */
+6ea3bf466ac6ad Jim Cromie 2022-09-04  42  #define DD_SYS_WRAP(_model, _flags)					\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  43  	static unsigned long bits_##_model;				\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  44  	static struct ddebug_class_param _flags##_model = {		\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  45  		.bits = &bits_##_model,					\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  46  		.flags = #_flags,					\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  47  		.map = &map_##_model,					\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  48  	};								\
+6ea3bf466ac6ad Jim Cromie 2022-09-04  49  	module_param_cb(_flags##_##_model, &param_ops_dyndbg_classes, &_flags##_model, 0600)
+6ea3bf466ac6ad Jim Cromie 2022-09-04  50  
+6ea3bf466ac6ad Jim Cromie 2022-09-04  51  /* numeric input, independent bits */
+6ea3bf466ac6ad Jim Cromie 2022-09-04  52  enum cat_disjoint_bits {
+6ea3bf466ac6ad Jim Cromie 2022-09-04  53  	D2_CORE = 0,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  54  	D2_DRIVER,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  55  	D2_KMS,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  56  	D2_PRIME,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  57  	D2_ATOMIC,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  58  	D2_VBL,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  59  	D2_STATE,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  60  	D2_LEASE,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  61  	D2_DP,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  62  	D2_DRMRES };
+6ea3bf466ac6ad Jim Cromie 2022-09-04 @63  DECLARE_DYNDBG_CLASSMAP(map_disjoint_bits, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+6ea3bf466ac6ad Jim Cromie 2022-09-04  64  			"D2_CORE",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  65  			"D2_DRIVER",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  66  			"D2_KMS",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  67  			"D2_PRIME",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  68  			"D2_ATOMIC",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  69  			"D2_VBL",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  70  			"D2_STATE",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  71  			"D2_LEASE",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  72  			"D2_DP",
+6ea3bf466ac6ad Jim Cromie 2022-09-04  73  			"D2_DRMRES");
+6ea3bf466ac6ad Jim Cromie 2022-09-04  74  DD_SYS_WRAP(disjoint_bits, p);
+6ea3bf466ac6ad Jim Cromie 2022-09-04  75  DD_SYS_WRAP(disjoint_bits, T);
+6ea3bf466ac6ad Jim Cromie 2022-09-04  76  
+
+:::::: The code at line 63 was first introduced by commit
+:::::: 6ea3bf466ac6ad6c0ee1ad4e80d77d62e5e11c7a dyndbg: test DECLARE_DYNDBG_CLASSMAP, sysfs nodes
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
