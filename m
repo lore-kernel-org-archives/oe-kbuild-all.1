@@ -1,58 +1,58 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B74122A4D8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 18:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBD12FB0A7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 18:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758132092; cv=none; b=XCrHfo0mLX19UtxH/LbXa9LmuVFG7dc+bT/Q4QZezjZfZ64MbN6duXp03LqcQ2cxmVjOG3IS1tKhLDPCc+bBrpRKTOVr7Pf8Y3lo6qn84f0bOr0Psl8sUm6iIOnF/Wq54Pxi2SBTEbUD5Xum5iPF35M7AkqO8cGsPo59ym0w9Jg=
+	t=1758132145; cv=none; b=pkx7oT8s9+O/Cff1q/DmQd8krLwgdyHgrFIS1DlGNLfRwhp9re0liFOyp8bnHwNFCLAGRjOdy2Nu5py04HJKW1QbtgFT9QviyJFgr0Vd+MmeBz7a2fao6KV2dqxQXeW+H2RQM2RL0stGkkGjfp0xyhXd0Qg5KfPubQp1gmPKBsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758132092; c=relaxed/simple;
+	s=arc-20240116; t=1758132145; c=relaxed/simple;
 	bh=c45IjX5cJSPCE8t6J9t1ECSHcRcCXtq2ZmI6fywkbX0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PanxAXvTFu/h35KtAdOFiZutrcHf77knA4YHJjJ7chf/wkVV1rG3gUz0pyYsl8e42nkf/Qcklj/yLMGX2HjTpHX2aFaEvqzQsowWrkqb4AEdW0BEGCQdkahmWeo+JQ2Ukd+DbjO+rbwIFXIEL3GqIvIHrvhP17OtP2VPin8SWYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Vvcww//X; arc=none smtp.client-ip=209.85.216.54
+	 To:Cc:Content-Type; b=Cqt6oOBcTbq0U2XHuPpjmAPhXRlUonvyPab1JkYBNnOJUtt25i2RPHxnrWYqpBLmFTg+5nO4xIGoJzNcYrtAz64E1TvpuHT1cYh4UsXaLFlueZ9/CAHgN1RrIB97HLkP13kCKZFBfskFocDvBo01FSeMgqAAXsH+70rNO4e85sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Gvbkw+1g; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Vvcww//X"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-32e1c8223d3so40650a91.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 11:01:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Gvbkw+1g"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b54a2ab01ffso45262a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 11:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1758132089; x=1758736889; darn=lists.linux.dev;
+        d=paul-moore.com; s=google; t=1758132143; x=1758736943; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
         bh=BUM77tLsoDUjAibRwyKv5SQ08Xu0AqfeFVlC0hwSnKI=;
-        b=Vvcww//Xp6NJT8zRpeMhPLprkLZkSaT6XXZZPwcM/Ktj8i/xxqY+46gbpICxxbskRw
-         FipSPQjIbaqW17bvHhk4hrn9oonCWTuE7wGe42H17kE4TpiiYPuRL8vAdH5b3CPhupBP
-         FGRq7Flj88tYczrBRto7+z+z1cQlvNx0yegAQ07WWND00QusKwgUy+tyhN1RfpvVgG2F
-         ZeiFrUCxAtfHXsEirZHS/WobKSzerwiDQ8jMNqZPEjSEWWvtpg3HgsaPyuvqgPiQn0r8
-         3y7ocn45deLq4bzx6BWy3jiGBezYLZdKxZrvQL6/nMIuOzDOTGNCy300AdbBcaP0qE3U
-         AWQQ==
+        b=Gvbkw+1gNtGDBOrFY4a+URqh9Hf3I8KUqsfcKP4KaxyOLkFDw+R7HT+PaP/f9wGR7w
+         X9c3MRKsd3TGBJ8g3lNFkbK86bjMEKoCwnLONd2drd4GRabzrMBQbeqtQ6ZsYyJnqgpU
+         vUF2Mkfn6JXruRSqAGjnoXHveibn2HcFa6Mie8Jg53QlkHty4Z+zPtlAx5zSqbTIDmVL
+         Re12dWwdzOWPSBxN/jiSiZhDEhZ1svULECL4Ei+GFFMVV3H2VuaRXqe/DD8Wolixl6BH
+         Ph75B8bmYOhIakKVl8CLSj/tmTgyWDDSP38PqHvj88BerQWdAi6yNM7F30gFwq9Hxhh8
+         18Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758132089; x=1758736889;
+        d=1e100.net; s=20230601; t=1758132143; x=1758736943;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=BUM77tLsoDUjAibRwyKv5SQ08Xu0AqfeFVlC0hwSnKI=;
-        b=X8JpMnZKGgAbtYrDkQu98U40JnLa0bj+9w5q1rMmnRIPbkABx+Svc0r6/BiOBomz6M
-         4TLeEt/rCc4lOJ9sHUFbdpqsEDjj801cauOfB43mRvCJisbKM53WwZ/HQKN4OHBuJhkT
-         K9ejMrLB2W/ZPs5IeErM2bf3nFd7HL9RUJz3DBYsj1N5cKfjOsQg+a/PGzIQycayECJO
-         dMthleLO5694+SySTsRduPYx29AOppKjlEr8J7CccoNWykFWPRL1jn7DaD8LOKYbcbew
-         OGPYB00I26V9FW/tMASwxzVWtUo0D5fejwF1bUd33kPEHoBAB9XGWy/VYKk1DwcbcQsN
-         vhnQ==
-X-Gm-Message-State: AOJu0Yy11F70kzxdJb3fMSN1xwnk3Dl/AMPyA/CCnle7lC55QGu6/GCg
-	B/aJVRnb14ZB6r1L+33dTaF9i7KYGoT+WJklZeG/6FsteQ/36wLmnFHOhdv7MukUnLpQI2O+cgf
-	+7mHjKfMxwE5oT7wzrGnQ1X9yXzQz3zOYUdiDyPjLtAr/YGiKhNYC/g==
-X-Gm-Gg: ASbGncs6TUaJwiqWTNT/XJ6r2j7Z0DanxhVYo6NVxVEKo+ryiNb4qc/3eNh520NeI81
-	k7bpWnU2FKwrY52HHb1Fl2Izn0YPHCrootXVNoW/R8WgH4lbpjx9kCB2YJPmg6brVbFMR+x2Hs1
-	CSd1FweXyLAWyTGI2CHc14Qp9cOMCBzBzDhjzN4EEBl4hU0LoqzCR0yWa7Y1BZdb+8C/+MQ8xLq
-	T5gt6w=
-X-Google-Smtp-Source: AGHT+IFoHijaP0gepq8w27vVNUQ5JM688HlMNmwc5dW1iW8CvmOm2BMveu7L+vY/mH9dbMJCVGkHqX14xRj4JvvZvf4=
-X-Received: by 2002:a17:90b:4cc3:b0:32e:7270:94a4 with SMTP id
- 98e67ed59e1d1-32ee3ebed73mr3871046a91.14.1758132089233; Wed, 17 Sep 2025
- 11:01:29 -0700 (PDT)
+        b=v2CjrLaocYbTP1Tbzebf519F5z7dXffJRio/w0Cjw7qfyFBlpGZCodnTcUmRa+tGD2
+         lFMvcYWw7Lczbz8GLgRHTEn5N0iJNQaWmxlW8fbJJR8C0QTWla1dSq/xnxRmSM9pKglb
+         ctYr2iJReRst6ufgPJFX+X8U80GnkrO1jwF51MtsS9QbgddYiW5zAK0RdhuZP44YMtrV
+         c4Evpn42maSCsGQN6pwEvOQOC7SNWCoMEzY+YMjEcTWxS1dAzBD/9NBUuhK5miopPi/G
+         VizBD3BXhw6kP5NRtV61ykaEZbmuqXnKpft+syEj4HZxbR8BPWcWVy4LHBuYH/hQ0rsZ
+         MUBA==
+X-Gm-Message-State: AOJu0YwGfONFrUpiezlTMez1Z42E7MLJ15gjb2vDH8zqnSiuajson7BO
+	Mc7EbCgk/2NB0+ZpnROAISLNANetN5/wpaZm0G0khed0kExcLBLqsRX2E0zzbUKTj/YcW8hJ9xk
+	cMXgifTADpd2C4bxtsoSSO0aS4eZt+trDfDC7idYh
+X-Gm-Gg: ASbGncvFogfXKh1mIOeRLYltJccSv7MYCxebqpeNzottRleAKUmweA5taN81kVPTPRk
+	T31kjzvGXJA/dz+53E72jn1zALFdUZcNcQRFJDXJtea+xxyBbYTXjb+NVOWKKz/H3YpaljGqdRz
+	6kjCB6/XILfTuPekMM5oD5rioMrl7KRm3Zrngu7Orr6LIxDfUjzRZmA6vzzRqLg6h0LIwBNPfI7
+	Ehjthw=
+X-Google-Smtp-Source: AGHT+IHS8hOdCDVgiuUdP/vRW/9oLFhnIxkpzATPwO934ELt+GqvfVJnYqe1LADwkFmuGaSy/4pUKM2P+XlmDtuGwHY=
+X-Received: by 2002:a17:90b:4a90:b0:32a:e706:b7b6 with SMTP id
+ 98e67ed59e1d1-32ee3ecfc30mr3766058a91.11.1758132142492; Wed, 17 Sep 2025
+ 11:02:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,14 +62,14 @@ MIME-Version: 1.0
 References: <202509171951.rXOi8Oez-lkp@intel.com>
 In-Reply-To: <202509171951.rXOi8Oez-lkp@intel.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 17 Sep 2025 14:01:17 -0400
-X-Gm-Features: AS18NWD3IXWbrTsORXNjbm2hCTuqOOvIpf4K8RmoY7qzAjiYxrcd7d2bWSTEHAs
-Message-ID: <CAHC9VhTBvoa+N0GnnrNjhbP-RNUS4aGKrWxWdTN0YcjJz-Fq6w@mail.gmail.com>
+Date: Wed, 17 Sep 2025 14:02:09 -0400
+X-Gm-Features: AS18NWAYbfQp7PVjmPX7J13L8lVmlULdlb1F4ZsAfSLFrxqxS41iXrPrFiQ_TeQ
+Message-ID: <CAHC9VhSNoAP98XnBXz681-G-f08ycZULhTZRS6t37Lg1P6qUQA@mail.gmail.com>
 Subject: Re: [pcmoore-lsm:working-lsm_init_rework 40/41] security/lsm_init.c:516:undefined
  reference to `securityfs_init'
 To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, Casey Schaufler <casey@schaufler-ca.com>, 
-	John Johansen <john.johhansen@canonical.com>
+	John Johansen <john.johhansen@canonical.com>, linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
