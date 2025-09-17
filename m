@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E439228695;
-	Wed, 17 Sep 2025 01:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B890E2F4A01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 02:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758072749; cv=none; b=u0TIxQR4niwYULoXlc4nMbAca7pKwbHbBBKVMSGH4WH0Trzw6xfBLTaV6F5nvxcgltpWYOFOe5JMXX0Gho+umkHJQ5P1vqFmJAKHYboqJfPgtP2tq/yrpBrhhGcEUY+jf569XyYkT/9MgmQH3TdEuCB7RieA25ltr9quafWzUFw=
+	t=1758075271; cv=none; b=F5vRaAruiOaSyugcAwxUajg6Jnmks0yCXBUh5mH+G3yGtIVsbNUcqDnFXh0h4iGy7s8tWoHzNEYabTh6/uTGox3rkRbyWTWg7ci67vUDlVRQFlo1r8LS5APPTuZZY9NW9oWF7g67LOpVGlD1py9QFd/8W9+AZkwtOck+nesSr1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758072749; c=relaxed/simple;
-	bh=MHYXX+maQt+yNNoV4sySF8Ud1Yazp2UesOEqM/XEqF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QWX07a7+IeuYQ4HTKl0M59XJG5+N+m6ZNLok3pfVuRkye60Rs4b1oS2Vi79lbaG0VCP6O6cjb37ehDf2NEx2kne0DcZPxWCvRtfRNNWTUBklicrgfQDQeRclwmNnPJzudi/6AaEWglBiHLayIpGoLqLiybwthw4A4aMuokl1yCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZDx9sit; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1758075271; c=relaxed/simple;
+	bh=DPXGrM93jUV6SVrFExqhODckSTk/R93jOMqgHH4khvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nXRwX7hpTgsaTKK9nhHKXMcIHEcvPJZM6EQWtqePVMmIC9vhRLGrFr7Cqao9UDClTRvcYpYDtraS5ryXWO4UagRTpXUomtDDGKDrVNHyhzFjzbuNQqXZo9PjkX36ci5gLkXvyP9UdxKpCZhP4UY1aPQ7fP4wgBnAbHdi6DTG9Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FXw/Ovad; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZDx9sit"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FXw/Ovad"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758072746; x=1789608746;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MHYXX+maQt+yNNoV4sySF8Ud1Yazp2UesOEqM/XEqF0=;
-  b=AZDx9sitCjXiJFSauADRbJhGsldsI2wkGgStkoO/2kg09pVj42FuuBwL
-   pu2nz83quUfJkYqtAHhHYvawUTAc7ngJ7mFXGNQYgxWpQwZtsePHES5dF
-   bWSfB1lv7IkpzwOGLG9VS5cRgm5zbuOfphr3k2gzhuPQiIUHjqLOO1yJd
-   tUyCzNyxR5cOw07i3mtoRKVKXloFzvHZ1q8drqe0kEDwBf80uhVmZRHMP
-   ZumW8du7v2MU4vxrguA1GLQPpajt+m26gFcvW6MuI/3ZhS9Yki9CXg0Hv
-   y2vwlTym7XOSPnq2dH2HLcyAfYLQuhUAaXG7UwhuvaN2HX6o3GNKD65+J
+  t=1758075270; x=1789611270;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DPXGrM93jUV6SVrFExqhODckSTk/R93jOMqgHH4khvs=;
+  b=FXw/OvadDDDmfFtenOIiJr4wXauzJDw/A2d/PseqABXKMJJCZgqjZypN
+   M2ocaQ1kObdVIFP/E7Ywhutn6f6pmGE7V1ayg9cyPqkYRJ4VVrEw2Dy1B
+   79iCRFWJDLamt/Lc4hrgr8/qXAohzs70mFatGOfwjGD+lLPPPzzC30YN1
+   Jdmxn/kOXgXKKt+85v+3LqG9CBzLLM/oCDdQ4X5CVToU1yNQrDH54G4kE
+   HwHsjGb1s5uVCeOAGak+iFNEHqlzcLzvKop8axp2cXViNoZ9VTCh6AW5E
+   AGmyM1HqwFD1/LasmA69w82kqGycmB8ZT6Wth44dRJw+MT3ynR2pNMiO8
    w==;
-X-CSE-ConnectionGUID: WS4FrcnvQAy+Fc/if3zsyg==
-X-CSE-MsgGUID: OWHA1in2TJyL/ze2374dQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60285234"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60285234"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 18:32:25 -0700
-X-CSE-ConnectionGUID: 4dTkLNgKQ5KKnjFMkNa9cQ==
-X-CSE-MsgGUID: CqnzzZMPSoiNjt9v7wy2uA==
+X-CSE-ConnectionGUID: hr9EPUr9Qx6ft1P6/z7xSA==
+X-CSE-MsgGUID: VlEtyU2cTqmZrBjfGkjwRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="59416534"
+X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; 
+   d="scan'208";a="59416534"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 19:14:29 -0700
+X-CSE-ConnectionGUID: A5CPId97RdWDLa7M9Ez7Zg==
+X-CSE-MsgGUID: AxOnG70gRsCjVbIexh8k3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; 
-   d="scan'208";a="175534829"
+   d="scan'208";a="206065964"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Sep 2025 18:32:22 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 Sep 2025 19:14:27 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyh1w-0000wh-2U;
-	Wed, 17 Sep 2025 01:32:20 +0000
-Date: Wed, 17 Sep 2025 09:32:07 +0800
+	id 1uyhgf-0000yl-22;
+	Wed, 17 Sep 2025 02:14:25 +0000
+Date: Wed, 17 Sep 2025 10:14:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ketan Patil <ketanp@nvidia.com>, krzk@kernel.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	Ketan Patil <ketanp@nvidia.com>
-Subject: Re: [PATCH 4/4] memory: tegra: Add MC error logging support for
- Tegra264
-Message-ID: <202509170901.kyczSOdx-lkp@intel.com>
-References: <20250916051754.39250-5-ketanp@nvidia.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Peng Fan <peng.fan@nxp.com>
+Subject: [linux-next:master 7363/9696]
+ arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: flash@0 (atmel,at45db021d):
+ Unevaluated properties are not allowed ('spi-cpha', 'spi-cpol' were
+ unexpected)
+Message-ID: <202509171054.gyDPnYPw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,204 +65,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916051754.39250-5-ketanp@nvidia.com>
 
-Hi Ketan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tegra/for-next]
-[also build test WARNING on krzk-mem-ctrl/for-next linus/master v6.17-rc6 next-20250916]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ketan-Patil/memory-tegra-Group-mc-err-related-registers/20250916-132118
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250916051754.39250-5-ketanp%40nvidia.com
-patch subject: [PATCH 4/4] memory: tegra: Add MC error logging support for Tegra264
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250917/202509170901.kyczSOdx-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509170901.kyczSOdx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   05af764719214d6568adb55c8749dec295228da8
+commit: 5ed941c73b7f501e32610ef0e82affa7ec36a71f [7363/9696] ARM: dts: ls1021a: Rename node name nor to flash
+config: arm-randconfig-052-20250912 (https://download.01.org/0day-ci/archive/20250917/202509171054.gyDPnYPw-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171054.gyDPnYPw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509170901.kyczSOdx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509171054.gyDPnYPw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/memory/tegra/tegra264.c:406:3: warning: variable 'addr_reg' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-     406 |                 default:
-         |                 ^~~~~~~
-   drivers/memory/tegra/tegra264.c:424:39: note: uninitialized use occurs here
-     424 |                 addr_val = mc_ch_readl(mc, channel, addr_reg);
-         |                                                     ^~~~~~~~
-   drivers/memory/tegra/tegra264.c:332:44: note: initialize the variable 'addr_reg' to silence this warning
-     332 |                 u32 status_reg, status1_reg = 0, addr_reg, addr_hi_reg = 0;
-         |                                                          ^
-         |                                                           = 0
->> drivers/memory/tegra/tegra264.c:406:3: warning: variable 'status_reg' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-     406 |                 default:
-         |                 ^~~~~~~
-   drivers/memory/tegra/tegra264.c:411:36: note: uninitialized use occurs here
-     411 |                 value = mc_ch_readl(mc, channel, status_reg);
-         |                                                  ^~~~~~~~~~
-   drivers/memory/tegra/tegra264.c:332:17: note: initialize the variable 'status_reg' to silence this warning
-     332 |                 u32 status_reg, status1_reg = 0, addr_reg, addr_hi_reg = 0;
-         |                               ^
-         |                                = 0
-   2 warnings generated.
-
-
-vim +/addr_reg +406 drivers/memory/tegra/tegra264.c
-
-   324	
-   325	static void mcf_log_fault(struct tegra_mc *mc, u32 channel, unsigned long mcf_ch_intstatus)
-   326	{
-   327		unsigned int bit;
-   328	
-   329		for_each_set_bit(bit, &mcf_ch_intstatus, 32) {
-   330			const char *error = tegra264_mc_status_names[bit] ?: "unknown";
-   331			u32 intmask = BIT(bit);
-   332			u32 status_reg, status1_reg = 0, addr_reg, addr_hi_reg = 0;
-   333			u32 addr_val, value, client_id, i, addr_hi_shift = 0, addr_hi_mask = 0, status1;
-   334			const char *direction, *secure;
-   335			const char *client = "unknown", *desc = "NA";
-   336			phys_addr_t addr = 0;
-   337			bool is_gsc = false, err_type_valid = false, err_rt_type_valid = false;
-   338			u8 type;
-   339			u32 mc_rw_bit = MC_ERR_STATUS_RW, mc_sec_bit = MC_ERR_STATUS_SECURITY;
-   340	
-   341			switch (intmask) {
-   342			case MC_INT_DECERR_EMEM:
-   343				status_reg = mc->soc->mc_regs->mc_err_status;
-   344				addr_reg = mc->soc->mc_regs->mc_err_add;
-   345				addr_hi_reg = mc->soc->mc_regs->mc_err_add_hi;
-   346				err_type_valid = true;
-   347				break;
-   348	
-   349			case MC_INT_SECURITY_VIOLATION:
-   350				status_reg = mc->soc->mc_regs->mc_err_status;
-   351				addr_reg = mc->soc->mc_regs->mc_err_add;
-   352				addr_hi_reg = mc->soc->mc_regs->mc_err_add_hi;
-   353				err_type_valid = true;
-   354				break;
-   355	
-   356			case MC_INT_DECERR_VPR:
-   357				status_reg = mc->soc->mc_regs->mc_err_vpr_status;
-   358				addr_reg = mc->soc->mc_regs->mc_err_vpr_add;
-   359				addr_hi_shift = MC_ERR_STATUS_ADR_HI_SHIFT;
-   360				addr_hi_mask = mc->soc->mc_addr_hi_mask;
-   361				break;
-   362	
-   363			case MC_INT_SECERR_SEC:
-   364				status_reg = mc->soc->mc_regs->mc_err_sec_status;
-   365				addr_reg = mc->soc->mc_regs->mc_err_sec_add;
-   366				addr_hi_shift = MC_ERR_STATUS_ADR_HI_SHIFT;
-   367				addr_hi_mask = mc->soc->mc_addr_hi_mask;
-   368				break;
-   369	
-   370			case MC_INT_DECERR_MTS:
-   371				status_reg = mc->soc->mc_regs->mc_err_mts_status;
-   372				addr_reg = mc->soc->mc_regs->mc_err_mts_add;
-   373				addr_hi_shift = MC_ERR_STATUS_ADR_HI_SHIFT;
-   374				addr_hi_mask = mc->soc->mc_addr_hi_mask;
-   375				break;
-   376	
-   377			case MC_INT_DECERR_GENERALIZED_CARVEOUT:
-   378				status_reg = mc->soc->mc_regs->mc_err_gen_co_status;
-   379				status1_reg = MC_ERR_GENERALIZED_CARVEOUT_STATUS_1_0;
-   380				addr_reg = mc->soc->mc_regs->mc_err_gen_co_add;
-   381				addr_hi_shift = MC_ERR_STATUS_GSC_ADR_HI_SHIFT;
-   382				addr_hi_mask = MC_ERR_STATUS_GSC_ADR_HI_MASK;
-   383				is_gsc = true;
-   384				break;
-   385	
-   386			case MC_INT_DECERR_ROUTE_SANITY:
-   387				status_reg = mc->soc->mc_regs->mc_err_route_status;
-   388				addr_reg = mc->soc->mc_regs->mc_err_route_add;
-   389				addr_hi_shift = MC_ERR_STATUS_RT_ADR_HI_SHIFT;
-   390				addr_hi_mask = mc->soc->mc_addr_hi_mask;
-   391				mc_sec_bit = MC_ERR_ROUTE_SANITY_SEC;
-   392				mc_rw_bit = MC_ERR_ROUTE_SANITY_RW;
-   393				err_rt_type_valid = true;
-   394				break;
-   395	
-   396			case MC_INT_DECERR_ROUTE_SANITY_GIC_MSI:
-   397				status_reg = mc->soc->mc_regs->mc_err_route_status;
-   398				addr_reg = mc->soc->mc_regs->mc_err_route_add;
-   399				addr_hi_shift = MC_ERR_STATUS_RT_ADR_HI_SHIFT;
-   400				addr_hi_mask = mc->soc->mc_addr_hi_mask;
-   401				mc_sec_bit = MC_ERR_ROUTE_SANITY_SEC;
-   402				mc_rw_bit = MC_ERR_ROUTE_SANITY_RW;
-   403				err_rt_type_valid = true;
-   404				break;
-   405	
- > 406			default:
-   407				dev_err_ratelimited(mc->dev, "Incorrect MC interrupt mask\n");
-   408				break;
-   409			}
-   410	
-   411			value = mc_ch_readl(mc, channel, status_reg);
-   412			if (addr_hi_reg) {
-   413				addr = mc_ch_readl(mc, channel, addr_hi_reg);
-   414			} else {
-   415				if (!is_gsc) {
-   416					addr = ((value >> addr_hi_shift) & addr_hi_mask);
-   417				} else {
-   418					status1 = mc_ch_readl(mc, channel, status1_reg);
-   419					addr = ((status1 >> addr_hi_shift) & addr_hi_mask);
-   420				}
-   421			}
-   422	
-   423			addr <<= 32;
-   424			addr_val = mc_ch_readl(mc, channel, addr_reg);
-   425			addr |= addr_val;
-   426	
-   427			if (value & mc_rw_bit)
-   428				direction = "write";
-   429			else
-   430				direction = "read";
-   431	
-   432			if (value & mc_sec_bit)
-   433				secure = "secure";
-   434			else
-   435				secure = "non-secure";
-   436	
-   437			client_id = value & mc->soc->client_id_mask;
-   438			for (i = 0; i < mc->soc->num_clients; i++) {
-   439				if (mc->soc->clients[i].id == client_id) {
-   440					client = mc->soc->clients[i].name;
-   441					break;
-   442				}
-   443			}
-   444	
-   445			if (err_type_valid) {
-   446				type = (value & mc->soc->mc_err_status_type_mask) >>
-   447						MC_ERR_STATUS_TYPE_SHIFT;
-   448				desc = tegra264_mc_error_names[type];
-   449			} else if (err_rt_type_valid) {
-   450				type = (value & MC_ERR_STATUS_RT_TYPE_MASK) >>
-   451					MC_ERR_STATUS_RT_TYPE_SHIFT;
-   452				desc = tegra_rt_error_names[type];
-   453			}
-   454	
-   455			dev_err_ratelimited(mc->dev, "%s: %s %s @%pa: %s (%s)\n",
-   456					    client, secure, direction, &addr, error, desc);
-   457			if (is_gsc) {
-   458				dev_err_ratelimited(mc->dev, "gsc_apr_id=%u gsc_co_apr_id=%u\n",
-   459						    ((status1 >> ERR_GENERALIZED_APERTURE_ID_SHIFT)
-   460						    & ERR_GENERALIZED_APERTURE_ID_MASK),
-   461						    ((status1 >> ERR_GENERALIZED_CARVEOUT_APERTURE_ID_SHIFT)
-   462						    & ERR_GENERALIZED_CARVEOUT_APERTURE_ID_MASK));
-   463			}
-   464		}
-   465	
-   466		/* clear interrupts */
-   467		mc_ch_writel(mc, channel, mcf_ch_intstatus, MCF_INTSTATUS_0);
-   468	}
-   469	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: memory-controller@1530000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bank-width', 'compatible', 'device-width', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: mdio-mux-emi1 (mdio-mux-mmioreg): compatible: ['mdio-mux-mmioreg'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/mdio-mux-mmioreg.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: mdio-mux-emi1 (mdio-mux-mmioreg): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/mdio-mux-mmioreg.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
+   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('bus-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
+>> arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: flash@0 (atmel,at45db021d): Unevaluated properties are not allowed ('spi-cpha', 'spi-cpol' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/atmel,dataflash.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
