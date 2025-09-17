@@ -1,108 +1,98 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE27C2FFF9E;
-	Wed, 17 Sep 2025 18:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C492B1B3935
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 19:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758133445; cv=none; b=t6mZ194CHvUTnrTx9nfjEbMneFL/OL93WK73wEFdSnHFDRFqyGg2Kq3s4EeDcy38lVDg/66nZQeImSAGGh5nAWHKG/f+JaCTjFYILTIW30aM5FPXgwiBgYsCJaaaDpupNuhGbevnr+6wORos+EwrXQAqTFQ0LUZWDjdl/MaaZJE=
+	t=1758138492; cv=none; b=uv0avhAmE+a96DtoRuQDQgaD75l76Czv4Riavhr2YHA8Kr9ZjZE2ohibXEYQKBg2YNuapHgv0y4JoYV0L+VcqxW4ugS6ZfmHj8bO1h8bhN9Yi0pL5GZXhOXbtyP7TnJFUoTYSN910+bPTCjopaShbtGGonpR9Wg+/bFSyGLPiPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758133445; c=relaxed/simple;
-	bh=KQBYLBTGVcI6B/UU8+PuP9ANhqubXd++Fn247awfx+M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=eC0r4D/TU7j7qTyzx7MMiVDHBqA4LEbTWw6WzWZ3jrnqWWkPBZs6SFS3vVGcw6wpLtJTYpvKcN6QvmwGBXrvTKbc/IAC11NN9Vw5tc61dfR84jzvuyf0bbCxcPKu5fXo9sKXOSUOUgRhaJTTrGCCd8eW99nd7WkvpPHoTzb1CHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=tZiROv/G; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1758138492; c=relaxed/simple;
+	bh=+agGcSVJ6gxVerRGtjsu12e+Ad0qjlyIBjyjjMKamJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C/1+5/D6PO92xTeRWsVW/eY+V+d+8W08I2hz4umnNozedfEb1AJwRmG+2UAKRL/qAFUTBjolJNFFctPBry1QGdVyqcSD/7HFjkL51UDhAAO09llhz9Kje/LVYtv1BKFLMGgDXhgK083QK6u8tnSx/LJfEbBjeCgHPpRszVGIiFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsaSRFci; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="tZiROv/G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsaSRFci"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1758133443; x=1789669443;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KQBYLBTGVcI6B/UU8+PuP9ANhqubXd++Fn247awfx+M=;
-  b=tZiROv/G5T5hSfAw8BT0EFgHSYRbJPD4f4En11zg/onExBVnL39fzSoR
-   c497FEYwN9E92pYEsdylqC/3GbX6tbWqrEYft3J3pJGrI1dpT1Cpp43nc
-   utUeFIEEANASZxghCsQDwIeREmWntR5IrZUx1VxlRp8UM9UiLhh2QDHQm
-   pyrCb8GZofVh2Md7KYx3q0n5r8x/tzp/nGISWudoWWIC2ShJJBTSbxCio
-   giVszUy8w8/dh5rYQIdsXJ704eRVFb4PcHhGK+rqLXdesPoobDfxDoh5y
-   +OwJshwWu2xMjlVY7GlC8nL6ExS80jk7SKgAnx0NeSDDbBT0bu4AcSWnf
-   Q==;
-X-CSE-ConnectionGUID: 5jJN7IFvSvKlx8qiM0vY4w==
-X-CSE-MsgGUID: RvhQqBJPShSHvESk7QwlQw==
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758138491; x=1789674491;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+agGcSVJ6gxVerRGtjsu12e+Ad0qjlyIBjyjjMKamJM=;
+  b=OsaSRFciE/LIIu+Wu7/XiKb3PiSMsSH6JmLJMxIntfH/ZZa8jTNraVZs
+   LycnGSUkZf0GtTUl1yh9SNfQsveYDa0aR1L88FlS1iMaejgsSzg7ZNnHH
+   dWj8AgqFh3Z/Ty1weoeHNKqkDbaJi/yhVAAr9oE8nWG/pkWPiQifrpRxk
+   sMI+wv0+AWHPiqLUBmkyv1UQjA9Z6U4FEqZukXCk1P9BtFGpCEzjMsxrf
+   hG5eAa/R9wAzAz/Dxj+k671ye2vzoJHHqKlXvKeW2WqnTGBl6d4a8JOJE
+   Ypx57HCDd6CQueuaaxGujgvQTHEk5M7ZoHipNpBzkTtuZmmCEoT+Yq7VH
+   g==;
+X-CSE-ConnectionGUID: /JO+9FKsTmqrf9SvALOYSQ==
+X-CSE-MsgGUID: 51r+EY8CQrSs6Cxe+Osveg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="71882073"
 X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="214017525"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Sep 2025 11:24:02 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 17 Sep 2025 11:23:40 -0700
-Received: from [10.12.48.170] (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 17 Sep 2025 11:23:36 -0700
-Message-ID: <1a740af5-78c9-421f-a58a-fd4a2066493a@microchip.com>
-Date: Wed, 17 Sep 2025 20:23:35 +0200
+   d="scan'208";a="71882073"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 12:48:11 -0700
+X-CSE-ConnectionGUID: VVnOWhmQSZGWnFdLmvESIA==
+X-CSE-MsgGUID: hLUhdfp/SUa+2Y9iqWvEog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
+   d="scan'208";a="180465649"
+Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 17 Sep 2025 12:48:10 -0700
+Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uyy8N-0002Op-0N;
+	Wed, 17 Sep 2025 19:48:07 +0000
+Date: Thu, 18 Sep 2025 03:47:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jinchao Wang <wangjinchao600@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH V1] watchdog: Add boot-time selection for hard lockup
+ detector
+Message-ID: <202509180209.zAS20Rk2-lkp@intel.com>
+References: <20250916145122.416128-1-wangjinchao600@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] ARM: microchip: clk for 6.18 #1
-To: Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>, SoC Team
-	<soc@kernel.org>, <linux-clk@vger.kernel.org>, <mturquette@baylibre.com>
-CC: Linux Kernel list <linux-kernel@vger.kernel.org>, linux-arm-kernel
-	<linux-arm-kernel@lists.infradead.org>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Conor Dooley <conor@kernel.org>, Claudiu
- Beznea <claudiu.beznea@tuxon.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<llvm@lists.linux.dev>, kbuild test robot <lkp@intel.com>
-References: <20250916080545.9310-1-nicolas.ferre@microchip.com>
- <0695ca65-536c-48d9-ad1b-49452e67a6f9@microchip.com>
- <175808457715.4354.11044142356915096975@lazor>
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Content-Language: en-US, fr
-Organization: microchip
-In-Reply-To: <175808457715.4354.11044142356915096975@lazor>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250916145122.416128-1-wangjinchao600@gmail.com>
 
-Stephen,
+Hi Jinchao,
 
-On 17/09/2025 at 06:49, Stephen Boyd wrote:
-> Quoting Nicolas Ferre (2025-09-16 06:19:11)
->> On 16/09/2025 at 10:05, nicolas.ferre@microchip.com wrote:
->>> From: Nicolas Ferre <nicolas.ferre@microchip.com>
->>>
->>> Dear clock maintainers,
->>>
->>> Here are the first clk changes for 6.18.
->>> I don't think they have conflict with changes for the deprecated round_rate()
->>> to determine_rate() topic.
->>> They are in linux-next for a couple of days.
->>
->> But... this series depends on this patch:
->> https://lore.kernel.org/r/20250827145427.46819-4-nicolas.ferre@microchip.com
->>
->> Which will be part of a pull-request to-be-sent soon to arm-soc (which
->> is part of linux-next, so the build error doesn't appear there).
->>
->> Once the pull-request is done, do you prefer that I do an immutable
->> branch between CLK and ARM, that I queue this at91 PM patch into the clk
->> pull-request or that everything goes through arm-soc?
-> 
-> Whatever is required to build the code should be included in the PR. If
-> the same commit goes into arm-soc tree that's OK, just make sure the
-> branches aren't broken if you checkout a commit anywhere along the
-> branch that is sent to clk or arm-soc trees. Broken includes
-> functionally broken.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-Thanks for your quick response Stephen. v2 of the pull-request has just 
-been sent.
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on akpm-mm/mm-everything linus/master v6.17-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Best regards,
-   Nicolas
+url:    https://github.com/intel-lab-lkp/linux/commits/Jinchao-Wang/watchdog-Add-boot-time-selection-for-hard-lockup-detector/20250916-225719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20250916145122.416128-1-wangjinchao600%40gmail.com
+patch subject: [RFC PATCH V1] watchdog: Add boot-time selection for hard lockup detector
+config: i386-buildonly-randconfig-005-20250917 (https://download.01.org/0day-ci/archive/20250918/202509180209.zAS20Rk2-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509180209.zAS20Rk2-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509180209.zAS20Rk2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux: section mismatch in reference: watchdog_hardlockup_probe_ptr+0x0 (section: .data) -> watchdog_perf_hardlockup_probe (section: .init.text)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
