@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC302F39D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 21:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995A82356A4;
+	Wed, 17 Sep 2025 21:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758144081; cv=none; b=HDttnbJVkGAXwKMF1w60hM6OkjRQewwF2mfh/DpERSTUCbLHlt8JmIu/rTASHMBn8iLCvW23tiR52D+l2lu4/eHDr7GMI8Tqv2UpJp9jHQE7tCXwMUre7xLyVo2efQhSeRaPLBe2qOrHY2gjd993s6Kn0IAPZDasfoBwaaJYf3I=
+	t=1758145286; cv=none; b=ucqgt3Con/TN2wH5aNYoELYazM7hn0yKAS0plPojXLEFO8R8X1U3/4Z2PKFLKQplIKDO4kCYOeu+WWNg7PXLubI1VxSC3YkMmkYBD9riSc1zx5T9g2bxcgPXSK3Zcbia4oZu3d/DA3fYBA/zYbdOycN36gi6OS7nTFYiKi5XhpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758144081; c=relaxed/simple;
-	bh=SqL+TVcLsLrDJjJl6yPSQ0tjObq5G1QCcYSkeF0VPkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NFK9nk4eA/bCIY1Q1vZ3ft6Ec4gY+v+aL2kJdt9c8nS5Gb+Z+vGEv3XoFLvdXN+145qCbDSxZeKVN6X+Gpj3Ri/O5rEKo8RAFVf6FU3ltkIVnbw+szsg93IRXEy2UtcOzzK6mt5js8uYkaGu947kM4fXcNtQb9tG8KC5ld2mUCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euZB4v3b; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1758145286; c=relaxed/simple;
+	bh=LFfVCJuauYXP84lOUN45XcIK3FpxUQkSFwCjspvozzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=elhQBRVriEifu+rvrwK2cQdUEDyILH+2fBYkbVR3cs8WT2J9df4BPIIXH5A8O5bW1d0jNdLF1E2EZT+UaPBtpPpogj2++KLznRQICrzBO7HgIMojlLK5nqVBTbrej+bqT8kqqrU7U2QMsXX/g8D7bk0DWqzv4RGUh13QZA1BJ+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3EM8y5L; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euZB4v3b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3EM8y5L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758144080; x=1789680080;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SqL+TVcLsLrDJjJl6yPSQ0tjObq5G1QCcYSkeF0VPkA=;
-  b=euZB4v3bzHdERnr0Jgv0xXYUb7eOcQzvfo8aVjeXVMSm5i5jU+Jgws7q
-   dGMtfzq7S+cXdwik7QP/pGINKkW4dztzma6SGHb4JAwCjf/kaHtMyUK8P
-   TyRE0sMNDp+AdAVUJB7MrRRz+QOsPH0wbsKO3lkzoZ7BYqNVzEZ/FbeyD
-   FDe6oQu8CXCj7c32Sgj9846l/068FoBthEm0p7mbesrlhIrbXkyjo8WBi
-   CFgd8k6TLCPcdXl1PBSW6yy7Q67KepgD5pLisM2q8qTNm2CDuL8OPI5A1
-   ZCHZLqxw8VMqXl/+78/Zv/ZA455mebr1fHZUmNLC1q/chtNFKWZPn3S7L
-   w==;
-X-CSE-ConnectionGUID: NnxgsEL5TqCitMDTtlfB2w==
-X-CSE-MsgGUID: eyIPthlxQmm3K5cD8iD1sQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="71888944"
-X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="71888944"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 14:21:19 -0700
-X-CSE-ConnectionGUID: 4nAJlAu8SX6JAL3CAZb+iA==
-X-CSE-MsgGUID: sGqJT+KdQRmqStCq18TVTQ==
+  t=1758145285; x=1789681285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LFfVCJuauYXP84lOUN45XcIK3FpxUQkSFwCjspvozzM=;
+  b=M3EM8y5LwuXMrJhJcPmVb4pNwZtzgXCf6FimY554COa85vYcl+qsfRtE
+   BhHrbzJkbVF4/erBfNhGUUczecVn3eXLGiL9fTOZN/VQT5+0Sxn2Ymgnn
+   lQJ/OUew8m8KxT0t0ZRxm/MO67zBnU7Ffo24hMCfk6vbzyjzFGuTg8J3o
+   eZYpwukWq4OXR7Y/NZ1nAyo1kL/jQEh1kPvicqWp9q7f6wH20D3QCSP8C
+   mv0Vk5HowRX+AI5vKLpn5JR1RHew27uMudkXG17KVoobrsoV+yjToY1FU
+   kHOx3qO/VYcQOkneXbhekR693jsALLlPzuPmFzzv7pceRGzYhq+DEgpAh
+   A==;
+X-CSE-ConnectionGUID: +UWyNCoqSUabi0pm2qMuFQ==
+X-CSE-MsgGUID: 8Psidw0zRyKw0o8Ly21k6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64268262"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64268262"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 14:41:25 -0700
+X-CSE-ConnectionGUID: lSanHIgkQaaxnWD72A5IPg==
+X-CSE-MsgGUID: 2DE8UQ91TFq3DAlmDMeSVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="174919107"
+   d="scan'208";a="206146643"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Sep 2025 14:21:18 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Sep 2025 14:41:20 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyzaW-0002Rj-0W;
-	Wed, 17 Sep 2025 21:21:16 +0000
-Date: Thu, 18 Sep 2025 05:20:18 +0800
+	id 1uyztu-0002Tf-2Z;
+	Wed, 17 Sep 2025 21:41:18 +0000
+Date: Thu, 18 Sep 2025 05:40:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
-Subject: [linux-next:master 1122/10189] ld:
- drivers/net/ethernet/stmicro/stmmac/stmmac_pci.o:undefined reference to
- `stmmac_simple_pm_ops'
-Message-ID: <202509180514.cgiLM6Pg-lkp@intel.com>
+To: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
+	miklos@szeredi.hu
+Cc: oe-kbuild-all@lists.linux.dev, hch@infradead.org, djwong@kernel.org,
+	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	kernel-team@meta.com, linux-xfs@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 11/15] iomap: move buffered io bio logic into new file
+Message-ID: <202509180515.Cc8A1Wu9-lkp@intel.com>
+References: <20250916234425.1274735-12-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +67,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250916234425.1274735-12-joannelkoong@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
-commit: c91918a1e9767fc40488f69436f61af90221615b [1122/10189] net: stmmac: pci: convert to suspend()/resume() methods
-config: x86_64-randconfig-075-20250917 (https://download.01.org/0day-ci/archive/20250918/202509180514.cgiLM6Pg-lkp@intel.com/config)
+Hi Joanne,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on mszeredi-fuse/for-next axboe-block/for-next xiang-erofs/dev-test xiang-erofs/dev xiang-erofs/fixes gfs2/for-next xfs-linux/for-next linus/master v6.17-rc6 next-20250917]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-move-bio-read-logic-into-helper-function/20250917-075255
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250916234425.1274735-12-joannelkoong%40gmail.com
+patch subject: [PATCH v3 11/15] iomap: move buffered io bio logic into new file
+config: x86_64-randconfig-071-20250918 (https://download.01.org/0day-ci/archive/20250918/202509180515.Cc8A1Wu9-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509180514.cgiLM6Pg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509180515.Cc8A1Wu9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509180514.cgiLM6Pg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509180515.Cc8A1Wu9-lkp@intel.com/
 
-Note: the linux-next/master HEAD ae2d20002576d2893ecaff25db3d7ef9190ac0b6 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from fs/iomap/buffered-io.c:11:
+>> fs/iomap/internal.h:13:5: warning: no previous prototype for 'iomap_bio_read_folio_range_sync' [-Wmissing-prototypes]
+      13 | int iomap_bio_read_folio_range_sync(const struct iomap_iter *iter,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->> ld: drivers/net/ethernet/stmicro/stmmac/stmmac_pci.o:(.data+0x320): undefined reference to `stmmac_simple_pm_ops'
-   ld: drivers/net/ethernet/stmicro/stmmac/dwmac-intel.o:(.data+0x3e0): undefined reference to `stmmac_simple_pm_ops'
+
+vim +/iomap_bio_read_folio_range_sync +13 fs/iomap/internal.h
+
+     8	
+     9	#ifdef CONFIG_BLOCK
+    10	int iomap_bio_read_folio_range_sync(const struct iomap_iter *iter,
+    11			struct folio *folio, loff_t pos, size_t len);
+    12	#else
+  > 13	int iomap_bio_read_folio_range_sync(const struct iomap_iter *iter,
+    14			struct folio *folio, loff_t pos, size_t len)
+    15	{
+    16		WARN_ON_ONCE(1);
+    17		return -EIO;
+    18	}
+    19	#endif /* CONFIG_BLOCK */
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
