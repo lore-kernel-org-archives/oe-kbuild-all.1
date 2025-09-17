@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8645421C9FD;
-	Wed, 17 Sep 2025 09:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042DF7464;
+	Wed, 17 Sep 2025 10:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758102767; cv=none; b=a6dZa0AOumfrwabeTbl1dIvcN6wuuc9/5Kk9Q5NKAa4p9hgurYAP1ozmd96ksD+4158g1KjNJI+wuLOvF4rurrwzzWAedBW/Y9yifIGWfowyOvKKoP0Rn8057S7C00hE/gHcI0UCoWeVT3xrtAnU70WwNMulVBUcJm4WwrtKZz0=
+	t=1758105932; cv=none; b=QWaOAxJ3PzVs2RAJEXoT/LbZseIoqwFuSIvXueiyAQReFtLXhAmRSyfJWYKvkdbrQar0korAayET/L6Gzeh7P7H9LL2HBJp0/KeNfO5ll+VIFsDzjuNVKh0AZP3m8gHyoBP3w2Lcf7/acvuO9dP9TjJBFAPHJ9npP/0i4yddV9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758102767; c=relaxed/simple;
-	bh=BFX6ownYzY7fkpQNkKIV0Q6ij+7Fw1P1XuX9Ln822Ro=;
+	s=arc-20240116; t=1758105932; c=relaxed/simple;
+	bh=lALeFnr032icB/R5hjDAWNydbiTVK4KtWslLrAqdJQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e6fIVcnWC1VPQgXE0k9JmBTprvGpOzD3Asn20n1Kp4j+B7QniXyaM/Xd2qiigHHwfQD8hyPsKATOkmt5uGBGnqsSRjhSHyJGO5AoU8Fkoba63o1YDPydGCHExlV/K8dzvbe953zHGYqT8i65jHqucwn8U7myt7MExsfQHp9nf6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q06knU5r; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=WtgxUA6TX4LOUh26goujgWVcLrZiAlLmDnN/64e7cITwYE63vxOUoOU1eq0XamFlPv0mKHenutey6SXlwveEWh0iGtLoHj6mQ2/Bq2Jwb7cSKhX4cSmHtBsI8ooZYbnk1ex8z8giDK/UsgdgHK6oeXxcdNB4p/OT8TnErUpRanI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LO5rWFsR; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q06knU5r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LO5rWFsR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758102765; x=1789638765;
+  t=1758105930; x=1789641930;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BFX6ownYzY7fkpQNkKIV0Q6ij+7Fw1P1XuX9Ln822Ro=;
-  b=Q06knU5rSrCvQYaJICqz5W+ydSQtQAHdsoAKXKJD2tWL0GBHJlAFUJ3G
-   xl5P98fJhtalA6Q87Wv2TB18v7DCMpkgZqa2TJJk1v6k7X22QmSXWnfco
-   hXXaDtxqdnhl95iplWDmA8vv1NTmddbL4468n3sP+cRsdyvEV7wne7jG7
-   y7RrKla2gHM4QhwlnT/ZZt6NjEiBlHEAlsbA+JL84CiK6GcrdgKOlKJb0
-   CFm63UnYm4hcNs8hvzo8JJt5j8ak16fbVxxczw3MHD5dgaZXKIr7CyHqT
-   zNRNgcUZMSGPpoqa46bhBq0bRLtS08yJPFtxLuCS4HW+oMQ+/5iPhJeRY
+  bh=lALeFnr032icB/R5hjDAWNydbiTVK4KtWslLrAqdJQw=;
+  b=LO5rWFsR1s14p7AXhk1eeMW7/bEl/NvQQPe7ikQ2N7r1YlRW1fsAyz0q
+   MUH4bl2LsFVYxvEhU149Bvmbda7IIKF7/SLe9ZN/NDPNAlygPcl6VUzUy
+   qlS5v4Yb3KXhr0rl4hV4mY0prwUoweQB/8xK/Edya+sXQ8YpKSVJuc7Ul
+   q2cgZ0Pu7rfrGd4IMJLv/XK64LXoIJ7IyyagASNcgMTBEmkGxXJxMu2sq
+   d/B8VtQANSvbXoBZwc4ikRpUm709RRf5cc46+1CFPBeLhGsKlkHZKvpz7
+   h/l0QxbXHoJZd9v58Je72IGiQ/ODNsQ0fs44ewW9J2PphUUoX/AqoMtJt
    A==;
-X-CSE-ConnectionGUID: qf2cwMORTzyvDsTWBcEqNQ==
-X-CSE-MsgGUID: alc5SBKIS0SVwyBGmetkfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71507483"
+X-CSE-ConnectionGUID: YXnRfZmOQEmsEFUMKYHjmw==
+X-CSE-MsgGUID: tnqblaqpQvyOeEKT1c7EKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="85847509"
 X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="71507483"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 02:52:26 -0700
-X-CSE-ConnectionGUID: fXDEHERxTC+QoYiDPK7aNg==
-X-CSE-MsgGUID: rnd60lEbSgK/07jnyeF1WQ==
+   d="scan'208";a="85847509"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 03:45:29 -0700
+X-CSE-ConnectionGUID: lY47/jHkRl2pH9M1BbFwkg==
+X-CSE-MsgGUID: kavOjdEJSQOu35mwtXi7ew==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
+   d="scan'208";a="174500270"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Sep 2025 02:52:21 -0700
+  by orviesa010.jf.intel.com with ESMTP; 17 Sep 2025 03:45:28 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyopm-0001LH-3A;
-	Wed, 17 Sep 2025 09:52:18 +0000
-Date: Wed, 17 Sep 2025 17:52:16 +0800
+	id 1uypfB-0001OJ-1i;
+	Wed, 17 Sep 2025 10:45:25 +0000
+Date: Wed, 17 Sep 2025 18:44:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randolph Lin <randolph@andestech.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, jingoohan1@gmail.com, mani@kernel.org,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
-	bhelgaas@google.com, krzk+dt@kernel.org, conor+dt@kernel.org,
-	alex@ghiti.fr, aou@eecs.berkeley.edu, palmer@dabbelt.com,
-	paul.walmsley@sifive.com, ben717@andestech.com, inochiama@gmail.com,
-	thippeswamy.havalige@amd.com, namcao@linutronix.de,
-	shradha.t@samsung.com, randolph.sklin@gmail.com,
-	tim609@andestech.com, Randolph Lin <randolph@andestech.com>
-Subject: Re: [PATCH v2 4/5] PCI: andes: Add Andes QiLai SoC PCIe host driver
- support
-Message-ID: <202509171747.yJ9wsIkH-lkp@intel.com>
-References: <20250916100417.3036847-5-randolph@andestech.com>
+To: Paolo Abeni <pabeni@redhat.com>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [MPTCP next 03/12] mptcp: rcvbuf auto-tuning improvement
+Message-ID: <202509171856.1KhVdgmP-lkp@intel.com>
+References: <d3f96328a76e6fffcb871e8542c526ea99135ea5.1758039775.git.pabeni@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,94 +62,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916100417.3036847-5-randolph@andestech.com>
+In-Reply-To: <d3f96328a76e6fffcb871e8542c526ea99135ea5.1758039775.git.pabeni@redhat.com>
 
-Hi Randolph,
+Hi Paolo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus robh/for-next linus/master v6.17-rc6 next-20250916]
+[auto build test WARNING on mptcp/export-net]
+[also build test WARNING on linus/master v6.17-rc6 next-20250916]
+[cannot apply to next-20250916 mptcp/export]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Randolph-Lin/PCI-dwc-Add-outbound-ATU-address-range-validation-callback/20250916-180841
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250916100417.3036847-5-randolph%40andestech.com
-patch subject: [PATCH v2 4/5] PCI: andes: Add Andes QiLai SoC PCIe host driver support
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20250917/202509171747.yJ9wsIkH-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171747.yJ9wsIkH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/mptcp-leverage-skb-deferral-free/20250917-003012
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
+patch link:    https://lore.kernel.org/r/d3f96328a76e6fffcb871e8542c526ea99135ea5.1758039775.git.pabeni%40redhat.com
+patch subject: [MPTCP next 03/12] mptcp: rcvbuf auto-tuning improvement
+config: arc-nsimosci_hs_smp_defconfig (https://download.01.org/0day-ci/archive/20250917/202509171856.1KhVdgmP-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171856.1KhVdgmP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509171747.yJ9wsIkH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509171856.1KhVdgmP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:371:9: note: previous definition is here
-     371 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> drivers/pci/controller/dwc/pcie-andes-qilai.c:179:22: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     179 |                 dev_err_probe(dev, ret, "Failed to Get APB registers.\n");
-         |                                    ^~~
-   drivers/pci/controller/dwc/pcie-andes-qilai.c:159:9: note: initialize the variable 'ret' to silence this warning
-     159 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+   net/mptcp/protocol.c: In function 'mptcp_rcvbuf_grow':
+>> net/mptcp/protocol.c:199:21: warning: variable 'window_clamp' set but not used [-Wunused-but-set-variable]
+     199 |                 u32 window_clamp;
+         |                     ^~~~~~~~~~~~
 
 
-vim +/ret +179 drivers/pci/controller/dwc/pcie-andes-qilai.c
+vim +/window_clamp +199 net/mptcp/protocol.c
 
-   153	
-   154	static int qilai_pcie_probe(struct platform_device *pdev)
-   155	{
-   156		struct qilai_pcie *pcie;
-   157		struct dw_pcie *pci;
-   158		struct device *dev;
-   159		int ret;
-   160	
-   161		pcie = devm_kzalloc(&pdev->dev, sizeof(*pcie), GFP_KERNEL);
-   162		if (!pcie)
-   163			return -ENOMEM;
-   164	
-   165		pcie->pdev = pdev;
-   166		platform_set_drvdata(pdev, pcie);
-   167	
-   168		pci = &pcie->pci;
-   169		dev = &pcie->pdev->dev;
-   170		pcie->pci.dev = dev;
-   171		pcie->pci.ops = &qilai_pcie_ops;
-   172		pcie->pci.pp.ops = &qilai_pcie_host_ops;
-   173		pci->use_parent_dt_ranges = true;
-   174	
-   175		dw_pcie_cap_set(&pcie->pci, REQ_RES);
-   176	
-   177		pcie->apb_base = devm_platform_ioremap_resource_byname(pdev, "apb");
-   178		if (IS_ERR(pcie->apb_base)) {
- > 179			dev_err_probe(dev, ret, "Failed to Get APB registers.\n");
-   180			return PTR_ERR(pcie->apb_base);
-   181		}
-   182	
-   183		ret = dw_pcie_host_init(&pcie->pci.pp);
-   184		if (ret) {
-   185			dev_err_probe(dev, ret, "Failed to initialize PCIe host\n");
-   186			return ret;
-   187		}
-   188	
-   189		qilai_pcie_iocp_cache_setup(&pcie->pci.pp);
-   190	
-   191		return 0;
-   192	}
-   193	
+   180	
+   181	static bool mptcp_rcvbuf_grow(struct sock *sk)
+   182	{
+   183		struct mptcp_sock *msk = mptcp_sk(sk);
+   184		int rcvwin, rcvbuf;
+   185	
+   186		if (!READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_moderate_rcvbuf) ||
+   187		    (sk->sk_userlocks & SOCK_RCVBUF_LOCK))
+   188			return false;
+   189	
+   190		rcvwin = ((u64)msk->rcvq_space.space << 1);
+   191	
+   192		if (!RB_EMPTY_ROOT(&msk->out_of_order_queue))
+   193			rcvwin += MPTCP_SKB_CB(msk->ooo_last_skb)->end_seq - msk->ack_seq;
+   194	
+   195		rcvbuf = min_t(u64, mptcp_space_from_win(sk, rcvwin),
+   196			       READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_rmem[2]));
+   197	
+   198		if (rcvbuf > sk->sk_rcvbuf) {
+ > 199			u32 window_clamp;
+   200	
+   201			window_clamp = mptcp_win_from_space(sk, rcvbuf);
+   202			WRITE_ONCE(sk->sk_rcvbuf, rcvbuf);
+   203			return true;
+   204		}
+   205		return false;
+   206	}
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
