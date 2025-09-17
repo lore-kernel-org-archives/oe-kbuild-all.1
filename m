@@ -1,65 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46581C07C3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 08:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C222F746C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 08:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758097695; cv=none; b=I4yp8kvDLI7072CB9XdGA90s+CUG9QxIqySr+B0t0p4AHHMf7DcBe46JR6DL6Gcb3zz8CdLAHOqEnFo03WUulrGHzrupywsgUEDn5HPMle+O3OMTGjLyvYAH4hTo7sgA3SBP72tBTmx+v3yC6+jmXCAA0fRDmx5rh+WE641tANI=
+	t=1758099339; cv=none; b=s8ng1Sz4xvTLJQOeH0VH4BkmrN7rLdcaBsDYMF10/F7QZCef5tJ7Nemipew2DeZPTBouch5eWRt+XQesh/Qoe6+5aD+CBloh7vWulQWnFoPzmiX3BJxBD38wtpFxv7X6DzIeR9185J1nw4Al3Ey7S1XcPeWTkKZ6t617yRuIbAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758097695; c=relaxed/simple;
-	bh=MGVrxB/ZF16ux1N/bdvGH9wocGEyHCPQesgRGMarVsE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p6Dc7HZKtTDkGhR6t8G3gS0NB+89irFp/gHtMyjneFCAznYKKAzDsAFjtIJzlU6PyESr6pJQLB+JHeQuCgSizuTDJQaLurt6n0repWZv6uXwuhbR3+5E5OEQAQn1bZFjgBwlOxTGUXbBYpnLBEXrY2XDZeFa1UVHaN3gFkW8qhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOHyVUij; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758099339; c=relaxed/simple;
+	bh=xwSHI/o4u50J881ftyToVBoYLg17be76U5g7Vcy0mz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tI/9TTYPmNZVqnAVJYuzf5IX03ktjim1YAVJkP9+rCZTqgivEofQC3wTHCYLOb5+MQxmUVJEeU8j9sqIy9Ho6OYJM4TdUJKd/i2dJXpcfk4bmtkWSMZyS9b5Fz/EEzs82VEyIgclZKwfu+4LIFtzgwYlXpuQmsVwYtC41Kqm3TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sid7IH8N; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOHyVUij"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758097694; x=1789633694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MGVrxB/ZF16ux1N/bdvGH9wocGEyHCPQesgRGMarVsE=;
-  b=iOHyVUijTXnZn1yN7kP4xjl4JF6CauRgZqhnf/5g6GwYdi5LjSo+asyH
-   yUXEVIClhU3U2sNxDK78YXeK/lSCPL4doPfk9t2tCjLR0FYGeCuoK/FAe
-   fcOkvbvQzF4CfuLN4jdD/prHnOsmMdWgTyDmtHwWd/wgBc1QfYZ+XH5kc
-   y+8XTHmo2upiNmURO8e0jmjCb4Y21a2eVIyQcpqHIUwpfnUT13kfWidg5
-   7U3mkdDQrfyczBq7aA4m62qq2FyRH0et65HwW9cadaEa1QmUbPps4MZfN
-   5hsLutLua7gaqX2S687qp/aOkjaGLOLqv+6gHRRkd7XEobJ6GIB9gnUtA
-   A==;
-X-CSE-ConnectionGUID: Bxbk7KCrSxKu8NBftR6yjQ==
-X-CSE-MsgGUID: 3IK5rQd7TS+3RU/wko5m6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="59440030"
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="59440030"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 01:28:13 -0700
-X-CSE-ConnectionGUID: CHw4gGA6QPKatRWEth28wg==
-X-CSE-MsgGUID: ahFwTMAYQ5aJ04VbMOIVBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="175957976"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Sep 2025 01:28:09 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uynWJ-0001GF-1J;
-	Wed, 17 Sep 2025 08:28:07 +0000
-Date: Wed, 17 Sep 2025 16:27:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, catalin.marinas@arm.com,
-	will@kernel.org, oleg@redhat.com, tglx@linutronix.de,
-	peterz@infradead.org, luto@kernel.org, kees@kernel.org,
-	wad@chromium.org, charlie@rivosinc.com, macro@orcam.me.uk,
-	deller@gmx.de, akpm@linux-foundation.org, ldv@strace.io,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ruanjinjie@huawei.com
-Subject: Re: [PATCH -next v6 08/10] entry: Add
- arch_ptrace_report_syscall_entry/exit()
-Message-ID: <202509171609.V2opqAfm-lkp@intel.com>
-References: <20250916082611.2972008-9-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sid7IH8N"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45dd5e24d16so60500145e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 01:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758099336; x=1758704136; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nmgRAXzW/9f+OKShqpEsleaouz9wwraYra0XYWrZBHg=;
+        b=sid7IH8NhCGK1Kn1iSHduXx7TvtrtZQzFFlib0k6mkEgZnM2DQSDF1Bf3nqBdTPFCC
+         ZdVWCCGVQq+OLYXykiltKyR9hRMiskURadc+0vY0ZC8S3b2QIx5XH6hLav45IN+jbATe
+         eAXOjdfhf6nv4/77GYKRyDrlrCu0lta7M+3NMystVhA9fxMEYUx+QDD0W7yEGPwvLmzP
+         feFj36f2orQaGn2r74+BAga5POTYkYO/Sk/5cjVlgt4LLmT65aZtcSbFBmq2dp60n+tc
+         AcgtD9Jk4rXybV7swcf8GAaHzQmAW1LEySUO7u9nV4xdBR3Tw5q6h/J/XUyAtzepIsYd
+         ZsHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758099336; x=1758704136;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nmgRAXzW/9f+OKShqpEsleaouz9wwraYra0XYWrZBHg=;
+        b=kLpHYh6UNmc74aj+uKGNcN+x+gwwzu6+x0KOZkBLyiRlAWww7wftTdSeeWQZFeKlq6
+         hLF9Pa39JN36in+Tr1OXZ9nulIHt5DAO5pmiL07qIuOX6mUHB7m3Nygt/fMgBXgqP7vU
+         pmPBOanFFtgyEGUuWK+22O65sgYlHthZU2QuQQR78uCpGnA+GzxKRtrXpMXQ5EU842ha
+         H70QDDSLeNTfi/D8gWGHuhN0hew3+hUV/JVvKfE3EYC6Cg2aQL30s3KInDgteugtGX4O
+         JKVsIZilVWboTlUaS8zcFWT2bit8W/jMO2IqpnfDqniNE8oP5Ku9dfFIMAnLNxPHPbES
+         8V9w==
+X-Forwarded-Encrypted: i=1; AJvYcCU1J5pTo344HvG5uK5ZlPzGQQEx/qFcnpujlHZfbhHrUADKSkc4QFtO1ETZcM8AmhZBo0orZeMNHhQXZjB7@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLwFGJVzJgmkBySk1Nlly5+D+PB0+ibeldGksOLTg9fpWUhDDA
+	AKmr6XCPsi2whnLV6Td8atyYApjr+GvrFEIfasJuqGRB/QTIHgQU8ITMNy8sOrdYX4DHg9HdZAm
+	5BTcW
+X-Gm-Gg: ASbGnctPNEm2y1WeAN1JkDAGR/BEVy0wKHeM95PgfNByoz4eYfzY40fvhpv5iIcASDH
+	b/ZgRKCYwyojDVi1jCMXYpDdm9cI6ab+RDaBfbBwbGr94SRisXSzrmeXhvdfK7XjLvP5eTWQmiZ
+	voKljCDjFk7JSS9pbo3hP8SR2lhUClySAEEg2I/yXt1C7YkwMkHFBjVFnGzrp5rHBU1WLOoyGbs
+	xOsJBBE6S/RhiLtWhFn21iJU02gHMGWca31mdAvVKt7WslziR5jgewklX7UP8cGe+AtmXgRE8Ao
+	4pFuth4vOHWLnyuW7azBZUchBuiqxZQVDEBLTTk2D7Hv/3LHEq5FyXQrC51m7qKJyTlQfho2Fc+
+	Jqw/aq/Q2XqnTQtDsKfjlJqN5jUk=
+X-Google-Smtp-Source: AGHT+IFYI0PazZAgMJFCipmPOvaL5sk1f7U5vKwzqJ04uAmIB5mQ9nuzk6RIaVB5K5niW1pz+S0T3g==
+X-Received: by 2002:a05:600c:3b20:b0:458:bc3f:6a77 with SMTP id 5b1f17b1804b1-46202174e7bmr11202475e9.2.1758099335678;
+        Wed, 17 Sep 2025 01:55:35 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-461371847d0sm28606095e9.2.2025.09.17.01.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Sep 2025 01:55:35 -0700 (PDT)
+Date: Wed, 17 Sep 2025 11:55:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-lts 1/1] fs/smb/client/smb2inode.c:520
+ smb2_compound_op() error: uninitialized symbol 'rsp_iov'.
+Message-ID: <202509171639.2AtRG7fT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,33 +72,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916082611.2972008-9-ruanjinjie@huawei.com>
 
-Hi Jinjie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20250915]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/arm64-ptrace-Split-report_syscall-into-report_syscall_enter-exit/20250916-163202
-base:   next-20250915
-patch link:    https://lore.kernel.org/r/20250916082611.2972008-9-ruanjinjie%40huawei.com
-patch subject: [PATCH -next v6 08/10] entry: Add arch_ptrace_report_syscall_entry/exit()
-config: i386-buildonly-randconfig-001-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171609.V2opqAfm-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-lts
+head:   8c8937bc84545d6e04812fafa04bcf969f3a5cab
+commit: 3fc11ff13fbc2749871d6ac2141685cf54699997 [1/1] fs/smb: Fix inconsistent refcnt update
+config: i386-randconfig-141-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171639.2AtRG7fT-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171609.V2opqAfm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509171609.V2opqAfm-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202509171639.2AtRG7fT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/smb/client/smb2inode.c:520 smb2_compound_op() error: uninitialized symbol 'rsp_iov'.
 
->> Warning: kernel/entry/syscall-common.c:29 function parameter 'regs' not described in 'arch_ptrace_report_syscall_entry'
->> Warning: kernel/entry/syscall-common.c:115 function parameter 'regs' not described in 'arch_ptrace_report_syscall_exit'
->> Warning: kernel/entry/syscall-common.c:115 function parameter 'step' not described in 'arch_ptrace_report_syscall_exit'
+vim +/rsp_iov +520 fs/smb/client/smb2inode.c
+
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   58  static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   59  			    struct cifs_sb_info *cifs_sb, const char *full_path,
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   60  			    __u32 desired_access, __u32 create_disposition, __u32 create_options,
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   61  			    umode_t mode, void *ptr, int command, struct cifsFileInfo *cfile,
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   62  			    struct kvec *err_iov, int *err_buftype)
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   63  {
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   64  	struct cop_vars *vars = NULL;
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   65  	struct kvec *rsp_iov;
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   66  	struct smb_rqst *rqst;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   67  	int rc;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   68  	__le16 *utf16_path = NULL;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   69  	__u8 oplock = SMB2_OPLOCK_LEVEL_NONE;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   70  	struct cifs_fid fid;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   71  	struct cifs_ses *ses = tcon->ses;
+352d96f3acc6e02 fs/cifs/smb2inode.c       Aurelien Aptel  2020-05-31   72  	struct TCP_Server_Info *server;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   73  	int num_rqst = 0;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   74  	int resp_buftype[3];
+c2e0fe3f5aae1f7 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   75  	struct smb2_query_info_rsp *qi_rsp = NULL;
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   76  	struct cifs_open_info_data *idata;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   77  	int flags = 0;
+c2e0fe3f5aae1f7 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   78  	__u8 delete_pending[8] = {1, 0, 0, 0, 0, 0, 0, 0};
+bb435512cec806a fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   79  	unsigned int size[2];
+bb435512cec806a fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   80  	void *data[2];
+bb435512cec806a fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   81  	int len;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   82  
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   83  	vars = kzalloc(sizeof(*vars), GFP_ATOMIC);
+3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   84  	if (vars == NULL) {
+3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   85  		rc = -ENOMEM;
+3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   86  		goto out;
+
+rsp_iov is uninitialized.
+
+3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   87  	}
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   88  	rqst = &vars->rqst[0];
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   89  	rsp_iov = &vars->rsp_iov[0];
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   90  
+352d96f3acc6e02 fs/cifs/smb2inode.c       Aurelien Aptel  2020-05-31   91  	server = cifs_pick_channel(ses);
+
+[ snip ]
+
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  513  	}
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  514  
+3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28  515  out:
+4fe07d55a5461e6 fs/smb/client/smb2inode.c Shyam Prasad N  2023-06-22  516  	if (cfile)
+4fe07d55a5461e6 fs/smb/client/smb2inode.c Shyam Prasad N  2023-06-22  517  		cifsFileInfo_put(cfile);
+4fe07d55a5461e6 fs/smb/client/smb2inode.c Shyam Prasad N  2023-06-22  518  
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  519  	if (rc && err_iov && err_buftype) {
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03 @520  		memcpy(err_iov, rsp_iov, 3 * sizeof(*err_iov));
+
+Uninitialized
+
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  521  		memcpy(err_buftype, resp_buftype, 3 * sizeof(*err_buftype));
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  522  	} else {
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  523  		free_rsp_buf(resp_buftype[0], rsp_iov[0].iov_base);
+
+Here too.
+
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  524  		free_rsp_buf(resp_buftype[1], rsp_iov[1].iov_base);
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  525  		free_rsp_buf(resp_buftype[2], rsp_iov[2].iov_base);
+76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  526  	}
+a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20  527  	kfree(vars);
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  528  	return rc;
+c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  529  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
