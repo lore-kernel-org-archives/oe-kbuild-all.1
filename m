@@ -1,66 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE84B67A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 03:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385B22AD16;
+	Wed, 17 Sep 2025 03:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758080262; cv=none; b=rlNJkfZpvgVb8/8SWISw9XQx/p8lz0Gd2WMFNOVES1hSb09OOT+iW8Gte5WGaqFosQ1cyQx7A2up603ROzqt4G9ujXssD2kT+Sxx/UHb8xYBfDVGWbOJA6SSsG7b5yp35Kr3YPnZZpAQ36E7G53Do8OBS0MHMMs2Le0uBUOpdZ8=
+	t=1758081588; cv=none; b=NVnvGE9OONpa4C1qWA5Yd+N810LQms5SfJecxcdBlH6vXuYznuNj6WWZEWxsYcrFbGRCf80zqcfplw26Qtgo7ceC8tQhLF+e7wVA3g7fykXQj6ydsyoUI4bq2xldklVYv2/747ftJVkez4jqV0AAbouKqz3n21TLE1WJwyzXnnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758080262; c=relaxed/simple;
-	bh=QpIzzmoiyjFzmUV5nFkRfpf05E6kPAgObYxnWHjp9K8=;
+	s=arc-20240116; t=1758081588; c=relaxed/simple;
+	bh=H9thyNiLTdBDPl30sbess+15GJm36k6HegAlHIfWnHU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mqse+mcYUXuMs0KMWoDNkqLOqgv8u6PtmdHRGVIBCTR+qlhfSbNCLiVSlv31ha9K+u4QZGqjxDmZECDAgjTk1OraJRndreyAVnSnUtJHS4PbpnSu3PA/xcTb4z6jElrpflFealqklWGKCwKtrPSjlBCvI2UY9vDDfrMpbvy/4pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DiFT5vEg; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIs0OyA9/25OtBDVe/hhTPl1UWXp3oT40n+zC1y+HjEICWd+IpTHvgGnjUtbSazqnwF1aAv/MeGkvsEycfJmNIG4AZLjAcHT/4JajV2Rr5W05bs+nsXUzYhO6nFB6bPSr8+vcRcnPsCam/HawD8hHILzqCY8yTYf+879ItuWWR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBelvs2+; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DiFT5vEg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBelvs2+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758080260; x=1789616260;
+  t=1758081586; x=1789617586;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QpIzzmoiyjFzmUV5nFkRfpf05E6kPAgObYxnWHjp9K8=;
-  b=DiFT5vEgApYtQFX0fEn7rMX7q84S1GdMb+RNiPkhPwj2To1ja1SAf4FK
-   9Nn8G+nqus5g1+ag1KX0FPjnR9RWcfBLJRMhsjkgmkmv/24h//H/NMFal
-   kywUh63gaPL8WBNDZ0Fm9SA068+0Ns6XR52AwzoxF7FO5jT9ih12UuBif
-   nLxTHUQVUmOce4LxTsFmIK0SFneZFGt7n73prsMVW9rneXTTn4cgU6qDd
-   5Odjj2E7VcjaTNMkpNcgScy6fimNXJ7+KL7n+WIEFRK0FCC1nBZgPhxYF
-   sKRpSPNg4sl+x84FbCu4zkChyZaqIFSHhUUkHr/7VNm7ZQ4riszGWt/mW
-   A==;
-X-CSE-ConnectionGUID: Vt6LR5ZQQxG8C6QH3IwIBg==
-X-CSE-MsgGUID: +/gti2e0RKi3QWKZdZ0spA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71741190"
-X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; 
-   d="scan'208";a="71741190"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 20:37:39 -0700
-X-CSE-ConnectionGUID: ut4duC27SRigilgrF4A0MQ==
-X-CSE-MsgGUID: BIvNzQaMR3i/HH9X1fbcUg==
+  bh=H9thyNiLTdBDPl30sbess+15GJm36k6HegAlHIfWnHU=;
+  b=DBelvs2+fS+ZAGbH8kAqbpxPFhJGtjk71UoA28vZSiSbP7IwWWMgNIFI
+   huYn7ORuvDpUP64HZ3IeveXv44fizWvx5W2T5Np2/qny/s0ITxI+3tjo6
+   qbCbITWXOY4pwEFhFZ8E4BzBxTH2GWFRNpQ3e4JCseIyz+p8YOl9n0/M7
+   A4Zi4+bCXKJ98S75cd+BbcxIvCCA35vKSs/nszHijM0lYcYPBbIXDjN1e
+   4nnxZyMfzsh5E0Iku/CadTJtaCaFOG44qTWbWqiKzRVXjHGqU1ux+wQMM
+   mJiQ8ViET2f1Jz8j9ca65S96YKDG8kh8+TpMsJBUrKFIcV1Vc7zsp/vYp
+   w==;
+X-CSE-ConnectionGUID: h7laWN97StqCn5zvRNgzmA==
+X-CSE-MsgGUID: VVfwSVZAStmSOGRRL24JTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="60305017"
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
+   d="scan'208";a="60305017"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2025 20:59:45 -0700
+X-CSE-ConnectionGUID: 8r1RW9JuQCOoNSWzEvSMaQ==
+X-CSE-MsgGUID: 7cId5LfgQUu8YUrX2ncqBw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; 
-   d="scan'208";a="175214302"
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
+   d="scan'208";a="180266969"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Sep 2025 20:37:35 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Sep 2025 20:59:38 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyiz7-00011H-0y;
-	Wed, 17 Sep 2025 03:37:33 +0000
-Date: Wed, 17 Sep 2025 11:37:08 +0800
+	id 1uyjKS-000127-0B;
+	Wed, 17 Sep 2025 03:59:36 +0000
+Date: Wed, 17 Sep 2025 11:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Brophy <professorjonny98@gmail.com>,
-	lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Jonathan Brophy <professor_jonny@hotmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH 2/5] leds: rgb: Add Virtual Color LED Group driver to Make
-Message-ID: <202509171109.7rJrwT7i-lkp@intel.com>
-References: <20250916110217.45894-2-professorjonny98@gmail.com>
+To: Ethan Graham <ethan.w.s.graham@gmail.com>, ethangraham@google.com,
+	glider@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andreyknvl@gmail.com, andy@kernel.org, brauner@kernel.org,
+	brendan.higgins@linux.dev, davem@davemloft.net, davidgow@google.com,
+	dhowells@redhat.com, dvyukov@google.com, elver@google.com,
+	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz,
+	jannh@google.com, johannes@sipsolutions.net,
+	kasan-dev@googlegroups.com, kees@kernel.org,
+	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de,
+	rmoar@google.com, shuah@kernel.org, tarasmadan@google.com
+Subject: Re: [PATCH v1 03/10] kfuzztest: implement core module and input
+ processing
+Message-ID: <202509171131.vod7tLWH-lkp@intel.com>
+References: <20250916090109.91132-4-ethan.w.s.graham@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,142 +73,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916110217.45894-2-professorjonny98@gmail.com>
+In-Reply-To: <20250916090109.91132-4-ethan.w.s.graham@gmail.com>
 
-Hi Jonathan,
+Hi Ethan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on robh/for-next linus/master v6.17-rc6 next-20250916]
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.17-rc6 next-20250916]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Brophy/leds-rgb-Add-Virtual-Color-LED-Group-driver-to-Make/20250916-190606
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250916110217.45894-2-professorjonny98%40gmail.com
-patch subject: [PATCH 2/5] leds: rgb: Add Virtual Color LED Group driver to Make
-config: i386-randconfig-012-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171109.7rJrwT7i-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171109.7rJrwT7i-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Graham/mm-kasan-implement-kasan_poison_range/20250916-210448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20250916090109.91132-4-ethan.w.s.graham%40gmail.com
+patch subject: [PATCH v1 03/10] kfuzztest: implement core module and input processing
+config: x86_64-randconfig-004-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171131.vod7tLWH-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171131.vod7tLWH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509171109.7rJrwT7i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509171131.vod7tLWH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/leds/rgb/leds-group-virtualcolor.c: In function 'leds_virtualcolor_init_vled':
-   drivers/leds/rgb/leds-group-virtualcolor.c:254:28: error: implicit declaration of function 'of_led_get'; did you mean 'of_node_get'? [-Werror=implicit-function-declaration]
-     254 |                 led_cdev = of_led_get(child, i);
-         |                            ^~~~~~~~~~
-         |                            of_node_get
->> drivers/leds/rgb/leds-group-virtualcolor.c:254:26: warning: assignment to 'struct led_classdev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     254 |                 led_cdev = of_led_get(child, i);
-         |                          ^
-   cc1: some warnings being treated as errors
-
-
-vim +254 drivers/leds/rgb/leds-group-virtualcolor.c
-
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  217  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  218  static int leds_virtualcolor_init_vled(struct device *dev, struct device_node *child,
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  219  				       struct virtual_led *vled, struct leds_virtualcolor *vc_data)
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  220  {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  221  	struct fwnode_handle *child_fwnode = of_fwnode_handle(child);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  222  	struct led_init_data init_data = {};
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  223  	u32 blink_interval;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  224  	u32 phandle_count;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  225  	u32 max_brightness;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  226  	int ret, i;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  227  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  228  	ret = of_property_read_u32(child, "priority", &vled->priority);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  229  	if (ret)
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  230  		vled->priority = 0;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  231  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  232  	ret = of_property_read_u32(child, "blink", &blink_interval);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  233  	if (!ret) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  234  		vled->blink_delay_on = blink_interval;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  235  		vled->blink_delay_off = blink_interval;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  236  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  237  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  238  	phandle_count = fwnode_property_count_u32(child_fwnode, "leds");
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  239  	if (phandle_count <= 0) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  240  		dev_err(dev, "No monochromatic LEDs specified for virtual LED %s\n",
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  241  			vled->cdev.name);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  242  		return -EINVAL;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  243  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  244  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  245  	vled->num_monochromatics = phandle_count;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  246  	vled->monochromatics = devm_kcalloc(dev, vled->num_monochromatics,
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  247  					    sizeof(*vled->monochromatics), GFP_KERNEL);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  248  	if (!vled->monochromatics)
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  249  		return -ENOMEM;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  250  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  251  	for (i = 0; i < vled->num_monochromatics; i++) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  252  		struct led_classdev *led_cdev;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  253  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16 @254  		led_cdev = of_led_get(child, i);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  255  		if (IS_ERR_OR_NULL(led_cdev)) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  256  			/*
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  257  			 * If the LED is not available yet, defer the probe.
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  258  			 * The probe will be retried when the it becomes available.
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  259  			 */
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  260  			if (PTR_ERR(led_cdev) == -EPROBE_DEFER || !led_cdev) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  261  				return -EPROBE_DEFER;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  262  			} else {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  263  				ret = PTR_ERR(led_cdev);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  264  				dev_err(dev, "Failed to get monochromatic LED for %s, error %d\n",
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  265  					vled->cdev.name, ret);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  266  				return ret;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  267  			}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  268  		}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  269  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  270  		vled->monochromatics[i] = led_cdev;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  271  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  272  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  273  	ret = of_property_read_u32(child, "max-brightness", &max_brightness);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  274  	if (ret)
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  275  		vled->cdev.max_brightness = LED_FULL;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  276  	else
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  277  		vled->cdev.max_brightness = max_brightness;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  278  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  279  	vled->cdev.brightness_set_blocking = virtual_led_brightness_set;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  280  	vled->cdev.max_brightness = LED_FULL;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  281  	vled->cdev.flags = LED_CORE_SUSPENDRESUME;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  282  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  283  	init_data.fwnode = child_fwnode;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  284  	ret = devm_led_classdev_register_ext(dev, &vled->cdev, &init_data);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  285  	if (ret) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  286  		dev_err(dev, "Failed to register virtual LED %s\n", vled->cdev.name);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  287  		return ret;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  288  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  289  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  290  	ret = device_create_file(vled->cdev.dev, &dev_attr_priority);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  291  	if (ret) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  292  		dev_err(dev, "Failed to create sysfs attribute for priority\n");
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  293  		return ret;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  294  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  295  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  296  	ret = device_create_file(vled->cdev.dev, &dev_attr_blink_delay_on);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  297  	if (ret) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  298  		dev_err(dev, "Failed to create sysfs attribute for blink_delay_on\n");
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  299  		return ret;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  300  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  301  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  302  	ret = device_create_file(vled->cdev.dev, &dev_attr_blink_delay_off);
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  303  	if (ret) {
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  304  		dev_err(dev, "Failed to create sysfs attribute for blink_delay_off\n");
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  305  		return ret;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  306  	}
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  307  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  308  	vled->vc_data = vc_data;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  309  
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  310  	return 0;
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  311  }
-8ce5fa26ed391cb Jonathan Brophy 2025-09-16  312  
+>> Warning: lib/kfuzztest/main.c:46 struct member 'num_invocations' not described in 'kfuzztest_state'
 
 -- 
 0-DAY CI Kernel Test Service
