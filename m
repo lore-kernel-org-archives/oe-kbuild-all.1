@@ -1,72 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688EB2EA74C;
-	Wed, 17 Sep 2025 09:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A22928312F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 09:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758101022; cv=none; b=SC1SFTaB99Kj+C0LR4/AQkhh9COv0V1zcULVuq61Swb0xzAG3D+7wq1LG0BsNKcHfq+MfaUzQ4j3/dAq+68buRPIzKRavJYKKrkCV2BvZH1yc6sLihduX9pZqVKXBp6YX/wvR64ytRbVQQh9kWAvaYki43u1z+Wq/B6gb1Zav9A=
+	t=1758101487; cv=none; b=mSAN/Os+nf+u64EXh6DAhBVywz95QSLhJijq9xGNmaBmRDbMRZgCTL7WTzOvWGQrPjF2ptyxN9s1qiDHT8dPs7U5v+6lMa5rXLD4V/i2oNgnjxpFc/TWBCTRdEkcJJsvlb6ixdZIStxRVVxmNAahwtCLB78hNk27cFTbOUbedcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758101022; c=relaxed/simple;
-	bh=fnhl6YMTBDcw0/Avi2g9p1AoA42Ju6rFZJjN5tH9rok=;
+	s=arc-20240116; t=1758101487; c=relaxed/simple;
+	bh=4jpzCIoZu50VJNQx/tE5PCeb01WHwNr3Npziju95tg4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UMH88d/AKEcMyh80jWIm/0qFXNgewqphl0Ad9F6hK0IiTZU9uUc+AKFFfL5FKKmPsctUXH+j88loFkzetVw0vveDARLV7nLm2VRMWR5IEkUXVEPzE+uZC5ItpTpMZhdfmqUrxEdjBfBI93fSEgVE1yuE4k0nnMIWpRcVmwqTDwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1BFR/IY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=o5cVm5V7xzVL35KQXqMxFbgHGhXbl52Tt/iwhR/dHAn0FGHiaxt80VvpgQpFMnxYGHwFEkIhsCeu2cXoSavf/iPMfMq8N8L1+xg2+sz0TN5LNmJuCtkqvwO4ZLIkUmqGDmXN0YEKz6RVpBWjKNNW+cutxjE0TZl7MRIfZzR1N1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ce2zHK1p; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1BFR/IY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7097EC4CEF0;
-	Wed, 17 Sep 2025 09:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758101022;
-	bh=fnhl6YMTBDcw0/Avi2g9p1AoA42Ju6rFZJjN5tH9rok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S1BFR/IYNnPsPT6izo1beZPKUUe7VdDLZ1ft4ttPqZy/1AVIMV7oQRRwAX7tAowGF
-	 I1t3BtW+B2IGQGM5cLH1t78GPuudQ1Gd3jenllOAgg1rm3eay+0DEPRDi6+BR1aqcN
-	 hK7H/wHievot0jyUJhYqreb7yC8ua2a/3p+yNCIczKXoTxzkk3xhXLdonVZZD9YIvx
-	 05NR6F/J9HUGX7jIQz5/15s0c2zffkMLCBfslyaPxQeVRxLwa3AUU+dAuSXxNfzUN7
-	 amt13zh3zPrUnO8P95e9v+WfdD4Mf4geBhRKyHpjajp+8Kq+eN0emRZuh3e3G57aqv
-	 O3HWmcHzp5ipA==
-Date: Wed, 17 Sep 2025 10:23:37 +0100
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	"Daniel Thompson (RISCstar)" <danielt@kernel.org>
-Subject: Re: [lee-backlight:for-backlight-next 14/14]
- drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c:718:25: error: call
- to undeclared function 'device_property_read_bool'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <20250917092337.GE3893363@google.com>
-References: <202509170410.RubSxK3n-lkp@intel.com>
- <a555ff12-e0a9-4413-b90c-0b0fe8515723@suse.de>
- <3254bf0f-f2b2-4f9e-845e-3fb94394af60@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ce2zHK1p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758101485; x=1789637485;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4jpzCIoZu50VJNQx/tE5PCeb01WHwNr3Npziju95tg4=;
+  b=ce2zHK1pfYl9RuxXZ7x+RRanqYWbOL+orJN09IxVqrP8O7x6C51EegHF
+   Wbj/rRjGThrbZ1zZFPdyay1e79fUrBbFR8FuQsDHmgSEw6wzdhAxujccD
+   1OxJ+U055Nm8PYuMqoXsTb/7Xkrg40VJfx/roq6O+h6FBXx04zMV5O3pb
+   xByua520WklyfRrRdkCIR8n2knUqWo8CmDSOEp5qTidyw+RXykbZKgHI7
+   GqmDBwZpWsJuN8RY+b+Av4VA2RrwE4PiGnaT2ncISSdkfrKnqAGjIwg5u
+   kPand6CXbUT+43kxxX9WIQwZOBqoFjeExJ9jTuel/dXaHmjwrtSIfP7Ry
+   w==;
+X-CSE-ConnectionGUID: kcPf0UJRQfOu32otF/j9jA==
+X-CSE-MsgGUID: 8gJMOzFBQPiHdqyLUPKgQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71028318"
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
+   d="scan'208";a="71028318"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 02:31:24 -0700
+X-CSE-ConnectionGUID: 5BIt0BKbRI6p0i6AjQZtBg==
+X-CSE-MsgGUID: Z8c/mGQ6T5WqQxDzRg37Tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
+   d="scan'208";a="179201709"
+Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 17 Sep 2025 02:31:19 -0700
+Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uyoVP-0001JX-32;
+	Wed, 17 Sep 2025 09:31:15 +0000
+Date: Wed, 17 Sep 2025 17:30:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	sboyd@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org, srini@kernel.org, vkoul@kernel.org,
+	kishon@kernel.org, sre@kernel.org, krzysztof.kozlowski@linaro.org,
+	u.kleine-koenig@baylibre.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-pm@vger.kernel.org, kernel@collabora.com, wenst@chromium.org,
+	casey.connolly@linaro.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 4/7] phy: qualcomm: eusb2-repeater: Migrate to
+ devm_spmi_subdevice_alloc_and_add()
+Message-ID: <202509171640.JfR2hhcz-lkp@intel.com>
+References: <20250916084445.96621-5-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3254bf0f-f2b2-4f9e-845e-3fb94394af60@suse.de>
+In-Reply-To: <20250916084445.96621-5-angelogioacchino.delregno@collabora.com>
 
-On Wed, 17 Sep 2025, Thomas Zimmermann wrote:
+Hi AngeloGioacchino,
 
-> 
-> 
-> Am 17.09.25 um 08:52 schrieb Thomas Zimmermann:
-> > Hi,
-> > 
-> > it seems impossible to catch all of those. I'm going to send out a patch
-> > for the driver and get it upstream ASAP.
-> 
-> The fix already exists as commit 2f44bb65f28f ("drm/panel:
-> panel-samsung-s6e88a0-ams427ap24: Fix includes"), which isn't in upstream
-> yet.
+kernel test robot noticed the following build errors:
 
-So long as it comes together in -next and Mainline, we should be good.
+[auto build test ERROR on next-20250915]
+[cannot apply to jic23-iio/togreg char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus sre-power-supply/for-next linus/master v6.17-rc6 v6.17-rc5 v6.17-rc4 v6.17-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/spmi-Implement-spmi_subdevice_alloc_and_add-and-devm-variant/20250916-164807
+base:   next-20250915
+patch link:    https://lore.kernel.org/r/20250916084445.96621-5-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v4 4/7] phy: qualcomm: eusb2-repeater: Migrate to devm_spmi_subdevice_alloc_and_add()
+config: i386-buildonly-randconfig-001-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171640.JfR2hhcz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171640.JfR2hhcz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509171640.JfR2hhcz-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/phy/qualcomm/phy-qcom-eusb2-repeater.o: in function `eusb2_repeater_probe':
+   phy-qcom-eusb2-repeater.c:(.text+0x315): undefined reference to `devm_spmi_subdevice_alloc_and_add'
+   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_base_read':
+>> regmap-spmi.c:(.text+0x79): undefined reference to `spmi_register_read'
+   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_base_gather_write':
+>> regmap-spmi.c:(.text+0xbe): undefined reference to `spmi_register_zero_write'
+>> ld: regmap-spmi.c:(.text+0xe5): undefined reference to `spmi_register_write'
+   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_ext_read':
+>> regmap-spmi.c:(.text+0x1a0): undefined reference to `spmi_ext_register_read'
+>> ld: regmap-spmi.c:(.text+0x1c7): undefined reference to `spmi_ext_register_readl'
+   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_ext_gather_write':
+>> regmap-spmi.c:(.text+0x228): undefined reference to `spmi_ext_register_write'
+>> ld: regmap-spmi.c:(.text+0x24f): undefined reference to `spmi_ext_register_writel'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for REGMAP_SPMI
+   Depends on [m]: SPMI [=m]
+   Selected by [y]:
+   - PHY_QCOM_EUSB2_REPEATER [=y] && OF [=y] && (ARCH_QCOM || COMPILE_TEST [=y])
+   Selected by [m]:
+   - HI6421V600_IRQ [=m] && OF [=y] && SPMI [=m] && HAS_IOMEM [=y]
+   - PINCTRL_QCOM_SPMI_PMIC [=m] && PINCTRL [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && OF [=y] && SPMI [=m]
+   - QCOM_SPMI_TEMP_ALARM [=m] && THERMAL [=y] && (ARCH_QCOM && OF [=y] || COMPILE_TEST [=y]) && OF [=y] && SPMI [=m] && IIO [=y]
+   - MFD_HI6421_SPMI [=m] && HAS_IOMEM [=y] && OF [=y] && SPMI [=m]
+   - REGULATOR_MT6315 [=m] && REGULATOR [=y] && SPMI [=m]
+   - QCOM_SPMI_ADC5 [=m] && IIO [=y] && SPMI [=m]
+   - NVMEM_APPLE_SPMI [=m] && NVMEM [=y] && (ARCH_APPLE || COMPILE_TEST [=y]) && SPMI [=m]
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
