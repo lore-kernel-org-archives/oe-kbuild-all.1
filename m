@@ -1,71 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A22928312F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 09:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8645421C9FD;
+	Wed, 17 Sep 2025 09:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758101487; cv=none; b=mSAN/Os+nf+u64EXh6DAhBVywz95QSLhJijq9xGNmaBmRDbMRZgCTL7WTzOvWGQrPjF2ptyxN9s1qiDHT8dPs7U5v+6lMa5rXLD4V/i2oNgnjxpFc/TWBCTRdEkcJJsvlb6ixdZIStxRVVxmNAahwtCLB78hNk27cFTbOUbedcs=
+	t=1758102767; cv=none; b=a6dZa0AOumfrwabeTbl1dIvcN6wuuc9/5Kk9Q5NKAa4p9hgurYAP1ozmd96ksD+4158g1KjNJI+wuLOvF4rurrwzzWAedBW/Y9yifIGWfowyOvKKoP0Rn8057S7C00hE/gHcI0UCoWeVT3xrtAnU70WwNMulVBUcJm4WwrtKZz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758101487; c=relaxed/simple;
-	bh=4jpzCIoZu50VJNQx/tE5PCeb01WHwNr3Npziju95tg4=;
+	s=arc-20240116; t=1758102767; c=relaxed/simple;
+	bh=BFX6ownYzY7fkpQNkKIV0Q6ij+7Fw1P1XuX9Ln822Ro=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o5cVm5V7xzVL35KQXqMxFbgHGhXbl52Tt/iwhR/dHAn0FGHiaxt80VvpgQpFMnxYGHwFEkIhsCeu2cXoSavf/iPMfMq8N8L1+xg2+sz0TN5LNmJuCtkqvwO4ZLIkUmqGDmXN0YEKz6RVpBWjKNNW+cutxjE0TZl7MRIfZzR1N1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ce2zHK1p; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=e6fIVcnWC1VPQgXE0k9JmBTprvGpOzD3Asn20n1Kp4j+B7QniXyaM/Xd2qiigHHwfQD8hyPsKATOkmt5uGBGnqsSRjhSHyJGO5AoU8Fkoba63o1YDPydGCHExlV/K8dzvbe953zHGYqT8i65jHqucwn8U7myt7MExsfQHp9nf6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q06knU5r; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ce2zHK1p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q06knU5r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758101485; x=1789637485;
+  t=1758102765; x=1789638765;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4jpzCIoZu50VJNQx/tE5PCeb01WHwNr3Npziju95tg4=;
-  b=ce2zHK1pfYl9RuxXZ7x+RRanqYWbOL+orJN09IxVqrP8O7x6C51EegHF
-   Wbj/rRjGThrbZ1zZFPdyay1e79fUrBbFR8FuQsDHmgSEw6wzdhAxujccD
-   1OxJ+U055Nm8PYuMqoXsTb/7Xkrg40VJfx/roq6O+h6FBXx04zMV5O3pb
-   xByua520WklyfRrRdkCIR8n2knUqWo8CmDSOEp5qTidyw+RXykbZKgHI7
-   GqmDBwZpWsJuN8RY+b+Av4VA2RrwE4PiGnaT2ncISSdkfrKnqAGjIwg5u
-   kPand6CXbUT+43kxxX9WIQwZOBqoFjeExJ9jTuel/dXaHmjwrtSIfP7Ry
-   w==;
-X-CSE-ConnectionGUID: kcPf0UJRQfOu32otF/j9jA==
-X-CSE-MsgGUID: 8gJMOzFBQPiHdqyLUPKgQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71028318"
+  bh=BFX6ownYzY7fkpQNkKIV0Q6ij+7Fw1P1XuX9Ln822Ro=;
+  b=Q06knU5rSrCvQYaJICqz5W+ydSQtQAHdsoAKXKJD2tWL0GBHJlAFUJ3G
+   xl5P98fJhtalA6Q87Wv2TB18v7DCMpkgZqa2TJJk1v6k7X22QmSXWnfco
+   hXXaDtxqdnhl95iplWDmA8vv1NTmddbL4468n3sP+cRsdyvEV7wne7jG7
+   y7RrKla2gHM4QhwlnT/ZZt6NjEiBlHEAlsbA+JL84CiK6GcrdgKOlKJb0
+   CFm63UnYm4hcNs8hvzo8JJt5j8ak16fbVxxczw3MHD5dgaZXKIr7CyHqT
+   zNRNgcUZMSGPpoqa46bhBq0bRLtS08yJPFtxLuCS4HW+oMQ+/5iPhJeRY
+   A==;
+X-CSE-ConnectionGUID: qf2cwMORTzyvDsTWBcEqNQ==
+X-CSE-MsgGUID: alc5SBKIS0SVwyBGmetkfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71507483"
 X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="71028318"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 02:31:24 -0700
-X-CSE-ConnectionGUID: 5BIt0BKbRI6p0i6AjQZtBg==
-X-CSE-MsgGUID: Z8c/mGQ6T5WqQxDzRg37Tg==
+   d="scan'208";a="71507483"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 02:52:26 -0700
+X-CSE-ConnectionGUID: fXDEHERxTC+QoYiDPK7aNg==
+X-CSE-MsgGUID: rnd60lEbSgK/07jnyeF1WQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="179201709"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Sep 2025 02:31:19 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 17 Sep 2025 02:52:21 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyoVP-0001JX-32;
-	Wed, 17 Sep 2025 09:31:15 +0000
-Date: Wed, 17 Sep 2025 17:30:26 +0800
+	id 1uyopm-0001LH-3A;
+	Wed, 17 Sep 2025 09:52:18 +0000
+Date: Wed, 17 Sep 2025 17:52:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	sboyd@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org, srini@kernel.org, vkoul@kernel.org,
-	kishon@kernel.org, sre@kernel.org, krzysztof.kozlowski@linaro.org,
-	u.kleine-koenig@baylibre.com,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-pm@vger.kernel.org, kernel@collabora.com, wenst@chromium.org,
-	casey.connolly@linaro.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 4/7] phy: qualcomm: eusb2-repeater: Migrate to
- devm_spmi_subdevice_alloc_and_add()
-Message-ID: <202509171640.JfR2hhcz-lkp@intel.com>
-References: <20250916084445.96621-5-angelogioacchino.delregno@collabora.com>
+To: Randolph Lin <randolph@andestech.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, jingoohan1@gmail.com, mani@kernel.org,
+	lpieralisi@kernel.org, kwilczynski@kernel.org, robh@kernel.org,
+	bhelgaas@google.com, krzk+dt@kernel.org, conor+dt@kernel.org,
+	alex@ghiti.fr, aou@eecs.berkeley.edu, palmer@dabbelt.com,
+	paul.walmsley@sifive.com, ben717@andestech.com, inochiama@gmail.com,
+	thippeswamy.havalige@amd.com, namcao@linutronix.de,
+	shradha.t@samsung.com, randolph.sklin@gmail.com,
+	tim609@andestech.com, Randolph Lin <randolph@andestech.com>
+Subject: Re: [PATCH v2 4/5] PCI: andes: Add Andes QiLai SoC PCIe host driver
+ support
+Message-ID: <202509171747.yJ9wsIkH-lkp@intel.com>
+References: <20250916100417.3036847-5-randolph@andestech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,60 +70,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916084445.96621-5-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250916100417.3036847-5-randolph@andestech.com>
 
-Hi AngeloGioacchino,
+Hi Randolph,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20250915]
-[cannot apply to jic23-iio/togreg char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus sre-power-supply/for-next linus/master v6.17-rc6 v6.17-rc5 v6.17-rc4 v6.17-rc6]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus robh/for-next linus/master v6.17-rc6 next-20250916]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/spmi-Implement-spmi_subdevice_alloc_and_add-and-devm-variant/20250916-164807
-base:   next-20250915
-patch link:    https://lore.kernel.org/r/20250916084445.96621-5-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v4 4/7] phy: qualcomm: eusb2-repeater: Migrate to devm_spmi_subdevice_alloc_and_add()
-config: i386-buildonly-randconfig-001-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171640.JfR2hhcz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171640.JfR2hhcz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Randolph-Lin/PCI-dwc-Add-outbound-ATU-address-range-validation-callback/20250916-180841
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250916100417.3036847-5-randolph%40andestech.com
+patch subject: [PATCH v2 4/5] PCI: andes: Add Andes QiLai SoC PCIe host driver support
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20250917/202509171747.yJ9wsIkH-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171747.yJ9wsIkH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509171640.JfR2hhcz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509171747.yJ9wsIkH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/phy/qualcomm/phy-qcom-eusb2-repeater.o: in function `eusb2_repeater_probe':
-   phy-qcom-eusb2-repeater.c:(.text+0x315): undefined reference to `devm_spmi_subdevice_alloc_and_add'
-   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_base_read':
->> regmap-spmi.c:(.text+0x79): undefined reference to `spmi_register_read'
-   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_base_gather_write':
->> regmap-spmi.c:(.text+0xbe): undefined reference to `spmi_register_zero_write'
->> ld: regmap-spmi.c:(.text+0xe5): undefined reference to `spmi_register_write'
-   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_ext_read':
->> regmap-spmi.c:(.text+0x1a0): undefined reference to `spmi_ext_register_read'
->> ld: regmap-spmi.c:(.text+0x1c7): undefined reference to `spmi_ext_register_readl'
-   ld: drivers/base/regmap/regmap-spmi.o: in function `regmap_spmi_ext_gather_write':
->> regmap-spmi.c:(.text+0x228): undefined reference to `spmi_ext_register_write'
->> ld: regmap-spmi.c:(.text+0x24f): undefined reference to `spmi_ext_register_writel'
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/pci/controller/dwc/pcie-andes-qilai.c:179:22: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     179 |                 dev_err_probe(dev, ret, "Failed to Get APB registers.\n");
+         |                                    ^~~
+   drivers/pci/controller/dwc/pcie-andes-qilai.c:159:9: note: initialize the variable 'ret' to silence this warning
+     159 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for REGMAP_SPMI
-   Depends on [m]: SPMI [=m]
-   Selected by [y]:
-   - PHY_QCOM_EUSB2_REPEATER [=y] && OF [=y] && (ARCH_QCOM || COMPILE_TEST [=y])
-   Selected by [m]:
-   - HI6421V600_IRQ [=m] && OF [=y] && SPMI [=m] && HAS_IOMEM [=y]
-   - PINCTRL_QCOM_SPMI_PMIC [=m] && PINCTRL [=y] && (ARCH_QCOM || COMPILE_TEST [=y]) && OF [=y] && SPMI [=m]
-   - QCOM_SPMI_TEMP_ALARM [=m] && THERMAL [=y] && (ARCH_QCOM && OF [=y] || COMPILE_TEST [=y]) && OF [=y] && SPMI [=m] && IIO [=y]
-   - MFD_HI6421_SPMI [=m] && HAS_IOMEM [=y] && OF [=y] && SPMI [=m]
-   - REGULATOR_MT6315 [=m] && REGULATOR [=y] && SPMI [=m]
-   - QCOM_SPMI_ADC5 [=m] && IIO [=y] && SPMI [=m]
-   - NVMEM_APPLE_SPMI [=m] && NVMEM [=y] && (ARCH_APPLE || COMPILE_TEST [=y]) && SPMI [=m]
+
+vim +/ret +179 drivers/pci/controller/dwc/pcie-andes-qilai.c
+
+   153	
+   154	static int qilai_pcie_probe(struct platform_device *pdev)
+   155	{
+   156		struct qilai_pcie *pcie;
+   157		struct dw_pcie *pci;
+   158		struct device *dev;
+   159		int ret;
+   160	
+   161		pcie = devm_kzalloc(&pdev->dev, sizeof(*pcie), GFP_KERNEL);
+   162		if (!pcie)
+   163			return -ENOMEM;
+   164	
+   165		pcie->pdev = pdev;
+   166		platform_set_drvdata(pdev, pcie);
+   167	
+   168		pci = &pcie->pci;
+   169		dev = &pcie->pdev->dev;
+   170		pcie->pci.dev = dev;
+   171		pcie->pci.ops = &qilai_pcie_ops;
+   172		pcie->pci.pp.ops = &qilai_pcie_host_ops;
+   173		pci->use_parent_dt_ranges = true;
+   174	
+   175		dw_pcie_cap_set(&pcie->pci, REQ_RES);
+   176	
+   177		pcie->apb_base = devm_platform_ioremap_resource_byname(pdev, "apb");
+   178		if (IS_ERR(pcie->apb_base)) {
+ > 179			dev_err_probe(dev, ret, "Failed to Get APB registers.\n");
+   180			return PTR_ERR(pcie->apb_base);
+   181		}
+   182	
+   183		ret = dw_pcie_host_init(&pcie->pci.pp);
+   184		if (ret) {
+   185			dev_err_probe(dev, ret, "Failed to initialize PCIe host\n");
+   186			return ret;
+   187		}
+   188	
+   189		qilai_pcie_iocp_cache_setup(&pcie->pci.pp);
+   190	
+   191		return 0;
+   192	}
+   193	
 
 -- 
 0-DAY CI Kernel Test Service
