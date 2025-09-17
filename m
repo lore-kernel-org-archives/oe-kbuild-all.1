@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995A82356A4;
-	Wed, 17 Sep 2025 21:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B28D2E7650
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 22:02:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758145286; cv=none; b=ucqgt3Con/TN2wH5aNYoELYazM7hn0yKAS0plPojXLEFO8R8X1U3/4Z2PKFLKQplIKDO4kCYOeu+WWNg7PXLubI1VxSC3YkMmkYBD9riSc1zx5T9g2bxcgPXSK3Zcbia4oZu3d/DA3fYBA/zYbdOycN36gi6OS7nTFYiKi5XhpU=
+	t=1758146550; cv=none; b=F6DA07EV6OEGIIrGn4DBNenV7zRJRY0ZC/iA87zgH6saz3s4QPFNCoeFfB7A1hqVqGZ0R5UbG7nAX/dv1MGYzsxyVJWszBgRpA2qZ9bx8FTIVRc6uO34WxNvKlCIdakE7fakRor1ayTaKNEmUJKUr39k/C90z1zXewA9lLgBWdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758145286; c=relaxed/simple;
-	bh=LFfVCJuauYXP84lOUN45XcIK3FpxUQkSFwCjspvozzM=;
+	s=arc-20240116; t=1758146550; c=relaxed/simple;
+	bh=CVXw9uvZ4D6n5HmWG5IpYQjWsYYCqrfqLRvpe9sauYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=elhQBRVriEifu+rvrwK2cQdUEDyILH+2fBYkbVR3cs8WT2J9df4BPIIXH5A8O5bW1d0jNdLF1E2EZT+UaPBtpPpogj2++KLznRQICrzBO7HgIMojlLK5nqVBTbrej+bqT8kqqrU7U2QMsXX/g8D7bk0DWqzv4RGUh13QZA1BJ+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3EM8y5L; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=qruwjzudyVNKhjSBIEJE3FvZKZFQJmn6jqypkqboxzdN9wG8hjZYVGUPISrqeD+NttnfltRmrXx92XR6HM5O5UogMxnqrdqZa4NQb9UVeaVtzRSZmxoa8+ilEHCD83ZTJ8+AJZN91b+uyq/lYy7Kam79Qn3EMj3SDLzjCtwIWTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHJOiA1Q; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3EM8y5L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHJOiA1Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758145285; x=1789681285;
+  t=1758146548; x=1789682548;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LFfVCJuauYXP84lOUN45XcIK3FpxUQkSFwCjspvozzM=;
-  b=M3EM8y5LwuXMrJhJcPmVb4pNwZtzgXCf6FimY554COa85vYcl+qsfRtE
-   BhHrbzJkbVF4/erBfNhGUUczecVn3eXLGiL9fTOZN/VQT5+0Sxn2Ymgnn
-   lQJ/OUew8m8KxT0t0ZRxm/MO67zBnU7Ffo24hMCfk6vbzyjzFGuTg8J3o
-   eZYpwukWq4OXR7Y/NZ1nAyo1kL/jQEh1kPvicqWp9q7f6wH20D3QCSP8C
-   mv0Vk5HowRX+AI5vKLpn5JR1RHew27uMudkXG17KVoobrsoV+yjToY1FU
-   kHOx3qO/VYcQOkneXbhekR693jsALLlPzuPmFzzv7pceRGzYhq+DEgpAh
-   A==;
-X-CSE-ConnectionGUID: +UWyNCoqSUabi0pm2qMuFQ==
-X-CSE-MsgGUID: 8Psidw0zRyKw0o8Ly21k6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64268262"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64268262"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 14:41:25 -0700
-X-CSE-ConnectionGUID: lSanHIgkQaaxnWD72A5IPg==
-X-CSE-MsgGUID: 2DE8UQ91TFq3DAlmDMeSVw==
+  bh=CVXw9uvZ4D6n5HmWG5IpYQjWsYYCqrfqLRvpe9sauYg=;
+  b=iHJOiA1QZ42WrgQuwHkZbUfDHc4PYVkz/SuISR6saWIPk/mepbcHtAo4
+   axFBSdXeTF/WOhw22Q1AWZsk+PtR+cPiCt7etISQsFAB6nO1wU2OIcisM
+   KCtu8dQHKs2bSrfAQb/rkMPuLxvS4fDbruT2LcGS50EvfniUqOaeYsw3V
+   E7XbJjTnvfrsKg/H1SDPNXrLw0NNsR9N/c3tamDEukLQqrSu5gJAtXllB
+   tuFEfIFERCqn/xxUKVIOrkHYe7WpjPds4pn0kDEOZ2+cfDJGRrQpEjWmF
+   HhJnkZOx/TekY+QYZZzoc1vPREUR87K6nF0CgpheG5b9pf45OPsmKy96c
+   g==;
+X-CSE-ConnectionGUID: +HDsN2EFR4a8Laop+krTBQ==
+X-CSE-MsgGUID: 928SiyEpTJuWaTVweaOjzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60160888"
+X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
+   d="scan'208";a="60160888"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 15:02:28 -0700
+X-CSE-ConnectionGUID: XCLV9Ns4SDyPh9+V1u4rVQ==
+X-CSE-MsgGUID: Xs5J8C6XSLqSRK49Z5F+eQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="206146643"
+   d="scan'208";a="175279710"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Sep 2025 14:41:20 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 17 Sep 2025 15:02:24 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uyztu-0002Tf-2Z;
-	Wed, 17 Sep 2025 21:41:18 +0000
-Date: Thu, 18 Sep 2025 05:40:53 +0800
+	id 1uz0EI-0002VL-1R;
+	Wed, 17 Sep 2025 22:02:22 +0000
+Date: Thu, 18 Sep 2025 06:01:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, brauner@kernel.org,
-	miklos@szeredi.hu
-Cc: oe-kbuild-all@lists.linux.dev, hch@infradead.org, djwong@kernel.org,
-	hsiangkao@linux.alibaba.com, linux-block@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 11/15] iomap: move buffered io bio logic into new file
-Message-ID: <202509180515.Cc8A1Wu9-lkp@intel.com>
-References: <20250916234425.1274735-12-joannelkoong@gmail.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>, bhelgaas@google.com,
+	mahesh@linux.ibm.com, mani@kernel.org, Jonathan.Cameron@huawei.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, oohall@gmail.com,
+	xueshuai@linux.alibaba.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v5 2/3] PCI/DPC: Run recovery on device that detected the
+ error
+Message-ID: <202509180501.eB8FJ5Vt-lkp@intel.com>
+References: <20250917063352.19429-3-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,54 +67,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916234425.1274735-12-joannelkoong@gmail.com>
+In-Reply-To: <20250917063352.19429-3-xueshuai@linux.alibaba.com>
 
-Hi Joanne,
+Hi Shuai,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on mszeredi-fuse/for-next axboe-block/for-next xiang-erofs/dev-test xiang-erofs/dev xiang-erofs/fixes gfs2/for-next xfs-linux/for-next linus/master v6.17-rc6 next-20250917]
+[auto build test WARNING on pci/for-linus]
+[also build test WARNING on linus/master v6.17-rc6 next-20250917]
+[cannot apply to pci/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-move-bio-read-logic-into-helper-function/20250917-075255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250916234425.1274735-12-joannelkoong%40gmail.com
-patch subject: [PATCH v3 11/15] iomap: move buffered io bio logic into new file
-config: x86_64-randconfig-071-20250918 (https://download.01.org/0day-ci/archive/20250918/202509180515.Cc8A1Wu9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509180515.Cc8A1Wu9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-DPC-Clarify-naming-for-error-port-in-DPC-Handling/20250917-143459
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/20250917063352.19429-3-xueshuai%40linux.alibaba.com
+patch subject: [PATCH v5 2/3] PCI/DPC: Run recovery on device that detected the error
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250918/202509180501.eB8FJ5Vt-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509180501.eB8FJ5Vt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509180515.Cc8A1Wu9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509180501.eB8FJ5Vt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/iomap/buffered-io.c:11:
->> fs/iomap/internal.h:13:5: warning: no previous prototype for 'iomap_bio_read_folio_range_sync' [-Wmissing-prototypes]
-      13 | int iomap_bio_read_folio_range_sync(const struct iomap_iter *iter,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/pci/pcie/edr.c:188:6: warning: variable 'err_dev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     188 |         if (!(status & PCI_EXP_DPC_STATUS_TRIGGER)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/pcie/edr.c:218:14: note: uninitialized use occurs here
+     218 |         pci_dev_put(err_dev);
+         |                     ^~~~~~~
+   drivers/pci/pcie/edr.c:188:2: note: remove the 'if' if its condition is always false
+     188 |         if (!(status & PCI_EXP_DPC_STATUS_TRIGGER)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     189 |                 pci_err(err_port, "Invalid DPC trigger %#010x\n", status);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     190 |                 goto send_ost;
+         |                 ~~~~~~~~~~~~~~
+     191 |         }
+         |         ~
+   drivers/pci/pcie/edr.c:181:6: warning: variable 'err_dev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     181 |         if (!err_port->dpc_cap) {
+         |             ^~~~~~~~~~~~~~~~~~
+   drivers/pci/pcie/edr.c:218:14: note: uninitialized use occurs here
+     218 |         pci_dev_put(err_dev);
+         |                     ^~~~~~~
+   drivers/pci/pcie/edr.c:181:2: note: remove the 'if' if its condition is always false
+     181 |         if (!err_port->dpc_cap) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+     182 |                 pci_err(err_port, FW_BUG "This device doesn't support DPC\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     183 |                 goto send_ost;
+         |                 ~~~~~~~~~~~~~~
+     184 |         }
+         |         ~
+   drivers/pci/pcie/edr.c:153:50: note: initialize the variable 'err_dev' to silence this warning
+     153 |         struct pci_dev *pdev = data, *err_port, *err_dev;
+         |                                                         ^
+         |                                                          = NULL
+   3 warnings generated.
 
 
-vim +/iomap_bio_read_folio_range_sync +13 fs/iomap/internal.h
+vim +188 drivers/pci/pcie/edr.c
 
-     8	
-     9	#ifdef CONFIG_BLOCK
-    10	int iomap_bio_read_folio_range_sync(const struct iomap_iter *iter,
-    11			struct folio *folio, loff_t pos, size_t len);
-    12	#else
-  > 13	int iomap_bio_read_folio_range_sync(const struct iomap_iter *iter,
-    14			struct folio *folio, loff_t pos, size_t len)
-    15	{
-    16		WARN_ON_ONCE(1);
-    17		return -EIO;
-    18	}
-    19	#endif /* CONFIG_BLOCK */
-    20	
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  150  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  151  static void edr_handle_event(acpi_handle handle, u32 event, void *data)
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  152  {
+267102466d7b592 Shuai Xue                  2025-09-17  153  	struct pci_dev *pdev = data, *err_port, *err_dev;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  154  	pci_ers_result_t estate = PCI_ERS_RESULT_DISCONNECT;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  155  	u16 status;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  156  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  157  	if (event != ACPI_NOTIFY_DISCONNECT_RECOVER)
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  158  		return;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  159  
+774820b362b07b9 Bjorn Helgaas              2023-04-07  160  	/*
+774820b362b07b9 Bjorn Helgaas              2023-04-07  161  	 * pdev is a Root Port or Downstream Port that is still present and
+774820b362b07b9 Bjorn Helgaas              2023-04-07  162  	 * has triggered a containment event, e.g., DPC, so its child
+774820b362b07b9 Bjorn Helgaas              2023-04-07  163  	 * devices have been disconnected (ACPI r6.5, sec 5.6.6).
+774820b362b07b9 Bjorn Helgaas              2023-04-07  164  	 */
+af03958da0678c3 Kuppuswamy Sathyanarayanan 2020-04-15  165  	pci_info(pdev, "EDR event received\n");
+af03958da0678c3 Kuppuswamy Sathyanarayanan 2020-04-15  166  
+774820b362b07b9 Bjorn Helgaas              2023-04-07  167  	/*
+774820b362b07b9 Bjorn Helgaas              2023-04-07  168  	 * Locate the port that experienced the containment event.  pdev
+774820b362b07b9 Bjorn Helgaas              2023-04-07  169  	 * may be that port or a parent of it (PCI Firmware r3.3, sec
+774820b362b07b9 Bjorn Helgaas              2023-04-07  170  	 * 4.6.13).
+774820b362b07b9 Bjorn Helgaas              2023-04-07  171  	 */
+a56b1e47845b946 Shuai Xue                  2025-09-17  172  	err_port = acpi_dpc_port_get(pdev);
+a56b1e47845b946 Shuai Xue                  2025-09-17  173  	if (!err_port) {
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  174  		pci_err(pdev, "Firmware failed to locate DPC port\n");
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  175  		return;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  176  	}
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  177  
+a56b1e47845b946 Shuai Xue                  2025-09-17  178  	pci_dbg(pdev, "Reported EDR dev: %s\n", pci_name(err_port));
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  179  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  180  	/* If port does not support DPC, just send the OST */
+a56b1e47845b946 Shuai Xue                  2025-09-17  181  	if (!err_port->dpc_cap) {
+a56b1e47845b946 Shuai Xue                  2025-09-17  182  		pci_err(err_port, FW_BUG "This device doesn't support DPC\n");
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  183  		goto send_ost;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  184  	}
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  185  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  186  	/* Check if there is a valid DPC trigger */
+a56b1e47845b946 Shuai Xue                  2025-09-17  187  	pci_read_config_word(err_port, err_port->dpc_cap + PCI_EXP_DPC_STATUS, &status);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23 @188  	if (!(status & PCI_EXP_DPC_STATUS_TRIGGER)) {
+a56b1e47845b946 Shuai Xue                  2025-09-17  189  		pci_err(err_port, "Invalid DPC trigger %#010x\n", status);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  190  		goto send_ost;
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  191  	}
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  192  
+267102466d7b592 Shuai Xue                  2025-09-17  193  	err_dev = dpc_process_error(err_port);
+a56b1e47845b946 Shuai Xue                  2025-09-17  194  	pci_aer_raw_clear_status(err_port);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  195  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  196  	/*
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  197  	 * Irrespective of whether the DPC event is triggered by ERR_FATAL
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  198  	 * or ERR_NONFATAL, since the link is already down, use the FATAL
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  199  	 * error recovery path for both cases.
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  200  	 */
+267102466d7b592 Shuai Xue                  2025-09-17  201  	estate = pcie_do_recovery(err_dev, pci_channel_io_frozen, dpc_reset_link);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  202  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  203  send_ost:
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  204  
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  205  	/*
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  206  	 * If recovery is successful, send _OST(0xF, BDF << 16 | 0x80)
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  207  	 * to firmware. If not successful, send _OST(0xF, BDF << 16 | 0x81).
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  208  	 */
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  209  	if (estate == PCI_ERS_RESULT_RECOVERED) {
+a56b1e47845b946 Shuai Xue                  2025-09-17  210  		pci_dbg(err_port, "DPC port successfully recovered\n");
+a56b1e47845b946 Shuai Xue                  2025-09-17  211  		pcie_clear_device_status(err_port);
+a56b1e47845b946 Shuai Xue                  2025-09-17  212  		acpi_send_edr_status(pdev, err_port, EDR_OST_SUCCESS);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  213  	} else {
+a56b1e47845b946 Shuai Xue                  2025-09-17  214  		pci_dbg(err_port, "DPC port recovery failed\n");
+a56b1e47845b946 Shuai Xue                  2025-09-17  215  		acpi_send_edr_status(pdev, err_port, EDR_OST_FAILED);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  216  	}
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  217  
+267102466d7b592 Shuai Xue                  2025-09-17  218  	pci_dev_put(err_dev);
+a56b1e47845b946 Shuai Xue                  2025-09-17  219  	pci_dev_put(err_port);
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  220  }
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  221  
 
 -- 
 0-DAY CI Kernel Test Service
