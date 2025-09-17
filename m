@@ -1,160 +1,191 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C222F746C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 08:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1FE2EA727;
+	Wed, 17 Sep 2025 09:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758099339; cv=none; b=s8ng1Sz4xvTLJQOeH0VH4BkmrN7rLdcaBsDYMF10/F7QZCef5tJ7Nemipew2DeZPTBouch5eWRt+XQesh/Qoe6+5aD+CBloh7vWulQWnFoPzmiX3BJxBD38wtpFxv7X6DzIeR9185J1nw4Al3Ey7S1XcPeWTkKZ6t617yRuIbAk=
+	t=1758100980; cv=none; b=Fjwoeo/UOeDDwnqyo7Mtt3Z1g5LqZOkYz4pE+f7Vd2tZYK1fpa698J38gamT5XOzxOtJFfZl+uFFIenlY141erhTAFjUkLUFFSzKe9AYgtG0vvOExUcrYk2ZIqUAzh5BHdZpwIx+haTdWDv/z0gFCOZdvgchyVE9Hp336r/kEz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758099339; c=relaxed/simple;
-	bh=xwSHI/o4u50J881ftyToVBoYLg17be76U5g7Vcy0mz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tI/9TTYPmNZVqnAVJYuzf5IX03ktjim1YAVJkP9+rCZTqgivEofQC3wTHCYLOb5+MQxmUVJEeU8j9sqIy9Ho6OYJM4TdUJKd/i2dJXpcfk4bmtkWSMZyS9b5Fz/EEzs82VEyIgclZKwfu+4LIFtzgwYlXpuQmsVwYtC41Kqm3TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sid7IH8N; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758100980; c=relaxed/simple;
+	bh=yKgXc9fU+S1cFIgmRsCSfUa45Akir9pwqHE7rWhoxXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RjHWyS9Fv+hJ45zTjzCNLK28uOKerJBgErUydcE3bwJg5u4eukbropFdOOhk9w0xZapdx7+RD0Bb7ihO9iqUTUus7Vl6X9aGRhN3ra/sm7jjl4RwtL8ERkykKk5f8s7KwZKELax5DPzK5SS+bwZ52Q8avqWWEZJFdHtAwXeQpjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E2MbTf6g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sid7IH8N"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45dd5e24d16so60500145e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 01:55:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758099336; x=1758704136; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nmgRAXzW/9f+OKShqpEsleaouz9wwraYra0XYWrZBHg=;
-        b=sid7IH8NhCGK1Kn1iSHduXx7TvtrtZQzFFlib0k6mkEgZnM2DQSDF1Bf3nqBdTPFCC
-         ZdVWCCGVQq+OLYXykiltKyR9hRMiskURadc+0vY0ZC8S3b2QIx5XH6hLav45IN+jbATe
-         eAXOjdfhf6nv4/77GYKRyDrlrCu0lta7M+3NMystVhA9fxMEYUx+QDD0W7yEGPwvLmzP
-         feFj36f2orQaGn2r74+BAga5POTYkYO/Sk/5cjVlgt4LLmT65aZtcSbFBmq2dp60n+tc
-         AcgtD9Jk4rXybV7swcf8GAaHzQmAW1LEySUO7u9nV4xdBR3Tw5q6h/J/XUyAtzepIsYd
-         ZsHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758099336; x=1758704136;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmgRAXzW/9f+OKShqpEsleaouz9wwraYra0XYWrZBHg=;
-        b=kLpHYh6UNmc74aj+uKGNcN+x+gwwzu6+x0KOZkBLyiRlAWww7wftTdSeeWQZFeKlq6
-         hLF9Pa39JN36in+Tr1OXZ9nulIHt5DAO5pmiL07qIuOX6mUHB7m3Nygt/fMgBXgqP7vU
-         pmPBOanFFtgyEGUuWK+22O65sgYlHthZU2QuQQR78uCpGnA+GzxKRtrXpMXQ5EU842ha
-         H70QDDSLeNTfi/D8gWGHuhN0hew3+hUV/JVvKfE3EYC6Cg2aQL30s3KInDgteugtGX4O
-         JKVsIZilVWboTlUaS8zcFWT2bit8W/jMO2IqpnfDqniNE8oP5Ku9dfFIMAnLNxPHPbES
-         8V9w==
-X-Forwarded-Encrypted: i=1; AJvYcCU1J5pTo344HvG5uK5ZlPzGQQEx/qFcnpujlHZfbhHrUADKSkc4QFtO1ETZcM8AmhZBo0orZeMNHhQXZjB7@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLwFGJVzJgmkBySk1Nlly5+D+PB0+ibeldGksOLTg9fpWUhDDA
-	AKmr6XCPsi2whnLV6Td8atyYApjr+GvrFEIfasJuqGRB/QTIHgQU8ITMNy8sOrdYX4DHg9HdZAm
-	5BTcW
-X-Gm-Gg: ASbGnctPNEm2y1WeAN1JkDAGR/BEVy0wKHeM95PgfNByoz4eYfzY40fvhpv5iIcASDH
-	b/ZgRKCYwyojDVi1jCMXYpDdm9cI6ab+RDaBfbBwbGr94SRisXSzrmeXhvdfK7XjLvP5eTWQmiZ
-	voKljCDjFk7JSS9pbo3hP8SR2lhUClySAEEg2I/yXt1C7YkwMkHFBjVFnGzrp5rHBU1WLOoyGbs
-	xOsJBBE6S/RhiLtWhFn21iJU02gHMGWca31mdAvVKt7WslziR5jgewklX7UP8cGe+AtmXgRE8Ao
-	4pFuth4vOHWLnyuW7azBZUchBuiqxZQVDEBLTTk2D7Hv/3LHEq5FyXQrC51m7qKJyTlQfho2Fc+
-	Jqw/aq/Q2XqnTQtDsKfjlJqN5jUk=
-X-Google-Smtp-Source: AGHT+IFYI0PazZAgMJFCipmPOvaL5sk1f7U5vKwzqJ04uAmIB5mQ9nuzk6RIaVB5K5niW1pz+S0T3g==
-X-Received: by 2002:a05:600c:3b20:b0:458:bc3f:6a77 with SMTP id 5b1f17b1804b1-46202174e7bmr11202475e9.2.1758099335678;
-        Wed, 17 Sep 2025 01:55:35 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-461371847d0sm28606095e9.2.2025.09.17.01.55.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Sep 2025 01:55:35 -0700 (PDT)
-Date: Wed, 17 Sep 2025 11:55:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-lts 1/1] fs/smb/client/smb2inode.c:520
- smb2_compound_op() error: uninitialized symbol 'rsp_iov'.
-Message-ID: <202509171639.2AtRG7fT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E2MbTf6g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F307EC4CEF0;
+	Wed, 17 Sep 2025 09:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758100979;
+	bh=yKgXc9fU+S1cFIgmRsCSfUa45Akir9pwqHE7rWhoxXE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E2MbTf6gsJF4EGiJCXDmiTkBct1KaJMs2ZL9mit7/R1bC23Cc3WOc5F3l330Ugb1p
+	 MSSaUy4+uhTBUBgZhn0gypb5z1O00AsRlSTj55ekeZyRGL66r+TMkZA2LHBCYQbFrl
+	 KFp0RZdROvM9FPKxEak+njh+58kD3N2CP7yO/REP7HbuyzsM+lHULNTyVtnL024O5V
+	 20qLpDo9UuVAV4fseMDePq2M67ZhVq2WJk2YM5NjX5EgZrpoly1vm4lSlEEbIec+vZ
+	 7igKlLZVJ7OpYApi67Cq5CQ5T4ybk3MSyzRKzvYMcdYbwW9ngcnKDPooy/0Y3s8y+Z
+	 RNmzZ0Mitk8UA==
+Date: Wed, 17 Sep 2025 10:22:54 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	"Daniel Thompson (RISCstar)" <danielt@kernel.org>
+Subject: Re: [lee-backlight:for-backlight-next 14/14]
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c:718:25: error: call
+ to undeclared function 'device_property_read_bool'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <20250917092254.GD3893363@google.com>
+References: <202509170410.RubSxK3n-lkp@intel.com>
+ <a555ff12-e0a9-4413-b90c-0b0fe8515723@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a555ff12-e0a9-4413-b90c-0b0fe8515723@suse.de>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-lts
-head:   8c8937bc84545d6e04812fafa04bcf969f3a5cab
-commit: 3fc11ff13fbc2749871d6ac2141685cf54699997 [1/1] fs/smb: Fix inconsistent refcnt update
-config: i386-randconfig-141-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171639.2AtRG7fT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+On Wed, 17 Sep 2025, Thomas Zimmermann wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509171639.2AtRG7fT-lkp@intel.com/
+> Hi,
+> 
+> it seems impossible to catch all of those.
 
-New smatch warnings:
-fs/smb/client/smb2inode.c:520 smb2_compound_op() error: uninitialized symbol 'rsp_iov'.
+That's what it's there for. :)
 
-vim +/rsp_iov +520 fs/smb/client/smb2inode.c
+> I'm going to send out a patch for
+> the driver and get it upstream ASAP.
 
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   58  static int smb2_compound_op(const unsigned int xid, struct cifs_tcon *tcon,
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   59  			    struct cifs_sb_info *cifs_sb, const char *full_path,
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   60  			    __u32 desired_access, __u32 create_disposition, __u32 create_options,
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   61  			    umode_t mode, void *ptr, int command, struct cifsFileInfo *cfile,
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   62  			    struct kvec *err_iov, int *err_buftype)
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   63  {
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   64  	struct cop_vars *vars = NULL;
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   65  	struct kvec *rsp_iov;
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   66  	struct smb_rqst *rqst;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   67  	int rc;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   68  	__le16 *utf16_path = NULL;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   69  	__u8 oplock = SMB2_OPLOCK_LEVEL_NONE;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   70  	struct cifs_fid fid;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   71  	struct cifs_ses *ses = tcon->ses;
-352d96f3acc6e02 fs/cifs/smb2inode.c       Aurelien Aptel  2020-05-31   72  	struct TCP_Server_Info *server;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   73  	int num_rqst = 0;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   74  	int resp_buftype[3];
-c2e0fe3f5aae1f7 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   75  	struct smb2_query_info_rsp *qi_rsp = NULL;
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03   76  	struct cifs_open_info_data *idata;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   77  	int flags = 0;
-c2e0fe3f5aae1f7 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   78  	__u8 delete_pending[8] = {1, 0, 0, 0, 0, 0, 0, 0};
-bb435512cec806a fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   79  	unsigned int size[2];
-bb435512cec806a fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   80  	void *data[2];
-bb435512cec806a fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   81  	int len;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03   82  
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   83  	vars = kzalloc(sizeof(*vars), GFP_ATOMIC);
-3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   84  	if (vars == NULL) {
-3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   85  		rc = -ENOMEM;
-3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   86  		goto out;
+Sounds good, thanks.
 
-rsp_iov is uninitialized.
-
-3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28   87  	}
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   88  	rqst = &vars->rqst[0];
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   89  	rsp_iov = &vars->rsp_iov[0];
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20   90  
-352d96f3acc6e02 fs/cifs/smb2inode.c       Aurelien Aptel  2020-05-31   91  	server = cifs_pick_channel(ses);
-
-[ snip ]
-
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  513  	}
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  514  
-3fc11ff13fbc274 fs/smb/client/smb2inode.c Shuhao Fu       2025-08-28  515  out:
-4fe07d55a5461e6 fs/smb/client/smb2inode.c Shyam Prasad N  2023-06-22  516  	if (cfile)
-4fe07d55a5461e6 fs/smb/client/smb2inode.c Shyam Prasad N  2023-06-22  517  		cifsFileInfo_put(cfile);
-4fe07d55a5461e6 fs/smb/client/smb2inode.c Shyam Prasad N  2023-06-22  518  
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  519  	if (rc && err_iov && err_buftype) {
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03 @520  		memcpy(err_iov, rsp_iov, 3 * sizeof(*err_iov));
-
-Uninitialized
-
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  521  		memcpy(err_buftype, resp_buftype, 3 * sizeof(*err_buftype));
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  522  	} else {
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  523  		free_rsp_buf(resp_buftype[0], rsp_iov[0].iov_base);
-
-Here too.
-
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  524  		free_rsp_buf(resp_buftype[1], rsp_iov[1].iov_base);
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  525  		free_rsp_buf(resp_buftype[2], rsp_iov[2].iov_base);
-76894f3e2f71177 fs/cifs/smb2inode.c       Paulo Alcantara 2022-10-03  526  	}
-a7d5c2946280887 fs/cifs/smb2inode.c       Ronnie Sahlberg 2020-05-20  527  	kfree(vars);
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  528  	return rc;
-c5a5f38f075cf76 fs/cifs/smb2inode.c       Ronnie Sahlberg 2018-09-03  529  }
+> Am 16.09.25 um 22:29 schrieb kernel test robot:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+> > head:   9f218f9bb9d274b9d5d48a4c95e1b199141fc1f2
+> > commit: 9f218f9bb9d274b9d5d48a4c95e1b199141fc1f2 [14/14] backlight: Do not include <linux/fb.h> in header file
+> > config: x86_64-buildonly-randconfig-004-20250917 (https://download.01.org/0day-ci/archive/20250917/202509170410.RubSxK3n-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509170410.RubSxK3n-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202509170410.RubSxK3n-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > > > drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c:718:25: error: call to undeclared function 'device_property_read_bool'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+> >       718 |         ctx->flip_horizontal = device_property_read_bool(dev, "flip-horizontal");
+> >           |                                ^
+> >     drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c:718:25: note: did you mean 'drm_property_create_bool'?
+> >     include/drm/drm_property.h:271:22: note: 'drm_property_create_bool' declared here
+> >       271 | struct drm_property *drm_property_create_bool(struct drm_device *dev,
+> >           |                      ^
+> > > > drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c:748:61: error: array has incomplete element type 'const struct of_device_id'
+> >       748 | static const struct of_device_id s6e88a0_ams427ap24_of_match[] = {
+> >           |                                                             ^
+> >     include/linux/device/driver.h:106:15: note: forward declaration of 'struct of_device_id'
+> >       106 |         const struct of_device_id       *of_match_table;
+> >           |                      ^
+> >     2 errors generated.
+> > 
+> > 
+> > vim +/device_property_read_bool +718 drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+> > 
+> > 5b67fdf1668fc37 Jakob Hauser    2024-10-28  683
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  684  static int s6e88a0_ams427ap24_probe(struct mipi_dsi_device *dsi)
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  685  {
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  686  	struct device *dev = &dsi->dev;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  687  	struct s6e88a0_ams427ap24 *ctx;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  688  	int ret;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  689
+> > 3a21fd4c9065c3c Anusha Srivatsa 2025-05-29  690  	ctx = devm_drm_panel_alloc(dev, struct s6e88a0_ams427ap24, panel,
+> > 3a21fd4c9065c3c Anusha Srivatsa 2025-05-29  691  				   &s6e88a0_ams427ap24_panel_funcs,
+> > 3a21fd4c9065c3c Anusha Srivatsa 2025-05-29  692  				   DRM_MODE_CONNECTOR_DSI);
+> > 3a21fd4c9065c3c Anusha Srivatsa 2025-05-29  693  	if (IS_ERR(ctx))
+> > 3a21fd4c9065c3c Anusha Srivatsa 2025-05-29  694  		return PTR_ERR(ctx);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  695
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  696  	ret = devm_regulator_bulk_get_const(dev,
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  697  				      ARRAY_SIZE(s6e88a0_ams427ap24_supplies),
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  698  				      s6e88a0_ams427ap24_supplies,
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  699  				      &ctx->supplies);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  700  	if (ret < 0)
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  701  		return ret;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  702
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  703  	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  704  	if (IS_ERR(ctx->reset_gpio))
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  705  		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  706  				     "Failed to get reset-gpios\n");
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  707
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  708  	ctx->dsi = dsi;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  709  	mipi_dsi_set_drvdata(dsi, ctx);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  710
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  711  	dsi->lanes = 2;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  712  	dsi->format = MIPI_DSI_FMT_RGB888;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  713  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> > 5b67fdf1668fc37 Jakob Hauser    2024-10-28  714  			  MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_VIDEO_NO_HFP;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  715
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  716  	ctx->panel.prepare_prev_first = true;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  717
+> > e70d4f8e242bbc4 Jakob Hauser    2024-10-28 @718  	ctx->flip_horizontal = device_property_read_bool(dev, "flip-horizontal");
+> > e70d4f8e242bbc4 Jakob Hauser    2024-10-28  719
+> > 5b67fdf1668fc37 Jakob Hauser    2024-10-28  720  	ret = s6e88a0_ams427ap24_register_backlight(ctx);
+> > 5b67fdf1668fc37 Jakob Hauser    2024-10-28  721  	if (ret < 0)
+> > 5b67fdf1668fc37 Jakob Hauser    2024-10-28  722  		return ret;
+> > 5b67fdf1668fc37 Jakob Hauser    2024-10-28  723
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  724  	drm_panel_add(&ctx->panel);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  725
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  726  	ret = mipi_dsi_attach(dsi);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  727  	if (ret < 0) {
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  728  		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  729  		drm_panel_remove(&ctx->panel);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  730  		return ret;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  731  	}
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  732
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  733  	return 0;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  734  }
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  735
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  736  static void s6e88a0_ams427ap24_remove(struct mipi_dsi_device *dsi)
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  737  {
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  738  	struct s6e88a0_ams427ap24 *ctx = mipi_dsi_get_drvdata(dsi);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  739  	int ret;
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  740
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  741  	ret = mipi_dsi_detach(dsi);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  742  	if (ret < 0)
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  743  		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  744
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  745  	drm_panel_remove(&ctx->panel);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  746  }
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  747
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28 @748  static const struct of_device_id s6e88a0_ams427ap24_of_match[] = {
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  749  	{ .compatible = "samsung,s6e88a0-ams427ap24" },
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  750  	{ /* sentinel */ },
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  751  };
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  752  MODULE_DEVICE_TABLE(of, s6e88a0_ams427ap24_of_match);
+> > d5658db2a0768a7 Jakob Hauser    2024-10-28  753
+> > 
+> > :::::: The code at line 718 was first introduced by commit
+> > :::::: e70d4f8e242bbc4fd39f3a867dc3e33122d7e559 drm/panel: samsung-s6e88a0-ams427ap24: Add flip option
+> > 
+> > :::::: TO: Jakob Hauser <jahau@rocketmail.com>
+> > :::::: CC: Neil Armstrong <neil.armstrong@linaro.org>
+> > 
+> 
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+> 
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Lee Jones [李琼斯]
