@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042DF7464;
-	Wed, 17 Sep 2025 10:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CADF27713
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Sep 2025 11:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758105932; cv=none; b=QWaOAxJ3PzVs2RAJEXoT/LbZseIoqwFuSIvXueiyAQReFtLXhAmRSyfJWYKvkdbrQar0korAayET/L6Gzeh7P7H9LL2HBJp0/KeNfO5ll+VIFsDzjuNVKh0AZP3m8gHyoBP3w2Lcf7/acvuO9dP9TjJBFAPHJ9npP/0i4yddV9o=
+	t=1758107135; cv=none; b=AaYJ3Ygzlvlsi8OpgnIRCJHpkG6fCCUrf/aR7f+1B86C794Y4dzN37FA73eIEJk8LUajvfwz5PnXydkFyXLieSPDjHTOlOI47CQoEpAWdC6Qlic3LyFj5BYIlgSzKmDpgSATtmGk6cEmQVYi2WSrhJh4QULlzdU6Z25kT64WAd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758105932; c=relaxed/simple;
-	bh=lALeFnr032icB/R5hjDAWNydbiTVK4KtWslLrAqdJQw=;
+	s=arc-20240116; t=1758107135; c=relaxed/simple;
+	bh=aYfiGscODZY08nTaVOaMHh+BkAmQFeULqygoaWas8mk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WtgxUA6TX4LOUh26goujgWVcLrZiAlLmDnN/64e7cITwYE63vxOUoOU1eq0XamFlPv0mKHenutey6SXlwveEWh0iGtLoHj6mQ2/Bq2Jwb7cSKhX4cSmHtBsI8ooZYbnk1ex8z8giDK/UsgdgHK6oeXxcdNB4p/OT8TnErUpRanI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LO5rWFsR; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=nGPqkWxKAWzpIEwRHs2z5pH0OvNqoqj/Zm6eIyh/FIxvBxNvYs69Fo8Ii8pQUbgXXcnNObO18IfGHMfAdUIpjEjBJXfs21ZesDasEz7SMXlhEv0mxMsmX8eNHAvBFK7AxQcKchNaNrSoiQP+JgmkH6H9pP2C1jxbHSpwkke0o7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e10JiuyG; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LO5rWFsR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e10JiuyG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758105930; x=1789641930;
+  t=1758107133; x=1789643133;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lALeFnr032icB/R5hjDAWNydbiTVK4KtWslLrAqdJQw=;
-  b=LO5rWFsR1s14p7AXhk1eeMW7/bEl/NvQQPe7ikQ2N7r1YlRW1fsAyz0q
-   MUH4bl2LsFVYxvEhU149Bvmbda7IIKF7/SLe9ZN/NDPNAlygPcl6VUzUy
-   qlS5v4Yb3KXhr0rl4hV4mY0prwUoweQB/8xK/Edya+sXQ8YpKSVJuc7Ul
-   q2cgZ0Pu7rfrGd4IMJLv/XK64LXoIJ7IyyagASNcgMTBEmkGxXJxMu2sq
-   d/B8VtQANSvbXoBZwc4ikRpUm709RRf5cc46+1CFPBeLhGsKlkHZKvpz7
-   h/l0QxbXHoJZd9v58Je72IGiQ/ODNsQ0fs44ewW9J2PphUUoX/AqoMtJt
+  bh=aYfiGscODZY08nTaVOaMHh+BkAmQFeULqygoaWas8mk=;
+  b=e10JiuyGMW/VSs95vPJz/T5yhXtT90is6xUc0b98eFP1NOjtjboMh+Oh
+   7QAM+wg4CfeCqAS3hnftb2TqIZ4YDekOszRa9oJu9wHsDkag+tYG87xa2
+   t4WB8r5G3HIONglexOPVJp0mOAe9CIRaKe9yRqvt+5nxkSyh5WJvAAMUw
+   a5ACtfbl0BD0yewORz4TcBXcxSJP0+k611wcfIIJX+hnZarS1DG4+uiq6
+   Idh7mwrSimGqTTYeZZMtBrW796oJ9NP2MERuXxYC8DRTk7+c57m9+fu8t
+   wEhDExKFW6H7paaokR65eqVRIg1wbAadNp63AByr1C8ZPiQy//PcqIFjP
    A==;
-X-CSE-ConnectionGUID: YXnRfZmOQEmsEFUMKYHjmw==
-X-CSE-MsgGUID: tnqblaqpQvyOeEKT1c7EKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="85847509"
+X-CSE-ConnectionGUID: w9kZugG6ScWoIM480njtkw==
+X-CSE-MsgGUID: O3Wwg7BhQGuErCPIVHR9gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="78014335"
 X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="85847509"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 03:45:29 -0700
-X-CSE-ConnectionGUID: lY47/jHkRl2pH9M1BbFwkg==
-X-CSE-MsgGUID: kavOjdEJSQOu35mwtXi7ew==
+   d="scan'208";a="78014335"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 04:05:32 -0700
+X-CSE-ConnectionGUID: K61CCjLJSi2MLr0tbHiVbQ==
+X-CSE-MsgGUID: DjGYdbNkTqy4ceeBIqZFDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; 
-   d="scan'208";a="174500270"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Sep 2025 03:45:28 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 17 Sep 2025 04:05:29 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uypfB-0001OJ-1i;
-	Wed, 17 Sep 2025 10:45:25 +0000
-Date: Wed, 17 Sep 2025 18:44:32 +0800
+	id 1uypyZ-0001Pf-2G;
+	Wed, 17 Sep 2025 11:05:27 +0000
+Date: Wed, 17 Sep 2025 19:05:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Abeni <pabeni@redhat.com>, mptcp@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [MPTCP next 03/12] mptcp: rcvbuf auto-tuning improvement
-Message-ID: <202509171856.1KhVdgmP-lkp@intel.com>
-References: <d3f96328a76e6fffcb871e8542c526ea99135ea5.1758039775.git.pabeni@redhat.com>
+To: Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	jishnu.prakash@oss.qualcomm.com
+Subject: Re: [PATCH v2 3/4] regulator: rpmh-regulator: Add support for new
+ resource name format
+Message-ID: <202509171822.oRjF64pS-lkp@intel.com>
+References: <20250916-glymur-rpmh-regulator-driver-v2-3-c6593ff9b4be@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +70,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d3f96328a76e6fffcb871e8542c526ea99135ea5.1758039775.git.pabeni@redhat.com>
+In-Reply-To: <20250916-glymur-rpmh-regulator-driver-v2-3-c6593ff9b4be@oss.qualcomm.com>
 
-Hi Paolo,
+Hi Kamal,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mptcp/export-net]
-[also build test WARNING on linus/master v6.17-rc6 next-20250916]
-[cannot apply to next-20250916 mptcp/export]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c3067c2c38316c3ef013636c93daa285ee6aaa2e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/mptcp-leverage-skb-deferral-free/20250917-003012
-base:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
-patch link:    https://lore.kernel.org/r/d3f96328a76e6fffcb871e8542c526ea99135ea5.1758039775.git.pabeni%40redhat.com
-patch subject: [MPTCP next 03/12] mptcp: rcvbuf auto-tuning improvement
-config: arc-nsimosci_hs_smp_defconfig (https://download.01.org/0day-ci/archive/20250917/202509171856.1KhVdgmP-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171856.1KhVdgmP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamal-Wadhwa/dt-bindings-rpmh-regulator-Add-compatibles-for-PMH01XX-PMCX0102/20250916-210231
+base:   c3067c2c38316c3ef013636c93daa285ee6aaa2e
+patch link:    https://lore.kernel.org/r/20250916-glymur-rpmh-regulator-driver-v2-3-c6593ff9b4be%40oss.qualcomm.com
+patch subject: [PATCH v2 3/4] regulator: rpmh-regulator: Add support for new resource name format
+config: i386-buildonly-randconfig-001-20250917 (https://download.01.org/0day-ci/archive/20250917/202509171822.oRjF64pS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509171822.oRjF64pS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509171856.1KhVdgmP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509171822.oRjF64pS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/mptcp/protocol.c: In function 'mptcp_rcvbuf_grow':
->> net/mptcp/protocol.c:199:21: warning: variable 'window_clamp' set but not used [-Wunused-but-set-variable]
-     199 |                 u32 window_clamp;
-         |                     ^~~~~~~~~~~~
-
-
-vim +/window_clamp +199 net/mptcp/protocol.c
-
-   180	
-   181	static bool mptcp_rcvbuf_grow(struct sock *sk)
-   182	{
-   183		struct mptcp_sock *msk = mptcp_sk(sk);
-   184		int rcvwin, rcvbuf;
-   185	
-   186		if (!READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_moderate_rcvbuf) ||
-   187		    (sk->sk_userlocks & SOCK_RCVBUF_LOCK))
-   188			return false;
-   189	
-   190		rcvwin = ((u64)msk->rcvq_space.space << 1);
-   191	
-   192		if (!RB_EMPTY_ROOT(&msk->out_of_order_queue))
-   193			rcvwin += MPTCP_SKB_CB(msk->ooo_last_skb)->end_seq - msk->ack_seq;
-   194	
-   195		rcvbuf = min_t(u64, mptcp_space_from_win(sk, rcvwin),
-   196			       READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_rmem[2]));
-   197	
-   198		if (rcvbuf > sk->sk_rcvbuf) {
- > 199			u32 window_clamp;
-   200	
-   201			window_clamp = mptcp_win_from_space(sk, rcvbuf);
-   202			WRITE_ONCE(sk->sk_rcvbuf, rcvbuf);
-   203			return true;
-   204		}
-   205		return false;
-   206	}
-   207	
+>> Warning: drivers/regulator/qcom-rpmh-regulator.c:47 Enum value 'NUM_REGULATOR_TYPES' not described in enum 'regulator_hw_type'
+>> Warning: drivers/regulator/qcom-rpmh-regulator.c:167 bad line:                                 on the PMIC.
 
 -- 
 0-DAY CI Kernel Test Service
