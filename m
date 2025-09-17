@@ -1,149 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172F021CA00;
-	Wed, 17 Sep 2025 02:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95D6101F2;
+	Wed, 17 Sep 2025 02:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758075648; cv=none; b=rjOsqfTdyPIGWsynEqYO8HZANkrC4eZvlGlo4ZwKxp4oXymuot1KrIbMhtBXOGprP5iWi8AVE5JF6lY/mu+f3FTrGUkVgw/RGfhXGnEB8Son8N+GxYHjHpBC/W2gM5mJRflmeagSfIgN9OtdjKLVAGR5iMcKv1dWScrXPZZxG1k=
+	t=1758076340; cv=none; b=e0CG2TuUmxGv6Ytj+0waHHiWTAQANlIyBV6e2W154p48CyeJg+uGJzFDemtLv2ZvHyeYMAC8N5B6/X68HPT8K5GaqFtPzMBRm/nIJwwZ+XDBddY47JPhp716ulHh6fPQRPe4jKUUX+w8+/3uuwILmiRaBsfJ+H5q0l/P1np5oaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758075648; c=relaxed/simple;
-	bh=r1UlIgUlkprdv2jy4RgTkhkaEP1kfK2+bVNiN02YlwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tONd0ELpryLqztCw9jkpjKEZdvY93h/dJfuqa1MlG7z7DSn/1P1diaaEt8gkv5+nTJgOXZpYZ+WcJ/8PZQCDQTpj6MiDl2ahoFJxwmC7hMEtZGGMb9PNbRpxbVYMRnPO0k85dBEF/wvipud05VA8ekAbTjGGpJ06/Nkax7omaZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+4ti1iv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758076340; c=relaxed/simple;
+	bh=VMuz4M4THTO6ZvBVv203VVWhmcVr/lu2oqGQyYfrgbw=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=S/cQf62stLo6GI6FSK/52nhx6ZUv3eEkNUtabSrtWOa5XpSwUiC8rX+i9SvS8gLvmvDo8+uUEncTN4E58RDmH0EgG6XtK4F2mwY23rLTaRdhSa7IrmKWU4nmLGAV5PlhByFhVum6ooUSy2/soqBSoxoWXe4+nzYmzm9fZbp0H0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=VraFpJOo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IqIQ4tr0; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+4ti1iv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3203FC4CEEB;
-	Wed, 17 Sep 2025 02:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758075647;
-	bh=r1UlIgUlkprdv2jy4RgTkhkaEP1kfK2+bVNiN02YlwM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J+4ti1ivE6v/eHhf0q40NOdzWDJM3MNTmULkaJcUurjkZePJhg1oraUNkT+M0xXqp
-	 +LavpBQL1ODu9CvlKYz3AigG52MXS7wbN4jccxw8B/axHndy8NePQTSKoGTQpmsd4a
-	 6r0E5HQNbtQlalL1heCWyHAV6hKk2pMziRFH7fKD8LJcebfDJW9D72uSsM1wq61Uz7
-	 OLb0NgFogsN5p+UELhed2RTdO9xBk7QbT3+A5VBI0z9R0ZH7MZoyYowdmo+BZfQimo
-	 ok8gPK0TpjXkCqYB4RHOF8j71iak2W9KVTTx1MnfqyE1Z+U4YswFFonXuLOUm4xEHb
-	 X3+0NmwCDtA8w==
-Date: Tue, 16 Sep 2025 19:20:43 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Oliver Sang <oliver.sang@intel.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	llvm@lists.linux.dev, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [jgunthorpe:iommu_pt_vtd 8/34] ERROR: modpost: "__udivdi3"
- [drivers/iommu/generic_pt/fmt/iommu_amdv1.ko] undefined!
-Message-ID: <20250917022043.GB3106929@ax162>
-References: <202508271856.ixwxgh3g-lkp@intel.com>
- <20250902124856.GE186519@nvidia.com>
- <aMj38M8HeDSQHQPf@xsang-OptiPlex-9020>
- <20250916141256.GF1086830@nvidia.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="VraFpJOo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IqIQ4tr0"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 0C812EC010A;
+	Tue, 16 Sep 2025 22:32:17 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 16 Sep 2025 22:32:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1758076337;
+	 x=1758162737; bh=azsy23q+rPyxE4rkwBBnevYo80qh2aRdBdCfnlE7hzw=; b=
+	VraFpJOoXW0ZPu9aZ6MbFs5o+Gg8x9TU/sdgPMiAamjqawlwoZW0eENKBDf3OYxm
+	pEmGp66pRCkrregwgeCcBmeyvZDhStncOauAdPzzhwN3hxaGqxC2upAd/8lE53In
+	ufmUa9pkaqSHhp3OIBota519XiLffq+FzmBamJyF3B96GuzyJAEX9CgHAYzzUJnF
+	FL4xtob1M5iiIsDqMMQHENq4k1yt3VyK3amyEQFlJOcQ9uvke3KKd/OpCowzHGRf
+	LL5ggh0f+zPG0WzUsk5cb4R0MeXxgb/ZzHq38GoXaC5PuGZGU7V3m0CZxeDLqj65
+	PN2mgH4qO9L9j9F9liQfxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758076337; x=
+	1758162737; bh=azsy23q+rPyxE4rkwBBnevYo80qh2aRdBdCfnlE7hzw=; b=I
+	qIQ4tr0Xo2jELG0/1UNeta4HW3i+SVA9nODIuI5U7X2kv8+SCTjvfh4mdTpAwluU
+	laBIBTxTzAO3LpXG/Lp3UU3Wk2DNHUAhrq7tB9chg9hpJ2a5HRQmTf87ll9NfUnc
+	ZfmDGaGCh9mC0bln11OEXXwElk3Mpa+S2Vj8NSNPBVjJD8O5SFnF7g8JYoUIT+IF
+	HvQrCIugBj10WpUAdepJzZY3Fh0F8jJDNg8yl/4Rx1b6cJ0fhCAQCLTQNBPBUTAf
+	G8Cq9U/ad2Ci9eRyh8XVAJUrzp/LvqZG9AfQrnnSOF4cY8e1YH8RY452lYz/UQZn
+	bwHxKgey4M81CNAPmJ3qw==
+X-ME-Sender: <xms:sB3KaNlR4HkReCw7LgKmhai2WAHdpeDUb3mtdP8gihKiuA0LOoyzpw>
+    <xme:sB3KaJmejXbhgRnbBpwEsmZ2YdJPiI7TP3GyO52Dkt_VK0UjfXzFw3cTdhaiKpPAx
+    K46u2jMejDXXQ>
+X-ME-Received: <xmr:sB3KaPwbBikm8ldEy9uEf2H31DgLOlZh7HrPyRWpPvFnD0M4LbhuaVl2a_j4vXcz4QNXrJuPO2YJrpVy3H33gfLkWztLa6DPt6X9ZUNI6XNk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdegvddviecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpegtgfgghffvvefujghffffksehtqhertddttdejnecuhfhrohhmpedfpfgvihhluehr
+    ohifnhdfuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    ephfevffegkeduhefhudevfeeuhefgieduteduhfdvgeeifeeliefhfeejfeefleevnecu
+    ffhomhgrihhnpehofihnmhgrihhlrdhnvghtnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesohifnhhmrghilhdrnhgvthdpnhgs
+    pghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghhuhgtkh
+    drlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepohgvqdhksghuihhluges
+    lhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlh
+    hlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepuggrnhdrtggrrhhpvghn
+    thgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:sB3KaOrIFlfpkeJbhpXCO0e5DQFvOVablnE-lBHM27aI6OaKwAYpbQ>
+    <xmx:sB3KaO7Lu68idP_1o-1yBd3Cm9wqBeJ7teSJKrixJYm6CkSFHeNVrQ>
+    <xmx:sB3KaFeE2dpLN7o5ckDI79pWLm-9gCTHpJm-D8ChLRLRaMH5zPNEeQ>
+    <xmx:sB3KaD7xZpzqsQTQ-E5CMj9VHv-4-e68xOkoHm_X-9ny15qI1Eo3jw>
+    <xmx:sR3KaI3bNK975GavdSOozTBoB0nlCqBdZZNfVlcSUH9VRH6hWAm2_8FA>
+Feedback-ID: iab3e480c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Sep 2025 22:32:14 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250916141256.GF1086830@nvidia.com>
+From: "NeilBrown" <neilb@ownmail.net>
+To: "Chuck Lever" <chuck.lever@oracle.com>
+Cc: "Chuck Lever" <chuck.lever@oracle.com>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ "Jeff Layton" <jlayton@kernel.org>
+Subject: Re: [PATCH v2] nfsd: move name lookup out of nfsd4_list_rec_dir()
+In-reply-to: <175796544274.8037.397805260300460361.b4-ty@oracle.com>
+References: <202509131751.4STnDcZg-lkp@intel.com>, <>,
+ <175781199938.1696783.3669146136396360246@noble.neil.brown.name>, <>,
+ <35db1d4a-c75f-4419-b0a5-71ef0f80603c@oracle.com>, <>,
+ <175788975119.1696783.10090163184150858167@noble.neil.brown.name>, <>,
+ <b89886a8-c6f3-4789-bf03-4e8da7e142db@oracle.com>,
+ <175790491325.1696783.7680474323247431624@noble.neil.brown.name>,
+ <175796544274.8037.397805260300460361.b4-ty@oracle.com>
+Date: Wed, 17 Sep 2025 12:32:12 +1000
+Message-id: <175807633277.1696783.13245912067571261379@noble.neil.brown.name>
 
-Hi Jason,
+On Wed, 17 Sep 2025, Chuck Lever wrote:
+> On Mon, 15 Sep 2025 12:55:13 +1000, NeilBrown wrote:
+> > nfsd4_list_rec_dir() is called with two different callbacks.
+> > One of the callbacks uses vfs_rmdir() to remove the directory.
+> > The other doesn't use the dentry at all, just the name.
+> >=20
+> > As only one callback needs the dentry, this patch moves the lookup into
+> > that callback.  This prepares of changes to how directory operations
+> > are locked.
+> >=20
+> > [...]
+>=20
+> Applied to nfsd-testing, thanks!
+>=20
+> [1/1] nfsd: move name lookup out of nfsd4_list_rec_dir()
+>       commit: 2f9cc710ed12ee9b3767586cc99cbd61125a08b3
 
-On Tue, Sep 16, 2025 at 11:12:56AM -0300, Jason Gunthorpe wrote:
-> On Tue, Sep 16, 2025 at 01:38:56PM +0800, Oliver Sang wrote:
-> > hi, Jason,
-> > 
-> > On Tue, Sep 02, 2025 at 09:48:56AM -0300, Jason Gunthorpe wrote:
-> > > On Wed, Aug 27, 2025 at 06:53:24PM +0800, kernel test robot wrote:
-> > > > tree:   https://github.com/jgunthorpe/linux iommu_pt_vtd
-> > > > head:   fbb816ad5a7780a27bde18e3090b30552b6068f9
-> > > > commit: 9722034883c205c7cfc7e395cb9a44221f010fc3 [8/34] iommupt: Add map_pages op
-> > > > config: i386-randconfig-r111-20250827 (https://download.01.org/0day-ci/archive/20250827/202508271856.ixwxgh3g-lkp@intel.com/config)
-> > > > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250827/202508271856.ixwxgh3g-lkp@intel.com/reproduce)
-> > > > 
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202508271856.ixwxgh3g-lkp@intel.com/
-> > > > 
-> > > > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > > > 
-> > > > >> ERROR: modpost: "__udivdi3" [drivers/iommu/generic_pt/fmt/iommu_amdv1.ko] undefined!
-> > > 
-> > > I could not reproduce this..
-> > 
-> > sorry for late.
-> > 
-> > not sure how you reproduce? the reroducer in
-> > https://download.01.org/0day-ci/archive/20250827/202508271856.ixwxgh3g-lkp@intel.com/reproduce
-> > is wrong. could you try below?
-> 
-> I used the instructions with the ubuntu clang 20 build.
-> 
-> Your instructions with the 0day clang build do reproduce.
-> 
-> This seems like a bug in that 0day clang compiler build:
-> 
-> static inline unsigned int pt_pgsz_lg2_to_level(struct pt_common *common,
-> 						unsigned int pgsize_lg2)
-> {
-> 	static_assert(PT_GRANULE_LG2SZ < 256);
-> 	return (pgsize_lg2 - PT_GRANULE_LG2SZ) /
-> 	       ((unsigned int)(PT_TABLEMEM_LG2SZ - ilog2(PT_ITEM_WORD_SIZE)));
-> 
-> Is the source of the issue.
-> 
-> I added this:
-> 
-> 	typeof(PT_GRANULE_LG2SZ) x = PT_GRANULE_LG2SZ;
-> 
-> 	static_assert(sizeof(x) == 8);
-> 
-> And my compilers, and the 0day sparse, all fail that static_assert, x
-> is 'int'.
-> 
-> ../drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h:36:9: sparse: error: static assertion failed: "sizeof(x) == 8"
-> 
-> This is correct as in C the type of an enum value is always int and it
-> is a GCC extension that if int is not big enough for the constant the
-> type is promoted till it is.
-> 
-> But for some reason your clang 20 build is saying it is not int. That
-> then triggers incorrect 64 bit division.
+Thanks.
 
-I spent some time looking into this today and I ran out of time before
-coming to any real conclusion but I wanted to dump what I had so far.
+>=20
+> "checkpatch.pl" reports:
+>=20
+> From:/Signed-off-by: email address mismatch: 'From: NeilBrown <neilb@ownmai=
+l.net>' !=3D 'Signed-off-by: NeilBrown <neil@brown.name>'
 
-This error is not reproducible with LLVM 19.1.7 but it is with LLVM
-20.1.8. Running a bisect between those two versions reveals
+That's my fault.
+I had wanted to use "neil@brown.name" for everything but it turns out
+that I cannot control SPF and DKIM for that (it would be trivial for the
+owner of brown.name to enable that, but they won't.).
+So I've created neilb@ownmail.net and use that for sending, but set
+reply-to to neil@brown.name for sign patch creation.
+But my habit of removing the the first 3 lines of "git format-patch"
+output when posting a patch will have to change.
 
-  https://github.com/llvm/llvm-project/commit/a0f88901a4e6a6618c3ec02108103d0415e28834
+However ... the email you replied to had "Reply-To: NeilBrown <neil@brown.nam=
+e>"
+but your reply went to "NeilBrown <neilb@ownmail.net>".
+Any idea why?
 
-as the bad commit, which certainly makes sense, as C23 made this GCC
-extension as part of the standard so clang needed to account for that.
-As far as I can tell, GCC did the same thing in
+>=20
+> "b4 am" reports:
+>=20
+>   =E2=9C=97 BADSIG: DKIM/messagingengine.com
+>   =E2=9C=97 BADSIG: DKIM/ownmail.net
 
-  https://gcc.gnu.org/cgit/gcc/commit/?id=3b3083a598ca3f4b6203284e01ed39ab6ff0844f
+That is weird.  The DKIM signatures should be good....
 
-  "The standard feature gives all the values of such an enum the enumerated
-  type (while keeping type int if that can represent all values of the
-  enumeration), where previously GCC only gave those values outside the range
-  of int the enumerated type... this patch makes the change to types of
-  enumerators unconditionally (if that causes problems in practice we could
-  always make it conditional on C2x mode instead)."
+Thanks, and apoligies for messing up,
+NeilBrown
 
-so I am somewhat surprised GCC does not exhibit similar behavior since I
-would expect the underlying type of this enum to be 'unsigned long long'
-from the GENMASK_ULL usage to define PT_TOP_PHYS_MASK... but I have not
-been able to figure out why yet.
 
-This could be easily worked around by moving PT_TOP_PHYS_MASK to its own
-enum like has been done in the past like ff1cc97b1f4c ("block/blk-iocost
-(gcc13): keep large values in a new enum") did.
+>=20
+> The patch did not go to linux-nfs@vger.kernel.org, so it is
+> archived only under oe-kbuild@lists.linux.dev.
+>=20
+> Since this is already the second resend, I've applied it anyway.
+>=20
+> --
+> Chuck Lever <chuck.lever@oracle.com>
+>=20
 
-Cheers,
-Nathan
