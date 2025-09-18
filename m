@@ -1,61 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BE61A0711
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 10:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414C5306B0B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 11:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758192535; cv=none; b=nCzH0POPmyi9IulG2NgyNNoe/IDLk2Sp+1nwL4RMBpB6ZJxzIDo6R67XSlSKyPYsjmdBJrPhW0/q0E3CnRRjSQ/8VXlejFw09PWiKg7JYsT3NGSlOQi+RGM3O5/ylSMg3uEfVP28KL5HlXNeAOv4UApMGEHmkCjR2gS+pWu1qBk=
+	t=1758196325; cv=none; b=IM/N2sv7zXA6GSLNxj10dR0ct7+NZLUyrZl1bme/jwWIGApCq2Acz/AT08/mf/yPXJlEzLWb52TPLU+tfaKzDoA5oB48PR8GsB7QAQw0YoWieUqKTQGSbZJezx477UFDxcaSrlYV6NkWVK59Lol3DU+jENm7FOVnkPdUhnIePOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758192535; c=relaxed/simple;
-	bh=COmNd33YAO6IgloJhheFFVRfZ+IPJyvXPx4wsWlaHAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eWj7t7vp6r1UZnAqT168VgkYK7ZGUMg7hq3ZZQ9Hodu1t0jHDWPWZ7yDZoEI+AZNJNh+GNJxPP/7qktTPrYdWNYCWNDJenhqTe2sIR7+5LrAy9e/MkJW+TEk8v0xMplV0nod4iiIK0bHiGzAFcj6vEAo95rNZvYKp22TTSRW04o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwtAvgFq; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1758196325; c=relaxed/simple;
+	bh=gRM5ebAAEf4TRIWQFHbcl8pLy8N7ldQhFRmgB1sHmKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1rgGiTtdNgHOw9LZJZtF7eRllRNz4OPLxF6kA4RXsTs55hWk4+J3NkPievehrll0RxkjDjf1+bkOByBdk1xEs/VNB1mwXc7SeRJ1CvjQxM4MafuLBC6RuZ2ICtThzVM7Xgyro9nzCE+2b/PEi49bptWjClUXtKsIcO264SLx34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lMjQgkSb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwtAvgFq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMjQgkSb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758192533; x=1789728533;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=COmNd33YAO6IgloJhheFFVRfZ+IPJyvXPx4wsWlaHAE=;
-  b=mwtAvgFqTGxyzZ1kggaOMTJfzYpMJgmzkFs3UbwUTXYBKAJBTTqXl8X3
-   zr+JkUP3q9oPl9WVPWS042Z76toLbBQ5lx0Vc9W+vDQjaFatn2ejb+8PY
-   E5Q9zbHRyqmSJRXNXmh7elavf9+lk6jFX5uREMlFW18e5gmnkuBwX0QMv
-   R5CclQJ7hNlfhjSx+6ssR3mrKJp/TVTvzEScgoANuAEg1C2An8L1rqgM5
-   bWTK9hjGJ5g1VTViyuv4fiXUzh123/eVRc1qiz4QpYn68Y6Uuz4itOuvX
-   oWHoqD+N02Y0oxh99Q5HJBNUhpREmuE4YRDNn9bhdrFLN3IoiVcUr46Nf
-   Q==;
-X-CSE-ConnectionGUID: aZ1I3yrlQ6OdCQ/TZrlEHw==
-X-CSE-MsgGUID: dSLUXitNRKi0JF/vThNjCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="64147437"
+  t=1758196323; x=1789732323;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gRM5ebAAEf4TRIWQFHbcl8pLy8N7ldQhFRmgB1sHmKg=;
+  b=lMjQgkSb1i9TJMwdwcBEkuoREb13VReBGNKC2Nbx6AIQmX+RhFhMvwwq
+   YoimvS5PWBAQsKGF3lTuE1CxpYqqT7R0zpt8tjR2j7zCLqrlPyOO7gAWy
+   FMRx7gRLmA3TGglDg5CYwtN/xjpoglb13K1kovCnCSNb9ytyVOcy0/0Wf
+   cT+N1sqfmmsjEZNp9P6jZacfr5u/0OfL7+7t/XMfYHQaRCRS/Vs+Rb9JL
+   RIFHx3FO2QEzJrh5Bk9EhNapWZmYITCgBv9Lp4PUiX+ZfOPHaYvGQ2gfK
+   sTj2E+PtZ3qJKaoUT4FRnBHsC7y17cTzik1Hf5uZ3c2UCFg/xnGAq16oP
+   w==;
+X-CSE-ConnectionGUID: ut3uPPbnRoSG7ZSEqxFEAg==
+X-CSE-MsgGUID: M/LzcqR9RSWgBA3vSCLtMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60454919"
 X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
-   d="scan'208";a="64147437"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 03:48:51 -0700
-X-CSE-ConnectionGUID: AU+kLy8aQ1u9R1W7hqrsjg==
-X-CSE-MsgGUID: P0Lgu0lnQV6qlY4h/5K6hg==
+   d="scan'208";a="60454919"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 04:52:03 -0700
+X-CSE-ConnectionGUID: xpACrP6fTbC4WJ9LOd4WfQ==
+X-CSE-MsgGUID: RkJTVKFVTm6UUBTnBekyMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
-   d="scan'208";a="199219533"
+   d="scan'208";a="206471603"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2025 03:48:49 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 18 Sep 2025 04:51:56 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzCBz-00039F-0u;
-	Thu, 18 Sep 2025 10:48:47 +0000
-Date: Thu, 18 Sep 2025 18:48:01 +0800
+	id 1uzDB4-0003D5-14;
+	Thu, 18 Sep 2025 11:51:54 +0000
+Date: Thu, 18 Sep 2025 19:51:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: [linux-next:master 7401/10189]
- arch/arm/boot/dts/nxp/imx/imx6dl-colibri-aster.dtb: stmpe811@41
- (st,stmpe811): 'blocks', 'id', 'irq-trigger', 'stmpe_adc' do not match any
- of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202509181807.I4frBSXx-lkp@intel.com>
+To: Ravi Patel <ravi.patel@samsung.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, jesper.nilsson@axis.com,
+	lars.persson@axis.com, mturquette@baylibre.com, sboyd@kernel.org,
+	alim.akhtar@samsung.com, s.nawrocki@samsung.com,
+	cw00.choi@samsung.com
+Cc: oe-kbuild-all@lists.linux.dev, ravi.patel@samsung.com,
+	ksk4725@coasia.com, smn1196@coasia.com, linux-arm-kernel@axis.com,
+	krzk@kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	pjsin865@coasia.com, gwk1013@coasia.com, bread@coasia.com,
+	jspark@coasia.com, limjh0823@coasia.com, lightwise@coasia.com,
+	hgkim05@coasia.com, mingyoungbo@coasia.com, shradha.t@samsung.com,
+	swathi.ks@samsung.com
+Subject: Re: [PATCH 2/7] clk: samsung: Add clock PLL support for ARTPEC-9 SoC
+Message-ID: <202509181955.NgLJ2aBv-lkp@intel.com>
+References: <20250917085005.89819-3-ravi.patel@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,156 +74,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250917085005.89819-3-ravi.patel@samsung.com>
 
-Hi Frank,
+Hi Ravi,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
-commit: 5058aa3d4d60e3033e6e3d628ea98066f3900e32 [7401/10189] ARM: dts: imx6: rename touch screen's node name to touchscreen
-config: arm-randconfig-052-20250912 (https://download.01.org/0day-ci/archive/20250918/202509181807.I4frBSXx-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181807.I4frBSXx-lkp@intel.com/reproduce)
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on clk/clk-next next-20250917]
+[cannot apply to robh/for-next linus/master v6.17-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Patel/dt-bindings-clock-Add-ARTPEC-9-clock-controller/20250917-165346
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250917085005.89819-3-ravi.patel%40samsung.com
+patch subject: [PATCH 2/7] clk: samsung: Add clock PLL support for ARTPEC-9 SoC
+config: arm-s5pv210_defconfig (https://download.01.org/0day-ci/archive/20250918/202509181955.NgLJ2aBv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181955.NgLJ2aBv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509181807.I4frBSXx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509181955.NgLJ2aBv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-aster.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-colibri-aster.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger', 'stmpe_adc' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-aster.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-aster.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-eval-v3.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-colibri-eval-v3.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger', 'stmpe_adc' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-eval-v3.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-eval-v3.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger', 'stmpe_adc' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris-v2.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris-v2.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger', 'stmpe_adc' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris-v2.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-colibri-iris-v2.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval.dtb: panel-lvds (panel-lvds): compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-eval-v1.2.dtb: panel-lvds (panel-lvds): compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora.dtb: panel-lvds (panel-lvds): compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: stmpe811@41 (st,stmpe811): 'blocks', 'id', 'irq-trigger' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-apalis-ixora-v1.1.dtb: panel-lvds (panel-lvds): compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
---
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet@2188000 (fsl,imx6q-fec): mdio: Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fec.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet@2188000 (fsl,imx6q-fec): Unevaluated properties are not allowed ('mdio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fec.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet-phy (ethernet-phy-ieee802.3-c22): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811): 'blocks', 'id', 'irq-gpio', 'irq-trigger' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811): touchscreen: Unevaluated properties are not allowed ('st,adc-freq', 'st,mod-12b', 'st,ref-sel', 'st,sample-time' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: sata@2200000 (fsl,imx6q-ahci): 'target-supply' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/ata/imx-sata.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
---
->> arch/arm/boot/dts/nxp/imx/imx7d-nitrogen7.dtb: touchscreen@48 (ti,tsc2004): 'wakeup-gpios' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/ti,tsc2005.yaml#
-   arch/arm/boot/dts/nxp/imx/imx7d-nitrogen7.dtb: panel-lcd (okaya,rs800480t-7x0gp): 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: drivers/clk/samsung/clk-pll.o: in function `samsung_a9fraco_recalc_rate':
+>> drivers/clk/samsung/clk-pll.c:1508:(.text+0xcc): undefined reference to `__aeabi_uldivmod'
+
+
+vim +1508 drivers/clk/samsung/clk-pll.c
+
+  1490	
+  1491	static unsigned long samsung_a9fraco_recalc_rate(struct clk_hw *hw,
+  1492							 unsigned long parent_rate)
+  1493	{
+  1494		struct samsung_clk_pll *pll = to_clk_pll(hw);
+  1495		u32 pll_con0, pll_con5;
+  1496		u64 mdiv, pdiv, sdiv, kdiv;
+  1497		u64 fvco = parent_rate;
+  1498	
+  1499		pll_con0 = readl_relaxed(pll->con_reg);
+  1500		pll_con5 = readl_relaxed(pll->con_reg + PLLA9FRACO_PLL_CON5_DIV_FRAC);
+  1501		mdiv = (pll_con0 >> PLLA9FRACO_MDIV_SHIFT) & PLLA9FRACO_MDIV_MASK;
+  1502		pdiv = (pll_con0 >> PLLA9FRACO_PDIV_SHIFT) & PLLA9FRACO_PDIV_MASK;
+  1503		sdiv = (pll_con0 >> PLLA9FRACO_SDIV_SHIFT) & PLLA9FRACO_SDIV_MASK;
+  1504		kdiv = (pll_con5 & PLLA9FRACO_KDIV_MASK);
+  1505	
+  1506		/* fvco = fref * (M + K/2^24) / p * (S+1) */
+  1507		fvco *= mdiv;
+> 1508		fvco = ((fvco << 24) + kdiv) / ((pdiv * (sdiv + 1)) << 24);
+  1509	
+  1510		return (unsigned long)fvco;
+  1511	}
+  1512	
 
 -- 
 0-DAY CI Kernel Test Service
