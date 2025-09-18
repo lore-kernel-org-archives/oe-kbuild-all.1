@@ -1,79 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFDA2749EA;
-	Thu, 18 Sep 2025 05:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF11372628
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 05:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758173955; cv=none; b=WhtvAgl+PHWKWWOJj04HvjZlgusS8ZGLjy0ZAsKFW9EhGVW4L9yfLSnxLqNfiJVXCe+uCfDO3ePWK3bVcG8qOe0McvnrG7ay/R9sA81kHfudbSzAJb0TkKfyf1VGy7sdBN4rfUmgcFps6sXsb4p907ovOHdClWbhK5+6DzABowU=
+	t=1758174558; cv=none; b=Gk18imIZZuwAirn1+eci1EkONLC1sjz1A/Gdzn9HEc7yg+Qf59w6kO9sOAe7vVYj1kCv+KOq4264A1N7Tocfe2VaxYQE9jLjrO2aANlbOe23EheE3Yd9CP+WZhDgPcuo0Mq7L7YWAoF3op43PDcz1qTtXsAe5zZyGvxOekrwAak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758173955; c=relaxed/simple;
-	bh=y+jC5ADb61yhBWtArYZLqp9di3X9xAiUey258IJUPcs=;
+	s=arc-20240116; t=1758174558; c=relaxed/simple;
+	bh=FMI5vLJhbLQPMMxIl/P/O+8VDOpxYiBvnU54PY056v8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c9xWBskn4vU6VGQQvfAN3TXwhMbI3Smz9d9gvvIooVa7lT48VV0uBFZCr9SVKCUDgB3zkGRrMcDmo2t/RluefECVloZfzdiHrlBjTNAs4PG2K2UJBSEM12CQ0Z+FPCWCOWjkb1wSxOiCy+eCmAYibmU+bsW17BbvQQVF3foirrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFOdF4iD; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xq+HVSf/9XtYsQstyg+5vIG7BwjEPgYRHGYB2BisdthHzUeK8MqiGQeJVbYmhloR2W9ZIjdSOTnMeX/twBqjdqjQ9xjvCEU0W5l7J4S9CoCgnbYRrOYRjx8R2uKJBdk3iqZvuYadBUIJ2wjNc6mQT7F1u+F1bu6eO/2nQj5LItE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGZK5oMx; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFOdF4iD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGZK5oMx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758173953; x=1789709953;
+  t=1758174557; x=1789710557;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y+jC5ADb61yhBWtArYZLqp9di3X9xAiUey258IJUPcs=;
-  b=bFOdF4iDl3A83RQADT6zm+kffTj3hewNu5dhjg58OCP/5SEcXI4OKfRk
-   D6kGFwI4oUfTrBw108whaciaIDf2DUOEZ0tId8bAyEbygSF34P2itaRWQ
-   gS7imEGdVj+QhGvGG6EKI7DoI+EluBDEVkFPMcLU5JRkij45WWORea3iq
-   XARAkoKumCRAk6tJXbgHMY7ZuR6tWJ5uXBBz9AXaSGr38QFsnIgNnY3YY
-   69BlyH8KGfgAgn4wsZrD+Ee7If3HmEzFBwEaX5XGEXyh8CmzAkd36KhP8
-   dP8vohQWFvE/QIsvNAHTbAKW4KLUOyKirhB5WFfU/i3urRC8E3U4Fxr8l
+  bh=FMI5vLJhbLQPMMxIl/P/O+8VDOpxYiBvnU54PY056v8=;
+  b=FGZK5oMxqe/Tu9c81NuMxH1opxsa4DXOeCXWBRVBIH2NnVKNZRVrd/Nv
+   XHuVO8UKuigHMNrTjKuu3j74qS0NbXiqa9aSemddr0uo6VgzE1SYxidBe
+   GYSfYpIOaeEcy8msBHl0sPG1gq7IAgNzViLpu/xaDiCXDEKcLp16DmSxk
+   5dUobnsRNMMsv6x4PiMxdQIMgS+QO5bOnTI3Vyxq896QznnnGH3yDGYnb
+   32oXJoDmyvmBF6eGcqvEVP+ACSL8uCWhSlBM4HmTFUoRrte8/6Wjrnwcc
+   lybiZ/PpHw8D0HDmY4VuepYxuPXyixYA29zmwqh6KktmcTZ8QJwE4YzFL
    w==;
-X-CSE-ConnectionGUID: 622/DTd3Sh6+EGSbOKDbew==
-X-CSE-MsgGUID: AA4OQ6y/Spaq5dgUGBr0zQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60604381"
+X-CSE-ConnectionGUID: C7zjy6meRYmjrOqCbl9CwQ==
+X-CSE-MsgGUID: jTCpv7O4Q0iV3FzP6rGUOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="71862291"
 X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
-   d="scan'208";a="60604381"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 22:39:13 -0700
-X-CSE-ConnectionGUID: Ufc8YFrWTvOutN5VHn7ZoQ==
-X-CSE-MsgGUID: d+DbLpL5RNivQdPIyzn/tQ==
+   d="scan'208";a="71862291"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 22:49:14 -0700
+X-CSE-ConnectionGUID: sYjqVjXCRVqCzBW3JWT55w==
+X-CSE-MsgGUID: G3tz06RZQhOc0MLkJsdMIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
-   d="scan'208";a="176233971"
+   d="scan'208";a="175019165"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Sep 2025 22:39:07 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Sep 2025 22:49:09 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uz7MH-0002nP-0J;
-	Thu, 18 Sep 2025 05:39:05 +0000
-Date: Thu, 18 Sep 2025 13:38:27 +0800
+	id 1uz7Vy-0002nr-0N;
+	Thu, 18 Sep 2025 05:49:06 +0000
+Date: Thu, 18 Sep 2025 13:49:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, linux-hyperv@vger.kernel.org,
-	virtualization@lists.linux.dev, kvm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Juergen Gross <jgross@suse.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v2 21/21] x86/pvlocks: Move paravirt spinlock functions
- into own header
-Message-ID: <202509181317.YubLCpdh-lkp@intel.com>
-References: <20250917145220.31064-22-jgross@suse.com>
+To: Slawomir Rosek <srosek@google.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Alex Hung <alexhung@gmail.com>, Hans de Goede <hansg@kernel.org>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+	AceLan Kao <acelan.kao@canonical.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Tomasz Nowicki <tnowicki@google.com>,
+	Stanislaw Kardach <skardach@google.com>,
+	Michal Krawczyk <mikrawczyk@google.com>,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+	Slawomir Rosek <srosek@google.com>
+Subject: Re: [PATCH v2 1/6] ACPI: DPTF: Ignore SoC DTS thermal while scanning
+Message-ID: <202509181359.fLTuROj6-lkp@intel.com>
+References: <20250917120719.2390847-2-srosek@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,141 +76,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250917145220.31064-22-jgross@suse.com>
+In-Reply-To: <20250917120719.2390847-2-srosek@google.com>
 
-Hi Juergen,
+Hi Slawomir,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on kvm/queue kvm/next linus/master v6.17-rc6 next-20250917]
-[cannot apply to tip/x86/core kvm/linux-next]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge rafael-pm/thermal driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.17-rc6 next-20250917]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-Remove-not-needed-includes-of-paravirt-h/20250917-230321
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250917145220.31064-22-jgross%40suse.com
-patch subject: [PATCH v2 21/21] x86/pvlocks: Move paravirt spinlock functions into own header
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250918/202509181317.YubLCpdh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181317.YubLCpdh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Slawomir-Rosek/ACPI-DPTF-Ignore-SoC-DTS-thermal-while-scanning/20250917-201033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250917120719.2390847-2-srosek%40google.com
+patch subject: [PATCH v2 1/6] ACPI: DPTF: Ignore SoC DTS thermal while scanning
+config: i386-randconfig-003-20250918 (https://download.01.org/0day-ci/archive/20250918/202509181359.fLTuROj6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181359.fLTuROj6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509181317.YubLCpdh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509181359.fLTuROj6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/alternative.c:4:
-   In file included from include/linux/mmu_context.h:5:
-   arch/x86/include/asm/mmu_context.h:225:2: error: call to undeclared function 'paravirt_enter_mmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     225 |         paravirt_enter_mmap(mm);
-         |         ^
-   arch/x86/include/asm/mmu_context.h:232:2: error: call to undeclared function 'paravirt_arch_exit_mmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     232 |         paravirt_arch_exit_mmap(mm);
-         |         ^
-   arch/x86/include/asm/mmu_context.h:232:2: note: did you mean 'ldt_arch_exit_mmap'?
-   arch/x86/include/asm/mmu_context.h:61:6: note: 'ldt_arch_exit_mmap' declared here
-      61 | void ldt_arch_exit_mmap(struct mm_struct *mm);
-         |      ^
-   In file included from arch/x86/kernel/alternative.c:5:
-   In file included from include/linux/perf_event.h:53:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:33:
-   In file included from arch/x86/include/asm/rqspinlock.h:5:
-   arch/x86/include/asm/paravirt.h:570:20: error: static declaration of 'paravirt_enter_mmap' follows non-static declaration
-     570 | static inline void paravirt_enter_mmap(struct mm_struct *mm)
-         |                    ^
-   arch/x86/include/asm/mmu_context.h:225:2: note: previous implicit declaration is here
-     225 |         paravirt_enter_mmap(mm);
-         |         ^
-   In file included from arch/x86/kernel/alternative.c:5:
-   In file included from include/linux/perf_event.h:53:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:33:
-   In file included from arch/x86/include/asm/rqspinlock.h:5:
-   arch/x86/include/asm/paravirt.h:576:20: error: static declaration of 'paravirt_arch_exit_mmap' follows non-static declaration
-     576 | static inline void paravirt_arch_exit_mmap(struct mm_struct *mm)
-         |                    ^
-   arch/x86/include/asm/mmu_context.h:232:2: note: previous implicit declaration is here
-     232 |         paravirt_arch_exit_mmap(mm);
-         |         ^
->> arch/x86/kernel/alternative.c:2317:2: error: call to undeclared function 'paravirt_set_cap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2317 |         paravirt_set_cap();
-         |         ^
-   arch/x86/kernel/alternative.c:2317:2: note: did you mean 'paravirt_ret0'?
-   arch/x86/include/asm/paravirt-base.h:23:15: note: 'paravirt_ret0' declared here
-      23 | unsigned long paravirt_ret0(void);
-         |               ^
-   5 errors generated.
+   drivers/thermal/intel/int340x_thermal/platform_temperature_control.c: In function 'ptc_mmio_show':
+>> drivers/thermal/intel/int340x_thermal/platform_temperature_control.c:110:19: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+     110 |         reg_val = readq((void __iomem *) (proc_priv->mmio_base + data->offset));
+         |                   ^~~~~
+         |                   readl
+   drivers/thermal/intel/int340x_thermal/platform_temperature_control.c: In function 'ptc_mmio_write':
+>> drivers/thermal/intel/int340x_thermal/platform_temperature_control.c:142:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
+     142 |         writeq(reg_val, (void __iomem *) (proc_priv->mmio_base + offset));
+         |         ^~~~~~
+         |         writel
+--
+   drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c: In function 'int340x_thermal_read_trips':
+>> drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c:72:15: error: implicit declaration of function 'thermal_acpi_critical_trip_temp'; did you mean 'thermal_zone_set_trip_temp'? [-Wimplicit-function-declaration]
+      72 |         ret = thermal_acpi_critical_trip_temp(zone_adev,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               thermal_zone_set_trip_temp
+>> drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c:79:15: error: implicit declaration of function 'thermal_acpi_hot_trip_temp'; did you mean 'thermal_zone_set_trip_temp'? [-Wimplicit-function-declaration]
+      79 |         ret = thermal_acpi_hot_trip_temp(zone_adev,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               thermal_zone_set_trip_temp
+>> drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c:86:15: error: implicit declaration of function 'thermal_acpi_passive_trip_temp'; did you mean 'thermal_zone_set_trip_temp'? [-Wimplicit-function-declaration]
+      86 |         ret = thermal_acpi_passive_trip_temp(zone_adev,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               thermal_zone_set_trip_temp
+>> drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c:94:23: error: implicit declaration of function 'thermal_acpi_active_trip_temp'; did you mean 'thermal_zone_set_trip_temp'? [-Wimplicit-function-declaration]
+      94 |                 ret = thermal_acpi_active_trip_temp(zone_adev, i,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                       thermal_zone_set_trip_temp
+--
+   drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.c: In function 'proc_thermal_read_power_floor_status':
+>> drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.c:42:18: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+      42 |         status = readq(proc_priv->mmio_base + SOC_WT_RES_INT_STATUS_OFFSET);
+         |                  ^~~~~
+         |                  readl
+   In file included from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:382,
+                    from include/linux/uuid.h:11,
+                    from include/linux/mod_devicetable.h:14,
+                    from include/linux/pci.h:27,
+                    from drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.c:29:
+   include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.c:32:41: note: in expansion of macro 'BIT'
+      32 | #define SOC_POWER_FLOOR_STATUS          BIT(39)
+         |                                         ^~~
+   drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.c:43:26: note: in expansion of macro 'SOC_POWER_FLOOR_STATUS'
+      43 |         return (status & SOC_POWER_FLOOR_STATUS) >> SOC_POWER_FLOOR_SHIFT;
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/thermal/intel/int340x_thermal/processor_thermal_wt_hint.c: In function 'workload_type_index_show':
+>> drivers/thermal/intel/int340x_thermal/processor_thermal_wt_hint.c:69:18: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+      69 |         status = readq(proc_priv->mmio_base + SOC_WT_RES_INT_STATUS_OFFSET);
+         |                  ^~~~~
+         |                  readl
+--
+   drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c: In function 'proc_thermal_clear_soc_int_status':
+>> drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c:145:18: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+     145 |         status = readq(proc_priv->mmio_base + SOC_WT_RES_INT_STATUS_OFFSET);
+         |                  ^~~~~
+         |                  readl
+>> drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c:146:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
+     146 |         writeq(status & ~SOC_WT_RES_INT_STATUS_MASK,
+         |         ^~~~~~
+         |         writel
+--
+   drivers/thermal/intel/int340x_thermal/processor_thermal_soc_slider.c: In function 'read_soc_slider':
+>> drivers/thermal/intel/int340x_thermal/processor_thermal_soc_slider.c:166:16: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+     166 |         return readq(proc_priv->mmio_base + SOC_POWER_SLIDER_OFFSET);
+         |                ^~~~~
+         |                readl
+   drivers/thermal/intel/int340x_thermal/processor_thermal_soc_slider.c: In function 'write_soc_slider':
+>> drivers/thermal/intel/int340x_thermal/processor_thermal_soc_slider.c:171:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
+     171 |         writeq(val, proc_priv->mmio_base + SOC_POWER_SLIDER_OFFSET);
+         |         ^~~~~~
+         |         writel
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INT340X_THERMAL
+   Depends on [n]: THERMAL [=y] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=n]) && X86_64 [=n] && ACPI [=y] && PCI [=y] && NET [=y]
+   Selected by [y]:
+   - INTEL_SOC_DTS_THERMAL [=y] && THERMAL [=y] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=n]) && X86 [=y] && PCI [=y] && ACPI [=y]
 
 
-vim +/paravirt_set_cap +2317 arch/x86/kernel/alternative.c
+vim +110 drivers/thermal/intel/int340x_thermal/platform_temperature_control.c
 
-270a69c4485d7d arch/x86/kernel/alternative.c  Peter Zijlstra            2023-02-08  2288  
-9a0b5817ad97bb arch/i386/kernel/alternative.c Gerd Hoffmann             2006-03-23  2289  void __init alternative_instructions(void)
-9a0b5817ad97bb arch/i386/kernel/alternative.c Gerd Hoffmann             2006-03-23  2290  {
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2291  	u64 ibt;
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2292  
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2293  	int3_selftest();
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2294  
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2295  	/*
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2296  	 * The patching is not fully atomic, so try to avoid local
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2297  	 * interruptions that might execute the to be patched code.
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2298  	 * Other CPUs are not running.
-7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2299  	 */
-8f4e956b313dcc arch/i386/kernel/alternative.c Andi Kleen                2007-07-22  2300  	stop_nmi();
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2301  
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2302  	/*
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2303  	 * Don't stop machine check exceptions while patching.
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2304  	 * MCEs only happen when something got corrupted and in this
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2305  	 * case we must do something about the corruption.
-32b1cbe380417f arch/x86/kernel/alternative.c  Marco Ammon               2019-09-02  2306  	 * Ignoring it is worse than an unlikely patching race.
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2307  	 * Also machine checks tend to be broadcast and if one CPU
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2308  	 * goes into machine check the others follow quickly, so we don't
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2309  	 * expect a machine check to cause undue problems during to code
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2310  	 * patching.
-123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2311  	 */
-8f4e956b313dcc arch/i386/kernel/alternative.c Andi Kleen                2007-07-22  2312  
-4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11  2313  	/*
-f7af6977621a41 arch/x86/kernel/alternative.c  Juergen Gross             2023-12-10  2314  	 * Make sure to set (artificial) features depending on used paravirt
-f7af6977621a41 arch/x86/kernel/alternative.c  Juergen Gross             2023-12-10  2315  	 * functions which can later influence alternative patching.
-4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11  2316  	 */
-4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11 @2317  	paravirt_set_cap();
-4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11  2318  
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2319  	/* Keep CET-IBT disabled until caller/callee are patched */
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2320  	ibt = ibt_save(/*disable*/ true);
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2321  
-931ab63664f02b arch/x86/kernel/alternative.c  Peter Zijlstra            2022-10-27  2322  	__apply_fineibt(__retpoline_sites, __retpoline_sites_end,
-1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2323) 			__cfi_sites, __cfi_sites_end, true);
-931ab63664f02b arch/x86/kernel/alternative.c  Peter Zijlstra            2022-10-27  2324  
-7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2325  	/*
-7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2326  	 * Rewrite the retpolines, must be done before alternatives since
-7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2327  	 * those can rewrite the retpoline thunks.
-7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2328  	 */
-1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2329) 	apply_retpolines(__retpoline_sites, __retpoline_sites_end);
-1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2330) 	apply_returns(__return_sites, __return_sites_end);
-7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2331  
-a82b26451de126 arch/x86/kernel/alternative.c  Peter Zijlstra (Intel     2025-06-03  2332) 	its_fini_core();
-a82b26451de126 arch/x86/kernel/alternative.c  Peter Zijlstra (Intel     2025-06-03  2333) 
-e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2334  	/*
-ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2335  	 * Adjust all CALL instructions to point to func()-10, including
-ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2336  	 * those in .altinstr_replacement.
-e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2337  	 */
-e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2338  	callthunks_patch_builtin_calls();
-e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2339  
-ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2340  	apply_alternatives(__alt_instructions, __alt_instructions_end);
-ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2341  
-be0fffa5ca894a arch/x86/kernel/alternative.c  Peter Zijlstra            2023-06-22  2342  	/*
-be0fffa5ca894a arch/x86/kernel/alternative.c  Peter Zijlstra            2023-06-22  2343  	 * Seal all functions that do not have their address taken.
-be0fffa5ca894a arch/x86/kernel/alternative.c  Peter Zijlstra            2023-06-22  2344  	 */
-1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2345) 	apply_seal_endbr(__ibt_endbr_seal, __ibt_endbr_seal_end);
-ed53a0d971926e arch/x86/kernel/alternative.c  Peter Zijlstra            2022-03-08  2346  
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2347  	ibt_restore(ibt);
-ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2348  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   90  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   91  static ssize_t ptc_mmio_show(struct ptc_data *data, struct device *dev,
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   92  			     struct device_attribute *attr, char *buf)
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   93  {
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   94  	struct pci_dev *pdev = to_pci_dev(dev);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   95  	struct proc_thermal_device *proc_priv;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   96  	const struct mmio_reg *mmio_regs;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   97  	int ret, units;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   98  	u64 reg_val;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28   99  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  100  	proc_priv = pci_get_drvdata(pdev);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  101  	mmio_regs = ptc_mmio_regs;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  102  	ret = match_string(ptc_strings, -1, attr->attr.name);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  103  	if (ret < 0)
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  104  		return ret;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  105  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  106  	units = mmio_regs[ret].units;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  107  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  108  	guard(mutex)(&ptc_lock);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  109  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28 @110  	reg_val = readq((void __iomem *) (proc_priv->mmio_base + data->offset));
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  111  	ret = (reg_val >> mmio_regs[ret].shift) & mmio_regs[ret].mask;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  112  	if (units)
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  113  		ret *= units;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  114  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  115  	return sysfs_emit(buf, "%d\n", ret);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  116  }
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  117  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  118  #define PTC_SHOW(suffix)\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  119  static ssize_t suffix##_show(struct device *dev,\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  120  			     struct device_attribute *attr,\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  121  			     char *buf)\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  122  {\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  123  	struct ptc_data *data = container_of(attr, struct ptc_data, suffix##_attr);\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  124  	return ptc_mmio_show(data, dev, attr, buf);\
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  125  }
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  126  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  127  static void ptc_mmio_write(struct pci_dev *pdev, u32 offset, int index, u32 value)
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  128  {
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  129  	struct proc_thermal_device *proc_priv;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  130  	u64 mask, reg_val;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  131  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  132  	proc_priv = pci_get_drvdata(pdev);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  133  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  134  	mask = GENMASK_ULL(ptc_mmio_regs[index].shift + ptc_mmio_regs[index].bits - 1,
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  135  			   ptc_mmio_regs[index].shift);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  136  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  137  	guard(mutex)(&ptc_lock);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  138  
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  139  	reg_val = readq((void __iomem *) (proc_priv->mmio_base + offset));
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  140  	reg_val &= ~mask;
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  141  	reg_val |= (value << ptc_mmio_regs[index].shift);
+9befea30133ca4 Srinivas Pandruvada 2025-04-28 @142  	writeq(reg_val, (void __iomem *) (proc_priv->mmio_base + offset));
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  143  }
+9befea30133ca4 Srinivas Pandruvada 2025-04-28  144  
 
 -- 
 0-DAY CI Kernel Test Service
