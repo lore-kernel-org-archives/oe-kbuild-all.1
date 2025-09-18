@@ -1,87 +1,100 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C8F30CB40;
-	Thu, 18 Sep 2025 14:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DC530CB22
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 14:10:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758204395; cv=fail; b=TgK4x4vKC+ytgWqb56dCqHr8e6mOaPZObWEpG/f92XiWPbOw46eTlA7uOEJHaTuZ13oP3ZG4AEUrvSuNpJXGYUdLurxrs+CJdp9I/NRWMcJk8UFWbl2Ystr8Shwk8FjHVan4uGvBUD2W1WieNAF3O1VbjqFvrBT75zIfC3JBdLQ=
+	t=1758204652; cv=fail; b=LIFX3UrlzFryXvLZk46jbfpuA7gHLdMwuoaVrBsHSB7VbMDWSWPEZeJ1u57J/yAydij+NHhAi6x28/J1cjokd45/0H90CEQGOXkwZdF+MfMcOHsk1o5dz+rhMtJxt0Qk+YXOtePPtGaPOk5JZPxy2WN6nFF+faeKIeFL2kMVFac=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758204395; c=relaxed/simple;
-	bh=L0Gdh/tFOextT6rPebM4CgnmBfyeNY03ZZDxmom+PJ4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NfZiu2OUyhAToThzvQ27qULdfCmzyR105QuJMK8gRyv6CCrK/Z7RiIgaZ/zRsP0xetNAgYtlR6qJDOyutKM8/rAiu+C4tp0ez42+9ZxdelKw0aC80kkpA8HXvhaHw6ZLBzQItEVsyVpDNaW0+7DLcFLmGuTirE/whpQaYMxS3Xs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nfhgoOGX; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=tZiTRgwP; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1758204652; c=relaxed/simple;
+	bh=r+dElOj5wZY732T2BIKgHh7HzCmwSG9VvFIi0APRlcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=uQns2KE72KJnEg8zN/03X980wLXCskLai+LYJ3NMwy3/kDOBAVQIKICaAPzb7sFizlEKa9prmw2/0JuF38/FPBYpR9ooWQYP7Qrn1K21DdiK8GT9CbQyDTGOqH5KwDySbs6ViZ6HLpoFj6Wc6FqpphQHAEm6xe6/VBxV8sxTDWU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LvJ6EjNz; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=W/WB5ARg; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nfhgoOGX";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="tZiTRgwP"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58I7fxaL021303;
-	Thu, 18 Sep 2025 14:06:31 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LvJ6EjNz";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="W/WB5ARg"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58I7ftX9008957;
+	Thu, 18 Sep 2025 14:10:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=h8AizG08JAePPpriKyhYh0GsLxM2LdlHfUhA32Yv2WA=; b=
-	nfhgoOGXUo3yJjBNp/K2xqBGy8dWvccyx7NHNUd8N2NVzbXhT7Su5sD4HxHQiC5Q
-	/sxdBvyHppWnINZrLvlpHWrsM0V28sH21sv2UsdbdTjuBI+Xbfq4bPU8WXybnL8S
-	LTRZgK9JX0Zz1Jf7NN8VCsGsOh9uEcq8Qu84Yqw5+j2xal21ec1IgoRQSrfpS/Si
-	G1u8DcFLyrn7tYi6u+FvxJtXDXPI1DWDB2a/LP76bPVTer36TgzLo/ZAo21T1c8B
-	2ZLvJtVBbPEMV67l8AkzRTWThue5iKBgAxxqYSa7A00zhwDIhqFCzPWUoL73xcxE
-	Z+RI7M0PBoAZfGcvLqsezA==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 497fx9ukkn-1
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=PPISvt6vV6huRhgMX8
+	jWlyecrOxFHvfeDF6ieDR+Nsc=; b=LvJ6EjNzii+JE5NSQKMFS/FdTH+MCXGroe
+	uZ0gRQPFSUajXycvGFpmegEEodzRhQz5YH6+2BbUjrNqkXoO1T3uUOZ8Am+m9Njm
+	r5Ft5PJg8oqeTS48311iQYT55I7C+gnq7HeUSWSngqHcfiEa8OiNIk2JV4c7LW1K
+	Y7flQDZIzsWMGqVph0mgFtGq87/Az4xRtxC55Hl7OE9r0eZjgOLJkyYCnrCMGbDW
+	uLFk9KWiDeXXCo+5jYtKF55UQVibV/s+MPI0YXzxXAxngdqkdAIgAtnRIAne32UH
+	fkiyI3msyu9Jj21N64eB1ne7jCkmOBWDR+l74nD4b/ePWq2BcZzw==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 497fxbuk69-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Sep 2025 14:06:31 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58ID6Ma3027324;
-	Thu, 18 Sep 2025 14:06:30 GMT
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010055.outbound.protection.outlook.com [52.101.193.55])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 494y2nf8gh-1
+	Thu, 18 Sep 2025 14:10:32 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58IDcbAF033680;
+	Thu, 18 Sep 2025 14:10:31 GMT
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012008.outbound.protection.outlook.com [40.107.200.8])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 494y2f586m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Sep 2025 14:06:29 +0000
+	Thu, 18 Sep 2025 14:10:31 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WSA6gWqHQFslxTsF7qFHju/OwFWzqrdmjmN+XLy2OevOD3l4DDSy7CleajQHJjEWUVXSWPMYfyTe+VGo9i3PnLFl7wI4OPdmS/MBqiBUEBaNWu4txm+h9HYxezcsMqVo4S2R3vFs3t2nAfPwm3d3TpK96H9Nj3/zj1uv7JbcMV0rbvkfVsw3sbi8v2sJcTs2UFYStspu8jbsGgE7PCdp++6EdXnQat3RzzjhR1J1c6fzdUhmqJE/ndWvb6NEuYan+3hS0P4Utmyq4fX20gsXz7ghsapHePTNNNNu8rDAnpZ9t2iyuk/oZxm8qwWP26lv0HrvV0+8RazqK3HdKqUQxg==
+ b=ScEGU72tTm/GX/VaVKQjd5EQX+CvhywKx2eMvUXYyn9Z9mnY1bMBBW/tDpM5u1h6G/nZ/jKr0WpUTqKiom4KmgltEUyll3++EjS9HCV+3b3u5P6qH4ybR62I8uEPZnEMwI6ZsxDI4uMF7Vqa7uiwctvqnsH+IWnYJ8qrFVoMUOlfNKV2aIB8j+K9l5yraIbjb3C0CvI7rAx4ISJ+T/q2e/Ba0X9of2FTd1Quz9xrF3TWfTkU/irLrG5Lh648sDKXDeSC0yBy8dN4wcymPA5kL0f7W7CxJqk1UZYbFue/hToNphkTBXCP4gJTK06XzXoXtVzSBFwrg8nYpxS2XY+8iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h8AizG08JAePPpriKyhYh0GsLxM2LdlHfUhA32Yv2WA=;
- b=ymBTP0n87BNUcskxLN69F+vsQsw0IykWCshcZlWpmE/BHX1ohzWnSVm1woXqMM5YySg0stqwqvByJewYTSSR25sAfSuZuilNEoHrUbkuy/ofr8AgEhdYgYe9KIwwxd6EqPtbd2+GfT0AODfWpQz/3ddXvlYWha1Hn1bHZHrG1RU0vaUrQFS/2ab4uNMj3WwnqM6Es5O3Pb5YLnZdMME/zpIM6Uib4avMH9NaNAJE7JovncYCq0hvgExTKLEUjnjDhA9bIHcLHUuDx1siCctV7UxNKcjifNhgCvgAnFTSKwgVBzn6UibP0GDDPzZZxPUmVyRf8PyXGvfLeiWHDLWCjA==
+ bh=PPISvt6vV6huRhgMX8jWlyecrOxFHvfeDF6ieDR+Nsc=;
+ b=svUcjYdGjaXT1Iaq6tq2OogGbrswOuTbyQx+ezdWVW2L/B2yvHm+diNkYYotJGyP2TD2RUMzDJCMjCWVlPnYK22chlMIg4jJ5uFmtlxjUUwearjW4Q8NlELyBHaFaNPd9h6MOkxfienLrpQkLKcs1T37u/mzxMi24D7IoL0YOSjoYn8y62IYRSULbueoS9JgFXWgwoBjteb0+3zbPibKpb3I61WWvXZeSCOb8IPtvMnxFyTUDUlfiWKsg48Nags3j2wuITLyc6UWzFe3u65IrWQsS+F0M2E4Y3nzeAF0Ul+NJoFYjPMW25jo//sbHE2A98bYEV8S4cw7GewmziFeqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h8AizG08JAePPpriKyhYh0GsLxM2LdlHfUhA32Yv2WA=;
- b=tZiTRgwP58MrYQGg/8ej+p+qwEXFPBpGY/ElwknioNGPZBqEF7DCjFfTtZLqWfcIEvh5/Oi7qSkRgm8BJG99mN4hDQ3wqN4supa5S4JqwbNGMp7SrjCKdHbm2e1qJ1uORlToPjUk1AE95jN3ZsHSPBTPESmLj/IEKO3lMdCB8Dw=
-Received: from DM3PPF35CFB4DBF.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::c1d) by PH0PR10MB4807.namprd10.prod.outlook.com
- (2603:10b6:510:3f::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.14; Thu, 18 Sep
- 2025 14:06:27 +0000
-Received: from DM3PPF35CFB4DBF.namprd10.prod.outlook.com
- ([fe80::211d:441:2594:6cca]) by DM3PPF35CFB4DBF.namprd10.prod.outlook.com
- ([fe80::211d:441:2594:6cca%8]) with mapi id 15.20.9115.020; Thu, 18 Sep 2025
- 14:06:26 +0000
-Message-ID: <ed3b1065-f4c6-40a5-9a83-f3ec8252553a@oracle.com>
-Date: Thu, 18 Sep 2025 09:06:24 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [kleikamp-shaggy:jfs-next 1/5] fs/jfs/jfs_dtree.c:2906:31:
- warning: result of comparison of constant 128 with expression of type 's8'
- (aka 'signed char') is always false
-To: kernel test robot <lkp@intel.com>, Zheng Yu <zheng.yu@northwestern.edu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <202509181832.frk03WjF-lkp@intel.com>
-From: Dave Kleikamp <dave.kleikamp@oracle.com>
-Content-Language: en-US
-In-Reply-To: <202509181832.frk03WjF-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0049.namprd03.prod.outlook.com
- (2603:10b6:610:b3::24) To DM3PPF35CFB4DBF.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::c1d)
+ bh=PPISvt6vV6huRhgMX8jWlyecrOxFHvfeDF6ieDR+Nsc=;
+ b=W/WB5ARgXMZxaQvt5qIqwARWpa20wl8F1WmDdldGkVjVNcaxgJF7g1KQNcqxvr6l3BBEogk2pac7l/d2UAqMfSl3mRfmIFaQslv1kA5hYfAogoVeydkEwq3P9qLmBL9wWQTtQ+x9+ZO94CZc073WOZvpe+2DLhhjIfQ5XjJHqi8=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by SA2PR10MB4714.namprd10.prod.outlook.com (2603:10b6:806:111::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
+ 2025 14:10:25 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%2]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
+ 14:10:25 +0000
+Date: Thu, 18 Sep 2025 15:10:23 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Kalesh Singh <kaleshsingh@google.com>, akpm@linux-foundation.org,
+        minchan@kernel.org, david@redhat.com, Liam.Howlett@oracle.com,
+        rppt@kernel.org, pfalcato@suse.de, oe-kbuild-all@lists.linux.dev,
+        kernel-team@android.com, android-mm@google.com,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        Kees Cook <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>, Jann Horn <jannh@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2 3/7] mm: introduce vma_count_remaining()
+Message-ID: <350a5951-94a5-4f49-b0d1-acadd4fcb60f@lucifer.local>
+References: <20250915163838.631445-4-kaleshsingh@google.com>
+ <202509170238.NUURxWPI-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202509170238.NUURxWPI-lkp@intel.com>
+X-ClientProxiedBy: LO2P265CA0261.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:8a::33) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -89,509 +102,475 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PPF35CFB4DBF:EE_|PH0PR10MB4807:EE_
-X-MS-Office365-Filtering-Correlation-Id: faf42787-5b83-4fed-0052-08ddf6bc8e26
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SA2PR10MB4714:EE_
+X-MS-Office365-Filtering-Correlation-Id: 994edc5b-6089-4542-e17e-08ddf6bd1d1a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cFBuZXJCdzVreWlEZkhUTXZKZUhQVERoSEdvY1FFMGRBemdCRUtNVGprTlUy?=
- =?utf-8?B?SUcwN3huR212TnhJUXF5MkRhOSsvNTJWaGtFWFdSS1R4RE5FWU5NVitnZEpM?=
- =?utf-8?B?SitMNmwxb1V4SG43d0hXcDQzNGNnZGozMFJaS3Jucm84MXdkdmhuY0RvWm00?=
- =?utf-8?B?cy92S3pkWlM0UDJYVGJjd2pmbnpXTStXZjg3cjByaUY4ek9GdzZLeGZ5NStl?=
- =?utf-8?B?d05BN3VDVW5mT3pmdXNxUTRIYnZXMVdnZ2tMV2NYODFqK0ljd1AxTjVxMk5h?=
- =?utf-8?B?K2ZOb1grcTN1blE5cmdnbHlxckFmclMzZjFaR29hQ3duZVdIUFIyUHplWU9E?=
- =?utf-8?B?MGlhcDhRcFc4KzQzWmpneGcyVVo1WWFJNUY1R0djc1BiSlgySCtocVZUY3M4?=
- =?utf-8?B?bjhmaU1UMVNnR09RUWtuUzhoK3FxV2psYmRJYjU0YTNoR3hzdktHSlE1NWhI?=
- =?utf-8?B?c3lJdkhzcGhDUU5ZSnk1SW5zMGRFbWU3eDJJNW1INHZoWGh1c21SM2FwTFFW?=
- =?utf-8?B?WTJscVV2ZThvZ2QvQVQ4aXJxTklWYXRIZHdQeFJYaHl6WVMvc0xBdGp3VUhu?=
- =?utf-8?B?T2xoT1FhbVZsd2RHRS9JQ0JMTXAwaVJvaUFBUXdZYi9WYnFhcmFEU1ZVakJi?=
- =?utf-8?B?WHI1b1d6cWVqVmZXVkhCYzMwWUhGUVdlU3RUb1BURWZFVEZUZWpoT3Bta2Vy?=
- =?utf-8?B?bVJkdlVTdk9BNmc4QlIzMVBSU0JuT3VLT3pZbUplc09vc0x4SXNKbzNHaFp5?=
- =?utf-8?B?UFJCQkhlcWE2a0NHd2RqcEt0TzhUUEUxTFhWSG56bWVpVERLT0tMK0VUR0Vr?=
- =?utf-8?B?bjlnSEl3eWNiUHJvWmV1ZlM3UG53SFUyc0ZPS1ZkSllTVU9VTnE4cTZuR09q?=
- =?utf-8?B?THpRL1N4ZEVET2pwRU8rMCtZdk1qSXJWcXBhLytOa2VpdzRrMjR5R3U4Y09u?=
- =?utf-8?B?VmhlK2Q5bjB0T1lMZWI2b2pmNkpJNS9CdW9ucGE3eDRhUGZWWERvWXBzcjBy?=
- =?utf-8?B?OStrQVQzRmFXTCtlQ09TVjVrNTVNd05BYThSNnhXQm85alBzQWk0RnFEa2p3?=
- =?utf-8?B?SVNjRE5TQjNVQ29Ub1I3c2dQVzBEd2dzOFJsOExDN0tTamswN1Z5NUVLSUpS?=
- =?utf-8?B?eDY3eld1Z1hIRlhYZE13UldWWTk3UitEZklMUHlUc3lzUDAzNi9jY1M2d2Nu?=
- =?utf-8?B?Q25PM0o4NmhZLzlUTU9nNTRWcDNUdDNjdWVGdXNSbVFWdlh6SWdhTjQ5T0JH?=
- =?utf-8?B?Z05INXFnUmNJUngwNUc2NERLS3Zpb2drY0VNak1TaHYyWTZzR1M0RlkvTHdt?=
- =?utf-8?B?bk1uUkZpeWFaVFNwM2swTzBRRlBIa0ZuWjM2QktmUEZOalNGQWZoVnFwMUVZ?=
- =?utf-8?B?VnRweVZxRW95R0ZYbll3NXF4RG1rRVFjKzBUYmxBUmxWOVNJZ3o5Z2FlcUlh?=
- =?utf-8?B?cjJ1YldrREhzWmhic1RFNFhPYjJoUEd6Y0V3YVN0Skx3dy9NSDJSZTJSN0Zi?=
- =?utf-8?B?dmVZM0w3Vi9jMzM4OXUrQXNNM1JTNlJjVWZyNkZydVJoczZIbW02N3ZjV1dO?=
- =?utf-8?B?Z3RjWldDa3dLYkhROGI0R0JqRjNFNzR5ZE1mcExDSThtVkFMK1R3bzJGeWhK?=
- =?utf-8?B?NzVsc1hodlJrWHIzTU10RTFOMkMvMGIyR2xnUmk0OE43cDl0dWpiUWhGUFYz?=
- =?utf-8?B?VnRCVm9haGdYb0h6b3NxRG9XeEloMFdhUWtSZ3pUS3dnZHpPSGV1V3VYcmlL?=
- =?utf-8?B?TmtpRWZOWFhxZG5GRVRwRzkzMWgwNEFKZCsyL1c4ZHRzcmtoZXZ0d3BESGw2?=
- =?utf-8?B?SllTYjJkbEZsek53czZMNk9ySVNBdStrRmhlSnFWUmNPK2NpTzRySHBacy9E?=
- =?utf-8?Q?uvEZt8qOxiI4R?=
+	=?us-ascii?Q?FZIn7XzCxfiDPVcT5BRjI0A3UjBio5OWHKLjDkVB/XIURNne/Y7ffjiBrCDy?=
+ =?us-ascii?Q?fwxGKmOfu2S0RxKGFkvYF15por1BSWOFavBHCaw9ZYLQ9P3hN2+lzTJ4yOFT?=
+ =?us-ascii?Q?Lfu5esOxtzlYrbnUwVF/OM988i6XkS0UEM8FwzHyvmfUSnNjB3MwUeEhUsEd?=
+ =?us-ascii?Q?oNoMhJx96hV0ENmPE8gOEmBL13fI68fb0FDnwZHbmCsdNPdtBgeDxAC6toPe?=
+ =?us-ascii?Q?dmQ/nEbU0m3jvckPUn4t8RBLV5vhMrLKwu8M7vgOfyIKojZm20KBTKH+wkLp?=
+ =?us-ascii?Q?3gsNOgWkKcZ7WqB040tFucqHz1ihWPpwJ6qEQau9r6IsGeVnbgyZhJWNNQ7e?=
+ =?us-ascii?Q?y5XOhUkuoNrMaS8EBsnbVL9/TmExfZGBh4/RTzvf29mO6rvzk+gOxGxrdIj1?=
+ =?us-ascii?Q?sWZfMZbthhDu9Oq9/R6lLavsw8+b3xKSCIH6ss3TNRS9/xfSxMWwufCz3AUX?=
+ =?us-ascii?Q?pZVotfMJ3pAMJFqRKHYjybrPwMkVJ2XletIytBOXKSLmsXwpjxAx89S/htw/?=
+ =?us-ascii?Q?thJ+BqO+8OMDVaw4KcyohrZiMgo6va7xvXOGiueIntD8Ht/WzG2pzWgyX1Y3?=
+ =?us-ascii?Q?SvZfvtQwnxV5DtnNobkQJK5dUkdXw/zjQ/P2FUUlqV+qoeTN07fph5Fwste9?=
+ =?us-ascii?Q?Ij2SRfdxA1k5HowwtpYFD2co/yc0NL3hMjcZWaWaZ9XYSXpdExU1B37CL5hH?=
+ =?us-ascii?Q?Z3k+RreYh2whk5cz5QPjTbZxIcHefDzMmZ/Qj3QNSG2WiAWlzpyoYubPN8me?=
+ =?us-ascii?Q?5mnioziUcJYThlYZwvdg7Y0kxTxZYJ4Mg2u/sqqKDHn7VgpjNeY7l1rAeyms?=
+ =?us-ascii?Q?PJUG+Rz53eNKAQ3ImCH3vepoaE2ikOJRKdlGnmLkzN2ZYHmDaiQQXmwcvvY8?=
+ =?us-ascii?Q?U/+fM7F5CE4hfiip6j3pP0WSHFrqOvRw2zIad+cpPAe1/FBiTCAbERgC5rbb?=
+ =?us-ascii?Q?Y3QagL1S66huu2twT/YORcglugJCZlnceLpdtn1CCs4Ea1drs33NRde3daty?=
+ =?us-ascii?Q?tNMtJa1ZIIihhACUTb5rf6LIaFM3zVV1Dj2rT3g22EWpqBwRT7VP4oI5+ZvD?=
+ =?us-ascii?Q?pvZq8wc5PfkcnzlpWX/Cv7e0KrDTJsCSTtFWigNcT0bncvmC6BrPEhl0ydfK?=
+ =?us-ascii?Q?QQsjkW4i2ksJaN+Zj8K0sH/RJY/9O/mZXOX4TKR+dTltEL30lhChqgUboF3P?=
+ =?us-ascii?Q?Po956y7LIrCar2GrOCENb8IDGZlGUDXmCFWeLMsq0NSwIUAwJEaallGQve6a?=
+ =?us-ascii?Q?vjvk2PFOQWxvJ3UccFucMFGOJ4W/iLk+lZPQkTo/p0OeYNqSpBfZfduJVHM9?=
+ =?us-ascii?Q?1zBXTlNABYK9JU2MlBwg3U3uR/dmvWJIyYVa0ruKIE4QcyKRendHHEYM76U4?=
+ =?us-ascii?Q?kj/FRT47OvKJFtZRwdfda/EHFIs/?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PPF35CFB4DBF.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGF0NnRRbkdKVHMxNjhSZ0syM0NBNmMraktUT0kydjZCeU1Pb2Rob0FlRXp5?=
- =?utf-8?B?UU1MY0Z6ZFBIemx2cWxieFlRQ1NyUElPMWNGRjlqWlAveUdXY2lXMzJSYmdZ?=
- =?utf-8?B?NkIyNDJwUU5NdFZkVjZpR3YveEtVOTdrT3JLS2pELzNOWDFkWnlROTNvQVdQ?=
- =?utf-8?B?VFZ5NFp3ODI5d1BNRFdyVU1JTWI0ZWxTdGNGVUEwS1VPelhZTklzdmwva2NT?=
- =?utf-8?B?LzFTQnJlS1BrdnZzeFhpUWQxTHZteW90UlduN005aVBWOTVKQXd4YWpMK2h2?=
- =?utf-8?B?ekJXVkROdFJsTFRXcHZRUlhLcUpTTjhLTlF2NmJQWS8wSWxUQ2lVSDZVQU51?=
- =?utf-8?B?WU44VWloZElDVjZhTUZPUUFFZkZYMHdQeE4rZTdMdDNuUVB5ZkhsWmkybGEv?=
- =?utf-8?B?WFY5SUtlZVhlZEUvbkhVWUJKekNhM0x3SFg2clhtZVdTQlBaN0NSU1NILzIz?=
- =?utf-8?B?QnpIdG02MjV5bXFjTlc3aDNYMFBaUDdyMWpORFcxSTZIenFRdFpJV1FpTVlp?=
- =?utf-8?B?QVA0dWRGb3JkTTlTUFRCVk9oeEF4TWM5V0k4OVNhOEJMcWlOdmZHeFNnUEFF?=
- =?utf-8?B?anU5N1kxVDdhNUh3anpjZkpsYWlpNGNjbGlRRGNjbWlsTy8vbS9TbGFOTWRQ?=
- =?utf-8?B?TzVZSXhjbEIxTDYwclNBeG14Ym5PMDZhcHIxLzNCVHhwTGRIa3VzWEpxRVdZ?=
- =?utf-8?B?OU12TWw3ZE5yTCtMOTM4UWFFQi9Vd1VHWjNoUEZJbUtQOUZKY0pHTWFTNzFx?=
- =?utf-8?B?dDMyMXA4ckFXc1MxSGRlemIrRmpFQTFoNWxldHN2YWFDK3F4ZGNFZ1ZTVzdI?=
- =?utf-8?B?KzBrbFM2b1gxMXZXRGxGSFVENUduZzZTOWNXa3JNMHE2SzlIY1ZyaGg2dUpz?=
- =?utf-8?B?aWxHaVJPU2xXczlCNWptc3ExVFBFUWZXY214TzFJeURuNkVsQ0pCRG16TW1p?=
- =?utf-8?B?ZGo0d0Z0QU5jMXdWbFRUMDZDU2FDVFovSmJMeVd2MkhqdnVEMy9OUS93L1Yz?=
- =?utf-8?B?U2c4UngrbW83L1daejdRN2ZsdjdwOTRpVjdvVnpRRENJQ3VWNWRjRFc4TS9p?=
- =?utf-8?B?Um95SmREcW13dXBDRDNsbHBuaHFDekdCNndBSENQbGU4b0VvVDJseGx6Vmhh?=
- =?utf-8?B?ejBkakxTNVBCelJySFRDb3EzVnQ4NzI0NkY1UGxQMGJqVEttMXBtYTU4MXJY?=
- =?utf-8?B?QXg2WHhvR21IamdWOEVGcC9mbWhxRVlvblFLSUJVNjZIMlNKTUdXUlpNTVBT?=
- =?utf-8?B?cHFWVEZHeDJxcXJ0SHdOWDU3MmlJVVF0RVBpMjVJL0lDNElKYXU3ZW9EUWtS?=
- =?utf-8?B?VitVckxxalVmTUFzdWtCSFNMZ3Fsd1pKOFoyMXMrdERmMEprZHVscEN2cWRw?=
- =?utf-8?B?d0hUeGxZcysxWmNXMnB0TGtDZEdhdHUrZWMrNkZ2UEVMNzRmamJDTzhBVjg3?=
- =?utf-8?B?NFd5a1VYeW9meDBlbWpPZ1hCM0pFM0g1SkNiNG5OdnN4am8vY0wrRXQ4UmtJ?=
- =?utf-8?B?R3JteWlMNXRkSk5lZHlhdHY1d3pmamRqQ0hGWVF2WEZ2a0g3NHZ0cG14R0R6?=
- =?utf-8?B?ZE1Ra09HZCsvT1pmcUF1YzVmSHdDMmxHbFF6SnU5SkZtMzN6OVdqS05VZFRM?=
- =?utf-8?B?aUcwN3JPdW1WVXJXNWNyeUxCWG8xT3d0NnZhbXI5NzRDY2lwUFV1S1c2WmFC?=
- =?utf-8?B?T2s2cVY4MkI3bzV6S09QZ2p0dlNQNUtMN3o3MnVKU292ZFg5bHJ6TzRkYyta?=
- =?utf-8?B?TXo0dzR2K2FqamZ3d2xLMmZFNW1PL0hISlhta0pVQm1kT1NQc3JkbGJ5Wlox?=
- =?utf-8?B?R1NkN2JwREcxbTRQMWhhNjVhL1lGV25lUE8xUEE1UEhlalJ3aXpXUU1xdUNm?=
- =?utf-8?B?SWpMQU1wbHlBbUtXT2tSK1E3RUZYRWtHckl0NVlKdXQyZGJCQUpMcHEzSTRI?=
- =?utf-8?B?eFBRdXQxSFh3bURMR2hYZFBlbzlsUStqTThtS1VHemRXRjZhM29sYVNMcy8w?=
- =?utf-8?B?NjNGTm51UEhvdEp4NVk5UU1ZLzlvL1hYb2UxRXIxbCtTZjhhdVNyV3AvMzRU?=
- =?utf-8?B?MGZpYjVKdzkwZnI1cGRXMEt6T3NvRldrY3dTcUVLSFJCN2trc24zMjdKUjZw?=
- =?utf-8?B?UXFESFV5YXZjTFNQb0MyaFp6eGdNcVY2dHJIR1JKb1RFRkdyeFdCOXJPczdP?=
- =?utf-8?B?elE9PQ==?=
+	=?us-ascii?Q?BG+71agEuVdcZSu21Zk9Hb/NdmBrZOrU2eaIpCgMM6SBDsfrhZA9xnVjrwkJ?=
+ =?us-ascii?Q?1vEWbHSqSLCx5gE/oO2XPmR8y4EJY1EOzkKdrdbJsyP1ECzECG7ohJRFTS5H?=
+ =?us-ascii?Q?9dCI1sWmX09SOffnup0S1iB7SoKFiQj7ieoT8MmQsZ+bX+QsvrDo3QgpDr9o?=
+ =?us-ascii?Q?U51S9WXvBiQ+ilGsEBFkFviLs+wP3VA1xEhQVbHUqfDPd/Hwv/JfQeDjLRM2?=
+ =?us-ascii?Q?YV4h/yIQ/JG7RxHs+/DAzze7iZVKg2ecKg+AhxUTL737k4FmEbHT/NJYwegB?=
+ =?us-ascii?Q?0/llpsgFqPvs5BhfoYKkYMyuH+5NF/c/27qfoASeqSpFbzIgwH4jXgtXSAXa?=
+ =?us-ascii?Q?K44at3ONx9u5w6J2BitSX/yUccHlljvJ6DziocHddMquXPFXmogHOYKqrMjM?=
+ =?us-ascii?Q?6jPP+vcbh7zvNUXpvlXsn6Ip1lTYVuQbWzxGRLVoamogliXkithO22WOfSlU?=
+ =?us-ascii?Q?xs6ntfrGyMrEOsoPcopgHiFK/kArS+7qFj2penpSMRjFAGHwmJnxpctO+Q0Q?=
+ =?us-ascii?Q?3sQxovFHXlGu/vewh0thDl9hJ+eaGS7dHhFJcUVNGbt+gQqQT3QCdeKxHbCf?=
+ =?us-ascii?Q?vRK4qzdqZWIj1HHpTuB0FozRsSph/orSCPOj7NPFdlev/COl5NfEuzPkN+PS?=
+ =?us-ascii?Q?7Vo4d1pcEeFEdPd3XVw8CZ7JtkIy4cjZlbF3FcW2CE+COvjAl6OZ0c7biMeI?=
+ =?us-ascii?Q?lwSVxlDnbMrnjsqmhWPbNBNnd2c7MTDvKn7jCc+mJenlJV7PgKUgEh35+NAs?=
+ =?us-ascii?Q?8b/pzclzevCwS7CbSDH6cBLwYCanNtkJXIb88j4JWhGd8k0Fgl1/4AXvkr08?=
+ =?us-ascii?Q?YEq/LLYH3rHwzI4rvlLMyVBtJCVQGdCW/dBLpE3FxSJApSZKktHQPXYfvizp?=
+ =?us-ascii?Q?x1cqv5mIcLcALdNEpNsP0HxYN4sCOp6mdARJEecLDmHijZZYHkCUZx/QkAqU?=
+ =?us-ascii?Q?URu3PqfRbSO/Dp/I5CoAgtA4wFLSgX+yRfyAv9WGQtDqxfoX+T9kI2c0hIj1?=
+ =?us-ascii?Q?vVaFyMZzqQd3+q8f1biXjyQndbdntV2pY/IAct0diBX2kCVLO2vMeH0n/KFU?=
+ =?us-ascii?Q?6pynZ+l7g4n6FLKH3ObjWWpotlGYsbf+w/U5BOSIW38Pn49lLa9HHAKdV0my?=
+ =?us-ascii?Q?p2kzVrA7y0pzcr7/Z28hyLH6jtwYRSjh1RR2ytHl8rXEk8W+PQ5Nlp7Y9YfN?=
+ =?us-ascii?Q?qChGZz/49SVGzyTOP0acajD5gK2r/uI4JuQLkLvIPYhJdUQFBW/3MiQ5mxAI?=
+ =?us-ascii?Q?/MUP+SuJI42zcZiLLDNEOtmM98o/T5wntnfRnrbValxej3tVBE9HkzBpnJBH?=
+ =?us-ascii?Q?sRM9yNvSzdR9mvaDRc4C4//iCMnBZqdc/OXA06jXLmi3INhoaKKvPhH0xxjz?=
+ =?us-ascii?Q?LeAF8roG3ih0DzUtxwqSRuMiQM7Zs/ZR0hYQ9qlZ+WR2PSJCKgGnOWodYg6K?=
+ =?us-ascii?Q?ia6GfXNmmzKsYVwudmcmmEUMmQObwiTMrOWL8vwBK1HCgMCxOU2KFz2o6Mv/?=
+ =?us-ascii?Q?KF6TEIWUqZlEwhQlUceEyhSWoW+NSsNXlBjNK9UUga2cAfxfxpucvu3zGUSg?=
+ =?us-ascii?Q?5oOWnRPAke4uCvd3s9JrvGvwwqwu3LQHWicxDnxuH+KKEicpxl8K7QQCn+xr?=
+ =?us-ascii?Q?GA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	IigI5RJjJabbfXS7jrx4KxiKEKbDqrelo+L3I4hN70YF/b7qugWWcQ2pxCHvrsUpMwcRqaLFm/Y0MXqn5F57jyKWy7cj6Ei1vT2+ywDSpm420YNB0S2joEZmniIpTlPFv9hgifWrOmqGvFkNvrXIBOOUxVzNwJWaztF5xTqzwyPwrZ8T3GsiFqiVFW5Cj6rhCjOoHrN6xduDKgeEpg7HAqbyFukM3DXyc5tlfL4zcrkok9wuNJnTG17rLnNphv+FYEoKQJsfC9PKAgjkM0TkRrwD5nzGY4fps+v5JWxka/Q6Mu9kshUo9gcFvBraUKRwgSHbODAgl+QrycX1DNDpGqtIlagZp5I/ZCZw5S+GlX+SCZ40PMD6831cqvfuNk8kDvf82YlGJA4//t2tgiS4lVrp7+M16L97GHHCqNJPCirBlLPXdF6yI4/lBPBgD+GqBEnThQt7wFXjmh7zjmrSqBDZcXZVEOjSvZksKd96zUuIBqn276aLYxo5kCNQw7e0pdrt70IvQzZGxqPLRrXLgmoS3SxbFhxTKpsw2YjwOBczOuFoLm+XdsR66xXu1vyR9azw8Gmw7PikSCXQVu26KW348esd+R9eGqE3TIAX6Bw=
+	4iSisa2VkiYba6deHZ7fPvDbs5Qal2ezuDnicQabGvII4IuE+obrD2BEuUki3W4Vqwjr1rEHyX2iAvaEVLJhZBBWn9ei3RS+hq2v4/P8fN17J9/Fj9rCSH2IFH7IhEnxwRTiJF2d1FUvPRSNr+EUiuspYxT5xtqidiQySlQMGAFwtD8AAfDeGkqun4xVbutpCQAeNbB67/PZvULKg8IOoDqEK1rydWl9p1JnqEfugnySiarARXTTPb/qwJP3l6lmM3KqJXT6M/iOHCYdYFSTNpcKFPwBCD3iFongIKPhPl5p9qawpnZfFQ5YUBdVLynAo1zXMe4jXbH/fLYR/+vK+4d2VsrNcoVY+I7VDPni73JR2iasN8WmqgxLX5KCRbH+EzM7vXMmcUrizMlO6ePyzfiRd6+EEtO0FO3l/I1ysWe2ty5pLpYCmqwnGWutvAJ3A8eqTGda0sAXwQRZ69Gon9Odroon1m3jtWPyixZHS6OlbRF9oAF1f8tlMipEmSxrVjMLFMJoxJ06IjahId/VTc23KC7q3UkcrC+VDWHsuh/p9hmVxylYlW/cSpzoH2ooyyI0LmR7P0ZJndRz9ylyAXmQj4fm8+K8vEdxHscRMV4=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: faf42787-5b83-4fed-0052-08ddf6bc8e26
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF35CFB4DBF.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 994edc5b-6089-4542-e17e-08ddf6bd1d1a
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 14:06:26.2789
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 14:10:25.5746
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4TIZYTFLA+gHg47VMuVS5+yjvECQKOPaH2pzBMTsdX7YI3lUBBxIYSGGXLvDbFyRXgogUgLiCoBfqekozwvH4FtbsNeIRur64Itazn9OSoo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4807
+X-MS-Exchange-CrossTenant-UserPrincipalName: M5I3W0hGrGFkX0uSuiFpJoj9KEI87Be/9a9gu4Hk3CRvB3dNkvhFjXzsMsfInoPF1W9klEaJrhsRQb3xnUQlevH0TpDuQ3Kw78lEYi7BjmM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4714
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-18_01,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0
- mlxlogscore=999 suspectscore=0 malwarescore=0 spamscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2508110000 definitions=main-2509180129
-X-Proofpoint-ORIG-GUID: 5m9EVsLSVcTj5_ppcFAlrZQ312qyToTt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX0pdgNcBbjPZ4
- M8wPLooYlzcFsWjDZQjhvWc1TwR270+536bGtlppt2LLW2KdLwL4O6m26in71x28yuXKFS4U+4k
- iYDEyvC5n0utFP5KHbpYBIca8K8286p+63nFwTYgh+VlFIhtfzPQfGg1Tc/lDJ1zHolsQ0s+mXZ
- 7Fq1yRJg00xmaHUQC3vj63c+GGD4W4eZsmSuc1jVMAC1gvlE0ydJktLIJ4EyS/X6THAOOGIMQFW
- Z/RQjrQ/mMkg/R5AJIehlTlIRtolIRygkPBaohKgGia1JZfaU5Zgq1V8SEeAYRoRg1XIDjTSiJN
- qrGgjtwUvhqCjTdVTinX3b2pXPtiOxe8rHscVNUGJjj4nSO/2dSccipBASxG45P9Kzol05VFTht
- 5UwO1pjoQgGKnMdtP0mj0QE3UauShQ==
-X-Proofpoint-GUID: 5m9EVsLSVcTj5_ppcFAlrZQ312qyToTt
-X-Authority-Analysis: v=2.4 cv=C7vpyRP+ c=1 sm=1 tr=0 ts=68cc11e7 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 adultscore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2509180129
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX0Z0OaVLJoH2Z
+ d2H83HPVNK9QXiEdhAj6IjDl4Jlt0b7q9TjpVksR41nqmsgLQRrDQFH/CCq7QrEgcxJMQ+N7N4V
+ 324od9mJD+U37l8ig/LANI2bdlQzj2LlfFasX1TmzY3M6ppyGx2RvH3WEvfa7jCg2kX8D5P9nOC
+ P58dnL8gh5fsVBuDIjdiDgCEKMqoWC7t99gn+IaN2lY33S9xhxRf6hiwqvtdlwJujZRZT4zAZIF
+ PfN4n9CwDfgjG7y+e0Z+6aclY7DqObmgQxODvHVsBj2t8TkCAzPGMLaKoQanNqjjVzp5n6bcaHT
+ Oq4BPepx3+3jKY+1ZzGuh/ps0OsTbtRTemC2TEOwifrL8TQx21ZiiwkNOWde9QqatdvG6HpeTBl
+ qh4hHZzr
+X-Authority-Analysis: v=2.4 cv=X5RSKHTe c=1 sm=1 tr=0 ts=68cc12d8 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=i3X5FwGiAAAA:8
- a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=piRyk3YmtN996NnmDkEA:9 a=QEXdDO2ut3YA:10
- a=mmqRlSCDY2ywfjPLJ4af:22 cc=ntf awl=host:12083
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8
+ a=1XWaLZrsAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=sxA8Ggr_i1lCkNF3pzgA:9
+ a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-GUID: 0rtmoHkCEzbAe21G5k3tUVw_lioJDjPA
+X-Proofpoint-ORIG-GUID: 0rtmoHkCEzbAe21G5k3tUVw_lioJDjPA
 
-On 9/18/25 5:25AM, kernel test robot wrote:
-> tree:   https://github.com/kleikamp/linux-shaggy jfs-next
-> head:   c87ed72ff7cfd52843fef97be14567e2d377f584
-> commit: 79e48b88ffd89a4446f407680ab4e7e5679a04e8 [1/5] jfs: replace hardcoded magic number with DTPAGEMAXSLOT constant
-> config: arm-randconfig-001-20250918 (https://download.01.org/0day-ci/archive/20250918/202509181832.frk03WjF-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181832.frk03WjF-lkp@intel.com/reproduce)
-> 
+On Wed, Sep 17, 2025 at 02:33:46AM +0800, kernel test robot wrote:
+> Hi Kalesh,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on f83ec76bf285bea5727f478a68b894f5543ca76e]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kalesh-Singh/mm-fix-off-by-one-error-in-VMA-count-limit-checks/20250916-005018
+> base:   f83ec76bf285bea5727f478a68b894f5543ca76e
+> patch link:    https://lore.kernel.org/r/20250915163838.631445-4-kaleshsingh%40google.com
+> patch subject: [PATCH v2 3/7] mm: introduce vma_count_remaining()
+> config: s390-randconfig-r122-20250916 (https://download.01.org/0day-ci/archive/20250917/202509170238.NUURxWPI-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 13.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250917/202509170238.NUURxWPI-lkp@intel.com/reproduce)
+>
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509181832.frk03WjF-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509170238.NUURxWPI-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    s390-linux-ld: mm/mmap.o: in function `do_mmap':
+> >> mm/mmap.c:377:(.text+0x6566): undefined reference to `vma_count_remaining'
+>    s390-linux-ld: mm/mremap.o: in function `prep_move_vma':
+> >> mm/mremap.c:1043:(.text+0x199a): undefined reference to `vma_count_remaining'
+>    s390-linux-ld: mm/mremap.o: in function `check_mremap_params':
+>    mm/mremap.c:1820:(.text+0x4044): undefined reference to `vma_count_remaining'
+>    s390-linux-ld: mm/vma.o: in function `vms_gather_munmap_vmas':
+> >> mm/vma.c:1348:(.text+0x8ebc): undefined reference to `vma_count_remaining'
+>    s390-linux-ld: mm/vma.o: in function `split_vma':
+>    mm/vma.c:595:(.text+0xa2a2): undefined reference to `vma_count_remaining'
+>    s390-linux-ld: mm/vma.o:mm/vma.c:2775: more undefined references to `vma_count_remaining' follow
 
-Zheng,
+You've accidentally put vma_count_remaining() in an:
 
-This is my bad. I had trouble applying your patch, so I made the changes 
-manually and used > instead of >=. I'll fix the patch and re-push it.
+#ifdef CONFIG_SYSCTL
 
-Shaggy
+block, which this config doesn't have:
 
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> fs/jfs/jfs_dtree.c:2906:31: warning: result of comparison of constant 128 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
->      2906 |                         if (stbl[i] < 0 || stbl[i] > DTPAGEMAXSLOT) {
->           |                                            ~~~~~~~ ^ ~~~~~~~~~~~~~
->     fs/jfs/jfs_dtree.c:3111:30: warning: result of comparison of constant 128 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
->      3111 |                 if (stbl[0] < 0 || stbl[0] > DTPAGEMAXSLOT) {
->           |                                    ~~~~~~~ ^ ~~~~~~~~~~~~~
->     2 warnings generated.
-> 
-> 
-> vim +2906 fs/jfs/jfs_dtree.c
-> 
->    2702	
->    2703	/*
->    2704	 *	jfs_readdir()
->    2705	 *
->    2706	 * function: read directory entries sequentially
->    2707	 *	from the specified entry offset
->    2708	 *
->    2709	 * parameter:
->    2710	 *
->    2711	 * return: offset = (pn, index) of start entry
->    2712	 *	of next jfs_readdir()/dtRead()
->    2713	 */
->    2714	int jfs_readdir(struct file *file, struct dir_context *ctx)
->    2715	{
->    2716		struct inode *ip = file_inode(file);
->    2717		struct nls_table *codepage = JFS_SBI(ip->i_sb)->nls_tab;
->    2718		int rc = 0;
->    2719		loff_t dtpos;	/* legacy OS/2 style position */
->    2720		struct dtoffset {
->    2721			s16 pn;
->    2722			s16 index;
->    2723			s32 unused;
->    2724		} *dtoffset = (struct dtoffset *) &dtpos;
->    2725		s64 bn;
->    2726		struct metapage *mp;
->    2727		dtpage_t *p;
->    2728		int index;
->    2729		s8 *stbl;
->    2730		struct btstack btstack;
->    2731		int i, next;
->    2732		struct ldtentry *d;
->    2733		struct dtslot *t;
->    2734		int d_namleft, len, outlen;
->    2735		unsigned long dirent_buf;
->    2736		char *name_ptr;
->    2737		u32 dir_index;
->    2738		int do_index = 0;
->    2739		uint loop_count = 0;
->    2740		struct jfs_dirent *jfs_dirent;
->    2741		int jfs_dirents;
->    2742		int overflow, fix_page, page_fixed = 0;
->    2743		static int unique_pos = 2;	/* If we can't fix broken index */
->    2744	
->    2745		if (ctx->pos == DIREND)
->    2746			return 0;
->    2747	
->    2748		if (DO_INDEX(ip)) {
->    2749			/*
->    2750			 * persistent index is stored in directory entries.
->    2751			 * Special cases:	 0 = .
->    2752			 *			 1 = ..
->    2753			 *			-1 = End of directory
->    2754			 */
->    2755			do_index = 1;
->    2756	
->    2757			dir_index = (u32) ctx->pos;
->    2758	
->    2759			/*
->    2760			 * NFSv4 reserves cookies 1 and 2 for . and .. so the value
->    2761			 * we return to the vfs is one greater than the one we use
->    2762			 * internally.
->    2763			 */
->    2764			if (dir_index)
->    2765				dir_index--;
->    2766	
->    2767			if (dir_index > 1) {
->    2768				struct dir_table_slot dirtab_slot;
->    2769	
->    2770				if (dtEmpty(ip) ||
->    2771				    (dir_index >= JFS_IP(ip)->next_index)) {
->    2772					/* Stale position.  Directory has shrunk */
->    2773					ctx->pos = DIREND;
->    2774					return 0;
->    2775				}
->    2776			      repeat:
->    2777				rc = read_index(ip, dir_index, &dirtab_slot);
->    2778				if (rc) {
->    2779					ctx->pos = DIREND;
->    2780					return rc;
->    2781				}
->    2782				if (dirtab_slot.flag == DIR_INDEX_FREE) {
->    2783					if (loop_count++ > JFS_IP(ip)->next_index) {
->    2784						jfs_err("jfs_readdir detected infinite loop!");
->    2785						ctx->pos = DIREND;
->    2786						return 0;
->    2787					}
->    2788					dir_index = le32_to_cpu(dirtab_slot.addr2);
->    2789					if (dir_index == -1) {
->    2790						ctx->pos = DIREND;
->    2791						return 0;
->    2792					}
->    2793					goto repeat;
->    2794				}
->    2795				bn = addressDTS(&dirtab_slot);
->    2796				index = dirtab_slot.slot;
->    2797				DT_GETPAGE(ip, bn, mp, PSIZE, p, rc);
->    2798				if (rc) {
->    2799					ctx->pos = DIREND;
->    2800					return 0;
->    2801				}
->    2802				if (p->header.flag & BT_INTERNAL) {
->    2803					jfs_err("jfs_readdir: bad index table");
->    2804					DT_PUTPAGE(mp);
->    2805					ctx->pos = DIREND;
->    2806					return 0;
->    2807				}
->    2808			} else {
->    2809				if (dir_index == 0) {
->    2810					/*
->    2811					 * self "."
->    2812					 */
->    2813					ctx->pos = 1;
->    2814					if (!dir_emit(ctx, ".", 1, ip->i_ino, DT_DIR))
->    2815						return 0;
->    2816				}
->    2817				/*
->    2818				 * parent ".."
->    2819				 */
->    2820				ctx->pos = 2;
->    2821				if (!dir_emit(ctx, "..", 2, PARENT(ip), DT_DIR))
->    2822					return 0;
->    2823	
->    2824				/*
->    2825				 * Find first entry of left-most leaf
->    2826				 */
->    2827				if (dtEmpty(ip)) {
->    2828					ctx->pos = DIREND;
->    2829					return 0;
->    2830				}
->    2831	
->    2832				if ((rc = dtReadFirst(ip, &btstack)))
->    2833					return rc;
->    2834	
->    2835				DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
->    2836			}
->    2837		} else {
->    2838			/*
->    2839			 * Legacy filesystem - OS/2 & Linux JFS < 0.3.6
->    2840			 *
->    2841			 * pn = 0; index = 1:	First entry "."
->    2842			 * pn = 0; index = 2:	Second entry ".."
->    2843			 * pn > 0:		Real entries, pn=1 -> leftmost page
->    2844			 * pn = index = -1:	No more entries
->    2845			 */
->    2846			dtpos = ctx->pos;
->    2847			if (dtpos < 2) {
->    2848				/* build "." entry */
->    2849				ctx->pos = 1;
->    2850				if (!dir_emit(ctx, ".", 1, ip->i_ino, DT_DIR))
->    2851					return 0;
->    2852				dtoffset->index = 2;
->    2853				ctx->pos = dtpos;
->    2854			}
->    2855	
->    2856			if (dtoffset->pn == 0) {
->    2857				if (dtoffset->index == 2) {
->    2858					/* build ".." entry */
->    2859					if (!dir_emit(ctx, "..", 2, PARENT(ip), DT_DIR))
->    2860						return 0;
->    2861				} else {
->    2862					jfs_err("jfs_readdir called with invalid offset!");
->    2863				}
->    2864				dtoffset->pn = 1;
->    2865				dtoffset->index = 0;
->    2866				ctx->pos = dtpos;
->    2867			}
->    2868	
->    2869			if (dtEmpty(ip)) {
->    2870				ctx->pos = DIREND;
->    2871				return 0;
->    2872			}
->    2873	
->    2874			if ((rc = dtReadNext(ip, &ctx->pos, &btstack))) {
->    2875				jfs_err("jfs_readdir: unexpected rc = %d from dtReadNext",
->    2876					rc);
->    2877				ctx->pos = DIREND;
->    2878				return 0;
->    2879			}
->    2880			/* get start leaf page and index */
->    2881			DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
->    2882	
->    2883			/* offset beyond directory eof ? */
->    2884			if (bn < 0) {
->    2885				ctx->pos = DIREND;
->    2886				return 0;
->    2887			}
->    2888		}
->    2889	
->    2890		dirent_buf = __get_free_page(GFP_KERNEL);
->    2891		if (dirent_buf == 0) {
->    2892			DT_PUTPAGE(mp);
->    2893			jfs_warn("jfs_readdir: __get_free_page failed!");
->    2894			ctx->pos = DIREND;
->    2895			return -ENOMEM;
->    2896		}
->    2897	
->    2898		while (1) {
->    2899			jfs_dirent = (struct jfs_dirent *) dirent_buf;
->    2900			jfs_dirents = 0;
->    2901			overflow = fix_page = 0;
->    2902	
->    2903			stbl = DT_GETSTBL(p);
->    2904	
->    2905			for (i = index; i < p->header.nextindex; i++) {
->> 2906				if (stbl[i] < 0 || stbl[i] > DTPAGEMAXSLOT) {
->    2907					jfs_err("JFS: Invalid stbl[%d] = %d for inode %ld, block = %lld",
->    2908						i, stbl[i], (long)ip->i_ino, (long long)bn);
->    2909					free_page(dirent_buf);
->    2910					DT_PUTPAGE(mp);
->    2911					return -EIO;
->    2912				}
->    2913	
->    2914				d = (struct ldtentry *) & p->slot[stbl[i]];
->    2915	
->    2916				if (((long) jfs_dirent + d->namlen + 1) >
->    2917				    (dirent_buf + PAGE_SIZE)) {
->    2918					/* DBCS codepages could overrun dirent_buf */
->    2919					index = i;
->    2920					overflow = 1;
->    2921					break;
->    2922				}
->    2923	
->    2924				d_namleft = d->namlen;
->    2925				name_ptr = jfs_dirent->name;
->    2926				jfs_dirent->ino = le32_to_cpu(d->inumber);
->    2927	
->    2928				if (do_index) {
->    2929					len = min(d_namleft, DTLHDRDATALEN);
->    2930					jfs_dirent->position = le32_to_cpu(d->index);
->    2931					/*
->    2932					 * d->index should always be valid, but it
->    2933					 * isn't.  fsck.jfs doesn't create the
->    2934					 * directory index for the lost+found
->    2935					 * directory.  Rather than let it go,
->    2936					 * we can try to fix it.
->    2937					 */
->    2938					if ((jfs_dirent->position < 2) ||
->    2939					    (jfs_dirent->position >=
->    2940					     JFS_IP(ip)->next_index)) {
->    2941						if (!page_fixed && !isReadOnly(ip)) {
->    2942							fix_page = 1;
->    2943							/*
->    2944							 * setting overflow and setting
->    2945							 * index to i will cause the
->    2946							 * same page to be processed
->    2947							 * again starting here
->    2948							 */
->    2949							overflow = 1;
->    2950							index = i;
->    2951							break;
->    2952						}
->    2953						jfs_dirent->position = unique_pos++;
->    2954					}
->    2955					/*
->    2956					 * We add 1 to the index because we may
->    2957					 * use a value of 2 internally, and NFSv4
->    2958					 * doesn't like that.
->    2959					 */
->    2960					jfs_dirent->position++;
->    2961				} else {
->    2962					jfs_dirent->position = dtpos;
->    2963					len = min(d_namleft, DTLHDRDATALEN_LEGACY);
->    2964				}
->    2965	
->    2966				/* copy the name of head/only segment */
->    2967				outlen = jfs_strfromUCS_le(name_ptr, d->name, len,
->    2968							   codepage);
->    2969				jfs_dirent->name_len = outlen;
->    2970	
->    2971				/* copy name in the additional segment(s) */
->    2972				next = d->next;
->    2973				while (next >= 0) {
->    2974					t = (struct dtslot *) & p->slot[next];
->    2975					name_ptr += outlen;
->    2976					d_namleft -= len;
->    2977					/* Sanity Check */
->    2978					if (d_namleft == 0) {
->    2979						jfs_error(ip->i_sb,
->    2980							  "JFS:Dtree error: ino = %ld, bn=%lld, index = %d\n",
->    2981							  (long)ip->i_ino,
->    2982							  (long long)bn,
->    2983							  i);
->    2984						goto skip_one;
->    2985					}
->    2986					len = min(d_namleft, DTSLOTDATALEN);
->    2987					outlen = jfs_strfromUCS_le(name_ptr, t->name,
->    2988								   len, codepage);
->    2989					jfs_dirent->name_len += outlen;
->    2990	
->    2991					next = t->next;
->    2992				}
->    2993	
->    2994				jfs_dirents++;
->    2995				jfs_dirent = next_jfs_dirent(jfs_dirent);
->    2996	skip_one:
->    2997				if (!do_index)
->    2998					dtoffset->index++;
->    2999			}
->    3000	
->    3001			if (!overflow) {
->    3002				/* Point to next leaf page */
->    3003				if (p->header.flag & BT_ROOT)
->    3004					bn = 0;
->    3005				else {
->    3006					bn = le64_to_cpu(p->header.next);
->    3007					index = 0;
->    3008					/* update offset (pn:index) for new page */
->    3009					if (!do_index) {
->    3010						dtoffset->pn++;
->    3011						dtoffset->index = 0;
->    3012					}
->    3013				}
->    3014				page_fixed = 0;
->    3015			}
->    3016	
->    3017			/* unpin previous leaf page */
->    3018			DT_PUTPAGE(mp);
->    3019	
->    3020			jfs_dirent = (struct jfs_dirent *) dirent_buf;
->    3021			while (jfs_dirents--) {
->    3022				ctx->pos = jfs_dirent->position;
->    3023				if (!dir_emit(ctx, jfs_dirent->name,
->    3024					    jfs_dirent->name_len,
->    3025					    jfs_dirent->ino, DT_UNKNOWN))
->    3026					goto out;
->    3027				jfs_dirent = next_jfs_dirent(jfs_dirent);
->    3028			}
->    3029	
->    3030			if (fix_page) {
->    3031				if ((rc = add_missing_indices(ip, bn)))
->    3032					goto out;
->    3033				page_fixed = 1;
->    3034			}
->    3035	
->    3036			if (!overflow && (bn == 0)) {
->    3037				ctx->pos = DIREND;
->    3038				break;
->    3039			}
->    3040	
->    3041			DT_GETPAGE(ip, bn, mp, PSIZE, p, rc);
->    3042			if (rc) {
->    3043				free_page(dirent_buf);
->    3044				return rc;
->    3045			}
->    3046		}
->    3047	
->    3048	      out:
->    3049		free_page(dirent_buf);
->    3050	
->    3051		return rc;
->    3052	}
->    3053	
-> 
+#ifdef CONFIG_SYSCTL
+#if defined(HAVE_ARCH_PICK_MMAP_LAYOUT) || \
+		defined(CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT)
+int sysctl_legacy_va_layout;
+#endif
 
+static int sysctl_max_map_count __read_mostly = DEFAULT_MAX_MAP_COUNT;
+
+/**
+ * vma_count_remaining - Determine available VMA slots
+ * @mm: The memory descriptor for the process.
+ *
+ * Check how many more VMAs can be created for the given @mm
+ * before hitting the sysctl_max_map_count limit.
+ *
+ * Return: The number of new VMAs the process can accommodate.
+ */
+int vma_count_remaining(const struct mm_struct *mm)
+{
+	const int map_count = mm->vma_count;
+	const int max_count = sysctl_max_map_count;
+
+	return (max_count > map_count) ? (max_count - map_count) : 0;
+}
+
+...
+#endif /* CONFIG_SYSCTL */
+
+So you should move it out of here and that should fix the kernelbot report.
+
+Cheers, Lorenzo
+
+>
+>
+> vim +377 mm/mmap.c
+>
+>    276
+>    277	/**
+>    278	 * do_mmap() - Perform a userland memory mapping into the current process
+>    279	 * address space of length @len with protection bits @prot, mmap flags @flags
+>    280	 * (from which VMA flags will be inferred), and any additional VMA flags to
+>    281	 * apply @vm_flags. If this is a file-backed mapping then the file is specified
+>    282	 * in @file and page offset into the file via @pgoff.
+>    283	 *
+>    284	 * This function does not perform security checks on the file and assumes, if
+>    285	 * @uf is non-NULL, the caller has provided a list head to track unmap events
+>    286	 * for userfaultfd @uf.
+>    287	 *
+>    288	 * It also simply indicates whether memory population is required by setting
+>    289	 * @populate, which must be non-NULL, expecting the caller to actually perform
+>    290	 * this task itself if appropriate.
+>    291	 *
+>    292	 * This function will invoke architecture-specific (and if provided and
+>    293	 * relevant, file system-specific) logic to determine the most appropriate
+>    294	 * unmapped area in which to place the mapping if not MAP_FIXED.
+>    295	 *
+>    296	 * Callers which require userland mmap() behaviour should invoke vm_mmap(),
+>    297	 * which is also exported for module use.
+>    298	 *
+>    299	 * Those which require this behaviour less security checks, userfaultfd and
+>    300	 * populate behaviour, and who handle the mmap write lock themselves, should
+>    301	 * call this function.
+>    302	 *
+>    303	 * Note that the returned address may reside within a merged VMA if an
+>    304	 * appropriate merge were to take place, so it doesn't necessarily specify the
+>    305	 * start of a VMA, rather only the start of a valid mapped range of length
+>    306	 * @len bytes, rounded down to the nearest page size.
+>    307	 *
+>    308	 * The caller must write-lock current->mm->mmap_lock.
+>    309	 *
+>    310	 * @file: An optional struct file pointer describing the file which is to be
+>    311	 * mapped, if a file-backed mapping.
+>    312	 * @addr: If non-zero, hints at (or if @flags has MAP_FIXED set, specifies) the
+>    313	 * address at which to perform this mapping. See mmap (2) for details. Must be
+>    314	 * page-aligned.
+>    315	 * @len: The length of the mapping. Will be page-aligned and must be at least 1
+>    316	 * page in size.
+>    317	 * @prot: Protection bits describing access required to the mapping. See mmap
+>    318	 * (2) for details.
+>    319	 * @flags: Flags specifying how the mapping should be performed, see mmap (2)
+>    320	 * for details.
+>    321	 * @vm_flags: VMA flags which should be set by default, or 0 otherwise.
+>    322	 * @pgoff: Page offset into the @file if file-backed, should be 0 otherwise.
+>    323	 * @populate: A pointer to a value which will be set to 0 if no population of
+>    324	 * the range is required, or the number of bytes to populate if it is. Must be
+>    325	 * non-NULL. See mmap (2) for details as to under what circumstances population
+>    326	 * of the range occurs.
+>    327	 * @uf: An optional pointer to a list head to track userfaultfd unmap events
+>    328	 * should unmapping events arise. If provided, it is up to the caller to manage
+>    329	 * this.
+>    330	 *
+>    331	 * Returns: Either an error, or the address at which the requested mapping has
+>    332	 * been performed.
+>    333	 */
+>    334	unsigned long do_mmap(struct file *file, unsigned long addr,
+>    335				unsigned long len, unsigned long prot,
+>    336				unsigned long flags, vm_flags_t vm_flags,
+>    337				unsigned long pgoff, unsigned long *populate,
+>    338				struct list_head *uf)
+>    339	{
+>    340		struct mm_struct *mm = current->mm;
+>    341		int pkey = 0;
+>    342
+>    343		*populate = 0;
+>    344
+>    345		mmap_assert_write_locked(mm);
+>    346
+>    347		if (!len)
+>    348			return -EINVAL;
+>    349
+>    350		/*
+>    351		 * Does the application expect PROT_READ to imply PROT_EXEC?
+>    352		 *
+>    353		 * (the exception is when the underlying filesystem is noexec
+>    354		 *  mounted, in which case we don't add PROT_EXEC.)
+>    355		 */
+>    356		if ((prot & PROT_READ) && (current->personality & READ_IMPLIES_EXEC))
+>    357			if (!(file && path_noexec(&file->f_path)))
+>    358				prot |= PROT_EXEC;
+>    359
+>    360		/* force arch specific MAP_FIXED handling in get_unmapped_area */
+>    361		if (flags & MAP_FIXED_NOREPLACE)
+>    362			flags |= MAP_FIXED;
+>    363
+>    364		if (!(flags & MAP_FIXED))
+>    365			addr = round_hint_to_min(addr);
+>    366
+>    367		/* Careful about overflows.. */
+>    368		len = PAGE_ALIGN(len);
+>    369		if (!len)
+>    370			return -ENOMEM;
+>    371
+>    372		/* offset overflow? */
+>    373		if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
+>    374			return -EOVERFLOW;
+>    375
+>    376		/* Too many mappings? */
+>  > 377		if (!vma_count_remaining(mm))
+>    378			return -ENOMEM;
+>    379
+>    380		/*
+>    381		 * addr is returned from get_unmapped_area,
+>    382		 * There are two cases:
+>    383		 * 1> MAP_FIXED == false
+>    384		 *	unallocated memory, no need to check sealing.
+>    385		 * 1> MAP_FIXED == true
+>    386		 *	sealing is checked inside mmap_region when
+>    387		 *	do_vmi_munmap is called.
+>    388		 */
+>    389
+>    390		if (prot == PROT_EXEC) {
+>    391			pkey = execute_only_pkey(mm);
+>    392			if (pkey < 0)
+>    393				pkey = 0;
+>    394		}
+>    395
+>    396		/* Do simple checking here so the lower-level routines won't have
+>    397		 * to. we assume access permissions have been handled by the open
+>    398		 * of the memory object, so we don't do any here.
+>    399		 */
+>    400		vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(file, flags) |
+>    401				mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+>    402
+>    403		/* Obtain the address to map to. we verify (or select) it and ensure
+>    404		 * that it represents a valid section of the address space.
+>    405		 */
+>    406		addr = __get_unmapped_area(file, addr, len, pgoff, flags, vm_flags);
+>    407		if (IS_ERR_VALUE(addr))
+>    408			return addr;
+>    409
+>    410		if (flags & MAP_FIXED_NOREPLACE) {
+>    411			if (find_vma_intersection(mm, addr, addr + len))
+>    412				return -EEXIST;
+>    413		}
+>    414
+>    415		if (flags & MAP_LOCKED)
+>    416			if (!can_do_mlock())
+>    417				return -EPERM;
+>    418
+>    419		if (!mlock_future_ok(mm, vm_flags, len))
+>    420			return -EAGAIN;
+>    421
+>    422		if (file) {
+>    423			struct inode *inode = file_inode(file);
+>    424			unsigned long flags_mask;
+>    425			int err;
+>    426
+>    427			if (!file_mmap_ok(file, inode, pgoff, len))
+>    428				return -EOVERFLOW;
+>    429
+>    430			flags_mask = LEGACY_MAP_MASK;
+>    431			if (file->f_op->fop_flags & FOP_MMAP_SYNC)
+>    432				flags_mask |= MAP_SYNC;
+>    433
+>    434			switch (flags & MAP_TYPE) {
+>    435			case MAP_SHARED:
+>    436				/*
+>    437				 * Force use of MAP_SHARED_VALIDATE with non-legacy
+>    438				 * flags. E.g. MAP_SYNC is dangerous to use with
+>    439				 * MAP_SHARED as you don't know which consistency model
+>    440				 * you will get. We silently ignore unsupported flags
+>    441				 * with MAP_SHARED to preserve backward compatibility.
+>    442				 */
+>    443				flags &= LEGACY_MAP_MASK;
+>    444				fallthrough;
+>    445			case MAP_SHARED_VALIDATE:
+>    446				if (flags & ~flags_mask)
+>    447					return -EOPNOTSUPP;
+>    448				if (prot & PROT_WRITE) {
+>    449					if (!(file->f_mode & FMODE_WRITE))
+>    450						return -EACCES;
+>    451					if (IS_SWAPFILE(file->f_mapping->host))
+>    452						return -ETXTBSY;
+>    453				}
+>    454
+>    455				/*
+>    456				 * Make sure we don't allow writing to an append-only
+>    457				 * file..
+>    458				 */
+>    459				if (IS_APPEND(inode) && (file->f_mode & FMODE_WRITE))
+>    460					return -EACCES;
+>    461
+>    462				vm_flags |= VM_SHARED | VM_MAYSHARE;
+>    463				if (!(file->f_mode & FMODE_WRITE))
+>    464					vm_flags &= ~(VM_MAYWRITE | VM_SHARED);
+>    465				fallthrough;
+>    466			case MAP_PRIVATE:
+>    467				if (!(file->f_mode & FMODE_READ))
+>    468					return -EACCES;
+>    469				if (path_noexec(&file->f_path)) {
+>    470					if (vm_flags & VM_EXEC)
+>    471						return -EPERM;
+>    472					vm_flags &= ~VM_MAYEXEC;
+>    473				}
+>    474
+>    475				if (!can_mmap_file(file))
+>    476					return -ENODEV;
+>    477				if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+>    478					return -EINVAL;
+>    479				break;
+>    480
+>    481			default:
+>    482				return -EINVAL;
+>    483			}
+>    484
+>    485			/*
+>    486			 * Check to see if we are violating any seals and update VMA
+>    487			 * flags if necessary to avoid future seal violations.
+>    488			 */
+>    489			err = memfd_check_seals_mmap(file, &vm_flags);
+>    490			if (err)
+>    491				return (unsigned long)err;
+>    492		} else {
+>    493			switch (flags & MAP_TYPE) {
+>    494			case MAP_SHARED:
+>    495				if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+>    496					return -EINVAL;
+>    497				/*
+>    498				 * Ignore pgoff.
+>    499				 */
+>    500				pgoff = 0;
+>    501				vm_flags |= VM_SHARED | VM_MAYSHARE;
+>    502				break;
+>    503			case MAP_DROPPABLE:
+>    504				if (VM_DROPPABLE == VM_NONE)
+>    505					return -ENOTSUPP;
+>    506				/*
+>    507				 * A locked or stack area makes no sense to be droppable.
+>    508				 *
+>    509				 * Also, since droppable pages can just go away at any time
+>    510				 * it makes no sense to copy them on fork or dump them.
+>    511				 *
+>    512				 * And don't attempt to combine with hugetlb for now.
+>    513				 */
+>    514				if (flags & (MAP_LOCKED | MAP_HUGETLB))
+>    515				        return -EINVAL;
+>    516				if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
+>    517				        return -EINVAL;
+>    518
+>    519				vm_flags |= VM_DROPPABLE;
+>    520
+>    521				/*
+>    522				 * If the pages can be dropped, then it doesn't make
+>    523				 * sense to reserve them.
+>    524				 */
+>    525				vm_flags |= VM_NORESERVE;
+>    526
+>    527				/*
+>    528				 * Likewise, they're volatile enough that they
+>    529				 * shouldn't survive forks or coredumps.
+>    530				 */
+>    531				vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
+>    532				fallthrough;
+>    533			case MAP_PRIVATE:
+>    534				/*
+>    535				 * Set pgoff according to addr for anon_vma.
+>    536				 */
+>    537				pgoff = addr >> PAGE_SHIFT;
+>    538				break;
+>    539			default:
+>    540				return -EINVAL;
+>    541			}
+>    542		}
+>    543
+>    544		/*
+>    545		 * Set 'VM_NORESERVE' if we should not account for the
+>    546		 * memory use of this mapping.
+>    547		 */
+>    548		if (flags & MAP_NORESERVE) {
+>    549			/* We honor MAP_NORESERVE if allowed to overcommit */
+>    550			if (sysctl_overcommit_memory != OVERCOMMIT_NEVER)
+>    551				vm_flags |= VM_NORESERVE;
+>    552
+>    553			/* hugetlb applies strict overcommit unless MAP_NORESERVE */
+>    554			if (file && is_file_hugepages(file))
+>    555				vm_flags |= VM_NORESERVE;
+>    556		}
+>    557
+>    558		addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
+>    559		if (!IS_ERR_VALUE(addr) &&
+>    560		    ((vm_flags & VM_LOCKED) ||
+>    561		     (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE))
+>    562			*populate = len;
+>    563		return addr;
+>    564	}
+>    565
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
