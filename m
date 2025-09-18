@@ -1,59 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAC51F4181
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 04:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFDA2749EA;
+	Thu, 18 Sep 2025 05:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758168846; cv=none; b=Vb3RZprdx8mFKD7aKZ75Zyxgs60QZX9euZURYIOahBvFmmO/DAAta2pWxA0rpM/yuZXz41JQGy1K1al7fmKMBbqVhLaENCPQz+KeLHlxgOxoCbSIqyAWVywM3+c9De5NJzwLWLfo3xudDfKJWwswSYiVP3KmXiBAk4r8tW3IEwY=
+	t=1758173955; cv=none; b=WhtvAgl+PHWKWWOJj04HvjZlgusS8ZGLjy0ZAsKFW9EhGVW4L9yfLSnxLqNfiJVXCe+uCfDO3ePWK3bVcG8qOe0McvnrG7ay/R9sA81kHfudbSzAJb0TkKfyf1VGy7sdBN4rfUmgcFps6sXsb4p907ovOHdClWbhK5+6DzABowU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758168846; c=relaxed/simple;
-	bh=f1AUq/Rt4KqlZN2V3h9k15Vtp8n9YX3fXZURQ7NQ+kA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vyevj/JpUXNl8zng9WX8MJn698rvpHO+rXHid1JROe6L5i2qVNE0VcQB2KyBDQJDYwbXly838CKb2PiqApy2ndg/++zJFIonIhLuwZPn1mWeJYyi8dOLJ49TUpOSN1YRCMnp7vz5A/L2Xdnxso1JLH0TMe6nX6qwZoWkABYoBiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jcm5vuWe; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1758173955; c=relaxed/simple;
+	bh=y+jC5ADb61yhBWtArYZLqp9di3X9xAiUey258IJUPcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c9xWBskn4vU6VGQQvfAN3TXwhMbI3Smz9d9gvvIooVa7lT48VV0uBFZCr9SVKCUDgB3zkGRrMcDmo2t/RluefECVloZfzdiHrlBjTNAs4PG2K2UJBSEM12CQ0Z+FPCWCOWjkb1wSxOiCy+eCmAYibmU+bsW17BbvQQVF3foirrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFOdF4iD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jcm5vuWe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFOdF4iD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758168843; x=1789704843;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f1AUq/Rt4KqlZN2V3h9k15Vtp8n9YX3fXZURQ7NQ+kA=;
-  b=Jcm5vuWevb4tGCATdDFtWmHNJK9NV57PqONCezsG24UtJzZfCSXGLslw
-   8z5QgYDjzrLoDazPPRcd5zamF6xvPX79E2dw6kVpeRMWAj20IGvrM4U8E
-   fwsWheY4IhlfKt3pWfEXVUwUWExRrFJsL+Y/LMCHUMCygkglJ5d5j0xUs
-   kw3rXoD0vIIXJD2jGPeeGsMNG4Q8g8BrmRXXxaZrU/O2CuiXOzwCW9Mku
-   Pml3a1azKLpqdzLfSj9FRmsIcEr5qsoHk3ztLSxscMPhqJPLxcEqGXgHh
-   8aaIXYr04aBwrtq0tpmFjANbWa0JNTsqMFaEe42bOA/4RBgi9S6DI6bfD
-   Q==;
-X-CSE-ConnectionGUID: oRITI0p0TkmdoXqZ3pXeYA==
-X-CSE-MsgGUID: OHp1CIVrSYqCRNET3EneSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="77925167"
+  t=1758173953; x=1789709953;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y+jC5ADb61yhBWtArYZLqp9di3X9xAiUey258IJUPcs=;
+  b=bFOdF4iDl3A83RQADT6zm+kffTj3hewNu5dhjg58OCP/5SEcXI4OKfRk
+   D6kGFwI4oUfTrBw108whaciaIDf2DUOEZ0tId8bAyEbygSF34P2itaRWQ
+   gS7imEGdVj+QhGvGG6EKI7DoI+EluBDEVkFPMcLU5JRkij45WWORea3iq
+   XARAkoKumCRAk6tJXbgHMY7ZuR6tWJ5uXBBz9AXaSGr38QFsnIgNnY3YY
+   69BlyH8KGfgAgn4wsZrD+Ee7If3HmEzFBwEaX5XGEXyh8CmzAkd36KhP8
+   dP8vohQWFvE/QIsvNAHTbAKW4KLUOyKirhB5WFfU/i3urRC8E3U4Fxr8l
+   w==;
+X-CSE-ConnectionGUID: 622/DTd3Sh6+EGSbOKDbew==
+X-CSE-MsgGUID: AA4OQ6y/Spaq5dgUGBr0zQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60604381"
 X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
-   d="scan'208";a="77925167"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 21:14:02 -0700
-X-CSE-ConnectionGUID: iE/1GJURTyGmYW62vOBUxw==
-X-CSE-MsgGUID: TWnAJL/KRjOcvJ4ILDpHbA==
+   d="scan'208";a="60604381"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 22:39:13 -0700
+X-CSE-ConnectionGUID: Ufc8YFrWTvOutN5VHn7ZoQ==
+X-CSE-MsgGUID: d+DbLpL5RNivQdPIyzn/tQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; 
-   d="scan'208";a="179715767"
+   d="scan'208";a="176233971"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Sep 2025 21:14:00 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Sep 2025 22:39:07 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uz61u-0002kv-0F;
-	Thu, 18 Sep 2025 04:13:58 +0000
-Date: Thu, 18 Sep 2025 12:13:16 +0800
+	id 1uz7MH-0002nP-0J;
+	Thu, 18 Sep 2025 05:39:05 +0000
+Date: Thu, 18 Sep 2025 13:38:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Liang <wangliang74@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2904/2904] net/oenetcls/oenetcls_ntuple.c:14:27:
- sparse: sparse: symbol 'oecls_sk_rules' was not declared. Should it be
- static?
-Message-ID: <202509181257.lJX7E7VA-lkp@intel.com>
+To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, linux-hyperv@vger.kernel.org,
+	virtualization@lists.linux.dev, kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Juergen Gross <jgross@suse.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 21/21] x86/pvlocks: Move paravirt spinlock functions
+ into own header
+Message-ID: <202509181317.YubLCpdh-lkp@intel.com>
+References: <20250917145220.31064-22-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,247 +82,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250917145220.31064-22-jgross@suse.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8ba53a0f68c5722dd787f872e161bbd850b225c4
-commit: 22d4075bf5ef29ba4b329f954ac28a7de1d69a65 [2904/2904] net/oenetcls: remove oenetcls trace hook
-config: loongarch-randconfig-r111-20250918 (https://download.01.org/0day-ci/archive/20250918/202509181257.lJX7E7VA-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181257.lJX7E7VA-lkp@intel.com/reproduce)
+Hi Juergen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on kvm/queue kvm/next linus/master v6.17-rc6 next-20250917]
+[cannot apply to tip/x86/core kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-Remove-not-needed-includes-of-paravirt-h/20250917-230321
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20250917145220.31064-22-jgross%40suse.com
+patch subject: [PATCH v2 21/21] x86/pvlocks: Move paravirt spinlock functions into own header
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250918/202509181317.YubLCpdh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181317.YubLCpdh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509181257.lJX7E7VA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509181317.YubLCpdh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/oenetcls/oenetcls_ntuple.c:14:27: sparse: sparse: symbol 'oecls_sk_rules' was not declared. Should it be static?
->> net/oenetcls/oenetcls_ntuple.c:14:43: sparse: sparse: symbol 'oecls_sk_list' was not declared. Should it be static?
->> net/oenetcls/oenetcls_ntuple.c:147:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dip4 @@     got restricted __be32 [usertype] ifa_local @@
-   net/oenetcls/oenetcls_ntuple.c:147:38: sparse:     expected unsigned int [usertype] dip4
-   net/oenetcls/oenetcls_ntuple.c:147:38: sparse:     got restricted __be32 [usertype] ifa_local
->> net/oenetcls/oenetcls_ntuple.c:161:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
-   net/oenetcls/oenetcls_ntuple.c:161:16: sparse:     expected unsigned short [usertype]
-   net/oenetcls/oenetcls_ntuple.c:161:16: sparse:     got restricted __be16 [usertype]
->> net/oenetcls/oenetcls_ntuple.c:169:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] skc_rcv_saddr @@
-   net/oenetcls/oenetcls_ntuple.c:169:23: sparse:     expected unsigned int [usertype]
-   net/oenetcls/oenetcls_ntuple.c:169:23: sparse:     got restricted __be32 [usertype] skc_rcv_saddr
->> net/oenetcls/oenetcls_ntuple.c:393:9: sparse: sparse: cast to restricted __be16
->> net/oenetcls/oenetcls_ntuple.c:393:9: sparse: sparse: cast to restricted __be16
->> net/oenetcls/oenetcls_ntuple.c:393:9: sparse: sparse: cast to restricted __be16
->> net/oenetcls/oenetcls_ntuple.c:406:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4dst @@     got unsigned int [usertype] dip4 @@
-   net/oenetcls/oenetcls_ntuple.c:406:38: sparse:     expected restricted __be32 [usertype] ip4dst
-   net/oenetcls/oenetcls_ntuple.c:406:38: sparse:     got unsigned int [usertype] dip4
->> net/oenetcls/oenetcls_ntuple.c:407:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] pdst @@     got unsigned short [usertype] dport @@
-   net/oenetcls/oenetcls_ntuple.c:407:36: sparse:     expected restricted __be16 [usertype] pdst
-   net/oenetcls/oenetcls_ntuple.c:407:36: sparse:     got unsigned short [usertype] dport
->> net/oenetcls/oenetcls_ntuple.c:409:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4dst @@     got unsigned int [usertype] @@
-   net/oenetcls/oenetcls_ntuple.c:409:46: sparse:     expected restricted __be32 [usertype] ip4dst
-   net/oenetcls/oenetcls_ntuple.c:409:46: sparse:     got unsigned int [usertype]
->> net/oenetcls/oenetcls_ntuple.c:410:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] pdst @@     got unsigned short [usertype] @@
-   net/oenetcls/oenetcls_ntuple.c:410:36: sparse:     expected restricted __be16 [usertype] pdst
-   net/oenetcls/oenetcls_ntuple.c:410:36: sparse:     got unsigned short [usertype]
-   net/oenetcls/oenetcls_ntuple.c:442:25: sparse: sparse: cast to restricted __be16
-   net/oenetcls/oenetcls_ntuple.c:442:25: sparse: sparse: cast to restricted __be16
-   net/oenetcls/oenetcls_ntuple.c:442:25: sparse: sparse: cast to restricted __be16
---
->> net/oenetcls/oenetcls_main.c:265:31: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *useraddr @@     got void [noderef] __user *ifru_data @@
-   net/oenetcls/oenetcls_main.c:265:31: sparse:     expected void *useraddr
-   net/oenetcls/oenetcls_main.c:265:31: sparse:     got void [noderef] __user *ifru_data
->> net/oenetcls/oenetcls_main.c:344:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] ifru_data @@     got void *cmd @@
-   net/oenetcls/oenetcls_main.c:344:22: sparse:     expected void [noderef] __user *[addressable] ifru_data
-   net/oenetcls/oenetcls_main.c:344:22: sparse:     got void *cmd
---
->> net/oenetcls/oenetcls_flow.c:18:6: sparse: sparse: symbol 'is_oecls_config_netdev' was not declared. Should it be static?
->> net/oenetcls/oenetcls_flow.c:40:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/oenetcls/oenetcls_flow.c:40:22: sparse:    void [noderef] __rcu *
-   net/oenetcls/oenetcls_flow.c:40:22: sparse:    void *
-   net/oenetcls/oenetcls_flow.c:149:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/oenetcls/oenetcls_flow.c:149:15: sparse:    void [noderef] __rcu *
-   net/oenetcls/oenetcls_flow.c:149:15: sparse:    void *
-   net/oenetcls/oenetcls_flow.c:235:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/oenetcls/oenetcls_flow.c:235:15: sparse:    void [noderef] __rcu *
-   net/oenetcls/oenetcls_flow.c:235:15: sparse:    void *
-   net/oenetcls/oenetcls_flow.c:258:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/oenetcls/oenetcls_flow.c:258:23: sparse:    void [noderef] __rcu *
-   net/oenetcls/oenetcls_flow.c:258:23: sparse:    void *
-   net/oenetcls/oenetcls_flow.c:260:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/oenetcls/oenetcls_flow.c:260:17: sparse:    void [noderef] __rcu *
-   net/oenetcls/oenetcls_flow.c:260:17: sparse:    void *
-   net/oenetcls/oenetcls_flow.c:309:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/oenetcls/oenetcls_flow.c:309:17: sparse:    void [noderef] __rcu *
-   net/oenetcls/oenetcls_flow.c:309:17: sparse:    void *
->> net/oenetcls/oenetcls_flow.c:258:23: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +/oecls_sk_rules +14 net/oenetcls/oenetcls_ntuple.c
+   In file included from arch/x86/kernel/alternative.c:4:
+   In file included from include/linux/mmu_context.h:5:
+   arch/x86/include/asm/mmu_context.h:225:2: error: call to undeclared function 'paravirt_enter_mmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     225 |         paravirt_enter_mmap(mm);
+         |         ^
+   arch/x86/include/asm/mmu_context.h:232:2: error: call to undeclared function 'paravirt_arch_exit_mmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     232 |         paravirt_arch_exit_mmap(mm);
+         |         ^
+   arch/x86/include/asm/mmu_context.h:232:2: note: did you mean 'ldt_arch_exit_mmap'?
+   arch/x86/include/asm/mmu_context.h:61:6: note: 'ldt_arch_exit_mmap' declared here
+      61 | void ldt_arch_exit_mmap(struct mm_struct *mm);
+         |      ^
+   In file included from arch/x86/kernel/alternative.c:5:
+   In file included from include/linux/perf_event.h:53:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:33:
+   In file included from arch/x86/include/asm/rqspinlock.h:5:
+   arch/x86/include/asm/paravirt.h:570:20: error: static declaration of 'paravirt_enter_mmap' follows non-static declaration
+     570 | static inline void paravirt_enter_mmap(struct mm_struct *mm)
+         |                    ^
+   arch/x86/include/asm/mmu_context.h:225:2: note: previous implicit declaration is here
+     225 |         paravirt_enter_mmap(mm);
+         |         ^
+   In file included from arch/x86/kernel/alternative.c:5:
+   In file included from include/linux/perf_event.h:53:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:33:
+   In file included from arch/x86/include/asm/rqspinlock.h:5:
+   arch/x86/include/asm/paravirt.h:576:20: error: static declaration of 'paravirt_arch_exit_mmap' follows non-static declaration
+     576 | static inline void paravirt_arch_exit_mmap(struct mm_struct *mm)
+         |                    ^
+   arch/x86/include/asm/mmu_context.h:232:2: note: previous implicit declaration is here
+     232 |         paravirt_arch_exit_mmap(mm);
+         |         ^
+>> arch/x86/kernel/alternative.c:2317:2: error: call to undeclared function 'paravirt_set_cap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2317 |         paravirt_set_cap();
+         |         ^
+   arch/x86/kernel/alternative.c:2317:2: note: did you mean 'paravirt_ret0'?
+   arch/x86/include/asm/paravirt-base.h:23:15: note: 'paravirt_ret0' declared here
+      23 | unsigned long paravirt_ret0(void);
+         |               ^
+   5 errors generated.
 
-4bed6ba0e88f50 Wang Liang 2025-08-26   13  
-4bed6ba0e88f50 Wang Liang 2025-08-26  @14  struct oecls_sk_rule_list oecls_sk_rules, oecls_sk_list;
-4bed6ba0e88f50 Wang Liang 2025-08-26   15  
-4bed6ba0e88f50 Wang Liang 2025-08-26   16  static void init_oecls_sk_rules(void)
-4bed6ba0e88f50 Wang Liang 2025-08-26   17  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   18  	unsigned int i;
-4bed6ba0e88f50 Wang Liang 2025-08-26   19  
-4bed6ba0e88f50 Wang Liang 2025-08-26   20  	for (i = 0; i < OECLS_SK_RULE_HASHSIZE; i++)
-4bed6ba0e88f50 Wang Liang 2025-08-26   21  		INIT_HLIST_HEAD(oecls_sk_rules.hash + i);
-4bed6ba0e88f50 Wang Liang 2025-08-26   22  	mutex_init(&oecls_sk_rules.mutex);
-4bed6ba0e88f50 Wang Liang 2025-08-26   23  }
-4bed6ba0e88f50 Wang Liang 2025-08-26   24  
-4bed6ba0e88f50 Wang Liang 2025-08-26   25  static inline struct hlist_head *get_rule_hashlist(u32 dip4, u16 dport)
-4bed6ba0e88f50 Wang Liang 2025-08-26   26  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   27  	return oecls_sk_rules.hash + (jhash_2words(dip4, dport, 0) & OECLS_SK_RULE_HASHMASK);
-4bed6ba0e88f50 Wang Liang 2025-08-26   28  }
-4bed6ba0e88f50 Wang Liang 2025-08-26   29  
-4bed6ba0e88f50 Wang Liang 2025-08-26   30  static inline struct hlist_head *get_sk_hashlist(void *sk)
-4bed6ba0e88f50 Wang Liang 2025-08-26   31  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   32  	return oecls_sk_list.hash + (jhash(sk, sizeof(sk), 0) & OECLS_SK_RULE_HASHMASK);
-4bed6ba0e88f50 Wang Liang 2025-08-26   33  }
-4bed6ba0e88f50 Wang Liang 2025-08-26   34  
-4bed6ba0e88f50 Wang Liang 2025-08-26   35  static void add_sk_rule(int devid, u32 dip4, u16 dport, void *sk, int action,
-4bed6ba0e88f50 Wang Liang 2025-08-26   36  			int ruleid, int nid)
-4bed6ba0e88f50 Wang Liang 2025-08-26   37  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   38  	struct hlist_head *hlist = get_rule_hashlist(dip4, dport);
-4bed6ba0e88f50 Wang Liang 2025-08-26   39  	struct hlist_head *sk_hlist = get_sk_hashlist(sk);
-4bed6ba0e88f50 Wang Liang 2025-08-26   40  	struct oecls_sk_rule *rule;
-4bed6ba0e88f50 Wang Liang 2025-08-26   41  	struct oecls_sk_entry *entry;
-4bed6ba0e88f50 Wang Liang 2025-08-26   42  
-4bed6ba0e88f50 Wang Liang 2025-08-26   43  	rule = kzalloc(sizeof(*rule), GFP_ATOMIC);
-4bed6ba0e88f50 Wang Liang 2025-08-26   44  	entry = kzalloc(sizeof(*entry), GFP_ATOMIC);
-4bed6ba0e88f50 Wang Liang 2025-08-26   45  	if (!rule || !entry)
-4bed6ba0e88f50 Wang Liang 2025-08-26   46  		goto out;
-4bed6ba0e88f50 Wang Liang 2025-08-26   47  
-4bed6ba0e88f50 Wang Liang 2025-08-26   48  	rule->sk = sk;
-4bed6ba0e88f50 Wang Liang 2025-08-26   49  	rule->dip4 = dip4;
-4bed6ba0e88f50 Wang Liang 2025-08-26   50  	rule->dport = dport;
-4bed6ba0e88f50 Wang Liang 2025-08-26   51  	rule->devid = devid;
-4bed6ba0e88f50 Wang Liang 2025-08-26   52  	rule->action = action;
-4bed6ba0e88f50 Wang Liang 2025-08-26   53  	rule->ruleid = ruleid;
-4bed6ba0e88f50 Wang Liang 2025-08-26   54  	rule->nid = nid;
-4bed6ba0e88f50 Wang Liang 2025-08-26   55  	hlist_add_head(&rule->node, hlist);
-4bed6ba0e88f50 Wang Liang 2025-08-26   56  
-4bed6ba0e88f50 Wang Liang 2025-08-26   57  	entry->sk = sk;
-4bed6ba0e88f50 Wang Liang 2025-08-26   58  	entry->sk_rule_hash = jhash_2words(dip4, dport, 0);
-4bed6ba0e88f50 Wang Liang 2025-08-26   59  	hlist_add_head(&entry->node, sk_hlist);
-4bed6ba0e88f50 Wang Liang 2025-08-26   60  	return;
-4bed6ba0e88f50 Wang Liang 2025-08-26   61  out:
-4bed6ba0e88f50 Wang Liang 2025-08-26   62  	oecls_debug("alloc failed rule:%p entry:%p\n", rule, entry);
-4bed6ba0e88f50 Wang Liang 2025-08-26   63  	kfree(entry);
-4bed6ba0e88f50 Wang Liang 2025-08-26   64  	kfree(rule);
-4bed6ba0e88f50 Wang Liang 2025-08-26   65  }
-4bed6ba0e88f50 Wang Liang 2025-08-26   66  
-4bed6ba0e88f50 Wang Liang 2025-08-26   67  static struct oecls_sk_entry *get_sk_entry(void *sk)
-4bed6ba0e88f50 Wang Liang 2025-08-26   68  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   69  	struct hlist_head *sk_hlist = get_sk_hashlist(sk);
-4bed6ba0e88f50 Wang Liang 2025-08-26   70  	struct oecls_sk_entry *entry = NULL;
-4bed6ba0e88f50 Wang Liang 2025-08-26   71  
-4bed6ba0e88f50 Wang Liang 2025-08-26   72  	hlist_for_each_entry(entry, sk_hlist, node) {
-4bed6ba0e88f50 Wang Liang 2025-08-26   73  		if (entry->sk == sk)
-4bed6ba0e88f50 Wang Liang 2025-08-26   74  			break;
-4bed6ba0e88f50 Wang Liang 2025-08-26   75  	}
-4bed6ba0e88f50 Wang Liang 2025-08-26   76  	return entry;
-4bed6ba0e88f50 Wang Liang 2025-08-26   77  }
-4bed6ba0e88f50 Wang Liang 2025-08-26   78  
-4bed6ba0e88f50 Wang Liang 2025-08-26   79  static void del_sk_rule(struct oecls_sk_rule *rule)
-4bed6ba0e88f50 Wang Liang 2025-08-26   80  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   81  	struct oecls_sk_entry *entry;
-4bed6ba0e88f50 Wang Liang 2025-08-26   82  
-4bed6ba0e88f50 Wang Liang 2025-08-26   83  	entry = get_sk_entry(rule->sk);
-4bed6ba0e88f50 Wang Liang 2025-08-26   84  	if (!entry)
-4bed6ba0e88f50 Wang Liang 2025-08-26   85  		return;
-4bed6ba0e88f50 Wang Liang 2025-08-26   86  	hlist_del_init(&entry->node);
-4bed6ba0e88f50 Wang Liang 2025-08-26   87  	kfree(entry);
-4bed6ba0e88f50 Wang Liang 2025-08-26   88  
-4bed6ba0e88f50 Wang Liang 2025-08-26   89  	oecls_debug("del rule=%p\n", rule);
-4bed6ba0e88f50 Wang Liang 2025-08-26   90  	hlist_del_init(&rule->node);
-4bed6ba0e88f50 Wang Liang 2025-08-26   91  	kfree(rule);
-4bed6ba0e88f50 Wang Liang 2025-08-26   92  }
-4bed6ba0e88f50 Wang Liang 2025-08-26   93  
-4bed6ba0e88f50 Wang Liang 2025-08-26   94  static struct oecls_sk_rule *get_sk_rule(int devid, u32 dip4, u16 dport)
-4bed6ba0e88f50 Wang Liang 2025-08-26   95  {
-4bed6ba0e88f50 Wang Liang 2025-08-26   96  	struct hlist_head *hlist = get_rule_hashlist(dip4, dport);
-4bed6ba0e88f50 Wang Liang 2025-08-26   97  	struct oecls_sk_rule *rule = NULL;
-4bed6ba0e88f50 Wang Liang 2025-08-26   98  
-4bed6ba0e88f50 Wang Liang 2025-08-26   99  	hlist_for_each_entry(rule, hlist, node) {
-4bed6ba0e88f50 Wang Liang 2025-08-26  100  		if (rule->devid == devid && rule->dip4 == dip4 && rule->dport == dport)
-4bed6ba0e88f50 Wang Liang 2025-08-26  101  			break;
-4bed6ba0e88f50 Wang Liang 2025-08-26  102  	}
-4bed6ba0e88f50 Wang Liang 2025-08-26  103  	return rule;
-4bed6ba0e88f50 Wang Liang 2025-08-26  104  }
-4bed6ba0e88f50 Wang Liang 2025-08-26  105  
-4bed6ba0e88f50 Wang Liang 2025-08-26  106  static struct oecls_sk_rule *get_rule_from_sk(int devid, void *sk)
-4bed6ba0e88f50 Wang Liang 2025-08-26  107  {
-4bed6ba0e88f50 Wang Liang 2025-08-26  108  	struct oecls_sk_rule *rule = NULL;
-4bed6ba0e88f50 Wang Liang 2025-08-26  109  	struct oecls_sk_entry *entry;
-4bed6ba0e88f50 Wang Liang 2025-08-26  110  	struct hlist_head *hlist;
-4bed6ba0e88f50 Wang Liang 2025-08-26  111  
-4bed6ba0e88f50 Wang Liang 2025-08-26  112  	entry = get_sk_entry(sk);
-4bed6ba0e88f50 Wang Liang 2025-08-26  113  	if (!entry)
-4bed6ba0e88f50 Wang Liang 2025-08-26  114  		return NULL;
-4bed6ba0e88f50 Wang Liang 2025-08-26  115  
-4bed6ba0e88f50 Wang Liang 2025-08-26  116  	hlist = oecls_sk_rules.hash + (entry->sk_rule_hash & OECLS_SK_RULE_HASHMASK);
-4bed6ba0e88f50 Wang Liang 2025-08-26  117  	hlist_for_each_entry(rule, hlist, node) {
-4bed6ba0e88f50 Wang Liang 2025-08-26  118  		if (rule->devid == devid && rule->sk == sk)
-4bed6ba0e88f50 Wang Liang 2025-08-26  119  			break;
-4bed6ba0e88f50 Wang Liang 2025-08-26  120  	}
-4bed6ba0e88f50 Wang Liang 2025-08-26  121  	return rule;
-4bed6ba0e88f50 Wang Liang 2025-08-26  122  }
-4bed6ba0e88f50 Wang Liang 2025-08-26  123  
-4bed6ba0e88f50 Wang Liang 2025-08-26  124  static inline bool reuseport_check(int devid, u32 dip4, u16 dport)
-4bed6ba0e88f50 Wang Liang 2025-08-26  125  {
-4bed6ba0e88f50 Wang Liang 2025-08-26  126  	return !!get_sk_rule(devid, dip4, dport);
-4bed6ba0e88f50 Wang Liang 2025-08-26  127  }
-4bed6ba0e88f50 Wang Liang 2025-08-26  128  
-4bed6ba0e88f50 Wang Liang 2025-08-26  129  static u32 get_first_ip4_addr(struct net *net)
-4bed6ba0e88f50 Wang Liang 2025-08-26  130  {
-4bed6ba0e88f50 Wang Liang 2025-08-26  131  	struct in_device *in_dev;
-4bed6ba0e88f50 Wang Liang 2025-08-26  132  	struct net_device *dev;
-4bed6ba0e88f50 Wang Liang 2025-08-26  133  	struct in_ifaddr *ifa;
-4bed6ba0e88f50 Wang Liang 2025-08-26  134  	u32 dip4 = 0;
-4bed6ba0e88f50 Wang Liang 2025-08-26  135  
-4bed6ba0e88f50 Wang Liang 2025-08-26  136  	rtnl_lock();
-4bed6ba0e88f50 Wang Liang 2025-08-26  137  	rcu_read_lock();
-4bed6ba0e88f50 Wang Liang 2025-08-26  138  	for_each_netdev(net, dev) {
-4bed6ba0e88f50 Wang Liang 2025-08-26  139  		if (dev->flags & IFF_LOOPBACK || !(dev->flags & IFF_UP))
-4bed6ba0e88f50 Wang Liang 2025-08-26  140  			continue;
-4bed6ba0e88f50 Wang Liang 2025-08-26  141  		in_dev = __in_dev_get_rcu(dev);
-4bed6ba0e88f50 Wang Liang 2025-08-26  142  		if (!in_dev)
-4bed6ba0e88f50 Wang Liang 2025-08-26  143  			continue;
-4bed6ba0e88f50 Wang Liang 2025-08-26  144  
-4bed6ba0e88f50 Wang Liang 2025-08-26  145  		in_dev_for_each_ifa_rcu(ifa, in_dev) {
-4bed6ba0e88f50 Wang Liang 2025-08-26  146  			if (!strcmp(dev->name, ifa->ifa_label)) {
-4bed6ba0e88f50 Wang Liang 2025-08-26 @147  				dip4 = ifa->ifa_local;
-4bed6ba0e88f50 Wang Liang 2025-08-26  148  				oecls_debug("dev: %s, dip4:%pI4\n", dev->name, &dip4);
-4bed6ba0e88f50 Wang Liang 2025-08-26  149  				goto out;
-4bed6ba0e88f50 Wang Liang 2025-08-26  150  			}
-4bed6ba0e88f50 Wang Liang 2025-08-26  151  		}
-4bed6ba0e88f50 Wang Liang 2025-08-26  152  	}
-4bed6ba0e88f50 Wang Liang 2025-08-26  153  out:
-4bed6ba0e88f50 Wang Liang 2025-08-26  154  	rcu_read_unlock();
-4bed6ba0e88f50 Wang Liang 2025-08-26  155  	rtnl_unlock();
-4bed6ba0e88f50 Wang Liang 2025-08-26  156  	return dip4;
-4bed6ba0e88f50 Wang Liang 2025-08-26  157  }
-4bed6ba0e88f50 Wang Liang 2025-08-26  158  
-4bed6ba0e88f50 Wang Liang 2025-08-26  159  static void get_sk_rule_addr(struct sock *sk, u32 *dip4, u16 *dport)
-4bed6ba0e88f50 Wang Liang 2025-08-26  160  {
-4bed6ba0e88f50 Wang Liang 2025-08-26 @161  	*dport = htons(sk->sk_num);
-4bed6ba0e88f50 Wang Liang 2025-08-26  162  
-4bed6ba0e88f50 Wang Liang 2025-08-26  163  	if (!match_ip_flag) {
-4bed6ba0e88f50 Wang Liang 2025-08-26  164  		*dip4 = 0;
-4bed6ba0e88f50 Wang Liang 2025-08-26  165  		return;
-4bed6ba0e88f50 Wang Liang 2025-08-26  166  	}
-4bed6ba0e88f50 Wang Liang 2025-08-26  167  
-4bed6ba0e88f50 Wang Liang 2025-08-26  168  	if (sk->sk_rcv_saddr)
-4bed6ba0e88f50 Wang Liang 2025-08-26 @169  		*dip4 = sk->sk_rcv_saddr;
-4bed6ba0e88f50 Wang Liang 2025-08-26  170  	else
-4bed6ba0e88f50 Wang Liang 2025-08-26  171  		*dip4 = get_first_ip4_addr(sock_net(sk));
-4bed6ba0e88f50 Wang Liang 2025-08-26  172  }
-4bed6ba0e88f50 Wang Liang 2025-08-26  173  
 
-:::::: The code at line 14 was first introduced by commit
-:::::: 4bed6ba0e88f50484fd5fb06bd993727b981b718 net/oenetcls: introduce oenetcls for network optimization
+vim +/paravirt_set_cap +2317 arch/x86/kernel/alternative.c
 
-:::::: TO: Wang Liang <wangliang74@huawei.com>
-:::::: CC: Wang Liang <wangliang74@huawei.com>
+270a69c4485d7d arch/x86/kernel/alternative.c  Peter Zijlstra            2023-02-08  2288  
+9a0b5817ad97bb arch/i386/kernel/alternative.c Gerd Hoffmann             2006-03-23  2289  void __init alternative_instructions(void)
+9a0b5817ad97bb arch/i386/kernel/alternative.c Gerd Hoffmann             2006-03-23  2290  {
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2291  	u64 ibt;
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2292  
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2293  	int3_selftest();
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2294  
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2295  	/*
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2296  	 * The patching is not fully atomic, so try to avoid local
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2297  	 * interruptions that might execute the to be patched code.
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2298  	 * Other CPUs are not running.
+7457c0da024b18 arch/x86/kernel/alternative.c  Peter Zijlstra            2019-05-03  2299  	 */
+8f4e956b313dcc arch/i386/kernel/alternative.c Andi Kleen                2007-07-22  2300  	stop_nmi();
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2301  
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2302  	/*
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2303  	 * Don't stop machine check exceptions while patching.
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2304  	 * MCEs only happen when something got corrupted and in this
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2305  	 * case we must do something about the corruption.
+32b1cbe380417f arch/x86/kernel/alternative.c  Marco Ammon               2019-09-02  2306  	 * Ignoring it is worse than an unlikely patching race.
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2307  	 * Also machine checks tend to be broadcast and if one CPU
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2308  	 * goes into machine check the others follow quickly, so we don't
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2309  	 * expect a machine check to cause undue problems during to code
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2310  	 * patching.
+123aa76ec0cab5 arch/x86/kernel/alternative.c  Andi Kleen                2009-02-12  2311  	 */
+8f4e956b313dcc arch/i386/kernel/alternative.c Andi Kleen                2007-07-22  2312  
+4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11  2313  	/*
+f7af6977621a41 arch/x86/kernel/alternative.c  Juergen Gross             2023-12-10  2314  	 * Make sure to set (artificial) features depending on used paravirt
+f7af6977621a41 arch/x86/kernel/alternative.c  Juergen Gross             2023-12-10  2315  	 * functions which can later influence alternative patching.
+4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11  2316  	 */
+4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11 @2317  	paravirt_set_cap();
+4e6292114c7412 arch/x86/kernel/alternative.c  Juergen Gross             2021-03-11  2318  
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2319  	/* Keep CET-IBT disabled until caller/callee are patched */
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2320  	ibt = ibt_save(/*disable*/ true);
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2321  
+931ab63664f02b arch/x86/kernel/alternative.c  Peter Zijlstra            2022-10-27  2322  	__apply_fineibt(__retpoline_sites, __retpoline_sites_end,
+1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2323) 			__cfi_sites, __cfi_sites_end, true);
+931ab63664f02b arch/x86/kernel/alternative.c  Peter Zijlstra            2022-10-27  2324  
+7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2325  	/*
+7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2326  	 * Rewrite the retpolines, must be done before alternatives since
+7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2327  	 * those can rewrite the retpoline thunks.
+7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2328  	 */
+1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2329) 	apply_retpolines(__retpoline_sites, __retpoline_sites_end);
+1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2330) 	apply_returns(__return_sites, __return_sites_end);
+7508500900814d arch/x86/kernel/alternative.c  Peter Zijlstra            2021-10-26  2331  
+a82b26451de126 arch/x86/kernel/alternative.c  Peter Zijlstra (Intel     2025-06-03  2332) 	its_fini_core();
+a82b26451de126 arch/x86/kernel/alternative.c  Peter Zijlstra (Intel     2025-06-03  2333) 
+e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2334  	/*
+ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2335  	 * Adjust all CALL instructions to point to func()-10, including
+ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2336  	 * those in .altinstr_replacement.
+e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2337  	 */
+e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2338  	callthunks_patch_builtin_calls();
+e81dc127ef6988 arch/x86/kernel/alternative.c  Thomas Gleixner           2022-09-15  2339  
+ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2340  	apply_alternatives(__alt_instructions, __alt_instructions_end);
+ab9fea59487d8b arch/x86/kernel/alternative.c  Peter Zijlstra            2025-02-07  2341  
+be0fffa5ca894a arch/x86/kernel/alternative.c  Peter Zijlstra            2023-06-22  2342  	/*
+be0fffa5ca894a arch/x86/kernel/alternative.c  Peter Zijlstra            2023-06-22  2343  	 * Seal all functions that do not have their address taken.
+be0fffa5ca894a arch/x86/kernel/alternative.c  Peter Zijlstra            2023-06-22  2344  	 */
+1d7e707af44613 arch/x86/kernel/alternative.c  Mike Rapoport (Microsoft  2025-01-26  2345) 	apply_seal_endbr(__ibt_endbr_seal, __ibt_endbr_seal_end);
+ed53a0d971926e arch/x86/kernel/alternative.c  Peter Zijlstra            2022-03-08  2346  
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2347  	ibt_restore(ibt);
+ebebe30794d38c arch/x86/kernel/alternative.c  Pawan Gupta               2025-05-03  2348  
 
 -- 
 0-DAY CI Kernel Test Service
