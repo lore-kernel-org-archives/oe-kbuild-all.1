@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3172C3D984;
-	Thu, 18 Sep 2025 03:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4692248B0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 03:07:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758164877; cv=none; b=azNXnRTSeYslOKWFNcbiPc9YpYRUiTDr0q8WhWcS1HsDc0f17EotSZyKrcg813A4nGhMWoFCbzh1FHvA0+u5gCq/duNSKOMxPSjqMuryDHWU6oRQ7mZlMMlksNyhuyk6+o4CDBk+WIgzh6voiqI3rD/CQ9PbZLLZKFA/63WNN34=
+	t=1758164878; cv=none; b=eh2A1CSkc3ekJ3HYF4JKM6KP/drrEKSbiYhMD+++2kcPPDlfPIVRslp+VTQfLG0kK8amaKQ14Fz6YuYhQSL0i7qwwax/xgEtdVAxBS/8SmI4qPrwMtWbpZQN8PdUtLEmzM4tsl8izf4603UiBD9vJ9cWOLuiPIgp3vs+u7fkgxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758164877; c=relaxed/simple;
-	bh=66JynzNtMtnpwDlFqCoRRWPHuINfphvw/ZfTmpMAVKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iIZLNpYsAmpZNrNoGSyyd0AZvlNSrrQjzRbBdvFcNJ0DObfmwBOAOBUQXCDdRfjVQcmCrItHlhYBXGpRVNd4J4HxUG0sHrbfvRNE6H2oDwcgWO1Ab9FHt+Fs/SwcmDVK1kZB/jMptRdvkCrKN/TAqH5v2/hGtG1w1jfdxs+9AQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eDjZHZCp; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1758164878; c=relaxed/simple;
+	bh=vxmzojAbDASA52i3gEMLP/8kjtkaX8qnfVm04vkuXBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b/3ktJ2mghsmjU39NLTyNW/uc1jqpecsMszWs21IxvoeZOyuqMMfsJbJzFMU3TV+L5xEWEOxO/EP56N1pK6vPo3v2GhUJ8qPbuHySP11lyHry4k37G1cbAmKW/e0dLcedHTZxyVPzOiygdo0T0aHV8rTGigoO9q7cVlkEQ31Fms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jrlcIVRP; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDjZHZCp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jrlcIVRP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758164875; x=1789700875;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=66JynzNtMtnpwDlFqCoRRWPHuINfphvw/ZfTmpMAVKk=;
-  b=eDjZHZCpRm4xg0m4fNNcAVovVvTQkJs2K+K07PAeLAY53JglOZynpelW
-   60BzNsjr810WX1tGbyIBOS791sVBtox2wDGq9IKsOSx5OZDfUafpHgcE8
-   DDbswbVtm6CRwAEmtGtRhek3OhG/lVf92FreCUi0MU1Gd7wkNzAxH6rHd
-   zmb4ZL8+xTpX/G+OLpIMuOVEaRe8KDS27f296TgQY3esQmJCJMLFJ+PaC
-   6guVsf8dtLw49heTy3Tz7ly7ZCAWYzTfwkX9lXYmp6g/zS0vNk/EY22Hi
-   Bdh/iBKu3vtHv9u4qLrSLWQmIEruA9nnU47BELJ9LgQpND3JpcZrD9+nw
+  t=1758164876; x=1789700876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vxmzojAbDASA52i3gEMLP/8kjtkaX8qnfVm04vkuXBQ=;
+  b=jrlcIVRPsOvUJQnLWfX/xJKr7UY3wbL7FcjJbE0zSTLXxBAtQJot0u5D
+   HyD7ePXPg4/zvgJP2XEzClcdnwTKczDO9uJy+Q4/zfscItoemgf98Dnmp
+   vXz/0sWoGWZojbipNHpPmGxlYtlmgJR0hpohQjerFhp4a+jCRpNb/uqcu
+   m6oNLePshJuvwrvP/Z1pq0YfFLRnPS06NF8MHy5rIaGpZA5hkuNcNB6Ge
+   qIFFpc/aM1mXn+qz3Yty2Q/QWzV5WxEAqvZ8R5h2wor5VIg//sYjdbIAq
+   erlTo8qzLRb7jsgjEqUkkAL59Fzv+AygSfRxhKns0JO/KbZWXP3X7/xkX
    g==;
-X-CSE-ConnectionGUID: EVdqHiGCQaqEl9Qp1TqXgw==
-X-CSE-MsgGUID: DFclYrqmSa+HdtAXfirjnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60371998"
+X-CSE-ConnectionGUID: GlL5yIgYRUaXm5KI9D6Fjw==
+X-CSE-MsgGUID: 8UJtYy8ZTKOT1mhF7HN/0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60372003"
 X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="60371998"
+   d="scan'208";a="60372003"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 20:07:54 -0700
-X-CSE-ConnectionGUID: +8i/VD+XQXC3co8Mmg9zWA==
-X-CSE-MsgGUID: M/EQe8MLRw+MuSSFSfHSpQ==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 20:07:56 -0700
+X-CSE-ConnectionGUID: o+VnVdjrRbOrf5S9IyL/6Q==
+X-CSE-MsgGUID: mv2o59GIT6OgGr8WTEhazA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="212567326"
+   d="scan'208";a="212567329"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 17 Sep 2025 20:07:53 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uz4zu-0002gT-3B;
+	id 1uz4zu-0002gR-36;
 	Thu, 18 Sep 2025 03:07:50 +0000
-Date: Thu, 18 Sep 2025 11:07:13 +0800
+Date: Thu, 18 Sep 2025 11:07:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:klp-build 12/63]
- drivers/infiniband/hw/usnic/usnic_uiom_interval_tree.c:269:1: warning: no
- previous prototype for function 'usnic_uiom_interval_tree_subtree_search'
-Message-ID: <202509181041.CWM2tG5i-lkp@intel.com>
+To: Marius Cristea <marius.cristea@microchip.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Marius Cristea <marius.cristea@microchip.com>
+Subject: Re: [PATCH 2/2] iio: temperature: add support for EMC1812
+Message-ID: <202509181058.dx3hT9N3-lkp@intel.com>
+References: <20250917-iio-emc1812-v1-2-0b1f74cea7ab@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +70,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250917-iio-emc1812-v1-2-0b1f74cea7ab@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
-head:   262d11ae2557639839ede7312ba834817615e0a8
-commit: 1e0b4913420f199b3c6d2c536b849e5d79911d21 [12/63] interval_tree: Fix ITSTATIC usage for *_subtree_search()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250918/202509181041.CWM2tG5i-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181041.CWM2tG5i-lkp@intel.com/reproduce)
+Hi Marius,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marius-Cristea/dt-bindings-iio-temperature-add-support-for-EMC1812/20250917-202833
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250917-iio-emc1812-v1-2-0b1f74cea7ab%40microchip.com
+patch subject: [PATCH 2/2] iio: temperature: add support for EMC1812
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250918/202509181058.dx3hT9N3-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250918/202509181058.dx3hT9N3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509181041.CWM2tG5i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509181058.dx3hT9N3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/hw/usnic/usnic_uiom_interval_tree.c:269:1: warning: no previous prototype for function 'usnic_uiom_interval_tree_subtree_search' [-Wmissing-prototypes]
-     269 | INTERVAL_TREE_DEFINE(struct usnic_uiom_interval_node, rb,
-         | ^
-   include/linux/interval_tree_generic.h:80:33: note: expanded from macro 'INTERVAL_TREE_DEFINE'
-      80 | ITSTATIC ITSTRUCT *                                                           \
-         |                                                                               ^
-   <scratch space>:29:1: note: expanded from here
-      29 | usnic_uiom_interval_tree_subtree_search
-         | ^
-   drivers/infiniband/hw/usnic/usnic_uiom_interval_tree.c:269:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     269 | INTERVAL_TREE_DEFINE(struct usnic_uiom_interval_node, rb,
-         |                      ^
-         |                      static 
-   include/linux/interval_tree_generic.h:80:10: note: expanded from macro 'INTERVAL_TREE_DEFINE'
-      80 | ITSTATIC ITSTRUCT *                                                           \
-         |          ^
-   1 warning generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/iio/temperature/emc1812.c:259:27: warning: unused variable 'emc1812_window_size' [-Wunused-const-variable]
+     259 | static const unsigned int emc1812_window_size[3] = { 1, 4, 8 };
+         |                           ^~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +/usnic_uiom_interval_tree_subtree_search +269 drivers/infiniband/hw/usnic/usnic_uiom_interval_tree.c
+vim +/emc1812_window_size +259 drivers/iio/temperature/emc1812.c
 
-e3cf00d0a87f02 Upinder Malhi 2013-09-10  268  
-e3cf00d0a87f02 Upinder Malhi 2013-09-10 @269  INTERVAL_TREE_DEFINE(struct usnic_uiom_interval_node, rb,
-
-:::::: The code at line 269 was first introduced by commit
-:::::: e3cf00d0a87f025db5855a43a67c67a41fa79fef IB/usnic: Add Cisco VIC low-level hardware driver
-
-:::::: TO: Upinder Malhi <umalhi@cisco.com>
-:::::: CC: Roland Dreier <roland@purestorage.com>
+   258	
+ > 259	static const unsigned int emc1812_window_size[3] = { 1, 4, 8 };
+   260	
 
 -- 
 0-DAY CI Kernel Test Service
