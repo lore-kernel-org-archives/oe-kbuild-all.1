@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054FF2222B4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 21:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498204A2D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Sep 2025 23:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758232027; cv=none; b=tpmcFT/AxwDT2qSNq3+ar0pLpr7AuZ4v+ONCMBkKUSISxhs240675Eb+WVsoL+InmaSfL7VsnyT6R4/amsiw0hSVQpIetftdgHgKtiWXJ00J6Fi52+iKk4Re713v6gtfUL1Xca48uqiKKp9QjaimA79KCWwNRPX7DTKcTKp9/ss=
+	t=1758237678; cv=none; b=m1bSk5sVytxsn8wNmvLxeOMRQedq0IoT4phTSvUtmythRvC71dQUWx+ix2AmrTlt3yb8SwXGKy63vbWrt1OLnHxPzlYv4SZ1WQFzWgNw9VTD911ezCdUg5u/F26a7wE2KGgKx453k3Avg+XY9WX7XjGLvxheeiMl/d2LZLoTHaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758232027; c=relaxed/simple;
-	bh=Ks99BZmC5KCDcgoGCGGsT267lTg3Lgdu3ya3GFyf1HA=;
+	s=arc-20240116; t=1758237678; c=relaxed/simple;
+	bh=Yp4ZJmEEIgkwBZSVoQchOj96/ngDTJYkov2UFF4xPl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JkTy2N1VvKN12T9XwSH7Haj1Ib/nJQr8tRFRJtQFkI1wf637TuOQ4m74JUvbr5oDDGvmGLsjcvJzjSUj9vn9nzFZ5az5XNvhRSCzb8sBmEWFkGgKLyJONx5eA12/PF4jqBv6q6T1TJ71zuhnbRRtO6WHe+swzFcmOJXBZozSYio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H82rdvW8; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=QPcr89x0L/e1b6rU8wrfRjJX7xt+N8giPgmdnLXWAoWZtM27I5kssM+hmkEvmOPBfiGuCBLnFatYPTFWTnccH7WCNDO1iXXrLKs+800eHajRtMx73tpGOsJOu2QvQRPSCgvlgQlLcfPqAnUuGo6F3/L2jgLETxBoOHHUaZ/OonU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5/Gir9x; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H82rdvW8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5/Gir9x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758232026; x=1789768026;
+  t=1758237676; x=1789773676;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ks99BZmC5KCDcgoGCGGsT267lTg3Lgdu3ya3GFyf1HA=;
-  b=H82rdvW8v4rx9fXEL2am67Q0y7Uqe3821v/bSbG7c6B67EAuUxNsEskq
-   RMO0uTG5ddsWHLk6Iju+ahASXDPgac3ewyCZGcnT7GmT1khdnnKzVNpj4
-   B1FgzLqS46QqkQx8ocTi1hTRQh91OgxBM6Np59ZZqkY+Wbaqy48lzSUKW
-   HjbmQd3PwzmZLH7PeBIxHYNgLziOehd7Kerx+dv3qf7BvCMWjyx2kq7gg
-   T0PzNCWg/nP8MJZrY4fsed0sZOujtwnxorRtX0a54tM7ymVkBOcWaru4H
-   TZmYizGLXnJp9soxWh84ReJJZfmYHlZ//5UiABU0iFs0qDRC2CrNZYpwn
+  bh=Yp4ZJmEEIgkwBZSVoQchOj96/ngDTJYkov2UFF4xPl0=;
+  b=Z5/Gir9xDO4FLat19/5298hplkqpHhRbtMEpav4dWNL+t4zSb2jCA6f4
+   YvRad8tS2kJ141EqRfE6cGlPswQc6dLRuGi45sZgeoxRhqYioPUTPyphV
+   CWd5n9xQxgrmi4VLVHfm2B0ZnOW7pcj6EXHp9u4e9i0be2crPovpGAior
+   vBA1hObAMBVv46LAFSBn2rboBcaO325WdkQ/1gavllibIabcFURT7L931
+   1RuiTrRvQhUYceMioMdR/n+2Tzk43yqc+OtJON09BhHjrzdBLJWzJK9wz
+   7rsdkIXF8aYSpWBvHE9Ap2dGDhst3nKBqPBjUm6T1hwNjymBKWE8FKcYi
    Q==;
-X-CSE-ConnectionGUID: G24/kyKQRt2wkQzUe0itZg==
-X-CSE-MsgGUID: uTBS3D7hQGqhPfmCoBchXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="78020268"
-X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
-   d="scan'208";a="78020268"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 14:47:06 -0700
-X-CSE-ConnectionGUID: LdA21R51Sji+M+7p0FO4Jg==
-X-CSE-MsgGUID: I2X+1NKoTwWs8Iy/nojzyw==
+X-CSE-ConnectionGUID: iMMFfkt5R0uD1CvUECWufQ==
+X-CSE-MsgGUID: 6j+6bBxvQsqUV3H0hprVUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64387759"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64387759"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 16:21:16 -0700
+X-CSE-ConnectionGUID: lfsXJC7RSku0ngq4eLHjzw==
+X-CSE-MsgGUID: aq/q+AzyRyapBhWcQLo3Rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
-   d="scan'208";a="176071046"
+   d="scan'208";a="179952937"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Sep 2025 14:47:04 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Sep 2025 16:21:14 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzMT0-0003lT-0g;
-	Thu, 18 Sep 2025 21:47:02 +0000
-Date: Fri, 19 Sep 2025 05:46:10 +0800
+	id 1uzNw8-0003ot-01;
+	Thu, 18 Sep 2025 23:21:12 +0000
+Date: Fri, 19 Sep 2025 07:20:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 9394/10654]
- drivers/i3c/master/adi-i3c-master.c:134:25: warning: variable 'm' set but
- not used
-Message-ID: <202509190505.fKGvEJRa-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>,
+	Pratyush Yadav <pratyush@kernel.org>
+Subject: [rppt:kho/vmalloc/v5 3/4] kernel/kexec_handover.c:288:14: warning:
+ no previous prototype for 'kho_restore_pages'
+Message-ID: <202509190738.rjRZy4Cs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8f7f8b1b3f4c613dd886f53f768f82816b41eaa3
-commit: 3ab1da2614e616ea62f32e4d695f1cc449089f07 [9394/10654] i3c: master: adi: fix header location
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250919/202509190505.fKGvEJRa-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509190505.fKGvEJRa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/vmalloc/v5
+head:   b7563dcdc9ebcdb17a5fb038c8e6ca2c004370b0
+commit: 435d4abbd1a981777f508bf46a3a162bb6b26d84 [3/4] kho: add support for preserving vmalloc allocations
+config: x86_64-buildonly-randconfig-003-20250919 (https://download.01.org/0day-ci/archive/20250919/202509190738.rjRZy4Cs-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509190738.rjRZy4Cs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509190505.fKGvEJRa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509190738.rjRZy4Cs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/i3c/master/adi-i3c-master.c: In function 'adi_i3c_master_wr_to_tx_fifo':
->> drivers/i3c/master/adi-i3c-master.c:134:25: warning: variable 'm' set but not used [-Wunused-but-set-variable]
-     134 |         unsigned int n, m;
-         |                         ^
+>> kernel/kexec_handover.c:288:14: warning: no previous prototype for 'kho_restore_pages' [-Wmissing-prototypes]
+     288 | struct page *kho_restore_pages(phys_addr_t phys, unsigned int nr_pages)
+         |              ^~~~~~~~~~~~~~~~~
 
 
-vim +/m +134 drivers/i3c/master/adi-i3c-master.c
+vim +/kho_restore_pages +288 kernel/kexec_handover.c
 
-a79ac2cdc91d6b Jorge Marques 2025-08-27  130  
-a79ac2cdc91d6b Jorge Marques 2025-08-27  131  static void adi_i3c_master_wr_to_tx_fifo(struct adi_i3c_master *master,
-a79ac2cdc91d6b Jorge Marques 2025-08-27  132  					 const u8 *buf, unsigned int nbytes)
-a79ac2cdc91d6b Jorge Marques 2025-08-27  133  {
-a79ac2cdc91d6b Jorge Marques 2025-08-27 @134  	unsigned int n, m;
-a79ac2cdc91d6b Jorge Marques 2025-08-27  135  
-a79ac2cdc91d6b Jorge Marques 2025-08-27  136  	n = readl(master->regs + REG_SDO_FIFO_ROOM);
-a79ac2cdc91d6b Jorge Marques 2025-08-27  137  	m = min(n, nbytes);
-a79ac2cdc91d6b Jorge Marques 2025-08-27  138  	i3c_writel_fifo(master->regs + REG_SDO_FIFO, buf, nbytes);
-a79ac2cdc91d6b Jorge Marques 2025-08-27  139  }
-a79ac2cdc91d6b Jorge Marques 2025-08-27  140  
-
-:::::: The code at line 134 was first introduced by commit
-:::::: a79ac2cdc91d6be3010f2e9a3b2a2ccfc26e2086 i3c: master: Add driver for Analog Devices I3C Controller IP
-
-:::::: TO: Jorge Marques <jorge.marques@analog.com>
-:::::: CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+   277	
+   278	/**
+   279	 * kho_restore_pages - restore list of contiguous order 0 pages.
+   280	 * @phys: physical address of the first page.
+   281	 * @nr_pages: number of pages.
+   282	 *
+   283	 * Restore a contiguous list of order 0 pages that was preserved with
+   284	 * kho_preserve_pages().
+   285	 *
+   286	 * Return: 0 on success, error code on failure
+   287	 */
+ > 288	struct page *kho_restore_pages(phys_addr_t phys, unsigned int nr_pages)
+   289	{
+   290		const unsigned long start_pfn = PHYS_PFN(phys);
+   291		const unsigned long end_pfn = start_pfn + nr_pages;
+   292		unsigned long pfn = start_pfn;
+   293	
+   294		while (pfn < end_pfn) {
+   295			const unsigned int order =
+   296				min(count_trailing_zeros(pfn), ilog2(end_pfn - pfn));
+   297			struct page *page = kho_restore_page(PFN_PHYS(pfn));
+   298	
+   299			if (!page)
+   300				return NULL;
+   301			split_page(page, order);
+   302			pfn += 1 << order;
+   303		}
+   304	
+   305		return pfn_to_page(start_pfn);
+   306	}
+   307	EXPORT_SYMBOL_GPL(kho_restore_pages);
+   308	
 
 -- 
 0-DAY CI Kernel Test Service
