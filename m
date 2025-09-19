@@ -1,69 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDA92D239F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 09:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5B32BEC2A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 10:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758273981; cv=none; b=i7kar3pcS7qXkvo09eNpDasHvi/eL0LBmWCejAM5mkt8ILOr4rnstmJHpkjbkDcqwKyDIU/orBYfQZW/t98Ln3mkTnB8d918jo5kPCz4lW1GwkLof7otwQV2CqAwe6yKBbnbnhw9itcxAVHfbPbGU6DZLpDb3dw0FoA2IzGIXM8=
+	t=1758276622; cv=none; b=qD/fUSkhvtRBQjqB2cT1vccsAKFNVAUsaUBmPr5UeLSld+NjVF+E1hIlTJKrVeeyt5lfGzw/pTHzyZenofBjHsBk9rKon78gozd6gjNt3o/0AIiliyM+zIKyE+5fsM6Bdl5yaaWu9ilZUEsy8KfqPM/j2V/EheAdK2hXc0RMK2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758273981; c=relaxed/simple;
-	bh=zgXZIJagpXiZ3iWlFQfUgyi+88NHsoZv+XH2Gsx0/4Y=;
+	s=arc-20240116; t=1758276622; c=relaxed/simple;
+	bh=UOnrDjb3zW6uaFQeDhffAgYfTtqW5gfMKbPsRtlldQA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lh3DosPM6C1FEroTQAyWP5XRULtYnwwjpRey3Cr4KAenRr6M21pjldQfw8IFgMXBfpLQxFE6MH//rO5LpVjX1lpoobkghdfBPJFxB9YnIboVxd7OyqQ/CAezfRSXRhcCLBuXfobFO6B2fP5YCnPfLKIbTblIz7Ke1t/s5t9Ig+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfSWwwmy; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hTks9L2wCbE5tB5GKtrRW+bDasXD1o5/Tci0jt9R9xW3ABrFvh2Rqgff4IQPDDmpl//EteSGq4j915OY8M0WMzhP5eYvFz9tGbFGP3O5YdsvwiJWD/0lLKYN1Oc4+1A6t2MxJXL4sGSqjFMmLf3fqk/22yP0Z2/sPA54J0bI42o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gc/Ig3PB; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfSWwwmy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gc/Ig3PB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758273979; x=1789809979;
+  t=1758276621; x=1789812621;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zgXZIJagpXiZ3iWlFQfUgyi+88NHsoZv+XH2Gsx0/4Y=;
-  b=AfSWwwmyk6Z6ED4GOMftfjwBcPTjVAdqDZsBlA98CgSNK9COOBQ1GBja
-   x5qyJEiuOXK/j23JyEKFuswcTIH8vpFCxN+g9xL9SDJLM7NwUqjLeZy+R
-   KpsevlA8DrvUMMPr7a1kZJJALXY8ut1eT/lfSf/XDga6klG9qQ1TJXH7G
-   KBpASr7vBEj8pue+zLMvgZeWUk5h8mBtHOMtbgCRffx6dt7peYWmcBiau
-   xPk143VSPD96kjMefgWZXG4SWlZzxKQFzFaVp02Je9tmukRXa7iacmZSg
-   q0pT40e1E4N31gNiZ7Nq8DSzZwoechbkoo0iiQhezaVvfUUUMIvtD7wIJ
-   Q==;
-X-CSE-ConnectionGUID: W/J/h4vvQTuoeEWNjyMxAw==
-X-CSE-MsgGUID: NIzCBZ8wTg2Um1fV53jHTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="59838572"
+  bh=UOnrDjb3zW6uaFQeDhffAgYfTtqW5gfMKbPsRtlldQA=;
+  b=gc/Ig3PBR81sEsf+dzVe6qLouINvrn9h1RwwNJ2bi7OgtnSBBbJTbdef
+   IMwybBkVwGExn6nn9MuQ5Dncv3MmK3UAvKWbtTs2h2RIsOcxxN2jRyfJ2
+   0F1VfDUsNodG8QGlJ0IY2uvnuzwv8vDaGQQwPwFHfTEMsx4xd4959r/ML
+   Okm6OjgrmrpH3I9LMKJpmQ2KRMsgFy7tyoEzLmUKOpwHr9lHfFXDzLlnd
+   0TV0SVBu5ROtKmHQywPyKninjtQ3R+tLrBzoR3pU8wa8A8Pb1bFrE1IWc
+   yEhsL/we4Bh90qSckhv1LHwTU8MN2Lq6ipfgy2jDivsv2lK0Lu34+jEXz
+   A==;
+X-CSE-ConnectionGUID: BO3BUhQPT+uFbLfLM4hV9A==
+X-CSE-MsgGUID: JrZq6wDERTm+1RjgeejqjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="60508991"
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="59838572"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 02:26:18 -0700
-X-CSE-ConnectionGUID: Qf+m+2HWSpOrHpu9RX/wUA==
-X-CSE-MsgGUID: 62U0HtHTQImBVz3xoHrz0g==
+   d="scan'208";a="60508991"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:10:20 -0700
+X-CSE-ConnectionGUID: rKO6kgaYTn2CtLKpBq2S8w==
+X-CSE-MsgGUID: Xy2qpEfvRAGb/HYwfkjv8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="176192176"
+   d="scan'208";a="175721554"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Sep 2025 02:26:13 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Sep 2025 03:10:17 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzXNb-0004AB-0B;
-	Fri, 19 Sep 2025 09:26:11 +0000
-Date: Fri, 19 Sep 2025 17:25:28 +0800
+	id 1uzY4F-0004Bn-12;
+	Fri, 19 Sep 2025 10:10:15 +0000
+Date: Fri, 19 Sep 2025 18:10:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "D. Wythe" <alibuda@linux.alibaba.com>, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-	pabeni@redhat.com, song@kernel.org, sdf@google.com,
-	haoluo@google.com, yhs@fb.com, edumazet@google.com,
-	john.fastabend@gmail.com, kpsingh@kernel.org, jolsa@kernel.org,
-	mjambigi@linux.ibm.com, wenjia@linux.ibm.com, wintera@linux.ibm.com,
-	dust.li@linux.alibaba.com, tonylu@linux.alibaba.com,
-	guwen@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, davem@davemloft.net,
-	kuba@kernel.org, netdev@vger.kernel.org, sidraya@linux.ibm.com,
-	jaka@linux.ibm.com
-Subject: Re: [PATCH bpf-next v2 2/4] net/smc: bpf: Introduce generic hook for
- handshake flow
-Message-ID: <202509191742.19csfvEU-lkp@intel.com>
-References: <20250918080342.25041-3-alibuda@linux.alibaba.com>
+To: David Howells <dhowells@redhat.com>, Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dhowells@redhat.com,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Stephan Mueller <smueller@chronox.de>, linux-crypto@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] lib/crypto: Add SHA3-224, SHA3-256, SHA3-384, SHA-512,
+ SHAKE128, SHAKE256
+Message-ID: <202509191712.4MoL99fN-lkp@intel.com>
+References: <3605112.1758233248@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,64 +68,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250918080342.25041-3-alibuda@linux.alibaba.com>
+In-Reply-To: <3605112.1758233248@warthog.procyon.org.uk>
 
-Hi Wythe,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on ebiggers/libcrypto-fixes]
+[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.17-rc6 next-20250918]
+[cannot apply to ebiggers/libcrypto-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/bpf-export-necessary-symbols-for-modules-with-struct_ops/20250918-160530
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250918080342.25041-3-alibuda%40linux.alibaba.com
-patch subject: [PATCH bpf-next v2 2/4] net/smc: bpf: Introduce generic hook for handshake flow
-config: i386-randconfig-063-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191742.19csfvEU-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509191742.19csfvEU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Howells/lib-crypto-Add-SHA3-224-SHA3-256-SHA3-384-SHA-512-SHAKE128-SHAKE256/20250919-061024
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-fixes
+patch link:    https://lore.kernel.org/r/3605112.1758233248%40warthog.procyon.org.uk
+patch subject: [PATCH] lib/crypto: Add SHA3-224, SHA3-256, SHA3-384, SHA-512, SHAKE128, SHAKE256
+config: arm-randconfig-001-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191712.4MoL99fN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509191712.4MoL99fN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509191742.19csfvEU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509191712.4MoL99fN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/ipv4/tcp_output.c:776:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smc_hs_ctrl *ctrl @@     got struct smc_hs_ctrl [noderef] __rcu * @@
-   net/ipv4/tcp_output.c:776:33: sparse:     expected struct smc_hs_ctrl *ctrl
-   net/ipv4/tcp_output.c:776:33: sparse:     got struct smc_hs_ctrl [noderef] __rcu *
-   net/ipv4/tcp_output.c:796:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smc_hs_ctrl *ctrl @@     got struct smc_hs_ctrl [noderef] __rcu * @@
-   net/ipv4/tcp_output.c:796:34: sparse:     expected struct smc_hs_ctrl *ctrl
-   net/ipv4/tcp_output.c:796:34: sparse:     got struct smc_hs_ctrl [noderef] __rcu *
---
->> net/smc/smc_sysctl.c:59:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct smc_hs_ctrl [noderef] __rcu *__ret @@     got struct smc_hs_ctrl *[assigned] ctrl @@
-   net/smc/smc_sysctl.c:59:16: sparse:     expected struct smc_hs_ctrl [noderef] __rcu *__ret
-   net/smc/smc_sysctl.c:59:16: sparse:     got struct smc_hs_ctrl *[assigned] ctrl
->> net/smc/smc_sysctl.c:59:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smc_hs_ctrl *[assigned] ctrl @@     got struct smc_hs_ctrl [noderef] __rcu *[assigned] __ret @@
-   net/smc/smc_sysctl.c:59:14: sparse:     expected struct smc_hs_ctrl *[assigned] ctrl
-   net/smc/smc_sysctl.c:59:14: sparse:     got struct smc_hs_ctrl [noderef] __rcu *[assigned] __ret
+All warnings (new ones prefixed by >>):
 
-vim +776 net/ipv4/tcp_output.c
+   lib/crypto/sha3.c: In function 'sha3_absorb_xorle':
+>> lib/crypto/sha3.c:229:30: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+     229 |                 buf[woff | 7 - boff] ^= *data++;
+         |                            ~~^~~~~~
 
-   767	
-   768	static void smc_set_option(struct tcp_sock *tp,
-   769				   struct tcp_out_options *opts,
-   770				   unsigned int *remaining)
-   771	{
-   772	#if IS_ENABLED(CONFIG_SMC)
-   773		struct sock *sk = &tp->inet_conn.icsk_inet.sk;
-   774	
-   775		if (static_branch_unlikely(&tcp_have_smc) && tp->syn_smc) {
- > 776			tp->syn_smc = !!smc_call_hsbpf(1, sk, syn_option, tp);
-   777			/* re-check syn_smc */
-   778			if (tp->syn_smc &&
-   779			    *remaining >= TCPOLEN_EXP_SMC_BASE_ALIGNED) {
-   780				opts->options |= OPTION_SMC;
-   781				*remaining -= TCPOLEN_EXP_SMC_BASE_ALIGNED;
-   782			}
-   783		}
-   784	#endif
-   785	}
-   786	
+
+vim +229 lib/crypto/sha3.c
+
+   211	
+   212	/*
+   213	 * XOR in partial data that's insufficient to fill a whole block.
+   214	 */
+   215	static void sha3_absorb_xorle(struct sha3_ctx *ctx, const u8 *data, unsigned int len)
+   216	{
+   217		unsigned int partial = ctx->partial;
+   218		u8 *buf = (u8 *)ctx->state.st;
+   219	
+   220	#ifdef __LITTLE_ENDIAN
+   221		buf += partial;
+   222		for (int i = 0; i < len; i++)
+   223			*buf++ ^= *data++;
+   224	#else
+   225		for (int i = 0; i < len; i++) {
+   226			unsigned int woff = (partial + i) & ~7;
+   227			unsigned int boff = (partial + i) & 7;
+   228	
+ > 229			buf[woff | 7 - boff] ^= *data++;
+   230		}
+   231	#endif
+   232		ctx->partial += len;
+   233	}
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
