@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ECA2D29D5;
-	Fri, 19 Sep 2025 21:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE1636B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 22:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758316292; cv=none; b=rxh/FVg4wFJwLFEjcTjYXCmgLNQklIBClyo71MT3FzcMoZMBTn+pURwFgVSrlSmpqTQg/4B3iWRNXj3dMXmnsI+WeP7Bgt7EbI97ruE2rnMSY2wQEOuAvRFUXDhAOc9jT2rBmKVNh5H/XkPdd9OIA3O+RbJxjJ96VeNsLhP/nkY=
+	t=1758319360; cv=none; b=u8BX8rBzle8V8OAcWYgu/G+ky1W/jLlmmGBrw3uDfZHM6+mSBtMmi2lhvGJh17ua5eEEE7lo3lbkfq5iA9BRSwCzHw4f6hoWURNv5TDKvNZR1tbS4qULhi0hjFaXSD/R0nqn5qIXiEgB3MQexek9uYWq7eZrKIJ2F0oUBI23TfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758316292; c=relaxed/simple;
-	bh=jPHWge33/Zfv3LIUKeMmLAvCpBe5QEmk8inTIA1AfMg=;
+	s=arc-20240116; t=1758319360; c=relaxed/simple;
+	bh=FWxKxoodl4DOX1UaukxEstG//jpLn/S93vAmvqGWmFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LOh2IMtikA0gcpzsbAjkELWJ1Pc9hYGmmx9XaglMS4jtnpebCDNT7wRghZL7fGKLJtnQ9OIvnGCLkmo2iqHHzShs+eZ+88x2Va/tIb9G7yplQJwtn34WVDtrpCz2R3OCx/S83IFQj0X18gSN/SpL2P5T/RbMOuOogOSHhe6Lvnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVyW3UzR; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=bcOnX+5S7mM1RHwtEy4ISEQrcBgy5VLW4VLSHL+BHG1Im72JPepOFDGfFbaL8D8ZEr6qkn/EH/v1OG/0vA46jbuB9QOwwJ0Zb2WLUcYt9z/x1d1xkh66LnBgV83gl1PiL+YQbHTxyQ8dUK3+Hya4maGl90w/pyTs37MxK65ybTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VS+AQwUD; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVyW3UzR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VS+AQwUD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758316291; x=1789852291;
+  t=1758319358; x=1789855358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jPHWge33/Zfv3LIUKeMmLAvCpBe5QEmk8inTIA1AfMg=;
-  b=GVyW3UzRH/UDPI6yYeGUucCxc1W6XTR2eNnfH+4gNt9GFMAcB3Lz7EgS
-   By1vnw5R0IVNvtRLunNaYEYeY4I3CcLM5HtQ3Cy1UQvc14XDJfA1kUs2S
-   JmroCEu1wjtHWoGqk0wG90NpLfB/SjUKflWhlSlBr/sbNRCt7WXsWPY14
-   hRt+DEHK4LEIdXtpS8UjLSeDR1b4ouqP9QPjAQAQx7BQSYL7/sAd6P6Ns
-   4S7S0CH8wkEdULz+f6PmIsCxK4+S8jykJTHYt+i95ljWf2SiC8WVfVhMZ
-   8VJMQb0zmtrfi//DULq7cW/DSoVhj36hvHCC8UXfxSD3SZtzTmJ//+Gph
-   A==;
-X-CSE-ConnectionGUID: dF+uhTmsTA6xTLyb9EJ/CQ==
-X-CSE-MsgGUID: n0dD95IGTCOrES9mYi8yxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="63300124"
-X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="63300124"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 14:11:30 -0700
-X-CSE-ConnectionGUID: Qhrc3mBQT3mKUor6tXfaxA==
-X-CSE-MsgGUID: KMT3/RMmSTO4z8dfmTpNlA==
+  bh=FWxKxoodl4DOX1UaukxEstG//jpLn/S93vAmvqGWmFQ=;
+  b=VS+AQwUD4lC2pXHP+Jcx8y3MQ/Wh+r0ve0AwCH0l9KoB/MxCGhrH3e9C
+   mWUBgCUhMQPaK64R+SC1hJ+RKgmxzubCaT144CQxHI4ZtqYstggdveml0
+   OPIawvNB0TcpQo4FYQU89Vfo9xrSZqpbWddpyhMI2rqng4JLcu81QhCam
+   LvTPy8fU3gkYbj515LkosEEp9VOQPu6tjGDklhSRfcpHXhkv3gkhafmbZ
+   ha+3HSItYl5vzAXK/bBqf3azl/XEz9UH0/Bndq7MRaNCoJp8ksvWfouBq
+   2H6KfoNaJM8yKY3dSQpD9mc/XOZkQ16sUrp2OQCGZ5SZgsSX36+XdpWJH
+   w==;
+X-CSE-ConnectionGUID: d9CrhcmwTCydOWJMrrlw5A==
+X-CSE-MsgGUID: X5Yv58iYRjmzh2gU8UCUQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60616106"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60616106"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 15:02:35 -0700
+X-CSE-ConnectionGUID: dTWlW7ZjTrOalzI/DUhAmw==
+X-CSE-MsgGUID: LcZxM6XvS6e+EyoK3xBXwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="206678437"
+   d="scan'208";a="175857348"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 19 Sep 2025 14:11:29 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Sep 2025 15:02:33 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uziO6-0004oV-1v;
-	Fri, 19 Sep 2025 21:11:26 +0000
-Date: Sat, 20 Sep 2025 05:10:44 +0800
+	id 1uzjBX-0004qx-1W;
+	Fri, 19 Sep 2025 22:02:31 +0000
+Date: Sat, 20 Sep 2025 06:01:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dmabuf-vfio 39/44]
- arch/powerpc/platforms/ps3/system-bus.c:594:3: warning: non-void function
- 'ps3_ioc0_map_phys' should return a value
-Message-ID: <202509200518.VAevT8GF-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis/dev 35/35] WARNING: modpost: EXPORT symbol
+ "__tracepoint_sched_set_state_tp" [vmlinux] version generation failed,
+ symbol will not be versioned.
+Message-ID: <202509200531.ciLj1ln7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +63,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
-head:   d42f66e173967159357a213dd04777137478de3b
-commit: 05219b5f489decdb1f4b89b4eeaf14206d2a3f39 [39/44] powerpc: Convert to physical address DMA mapping
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250920/202509200518.VAevT8GF-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
+head:   b57fd8af63116c56536eb40f04dbe4f2206ec4ed
+commit: b57fd8af63116c56536eb40f04dbe4f2206ec4ed [35/35] sched: Enable capability analysis for core.c and fair.c
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20250920/202509200531.ciLj1ln7-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200518.VAevT8GF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200531.ciLj1ln7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509200518.VAevT8GF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509200531.ciLj1ln7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> arch/powerpc/platforms/ps3/system-bus.c:594:3: warning: non-void function 'ps3_ioc0_map_phys' should return a value [-Wreturn-mismatch]
-     594 |                 return;
-         |                 ^
-   2 warnings generated.
-
-
-vim +/ps3_ioc0_map_phys +594 arch/powerpc/platforms/ps3/system-bus.c
-
-   581	
-   582	static dma_addr_t ps3_ioc0_map_phys(struct device *_dev, phys_addr_t phys,
-   583					    size_t size,
-   584					    enum dma_data_direction direction,
-   585					    unsigned long attrs)
-   586	{
-   587		struct ps3_system_bus_device *dev = ps3_dev_to_system_bus_dev(_dev);
-   588		int result;
-   589		dma_addr_t bus_addr;
-   590		u64 iopte_flag;
-   591		void *ptr = phys_to_virt(phys);
-   592	
-   593		if (attrs & DMA_ATTR_MMIO)
- > 594			return;
-   595	
-   596		iopte_flag = CBE_IOPTE_M;
-   597		switch (direction) {
-   598		case DMA_BIDIRECTIONAL:
-   599			iopte_flag |= CBE_IOPTE_PP_R | CBE_IOPTE_PP_W | CBE_IOPTE_SO_RW;
-   600			break;
-   601		case DMA_TO_DEVICE:
-   602			iopte_flag |= CBE_IOPTE_PP_R | CBE_IOPTE_SO_R;
-   603			break;
-   604		case DMA_FROM_DEVICE:
-   605			iopte_flag |= CBE_IOPTE_PP_W | CBE_IOPTE_SO_RW;
-   606			break;
-   607		default:
-   608			/* not happened */
-   609			BUG();
-   610		}
-   611		result = ps3_dma_map(dev->d_region, (unsigned long)ptr, size,
-   612				     &bus_addr, iopte_flag);
-   613	
-   614		if (result) {
-   615			pr_debug("%s:%d: ps3_dma_map failed (%d)\n",
-   616				__func__, __LINE__, result);
-   617		}
-   618		return bus_addr;
-   619	}
-   620	
+>> WARNING: modpost: EXPORT symbol "__tracepoint_sched_set_state_tp" [vmlinux] version generation failed, symbol will not be versioned.
+Is "__tracepoint_sched_set_state_tp" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "set_cpus_allowed_ptr" [vmlinux] version generation failed, symbol will not be versioned.
+Is "set_cpus_allowed_ptr" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "single_task_running" [vmlinux] version generation failed, symbol will not be versioned.
+Is "single_task_running" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "schedule" [vmlinux] version generation failed, symbol will not be versioned.
+Is "schedule" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "crypto_larval_alloc" [vmlinux] version generation failed, symbol will not be versioned.
+Is "crypto_larval_alloc" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "crypto_alg_tested" [vmlinux] version generation failed, symbol will not be versioned.
+Is "crypto_alg_tested" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "rhashtable_insert_slow" [vmlinux] version generation failed, symbol will not be versioned.
+Is "rhashtable_insert_slow" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "rhashtable_walk_start_check" [vmlinux] version generation failed, symbol will not be versioned.
+Is "rhashtable_walk_start_check" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "stack_depot_save_flags" [vmlinux] version generation failed, symbol will not be versioned.
+Is "stack_depot_save_flags" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "stack_depot_save" [vmlinux] version generation failed, symbol will not be versioned.
+Is "stack_depot_save" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: "schedule" [arch/s390/mm/cmm.ko] has no CRC!
+WARNING: modpost: "schedule" [arch/s390/crypto/prng.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [arch/s390/kvm/kvm.ko] has no CRC!
+WARNING: modpost: "schedule" [arch/s390/kvm/kvm.ko] has no CRC!
+WARNING: modpost: "single_task_running" [arch/s390/kvm/kvm.ko] has no CRC!
+WARNING: modpost: "schedule" [kernel/rcu/rcutorture.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [kernel/rcu/rcutorture.ko] has no CRC!
+WARNING: modpost: "schedule" [kernel/rcu/refscale.ko] has no CRC!
+WARNING: modpost: "set_cpus_allowed_ptr" [kernel/rcu/refscale.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [kernel/torture.ko] has no CRC!
+WARNING: modpost: "set_cpus_allowed_ptr" [kernel/torture.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/dlm/dlm.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [fs/dlm/dlm.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/dlm/dlm.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/netfs/netfs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/netfs/netfs.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/squashfs/squashfs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/fat/fat.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/ecryptfs/ecryptfs.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/nfs/nfs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/nfs/nfsv3.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/nfs/nfsv4.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/nfs/nfsv4.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [fs/nfsd/nfsd.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [fs/nfsd/nfsd.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/nfsd/nfsd.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/smb/client/cifs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/smb/client/cifs.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/autofs/autofs4.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/jfs/jfs.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/jfs/jfs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/nilfs2/nilfs2.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/nilfs2/nilfs2.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/cachefiles/cachefiles.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/ocfs2/ocfs2.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/ocfs2/ocfs2_stack_user.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/ocfs2/dlmfs/ocfs2_dlmfs.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/ocfs2/cluster/ocfs2_nodemanager.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/ocfs2/dlm/ocfs2_dlm.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/ocfs2/dlm/ocfs2_dlm.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [fs/gfs2/gfs2.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/gfs2/gfs2.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [fs/gfs2/gfs2.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [fs/bcachefs/bcachefs.ko] has no CRC!
+WARNING: modpost: "schedule" [fs/bcachefs/bcachefs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [fs/bcachefs/bcachefs.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [lib/test_lockup.ko] has no CRC!
+WARNING: modpost: "schedule" [arch/s390/lib/test_unwind.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/virtio/virtio_balloon.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/virtio/virtio_mem.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/char/virtio_console.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/char/hw_random/s390-trng.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/gpu/drm/drm.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/gpu/drm/drm.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/block/nbd.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/block/drbd/drbd.ko] has no CRC!
+WARNING: modpost: "set_cpus_allowed_ptr" [drivers/block/drbd/drbd.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/misc/lkdtm/lkdtm.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/misc/lkdtm/lkdtm.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/misc/genwqe/genwqe_card.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/scsi/libiscsi.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/nvme/host/nvme-core.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/net/tun.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/net/tun.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/net/tap.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [drivers/net/vxlan/vxlan.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/net/ppp/ppp_generic.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/net/ppp/ppp_generic.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/raid1.ko] has no CRC!
+>> WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/raid1.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/raid10.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/raid10.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/raid456.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/md-cluster.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/bcache/bcache.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/bcache/bcache.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-bufio.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-crypt.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-crypt.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-delay.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-delay.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-multipath.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-snapshot.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-snapshot.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-mirror.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-log-userspace.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-vdo/dm-vdo.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-clone.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-integrity.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/md/dm-writecache.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/md/dm-writecache.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/s390/char/vmlogrdr.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/s390/char/tape.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/s390/char/monreader.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/s390/char/vmur.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/s390/scsi/zfcp.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/vdpa/vdpa_user/vduse.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/vfio/pci/mlx5/mlx5-vfio-pci.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/infiniband/core/iw_cm.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/infiniband/core/ib_uverbs.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/infiniband/core/rdma_ucm.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/infiniband/hw/mlx5/mlx5_ib.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/vhost/vhost_net.ko] has no CRC!
+WARNING: modpost: "schedule" [drivers/vhost/vhost.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [drivers/vhost/vhost.ko] has no CRC!
+WARNING: modpost: "schedule" [samples/ftrace/ftrace-direct-modify.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [samples/ftrace/ftrace-direct-modify.ko] has no CRC!
+WARNING: modpost: "schedule" [samples/ftrace/ftrace-direct-multi.ko] has no CRC!
+WARNING: modpost: "schedule" [samples/ftrace/ftrace-direct-multi-modify.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [samples/ftrace/ftrace-direct-multi-modify.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [net/core/pktgen.ko] has no CRC!
+WARNING: modpost: "schedule" [net/core/pktgen.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [net/sched/act_ct.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [net/sched/cls_flower.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [net/netlink/netlink_diag.ko] has no CRC!
+WARNING: modpost: "schedule" [net/netfilter/nf_conntrack.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [net/netfilter/nf_tables.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [net/netfilter/nf_tables.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [net/netfilter/nf_flow_table.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [net/netfilter/nf_flow_table.ko] has no CRC!
+WARNING: modpost: "schedule" [net/netfilter/ipvs/ip_vs.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [net/netfilter/ipvs/ip_vs.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [net/iucv/af_iucv.ko] has no CRC!
+WARNING: modpost: "schedule" [net/sunrpc/sunrpc.ko] has no CRC!
+WARNING: modpost: "set_cpus_allowed_ptr" [net/sunrpc/sunrpc.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [net/sunrpc/sunrpc.ko] has no CRC!
+WARNING: modpost: "schedule" [net/sunrpc/auth_gss/auth_rpcgss.ko] has no CRC!
+WARNING: modpost: "schedule" [net/sunrpc/xprtrdma/rpcrdma.ko] has no CRC!
+WARNING: modpost: "rhashtable_walk_start_check" [net/sctp/sctp.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [net/sctp/sctp.ko] has no CRC!
+WARNING: modpost: "rhashtable_insert_slow" [net/rds/rds.ko] has no CRC!
+WARNING: modpost: "schedule" [net/rds/rds.ko] has no CRC!
+WARNING: modpost: "schedule" [net/rds/rds_rdma.ko] has no CRC!
+WARNING: modpost: "schedule" [net/rds/rds_tcp.ko] has no CRC!
+WARNING: modpost: "__tracepoint_sched_set_state_tp" [net/smc/smc.ko] has no CRC!
+WARNING: modpost: "schedule" [net/smc/smc.ko] has no CRC!
+WARNING: modpost: "schedule" [net/ceph/libceph.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
