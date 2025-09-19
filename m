@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20C41F099C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 16:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536F33218C6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 17:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758300482; cv=none; b=dqkGueuXbprGIRlfOoXr0sU/v1qD4ZO4ukXWbZHXozPs2NHS5bidyUvcxhFkC8w576bjqr/EqvqJyJDgMdzd2xrmKGV6lNOpB9pEUXGP9H2x1cXHKcx2d1p0EyYs8N/sU9JiNvAokCupvC85wXK1cmo6S2q0k8ixjl9GFj61iSA=
+	t=1758301807; cv=none; b=as2gAEizz4JsyAQRT7a9UoJZxifu4zrCSkeMdRILDrbqad7y9e+fuBzzlHXuViKHDmJoKbNRkqkUQ5pHXIyZut49u26ZVRqkoa3pynun1UYPUjQcNxbDq6MTxj+I++FeucSMAfdedOlDr9ZEkqsEQUGFK/C85gSXjicaLT6K9MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758300482; c=relaxed/simple;
-	bh=nw4IB0kypsPqrXaBkvvb2BzVJycGC6Cc5qK7DT6H8EA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lSu1reNZlsMayOs21xpYrAvPblocVCyRo1SG1Ia1jM/uBERmdSHxib6XP0L7kIYezjRRVBYU+kdXcDnP8UE9VrCmb342JNazziwC1Z5ssvEeMiADjMY3yaA4SivAQTWXT2qntJyuWNSRRPFr5zMO+YGq2cc1JpNd0e1HIxd2QAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IN2czbBA; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1758301807; c=relaxed/simple;
+	bh=RIVTddaDHTeQgAHMyaATs+1LIv9y4+UzM0k7v4cBwEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XreCBvjXTE/EB3+eRVFDA/puWa9FncOK+Aqk2AkKqGsOsVwxzmVZ0PcQsOOmwv7+KvY+FCo2gjIlIkzoqPXjlRrx9yr4SDSuQXMs4a8dOS4iySopUyVz9fcZfhvtiSVVpu153eEny6MexBYA+qfty9rbLbFQyOzg0BOarakiEp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nf7UYVdB; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IN2czbBA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nf7UYVdB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758300481; x=1789836481;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nw4IB0kypsPqrXaBkvvb2BzVJycGC6Cc5qK7DT6H8EA=;
-  b=IN2czbBApVHFQax9Z5CqlyHHpdv1rsDzSL1iJWXBb7D9wTgFLVZ1ve04
-   LUAPStJT8O69DV2J7nMHHOlcAkHNt15Q6lNEkkE3GYxfMndANUFWMjW1Q
-   EseeHNj0Zx8fTNb12aUK1Iz/+lQuaS+wdRL1HsQMr5W0OtpD1EyA6VB/y
-   rtBOvtolB8jxvw5sax4f3NhBEtV8cXRlv49uUNPrcOJWFU1NlfsYLj7m0
-   I3OiLE9f1CXiXgI9TNPLuZWDBYOeBussfWBORYygxU8KOKN2eLnY5wpiM
-   5NniT3oYR6l75+x70hlSOSBXvomYfR+BWA4m42/vuajwX+bWLf9wfzh7v
-   w==;
-X-CSE-ConnectionGUID: Mn5UpRfNQ0KpLcf//c0Jgg==
-X-CSE-MsgGUID: g7oO+wsDSfCCyzIl8BVVrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="60580372"
-X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
-   d="scan'208";a="60580372"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 09:48:00 -0700
-X-CSE-ConnectionGUID: m1Wb8QnJQtq62U5GeUxfaQ==
-X-CSE-MsgGUID: 4KRhO7o+RLiWmyu1MfopmA==
+  t=1758301806; x=1789837806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RIVTddaDHTeQgAHMyaATs+1LIv9y4+UzM0k7v4cBwEo=;
+  b=Nf7UYVdBDpJzLad4i5utjU9yL7TP0T9LXQgY0wuARiZ/5Ah5HwvjeH8D
+   +XYugd60GmBkAYJuMMpLpihoraowuXZz/6AaiLQh640Ffige0KGk0sQPy
+   xzHl/zYLxMxuyl1Kcfb0ga2qXaIOwiYIyHEbkVLLedLvZTF97/UskexyI
+   5Gvx4ZIPA40g/g1rtSJhryXLD+5C8jX6zc0XLlVvgXjLexWwQfI4bgtzn
+   8tjzsqHXGYUUcXrEPllbPcqIaSkYAH427USlF+3WylIzUfqoaGH5sJTZJ
+   HzplnNQeLLezUAKOSfJS6ZcXvAknZWICHjcU1gOv9Q+8ijJvmKxqjgffL
+   A==;
+X-CSE-ConnectionGUID: 1DGg+6D9TfWZgYT88xjNow==
+X-CSE-MsgGUID: ZzTXmY+eTF6oJyNxTgZNfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60598197"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60598197"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 10:10:03 -0700
+X-CSE-ConnectionGUID: 0XTU64C0ScaiG/e30x56hA==
+X-CSE-MsgGUID: AgjWt8pETEGyzUvWx1nL2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
-   d="scan'208";a="199582981"
+   d="scan'208";a="175805685"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Sep 2025 09:47:58 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Sep 2025 10:10:01 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzeH6-0004Wd-1g;
-	Fri, 19 Sep 2025 16:47:56 +0000
-Date: Sat, 20 Sep 2025 00:47:20 +0800
+	id 1uzecR-0004ZZ-1H;
+	Fri, 19 Sep 2025 17:09:59 +0000
+Date: Sat, 20 Sep 2025 01:09:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [drm-msm:msm-next-test-quadpipe 10/10]
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:664:25: warning: unused variable
- 'dpu_kms'
-Message-ID: <202509200019.94DJDxfe-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] tracing: Add an option to show symbols in _text+offset
+ for function profiler
+Message-ID: <202509200000.EJ4InVti-lkp@intel.com>
+References: <175826135058.101165.7219957344129610147.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +67,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <175826135058.101165.7219957344129610147.stgit@devnote2>
 
-tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next-test-quadpipe
-head:   c56f9d69effeca4e463a4fb99c946b7a39060cdd
-commit: c56f9d69effeca4e463a4fb99c946b7a39060cdd [10/10] drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
-config: i386-buildonly-randconfig-002-20250919 (https://download.01.org/0day-ci/archive/20250920/202509200019.94DJDxfe-lkp@intel.com/config)
+Hi Masami,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.17-rc6 next-20250918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Add-an-option-to-show-symbols-in-_text-offset-for-function-profiler/20250919-135733
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/175826135058.101165.7219957344129610147.stgit%40devnote2
+patch subject: [PATCH] tracing: Add an option to show symbols in _text+offset for function profiler
+config: x86_64-buildonly-randconfig-002-20250919 (https://download.01.org/0day-ci/archive/20250920/202509200000.EJ4InVti-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200019.94DJDxfe-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200000.EJ4InVti-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509200019.94DJDxfe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509200000.EJ4InVti-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: In function 'dpu_encoder_update_topology':
->> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:664:25: warning: unused variable 'dpu_kms' [-Wunused-variable]
-     664 |         struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
-         |                         ^~~~~~~
+   In file included from kernel/trace/trace_sched_switch.c:15:
+>> kernel/trace/trace.h:1422:37: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1422 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+         |                                     ^~
+   kernel/trace/trace.h:1358:17: note: in expansion of macro 'C'
+    1358 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
+         |                 ^
+   kernel/trace/trace.h:1402:17: note: in expansion of macro 'PROFILER_FLAGS'
+    1402 |                 PROFILER_FLAGS
+         |                 ^~~~~~~~~~~~~~
+   kernel/trace/trace.h:1424:29: note: in expansion of macro 'TRACE_FLAGS'
+    1424 | enum trace_iterator_flags { TRACE_FLAGS };
+         |                             ^~~~~~~~~~~
+--
+   In file included from kernel/trace/trace.c:58:
+>> kernel/trace/trace.h:1422:37: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1422 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+         |                                     ^~
+   kernel/trace/trace.h:1358:17: note: in expansion of macro 'C'
+    1358 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
+         |                 ^
+   kernel/trace/trace.h:1402:17: note: in expansion of macro 'PROFILER_FLAGS'
+    1402 |                 PROFILER_FLAGS
+         |                 ^~~~~~~~~~~~~~
+   kernel/trace/trace.h:1424:29: note: in expansion of macro 'TRACE_FLAGS'
+    1424 | enum trace_iterator_flags { TRACE_FLAGS };
+         |                             ^~~~~~~~~~~
+   In file included from <command-line>:
+   In function 'tracer_alloc_buffers',
+       inlined from 'early_trace_init' at kernel/trace/trace.c:11144:2:
+>> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_557' declared with attribute error: BUILD_BUG_ON failed: TRACE_ITER_LAST_BIT > TRACE_FLAGS_MAX_SIZE
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
+     553 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   kernel/trace/trace.c:10983:9: note: in expansion of macro 'BUILD_BUG_ON'
+   10983 |         BUILD_BUG_ON(TRACE_ITER_LAST_BIT > TRACE_FLAGS_MAX_SIZE);
+         |         ^~~~~~~~~~~~
 
 
-vim +/dpu_kms +664 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+vim +1422 kernel/trace/trace.h
 
-9ed6141b72c766 Kuogee Hsieh      2023-06-22  655  
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  656  void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  657  				 struct msm_display_topology *topology,
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  658  				 struct drm_atomic_state *state,
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  659  				 const struct drm_display_mode *adj_mode)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  660  {
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  661  	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  662  	struct msm_drm_private *priv = dpu_enc->base.dev->dev_private;
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  663  	struct msm_display_info *disp_info = &dpu_enc->disp_info;
-41921f231abf9a Dmitry Baryshkov  2025-01-23 @664  	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  665  	struct drm_connector *connector;
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  666  	struct drm_connector_state *conn_state;
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  667  	struct drm_framebuffer *fb;
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  668  	struct drm_dsc_config *dsc;
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  669  
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  670  	int i;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  671  
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  672  	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  673  		if (dpu_enc->phys_encs[i])
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  674  			topology->num_intf++;
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  675  
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  676  	dsc = dpu_encoder_get_dsc_config(drm_enc);
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  677  
-4ba5a4ad568e3b Marijn Suijten    2022-12-22  678  	/*
-c56f9d69effeca Jun Nie           2025-09-18  679  	 * Set DSC number as 1 to mark the enabled status, will be adjusted
-c56f9d69effeca Jun Nie           2025-09-18  680  	 * in dpu_crtc_get_topology()
-7e9cc175b159c4 Vinod Koul        2022-04-06  681  	 */
-c56f9d69effeca Jun Nie           2025-09-18  682  	if (dsc)
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  683  		topology->num_dsc = 1;
-7e9cc175b159c4 Vinod Koul        2022-04-06  684  
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  685  	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  686  	if (!connector)
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  687  		return;
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  688  	conn_state = drm_atomic_get_new_connector_state(state, connector);
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  689  	if (!conn_state)
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  690  		return;
-1ce69c265a53c6 Dmitry Baryshkov  2025-02-14  691  
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  692  	/*
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  693  	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  694  	 * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  695  	 * earlier.
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  696  	 */
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  697  	if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  698  		fb = conn_state->writeback_job->fb;
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  699  
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  700  		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
-f1f0379e9dd5ab Jessica Zhang     2025-02-14  701  			topology->num_cdm++;
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  702  	} else if (disp_info->intf_type == INTF_DP) {
-e10e1a4010f362 Dmitry Baryshkov  2025-07-05  703  		if (msm_dp_is_yuv_420_enabled(priv->kms->dp[disp_info->h_tile_instance[0]],
-e10e1a4010f362 Dmitry Baryshkov  2025-07-05  704  					      adj_mode))
-f1f0379e9dd5ab Jessica Zhang     2025-02-14  705  			topology->num_cdm++;
-7d39f5bb82c0d7 Dmitry Baryshkov  2025-01-23  706  	}
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  707  }
-7e9cc175b159c4 Vinod Koul        2022-04-06  708  
-
-:::::: The code at line 664 was first introduced by commit
-:::::: 41921f231abf9a3a95550b2b565df8e4329319cb drm/msm/dpu: simplify dpu_encoder_get_topology() interface
-
-:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1416) 
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1417) /*
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1418)  * By redefining C, we can make TRACE_FLAGS a list of masks that
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1419)  * use the bits as defined above.
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1420)  */
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1421) #undef C
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29 @1422) #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+a3418a364ec3c8f Steven Rostedt (Red Hat  2015-09-29  1423) 
 
 -- 
 0-DAY CI Kernel Test Service
