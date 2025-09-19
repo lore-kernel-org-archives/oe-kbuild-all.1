@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4DD2459D9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 14:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE96255F52;
+	Fri, 19 Sep 2025 14:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758290448; cv=none; b=t2i9fxITVLkb+wS0vT3szio30kT5VnZlwcfrpwyG4zrBmondvEAJqAL3YVDYbPdAKK3Z14PswBVeixDgvATlYgfL4301k17nYjRP06JSfB1kuejQHckL/a0UIIZ04fXS8nJ+5F3A7JL6+OeR0cS5AL5llr70wyVILW4M4fioX24=
+	t=1758290452; cv=none; b=S2CwL0I3y3Ya2yTdAoMUJyv0iUEhJOFnZb4Ok/GbXxV35HMw9T12SSJTrFCBXlhEmGwGA2XWQNJyH8RLSGEP3JLndsff2X3cwKnmuVQmY7ps6MC7tmSnlnDL49iUTYG+BmBFHyf3hygVdNrJhdBaa338dCjh+BYRPmApgm4Deg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758290448; c=relaxed/simple;
-	bh=2Fw6+9wC1pe/2aHJyHIT5pgPlo5xcUmfFXENMUNHfqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NS3/aWbccHvQS3Sj26GPyhlkX7ZS0afffeLQ2Gr+CsdGHELrSVnxEUHc79EX2kB0p0rO3SYkV9q7QfRUQbxCdnDMVO6AKkagItmVwUnyfPMOsBq+0pd7AWjr7xFh7yx7cgywivO60Jj1YtjFcRj//vcxwrFK7EoHynOaIFNaZbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ajRlCmQq; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1758290452; c=relaxed/simple;
+	bh=qK72TybXrM891NHVlWO0Qses8Geqb21b9hhqVh3+Dzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HdPwZM01k2JPTxRo6ItghYukt9bld8tqk41yn6tc6nSvQ/mRr3X/LQThnV/1/yL5spTNkipGrAR4fi9qON6p/hwyc4V9Xp4+v/QJRv6PJLUlQNApnLrSJkO6opjNNSM+v6wE1DuDoW4aFTEIbHuq1BYxTyhp2aDHcvzHeJ48ueA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+7EweCx; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajRlCmQq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+7EweCx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758290446; x=1789826446;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Fw6+9wC1pe/2aHJyHIT5pgPlo5xcUmfFXENMUNHfqk=;
-  b=ajRlCmQqG58YPch/5rvIwk3vmDRMmhmhRFYg2K4oijWab4Yl0Iq7skD8
-   lOBg9f1lpiuYmUA/gyzTavt4r5wSMHjeAzidP8jEU50gMrmm4L7APsVrF
-   KoXbztibQDLrEvtCg6zBRHodBne9N7JQ/vG/CHLdBmu5jeThVZIVZ62dW
-   FzT/LUL62xMdLVMQuMGfGZZMVHk9ar4vDl44wm+gkWe5vMI0ws/SZ24yi
-   grTxGxMU6oqzEOYL8PZYXjUpgxERnGyo8rd1Q/FG7EUhaSARmnHUpNlY/
-   Ht9vtHIv+MqP3SwxGueH0VF0+nX9EYAqyDdSvyeXmWClZvAObH1lT7jp/
-   g==;
-X-CSE-ConnectionGUID: NaC6nTp9RPWhPPFFu5f4kw==
-X-CSE-MsgGUID: F93KxBStSi2mNUPFvuEV7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="60523798"
+  t=1758290450; x=1789826450;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qK72TybXrM891NHVlWO0Qses8Geqb21b9hhqVh3+Dzw=;
+  b=l+7EweCx4Z4yVB0y0CCVeEkoipy2DEDlwQDWs6rGHKsan+93bpDG1RYB
+   UllZg+HIynWnJNOYyjHB9mem35SLfkbs7IWZ5Ew0P2bnYIJzCtQvzSnLH
+   c8AWac8M16lOjwcJ11T7DlSdS1Zx0KHs1wITTwuyGAT0FVZ++xSOtGeci
+   8mpqJhcvm1Fe2i/jYeSGWE4toTMZFTVH/xBJh7VdmpxCzACL/B2Z36ml4
+   NsMCzi2yOngmrNHMZ3SN1BkxiHFV+2tYI2fLs/+nbcxwYSIVCRL551RT+
+   GpQCuRw0Mf93J10a4YreRvGRIQBw0U18N7Et3HTpyVS/4VLGj0UD+l9F5
+   Q==;
+X-CSE-ConnectionGUID: a9eE13D0RQuGTudztUL7Dg==
+X-CSE-MsgGUID: vMT1XqGoSYWAGEAKjrRnGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="72008867"
 X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
-   d="scan'208";a="60523798"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 07:00:45 -0700
-X-CSE-ConnectionGUID: KLjTf8AqQCqudD5ECbxUSQ==
-X-CSE-MsgGUID: 8I+0wv0HRzSTzVRIDmNthQ==
+   d="scan'208";a="72008867"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 07:00:40 -0700
+X-CSE-ConnectionGUID: UHoTrgKOT4iWvqp3yQFcpA==
+X-CSE-MsgGUID: DIpeeQ11S2GTWYpFkvkY6A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
+   d="scan'208";a="176287513"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Sep 2025 07:00:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Sep 2025 07:00:39 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzbfB-0004Ln-1N;
+	id 1uzbfB-0004Lp-1Q;
 	Fri, 19 Sep 2025 14:00:37 +0000
-Date: Fri, 19 Sep 2025 21:59:58 +0800
+Date: Fri, 19 Sep 2025 21:59:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dang Huynh via B4 Relay <devnull+dang.huynh.mainlining.org@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sebastian Reichel <sre@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-unisoc@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-mmc@vger.kernel.org,
-	Dang Huynh <dang.huynh@mainlining.org>
-Subject: Re: [PATCH 06/25] rtc: Add driver for RDA Micro SoC
-Message-ID: <202509192152.OXdK6bpd-lkp@intel.com>
-References: <20250917-rda8810pl-drivers-v1-6-9ca9184ca977@mainlining.org>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [snitzer:anna-linux-next-6.18 10/11] fs/nfs/nfstrace.h:1799:1:
+ error: incompatible pointer types passing 'const struct nfs_local_dio *' to
+ parameter of type 'const struct nfs_local_dio *'
+Message-ID: <202509192136.Td3qEZgL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,141 +62,203 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250917-rda8810pl-drivers-v1-6-9ca9184ca977@mainlining.org>
 
-Hi Dang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 590b221ed4256fd6c34d3dea77aa5bd6e741bbc1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dang-Huynh-via-B4-Relay/ARM-dts-unisoc-rda8810pl-Add-label-to-GPIO-nodes/20250917-043025
-base:   590b221ed4256fd6c34d3dea77aa5bd6e741bbc1
-patch link:    https://lore.kernel.org/r/20250917-rda8810pl-drivers-v1-6-9ca9184ca977%40mainlining.org
-patch subject: [PATCH 06/25] rtc: Add driver for RDA Micro SoC
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250919/202509192152.OXdK6bpd-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509192152.OXdK6bpd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git anna-linux-next-6.18
+head:   79f4defe4ab1ad7b6bd760e373d8c7392d25f690
+commit: f5dbc64124226ba461890dd82fe53730832f5be6 [10/11] nfs/localio: add tracepoints for misaligned DIO READ and WRITE support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250919/202509192136.Td3qEZgL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509192136.Td3qEZgL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509192152.OXdK6bpd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509192136.Td3qEZgL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/rtc/rtc-rda.c: In function 'rda_rtc_settime':
->> drivers/rtc/rtc-rda.c:67:15: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      67 |         low = FIELD_PREP(RDA_SEC_MASK, tm->tm_sec) |
-         |               ^~~~~~~~~~
-   drivers/rtc/rtc-rda.c: In function 'rda_rtc_readtime':
->> drivers/rtc/rtc-rda.c:128:22: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     128 |         tm->tm_sec = FIELD_GET(RDA_SEC_MASK, low);
-         |                      ^~~~~~~~~
+   In file included from fs/nfs/nfs2xdr.c:26:
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+    1799 | DEFINE_NFS_LOCAL_DIO_EVENT(read);
+         | ^
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: error: incompatible pointer types passing 'const struct nfs_local_dio *' to parameter of type 'const struct nfs_local_dio *' [-Werror,-Wincompatible-pointer-types]
+    1799 | DEFINE_NFS_LOCAL_DIO_EVENT(read);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfstrace.h:1797:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1797 |         TP_ARGS(inode, offset, count, local_dio))
+         |                                       ^~~~~~~~~
+   include/linux/tracepoint.h:180:26: note: expanded from macro 'TP_ARGS'
+     180 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:608:50: note: expanded from macro '\
+   DEFINE_EVENT'
+     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+         |                                                         ^~~~
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:275:34: note: expanded from macro '__DECLARE_TRACE'
+     275 |                         __DO_TRACE_CALL(name, TP_ARGS(args));           \
+         |                                                       ^~~~
+   include/linux/tracepoint.h:180:26: note: expanded from macro 'TP_ARGS'
+     180 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:209:62: note: expanded from macro '__DO_TRACE_CALL'
+     209 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   fs/nfs/nfstrace.h:1799:1: note: passing argument to parameter 'local_dio' here
+   fs/nfs/nfstrace.h:1796:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                                              ^
+>> fs/nfs/nfstrace.h:1799:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+    1799 | DEFINE_NFS_LOCAL_DIO_EVENT(read);
+         | ^
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+>> fs/nfs/nfstrace.h:1799:1: error: incompatible pointer types passing 'const struct nfs_local_dio *' to parameter of type 'const struct nfs_local_dio *' [-Werror,-Wincompatible-pointer-types]
+    1799 | DEFINE_NFS_LOCAL_DIO_EVENT(read);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfstrace.h:1797:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1797 |         TP_ARGS(inode, offset, count, local_dio))
+         |                                       ^~~~~~~~~
+   include/linux/tracepoint.h:180:26: note: expanded from macro 'TP_ARGS'
+     180 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:608:50: note: expanded from macro '\
+   DEFINE_EVENT'
+     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+         |                                                         ^~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:481:46: note: expanded from macro 'DECLARE_TRACE_EVENT'
+     481 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |                                                     ^~~~
+   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
+     139 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/linux/tracepoint.h:281:22: note: expanded from macro '__DECLARE_TRACE'
+     281 |                         __do_trace_##name(args);                        \
+         |                                           ^~~~
+   fs/nfs/nfstrace.h:1799:1: note: passing argument to parameter 'local_dio' here
+   fs/nfs/nfstrace.h:1796:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                                              ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+    1800 | DEFINE_NFS_LOCAL_DIO_EVENT(write);
+         | ^
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: error: incompatible pointer types passing 'const struct nfs_local_dio *' to parameter of type 'const struct nfs_local_dio *' [-Werror,-Wincompatible-pointer-types]
+    1800 | DEFINE_NFS_LOCAL_DIO_EVENT(write);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfstrace.h:1797:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1797 |         TP_ARGS(inode, offset, count, local_dio))
+         |                                       ^~~~~~~~~
+   include/linux/tracepoint.h:180:26: note: expanded from macro 'TP_ARGS'
+     180 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:608:50: note: expanded from macro '\
+   DEFINE_EVENT'
+     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+         |                                                         ^~~~
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:275:34: note: expanded from macro '__DECLARE_TRACE'
+     275 |                         __DO_TRACE_CALL(name, TP_ARGS(args));           \
+         |                                                       ^~~~
+   include/linux/tracepoint.h:180:26: note: expanded from macro 'TP_ARGS'
+     180 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:209:62: note: expanded from macro '__DO_TRACE_CALL'
+     209 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   fs/nfs/nfstrace.h:1800:1: note: passing argument to parameter 'local_dio' here
+   fs/nfs/nfstrace.h:1796:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                                              ^
+   fs/nfs/nfstrace.h:1800:1: warning: declaration of 'struct nfs_local_dio' will not be visible outside of this function [-Wvisibility]
+    1800 | DEFINE_NFS_LOCAL_DIO_EVENT(write);
+         | ^
+   fs/nfs/nfstrace.h:1796:17: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1796 |                  const struct nfs_local_dio *local_dio),\
+         |                               ^
+   fs/nfs/nfstrace.h:1800:1: error: incompatible pointer types passing 'const struct nfs_local_dio *' to parameter of type 'const struct nfs_local_dio *' [-Werror,-Wincompatible-pointer-types]
+    1800 | DEFINE_NFS_LOCAL_DIO_EVENT(write);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfstrace.h:1797:32: note: expanded from macro 'DEFINE_NFS_LOCAL_DIO_EVENT'
+    1797 |         TP_ARGS(inode, offset, count, local_dio))
+         |                                       ^~~~~~~~~
+   include/linux/tracepoint.h:180:26: note: expanded from macro 'TP_ARGS'
+     180 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:608:50: note: expanded from macro '\
+   DEFINE_EVENT'
 
 
-vim +/FIELD_PREP +67 drivers/rtc/rtc-rda.c
+vim +1799 fs/nfs/nfstrace.h
 
-    50	
-    51	static int rda_rtc_settime(struct device *dev, struct rtc_time *tm)
-    52	{
-    53		struct rda_rtc *rtc = dev_get_drvdata(dev);
-    54		u32 high, low;
-    55		int ret;
-    56	
-    57		ret = rtc_valid_tm(tm);
-    58		if (ret < 0)
-    59			return ret;
-    60	
-    61		/*
-    62		 * The number of years since 1900 in kernel,
-    63		 * but it is defined since 2000 by HW.
-    64		 * The number of mons' range is from 0 to 11 in kernel,
-    65		 * but it is defined from 1 to 12 by HW.
-    66		 */
-  > 67		low = FIELD_PREP(RDA_SEC_MASK, tm->tm_sec) |
-    68			FIELD_PREP(RDA_MIN_MASK, tm->tm_min) |
-    69			FIELD_PREP(RDA_HRS_MASK, tm->tm_hour);
-    70	
-    71		high = FIELD_PREP(RDA_MDAY_MASK, tm->tm_mday) |
-    72			FIELD_PREP(RDA_MON_MASK, tm->tm_mon + 1) |
-    73			FIELD_PREP(RDA_YEAR_MASK, tm->tm_year - 100) |
-    74			FIELD_PREP(RDA_WDAY_MASK, tm->tm_wday);
-    75	
-    76		ret = regmap_write(rtc->regmap, RDA_RTC_CAL_LOAD_LOW_REG, low);
-    77		if (ret < 0) {
-    78			dev_err(dev, "Failed to update RTC low register: %d\n", ret);
-    79			return ret;
-    80		}
-    81	
-    82		ret = regmap_write(rtc->regmap, RDA_RTC_CAL_LOAD_HIGH_REG, high);
-    83		if (ret < 0) {
-    84			dev_err(dev, "Failed to update RTC low register: %d\n", ret);
-    85			return ret;
-    86		}
-    87	
-    88		ret = regmap_update_bits(rtc->regmap, RDA_RTC_CMD_REG, RDA_RTC_CMD_CAL_LOAD, 1);
-    89		if (ret < 0) {
-    90			dev_err(dev, "Failed to update RTC cal load register: %d\n", ret);
-    91			return ret;
-    92		}
-    93	
-    94		return 0;
-    95	}
-    96	
-    97	static int rda_rtc_readtime(struct device *dev, struct rtc_time *tm)
-    98	{
-    99		struct rda_rtc *rtc = dev_get_drvdata(dev);
-   100		unsigned int high, low;
-   101		int ret;
-   102	
-   103		/*
-   104		 * Check if RTC data is valid.
-   105		 *
-   106		 * When this bit is set, it means the data in the RTC is invalid
-   107		 * or not configured.
-   108		 */
-   109		ret = regmap_test_bits(rtc->regmap, RDA_RTC_STA_REG, RDA_RTC_STA_NOT_PROG);
-   110		if (ret < 0) {
-   111			dev_err(dev, "Failed to read RTC status: %d\n", ret);
-   112			return ret;
-   113		} else if (ret > 0)
-   114			return -EINVAL;
-   115	
-   116		ret = regmap_read(rtc->regmap, RDA_RTC_CUR_LOAD_HIGH_REG, &high);
-   117		if (ret) {
-   118			dev_err(dev, "Failed to read RTC high reg: %d\n", ret);
-   119			return ret;
-   120		}
-   121	
-   122		ret = regmap_read(rtc->regmap, RDA_RTC_CUR_LOAD_LOW_REG, &low);
-   123		if (ret) {
-   124			dev_err(dev, "Failed to read RTC low reg: %d\n", ret);
-   125			return ret;
-   126		}
-   127	
- > 128		tm->tm_sec = FIELD_GET(RDA_SEC_MASK, low);
-   129		tm->tm_min = FIELD_GET(RDA_MIN_MASK, low);
-   130		tm->tm_hour = FIELD_GET(RDA_HRS_MASK, low);
-   131		tm->tm_mday = FIELD_GET(RDA_MDAY_MASK, high);
-   132		tm->tm_mon = FIELD_GET(RDA_MON_MASK, high);
-   133		tm->tm_year = FIELD_GET(RDA_YEAR_MASK, high);
-   134		tm->tm_wday = FIELD_GET(RDA_WDAY_MASK, high);
-   135	
-   136		/*
-   137		 * The number of years since 1900 in kernel,
-   138		 * but it is defined since 2000 by HW.
-   139		 */
-   140		tm->tm_year += 100;
-   141		/*
-   142		 * The number of mons' range is from 0 to 11 in kernel,
-   143		 * but it is defined from 1 to 12 by HW.
-   144		 */
-   145		tm->tm_mon -= 1;
-   146	
-   147		return 0;
-   148	}
-   149	
+  1790	
+  1791	#define DEFINE_NFS_LOCAL_DIO_EVENT(name)		\
+  1792	DEFINE_EVENT(nfs_local_dio_class, nfs_local_dio_##name,	\
+  1793		TP_PROTO(const struct inode *inode,		\
+  1794			 loff_t offset,				\
+  1795			 ssize_t count,				\
+  1796			 const struct nfs_local_dio *local_dio),\
+  1797		TP_ARGS(inode, offset, count, local_dio))
+  1798	
+> 1799	DEFINE_NFS_LOCAL_DIO_EVENT(read);
+  1800	DEFINE_NFS_LOCAL_DIO_EVENT(write);
+  1801	DEFINE_NFS_LOCAL_DIO_EVENT(misaligned);
+  1802	
 
 -- 
 0-DAY CI Kernel Test Service
