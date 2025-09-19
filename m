@@ -1,112 +1,170 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6942FFDDB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 11:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA422153D2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 11:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758279643; cv=none; b=LWqtXQTKQ5bkZdZ3FQB+h4q4Hvi9xbF/crbVf30FZtAswzfNryQyqblcVY/RlIF+/sEAzh5ydD2ZvLjQjo5dretHsYU0r36QW39F8TyrgYCUsx033r3FQg3X68G1tdl4YU5oCilN9pYlggYxbjfadla9Yq6/nTYQj0p0lpJrQaw=
+	t=1758280774; cv=none; b=H23fHLhb1TqyI9puj9tmIJhRWhcAH3diVqlBR/eaqhfs9InxD0k4QHL9jyDlQI9ryZ2srQQeh5lGE+xX32dmbhlhZkyuIfEtPhO72hSa7w3uKw1Q4A4RnhLKpDAAsphYboYR9kp+azOsloAjPBuhNz8IcQQ271QqZUwLnaxxHNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758279643; c=relaxed/simple;
-	bh=803O1q3nJmNwEnJ0eVOOfvB5A5ny0SBSloh+zkYI6Js=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pC1F2i6mOKo1JvbCFLLKqhpL9y3khwlbSx5r4yWekL26QxikbzAxndbNrbx+uYIYVLC5MuTHVwnZj0G+lt7lUoO085afhqWQZNhysdzczrmq4HrlXXtvidH5Q+I7jerE18PCbCJnyL58c4vpZgIRZQMJ46Xu4n1pi6XHKsBMaK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iicfRyye; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1758280774; c=relaxed/simple;
+	bh=OSpSer7L/Fdwo1tYMGj624Qc1hg8hpEySnn90lrR+5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z2pvU+GzGaQv7Nyzd7TWuw5YDmfC05ydDQJDea24Qf3Qh5Z3EqExSGDspNYLu5Z+Y2en/GNn+oyl3tT5aOG2kRbGnmgBDEyoIPt3gawdscEakjhq/hvbU0476bKyM24f9enAPyJVj8kTG20lEeBiyjvRTE/uZTj8DgEvtZk6/ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZkLG/iF1; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iicfRyye"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b7a8ceaad3so18304441cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 04:00:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZkLG/iF1"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so17683645e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 04:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1758279641; x=1758884441; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qxSNVg4jPXGA+Rdup/zzB+BaOlzldW8RsQCH8Thuqv0=;
-        b=iicfRyyelxdbz9df+lkZKf7wPSlfs/RFz3fLWEc1zT+KKVEzVVMFZGOaYJkeWl194N
-         sQTnDcC7OSrsw1GM5Yg4hXviR4IJ69yV6ci7szjo6IfYMjy0NrnbdXF3E/2Dhl2nvKXA
-         55Ml4fegcrQAMlrLDMJW2U8XIq5z8ShwhAPh7mcDzlZKUnDVoNRcc7dfEedtgdEmUJC3
-         lWbfxIcp/sKIor3GW8OwM+0B6GEwwiDvp1AV/r/VRaqI2yUpiwvT6Vg91Mv9Bfog6r5i
-         K/QWuTa1G2+a9R1RskaJu6fquJB4WXilmseq3/rVDOttbF6lGHJaODPOsvpNL1bk1psv
-         EJPA==
+        d=linaro.org; s=google; t=1758280771; x=1758885571; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vt83PDk7dRWoqywELBSt3rXR8Q/SZZebgA8QDff1daI=;
+        b=ZkLG/iF1kbH5jKnHxfoj+UZlY06JgSUNYbA+SX4GmG6RUSyeYqGdzknTxUiEUmH1Ve
+         HMhOUJ11XF0g4wBh1rBtLAUy/4G81o0iBUpC4QZ98A1nfx6tlVtdXu5TSr+CbnglFeHi
+         ClsHKcwQ2gutvhqcstwSDXH/pM/J+lMgLN3uJ1H1zcUJwQJ7o+Oc3JDk9jeP0ZsOsqpB
+         jguxoMTr5Clmy3Tlw10+JdUy7dRo2v2LTBemDb2fXSbETYGBhU5qMe7/aOb6DFlZX/YT
+         p0Zw20mNe+EhSOx9TfGDA4WS33CrBl8ALbFnoK3xy90ZNccE8U5JXbWC6B703/gcHrxZ
+         ysEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758279641; x=1758884441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qxSNVg4jPXGA+Rdup/zzB+BaOlzldW8RsQCH8Thuqv0=;
-        b=thAprJo0GAkcf/gzoYcOKtvd+MV5mECGM/jNJwzVotqxNTL8FybvhEIeGysZ0t+gBd
-         vBkzptERmWU5p21YDwMWSN/1AxJxCvls7K6yCvf0Ge6JX4AUw59lFuWPpD5/0IxT7qOT
-         V6wRXL0sSpv7JWk4VMMMO8z1KVJxJL78r5oLy+zwM3FQ4gOI5KhCJlN/vP4hExD5GqFn
-         TY4CZ3BLJVr3p4q30CnbAhWwRaQX7BBGbsgb03JUnnPpYMDG0AhQQX3VyxeEMZdnL8Il
-         He9IMVwBPLgmS1EPH9nPjXydTGGPxZRq3cZUivGs3nRHJv9Lu/kA6WipGmr6ejHUAnCU
-         wwSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXAvqUC1VChOzVNJBDjmJxTh4RB868TosetN+9bOj8wv7wJ8K7sebY948pYfE0bPClokQ3rJXsXiUm1okiW@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiARIV18AELD3NxqGBYPIk9keL3U1nhWfhTkexQAuim4f2frEi
-	YSMztwLl5MPiHouVTHZvFwFgdaK+iMvjPpu3osZtKotn0cRd+69upytTH4LoCAHu/zmFwmUyjf2
-	VKBBBOnbcVW4NqG1Eqt+z0CSIm53ozitjbMFh2dpz
-X-Gm-Gg: ASbGnctBg89pWKoh7Yn5D4nzRFnz3GoTGwDXD39VijFO+g7/lNKJtU83U06/Yyc6dFy
-	DceZGdr4LvJpUHzvPNaN23xtalHqlwIAPeOFtM6u/XPZhwg5NqVK+q9TC7cjb1ARfnZ5FMUep5d
-	RT3zzOtrkl+9QcsrBAh/f6lEZGhKOIkwLpJOsLPn6SjW95DS4f6qlbEQPy3NtNTcjJKSFTB3URJ
-	TO2dA==
-X-Google-Smtp-Source: AGHT+IF2reMFk++hNVQtYtc0bIdPcfWiXwD0EU0fwgyj3cejB40NBcLz41GyRKMkii9zzss3WeJEtKrOQx2MX/Cji4k=
-X-Received: by 2002:ac8:570f:0:b0:4b5:e6a7:304a with SMTP id
- d75a77b69052e-4c06e7cde40mr29850201cf.22.1758279640369; Fri, 19 Sep 2025
- 04:00:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758280771; x=1758885571;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vt83PDk7dRWoqywELBSt3rXR8Q/SZZebgA8QDff1daI=;
+        b=SrevPY2YIdbZ/4njv1vuCKt+OViYXHUFI3+6CU0a9kE2qI1p/pGQjiPlGSjhp9A63z
+         lCJgaCWuA/drMhSQD71VWwGpZJgZQOY1O/pnQCC3dini9as9F9FrrqeRJGuAKaYUSSM/
+         QAnP4epUYqISq+5ooeQRaCcxNB1mDz6Z23twb+u/Z0YfJ1zXdwemzJdaMMmBetlFcGcX
+         tJ70E1X80tpUGSImvxTnn44xeBn9HBW9xAdyFjn+z3HgJjAMLVP+RWYdFbTJWY74HwyF
+         PqZ9HR29XphRZnlsp3pqsgBpcNyyrWwTKpTSzs/RLJT3/7LUznlJDgBaDsHoM6/ErRhM
+         dhvg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9eFdyJxc/JcXJa9WAXKS3uptQpUxuvAO6MlbR7MNWBKqNaWdES1YdVR5OXLXwNbGyepAku0LUSWa7t4B3@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWBY7uJvoeEM+zgtqIwvPOCvqxmw0ug3LaKCmbARua5u8mJ+gj
+	VxAUy2QwOUXlrN/W7RF0eDdjFQwFM2ohsO0PxXZGK7gfjtPW1Zy+IyqPVLT8xdXgHbg7o/zCBMQ
+	8OUe9
+X-Gm-Gg: ASbGncvH0lEEcsydMKTSlaEIwVMc86SMyNtQusEQaaEDYgUa8YPAjtzhYsMcDb2kp6X
+	fy3Icpx6I4pk0f979os4Aw6ZgqlBugty1RyTj1FrLJqVPhxpFkVdiZo1k1gQOsiBeLYDHuFqRn+
+	3UTwa/hZ2bjWll9KQJgz1muP3JsmSatBRX/aOCnOPrCWR0SXmYLcCGaOS/kURl7TPpCeY4h/ULl
+	xF1sHLo936nxFcxFyzl5rzI157nSUovm4lNqgrgVXOHBaIkIQ2C6EPrRzfWapaW3OV1wjtc/Rfp
+	tK/ws1pyHex8S7gTUiwQzz553CKqeDOw+L+4ED3igSl9xwA/VP3jYMzIywQHZrQhng0W7RFs21S
+	pEMpRNBDj4Mxgt89deqd8RBUG52Tk
+X-Google-Smtp-Source: AGHT+IG897BEsfsXFm/Qto6IyaO1agOOC97axuG1JFS175oEpSD1jqU46H55yBTAlhCtEEiag7KJLw==
+X-Received: by 2002:a05:600c:3b1e:b0:45d:dc6c:9e30 with SMTP id 5b1f17b1804b1-467aba7b0f2mr33515745e9.14.1758280770647;
+        Fri, 19 Sep 2025 04:19:30 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-464eadd7e11sm86483755e9.0.2025.09.19.04.19.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 04:19:30 -0700 (PDT)
+Date: Fri, 19 Sep 2025 14:19:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, jason.zeng@intel.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:6.6-velinux 5959/5959] drivers/block/nbd.c:1298
+ nbd_reconnect_socket() warn: inconsistent returns '&nsock->tx_lock'.
+Message-ID: <202509191844.UIjeXrdY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250918155532.751173-4-edumazet@google.com> <202509191711.gDaSokkJ-lkp@intel.com>
-In-Reply-To: <202509191711.gDaSokkJ-lkp@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 19 Sep 2025 04:00:29 -0700
-X-Gm-Features: AS18NWCWjUkb5moSf9QpEIxwAisqsl5A0nzCKgyJNySSI2fgU4h2hVLwa-WEP4A
-Message-ID: <CANn89iLGOppxi1JqVXdjpXpMB44akvVU7fj-CTP5e4RPABzt0Q@mail.gmail.com>
-Subject: Re: [PATCH net-next 3/7] tcp: move tcp->rcv_tstamp to
- tcp_sock_write_txrx group
-To: kernel test robot <lkp@intel.com>
-Cc: "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, oe-kbuild-all@lists.linux.dev, 
-	Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, netdev@vger.kernel.org, 
-	eric.dumazet@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Sep 19, 2025 at 3:10=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Eric,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/net-m=
-ove-sk_uid-and-sk_protocol-to-sock_read_tx/20250919-000602
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20250918155532.751173-4-edumazet=
-%40google.com
-> patch subject: [PATCH net-next 3/7] tcp: move tcp->rcv_tstamp to tcp_sock=
-_write_txrx group
-> config: powerpc-ge_imp3a_defconfig (https://download.01.org/0day-ci/archi=
-ve/20250919/202509191711.gDaSokkJ-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250919/202509191711.gDaSokkJ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509191711.gDaSokkJ-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
+tree:   https://github.com/bytedance/kernel.git 6.6-velinux
+head:   267e33ff5e034d9f9222c229e6967b6ceb65e27a
+commit: 454e732aaf9bdba6d2183f14939163e6a37dfbd3 [5959/5959] bytedance: nbd: Don't use workqueue to create recv threads
+config: x86_64-randconfig-161-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191844.UIjeXrdY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-Yeah, I think I will remove these CACHELINE_ASSERT_GROUP_SIZE() which
-are hard to maintain and bring little value.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202509191844.UIjeXrdY-lkp@intel.com/
+
+smatch warnings:
+drivers/block/nbd.c:1298 nbd_reconnect_socket() warn: inconsistent returns '&nsock->tx_lock'.
+
+vim +1298 drivers/block/nbd.c
+
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1230  static int nbd_reconnect_socket(struct nbd_device *nbd, unsigned long arg)
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1231  {
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1232  	struct nbd_config *config = nbd->config;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1233  	struct socket *sock, *old;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1234  	struct recv_thread_args *args;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1235  	int i;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1236  	int err;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1237  
+cf1b2326b73489 Mike Christie             2019-10-17  1238  	sock = nbd_get_socket(nbd, arg, &err);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1239  	if (!sock)
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1240  		return err;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1241  
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1242  	args = kzalloc(sizeof(*args), GFP_KERNEL);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1243  	if (!args) {
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1244  		sockfd_put(sock);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1245  		return -ENOMEM;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1246  	}
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1247  
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1248  	for (i = 0; i < config->num_connections; i++) {
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1249  		struct nbd_sock *nsock = config->socks[i];
+454e732aaf9bdb Xie Yongji                2021-12-17  1250  		struct task_struct *worker;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1251  
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1252  		if (!nsock->dead)
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1253  			continue;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1254  
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1255  		mutex_lock(&nsock->tx_lock);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1256  		if (!nsock->dead) {
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1257  			mutex_unlock(&nsock->tx_lock);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1258  			continue;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1259  		}
+454e732aaf9bdb Xie Yongji                2021-12-17  1260  		worker = kthread_create(recv_work, args, "knbd%d.%d-recv",
+454e732aaf9bdb Xie Yongji                2021-12-17  1261  					nbd->index, i);
+454e732aaf9bdb Xie Yongji                2021-12-17  1262  		if (!worker) {
+454e732aaf9bdb Xie Yongji                2021-12-17  1263  			sockfd_put(sock);
+454e732aaf9bdb Xie Yongji                2021-12-17  1264  			kfree(args);
+454e732aaf9bdb Xie Yongji                2021-12-17  1265  			return -ENOMEM;
+
+Call mutex_unlock(&nsock->tx_lock); before returning.
+
+454e732aaf9bdb Xie Yongji                2021-12-17  1266  		}
+454e732aaf9bdb Xie Yongji                2021-12-17  1267  
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1268  		sk_set_memalloc(sock->sk);
+5eafd64a3bd2ab Hou Pu                    2020-11-06  1269  		if (nbd->tag_set.timeout &&
+5eafd64a3bd2ab Hou Pu                    2020-11-06  1270  		    !test_bit(NBD_RT_WAIT_ON_TIMEOUT, &config->runtime_flags))
+dc88e34d69d87c Josef Bacik               2017-06-08  1271  			sock->sk->sk_sndtimeo = nbd->tag_set.timeout;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1272  		atomic_inc(&config->recv_threads);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1273  		refcount_inc(&nbd->config_refs);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1274  		old = nsock->sock;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1275  		nsock->fallback_index = -1;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1276  		nsock->sock = sock;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1277  		nsock->dead = false;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1278  		args->index = i;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1279  		args->nbd = nbd;
+7e62a555d99f2f Li Nan                    2023-09-11  1280  		args->nsock = nsock;
+799f9a38bc9f55 Josef Bacik               2017-04-06  1281  		nsock->cookie++;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1282  		mutex_unlock(&nsock->tx_lock);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1283  		sockfd_put(old);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1284  
+ec76a7b922e42d Xiubo Li                  2019-09-17  1285  		clear_bit(NBD_RT_DISCONNECTED, &config->runtime_flags);
+7a362ea96d0df8 Josef Bacik               2017-07-25  1286  
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1287  		/* We take the tx_mutex in an error path in the recv_work, so we
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1288  		 * need to queue_work outside of the tx_mutex.
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1289  		 */
+454e732aaf9bdb Xie Yongji                2021-12-17  1290  		wake_up_process(worker);
+560bc4b39952ed Josef Bacik               2017-04-06  1291  
+560bc4b39952ed Josef Bacik               2017-04-06  1292  		atomic_inc(&config->live_connections);
+560bc4b39952ed Josef Bacik               2017-04-06  1293  		wake_up(&config->conn_wait);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1294  		return 0;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1295  	}
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1296  	sockfd_put(sock);
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1297  	kfree(args);
+b7aa3d39385dc2 Josef Bacik               2017-04-06 @1298  	return -ENOSPC;
+b7aa3d39385dc2 Josef Bacik               2017-04-06  1299  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
