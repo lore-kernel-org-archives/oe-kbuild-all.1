@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA891A2392
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 18:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A43481B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 18:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758305294; cv=none; b=ipu/Wx6neopYDeC2jrlRY5ZiWw+ad7B6wMiKsnNl7g0qQvn+r0Q39Rto4fZEe3bXT9XMPdU5njhFieCJ+S9l/c64MwHZUB1U8P9kGlFo1ySBzSW8M54OJHRsjCS1p2wkiGFcKMXezI0yTlgNnrbEe9VmzqQxCQLQuzYZCtjm3cQ=
+	t=1758306919; cv=none; b=grkZleLs1UHgSqtrnqmjwIeX2IuvMlqHnkhaSCkYilYGfWkCaAx8q8HHuTrH3RmisJ9fzxRu+qsAbzaTLqS3P7g9f63s4YGoEET6gTkyhDlJHmT6EQY8dwPc2dW0LmO8cdghRlYKTTc2t5nzPN2BuIcPE2JQfXMb5eEoguh43VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758305294; c=relaxed/simple;
-	bh=d+IpnihDr4NXdRPvmqmk0qIWkC/FYIAhSuLCT190ba8=;
+	s=arc-20240116; t=1758306919; c=relaxed/simple;
+	bh=W92u855kkQU363kyri60jG7yRz+432mVmRuV4eGHjfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=h7uylT4JKGC5wBFRKGT+LPF93Jm05Db5oW0OoOTw7WvkQHkSxfU6DTYS8YD2wzLNSmH8TXLfKqw0YVWVDvJIXObxUv89FBTRNR4SWIkbld7rRUYbMHIi/u+Vd7CfTncb8gd0tMayiooLXh5JobcgFWxG9HXrke+GYiNSfg+AsrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDqRi4s3; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=dX69cX49zsEbUCQ2aeZMvim63ygZjOH2cspmNURcLPl8ufzNJRG1rhZIcYXAGL2OYK1YdSgcfxnwf3kzJPXMq1VALmz8bSGwCrChIvyAUFCgRYMyfALuNapwMgQP7KjHZkrRyjXx7iUbYnzmpD3x+fzqqLYZaqzWWyGdRje/wC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=US6eaOYt; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDqRi4s3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="US6eaOYt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758305292; x=1789841292;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=d+IpnihDr4NXdRPvmqmk0qIWkC/FYIAhSuLCT190ba8=;
-  b=jDqRi4s3mNKi+aMPyat6cYqLGLkDBv0oM/ykGG1kl3iTSHdfJbraVaGE
-   b+/ria3yaiXwURgLjABreIlZ+FiKr6hXhYP6oXkqdgY0uorG5/PwyMZb3
-   KjahGwSwnNd1l7u3DJZZVLH2vtesTIjYlYGekOBI4V5jT1aakr1meoB+j
-   pZ85mm5JfnPmHwIEd3TSSs2app6dxHANkaZDrq7zKGu3Te/IhIP3Xumcc
-   hdujgUNoKZ/DiOGtV5DC0hbkEJobfThRfVc5sTFSrlVJWX7zJmNx7FiDk
-   XQwR0KYDPAsGqR7v/H0faMlPWezTgE3k+oVmxZkWkwo42WBEcDDiFXJI4
-   A==;
-X-CSE-ConnectionGUID: E/+pSjplT/2jkjskFCLnQA==
-X-CSE-MsgGUID: m3Ly4vdvQ/ewmAxcjEG0AA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60712314"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60712314"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 11:08:11 -0700
-X-CSE-ConnectionGUID: AxerEPqZR5atSwmZ4HU/VQ==
-X-CSE-MsgGUID: vbGHOtBXTF2EzcKvayIs1w==
+  t=1758306917; x=1789842917;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W92u855kkQU363kyri60jG7yRz+432mVmRuV4eGHjfg=;
+  b=US6eaOYtIvg9FXHZH3V8M0D2QqXFQuqFP1lgQx1AHoM8otA1EwPOWuRS
+   2XLln1rsvuu3ISKCBL5zdgdvwPHT8Sw5/fNMm2pFy32Vq4pk80LEjSzLW
+   iS+UbPvGwGOWFFGmGqobF8KslJQhzK3m70kb9TQCibDl5c/J3o9a/lKo0
+   Q5xiUL/ZaL+3qh/MQO/iC1fhQQC3Jv0ZwTQ8MaqDQWH1EKmd8O3PkNVVA
+   M36mHE2KClhwRMPVInfcAB9IBOfyFogK7YIV6ohw8bSN/57tviC4kyRgI
+   fC3PEn3VY+mkaXIS7q1MFJA+sGluZKxmyNT1cuxj3n+tP4lhbisxesK9y
+   g==;
+X-CSE-ConnectionGUID: pEbBLwMmRGWh8xmnrdA6bA==
+X-CSE-MsgGUID: Kzwkk4n4SNGY9/xyvU+DqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="60813282"
+X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
+   d="scan'208";a="60813282"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 11:35:15 -0700
+X-CSE-ConnectionGUID: +Z0vLr38RCy3WvOgeMW4TA==
+X-CSE-MsgGUID: DGXv3uH8RXOZzj1eYHSyuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
-   d="scan'208";a="175698571"
+   d="scan'208";a="175825670"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Sep 2025 11:08:11 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Sep 2025 11:35:13 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzfWh-0004ed-2X;
-	Fri, 19 Sep 2025 18:08:07 +0000
-Date: Sat, 20 Sep 2025 02:07:43 +0800
+	id 1uzfws-0004h5-33;
+	Fri, 19 Sep 2025 18:35:10 +0000
+Date: Sat, 20 Sep 2025 02:34:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: hariconscious@gmail.com
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net] net/core : fix KMSAN: uninit value in tipc_rcv
-Message-ID: <aM2b79FnV-yP1ZPs@f1e5f3f3c112>
+To: Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>
+Subject: [linux-next:master 6458/11136] drivers/hwmon/gpd-fan.c:231:9: error:
+ implicit declaration of function 'outb'
+Message-ID: <202509200214.i2QX7iwD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +61,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250919180601.76152-1-hariconscious@gmail.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   846bd2225ec3cfa8be046655e02b9457ed41973e
+commit: 0ab88e2394392f475b8857ac82c0c987841217f8 [6458/11136] hwmon: add GPD devices sensor driver
+config: i386-buildonly-randconfig-004-20250920 (https://download.01.org/0day-ci/archive/20250920/202509200214.i2QX7iwD-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200214.i2QX7iwD-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509200214.i2QX7iwD-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+   drivers/hwmon/gpd-fan.c: In function 'gpd_ecram_read':
+>> drivers/hwmon/gpd-fan.c:231:9: error: implicit declaration of function 'outb' [-Werror=implicit-function-declaration]
+     231 |         outb(0x2E, addr_port);
+         |         ^~~~
+>> drivers/hwmon/gpd-fan.c:244:16: error: implicit declaration of function 'inb' [-Werror=implicit-function-declaration]
+     244 |         *val = inb(data_port);
+         |                ^~~
+   cc1: some warnings being treated as errors
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net] net/core : fix KMSAN: uninit value in tipc_rcv
-Link: https://lore.kernel.org/stable/20250919180601.76152-1-hariconscious%40gmail.com
+
+vim +/outb +231 drivers/hwmon/gpd-fan.c
+
+   224	
+   225	// Helper functions to handle EC read/write
+   226	static void gpd_ecram_read(u16 offset, u8 *val)
+   227	{
+   228		u16 addr_port = gpd_driver_priv.drvdata->addr_port;
+   229		u16 data_port = gpd_driver_priv.drvdata->data_port;
+   230	
+ > 231		outb(0x2E, addr_port);
+   232		outb(0x11, data_port);
+   233		outb(0x2F, addr_port);
+   234		outb((u8)((offset >> 8) & 0xFF), data_port);
+   235	
+   236		outb(0x2E, addr_port);
+   237		outb(0x10, data_port);
+   238		outb(0x2F, addr_port);
+   239		outb((u8)(offset & 0xFF), data_port);
+   240	
+   241		outb(0x2E, addr_port);
+   242		outb(0x12, data_port);
+   243		outb(0x2F, addr_port);
+ > 244		*val = inb(data_port);
+   245	}
+   246	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
