@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2DF1BEF7E;
-	Fri, 19 Sep 2025 01:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6524513A86C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Sep 2025 02:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758246033; cv=none; b=lTaeAL+Nc9mEo353eyt/CK70G4ypG9DekH/NXUbr62IIGLWAuaxPV9RoAkRJKAj1oFpqf5MejMRyWgtHQojRiRRnnjj5Sv6Fe8XjANRNLMVTZb2JDI7ZGs3N5uvig1cEW2lbARrSGIy4Q/D31IszsiOmXlCPfa1DJOy6bI6KyDQ=
+	t=1758247415; cv=none; b=hCRBCDxTfz6e7l2CQ2y3MSffJl1WqRNLKduP6YgLN4LOUs0ee5guXp3ekmAGjxJj1OPrR0YqISin4c/KhyLX6Q3UXfvBOHT/rqRhHLJE4RMfgi/XEzoLjmn2ZpdFVGXsryoOdOkvoT3Q4/249L/XipmDGGVhEAv8hj43wdf6xEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758246033; c=relaxed/simple;
-	bh=itbhvlGa/67NE/x0tLhEoVen0fCwr+8EnXPRMpPCprc=;
+	s=arc-20240116; t=1758247415; c=relaxed/simple;
+	bh=SW9iJ6FWV2HB8leWz/ebMmlxh2sOtTo2ft/lzT0FZZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uhm7x6xATR+hAtL4Pv2Ogu1Y4l35YgLkaUUlhxjfq49zT85fGFW3cdokN2LQql93335RGMSsIN4CWPJPLq7bK0mVjZyVK2LRVHof9g/YedFjOykTtbnZpGEbvhXJX/izQyX0kbSMQpMobUdtuXCSNX5H/Xj5o6cXKFdIBBY4NiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkY2ZNDx; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixJpYiK5iTA444QTOphbEboy2mxidca1xhIgEZephETMAl3z2wbQ0MLm+4ZbFk8FT3SxIUtHvT3ozRP/iX9Ci6Ul1bZNm51jm73jRHII9OldJ1u4ABBgUVfXCKiF7o1kGURwDm8gFCtC/4+iqBnh+8FR8mpIV/SDgut9uT7zCr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QUkG0XN5; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkY2ZNDx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QUkG0XN5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758246032; x=1789782032;
+  t=1758247412; x=1789783412;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=itbhvlGa/67NE/x0tLhEoVen0fCwr+8EnXPRMpPCprc=;
-  b=fkY2ZNDxyx5pgjoZj3NO2XqMHN83IT7Jpfq3svVAhcX1MExqVJivxWu6
-   ylNO+Pa1tmJrpI3b4WL0NNnAv2gBVE1hNRxJhQ9EHhOexVFl6XnRkGKOD
-   /7hxVgmO/CCAyRzJfHaJLwXQhi8kuEDFkwunptk8c70WX1IFdD0XM5cPq
-   8VQ+Gx97rVsaPftz6Q8I2GPwS3W+HB4prSZMPuJmSMMgSHHZAfRXz/g2z
-   OC3tje23tGNqXHDIY0VXY3aX6tWU5729MKWHy1c0KrCIedaHM+p6oBgBt
-   1WHJpaXUsTc9GsXmaK1L1Mzn6H/xaKC7KfrgPeoxNWLciYuF2BcCxYbr1
-   w==;
-X-CSE-ConnectionGUID: hGLCZCxFQ9CVpTOklPkMVg==
-X-CSE-MsgGUID: AZ7i3NbFQym6FnaJGBnqvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="64410828"
+  bh=SW9iJ6FWV2HB8leWz/ebMmlxh2sOtTo2ft/lzT0FZZo=;
+  b=QUkG0XN57vHcIGaaveONPv7h5GajaNJgsqXLqb4PURNlOOJ+UbpAN7FX
+   ZnEAQOW1Sjc1g5v9H5yJrnApBCgBrLjNZQNwPiFRlwEBaG/bdBU4wCeVY
+   oiT3mHV87OE+vSk6+p3yww3lKb+j/GjnVjY3cdzFalMjb9Iv/MIJDKevA
+   0h4ixLLj2AmixwziFA6KPbK7xeSbtL9i+Rr6008URhU4TMCBwlhuPpn69
+   uhWVuL14/a4tQDstlDHuW/cgoV+Csxs4qO29vBtQLgfltSDJVzmoGMVv1
+   tnPPk9dS9WlXFF9yXyfcWRnyt5G7UK1iwM70sT/inrhlB9BM54YzjzQwD
+   A==;
+X-CSE-ConnectionGUID: Huq71tNHSI+ZVdZy0pdpuQ==
+X-CSE-MsgGUID: fVO01zEVREOLsCBE2NrxlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="83191142"
 X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
-   d="scan'208";a="64410828"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 18:40:31 -0700
-X-CSE-ConnectionGUID: 0XL0fEMrSzW+woQKr4uqsg==
-X-CSE-MsgGUID: d5JDo9e8QVGzdgMYHpuebQ==
+   d="scan'208";a="83191142"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 19:03:31 -0700
+X-CSE-ConnectionGUID: fk/s/GaxT5CdgwTbXHHemA==
+X-CSE-MsgGUID: kBFdVr2qRaCFBVrAyvnTrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,276,1751266800"; 
-   d="scan'208";a="175624749"
+   d="scan'208";a="199413734"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Sep 2025 18:40:27 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2025 19:03:30 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzQ6r-0003t5-0z;
-	Fri, 19 Sep 2025 01:40:25 +0000
-Date: Fri, 19 Sep 2025 09:40:20 +0800
+	id 1uzQTA-0003uB-1H;
+	Fri, 19 Sep 2025 02:03:28 +0000
+Date: Fri, 19 Sep 2025 10:03:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Muchun Song <muchun.song@linux.dev>, Zi Yan <ziy@nvidia.com>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	sidhartha.kumar@oracle.com, jane.chu@oracle.com,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v2 1/8] mm: page_alloc: optimize pfn_range_valid_contig()
-Message-ID: <202509190917.wgDdVYHL-lkp@intel.com>
-References: <20250918132000.1951232-2-wangkefeng.wang@huawei.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 8/8] mm: hugetlb: allocate frozen pages in
+ alloc_gigantic_folio()
+Message-ID: <202509191000.RoubFuJ8-lkp@intel.com>
+References: <20250918132000.1951232-9-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,79 +63,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250918132000.1951232-2-wangkefeng.wang@huawei.com>
+In-Reply-To: <20250918132000.1951232-9-wangkefeng.wang@huawei.com>
 
 Hi Kefeng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test ERROR on akpm-mm/mm-everything]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-page_alloc-optimize-pfn_range_valid_contig/20250918-212431
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250918132000.1951232-2-wangkefeng.wang%40huawei.com
-patch subject: [PATCH v2 1/8] mm: page_alloc: optimize pfn_range_valid_contig()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250919/202509190917.wgDdVYHL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509190917.wgDdVYHL-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250918132000.1951232-9-wangkefeng.wang%40huawei.com
+patch subject: [PATCH v2 8/8] mm: hugetlb: allocate frozen pages in alloc_gigantic_folio()
+config: riscv-randconfig-001-20250919 (https://download.01.org/0day-ci/archive/20250919/202509191000.RoubFuJ8-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250919/202509191000.RoubFuJ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509190917.wgDdVYHL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509191000.RoubFuJ8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/page_alloc.c:7033:7: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
-    7033 |                 if (folio_test_pgtable(folio) | folio_test_stack(folio))
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               ||
-   mm/page_alloc.c:7033:7: note: cast one or both operands to int to silence this warning
-   1 warning generated.
+   mm/hugetlb.c: In function 'alloc_gigantic_folio':
+>> mm/hugetlb.c:1497:26: error: implicit declaration of function 'alloc_contig_frozen_pages'; did you mean 'alloc_frozen_pages'? [-Werror=implicit-function-declaration]
+    1497 |  folio = (struct folio *)alloc_contig_frozen_pages(1 << order, gfp_mask,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                          alloc_frozen_pages
+>> mm/hugetlb.c:1497:10: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    1497 |  folio = (struct folio *)alloc_contig_frozen_pages(1 << order, gfp_mask,
+         |          ^
+   cc1: some warnings being treated as errors
 
 
-vim +7033 mm/page_alloc.c
+vim +1497 mm/hugetlb.c
 
-  7009	
-  7010	static bool pfn_range_valid_contig(struct zone *z, unsigned long start_pfn,
-  7011					   unsigned long nr_pages)
-  7012	{
-  7013		unsigned long i, end_pfn = start_pfn + nr_pages;
-  7014		struct page *page;
-  7015		struct folio *folio;
-  7016	
-  7017		for (i = start_pfn; i < end_pfn; i++) {
-  7018			page = pfn_to_online_page(i);
-  7019			if (!page)
-  7020				return false;
-  7021	
-  7022			if (page_zone(page) != z)
-  7023				return false;
-  7024	
-  7025			folio = page_folio(page);
-  7026			if (folio_test_reserved(folio))
-  7027				return false;
-  7028	
-  7029			if (folio_test_hugetlb(folio))
-  7030				return false;
-  7031	
-  7032			/* The following type of folios aren't migrated */
-> 7033			if (folio_test_pgtable(folio) | folio_test_stack(folio))
-  7034				return false;
-  7035	
-  7036			/*
-  7037			 * For compound pages such as THP and non-compound high
-  7038			 * order buddy pages, save potentially a lot of iterations
-  7039			 * if we can skip them at once.
-  7040			 */
-  7041			if (PageCompound(page))
-  7042				i += (1UL << compound_order(page)) - 1;
-  7043			else if (PageBuddy(page))
-  7044				i += (1UL << buddy_order(page)) - 1;
-  7045		}
-  7046		return true;
-  7047	}
-  7048	
+  1471	
+  1472	#define for_each_node_mask_to_alloc(next_node, nr_nodes, node, mask)		\
+  1473		for (nr_nodes = nodes_weight(*mask);				\
+  1474			nr_nodes > 0 &&						\
+  1475			((node = hstate_next_node_to_alloc(next_node, mask)) || 1);	\
+  1476			nr_nodes--)
+  1477	
+  1478	#define for_each_node_mask_to_free(hs, nr_nodes, node, mask)		\
+  1479		for (nr_nodes = nodes_weight(*mask);				\
+  1480			nr_nodes > 0 &&						\
+  1481			((node = hstate_next_node_to_free(hs, mask)) || 1);	\
+  1482			nr_nodes--)
+  1483	
+  1484	#ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+  1485	static struct folio *alloc_gigantic_folio(int order, gfp_t gfp_mask,
+  1486			int nid, nodemask_t *nodemask)
+  1487	{
+  1488		struct folio *folio;
+  1489	
+  1490		folio = hugetlb_cma_alloc_frozen_folio(order, gfp_mask, nid, nodemask);
+  1491		if (folio)
+  1492			return folio;
+  1493	
+  1494		if (hugetlb_cma_exclusive_alloc())
+  1495			return NULL;
+  1496	
+> 1497		folio = (struct folio *)alloc_contig_frozen_pages(1 << order, gfp_mask,
+  1498								  nid, nodemask);
+  1499		return folio;
+  1500	}
+  1501	#else /* !CONFIG_ARCH_HAS_GIGANTIC_PAGE */
+  1502	static struct folio *alloc_gigantic_folio(int order, gfp_t gfp_mask, int nid,
+  1503						  nodemask_t *nodemask)
+  1504	{
+  1505		return NULL;
+  1506	}
+  1507	#endif
+  1508	
 
 -- 
 0-DAY CI Kernel Test Service
