@@ -1,189 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD721CFBA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 07:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B36A34BA57
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 08:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758354935; cv=none; b=Kwk1eqbKCFl7D98Okxt8sNziYd7bCJjN6l0KNghBFJeMeOWkWX+lPAT0LGX3PGacd359aqU3Aj113H2k+7wbvETt4CG7OlftxE9jQ9oicistayD8SxHobEZ+gHOF+SS1g4zGuXbjhXb9Mgy4qzQyhACcJZaELstlhYnfB1Q4Itw=
+	t=1758356255; cv=none; b=rnUhcd8BJIXzyfUqIcE6Ei1Qe69h7tO3vp/RUoFZDvBlXZAF6AShywiaWJ2nkXLeSRxpPMnt87b/3xEJHZqRX2k+/2qafvZECCzWfkr9pI462qw8IOWKMvHnrdOYjUCZBWVZAZr6K9x374mTR1ZUxkrlgkLzd4/nt4yk7VMvKO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758354935; c=relaxed/simple;
-	bh=DXZa405/D/WyTQ1AZVXEBfnFpyEuDlPKkMIzHok8tYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iXaSPxe2ioTwAowWODF04inA6Mcyyj4ZW1gjQ+31sd5eQvXIECEKAjfZQHe43wrQwGCHNZZVBUAQlOrDHXZMKEz2dI7eCWwjwlpQQp5sWt+wDqUi6BpkwmIrCjnKL7Ibv7haofR6oAszBOi9tMpQ+WiL7Ys6Z3DDM1LmbLyL9es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7w9DKMY; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1758356255; c=relaxed/simple;
+	bh=E5k93974LBmNZTET3bQsikHEqgvXfuNW+PnHMv2pU/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zpl8ifQ0SgiwQ2iA3/u0AuvK9i3z9oRGZiDXAWUzgbfkKRZOebxfwLHcJgN5wK5uZnNwIqsTdCTYvsUHhHij1pBETqXbXUguuFJpN013xLQiWCDPY9zAMNpoptwBsalrgYXD9NzN0NaQjSFbiL198Cimo1AN/kpPR18u9BmnLlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1fZerQT; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7w9DKMY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1fZerQT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758354934; x=1789890934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=DXZa405/D/WyTQ1AZVXEBfnFpyEuDlPKkMIzHok8tYk=;
-  b=C7w9DKMYOv9X/mtOWbTfqO+QwMH0TV66WebLrxulgKze2rNhASu2g5hi
-   gu62R85m4SyjWez9bIu48HTacPJ4PGiJrNGlzPm9PQgALTSG4AUkrE59I
-   kY9upDkvzVCPKDGrlhK5fdTRIpc80MRbm6A/gbFImKS7crVbLj5q0OvVa
-   akDnpwQJnZvUBpfbxK68iZj/1iONJQwGNbFIyk3F8mw8Dsy9GVbZv+hxP
-   rqGbuLkRq0EOI8Wh0tcGZhby18CZoVq+5gMhKHFahOMWHy0CmxtCt7mnZ
-   /1gJQwI2iEvr3y/UzDoFBc4lVVtba8A1PlCAkMBIW1pFo2vypJbSsrCNq
-   g==;
-X-CSE-ConnectionGUID: 7lY97j09QQaGEFsV2B+iVg==
-X-CSE-MsgGUID: ndUxDdCkSqaXon+kmTea8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="60580800"
+  t=1758356253; x=1789892253;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E5k93974LBmNZTET3bQsikHEqgvXfuNW+PnHMv2pU/g=;
+  b=e1fZerQT0g9Y9jBIma0Mw0w5lJVYJcDjDr8ljbDdKWkJ2fURmx5r0Zex
+   i1EGpWta0sM1rYwXMgSyo533zNeSwRTJ9EcrytOGL2kPKpBvPbDds0m+0
+   +aTBwY4hcc8xc4Mee55OzlD6uDZNme2q2E/+sYo+dQ1H+PR+ZRf4JfCyB
+   /17o3wrUxlpEwxT66l49Ne9RmKwXrGPqZrXdjz+AmwpotdizXk7EMSJNX
+   swlOqHx0wYrfZtY848VMg4MhDCV6KK0UC16dKrIzZMYNLELmzwzuuUV5x
+   I7tNWaeZ4DG6iL21G5ZEi8ssbcLXuXMLySRRzjEA85Tmz4LoTJGY9gYLi
+   Q==;
+X-CSE-ConnectionGUID: Ev5h0LtPQUSmtD7uz1cm3Q==
+X-CSE-MsgGUID: JxCwXangTk6tO/JcbtE9SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71372882"
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="60580800"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 00:55:33 -0700
-X-CSE-ConnectionGUID: PVn1jTHFS/i175+SwCPBgg==
-X-CSE-MsgGUID: zjEGM9A3Rbe03T3lBS/7zQ==
+   d="scan'208";a="71372882"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 01:17:32 -0700
+X-CSE-ConnectionGUID: QBB2/zMOQLiS/Uo7cz5NEw==
+X-CSE-MsgGUID: gmIbtzZ7SyenaZN0CNWs/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="176073275"
+   d="scan'208";a="180278820"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Sep 2025 00:55:29 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Sep 2025 01:17:31 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzsRK-000595-32;
-	Sat, 20 Sep 2025 07:55:26 +0000
-Date: Sat, 20 Sep 2025 15:55:09 +0800
+	id 1uzsme-0005A2-32;
+	Sat, 20 Sep 2025 08:17:28 +0000
+Date: Sat, 20 Sep 2025 16:16:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Yang <mmyangfl@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Simon Horman <horms@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v10 2/5] net: phy: introduce
- PHY_INTERFACE_MODE_REVSGMII
-Message-ID: <202509201554.gyfdX3FT-lkp@intel.com>
-References: <20250919094234.1491638-3-mmyangfl@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:cap-analysis 6/13] fs/xfs/xfs_icache.c:573
+ xfs_iget_cache_hit() warn: inconsistent indenting
+Message-ID: <202509201602.vbE0x8ZL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250919094234.1491638-3-mmyangfl@gmail.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/dt-bindings-ethernet-phy-add-reverse-SGMII-phy-interface-type/20250919-174746
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250919094234.1491638-3-mmyangfl%40gmail.com
-patch subject: [PATCH net-next v10 2/5] net: phy: introduce PHY_INTERFACE_MODE_REVSGMII
-config: arc-randconfig-002-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201554.gyfdX3FT-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201554.gyfdX3FT-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git cap-analysis
+head:   f0fefaa266b6cdc474b78bb5842ee7959505e166
+commit: aca1df6ebcad2b6bf881309f22b69dbb0eb72012 [6/13] xfs: move some code out of xfs_iget_recycle
+config: i386-randconfig-141-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201602.vbE0x8ZL-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509201554.gyfdX3FT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509201602.vbE0x8ZL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/xfs/xfs_icache.c:573 xfs_iget_cache_hit() warn: inconsistent indenting
 
-   drivers/net/phy/phy-core.c: In function 'phy_interface_num_ports':
->> drivers/net/phy/phy-core.c:113:2: warning: enumeration value 'PHY_INTERFACE_MODE_REVSGMII' not handled in switch [-Wswitch]
-     113 |  switch (interface) {
-         |  ^~~~~~
---
-   drivers/net/phy/phylink.c: In function 'phylink_interface_max_speed':
->> drivers/net/phy/phylink.c:235:2: warning: enumeration value 'PHY_INTERFACE_MODE_REVSGMII' not handled in switch [-Wswitch]
-     235 |  switch (interface) {
-         |  ^~~~~~
-   during RTL pass: mach
-   drivers/net/phy/phylink.c: In function 'phylink_pcs_neg_mode':
-   drivers/net/phy/phylink.c:1228:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9352
-    1228 | }
-         | ^
-   Please submit a full bug report,
-   with preprocessed source if appropriate.
-   See <https://gcc.gnu.org/bugs/> for instructions.
---
-   drivers/net/phy/phy_caps.c: In function 'phy_caps_from_interface':
->> drivers/net/phy/phy_caps.c:286:2: warning: enumeration value 'PHY_INTERFACE_MODE_REVSGMII' not handled in switch [-Wswitch]
-     286 |  switch (interface) {
-         |  ^~~~~~
+Old smatch warnings:
+fs/xfs/xfs_icache.c:579 xfs_iget_cache_hit() warn: missing unwind goto?
 
+vim +573 fs/xfs/xfs_icache.c
 
-vim +/PHY_INTERFACE_MODE_REVSGMII +113 drivers/net/phy/phy-core.c
-
-0c3e10cb442328 Sean Anderson     2022-09-20  103  
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  104  /**
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  105   * phy_interface_num_ports - Return the number of links that can be carried by
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  106   *			     a given MAC-PHY physical link. Returns 0 if this is
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  107   *			     unknown, the number of links else.
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  108   *
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  109   * @interface: The interface mode we want to get the number of ports
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  110   */
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  111  int phy_interface_num_ports(phy_interface_t interface)
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  112  {
-c04ade27cb7b95 Maxime Chevallier 2022-08-17 @113  	switch (interface) {
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  114  	case PHY_INTERFACE_MODE_NA:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  115  		return 0;
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  116  	case PHY_INTERFACE_MODE_INTERNAL:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  117  	case PHY_INTERFACE_MODE_MII:
-67c0170566b55b Kamil Horák - 2N  2025-07-08  118  	case PHY_INTERFACE_MODE_MIILITE:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  119  	case PHY_INTERFACE_MODE_GMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  120  	case PHY_INTERFACE_MODE_TBI:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  121  	case PHY_INTERFACE_MODE_REVMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  122  	case PHY_INTERFACE_MODE_RMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  123  	case PHY_INTERFACE_MODE_REVRMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  124  	case PHY_INTERFACE_MODE_RGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  125  	case PHY_INTERFACE_MODE_RGMII_ID:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  126  	case PHY_INTERFACE_MODE_RGMII_RXID:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  127  	case PHY_INTERFACE_MODE_RGMII_TXID:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  128  	case PHY_INTERFACE_MODE_RTBI:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  129  	case PHY_INTERFACE_MODE_XGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  130  	case PHY_INTERFACE_MODE_XLGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  131  	case PHY_INTERFACE_MODE_MOCA:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  132  	case PHY_INTERFACE_MODE_TRGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  133  	case PHY_INTERFACE_MODE_USXGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  134  	case PHY_INTERFACE_MODE_SGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  135  	case PHY_INTERFACE_MODE_SMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  136  	case PHY_INTERFACE_MODE_1000BASEX:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  137  	case PHY_INTERFACE_MODE_2500BASEX:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  138  	case PHY_INTERFACE_MODE_5GBASER:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  139  	case PHY_INTERFACE_MODE_10GBASER:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  140  	case PHY_INTERFACE_MODE_25GBASER:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  141  	case PHY_INTERFACE_MODE_10GKR:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  142  	case PHY_INTERFACE_MODE_100BASEX:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  143  	case PHY_INTERFACE_MODE_RXAUI:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  144  	case PHY_INTERFACE_MODE_XAUI:
-05ad5d4581c3c1 Sean Anderson     2022-09-02  145  	case PHY_INTERFACE_MODE_1000BASEKX:
-bbb7d478d91ac4 Alexander Duyck   2025-06-18  146  	case PHY_INTERFACE_MODE_50GBASER:
-bbb7d478d91ac4 Alexander Duyck   2025-06-18  147  	case PHY_INTERFACE_MODE_LAUI:
-bbb7d478d91ac4 Alexander Duyck   2025-06-18  148  	case PHY_INTERFACE_MODE_100GBASEP:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  149  		return 1;
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  150  	case PHY_INTERFACE_MODE_QSGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  151  	case PHY_INTERFACE_MODE_QUSGMII:
-777b8afb817915 Vladimir Oltean   2024-06-15  152  	case PHY_INTERFACE_MODE_10G_QXGMII:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  153  		return 4;
-83b5f0253b1ef3 Gabor Juhos       2023-08-11  154  	case PHY_INTERFACE_MODE_PSGMII:
-83b5f0253b1ef3 Gabor Juhos       2023-08-11  155  		return 5;
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  156  	case PHY_INTERFACE_MODE_MAX:
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  157  		WARN_ONCE(1, "PHY_INTERFACE_MODE_MAX isn't a valid interface mode");
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  158  		return 0;
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  159  	}
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  160  	return 0;
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  161  }
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  162  EXPORT_SYMBOL_GPL(phy_interface_num_ports);
-c04ade27cb7b95 Maxime Chevallier 2022-08-17  163  
+   493	
+   494	/*
+   495	 * Check the validity of the inode we just found it the cache
+   496	 */
+   497	static int
+   498	xfs_iget_cache_hit(
+   499		struct xfs_perag	*pag,
+   500		struct xfs_inode	*ip,
+   501		xfs_ino_t		ino,
+   502		int			flags,
+   503		int			lock_flags) __releases(RCU)
+   504	{
+   505		struct inode		*inode = VFS_I(ip);
+   506		struct xfs_mount	*mp = ip->i_mount;
+   507		int			error;
+   508	
+   509		/*
+   510		 * check for re-use of an inode within an RCU grace period due to the
+   511		 * radix tree nodes not being updated yet. We monitor for this by
+   512		 * setting the inode number to zero before freeing the inode structure.
+   513		 * If the inode has been reallocated and set up, then the inode number
+   514		 * will not match, so check for that, too.
+   515		 */
+   516		spin_lock(&ip->i_flags_lock);
+   517		if (ip->i_ino != ino)
+   518			goto out_skip;
+   519	
+   520		/*
+   521		 * If we are racing with another cache hit that is currently
+   522		 * instantiating this inode or currently recycling it out of
+   523		 * reclaimable state, wait for the initialisation to complete
+   524		 * before continuing.
+   525		 *
+   526		 * If we're racing with the inactivation worker we also want to wait.
+   527		 * If we're creating a new file, it's possible that the worker
+   528		 * previously marked the inode as free on disk but hasn't finished
+   529		 * updating the incore state yet.  The AGI buffer will be dirty and
+   530		 * locked to the icreate transaction, so a synchronous push of the
+   531		 * inodegc workers would result in deadlock.  For a regular iget, the
+   532		 * worker is running already, so we might as well wait.
+   533		 *
+   534		 * XXX(hch): eventually we should do something equivalent to
+   535		 *	     wait_on_inode to wait for these flags to be cleared
+   536		 *	     instead of polling for it.
+   537		 */
+   538		if (ip->i_flags & (XFS_INEW | XFS_IRECLAIM | XFS_INACTIVATING))
+   539			goto out_skip;
+   540	
+   541		if (ip->i_flags & XFS_NEED_INACTIVE) {
+   542			/* Unlinked inodes cannot be re-grabbed. */
+   543			if (VFS_I(ip)->i_nlink == 0) {
+   544				error = -ENOENT;
+   545				goto out_error;
+   546			}
+   547			goto out_inodegc_flush;
+   548		}
+   549	
+   550		/*
+   551		 * Check the inode free state is valid. This also detects lookup
+   552		 * racing with unlinks.
+   553		 */
+   554		error = xfs_iget_check_free_state(ip, flags);
+   555		if (error)
+   556			goto out_error;
+   557	
+   558		/* Skip inodes that have no vfs state. */
+   559		if ((flags & XFS_IGET_INCORE) &&
+   560		    (ip->i_flags & XFS_IRECLAIMABLE))
+   561			goto out_skip;
+   562	
+   563		/* The inode fits the selection criteria; process it. */
+   564		if (ip->i_flags & XFS_IRECLAIMABLE) {
+   565			/*
+   566			 * We need to make it look like the inode is being reclaimed to
+   567			 * prevent the actual reclaim workers from stomping over us
+   568			 * while we recycle the inode.  We can't clear the radix tree
+   569			 * tag yet as it requires pag_ici_lock to be held exclusive.
+   570			 */
+   571			 if (!xfs_ilock_nowait(ip, XFS_ILOCK_EXCL))
+   572				 goto out_skip;
+ > 573			ip->i_flags |= XFS_IRECLAIM;
+   574			spin_unlock(&ip->i_flags_lock);
+   575			rcu_read_unlock();
+   576	
+   577			error = xfs_iget_recycle(pag, ip);
+   578			if (error)
+   579				return error;
+   580		} else {
+   581			/* If the VFS inode is being torn down, pause and try again. */
+   582			if (!igrab(inode))
+   583				goto out_skip;
+   584	
+   585			/* We've got a live one. */
+   586			spin_unlock(&ip->i_flags_lock);
+   587			rcu_read_unlock();
+   588			trace_xfs_iget_hit(ip);
+   589		}
+   590	
+   591		if (lock_flags != 0)
+   592			xfs_ilock(ip, lock_flags);
+   593	
+   594		if (!(flags & XFS_IGET_INCORE))
+   595			xfs_iflags_clear(ip, XFS_ISTALE);
+   596		XFS_STATS_INC(mp, xs_ig_found);
+   597	
+   598		return 0;
+   599	
+   600	out_skip:
+   601		trace_xfs_iget_skip(ip);
+   602		XFS_STATS_INC(mp, xs_ig_frecycle);
+   603		error = -EAGAIN;
+   604	out_error:
+   605		spin_unlock(&ip->i_flags_lock);
+   606		rcu_read_unlock();
+   607		return error;
+   608	
+   609	out_inodegc_flush:
+   610		spin_unlock(&ip->i_flags_lock);
+   611		rcu_read_unlock();
+   612		/*
+   613		 * Do not wait for the workers, because the caller could hold an AGI
+   614		 * buffer lock.  We're just going to sleep in a loop anyway.
+   615		 */
+   616		if (xfs_is_inodegc_enabled(mp))
+   617			xfs_inodegc_queue_all(mp);
+   618		return -EAGAIN;
+   619	}
+   620	
 
 -- 
 0-DAY CI Kernel Test Service
