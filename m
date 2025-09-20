@@ -1,135 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBBF1F4621;
-	Sat, 20 Sep 2025 07:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD721CFBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 07:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758354214; cv=none; b=QTBZiWihHp9K8nkiY0aqJ2d6oqpSR7wRv+mNOrcPsBLLX22Beh/rhksKjqU+fas/msNv+WBUycGBYKdGvMHUTQgxWk9kUgQKQCqEpZj1fjlaKM56gS8pouPhQyaCN4gZ8S/I19OrtXeTkXdI2Xh1efQ0na41RFqtBpymE/pf5RI=
+	t=1758354935; cv=none; b=Kwk1eqbKCFl7D98Okxt8sNziYd7bCJjN6l0KNghBFJeMeOWkWX+lPAT0LGX3PGacd359aqU3Aj113H2k+7wbvETt4CG7OlftxE9jQ9oicistayD8SxHobEZ+gHOF+SS1g4zGuXbjhXb9Mgy4qzQyhACcJZaELstlhYnfB1Q4Itw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758354214; c=relaxed/simple;
-	bh=kEwh/ekCl/otnpe61Q+7M++Qui9Q62NvcImp583uS/s=;
+	s=arc-20240116; t=1758354935; c=relaxed/simple;
+	bh=DXZa405/D/WyTQ1AZVXEBfnFpyEuDlPKkMIzHok8tYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIQWsGYgHRQ0jTQ9x03pi1DFAFYa5F00eMHAulePLw0dgp8VGyfRIdFPNWfAiU824y2sgQVgbH+TNFpCWqSrpHe+IWAiqYU9iDhxrvJjIaRM6TLEInBRRqBa5gs5OOSbwvuygsXSNh8x00O93ePbgMnaGWd8xrlicyTFasYg2oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9UA6nkz; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=iXaSPxe2ioTwAowWODF04inA6Mcyyj4ZW1gjQ+31sd5eQvXIECEKAjfZQHe43wrQwGCHNZZVBUAQlOrDHXZMKEz2dI7eCWwjwlpQQp5sWt+wDqUi6BpkwmIrCjnKL7Ibv7haofR6oAszBOi9tMpQ+WiL7Ys6Z3DDM1LmbLyL9es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7w9DKMY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9UA6nkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7w9DKMY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758354213; x=1789890213;
+  t=1758354934; x=1789890934;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kEwh/ekCl/otnpe61Q+7M++Qui9Q62NvcImp583uS/s=;
-  b=f9UA6nkzE5xE0ibrfRk/qti7srvCUO8aQPu3q3SvhkLMuhtWWNiTs0dK
-   /hy1lhaneU9DtdYqBwNCfPNFtYo4IgHyFs3OWnSUEls+HXVAmmLQVLZ+T
-   aeOJewzhms9ACi0jm/DxZp059nxqKhggC0XOjL9kBO4j9m+/Z3EBKlvkS
-   6CIM7UE0126PGmP7ZLFUgEMn/6Tazl8en7egNZ+rphv+SvWtxdkfOIZyX
-   VZoiFt81cyHF0vBm4rz2A3N/Ikg+pcQqn9Z3/ZV7CdCjQAdJpWB63ZJEP
-   WmdeIdwhJq4w976FcJRomwaGrRjuDpQt9UUPSaOXl7OMH4q4Og0Er+c+v
-   w==;
-X-CSE-ConnectionGUID: ZXC5tl3ORlWW3A4E4NytIA==
-X-CSE-MsgGUID: kLWhAQxORgOvQQna8S7ktg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71798362"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=DXZa405/D/WyTQ1AZVXEBfnFpyEuDlPKkMIzHok8tYk=;
+  b=C7w9DKMYOv9X/mtOWbTfqO+QwMH0TV66WebLrxulgKze2rNhASu2g5hi
+   gu62R85m4SyjWez9bIu48HTacPJ4PGiJrNGlzPm9PQgALTSG4AUkrE59I
+   kY9upDkvzVCPKDGrlhK5fdTRIpc80MRbm6A/gbFImKS7crVbLj5q0OvVa
+   akDnpwQJnZvUBpfbxK68iZj/1iONJQwGNbFIyk3F8mw8Dsy9GVbZv+hxP
+   rqGbuLkRq0EOI8Wh0tcGZhby18CZoVq+5gMhKHFahOMWHy0CmxtCt7mnZ
+   /1gJQwI2iEvr3y/UzDoFBc4lVVtba8A1PlCAkMBIW1pFo2vypJbSsrCNq
+   g==;
+X-CSE-ConnectionGUID: 7lY97j09QQaGEFsV2B+iVg==
+X-CSE-MsgGUID: ndUxDdCkSqaXon+kmTea8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="60580800"
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="71798362"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 00:43:33 -0700
-X-CSE-ConnectionGUID: XhG2d+HRTmeSVCMqd9nXog==
-X-CSE-MsgGUID: YTridhCOTma5012IF8a9Lw==
+   d="scan'208";a="60580800"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 00:55:33 -0700
+X-CSE-ConnectionGUID: PVn1jTHFS/i175+SwCPBgg==
+X-CSE-MsgGUID: zjEGM9A3Rbe03T3lBS/7zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="206968748"
+   d="scan'208";a="176073275"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Sep 2025 00:43:27 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 Sep 2025 00:55:29 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzsFh-00058h-0d;
-	Sat, 20 Sep 2025 07:43:25 +0000
-Date: Sat, 20 Sep 2025 15:43:18 +0800
+	id 1uzsRK-000595-32;
+	Sat, 20 Sep 2025 07:55:26 +0000
+Date: Sat, 20 Sep 2025 15:55:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, hannes@cmpxchg.org,
-	hughd@google.com, mhocko@suse.com, roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev, muchun.song@linux.dev, david@redhat.com,
-	lorenzo.stoakes@oracle.com, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, lance.yang@linux.dev, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH 4/4] mm: thp: reparent the split queue during memcg
- offline
-Message-ID: <202509201556.QAvYX4v3-lkp@intel.com>
-References: <bbe3bf8bfce081fdf0815481b2a0c83b89b095b8.1758253018.git.zhengqi.arch@bytedance.com>
+To: David Yang <mmyangfl@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Simon Horman <horms@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v10 2/5] net: phy: introduce
+ PHY_INTERFACE_MODE_REVSGMII
+Message-ID: <202509201554.gyfdX3FT-lkp@intel.com>
+References: <20250919094234.1491638-3-mmyangfl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <bbe3bf8bfce081fdf0815481b2a0c83b89b095b8.1758253018.git.zhengqi.arch@bytedance.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250919094234.1491638-3-mmyangfl@gmail.com>
 
-Hi Qi,
+Hi David,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20250918]
-[also build test ERROR on v6.17-rc6]
-[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next rppt-memblock/fixes linus/master v6.17-rc6 v6.17-rc5 v6.17-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-thp-replace-folio_memcg-with-folio_memcg_charged/20250919-115219
-base:   next-20250918
-patch link:    https://lore.kernel.org/r/bbe3bf8bfce081fdf0815481b2a0c83b89b095b8.1758253018.git.zhengqi.arch%40bytedance.com
-patch subject: [PATCH 4/4] mm: thp: reparent the split queue during memcg offline
-config: x86_64-randconfig-004-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201556.QAvYX4v3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201556.QAvYX4v3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/dt-bindings-ethernet-phy-add-reverse-SGMII-phy-interface-type/20250919-174746
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250919094234.1491638-3-mmyangfl%40gmail.com
+patch subject: [PATCH net-next v10 2/5] net: phy: introduce PHY_INTERFACE_MODE_REVSGMII
+config: arc-randconfig-002-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201554.gyfdX3FT-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201554.gyfdX3FT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509201556.QAvYX4v3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509201554.gyfdX3FT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/memcontrol.c:3890:2: error: call to undeclared function 'reparent_deferred_split_queue'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3890 |         reparent_deferred_split_queue(memcg);
-         |         ^
-   1 error generated.
+   drivers/net/phy/phy-core.c: In function 'phy_interface_num_ports':
+>> drivers/net/phy/phy-core.c:113:2: warning: enumeration value 'PHY_INTERFACE_MODE_REVSGMII' not handled in switch [-Wswitch]
+     113 |  switch (interface) {
+         |  ^~~~~~
+--
+   drivers/net/phy/phylink.c: In function 'phylink_interface_max_speed':
+>> drivers/net/phy/phylink.c:235:2: warning: enumeration value 'PHY_INTERFACE_MODE_REVSGMII' not handled in switch [-Wswitch]
+     235 |  switch (interface) {
+         |  ^~~~~~
+   during RTL pass: mach
+   drivers/net/phy/phylink.c: In function 'phylink_pcs_neg_mode':
+   drivers/net/phy/phylink.c:1228:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9352
+    1228 | }
+         | ^
+   Please submit a full bug report,
+   with preprocessed source if appropriate.
+   See <https://gcc.gnu.org/bugs/> for instructions.
+--
+   drivers/net/phy/phy_caps.c: In function 'phy_caps_from_interface':
+>> drivers/net/phy/phy_caps.c:286:2: warning: enumeration value 'PHY_INTERFACE_MODE_REVSGMII' not handled in switch [-Wswitch]
+     286 |  switch (interface) {
+         |  ^~~~~~
 
 
-vim +/reparent_deferred_split_queue +3890 mm/memcontrol.c
+vim +/PHY_INTERFACE_MODE_REVSGMII +113 drivers/net/phy/phy-core.c
 
-  3877	
-  3878	static void mem_cgroup_css_offline(struct cgroup_subsys_state *css)
-  3879	{
-  3880		struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-  3881	
-  3882		memcg1_css_offline(memcg);
-  3883	
-  3884		page_counter_set_min(&memcg->memory, 0);
-  3885		page_counter_set_low(&memcg->memory, 0);
-  3886	
-  3887		zswap_memcg_offline_cleanup(memcg);
-  3888	
-  3889		memcg_offline_kmem(memcg);
-> 3890		reparent_deferred_split_queue(memcg);
-  3891		reparent_shrinker_deferred(memcg);
-  3892		wb_memcg_offline(memcg);
-  3893		lru_gen_offline_memcg(memcg);
-  3894	
-  3895		drain_all_stock(memcg);
-  3896	
-  3897		mem_cgroup_id_put(memcg);
-  3898	}
-  3899	
+0c3e10cb442328 Sean Anderson     2022-09-20  103  
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  104  /**
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  105   * phy_interface_num_ports - Return the number of links that can be carried by
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  106   *			     a given MAC-PHY physical link. Returns 0 if this is
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  107   *			     unknown, the number of links else.
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  108   *
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  109   * @interface: The interface mode we want to get the number of ports
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  110   */
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  111  int phy_interface_num_ports(phy_interface_t interface)
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  112  {
+c04ade27cb7b95 Maxime Chevallier 2022-08-17 @113  	switch (interface) {
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  114  	case PHY_INTERFACE_MODE_NA:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  115  		return 0;
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  116  	case PHY_INTERFACE_MODE_INTERNAL:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  117  	case PHY_INTERFACE_MODE_MII:
+67c0170566b55b Kamil Horák - 2N  2025-07-08  118  	case PHY_INTERFACE_MODE_MIILITE:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  119  	case PHY_INTERFACE_MODE_GMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  120  	case PHY_INTERFACE_MODE_TBI:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  121  	case PHY_INTERFACE_MODE_REVMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  122  	case PHY_INTERFACE_MODE_RMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  123  	case PHY_INTERFACE_MODE_REVRMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  124  	case PHY_INTERFACE_MODE_RGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  125  	case PHY_INTERFACE_MODE_RGMII_ID:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  126  	case PHY_INTERFACE_MODE_RGMII_RXID:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  127  	case PHY_INTERFACE_MODE_RGMII_TXID:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  128  	case PHY_INTERFACE_MODE_RTBI:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  129  	case PHY_INTERFACE_MODE_XGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  130  	case PHY_INTERFACE_MODE_XLGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  131  	case PHY_INTERFACE_MODE_MOCA:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  132  	case PHY_INTERFACE_MODE_TRGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  133  	case PHY_INTERFACE_MODE_USXGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  134  	case PHY_INTERFACE_MODE_SGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  135  	case PHY_INTERFACE_MODE_SMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  136  	case PHY_INTERFACE_MODE_1000BASEX:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  137  	case PHY_INTERFACE_MODE_2500BASEX:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  138  	case PHY_INTERFACE_MODE_5GBASER:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  139  	case PHY_INTERFACE_MODE_10GBASER:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  140  	case PHY_INTERFACE_MODE_25GBASER:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  141  	case PHY_INTERFACE_MODE_10GKR:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  142  	case PHY_INTERFACE_MODE_100BASEX:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  143  	case PHY_INTERFACE_MODE_RXAUI:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  144  	case PHY_INTERFACE_MODE_XAUI:
+05ad5d4581c3c1 Sean Anderson     2022-09-02  145  	case PHY_INTERFACE_MODE_1000BASEKX:
+bbb7d478d91ac4 Alexander Duyck   2025-06-18  146  	case PHY_INTERFACE_MODE_50GBASER:
+bbb7d478d91ac4 Alexander Duyck   2025-06-18  147  	case PHY_INTERFACE_MODE_LAUI:
+bbb7d478d91ac4 Alexander Duyck   2025-06-18  148  	case PHY_INTERFACE_MODE_100GBASEP:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  149  		return 1;
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  150  	case PHY_INTERFACE_MODE_QSGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  151  	case PHY_INTERFACE_MODE_QUSGMII:
+777b8afb817915 Vladimir Oltean   2024-06-15  152  	case PHY_INTERFACE_MODE_10G_QXGMII:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  153  		return 4;
+83b5f0253b1ef3 Gabor Juhos       2023-08-11  154  	case PHY_INTERFACE_MODE_PSGMII:
+83b5f0253b1ef3 Gabor Juhos       2023-08-11  155  		return 5;
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  156  	case PHY_INTERFACE_MODE_MAX:
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  157  		WARN_ONCE(1, "PHY_INTERFACE_MODE_MAX isn't a valid interface mode");
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  158  		return 0;
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  159  	}
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  160  	return 0;
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  161  }
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  162  EXPORT_SYMBOL_GPL(phy_interface_num_ports);
+c04ade27cb7b95 Maxime Chevallier 2022-08-17  163  
 
 -- 
 0-DAY CI Kernel Test Service
