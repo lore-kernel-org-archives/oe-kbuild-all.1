@@ -1,211 +1,390 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409A4158874
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 00:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758328349; cv=fail; b=MAEoizdiTBHH589WvslMp/YQllhSZ3fJHQsAPgGrJ7BPlc28ZPfShabdfJO/rcnOrpQmmhAswzP+eUqEra4PnjnihSmQIUV5msF9FFuU/g4W2bZKDbtOoGb2rclWCNaL7ffndhYRy4fhNIdQaBnGkBYKNVqbM9jB3Q6nEcsYybc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758328349; c=relaxed/simple;
-	bh=3PdSprtxnCZ80Nlh63fGaUDXOnKQS/gRlpZjhB8XLHM=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=esgCYIPMItM050JefUIjhfNLvd06fbKeAb2GRF4L44qgO0i8UbT5uAvpNyJxNUAYphBREGuxFTcx0f/s+07uH1XRl+xisFIXfRir2uzuZTXPJmXhOGURetjdnxeIyMUNb1PDP4X5Jx7DDGsjwp99toSdetFH91YFfSeNEAwz3ms=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cexc88mC; arc=fail smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88BFA55
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 00:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758329215; cv=none; b=j83dJ4wwE5jtApaJhF/ZPClz0Dv2WHdwv/FobWBq4mrDYDLsGVZ7ECd8p+NQ0xsG0rlnTvps8QW8AG7GiJF3iemkoNtXLAe6oxr4+QrLnqV9oJNxd/ZFAFJPHHzfBNcsDdWs45EMIlPw78nkhsR3GR5bBHK4AP8aatzCT4x/q1U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758329215; c=relaxed/simple;
+	bh=IZK4QCUIsmSsq8uucHTLaXbe91586eFSYBj7chNzAMA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mNacdmGKjYKKcR/r0iKtRevjgCsjIn98/IAzrJMPjPhD66DaPEBXma8CkZ0WOXuXEdOj61lWwcACGmzwTfzeh9/tPHsi2BvKWNoFWruJhTlvCx2YYQfLy6Uam0SYQqs2jy94PPgBxhuMUbT+WcRTB/QVybgwGN8zLBYfKPRLMLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUvf98IH; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cexc88mC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUvf98IH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758328349; x=1789864349;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3PdSprtxnCZ80Nlh63fGaUDXOnKQS/gRlpZjhB8XLHM=;
-  b=cexc88mC+R09aEbkx20qg6nRUEkUXFCUJ34MBT3vdW3TUD1OF0LZRium
-   E9PBNVZ1i+pclN/prJ7eBMu9tbXTjZv0aDdT48ff1CBR2ET45Dc6SvPT6
-   qZiFwXXXYMcWuhoygm7LQEIVQ1MjxgGMTSLOLyA90pyT0ZTFjwuNjWokr
-   59vBIiVGqSxLzWSj1C3eNhGjNKrfHL+CI7mBrqSPvidM+w/IsSavyJUAV
-   IAkmHOyePFMX7BLdKCNxt9AVNkDPvyx8Ot40msJIfEmTNpZs9gGyNE5gs
-   r/zZRxOkjyGyOjCKR9m8JhEBTS3mZqQ/zeBSHJEtv67OZm1O0rzpkNZ+M
-   Q==;
-X-CSE-ConnectionGUID: O7YO4WbxS9uJ/zelHijFuw==
-X-CSE-MsgGUID: 1TLCDLJ0Ta6mpN5NS0oOoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71784450"
+  t=1758329212; x=1789865212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IZK4QCUIsmSsq8uucHTLaXbe91586eFSYBj7chNzAMA=;
+  b=bUvf98IHZ1WyGSygboeY8b2y0p1trooOvSXR02PpdQRWjdezNRMCnehH
+   deVUEP60NAScAezSZjMgOGXg3SAW5ErsYLSjMwkvYSF+o++mO8ehibxG2
+   OgewJ4osFn2tMIQLYQ18i5j0pMLXVG3Og6OwhqAwvCoMWmRK8ot/7I6oE
+   8m2Vt6b2P6MA10G0uqErN3KGJGctofTJBsn3bg3jhfID2/Dy8lUU8TaiP
+   aWU1lVumTmwnGDP+8EKJELbrTThy3XaPIoXXKMU5gAumXnjFmOxhgBzWY
+   IwQdpcUvLY1pVNEI3hDDJ7M0N5OEmtROo4kWFjzoXebiixHrzxdBH21/H
+   A==;
+X-CSE-ConnectionGUID: Gb1fXB1hQ3WXJ9XbFp2a8w==
+X-CSE-MsgGUID: fFvjEi3CS4qb0cclKzm0+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71784983"
 X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="71784450"
+   d="scan'208";a="71784983"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 17:32:28 -0700
-X-CSE-ConnectionGUID: meUH+OT0QbKYiSeSBcHtEA==
-X-CSE-MsgGUID: TX4jLEpBTyWrN6SdVFQJQQ==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 17:46:52 -0700
+X-CSE-ConnectionGUID: WoInC2IWSW6olGkG7QTKqg==
+X-CSE-MsgGUID: A9mArTNKQlujZhm4auirVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="181221388"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 17:32:27 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 19 Sep 2025 17:32:26 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Fri, 19 Sep 2025 17:32:26 -0700
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.60) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 19 Sep 2025 17:32:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZOjHnBo7GunvwdFrPX4JPhN5H8McepZ7MMyvEk+1hxiG/fAxr61OpPGLBAE321n5ED93ZlEigR4SWwNuvYIIqbJSPSUdDg3QMLAs8nGjXHyderKDNjmvtNqUiXo3ETtcVprZbi0CkaLnbm3ofAm+9wpldpwl9KbvZO8+3/0QzgLbwq3OILm4m2gaiodHMfAWNn3sIewnhYadNQS4ycRm1PZTjJG/OWIE0THN/4FaGdLue136nSZTPcuHv7KLbDOY1sd/tKivw3/nRpvWN4qj82MZ0DAH/AAZfARRf71PtgxE6mXOgLgHpkYn8KxaFHd+nn2CwJYkDd3KgNbqAiQ9VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JBAKm8QnjnZdqLQKJp6Vg4lokplfCp8eSjkosKAwjNI=;
- b=Ep+iYTBHh9J+VORAU6zrlAYYcQUu8IXiofO5/JJT35EjmCIFe5+YBb9M2TYFXtsdQ+ALDtcgLrEoNMKkq+AGW7FJmTbeSogWoawZy7dGnui8i0wBRqONJhAi/Nsb+YqASm+YHNWLiFUvEV9aUwC2iCGStjitFkcwr4QIrEmS7BFiqRLizCzBdDN9yMf9g4ROvDpgtG7RHc1VnzFY0nRXJkj/p5oxbPTNETQVQDFmziYVHU3qWrNCqc0HNYfhA3mBmhsSBPy0YVyS2c9m8C/sXL1k5oHSZAGhOmsrTU7diXUQvQNfPErjOUjmO16+PJOJRbmzxipaLRa8/NfIUJBUgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
- by MN2PR11MB4759.namprd11.prod.outlook.com (2603:10b6:208:26a::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.14; Sat, 20 Sep
- 2025 00:32:24 +0000
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a%4]) with mapi id 15.20.9137.015; Sat, 20 Sep 2025
- 00:32:24 +0000
-Date: Sat, 20 Sep 2025 08:32:16 +0800
+   d="scan'208";a="181223585"
+Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 19 Sep 2025 17:46:48 -0700
+Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uzlkT-0004vr-3D;
+	Sat, 20 Sep 2025 00:46:46 +0000
+Date: Sat, 20 Sep 2025 08:46:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-CC: <oe-kbuild-all@lists.linux.dev>, Huacai Chen <chenhuacai@kernel.org>
-Subject: [linux-next:master 10249/11136] fs/dcache.o: warning: objtool:
- vfs_pressure_ratio+0x44: stack state mismatch: cfa1=3+0 cfa2=3+16
-Message-ID: <aM32EC2Ifz0IsBCL@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
- To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Dylan Hatch <dylanbhatch@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Fanqin Cui <cuifq1@chinatelecom.cn>
+Subject: Re: [PATCH 2/2] arch: arm64: Reject modules with internal
+ alternative callbacks
+Message-ID: <202509200821.Qy7LYrJP-lkp@intel.com>
+References: <20250919122321.946462-3-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|MN2PR11MB4759:EE_
-X-MS-Office365-Filtering-Correlation-Id: da58c2f6-3b3d-4243-6395-08ddf7dd2b4f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GILVevrz8/fThQHMpvT7lUjYpmZuZLj/FACBsV6uim1/IaN/0GfP1LxcsncY?=
- =?us-ascii?Q?mHKlXaokMjhhWGISrzMrzS6MLb62TTJTQ1YUGdn1/3PnOIjrfkXTD/jJ7lTz?=
- =?us-ascii?Q?BCuP/sUtCstTF6nnHc2JkTSxozqaoU1J7qRd2gvcq7OpjSjH55ZIPygnDVtt?=
- =?us-ascii?Q?ZAMbpkJNFl5cEZvPFH6xTg//LcLU7ntiq3IzsBS3y1pKO4pbfntCpqaeAssW?=
- =?us-ascii?Q?ICggd9CgUWZWJO1NeKA/ROKcPWd3Sy6e2XYEwvr6S9BNfrwudavOc2rZHBwJ?=
- =?us-ascii?Q?raarmjzcfNxaQJdUcnVlCxhhzqqt/juE0Vhqw59C7CqRG0zM3iD+VZC99juS?=
- =?us-ascii?Q?L+kQDn/ZH2RqGLA41Fg6vZEyTWgrYksgGbzlc+GfgM/n7js1jUehYNAuRwEN?=
- =?us-ascii?Q?dOQH3uFYabQR2X+zd7HLjTyT+LGjQK3tjpwHA5kAUySzt5Wfue26YyXrBUbO?=
- =?us-ascii?Q?BNHsRDLfXiWt1WeMpX2J0bZ1ixpy3gE+v1DcSF7v3AK36dkWuhS20i4hggk+?=
- =?us-ascii?Q?Ji1Nr30wgPsn1SDLmx6X31OE7EjrgZ/jt10bu/NDxa75yO4v0qyc2MD+V0O/?=
- =?us-ascii?Q?TPo/6TeD9n5ocGQ3xwmQzvOCPaBiszw3GifseZQ7QEiUI0NET/tCcsPaQgj9?=
- =?us-ascii?Q?kpMjJDQSnPl5mr44fc7eT+tlvVKLjy2Z9BB10xafzdQsx5/axpoc2tkynWX7?=
- =?us-ascii?Q?CjsQA/BxemA/UUQv0QdAIRpXaRNne2RF3mKuX9AtlvY1YoF1msR2CF8pOHHT?=
- =?us-ascii?Q?gcb8uaN76SOJHUlX9pALjAP3/fv1V8OdDpJ7NrA8VWDs0vpespfOSu4VOJam?=
- =?us-ascii?Q?ow/7dgHF9d53njGEVdKzm/gUlROO3foRla3a4aKWpgZ3caT2afFFAx9SGw09?=
- =?us-ascii?Q?yTgXSrxqSo9WsngufNC4A3pGYOdjuQLH99yjWbJmtKHfzpYgZz0R5vRs6TF+?=
- =?us-ascii?Q?A/NEgAzsvV5H3edEtGhdhvAKMciV8qznYpFH8WhAj/Y2S59/ugDP4jv3E38S?=
- =?us-ascii?Q?v28Rf0wqXWWqoeiHLzi8/D/3hjY+18R5v0Cb2uq8MUvWeWXcVPWyiVzhorre?=
- =?us-ascii?Q?vTaOXi52FaNM8mfzX1YBUkk2WgzH3vy7bQ61p7bdcRO330PNh7fNkeyvmpg1?=
- =?us-ascii?Q?MKulFk3rQYlFGK/Ct0q1LcLAnh7sJD44K+SQbZi7pzd23Z4rzUTdbcCBIPvk?=
- =?us-ascii?Q?hQb4NDm2f5bmT9WAKt6g/89vmVcfqWPmY7b5ZfIZ8Tzk78VstgIOsA9Ts8z5?=
- =?us-ascii?Q?W4SLxyEwP/S6F1zT2PS48POvyyNEchgpQ6DmIKls30lPKOGQBZsxVlfvFIRh?=
- =?us-ascii?Q?UYo/4zFAZUprWL47uohjcfdDVYym1GUvLAPZEYsS87GT344uN6K4swwLqkgF?=
- =?us-ascii?Q?cQHdloNlGTFPqfqxWN/2rCHy36H6?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mvNRtBkrtTBGCeaZNGEOFee/Ix2k+pX964o8AA6t+aARjH0Fx4r8XlfUpWRO?=
- =?us-ascii?Q?vGEkfXTnT7xqo+kVmrEnUCnQtGZFHH4FaDaaitu8adJfV97bhIvX9GypT2Zx?=
- =?us-ascii?Q?P//PcwvUfTpy1UabELMoT48NTYkLkUiG75R/R69oPQ0XWnBOFt4nih6anOtE?=
- =?us-ascii?Q?aEnj2pjHUmqgdCRzIT7M8u9Vboc0rD3COhzB9PGHUowa3oXuK0xtTTWjLvz2?=
- =?us-ascii?Q?7f9LsC+jGefJ/bY18H2piV4hJn0WXTxPw/lvfsQY4VffUht6GI+bdqHqQ0F7?=
- =?us-ascii?Q?XlNTWTQVwaIdG5NDiwI9YW3D3DqLNvFRLqoEgxbSGXY3TQW9+Cv8v4uUn5oj?=
- =?us-ascii?Q?uN/+oK0wcYGTi7DNttYKFSMegfOTUeOjnZ63GaohXzUJju0GaQlQY1FXp3Z4?=
- =?us-ascii?Q?M/Xgzro8auUXVvsHV3mB+9xRR2766+59pT/yhUIVtFYb05Quwhz3CvhEpvps?=
- =?us-ascii?Q?tjd5LLfIQNxlWGvM/IFh3qsdON2dAKR1MDdoq4bZFJ8Amq45AjpL3RtfmaWl?=
- =?us-ascii?Q?oCMbMlF527yvCreQdK/1vzxi9RSGw7kqh77v/LrFUbg9gmOn3RjnLX7aUTrZ?=
- =?us-ascii?Q?oHjPQJKrZpg/8WZCk8WqI9u5Sf4CpDScuh25I9qxheKSIswWwcesqrANmS+u?=
- =?us-ascii?Q?utfKNWO8msc53OrjV9S2DTYo4U7fSBs5hpDXiM9iNgfAPvIznNZDQtM4thpm?=
- =?us-ascii?Q?d2RQXognrK3ZfPU2cjTSPF9HYFO53xE913UXgbYtH+4fJLxYb/2+zcBsPyDV?=
- =?us-ascii?Q?eU2sgGi50mh2lGpt3adivA0TIXfV0vneRaKIQr6kkQ/LHDlXMhPxXQXleHus?=
- =?us-ascii?Q?KP2IZ8JN/ZyXUCeiN98N9aWTDes1w1Uj2wYYQqo/zmg7i8BgMy3Q/5L8nALA?=
- =?us-ascii?Q?RHM4k+DfE7MtY53Tgi1HzyH+Q5u5FPIVvWss1USc3AThvUnCSW3xj0CTKjQR?=
- =?us-ascii?Q?bthGRxE3CEHwwSaZydQWZI1zKGL0LW+JQwkVpHBL2BL+8sibHrF4vGaD9CyQ?=
- =?us-ascii?Q?uTrCup6Limd5b8v4DfhYwA3kfr3DVzzfR/kb2U7fqKkutkgoHW33HDEuJ2Nt?=
- =?us-ascii?Q?aCTOVgXjALGzM/Bley7vyYnqVMw0/GpeT0EokZ/s0tYO9B/x05rh+CmRMPp9?=
- =?us-ascii?Q?cOnFYdc5fb+vW+rumI3WZWGtKTp+38qY8EYWTWw/Da7jdefvmkL7n1ok9Lgq?=
- =?us-ascii?Q?bdJYzl23PD0ofSffUpW0DjgJj+aSAiEogIJZ/ulgKVl4WEPsFobrkrs9FtgP?=
- =?us-ascii?Q?1K/NX1+cSdJCjCL15c6argJmofzRWq67U//WaPJNbCMYsWAnI9dY28nc5WnN?=
- =?us-ascii?Q?ToeAcX3Nlytph1/e3v6v1Xwhnd/ZDjEM87o+7uZu9wf0E6TZp7a3g6uGAARa?=
- =?us-ascii?Q?q60CYSw5vN4GBAaFOvs9VfmlzUtAiNbYnfaP2rWcWHk25l3KHRukLizz3ZWE?=
- =?us-ascii?Q?3Dp6drIqE3roKOJo/nS/HeAo0GsEPW+xTB0ZcORNz0IHsy9vmWKFo/1OJMO3?=
- =?us-ascii?Q?ONImpzpJDfNH0gCi+pjSqzwrT7CK2UkrCxXQN+1hGpOUHJfR62gHH9kv6Y6A?=
- =?us-ascii?Q?nIOEbQw/Cly4tu1k+AnsxgyzqiUzWuEcYo9oLrNi/uw7sOOJntsBc+iFaMQC?=
- =?us-ascii?Q?fw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: da58c2f6-3b3d-4243-6395-08ddf7dd2b4f
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2025 00:32:24.6479
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PINW8b36z9DGpTUhBjKgpOsXKS2/K1MbZPC17/JOFuXWUoJGxBQxPE0dKanOESyIEglPp0C+qMDmnJ/gCDMQDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4759
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250919122321.946462-3-abarnas@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   846bd2225ec3cfa8be046655e02b9457ed41973e
-commit: baad7830ee9a56756b3857348452fe756cb0a702 [10249/11136] objtool/LoongArch: Mark types based on break immediate code
-:::::: branch date: 5 hours ago
-:::::: commit date: 32 hours ago
-config: loongarch-randconfig-002-20250920 (https://download.01.org/0day-ci/archive/20250920/202509200413.7uihAxJ5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200413.7uihAxJ5-lkp@intel.com/reproduce)
+Hi Adrian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on arm/for-next]
+[also build test WARNING on arm/fixes kvmarm/next soc/for-next linus/master v6.17-rc6 next-20250919]
+[cannot apply to arm64/for-next/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Barna/arch-arm64-Fail-module-loading-if-dynamic-SCS-patching-fails/20250919-202643
+base:   git://git.armlinux.org.uk/~rmk/linux-arm.git for-next
+patch link:    https://lore.kernel.org/r/20250919122321.946462-3-abarnas%40google.com
+patch subject: [PATCH 2/2] arch: arm64: Reject modules with internal alternative callbacks
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250920/202509200821.Qy7LYrJP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509200821.Qy7LYrJP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202509200413.7uihAxJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509200821.Qy7LYrJP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/dcache.o: warning: objtool: vfs_pressure_ratio+0x44: stack state mismatch: cfa1=3+0 cfa2=3+16
+   In file included from arch/arm64/include/asm/sysreg.h:1111,
+                    from arch/arm64/include/asm/cputype.h:250,
+                    from arch/arm64/include/asm/cache.h:43,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from include/linux/slab.h:15,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from include/acpi/apei.h:9,
+                    from include/acpi/ghes.h:5,
+                    from include/linux/arm_sdei.h:8,
+                    from arch/arm64/kernel/asm-offsets.c:10:
+   arch/arm64/include/asm/alternative.h: In function 'apply_alternatives_module':
+>> arch/arm64/include/asm/alternative.h:31:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      31 | static inline int apply_alternatives_module(void *start, size_t length) { }
+         | ^~~~~~
 --
->> block/blk-settings.o: warning: objtool: queue_limit_alignment_offset+0x4c: stack state mismatch: cfa1=3+0 cfa2=3+16
->> block/blk-settings.o: warning: objtool: queue_limit_discard_alignment+0x7c: stack state mismatch: cfa1=3+0 cfa2=3+16
+   In file included from arch/arm64/include/asm/sysreg.h:1111,
+                    from arch/arm64/include/asm/memory.h:223,
+                    from arch/arm64/include/asm/thread_info.h:17,
+                    from include/linux/thread_info.h:60,
+                    from arch/arm64/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7,
+                    from arch/arm64/kernel/sys.c:11:
+   arch/arm64/include/asm/alternative.h: In function 'apply_alternatives_module':
+>> arch/arm64/include/asm/alternative.h:31:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      31 | static inline int apply_alternatives_module(void *start, size_t length) { }
+         | ^~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h: At top level:
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   arch/arm64/kernel/sys.c:51:52: note: in expansion of macro '__SYSCALL'
+      51 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
+         |                                                    ^~~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:1:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
+       1 | __SYSCALL_WITH_COMPAT(0, sys_io_setup, compat_sys_io_setup)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[0]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   arch/arm64/kernel/sys.c:51:52: note: in expansion of macro '__SYSCALL'
+      51 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
+         |                                                    ^~~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:1:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
+       1 | __SYSCALL_WITH_COMPAT(0, sys_io_setup, compat_sys_io_setup)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:2:1: note: in expansion of macro '__SYSCALL'
+       2 | __SYSCALL(1, sys_io_destroy)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[1]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:2:1: note: in expansion of macro '__SYSCALL'
+       2 | __SYSCALL(1, sys_io_destroy)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   arch/arm64/kernel/sys.c:51:52: note: in expansion of macro '__SYSCALL'
+      51 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
+         |                                                    ^~~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:3:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
+       3 | __SYSCALL_WITH_COMPAT(2, sys_io_submit, compat_sys_io_submit)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[2]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   arch/arm64/kernel/sys.c:51:52: note: in expansion of macro '__SYSCALL'
+      51 | #define __SYSCALL_WITH_COMPAT(nr, native, compat)  __SYSCALL(nr, native)
+         |                                                    ^~~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:3:1: note: in expansion of macro '__SYSCALL_WITH_COMPAT'
+       3 | __SYSCALL_WITH_COMPAT(2, sys_io_submit, compat_sys_io_submit)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:4:1: note: in expansion of macro '__SYSCALL'
+       4 | __SYSCALL(3, sys_io_cancel)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[3]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:4:1: note: in expansion of macro '__SYSCALL'
+       4 | __SYSCALL(3, sys_io_cancel)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:5:1: note: in expansion of macro '__SYSCALL'
+       5 | __SYSCALL(4, sys_io_getevents)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[4]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:5:1: note: in expansion of macro '__SYSCALL'
+       5 | __SYSCALL(4, sys_io_getevents)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:6:1: note: in expansion of macro '__SYSCALL'
+       6 | __SYSCALL(5, sys_setxattr)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[5]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:6:1: note: in expansion of macro '__SYSCALL'
+       6 | __SYSCALL(5, sys_setxattr)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:7:1: note: in expansion of macro '__SYSCALL'
+       7 | __SYSCALL(6, sys_lsetxattr)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: note: (near initialization for 'sys_call_table[6]')
+      58 | #define __SYSCALL(nr, sym)      [nr] = __arm64_##sym,
+         |                                        ^~~~~~~~
+   ./arch/arm64/include/generated/asm/syscall_table_64.h:7:1: note: in expansion of macro '__SYSCALL'
+       7 | __SYSCALL(6, sys_lsetxattr)
+         | ^~~~~~~~~
+   arch/arm64/kernel/sys.c:58:40: warning: initialized field overwritten [-Woverride-init]
 --
->> block/blk-merge.o: warning: objtool: blk_boundary_sectors_left+0x6c: return with modified stack frame
+   In file included from arch/arm64/include/asm/sysreg.h:1111,
+                    from arch/arm64/include/asm/cputype.h:250,
+                    from arch/arm64/include/asm/cache.h:43,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/arm64/include/asm/processor.h:29,
+                    from include/linux/sched.h:13,
+                    from include/linux/context_tracking.h:5,
+                    from arch/arm64/kernel/traps.c:10:
+   arch/arm64/include/asm/alternative.h: In function 'apply_alternatives_module':
+>> arch/arm64/include/asm/alternative.h:31:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      31 | static inline int apply_alternatives_module(void *start, size_t length) { }
+         | ^~~~~~
+   arch/arm64/kernel/traps.c: At top level:
+   arch/arm64/kernel/traps.c:831:43: warning: initialized field overwritten [-Woverride-init]
+     831 |         [ESR_ELx_EC_UNKNOWN]            = "Unknown/Uncategorized",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:831:43: note: (near initialization for 'esr_class_str[0]')
+   arch/arm64/kernel/traps.c:832:43: warning: initialized field overwritten [-Woverride-init]
+     832 |         [ESR_ELx_EC_WFx]                = "WFI/WFE",
+         |                                           ^~~~~~~~~
+   arch/arm64/kernel/traps.c:832:43: note: (near initialization for 'esr_class_str[1]')
+   arch/arm64/kernel/traps.c:833:43: warning: initialized field overwritten [-Woverride-init]
+     833 |         [ESR_ELx_EC_CP15_32]            = "CP15 MCR/MRC",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:833:43: note: (near initialization for 'esr_class_str[3]')
+   arch/arm64/kernel/traps.c:834:43: warning: initialized field overwritten [-Woverride-init]
+     834 |         [ESR_ELx_EC_CP15_64]            = "CP15 MCRR/MRRC",
+         |                                           ^~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:834:43: note: (near initialization for 'esr_class_str[4]')
+   arch/arm64/kernel/traps.c:835:43: warning: initialized field overwritten [-Woverride-init]
+     835 |         [ESR_ELx_EC_CP14_MR]            = "CP14 MCR/MRC",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:835:43: note: (near initialization for 'esr_class_str[5]')
+   arch/arm64/kernel/traps.c:836:43: warning: initialized field overwritten [-Woverride-init]
+     836 |         [ESR_ELx_EC_CP14_LS]            = "CP14 LDC/STC",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:836:43: note: (near initialization for 'esr_class_str[6]')
+   arch/arm64/kernel/traps.c:837:43: warning: initialized field overwritten [-Woverride-init]
+     837 |         [ESR_ELx_EC_FP_ASIMD]           = "ASIMD",
+         |                                           ^~~~~~~
+   arch/arm64/kernel/traps.c:837:43: note: (near initialization for 'esr_class_str[7]')
+   arch/arm64/kernel/traps.c:838:43: warning: initialized field overwritten [-Woverride-init]
+     838 |         [ESR_ELx_EC_CP10_ID]            = "CP10 MRC/VMRS",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:838:43: note: (near initialization for 'esr_class_str[8]')
+   arch/arm64/kernel/traps.c:839:43: warning: initialized field overwritten [-Woverride-init]
+     839 |         [ESR_ELx_EC_PAC]                = "PAC",
+         |                                           ^~~~~
+   arch/arm64/kernel/traps.c:839:43: note: (near initialization for 'esr_class_str[9]')
+   arch/arm64/kernel/traps.c:840:43: warning: initialized field overwritten [-Woverride-init]
+     840 |         [ESR_ELx_EC_CP14_64]            = "CP14 MCRR/MRRC",
+         |                                           ^~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:840:43: note: (near initialization for 'esr_class_str[12]')
+   arch/arm64/kernel/traps.c:841:43: warning: initialized field overwritten [-Woverride-init]
+     841 |         [ESR_ELx_EC_BTI]                = "BTI",
+         |                                           ^~~~~
+   arch/arm64/kernel/traps.c:841:43: note: (near initialization for 'esr_class_str[13]')
+   arch/arm64/kernel/traps.c:842:43: warning: initialized field overwritten [-Woverride-init]
+     842 |         [ESR_ELx_EC_ILL]                = "PSTATE.IL",
+         |                                           ^~~~~~~~~~~
+   arch/arm64/kernel/traps.c:842:43: note: (near initialization for 'esr_class_str[14]')
+   arch/arm64/kernel/traps.c:843:43: warning: initialized field overwritten [-Woverride-init]
+     843 |         [ESR_ELx_EC_SVC32]              = "SVC (AArch32)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:843:43: note: (near initialization for 'esr_class_str[17]')
+   arch/arm64/kernel/traps.c:844:43: warning: initialized field overwritten [-Woverride-init]
+     844 |         [ESR_ELx_EC_HVC32]              = "HVC (AArch32)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:844:43: note: (near initialization for 'esr_class_str[18]')
+   arch/arm64/kernel/traps.c:845:43: warning: initialized field overwritten [-Woverride-init]
+     845 |         [ESR_ELx_EC_SMC32]              = "SMC (AArch32)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:845:43: note: (near initialization for 'esr_class_str[19]')
+   arch/arm64/kernel/traps.c:846:43: warning: initialized field overwritten [-Woverride-init]
+     846 |         [ESR_ELx_EC_SVC64]              = "SVC (AArch64)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:846:43: note: (near initialization for 'esr_class_str[21]')
+   arch/arm64/kernel/traps.c:847:43: warning: initialized field overwritten [-Woverride-init]
+     847 |         [ESR_ELx_EC_HVC64]              = "HVC (AArch64)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:847:43: note: (near initialization for 'esr_class_str[22]')
+   arch/arm64/kernel/traps.c:848:43: warning: initialized field overwritten [-Woverride-init]
+     848 |         [ESR_ELx_EC_SMC64]              = "SMC (AArch64)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:848:43: note: (near initialization for 'esr_class_str[23]')
+   arch/arm64/kernel/traps.c:849:43: warning: initialized field overwritten [-Woverride-init]
+     849 |         [ESR_ELx_EC_SYS64]              = "MSR/MRS (AArch64)",
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:849:43: note: (near initialization for 'esr_class_str[24]')
+   arch/arm64/kernel/traps.c:850:43: warning: initialized field overwritten [-Woverride-init]
+     850 |         [ESR_ELx_EC_SVE]                = "SVE",
+         |                                           ^~~~~
+   arch/arm64/kernel/traps.c:850:43: note: (near initialization for 'esr_class_str[25]')
+   arch/arm64/kernel/traps.c:851:43: warning: initialized field overwritten [-Woverride-init]
+     851 |         [ESR_ELx_EC_ERET]               = "ERET/ERETAA/ERETAB",
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:851:43: note: (near initialization for 'esr_class_str[26]')
+   arch/arm64/kernel/traps.c:852:43: warning: initialized field overwritten [-Woverride-init]
+     852 |         [ESR_ELx_EC_FPAC]               = "FPAC",
+         |                                           ^~~~~~
+   arch/arm64/kernel/traps.c:852:43: note: (near initialization for 'esr_class_str[28]')
+   arch/arm64/kernel/traps.c:853:43: warning: initialized field overwritten [-Woverride-init]
+     853 |         [ESR_ELx_EC_SME]                = "SME",
+         |                                           ^~~~~
+   arch/arm64/kernel/traps.c:853:43: note: (near initialization for 'esr_class_str[29]')
+   arch/arm64/kernel/traps.c:854:43: warning: initialized field overwritten [-Woverride-init]
+     854 |         [ESR_ELx_EC_IMP_DEF]            = "EL3 IMP DEF",
+         |                                           ^~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:854:43: note: (near initialization for 'esr_class_str[31]')
+   arch/arm64/kernel/traps.c:855:43: warning: initialized field overwritten [-Woverride-init]
 --
->> drivers/nvdimm/namespace_devs.o: warning: objtool: div_u64_rem+0x2c: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> fs/btrfs/zoned.o: warning: objtool: div_u64_rem+0x2c: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> fs/f2fs/gc.o: warning: objtool: div_u64_rem+0x2c: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> drivers/md/dm-era-target.o: warning: objtool: era_io_hints+0x74: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> drivers/md/dm-stats.o: warning: objtool: div64_u64_rem+0x28: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> drivers/md/dm-thin.o: warning: objtool: is_factor+0x30: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> drivers/md/dm-cache-target.o: warning: objtool: cache_io_hints+0x4c: stack state mismatch: cfa1=3+0 cfa2=3+16
---
->> drivers/md/dm-clone-target.o: warning: objtool: clone_io_hints+0x4c: stack state mismatch: cfa1=3+0 cfa2=3+16
-..
+   In file included from arch/arm64/include/asm/sysreg.h:1111,
+                    from arch/arm64/include/asm/cputype.h:250,
+                    from arch/arm64/include/asm/cache.h:43,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from include/linux/slab.h:15,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from include/acpi/apei.h:9,
+                    from include/acpi/ghes.h:5,
+                    from include/linux/arm_sdei.h:8,
+                    from arch/arm64/kernel/asm-offsets.c:10:
+   arch/arm64/include/asm/alternative.h: In function 'apply_alternatives_module':
+>> arch/arm64/include/asm/alternative.h:31:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      31 | static inline int apply_alternatives_module(void *start, size_t length) { }
+         | ^~~~~~
+   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:10,
+                    from include/vdso/datapage.h:197,
+                    from lib/vdso/gettimeofday.c:5,
+                    from <command-line>:
+   arch/arm64/include/asm/alternative.h: In function 'apply_alternatives_module':
+>> arch/arm64/include/asm/alternative.h:31:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      31 | static inline int apply_alternatives_module(void *start, size_t length) { }
+         | ^~~~~~
+   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:10,
+                    from include/vdso/datapage.h:197,
+                    from lib/vdso/getrandom.c:8,
+                    from <command-line>:
+   arch/arm64/include/asm/alternative.h: In function 'apply_alternatives_module':
+>> arch/arm64/include/asm/alternative.h:31:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      31 | static inline int apply_alternatives_module(void *start, size_t length) { }
+         | ^~~~~~
+
+
+vim +31 arch/arm64/include/asm/alternative.h
+
+    27	
+    28	#ifdef CONFIG_MODULES
+    29	int apply_alternatives_module(void *start, size_t length);
+    30	#else
+  > 31	static inline int apply_alternatives_module(void *start, size_t length) { }
+    32	#endif
+    33	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
