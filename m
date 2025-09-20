@@ -1,63 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EA4189;
-	Sat, 20 Sep 2025 10:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4822D29D7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 10:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758365029; cv=none; b=hWfPTeQLGtNdECth28+MUKYUyNvIT1Ir+miZnV16Twf5CXtVF9ksRV4LEIFWPBNEhqrCdgJ3v7h2HX2b6w9j8hNs6DCuPoKvcPRH3D1Q0YQiupE8SwN6unxeJ1Xybt5N+EKpwfbhEApuIeHFIECrloCaVvxh02zF8fnx+IbFZ00=
+	t=1758365631; cv=none; b=Nm1VAjPppAd4sliwy662LXXPpOHWmgteszi/sOH/T+NJgyLrLDPPFz02ZIjWKrDqCcM22Fa8h5L/JE0+UNiJt6eEBr46Vg6E41VHAyEdrogiPFkNHNJ7sqiaVYAhGygFoy9oXC+D/XvJIloEW17RuKjiTzRFhfFQH6AKmGjK4QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758365029; c=relaxed/simple;
-	bh=GGcqmDnzpkqL527dvwmPXxPejn0tRqSqA9TUjS43tF4=;
+	s=arc-20240116; t=1758365631; c=relaxed/simple;
+	bh=uEAw+Qb712GnVUjjj39hLndG5hIdLluHSViucJPES7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nskA3uEHcnh1OBobFiqmIDeK60nq1kx2btKsYc94zQlHex3ojFVVmaQS8MdvUJSWjo+28uFgXtqstJx+coX38EJ1y4LoxF8Iuin1uj9L2AaeQRFUWAZ+E3XHXvcbgtq3xflXpebmi1XdbN/6mmQH4TrNfqYOL7DpVBq7f0K/7LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvwsPLUG; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=MEz7e7TWbQwjoBBT/iq9uWYdsotP4v98cDmYZVQ1pxEtUKzYFBO2wyk/33o0EfFj8VYD48B3BbrOyVBtN/tFP2BrrJT/8VdaM4bZ724DAi1kOYMo6jDCFuGPppNB9OaiCGGW3R8a5XrQavGUhqZufWkgITqIniTRQX5mrEprInc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QYNcscXQ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvwsPLUG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYNcscXQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758365027; x=1789901027;
+  t=1758365629; x=1789901629;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GGcqmDnzpkqL527dvwmPXxPejn0tRqSqA9TUjS43tF4=;
-  b=RvwsPLUGGkpas4Af9x/r5HlwLWaJtYoTajlTw+LgxyDkU95+s9wvQl8Y
-   rO/UBIS8JevIbajVuSE0s0RgQhRBoeO4vU3HsaX4yTda8VWak+ZIuzDWd
-   keSgo7CLHFTZhJSL5lmUBQ9MPLY3h1iNpBh6odlHeGP6uon0M508jzzVn
-   HS9l6dJ2KHdxpJO2vDR3RWPk0DWwF1m5LWwxS1zWQLSwhRTrYKbb4Bs0D
-   dBI0nsr9ZbJ0x/mXMsualDaXTjH0PAachautfB1zyf0ImHu6LFujjc7I5
-   zMFHYbB7HMImaqVmGL+aU07wUuEP92n+OqcjFL3F/+FL3zwEmmACp/0FH
-   w==;
-X-CSE-ConnectionGUID: GYRtlDgQR6aNp0NU96TPng==
-X-CSE-MsgGUID: sby7IT5ZQ8CWZK7/2ml9xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="64334371"
+  bh=uEAw+Qb712GnVUjjj39hLndG5hIdLluHSViucJPES7A=;
+  b=QYNcscXQaYHvEcCoPCTWitiZy35j3x/07XYlSdXTavjmXMIAZmVc15VN
+   gjiHHtIu6Pzmzm3h5E/UMJB2qUYKspqdLHN0ugepS2XsjN42tEmWy4IES
+   Xz/7l6mkYg3lGTZMvEcmo2HrYBBFXsDwX9qggMkku5ZCHbEnOoHmx59GW
+   6bEf3HZm7rFWz+4Agh96jbDBJy5lpLL6hgtFONIZi8uoyuW8I/g/RSRlc
+   G7Tg5UzBQu7PJO7zTZ8Hi51tIbV5/INP6ZPXwz+SCVLxspv33jx/7os1l
+   TY8rMPtA0TPI+O7yQ03KjdVJJp8TqUVNc98TPTOvGA/kDzNb9srXtNZyO
+   A==;
+X-CSE-ConnectionGUID: BNtNbqjEQBmIVojpmdxJxg==
+X-CSE-MsgGUID: VivKzzgFQK+oAwhcN7BuEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71802128"
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="64334371"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 03:43:47 -0700
-X-CSE-ConnectionGUID: ka3svwETTDyUeiqFLjtQ7A==
-X-CSE-MsgGUID: KLR2Z4G+SdK4f8cCYhbYAQ==
+   d="scan'208";a="71802128"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 03:53:48 -0700
+X-CSE-ConnectionGUID: Feot2xJmT6S2CChkcwxb/g==
+X-CSE-MsgGUID: I12qQxbhRCSHZncygvghLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="180446374"
+   d="scan'208";a="176099691"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Sep 2025 03:43:44 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 Sep 2025 03:53:45 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzv49-0005EB-1x;
-	Sat, 20 Sep 2025 10:43:41 +0000
-Date: Sat, 20 Sep 2025 18:42:59 +0800
+	id 1uzvDq-0005ER-17;
+	Sat, 20 Sep 2025 10:53:42 +0000
+Date: Sat, 20 Sep 2025 18:53:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mostafa Saleh <smostafa@google.com>, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robin.murphy@arm.com, will@kernel.org,
-	joro@8bytes.org, jgg@ziepe.ca, praan@google.com,
-	Mostafa Saleh <smostafa@google.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 4/4] iommu/io-pgtable-arm-selftests: Use KUnit
-Message-ID: <202509201819.f369wBHc-lkp@intel.com>
-References: <20250919133316.2741279-5-smostafa@google.com>
+To: David Howells <dhowells@redhat.com>, Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dhowells@redhat.com,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Holger Dengler <dengler@linux.ibm.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Stephan Mueller <smueller@chronox.de>, Simo Sorce <simo@redhat.com>,
+	linux-crypto@vger.kernel.org, linux-s390@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] lib/crypto: Add SHA3-224, SHA3-256, SHA3-384,
+ SHA-512, SHAKE128, SHAKE256
+Message-ID: <202509201849.9iMsH2kd-lkp@intel.com>
+References: <3936580.1758299519@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,43 +71,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250919133316.2741279-5-smostafa@google.com>
+In-Reply-To: <3936580.1758299519@warthog.procyon.org.uk>
 
-Hi Mostafa,
+Hi David,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.17-rc6 next-20250919]
-[cannot apply to joro-iommu/next]
+[auto build test ERROR on ebiggers/libcrypto-fixes]
+[also build test ERROR on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.17-rc6 next-20250919]
+[cannot apply to ebiggers/libcrypto-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mostafa-Saleh/iommu-io-pgtable-arm-Simplify-error-prints-for-selftests/20250919-213912
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20250919133316.2741279-5-smostafa%40google.com
-patch subject: [PATCH v3 4/4] iommu/io-pgtable-arm-selftests: Use KUnit
-config: i386-randconfig-013-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201819.f369wBHc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201819.f369wBHc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Howells/lib-crypto-Add-SHA3-224-SHA3-256-SHA3-384-SHA-512-SHAKE128-SHAKE256/20250920-003544
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-fixes
+patch link:    https://lore.kernel.org/r/3936580.1758299519%40warthog.procyon.org.uk
+patch subject: [PATCH v2] lib/crypto: Add SHA3-224, SHA3-256, SHA3-384, SHA-512, SHAKE128, SHAKE256
+config: sparc-defconfig (https://download.01.org/0day-ci/archive/20250920/202509201849.9iMsH2kd-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201849.9iMsH2kd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509201819.f369wBHc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509201849.9iMsH2kd-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: drivers/iommu/io-pgtable-arm-selftests: section mismatch in reference: arm_lpae_run_tests+0x100 (section: .text) -> arm_lpae_dump_ops (section: .init.text)
->> ERROR: modpost: "alloc_io_pgtable_ops" [drivers/iommu/io-pgtable-arm-selftests.ko] undefined!
->> ERROR: modpost: "free_io_pgtable_ops" [drivers/iommu/io-pgtable-arm-selftests.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [m]:
-   - IOMMU_IO_PGTABLE_LPAE_KUNIT_TEST [=m] && IOMMU_SUPPORT [=y] && KUNIT [=m]
+   sparc-linux-ld: lib/crypto/sha3.o: in function `sha3_keccakf_generic':
+>> sha3.c:(.text+0x964): undefined reference to `__bswapdi2'
+>> sparc-linux-ld: sha3.c:(.text+0x9c0): undefined reference to `__bswapdi2'
 
 -- 
 0-DAY CI Kernel Test Service
