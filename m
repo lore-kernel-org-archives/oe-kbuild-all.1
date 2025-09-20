@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC1C2343C7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Sep 2025 12:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682B122A7E6;
+	Sat, 20 Sep 2025 14:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758371218; cv=none; b=aE1vAdO/ZitH4ki1n4HkT9XBFC35+CDM4x2fmLoQMkWpqgvaXA5TcaiJKlK86pJ0X+FAqSWqkZtkR6Z701ZB7AATIwdqMbDipPP/Ol1k0GY5JZVVmNDT/cR2Sa69HfJjXWxW1yNK7bk9HP26nxf92cRUatCZeE/iLAWvW2PduqA=
+	t=1758379331; cv=none; b=oLP70aMh9HN7ZoXZvMeOZ5LH9duzzDOaM/Y/0XfqGqvHZgQPdrxeewfgyUgTnIHOo6DsNYtXCy4shtUDNPeXW0PgU0VzncX0382kzOmfqHq5JOahKfhTUP1u+12r5Pwv+HjmlGOTTGcW9Bt3DzBlNnbR0FvYK5viGWzvlCg4xyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758371218; c=relaxed/simple;
-	bh=0uCuJCa0DIvL7b1TzTkyiorVUTTZkJJNmHbnezsu2Pg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oK5SsyBu9OzfHEnR2hznfcntP4uXPEnCe3WVfnwiIWeuOxKVXylopYLebfIfdWYz5v+GoaZfiEH7jtcrTvjBiw/ONd1MIL/N5UVdubo4JR1laNyErFs1/Loof5VC8jBGnrwoVEvFzDRK297pdD+aV0UKJQKOdzL26MJRjQYfSf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ThWImpI1; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1758379331; c=relaxed/simple;
+	bh=8ESeYby+VBnGxoL4sKU6AzMNuckA9rBZYz1Tl2yfc9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L8wwzDF41Vh53V32KQ/2TWfvNcggCwz2xxgcOAtkdumn6hpu5Ziez9XuZ54LXnqyZsKIkzQjuzWIqZf4mJNOw7UCj3VBMh+NI65RKxhGINphdie+FKSMbFbshCezUoPRdNvDIG5mQFoZz5pyHEKYtWL2BNOvh/ryI1b3VTfPrAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTLnSCxM; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThWImpI1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTLnSCxM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758371216; x=1789907216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0uCuJCa0DIvL7b1TzTkyiorVUTTZkJJNmHbnezsu2Pg=;
-  b=ThWImpI1JcYfbGO4u0MAdRV6LWS0tmeJYDduEHilzu3tJeo+MrIL8sEu
-   iJO9DONO0Fq/5yDc1Po241YA4JbmOgNXY/+4mxoN/L3wOvGVkLbHuXzpB
-   hFI7B9EADZzFWpqfJtp7kjDoTFEHgDtzcTh0rNUiPcPMhFd++ztOcDbNv
-   DljSR2wsz70lRQdBlU0htSlrU9AxUBA6EtC8VZ349xdCnyCeB8nkmr24f
-   qYjSjndVFF3nbVOljzhOoUhfEZkkq6IdePB6o8V+wofA4xpZZ45YjxlHh
-   3JJa5Vj7arq44ckyGeJs+BCRvwK6yhnqFzK4qdCa7H0coS9DPuiyRlLY+
-   Q==;
-X-CSE-ConnectionGUID: u5I1KTIdQFWAS260QFKZMQ==
-X-CSE-MsgGUID: F9v6+6/ITgu5+6X5tyENug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71325396"
-X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="71325396"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 05:26:55 -0700
-X-CSE-ConnectionGUID: oeUwm1cUSmatUCtaLXJsLA==
-X-CSE-MsgGUID: m5Ydmo0IRZetgs2TRDPCTw==
+  t=1758379330; x=1789915330;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8ESeYby+VBnGxoL4sKU6AzMNuckA9rBZYz1Tl2yfc9U=;
+  b=TTLnSCxM84vn0/65jAmAefENm3MqBtw8as1BhaF1W2VW8vPu4SMMvBrd
+   4U8g9rheW/FI8TDk01aYHrbpFZiO0uBM/Z+ZjKn3GRcirv0LYVjy+aqT7
+   CPjiyA86tysxl8oaftxjG8KUibnenfU+VURPFl9dVhInK9A/Ki+SIADMr
+   DpzYaqSYOZuyP014nKS0fsGsTRdqZVa+SUqaoVzkK0cStXIDft5U0Ec0w
+   Cr9FYedTX4jJ1zlK/fgTI58dTTxympKN+DgdIS4aip52z4jPPUp6CyxQF
+   o4pwcKKxRIAIxR9JcCyLyvDzU+zvn697t7WX6de6/s9QAzHb5BvlGpjMw
+   w==;
+X-CSE-ConnectionGUID: h9F+l9dhSUqi8IRJjX5F5A==
+X-CSE-MsgGUID: whWPWh+ISrS4bEIIfpy1tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60645901"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60645901"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2025 07:42:10 -0700
+X-CSE-ConnectionGUID: oLTEyd53SQGIys1VP2VHIA==
+X-CSE-MsgGUID: 8S919d3NRSSML7Z5SxHNpw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,280,1751266800"; 
-   d="scan'208";a="175977382"
+X-IronPort-AV: E=Sophos;i="6.18,281,1751266800"; 
+   d="scan'208";a="206832999"
 Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Sep 2025 05:26:54 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Sep 2025 07:42:08 -0700
 Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uzwg0-0005K7-18;
-	Sat, 20 Sep 2025 12:26:52 +0000
-Date: Sat, 20 Sep 2025 20:26:48 +0800
+	id 1uzymq-0005O7-15;
+	Sat, 20 Sep 2025 14:42:04 +0000
+Date: Sat, 20 Sep 2025 22:41:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grzegorz Nitka <grzegorz.nitka@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	arkadiusz.kubalewski@intel.com
-Subject: Re: [Intel-wired-lan] [RESEND PATCH v2 iwl-next] ice: add TS PLL
- control for E825 devices
-Message-ID: <202509202023.HY9L56JJ-lkp@intel.com>
-References: <20250919165925.1685446-1-grzegorz.nitka@intel.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+	netdev@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [mst-vhost:vhost 41/44] drivers/vdpa/pds/vdpa_dev.c:590:19: error:
+ incompatible function pointer types initializing 's64 (*)(struct vdpa_device
+ *, u16)' (aka 'long long (*)(struct vdpa_device *, unsigned short)') with an
+ expression of type 'u32 (struct vdpa_device *, u16)' (aka ...
+Message-ID: <202509202256.zVt4MifB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,36 +65,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250919165925.1685446-1-grzegorz.nitka@intel.com>
 
-Hi Grzegorz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ff9f8329f189c17549f3fbb5058505fb3e46dd99]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Grzegorz-Nitka/ice-add-TS-PLL-control-for-E825-devices/20250920-010351
-base:   ff9f8329f189c17549f3fbb5058505fb3e46dd99
-patch link:    https://lore.kernel.org/r/20250919165925.1685446-1-grzegorz.nitka%40intel.com
-patch subject: [Intel-wired-lan] [RESEND PATCH v2 iwl-next] ice: add TS PLL control for E825 devices
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250920/202509202023.HY9L56JJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509202023.HY9L56JJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git vhost
+head:   877102ca14b3ee9b5343d71f6420f036baf8a9fc
+commit: 2951c77700c3944ecd991ede7ee77e31f47f24ab [41/44] vduse: add vq group support
+config: loongarch-randconfig-001-20250920 (https://download.01.org/0day-ci/archive/20250920/202509202256.zVt4MifB-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509202256.zVt4MifB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509202023.HY9L56JJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509202256.zVt4MifB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/net/ethernet/intel/ice/ice_tspll.c:688 function parameter 'pf' not described in 'ice_tspll_set_cfg'
---
->> Warning: drivers/net/ethernet/intel/ice/ice_dpll.c:73 Enum value 'ICE_DPLL_PIN_TYPE_INPUT_E825' not described in enum 'ice_dpll_pin_type'
->> Warning: drivers/net/ethernet/intel/ice/ice_dpll.c:73 Enum value 'ICE_DPLL_PIN_TYPE_OUTPUT_E825' not described in enum 'ice_dpll_pin_type'
->> Warning: drivers/net/ethernet/intel/ice/ice_dpll.c:73 Enum value 'ICE_DPLL_PIN_TYPE_INPUT_TSPLL_E825' not described in enum 'ice_dpll_pin_type'
->> Warning: drivers/net/ethernet/intel/ice/ice_dpll.c:73 Enum value 'ICE_DPLL_PIN_TYPE_OUTPUT_TSPLL_E825' not described in enum 'ice_dpll_pin_type'
->> Warning: drivers/net/ethernet/intel/ice/ice_dpll.c:694 function parameter 'pf' not described in 'ice_dpll_input_tspll_update_e825c'
+>> drivers/vdpa/pds/vdpa_dev.c:590:19: error: incompatible function pointer types initializing 's64 (*)(struct vdpa_device *, u16)' (aka 'long long (*)(struct vdpa_device *, unsigned short)') with an expression of type 'u32 (struct vdpa_device *, u16)' (aka 'unsigned int (struct vdpa_device *, unsigned short)') [-Wincompatible-function-pointer-types]
+     590 |         .get_vq_group           = pds_vdpa_get_vq_group,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +590 drivers/vdpa/pds/vdpa_dev.c
+
+151cc834f3ddafe Shannon Nelson 2023-05-19  577  
+151cc834f3ddafe Shannon Nelson 2023-05-19  578  static const struct vdpa_config_ops pds_vdpa_ops = {
+151cc834f3ddafe Shannon Nelson 2023-05-19  579  	.set_vq_address		= pds_vdpa_set_vq_address,
+151cc834f3ddafe Shannon Nelson 2023-05-19  580  	.set_vq_num		= pds_vdpa_set_vq_num,
+151cc834f3ddafe Shannon Nelson 2023-05-19  581  	.kick_vq		= pds_vdpa_kick_vq,
+151cc834f3ddafe Shannon Nelson 2023-05-19  582  	.set_vq_cb		= pds_vdpa_set_vq_cb,
+151cc834f3ddafe Shannon Nelson 2023-05-19  583  	.set_vq_ready		= pds_vdpa_set_vq_ready,
+151cc834f3ddafe Shannon Nelson 2023-05-19  584  	.get_vq_ready		= pds_vdpa_get_vq_ready,
+151cc834f3ddafe Shannon Nelson 2023-05-19  585  	.set_vq_state		= pds_vdpa_set_vq_state,
+151cc834f3ddafe Shannon Nelson 2023-05-19  586  	.get_vq_state		= pds_vdpa_get_vq_state,
+151cc834f3ddafe Shannon Nelson 2023-05-19  587  	.get_vq_notification	= pds_vdpa_get_vq_notification,
+151cc834f3ddafe Shannon Nelson 2023-05-19  588  	.get_vq_irq		= pds_vdpa_get_vq_irq,
+151cc834f3ddafe Shannon Nelson 2023-05-19  589  	.get_vq_align		= pds_vdpa_get_vq_align,
+151cc834f3ddafe Shannon Nelson 2023-05-19 @590  	.get_vq_group		= pds_vdpa_get_vq_group,
+151cc834f3ddafe Shannon Nelson 2023-05-19  591  
+151cc834f3ddafe Shannon Nelson 2023-05-19  592  	.get_device_features	= pds_vdpa_get_device_features,
+151cc834f3ddafe Shannon Nelson 2023-05-19  593  	.set_driver_features	= pds_vdpa_set_driver_features,
+151cc834f3ddafe Shannon Nelson 2023-05-19  594  	.get_driver_features	= pds_vdpa_get_driver_features,
+151cc834f3ddafe Shannon Nelson 2023-05-19  595  	.set_config_cb		= pds_vdpa_set_config_cb,
+151cc834f3ddafe Shannon Nelson 2023-05-19  596  	.get_vq_num_max		= pds_vdpa_get_vq_num_max,
+151cc834f3ddafe Shannon Nelson 2023-05-19  597  	.get_device_id		= pds_vdpa_get_device_id,
+151cc834f3ddafe Shannon Nelson 2023-05-19  598  	.get_vendor_id		= pds_vdpa_get_vendor_id,
+151cc834f3ddafe Shannon Nelson 2023-05-19  599  	.get_status		= pds_vdpa_get_status,
+151cc834f3ddafe Shannon Nelson 2023-05-19  600  	.set_status		= pds_vdpa_set_status,
+151cc834f3ddafe Shannon Nelson 2023-05-19  601  	.reset			= pds_vdpa_reset,
+151cc834f3ddafe Shannon Nelson 2023-05-19  602  	.get_config_size	= pds_vdpa_get_config_size,
+151cc834f3ddafe Shannon Nelson 2023-05-19  603  	.get_config		= pds_vdpa_get_config,
+151cc834f3ddafe Shannon Nelson 2023-05-19  604  	.set_config		= pds_vdpa_set_config,
+151cc834f3ddafe Shannon Nelson 2023-05-19  605  };
+25d1270b6e9ea89 Shannon Nelson 2023-05-19  606  static struct virtio_device_id pds_vdpa_id_table[] = {
+25d1270b6e9ea89 Shannon Nelson 2023-05-19  607  	{VIRTIO_ID_NET, VIRTIO_DEV_ANY_ID},
+25d1270b6e9ea89 Shannon Nelson 2023-05-19  608  	{0},
+25d1270b6e9ea89 Shannon Nelson 2023-05-19  609  };
+25d1270b6e9ea89 Shannon Nelson 2023-05-19  610  
+
+:::::: The code at line 590 was first introduced by commit
+:::::: 151cc834f3ddafec869269fe48036460d920d08a pds_vdpa: add support for vdpa and vdpamgmt interfaces
+
+:::::: TO: Shannon Nelson <shannon.nelson@amd.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
