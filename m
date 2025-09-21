@@ -1,70 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F09D2940D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 18:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C2B274B3B;
+	Sun, 21 Sep 2025 19:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758478098; cv=none; b=g13uPumySOTADgQytZ8ugS1feTZc53Gw+r8SxKZPbGfguo9x5TAljPFOT7puHvszSxFvITJ3pY2FlVzRnml4MzQMiGiFANrDNo8+TdN6yo2ziFJUKRWyHp4sDn+G+blbEro0Vgmk+R3G081arLp5lOiOnkwLTVoCWesBKZT5C3A=
+	t=1758484253; cv=none; b=EjyeLiKnB5fuDQTfWreneClkJppluR3os5LEU5sri1CoXauUl6tbFwGkEYVF7zyjQ1sFbRDEWWROgv0n6dV9g1YyIybohzV9oue3rYQjAqXXYXh2ZAe2WPkfst/uLJz+oSu01R+0vDBLP8SaMubxcr55jPIMsC0xl1WIVfODYuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758478098; c=relaxed/simple;
-	bh=29O2r18L5h5k9tMHESiP8SbFSGsjDajPABR1syF2lSc=;
+	s=arc-20240116; t=1758484253; c=relaxed/simple;
+	bh=l7vsqneKPVvAHfr6dNptj8BvhWQcY1j8WvBKu6w044Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VYlTRmBdwYgHgAhl/CcC5sGJxMGbAaH9ad/5l2KNZEGKN56hIrUuJN4jD8t8C4KjYiSgd6gHt6As7zzi6yRa5jqTSp2iqMw++qEGShzwMTfNAm4YEPpAbjooxyn1VXNZhBv1fvOzHce3dJs35T2hmGXr8pooVo2+sJEYlPpZCIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kgDzWBw2; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=kLMiVIcB8phIIW/UKvHcXaS6ycHoa8HEExdukajsyb4Q8ktZmq+kyUxnkERYwvF1FYrvEh3kDB4Tz7Y2yTIu8vKWZWmm2D+KZk7ymrClI4F750mzlpoE4gF1PZ8ol+KAcKf6ho8Dz5xCWgNgpcVFTGx3hKXfsRpnmBbtCLKil/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VX1fjRtj; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kgDzWBw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VX1fjRtj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758478096; x=1790014096;
+  t=1758484252; x=1790020252;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=29O2r18L5h5k9tMHESiP8SbFSGsjDajPABR1syF2lSc=;
-  b=kgDzWBw24t4nuohOOqA9wMH6LoEH/oRDp3oVKJq7s1q1sHRLzSgXrIha
-   MlgZYFyXir4PFNs+mrplXO7ACDG2Lu+rpM+Yg1PkpC11g4TzW5hG8ALDv
-   vTA/tBnRqzMJ/GPX2AG7IDpT0S5hNcnMLgKWQH7WLSyqJisni7mXnBqfk
-   o1c2IIth2nOE4mUuYS7BhAgw+CJjPObN0IWXxEsFQu9lQOt7qorVuDH8N
-   dT7SxwXFjNFc9ul784eHOBcJIab2E3FskMzxYr1q5aSBEfNfZTtBj7rDP
-   zhWD+7altLsZApUGAFfkkqxeZYBwOG4Lp6mjGvtuOJ7nw0EDxt5kYIEKp
-   w==;
-X-CSE-ConnectionGUID: AkqOL0cJQ1yhXLDx8Z90xA==
-X-CSE-MsgGUID: PmqO6MhYTiyg7ziTae+Hog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="59790117"
-X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="59790117"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 11:08:15 -0700
-X-CSE-ConnectionGUID: kyWGG7/RTeKeC6tgM24SkQ==
-X-CSE-MsgGUID: K9p1Qzi2QJi1nS2PfQSEQA==
+  bh=l7vsqneKPVvAHfr6dNptj8BvhWQcY1j8WvBKu6w044Y=;
+  b=VX1fjRtjZPy5vvs/4ECyI3FWu5FTh2YncXat5EuKJfQ8vE2ZYnWAqWD9
+   O8GBvGciOAA51OV8RJheUF78GbzOhTtMKGJKeijCUrLJNmY/Sd0ItBr2i
+   tpe0muM8IA4uLRLpXwZP0I2CQ4J7QxP1Eemup4LDwV2wqSB3lV+ZtmjMV
+   4gOSLYKEVgZCng4V1N6a1dXSSkY4Y3PMVJzwau6BKTaRZGBsoOraj1DQV
+   WtPeCUCqI3ea8BKTxSTzOr6ARwQmU+PDg4NmaPTvKpZ3RSWHxEULzfzW0
+   on2mScVmSXopOywPVlLQ+UdPTuj/TQb4OCdRtSO7poMD/AKhhBbxtiRhq
+   A==;
+X-CSE-ConnectionGUID: /6BaNqM1SwiUexlv9te6Dw==
+X-CSE-MsgGUID: /PHxrcaOTbGhh38dpspzzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60808525"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60808525"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 12:50:51 -0700
+X-CSE-ConnectionGUID: LcvX9iEMSSSKx5c+pmOkSw==
+X-CSE-MsgGUID: 0xgjFUwjT+uelmatb+W6dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="176126326"
+   d="scan'208";a="180729622"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Sep 2025 11:08:11 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 21 Sep 2025 12:50:49 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0OTo-0000xF-1m;
-	Sun, 21 Sep 2025 18:08:08 +0000
-Date: Mon, 22 Sep 2025 02:07:50 +0800
+	id 1v0Q57-0000yb-13;
+	Sun, 21 Sep 2025 19:50:45 +0000
+Date: Mon, 22 Sep 2025 03:50:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Subject: Re: [PATCH v3 10/12] remoteproc: pas: Extend parse_fw callback to
- fetch resources via SMC call
-Message-ID: <202509220147.nsw5xumc-lkp@intel.com>
-References: <20250921-kvm_rproc_pas-v3-10-458f09647920@oss.qualcomm.com>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC] PCI: Convert devm_pci_alloc_host_bridge() users to
+ error-pointer returns
+Message-ID: <202509220322.JzCVMkDb-lkp@intel.com>
+References: <20250921161434.1561770-1-alok.a.tiwari@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,99 +63,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250921-kvm_rproc_pas-v3-10-458f09647920@oss.qualcomm.com>
+In-Reply-To: <20250921161434.1561770-1-alok.a.tiwari@oracle.com>
 
-Hi Mukesh,
+Hi Alok,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 846bd2225ec3cfa8be046655e02b9457ed41973e]
+[auto build test ERROR on pci/for-linus]
+[also build test ERROR on linus/master v6.17-rc6]
+[cannot apply to pci/next next-20250919]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Ojha/dt-bindings-remoteproc-qcom-pas-Add-iommus-property/20250921-041055
-base:   846bd2225ec3cfa8be046655e02b9457ed41973e
-patch link:    https://lore.kernel.org/r/20250921-kvm_rproc_pas-v3-10-458f09647920%40oss.qualcomm.com
-patch subject: [PATCH v3 10/12] remoteproc: pas: Extend parse_fw callback to fetch resources via SMC call
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250922/202509220147.nsw5xumc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220147.nsw5xumc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alok-Tiwari/PCI-Convert-devm_pci_alloc_host_bridge-users-to-error-pointer-returns/20250922-001734
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/20250921161434.1561770-1-alok.a.tiwari%40oracle.com
+patch subject: [PATCH RFC] PCI: Convert devm_pci_alloc_host_bridge() users to error-pointer returns
+config: um-randconfig-002-20250922 (https://download.01.org/0day-ci/archive/20250922/202509220322.JzCVMkDb-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project efd96afedf2c0f6f2cc34cf5a9a7e3e78f592255)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220322.JzCVMkDb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509220147.nsw5xumc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509220322.JzCVMkDb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/remoteproc/qcom_q6v5_pas.c: In function 'qcom_pas_parse_firmware':
->> drivers/remoteproc/qcom_q6v5_pas.c:452:45: error: passing argument 1 of 'qcom_scm_pas_get_rsc_table' makes pointer from integer without a cast [-Wint-conversion]
-     452 |         ret = qcom_scm_pas_get_rsc_table(pas->pas_id, table, table_sz, &output_rt,
-         |                                          ~~~^~~~~~~~
-         |                                             |
-         |                                             int
-   In file included from drivers/remoteproc/qcom_q6v5_pas.c:22:
-   include/linux/firmware/qcom/qcom_scm.h:97:57: note: expected 'struct qcom_scm_pas_ctx *' but argument is of type 'int'
-      97 | int qcom_scm_pas_get_rsc_table(struct qcom_scm_pas_ctx *ctx, void *input_rt,
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   In file included from drivers/pci/controller/pcie-mediatek-gen3.c:13:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/pci/controller/pcie-mediatek-gen3.c:1178:21: error: use of undeclared identifier 'bridge'
+    1178 |         if (IS_ERR_OR_NULL(bridge))
+         |                            ^~~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:1179:18: error: use of undeclared identifier 'bridge'
+    1179 |                 return PTR_ERR(bridge);
+         |                                ^~~~~~
+   1 warning and 2 errors generated.
+--
+   In file included from drivers/pci/controller/pci-tegra.c:21:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/pci/controller/pci-tegra.c:2571:21: error: use of undeclared identifier 'bridge'
+    2571 |         if (IS_ERR_OR_NULL(bridge))
+         |                            ^~~~~~
+   drivers/pci/controller/pci-tegra.c:2572:18: error: use of undeclared identifier 'bridge'
+    2572 |                 return PTR_ERR(bridge);
+         |                                ^~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +/qcom_scm_pas_get_rsc_table +452 drivers/remoteproc/qcom_q6v5_pas.c
+vim +/bridge +1178 drivers/pci/controller/pcie-mediatek-gen3.c
 
-   411	
-   412	static int qcom_pas_parse_firmware(struct rproc *rproc, const struct firmware *fw)
-   413	{
-   414		size_t output_rt_size = MAX_RSCTABLE_SIZE;
-   415		struct qcom_pas *pas = rproc->priv;
-   416		struct resource_table *table = NULL;
-   417		void *output_rt;
-   418		size_t table_sz;
-   419		int ret;
-   420	
-   421		ret = qcom_register_dump_segments(rproc, fw);
-   422		if (ret) {
-   423			dev_err(pas->dev, "Error in registering dump segments\n");
-   424			return ret;
-   425		}
-   426	
-   427		if (!rproc->has_iommu)
-   428			return ret;
-   429	
-   430		ret = rproc_elf_load_rsc_table(rproc, fw);
-   431		if (ret)
-   432			dev_info(&rproc->dev, "Error in loading resource table from firmware\n");
-   433	
-   434		table = rproc->table_ptr;
-   435		table_sz = rproc->table_sz;
-   436	
-   437		/*
-   438		 * Qualcomm remote processor may rely on static and dynamic resources for
-   439		 * it to be functional. For most of the Qualcomm SoCs, when run with Gunyah
-   440		 * or older QHEE hypervisor, all the resources whether it is static or dynamic,
-   441		 * is managed by present hypervisor. Dynamic resources if it is present for
-   442		 * a remote processor will always be coming from secure world via SMC call
-   443		 * while static resources may be present in remote processor firmware binary
-   444		 * or it may be coming from SMC call along with dynamic resources.
-   445		 *
-   446		 * Here, we call rproc_elf_load_rsc_table() to check firmware binary has resources
-   447		 * or not and if it is not having then we pass NULL and zero as input resource
-   448		 * table pointer and size respectively to the argument of qcom_scm_pas_get_rsc_table()
-   449		 * and this is even true for Qualcomm remote processor who does follow remoteproc
-   450		 * framework.
-   451		 */
- > 452		ret = qcom_scm_pas_get_rsc_table(pas->pas_id, table, table_sz, &output_rt,
-   453						 &output_rt_size);
-   454		if (ret) {
-   455			dev_err(pas->dev, "error %d getting resource_table\n", ret);
-   456			return ret;
-   457		}
-   458	
-   459		kfree(rproc->cached_table);
-   460		rproc->cached_table = output_rt;
-   461		rproc->table_ptr = rproc->cached_table;
-   462		rproc->table_sz = output_rt_size;
-   463	
-   464		return ret;
-   465	}
-   466	
+  1169	
+  1170	static int mtk_pcie_probe(struct platform_device *pdev)
+  1171	{
+  1172		struct device *dev = &pdev->dev;
+  1173		struct mtk_gen3_pcie *pcie;
+  1174		struct pci_host_bridge *host;
+  1175		int err;
+  1176	
+  1177		host = devm_pci_alloc_host_bridge(dev, sizeof(*pcie));
+> 1178		if (IS_ERR_OR_NULL(bridge))
+  1179			return PTR_ERR(bridge);
+  1180	
+  1181		pcie = pci_host_bridge_priv(host);
+  1182	
+  1183		pcie->dev = dev;
+  1184		pcie->soc = device_get_match_data(dev);
+  1185		platform_set_drvdata(pdev, pcie);
+  1186	
+  1187		err = mtk_pcie_setup(pcie);
+  1188		if (err)
+  1189			return err;
+  1190	
+  1191		host->ops = &mtk_pcie_ops;
+  1192		host->sysdata = pcie;
+  1193	
+  1194		err = pci_host_probe(host);
+  1195		if (err) {
+  1196			mtk_pcie_irq_teardown(pcie);
+  1197			mtk_pcie_power_down(pcie);
+  1198			return err;
+  1199		}
+  1200	
+  1201		return 0;
+  1202	}
+  1203	
 
 -- 
 0-DAY CI Kernel Test Service
