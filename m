@@ -1,47 +1,68 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23FE2AD14
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 21:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A9A469D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 21:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758491303; cv=none; b=lU2gVJ7lXnJqm/QBcTLC5+DGa7nW/W8djxts62AGBMC4/WleSNAHC4p8CLw4+6GX+nJDm18Pbtal6KUtfeGFl15DgPcBNzfY1nf5QIIFx/8EfDSnGj+2jPPvGPmCHQI8/i9seSOLjAUslrnUHALW7I62aB5A4YXyeWZZWwIvViY=
+	t=1758491980; cv=none; b=G0AdH7LEMprQxVbeOEEuj5jwHS/joBHv1ZqE5ZI+dRnxQTWn3Ng6ebgcEIUSmbNuVuVfU3Px9QJgAKuREKI6VB3yo8UsK2tifokyYWoyY4BsVYjK5d7WnyXMPP4JArL6d73cEY1ci/pqIglxfPbPGu3GCNf7TUr1Mzq80sRF4UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758491303; c=relaxed/simple;
-	bh=n5VEIgBJ1tx/K7qDtE5eY9tByIFi2ZNEuEd3DFHJUQQ=;
+	s=arc-20240116; t=1758491980; c=relaxed/simple;
+	bh=M2v7sfpTNNCmcFOkAb0KWsTGiwbSzGag6VBqaXtIdoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uMyw+5yXVh1OAC35C1czVEoCtMH0GUUrTz9hWPPbT24/N45BJWVKnDgqq+DAXYowrC2cw65YmgwPYutgW9juOIRIlFtVsha39j4A5jpF+U5o+sJ8NC/pPIQedLVvAgVCL2jJ5BKatDx4nRrwN2UWkOzgvKMzWERvS7O6mr6a5h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S2OH+Oq1; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=phFaGqtWJY++bqijzkfp0zx2Wc0S9sLw8e8STK2Gbg7zTKkZ2M30bSFIkfepL6kctFG6dhv9ej3WUN9kGitBWrPmyEH89gRV5w6hpvliZli4on/AijUtHBmnbsCZ1SLReJ93DfgcpbEN0er3dOKuPjpx2NH/rHzbvy/GCr36soE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/G5UviB; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S2OH+Oq1"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id D75E71A0F50
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 21:48:17 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9EBD460634;
-	Sun, 21 Sep 2025 21:48:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4E9F0102F16B6;
-	Sun, 21 Sep 2025 23:48:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758491296; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=nDN+Ym8c7sH2R/7tI7o+YzmL4F1zM8tUGpD/GJ+ShwQ=;
-	b=S2OH+Oq1zklMOrUbDIki+S10Ft5I2PKC5G4E0fB+7nFALWNZ+o2zGrpt15K9p9T828NkfJ
-	HfW1EzSKHif/2am7h1MfYkZnoVsA71uZD2Jz+CWKTSquWxONiRHu01Lz/AqJtCMRvfW4ko
-	sYwlj7AKxaWW862F/oHKrgxBnMHuBY1wDZcSjyXZLcb14K3TSxDCzRVzIVupfc9tpx0uEi
-	zvmgBbiVskSbSp9k8dBw+4/Rg5tfjhlQhlhv79VOB95U9oY7X3Wj5sS3sRFHshAzZWdpzp
-	jo4aA5LMXeIWj5a6NLV2eKvwT2ufbZ4KKiRz68aV6dMBI1pYQV9LE5tbzg8veA==
-Date: Sun, 21 Sep 2025 23:48:05 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Wolfram Sang <wsa-dev@sang-engineering.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: drivers/i3c/internals.h:54:9: error: passing 'const void *' to
- parameter of type 'void *' discards qualifiers
-Message-ID: <202509212148052be5ea9d@mail.local>
-References: <202509212320.yCuqvnVn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/G5UviB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758491979; x=1790027979;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M2v7sfpTNNCmcFOkAb0KWsTGiwbSzGag6VBqaXtIdoQ=;
+  b=f/G5UviBC4FVBPupUlFBCcv1qH7Jq+S3ns3K8o0cxkqWtMeOJMnYbHTS
+   UPwGcHj/fOa3DwcQ8/YmeXFIQcLn5m2y1bADC6dfCcVh43jEomUBXcxI9
+   UvMCJCoaOPSDZjp3Btdzecw+VhoM6I4QTkgpUk/OX2jLT7CiAq26ifIMt
+   rjAhw5CzhCcuRl54mKfofG1OmxYw21Co47ug1T7WjVSpdsYALBzEVEpVu
+   aQoY3pmNdLU78f/LPgmverh4SzjtVK1ooJNbu+5alXasP7pOqTiXifKMn
+   gNHAjni9DVPxRnReJyiG6sFzCIqDKaWvUldJ0oXmalbviAm3SKaoSygUW
+   A==;
+X-CSE-ConnectionGUID: qVtUNngtTSS8bmYtQGelpQ==
+X-CSE-MsgGUID: QOLC0DM5RDm9krSPh5sKHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60671433"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60671433"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 14:59:38 -0700
+X-CSE-ConnectionGUID: l17xTKIzSS2SgRiJlaW/5w==
+X-CSE-MsgGUID: C+Ft5zF3SlWfsyqfo6lDCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
+   d="scan'208";a="181581299"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2025 14:59:34 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v0S5S-00012D-0Y;
+	Sun, 21 Sep 2025 21:59:20 +0000
+Date: Mon, 22 Sep 2025 05:58:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb+git@google.com>,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, herbert@gondor.apana.org.au,
+	ebiggers@kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Kees Cook <keescook@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH 4/5] arm64/fpsimd: Require kernel NEON begin/end calls
+ from the same scope
+Message-ID: <202509220514.RnYqxP9V-lkp@intel.com>
+References: <20250918063539.2640512-11-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,77 +71,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202509212320.yCuqvnVn-lkp@intel.com>
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <20250918063539.2640512-11-ardb+git@google.com>
 
-Hello,
+Hi Ard,
 
-On 21/09/2025 23:54:32+0800, kernel test robot wrote:
-> Hi Wolfram,
-> 
-> FYI, the error/warning still remains.
-> 
+kernel test robot noticed the following build errors:
 
-As replied multiple times, the error is in the sparc64 code, not i3c.
+[auto build test ERROR on f83ec76bf285bea5727f478a68b894f5543ca76e]
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f975f08c2e899ae2484407d7bba6bb7f8b6d9d40
-> commit: 3b661ca549b9e5bb11d0bc97ada6110aac3282d2 i3c: add missing include to internal header
-> date:   8 weeks ago
-> config: sparc64-randconfig-001-20250921 (https://download.01.org/0day-ci/archive/20250921/202509212320.yCuqvnVn-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509212320.yCuqvnVn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509212320.yCuqvnVn-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/i3c/master.c:21:
-> >> drivers/i3c/internals.h:54:9: error: passing 'const void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
->       54 |         readsl(addr, buf, nbytes / 4);
->          |                ^~~~
->    arch/sparc/include/asm/io_64.h:265:41: note: passing argument to parameter 'port' here
->      265 | static inline void readsl(void __iomem *port, void *buf, unsigned long count)
->          |                                         ^
->    1 error generated.
-> 
-> 
-> vim +54 drivers/i3c/internals.h
-> 
-> 733b439375b494 Jorge Marques 2025-06-24  44  
-> 733b439375b494 Jorge Marques 2025-06-24  45  /**
-> 733b439375b494 Jorge Marques 2025-06-24  46   * i3c_readl_fifo - Read data buffer from 32bit FIFO
-> 733b439375b494 Jorge Marques 2025-06-24  47   * @addr: FIFO Address to read from
-> 733b439375b494 Jorge Marques 2025-06-24  48   * @buf: Pointer to the buffer to store read bytes
-> 733b439375b494 Jorge Marques 2025-06-24  49   * @nbytes: Number of bytes to read
-> 733b439375b494 Jorge Marques 2025-06-24  50   */
-> 733b439375b494 Jorge Marques 2025-06-24  51  static inline void i3c_readl_fifo(const void __iomem *addr, void *buf,
-> 733b439375b494 Jorge Marques 2025-06-24  52  				  int nbytes)
-> 733b439375b494 Jorge Marques 2025-06-24  53  {
-> 733b439375b494 Jorge Marques 2025-06-24 @54  	readsl(addr, buf, nbytes / 4);
-> 733b439375b494 Jorge Marques 2025-06-24  55  	if (nbytes & 3) {
-> 733b439375b494 Jorge Marques 2025-06-24  56  		u32 tmp;
-> 733b439375b494 Jorge Marques 2025-06-24  57  
-> 733b439375b494 Jorge Marques 2025-06-24  58  		tmp = readl(addr);
-> 733b439375b494 Jorge Marques 2025-06-24  59  		memcpy(buf + (nbytes & ~3), &tmp, nbytes & 3);
-> 733b439375b494 Jorge Marques 2025-06-24  60  	}
-> 733b439375b494 Jorge Marques 2025-06-24  61  }
-> 733b439375b494 Jorge Marques 2025-06-24  62  
-> 
-> :::::: The code at line 54 was first introduced by commit
-> :::::: 733b439375b494e8a6950ab47d18a4b615b73cb3 i3c: master: Add inline i3c_readl_fifo() and i3c_writel_fifo()
-> 
-> :::::: TO: Jorge Marques <jorge.marques@analog.com>
-> :::::: CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/crypto-arm64-aes-ce-ccm-Avoid-pointless-yield-of-the-NEON-unit/20250918-143859
+base:   f83ec76bf285bea5727f478a68b894f5543ca76e
+patch link:    https://lore.kernel.org/r/20250918063539.2640512-11-ardb%2Bgit%40google.com
+patch subject: [PATCH 4/5] arm64/fpsimd: Require kernel NEON begin/end calls from the same scope
+config: arm64-randconfig-r132-20250920 (https://download.01.org/0day-ci/archive/20250922/202509220514.RnYqxP9V-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220514.RnYqxP9V-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509220514.RnYqxP9V-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:27:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c: In function 'dc_fpu_begin':
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dc_trace.h:42:9: error: expected 'while' before 'trace_dcn_fpu'
+      42 |         trace_dcn_fpu(begin, function, line, ref_count)
+         |         ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:86:9: note: in expansion of macro 'TRACE_DCN_FPU'
+      86 |         TRACE_DCN_FPU(true, function_name, line, depth);
+         |         ^~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:106:11: error: 'else' without a previous 'if'
+     106 |         } else {
+         |           ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c: At top level:
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:99:6: warning: 'dc_fpu_end' defined but not used [-Wunused-function]
+      99 | void dc_fpu_end(const char *function_name, const int line)
+         |      ^~~~~~~~~~
+
+
+vim +42 drivers/gpu/drm/amd/amdgpu/../display/dc/dc_trace.h
+
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  25  
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  26  #define TRACE_DC_PIPE_STATE(pipe_ctx, index, max_pipes) \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  27  	for (index = 0; index < max_pipes; ++index) { \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  28  		struct pipe_ctx *pipe_ctx = &dc->current_state->res_ctx.pipe_ctx[index]; \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  29  		if (pipe_ctx->plane_state) \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  30  			trace_amdgpu_dm_dc_pipe_state(pipe_ctx->pipe_idx, pipe_ctx->plane_state, \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  31  						      pipe_ctx->stream, &pipe_ctx->plane_res, \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  32  						      pipe_ctx->update_flags.raw); \
+8b198f6e94d669 Rodrigo Siqueira 2020-09-09  33  	}
+13b5ca42ca9c96 Rodrigo Siqueira 2020-09-10  34  
+13b5ca42ca9c96 Rodrigo Siqueira 2020-09-10  35  #define TRACE_DCE_CLOCK_STATE(dce_clocks) \
+13b5ca42ca9c96 Rodrigo Siqueira 2020-09-10  36  	trace_amdgpu_dm_dce_clocks_state(dce_clocks)
+13b5ca42ca9c96 Rodrigo Siqueira 2020-09-10  37  
+13b5ca42ca9c96 Rodrigo Siqueira 2020-09-10  38  #define TRACE_DCN_CLOCK_STATE(dcn_clocks) \
+13b5ca42ca9c96 Rodrigo Siqueira 2020-09-10  39  	trace_amdgpu_dm_dc_clocks_state(dcn_clocks)
+96ee63730fa306 Rodrigo Siqueira 2021-07-26  40  
+2d8471dc371f36 Rodrigo Siqueira 2021-07-26  41  #define TRACE_DCN_FPU(begin, function, line, ref_count) \
+2d8471dc371f36 Rodrigo Siqueira 2021-07-26 @42  	trace_dcn_fpu(begin, function, line, ref_count)
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
