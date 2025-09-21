@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16291A9FB7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 08:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2CA238176;
+	Sun, 21 Sep 2025 08:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758442370; cv=none; b=ufR6bUd9DDNQJjUhZAEk10hRwobWGPc+MaQ1Iz2Wp87CEAIry1c2XYk9J+jeFVrrI+ZsBOdYm7skHMzWTEBS0YLPU2IdkPlekiOa5HgEYuZ1Hfsc8/izFwMG6GseAFyLaC2TACvaoQmnybNcjn0zrx/kqejG9S8yEuW2Zzsdiro=
+	t=1758444902; cv=none; b=dmCOLuez3rG5uhkznQ7yJd0KEiWGDGKj+Q0eslGSniU2WWxODrNw2ZHlqLrEqYIOXyeclIDoSLXmjtEVhkIwCzZbH+2HrCTbsoEDMs3GAsuWLSM+xY/vArYFVP1A+Guapr6QvtB/v1ViB/YsoKqInNsK5vBHJHY9/XvRygcVxKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758442370; c=relaxed/simple;
-	bh=hWG3JZg+c5pXoeICM3DdfgNv6hASmYCq/2v3gspQlpw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F5M9yuQDq8VnzYpnAfctXX/JATnh2XJyB2j0Uxgnbwp0mnsh4tAkc0GUaPtbdLJL7WuuOKQHN/6asXElMTZLOox93vezdRkAPkSOpnRgoVSRnXML/m9/4kySSAIJxhghhNy/rLLyn0I9KE+dVMV8MS7GQxhjZlCXPuo5E2N+i0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dm7gOesd; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1758444902; c=relaxed/simple;
+	bh=lX4I080+ZJyUqGQDOkoCt2JceIv9FnwbMsyV4Qiw/7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIH9/LXB/VqLiA+fqMjjRNwUVj9gGBJseH2Vn+Cc7+XZ6jzSuAkWDjNaNLnAzBZChe24m/OnhAaqdvBV/drelNrmbhZehR5JT1XWwwf5LEDTm3g/JANLK+MJGzTywgi+uSii1LOVLv3JT2KfOhIiFEwwaChyENg5A4b3tGfUjfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjhZX+ra; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dm7gOesd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjhZX+ra"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758442368; x=1789978368;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hWG3JZg+c5pXoeICM3DdfgNv6hASmYCq/2v3gspQlpw=;
-  b=Dm7gOesdOXkz9p49GHk+dxJ5evZJt4wcJDg0t9YyjJyeUXufSx9GsgCX
-   VBthMZ8OZMhB4X4nMVtvNEeEHnef4sGyj/Nlcgi+mEP/gFo+r/72B5UEI
-   zjcDD852GoGaHrCktUo2Ppfo1p+SIPajS1Hgt8xm9opEob60lG4DnBAqp
-   GBrMNfz0Zo83Tg+HZ9USgfb7X5UyTLq3MeVcMbauO1hpdZOWdVSJ6bhHi
-   3h7X/rQ2ThF2/pBsYUeEE+PjeQN/4LlvqivSY8YYrF/EBOlnSjHuywjE+
-   sLVTsszb/GwAAn5o8izhk4CJ1O5sLvKlKJvVKTO1L3gy/YlAyCH822b9W
-   g==;
-X-CSE-ConnectionGUID: lvy+MSPaTJWOdpzMwkxQWg==
-X-CSE-MsgGUID: qYaJ4qwWRR+IOHeemFjFqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11559"; a="71412471"
-X-IronPort-AV: E=Sophos;i="6.18,282,1751266800"; 
-   d="scan'208";a="71412471"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 01:12:47 -0700
-X-CSE-ConnectionGUID: NbHYYE8GRD+kV9eugBpebA==
-X-CSE-MsgGUID: u1BZ/AGZTPWIAZ6JGDOTjA==
+  t=1758444900; x=1789980900;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lX4I080+ZJyUqGQDOkoCt2JceIv9FnwbMsyV4Qiw/7E=;
+  b=LjhZX+rasyLiVjKffBIWOaaX6tamyV1VU15tHIKP35PPmvV6YvB+iqac
+   TnRW0GF6GX7HBL+VjuLwI9ks/WXWFFKnXbCC7CAFEbfFaWY4d3ARkD0T8
+   C0fXhV9E/rm4yvPZcshDmxoMlNqwOQ66xJYoVcvD1MiyWCJ/JONjDSjPv
+   uMwKuLCHklK27ObANoHdDvj3PYy2poV8p8mkGaJz2/ieNCak8esRLvr11
+   ErwYgC9BJsrHhFnOVPO6frVNzfPw8i92dpj1nBNfdP8ovf+SKjXuXI1wV
+   WpmEoMEwQpMuoSHBJYhjGKG34BpNMM/Drm3f+wdneBs0UyoEwAuscrqTF
+   A==;
+X-CSE-ConnectionGUID: 36/qmVWLTLuvk0WSsl4y2w==
+X-CSE-MsgGUID: c859b4/8RNCOxLLViptQdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64541493"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64541493"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 01:54:59 -0700
+X-CSE-ConnectionGUID: NJCzjAXtRrypPeDwvgXgyw==
+X-CSE-MsgGUID: jxZOsUj4RSSgga78K34U4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,282,1751266800"; 
-   d="scan'208";a="175781191"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 21 Sep 2025 01:12:47 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="181364168"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 21 Sep 2025 01:54:56 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0FBb-000000003Y9-3A5z;
-	Sun, 21 Sep 2025 08:12:43 +0000
-Date: Sun, 21 Sep 2025 10:12:36 +0200
+	id 1v0FqB-0000c5-0Y;
+	Sun, 21 Sep 2025 08:54:51 +0000
+Date: Sun, 21 Sep 2025 16:53:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/dev-bitstruct 8/8] warning: casts from `u8` to `u32` can
- be expressed infallibly using `From`
-Message-ID: <202509211019.shmVL9ew-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Jarkko Sakkinen <jarkko.sakkinen@opinsys.com>,
+	Stefan Berger <stefanb@linux.ibm.com>,
+	Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+	David Howells <dhowells@redhat.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Mimi Zohar <zohar@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v10 1/4] tpm: Make TPM buffer allocations more robust
+Message-ID: <202509211636.ZaHdTpHP-lkp@intel.com>
+References: <20250921020804.1088824-2-jarkko@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,160 +72,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250921020804.1088824-2-jarkko@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/dev-bitstruct
-head:   88ed8df883ccc4292779f4a55de116730bffbda3
-commit: 88ed8df883ccc4292779f4a55de116730bffbda3 [8/8] rust: bitfield: Use 'as' operator for setter type conversion
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250921/202509211019.shmVL9ew-lkp@intel.com/config)
+Hi Jarkko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250919]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.17-rc6 v6.17-rc5 v6.17-rc4 v6.17-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-Make-TPM-buffer-allocations-more-robust/20250921-102024
+base:   next-20250919
+patch link:    https://lore.kernel.org/r/20250921020804.1088824-2-jarkko%40kernel.org
+patch subject: [PATCH v10 1/4] tpm: Make TPM buffer allocations more robust
+config: x86_64-buildonly-randconfig-001-20250921 (https://download.01.org/0day-ci/archive/20250921/202509211636.ZaHdTpHP-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509211019.shmVL9ew-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509211636.ZaHdTpHP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509211019.shmVL9ew-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509211636.ZaHdTpHP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: casts from `u8` to `u32` can be expressed infallibly using `From`
-   --> rust/kernel/bits/bitfield.rs:248:38
-   |
-   248 |               { |f| <$into_type>::from(f as $type) } $into_type => $into_type $(, $comment)?;);
-   |                                        ^
-   ...
-   456 | /     bitfield! {
-   457 | |         struct TestWideFields: u8 {
-   458 | |             3:0       nibble      as u32;
-   459 | |             7:4       high_nibble as u32;
-   ...   |
-   462 | |     }
-   | |_____- in this macro invocation
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: this warning originates in the macro `::kernel::bitfield` which comes from the expansion of the macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: use `<$type>::from` instead
-   |
-   248 -             { |f| <$into_type>::from(f as $type) } $into_type => $into_type $(, $comment)?;);
-   248 +             { |f| <$into_type>::from(<$type>::from(f) as $type) } $into_type => $into_type $(, $comment)?;);
-   |
---
->> warning: casts from `bool` to `u64` can be expressed infallibly using `From`
-   --> rust/kernel/bits/bitfield.rs:303:26
-   |
-   303 |               let value = ((value as $storage) << SHIFT) & MASK;
-   |                            ^^^^^^^^^^^^^^^^^^^
-   ...
-   414 | /     bitfield! {
-   415 | |         struct TestPageTableEntry: u64 {
-   416 | |             0:0       present     as bool;
-   417 | |             1:1       writable    as bool;
-   ...   |
-   425 | |     }
-   | |_____- in this macro invocation
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: requested on the command line with `-W clippy::cast-lossless`
-   = note: this warning originates in the macro `::kernel::bitfield` which comes from the expansion of the macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: use `<u64>::from` instead
-   |
-   303 -             let value = ((value as $storage) << SHIFT) & MASK;
-   303 +             let value = (<u64>::from(value) << SHIFT) & MASK;
-   |
---
->> warning: casts from `bool` to `u64` can be expressed infallibly using `From`
-   --> rust/kernel/bits/bitfield.rs:303:26
-   |
-   303 |               let value = ((value as $storage) << SHIFT) & MASK;
-   |                            ^^^^^^^^^^^^^^^^^^^
-   ...
-   414 | /     bitfield! {
-   415 | |         struct TestPageTableEntry: u64 {
-   416 | |             0:0       present     as bool;
-   417 | |             1:1       writable    as bool;
-   ...   |
-   425 | |     }
-   | |_____- in this macro invocation
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: this warning originates in the macro `::kernel::bitfield` which comes from the expansion of the macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: use `<u64>::from` instead
-   |
-   303 -             let value = ((value as $storage) << SHIFT) & MASK;
-   303 +             let value = (<u64>::from(value) << SHIFT) & MASK;
-   |
---
->> warning: casts from `bool` to `u16` can be expressed infallibly using `From`
-   --> rust/kernel/bits/bitfield.rs:303:26
-   |
-   303 |               let value = ((value as $storage) << SHIFT) & MASK;
-   |                            ^^^^^^^^^^^^^^^^^^^
-   ...
-   427 | /     bitfield! {
-   428 | |         struct TestControlRegister: u16 {
-   429 | |             0:0       enable      as bool;
-   430 | |             3:1       mode        as u8;
-   ...   |
-   435 | |     }
-   | |_____- in this macro invocation
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: this warning originates in the macro `::kernel::bitfield` which comes from the expansion of the macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: use `<u16>::from` instead
-   |
-   303 -             let value = ((value as $storage) << SHIFT) & MASK;
-   303 +             let value = (<u16>::from(value) << SHIFT) & MASK;
-   |
---
->> warning: casts from `bool` to `u8` can be expressed infallibly using `From`
-   --> rust/kernel/bits/bitfield.rs:303:26
-   |
-   303 |               let value = ((value as $storage) << SHIFT) & MASK;
-   |                            ^^^^^^^^^^^^^^^^^^^
-   ...
-   437 | /     bitfield! {
-   438 | |         struct TestStatusRegister: u8 {
-   439 | |             0:0       ready       as bool;
-   440 | |             1:1       error       as bool;
-   ...   |
-   445 | |     }
-   | |_____- in this macro invocation
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: this warning originates in the macro `::kernel::bitfield` which comes from the expansion of the macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: use `<u8>::from` instead
-   |
-   303 -             let value = ((value as $storage) << SHIFT) & MASK;
-   303 +             let value = (<u8>::from(value) << SHIFT) & MASK;
-   |
---
->> warning: casts from `bool` to `u8` can be expressed infallibly using `From`
-   --> rust/kernel/bits/bitfield.rs:303:26
-   |
-   303 |               let value = ((value as $storage) << SHIFT) & MASK;
-   |                            ^^^^^^^^^^^^^^^^^^^
-   ...
-   447 | /     bitfield! {
-   448 | |         struct TestPartialBits: u8 {
-   449 | |             0:0       ready       as bool;
-   450 | |             1:1       error       as bool;
-   ...   |
-   453 | |     }
-   | |_____- in this macro invocation
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cast_lossless
-   = note: this warning originates in the macro `::kernel::bitfield` which comes from the expansion of the macro `bitfield` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: use `<u8>::from` instead
-   |
-   303 -             let value = ((value as $storage) << SHIFT) & MASK;
-   303 +             let value = (<u8>::from(value) << SHIFT) & MASK;
-   |
+>> drivers/char/tpm/tpm-buf.c:20:9: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
+      19 |                         WARN(1, "%s: size mismatch: %u != %u\n", __func__, buf_size,
+         |                                                           ~~
+         |                                                           %lu
+      20 |                              buf->capacity + sizeof(*buf));
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:141:29: note: expanded from macro 'WARN'
+     141 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                                           ^~~~~~
+   include/asm-generic/bug.h:112:17: note: expanded from macro '__WARN_printf'
+     112 |                 __warn_printk(arg);                                     \
+         |                               ^~~
+   1 warning generated.
+
+
+vim +20 drivers/char/tpm/tpm-buf.c
+
+     9	
+    10	static void __tpm_buf_size_invariant(struct tpm_buf *buf, u16 buf_size)
+    11	{
+    12		if (!buf->capacity) {
+    13			if (buf_size > TPM_BUF_MAX_SIZE) {
+    14				WARN(1, "%s: size overflow: %u\n", __func__, buf_size);
+    15				buf->flags |= TPM_BUF_ERROR;
+    16			}
+    17		} else {
+    18			if (buf_size != buf->capacity + sizeof(*buf)) {
+    19				WARN(1, "%s: size mismatch: %u != %u\n", __func__, buf_size,
+  > 20				     buf->capacity + sizeof(*buf));
+    21				buf->flags |= TPM_BUF_ERROR;
+    22			}
+    23		}
+    24	}
+    25	
 
 -- 
 0-DAY CI Kernel Test Service
