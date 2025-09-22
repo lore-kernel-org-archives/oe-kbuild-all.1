@@ -1,144 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FE027F16C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 11:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2312F9DBE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 11:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758539940; cv=none; b=NTlI2TVkdeJeVEucr/SCknx+ncpxLv1rSWvasH0FG9JM/ANSYBoNxh4jD40P3m4VAymZHuEWnGuibTlbHNpipirKgE6JMc4hbd3zfNmRc7lAH02NJHZxgHAmnxLJGUF+i8wdU52il22vyaja/nC3OOE4GD3DVJHjd8AQZfXK6yA=
+	t=1758540444; cv=none; b=tJEBJGFXIDanfb71XozIYlUmoabrTDd6UvJDM/ogqeMxJKpdpAv1/yD5FWIigaHfgwUfhH0iKj+gaxuOs+l1LudvvluzFbMaHWh+xG+aMlKZuBsw+Rr2cbAeXc+ADXoodb4RiJU2thz6DD/RtDby+FYN77s+EAAZVDPqzpgKUE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758539940; c=relaxed/simple;
-	bh=X+ZJREUqhMxBQzS4/TKXnaEPHdCQAyZQ/L+UMLjkhEQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OHu9I03Rd1Yw7hnPajTHo85+rdPe/Y3fb1gBxXmoCOmvgPIpmkRqHghGtWHmQhOISNxarUnh+LWOAFsH4UBJCZ+9KgVw5CIpSd6ffNbu/zQi7r4aJqHICk4xPQp5+MCQSObY04jaJdfqpmvyZnokcLDvxqhbv9ZHvyUUeM1GeKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VsQ2lzrS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758540444; c=relaxed/simple;
+	bh=VOVuKM1jtC026WGimcuNtlB8SL77AkJRcbZosGI/eks=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pPiIF3QCw672fyYv3ibI8QZaKxFeq2A01SFW5xIHlt3rTTF93BlCoZ1aXFsXKBo9hnoix8sHdIfNyDRU57+JaxD1FvMITfEhZEsdbs3J46EkVHZ6uodzHs0cKs2TLsAQASHQXhjVJwKjDzTf2ig+tsN2m8ZUdr5ulU9BqmyYrVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSK5DiPK; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VsQ2lzrS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758539937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XRryt43zmpkEymQiUCRte39npN+h7hPhKyYULQoFjgg=;
-	b=VsQ2lzrSmFceWFz29U5VIN/BC/AShVXSSShpbS3Jf86oPSLz3Uks6Own3J1W/b2jibjtht
-	rMhUY8xc2wG7aUoobrnIWeo2C4yDIyJ8WEaJGOBu5ccywYqbbWs62/daev4zAnfgTdyE1F
-	8zfPb47pyK1mxPs5f60vvMIKDYDS9to=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-MuEykQ3rObaampSq8ZiiiA-1; Mon, 22 Sep 2025 07:18:55 -0400
-X-MC-Unique: MuEykQ3rObaampSq8ZiiiA-1
-X-Mimecast-MFC-AGG-ID: MuEykQ3rObaampSq8ZiiiA_1758539935
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-7357d0fc6baso43820607b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 04:18:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758539935; x=1759144735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XRryt43zmpkEymQiUCRte39npN+h7hPhKyYULQoFjgg=;
-        b=W+Og7/kCE/1kATA7Aqk63iAZmABnqLugkLyy6dKQgrNjzxKAY/KiEHfDponU6mlfB9
-         e6dytExCTMlPfnvwqKuTT36l9nLpLXQJsTFoelTtmzrynGasJTMKP5lJMno7Vy8gAn5k
-         3Ecf/GwA6REnIsp/v2/1vt6wwkd1pbA7+R2TbVigdvhrdCPvhWOGPrxSC2mu2WqUBRE5
-         e+3aEmpiFxNUog38Fsopml68OrFTK7HrHUQdj+ZqrekKulzDUI1fo/Bw5KNNxkaBQHP5
-         MMfbL2vpcjm7kuNfyBNUqFuMeCuetZjdoIg4EVrWR2XIUNNFILsYrpLOyXFiqr1fxdUM
-         ovaQ==
-X-Gm-Message-State: AOJu0YweRd3Bq08qTiOl/L/7CNlXewOZBW8hcqmJmXqDljFcIDRSPnFU
-	UwvfI6C790jYikLOBwiCREvQfL3Mfm/SsUzV6ew+zPzT+X3e8BvzG3w0WEGtvUZccIHjiPgkIAD
-	3VRp5djK76HFDXAZ6XZiOOzO3/BLnq8AVjbhm2NOmjQhcwzD/o3nd3VEIw8WCkdWdVUVbmcy9iR
-	trZ00hoMSyBzY0Q5+Dpl/1dJh7XDTFt5cSfDig7deVdg==
-X-Gm-Gg: ASbGnctubqse0qwYaT4EOz0dyf9V9fSuJWvxb+OWTdJ89RudqUeCNAq311eBBNBeeRz
-	wUEyehd7p/WVIx9qsRgCJQx9oUqlo+PQ6GplS3t0Ri/CZAjQD9HyJoQPIURCTMVV9gsDObEXvSB
-	7ao3WgrojIBcigzXPxOBVeYFlo8oy3XDcmLjBLiCiV9xlYgaxGCpX8u/73k9wG4bo/+lLyj5+FJ
-	MYnaL7k
-X-Received: by 2002:a81:ee04:0:b0:723:b92e:ed56 with SMTP id 00721157ae682-73d32a346e0mr81269137b3.16.1758539935071;
-        Mon, 22 Sep 2025 04:18:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG26EmnxQnpVTiPFcznZliCYJCjPDiPtQdzF6kvDv+jfcrUXL+1TEef9xvDutmPEIEvEiPTd+k4aN95X31ttcA=
-X-Received: by 2002:a81:ee04:0:b0:723:b92e:ed56 with SMTP id
- 00721157ae682-73d32a346e0mr81269017b3.16.1758539934558; Mon, 22 Sep 2025
- 04:18:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSK5DiPK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758540443; x=1790076443;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VOVuKM1jtC026WGimcuNtlB8SL77AkJRcbZosGI/eks=;
+  b=HSK5DiPKZ33npzACFpeYeUUO1FJAAfpVWEJ4gI538E6kSnXvSM0F6mg2
+   9vgPY7shobYFcV+FnO41jclpzqPZz/g5JBq6hS0TQTVIXEWbQiXAEBgkM
+   MFmoDIr+ZLwD7YWjTUJlEeXyrBhhBQGo6ATSclF/g9MsO0R1xs1x89Zmo
+   s9pkmDa/RGwZ6eDG7puj0vZ15h2rvjcv807jjn2JScPWdfkCv2zd5C6kf
+   iDXtuBjxe5uT60pYMVJdqGdTNBxgXAq4EaxYzQxl1FIPOgaZtSq2vx+WT
+   RqH1d9Nw1X92BSP2OLQyti4R0AFkzeuPliRixHYP8rY9tilqCYIjPP57z
+   g==;
+X-CSE-ConnectionGUID: 31MAq1xKTf+V4CwJu+PwYg==
+X-CSE-MsgGUID: r308YNQeSwu1ZvJ7Js+vBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="64438344"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="64438344"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 04:27:22 -0700
+X-CSE-ConnectionGUID: vDefJLKrRMC3JPVeHOodLw==
+X-CSE-MsgGUID: 0IPiCTCHSkyINWwuSKN0UQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="180711196"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 22 Sep 2025 04:27:20 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v0ehG-0001b7-0Y;
+	Mon, 22 Sep 2025 11:27:15 +0000
+Date: Mon, 22 Sep 2025 19:26:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: jason.zeng@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 146/146] kernel/cgroup/cgroup.c:6276:
+ warning: Function parameter or member 'child' not described in
+ 'cgroup_css_set_fork'
+Message-ID: <202509221914.x9NNkVt8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250919093359.961296-5-eperezma@redhat.com> <202509212126.UafwRleh-lkp@intel.com>
-In-Reply-To: <202509212126.UafwRleh-lkp@intel.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 22 Sep 2025 13:18:18 +0200
-X-Gm-Features: AS18NWDSgHmIKv-xhivlLO5QUscJGU950YOya2r8YEnXe0zVqW8bwW31ICYS-vA
-Message-ID: <CAJaqyWcP6gzenoCpD1XNWo3TRE0SWX3uYHMJQ31HFeudna0JRg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] vduse: return internal vq group struct as map token
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fNg3KvHzPvXdE7AXOx3nyPOwKuOqwRwj4YJjkoaASHE_1758539935
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Sep 21, 2025 at 3:56=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Eugenio,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on mst-vhost/linux-next]
-> [also build test WARNING on next-20250919]
-> [cannot apply to linus/master v6.17-rc6]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vdus=
-e-make-domain_lock-an-rwlock/20250919-174108
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git lin=
-ux-next
-> patch link:    https://lore.kernel.org/r/20250919093359.961296-5-eperezma=
-%40redhat.com
-> patch subject: [PATCH v3 4/6] vduse: return internal vq group struct as m=
-ap token
-> config: microblaze-randconfig-r073-20250921 (https://download.01.org/0day=
--ci/archive/20250921/202509212126.UafwRleh-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 12.5.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509212126.UafwRleh-lkp=
-@intel.com/
->
-> smatch warnings:
-> drivers/vdpa/vdpa_user/vduse_dev.c:634 vduse_get_vq_map() warn: unsigned =
-'vq_group' is never less than zero.
-> drivers/vdpa/vdpa_user/vduse_dev.c:634 vduse_get_vq_map() warn: error cod=
-e type promoted to positive: 'vq_group'
->
-> vim +/vq_group +634 drivers/vdpa/vdpa_user/vduse_dev.c
->
->    627
->    628  static union virtio_map vduse_get_vq_map(struct vdpa_device *vdpa=
-, u16 idx)
->    629  {
->    630          struct vduse_dev *dev =3D vdpa_to_vduse(vdpa);
->    631          u32 vq_group =3D vduse_get_vq_group(vdpa, idx);
->    632          union virtio_map ret;
->    633
->  > 634          if (vq_group < 0)
->    635                  ret.group =3D NULL;
->    636          else
->    637                  ret.group =3D &dev->groups[vq_group];
->    638
->    639          return ret;
->    640  }
->    641
->
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   c73db7ebb024f59416db0cf136dc2d4b9dbc3695
+commit: 7636e313bdd5f19593653f18ae26f57a8ebbc93d [146/146] bytedance: async_fork: Fix incorrectly rolling back async-fork in multithreading.
+config: arm64-randconfig-004-20250922 (https://download.01.org/0day-ci/archive/20250922/202509221914.x9NNkVt8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221914.x9NNkVt8-lkp@intel.com/reproduce)
 
-That's a good catch, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509221914.x9NNkVt8-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> kernel/cgroup/cgroup.c:6276: warning: Function parameter or member 'child' not described in 'cgroup_css_set_fork'
+   kernel/cgroup/cgroup.c:6417: warning: Function parameter or member 'kargs' not described in 'cgroup_can_fork'
+   kernel/cgroup/cgroup.c:6478: warning: Function parameter or member 'kargs' not described in 'cgroup_post_fork'
+
+
+vim +6276 kernel/cgroup/cgroup.c
+
+17703097f34564 Christian Brauner 2020-02-05  6256  
+ef2c41cf38a755 Christian Brauner 2020-02-05  6257  /**
+ef2c41cf38a755 Christian Brauner 2020-02-05  6258   * cgroup_css_set_fork - find or create a css_set for a child process
+ef2c41cf38a755 Christian Brauner 2020-02-05  6259   * @kargs: the arguments passed to create the child process
+ef2c41cf38a755 Christian Brauner 2020-02-05  6260   *
+ef2c41cf38a755 Christian Brauner 2020-02-05  6261   * This functions finds or creates a new css_set which the child
+ef2c41cf38a755 Christian Brauner 2020-02-05  6262   * process will be attached to in cgroup_post_fork(). By default,
+ef2c41cf38a755 Christian Brauner 2020-02-05  6263   * the child process will be given the same css_set as its parent.
+ef2c41cf38a755 Christian Brauner 2020-02-05  6264   *
+ef2c41cf38a755 Christian Brauner 2020-02-05  6265   * If CLONE_INTO_CGROUP is specified this function will try to find an
+ef2c41cf38a755 Christian Brauner 2020-02-05  6266   * existing css_set which includes the requested cgroup and if not create
+ef2c41cf38a755 Christian Brauner 2020-02-05  6267   * a new css_set that the child will be attached to later. If this function
+ef2c41cf38a755 Christian Brauner 2020-02-05  6268   * succeeds it will hold cgroup_threadgroup_rwsem on return. If
+ef2c41cf38a755 Christian Brauner 2020-02-05  6269   * CLONE_INTO_CGROUP is requested this function will grab cgroup mutex
+ef2c41cf38a755 Christian Brauner 2020-02-05  6270   * before grabbing cgroup_threadgroup_rwsem and will hold a reference
+ef2c41cf38a755 Christian Brauner 2020-02-05  6271   * to the target cgroup.
+ef2c41cf38a755 Christian Brauner 2020-02-05  6272   */
+7636e313bdd5f1 Peng Zhang        2025-08-13  6273  static int cgroup_css_set_fork(struct task_struct *child,
+7636e313bdd5f1 Peng Zhang        2025-08-13  6274  			       struct kernel_clone_args *kargs)
+ef2c41cf38a755 Christian Brauner 2020-02-05  6275  	__acquires(&cgroup_mutex) __acquires(&cgroup_threadgroup_rwsem)
+ef2c41cf38a755 Christian Brauner 2020-02-05 @6276  {
+ef2c41cf38a755 Christian Brauner 2020-02-05  6277  	int ret;
+ef2c41cf38a755 Christian Brauner 2020-02-05  6278  	struct cgroup *dst_cgrp = NULL;
+ef2c41cf38a755 Christian Brauner 2020-02-05  6279  	struct css_set *cset;
+ef2c41cf38a755 Christian Brauner 2020-02-05  6280  	struct super_block *sb;
+ef2c41cf38a755 Christian Brauner 2020-02-05  6281  	struct file *f;
+ef2c41cf38a755 Christian Brauner 2020-02-05  6282  
+
+:::::: The code at line 6276 was first introduced by commit
+:::::: ef2c41cf38a7559bbf91af42d5b6a4429db8fc68 clone3: allow spawning processes into cgroups
+
+:::::: TO: Christian Brauner <christian.brauner@ubuntu.com>
+:::::: CC: Tejun Heo <tj@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
