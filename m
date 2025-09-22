@@ -1,82 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F942F6196
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 07:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8057822F74A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 08:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758527854; cv=none; b=IArlnUcislQbfJm4wC7KYwwirILt/ytECji42VSF98hppb3jASMtOn7/40zkMXw59cox+v+wp9aQYtNeAJhiFbTeAXJ1qQXQ8EYFN8KFCLUgw77g6YGK8j6cJigS9aS4lcdclZl+UFqt6MbggZgrFVVboJiLEQro80IJ9+iclKw=
+	t=1758528196; cv=none; b=hmTtRWgWDS1si8plSUa+Ea+N7hnu+pDNT+3oKMWsfhpJJg14M2+8nEcI4mo2o9/O/SPZ7+TApd6H/jQjrTtVhyf6q81LHB+asLNwhj3GyuE1sE1cVwWuAnpajRMwcb1T/yRkwZU35uOslD3cV/nYU2+IQEyjT2jKkxEO9NNwlOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758527854; c=relaxed/simple;
-	bh=8yVDHTkeERDKqGU8/+5de0a01zz7l/9JjTsXpfwJEqU=;
+	s=arc-20240116; t=1758528196; c=relaxed/simple;
+	bh=eM47ulAXqsB7PYlKhM7Ya6l0u6oY3RUaBmZxxRca+Zo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zjenj/qrn+SEslzsVlCYzEHFRW1iZtLY1sxjCLE48bkr3Xl9xSuNWit1zhjNUc4KjLkXjphSo/A8yLVGpTEyYx71s89O614JL9XDTYvmhfXJCKuxRamhsoefqD23nYQT2XNIrkJZ8LdieV1fDMQV9WyNVwcflrM2dSxZepEucWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TjgRs4rm; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=knZx2rfCqgALb6nQHiaU0jdUHi8o7Nlh5GHxS3Baouux4G3DlXaZcLZY1hDJ88tCLov+M4tMz0T2+Am0mqisoW3TWp1DpSskkgv6ebPLTpTs2+OMSYNBX2gwPULOlZv566SBoQtaR388KctAHlzA6PbYWWZnYHIUoGjuZwMcR+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wp8aZP3D; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TjgRs4rm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758527852; x=1790063852;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8yVDHTkeERDKqGU8/+5de0a01zz7l/9JjTsXpfwJEqU=;
-  b=TjgRs4rmwW5v0yZCOlqNcAg96oG0h+dKEFCADumPcty2zoLHrdeo6sKT
-   WuserhXt7PZcBUf5EaAxVgofXYDrJR/rph1rQ5kgjUGHSvZiijmeMIYcj
-   CglOwfekxfEwvG9kGFZQChV4afgRy1IxhhhyoMAsYvmahfk1SBfoUMDI3
-   lS/R+WfsfdpsqlSmPF/0Qe3ILqgDOP4IERldduL7Bcq8aHd8pQkM799uy
-   nQOITsAM6VJE8OQoaHSu8GcoLxGpad4v9ZdZD3EL3mVEC0wd1gKPAt1mp
-   2rUaKk1vQnscjhtKcrI4lM7uS/8XCd06xDrRa5RwCv7ZlHtpZkOaSTpHo
-   g==;
-X-CSE-ConnectionGUID: mUGJ4Am9QAqVXfFb8CIjQw==
-X-CSE-MsgGUID: PhdIZceiR+GpB3xuUwEtKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="60901904"
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="60901904"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 00:57:31 -0700
-X-CSE-ConnectionGUID: A37dvFYzS3yKNurn/d60PA==
-X-CSE-MsgGUID: JVijE6a3RaepPTic1nShNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="180675538"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 22 Sep 2025 00:57:24 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v0bQH-0001R3-1T;
-	Mon, 22 Sep 2025 07:57:21 +0000
-Date: Mon, 22 Sep 2025 15:56:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Yubing Zhang <yubing.zhang@rock-chips.com>,
-	Frank Wang <frank.wang@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Amit Sunil Dhamne <amitsd@google.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-	Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Peter Robinson <pbrobinson@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 1/7] usb: typec: Add default HPD device when register
- DisplayPort altmode
-Message-ID: <202509221516.1umvcXG6-lkp@intel.com>
-References: <20250922012039.323-2-kernel@airkyi.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wp8aZP3D"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b29ebf9478bso165696366b.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 01:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758528193; x=1759132993; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GsUuh5Jf/DOqhzicHbLgWx6LAUT+miJ4b6U4mqtAcuc=;
+        b=Wp8aZP3DHNoB6hMtxSp2QWwxIopdEpB6bXTFhOG3wpzrfYqjjQQQ/Uw+MI1azJAkxv
+         ZhxTYyYwvIuVvTbuncTYeAcft/GdMMeFJORHRBGt+yDh0bOMdcIlltbrQwQKrjgazovC
+         cpXEk2Ty4zOf7jRRvbwSJyR5eNApS1gDoyTdxQ9LHBkXo2bDIUxhuU+U3zRqeM74m2ud
+         XPXdZ5Re2NlFa59uVYGWqNlnHQDz4s9d1S2IGw2ZRvsCTCK3CnbMx6EElZSTLSWZy69y
+         5NYbaLZfSjEjt3b/sKbIrmLbZpZPlhQrl0gNgfM+u2n6EK4Bit7nl88HOF8UQLV2zVT5
+         uArw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758528193; x=1759132993;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GsUuh5Jf/DOqhzicHbLgWx6LAUT+miJ4b6U4mqtAcuc=;
+        b=wXf9p+wLNCuybCYIQx1CTM6sMN0wHKBS77ue/PcmnzdwZUAzA6BwdYp7eKpnXmPjVZ
+         YVpXMr/JVP/bTIBfvJbmu/UGXjFrAdLCPDkOfKlllAj6ALgFBIiOns2vBmqmjwrkxgNh
+         MkEdrYxFJ5ylTQ5gsC7sF/f8/KdAuMhr1IYa3k1nW7IQ3maj0Sa3RlUPudC+yFqZ8iIv
+         LCFrG+VwS6U0J9FEcMaDMyErUTQmiReSFgv5fW9oD/R7rg6gr3ya6MRf2Mu+60tznMQj
+         0L2ctyjkdCQuoagK5+CS0SZm2gZ+pCQ6aiJqpPEe0tsXj9rSt5SCjgPn8iCiL1/i8JcG
+         o22Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVYd93niBdBIRziV7ITOzMlMsBGLz+Ne7lmy+jmsV1wyc1PX2juBeELkFUKLjK2PUvV0g51rndhF+0i2S6O@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywh1uBzKbOgSk2NbzaeabgLEqL0UjK1zIdB0hBinFgnV8ajsgc9
+	dNYCWx1PHUpaeIp6nnI0v5eW/V1E8frAEndULfxu7VNWBwEeZhkpXJLP
+X-Gm-Gg: ASbGncvDp8llAqotNHth3l11C6EOCSBoz1m4zkyfhZU9z5NffWPdPSnW22IIUkwWdoJ
+	r1TsmLrzuiVij3NhSICx8VJHq025iFQJgCHV5ShpCtTVcU0PWgwjdK09T1OQyTdHFaMIyzDAPDG
+	vVVqUMgOsVMXC1Kv/ck9QIPmvW7x9L1TsZz5Ipt6urbgN4RXAJuKafXbEpBHwX+idiYT9AupqPV
+	fHE4RvnTBNBIF7/IZSs2nvkbhPostofauDCUAvkgi8KpF0AnQt930aZmR2rHiICO4f+Y1y2Vicb
+	Urr6yKVLaFQUe52pT5Gl/YsLKuicCgiSrkxAhSkoZWN2ZMK7PiKUhb28vMXLOxzS4f2YJ/sToc4
+	jlKeA8jovCQcn3kudPQ2xvt9AUiFg2NNC
+X-Google-Smtp-Source: AGHT+IGzXu2BRUSEOHuaLxiQYPrq48pwt4dOk70NyhVjzNOgyY4rLWgssRqM76J9ZRtKBOvp/lev7Q==
+X-Received: by 2002:a17:907:3d16:b0:b04:6cf7:75d4 with SMTP id a640c23a62f3a-b24f4ebfce2mr1185702266b.49.1758528192420;
+        Mon, 22 Sep 2025 01:03:12 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2a660738d1sm371513766b.77.2025.09.22.01.03.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 22 Sep 2025 01:03:12 -0700 (PDT)
+Date: Mon, 22 Sep 2025 08:03:10 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Wei Yang <richard.weiyang@gmail.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Patch v2 1/2] mm/ksm: get mm_slot by mm_slot_entry() when slot
+ is !NULL
+Message-ID: <20250922080310.pj7nz3xtxxrpjnnc@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250919071244.17020-2-richard.weiyang@gmail.com>
+ <202509220348.96Aa4hMs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,52 +77,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922012039.323-2-kernel@airkyi.com>
+In-Reply-To: <202509220348.96Aa4hMs-lkp@intel.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-Hi Chaoyi,
+On Mon, Sep 22, 2025 at 08:58:19AM +0300, Dan Carpenter wrote:
+>Hi Wei,
+>
+>kernel test robot noticed the following build warnings:
+>
+>https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+>url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/mm-ksm-get-mm_slot-by-mm_slot_entry-when-slot-is-NULL/20250919-151547
+>base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+>patch link:    https://lore.kernel.org/r/20250919071244.17020-2-richard.weiyang%40gmail.com
+>patch subject: [Patch v2 1/2] mm/ksm: get mm_slot by mm_slot_entry() when slot is !NULL
+>config: microblaze-randconfig-r073-20250921 (https://download.01.org/0day-ci/archive/20250922/202509220348.96Aa4hMs-lkp@intel.com/config)
+>compiler: microblaze-linux-gcc (GCC) 12.5.0
+>
+>If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>| Closes: https://lore.kernel.org/r/202509220348.96Aa4hMs-lkp@intel.com/
+>
+>New smatch warnings:
+>mm/ksm.c:2959 __ksm_exit() error: uninitialized symbol 'mm_slot'.
+>
+>vim +/mm_slot +2959 mm/ksm.c
+>
+>1c2fb7a4c2ca7a Andrea Arcangeli  2009-09-21  2922  void __ksm_exit(struct mm_struct *mm)
+>f8af4da3b4c14e Hugh Dickins      2009-09-21  2923  {
+>21fbd59136e077 Qi Zheng          2022-08-31  2924  	struct ksm_mm_slot *mm_slot;
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2925  	struct mm_slot *slot;
+>9ba6929480088a Hugh Dickins      2009-09-21  2926  	int easy_to_free = 0;
+>cd551f97519d35 Hugh Dickins      2009-09-21  2927  
+>31dbd01f314364 Izik Eidus        2009-09-21  2928  	/*
+>9ba6929480088a Hugh Dickins      2009-09-21  2929  	 * This process is exiting: if it's straightforward (as is the
+>9ba6929480088a Hugh Dickins      2009-09-21  2930  	 * case when ksmd was never running), free mm_slot immediately.
+>9ba6929480088a Hugh Dickins      2009-09-21  2931  	 * But if it's at the cursor or has rmap_items linked to it, use
+>c1e8d7c6a7a682 Michel Lespinasse 2020-06-08  2932  	 * mmap_lock to synchronize with any break_cows before pagetables
+>9ba6929480088a Hugh Dickins      2009-09-21  2933  	 * are freed, and leave the mm_slot on the list for ksmd to free.
+>9ba6929480088a Hugh Dickins      2009-09-21  2934  	 * Beware: ksm may already have noticed it exiting and freed the slot.
+>31dbd01f314364 Izik Eidus        2009-09-21  2935  	 */
+>9ba6929480088a Hugh Dickins      2009-09-21  2936  
+>cd551f97519d35 Hugh Dickins      2009-09-21  2937  	spin_lock(&ksm_mmlist_lock);
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2938  	slot = mm_slot_lookup(mm_slots_hash, mm);
+>de4014f857d062 Wei Yang          2025-09-19  2939  	if (slot) {
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2940  		mm_slot = mm_slot_entry(slot, struct ksm_mm_slot, slot);
+>de4014f857d062 Wei Yang          2025-09-19  2941  		if (ksm_scan.mm_slot != mm_slot) {
+>6514d511dbe5a7 Hugh Dickins      2009-12-14  2942  			if (!mm_slot->rmap_list) {
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2943  				hash_del(&slot->hash);
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2944  				list_del(&slot->mm_node);
+>9ba6929480088a Hugh Dickins      2009-09-21  2945  				easy_to_free = 1;
+>9ba6929480088a Hugh Dickins      2009-09-21  2946  			} else {
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2947  				list_move(&slot->mm_node,
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2948  					  &ksm_scan.mm_slot->slot.mm_node);
+>9ba6929480088a Hugh Dickins      2009-09-21  2949  			}
+>9ba6929480088a Hugh Dickins      2009-09-21  2950  		}
+>de4014f857d062 Wei Yang          2025-09-19  2951  	}
+>
+>mm_slot isn't initialized on the else path
+>
+>cd551f97519d35 Hugh Dickins      2009-09-21  2952  	spin_unlock(&ksm_mmlist_lock);
+>cd551f97519d35 Hugh Dickins      2009-09-21  2953  
+>9ba6929480088a Hugh Dickins      2009-09-21  2954  	if (easy_to_free) {
+>58730ab6c7cab4 Qi Zheng          2022-08-31  2955  		mm_slot_free(mm_slot_cache, mm_slot);
+>12e423ba4eaed7 Lorenzo Stoakes   2025-08-12  2956  		mm_flags_clear(MMF_VM_MERGE_ANY, mm);
+>12e423ba4eaed7 Lorenzo Stoakes   2025-08-12  2957  		mm_flags_clear(MMF_VM_MERGEABLE, mm);
+>9ba6929480088a Hugh Dickins      2009-09-21  2958  		mmdrop(mm);
+>9ba6929480088a Hugh Dickins      2009-09-21 @2959  	} else if (mm_slot) {
+>                                                                   ^^^^^^^
+>uninitialized
+>
 
-kernel test robot noticed the following build warnings:
+Thanks, will initialize it at the beginning.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next linus/master v6.17-rc7 next-20250919]
-[cannot apply to rockchip/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/usb-typec-Add-default-HPD-device-when-register-DisplayPort-altmode/20250922-092549
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250922012039.323-2-kernel%40airkyi.com
-patch subject: [PATCH v4 1/7] usb: typec: Add default HPD device when register DisplayPort altmode
-config: i386-buildonly-randconfig-003-20250922 (https://download.01.org/0day-ci/archive/20250922/202509221516.1umvcXG6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221516.1umvcXG6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509221516.1umvcXG6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/usb/typec/class.c:18:
->> drivers/usb/typec/altmodes/displayport.h:7:5: warning: no previous prototype for 'dp_altmode_probe' [-Wmissing-prototypes]
-       7 | int dp_altmode_probe(struct typec_altmode *alt) { return -ENOTSUPP; }
-         |     ^~~~~~~~~~~~~~~~
->> drivers/usb/typec/altmodes/displayport.h:8:6: warning: no previous prototype for 'dp_altmode_remove' [-Wmissing-prototypes]
-       8 | void dp_altmode_remove(struct typec_altmode *alt) { }
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/usb/typec/altmodes/displayport.h:9:6: warning: no previous prototype for 'dp_altmode_hpd_device_register' [-Wmissing-prototypes]
-       9 | void dp_altmode_hpd_device_register(struct typec_altmode *alt) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/dp_altmode_probe +7 drivers/usb/typec/altmodes/displayport.h
-
-d266e96820cc36 Ajay Gupta  2019-04-23 @7  int dp_altmode_probe(struct typec_altmode *alt) { return -ENOTSUPP; }
-d266e96820cc36 Ajay Gupta  2019-04-23 @8  void dp_altmode_remove(struct typec_altmode *alt) { }
-50d2edccce6bf3 Chaoyi Chen 2025-09-22 @9  void dp_altmode_hpd_device_register(struct typec_altmode *alt) { }
+>d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2960  		mmap_write_lock(mm);
+>d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2961  		mmap_write_unlock(mm);
+>9ba6929480088a Hugh Dickins      2009-09-21  2962  	}
+>739100c88f49a6 Stefan Roesch     2023-02-10  2963  
+>739100c88f49a6 Stefan Roesch     2023-02-10  2964  	trace_ksm_exit(mm);
+>31dbd01f314364 Izik Eidus        2009-09-21  2965  }
+>
+>-- 
+>0-DAY CI Kernel Test Service
+>https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Wei Yang
+Help you, Help me
