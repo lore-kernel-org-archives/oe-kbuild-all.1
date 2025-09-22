@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3BC7081C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 13:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477A6305E04
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 13:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758546237; cv=none; b=dBqCQP+pWRyImDiROdPjyScfBlVqN0fuxMdp7Qd8dpxSs/85SsFkaBeRV7zI+FwTIpOhHIh11Ne6WBkqfE/Ml6csGrkjQwNI4aLAfZyYTWBcDykC8n/JphceRwsdaCHrutZm+EUvzfxGYXRlg6uxvZY2aPVAVghHBdN5JxfamkM=
+	t=1758548020; cv=none; b=ohccpF2Mt2LREc9icRbxBELYCH8Ps3jEDbEy31jNlWLmRqYJewuUaqWRmqNDgF4g1a6o58DeHffa0cAE3bfKiuDC6OWxvAg86IA4ROYUEwZIots8oLqN8cFEODkahXfyqHzOt3NKYVN9iXPexeISY/pq6vJJf+QD9W7+qzkPImM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758546237; c=relaxed/simple;
-	bh=6Fml/nYgrJrMomySy6PHh64zlAr/I2NW2hNz5UG3nqY=;
+	s=arc-20240116; t=1758548020; c=relaxed/simple;
+	bh=elO3NLv4vt1JKnON/yJ0aCls7P7sTB7/lhLmqgp9rgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=inw6Vc9vcDbfh57uBoZiiRL6HQREjv2lf0QT9mCgrweaJd+vHJXROVknoygThLUgmIjc9QkFZRZ3D00C1xcBuvB4EZvmlaY9wWiDX8vlB2pUBg3OW519XK5JQwKZXxLVCKuJ3dcHXV6SclW/l5bwQioVReBJqQDg3EudMY2KU+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1LpkJBX; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=pGGQns83buTWakqHroy1G69BNQB1aUFJlQqqXe/xcUWxOPaZzt0mNxR+VncTxIqkquFPdOMIC8IwP7xWIE+AqBSN6HqcPM7RyGTfb+NfpQTa3I0gUm5wGe0HPIzn1KMoYyaWFokxaiTrammJXxD0KAjYoWjCgc3HZ3V9+0e4p8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zi3pCV6v; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1LpkJBX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zi3pCV6v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758546236; x=1790082236;
+  t=1758548018; x=1790084018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6Fml/nYgrJrMomySy6PHh64zlAr/I2NW2hNz5UG3nqY=;
-  b=f1LpkJBXjZaQRZ6IXfQtsw+/ZCQMvqaLGKjB585F4tCpBe1yUC/UiJDV
-   /xV/rYkCPbcUOLK4S0zGloOOnD83gSzMoQ0qOo8lkyBERrS67JJSVhRv+
-   RhyYLhkx2MEQTKIbA99H3xmhjOPPhdnfSyS9TpW6M223Z7NTMrafls2yd
-   vDcqXocCVXmdG+ee1XTRY7nc9iLsX0831gXeL08kZ7wR1UQvmT+7TlBu/
-   mTmEe8GTzCgHaJvEB870LB2CZf4hecIwqsgCIvt5CF1+TJfX5bFj5eZ5D
-   25WhCLZ7U1XdkmjwWT8dLYizMljaEmwrfZafVe0/Gj3PnIFtYGuXMFCOM
+  bh=elO3NLv4vt1JKnON/yJ0aCls7P7sTB7/lhLmqgp9rgg=;
+  b=Zi3pCV6vphYRNdsdKgJtgwsxhDCB1pqHIizB18mvnCDftFTw1W2FHc+W
+   8i4XMEuW0/i5dpXJtdzEtVeLSdIwwiFLp28JcfoIsJvQCGjCAQ1PmlAru
+   60i10Cf/pubJZozjiNjMj8CwhDEj7U5CHtBaXEac11T8Jb+X8ktHEWF5S
+   AtF4wcjhqpz4b8UEZ24e6PyOuobm5JO2b3L5zcBCJHSsfypOGkQNNJQ0V
+   +KKK0I+ZA6QV5qUH8sh9X4H6WCCuawt2A8Wf9dWnqBPcOZ2kow7EVCINc
+   36g3L/VJ1p+utpwuhi5JtjKsFSMTAsXS971Vvkl91qqsbNqbymMce1XxV
    A==;
-X-CSE-ConnectionGUID: c2/OFIY5RYqFuJ1wblfClw==
-X-CSE-MsgGUID: R4JoeX0zTkqoltfMCIysEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60746231"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60746231"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 06:02:03 -0700
-X-CSE-ConnectionGUID: 8iOVzwS5S4ymO0z8x3n4HQ==
-X-CSE-MsgGUID: xHk+tSXOQE6lzSJ9zfTjDQ==
+X-CSE-ConnectionGUID: RyFLAGQFSe2SAt995ZYbjw==
+X-CSE-MsgGUID: cdrr+zxWTVGVYb9u+gG6Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="63437684"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="63437684"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 06:33:38 -0700
+X-CSE-ConnectionGUID: BC/kmH+NTrGQk6dneCix1w==
+X-CSE-MsgGUID: 3o4exqteQd+w9anjPZHnaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
-   d="scan'208";a="176390355"
+   d="scan'208";a="180491381"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Sep 2025 06:02:00 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Sep 2025 06:33:36 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0gB4-0001gn-09;
-	Mon, 22 Sep 2025 13:01:58 +0000
-Date: Mon, 22 Sep 2025 21:01:05 +0800
+	id 1v0gfd-0001iT-0c;
+	Mon, 22 Sep 2025 13:33:33 +0000
+Date: Mon, 22 Sep 2025 21:32:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 146/146] mm/vmscan.c:186:38: error: macro
- "get_total_swap_pages" passed 1 arguments, but takes just 0
-Message-ID: <202509222023.8sN0eIZl-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Brian Norris <briannorris@chromium.org>,
+	Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Subject: include/asm-generic/percpu.h:21:44: warning: array subscript 32 is
+ above array bounds of 'long unsigned int[32]'
+Message-ID: <202509222148.aujDHbuM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +64,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhongkun,
+Hi Yury,
 
-FYI, the error/warning still remains.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c73db7ebb024f59416db0cf136dc2d4b9dbc3695
-commit: 5291f45f705b03858f36c68bbdfdbdf7857e651b [146/146] bytedance: mm: add /proc knob for proactive swappiness
-config: arm64-randconfig-004-20250922 (https://download.01.org/0day-ci/archive/20250922/202509222023.8sN0eIZl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509222023.8sN0eIZl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   07e27ad16399afcd693be20211b0dfae63e0615f
+commit: fda1dd3c54ef3c4200c2e77634a91610da973950 find: Switch from inline to __always_inline
+date:   1 year, 1 month ago
+config: riscv-randconfig-r111-20250922 (https://download.01.org/0day-ci/archive/20250922/202509222148.aujDHbuM-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509222148.aujDHbuM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509222023.8sN0eIZl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509222148.aujDHbuM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/vmscan.c:186:38: error: macro "get_total_swap_pages" passed 1 arguments, but takes just 0
-     186 | inline long get_total_swap_pages(void)
-         |                                      ^
-   In file included from mm/vmscan.c:20:
-   include/linux/swap.h:565: note: macro "get_total_swap_pages" defined here
-     565 | #define get_total_swap_pages()   0L
-         | 
->> mm/vmscan.c:187:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-     187 | {
-         | ^
-   mm/vmscan.c: In function 'demote_page_list':
-   mm/vmscan.c:761:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     761 |  int err;
-         |      ^~~
+   In file included from include/linux/compiler_types.h:174,
+                    from <command-line>:
+   drivers/base/test/test_async_driver_probe.c: In function 'test_async_probe_init':
+>> include/asm-generic/percpu.h:21:44: warning: array subscript 32 is above array bounds of 'long unsigned int[32]' [-Warray-bounds]
+    #define per_cpu_offset(x) (__per_cpu_offset[x])
+   include/linux/compiler-gcc.h:35:26: note: in definition of macro 'RELOC_HIDE'
+     (typeof(ptr)) (__ptr + (off));     \
+                             ^~~
+   include/linux/percpu-defs.h:236:2: note: in expansion of macro 'SHIFT_PERCPU_PTR'
+     SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));   \
+     ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:236:26: note: in expansion of macro 'per_cpu_offset'
+     SHIFT_PERCPU_PTR((ptr), per_cpu_offset((cpu)));   \
+                             ^~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:269:29: note: in expansion of macro 'per_cpu_ptr'
+    #define per_cpu(var, cpu) (*per_cpu_ptr(&(var), cpu))
+                                ^~~~~~~~~~~
+   include/linux/topology.h:96:9: note: in expansion of macro 'per_cpu'
+     return per_cpu(numa_node, cpu);
+            ^~~~~~~
 
 
-vim +/get_total_swap_pages +186 mm/vmscan.c
+vim +21 include/asm-generic/percpu.h
 
-   185	
- > 186	inline long get_total_swap_pages(void)
- > 187	{
-   188		return proactive_swappiness_enabled ? 0 : total_swap_pages;
-   189	}
-   190	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  20  
+a875a69f8b00a3 Ingo Molnar    2006-07-03 @21  #define per_cpu_offset(x) (__per_cpu_offset[x])
+acdac87202a408 travis@sgi.com 2008-01-30  22  #endif
+acdac87202a408 travis@sgi.com 2008-01-30  23  
+
+:::::: The code at line 21 was first introduced by commit
+:::::: a875a69f8b00a38b4f40d9632a4fc71a159f0e0d [PATCH] lockdep: add per_cpu_offset()
+
+:::::: TO: Ingo Molnar <mingo@elte.hu>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
