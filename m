@@ -1,61 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E16B17A2FC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 01:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96591D514B;
+	Mon, 22 Sep 2025 04:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758505241; cv=none; b=QFvUN+SvNkO2SyO94tvu8r/KSMyF9jjXaKZDR94Il4Zj71oi+Z7VZg823e0GtUX6GM1CmiAQ8Nyf8OUeecZNVbB32KoDbIY0Tr/YFHL3Y6q/QM1njCzjIUo5K6+/0KXwwp02ClCyOiEL49MAQbrHR587hJLENa8yN8/yEJSmNKs=
+	t=1758514055; cv=none; b=EfnVqhoaXReg70xbBq0GAiYYd74EUju3rgIuAPzajmcONy0zZQ34Oh/VloU/CtoZWRMt1qMZNeaKdxEmUMhXzXuDQ6OF3Pv0X0SkNqmp4EHd7s67pXll0d0DR3HHjg8HnBLq6vdi1qA+oKiDhrwFKeRQHI6pKNLnGFC5RwN9zGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758505241; c=relaxed/simple;
-	bh=+kM5PiKkTTdIyO1uqU3fxNhuoucUcc7yyFO+KVyEYZg=;
+	s=arc-20240116; t=1758514055; c=relaxed/simple;
+	bh=G2V1IzI07Lo+cAvCBkq1btsiFZLerly8BvX9QTJo0j4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LhCIkzyXYkhyOTkPlF41FidsUhsR1CXigCJ+L6FOogNWOvGmlHVbgocQ9f6O1gQCjD44T1gpNPriw2OqAzUZAWsWAxyjFLyTb26W5Vv3cT6FHl+eBnNoKf0LnZ0GEEgktQ7ewzdTdlrtco6bWOb41KqdOMwe+wtCVfoWvVxhHEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrTbNhA3; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqaVoYoHLi6p40MLEV0CcgnRKwfnJl/76pkX3kbW45U8pJBR4clyCyELy6Gu8Ui9uc410RjSRH1QlXo86/8MVN/e1WfjkOL8zyNHPhTzqZ43O9CTFWHbOeZn5osfh44awWbJG5LsQkjMO06Pbn6b6RvxsSlXeJV/h318Xci04Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJ1BmRC9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrTbNhA3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJ1BmRC9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758505240; x=1790041240;
+  t=1758514054; x=1790050054;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+kM5PiKkTTdIyO1uqU3fxNhuoucUcc7yyFO+KVyEYZg=;
-  b=WrTbNhA3Oem8YcDBnybGjQS7yWtsGpZD/Ltc5K5vVF3hVK8N1i7Bf1F2
-   mZ28x/kVEdaFLT0GhB8lCKMZlI3i+m7Cgbv0iP5t0pjwNwm3crkPiLYK+
-   V2rMZpKpXjHDSipk1vqg45b3NHCwfWTKZOzVE+wNPW1IOeBGxLosswMCm
-   cDOwcD3ecHW7xlQyyEKAmN5aBIFTd2HOEmIqkodRJlzTScpNuHtIbdk4V
-   qgvLMZhevvGDeAuxc67o5LWyGwwWge/Rp04m+qF93VFq1wC/QuM75yLI/
-   7xM/WtRWU6uVuIvi6l/S2+BQ7eiKUoM5EQUrFwulLqRIhAFu4z+i5DzwV
+  bh=G2V1IzI07Lo+cAvCBkq1btsiFZLerly8BvX9QTJo0j4=;
+  b=CJ1BmRC9bMJTpqOz9ku4zrsiOPR/+v6dV64QWGpGj5nTSKvyNKQycTEe
+   gNiq7OfLjsaYMiqzpLRC5rKZAroy306un1yLedDy18pyCYsg1tdw4dBbd
+   M2XClBTdnm36UQk3tWI1gR3/TyIB8fBCDyt08giHBJA31lvkW58f0puNF
+   Hh2zS6LlL3T2QGCwmvK+VrzyGpxnzAzk61EG48FSc76yb5DqO/igQvyEb
+   vnYkx9Eea2s+gSPlC5okSTn72cDnRqC6epJXthW/nqXH8QaVj974GFA84
+   QNfnBHuM7aixYvPltYjC1sexaa2S2HwQtPnYnX1D3SIKCSJtMh3VfhlW5
    Q==;
-X-CSE-ConnectionGUID: guIuflCfR2GJ36pnnLcsRA==
-X-CSE-MsgGUID: U6KANislQaaJGTTKAU8/VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="59802163"
-X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="59802163"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 18:40:39 -0700
-X-CSE-ConnectionGUID: gxtktPD3R8aAMdur/5bYRw==
-X-CSE-MsgGUID: 58Gus90ESQWcx/rdCI9dUw==
+X-CSE-ConnectionGUID: VdcoeMUaR1yRxQTuJCgS3A==
+X-CSE-MsgGUID: mHVNfSj6TymGqZ180gLxbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="59809003"
+X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
+   d="scan'208";a="59809003"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 21:07:33 -0700
+X-CSE-ConnectionGUID: zqpl9hnCTuyexJ28zpHKKg==
+X-CSE-MsgGUID: yfvJgNhsSFqEUX/ZvNjTxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="176172100"
+X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
+   d="scan'208";a="176811092"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Sep 2025 18:40:36 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 21 Sep 2025 21:07:28 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0VXZ-0001Cq-1k;
-	Mon, 22 Sep 2025 01:40:30 +0000
-Date: Mon, 22 Sep 2025 09:39:22 +0800
+	id 1v0Xpl-0001J3-1y;
+	Mon, 22 Sep 2025 04:07:25 +0000
+Date: Mon, 22 Sep 2025 12:07:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ketan Patil <ketanp@nvidia.com>, krzk@kernel.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, Ketan Patil <ketanp@nvidia.com>
-Subject: Re: [PATCH 3/4] memory: tegra: Add support for multiple irqs
-Message-ID: <202509220945.sf6Ru7V3-lkp@intel.com>
-References: <20250916051754.39250-4-ketanp@nvidia.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>, chester62515@gmail.com,
+	mbrugger@suse.com, ghennadi.procopciuc@oss.nxp.com, s32@nxp.com,
+	bhelgaas@google.com, jingoohan1@gmail.com, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, Ionut.Vicovan@nxp.com,
+	larisa.grigore@nxp.com, Ghennadi.Procopciuc@nxp.com,
+	ciprianmarian.costea@nxp.com, bogdan.hamciuc@nxp.com,
+	Frank.li@nxp.com, linux-arm-kernel@lists.infradead.org,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, cassel@kernel.org
+Subject: Re: [PATCH 2/3 v2] PCI: s32g: Add initial PCIe support (RC)
+Message-ID: <202509221101.JBhoJaEX-lkp@intel.com>
+References: <20250919155821.95334-3-vincent.guittot@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +71,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916051754.39250-4-ketanp@nvidia.com>
+In-Reply-To: <20250919155821.95334-3-vincent.guittot@linaro.org>
 
-Hi Ketan,
+Hi Vincent,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tegra/for-next]
-[also build test WARNING on krzk-mem-ctrl/for-next linus/master v6.17-rc7 next-20250919]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.17-rc7 next-20250919]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ketan-Patil/memory-tegra-Group-mc-err-related-registers/20250916-132118
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250916051754.39250-4-ketanp%40nvidia.com
-patch subject: [PATCH 3/4] memory: tegra: Add support for multiple irqs
-config: arm-randconfig-r121-20250922 (https://download.01.org/0day-ci/archive/20250922/202509220945.sf6Ru7V3-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project efd96afedf2c0f6f2cc34cf5a9a7e3e78f592255)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509220945.sf6Ru7V3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/PCI-s32g-Add-initial-PCIe-support-RC/20250920-005919
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250919155821.95334-3-vincent.guittot%40linaro.org
+patch subject: [PATCH 2/3 v2] PCI: s32g: Add initial PCIe support (RC)
+config: openrisc-randconfig-r132-20250922 (https://download.01.org/0day-ci/archive/20250922/202509221101.JBhoJaEX-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509221101.JBhoJaEX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509220945.sf6Ru7V3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509221101.JBhoJaEX-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/memory/tegra/tegra20.c:764:21: sparse: sparse: symbol 'tegra20_mc_irq_handlers' was not declared. Should it be static?
+>> drivers/pci/controller/dwc/pcie-s32g.c:133:20: sparse: sparse: symbol 's32g_pcie_ops' was not declared. Should it be static?
+   drivers/pci/controller/dwc/pcie-s32g.c: note: in included file (through drivers/pci/controller/dwc/pcie-designware.h):
+>> drivers/pci/controller/dwc/../../pci.h:632:17: sparse: sparse: cast from restricted pci_channel_state_t
+>> drivers/pci/controller/dwc/../../pci.h:632:17: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/controller/dwc/../../pci.h:635:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/controller/dwc/../../pci.h:635:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/controller/dwc/../../pci.h:635:23: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/controller/dwc/../../pci.h:639:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/controller/dwc/../../pci.h:639:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/controller/dwc/../../pci.h:639:23: sparse: sparse: cast to restricted pci_channel_state_t
 
-vim +/tegra20_mc_irq_handlers +764 drivers/memory/tegra/tegra20.c
+vim +/s32g_pcie_ops +133 drivers/pci/controller/dwc/pcie-s32g.c
 
-   763	
- > 764	const irq_handler_t tegra20_mc_irq_handlers[] = {
-   765		tegra20_mc_handle_irq
-   766	};
-   767	
+   132	
+ > 133	struct dw_pcie_ops s32g_pcie_ops = {
+   134		.get_ltssm = s32g_pcie_get_ltssm,
+   135		.link_up = s32g_pcie_link_up,
+   136		.start_link = s32g_pcie_start_link,
+   137		.stop_link = s32g_pcie_stop_link,
+   138	};
+   139	
 
 -- 
 0-DAY CI Kernel Test Service
