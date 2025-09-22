@@ -1,74 +1,73 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8057822F74A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 08:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFD12F6587
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 08:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758528196; cv=none; b=hmTtRWgWDS1si8plSUa+Ea+N7hnu+pDNT+3oKMWsfhpJJg14M2+8nEcI4mo2o9/O/SPZ7+TApd6H/jQjrTtVhyf6q81LHB+asLNwhj3GyuE1sE1cVwWuAnpajRMwcb1T/yRkwZU35uOslD3cV/nYU2+IQEyjT2jKkxEO9NNwlOw=
+	t=1758529349; cv=none; b=Yk3NUBmztC5SccW8MlWHbW4xoW3Rr2wH7nUQITsurDoNxHDSjSVeEV0eMfLurMXjsFz8Lk0UJXNcDRSgBWuxQmKGIm6cyPBfoeyuop79/1nj67AFlziZtAoXhfnxRHAyQ+fcdHjq2wynp0B6Zd/H6XTnpaWWoRE7IYtUA0SL59o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758528196; c=relaxed/simple;
-	bh=eM47ulAXqsB7PYlKhM7Ya6l0u6oY3RUaBmZxxRca+Zo=;
+	s=arc-20240116; t=1758529349; c=relaxed/simple;
+	bh=wcgd5vKAWbHO0vRZ+p4xrg5t4PZ/hiZsS2W2PPEHtOM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=knZx2rfCqgALb6nQHiaU0jdUHi8o7Nlh5GHxS3Baouux4G3DlXaZcLZY1hDJ88tCLov+M4tMz0T2+Am0mqisoW3TWp1DpSskkgv6ebPLTpTs2+OMSYNBX2gwPULOlZv566SBoQtaR388KctAHlzA6PbYWWZnYHIUoGjuZwMcR+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wp8aZP3D; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CU08UfxR61TcU8ajZLoitMfMQLxEa386azEH5em3cBqYHaB2BRqDszBM8byB6aJ5kPOkwV9njeNLR2DQn6QMsOTXpNMzplfsTARZce3hF9KipyQqa3ZiaUhn48IuY+s12zUuBZcXUWnqLYbE0Oi4SXqlqFy5YZMQbHHAnKicbms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Oslv1CnH; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wp8aZP3D"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b29ebf9478bso165696366b.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 01:03:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Oslv1CnH"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-46d72711971so27975e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 01:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758528193; x=1759132993; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GsUuh5Jf/DOqhzicHbLgWx6LAUT+miJ4b6U4mqtAcuc=;
-        b=Wp8aZP3DHNoB6hMtxSp2QWwxIopdEpB6bXTFhOG3wpzrfYqjjQQQ/Uw+MI1azJAkxv
-         ZhxTYyYwvIuVvTbuncTYeAcft/GdMMeFJORHRBGt+yDh0bOMdcIlltbrQwQKrjgazovC
-         cpXEk2Ty4zOf7jRRvbwSJyR5eNApS1gDoyTdxQ9LHBkXo2bDIUxhuU+U3zRqeM74m2ud
-         XPXdZ5Re2NlFa59uVYGWqNlnHQDz4s9d1S2IGw2ZRvsCTCK3CnbMx6EElZSTLSWZy69y
-         5NYbaLZfSjEjt3b/sKbIrmLbZpZPlhQrl0gNgfM+u2n6EK4Bit7nl88HOF8UQLV2zVT5
-         uArw==
+        d=google.com; s=20230601; t=1758529346; x=1759134146; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gqTj3W7IZ9HZZBW9wKpYWsYyOAxKSEoa6COxIZsKaeQ=;
+        b=Oslv1CnHKs6SXFLpvAsX76X6ks5SirMVrlduEOTkAWJr0Uza1znYeAonW0vB6xXTxQ
+         zNFrkxjccAX8jdBTVpEmwhU/Awm+blgfKPN/yU9DjW+gP5bNANsmx/ATLjV+6Yrs9kM0
+         xktfL2gcXgsyPH8rr88VFM1S/83WzRcUvLZI9oU021NpnLXKGzRd/gfOQqZsgE7Ajx1S
+         04C/PwdIEbhSl7x0mTwblD45x/6PhGUyWtm7+8+6rK/08e1QffH8dSxB9eiSFbIAruAT
+         uF1i7LgT4U+iFwNzE/RBH1+EahyU/JZRQcBPlDQ6Z9O3UyuqIxjJePWL8rfDgdmVI4ak
+         TvbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758528193; x=1759132993;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GsUuh5Jf/DOqhzicHbLgWx6LAUT+miJ4b6U4mqtAcuc=;
-        b=wXf9p+wLNCuybCYIQx1CTM6sMN0wHKBS77ue/PcmnzdwZUAzA6BwdYp7eKpnXmPjVZ
-         YVpXMr/JVP/bTIBfvJbmu/UGXjFrAdLCPDkOfKlllAj6ALgFBIiOns2vBmqmjwrkxgNh
-         MkEdrYxFJ5ylTQ5gsC7sF/f8/KdAuMhr1IYa3k1nW7IQ3maj0Sa3RlUPudC+yFqZ8iIv
-         LCFrG+VwS6U0J9FEcMaDMyErUTQmiReSFgv5fW9oD/R7rg6gr3ya6MRf2Mu+60tznMQj
-         0L2ctyjkdCQuoagK5+CS0SZm2gZ+pCQ6aiJqpPEe0tsXj9rSt5SCjgPn8iCiL1/i8JcG
-         o22Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVYd93niBdBIRziV7ITOzMlMsBGLz+Ne7lmy+jmsV1wyc1PX2juBeELkFUKLjK2PUvV0g51rndhF+0i2S6O@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywh1uBzKbOgSk2NbzaeabgLEqL0UjK1zIdB0hBinFgnV8ajsgc9
-	dNYCWx1PHUpaeIp6nnI0v5eW/V1E8frAEndULfxu7VNWBwEeZhkpXJLP
-X-Gm-Gg: ASbGncvDp8llAqotNHth3l11C6EOCSBoz1m4zkyfhZU9z5NffWPdPSnW22IIUkwWdoJ
-	r1TsmLrzuiVij3NhSICx8VJHq025iFQJgCHV5ShpCtTVcU0PWgwjdK09T1OQyTdHFaMIyzDAPDG
-	vVVqUMgOsVMXC1Kv/ck9QIPmvW7x9L1TsZz5Ipt6urbgN4RXAJuKafXbEpBHwX+idiYT9AupqPV
-	fHE4RvnTBNBIF7/IZSs2nvkbhPostofauDCUAvkgi8KpF0AnQt930aZmR2rHiICO4f+Y1y2Vicb
-	Urr6yKVLaFQUe52pT5Gl/YsLKuicCgiSrkxAhSkoZWN2ZMK7PiKUhb28vMXLOxzS4f2YJ/sToc4
-	jlKeA8jovCQcn3kudPQ2xvt9AUiFg2NNC
-X-Google-Smtp-Source: AGHT+IGzXu2BRUSEOHuaLxiQYPrq48pwt4dOk70NyhVjzNOgyY4rLWgssRqM76J9ZRtKBOvp/lev7Q==
-X-Received: by 2002:a17:907:3d16:b0:b04:6cf7:75d4 with SMTP id a640c23a62f3a-b24f4ebfce2mr1185702266b.49.1758528192420;
-        Mon, 22 Sep 2025 01:03:12 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2a660738d1sm371513766b.77.2025.09.22.01.03.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 22 Sep 2025 01:03:12 -0700 (PDT)
-Date: Mon, 22 Sep 2025 08:03:10 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Wei Yang <richard.weiyang@gmail.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Patch v2 1/2] mm/ksm: get mm_slot by mm_slot_entry() when slot
- is !NULL
-Message-ID: <20250922080310.pj7nz3xtxxrpjnnc@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250919071244.17020-2-richard.weiyang@gmail.com>
- <202509220348.96Aa4hMs-lkp@intel.com>
+        d=1e100.net; s=20230601; t=1758529346; x=1759134146;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gqTj3W7IZ9HZZBW9wKpYWsYyOAxKSEoa6COxIZsKaeQ=;
+        b=EUN3KcTgTEeAMvfA0UnMMXt5KsOfbj7uNltuJYMk5Ywt+glwr6OMZ2jTZUIAIHtj9/
+         kdhCkb/dIovIOfFx6FCWnoxM3E8Vb5jWFwaLSksEnY+kOimiON/s6mz85r20+ID6g2Sb
+         HlINx9oDNj1dAAxfG1Dugp9jPorgKKJ1R7LeHdN3a5EEC5+7E0MaV3ta5GglI8AEI9XG
+         AlQ8zvTYutHb/tHFTQ5G0a4x/vlgjOrDTxLYYZMcv37ulJKfDgzdeVY1FN8xdBiVEjhq
+         4VXV/H+S+4PW2zAL7zMkRReDKqi1qympdTkyxJEyCXMem+qffcOHhtufHdwnWtFhLG0s
+         zxxw==
+X-Forwarded-Encrypted: i=1; AJvYcCX2b0bJVhoITlMZNStWvYQIUsNBIhOZ4eepb5/TuzJjB+4LzdZ6tjLqMuhv1AG6wqo/CpgExTrJmC3hJdcY@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0asE2jHiIv0EwzpAkxc1tfnPp2+ZppYRkEOPRlhYk32fjZv+K
+	tljPn5Lls/6f+u46o5L2+i3kuqj/5xLfANFSPJJH5CmGYv3X4Ug7bHhb1e02tKcduw==
+X-Gm-Gg: ASbGncsmNGtFULQgih07+r75k74iJJxSPQfnoZU8HNymUJ54Z+q4kLGYK5tknGDAal4
+	pMNp/+O2BBmoqM8I0V5HHTMrfxbPB9S6H99T7SflRKZ2yiZ0EqxTHDyc7z76tvgGU7bRl8+aEDP
+	qvTGJWla3Eg/DgJVI38Nm8bAvfuEaI+c7m8Ni8NzD4Csai18X550w2jtJH6Jkt0N7kk6GeYsMyF
+	a+UazVBlJwjffS7Y6LZ2AJqQd20YPNfeKlEORxgQ3bqL+G1Kui/dtm8O7Gs7KENSX+H909bTeU6
+	l+vkSuEYHvL/RVeJEPdHsQ0DJTebXmfyYWgFeTDeiWqoqHfeTqtpKtiEQ/tMS1kK4/xQLMFeWh7
+	CweBaDiEbFdj2HjgDcRhGeohncdCCZYu0VHnNn8MvAypF57HUXdgc18W+2tPpNhQ=
+X-Google-Smtp-Source: AGHT+IHFYkFn8z+GUWkNUAawcZ1YV51AhOshm97PW4qM3AjxsaLYtJ0SsbO2jweyVtrKw2JD5LyFpA==
+X-Received: by 2002:a05:600c:4251:b0:46e:251:b1c2 with SMTP id 5b1f17b1804b1-46e0251b2b1mr355875e9.7.1758529345943;
+        Mon, 22 Sep 2025 01:22:25 -0700 (PDT)
+Received: from google.com (157.24.148.146.bc.googleusercontent.com. [146.148.24.157])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3ee1095489asm18071631f8f.24.2025.09.22.01.22.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 01:22:25 -0700 (PDT)
+Date: Mon, 22 Sep 2025 08:22:22 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+	jgg@ziepe.ca, praan@google.com, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 4/4] iommu/io-pgtable-arm-selftests: Use KUnit
+Message-ID: <aNEHPo16_HgyYafz@google.com>
+References: <20250919133316.2741279-5-smostafa@google.com>
+ <202509201819.f369wBHc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,92 +76,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202509220348.96Aa4hMs-lkp@intel.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <202509201819.f369wBHc-lkp@intel.com>
 
-On Mon, Sep 22, 2025 at 08:58:19AM +0300, Dan Carpenter wrote:
->Hi Wei,
->
->kernel test robot noticed the following build warnings:
->
->https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/mm-ksm-get-mm_slot-by-mm_slot_entry-when-slot-is-NULL/20250919-151547
->base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->patch link:    https://lore.kernel.org/r/20250919071244.17020-2-richard.weiyang%40gmail.com
->patch subject: [Patch v2 1/2] mm/ksm: get mm_slot by mm_slot_entry() when slot is !NULL
->config: microblaze-randconfig-r073-20250921 (https://download.01.org/0day-ci/archive/20250922/202509220348.96Aa4hMs-lkp@intel.com/config)
->compiler: microblaze-linux-gcc (GCC) 12.5.0
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->| Closes: https://lore.kernel.org/r/202509220348.96Aa4hMs-lkp@intel.com/
->
->New smatch warnings:
->mm/ksm.c:2959 __ksm_exit() error: uninitialized symbol 'mm_slot'.
->
->vim +/mm_slot +2959 mm/ksm.c
->
->1c2fb7a4c2ca7a Andrea Arcangeli  2009-09-21  2922  void __ksm_exit(struct mm_struct *mm)
->f8af4da3b4c14e Hugh Dickins      2009-09-21  2923  {
->21fbd59136e077 Qi Zheng          2022-08-31  2924  	struct ksm_mm_slot *mm_slot;
->58730ab6c7cab4 Qi Zheng          2022-08-31  2925  	struct mm_slot *slot;
->9ba6929480088a Hugh Dickins      2009-09-21  2926  	int easy_to_free = 0;
->cd551f97519d35 Hugh Dickins      2009-09-21  2927  
->31dbd01f314364 Izik Eidus        2009-09-21  2928  	/*
->9ba6929480088a Hugh Dickins      2009-09-21  2929  	 * This process is exiting: if it's straightforward (as is the
->9ba6929480088a Hugh Dickins      2009-09-21  2930  	 * case when ksmd was never running), free mm_slot immediately.
->9ba6929480088a Hugh Dickins      2009-09-21  2931  	 * But if it's at the cursor or has rmap_items linked to it, use
->c1e8d7c6a7a682 Michel Lespinasse 2020-06-08  2932  	 * mmap_lock to synchronize with any break_cows before pagetables
->9ba6929480088a Hugh Dickins      2009-09-21  2933  	 * are freed, and leave the mm_slot on the list for ksmd to free.
->9ba6929480088a Hugh Dickins      2009-09-21  2934  	 * Beware: ksm may already have noticed it exiting and freed the slot.
->31dbd01f314364 Izik Eidus        2009-09-21  2935  	 */
->9ba6929480088a Hugh Dickins      2009-09-21  2936  
->cd551f97519d35 Hugh Dickins      2009-09-21  2937  	spin_lock(&ksm_mmlist_lock);
->58730ab6c7cab4 Qi Zheng          2022-08-31  2938  	slot = mm_slot_lookup(mm_slots_hash, mm);
->de4014f857d062 Wei Yang          2025-09-19  2939  	if (slot) {
->58730ab6c7cab4 Qi Zheng          2022-08-31  2940  		mm_slot = mm_slot_entry(slot, struct ksm_mm_slot, slot);
->de4014f857d062 Wei Yang          2025-09-19  2941  		if (ksm_scan.mm_slot != mm_slot) {
->6514d511dbe5a7 Hugh Dickins      2009-12-14  2942  			if (!mm_slot->rmap_list) {
->58730ab6c7cab4 Qi Zheng          2022-08-31  2943  				hash_del(&slot->hash);
->58730ab6c7cab4 Qi Zheng          2022-08-31  2944  				list_del(&slot->mm_node);
->9ba6929480088a Hugh Dickins      2009-09-21  2945  				easy_to_free = 1;
->9ba6929480088a Hugh Dickins      2009-09-21  2946  			} else {
->58730ab6c7cab4 Qi Zheng          2022-08-31  2947  				list_move(&slot->mm_node,
->58730ab6c7cab4 Qi Zheng          2022-08-31  2948  					  &ksm_scan.mm_slot->slot.mm_node);
->9ba6929480088a Hugh Dickins      2009-09-21  2949  			}
->9ba6929480088a Hugh Dickins      2009-09-21  2950  		}
->de4014f857d062 Wei Yang          2025-09-19  2951  	}
->
->mm_slot isn't initialized on the else path
->
->cd551f97519d35 Hugh Dickins      2009-09-21  2952  	spin_unlock(&ksm_mmlist_lock);
->cd551f97519d35 Hugh Dickins      2009-09-21  2953  
->9ba6929480088a Hugh Dickins      2009-09-21  2954  	if (easy_to_free) {
->58730ab6c7cab4 Qi Zheng          2022-08-31  2955  		mm_slot_free(mm_slot_cache, mm_slot);
->12e423ba4eaed7 Lorenzo Stoakes   2025-08-12  2956  		mm_flags_clear(MMF_VM_MERGE_ANY, mm);
->12e423ba4eaed7 Lorenzo Stoakes   2025-08-12  2957  		mm_flags_clear(MMF_VM_MERGEABLE, mm);
->9ba6929480088a Hugh Dickins      2009-09-21  2958  		mmdrop(mm);
->9ba6929480088a Hugh Dickins      2009-09-21 @2959  	} else if (mm_slot) {
->                                                                   ^^^^^^^
->uninitialized
->
+On Sat, Sep 20, 2025 at 06:42:59PM +0800, kernel test robot wrote:
+> Hi Mostafa,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on soc/for-next]
+> [also build test ERROR on linus/master v6.17-rc6 next-20250919]
+> [cannot apply to joro-iommu/next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Mostafa-Saleh/iommu-io-pgtable-arm-Simplify-error-prints-for-selftests/20250919-213912
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+> patch link:    https://lore.kernel.org/r/20250919133316.2741279-5-smostafa%40google.com
+> patch subject: [PATCH v3 4/4] iommu/io-pgtable-arm-selftests: Use KUnit
+> config: i386-randconfig-013-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201819.f369wBHc-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201819.f369wBHc-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509201819.f369wBHc-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> WARNING: modpost: drivers/iommu/io-pgtable-arm-selftests: section mismatch in reference: arm_lpae_run_tests+0x100 (section: .text) -> arm_lpae_dump_ops (section: .init.text)
+> >> ERROR: modpost: "alloc_io_pgtable_ops" [drivers/iommu/io-pgtable-arm-selftests.ko] undefined!
+> >> ERROR: modpost: "free_io_pgtable_ops" [drivers/iommu/io-pgtable-arm-selftests.ko] undefined!
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+>    Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
+>    Selected by [m]:
+>    - IOMMU_IO_PGTABLE_LPAE_KUNIT_TEST [=m] && IOMMU_SUPPORT [=y] && KUNIT [=m]
+> 
 
-Thanks, will initialize it at the beginning.
+There are 2 issues here:
+- I missed one __init for dump_ops
+- Then new kconfig change to select IOMMU_IO_PGTABLE_LPAE broke build for
+  some ARM targets which select GENERIC_ATOMIC64
 
->d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2960  		mmap_write_lock(mm);
->d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2961  		mmap_write_unlock(mm);
->9ba6929480088a Hugh Dickins      2009-09-21  2962  	}
->739100c88f49a6 Stefan Roesch     2023-02-10  2963  
->739100c88f49a6 Stefan Roesch     2023-02-10  2964  	trace_ksm_exit(mm);
->31dbd01f314364 Izik Eidus        2009-09-21  2965  }
->
->-- 
->0-DAY CI Kernel Test Service
->https://github.com/intel/lkp-tests/wiki
+I will send a new version shortly
 
--- 
-Wei Yang
-Help you, Help me
+Thanks,
+Mostafa
+
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
