@@ -1,75 +1,70 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07ED62F37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 05:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9D12236E9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 05:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758520072; cv=none; b=mgnvj3n/QwfXcuU9Crq7gZ/mNDjkbmkiFKlTgUXHJmAPAo/gTeCqKIDupfx6meIa0Dz/pirRtqCN4/9PJTmu2C5qnu9hxTXInBxeIg9F3RgyCric/ZL3w7erV5vgU0PYhoMsfPCOiAf2/C8MlWFRvDQFPV6a+b5CjKJd1om3jQ0=
+	t=1758520454; cv=none; b=BqjMjgomBP/kFX4ze/OwbTj17v29uvefyqxGDBC4ATjJ478O/7yEVHgTXedPKj8f2k8tFHJe3Gtgxx7HLVR0ysBU9LJEpMNpwo7ovr42/XOwqo12rySSzMFXF3qDOqtRxD6b+VpQuZ4+cLLmOJjwbIOuODkfDt6uz2+9O8w8fH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758520072; c=relaxed/simple;
-	bh=66NXpnJdGMWhtkztKfRacnh5qc3BolZxDdP0TvJRir8=;
+	s=arc-20240116; t=1758520454; c=relaxed/simple;
+	bh=zYyfsE5qxjpWqC2tIG/SJ/cvRfcvcZO8dXlqyOcODTs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=PMn23sZ22kcgACRbujejOSnsosqjbMnHcPKL1vO8Bs6alvRC7PRLUwRhsWDczGkPNR2ulh2jQDDn/k6OzhG07m5R6LjJj33z8OTLqkTeG8oT8B4mvdVHUi1Rry8PXfG92xWnS6PqMYGnBGHq9IDvJW9Sajp+RRV5JLv4xyY6nvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YAVj1GU4; arc=none smtp.client-ip=209.85.128.42
+	 Content-Disposition:In-Reply-To; b=ucfdD2zVXSgUlEkg1CP5n9BJbwH/XVxFWao7j/83WljNiSmNTzmddIbHYB3SVldbvj52aUZk6J8GcliXdfvP/BXehLtxkOH/8e2du7U8ymKvdFOkVK/9pF720gzMTx23f6jumRtJV1JK8yZhRMkVibaOMX5obWnlz6TcHZLu7I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tdwHHv9u; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YAVj1GU4"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46d40c338b8so3158415e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 22:47:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tdwHHv9u"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso1915538f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Sep 2025 22:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758520067; x=1759124867; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1758520451; x=1759125251; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=PgF8X/QknqlL8yTU3Gny95ANJR22ql/Nmd198jD0198=;
-        b=YAVj1GU4k10sBN7A1UZzoL5MMj/mIJBNXdbuOpZW2jw/TCl0EQ9ljyViR7N9zLSawA
-         KsHgVTR9t2nHQYLBM5h/FMIbHihOBGeBeCwQaEDA0B6auFcfObeh3d854ZMWQQ+kOuYZ
-         NRGE4F7OFhA5oS0Yek8/JvIoLhy0BIa6e1r0eN7UMZMeKguHHQ1sRdjlQQ4VJ81TVjNb
-         DA4nxHfCmHkjrErmj1uaxZhXHx1fDdw/Vp7Nf1JqiTO7CRwIbwzWu/jnpFg0SaInK15E
-         DDjftv/IOht8bKw6dNvSjp6++caWoT3oFoa945C41A/w8Rp3KSnU+7g+yrlnO9Ypb4Gv
-         Tlgg==
+        bh=7x1XLmO4ro/r1UnNyESVV9NhzCGPAPCv/VTwwF6oKiQ=;
+        b=tdwHHv9ufNZduZ8IClqhwso1EgyHIZTi8LDr/TtLBXPjRcPFEjFb9fQU5e7ym2BO+E
+         ACzxgpcm4bFmwGy6KxLd4ReXERRauUFnQ47T4WQu1kdtFfYfMjtz+MSKK7pdZr9WM3Pa
+         2q7wNzq7cTQTkLXRxFMjaRJiX8xGrRmBxkvLkToQbg7hy/i0Y2aeumYoim3UPnH1oD2k
+         LDm6bNGv7pqL/2agzFWrSyJELttazSCl6HGUru+5g6YOLiqnpH+JBjbvQa+P4qyT+EOP
+         iA0nIDXcbUcFSdFtL2/mEagLe8gDS6FtRoQb6piIa6aJ9D+/JAkutoH9IvEUNV3pEGMw
+         x/Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758520067; x=1759124867;
+        d=1e100.net; s=20230601; t=1758520451; x=1759125251;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PgF8X/QknqlL8yTU3Gny95ANJR22ql/Nmd198jD0198=;
-        b=saGh67nh+KhuafqXcT4qlTH9bsS0EWOVXTVeBiepW3WqeIKAw0/qT1cdtKqaAqyQ78
-         UQ6h+IU7g/XERmIQLWHs0siKJ7p0r1oed7+l52TUJ/pCa7BfqB5uEwXIixbGhMoEhE7s
-         xHPZHNf24gPITlgFnJ/cA04f39U6W4gjp/UHhs9fZFLaIBEexXq4l4D+xoSLimjENoEL
-         7xW98XizVqgIXIAM1KrVEZX0HmfI9XYsCqYeDtx64c1KkcFOW2eOoDfWZ2hmYRgZS7nC
-         +U2u/KKePR6XDsdEdlQ/PJ2MNCz2/5/bG1K2b7QWduqcah4FwDIEyMUqPvEZ6uu19ZAT
-         WODQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUE3rOupUY60JOWF3BTOP6EkkeUspqe9eHbpDMWStSmw/OpXhyvGGNYk/nxSiQUI67rjuWmhXeVqeQCqM9U@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVCVRXytDBkEjuMF8Lrtw77vqG1Nc+pS4zl/byRshb7+LgsIjc
-	iXNIHHm5vGzRu5bbInKS4t6spYtniwPQTHj6g6ScVl3akv6iXK/7GD2XlsgoAoVGi7Y=
-X-Gm-Gg: ASbGnctscoAP6u6AW/f90m3EbjJNZI3fGvMvqfaXwOrarAS8abBUZ6JB6pIsYdhe+UH
-	LpfCn+fOg1apSdnYsrHHiVb0Yy2mYD3SEKFT3fMtHsilUpajNw1Pyru8cqXJVd3Soo0tfh9Z2tZ
-	eOEOfkLJxyzAtNuoRe/EBiB2BdmdSatYEaVxAJj89J36Vp9nQ8vg+0sYs/kju2GRIqkCQTnIIL4
-	/trzi9PK+n5BNKeNt53qRU2iAxQyU65XbaYMI4uwGrAz2f678mFwDaetJ6AgyaEZX30hY0SQXRz
-	Z2V9U+VOLuPLRWs1X+G6+5arXROP+Vf6P6MFI3jwgE7JwukIiEc8ziByI5JzojgllCEZBnHMpov
-	iw/vcFNJha3+GZTev85m1/7O88IyVmJ3saeNJImE=
-X-Google-Smtp-Source: AGHT+IGLJaZqA8B6N5lCxrnKQqccvunxcRo/0Al2H98KlFFEySPCueUYtQV4CEaHF676873fabSWPQ==
-X-Received: by 2002:a05:600c:1f85:b0:45b:79fd:cb3d with SMTP id 5b1f17b1804b1-467ec45ff4amr92308585e9.36.1758520067060;
-        Sun, 21 Sep 2025 22:47:47 -0700 (PDT)
+        bh=7x1XLmO4ro/r1UnNyESVV9NhzCGPAPCv/VTwwF6oKiQ=;
+        b=SBIC4m0synt/OWGaqVvcwS9aox4RiOSSmU3Ie1sefAmcJ0yG3zODSEunzlbHAJhfiK
+         /VIpbAcjUVvnTQ7PDt7HIyDm604JzTx8LtvPmhPrj7w1I6dvc6ljKCqe2io4jSVvrGzp
+         YH+TYo41ePnHwjwqqEk4vaUEsqqvd2HP1qziN4IZc9zHMdXbgudsnASAY5Y/o8AiVVyp
+         B38revbkPVYQPr55rUx2NwU20/t8fBnFZPXTUPMYNisnVLTVLUHLspN+Xzs4e1Jf9T0d
+         RCKhfBEWXPegC9ohqCUH2FTK1W1p8EHu0U7fGCYlLzSwvgentBEMzYp1iKvofuh0UORI
+         +Rxg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6xSM/Ju+r1STyrhLMyS2ovvieqTtdgRQYuRX8/328MWXcVLyaTJSprTlf4n2EQRVAkmGT+9kBxTwv+ZgT@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQfZ9YmRmggtBjrrS/2jal/0uSXrs9CcVHqO92eGRLVwgjsEd6
+	81tsZnyQjaerXEb27JzBcN1/RE5RcQtqN9W27Pe/qBBAgQt+YbSX/vvnKot6nxpaIxw=
+X-Gm-Gg: ASbGnctCpmNZiwEV3onDue9JTqntpVcAlG3sPvIBCwd3keNHvYCmzEYylLlHakU6MuY
+	S9bGplAzFnjvcG8IcDVPFLzUAWhEvawBbDOpAAYNI7Bk+PUnZgMnKxJMVE1e+AO0igqOxIP8ckM
+	XqtoBqX4tZxTqN9dCRnfQ+tF6UNkJhPLOfyKK09uArKR1yEODlVeUbp5nCl+J7+VXeksFJ0uic0
+	hICJ/+VdMU+2joms4S5xeQd3fd+BqBVNhG6sWytlKIuw4BfPj8FoGj+MK+IqOkMKni1Qv87d1zu
+	QOcCxSruuYCcGIjQw6IBghU5bT7QXLxaTPdopcfYOgHDkXs6ZZympsO0X+BB5dpJj+HTXu0E1A6
+	Jtr82n4M0dJomMaVXMimAJkkdWKcPuYAvJ6Y0H5w=
+X-Google-Smtp-Source: AGHT+IEJDYs9Qdhl2DErybligSpaMmJqfbQNod5ofMmx1MIFAp0DGmty47Gx8QvuNyJ6eu7eycn4UA==
+X-Received: by 2002:a05:6000:2681:b0:400:1bbb:d257 with SMTP id ffacd0b85a97d-4001bbbd440mr746236f8f.26.1758520450860;
+        Sun, 21 Sep 2025 22:54:10 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46d1f3e1b03sm32067045e9.23.2025.09.21.22.47.46
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee073f53c4sm18477257f8f.3.2025.09.21.22.54.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 22:47:46 -0700 (PDT)
-Date: Mon, 22 Sep 2025 08:47:43 +0300
+        Sun, 21 Sep 2025 22:54:10 -0700 (PDT)
+Date: Mon, 22 Sep 2025 08:54:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ruben Wauters <rubenru09@aol.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ruben Wauters <rubenru09@aol.com>, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-Message-ID: <202509212215.c8v3RKmL-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 5/6] vduse: add vq group asid support
+Message-ID: <202509220050.26g9byC5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,66 +74,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250914155308.2144-1-rubenru09@aol.com>
+In-Reply-To: <20250919093359.961296-6-eperezma@redhat.com>
 
-Hi Ruben,
+Hi Eugenio,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ruben-Wauters/drm-gud-replace-WARN_ON-WARN_ON_ONCE-with-drm-versions/20250914-235627
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250914155308.2144-1-rubenru09%40aol.com
-patch subject: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-config: x86_64-randconfig-161-20250921 (https://download.01.org/0day-ci/archive/20250921/202509212215.c8v3RKmL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vduse-make-domain_lock-an-rwlock/20250919-174108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20250919093359.961296-6-eperezma%40redhat.com
+patch subject: [PATCH v3 5/6] vduse: add vq group asid support
+config: microblaze-randconfig-r073-20250921 (https://download.01.org/0day-ci/archive/20250922/202509220050.26g9byC5-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509220050.26g9byC5-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/gud/gud_connector.c:597 gud_connector_fill_properties() warn: passing a valid pointer to 'PTR_ERR'
+New smatch warnings:
+drivers/vdpa/vdpa_user/vduse_dev.c:1644 vduse_dev_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +/PTR_ERR +597 drivers/gpu/drm/gud/gud_connector.c
+Old smatch warnings:
+drivers/vdpa/vdpa_user/vduse_dev.c:662 vduse_get_vq_map() warn: unsigned 'vq_group' is never less than zero.
+drivers/vdpa/vdpa_user/vduse_dev.c:662 vduse_get_vq_map() warn: error code type promoted to positive: 'vq_group'
 
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  580  int gud_connector_fill_properties(struct drm_connector_state *connector_state,
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  581  				  struct gud_property_req *properties)
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  582  {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  583  	struct gud_connector *gconn = to_gud_connector(connector_state->connector);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  584  	unsigned int i;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  585  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  586  	for (i = 0; i < gconn->num_properties; i++) {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  587  		u16 prop = gconn->properties[i];
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  588  		u64 val;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  589  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  590  		if (prop == GUD_PROPERTY_BACKLIGHT_BRIGHTNESS) {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  591  			val = connector_state->tv.brightness;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  592  		} else {
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  593  			unsigned int *state_val;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  594  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  595  			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
-d00e57106c0d0c Ruben Wauters  2025-09-14  596  			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
+vim +1644 drivers/vdpa/vdpa_user/vduse_dev.c
 
-You accidentally deleted the IS_ERR() check so now this function is
-badly broken.
+5df53984377b18 Eugenio Pérez 2025-09-19  1369  		spin_lock(&dev->as[asid].domain->iotlb_lock);
+5df53984377b18 Eugenio Pérez 2025-09-19  1370  		map = vhost_iotlb_itree_first(dev->as[asid].domain->iotlb,
+5df53984377b18 Eugenio Pérez 2025-09-19  1371  					      entry.v1.start, entry.v1.last);
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1372  		if (map) {
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1373  			map_file = (struct vdpa_map_file *)map->opaque;
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1374  			f = get_file(map_file->file);
+5df53984377b18 Eugenio Pérez 2025-09-19  1375  			entry.v1.offset = map_file->offset;
+5df53984377b18 Eugenio Pérez 2025-09-19  1376  			entry.v1.start = map->start;
+5df53984377b18 Eugenio Pérez 2025-09-19  1377  			entry.v1.last = map->last;
+5df53984377b18 Eugenio Pérez 2025-09-19  1378  			entry.v1.perm = map->perm;
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1379  		}
+5df53984377b18 Eugenio Pérez 2025-09-19  1380  		spin_unlock(&dev->as[asid].domain->iotlb_lock);
+50988b052b5f91 Eugenio Pérez 2025-09-19  1381  		read_unlock(&dev->domain_lock);
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1382  		ret = -EINVAL;
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1383  		if (!f)
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1384  			break;
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1385  
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1386  		ret = -EFAULT;
+5df53984377b18 Eugenio Pérez 2025-09-19  1387  		if (dev->api_version >= VDUSE_API_VERSION_1)
+5df53984377b18 Eugenio Pérez 2025-09-19  1388  			ret = copy_to_user(argp, &entry,
+5df53984377b18 Eugenio Pérez 2025-09-19  1389  					   sizeof(entry));
+5df53984377b18 Eugenio Pérez 2025-09-19  1390  		else
+5df53984377b18 Eugenio Pérez 2025-09-19  1391  			ret = copy_to_user(argp, &entry.v1,
+5df53984377b18 Eugenio Pérez 2025-09-19  1392  					   sizeof(entry.v1));
 
-	if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
+copy_to_user() returns the numbers of bytes it wasn't able to copy but
+we want to return -EFAULT to the user.
 
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13 @597  				return PTR_ERR(state_val);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  598  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  599  			val = *state_val;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  600  		}
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  601  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  602  		properties[i].prop = cpu_to_le16(prop);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  603  		properties[i].val = cpu_to_le64(val);
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  604  	}
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  605  
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  606  	return gconn->num_properties;
-40e1a70b4aedf2 Noralf Trønnes 2021-03-13  607  }
+5df53984377b18 Eugenio Pérez 2025-09-19  1393  
+5df53984377b18 Eugenio Pérez 2025-09-19  1394  		if (ret) {
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1395  			fput(f);
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1396  			break;
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1397  		}
+5df53984377b18 Eugenio Pérez 2025-09-19  1398  		ret = receive_fd(f, NULL, perm_to_file_flags(entry.v1.perm));
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1399  		fput(f);
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1400  		break;
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1401  	}
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1402  	case VDUSE_DEV_GET_FEATURES:
+c8a6153b6c59d9 Xie Yongji    2021-08-31  1403  		/*
 
 -- 
 0-DAY CI Kernel Test Service
