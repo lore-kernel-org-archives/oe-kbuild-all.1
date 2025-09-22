@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F933093B8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 13:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8ED2BE64B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 14:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758549220; cv=none; b=j8QzBlnropPF4O6nEFon78wyH+y3b8yg53tHYgUTDbs4lWNIl6yGpGAyti1Ur5iFWYltDh1f5riEatSwoOl5Be9sEsetib+/46/8qgbkdJ30GJOW2fKufQ4DJ50ZhegXO8iP1WDy0f6yCqvwznRPeRKmK4VGje3DOaLVhtVAHJs=
+	t=1758552433; cv=none; b=rlYiBzoxiLUnqB7BDdjCkngicpsWIT+HoL+uxLaf/0vsnxIHgSHSDI0Kp2Wzy3LQ59BMpf0V+t+cTXknmjt2Zj5jr8qhajp2wX5he2BGaqiN5ZJUsR8W/k1FzMcY90Y5xQd3PGZHgnBRQmHEIGfWemO13XtcnGVeBM5KePlzxlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758549220; c=relaxed/simple;
-	bh=+Rpk84wjMRUhfW4ry+4rWETHd28YCPUFIZIFtt1fMxM=;
+	s=arc-20240116; t=1758552433; c=relaxed/simple;
+	bh=/jxWS2Cfnrc96B/2JxemOCSklZ1V7YQB/X91PQsXTJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u2ZfwKbRtVflOOv+p6ddeSqFhTQJAKcCh+7VXBX0g4t9k4lDH0BJInGq7GCgGPmOjrUh6Ugz+qrViuAudbDsXEdRwLYkoLn83Bvi10A0kJhnR7kuBPkhmMJZWjXeHxtb6L6ly0kdV8AY8MiHqTaY6gMLmbvfgKuUuEOPwADbZLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/5BvdzO; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition:In-Reply-To; b=hbUvBYCoZNzICpA58ySCg9d3tjhUo1kE6y2iHCJDSNsMpBg1/ThL1yxQtjUjLWwUC/R7LUpI8eWyqQ2EUkBlF4KWFjyDTKO6ywu3EWjJrlNUcIJbvIZbkdmzabRvIWrpDR8KZIyww60oeXaGmKVu76Lih9CfWWaLrQvLvwBLBSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E417zpq5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/5BvdzO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E417zpq5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758549220; x=1790085220;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Rpk84wjMRUhfW4ry+4rWETHd28YCPUFIZIFtt1fMxM=;
-  b=I/5BvdzODMbV3GhqwYHjRIUYLm+dNoBbSCObT/zgBOkC4XbOxgQEttYO
-   XWgWPRwk7NreWvBZ1WccYqU7f+3U6OR2Xc/igZoAQ1zAImGSENbs4acU1
-   QAhZ9lIBdG/ZC6F9gk1MWY5WR3k9z4AY9cDRn7LKxSc3y1x8p2+vUmePP
-   NUXEOoR7Zg5P26qr9ungHmUC3F75TtMQVPD2yC09Alm3gOvT5ryj9ech0
-   HQ3LrJIlJuT5+Hq/z/oZsC2+Lmvqz+dh47juUU0G8JOqm7+e6B+lERVmV
-   BP2PbqfTLHIJ5Pn7Hf3VuqonPq3v4I+6IHTFy46w4ZMo380UG/y+POwzY
-   Q==;
-X-CSE-ConnectionGUID: R6cu9WjSQAGjlctnpiRV6w==
-X-CSE-MsgGUID: 0Xys3imOQkmyw2d3T78gaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60724463"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60724463"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 06:53:39 -0700
-X-CSE-ConnectionGUID: PAzUdO30QkaqYg7lwzA//A==
-X-CSE-MsgGUID: 5dxPciGfT8ORSCUbJwPRFw==
+  t=1758552432; x=1790088432;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=/jxWS2Cfnrc96B/2JxemOCSklZ1V7YQB/X91PQsXTJI=;
+  b=E417zpq50ga9UDELZIe5bAVnoQMPSHApJmXGxGOQDIWeQNICmgOBYFWk
+   LvPWd1Voexb70wALQ7bKj7nq+eqJefqLzyj1sB149HKbLjtUKO0l/K2yb
+   DtoD+arU8IHM6fJ2hBTqIlIpIrSB2tDRP7s7t3ge26Z0GoGKJFvdH7uD1
+   Qa1z33SkfDq3KHivtnYf97dLKZoTJ39nH+dd9AEk1HP6dZ28To5t4ZwXg
+   +2anZ89FOYGMc2Om9R14gCrPSHbCP14RXKE4xJNckmJsU/ET37E0IAR5n
+   AnAhhMf9cIQ/7o8NBcx5P/3x6vLJAOd9i4ViVlHwPheySQsgDCiKU4N+R
+   A==;
+X-CSE-ConnectionGUID: GaRyYHsRRiKBPzd5iA7nPg==
+X-CSE-MsgGUID: R3tAVVdaQXOAXEYuvOhZAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60703221"
+X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
+   d="scan'208";a="60703221"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 07:47:12 -0700
+X-CSE-ConnectionGUID: Mi9Atj/gQTebr4Nmf9um3Q==
+X-CSE-MsgGUID: lnVAyYmZSlisZnkqRmXBNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
-   d="scan'208";a="176402959"
+   d="scan'208";a="207230116"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Sep 2025 06:53:37 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 Sep 2025 07:47:07 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0gz0-0001j3-2U;
-	Mon, 22 Sep 2025 13:53:34 +0000
-Date: Mon, 22 Sep 2025 21:53:31 +0800
+	id 1v0hon-0001mX-09;
+	Mon, 22 Sep 2025 14:47:05 +0000
+Date: Mon, 22 Sep 2025 22:46:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 11417/11516]
- drivers/gpu/drm/xe/xe_device_sysfs.c:300:25: error: label 'cleanup' used but
- not defined
-Message-ID: <202509222153.rYXgFTKA-lkp@intel.com>
+To: Xinhui Yang <cyan@cyano.uk>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] scsi: dc395x: correctly discard the return value in
+ certain reads
+Message-ID: <aNFhL8x0LWgCYhiG@8a941366eafc>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,56 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250922143619.824129-1-cyan@cyano.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bf2602a3cb2381fb1a04bf1c39a290518d2538d1
-commit: 648416842fefa3f53b4061945c5f26794ac249c0 [11417/11516] Merge branch 'drm-next' of https://gitlab.freedesktop.org/drm/kernel.git
-config: i386-buildonly-randconfig-002-20250922 (https://download.01.org/0day-ci/archive/20250922/202509222153.rYXgFTKA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250922/202509222153.rYXgFTKA-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509222153.rYXgFTKA-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   drivers/gpu/drm/xe/xe_device_sysfs.c: In function 'xe_device_sysfs_init':
->> drivers/gpu/drm/xe/xe_device_sysfs.c:300:25: error: label 'cleanup' used but not defined
-     300 |                         goto cleanup;
-         |                         ^~~~
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +/cleanup +300 drivers/gpu/drm/xe/xe_device_sysfs.c
-
-b2d756199be822 Anshuman Gupta        2023-07-18  281  
-c086bfc6ff4db7 Himal Prasad Ghimiray 2024-04-12  282  int xe_device_sysfs_init(struct xe_device *xe)
-b2d756199be822 Anshuman Gupta        2023-07-18  283  {
-b2d756199be822 Anshuman Gupta        2023-07-18  284  	struct device *dev = xe->drm.dev;
-b2d756199be822 Anshuman Gupta        2023-07-18  285  	int ret;
-b2d756199be822 Anshuman Gupta        2023-07-18  286  
-f3e875b3c05ce0 Raag Jadav            2025-05-06  287  	if (xe->d3cold.capable) {
-fb3c27a69c4736 Michal Wajdeczko      2025-09-16  288  		ret = devm_device_add_group(dev, &vram_attr_group);
-b2d756199be822 Anshuman Gupta        2023-07-18  289  		if (ret)
-c086bfc6ff4db7 Himal Prasad Ghimiray 2024-04-12  290  			return ret;
-f3e875b3c05ce0 Raag Jadav            2025-05-06  291  	}
-c086bfc6ff4db7 Himal Prasad Ghimiray 2024-04-12  292  
-a2d6223d224f33 Michal Wajdeczko      2025-09-16  293  	if (xe->info.platform == XE_BATTLEMAGE && !IS_SRIOV_VF(xe)) {
-fb3c27a69c4736 Michal Wajdeczko      2025-09-16  294  		ret = devm_device_add_group(dev, &auto_link_downgrade_attr_group);
-0e414bf7ad012e Raag Jadav            2025-05-06  295  		if (ret)
-ff89a4d285c828 Zongyao Bai           2025-09-16  296  			goto cleanup;
-cdc36b66cd41d0 Raag Jadav            2025-07-09  297  
-fb3c27a69c4736 Michal Wajdeczko      2025-09-16  298  		ret = devm_device_add_group(dev, &late_bind_attr_group);
-cdc36b66cd41d0 Raag Jadav            2025-07-09  299  		if (ret)
-ff89a4d285c828 Zongyao Bai           2025-09-16 @300  			goto cleanup;
-
-:::::: The code at line 300 was first introduced by commit
-:::::: ff89a4d285c82813faa0e2e386d07120ae1f9c85 drm/xe/sysfs: Add cleanup action in xe_device_sysfs_init
-
-:::::: TO: Zongyao Bai <zongyao.bai@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] scsi: dc395x: correctly discard the return value in certain reads
+Link: https://lore.kernel.org/stable/20250922143619.824129-1-cyan%40cyano.uk
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
