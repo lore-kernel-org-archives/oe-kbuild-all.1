@@ -1,67 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED5022655B;
-	Tue, 23 Sep 2025 14:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D1E2367D6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 14:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758636889; cv=none; b=TM3xNs9x3PLOP5/1Vg/gaE1b9C6KdJsfSc/TDXiITz2VXNMcv7NPh9GSSErQrjCbJmYAnwYeS6jEIX0ZyXa48/4FFhoUkUNmYg25AYgnyxSjjrakSp2cPsnHyibr3ytfWT1d+31pWG9xPU1k+Fh5qcZUIz1DwfDAlHxJs5nsorU=
+	t=1758637933; cv=none; b=jR7JdtssU7sy4QdoOwRZRWkt4amJlMFhFm8N4gDvwHdpbaf/seWqmbiEroDeNcqJXwuYbOZQyXb8vh1jJCV99/Pb/Uqm8+3zXWA/Dsz4xH1ANFF3FHHS0LtiC7wt5bB1JRc9BWJggF5b7H/8hbf1BCAEPNWNCazBT3uRL+4qTvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758636889; c=relaxed/simple;
-	bh=+H9zJ9ZnJh5XdjSEpBwdWNCOzZuIf/K/RLNBOxUxrx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGjOK7qBEUQmL/d7lEfcENrLE3qLzFvAIgU8SACxlf9OTTwJpAtfoXR7hAoM04T3VjjllRhn3xFRrA4wNydOFcSRj5zwVCFL0wlbRlpqVy3yfY49pK6GCECHk63ZsVETE6g6Z76Xf9pX+THIcmFBT52nWv626sCGT4dYmAQ1BJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d85YoT02; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1758637933; c=relaxed/simple;
+	bh=F0r4+wgZHshBYRjNA5wP+8hqQ28pdtJtESVLXuHxums=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u/e4+meRmLK0xBlfrnZztcGY83Yoe4qKoe5zULWeg66lJsYHX6Cw4Oaj2ZYNazFYjCXcF4twwfIlFvoNQvWAiBC7tJyxwECSA6bcRDI0tpzw7QEUsN/w9SZI+0gABl1zLxwXRM4jSm4yF//+ZL3zOHKLl3trpiTelhfw0oxMuqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJi3C4u+; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d85YoT02"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJi3C4u+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758636888; x=1790172888;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+H9zJ9ZnJh5XdjSEpBwdWNCOzZuIf/K/RLNBOxUxrx0=;
-  b=d85YoT02i3mEpfgiZBwZwIKEKdpmDoY08+8WggDX1ZBnnntu/R9o5Vvc
-   jPUTR+EAJHnSu46MNbqnet4vwz0XWdkGSMo0KwfdEl8teMjIyPzuxrqo7
-   hfmLpA9dAyB6i50kW29soBfjKo4hVByupzUAMzl2jMLHBBwEbNNJHP9XQ
-   mCWwaZIlxeR8HoLBd4qNTi1CIBTACpOFCD8ZZGuvknfHXdjnYsAO0422j
-   9N99MRvOSCT9fL80CObgHKgXoB7LNyGKXnY1otevkFgp/gcs9aMe/MdZo
-   n516y7pQc1d0yU+GBOAN+0KuAMfX6qliodiTY/Os2ueBoMZXt9VWq6h53
+  t=1758637931; x=1790173931;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F0r4+wgZHshBYRjNA5wP+8hqQ28pdtJtESVLXuHxums=;
+  b=dJi3C4u+US/asiVGTFf3sM8vZbCPiDq5iLMBFQFaqD/8qxnQpCNaY5Ho
+   KA+I5T4AKg92itlgtwU3F34w0iWBdmrSXy7D/2EZc0bVeM/S0XGdzY426
+   xys7OOiIjRvnR/j6hTeZojx/QHPak2H/hhKYMst6zWxVUnb6bwLf2S9Md
+   RHUoJWZ2aVw7pns5Jtog+BkE/UPsC8MjSaQlv/II31261KZqP2hrAG71M
+   Q60q5kiiBjA/cHqZ9/ezEcEhqaeuMcQ53BwqSSOYZ6jgjgTvPtF3zEKOk
+   hCwS/3UOkLajBCIFDddkq7uzsZfkT+RmflMRwHCCMKFGptumi9juQOwik
    g==;
-X-CSE-ConnectionGUID: vIKmuXq9TQSsaoVyzNUNBg==
-X-CSE-MsgGUID: 0PlinG7RTNqYDtkKtsiyuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="86353230"
+X-CSE-ConnectionGUID: M0qS4iaaSw23IeL6B2DNiw==
+X-CSE-MsgGUID: QFhEeNuNS7+Ov54n8zJbfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="64745104"
 X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="86353230"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 07:14:21 -0700
-X-CSE-ConnectionGUID: hi4LmZPgTA2uLR2Pk1F+Zg==
-X-CSE-MsgGUID: h4fxs8c9Q++r6fENoG5wpw==
+   d="scan'208";a="64745104"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 07:32:11 -0700
+X-CSE-ConnectionGUID: Y1eV1J06S+yBIFnK6ecPMw==
+X-CSE-MsgGUID: afkjzBdQSq2cD0wjkq9nGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="176369709"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Sep 2025 07:14:18 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2025 07:32:10 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v13ma-0003Av-0n;
-	Tue, 23 Sep 2025 14:14:16 +0000
-Date: Tue, 23 Sep 2025 22:14:05 +0800
+	id 1v143s-000000004D9-06qn;
+	Tue, 23 Sep 2025 14:32:08 +0000
+Date: Tue, 23 Sep 2025 16:31:38 +0200
 From: kernel test robot <lkp@intel.com>
-To: Simon Schippers <simon.schippers@tu-dortmund.de>,
-	willemdebruijn.kernel@gmail.com, jasowang@redhat.com,
-	mst@redhat.com, eperezma@redhat.com, stephen@networkplumber.org,
-	leiyang@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Simon Schippers <simon.schippers@tu-dortmund.de>,
-	Tim Gebauer <tim.gebauer@tu-dortmund.de>
-Subject: Re: [PATCH net-next v5 8/8] vhost_net: Replace rx_ring with calls of
- TUN/TAP wrappers
-Message-ID: <202509232113.Z0qRJQHs-lkp@intel.com>
-References: <20250922221553.47802-9-simon.schippers@tu-dortmund.de>
+To: jason.zeng@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 0/146] htmldocs:
+ Documentation/scheduler/sched-bwc.rst:243: WARNING: Inline emphasis
+ start-string without end-string. [docutils]
+Message-ID: <202509231624.CLWfOQoM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,65 +60,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922221553.47802-9-simon.schippers@tu-dortmund.de>
 
-Hi Simon,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Schippers/__ptr_ring_full_next-Returns-if-ring-will-be-full-after-next-insertion/20250923-062130
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250922221553.47802-9-simon.schippers%40tu-dortmund.de
-patch subject: [PATCH net-next v5 8/8] vhost_net: Replace rx_ring with calls of TUN/TAP wrappers
-config: i386-buildonly-randconfig-003-20250923 (https://download.01.org/0day-ci/archive/20250923/202509232113.Z0qRJQHs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509232113.Z0qRJQHs-lkp@intel.com/reproduce)
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   c73db7ebb024f59416db0cf136dc2d4b9dbc3695
+commit: 501a66aa4637fdcce20ee686f3c13ebbb2e41849 [0/146] sched/fair: Add document for burstable CFS bandwidth
+reproduce: (https://download.01.org/0day-ci/archive/20250923/202509231624.CLWfOQoM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509232113.Z0qRJQHs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231624.CLWfOQoM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/vhost/net.c:197:3: error: expected expression
-     197 |                 WARN_ON_ONCE();
-         |                 ^
-   include/asm-generic/bug.h:111:34: note: expanded from macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                         ^
-   1 error generated.
+   Documentation/networking/kapi:147: ./drivers/net/phy/phylink.c:1343: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/sfp.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/dim.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/energy_model.h' failed with return code 2
+   Documentation/power/video.rst:213: WARNING: Footnote [#] is not referenced. [ref.footnote]
+>> Documentation/scheduler/sched-bwc.rst:243: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/lsm_hooks.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/mutex.h' failed with return code 2
+   Documentation/tty/device_drivers/oxsemi-tornado.rst:41: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
+   Documentation/tty/device_drivers/oxsemi-tornado.rst:86: WARNING: Inline interpreted text or phrase reference start-string without end-string. [docutils]
+   Documentation/tty/device_drivers/oxsemi-tornado.rst:96: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 
 
-vim +197 drivers/vhost/net.c
+vim +243 Documentation/scheduler/sched-bwc.rst
 
-   178	
-   179	static int vhost_net_buf_produce(struct vhost_net_virtqueue *nvq,
-   180			struct sock *sk)
-   181	{
-   182		struct file *file = sk->sk_socket->file;
-   183		struct vhost_net_buf *rxq = &nvq->rxq;
-   184	
-   185		rxq->head = 0;
-   186	
-   187		switch (nvq->type) {
-   188		case TUN:
-   189			rxq->tail = tun_ring_consume_batched(file,
-   190					rxq->queue, VHOST_NET_BATCH);
-   191			break;
-   192		case TAP:
-   193			rxq->tail = tap_ring_consume_batched(file,
-   194					rxq->queue, VHOST_NET_BATCH);
-   195			break;
-   196		case IF_NONE:
- > 197			WARN_ON_ONCE();
-   198		}
-   199	
-   200		return rxq->tail;
-   201	}
-   202	
+   228	
+   229	   With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU::
+   230	
+   231		# echo 10000 > cpu.cfs_quota_us /* quota = 10ms */
+   232		# echo 50000 > cpu.cfs_period_us /* period = 50ms */
+   233	
+   234	   By using a small period here we are ensuring a consistent latency
+   235	   response at the expense of burst capacity.
+   236	
+   237	4. Limit a group to 40% of 1 CPU, and allow accumulate up to 20% of 1 CPU
+   238	   additionally, in case accumulation has been done.
+   239	
+   240	   With 50ms period, 20ms quota will be equivalent to 40% of 1 CPU.
+   241	   And 10ms burst will be equivalent to 20% of 1 CPU.
+   242	
+ > 243		# echo 20000 > cpu.cfs_quota_us /* quota = 20ms */
 
 -- 
 0-DAY CI Kernel Test Service
