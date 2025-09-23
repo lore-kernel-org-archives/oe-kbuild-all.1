@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA171285061
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 21:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9D13C17
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 00:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758577221; cv=none; b=WiFzclUuS7mFAFXh2/KxA4AN81sEfWxO5OS/yYZ/pIsYdmRNrkrBxa50Uz4Oa5E8sPW2/pe3zoBM4lzfEPP/dgH6o0lbG2GSreYxkt9ZBgVwyD6Fe4MRcIYJfWVGeetGUgmDEggJd8vJebCCJ6/UUgOCMDJI9QvisSfDBfkh/z0=
+	t=1758585781; cv=none; b=Qd4Hq27iHh27bTYQANuS2IpNZz2OzHI4/aDJLqJXumcj4Z1jaZ8MBcEL+3WEZoCtPp2dd35r11Vs8/8UhSLzt0IqxybFryRHI/I63JwelF1Bd6+E2y014v6Ud9tmYzi4SrAfozms+yG/L7ATnj7zRxiWr+J4d/sG7YPxNLj8ZOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758577221; c=relaxed/simple;
-	bh=ds+dkBJo9lMPqag9YGAxiv3DN2dhzkLJxAnjRfGH4pc=;
+	s=arc-20240116; t=1758585781; c=relaxed/simple;
+	bh=E4sG/m0Wq+B6BOil/MCqZCqMsuWQmezWYMXt0LGKAnU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QjjbzKfyx6kSkqR724X7AZszjNL/RpKhVkQssJoXJRsLIe4V9nRJ46UspaXRF0Cuxu1HazhMlTrL2nSx0TojyDwVzDxnLdncYinUykhonJjDMX8qg1dYj1jHZSXBdxNw/RBNE5BrDbo7LCKUpbIbVfFHkXUfL24rebAc4iI0irA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBH8HjMy; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=OR+ZHOjCqCX3INRrZ0Sj8FjyvfcyOkCPqPFv0wOJNbZkhqksqhQk05gra2efg8hls9w0/GsfMmij5Q3/JaxEeM91AaOwiwd4dun2NzwyIxDAAxmq6AnUymR15lo5B5qTz9/EilmnbkVVlOhJVmdnzjUlkNRDcyYlJoJ+sI7a1wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XU5dI/V+; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBH8HjMy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XU5dI/V+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758577220; x=1790113220;
+  t=1758585779; x=1790121779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ds+dkBJo9lMPqag9YGAxiv3DN2dhzkLJxAnjRfGH4pc=;
-  b=XBH8HjMyrbnCVESG4YSSBo5YpbCM493quX1n38K4r8W/E3vAglDfIViw
-   Rt+rmAYepPmwqmX4gwlAJ266XGDCEkc+7dMLpXAXpxvvXsUOcD4TYsqRU
-   kmnwQ9cCqHZo1QvcMuRXHx3z1ePkvvIH0uFWhNv2IUtBt3vVxzOjHjTcT
-   d9aXHjQsxK60UhS+KiK+nIRSn9KyAbky4y5P9P48M5eMl3T2T0HrKUSwo
-   FVph/9fwYPUZ1JA9Sj4WEzz5AdSHgm+l6i9sVMLnPnJz3Zv67XyclUzcr
-   kCcetcP1ddTwQgdTT4pf7YoNJax4aIp0lYgbRFtDepzU5P7fa/ul8iVqZ
+  bh=E4sG/m0Wq+B6BOil/MCqZCqMsuWQmezWYMXt0LGKAnU=;
+  b=XU5dI/V+Mkmt/RPGtUsCwzvkl5VRz67QlsrGU2woFG4riXivLMuI1QPp
+   9PhML23zPqEiCqqO3tQKqSiiSxxfTKvhWy+rS1XQn9H1OCax8lWv5LhYz
+   9XHBEgtC3CQt1dGgLf1cgydQvKg8hCLHbuZw/wr28tobKyegjoQOYKY56
+   N19lsiAcWl+GULapW0m0AdB7c7N2IMsGuy9aFYIZF5EbYywN8CheaINsb
+   GjAcOt1H74At5e1Rakw7wr1CEFVvDvIUCd1Y/SJzkRA+DiYKHNyDemxwJ
+   gjCoVCY7iFhOAVt6Q9Plklq8d6Vw6H2K14lY4/7bAT0fta/ofeHBsJtM8
    Q==;
-X-CSE-ConnectionGUID: lyNV7jxMQ/OBFjeSrF1AZw==
-X-CSE-MsgGUID: Yjrn9vvURK+Lh3PSzG0tTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60764612"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60764612"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 14:40:19 -0700
-X-CSE-ConnectionGUID: 5sc/7u/zSSS+3bCXgA++iA==
-X-CSE-MsgGUID: 1dpX682GRISdkYSf0Za8SQ==
+X-CSE-ConnectionGUID: X/CWlsyqQ3+QXmSJ3+AgsA==
+X-CSE-MsgGUID: PTTsK+R0RhemVRAMaK7rgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60915646"
+X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
+   d="scan'208";a="60915646"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 17:02:58 -0700
+X-CSE-ConnectionGUID: OUKO2BfNRuG5GE2i6u1LZw==
+X-CSE-MsgGUID: yVizfpYDQ1+ZQ5wwvVRe6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="213735238"
+   d="scan'208";a="176985457"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 Sep 2025 14:40:18 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 22 Sep 2025 17:02:57 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0oGd-0002VB-2l;
-	Mon, 22 Sep 2025 21:40:15 +0000
-Date: Tue, 23 Sep 2025 05:39:19 +0800
+	id 1v0qUh-0002ZX-1M;
+	Tue, 23 Sep 2025 00:02:55 +0000
+Date: Tue, 23 Sep 2025 08:02:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [linux-next:master 9221/11516] drivers/rtc/rtc-optee.c:714:1:
- sparse: sparse: symbol 'optee_rtc_pm_ops' was not declared. Should it be
- static?
-Message-ID: <202509230549.L26lw7UZ-lkp@intel.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2909/2909] mm/mem_reliable.c:345:2: error: call
+ to undeclared function 'mem_reliable_ctrl_bit_disable'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202509230718.hDzgcLLM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,26 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bf2602a3cb2381fb1a04bf1c39a290518d2538d1
-commit: 6266aea864fa5484f6e8313f913a69e794765fab [9221/11516] rtc: optee: add alarm related rtc ops to optee rtc driver
-config: arm64-randconfig-r131-20250923 (https://download.01.org/0day-ci/archive/20250923/202509230549.L26lw7UZ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509230549.L26lw7UZ-lkp@intel.com/reproduce)
+Hi Ma,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a159deb279dfe156316d8c3957dc7f253686ff83
+commit: 425771499c0742a996ab28df143d7a5123102686 [2909/2909] mm: mem_reliable: Introduce proc interface to disable memory reliable features
+config: arm64-randconfig-r121-20250923 (https://download.01.org/0day-ci/archive/20250923/202509230718.hDzgcLLM-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509230718.hDzgcLLM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509230549.L26lw7UZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509230718.hDzgcLLM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/rtc/rtc-optee.c:714:1: sparse: sparse: symbol 'optee_rtc_pm_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/optee_rtc_pm_ops +714 drivers/rtc/rtc-optee.c
+>> mm/mem_reliable.c:345:2: error: call to undeclared function 'mem_reliable_ctrl_bit_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           mem_reliable_ctrl_bit_disable(idx);
+           ^
+   mm/mem_reliable.c:345:2: note: did you mean 'mem_reliable_ctrl_bit_disabled'?
+   mm/mem_reliable.c:320:13: note: 'mem_reliable_ctrl_bit_disabled' declared here
+   static void mem_reliable_ctrl_bit_disabled(int idx) {}
+               ^
+   1 error generated.
 
-   713	
- > 714	DEFINE_SIMPLE_DEV_PM_OPS(optee_rtc_pm_ops, optee_rtc_suspend, NULL);
-   715	
+
+vim +/mem_reliable_ctrl_bit_disable +345 mm/mem_reliable.c
+
+   322	
+   323	static void mem_reliable_feature_disable(int idx)
+   324	{
+   325		char *str = NULL;
+   326	
+   327		switch (idx) {
+   328		case MEM_RELIABLE_FALLBACK:
+   329			reliable_allow_fallback = false;
+   330			str = "fallback";
+   331			break;
+   332		case MEM_RELIABLE_SHMEM:
+   333			shmem_reliable = false;
+   334			str = "shmem";
+   335			break;
+   336		case MEM_RELIABLE_PAGECACHE:
+   337			pagecache_reliable = false;
+   338			str = "pagecache";
+   339			break;
+   340		default:
+   341			pr_err("unknown index: %d", idx);
+   342			return;
+   343		}
+   344	
+ > 345		mem_reliable_ctrl_bit_disable(idx);
+   346		pr_info("%s is disabled\n", str);
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
