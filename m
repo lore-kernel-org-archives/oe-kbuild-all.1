@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232997464
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 05:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC5A1990A7;
+	Tue, 23 Sep 2025 06:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758606920; cv=none; b=mv+7nO/KDnAC4o8ceOLMKHfeAcZSBQxx8JqQLai0xO+iJC2sFEUQ6aLKvFeVv9UI8HYIJzbf2/HT35DNNEN8buLbY4TZ7NKG2baUm71L+DOKxEtgjx28+2g7h7sO1aaY/wbPfIyzVv0vQdWeDnHU7MqNgRkdHw8Qx3puTOaHKVc=
+	t=1758607583; cv=none; b=QfuLu/EzsK2anxk5BKcUkwbqCrnP/J+1inrM28XbtTFsgVq9tRG6HjrUjvzLXWiupqxURVvWCHG9nqnMYfeDCm+Up+CERrSWwGK5YYOcyvLO4nfdU6SWo2GFHvlnqeX0l3T522Po3skeBb3h2TphauTQZJTYJpLcQDQTcjLk/XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758606920; c=relaxed/simple;
-	bh=tw66OXdlHLu1CGSnJKcsSNRvNCIJof+Xx148N9jq4WI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qulnVSoRac4Tmq1fRwEs/0ubUzoE1fhwUcMpevNYb4/i69AYt9ZhpXGXKE2tl1eZTchV1brjUhrlnyS2SSu73p7cYBe2tvuHHALWX+SHhRkp+eyVzE7sZxSPntcnzBgol0U5/vEh/6hLdMMdxNYFCUQ/l4i5ooRWjfHHz5rqCyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOAgA9JQ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1758607583; c=relaxed/simple;
+	bh=/Va+wb9am0t3b0ri4zxojtTDyBaof4jyFNU6bskn7oE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=icZRDNXee61VqMQOFD/QAaJipQUDPYzfM3rSdwkBVY6yXF4le7zcBhKSZJk/7+xu0jL5DoqyJugdvIrKbXT9b0aRfDkbMtVtNG0MD8NhwdDwNw4sAvceF3+na4zMSiSgt2D9bNY+Eko6chDA/CKp7mMxiuLbLK54Y4Ia1s6Zq9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnvPFGR0; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOAgA9JQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnvPFGR0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758606918; x=1790142918;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tw66OXdlHLu1CGSnJKcsSNRvNCIJof+Xx148N9jq4WI=;
-  b=iOAgA9JQRtRGsE0N0xcEk7RQPOJsLDJTy4rmdXfHwPjDfnryihYBxxLq
-   obeEiKSt4HQS95+MFRzbjXusvq8bNiNvrTUbEPvJ5ASgxOusj5d4URoPh
-   BzhnF/D7jfOxgvLxIyWrAgofmIcY8lK8a1K+RlDFHvG/CUA/HqjU0g+rW
-   n/M+zTUUH0taoHWpUHK8QAp7MnQZC97UgTi1ssxSzEmUqpLAA4PAqPGkl
-   XB6R74IBPc+xZ/nJl8PgVmxRsHbmyCl4Z30Eq6kEYTmsVDTNS1G8vTxjr
-   /zsuiejbqDJEjU2Au33BxKmLmuwv+Glf37WfmKnJpDyzhS3KOmVRS05rG
+  t=1758607582; x=1790143582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/Va+wb9am0t3b0ri4zxojtTDyBaof4jyFNU6bskn7oE=;
+  b=SnvPFGR0ZDuZVimOFiRnKdPX6WXcaMbwo5at7Ekd1/zJ5CzhGItN5iM7
+   xV8RlEylJDUksYWzwMsBXkHaVOf+wNzXg3PIJcH3C1fh7IswAT6+0xTeF
+   5epy//glKnPz7+ho6HXDgbgbFN5IgUkaJMJRtiXz8EPlByRr2/C3OZw9J
+   jkp54ycbjKNbXeKLUUcNhyZ5K1glCx2eLvB2vxYDBC9sBN4lup1AXAe1W
+   zMsyiaAk8GcMU23MKJ8q702QIt9KPUXolOmh0n3IWpIvD2mFkQ6mVCg8Z
+   o0ft6Oty08h2hAM8AzL2Y54ReIz2XOfoc8M+dJ1YlsYg2ohdpc+oIGDd+
    Q==;
-X-CSE-ConnectionGUID: 6iqWpcj6TYWLSSCy2QVbAw==
-X-CSE-MsgGUID: LIg/I6KmQZ2KzbRCq0NflQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60767151"
+X-CSE-ConnectionGUID: LFVyQPFHR5exISXjitXdGg==
+X-CSE-MsgGUID: WNqSG3MDSImhfBFDBHEbbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="86314234"
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="60767151"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 22:55:17 -0700
-X-CSE-ConnectionGUID: Fw9UxrEYR5yHiL4mNLJG+w==
-X-CSE-MsgGUID: +BoPTn0+TbuczCjgpKcANg==
+   d="scan'208";a="86314234"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 23:06:21 -0700
+X-CSE-ConnectionGUID: MEsv++RXQiyeG6bl5VvMhA==
+X-CSE-MsgGUID: URoYeKUzRqGXjbkV1hNLmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="175962679"
+   d="scan'208";a="200376732"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Sep 2025 22:55:17 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 22 Sep 2025 23:06:19 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0vzd-0002nd-2c;
-	Tue, 23 Sep 2025 05:55:13 +0000
-Date: Tue, 23 Sep 2025 13:55:02 +0800
+	id 1v0wAL-0002nl-0y;
+	Tue, 23 Sep 2025 06:06:17 +0000
+Date: Tue, 23 Sep 2025 14:05:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 1/1] mm/swapfile.c:775:5: warning: no
- previous prototype for function 'scan_swap_map_slots'
-Message-ID: <202509231356.VnqjfMcw-lkp@intel.com>
+To: Alexandr Sapozhnkiov <alsp705@gmail.com>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@redhat.com>,
+	dm-devel@redhat.com, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexandr Sapozhnikov <alsp705@gmail.com>,
+	linux-media@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH 5.10] md: fix NULL pointer dereference at
+ reregister_snapshot()
+Message-ID: <202509231318.YYdqPhnu-lkp@intel.com>
+References: <20250922144239.11-1-alsp705@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,279 +67,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250922144239.11-1-alsp705@gmail.com>
 
-Hi Bing,
+Hi Alexandr,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   f06b723c6fa4f8cf9750f131eaf8991b291f16bd
-commit: 06c2766cbc9923d67d45fc191c467b5e2685175d [1/1] ANDROID: mm: export symbols used in vendor hook android_vh_get_swap_page()
-config: x86_64-buildonly-randconfig-004-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231356.VnqjfMcw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231356.VnqjfMcw-lkp@intel.com/reproduce)
+[auto build test WARNING on device-mapper-dm/for-next]
+[also build test WARNING on linus/master v6.17-rc7 next-20250922]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandr-Sapozhnkiov/md-fix-NULL-pointer-dereference-at-reregister_snapshot/20250922-224522
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/20250922144239.11-1-alsp705%40gmail.com
+patch subject: [PATCH 5.10] md: fix NULL pointer dereference at reregister_snapshot()
+config: s390-randconfig-002-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231318.YYdqPhnu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231318.YYdqPhnu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231356.VnqjfMcw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231318.YYdqPhnu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/swapfile.c:102:26: warning: no previous prototype for function 'swap_type_to_swap_info' [-Wmissing-prototypes]
-     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
-         |                          ^
-   mm/swapfile.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
-         | ^
-         | static 
->> mm/swapfile.c:775:5: warning: no previous prototype for function 'scan_swap_map_slots' [-Wmissing-prototypes]
-     775 | int scan_swap_map_slots(struct swap_info_struct *si,
-         |     ^
-   mm/swapfile.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     775 | int scan_swap_map_slots(struct swap_info_struct *si,
-         | ^
-         | static 
->> mm/swapfile.c:993:5: warning: no previous prototype for function 'swap_alloc_cluster' [-Wmissing-prototypes]
-     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
-         |     ^
-   mm/swapfile.c:993:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
-         | ^
-         | static 
-   3 warnings generated.
---
->> mm/swap_slots.c:93:6: warning: no previous prototype for function 'check_cache_active' [-Wmissing-prototypes]
-      93 | bool check_cache_active(void)
-         |      ^
-   mm/swap_slots.c:93:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      93 | bool check_cache_active(void)
-         | ^
-         | static 
-   1 warning generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:369:9: note: previous definition is here
+     369 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/md/dm-snap.c:597:23: warning: unused variable 'bdev' [-Wunused-variable]
+     597 |         struct block_device *bdev = s->origin->bdev;
+         |                              ^~~~
+   2 warnings generated.
 
 
-vim +/scan_swap_map_slots +775 mm/swapfile.c
+vim +/bdev +597 drivers/md/dm-snap.c
 
-   774	
- > 775	int scan_swap_map_slots(struct swap_info_struct *si,
-   776				       unsigned char usage, int nr,
-   777				       swp_entry_t slots[])
-   778	{
-   779		struct swap_cluster_info *ci;
-   780		unsigned long offset;
-   781		unsigned long scan_base;
-   782		unsigned long last_in_cluster = 0;
-   783		int latency_ration = LATENCY_LIMIT;
-   784		int n_ret = 0;
-   785		bool scanned_many = false;
-   786	
-   787		/*
-   788		 * We try to cluster swap pages by allocating them sequentially
-   789		 * in swap.  Once we've allocated SWAPFILE_CLUSTER pages this
-   790		 * way, however, we resort to first-free allocation, starting
-   791		 * a new cluster.  This prevents us from scattering swap pages
-   792		 * all over the entire swap partition, so that we reduce
-   793		 * overall disk seek times between swap pages.  -- sct
-   794		 * But we do now try to find an empty cluster.  -Andrea
-   795		 * And we let swap pages go all over an SSD partition.  Hugh
-   796		 */
-   797	
-   798		si->flags += SWP_SCANNING;
-   799		/*
-   800		 * Use percpu scan base for SSD to reduce lock contention on
-   801		 * cluster and swap cache.  For HDD, sequential access is more
-   802		 * important.
-   803		 */
-   804		if (si->flags & SWP_SOLIDSTATE)
-   805			scan_base = this_cpu_read(*si->cluster_next_cpu);
-   806		else
-   807			scan_base = si->cluster_next;
-   808		offset = scan_base;
-   809	
-   810		/* SSD algorithm */
-   811		if (si->cluster_info) {
-   812			if (!scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
-   813				goto scan;
-   814		} else if (unlikely(!si->cluster_nr--)) {
-   815			if (si->pages - si->inuse_pages < SWAPFILE_CLUSTER) {
-   816				si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   817				goto checks;
-   818			}
-   819	
-   820			spin_unlock(&si->lock);
-   821	
-   822			/*
-   823			 * If seek is expensive, start searching for new cluster from
-   824			 * start of partition, to minimize the span of allocated swap.
-   825			 * If seek is cheap, that is the SWP_SOLIDSTATE si->cluster_info
-   826			 * case, just handled by scan_swap_map_try_ssd_cluster() above.
-   827			 */
-   828			scan_base = offset = si->lowest_bit;
-   829			last_in_cluster = offset + SWAPFILE_CLUSTER - 1;
-   830	
-   831			/* Locate the first empty (unaligned) cluster */
-   832			for (; last_in_cluster <= si->highest_bit; offset++) {
-   833				if (si->swap_map[offset])
-   834					last_in_cluster = offset + SWAPFILE_CLUSTER;
-   835				else if (offset == last_in_cluster) {
-   836					spin_lock(&si->lock);
-   837					offset -= SWAPFILE_CLUSTER - 1;
-   838					si->cluster_next = offset;
-   839					si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   840					goto checks;
-   841				}
-   842				if (unlikely(--latency_ration < 0)) {
-   843					cond_resched();
-   844					latency_ration = LATENCY_LIMIT;
-   845				}
-   846			}
-   847	
-   848			offset = scan_base;
-   849			spin_lock(&si->lock);
-   850			si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   851		}
-   852	
-   853	checks:
-   854		if (si->cluster_info) {
-   855			while (scan_swap_map_ssd_cluster_conflict(si, offset)) {
-   856			/* take a break if we already got some slots */
-   857				if (n_ret)
-   858					goto done;
-   859				if (!scan_swap_map_try_ssd_cluster(si, &offset,
-   860								&scan_base))
-   861					goto scan;
-   862			}
-   863		}
-   864		if (!(si->flags & SWP_WRITEOK))
-   865			goto no_page;
-   866		if (!si->highest_bit)
-   867			goto no_page;
-   868		if (offset > si->highest_bit)
-   869			scan_base = offset = si->lowest_bit;
-   870	
-   871		ci = lock_cluster(si, offset);
-   872		/* reuse swap entry of cache-only swap if not busy. */
-   873		if (vm_swap_full() && si->swap_map[offset] == SWAP_HAS_CACHE) {
-   874			int swap_was_freed;
-   875			unlock_cluster(ci);
-   876			spin_unlock(&si->lock);
-   877			swap_was_freed = __try_to_reclaim_swap(si, offset, TTRS_ANYWAY);
-   878			spin_lock(&si->lock);
-   879			/* entry was freed successfully, try to use this again */
-   880			if (swap_was_freed)
-   881				goto checks;
-   882			goto scan; /* check next one */
-   883		}
-   884	
-   885		if (si->swap_map[offset]) {
-   886			unlock_cluster(ci);
-   887			if (!n_ret)
-   888				goto scan;
-   889			else
-   890				goto done;
-   891		}
-   892		WRITE_ONCE(si->swap_map[offset], usage);
-   893		inc_cluster_info_page(si, si->cluster_info, offset);
-   894		unlock_cluster(ci);
-   895	
-   896		swap_range_alloc(si, offset, 1);
-   897		slots[n_ret++] = swp_entry(si->type, offset);
-   898	
-   899		/* got enough slots or reach max slots? */
-   900		if ((n_ret == nr) || (offset >= si->highest_bit))
-   901			goto done;
-   902	
-   903		/* search for next available slot */
-   904	
-   905		/* time to take a break? */
-   906		if (unlikely(--latency_ration < 0)) {
-   907			if (n_ret)
-   908				goto done;
-   909			spin_unlock(&si->lock);
-   910			cond_resched();
-   911			spin_lock(&si->lock);
-   912			latency_ration = LATENCY_LIMIT;
-   913		}
-   914	
-   915		/* try to get more slots in cluster */
-   916		if (si->cluster_info) {
-   917			if (scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
-   918				goto checks;
-   919		} else if (si->cluster_nr && !si->swap_map[++offset]) {
-   920			/* non-ssd case, still more slots in cluster? */
-   921			--si->cluster_nr;
-   922			goto checks;
-   923		}
-   924	
-   925		/*
-   926		 * Even if there's no free clusters available (fragmented),
-   927		 * try to scan a little more quickly with lock held unless we
-   928		 * have scanned too many slots already.
-   929		 */
-   930		if (!scanned_many) {
-   931			unsigned long scan_limit;
-   932	
-   933			if (offset < scan_base)
-   934				scan_limit = scan_base;
-   935			else
-   936				scan_limit = si->highest_bit;
-   937			for (; offset <= scan_limit && --latency_ration > 0;
-   938			     offset++) {
-   939				if (!si->swap_map[offset])
-   940					goto checks;
-   941			}
-   942		}
-   943	
-   944	done:
-   945		set_cluster_next(si, offset + 1);
-   946		si->flags -= SWP_SCANNING;
-   947		return n_ret;
-   948	
-   949	scan:
-   950		spin_unlock(&si->lock);
-   951		while (++offset <= READ_ONCE(si->highest_bit)) {
-   952			if (data_race(!si->swap_map[offset])) {
-   953				spin_lock(&si->lock);
-   954				goto checks;
-   955			}
-   956			if (vm_swap_full() &&
-   957			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
-   958				spin_lock(&si->lock);
-   959				goto checks;
-   960			}
-   961			if (unlikely(--latency_ration < 0)) {
-   962				cond_resched();
-   963				latency_ration = LATENCY_LIMIT;
-   964				scanned_many = true;
-   965			}
-   966		}
-   967		offset = si->lowest_bit;
-   968		while (offset < scan_base) {
-   969			if (data_race(!si->swap_map[offset])) {
-   970				spin_lock(&si->lock);
-   971				goto checks;
-   972			}
-   973			if (vm_swap_full() &&
-   974			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
-   975				spin_lock(&si->lock);
-   976				goto checks;
-   977			}
-   978			if (unlikely(--latency_ration < 0)) {
-   979				cond_resched();
-   980				latency_ration = LATENCY_LIMIT;
-   981				scanned_many = true;
-   982			}
-   983			offset++;
-   984		}
-   985		spin_lock(&si->lock);
-   986	
-   987	no_page:
-   988		si->flags -= SWP_SCANNING;
-   989		return n_ret;
-   990	}
-   991	EXPORT_SYMBOL_GPL(scan_swap_map_slots);
-   992	
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  590  
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  591  /*
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  592   * Move snapshot to correct place in list according to chunk size.
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  593   */
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  594  static void reregister_snapshot(struct dm_snapshot *s)
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  595  {
+8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  596  	struct origin *o;
+c1f0c183f6acc6 Mike Snitzer         2009-12-10 @597  	struct block_device *bdev = s->origin->bdev;
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  598  
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  599  	down_write(&_origins_lock);
+8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  600  	o = __lookup_origin(s->origin->bdev);
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  601  
+c1f0c183f6acc6 Mike Snitzer         2009-12-10  602  	list_del(&s->list);
+8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  603  	if (o)
+8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  604  		__insert_snapshot(o, s);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  605  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  606  	up_write(&_origins_lock);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  607  }
+^1da177e4c3f41 Linus Torvalds       2005-04-16  608  
 
 -- 
 0-DAY CI Kernel Test Service
