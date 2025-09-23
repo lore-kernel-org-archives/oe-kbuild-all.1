@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394D9258CF9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 09:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6F51F91E3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 10:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758620539; cv=none; b=MwfjZUqyIonuDSH+dWxPfDtfNkqd+b+9wqc9DZ7KymLultzJhlRtFIwVgMCkqktoT0tUkNPdFcu3qnfZgA3T/OR+mignicySKuIE/ijl8qPecWNT3MqoWbjEeEaPFOMfha4G7SWy/ZH9nsXtq0Gtfh5X8VP5jwcNebKc6f3HKHk=
+	t=1758623066; cv=none; b=fXiAm+/hVZPxP1Xyjb4ckZAEavEZWFrs7Hvy993c7KsvYuW6pceKkDm/YzcgBNa5mODYXqrfWZpEJFHByNiwvO5mW3a7c93FV9zNZ44nZqpflWCcUcIbo2Ote4cEzj2evM93Kl8i/47WENi3EmwtArmqSgSowTrXzkw2ZYcVYQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758620539; c=relaxed/simple;
-	bh=GIpckiDowe4oK8sPQCBE5g+44IoE+A/fz3R0cRLRnvI=;
+	s=arc-20240116; t=1758623066; c=relaxed/simple;
+	bh=G744atH2U10l6z9eeJKPXGWBJKCpvOAjhNHiiEGiTbQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m3oeyCWHnC/rjr5D53ZRrVYqWjz0zXQ1f2eGo2wpSHAMAMgp7jPL7QW6bRVUU9lAlwi8pNchrEr6DYvSH8x9V+S/5JH+/89GuCVqldCOOp4X2LEvT6PTdKmjCFXlyJ6ucIZBgWbWpARjbzioKi1bk33vLjupvP2u9/zg/9mwOjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cKrqOZqt; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=nPYJA9BYEFaVaHubTLFv+DvHxplxHS6WbjJ4FR+cjSkC7FkQxTFZeI0P5HJFWqrdpc68UAwZmqoBajR52MJBkinpS3jumHNuEkYdrsOt8JrcEh5hhFUiIa9aLjFvdqawxhEiZMe8cu5pApgFeJiwiu+oMo72+UPaWos0mrQ9UX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/56spT0; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKrqOZqt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/56spT0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758620537; x=1790156537;
+  t=1758623065; x=1790159065;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GIpckiDowe4oK8sPQCBE5g+44IoE+A/fz3R0cRLRnvI=;
-  b=cKrqOZqtnPlWqKTCD+SW2xMelUOVU/pfFO+qgGMA/ss7BNeDozYovoLY
-   +o2DtOJ9T/xqg1Cdsvy/TAQ6oAnYYUZNflkU6J8ipjeyI8Qk4DWvBP9Xf
-   KpXusdpUjOzAlbLseTfHF3jf1DznyihFR0LHhN4gm7FCghxbvMHRZ7Lk2
-   o8tr55ndN8gWPY/UtEwcmJqViLFLZqmb04NuHKN14WNY8e3P5+G8jSSBG
-   OSXkmxzC5vBIjxICwzQfOK9Bo2b1q+KcIALrn/JxQpb6sDGxz8Xpzd9Ez
-   KERlFE6glqLaSkqYef730rM/h20J/9mmkI6iFIFnFQrHf9YXHyn9yWxUb
-   w==;
-X-CSE-ConnectionGUID: mTnf+WanRlSdh/wMSDIdTw==
-X-CSE-MsgGUID: LyfP/KSbRQiHSNtHZOy1eQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="48464970"
-X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="48464970"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 02:42:17 -0700
-X-CSE-ConnectionGUID: G/wyF3H7QdmwIOQOU09ybA==
-X-CSE-MsgGUID: 7kTU8us/T8aEa7n2FAxifw==
+  bh=G744atH2U10l6z9eeJKPXGWBJKCpvOAjhNHiiEGiTbQ=;
+  b=D/56spT079z8iVwTMLeLp0yMnl11cEOx43XTsjoDGH0EMEbbkNI1Wyp8
+   z6i5q4rzh1XRxsXKgideUe2Hj0Tht8GNfCwfb3sD1iY7ZyrzqZ5x20zaz
+   oq2h+nFNREeEASZX2jt+DsQGQ6sRIRw8vWRz46wtc/6Iq5W/gM68/3he0
+   uug5axMMHZ7lW6UCyXZ07rB7zWMsfQc6fpgx4G7WJ9HWKRxPy9Z7Xfoz8
+   lookAK/KI2sPRbKOP58QyaxzvtNg4QbnUxLqGsQo1CGSsM9bCJC77cCzL
+   MxPIKg2AXsqgD2riR8CuJg6awaq86topbAct1DDwtxCEyue/YPFaSPXt3
+   g==;
+X-CSE-ConnectionGUID: jsvSJ++WTw2U1Q0T/aK6bw==
+X-CSE-MsgGUID: 7OoXYucETRq9s6WJZs4OQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64701425"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64701425"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 03:24:24 -0700
+X-CSE-ConnectionGUID: c8caDaJZQwGCOBrGClhttA==
+X-CSE-MsgGUID: f2oMR0D2RrydjE49zupL5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="207649798"
+   d="scan'208";a="181995066"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Sep 2025 02:42:15 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2025 03:24:22 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0zXJ-0002yX-1o;
-	Tue, 23 Sep 2025 09:42:13 +0000
-Date: Tue, 23 Sep 2025 17:42:04 +0800
+	id 1v10C4-00030f-1B;
+	Tue, 23 Sep 2025 10:24:20 +0000
+Date: Tue, 23 Sep 2025 18:24:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2909/2909]
- drivers/gpu/drm/phytium/phytium_gem.c:174:5: sparse: sparse: symbol
- 'phytium_gem_prime_mmap' was not declared. Should it be static?
-Message-ID: <202509231756.bOMWC43K-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Anna Schumaker <anna.schumaker@oracle.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Simon Horman <horms@kernel.org>
+Subject: [linux-next:master 8703/11516] include/linux/kernel.h:321:46: error:
+ called object 'strlen' is not a function or function pointer
+Message-ID: <202509231815.d1EjWp8Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,195 +65,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   be758a5796c3d280deb877699c41fd0cd04e1deb
-commit: 3b4a5906fa714bdc9a15fc04374942888737eb4c [2909/2909] drm/phytium: Fix Phytium DRM build fail
-config: arm64-randconfig-r121-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231756.bOMWC43K-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231756.bOMWC43K-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bf2602a3cb2381fb1a04bf1c39a290518d2538d1
+commit: 87ea8ac837ae5dc09c721d1cc0cd1fa25850bedc [8703/11516] sunrpc: add a Kconfig option to redirect dfprintk() output to trace buffer
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250923/202509231815.d1EjWp8Y-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231815.d1EjWp8Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231756.bOMWC43K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231815.d1EjWp8Y-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/phytium/phytium_gem.c: note: in included file (through arch/arm64/include/asm/cpufeature.h, arch/arm64/include/asm/ptrace.h, arch/arm64/include/asm/irqflags.h, ...):
-   arch/arm64/include/asm/cputype.h:163:9: sparse: sparse: preprocessor token PHYTIUM_CPU_PART_FTC862 redefined
-   arch/arm64/include/asm/cputype.h:110:9: sparse: this was the original definition
-   drivers/gpu/drm/phytium/phytium_gem.c:22:5: sparse: sparse: symbol 'phytium_memory_pool_alloc' was not declared. Should it be static?
-   drivers/gpu/drm/phytium/phytium_gem.c:37:6: sparse: sparse: symbol 'phytium_memory_pool_free' was not declared. Should it be static?
-   drivers/gpu/drm/phytium/phytium_gem.c:161:5: sparse: sparse: symbol 'phytium_gem_prime_vmap' was not declared. Should it be static?
-   drivers/gpu/drm/phytium/phytium_gem.c:170:6: sparse: sparse: symbol 'phytium_gem_prime_vunmap' was not declared. Should it be static?
->> drivers/gpu/drm/phytium/phytium_gem.c:174:5: sparse: sparse: symbol 'phytium_gem_prime_mmap' was not declared. Should it be static?
-   drivers/gpu/drm/phytium/phytium_gem.c:186:5: sparse: sparse: symbol 'phytium_dma_transfer' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/phytium_gem_prime_mmap +174 drivers/gpu/drm/phytium/phytium_gem.c
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from fs/nfsd/nfs4xdr.c:37:
+   fs/nfsd/nfs4xdr.c: In function 'nfsd4_encode_components_esc':
+>> include/linux/kernel.h:321:46: error: called object 'strlen' is not a function or function pointer
+     321 |                 __trace_puts(_THIS_IP_, str, strlen(str));              \
+         |                                              ^~~~~~
+   include/linux/kernel.h:265:17: note: in expansion of macro 'trace_puts'
+     265 |                 trace_puts(fmt);                        \
+         |                 ^~~~~~~~~~
+   include/linux/sunrpc/debug.h:34:41: note: in expansion of macro 'trace_printk'
+      34 | #  define __sunrpc_printk(fmt, ...)     trace_printk(fmt, ##__VA_ARGS__)
+         |                                         ^~~~~~~~~~~~
+   include/linux/sunrpc/debug.h:42:17: note: in expansion of macro '__sunrpc_printk'
+      42 |                 __sunrpc_printk(fmt, ##__VA_ARGS__);                    \
+         |                 ^~~~~~~~~~~~~~~
+   include/linux/sunrpc/debug.h:25:9: note: in expansion of macro 'dfprintk'
+      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~
+   fs/nfsd/nfs4xdr.c:2646:9: note: in expansion of macro 'dprintk'
+    2646 |         dprintk("nfsd4_encode_components(%s)\n", components);
+         |         ^~~~~~~
+   fs/nfsd/nfs4xdr.c:2643:13: note: declared here
+    2643 |         int strlen, count=0;
+         |             ^~~~~~
 
-b80df10f845813 lishuo       2024-01-31   21  
-b80df10f845813 lishuo       2024-01-31  @22  int phytium_memory_pool_alloc(struct phytium_display_private *priv, void **pvaddr,
-b80df10f845813 lishuo       2024-01-31   23  					phys_addr_t *phys_addr, uint64_t size)
-b80df10f845813 lishuo       2024-01-31   24  {
-b80df10f845813 lishuo       2024-01-31   25  	unsigned long vaddr;
-b80df10f845813 lishuo       2024-01-31   26  
-b80df10f845813 lishuo       2024-01-31   27  	vaddr = gen_pool_alloc(priv->memory_pool, size);
-b80df10f845813 lishuo       2024-01-31   28  	if (!vaddr)
-b80df10f845813 lishuo       2024-01-31   29  		return -ENOMEM;
-b80df10f845813 lishuo       2024-01-31   30  
-b80df10f845813 lishuo       2024-01-31   31  	*phys_addr = gen_pool_virt_to_phys(priv->memory_pool, vaddr);
-b80df10f845813 lishuo       2024-01-31   32  
-b80df10f845813 lishuo       2024-01-31   33  	*pvaddr = (void *)vaddr;
-b80df10f845813 lishuo       2024-01-31   34  	return 0;
-b80df10f845813 lishuo       2024-01-31   35  }
-b80df10f845813 lishuo       2024-01-31   36  
-b80df10f845813 lishuo       2024-01-31   37  void phytium_memory_pool_free(struct phytium_display_private *priv, void *vaddr, uint64_t size)
-b80df10f845813 lishuo       2024-01-31   38  {
-b80df10f845813 lishuo       2024-01-31   39  	gen_pool_free(priv->memory_pool, (unsigned long)vaddr, size);
-b80df10f845813 lishuo       2024-01-31   40  }
-b80df10f845813 lishuo       2024-01-31   41  
-b80df10f845813 lishuo       2024-01-31   42  int phytium_memory_pool_init(struct device *dev, struct phytium_display_private *priv)
-b80df10f845813 lishuo       2024-01-31   43  {
-b80df10f845813 lishuo       2024-01-31   44  	int ret = 0;
-b80df10f845813 lishuo       2024-01-31   45  
-b80df10f845813 lishuo       2024-01-31   46  	priv->memory_pool = gen_pool_create(VRAM_POOL_ALLOC_ORDER, -1);
-b80df10f845813 lishuo       2024-01-31   47  	if (priv->memory_pool == NULL) {
-b80df10f845813 lishuo       2024-01-31   48  		DRM_ERROR("fail to create memory pool\n");
-b80df10f845813 lishuo       2024-01-31   49  		ret = -1;
-b80df10f845813 lishuo       2024-01-31   50  		goto failed_create_pool;
-b80df10f845813 lishuo       2024-01-31   51  	}
-b80df10f845813 lishuo       2024-01-31   52  
-b80df10f845813 lishuo       2024-01-31   53  	ret = gen_pool_add_virt(priv->memory_pool, (unsigned long)priv->pool_virt_addr,
-b80df10f845813 lishuo       2024-01-31   54  				priv->pool_phys_addr, priv->pool_size, -1);
-b80df10f845813 lishuo       2024-01-31   55  	if (ret) {
-b80df10f845813 lishuo       2024-01-31   56  		DRM_ERROR("fail to add vram pool\n");
-b80df10f845813 lishuo       2024-01-31   57  		ret = -1;
-b80df10f845813 lishuo       2024-01-31   58  		goto failed_add_pool_virt;
-b80df10f845813 lishuo       2024-01-31   59  	}
-b80df10f845813 lishuo       2024-01-31   60  
-b80df10f845813 lishuo       2024-01-31   61  	return 0;
-b80df10f845813 lishuo       2024-01-31   62  
-b80df10f845813 lishuo       2024-01-31   63  failed_add_pool_virt:
-b80df10f845813 lishuo       2024-01-31   64  	gen_pool_destroy(priv->memory_pool);
-b80df10f845813 lishuo       2024-01-31   65  
-b80df10f845813 lishuo       2024-01-31   66  failed_create_pool:
-b80df10f845813 lishuo       2024-01-31   67  	return ret;
-b80df10f845813 lishuo       2024-01-31   68  }
-b80df10f845813 lishuo       2024-01-31   69  
-b80df10f845813 lishuo       2024-01-31   70  void phytium_memory_pool_fini(struct device *dev, struct phytium_display_private *priv)
-b80df10f845813 lishuo       2024-01-31   71  {
-b80df10f845813 lishuo       2024-01-31   72  	gen_pool_destroy(priv->memory_pool);
-b80df10f845813 lishuo       2024-01-31   73  }
-b80df10f845813 lishuo       2024-01-31   74  
-b80df10f845813 lishuo       2024-01-31   75  struct sg_table *
-b80df10f845813 lishuo       2024-01-31   76  phytium_gem_prime_get_sg_table(struct drm_gem_object *obj)
-b80df10f845813 lishuo       2024-01-31   77  {
-b80df10f845813 lishuo       2024-01-31   78  	struct phytium_gem_object *phytium_gem_obj = to_phytium_gem_obj(obj);
-b80df10f845813 lishuo       2024-01-31   79  	struct sg_table *sgt;
-b80df10f845813 lishuo       2024-01-31   80  	struct drm_device *dev = obj->dev;
-b80df10f845813 lishuo       2024-01-31   81  	int ret;
-b80df10f845813 lishuo       2024-01-31   82  	struct page *page = NULL;
-b80df10f845813 lishuo       2024-01-31   83  
-b80df10f845813 lishuo       2024-01-31   84  	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-b80df10f845813 lishuo       2024-01-31   85  	if (!sgt) {
-b80df10f845813 lishuo       2024-01-31   86  		DRM_DEBUG_KMS("malloc sgt fail\n");
-b80df10f845813 lishuo       2024-01-31   87  		return ERR_PTR(-ENOMEM);
-b80df10f845813 lishuo       2024-01-31   88  	}
-b80df10f845813 lishuo       2024-01-31   89  
-8c04aa95ffa8ae Jiakun Shuai 2024-05-20   90  	if ((phytium_gem_obj->memory_type == MEMORY_TYPE_VRAM_WC) ||
-8c04aa95ffa8ae Jiakun Shuai 2024-05-20   91  	    (phytium_gem_obj->memory_type == MEMORY_TYPE_VRAM_DEVICE) ||
-b80df10f845813 lishuo       2024-01-31   92  	    (phytium_gem_obj->memory_type == MEMORY_TYPE_SYSTEM_CARVEOUT)) {
-b80df10f845813 lishuo       2024-01-31   93  		ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-b80df10f845813 lishuo       2024-01-31   94  		if (ret) {
-b80df10f845813 lishuo       2024-01-31   95  			DRM_ERROR("failed to allocate sg\n");
-b80df10f845813 lishuo       2024-01-31   96  			goto sgt_free;
-b80df10f845813 lishuo       2024-01-31   97  		}
-e2cdf30a3e12bb XuYan        2025-04-09   98  		page = pfn_to_page(__phys_to_pfn(phytium_gem_obj->phys_addr));
-b80df10f845813 lishuo       2024-01-31   99  		sg_set_page(sgt->sgl, page, PAGE_ALIGN(phytium_gem_obj->size), 0);
-b80df10f845813 lishuo       2024-01-31  100  	} else if (phytium_gem_obj->memory_type == MEMORY_TYPE_SYSTEM_UNIFIED) {
-b80df10f845813 lishuo       2024-01-31  101  		ret = dma_get_sgtable_attrs(dev->dev, sgt, phytium_gem_obj->vaddr,
-b80df10f845813 lishuo       2024-01-31  102  				    phytium_gem_obj->iova, phytium_gem_obj->size,
-b80df10f845813 lishuo       2024-01-31  103  				    DMA_ATTR_WRITE_COMBINE);
-b80df10f845813 lishuo       2024-01-31  104  		if (ret) {
-b80df10f845813 lishuo       2024-01-31  105  			DRM_ERROR("failed to allocate sgt, %d\n", ret);
-b80df10f845813 lishuo       2024-01-31  106  			goto sgt_free;
-b80df10f845813 lishuo       2024-01-31  107  		}
-b80df10f845813 lishuo       2024-01-31  108  	}
-b80df10f845813 lishuo       2024-01-31  109  
-b80df10f845813 lishuo       2024-01-31  110  	return sgt;
-b80df10f845813 lishuo       2024-01-31  111  sgt_free:
-b80df10f845813 lishuo       2024-01-31  112  	kfree(sgt);
-b80df10f845813 lishuo       2024-01-31  113  	return ERR_PTR(ret);
-b80df10f845813 lishuo       2024-01-31  114  }
-b80df10f845813 lishuo       2024-01-31  115  
-b80df10f845813 lishuo       2024-01-31  116  struct drm_gem_object *
-b80df10f845813 lishuo       2024-01-31  117  phytium_gem_prime_import_sg_table(struct drm_device *dev,
-b80df10f845813 lishuo       2024-01-31  118  					       struct dma_buf_attachment *attach,
-b80df10f845813 lishuo       2024-01-31  119  					       struct sg_table *sgt)
-b80df10f845813 lishuo       2024-01-31  120  {
-b80df10f845813 lishuo       2024-01-31  121  	struct phytium_gem_object *phytium_gem_obj = NULL;
-b80df10f845813 lishuo       2024-01-31  122  	struct scatterlist *s;
-b80df10f845813 lishuo       2024-01-31  123  	dma_addr_t expected;
-b80df10f845813 lishuo       2024-01-31  124  	int ret, i;
-b80df10f845813 lishuo       2024-01-31  125  
-b80df10f845813 lishuo       2024-01-31  126  	phytium_gem_obj = kzalloc(sizeof(*phytium_gem_obj), GFP_KERNEL);
-b80df10f845813 lishuo       2024-01-31  127  	if (!phytium_gem_obj) {
-b80df10f845813 lishuo       2024-01-31  128  		DRM_ERROR("failed to allocate phytium_gem_obj\n");
-b80df10f845813 lishuo       2024-01-31  129  		ret = -ENOMEM;
-b80df10f845813 lishuo       2024-01-31  130  		goto failed_malloc;
-b80df10f845813 lishuo       2024-01-31  131  	}
-b80df10f845813 lishuo       2024-01-31  132  
-b80df10f845813 lishuo       2024-01-31  133  	ret = drm_gem_object_init(dev, &phytium_gem_obj->base, attach->dmabuf->size);
-b80df10f845813 lishuo       2024-01-31  134  	if (ret) {
-b80df10f845813 lishuo       2024-01-31  135  		DRM_ERROR("failed to initialize drm gem object: %d\n", ret);
-b80df10f845813 lishuo       2024-01-31  136  		goto failed_object_init;
-b80df10f845813 lishuo       2024-01-31  137  	}
-b80df10f845813 lishuo       2024-01-31  138  
-b80df10f845813 lishuo       2024-01-31  139  	expected = sg_dma_address(sgt->sgl);
-b80df10f845813 lishuo       2024-01-31  140  	for_each_sg(sgt->sgl, s, sgt->nents, i) {
-b80df10f845813 lishuo       2024-01-31  141  		if (sg_dma_address(s) != expected) {
-b80df10f845813 lishuo       2024-01-31  142  			DRM_ERROR("sg_table is not contiguous");
-b80df10f845813 lishuo       2024-01-31  143  			ret = -EINVAL;
-b80df10f845813 lishuo       2024-01-31  144  			goto failed_check_continue;
-b80df10f845813 lishuo       2024-01-31  145  		}
-b80df10f845813 lishuo       2024-01-31  146  		expected = sg_dma_address(s) + sg_dma_len(s);
-b80df10f845813 lishuo       2024-01-31  147  	}
-b80df10f845813 lishuo       2024-01-31  148  
-b80df10f845813 lishuo       2024-01-31  149  	phytium_gem_obj->iova = sg_dma_address(sgt->sgl);
-b80df10f845813 lishuo       2024-01-31  150  	phytium_gem_obj->sgt = sgt;
-b80df10f845813 lishuo       2024-01-31  151  
-b80df10f845813 lishuo       2024-01-31  152  	return &phytium_gem_obj->base;
-b80df10f845813 lishuo       2024-01-31  153  failed_check_continue:
-b80df10f845813 lishuo       2024-01-31  154  	drm_gem_object_release(&phytium_gem_obj->base);
-b80df10f845813 lishuo       2024-01-31  155  failed_object_init:
-b80df10f845813 lishuo       2024-01-31  156  	kfree(phytium_gem_obj);
-b80df10f845813 lishuo       2024-01-31  157  failed_malloc:
-b80df10f845813 lishuo       2024-01-31  158  	return ERR_PTR(ret);
-b80df10f845813 lishuo       2024-01-31  159  }
-b80df10f845813 lishuo       2024-01-31  160  
-b80df10f845813 lishuo       2024-01-31  161  int phytium_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
-b80df10f845813 lishuo       2024-01-31  162  {
-b80df10f845813 lishuo       2024-01-31  163  	struct phytium_gem_object *phytium_obj = to_phytium_gem_obj(obj);
-b80df10f845813 lishuo       2024-01-31  164  
-b80df10f845813 lishuo       2024-01-31  165  	iosys_map_set_vaddr(map, phytium_obj->vaddr);
-b80df10f845813 lishuo       2024-01-31  166  
-b80df10f845813 lishuo       2024-01-31  167  	return 0;
-b80df10f845813 lishuo       2024-01-31  168  }
-b80df10f845813 lishuo       2024-01-31  169  
-b80df10f845813 lishuo       2024-01-31  170  void phytium_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
-b80df10f845813 lishuo       2024-01-31  171  {
-e2cdf30a3e12bb XuYan        2025-04-09  172  }
-b80df10f845813 lishuo       2024-01-31  173  
-e2cdf30a3e12bb XuYan        2025-04-09 @174  int phytium_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-e2cdf30a3e12bb XuYan        2025-04-09  175  {
-e2cdf30a3e12bb XuYan        2025-04-09  176  	return phytium_gem_mmap_obj(obj, vma);
-b80df10f845813 lishuo       2024-01-31  177  }
-b80df10f845813 lishuo       2024-01-31  178  
 
-:::::: The code at line 174 was first introduced by commit
-:::::: e2cdf30a3e12bb55e76d60e99c0abd7db2917b5c drm/phytium: Fix some Bugs in Phytium Display Engine
+vim +/strlen +321 include/linux/kernel.h
 
-:::::: TO: XuYan <xuyan1481@phytium.com.cn>
-:::::: CC: xuyan <xuyan1481@phytium.com.cn>
+769b0441f438c4 Frederic Weisbecker      2009-03-06  287  
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  288) /**
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  289)  * trace_puts - write a string into the ftrace buffer
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  290)  * @str: the string to record
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  291)  *
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  292)  * Note: __trace_bputs is an internal function for trace_puts and
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  293)  *       the @ip is passed in via the trace_puts macro.
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  294)  *
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  295)  * This is similar to trace_printk() but is made for those really fast
+e8c97af0c1f23d Randy Dunlap             2017-10-13  296   * paths that a developer wants the least amount of "Heisenbug" effects,
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  297)  * where the processing of the print format is still too much.
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  298)  *
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  299)  * This function allows a kernel developer to debug fast path sections
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  300)  * that printk is not appropriate for. By scattering in various
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  301)  * printk like tracing in the code, a developer can quickly see
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  302)  * where problems are occurring.
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  303)  *
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  304)  * This is intended as a debugging tool for the developer only.
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  305)  * Please refrain from leaving trace_puts scattered around in
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  306)  * your code. (Extra memory is used for special buffers that are
+e8c97af0c1f23d Randy Dunlap             2017-10-13  307   * allocated when trace_puts() is used.)
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  308)  *
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  309)  * Returns: 0 if nothing was written, positive # if string was.
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  310)  *  (1 when __trace_bputs is used, strlen(str) when __trace_puts is used)
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  311)  */
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  312) 
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  313) #define trace_puts(str) ({						\
+3debb0a9ddb165 Steven Rostedt (Red Hat  2016-03-22  314) 	static const char *trace_printk_fmt __used			\
+33def8498fdde1 Joe Perches              2020-10-21  315  		__section("__trace_printk_fmt") =			\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  316) 		__builtin_constant_p(str) ? str : NULL;			\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  317) 									\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  318) 	if (__builtin_constant_p(str))					\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  319) 		__trace_bputs(_THIS_IP_, trace_printk_fmt);		\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  320) 	else								\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08 @321) 		__trace_puts(_THIS_IP_, str, strlen(str));		\
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  322) })
+bcf312cf762f3f Steven Rostedt           2013-05-02  323  extern int __trace_bputs(unsigned long ip, const char *str);
+bcf312cf762f3f Steven Rostedt           2013-05-02  324  extern int __trace_puts(unsigned long ip, const char *str, int size);
+09ae72348eccb6 Steven Rostedt (Red Hat  2013-03-08  325) 
+
+:::::: The code at line 321 was first introduced by commit
+:::::: 09ae72348eccb60e304cf8ce94653f4a78fcd407 tracing: Add trace_puts() for even faster trace_printk() tracing
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
