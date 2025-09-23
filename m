@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52343101B6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 07:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6E33164BE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 07:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758612610; cv=none; b=f1Cz23IJ6zagRM6Uwu0IbuSPYmzFRzlexUWtX8LX7/FdVpuyqlT9jgeEJ1OnZ/uT6Z+zSN3krjLvESWULeljr6twtAuSq/9UfM5f9EP6qXwnTKFpRtjEx+if7pN4uOLkj6w3vNlaaNbHTw2cHsC2ET0n7ifmC4adWKl1DfdT+Ws=
+	t=1758613936; cv=none; b=AWK+SkW9pSyz1rJEzo97qm738hz2eko6wTa85nen38xUWIClzDQbeOrU2ntebJp8UtEsALeuXgJH1SH3x5iy7DOVLqNU02Y05zdcL/TcrJf/U7p4bRoxi73k8/9yOb00pDZHeZTs9a6PO+N9xq+2R4K/Yvy8CbMjwLFHYsKNi8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758612610; c=relaxed/simple;
-	bh=ZGTRiuXTNanko1zvYG1vhKCm28IHONDygyVeKmZkRrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uGHLvUcRiS+Ib2l7r7NMOXBnAaraROJcj5wK4N8sVaJDHg4jo9eAkzGe1MVl8lnoPBXx6OkbAqLjO3gnJFHC+a576iXS0oRUMW/DpvHPaWrSctOk+aF4vtG4cppseE6QEu965FqsGY53mDS3CjuNwqSeC+7slav3VnpCsaiE7uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BqrHAN39; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1758613936; c=relaxed/simple;
+	bh=licSeWjFUdzBHCsxcp537nwdX+A34/7NtoD2kX8d7ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H1DfrvX1HPE9gTfUaAMsGGc0GFQ/6QDRHh70wWuXX26gm7VB9MwdDZ2nqvo+1yn5oTHD0/4jwLhO2MDe4pVBsfDZvlYmhJ3etMJDbYSbzNktWs0GsmLoKZFTTo6HRtlwtwZ34gFzuAREyQWpv7St00AHixjV6d3oWVRwq4pIbug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3HIODO9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqrHAN39"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3HIODO9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758612609; x=1790148609;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZGTRiuXTNanko1zvYG1vhKCm28IHONDygyVeKmZkRrY=;
-  b=BqrHAN39XR1Vn4iyLEQGSAbTWuGngr5rs2SdLjK/g/4jT0UYNG0cCMZN
-   uPpkOAm0DD4C3Zw5S9KwSl4wvEkEaxZ1VV7UJHq/66hk9LLa1LPp6X+cy
-   7hJZxFK31uKn+VS04Jn+Zzx/30GSfSLSaRM0hkBnjWfmAr9p6mNx8P+C0
-   xdtttdtgsgCr+AVsIjC36S3dsZUSMJR1vPA7TbX+DyV4GaWfAyG8GeP4m
-   sujzoUeKJOQrCh//p3XwHxuWpE9nbAnIsG/+vVe2a0SUJL3EatzMiyq8R
-   bshm6wWnD0pmD3ai89s7CN3Gk0f/zgVnlI266Ash/7d6ZO7dXQD1if1UC
-   w==;
-X-CSE-ConnectionGUID: z/8n+8NIS5aKRXWHqfBFPw==
-X-CSE-MsgGUID: PJQHGwivS5OQ41dYsWy3vA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="72311389"
+  t=1758613935; x=1790149935;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=licSeWjFUdzBHCsxcp537nwdX+A34/7NtoD2kX8d7ys=;
+  b=T3HIODO9fdhfJ8xjLAHpIS9zXzcK/I79dlA/guMvsRnhJMdZJf0MChbQ
+   hxz23ll3p5HFodAVgpsyEE+w67Zve+yHxPBu4iqXJQZEu3PGDiwak/k8y
+   /aQlyUC9uP/VzTTmu84M2z+EKI6USDR8ekLqMZboxjdvPqFkM0BoGHysh
+   PHsot8WFfjDbG9/1gIoLayTZyeb8gs//w8pjzlyC+AyC6NroOJWCHdyjM
+   6FyFHBt+MfRwz66n1VHTfkZmO4ECbQLtinUqClYpo/COk5LEW0ofh9WTt
+   CUCuT07fAMYr2/93g4MJwAnaePWQ5AAyVouJ1vkWumeJE6QjTqCFuMmzP
+   Q==;
+X-CSE-ConnectionGUID: 9EN8elxbQC+iIIrH65+qUQ==
+X-CSE-MsgGUID: 6Ax+X8i6RdeZOxa3TZbnMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60942163"
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="72311389"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 00:30:08 -0700
-X-CSE-ConnectionGUID: VRlfDS35TSanyNGf5hBPVg==
-X-CSE-MsgGUID: KP3FAcpmT/y5F23KA/5uDQ==
+   d="scan'208";a="60942163"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 00:52:14 -0700
+X-CSE-ConnectionGUID: ky0FkstCS4y0RA7/+g+A0Q==
+X-CSE-MsgGUID: 7rquwNaGRXC45vaKXV5jgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="181081228"
+   d="scan'208";a="176774466"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2025 00:30:07 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Sep 2025 00:52:09 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0xTR-0002rb-0F;
-	Tue, 23 Sep 2025 07:30:05 +0000
-Date: Tue, 23 Sep 2025 15:29:50 +0800
+	id 1v0xok-0002sP-2l;
+	Tue, 23 Sep 2025 07:52:06 +0000
+Date: Tue, 23 Sep 2025 15:52:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 1/1] mm/swap.c:778: warning: Function
- parameter or member 'tail' not described in 'mark_page_lazyfree_movetail'
-Message-ID: <202509231528.QSrOWsra-lkp@intel.com>
+To: Menglong Dong <menglong8.dong@gmail.com>, jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kpsingh@kernel.org,
+	mattbobrowski@google.com, song@kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, yonghong.song@linux.dev,
+	john.fastabend@gmail.com, sdf@fomichev.me, haoluo@google.com,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] bpf: remove is_return in struct
+ bpf_session_run_ctx
+Message-ID: <202509231550.BWhLcP9e-lkp@intel.com>
+References: <20250922095705.252519-1-dongml2@chinatelecom.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,62 +70,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250922095705.252519-1-dongml2@chinatelecom.cn>
 
-Hi Charan,
+Hi Menglong,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   bd0e4cef233d7f95e320d36ced31a23b952ab0cd
-commit: 8011eb22150e5bb6eb1834ce9913f36081d48ab5 [1/1] ANDROID: mm: provision to add shmem pages to inactive file lru head
-config: i386-buildonly-randconfig-001-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231528.QSrOWsra-lkp@intel.com/config)
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-remove-is_return-in-struct-bpf_session_run_ctx/20250922-175833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250922095705.252519-1-dongml2%40chinatelecom.cn
+patch subject: [PATCH bpf-next] bpf: remove is_return in struct bpf_session_run_ctx
+config: i386-randconfig-r113-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231550.BWhLcP9e-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231528.QSrOWsra-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231550.BWhLcP9e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231528.QSrOWsra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231550.BWhLcP9e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/bpf_trace.c:833:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr @@     got void * @@
+   kernel/trace/bpf_trace.c:833:41: sparse:     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr
+   kernel/trace/bpf_trace.c:833:41: sparse:     got void *
+>> kernel/trace/bpf_trace.c:3059:62: sparse: sparse: dubious: x | !y
+   kernel/trace/bpf_trace.c:3512:52: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3526:56: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3540:52: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3547:56: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3555:52: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c:3563:56: sparse: sparse: cast removes address space '__user' of expression
+   kernel/trace/bpf_trace.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:869:9: sparse: sparse: context imbalance in 'uprobe_prog_run' - unexpected unlock
 
-   mm/swap.c:502: warning: Function parameter or member 'vma_flags' not described in '__lru_cache_add_inactive_or_unevictable'
-   mm/swap.c:502: warning: Excess function parameter 'vma' description in '__lru_cache_add_inactive_or_unevictable'
->> mm/swap.c:778: warning: Function parameter or member 'tail' not described in 'mark_page_lazyfree_movetail'
+vim +3059 kernel/trace/bpf_trace.c
 
-
-vim +778 mm/swap.c
-
-10853a039208c4 Minchan Kim       2016-01-15  769  
-9975da5f43bb72 Vinayak Menon     2021-03-18  770  /**
-9975da5f43bb72 Vinayak Menon     2021-03-18  771   * mark_page_lazyfree_movetail - make a swapbacked page lazyfree
-9975da5f43bb72 Vinayak Menon     2021-03-18  772   * @page: page to deactivate
-9975da5f43bb72 Vinayak Menon     2021-03-18  773   *
-9975da5f43bb72 Vinayak Menon     2021-03-18  774   * mark_page_lazyfree_movetail() moves @page to the tail of inactive file list.
-9975da5f43bb72 Vinayak Menon     2021-03-18  775   * This is done to accelerate the reclaim of @page.
-9975da5f43bb72 Vinayak Menon     2021-03-18  776   */
-8011eb22150e5b Charan Teja Reddy 2021-06-25  777  void mark_page_lazyfree_movetail(struct page *page, bool tail)
-9975da5f43bb72 Vinayak Menon     2021-03-18 @778  {
-9975da5f43bb72 Vinayak Menon     2021-03-18  779  	if (PageLRU(page) && !PageUnevictable(page) && PageSwapBacked(page) &&
-9975da5f43bb72 Vinayak Menon     2021-03-18  780  		!PageSwapCache(page)) {
-9975da5f43bb72 Vinayak Menon     2021-03-18  781  		struct pagevec *pvec;
-9975da5f43bb72 Vinayak Menon     2021-03-18  782  
-9975da5f43bb72 Vinayak Menon     2021-03-18  783  		local_lock(&lru_pvecs.lock);
-9975da5f43bb72 Vinayak Menon     2021-03-18  784  		pvec = this_cpu_ptr(&lru_pvecs.lru_lazyfree_movetail);
-9975da5f43bb72 Vinayak Menon     2021-03-18  785  		get_page(page);
-9975da5f43bb72 Vinayak Menon     2021-03-18  786  		if (pagevec_add_and_need_flush(pvec, page))
-9975da5f43bb72 Vinayak Menon     2021-03-18  787  			pagevec_lru_move_fn(pvec,
-8011eb22150e5b Charan Teja Reddy 2021-06-25  788  					lru_lazyfree_movetail_fn, &tail);
-9975da5f43bb72 Vinayak Menon     2021-03-18  789  		local_unlock(&lru_pvecs.lock);
-9975da5f43bb72 Vinayak Menon     2021-03-18  790  	}
-9975da5f43bb72 Vinayak Menon     2021-03-18  791  }
-9975da5f43bb72 Vinayak Menon     2021-03-18  792  
-
-:::::: The code at line 778 was first introduced by commit
-:::::: 9975da5f43bb72a37faf3981709fff766ab4ca15 ANDROID: mm: allow fast reclaim of shmem pages
-
-:::::: TO: Vinayak Menon <vinmenon@codeaurora.org>
-:::::: CC: Suren Baghdasaryan <surenb@google.com>
+  3050	
+  3051	static int uprobe_prog_run(struct bpf_uprobe *uprobe,
+  3052				   unsigned long entry_ip,
+  3053				   struct pt_regs *regs,
+  3054				   bool is_return, void *data)
+  3055	{
+  3056		struct bpf_uprobe_multi_link *link = uprobe->link;
+  3057		struct bpf_uprobe_multi_run_ctx run_ctx = {
+  3058			.session_ctx = {
+> 3059				.data = (void *)((unsigned long)data | !!is_return),
+  3060			},
+  3061			.entry_ip = entry_ip,
+  3062			.uprobe = uprobe,
+  3063		};
+  3064		struct bpf_prog *prog = link->link.prog;
+  3065		bool sleepable = prog->sleepable;
+  3066		struct bpf_run_ctx *old_run_ctx;
+  3067		int err;
+  3068	
+  3069		if (link->task && !same_thread_group(current, link->task))
+  3070			return 0;
+  3071	
+  3072		if (sleepable)
+  3073			rcu_read_lock_trace();
+  3074		else
+  3075			rcu_read_lock();
+  3076	
+  3077		migrate_disable();
+  3078	
+  3079		old_run_ctx = bpf_set_run_ctx(&run_ctx.session_ctx.run_ctx);
+  3080		err = bpf_prog_run(link->link.prog, regs);
+  3081		bpf_reset_run_ctx(old_run_ctx);
+  3082	
+  3083		migrate_enable();
+  3084	
+  3085		if (sleepable)
+  3086			rcu_read_unlock_trace();
+  3087		else
+  3088			rcu_read_unlock();
+  3089		return err;
+  3090	}
+  3091	
 
 -- 
 0-DAY CI Kernel Test Service
