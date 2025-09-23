@@ -1,155 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic308-54.consmr.mail.gq1.yahoo.com (sonic308-54.consmr.mail.gq1.yahoo.com [98.137.68.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F5A22ACEB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 09:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF2F2701CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 09:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.68.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758619289; cv=none; b=r00ttOOHluwoKzg/y7+QFVEXfgjiGVZQBJxEf2gy7WpBDq6EzP+lNotliJ1PDfJbdqAH1mpIHRB3TeC5Hr6mVMIZvbgar+guc8f75lX9Eu8IygN4ZXmndKQmk9DZzvb2uQ+Jczl2Dj5qVoky//ooyvFH+SPZLgg9XDuwUP2sVAY=
+	t=1758620291; cv=none; b=S/0cPH8RgmAuR4lN4tZeuQ6hbGwFoGUagCyAA9alOkWg8eHaf3h5ijEbxYq4De7Cez11/MyL7qBXrJzMjzdlZfj1BWT55k2FQFElQyDbqaUMEFJCy8vlVcuSqeEzy2oLVArrUTms5c/SSF2D1raRYPxRj/mA+afP84v/skyX12o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758619289; c=relaxed/simple;
-	bh=bp+sUW3/VySg0r+uo4biT0MX4DtmWftriQRRDUg+x9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UvPjUlWz2i6BvRbT0yW90jSCDwGenwYKS7ZLOwfieW+QW6c84KcyvAm4aOmlx8/HOM0u48jT0KKoKQGaGtukx4mK1gsMONHDfpUSZHhAWrxFFlhUA4lTp1S0Ub3oo/YmoHSLmPrYwBLwZ0qCWLtUfuLPu/JHUTxLeUp/fq8DfUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0OviZWE; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758620291; c=relaxed/simple;
+	bh=Iugh8da4n311fyhlAdaK+G/IqBXZaK3SsNA7OeZOn9s=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rhP7wNR0DKPOE0+6ftFJr7syUZ4SSwfTCGskfLwE6nMsgXagEV6EFBee/r3QKkesl+0wfI0x0XGRFvMgci1l7GUshb1LPwVLEL9JWkfnkX6fAuBOAG+mjGaCEbICGcySb3ZBpvuSExF+19zhP6fGTDAmSyL2w9+0WqdF37V0lHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=Pdtkq7QF; arc=none smtp.client-ip=98.137.68.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0OviZWE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758619287; x=1790155287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bp+sUW3/VySg0r+uo4biT0MX4DtmWftriQRRDUg+x9c=;
-  b=a0OviZWE/Xbp0o9OBlW9eqV296Q3OaHKumIW8anuCxVNvRc4Yck1hyFl
-   vA3bf8SE5k3hD6jUT2VYHPFhLszBb/RHlh0oth4DR0THSKPPTsRT/fjnG
-   P+cxZHvKVh3avKThVV/UtB9wSRtGM3Nd8+YsFDwHEP4fKMzy8ngqoNsVB
-   64Fy3rHms3JtQfHZAgaDNNZT4+S6z1gmyLHDXNyF0uzee5tsUoOnBCjM6
-   dmYViQwcUrhPjWCtxhqmSqHbyofZDHlAqzlquRq5B7bhte2tJzmOCxWKf
-   nTxXAPmGluTGxakkt/6WkoZjQzhn36L3e6j+R6/7GO7ZDG2UWMbNY68wZ
-   A==;
-X-CSE-ConnectionGUID: Gaaaa9oJSMiENgI3fK9Mtw==
-X-CSE-MsgGUID: ePxCDk0AQW+9SwsjN0okKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="86328867"
-X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="86328867"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 02:21:27 -0700
-X-CSE-ConnectionGUID: iJdzp6WtTpGB8sO1xzv26w==
-X-CSE-MsgGUID: wPmYcF5hRwSNsVnsnF819g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="176304124"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Sep 2025 02:21:23 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v0zD1-0002xh-0D;
-	Tue, 23 Sep 2025 09:21:19 +0000
-Date: Tue, 23 Sep 2025 17:20:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	Gaurav Jain <gaurav.jain@nxp.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Victoria Milhoan (b42089)" <vicki.milhoan@freescale.com>,
-	Meenakshi Aggarwal <meenakshi.aggarwal@nxp.com>,
-	Dan Douglass <dan.douglass@nxp.com>, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Guangshuo Li <lgs201920130244@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] crypto: caam: Add check for kcalloc() in test_len()
-Message-ID: <202509231744.SGr3Dh19-lkp@intel.com>
-References: <20250922155322.1825714-1-lgs201920130244@gmail.com>
+	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="Pdtkq7QF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1758620289; bh=i/JkHt1ifQgSIgiBIhpJlMuTHUzyhCx7VIPvnsPszlg=; h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To; b=Pdtkq7QFru32r+TVxefNIvLAQu9wFqGZZOKsxBIFSUM+hZQLyFp/8FHlV5/XYazZdTMCYWQRizpk/2X31wza4g8f7qpA8flIDmnnoSl3/XhKnE4cjj1/txqQuKdL/IzErWTH2lagW7ihXp9nNMPdhAtBkCiJtbWgRcWVSTFYsuooTRjetpr6jPornnDZalQOwxRoD5H8p3H/10LiTdAU9JapiCyg8KK+JFEC7RBYdTIy4gPio0+u7ghCeg5awi9en+8nzNrVNuItvNAdNo5LWouUQSq2FUlWZm6gfOdXno8juofrjfKnp0S24DSi7E6JwwXUn7STIEg9KfEilCdPSg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1758620289; bh=MSDvzCB3TGUrTSf9feK2NVOv0QHfulqSszg9XZWpKvK=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=OCWjefJvrLlL1OglnAwBwvwOPb+z/pJpY+D9QaS3rjbzAJ9g1oC7In3QLqjjTx1sWirMtKKG5aTuGRTrgtHnrtJm4kZr89GRlZ+vVGXx7Tyv8/9YiSbcnBT4l5OASAW3UrXWxkTWU6FkXiPUrvr9q8QX/8uTDGcOd3Cy7/Yu7cQvE9zVdOfGzzSlkjYa158l6yyREnae4yxtbuJP4hnD2VWITawLWv/gOGET5Zi2WdjcI2XwdY5GRfdm5l5Et90Smi8NZegunS2FlnNhdk+pgukJsiN+IGco7g+Rjfidm9IaIrM5ptp1GzYkeCWPzj4Ra381H2EnVkeLHVvjVzTPgg==
+X-YMail-OSG: 6r4yxZ8VM1kDtKln9tqtbbvwmJ4QlPpaRhmNTWbAZXLcK1eu0jjmlq.iUtcaK8p
+ SsPOcQuJoJczYGr9Cha.vp5aAy3ZxL2nVriqE26mmIUymNBw4JvQNWafUfpXHYEWsRUca5dNF_QK
+ 9XAHuPwQx5fTTMTI3_jB6XjRMGIsmHiFQsqY1eAk1.bUoFpbAHocskIEmsWDKtpPZZ.1cuy6tBbN
+ Ji.1aQU1rfqjTPboaMg8m6T.pSFul9m_oHHXMCuK1YyVdoHPoQk9Mrcu1smpIxQ1WUherqv64JCV
+ Z5KBPcjOJm9mE2vH4AunF_NKdpwB3W0KPDlXHMzihthRm7fkdkIHic991IhkNRrDu4kUbDtEl7Sq
+ cPbyyVemliu51Prs2yvt4sL5xqHRPTo964mRJfj7vfhE7BStCSZnO2OgO6KTGmlXWYs649u8p_Gf
+ eDZJL.z5VHQiIGFUv_lAuiulIVPW332F8Cy8nu_KvKGAkssgzRLfJ1Bepa4hZ6PkoKBaA5vT3lhW
+ 9UUwrbjJNZxCmgwKXhLbH79ylC1qxBRldWI_T5kQYvzxwp8AWIrmeZe2qXagBpyrZm3faoZsL35S
+ Zz_2tprtP0wZV1DvkNwtosYGIUNDaxYprZ4PLOPN9bzcAjor1w5_D3XYKCobok4Z9J89TGgsvQdE
+ 1k0jNrvt1ha1yAmOzDAbo6y3CZC2vbobmMW7kRrY4JumjqO9Jmp1HOFODGyLiHKIlgbCQnzHRsh1
+ G_rCNPQfxy.6SARYp8NyqSVfU5BcvAE8THe8_Qtr1G5KKVQu1l4gIh3sushNNCJBoSIRDQATu9GP
+ YYi.Z79TwGyL1U87VVaIATe.jFSrpO4oNSrZzhOrBrwoGo6fXqY2RU3zKWsTDcXymWDU4wmy.gqg
+ Vr5WvdAGvTA20nHzi5VD.t_gVMiYy_cMoGrkexevHR6RQOc2DsTMxvLWuZbapF5yH9..qXbJU5k8
+ KuLfrtNknmd11sQPJFZBTpJUVVmjwempNxKPV1I_q2jBcrXWgxSfG05tEsKXLN_h6rQ2.Cz8LgXX
+ ggpONaRgNOJGfhLAPxwDHFvxSJTHZsvpz73OdrT2N6TY27UNTGCnX5NVr_Vu4h6SthfvulQmHRut
+ t5.18rNezpaouyayfY.EnEimWZ.7xWKvQ2Iy72rOtLIdjXacI8HncR2Vh_LCF_H3Rv7RJdWSYggA
+ Z8J9IjntE0q.9Z5jcZl.Mh59GmJnQX.phaxPqPVkuURMju.T881VoJ4lXuPKveuNf8RKfi7_wW7M
+ w2si4_dYoFrAwHqCOEhZlmNk0QW00W0S83pD.SVidAgs9WfPDb94XR755lxewEn25W0ml5sQ_iW9
+ 7eJm8_Si5VbP7RTaCafurw9xNBdT2kIPHr1iv2yDADPYtuA.7wNvfw3xePj7UOp1D_Htq02gJkO4
+ ex7YLd9FPtv8RO6vyVjdDr_ZEItat1MDZhJyGb.c20YPrSnfPgdyuhoNSv1D5HLeCtT0tVcwcQNj
+ JvBJrijLpYrEfMpdFR6zflnCqRziDLvmT0Mm_FbouEMTmUqqqo7n81qIEd1QyBmIGRq2haPp1szO
+ 3al6DvhsNTOI2n_7n01oEfXHZwKpCTcP5M_EFnfuErRFXi1LEDqa0ahlI8ZuCrHPe7SWw4_YC3MH
+ r1hgnAUP5YjEC.K5VeTXr0IuAG_jh04i0WRqb9jh.zr7RJzkqsYxogdmRXhGk9nSCp_jHw35Z_Zz
+ DiAymKVF8MT6A.JGU7xM55GIzzHNdOs6HYQ4zFee6h2typLP4FaaAPvcM0y3SvikaCuhBj1g7PPP
+ ymbCxOTzezqnl3o950cTfboyWwLU7IeBuq3Lu8NTXa_zdz6gFmM65jYwJRGDC7I79aylCILQHlr4
+ Ty._0YWFUy54AMzHAAKhH8SKTshHCE3qPZ7AY.NjSdXTbKH4TL0HOBXBPVi_TPUinLohs7pxbniB
+ EUS3HYwy8lv5PeJN7uTE0PilZ.bEHa_h5LWT3uc2mMHw_n2AvCqZSYZFlxRS1aAJamCGTIVRKj9I
+ z57XnY83zmEClnqVscKjXnLAgNBVfa9sqlkjytnyoHq2uSziam.5ooXj5H9.vfQKb6b5osRz2t.N
+ e8JGQIomy0GRiQTiHuSz7fLpt5mZ92K90k9FTs_8BQxXv3UtuBTffJm8QtwKsnnJRwrLcdsdms7l
+ 62osUoFio_tu.iMCSd4KesKdpq71Um1unrSaDOB_I.UqGJMYtKTnIP300aELqW25BlZFjsjSM9kh
+ e0RbmrfOA_qmvBlIxBg--
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 1e1e5ad4-a8c9-4f36-9c23-3e7ab320e928
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.gq1.yahoo.com with HTTP; Tue, 23 Sep 2025 09:38:09 +0000
+Received: by hermes--production-ir2-74585cff4f-wj49j (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 56b981eec5e43184558809b98bba93d9;
+          Tue, 23 Sep 2025 09:38:06 +0000 (UTC)
+Message-ID: <9625a9e34aee0157e57ca5b6a6bfeeeceba5ed38.camel@aol.com>
+Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
+From: Ruben Wauters <rubenru09@aol.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
+	 <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com, 
+	oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 23 Sep 2025 10:38:03 +0100
+In-Reply-To: <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
+References: <20250922173836.5608-1-rubenru09.ref@aol.com>
+	 <20250922173836.5608-1-rubenru09@aol.com>
+	 <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250922155322.1825714-1-lgs201920130244@gmail.com>
+X-Mailer: WebService/1.1.24425 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 
-Hi Guangshuo,
+On Tue, 2025-09-23 at 09:57 +0200, Thomas Zimmermann wrote:
+> FYI I got the following warnings. I'll fix them when I merge the
+> patch.
+>=20
+> -:6: ERROR:GIT_COMMIT_ID: Please use git commit description style=20
+> 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit
+> 2d2f1dc74cfb=20
+> ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")'
+> #6:
+> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
 
-kernel test robot noticed the following build warnings:
+I'm not 100% sure why it's complaining about this one, the format
+matches. I assume it's a problem with the line break in it? but I'm not
+100% sure.
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.17-rc7 next-20250922]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> -:15: WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be
+> immediately=20
+> followed by Closes: with a URL to the report
+> #15:
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/crypto-caam-Add-check-for-kcalloc-in-test_len/20250922-235723
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20250922155322.1825714-1-lgs201920130244%40gmail.com
-patch subject: [PATCH v2] crypto: caam: Add check for kcalloc() in test_len()
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250923/202509231744.SGr3Dh19-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231744.SGr3Dh19-lkp@intel.com/reproduce)
+I believe it's intentional to have two reported bys in a row, as both
+of them are followed by a Closes tag at the end.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231744.SGr3Dh19-lkp@intel.com/
+Thanks
 
-All warnings (new ones prefixed by >>):
-
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:371:9: note: previous definition is here
-     371 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> drivers/crypto/caam/caamrng.c:186:3: warning: void function 'test_len' should not return a value [-Wreturn-mismatch]
-     186 |                 return -ENOMEM;
-         |                 ^      ~~~~~~~
-   2 warnings generated.
-
-
-vim +/test_len +186 drivers/crypto/caam/caamrng.c
-
-   174	
-   175	#ifdef CONFIG_CRYPTO_DEV_FSL_CAAM_RNG_TEST
-   176	static inline void test_len(struct hwrng *rng, size_t len, bool wait)
-   177	{
-   178		u8 *buf;
-   179		int read_len;
-   180		struct caam_rng_ctx *ctx = to_caam_rng_ctx(rng);
-   181		struct device *dev = ctx->ctrldev;
-   182	
-   183		buf = kcalloc(CAAM_RNG_MAX_FIFO_STORE_SIZE, sizeof(u8), GFP_KERNEL);
-   184	
-   185		if (!buf) {
- > 186			return -ENOMEM;
-   187		}
-   188		while (len > 0) {
-   189			read_len = rng->read(rng, buf, len, wait);
-   190	
-   191			if (read_len < 0 || (read_len == 0 && wait)) {
-   192				dev_err(dev, "RNG Read FAILED received %d bytes\n",
-   193					read_len);
-   194				kfree(buf);
-   195				return;
-   196			}
-   197	
-   198			print_hex_dump_debug("random bytes@: ",
-   199				DUMP_PREFIX_ADDRESS, 16, 4,
-   200				buf, read_len, 1);
-   201	
-   202			len = len - read_len;
-   203		}
-   204	
-   205		kfree(buf);
-   206	}
-   207	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Am 22.09.25 um 19:32 schrieb Ruben Wauters:
+> > During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+> > 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
+> > versions"), the IS_ERR check was accidentally removed, breaking the
+> > gud_connector_add_properties() function, as any valid pointer in
+> > state_val would produce an error.
+> >=20
+> > The warning was reported by kernel test robot, and is fixed in this
+> > patch.
+> >=20
+> > Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with
+> > drm versions")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes:
+> > https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+> > Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+> > ---
+> > =C2=A0 drivers/gpu/drm/gud/gud_connector.c | 2 +-
+> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/gud/gud_connector.c
+> > b/drivers/gpu/drm/gud/gud_connector.c
+> > index 62e349b06dbe..1726a3fadff8 100644
+> > --- a/drivers/gpu/drm/gud/gud_connector.c
+> > +++ b/drivers/gpu/drm/gud/gud_connector.c
+> > @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct
+> > drm_connector_state *connector_state,
+> > =C2=A0=C2=A0			unsigned int *state_val;
+> > =C2=A0=20
+> > =C2=A0=C2=A0			state_val =3D
+> > gud_connector_tv_state_val(prop, &connector_state->tv);
+> > -			if (drm_WARN_ON_ONCE(connector_state-
+> > >connector->dev, state_val))
+> > +			if (drm_WARN_ON_ONCE(connector_state-
+> > >connector->dev, IS_ERR(state_val)))
+> > =C2=A0=C2=A0				return PTR_ERR(state_val);
+> > =C2=A0=20
+> > =C2=A0=C2=A0			val =3D *state_val;
