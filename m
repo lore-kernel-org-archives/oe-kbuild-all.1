@@ -1,59 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F913164A0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 12:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0557630FC3D;
+	Tue, 23 Sep 2025 13:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758632167; cv=none; b=Bv1SJEsqpnO3jTbU+PGrXfZD3FKW27cDbbqb54XteYXTwWMsClVWXQ4qGYs7SmQGtUS1Bg2Tb0Nwly83CAJJnpUCtptiozJehZ8g4PdVO231+4AbdtsE2bSW91DdkRKgAfknkjRwtm2aR4fzHO8rdT6PKdshpW1rsgsHtcdYGl4=
+	t=1758632663; cv=none; b=iyubNHKnCZH/esjXg7cvsT5Ol/j/K+Atu85J3FJgPKALbvGtAPPp+osqTPuok1e5hBc57cit0laQdN7yQQomksE/7pxnSvW8sCMBhNEnK3s8BReXxtFflrBV67JOTLHqsZaS6/DXGVwl6x+0oh4u9T6SVzp6r+u/L4LJVZUigQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758632167; c=relaxed/simple;
-	bh=ro/fypVrPLFhYL54DLWQ3LFD6z9yKDjJo2GgiSOa4Ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=RvqiKMvENC/y4iy0FR63VIE2Kkj7uuB36NoFiLalVTY2r4yXSJtKAJajg5+ahye5zweYmFT7Rwz6+dB202a4dvRSEqB0aoePevcAy3Hy4S8mUWsWk7o2y9eNRrdz8edLkdf3WajLeho87C+vhdGyx637E8SlAFHRLWBljWLGgao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLYWD0ua; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758632663; c=relaxed/simple;
+	bh=yhOpYhydXFOTnVyJEJ9WLdHPFnfzH5DQIG3kHF9WFQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gAl0E6Gjef2NFUtk+zbLFWN2GfeI4l/jq40ea34KT9mMBxnc4h90KkukyYuJoYqa1WX78b5ZvN2fL3a5Wfrd7jrmvrkyIdWuuM/StbFS3cRW0TkuIOcHohrOywtIr9xtbgyk8fZfXPMvYjihVODEYn5Gzuysix73CrOft+iWwxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u3YgpIsS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLYWD0ua"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758632165; x=1790168165;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=ro/fypVrPLFhYL54DLWQ3LFD6z9yKDjJo2GgiSOa4Ag=;
-  b=eLYWD0uaPdlO1lYSRbUJk9OotbPQf18Df1vg2Vr+tt8G2cP97hUodB1U
-   XWafsQ7tsOU9RlJLv2MjK4KHGkYAahijWVraNJnQae0CW+mObJFaRIsJy
-   WAQ4D8BktcS1bMHuJreMq3zBsQ8rZmbvTO71G4IYoGg3t5mj9A2exlP9O
-   MFnvY+irppKLC67QVNlsxc6qapXXM/nInGw17WOfampp1ybCWpF1dBx5E
-   3ntdRgRoVFaUUHl0rJKPKDlV4TfyDsneetkAcYD8H07pKreoVUjpfRGZH
-   A9/yuZAYjQ7IyMW9JFBY2BPvvhIWQDlWBMxtPXyj9ATmqjv93bFhYPxXK
-   g==;
-X-CSE-ConnectionGUID: K2lIsUJWR+mnPiF7Qy9m3A==
-X-CSE-MsgGUID: T0A5n1eMRhyiGtDJ74JQPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="59948432"
-X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="59948432"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 05:56:04 -0700
-X-CSE-ConnectionGUID: lr4RwLIMSca6t1prO+6Dcg==
-X-CSE-MsgGUID: Ju9HihwaSuG3iiOkkbOnmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="207684926"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Sep 2025 05:56:03 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v12Yr-00037Z-1N;
-	Tue, 23 Sep 2025 12:56:01 +0000
-Date: Tue, 23 Sep 2025 20:55:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xinhui Yang <cyan@cyano.uk>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] scsi: dc395x: improve code formatting for the
- macros
-Message-ID: <aNKYz_Ljv7MMiBS3@3514630e72f8>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u3YgpIsS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCB5C4CEF5;
+	Tue, 23 Sep 2025 13:04:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758632662;
+	bh=yhOpYhydXFOTnVyJEJ9WLdHPFnfzH5DQIG3kHF9WFQo=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=u3YgpIsSAzRs7gbGciWsT76CbHblYIJASZ1shE1TjqCcWPLyEbA15JGORKPzvEXT+
+	 m02RpuKakAHjnfcH68v+foy9qD6o7ptAg8py/aNtIjMJeYSnh1rLlEaRzNorsKffqF
+	 4QqXB/lsl6YgLfFSxSpI5wFSiUh6UgsZzHV/XiWgtLvOW3upkjroP9vGaNReaLLSWB
+	 Qc5S3Q1Ms27ZRDR3QTqZeBl3Cx7Mcau+bAoMcL9ABVwWRmUyTiFBB3TlQYP3D7Rn2P
+	 4lSQxlgGnSePiHsuZj7whbhrZ1uTfqUK0CyXomKCn8eB/Wk7u6Ojze5rlHZyh7tlOi
+	 7WcLGSYIY4ORw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 00684CE0E5A; Tue, 23 Sep 2025 06:01:52 -0700 (PDT)
+Date: Tue, 23 Sep 2025 06:01:52 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2025.09.15a 45/45] ERROR: modpost:
+ "init_srcu_struct_fast" [kernel/rcu/rcutorture.ko] undefined!
+Message-ID: <0e09e4cb-058d-40fb-aa8d-9da68fb86a24@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202509201519.udl3bu3X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +46,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923125226.1883391-3-cyan@cyano.uk>
+In-Reply-To: <202509201519.udl3bu3X-lkp@intel.com>
 
-Hi,
+On Sat, Sep 20, 2025 at 03:10:55PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2025.09.15a
+> head:   f81c21ec3fca688bfcb6fa0abaf70404655765dc
+> commit: f81c21ec3fca688bfcb6fa0abaf70404655765dc [45/45] rcutorture: Exercise DEFINE_STATIC_SRCU_FAST() and init_srcu_struct_fast()
+> config: arm-randconfig-003-20250920 (https://download.01.org/0day-ci/archive/20250920/202509201519.udl3bu3X-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7c861bcedf61607b6c087380ac711eb7ff918ca6)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250920/202509201519.udl3bu3X-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509201519.udl3bu3X-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: "init_srcu_struct_fast" [kernel/rcu/rcutorture.ko] undefined!
 
-Thanks for your patch.
+I believe that this is fixed in current -rcu by the replacement commits
+headed by the following commit:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+bd3acc50cf8c ("rcutorture: Exercise DEFINE_STATIC_SRCU_FAST() and init_srcu_struct_fast()")
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+Please see below for the diff that should fix the commit in which
+you found the failure.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v3 2/2] scsi: dc395x: improve code formatting for the macros
-Link: https://lore.kernel.org/stable/20250923125226.1883391-3-cyan%40cyano.uk
+And thank you for your testing efforts!!!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+							Thanx, Paul
 
+------------------------------------------------------------------------
 
-
+diff --git a/include/linux/srcu.h b/include/linux/srcu.h
+index c81d5dfaf73753..26de47820c58cd 100644
+--- a/include/linux/srcu.h
++++ b/include/linux/srcu.h
+@@ -48,7 +48,9 @@ int __init_srcu_struct_fast(struct srcu_struct *ssp, const char *name, struct lo
+ #else /* #ifdef CONFIG_DEBUG_LOCK_ALLOC */
+ 
+ int init_srcu_struct(struct srcu_struct *ssp);
++#ifndef CONFIG_TINY_SRCU
+ int init_srcu_struct_fast(struct srcu_struct *ssp);
++#endif // #ifndef CONFIG_TINY_SRCU
+ 
+ #define __SRCU_DEP_MAP_INIT(srcu_name)
+ #endif /* #else #ifdef CONFIG_DEBUG_LOCK_ALLOC */
+diff --git a/include/linux/srcutiny.h b/include/linux/srcutiny.h
+index 4c2f2802393062..92e6ab53398fc0 100644
+--- a/include/linux/srcutiny.h
++++ b/include/linux/srcutiny.h
+@@ -45,9 +45,9 @@ void srcu_drive_gp(struct work_struct *wp);
+  */
+ #define DEFINE_SRCU(name) \
+ 	struct srcu_struct name = __SRCU_STRUCT_INIT(name, name, name, name)
+-#define DEFINE_SRCU_FAST(name) DEFINE_SRCU(name)
+ #define DEFINE_STATIC_SRCU(name) \
+ 	static struct srcu_struct name = __SRCU_STRUCT_INIT(name, name, name, name)
++#define DEFINE_SRCU_FAST(name) DEFINE_SRCU(name)
+ #define DEFINE_STATIC_SRCU_FAST(name) \
+ 	static struct srcu_struct name = __SRCU_STRUCT_INIT(name, name, name, name)
+ 
+@@ -55,6 +55,9 @@ void srcu_drive_gp(struct work_struct *wp);
+ struct srcu_usage { };
+ #define __SRCU_USAGE_INIT(name) { }
+ #define __init_srcu_struct_fast __init_srcu_struct
++#ifndef CONFIG_DEBUG_LOCK_ALLOC
++#define init_srcu_struct_fast init_srcu_struct
++#endif // #ifndef CONFIG_DEBUG_LOCK_ALLOC
+ 
+ void synchronize_srcu(struct srcu_struct *ssp);
+ 
