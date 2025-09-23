@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290561DF247
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 15:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E464D26B2C8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 15:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758639924; cv=none; b=U5fyCD5r1xdaPaKYLu9DrKp3SHsOi0zdUoLCIL/jgySO66D4FPs40pscgKUxye/TPTJ8Xu00/a0iJfETT/mIvAE/0Y03tZwO/Cokl0M/z5KC9FNiM2OeIe0Te3MVAqryeySSErOiKhInDCbGt6J3RDZIGV5Ln0sak0AY0IqopL0=
+	t=1758642476; cv=none; b=t4ENO8cjB9CobClrsjYUTgJzQGPKlHdk3cJMbvLFGUnI0//hUM0SRXgcmSH4xuT1/EuTZetm6HA2UjnnOPIVTPUnPf+KHXsPWgNbbAtRarTwFlVMeXeVOuUpD3MgsUZwzlybzdhOjOeZaxm6EJDAnlweMQMSdOP5sBNAb6RDbuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758639924; c=relaxed/simple;
-	bh=GxFMETUO6QEJP79y8ge3Zi8ZzJsbJyTFbyE3m58HjYE=;
+	s=arc-20240116; t=1758642476; c=relaxed/simple;
+	bh=3C9pjKTWlADwyG26SLp2Lq/BrT4al6f3sHo/0tQRN3I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XdBLG9DJ9FuExByML4orVCkdhk5ZJcEflyUkhyIzvnVUAHBBxRHfwf0VlNYdUxVQUopSOX4WX+V5HOop8VKbuk8dXGZ6N4clcMgBQbIW3m6pPehl2f3MUw0+U3FDi6g52AbpeUY40VCUFB8z8P7jO/ey9fJmfTF75nm0DELkp/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHTtiuDH; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=bKB50NW9CiWONUweCKy9bYIkGNeoozYAhvDyNr6XrXkc+fQFuOVqqbja2+Sa41SXFMQFAelKeHYxu3e9tNlpRYgZXw1wvpk0h6JVW7nYTV850+TMDqtwf62pcw8sABRajxF+ap2Y6zjlY1gRGPh7J3Mu1t9YG7CIWH71b+Y3eNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CB7luetI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHTtiuDH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CB7luetI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758639922; x=1790175922;
+  t=1758642475; x=1790178475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GxFMETUO6QEJP79y8ge3Zi8ZzJsbJyTFbyE3m58HjYE=;
-  b=GHTtiuDHM2QWYgV55hbfAdgtCvksAYA0syFc/zVvkJKx/NcFLcYkbKNm
-   +quzsnKAVj+iVm0fVigyu6sXfE/hgXfkKUvSseR78GHs25Rrz6n6Gdy8Z
-   g5N5nLVkFHk45pHF/vy489bbWKSRuzvKPg99IfVdMRWsKd6uQBKljijMO
-   KlRoilaKiOGhz7lU2SzIXGmFlCRKL1oIgQKmr5BCAE0W1EmDDPGzf35Eg
-   RF8LbI/ga1Wx3azMm1DWoMMyyizruejDpxKZY221zuMwq1J1CDeyQOEB7
-   SKLD4tRONaM2n50KcmihmNzyUW2530X99h/IMCKC18drHfajHIfTxk2S8
-   A==;
-X-CSE-ConnectionGUID: M0eFhICAQgSSlQ+EBBT2Uw==
-X-CSE-MsgGUID: 9spsKHIeRqKX6Q2OpVwG7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60976814"
-X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="60976814"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 08:05:21 -0700
-X-CSE-ConnectionGUID: /OCN6jLvS1OYDq7vHvq3ow==
-X-CSE-MsgGUID: rqgEaxpmTuK41Q1hQs9mKg==
+  bh=3C9pjKTWlADwyG26SLp2Lq/BrT4al6f3sHo/0tQRN3I=;
+  b=CB7luetIQOvisNhcf+o2ODdtBkhthZ2c3j3yxl07qHh3HR0buNGUvkNw
+   YA+YNJP+qVt0eG0zAd5fnq/HlFnbDlBuLDpCww/qeyp+3Hf9NpEVtGQtv
+   AcvMV6+oFRv5bqPZH7FArFwDvn41P1I9fY40xODNy/cKy6lJyvgRScurq
+   zRTgnYnQNS1aB1WGKCK1RIRdblnnOqsv9z21RDILg0IwOPv9fELZxNrSg
+   i8QVfcZFSaqh19OUBmio5zmIkrRvsnDZM/r+Gg+IKb6Nx73CQwfSwfQoM
+   KLYvlI52APfdhVmJJAH6JqN2Ry+1SQaBjDx9eN3Mkm8PQOrlMPWPHNwJ6
+   Q==;
+X-CSE-ConnectionGUID: tINmFgt+QfWwF0MvryvTwQ==
+X-CSE-MsgGUID: zcAVI4qfTbeD9rHBQLK6+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60844249"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60844249"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 08:47:55 -0700
+X-CSE-ConnectionGUID: uMQxhjQiQHKuPGzPXFW9pQ==
+X-CSE-MsgGUID: EyeiOBo1SXuzLq/W2i/5ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="182051350"
+   d="scan'208";a="177238629"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2025 08:05:21 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2025 08:47:53 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v14Zy-0003E5-1j;
-	Tue, 23 Sep 2025 15:05:18 +0000
-Date: Tue, 23 Sep 2025 23:05:16 +0800
+	id 1v15F8-0003Gn-36;
+	Tue, 23 Sep 2025 15:47:50 +0000
+Date: Tue, 23 Sep 2025 23:47:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 7/7]
- drivers/usb/typec/mode_selection.c:38: warning: Excess struct member 'enter'
- description in 'mode_state'
-Message-ID: <202509232307.cTQ4CLn1-lkp@intel.com>
+Subject: [jarkko-tpmdd:tpm2-session 14/14]
+ security/keys/trusted-keys/trusted_tpm2.c:489:16: warning: address of array
+ 'options->blobauth' will always evaluate to 'true'
+Message-ID: <202509232324.o53bfgsg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,166 +63,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   ca82b910a4bfd961effbd33b7ee6455616951432
-commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [7/7] ANDROID: usb: typec: Implement mode selection
-config: x86_64-buildonly-randconfig-002-20250923 (https://download.01.org/0day-ci/archive/20250923/202509232307.cTQ4CLn1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509232307.cTQ4CLn1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2-session
+head:   8443d24da35ca59b7be6056fa1ebe74070eb9e4a
+commit: 8443d24da35ca59b7be6056fa1ebe74070eb9e4a [14/14] keys, trusted: Remove redundant helper
+config: i386-randconfig-011-20250923 (https://download.01.org/0day-ci/archive/20250923/202509232324.o53bfgsg-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509232324.o53bfgsg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509232307.cTQ4CLn1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509232324.o53bfgsg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/typec/mode_selection.c:38: warning: Excess struct member 'enter' description in 'mode_state'
->> drivers/usb/typec/mode_selection.c:143: warning: Function parameter or struct member 'error' not described in 'mode_selection_next'
->> drivers/usb/typec/mode_selection.c:285: warning: Function parameter or struct member 'delay' not described in 'typec_mode_selection_start'
->> drivers/usb/typec/mode_selection.c:285: warning: Function parameter or struct member 'timeout' not described in 'typec_mode_selection_start'
+>> security/keys/trusted-keys/trusted_tpm2.c:489:16: warning: address of array 'options->blobauth' will always evaluate to 'true' [-Wpointer-bool-conversion]
+     489 |                 if (options->blobauth)
+         |                 ~~  ~~~~~~~~~^~~~~~~~
+   1 warning generated.
 
 
-vim +38 drivers/usb/typec/mode_selection.c
+vim +489 security/keys/trusted-keys/trusted_tpm2.c
 
-    23	
-    24	/**
-    25	 * struct mode_state - State tracking for a specific Type-C mode
-    26	 * @altmode:
-    27	 * @priority: The mode priority. Lower values indicate a more preferred mode
-    28	 * @enter: Flag indicating if the driver is currently attempting to enter or
-    29	 * exit the mode
-    30	 * @state: The current mode selection state
-    31	 * @list: List head to link this mode state into a prioritized list
-    32	 */
-    33	struct mode_state {
-    34		struct typec_altmode *altmode;
-    35		u8 priority;
-    36		enum ms_state state;
-    37		struct list_head list;
-  > 38	};
-    39	
-    40	struct altmode_selection {
-    41		struct list_head mode_list;
-    42		struct mutex mode_list_lock;
-    43		struct delayed_work mode_selection_work;
-    44		struct typec_partner *partner;
-    45	
-    46		unsigned int timeout;
-    47		unsigned int delay;
-    48	};
-    49	
-    50	static int increment_duplicated_priority(struct device *dev, void *data)
-    51	{
-    52		if (is_typec_altmode(dev)) {
-    53			struct typec_altmode **alt_target = (struct typec_altmode **)data;
-    54			struct typec_altmode *alt = to_typec_altmode(dev);
-    55	
-    56			if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
-    57				alt->priority++;
-    58				*alt_target = alt;
-    59				return 1;
-    60			}
-    61		}
-    62		return 0;
-    63	}
-    64	
-    65	static int find_duplicated_priority(struct device *dev, void *data)
-    66	{
-    67		if (is_typec_altmode(dev)) {
-    68			struct typec_altmode **alt_target = (struct typec_altmode **)data;
-    69			struct typec_altmode *alt = to_typec_altmode(dev);
-    70	
-    71			if (alt != *alt_target && alt->priority == (*alt_target)->priority)
-    72				return 1;
-    73		}
-    74		return 0;
-    75	}
-    76	
-    77	int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
-    78	{
-    79		struct typec_port *port = to_typec_port(alt->dev.parent);
-    80		const u8 old_priority = alt->priority;
-    81		int res = 1;
-    82	
-    83		alt->priority = priority;
-    84		while (res) {
-    85			res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
-    86			if (res) {
-    87				alt->priority++;
-    88				if (alt->priority == 0) {
-    89					alt->priority = old_priority;
-    90					return -EOVERFLOW;
-    91				}
-    92			}
-    93		}
-    94	
-    95		res = 1;
-    96		alt->priority = priority;
-    97		while (res)
-    98			res = device_for_each_child(&port->dev, &alt,
-    99					increment_duplicated_priority);
-   100	
-   101		return 0;
-   102	}
-   103	
-   104	static void mode_list_clean(struct altmode_selection *sel)
-   105	{
-   106		struct mode_state *ms, *tmp;
-   107	
-   108		list_for_each_entry_safe(ms, tmp, &sel->mode_list, list) {
-   109			list_del(&ms->list);
-   110			kfree(ms);
-   111		}
-   112	}
-   113	
-   114	/**
-   115	 * mode_selection_next() - Process mode selection results and schedule next
-   116	 * action
-   117	 * @sel: pointer to the altmode_selection structure
-   118	 * @ms: pointer to active mode_state object that is on top in
-   119	 * mode_list.
-   120	 *
-   121	 * The mutex protecting mode_list must be held by the caller when invoking this
-   122	 * function.
-   123	 *
-   124	 * This function evaluates the outcome of the previous mode entry or exit
-   125	 * attempt. Based on this result, it determines the next mode to process and
-   126	 * schedules `mode_selection_work_fn()` if further actions are required.
-   127	 *
-   128	 * If the previous mode entry was successful, the mode selection sequence is
-   129	 * considered complete.
-   130	 *
-   131	 * If the previous mode entry failed, this function schedules
-   132	 * `mode_selection_work_fn()` to attempt exiting the mode that was partially
-   133	 * activated but not fully entered.
-   134	 *
-   135	 * If the previous operation was an exit (after a failed entry attempt),
-   136	 * the internal list of candidate modes is advanced to determine the next mode
-   137	 * to enter.
-   138	 */
-   139	static void mode_selection_next(struct altmode_selection *sel,
-   140		struct mode_state *ms, const int error)
-   141	
-   142		__must_hold(&sel->mode_list_lock)
- > 143	{
-   144		if (ms->state == MS_STATE_FAILED) {
-   145			list_del(&ms->list);
-   146			kfree(ms);
-   147		} else if (error) {
-   148			ms->state = MS_STATE_FAILED;
-   149			dev_dbg(&sel->partner->dev, "%s: entry error %pe\n",
-   150					ms->altmode->desc, ERR_PTR(error));
-   151		} else {
-   152			dev_dbg(&sel->partner->dev, "%s altmode is active\n", ms->altmode->desc);
-   153			mode_list_clean(sel);
-   154		}
-   155	
-   156		if (!list_empty(&sel->mode_list))
-   157			schedule_delayed_work(&sel->mode_selection_work,
-   158				msecs_to_jiffies(sel->delay));
-   159	}
-   160	
+   437	
+   438	/**
+   439	 * tpm2_unseal_cmd() - execute a TPM2_Unload command
+   440	 *
+   441	 * @chip: TPM chip to use
+   442	 * @payload: the key data in clear and encrypted form
+   443	 * @options: authentication values and other options
+   444	 * @blob_handle: blob handle
+   445	 *
+   446	 * Return: 0 on success
+   447	 *         -EPERM on tpm error status
+   448	 *         < 0 error from tpm_send
+   449	 */
+   450	static int tpm2_unseal_cmd(struct tpm_chip *chip,
+   451				   struct trusted_key_payload *payload,
+   452				   struct trusted_key_options *options,
+   453				   u32 blob_handle)
+   454	{
+   455		struct tpm_header *head;
+   456		struct tpm_buf buf;
+   457		u16 data_len;
+   458		int offset;
+   459		u8 *data;
+   460		int rc;
+   461	
+   462		rc = tpm2_start_auth_session(chip);
+   463		if (rc)
+   464			return rc;
+   465	
+   466		rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_UNSEAL);
+   467		if (rc) {
+   468			tpm2_end_auth_session(chip);
+   469			return rc;
+   470		}
+   471	
+   472		tpm_buf_append_name(chip, &buf, blob_handle, NULL);
+   473	
+   474		if (!options->policyhandle) {
+   475			tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_ENCRYPT,
+   476						    options->blobauth,
+   477						    options->blobauth_len);
+   478		} else {
+   479			/*
+   480			 * The policy session is generated outside the kernel, and thus
+   481			 * the password will end up being unencrypted on the bus, as
+   482			 * HMAC nonce cannot be calculated for it.
+   483			 */
+   484			tpm_buf_append_u32(&buf, 9 + options->blobauth_len);
+   485			tpm_buf_append_u32(&buf, options->policyhandle);
+   486			tpm_buf_append_u16(&buf, 0);
+   487			tpm_buf_append_u8(&buf, 0);
+   488			tpm_buf_append_u16(&buf, options->blobauth_len);
+ > 489			if (options->blobauth)
+   490				tpm_buf_append(&buf, options->blobauth, options->blobauth_len);
+   491			if (tpm2_chip_auth(chip)) {
+   492				tpm_buf_append_hmac_session(chip, &buf, TPM2_SA_ENCRYPT, NULL, 0);
+   493			} else  {
+   494				offset = buf.handles * 4 + TPM_HEADER_SIZE;
+   495				head = (struct tpm_header *)buf.data;
+   496				if (tpm_buf_length(&buf) == offset)
+   497					head->tag = cpu_to_be16(TPM2_ST_NO_SESSIONS);
+   498			}
+   499		}
+   500	
+   501		tpm_buf_fill_hmac_session(chip, &buf);
+   502		rc = tpm_transmit_cmd(chip, &buf, 6, "unsealing");
+   503		rc = tpm_buf_check_hmac_response(chip, &buf, rc);
+   504	
+   505		if (!rc) {
+   506			data_len = be16_to_cpup(
+   507				(__be16 *) &buf.data[TPM_HEADER_SIZE + 4]);
+   508			if (data_len < MIN_KEY_SIZE ||  data_len > MAX_KEY_SIZE) {
+   509				rc = -EFAULT;
+   510				goto out;
+   511			}
+   512	
+   513			if (tpm_buf_length(&buf) < TPM_HEADER_SIZE + 6 + data_len) {
+   514				rc = -EFAULT;
+   515				goto out;
+   516			}
+   517			data = &buf.data[TPM_HEADER_SIZE + 6];
+   518	
+   519			if (payload->old_format) {
+   520				/* migratable flag is at the end of the key */
+   521				memcpy(payload->key, data, data_len - 1);
+   522				payload->key_len = data_len - 1;
+   523				payload->migratable = data[data_len - 1];
+   524			} else {
+   525				/*
+   526				 * migratable flag already collected from key
+   527				 * attributes
+   528				 */
+   529				memcpy(payload->key, data, data_len);
+   530				payload->key_len = data_len;
+   531			}
+   532		}
+   533	
+   534	out:
+   535		tpm_buf_destroy(&buf);
+   536		return tpm_ret_to_err(rc);
+   537	}
+   538	
 
 -- 
 0-DAY CI Kernel Test Service
