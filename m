@@ -1,72 +1,77 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444DF19F464
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 08:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B0F31D36F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 08:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758616049; cv=none; b=V/WgvMVFhbBKZ/pRM32u2MY50TrtQMgJojMt/t0NRQE56c5emRn++15wx4JYnncbHQtUZY4QYx7azdPOiOlsXKJx3KGHGRMb0sV5G/Hdeq5MM03EZ0KKUNfIODxgvUVPqajEXa3kvJzTDPkUB2TXIXxEAPPYgoN3rum/xjxRHsU=
+	t=1758616173; cv=none; b=Dfirwl74OsfINPIQ35zTd6bW1pjYXLrIGzzeW8gvj4vmB1qFNT37DUufIhqktmuxkjttw81LkJpOLHCjXJ30hDjRzKV2UNiHIiPp0bWTxCAGX9eLoJSoUc4quDnsg6D5cvs9UuBca497VlzWLQOnCF/lsisxrc9XA1oH6oAC8Jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758616049; c=relaxed/simple;
-	bh=de1TjmpmNLVfaIbCUlTyBLSbs0/RC0xFOPfYXv0tq2k=;
+	s=arc-20240116; t=1758616173; c=relaxed/simple;
+	bh=/RR/U7qjyLInx5I/uwXMxNivKnihvdkWrEIVwHz7Eq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GBEx5qRfyGuDlJXregVwWa9xwNHO+0VrlJb6+gShoh28jcGC/lQuLC87GuQI3g07eCUokeHKxkZxO3LsjmAqINg06LRxLvNNhdHz41X/7oPS3hl2hZgc5yBJsAM/frl5trTwpZqu3pADRPc0pGAo91HlqyYghKtURtQDGHSaQf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=crsYf67L; arc=none smtp.client-ip=209.85.128.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=orMePhF/nf8k44AqjVnKXVEaX3tWftSM3H5Rs7Y2gy1rBnoGHr8peR3VLYhkBINjibzseBlLnoND8AAkWbkHyzkhLflo8b6j3LkbgWDC2fnvmNc7XPqOq5Wzta05BiTrf8g12BEPdLEMIZhlXEfB+Go/MN75FnGjNOKqApVD3p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zfxqGvrO; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="crsYf67L"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45b4d89217aso39806655e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 01:27:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zfxqGvrO"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ee1317b1f7so2608494f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 01:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758616046; x=1759220846; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1758616170; x=1759220970; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gpGYqVi5hf1kqSDhOzouIOkYFhp9lAGx8gTYX7wSjXI=;
-        b=crsYf67LckTogakknj/9QqY0SDClp7MgkT/INjOCMcBSyToLjdLRWiTSBl58JSlBNT
-         GXS9A6+be4Rkgt8YLVEOoTiEt6A6tfaMKpGBfP93xUzTP2RbKiUYseHd7MER1xsflEcU
-         2vX3sxzSou/Oib5S1vjIhVeIWNMuPVbhEQ2C4g9lT3CYaI18xPDKJmRWeug6mu8iThRY
-         6aD+0JdMT3MtCG5tw0mvyP7/fOFLG+kX5dgtCQFXFQsrKTZ5OAMhxzsvv3uagshSUBcS
-         h3qzC4gH2w63W2Ac/YOONBzjSnPB3cwqjPilQ4yfTDADlSey7435vINlz1d4RJdHKN0e
-         V6+g==
+        bh=Y4H3efbdSwxqDOTY4ewV+hCqf/E/cTKwJvAAgRINhHQ=;
+        b=zfxqGvrOoWafkunwnLYAgKrXT9B4nIFd3Y6bRtbZErHjVxv0zOMy7e36XErNe+7OvR
+         FaKR4TTUNa098hYa23KIcijgtPyxB9Ls3RuOrV7/ee87XKqwfGaGIr7hoTOlHpqCmc5T
+         1PrfOeAiAlQ6GbS+Of18Kjd5Fcu+Lkf8Z0gQXGMz7V/cbcQ6SQxiU+Wi6Y7i/6RGcies
+         rIHUzHDye5lF5snwv2C05qFHxe2NC1jIp0kkC3kwx/Vn37TCLAjWDm9hSrQTqMK3786n
+         T8h5Qp7cITANPaAFJe2dOEHolL9eZ/0rXcoFlw5lGxoW5/iuzDwbto03A7jfrmxB5KGB
+         2Suw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758616046; x=1759220846;
+        d=1e100.net; s=20230601; t=1758616170; x=1759220970;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gpGYqVi5hf1kqSDhOzouIOkYFhp9lAGx8gTYX7wSjXI=;
-        b=U2My4EW53SOA8WWBbt9rcbPjD3gpul80eUch3kQpGVEZQ5ZSecJvxwzvi8+4xlLegL
-         pOxURGgKU5pWIAl38NAYilCXjmSfjdxe2tEUck45px49UNfiEbnzPorGMNejzlU0irPg
-         lIBmR8r9X2GdsIe8g+cKc4HkdJHmAfUZzSzdl8aBc5tlE43J0rGWSQiRLSOuOo6Tmbgc
-         Rj/TPzA1GezOyX/wCTBH+6X/nsJwPTUy/7e7udxQIZwi8ZBr7r33QmTr2kpUPBv3rEP2
-         qwz9AM46nPQgVRh2bUWBRObm9S33WtsqkBXQIWtpKvBE210/J0U1EJjE7Erm+1qjNvjH
-         v3YA==
-X-Forwarded-Encrypted: i=1; AJvYcCUU7Yc4WpHgGHAhCtKJGIYrj04BZr0hGjzUhtMN30fQ2KlfrmoI/7q/iu0FGXVEG8N6i/iIaQ14jm26T3zc@lists.linux.dev
-X-Gm-Message-State: AOJu0YwV7RhVpRFsKxgxzvBtav1llf46Q2ZITl2/NUDO0GumSf1AkbOn
-	dVtODzMrgi9jrcOOUQUZqey+1cxYdsU41js1z/EZ1ptOxFQ1sha8RMyZf9pJiOcUCw0=
-X-Gm-Gg: ASbGncu3oWkhsddNbEcmeVhrdfT/p+6AOYMy6SUd6whF2hFTEm/7kMA9KFd/vZBBzn2
-	pHzgyS56JgNWcq39rCM4gojEoFkaNNfZg0DxaBtZZykaTz1//VCsb4a9lBXg/oOiCygtMg18I3R
-	4boQlM/HAG3BwB9SHBE1x9ymK8J+VM5EUNvwaf7DooiGRAayzrFU6EyQidap3HKAAFE+bVo4U7c
-	81gDJQNnUzVc4zzEDQ9p78dwZp32Xh/Zni51Esq1WHhYueeQI7AJsFwqyKp3YZ05naUE611t9SK
-	s3UREQsupKaSpxL9I9Feho8RwqUA8Xw6oRTUhvkQ6BO0XM49k9uHpqbT4kdjyyyKGI3Y9eIU0Qs
-	M2tS9f6rIohKs3GBJShZpW2eLmG46gEfkIu3GgMk=
-X-Google-Smtp-Source: AGHT+IGWAo9jrh5BzHBdYB7EPethaAYsyhu+UjZUGORfpar6nubw1VsXbHY/5Rg9h0dxbvNaHHjFbg==
-X-Received: by 2002:a05:600c:198c:b0:45f:28c9:c4aa with SMTP id 5b1f17b1804b1-46e1d97fb07mr17761725e9.9.1758616045492;
-        Tue, 23 Sep 2025 01:27:25 -0700 (PDT)
+        bh=Y4H3efbdSwxqDOTY4ewV+hCqf/E/cTKwJvAAgRINhHQ=;
+        b=mDsKV2cB9OmzK1HEoo2DRhcXkgPaABlbbwSReozlfhbi7xPPy151H6loSOfLlZMDFJ
+         ultGNkobcHP1+KR1aAD8joi0W4E1CLAOVOpKHAQzRdM7c2F8aMwhGCF/SIMDbXhQWkMY
+         azdaOZNLYZZq4bqBQVB2r1MqxMjFtDaNwsWfO8p3A8v3C/wZ08aVFUHvYocdN8/DWcNm
+         Jmmswqu0zxZqbsnMdptkI0DTpxLXJgduONCFEl09BGV1JI/aSmLrAiFFIFxhPigAMHes
+         Ziiyiu6e3iCie+VWDnkC1JXE3E+4rpWwhktBGNA3eXfwsVMnnbnvQEpLY3VP3rM4QHyK
+         vUew==
+X-Forwarded-Encrypted: i=1; AJvYcCV6KNKCnwA2/WHfT9WX46tgyJmifjQXw03pZ4f1MIiO6wPnFm9Aov3jJ9hpKKSgtVJye3flhiFYPeu9oY/x@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqMHNZ22S7a6A9bQtsYNLVWtPDkaWs4uhT7oipUU121PyvOtlg
+	PIHVi8kEuwPZnfyuge8MVfNz25sAhZ+Ub2bZZTF7ARN+kZmeNlgxstl/CoEXfhAhRTg=
+X-Gm-Gg: ASbGnctoplZojqnf5HRqQrAkXG1adDB7mrbCmwIdPqOna9HaNzYejjacCImvliJ5lZK
+	zLN3C06+NBD4H3jCwTJi1z4pFABayTnES8LbHhYIwee3WlkGdPdiPJ42WBBnsmq75N9IFujpKHZ
+	x408JgNXsImf26adWP5SS+C2JQGwtbP1+XLrJzCyI2xamt7kHQ5eB+d42O3rBKrCBSSHos+zonv
+	dLaQVdiTzNzU777Ilz5Bgrg3w3JmQk67fnh4OEXZdKC4/rOTLIJxTTNW+NZNwn982yx7xZQ17vm
+	8zcITRUcHerkrZM71Cw2153E2E5CaPrTtF0+WcWU328tNyoXK88mZRHTP3f80sSlJCHqsQlhG43
+	0mgA1dfulM4AyS3qP8ch8sQQ+MmGiSsFP5JIUHAQ=
+X-Google-Smtp-Source: AGHT+IHsvSUzwkgJMr2fuGf+beelXF7ViUccT9vVETmtAg6567gvGPlf85mOeUM7tJRvmp045Lmkcg==
+X-Received: by 2002:a05:6000:310f:b0:400:6e06:e0ae with SMTP id ffacd0b85a97d-405cb5d27d8mr1308843f8f.47.1758616169814;
+        Tue, 23 Sep 2025 01:29:29 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-464f5a286edsm261270095e9.16.2025.09.23.01.27.24
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee0fbfedd6sm23425761f8f.60.2025.09.23.01.29.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 01:27:25 -0700 (PDT)
-Date: Tue, 23 Sep 2025 11:27:21 +0300
+        Tue, 23 Sep 2025 01:29:29 -0700 (PDT)
+Date: Tue, 23 Sep 2025 11:29:26 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Cc: Will Deacon <will@kernel.org>, oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [arm64:for-next/perf 5/28] drivers/perf/dwc_pcie_pmu.c:418
- dwc_pcie_pmu_validate_group() error: uninitialized symbol 'time_event'.
-Message-ID: <aNJZ6SqYvBfjZlrZ@stanley.mountain>
-References: <202509231223.gZsX6Eio-lkp@intel.com>
- <a2bb5fb1-f94e-cdea-6db5-86d78d2a53eb@os.amperecomputing.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Ruben Wauters <rubenru09@aol.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	lkp@intel.com, oe-kbuild@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
+Message-ID: <aNJaZldQsfTtOBa5@stanley.mountain>
+References: <20250922173836.5608-1-rubenru09.ref@aol.com>
+ <20250922173836.5608-1-rubenru09@aol.com>
+ <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,18 +80,18 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a2bb5fb1-f94e-cdea-6db5-86d78d2a53eb@os.amperecomputing.com>
+In-Reply-To: <a8e2ce0c-0aed-41b6-9856-acf62f60551b@suse.de>
 
-On Tue, Sep 23, 2025 at 12:55:01AM -0700, Ilkka Koskinen wrote:
+On Tue, Sep 23, 2025 at 09:57:11AM +0200, Thomas Zimmermann wrote:
+> -:15: WARNING:BAD_REPORTED_BY_LINK: Reported-by: should be immediately
+> followed by Closes: with a URL to the report
+> #15:
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 > 
-> 
-> Hi Will,
-> 
-> That's cleary a bug and I don't know how I missed it.
 
-Because we disabled uninitialized variable warnings for GCC and because
-everyone has CONFIG_INIT_STACK_ALL_ZERO set so it wouldn't show up in
-testing either.
+I've been meaning to add a lkp@intel.com exception to that rule in
+checkpatch...  :/
 
 regards,
 dan carpenter
