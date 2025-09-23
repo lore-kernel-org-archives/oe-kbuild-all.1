@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6419223DF1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 23:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66FB2FD7BD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 23:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758671287; cv=none; b=Vm9PCJAfXy6/G683EBKNMmm4hKXK73W3euAdmPbhxIhfgoqmMhzSCGCrrG3U8i1qFUdvDXowhJmVshgpwPkXUlWb11804lOPiWw8piRCiNf4KUbNtCVQxJ0YakynMW9WVONsYRYJHXKOTQNRYEREneL8ssvxh/5+RgYPIkN/7U0=
+	t=1758671289; cv=none; b=dgvcCYed2MXxXoj1GLBGnwdOrEI+sOU58qxGZ4YfMhgPFZgTXZzUt1OFNvkfanRAjbO4dGfHOR3U2oKgrp6BaHOJbZRJz7XwDZ1eBGFOGBKc5VA5x8RS8hxDaJCDpjPw+S2WvpGWX+vhc9i9c0jX1zZHwLwsQoBSKHTS2RiKCCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758671287; c=relaxed/simple;
-	bh=NvKSu2Fjr8Yf2kcvPE1+Um2EJGV7AwCaV49RRAY4Yh8=;
+	s=arc-20240116; t=1758671289; c=relaxed/simple;
+	bh=tthjTngH2lOZK42i99a/4vROPgFbnCxECyGPNdU0JtM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kflagx5QgqSc3BzcigwMLxpkmhc1EeJQp0ClaAgN2fOltcHiYKcBKRI5QLz4dwyLfuTvl9d3i5hS0uHDjZ7PTCfOnZfOvxQopy/uhmWqpZU4yNYD+QpJ+Ghih0K7KRo9Hz82kDAGu7HHn0OUql95Kul1dq3DWpGCB9giC2LS52w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsgZ/7TW; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Up2KWJ3khivVoTNYuHcP1Cx9C0WgP+qXprUUwxB+g8bVZki13it/0DROecW0mALGBMfSwFBa/usnuwBQTkPnZM16HqsZeqHa+Cvm9QUHGKUq+BEKl4nYMDdpyEiRFIQhOfQXZHcnrZSQAh55azkVdS76hGtyBXRxDmUwRyxw0OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbuYSfMz; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsgZ/7TW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbuYSfMz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758671286; x=1790207286;
+  t=1758671288; x=1790207288;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NvKSu2Fjr8Yf2kcvPE1+Um2EJGV7AwCaV49RRAY4Yh8=;
-  b=DsgZ/7TW9Q65/MKEz1/PY2btMKzsisNwHgOQMaMVnwq+w0jh2ByKMAhT
-   mb7975upE04mLlL6Nmxx06hP5nTGo4ke21uZI3uRdqVkVqQO9hDOurjoZ
-   dAAddhh+/k9CHqS7FT2Up4Yw8VUFV0x3cPRHfPYmkRidwQ/ASVnJnexTw
-   s878SipzbQR/7W7y/89OIG4kcYR2SQ2tZkw5/Go5NyDD+L/I40+yMUkid
-   aaBCz6JrNyV2L9pkuPwGvwfuTiuhWGXyxz3D+bDKH+lAmUbncwQXv06au
-   rdelSxZhQr4Hc8C6HGSjxpuIKBjwLPMdZcjdqzS4crO3uDHPOmJ69Lw2K
+  bh=tthjTngH2lOZK42i99a/4vROPgFbnCxECyGPNdU0JtM=;
+  b=nbuYSfMz4uD50u4A5fDjah8Iow6yTFD/K4qdbi9io0O+DPfmtZxncBi2
+   3TzzhNXF6+iZDxBhJd4Vn9t1Vfqw6m14opJTym2QNQB5ian+XFHu7RzkP
+   so/EZSWnkxbR7VRxOH8Yq52LYosddAPW3MdRebJae286EBWFBRUzbSHji
+   wqmuAzSpY8JsRkfO19ozCEXAy8qx2A4s6rnZMTzSHgWXYUge1adhw+hX5
+   f/uTFgVjcWQe33zrIL1MNHdziiU3fwFgBghi6gMviLcjO6opu8Vx1k0X6
+   L5RPglfKlpFq4U0WzBxwr+InOdvE3BjCTUExHnlEk5MVeYaebf9WXitOP
    w==;
-X-CSE-ConnectionGUID: zCyopEISTKe8J5jTS4uO6g==
-X-CSE-MsgGUID: m0Qs9b73RsSIppTY32wciw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60902147"
+X-CSE-ConnectionGUID: XxKdhpZeQ+CtWykmcB+g1A==
+X-CSE-MsgGUID: lgFhtFz2SWGKjB4UZcljTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60902151"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60902147"
+   d="scan'208";a="60902151"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 16:48:05 -0700
-X-CSE-ConnectionGUID: cvMqVunNTjeMgA0Z1Qyzeg==
-X-CSE-MsgGUID: ItBIbUQJShG5iolhOvck6w==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 16:48:06 -0700
+X-CSE-ConnectionGUID: gH/dOxDMRWOLoXCn4dtnmw==
+X-CSE-MsgGUID: 8sDYa+SdQe+H3XmXKdUzNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="181195436"
+   d="scan'208";a="181195439"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
   by orviesa004.jf.intel.com with ESMTP; 23 Sep 2025 16:48:05 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1Cjq-0003dh-1E;
+	id 1v1Cjq-0003dj-1J;
 	Tue, 23 Sep 2025 23:48:02 +0000
-Date: Wed, 24 Sep 2025 07:47:57 +0800
+Date: Wed, 24 Sep 2025 07:47:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:test 2/10] include/linux/ftrace.h:557:5: warning: no
- previous prototype for 'register_ftrace_direct_hash'
-Message-ID: <202509240746.b3jrShMl-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 422/428]
+ fs/bcachefs/nocow_locking.c:151:17: error: implicit declaration of function
+ 'prefetch'
+Message-ID: <202509240901.kdCdh6kU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git test
-head:   1b7fc74c36a93e90816f58c37a84522f0949095a
-commit: 9e61f8f6a969f104f5beb67d18c95deeabfba73a [2/10] ftrace: Add register_ftrace_direct_hash function
-config: alpha-randconfig-r073-20250924 (https://download.01.org/0day-ci/archive/20250924/202509240746.b3jrShMl-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509240746.b3jrShMl-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   4a4522cfaa2600cbc36417bf4849577d0d2688d1
+commit: 6bf2f6900b994320da9241180eddf59840071ff2 [422/428] bcachefs: Avoid nocow locking deadlocks
+config: csky-randconfig-002-20250924 (https://download.01.org/0day-ci/archive/20250924/202509240901.kdCdh6kU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509240901.kdCdh6kU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509240746.b3jrShMl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509240901.kdCdh6kU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/perf_event.h:43,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:95,
-                    from init/main.c:22:
->> include/linux/ftrace.h:557:5: warning: no previous prototype for 'register_ftrace_direct_hash' [-Wmissing-prototypes]
-    int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/nocow_locking.c: In function 'bch2_bkey_nocow_lock':
+>> fs/bcachefs/nocow_locking.c:151:17: error: implicit declaration of function 'prefetch' [-Wimplicit-function-declaration]
+     151 |                 prefetch(l);
+         |                 ^~~~~~~~
 
 
-vim +/register_ftrace_direct_hash +557 include/linux/ftrace.h
+vim +/prefetch +151 fs/bcachefs/nocow_locking.c
 
-   556	
- > 557	int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-   558	{
-   559		return -ENODEV;
-   560	}
-   561	
+   137	
+   138	void bch2_bkey_nocow_lock(struct bch_fs *c, struct bkey_ptrs_c ptrs, int flags)
+   139	{
+   140		if (bch2_bkey_nocow_trylock(c, ptrs, flags))
+   141			return;
+   142	
+   143		DARRAY_PREALLOCATED(struct bucket_to_lock, 3) buckets;
+   144		darray_init(&buckets);
+   145	
+   146		bkey_for_each_ptr(ptrs, ptr) {
+   147			struct bch_dev *ca = bch2_dev_have_ref(c, ptr->dev);
+   148			u64 b = bucket_to_u64(PTR_BUCKET_POS(ca, ptr));
+   149			struct nocow_lock_bucket *l =
+   150				bucket_nocow_lock(&c->nocow_locks, b);
+ > 151			prefetch(l);
+   152	
+   153			/* XXX allocating memory with btree locks held - rare */
+   154			darray_push_gfp(&buckets, ((struct bucket_to_lock) { .b = b, .l = l, }),
+   155					GFP_KERNEL|__GFP_NOFAIL);
+   156		}
+   157	
+   158		bubble_sort(buckets.data, buckets.nr, bucket_to_lock_cmp);
+   159	retake_all:
+   160		darray_for_each(buckets, i) {
+   161			int ret = __bch2_bucket_nocow_trylock(c, i->l, i->b, flags);
+   162			if (!ret)
+   163				continue;
+   164	
+   165			u64 start_time = local_clock();
+   166	
+   167			if (ret == -BCH_ERR_nocow_trylock_contended)
+   168				__closure_wait_event(&i->l->wait,
+   169						(ret = __bch2_bucket_nocow_trylock(c, i->l, i->b, flags)) != -BCH_ERR_nocow_trylock_contended);
+   170			if (!ret) {
+   171				bch2_time_stats_update(&c->times[BCH_TIME_nocow_lock_contended], start_time);
+   172				continue;
+   173			}
+   174	
+   175			BUG_ON(ret != -BCH_ERR_nocow_trylock_bucket_full);
+   176	
+   177			darray_for_each(buckets, i2) {
+   178				if (i2 == i)
+   179					break;
+   180				__bch2_bucket_nocow_unlock(&c->nocow_locks, i2->b, flags);
+   181			}
+   182	
+   183			__closure_wait_event(&i->l->wait, nocow_bucket_empty(i->l));
+   184			bch2_time_stats_update(&c->times[BCH_TIME_nocow_lock_contended], start_time);
+   185			goto retake_all;
+   186		}
+   187	
+   188		darray_exit(&buckets);
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
