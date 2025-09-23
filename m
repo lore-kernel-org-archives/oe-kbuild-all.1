@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0451F261595;
-	Tue, 23 Sep 2025 04:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E31A274B51
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 04:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758600401; cv=none; b=WrWPgGYKpMdaVCrjPlLUwojB77juzcq9Jp9xoqD1Y/fe3b8P0cfyJKJXs8quz8UeemkRio6g7Rmkxxo5hxSnh+Sd9Gm179nE63PcENcuwZbTkkW/fca/VlIiahgG6jK7MTcJ8m3jyUpxmyzO8/TNmXkCUDqB/A2zlCKcSPdhr8Q=
+	t=1758600405; cv=none; b=FTCZ4m/42ubwNM+kYATiuSLpGdJW0apvi0zitSiarPoxzH4cukxAh7YT70k766OPGvIIUzb4Yuu2LcK6xL3phGkYJXcVaK0dzx0Ye9K87cF+D8hfgQIZlBHO/6SgRl0I5voRBd+P/dLzcFufH01Z68Ur4SOA7VxeZ129xX9IX50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758600401; c=relaxed/simple;
-	bh=VZX0azsj2Y+I4tix4/GQPEAlzuuwnGYKkwOGjH+jPEM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSHHS7upziXcoNHhaDVNbTdZxQF45blRWJwnzwq/WbIGMLkZDZeWpScKsRBf76CtehQHa6aTdbfTNwsMLVskAViSCg6nodWRBahM0kXHlf53RoLD9gIBK1caywAm3PItkfm2XiPjIXQ1OUzzPWHXp/FTyZqjcL0IzD9wcdbRE7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5glPcMZ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1758600405; c=relaxed/simple;
+	bh=7FQZouaepFPnsBW7jUa9EIspyBwRi+7+eS3HBNreQDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W27SY/jcgsZ/FdK/b8GXZGgR1VrM7HTlbNyEYqU6lomW3qoCbKGsAqSznBhUCNAUuWdxlw0b4bZ06qJz67iQ+q0MFkjc7otP2J409dENfBrBzb8kK6kAg+KJBIhqSuVPNTla4SdrsiFlIYGDaor2d9aacH5K6SqNGs69Hg1NDEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvLsufvM; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5glPcMZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvLsufvM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758600400; x=1790136400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VZX0azsj2Y+I4tix4/GQPEAlzuuwnGYKkwOGjH+jPEM=;
-  b=k5glPcMZ/eeAqPtIrSFuBDMrj7AceTtSHPscwmQu0VxuE5vDL/UW3AR8
-   PEq92ZFaxsW32/dr6V/VcG6mmw7+OVsUw13/xbuNJItfesKQN9ZtIcAp9
-   BK64JbUBCpPDyKrTll4/hQz4ENZTJMAytp+4ROfROsZ9/WVNAdOCqNwWH
-   csP+t9dl0ZTzo7+ytp7p5pffp47n/LKjpVxN0ENXPoXtv50HIy7fsQMVK
-   tPA+ZCSlfeW/T+DdD+FfI8uEFOxB24XPLRcIeTerJwxYsNZQKxLQ5zENG
-   y/XqF66eE0lnz1xRxLeYUbzj/LoQ3nyLyhVA1xkth0GYhai1VqwhtO+WE
-   A==;
-X-CSE-ConnectionGUID: U0bHBsW1Q5aniRvX/pJ5EA==
-X-CSE-MsgGUID: v3fuF1iLQ/W4HYFgBjD5Lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="86307514"
+  t=1758600403; x=1790136403;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7FQZouaepFPnsBW7jUa9EIspyBwRi+7+eS3HBNreQDc=;
+  b=AvLsufvM53KZhRht2HUGQ27LcQgVrb/Ad/Te/Hhn6x9a7IK/YlCUthkk
+   dLZ7PLCwSwLirOr5CtSzEwD5DnXj/t5bTefK8tkr5/7/SvZ3AApyChE6o
+   LzzN0gmuNU+tY27fK0qoVoQBqs6rOMOB3s4v/z7Ngg55Ap2F3S2nc1GO/
+   Id2ZSBBIvJcYlBlWzRcu1gSKItcEyy2Hz6Lf7SHj+h8mRWbzj5f5YfDzb
+   AEIRnDP11KvmsWXBw0PTlq8WZTK/yJy76pOzxqXyNwnRH2us2GppsH8/5
+   mkE/exCAQdKggHmwMaEKQy81ViICzFDa7FeuqBBWHH6PB/TUaZJOHaUXt
+   Q==;
+X-CSE-ConnectionGUID: xdmSO2q5QPybrnUHlmCe/w==
+X-CSE-MsgGUID: KgQtRiVqTVGW5eDbXCrDiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="61042040"
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="86307514"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 21:06:39 -0700
-X-CSE-ConnectionGUID: cX+GWRf6Tu2t5gJnCXlABw==
-X-CSE-MsgGUID: Es1S0oWbQ6miuIDWmPNphw==
+   d="scan'208";a="61042040"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 21:06:43 -0700
+X-CSE-ConnectionGUID: wBCKj5FlSHugf79YjY/2rw==
+X-CSE-MsgGUID: mlsYT/j3Q8qv57NbXpKvGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="177030369"
+   d="scan'208";a="176495726"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Sep 2025 21:06:35 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Sep 2025 21:06:42 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0uIQ-0002jV-2y;
-	Tue, 23 Sep 2025 04:06:31 +0000
-Date: Tue, 23 Sep 2025 12:06:22 +0800
+	id 1v0uIW-0002ja-0k;
+	Tue, 23 Sep 2025 04:06:37 +0000
+Date: Tue, 23 Sep 2025 12:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
-	Mark Bloch <mbloch@nvidia.com>, linux-rdma@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Gal Pressman <gal@nvidia.com>,
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next 7/7] net/mlx5e: Use extack in set rxfh callback
-Message-ID: <202509231125.Tsan9Qny-lkp@intel.com>
-References: <1758531671-819655-8-git-send-email-tariqt@nvidia.com>
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2909/2909] mm/mem_sampling.c:38:33: sparse:
+ sparse: symbol 'mem_sampling_saved_state' was not declared. Should it be
+ static?
+Message-ID: <202509231143.zSdArtSF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,68 +62,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1758531671-819655-8-git-send-email-tariqt@nvidia.com>
 
-Hi Tariq,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 312e6f7676e63bbb9b81e5c68e580a9f776cc6f0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-HWS-Generalize-complex-matchers/20250922-170716
-base:   312e6f7676e63bbb9b81e5c68e580a9f776cc6f0
-patch link:    https://lore.kernel.org/r/1758531671-819655-8-git-send-email-tariqt%40nvidia.com
-patch subject: [PATCH net-next 7/7] net/mlx5e: Use extack in set rxfh callback
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250923/202509231125.Tsan9Qny-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231125.Tsan9Qny-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   be758a5796c3d280deb877699c41fd0cd04e1deb
+commit: 02f32cc0235e33f7fc3e4910a80d386bc600935c [2909/2909] mm/mem_sampling:: Add proc and cmdline interface to control sampling enable
+config: arm64-randconfig-r121-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231143.zSdArtSF-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231143.zSdArtSF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231125.Tsan9Qny-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231143.zSdArtSF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/mem_sampling.c:38:33: sparse: sparse: symbol 'mem_sampling_saved_state' was not declared. Should it be static?
+   mm/mem_sampling.c:51:1: sparse: sparse: symbol 'mem_sampling_record_cb_list' was not declared. Should it be static?
+   mm/mem_sampling.c:53:6: sparse: sparse: symbol 'mem_sampling_record_cb_register' was not declared. Should it be static?
+   mm/mem_sampling.c:70:6: sparse: sparse: symbol 'mem_sampling_record_cb_unregister' was not declared. Should it be static?
+   mm/mem_sampling.c:83:1: sparse: sparse: symbol 'mem_sampling_access_hints' was not declared. Should it be static?
 
->> drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c:1508:4: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 131 [-Wformat-truncation]
-    1508 |                         NL_SET_ERR_MSG_FMT_MOD(
-         |                         ^
-   include/linux/netlink.h:131:2: note: expanded from macro 'NL_SET_ERR_MSG_FMT_MOD'
-     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
-         |         ^
-   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
-     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
-         |             ^
-   1 warning generated.
+vim +/mem_sampling_saved_state +38 mm/mem_sampling.c
 
-
-vim +/snprintf +1508 drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
-
-  1495	
-  1496	static int mlx5e_rxfh_hfunc_check(struct mlx5e_priv *priv,
-  1497					  const struct ethtool_rxfh_param *rxfh,
-  1498					  struct netlink_ext_ack *extack)
-  1499	{
-  1500		unsigned int count;
-  1501	
-  1502		count = priv->channels.params.num_channels;
-  1503	
-  1504		if (rxfh->hfunc == ETH_RSS_HASH_XOR) {
-  1505			unsigned int xor8_max_channels = mlx5e_rqt_max_num_channels_allowed_for_xor8();
-  1506	
-  1507			if (count > xor8_max_channels) {
-> 1508				NL_SET_ERR_MSG_FMT_MOD(
-  1509					extack,
-  1510					"Cannot set RSS hash function to XOR, current number of channels (%d) exceeds the maximum allowed for XOR8 RSS hfunc (%d)\n",
-  1511					count, xor8_max_channels);
-  1512				return -EINVAL;
-  1513			}
-  1514		}
-  1515	
-  1516		return 0;
-  1517	}
-  1518	
+    32	
+    33	enum mem_sampling_saved_state_e {
+    34		MEM_SAMPLING_STATE_ENABLE,
+    35		MEM_SAMPLING_STATE_DISABLE,
+    36		MEM_SAMPLING_STATE_EMPTY,
+    37	};
+  > 38	enum mem_sampling_saved_state_e mem_sampling_saved_state = MEM_SAMPLING_STATE_EMPTY;
+    39	
 
 -- 
 0-DAY CI Kernel Test Service
