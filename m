@@ -1,58 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F9A27465C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 02:09:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D245274658
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 02:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758593363; cv=none; b=FCX6Xb0Lxs4EU8jHBweVIblYyzk44fUisy0MnUE8x+88k2BqyOWUe1L3uM3/pFeKGcU2t3qG+zDI+jsAihfDlBp2WZ1Ql8CREdn3oQT5uNB53hJtke8OmvcAnZked1w30+6t5VlEh5igYTYFk//J5kSe6eelsI20OfLQwDH7oO8=
+	t=1758593364; cv=none; b=q86SnycsTXQVHbA7RuzC17Eh9sBzE/q+SKEzEk2hhK+68cKHCaSllL3xNXb4MTNt10EgmmRKCVBbLkWswt5BqdxCe9trHoLnqQn+z0r/ftp0wReuQj7e2eQ35kDr2Cbp2W2CNlP7tHmRzADp5RrNefUC1k1OwaJNLK/KR01g648=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758593363; c=relaxed/simple;
-	bh=3rqHK0q4RkiS11XXfNX4k94ntyyAHk4hRKsh98M8A+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JJYIZO6o6qsBIuT6J/nh2y7XQudkz+uUXCkz0fmZHWLZJrxJz/+kJO1lqCvFBZ5HB40mSuAgx/3TrNuKBTxlfeAYYoHVWMb6f5pLl2JndGHwgf2psgVJaSnh8kqrsXO5/9wUouOV8RVMkUa7Q67Herklc2PMznHyeFjRnrYJLgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQ7Bfipn; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1758593364; c=relaxed/simple;
+	bh=g7DmpIPs15UHBB9LtMIq6t6tGz0g4/OwnNpVLGfrMDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fuss//xnu8CWG0PKZX+Vvmocx0pFfgCwaoPyGelMW81rdxVV3rpGwDDrzdzbRjWG+esSs3SBlm9FuZ+xHeVMpNBO10KyulQoyn6hS3Pe0YM5TgerUzDobcji2KG7BlEUHDnQOQ+xqSzmo+RQaRJ711TPxeel0g5eAdPr2wpbQxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhXrKeh4; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQ7Bfipn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhXrKeh4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758593361; x=1790129361;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3rqHK0q4RkiS11XXfNX4k94ntyyAHk4hRKsh98M8A+s=;
-  b=kQ7BfipnvFhSV+6X+M5eI82IgWP7rTEXxB/aOcqEZuojgj53zbHHGpN9
-   HYvbQZKgVqCgsdRiHvF6D60a2owjNZscgLGIGv9du8lBZEmsaD/GXQlgR
-   WS90hO3vPYHZr4DYn+qfswqwHPF4s9rsCIQjcINh5jyGgcWPGHj0/4enj
-   JJ2kl5KHG6Vrdv1/kMhiX307enj9xlSgeW36KqxIBi2MEWt2jT6JTQbhm
-   NE1xdpwD8sQlsBbTpi/72FxBhEH916ceAbAnUgopFPm96QAzlPoJuguV0
-   7GTulh2pQAn2SnKDMOuoTD8eUsBrhH9+JOYg0F9fLaXcrkwlIyDxxgGqt
+  t=1758593362; x=1790129362;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g7DmpIPs15UHBB9LtMIq6t6tGz0g4/OwnNpVLGfrMDs=;
+  b=NhXrKeh4aUOARIuwX/ITNuMbeHKA+DlKZvNtEW6QCusb+ABfe7zC8UWf
+   yQ2wS1uF2h/PMYA1Qewrwga6TlHKSHmrJkmesD+Cz6UAO3pi/A5KA9Ar4
+   CZbWm9v6AUmMk2xcFH+v+4/OS2Sk0IPe0QGWa06JxCEtYXTx2o0UYNx2S
+   hQjI3C7L6BWLQxotC3+80MjIAClLqXQk4DZwYCpFFPdJu6sMXmWrlpKRm
+   fuwWES+BS3iM02ccVkR9UF7gTwjWuRO4qALfou3W2Vx9jEfF6u+IGPmhO
+   gbxdYjRGCJ8Yg2MtJ0FgRKfrFWgIov/TM3yAmsQjHhbvt465FJ+v9t7we
    w==;
-X-CSE-ConnectionGUID: H+Gk3wFnQI+HfVhWDAozIA==
-X-CSE-MsgGUID: K1vj+fRGT+22Xrb0vfg2eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60780556"
+X-CSE-ConnectionGUID: PTG/k4ipQOKbuS8gqJ5byQ==
+X-CSE-MsgGUID: OQvKxM1ZTvahpSi90BWE6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60780558"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60780556"
+   d="scan'208";a="60780558"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 19:09:20 -0700
-X-CSE-ConnectionGUID: 0SbUteFcRE2/gwYGNjXAEA==
-X-CSE-MsgGUID: 6wWTjmSlRIGmuPrik2K28Q==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 19:09:21 -0700
+X-CSE-ConnectionGUID: sorZ0l60T5WHS+bcQyMbHQ==
+X-CSE-MsgGUID: 2X2TVSbzRm+e8OQWXwzEVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="180632786"
+   d="scan'208";a="180632784"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
   by orviesa003.jf.intel.com with ESMTP; 22 Sep 2025 19:09:19 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0sSz-0002eh-0B;
+	id 1v0sSz-0002ef-06;
 	Tue, 23 Sep 2025 02:09:17 +0000
-Date: Tue, 23 Sep 2025 10:08:44 +0800
+Date: Tue, 23 Sep 2025 10:08:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 123/123] mm/memory.c:5355:12: warning:
- no previous prototype for 'set_zero_pte'
-Message-ID: <202509231044.nNQ1NDdB-lkp@intel.com>
+To: Chunhai Guo <guochunhai@vivo.com>, xiang@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, chao@kernel.org, zbestahu@gmail.com,
+	jefflexu@linux.alibaba.com, dhavale@google.com,
+	lihongbo22@huawei.com, linux-erofs@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, Chunhai Guo <guochunhai@vivo.com>
+Subject: Re: [PATCH] erofs: add direct I/O support for compressed data
+Message-ID: <202509231206.6HNck2h0-lkp@intel.com>
+References: <20250922124304.489419-1-guochunhai@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,98 +65,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250922124304.489419-1-guochunhai@vivo.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   9b3db453632000dc689f48634f7e31f84c375e37
-commit: 9e140b4929df571403945b797b1e898bf574619c [123/123] anolis: mm: support filling in zero page if read fault in file hole
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250923/202509231044.nNQ1NDdB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231044.nNQ1NDdB-lkp@intel.com/reproduce)
+Hi Chunhai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on xiang-erofs/dev-test]
+[also build test WARNING on xiang-erofs/dev xiang-erofs/fixes linus/master v6.17-rc7 next-20250922]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chunhai-Guo/erofs-add-direct-I-O-support-for-compressed-data/20250922-204843
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20250922124304.489419-1-guochunhai%40vivo.com
+patch subject: [PATCH] erofs: add direct I/O support for compressed data
+config: loongarch-randconfig-r072-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231206.6HNck2h0-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231206.6HNck2h0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231044.nNQ1NDdB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231206.6HNck2h0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memory.c:5355:12: warning: no previous prototype for 'set_zero_pte' [-Wmissing-prototypes]
-    5355 | vm_fault_t set_zero_pte(struct vm_fault *vmf, struct folio *folio,
-         |            ^~~~~~~~~~~~
---
->> mm/memory.c:5357: warning: Function parameter or member 'vmf' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'folio' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'page' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'nr' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'addr' not described in 'set_zero_pte'
+>> fs/erofs/zdata.c:2069:6: warning: variable 'tmp_cnt' set but not used [-Wunused-but-set-variable]
+    2069 |         int tmp_cnt = 0;
+         |             ^
+   1 warning generated.
 
 
-vim +/set_zero_pte +5355 mm/memory.c
+vim +/tmp_cnt +2069 fs/erofs/zdata.c
 
-  5351	
-  5352	/**
-  5353	 * set_zero_pte - Set zero page PTE to point to pages in a folio.
-  5354	 */
-> 5355	vm_fault_t set_zero_pte(struct vm_fault *vmf, struct folio *folio,
-  5356			struct page *page, unsigned int nr, unsigned long addr)
-> 5357	{
-  5358		struct vm_area_struct *vma = vmf->vma;
-  5359		struct folio *new_folio;
-  5360		bool uffd_wp = vmf_orig_pte_uffd_wp(vmf);
-  5361		bool write = vmf->flags & FAULT_FLAG_WRITE;
-  5362		bool prefault = !in_range(vmf->address, addr, nr * PAGE_SIZE);
-  5363		pte_t entry;
-  5364	
-  5365		flush_icache_pages(vma, page, nr);
-  5366		entry = mk_pte(page, vma->vm_page_prot);
-  5367	
-  5368		if (prefault && arch_wants_old_prefaulted_pte())
-  5369			entry = pte_mkold(entry);
-  5370		else
-  5371			entry = pte_sw_mkyoung(entry);
-  5372	
-  5373		if (write)
-  5374			entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-  5375		if (unlikely(uffd_wp))
-  5376			entry = pte_mkuffd_wp(entry);
-  5377	
-  5378		/*
-  5379		 * If it's zero page, vmf->ptl should be held to avoid other VMAs that share
-  5380		 * the same xarray do the same page fault simultaneously, which may
-  5381		 * leads to wrong semantic of MMAP_PRIVATE.
-  5382		 *
-  5383		 * E.g:
-  5384		 *          MMAP_PRIVATE                         MMAP_SHARED
-  5385		 *          do_read_fault
-  5386		 *						do_shared_fault
-  5387		 *	    check pagecache
-  5388		 *						   alloc_page
-  5389		 *						add_to_pagecache
-  5390		 *					      try_to_unmap_zeropage
-  5391		 *		set_pte
-  5392		 *
-  5393		 * In this scenario, zero page can not be unmapped.
-  5394		 * If found the page cache entry here, corresponding page cache
-  5395		 * has been set. Thus retry it to get the valid page cache not
-  5396		 * the zero page.
-  5397		 */
-  5398		new_folio = filemap_get_entry(vma->vm_file->f_mapping, vmf->pgoff);
-  5399	
-  5400		if (new_folio) {
-  5401			folio_put(new_folio);
-  5402			return VM_FAULT_RETRY;
-  5403		}
-  5404	
-  5405		entry = pte_mkspecial(entry);
-  5406	
-  5407		set_ptes(vma->vm_mm, addr, vmf->pte, entry, nr);
-  5408	
-  5409		/* no need to invalidate: a not-present page won't be cached */
-  5410		update_mmu_cache_range(vmf, vma, addr, vmf->pte, nr);
-  5411	
-  5412		return 0;
-  5413	}
-  5414	
+  2056	
+  2057	static ssize_t z_erofs_dio_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+  2058	{
+  2059		struct inode *inode = file_inode(iocb->ki_filp);
+  2060		Z_EROFS_DEFINE_FRONTEND(f, inode, iocb->ki_pos);
+  2061		ssize_t err, off0;
+  2062		loff_t offset = iocb->ki_pos;
+  2063		unsigned int i = 0, total_pages, nr_pages = 0;
+  2064		struct folio *head = NULL, *folio;
+  2065		struct dio_erofs dio;
+  2066		struct page **pages;
+  2067		loff_t i_size;
+  2068		struct iov_iter iter_saved = *iter;
+> 2069		int tmp_cnt = 0;
+  2070	
+  2071		if (!iov_iter_count(iter))
+  2072			return 0;
+  2073	
+  2074		i_size = i_size_read(inode);
+  2075		if (offset >= i_size)
+  2076			return 0;
+  2077	
+  2078		memset(&dio, 0, offsetof(struct dio_erofs, pages));
+  2079		atomic_set(&dio.ref, 1);
+  2080		dio.should_dirty = user_backed_iter(iter) && iov_iter_rw(iter) == READ;
+  2081		dio.iocb = iocb;
+  2082		dio.pos = ALIGN(min(iocb->ki_pos + (loff_t)iov_iter_count(iter),
+  2083					i_size), PAGE_SIZE);
+  2084		dio.is_pinned = iov_iter_extract_will_pin(iter);
+  2085		dio.waiter = current;
+  2086		f.dio = &dio;
+  2087		iter_saved = *iter;
+  2088		inode_dio_begin(inode);
+  2089		pages = dio.pages;
+  2090		total_pages = DIV_ROUND_UP(dio.pos - iocb->ki_pos, PAGE_SIZE);
+  2091		for (; total_pages > 0; total_pages -= nr_pages) {
+  2092			err = iov_iter_extract_pages(iter, &pages, LONG_MAX,
+  2093					min(ARRAY_SIZE(dio.pages), total_pages), 0,
+  2094					&off0);
+  2095			if (err <= 0) {
+  2096				err = -EFAULT;
+  2097				goto fail_dio;
+  2098			}
+  2099			DBG_BUGON(off0);
+  2100			iov_iter_revert(iter, err & ~PAGE_MASK);
+  2101			nr_pages = DIV_ROUND_UP(err, PAGE_SIZE);
+  2102			tmp_cnt += nr_pages;
+  2103			for (i = 0; i < nr_pages; i++) {
+  2104				folio = page_folio(pages[i]);
+  2105				if (folio_test_large(folio) ||
+  2106						folio_test_private(folio)) {
+  2107					err = -EFAULT;
+  2108					goto fail_dio;
+  2109				}
+  2110				folio->private = head;
+  2111				head = folio;
+  2112			}
+  2113		}
+  2114	
+  2115		z_erofs_pcluster_readmore(&f, NULL, true);
+  2116		while (head) {
+  2117			folio = head;
+  2118			head = folio_get_private(folio);
+  2119			dio.pos -= folio_size(folio);
+  2120			err = z_erofs_scan_folio(&f, folio, false);
+  2121			if (err && err != -EINTR)
+  2122				erofs_err(inode->i_sb, "readahead error at folio %lu @ nid %llu",
+  2123					  folio->index, EROFS_I(inode)->nid);
+  2124		}
+  2125		z_erofs_pcluster_end(&f);
+  2126	
+  2127		err = z_erofs_runqueue(&f, 0);
+  2128		erofs_put_metabuf(&f.map.buf);
+  2129		erofs_release_pages(&f.pagepool);
+  2130	
+  2131		if (!atomic_dec_and_test(&dio.ref)) {
+  2132			for (;;) {
+  2133				set_current_state(TASK_UNINTERRUPTIBLE);
+  2134				if (!READ_ONCE(dio.waiter))
+  2135					break;
+  2136	
+  2137				blk_io_schedule();
+  2138			}
+  2139			__set_current_state(TASK_RUNNING);
+  2140		}
+  2141	
+  2142		err = err ?: dio.eio;
+  2143		if (likely(!err)) {
+  2144			err = dio.size;
+  2145			if (offset + dio.size > i_size) /* check for short read */
+  2146				err = i_size - offset;
+  2147			iocb->ki_pos += err;
+  2148		}
+  2149		inode_dio_end(inode);
+  2150		return err;
+  2151	
+  2152	fail_dio:
+  2153		if (dio.is_pinned) {
+  2154			while (head) {
+  2155				folio = head;
+  2156				head = folio_get_private(folio);
+  2157				unpin_user_page(folio_page(folio, 0));
+  2158			}
+  2159			for (; i < nr_pages; i++)
+  2160				unpin_user_page(dio.pages[i]);
+  2161		}
+  2162		*iter = iter_saved;
+  2163		return err;
+  2164	}
+  2165	
 
 -- 
 0-DAY CI Kernel Test Service
