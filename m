@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6633FC8E6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 01:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737851EB19B;
+	Tue, 23 Sep 2025 01:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758592101; cv=none; b=KOyjVPfbTgAVZESeHuiC9wEDMMMj7OG6tJvW9KGFj/YzoSKYNdSlyBLjnPWImzWPIpb6l4Y/Npid61go8Qp6JLH0sF2YTvzdt4kUVYIvvAGDUPfS+PEkjkmUgtH6bxku/RLYvl/G5HdlCCEoBqz1lqYtnhpm+H7unzNv2LLqmls=
+	t=1758592704; cv=none; b=mAwkOSCM5wl0deL1ORZnE6BgI6k31UdhfrLO8Y4JiH62rUI76a8U5oBx0wHEsfO+NZj7eLniLWtXG1hKcaVgL2H3tkjPnrJC9WX1C7Ah1sGXJw3YhVK1idHDvn+SPBzpkQsPLR0w3/noCM/c26aCJl3+Ti9mgW4TbRdN+emC8Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758592101; c=relaxed/simple;
-	bh=otAtZyvxHTTYESxkOxGs3cfPOvE8jCbocnfeNR0ihXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hkJvEmOCp0xikRXuWXZKTQuqyIAukiyh+zSzWhYuPJ1IjJAHwjfW0j/P/jhgBHTms1tg2RntNqT0Eu1SmJmanDN0Iy91oa5QPNmsQ5HDMJ9BFv02TxIblXxa8iwAMPb0u6HW31JieG6aTtB149wUBjhAc0yvy7IQu1bV+eqXj30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=InXyCxAQ; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1758592704; c=relaxed/simple;
+	bh=fRH+CAIfUuNLAhEOvvOT5dvUo6xPGpHu130myqe2ZJI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCwYYH+gwbAOg8juO2Py8sGjjbplztoGQ3E3p5pxtfTLqh7u6DT+BiRin1pu+ZlF9qwEJpEM5WtfqEBDp69PYy+Ct+Fy4iiiJuRoYKjo0VljBEQ5H6IpSq0kndG4IjyC4BzwQpxmwr3m4iRUQ31AFeTr1ziJmjRyaEuLejpDJgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhhzT8/8; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="InXyCxAQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhhzT8/8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758592099; x=1790128099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=otAtZyvxHTTYESxkOxGs3cfPOvE8jCbocnfeNR0ihXk=;
-  b=InXyCxAQpAi9iplLkZSqZWJy2/I4RJ0IkZMiV0h0AViABR5AlISBswvs
-   CnWLaMWoDiwi25orYsNH98cXJ9keYl9J22PpluzlUu7w8apHOk/MQ1Xi7
-   ZV4NzUYIeddFWQO6iNxR/DnWJZ+OxyNnbuwRtQ1gu7ddY2HNERatCK29m
-   01uzvAwvNUqZjuN7IMRe2Nbionack2avKRQy0V33JmgDpEChMKYuUGz2F
-   ar/dgNE9ZtjeZ6kwklHahPnsQcgczakfzh3HIOOU2IK2+4q7h3cyWEcBg
-   gkUimYSbc/1zvrdgZNVvfnuWhknrIPvua0nUMHeiK4gznPLlhe/oZJ+SM
-   Q==;
-X-CSE-ConnectionGUID: g03oAe5STpOUqJ/zCwd2LA==
-X-CSE-MsgGUID: VAMn1vj8Qxy4tlZEf2ksSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60981504"
+  t=1758592703; x=1790128703;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fRH+CAIfUuNLAhEOvvOT5dvUo6xPGpHu130myqe2ZJI=;
+  b=YhhzT8/8A3BLFL0ROVVkogOL5YvV3mo2OhgxSMbyNnmUu6seMp1Ocjpk
+   I2fwTeD1Zozf3CB4QtuypS4T4EpAYbT776kibcG8sG8SQyhxuRfl4CIAP
+   kl4mKOb19MHXVF77gCQF9MUCjHqzrqz+xVFnLX5I1BPu1aHjsR0nTu6Hs
+   VnZVdD3yGWIedHAtrZY2Ro74LsdFtD1u2BmXDdMattdzO8G+2pChmpU1O
+   C2T45g/0YU9IY5BncJ7QKPCNtYHudxuFe+WCASlC0N1QKLFRYpiEtyzdG
+   wgE7/clAxhCPd9QGyr292O0NNRssouZQYLanBM9v99OsnOmSz0UC46pKt
+   w==;
+X-CSE-ConnectionGUID: gsdpo1QESXaiNXYAfGmVeg==
+X-CSE-MsgGUID: bVc0RwmnRiGHefAg78c5vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="72288944"
 X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="60981504"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 18:48:19 -0700
-X-CSE-ConnectionGUID: Ag51k8kqR+mW7g22imincA==
-X-CSE-MsgGUID: AQl9JpXTS4a7y8Yq4mpDlQ==
+   d="scan'208";a="72288944"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 18:58:23 -0700
+X-CSE-ConnectionGUID: 8crt4ow9QXC57FygEAnWgg==
+X-CSE-MsgGUID: zloDIG89TTWLvWpaxBEf2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="175910985"
+   d="scan'208";a="176558188"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Sep 2025 18:48:18 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 Sep 2025 18:58:18 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0s8d-0002dO-0K;
-	Tue, 23 Sep 2025 01:48:15 +0000
-Date: Tue, 23 Sep 2025 09:47:17 +0800
+	id 1v0sIJ-0002e3-39;
+	Tue, 23 Sep 2025 01:58:15 +0000
+Date: Tue, 23 Sep 2025 09:58:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 1/1]
- drivers/media/dvb-frontends/dib7000p.c:2203:2: warning: ISO C90 forbids
- mixed declarations and code
-Message-ID: <202509230901.EG8UAags-lkp@intel.com>
+To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Mark Bloch <mbloch@nvidia.com>, linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Gal Pressman <gal@nvidia.com>,
+	Moshe Shemesh <moshe@nvidia.com>,
+	Carolina Jubran <cjubran@nvidia.com>
+Subject: Re: [PATCH net-next 3/7] net/mlx5: Improve QoS error messages with
+ actual depth values
+Message-ID: <202509230959.thBtcZnc-lkp@intel.com>
+References: <1758531671-819655-4-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +72,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1758531671-819655-4-git-send-email-tariqt@nvidia.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   c92395c2d69365e987de03603133963279b28a32
-commit: 7a41ecfc3415ebe3b4c44f96b3337691dcf431a3 [1/1] media: dvb-frontends: w7090p: fix null-ptr-deref in w7090p_tuner_write_serpar and w7090p_tuner_read_serpar
-config: arm-randconfig-002-20250923 (https://download.01.org/0day-ci/archive/20250923/202509230901.EG8UAags-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509230901.EG8UAags-lkp@intel.com/reproduce)
+Hi Tariq,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 312e6f7676e63bbb9b81e5c68e580a9f776cc6f0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-HWS-Generalize-complex-matchers/20250922-170716
+base:   312e6f7676e63bbb9b81e5c68e580a9f776cc6f0
+patch link:    https://lore.kernel.org/r/1758531671-819655-4-git-send-email-tariqt%40nvidia.com
+patch subject: [PATCH net-next 3/7] net/mlx5: Improve QoS error messages with actual depth values
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250923/202509230959.thBtcZnc-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509230959.thBtcZnc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509230901.EG8UAags-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509230959.thBtcZnc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/dvb-frontends/dib7000p.c: In function 'w7090p_tuner_write_serpar':
->> drivers/media/dvb-frontends/dib7000p.c:2203:2: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     u16 serpar_num = msg[0].buf[0];
-     ^~~
-   drivers/media/dvb-frontends/dib7000p.c: In function 'w7090p_tuner_read_serpar':
-   drivers/media/dvb-frontends/dib7000p.c:2224:2: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     u16 serpar_num = msg[0].buf[0];
-     ^~~
+>> drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:974:4: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 82 [-Wformat-truncation]
+     974 |                         NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                         ^
+   include/linux/netlink.h:131:2: note: expanded from macro 'NL_SET_ERR_MSG_FMT_MOD'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^
+   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^
+   drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c:1448:3: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 82 [-Wformat-truncation]
+    1448 |                 NL_SET_ERR_MSG_FMT_MOD(extack,
+         |                 ^
+   include/linux/netlink.h:131:2: note: expanded from macro 'NL_SET_ERR_MSG_FMT_MOD'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^
+   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^
+   2 warnings generated.
 
 
-vim +2203 drivers/media/dvb-frontends/dib7000p.c
+vim +/snprintf +974 drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
 
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2195  
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2196  static int w7090p_tuner_write_serpar(struct i2c_adapter *i2c_adap, struct i2c_msg msg[], int num)
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2197  {
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2198  	struct dib7000p_state *state = i2c_get_adapdata(i2c_adap);
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2199  	u8 n_overflow = 1;
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2200  	u16 i = 1000;
-7a41ecfc3415eb drivers/media/dvb-frontends/dib7000p.c Alex Guo              2025-06-15  2201  	if (msg[0].len < 3)
-7a41ecfc3415eb drivers/media/dvb-frontends/dib7000p.c Alex Guo              2025-06-15  2202  		return -EOPNOTSUPP;
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04 @2203  	u16 serpar_num = msg[0].buf[0];
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2204  
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2205  	while (n_overflow == 1 && i) {
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2206  		n_overflow = (dib7000p_read_word(state, 1984) >> 1) & 0x1;
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2207  		i--;
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2208  		if (i == 0)
-5a0e2a4e936d04 drivers/media/dvb-frontends/dib7000p.c Mauro Carvalho Chehab 2016-10-14  2209  			dprintk("Tuner ITF: write busy (overflow)\n");
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2210  	}
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2211  	dib7000p_write_word(state, 1985, (1 << 6) | (serpar_num & 0x3f));
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2212  	dib7000p_write_word(state, 1986, (msg[0].buf[1] << 8) | msg[0].buf[2]);
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2213  
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2214  	return num;
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2215  }
-713d54a8bd8122 drivers/media/dvb/frontends/dib7000p.c Olivier Grenie        2011-01-04  2216  
-
-:::::: The code at line 2203 was first introduced by commit
-:::::: 713d54a8bd812229410a1902cd9b332a2a27af9f [media] DiB7090: add support for the dib7090 based
-
-:::::: TO: Olivier Grenie <olivier.grenie@dibcom.fr>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+   955	
+   956	static int
+   957	esw_qos_vport_tc_enable(struct mlx5_vport *vport, enum sched_node_type type,
+   958				struct netlink_ext_ack *extack)
+   959	{
+   960		struct mlx5_esw_sched_node *vport_node = vport->qos.sched_node;
+   961		struct mlx5_esw_sched_node *parent = vport_node->parent;
+   962		int err;
+   963	
+   964		if (type == SCHED_NODE_TYPE_TC_ARBITER_TSAR) {
+   965			int new_level, max_level;
+   966	
+   967			/* Increase the parent's level by 2 to account for both the
+   968			 * TC arbiter and the vports TC scheduling element.
+   969			 */
+   970			new_level = (parent ? parent->level : 2) + 2;
+   971			max_level = 1 << MLX5_CAP_QOS(vport_node->esw->dev,
+   972						      log_esw_max_sched_depth);
+   973			if (new_level > max_level) {
+ > 974				NL_SET_ERR_MSG_FMT_MOD(extack,
+   975						       "TC arbitration on leafs is not supported beyond max scheduling depth %d",
+   976						       max_level);
+   977				return -EOPNOTSUPP;
+   978			}
+   979		}
+   980	
+   981		esw_assert_qos_lock_held(vport->dev->priv.eswitch);
+   982	
+   983		if (type == SCHED_NODE_TYPE_RATE_LIMITER)
+   984			err = esw_qos_create_rate_limit_element(vport_node, extack);
+   985		else
+   986			err = esw_qos_tc_arbiter_scheduling_setup(vport_node, extack);
+   987		if (err)
+   988			return err;
+   989	
+   990		/* Rate limiters impact multiple nodes not directly connected to them
+   991		 * and are not direct members of the QoS hierarchy.
+   992		 * Unlink it from the parent to reflect that.
+   993		 */
+   994		if (type == SCHED_NODE_TYPE_RATE_LIMITER) {
+   995			list_del_init(&vport_node->entry);
+   996			vport_node->level = 0;
+   997		}
+   998	
+   999		err  = esw_qos_create_vport_tc_sched_elements(vport, type, extack);
+  1000		if (err)
+  1001			goto err_sched_nodes;
+  1002	
+  1003		return 0;
+  1004	
+  1005	err_sched_nodes:
+  1006		if (type == SCHED_NODE_TYPE_RATE_LIMITER) {
+  1007			esw_qos_node_destroy_sched_element(vport_node, NULL);
+  1008			esw_qos_node_attach_to_parent(vport_node);
+  1009		} else {
+  1010			esw_qos_tc_arbiter_scheduling_teardown(vport_node, NULL);
+  1011		}
+  1012		return err;
+  1013	}
+  1014	
 
 -- 
 0-DAY CI Kernel Test Service
