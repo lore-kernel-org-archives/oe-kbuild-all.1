@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F2526C3AC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 03:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0451F261595;
+	Tue, 23 Sep 2025 04:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758599737; cv=none; b=P2p6TF7TSpsWSGFfoVjnO/dAO5aeflNvvQhFNjoy1uo0LobdSC2WcKBw4pQQVhoXfZ38e20J+rkYTOF/r+fOiA+RUThFwNbfWsCYadbMHXvCgjbxyRcwlcHb43ZXlXSD+wPjMEnoLWghERCz0N5mBLICN40xtExN7/+83xozIhc=
+	t=1758600401; cv=none; b=WrWPgGYKpMdaVCrjPlLUwojB77juzcq9Jp9xoqD1Y/fe3b8P0cfyJKJXs8quz8UeemkRio6g7Rmkxxo5hxSnh+Sd9Gm179nE63PcENcuwZbTkkW/fca/VlIiahgG6jK7MTcJ8m3jyUpxmyzO8/TNmXkCUDqB/A2zlCKcSPdhr8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758599737; c=relaxed/simple;
-	bh=aFPq79KHjwjxvVmKaE0Jv5Dqoiv9tGPrkqRrEFxCixc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IFssjnYNhmYnG8q+tVfwevBSopFxSdqj6u/xrLt7Hu5qjH8LEvOzEI7+WF/ov6k3FArijOMDGcu7TNPsR7YZPJC/JQ658MkQ8gz+1zmtyzBjiNUwjj/Ak1lWmcoYPwegaA7PO5xhu2Bx8DvbK/qc8Z9NDRVR+gdlWx+9ltQTQmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=POns/eig; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1758600401; c=relaxed/simple;
+	bh=VZX0azsj2Y+I4tix4/GQPEAlzuuwnGYKkwOGjH+jPEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VSHHS7upziXcoNHhaDVNbTdZxQF45blRWJwnzwq/WbIGMLkZDZeWpScKsRBf76CtehQHa6aTdbfTNwsMLVskAViSCg6nodWRBahM0kXHlf53RoLD9gIBK1caywAm3PItkfm2XiPjIXQ1OUzzPWHXp/FTyZqjcL0IzD9wcdbRE7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5glPcMZ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="POns/eig"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5glPcMZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758599735; x=1790135735;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aFPq79KHjwjxvVmKaE0Jv5Dqoiv9tGPrkqRrEFxCixc=;
-  b=POns/eig8BcNVGqr00s7oYpkivff7/jQQp6VYadZHsCNYalUifN+WVFu
-   n+VB8hJcjmBc/MpUNRu7a42GPz8c/gsDs4fZ3hgKgvLMsC1IkZgTWe5lH
-   o72u7Pep09RYI03x8VukzEBTz7EvrB7aLFeDD03XXiIdmBM8svKKNqDoG
-   nPdYvxhcmCsvWvxQypAw9aUMKZ0ijTrPioM7FX7I39AIpzNjZIm0fxvny
-   8Z22VLdgbgT55tH6M3QfptD9EVJRmI/kY1+oVnAhwx0eIA6X7RWHlin7J
-   tMpBR+1mgYWGNSo3gHHVpAvkIGJ5QKRUSMxbwRxr+JNkYK2OIBBIHDg4b
-   Q==;
-X-CSE-ConnectionGUID: XL9r2dqhSpuImS5rXtNt8A==
-X-CSE-MsgGUID: Na5bXhGHRsGeUVItpW49Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64676222"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64676222"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 20:55:33 -0700
-X-CSE-ConnectionGUID: OmHAPvlQQum0HFvXApZfHQ==
-X-CSE-MsgGUID: NNc70WwYQLiuX1hpqqsXUQ==
+  t=1758600400; x=1790136400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VZX0azsj2Y+I4tix4/GQPEAlzuuwnGYKkwOGjH+jPEM=;
+  b=k5glPcMZ/eeAqPtIrSFuBDMrj7AceTtSHPscwmQu0VxuE5vDL/UW3AR8
+   PEq92ZFaxsW32/dr6V/VcG6mmw7+OVsUw13/xbuNJItfesKQN9ZtIcAp9
+   BK64JbUBCpPDyKrTll4/hQz4ENZTJMAytp+4ROfROsZ9/WVNAdOCqNwWH
+   csP+t9dl0ZTzo7+ytp7p5pffp47n/LKjpVxN0ENXPoXtv50HIy7fsQMVK
+   tPA+ZCSlfeW/T+DdD+FfI8uEFOxB24XPLRcIeTerJwxYsNZQKxLQ5zENG
+   y/XqF66eE0lnz1xRxLeYUbzj/LoQ3nyLyhVA1xkth0GYhai1VqwhtO+WE
+   A==;
+X-CSE-ConnectionGUID: U0bHBsW1Q5aniRvX/pJ5EA==
+X-CSE-MsgGUID: v3fuF1iLQ/W4HYFgBjD5Lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="86307514"
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
+   d="scan'208";a="86307514"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 21:06:39 -0700
+X-CSE-ConnectionGUID: cX+GWRf6Tu2t5gJnCXlABw==
+X-CSE-MsgGUID: Es1S0oWbQ6miuIDWmPNphw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,286,1751266800"; 
-   d="scan'208";a="213815273"
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
+   d="scan'208";a="177030369"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 Sep 2025 20:55:32 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 22 Sep 2025 21:06:35 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v0u7m-0002j7-0f;
-	Tue, 23 Sep 2025 03:55:30 +0000
-Date: Tue, 23 Sep 2025 11:55:18 +0800
+	id 1v0uIQ-0002jV-2y;
+	Tue, 23 Sep 2025 04:06:31 +0000
+Date: Tue, 23 Sep 2025 12:06:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 123/123] mm/rmap.c:1948: warning:
- Function parameter or member 'folio' not described in
- 'try_to_unmap_zero_folio'
-Message-ID: <202509231102.aFYJxAWJ-lkp@intel.com>
+To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Mark Bloch <mbloch@nvidia.com>, linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Gal Pressman <gal@nvidia.com>,
+	Moshe Shemesh <moshe@nvidia.com>
+Subject: Re: [PATCH net-next 7/7] net/mlx5e: Use extack in set rxfh callback
+Message-ID: <202509231125.Tsan9Qny-lkp@intel.com>
+References: <1758531671-819655-8-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +70,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1758531671-819655-8-git-send-email-tariqt@nvidia.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   9b3db453632000dc689f48634f7e31f84c375e37
-commit: 4601451ef45b862d745f9debf25290dc75e0de9f [123/123] anolis: mm: add switch for file zero page
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250923/202509231102.aFYJxAWJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231102.aFYJxAWJ-lkp@intel.com/reproduce)
+Hi Tariq,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 312e6f7676e63bbb9b81e5c68e580a9f776cc6f0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5-HWS-Generalize-complex-matchers/20250922-170716
+base:   312e6f7676e63bbb9b81e5c68e580a9f776cc6f0
+patch link:    https://lore.kernel.org/r/1758531671-819655-8-git-send-email-tariqt%40nvidia.com
+patch subject: [PATCH net-next 7/7] net/mlx5e: Use extack in set rxfh callback
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250923/202509231125.Tsan9Qny-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231125.Tsan9Qny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231102.aFYJxAWJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231125.Tsan9Qny-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/rmap.c:1948: warning: Function parameter or member 'folio' not described in 'try_to_unmap_zero_folio'
->> mm/rmap.c:1948: warning: expecting prototype for try_to_unmap_zeropage(). Prototype was for try_to_unmap_zero_folio() instead
+>> drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c:1508:4: warning: 'snprintf' will always be truncated; specified size is 80, but format string expands to at least 131 [-Wformat-truncation]
+    1508 |                         NL_SET_ERR_MSG_FMT_MOD(
+         |                         ^
+   include/linux/netlink.h:131:2: note: expanded from macro 'NL_SET_ERR_MSG_FMT_MOD'
+     131 |         NL_SET_ERR_MSG_FMT((extack), KBUILD_MODNAME ": " fmt, ##args)
+         |         ^
+   include/linux/netlink.h:116:6: note: expanded from macro 'NL_SET_ERR_MSG_FMT'
+     116 |         if (snprintf(__extack->_msg_buf, NETLINK_MAX_FMTMSG_LEN,               \
+         |             ^
+   1 warning generated.
 
 
-vim +1948 mm/rmap.c
+vim +/snprintf +1508 drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
 
-52629506420ce3 Joonsoo Kim 2014-01-21  1933  
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1934  /**
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1935   * try_to_unmap_zeropage - try to remove all page table mappings to a zero page
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1936   * with the same offset. If the flag doesn't contain TTU_ZEROPAGE, this function
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1937   * does no thing.
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1938   * @page: the page to get unmapped
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1939   * @flags: action and flags
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1940   *
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1941   * Tries to remove all the page table entries which are mapping zero
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1942   * page with the same offset, used in the pageout path.  Caller must hold the page
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1943   * lock of the newly allocated page.
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1944   *
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1945   * During rmap_walk, it holds the i_mmap_sem to avoid modify VMA which not expected.
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1946   */
-4601451ef45b86 Kaihao Bai  2022-08-29  1947  void try_to_unmap_zero_folio(struct folio *folio, enum ttu_flags flags)
-5a9179f41b5d5d Kaihao Bai  2022-08-15 @1948  {
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1949  	struct rmap_walk_control rwc = {
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1950  		.rmap_one = try_to_unmap_one,
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1951  		.arg = (void *)flags,
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1952  	};
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1953  
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1954  	if (!(flags & TTU_ZEROPAGE))
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1955  		return;
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1956  
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1957  	rmap_walk(folio, &rwc);
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1958  }
-5a9179f41b5d5d Kaihao Bai  2022-08-15  1959  
-
-:::::: The code at line 1948 was first introduced by commit
-:::::: 5a9179f41b5d5d87f917484399fac6f5c9711654 anolis: mm: support unmapping zeropage of the same file offset
-
-:::::: TO: Kaihao Bai <carlo.bai@linux.alibaba.com>
-:::::: CC: winterddd <tianruidong@linux.alibaba.com>
+  1495	
+  1496	static int mlx5e_rxfh_hfunc_check(struct mlx5e_priv *priv,
+  1497					  const struct ethtool_rxfh_param *rxfh,
+  1498					  struct netlink_ext_ack *extack)
+  1499	{
+  1500		unsigned int count;
+  1501	
+  1502		count = priv->channels.params.num_channels;
+  1503	
+  1504		if (rxfh->hfunc == ETH_RSS_HASH_XOR) {
+  1505			unsigned int xor8_max_channels = mlx5e_rqt_max_num_channels_allowed_for_xor8();
+  1506	
+  1507			if (count > xor8_max_channels) {
+> 1508				NL_SET_ERR_MSG_FMT_MOD(
+  1509					extack,
+  1510					"Cannot set RSS hash function to XOR, current number of channels (%d) exceeds the maximum allowed for XOR8 RSS hfunc (%d)\n",
+  1511					count, xor8_max_channels);
+  1512				return -EINVAL;
+  1513			}
+  1514		}
+  1515	
+  1516		return 0;
+  1517	}
+  1518	
 
 -- 
 0-DAY CI Kernel Test Service
