@@ -1,69 +1,58 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74A31339B1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 05:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232997464
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 05:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758605822; cv=none; b=ctJbpUO7BK/U+l2FCy5PO6GXztaNFbBWevplcVGCNCDiB7vVSKx1EoUuncgTZ6+cHP/tFfFUM1WstD4SzVMjFln9cKgjkbFmAvEtMyRauQvm7basu3VODZ8KSSSxlsXRpDBtO7NCoblJ5OC/FMs5qqlc+0ThtTohOfAv7RepYq8=
+	t=1758606920; cv=none; b=mv+7nO/KDnAC4o8ceOLMKHfeAcZSBQxx8JqQLai0xO+iJC2sFEUQ6aLKvFeVv9UI8HYIJzbf2/HT35DNNEN8buLbY4TZ7NKG2baUm71L+DOKxEtgjx28+2g7h7sO1aaY/wbPfIyzVv0vQdWeDnHU7MqNgRkdHw8Qx3puTOaHKVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758605822; c=relaxed/simple;
-	bh=V5UL/dAIr2nm6+fzDi+IHHaER/mBixoWQUPYcglj9r0=;
+	s=arc-20240116; t=1758606920; c=relaxed/simple;
+	bh=tw66OXdlHLu1CGSnJKcsSNRvNCIJof+Xx148N9jq4WI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ZYlGuOP6vqTwAKnlKFgKRkk04Mi4oNy/sYxXk00g7XMyJSnEatFyXucxZQol4oEoXspjdyM/bpKFo7MvHUXbcZb5dKaVTfEBPaUGNPaREZpUW4D+HvRZHg4jD8pju1cw1pRZ8mgzHellXHdnL7a6U+uvtK8yHmdU635JVqEQE6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PCV+nCRa; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=qulnVSoRac4Tmq1fRwEs/0ubUzoE1fhwUcMpevNYb4/i69AYt9ZhpXGXKE2tl1eZTchV1brjUhrlnyS2SSu73p7cYBe2tvuHHALWX+SHhRkp+eyVzE7sZxSPntcnzBgol0U5/vEh/6hLdMMdxNYFCUQ/l4i5ooRWjfHHz5rqCyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOAgA9JQ; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PCV+nCRa"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3ee15505cdeso3134486f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Sep 2025 22:37:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758605819; x=1759210619; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5nk68bT4tM2s7UqUaMB1Q+v6+5v9pMEz2u6IMlyeJfM=;
-        b=PCV+nCRa+b2863JvV5oY2DS7a6UGKzEwMPn6P7vRvco8jiyRm8AjxGcI3/yfqbrM6l
-         CvQ7G4DXscx7xt/Ft1JPoWikx5G0Be2PvFzuEeSFr/qvpiCR28DCGjWcac51EHtAPmPr
-         L2ndzhZQrZzmqGw6S6gtK+YqBJ5bl9r5+rzjR+z4QeRUcE8dVGLkYURv/1wLGlz844XE
-         o6MN7chJdZfioysOqQjaiinhsF9lLB6IL1yXy4gvdqS4YEEGYyZRVUo/meTND7d+gNKE
-         Ey0I/akGA6LQr5VLwNPHQC3Z5kIHTLH2D/5Rj3K9+tFJYafxcpbcjqPMWG4UAXp2uzOj
-         uXXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758605819; x=1759210619;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5nk68bT4tM2s7UqUaMB1Q+v6+5v9pMEz2u6IMlyeJfM=;
-        b=f9HeawskXPuIwY/9tLrlHeNITCD10QNwQyNRL9H7Bcz+qbLeJUTJTbn1wcHhGGZggq
-         eHrHzeQxGmco3z+tMdlrLtj1EDPZlfE9MRLju8RBRGCLZLzhsUABCSkuyhmcc9O5p8hi
-         9zNW33/2uMZh39/nubM0DRvidX6fNLUmvjFY1poFojQPT23TGddoGqqcJ2BpRsxdVd1R
-         tUoLW0H9qHIKFxPJWq7DKmkRjePXPeKuxo7M50AGGTGaYcHWOX1P5jwFoAveDMzm7ucj
-         jVTq0K/yal7kc833PcYSO1m4MpXo8BwIEZzrv/tFwaZMWvccIdKKQXkb1onPwKijieEj
-         oY6g==
-X-Forwarded-Encrypted: i=1; AJvYcCU5/ksEC9TP2nnALYeBYXkD0sQaxrmpPFytYkd7k3fI+kZFnzUN0OP8Neyu3acexIeO81s5fYXan9d96zfE@lists.linux.dev
-X-Gm-Message-State: AOJu0YyEtEK8k9WEj/W0/zOBjHq+kyraES/faWkhjL6zI6VtC6e4e8M5
-	IaO2sfKLiVwpmWQp2oeu9u4LRnLPydI52uhpXxwtze4C7hiNyyES/sIH0XZG6/+rtVY=
-X-Gm-Gg: ASbGnctAoOpRw5MOqR6ZMFjAKUDrFJNnwBcxTWw1+y4eoAU7dWnmrP9rBiSumjGyJw0
-	Q9VD7b19P33hmY9Uwr68kO5P6e1Y/mCl1X0AhD2rCpSAIPWGECPQdc/JyoQXKFeAOD/i81Cn2tg
-	oMjxDvDbliZHcMJQZnHargLcuZW3Tb80Jjk6ngwWUgJgRWzdkbcwVoFB42/FIT0c3EETI4CkdCm
-	85KQ+cy/CUBfcCig89/zxjOr83KnqU1u48+kGmx3h4pRDhREx8hk4cd6tXpf/ZuTAUb+/tmYZqw
-	Alud07Qr/H90ur9aDHgHhhwO7SnHIiqH3f1YuguTku36utcQCYQwBF0/jsNdOw5dVo3FVthCqnW
-	mAB8CJn9KHOn3HJGWU0uUJ2Do+spL
-X-Google-Smtp-Source: AGHT+IEJTxintUDc/Y0Z2eSulhk27K76GPRZmco48nAZ6riUoZSGJo1ebPVO+aKwFwektUspb6X3Zg==
-X-Received: by 2002:a5d:5f92:0:b0:3f1:aff4:1c77 with SMTP id ffacd0b85a97d-405cf9c1bcdmr917423f8f.16.1758605819067;
-        Mon, 22 Sep 2025 22:36:59 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee0fbc7188sm23236326f8f.37.2025.09.22.22.36.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 22:36:58 -0700 (PDT)
-Date: Tue, 23 Sep 2025 08:36:55 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, rajasimandalos@gmail.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] cifs: client: allow changing multichannel mount
- options on remount
-Message-ID: <202509231242.5ZgtQ3Ye-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOAgA9JQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758606918; x=1790142918;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tw66OXdlHLu1CGSnJKcsSNRvNCIJof+Xx148N9jq4WI=;
+  b=iOAgA9JQRtRGsE0N0xcEk7RQPOJsLDJTy4rmdXfHwPjDfnryihYBxxLq
+   obeEiKSt4HQS95+MFRzbjXusvq8bNiNvrTUbEPvJ5ASgxOusj5d4URoPh
+   BzhnF/D7jfOxgvLxIyWrAgofmIcY8lK8a1K+RlDFHvG/CUA/HqjU0g+rW
+   n/M+zTUUH0taoHWpUHK8QAp7MnQZC97UgTi1ssxSzEmUqpLAA4PAqPGkl
+   XB6R74IBPc+xZ/nJl8PgVmxRsHbmyCl4Z30Eq6kEYTmsVDTNS1G8vTxjr
+   /zsuiejbqDJEjU2Au33BxKmLmuwv+Glf37WfmKnJpDyzhS3KOmVRS05rG
+   Q==;
+X-CSE-ConnectionGUID: 6iqWpcj6TYWLSSCy2QVbAw==
+X-CSE-MsgGUID: LIg/I6KmQZ2KzbRCq0NflQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60767151"
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
+   d="scan'208";a="60767151"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 22:55:17 -0700
+X-CSE-ConnectionGUID: Fw9UxrEYR5yHiL4mNLJG+w==
+X-CSE-MsgGUID: +BoPTn0+TbuczCjgpKcANg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
+   d="scan'208";a="175962679"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 22 Sep 2025 22:55:17 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v0vzd-0002nd-2c;
+	Tue, 23 Sep 2025 05:55:13 +0000
+Date: Tue, 23 Sep 2025 13:55:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 1/1] mm/swapfile.c:775:5: warning: no
+ previous prototype for function 'scan_swap_map_slots'
+Message-ID: <202509231356.VnqjfMcw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,104 +61,280 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922082417.816331-2-rajasimandalos@gmail.com>
 
-Hi,
+Hi Bing,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/rajasimandalos-gmail-com/cifs-client-allow-changing-multichannel-mount-options-on-remount/20250922-162930
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20250922082417.816331-2-rajasimandalos%40gmail.com
-patch subject: [PATCH 2/2] cifs: client: allow changing multichannel mount options on remount
-config: x86_64-randconfig-161-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231242.5ZgtQ3Ye-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   f06b723c6fa4f8cf9750f131eaf8991b291f16bd
+commit: 06c2766cbc9923d67d45fc191c467b5e2685175d [1/1] ANDROID: mm: export symbols used in vendor hook android_vh_get_swap_page()
+config: x86_64-buildonly-randconfig-004-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231356.VnqjfMcw-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231356.VnqjfMcw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509231242.5ZgtQ3Ye-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509231356.VnqjfMcw-lkp@intel.com/
 
-New smatch warnings:
-fs/smb/client/sess.c:327 cifs_decrease_secondary_channels() error: we previously assumed 'server' could be null (see line 314)
+All warnings (new ones prefixed by >>):
 
-vim +/server +327 fs/smb/client/sess.c
+   mm/swapfile.c:102:26: warning: no previous prototype for function 'swap_type_to_swap_info' [-Wmissing-prototypes]
+     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
+         |                          ^
+   mm/swapfile.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
+         | ^
+         | static 
+>> mm/swapfile.c:775:5: warning: no previous prototype for function 'scan_swap_map_slots' [-Wmissing-prototypes]
+     775 | int scan_swap_map_slots(struct swap_info_struct *si,
+         |     ^
+   mm/swapfile.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     775 | int scan_swap_map_slots(struct swap_info_struct *si,
+         | ^
+         | static 
+>> mm/swapfile.c:993:5: warning: no previous prototype for function 'swap_alloc_cluster' [-Wmissing-prototypes]
+     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
+         |     ^
+   mm/swapfile.c:993:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
+         | ^
+         | static 
+   3 warnings generated.
+--
+>> mm/swap_slots.c:93:6: warning: no previous prototype for function 'check_cache_active' [-Wmissing-prototypes]
+      93 | bool check_cache_active(void)
+         |      ^
+   mm/swap_slots.c:93:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      93 | bool check_cache_active(void)
+         | ^
+         | static 
+   1 warning generated.
 
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  276  void cifs_decrease_secondary_channels(struct cifs_ses *ses, bool from_reconfigure)
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  277  {
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  278  	int i, chan_count;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  279  	struct TCP_Server_Info *server;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  280  	struct cifs_server_iface *iface;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  281  
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  282  	spin_lock(&ses->chan_lock);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  283  	chan_count = ses->chan_count;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  284  	if (chan_count == 1)
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  285  		goto done;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  286  
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  287  	// Update the chan_count to the new maximum
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  288  	if (from_reconfigure)
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  289  		ses->chan_count = ses->chan_max;
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  290  	else
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  291  		ses->chan_count = 1;
 
-ses->chan_count is set here.
+vim +/scan_swap_map_slots +775 mm/swapfile.c
 
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  292  
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  293  	for (i = ses->chan_max ; i < chan_count; i++) {
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  294  		iface = ses->chans[i].iface;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  295  		server = ses->chans[i].server;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  296  
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  297  		/*
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  298  		 * remove these references first, since we need to unlock
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  299  		 * the chan_lock here, since iface_lock is a higher lock
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  300  		 */
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  301  		ses->chans[i].iface = NULL;
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  302  		ses->chans[i].server = NULL;
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  303  		spin_unlock(&ses->chan_lock);
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  304  
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  305  		if (iface) {
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  306  			spin_lock(&ses->iface_lock);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  307  			iface->num_channels--;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  308  			if (iface->weight_fulfilled)
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  309  				iface->weight_fulfilled--;
-a15ccef82d3de9 fs/smb/client/sess.c Ritvik Budhiraja 2023-11-21  310  			kref_put(&iface->refcount, release_iface);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  311  			spin_unlock(&ses->iface_lock);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  312  		}
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  313  
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14 @314  		if (server) {
-
-This shows that server can be NULL
-
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  315  			if (!server->terminate) {
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  316  				server->terminate = true;
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  317  				cifs_signal_cifsd_for_reconnect(server, false);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  318  			}
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  319  			cifs_put_tcp_session(server, false);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  320  		}
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  321  
-5eef12c4e3230f fs/smb/client/sess.c Shyam Prasad N   2023-11-14  322  		spin_lock(&ses->chan_lock);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  323  	}
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  324  
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  325  	/* For extra secondary channels, reset the need reconnect bit */
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  326  	if (ses->chan_count == 1) {
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22 @327  		cifs_server_dbg(VFS, "server does not support multichannel anymore. Disable all other channels\n");
-
-I guess the cifs_server_dbg() macro dereferences server?
-
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  328  		ses->chans_need_reconnect &= 1;
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  329  	} else {
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  330  		cifs_server_dbg(VFS, "Disable extra secondary channels\n");
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  331  		ses->chans_need_reconnect &= ((1UL << ses->chan_max) - 1);
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  332  	}
-1fdbd8c19e792a fs/smb/client/sess.c Rajasi Mandal    2025-09-22  333  
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  334  done:
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  335  	spin_unlock(&ses->chan_lock);
-ee1d21794e55ab fs/smb/client/sess.c Shyam Prasad N   2023-10-13  336  }
+   774	
+ > 775	int scan_swap_map_slots(struct swap_info_struct *si,
+   776				       unsigned char usage, int nr,
+   777				       swp_entry_t slots[])
+   778	{
+   779		struct swap_cluster_info *ci;
+   780		unsigned long offset;
+   781		unsigned long scan_base;
+   782		unsigned long last_in_cluster = 0;
+   783		int latency_ration = LATENCY_LIMIT;
+   784		int n_ret = 0;
+   785		bool scanned_many = false;
+   786	
+   787		/*
+   788		 * We try to cluster swap pages by allocating them sequentially
+   789		 * in swap.  Once we've allocated SWAPFILE_CLUSTER pages this
+   790		 * way, however, we resort to first-free allocation, starting
+   791		 * a new cluster.  This prevents us from scattering swap pages
+   792		 * all over the entire swap partition, so that we reduce
+   793		 * overall disk seek times between swap pages.  -- sct
+   794		 * But we do now try to find an empty cluster.  -Andrea
+   795		 * And we let swap pages go all over an SSD partition.  Hugh
+   796		 */
+   797	
+   798		si->flags += SWP_SCANNING;
+   799		/*
+   800		 * Use percpu scan base for SSD to reduce lock contention on
+   801		 * cluster and swap cache.  For HDD, sequential access is more
+   802		 * important.
+   803		 */
+   804		if (si->flags & SWP_SOLIDSTATE)
+   805			scan_base = this_cpu_read(*si->cluster_next_cpu);
+   806		else
+   807			scan_base = si->cluster_next;
+   808		offset = scan_base;
+   809	
+   810		/* SSD algorithm */
+   811		if (si->cluster_info) {
+   812			if (!scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
+   813				goto scan;
+   814		} else if (unlikely(!si->cluster_nr--)) {
+   815			if (si->pages - si->inuse_pages < SWAPFILE_CLUSTER) {
+   816				si->cluster_nr = SWAPFILE_CLUSTER - 1;
+   817				goto checks;
+   818			}
+   819	
+   820			spin_unlock(&si->lock);
+   821	
+   822			/*
+   823			 * If seek is expensive, start searching for new cluster from
+   824			 * start of partition, to minimize the span of allocated swap.
+   825			 * If seek is cheap, that is the SWP_SOLIDSTATE si->cluster_info
+   826			 * case, just handled by scan_swap_map_try_ssd_cluster() above.
+   827			 */
+   828			scan_base = offset = si->lowest_bit;
+   829			last_in_cluster = offset + SWAPFILE_CLUSTER - 1;
+   830	
+   831			/* Locate the first empty (unaligned) cluster */
+   832			for (; last_in_cluster <= si->highest_bit; offset++) {
+   833				if (si->swap_map[offset])
+   834					last_in_cluster = offset + SWAPFILE_CLUSTER;
+   835				else if (offset == last_in_cluster) {
+   836					spin_lock(&si->lock);
+   837					offset -= SWAPFILE_CLUSTER - 1;
+   838					si->cluster_next = offset;
+   839					si->cluster_nr = SWAPFILE_CLUSTER - 1;
+   840					goto checks;
+   841				}
+   842				if (unlikely(--latency_ration < 0)) {
+   843					cond_resched();
+   844					latency_ration = LATENCY_LIMIT;
+   845				}
+   846			}
+   847	
+   848			offset = scan_base;
+   849			spin_lock(&si->lock);
+   850			si->cluster_nr = SWAPFILE_CLUSTER - 1;
+   851		}
+   852	
+   853	checks:
+   854		if (si->cluster_info) {
+   855			while (scan_swap_map_ssd_cluster_conflict(si, offset)) {
+   856			/* take a break if we already got some slots */
+   857				if (n_ret)
+   858					goto done;
+   859				if (!scan_swap_map_try_ssd_cluster(si, &offset,
+   860								&scan_base))
+   861					goto scan;
+   862			}
+   863		}
+   864		if (!(si->flags & SWP_WRITEOK))
+   865			goto no_page;
+   866		if (!si->highest_bit)
+   867			goto no_page;
+   868		if (offset > si->highest_bit)
+   869			scan_base = offset = si->lowest_bit;
+   870	
+   871		ci = lock_cluster(si, offset);
+   872		/* reuse swap entry of cache-only swap if not busy. */
+   873		if (vm_swap_full() && si->swap_map[offset] == SWAP_HAS_CACHE) {
+   874			int swap_was_freed;
+   875			unlock_cluster(ci);
+   876			spin_unlock(&si->lock);
+   877			swap_was_freed = __try_to_reclaim_swap(si, offset, TTRS_ANYWAY);
+   878			spin_lock(&si->lock);
+   879			/* entry was freed successfully, try to use this again */
+   880			if (swap_was_freed)
+   881				goto checks;
+   882			goto scan; /* check next one */
+   883		}
+   884	
+   885		if (si->swap_map[offset]) {
+   886			unlock_cluster(ci);
+   887			if (!n_ret)
+   888				goto scan;
+   889			else
+   890				goto done;
+   891		}
+   892		WRITE_ONCE(si->swap_map[offset], usage);
+   893		inc_cluster_info_page(si, si->cluster_info, offset);
+   894		unlock_cluster(ci);
+   895	
+   896		swap_range_alloc(si, offset, 1);
+   897		slots[n_ret++] = swp_entry(si->type, offset);
+   898	
+   899		/* got enough slots or reach max slots? */
+   900		if ((n_ret == nr) || (offset >= si->highest_bit))
+   901			goto done;
+   902	
+   903		/* search for next available slot */
+   904	
+   905		/* time to take a break? */
+   906		if (unlikely(--latency_ration < 0)) {
+   907			if (n_ret)
+   908				goto done;
+   909			spin_unlock(&si->lock);
+   910			cond_resched();
+   911			spin_lock(&si->lock);
+   912			latency_ration = LATENCY_LIMIT;
+   913		}
+   914	
+   915		/* try to get more slots in cluster */
+   916		if (si->cluster_info) {
+   917			if (scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
+   918				goto checks;
+   919		} else if (si->cluster_nr && !si->swap_map[++offset]) {
+   920			/* non-ssd case, still more slots in cluster? */
+   921			--si->cluster_nr;
+   922			goto checks;
+   923		}
+   924	
+   925		/*
+   926		 * Even if there's no free clusters available (fragmented),
+   927		 * try to scan a little more quickly with lock held unless we
+   928		 * have scanned too many slots already.
+   929		 */
+   930		if (!scanned_many) {
+   931			unsigned long scan_limit;
+   932	
+   933			if (offset < scan_base)
+   934				scan_limit = scan_base;
+   935			else
+   936				scan_limit = si->highest_bit;
+   937			for (; offset <= scan_limit && --latency_ration > 0;
+   938			     offset++) {
+   939				if (!si->swap_map[offset])
+   940					goto checks;
+   941			}
+   942		}
+   943	
+   944	done:
+   945		set_cluster_next(si, offset + 1);
+   946		si->flags -= SWP_SCANNING;
+   947		return n_ret;
+   948	
+   949	scan:
+   950		spin_unlock(&si->lock);
+   951		while (++offset <= READ_ONCE(si->highest_bit)) {
+   952			if (data_race(!si->swap_map[offset])) {
+   953				spin_lock(&si->lock);
+   954				goto checks;
+   955			}
+   956			if (vm_swap_full() &&
+   957			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
+   958				spin_lock(&si->lock);
+   959				goto checks;
+   960			}
+   961			if (unlikely(--latency_ration < 0)) {
+   962				cond_resched();
+   963				latency_ration = LATENCY_LIMIT;
+   964				scanned_many = true;
+   965			}
+   966		}
+   967		offset = si->lowest_bit;
+   968		while (offset < scan_base) {
+   969			if (data_race(!si->swap_map[offset])) {
+   970				spin_lock(&si->lock);
+   971				goto checks;
+   972			}
+   973			if (vm_swap_full() &&
+   974			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
+   975				spin_lock(&si->lock);
+   976				goto checks;
+   977			}
+   978			if (unlikely(--latency_ration < 0)) {
+   979				cond_resched();
+   980				latency_ration = LATENCY_LIMIT;
+   981				scanned_many = true;
+   982			}
+   983			offset++;
+   984		}
+   985		spin_lock(&si->lock);
+   986	
+   987	no_page:
+   988		si->flags -= SWP_SCANNING;
+   989		return n_ret;
+   990	}
+   991	EXPORT_SYMBOL_GPL(scan_swap_map_slots);
+   992	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
