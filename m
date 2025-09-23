@@ -1,135 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC5A1990A7;
-	Tue, 23 Sep 2025 06:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D3030F94E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 06:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758607583; cv=none; b=QfuLu/EzsK2anxk5BKcUkwbqCrnP/J+1inrM28XbtTFsgVq9tRG6HjrUjvzLXWiupqxURVvWCHG9nqnMYfeDCm+Up+CERrSWwGK5YYOcyvLO4nfdU6SWo2GFHvlnqeX0l3T522Po3skeBb3h2TphauTQZJTYJpLcQDQTcjLk/XU=
+	t=1758609535; cv=none; b=KzM7JHlYQIkcyIOzo6xAq8NQ7So9S7gmMIMncPK1ZkUPytwCjK4Xt7FFfeitn0GG49iQ5UQzyOsmpnRlHPYCgiaFy65iq99P6DuLgSeo25GBYNGd78F0ygJKb0Owxny4IlZrCU9us/xkYAPciHr0kRW0WFLprjmDCwmlvqid354=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758607583; c=relaxed/simple;
-	bh=/Va+wb9am0t3b0ri4zxojtTDyBaof4jyFNU6bskn7oE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icZRDNXee61VqMQOFD/QAaJipQUDPYzfM3rSdwkBVY6yXF4le7zcBhKSZJk/7+xu0jL5DoqyJugdvIrKbXT9b0aRfDkbMtVtNG0MD8NhwdDwNw4sAvceF3+na4zMSiSgt2D9bNY+Eko6chDA/CKp7mMxiuLbLK54Y4Ia1s6Zq9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnvPFGR0; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758609535; c=relaxed/simple;
+	bh=DMH94pu9VGu2YOgC5xKd37Q5Ip6ER9SpFac88lCKB3k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KuwFIt5y6SL7k3y30hitEHG85YVeh/b20GCivGleVbGUWJNsEDkAenpcpYWUGEBonZdkpvc1bPFG/x5opC0uLcrlEDjBHn/xQy/8/YkzDej7+ZqvI59VKjDxqe+PeDCtPK0q9f3mxNm1dfC3XZp+hf5/7M+ubBA5tkb68Jcm6qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rjHXCTMJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bu9ELGvi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fLJywFKC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y25WnlxJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnvPFGR0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758607582; x=1790143582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/Va+wb9am0t3b0ri4zxojtTDyBaof4jyFNU6bskn7oE=;
-  b=SnvPFGR0ZDuZVimOFiRnKdPX6WXcaMbwo5at7Ekd1/zJ5CzhGItN5iM7
-   xV8RlEylJDUksYWzwMsBXkHaVOf+wNzXg3PIJcH3C1fh7IswAT6+0xTeF
-   5epy//glKnPz7+ho6HXDgbgbFN5IgUkaJMJRtiXz8EPlByRr2/C3OZw9J
-   jkp54ycbjKNbXeKLUUcNhyZ5K1glCx2eLvB2vxYDBC9sBN4lup1AXAe1W
-   zMsyiaAk8GcMU23MKJ8q702QIt9KPUXolOmh0n3IWpIvD2mFkQ6mVCg8Z
-   o0ft6Oty08h2hAM8AzL2Y54ReIz2XOfoc8M+dJ1YlsYg2ohdpc+oIGDd+
-   Q==;
-X-CSE-ConnectionGUID: LFVyQPFHR5exISXjitXdGg==
-X-CSE-MsgGUID: WNqSG3MDSImhfBFDBHEbbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="86314234"
-X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="86314234"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 23:06:21 -0700
-X-CSE-ConnectionGUID: MEsv++RXQiyeG6bl5VvMhA==
-X-CSE-MsgGUID: URoYeKUzRqGXjbkV1hNLmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,287,1751266800"; 
-   d="scan'208";a="200376732"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Sep 2025 23:06:19 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v0wAL-0002nl-0y;
-	Tue, 23 Sep 2025 06:06:17 +0000
-Date: Tue, 23 Sep 2025 14:05:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandr Sapozhnkiov <alsp705@gmail.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@redhat.com>,
-	dm-devel@redhat.com, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandr Sapozhnikov <alsp705@gmail.com>,
-	linux-media@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10] md: fix NULL pointer dereference at
- reregister_snapshot()
-Message-ID: <202509231318.YYdqPhnu-lkp@intel.com>
-References: <20250922144239.11-1-alsp705@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rjHXCTMJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bu9ELGvi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fLJywFKC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y25WnlxJ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E3DB8224E6;
+	Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758609532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=rjHXCTMJ6WqW0SndCHqWDfgtfvrFcmJmxUvtdLXCYPVU7CqFjxkKipUB218v27sLye0NTp
+	coyx/PBWzJTPKjtTyAPNAfcsw6asuoCcaPoWnLAWQw2MQrKWq1S9Dty0/7FylgLPUHieki
+	yNDLsmV2cpWYmOfO8dZC/u2mACNx3Hw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758609532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=Bu9ELGvijHyU2/96UJ3hTvFZxr11r5YmaRa/wVYng/DmjFd72DoTZ6U7bSo/pgOLZHwou0
+	yE460Bm9KI/NZfAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758609531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=fLJywFKC8Fgr3hEw2YlaziV56e1DqWmjzIDgra6DMRBXlJEO/QZ/kZMCSsk69ulWNWNZg7
+	hk9xMKjpmUbbX/6fmXwqJMnE69IzoJA4wIJUnh1YopTOr4wbp9qEC6+lpCzoU0XyqpaHFr
+	jE2ktpeIAfUp5z33LRwp1odK8YViT+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758609531;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=NruCixlbESUV/i0bXh8NxRZIGuB+1RacNNbuxP9MCU4=;
+	b=y25WnlxJCvce3z4cXbYTANV62uHo1NKTZGxkCq30sBj4aMd4Ur88dNKKsIssUXDjNDNNef
+	WHFB1zW+Pa3S9lBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C961132C9;
+	Tue, 23 Sep 2025 06:38:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ndUHJXtA0mj4HQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 23 Sep 2025 06:38:51 +0000
+Message-ID: <53d8dd21-2c46-4c3c-b7f9-30696c6f6412@suse.de>
+Date: Tue, 23 Sep 2025 08:38:51 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250922144239.11-1-alsp705@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gud: fix accidentally deleted IS_ERR() check
+To: Ruben Wauters <rubenru09@aol.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
+ oe-kbuild@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250922173836.5608-1-rubenru09.ref@aol.com>
+ <20250922173836.5608-1-rubenru09@aol.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250922173836.5608-1-rubenru09@aol.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-Hi Alexandr,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on device-mapper-dm/for-next]
-[also build test WARNING on linus/master v6.17-rc7 next-20250922]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandr-Sapozhnkiov/md-fix-NULL-pointer-dereference-at-reregister_snapshot/20250922-224522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-patch link:    https://lore.kernel.org/r/20250922144239.11-1-alsp705%40gmail.com
-patch subject: [PATCH 5.10] md: fix NULL pointer dereference at reregister_snapshot()
-config: s390-randconfig-002-20250923 (https://download.01.org/0day-ci/archive/20250923/202509231318.YYdqPhnu-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250923/202509231318.YYdqPhnu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231318.YYdqPhnu-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:369:9: note: previous definition is here
-     369 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> drivers/md/dm-snap.c:597:23: warning: unused variable 'bdev' [-Wunused-variable]
-     597 |         struct block_device *bdev = s->origin->bdev;
-         |                              ^~~~
-   2 warnings generated.
 
 
-vim +/bdev +597 drivers/md/dm-snap.c
+Am 22.09.25 um 19:32 schrieb Ruben Wauters:
+> During conversion of WARN_ON_ONCE to drm_WARN_ON_ONCE in commit
+> 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm
+> versions"), the IS_ERR check was accidentally removed, breaking the
+> gud_connector_add_properties() function, as any valid pointer in
+> state_val would produce an error.
+>
+> The warning was reported by kernel test robot, and is fixed in this patch.
+>
+> Fixes: 2d2f1dc74cfb ("drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
 
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  590  
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  591  /*
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  592   * Move snapshot to correct place in list according to chunk size.
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  593   */
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  594  static void reregister_snapshot(struct dm_snapshot *s)
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  595  {
-8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  596  	struct origin *o;
-c1f0c183f6acc6 Mike Snitzer         2009-12-10 @597  	struct block_device *bdev = s->origin->bdev;
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  598  
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  599  	down_write(&_origins_lock);
-8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  600  	o = __lookup_origin(s->origin->bdev);
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  601  
-c1f0c183f6acc6 Mike Snitzer         2009-12-10  602  	list_del(&s->list);
-8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  603  	if (o)
-8125cedd7aa81d Alexandr Sapozhnikov 2025-09-22  604  		__insert_snapshot(o, s);
-^1da177e4c3f41 Linus Torvalds       2005-04-16  605  
-^1da177e4c3f41 Linus Torvalds       2005-04-16  606  	up_write(&_origins_lock);
-^1da177e4c3f41 Linus Torvalds       2005-04-16  607  }
-^1da177e4c3f41 Linus Torvalds       2005-04-16  608  
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/gud/gud_connector.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
+> index 62e349b06dbe..1726a3fadff8 100644
+> --- a/drivers/gpu/drm/gud/gud_connector.c
+> +++ b/drivers/gpu/drm/gud/gud_connector.c
+> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
+>   			unsigned int *state_val;
+>   
+>   			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
+> -			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
+> +			if (drm_WARN_ON_ONCE(connector_state->connector->dev, IS_ERR(state_val)))
+>   				return PTR_ERR(state_val);
+>   
+>   			val = *state_val;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
