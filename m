@@ -1,122 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDB8321425
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 13:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD12326D76
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 13:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758633073; cv=none; b=l8L+NlbVGmvUI4vw/McF8Svle2YPHcuYTe9XW3dd6P4frjwrmRJeWpGRAmTBk5FhnZhjbQ6zUsqXmjs3/C56e66COdU5oObd+S7t4fyR7Wb7uQNB+QweDu6Rag0V2YJlnDRNXTz64+2tjXuq/J9Jk6cMtle/e9S0q/Aa86JpuJY=
+	t=1758633678; cv=none; b=WO8XccyD8Q/Zw3YYA0I8GFlbCWlUv5fi9Hr9dGRLjYSPCfI34jb+qfHqexYUQcmJnjVKUhgQ6aCbJe/mV85XSHlgXmQqIeD4U3AjLIW+kX2PAPnJT4LwF5gM+SFCUiJ9C8v+mvlvKxOTNKu+wjl3BG25ECuvKYa3dzwamuOAKRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758633073; c=relaxed/simple;
-	bh=t3SyyElLq7C8J5LLcQFEIerClverb44730YKsoKFQHY=;
+	s=arc-20240116; t=1758633678; c=relaxed/simple;
+	bh=dXWg8NZbxeqgTfi3QKLWa0aDwCBZM16LYIfqAnUGx7Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jCRveua8uGWUryExi6qRtAaRgu+XW7EKvmwcMdKWEDjUk5cHscMwfHhx4OG0kuyRYeobbNeM9SXIghSS9wSfBEDe0yoALfBMsNZK4Stli7PFbl4KbbdcSpQpgWF0mS5U2tMGQdpLkoMwg0SAqVpMsj6e68fNWs2RaFP9uugWVEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8rqp3II; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jDkXZwOFezqkVu+oUUbjG9Pz+AGAia0TyxrXUVlFJYpaiZhnMIIqp97Z6k+2ufTVuaTp+L2yvdt9sh11U0F4MKBNnNeYdpRHmJFV1odtun3rJuN9dI7LGOyX5OAMgz0o6kSDh6KoNCieZ9p/83QDJCo4NRwOW/zwW5d13iRs6z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yavuxt9l; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8rqp3II"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758633071; x=1790169071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t3SyyElLq7C8J5LLcQFEIerClverb44730YKsoKFQHY=;
-  b=T8rqp3IIIRcT7ctBAIpEKBgV2Ud0eeavu/2YdI6qOaSjlN/0JAbdkFLd
-   wwZoR2/f81N7WarzlfpWRxh6ChRW/1zffWt+THq1Jv8A5pFkRZn+SQ5hU
-   5ftxMhEBu7jbSeCUceu2gHjTCdv3lTiLwMc1IAfDP7jCe2u/UtSB9yDyB
-   hmMXYBTSlmiRXGETC4xBQLenKwAwmtZwFwgekikeNyWVEom2bP7FbY7wx
-   RAJs2LGWrXW2yvyst9ErxdK4v9EAH0nv9KH3wWCq6nK6O7/jPLK1se93q
-   fp954wtPVADytbzUotED7dQsXUmS1RzxvZC+bMIi6vHMYSU4l1HVIhPx2
-   A==;
-X-CSE-ConnectionGUID: JoIckkQuTASV+HEqvdcHTw==
-X-CSE-MsgGUID: Y7pQN3gMS8uMpxTwqQDXTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="78352872"
-X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="78352872"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 06:11:11 -0700
-X-CSE-ConnectionGUID: p+cQke5ASi+NRT702FTZOQ==
-X-CSE-MsgGUID: ZH/y212ISmGiZyPhVJplrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,288,1751266800"; 
-   d="scan'208";a="182021616"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2025 06:11:09 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1v12nT-000000004C9-1nyp;
-	Tue, 23 Sep 2025 13:11:07 +0000
-Date: Tue, 23 Sep 2025 15:10:28 +0200
-From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 0/146] htmldocs:
- Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: ERROR: Unexpected
- indentation. [docutils]
-Message-ID: <202509231515.ncOcKxL9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yavuxt9l"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3ee12332f3dso5696528f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Sep 2025 06:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758633675; x=1759238475; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3uejnRLMOfrdT1FWL+NhxB6zyQ3loDBWsODSNMkw3nM=;
+        b=yavuxt9liP6PSYjPmdfNfGdzFDWobvi9RUJOSAujPYE07JUsCNkliAteSppygsBL9+
+         +FXHE8ZLS/GELifos2oGyp2FcI1eSnxzPw3Oeb9jZi4/hgqvHzCtGlsd6en/qXQk1ur7
+         Qm13wnq451rnxxDykw30jVGFFdMiXQN/51r3xX5Euh5VZx28Z5Cw/Xbj0ZOzmDK7Bb0V
+         sn6IR1PFmS6i1jYQB/90kgNvd79ERW0uI5V+JDkq62SAMFaoCJzmn4wFVlC16JHY0z56
+         rmx7fKrIKv/HsD/yMn5otedcr+BYuXelgqk0OvVju3NMfq4leAzzW/3OchWFXLhWf5uU
+         257Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758633675; x=1759238475;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3uejnRLMOfrdT1FWL+NhxB6zyQ3loDBWsODSNMkw3nM=;
+        b=Sd8TVpWT1Dm/9zQ84Iu8EBl8zQvedvaXEDbzmYfgCNew21FUg0p8/l+o5oXv+56U2W
+         jZF8XxuY2IW4RwDBgj9gwyIGFRSH5lP6ccllnxS9lxk1MrQbiJCBm1TvaaLjA7IEIc/4
+         DjqULVLkJ/aVk26tvVXxVnXc5JR8/7WcYiDUwcNUO6MYtdSzHHeCkaV1k7YHoCPrV/lk
+         /652OwsbRfoECSzDbD28N+n8nzUgtVL10p5/l1amfXUhEEvkNJEW4lRfy1ptPIiGZ0dG
+         ADuZQITU51uj4Jh6UkbUHvfrJkpguTd2uUHNdrG/enrVxW/u6ldNjJlJ7O0C7gcOxBRe
+         Ifww==
+X-Forwarded-Encrypted: i=1; AJvYcCUPL280snpSybeJg9/4eHpo/lHuB0GB3dQV89NOPlk6Au2gRnXyh1WE875uMRI7Gvkoy5B35GUv7nl5O/Tf@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgshqmTVKJkFubz9gmA9Z0HilJ0fpLWD9ATkS4+z7IGor/5K5Y
+	r+PiIooi2im+mkNZa9vKR2N9wygpqwVOqa7/S25DqwE7ItdRI21gUTgBbmsBqRESCpE=
+X-Gm-Gg: ASbGncsx/ZqociXm28C8wOEX5/Nala0LIEyEneT5U3ktv8HJ6kgoez3MHqQWG6K05H0
+	8muh0oCoL4XtOxb0sFDsbYObz/Kh5g4J/wfNDQ1SXFaElp9bs2shbah5sJL9/dRtgDXyN58U56b
+	MfoEx1HQVP0el0W1HA5CrGwf8lx6ovBe8/pQHdOaJfSLpg5b8vc/qvcFiO9evivh/o+UbONcoOV
+	q38mtzay2NUVjD7otPfxLKMUOS8MdyQ+h+JFHM5JWXrKzY5Nfjm00wC+QrArWQMLbS+l0jPEutT
+	/+1iVnGvSzaaNRHZFpAT8ThBM5X0BVy/k/AbB45TNTWU5/RsQO40S3frl/qutKC9BqtP29/ymgd
+	mC/2BcTTDoaNO7BefgLsLY0Q4+1yG
+X-Google-Smtp-Source: AGHT+IHiX2BgUBm2rJ2aqbF0aIhsrb2f+1p7dWEqMl6vcHt0V0eu9Osdk1d0gQsd6SmGBekapua7XQ==
+X-Received: by 2002:a05:6000:4106:b0:407:7a7:1ca0 with SMTP id ffacd0b85a97d-40707b667bbmr1486847f8f.14.1758633674916;
+        Tue, 23 Sep 2025 06:21:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee0fbc7107sm25115247f8f.30.2025.09.23.06.21.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 06:21:14 -0700 (PDT)
+Date: Tue, 23 Sep 2025 16:21:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 2/2]
+ drivers/gpu/drm/ttm/ttm_resource.c:440 ttm_resource_manager_evict_all()
+ error: uninitialized symbol 'ret'.
+Message-ID: <202509232037.ZFgTcAPJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c73db7ebb024f59416db0cf136dc2d4b9dbc3695
-commit: 7eced9d9f4c9ecc2649051198747ef3a61543449 [0/146] platform/x86: Add Intel Software Defined Silicon driver
-reproduce: (https://download.01.org/0day-ci/archive/20250923/202509231515.ncOcKxL9-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   f8638596656f07c98ff01f23703519c247d3f54d
+commit: ba382e06a5d7987496cab78859d0f81a4428687d [2/2] drm/ttm: Should to return the evict error
+config: i386-randconfig-141-20250923 (https://download.01.org/0day-ci/archive/20250923/202509232037.ZFgTcAPJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509231515.ncOcKxL9-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202509232037.ZFgTcAPJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/ttm/ttm_resource.c:440 ttm_resource_manager_evict_all() error: uninitialized symbol 'ret'.
 
-   p_volume_present        playback volume control enable
-   p_volume_min    playback volume control min value (in 1/256 dB)
-   p_volume_max    playback volume control max value (in 1/256 dB)
-   p_volume_res    playback volume control resolution (in 1/256 dB)
-   =========  ============================ [docutils]
->> Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: ERROR: Unexpected indentation. [docutils]
-   Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-driver-intel_sdsi:2: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-platform-dptf:130: ERROR: Unexpected indentation. [docutils]
-   Documentation/ABI/testing/sysfs-platform-dptf:130: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-platform-dptf:130: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+vim +/ret +440 drivers/gpu/drm/ttm/ttm_resource.c
 
+8af8a109b34fa8 Christian König 2020-10-01  411  int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+b2458726b38cb6 Christian König 2020-08-03  412  				   struct ttm_resource_manager *man)
+b2458726b38cb6 Christian König 2020-08-03  413  {
+b2458726b38cb6 Christian König 2020-08-03  414  	struct ttm_operation_ctx ctx = {
+b2458726b38cb6 Christian König 2020-08-03  415  		.interruptible = false,
+b2458726b38cb6 Christian König 2020-08-03  416  		.no_wait_gpu = false,
+c44dfe4de05391 Christian König 2020-11-02  417  		.force_alloc = true
+b2458726b38cb6 Christian König 2020-08-03  418  	};
+b2458726b38cb6 Christian König 2020-08-03  419  	struct dma_fence *fence;
+b2458726b38cb6 Christian König 2020-08-03  420  	int ret;
+b2458726b38cb6 Christian König 2020-08-03  421  	unsigned i;
+b2458726b38cb6 Christian König 2020-08-03  422  
+b2458726b38cb6 Christian König 2020-08-03  423  	/*
+b2458726b38cb6 Christian König 2020-08-03  424  	 * Can't use standard list traversal since we're unlocking.
+b2458726b38cb6 Christian König 2020-08-03  425  	 */
+b2458726b38cb6 Christian König 2020-08-03  426  
+a1f091f8ef2b68 Christian König 2020-10-06  427  	spin_lock(&bdev->lru_lock);
+b2458726b38cb6 Christian König 2020-08-03  428  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+b2458726b38cb6 Christian König 2020-08-03  429  		while (!list_empty(&man->lru[i])) {
+a1f091f8ef2b68 Christian König 2020-10-06  430  			spin_unlock(&bdev->lru_lock);
 
-vim +2 Documentation/ABI/testing/sysfs-driver-intel_sdsi
+What about if the list is empty?
 
-   > 2	Date:		Feb 2022
-     3	KernelVersion:	5.18
-     4	Contact:	"David E. Box" <david.e.box@linux.intel.com>
-     5	Description:
-     6			This directory contains interface files for accessing Intel
-     7			Software Defined Silicon (SDSi) features on a CPU. X
-     8			represents the socket instance (though not the socket ID).
-     9			The socket ID is determined by reading the registers file
-    10			and decoding it per the specification.
-    11	
-    12			Some files communicate with SDSi hardware through a mailbox.
-    13			Should the operation fail, one of the following error codes
-    14			may be returned:
-    15	
-    16			Error Code	Cause
-    17		        ----------	-----
-    18		        EIO		General mailbox failure. Log may indicate cause.
-    19		        EBUSY		Mailbox is owned by another agent.
-    20		        EPERM		SDSI capability is not enabled in hardware.
-    21		        EPROTO		Failure in mailbox protocol detected by driver.
-    22					See log for details.
-    23		        EOVERFLOW	For provision commands, the size of the data
-    24					exceeds what may be written.
-    25		        ESPIPE		Seeking is not allowed.
-    26		        ETIMEDOUT	Failure to complete mailbox transaction in time.
-    27	
+b2458726b38cb6 Christian König 2020-08-03  431  			ret = ttm_mem_evict_first(bdev, man, NULL, &ctx,
+b2458726b38cb6 Christian König 2020-08-03  432  						  NULL);
+b2458726b38cb6 Christian König 2020-08-03  433  			if (ret)
+b2458726b38cb6 Christian König 2020-08-03  434  				return ret;
+a1f091f8ef2b68 Christian König 2020-10-06  435  			spin_lock(&bdev->lru_lock);
+b2458726b38cb6 Christian König 2020-08-03  436  		}
+b2458726b38cb6 Christian König 2020-08-03  437  	}
+a1f091f8ef2b68 Christian König 2020-10-06  438  	spin_unlock(&bdev->lru_lock);
+b2458726b38cb6 Christian König 2020-08-03  439  
+ba382e06a5d798 Emily Deng      2025-06-03 @440  	if (ret && ret != -ENOENT)
+
+This is dead code.  ret is either zero or uninitialized at this point.
+
+ba382e06a5d798 Emily Deng      2025-06-03  441  		return ret;
+ba382e06a5d798 Emily Deng      2025-06-03  442  
+b2458726b38cb6 Christian König 2020-08-03  443  	spin_lock(&man->move_lock);
+b2458726b38cb6 Christian König 2020-08-03  444  	fence = dma_fence_get(man->move);
+b2458726b38cb6 Christian König 2020-08-03  445  	spin_unlock(&man->move_lock);
+b2458726b38cb6 Christian König 2020-08-03  446  
+b2458726b38cb6 Christian König 2020-08-03  447  	if (fence) {
+b2458726b38cb6 Christian König 2020-08-03  448  		ret = dma_fence_wait(fence, false);
+b2458726b38cb6 Christian König 2020-08-03  449  		dma_fence_put(fence);
+b2458726b38cb6 Christian König 2020-08-03  450  		if (ret)
+b2458726b38cb6 Christian König 2020-08-03  451  			return ret;
+b2458726b38cb6 Christian König 2020-08-03  452  	}
+b2458726b38cb6 Christian König 2020-08-03  453  
+b2458726b38cb6 Christian König 2020-08-03  454  	return 0;
+b2458726b38cb6 Christian König 2020-08-03  455  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
