@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DDD1FB1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 12:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096E41F5F6;
+	Wed, 24 Sep 2025 12:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758717369; cv=none; b=LoUeC5gyNcqhTYjxRwix/HWzZEPirpLldrtbzIv+27XbuP3X57NMbZTR6P4CGhEqpwfddZk4ekZsAUcFPrOeaWpwpCsAhnJMV7GOdOJN3S8VAWC3siNdMaqSngDp3XNZcQQrN8aCbXn+ma4T6nqDIUnRM/NFUSWTdDLNmndbBxI=
+	t=1758718011; cv=none; b=JXh5uCk+4ZRh9SNGbQhvbxmo+tMU74zyt1Ks6vZdC1aB6JlmJOkk/ZiNrKHxjvVQhd46Qx2cox2TGWAoG83ilIIXK1N2hG6J9kSrl0/3+UQdOZNCYXyhIWYEJlTfkUwO0bajjm0KNL53cDQuBhn+Y7XwD6BJgIwNVSYrrseXuHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758717369; c=relaxed/simple;
-	bh=X5sdtRbqfRqOKgZRQ4qMnFy5pSpg8b0I3voFv146QK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NHX7B5vgQPQB0DhF3GjlF36ZdU183deRCN8Idj9eGtMAVZDb9FQ6I6wdF3W9TxrQfTrkYP7fqkhv8wfiwJx6p+uv3tP1rbMrjN0XqJLWlijNp2XD2OAdzg0gFVouPt9/XE45cjCZPA7edfBCGfFinZS29EgUYgQ2zzj56j00XQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROiOdqYl; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1758718011; c=relaxed/simple;
+	bh=u+b/ul2ltVZXdv1kfIgENFSlxUGzOC4ARXhg0ssLwz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=edCCtp87dkNrcCsSJMVgzmdG+oYV1zmG0fBdshgglB25xRxgnAcHD5DzqZsZCcEtHaT/OX0zQHODJdSTPyHri/3SDk2AkdyfAeCTwU+/xC4eWTtQ1bJyZHBJ+7xfynrnzfFzSbzEn5yVZqjHbkJKhFMB+Ocv1kSkAnUU6dld1Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FC6lsNZn; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROiOdqYl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FC6lsNZn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758717368; x=1790253368;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X5sdtRbqfRqOKgZRQ4qMnFy5pSpg8b0I3voFv146QK0=;
-  b=ROiOdqYlh86UAt8cq3Suoo6qrWFSxXb5JCTmPv4XVvUAMPusowiAQzdp
-   TJ+wdGCcnQqvAiU6x/4yLfvh/rRBZYOSobqyKzUQ8xXZzFyaO+ruM937z
-   55SSFWcPtdP3FXjjA6qEy5DbQHANNW0EkdxwX8GRI7BHJlXmP0rK2d9NP
-   ivjoRfjaarGKnpR+t0Hv70ZaH4bpnBsWkT5fUhqvymfP68KPXaIlLuP2B
-   UWlMDA0BDLmzBRaW59AtB5mdeNZLcqGpqGGPp+bP/hJSfgjmj5p77+/D1
-   MNtvV4MGGlW1jM50LG04d32YEpIzN2gklUiD7M9eMMGloCYOFQVFKdsBj
-   w==;
-X-CSE-ConnectionGUID: LQmmcuP2RWuPgjxTl00y2Q==
-X-CSE-MsgGUID: AbHvAsvvTQuHpJVBw1NuqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="72113589"
+  t=1758718008; x=1790254008;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u+b/ul2ltVZXdv1kfIgENFSlxUGzOC4ARXhg0ssLwz0=;
+  b=FC6lsNZn3onhkCaS+GTVqcjLGIjdOg9HH1dk0ob1iX+XKE88CNWZe5g9
+   BXv5q3LS3lcjnvS88rMUZnMSOzCdjbq67C/3aEaAKG7+hHgOabCFfnQ4E
+   KR8ZNpFxcX8seO9WiO+ceWwTGbEIXcdqcJW8fc37ouJog5wMfm3jog4xG
+   eNAERrxhk4X3GLXORhAaWI7Z+ObQ9UhsLlANTTuUA5PQQ9LbjPbT3zSks
+   xkxDTZnQ/gAAxf8t0aTyl0fr2uiOKmk/sK76fzRt6tsFgDdExqy/qaNmI
+   NjhWkI9n2+Uuu7tcdR9RackurCgka2U7xImKw6uU0yMsLMOqSfUaaNuAz
+   Q==;
+X-CSE-ConnectionGUID: UUzMFCFbTPCNFof0wqUIIg==
+X-CSE-MsgGUID: 1MN9MU/hRX++GSEEWjnygg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="78450143"
 X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="72113589"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 05:36:07 -0700
-X-CSE-ConnectionGUID: j3MuAqXlQJCBVs+Zc2Fykw==
-X-CSE-MsgGUID: q0OCaGtzReuxvcJr5AO4nA==
+   d="scan'208";a="78450143"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 05:46:47 -0700
+X-CSE-ConnectionGUID: g9BJRB95TG+Y6AR4+yFa+w==
+X-CSE-MsgGUID: CEWlmkmhRdSrg/ox6u/5pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="176147230"
+   d="scan'208";a="207764946"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 05:36:05 -0700
+  by orviesa002.jf.intel.com with ESMTP; 24 Sep 2025 05:46:47 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1Oj4-00048T-25;
-	Wed, 24 Sep 2025 12:36:02 +0000
-Date: Wed, 24 Sep 2025 20:36:02 +0800
+	id 1v1OtJ-00048n-2e;
+	Wed, 24 Sep 2025 12:46:38 +0000
+Date: Wed, 24 Sep 2025 20:46:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: doubled <doubled@leap-io-kernel.com>,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH] scsi: leapraid: Add new scsi driver
-Message-ID: <202509242058.b5d4n6HN-lkp@intel.com>
-References: <20250919100032.3931476-1-doubled@leap-io-kernel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 429/433] fs/bcachefs/io_write.c:1489:2:
+ error: expected expression
+Message-ID: <202509242006.baPNUUDQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,150 +62,211 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250919100032.3931476-1-doubled@leap-io-kernel.com>
 
-Hi doubled,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v6.17-rc7 next-20250923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/doubled/scsi-leapraid-Add-new-scsi-driver/20250919-202535
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20250919100032.3931476-1-doubled%40leap-io-kernel.com
-patch subject: [PATCH] scsi: leapraid: Add new scsi driver
-config: sparc64-randconfig-r072-20250922 (https://download.01.org/0day-ci/archive/20250924/202509242058.b5d4n6HN-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   9fe3a2677d2a70ce10552ca90628e89cc8377ad4
+commit: 085a52995cf05e5c012d377efd5d9edcb609f8e3 [429/433] bcachefs: Convert nocow write path to new nocow locking helpers
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250924/202509242006.baPNUUDQ-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509242006.baPNUUDQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509242058.b5d4n6HN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509242006.baPNUUDQ-lkp@intel.com/
 
-smatch warnings:
-drivers/scsi/leapraid/leapraid_func.c:7225 leapraid_set_msix() warn: inconsistent indenting
-drivers/scsi/leapraid/leapraid_func.c:7797 leapraid_request_host_memory() warn: missing unwind goto?
-drivers/scsi/leapraid/leapraid_func.c:7797 leapraid_request_host_memory() warn: missing unwind goto?
-drivers/scsi/leapraid/leapraid_func.c:8271 leapraid_cfg_pages() warn: missing error code? 'rc'
-drivers/scsi/leapraid/leapraid_func.c:8530 leapraid_make_adapter_available() warn: missing error code? 'rc'
+All errors (new ones prefixed by >>):
 
-vim +7225 drivers/scsi/leapraid/leapraid_func.c
+>> fs/bcachefs/io_write.c:1489:2: error: expected expression
+    1489 |         CLASS(printbuf, buf)();
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:69:1: note: expanded from here
+      69 | class_printbuf_t
+         | ^
+>> fs/bcachefs/io_write.c:1493:33: error: use of undeclared identifier 'buf'
+    1493 |                                     (bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+         |                                                             ^
+   fs/bcachefs/io_write.c:1493:45: error: use of undeclared identifier 'buf'
+    1493 |                                     (bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+         |                                                                         ^
+   3 errors generated.
 
-  7166	
-  7167	static int
-  7168	leapraid_set_msix(struct leapraid_adapter *adapter)
-  7169	{
-  7170		int iopoll_qcnt = 0;
-  7171		int msix_cnt, i, rc;
-  7172	
-  7173		if (msix_disable == 1)
-  7174			goto legacy_int;
-  7175	
-  7176		msix_cnt = leapraid_msix_cnt(adapter->pdev);
-  7177		if (msix_cnt <= 0) {
-  7178			dev_info(&adapter->pdev->dev,
-  7179				 "msix unsupported!\n");
-  7180			goto legacy_int;
-  7181		}
-  7182	
-  7183		if (reset_devices)
-  7184			adapter->adapter_attr.rq_cnt = 1;
-  7185		else
-  7186			adapter->adapter_attr.rq_cnt = min_t(int,
-  7187				 num_online_cpus(), msix_cnt);
-  7188	
-  7189		if (max_msix_vectors > 0)
-  7190			adapter->adapter_attr.rq_cnt = min_t(int, max_msix_vectors,
-  7191				 adapter->adapter_attr.rq_cnt);
-  7192	
-  7193		if (adapter->adapter_attr.rq_cnt <= 1)
-  7194			adapter->shost->host_tagset = 0;
-  7195		if (adapter->shost->host_tagset) {
-  7196			iopoll_qcnt = poll_queues;
-  7197			if (iopoll_qcnt >= adapter->adapter_attr.rq_cnt)
-  7198				iopoll_qcnt = 0;
-  7199		}
-  7200	
-  7201		if (iopoll_qcnt) {
-  7202			adapter->notification_desc.blk_mq_poll_rqs =
-  7203				 kcalloc(iopoll_qcnt,
-  7204				 sizeof(struct leapraid_blk_mq_poll_rq), GFP_KERNEL);
-  7205			if (!adapter->notification_desc.blk_mq_poll_rqs)
-  7206				return -ENOMEM;
-  7207			adapter->adapter_attr.rq_cnt =
-  7208				 min(adapter->adapter_attr.rq_cnt +
-  7209					 iopoll_qcnt, msix_cnt);
-  7210		}
-  7211	
-  7212		adapter->notification_desc.iopoll_qdex =
-  7213			 adapter->adapter_attr.rq_cnt - iopoll_qcnt;
-  7214	
-  7215		adapter->notification_desc.iopoll_qcnt = iopoll_qcnt;
-  7216		dev_info(&adapter->pdev->dev,
-  7217			 "MSIx: req queue cnt=%d, intr=%d/poll=%d rep queues!\n",
-  7218			 adapter->adapter_attr.rq_cnt,
-  7219			 adapter->notification_desc.iopoll_qdex,
-  7220			 adapter->notification_desc.iopoll_qcnt);
-  7221	
-  7222			 adapter->notification_desc.int_rqs =
-  7223			 kcalloc(adapter->notification_desc.iopoll_qdex,
-  7224			 sizeof(struct leapraid_int_rq), GFP_KERNEL);
-> 7225		if (!adapter->notification_desc.int_rqs) {
-  7226			dev_err(&adapter->pdev->dev,
-  7227				 "MSIx: allocate %d interrupt reply queues failed!\n",
-  7228				 adapter->notification_desc.iopoll_qdex);
-  7229			return -ENOMEM;
-  7230		}
-  7231	
-  7232		for (i = 0; i < adapter->notification_desc.iopoll_qcnt; i++) {
-  7233			adapter->notification_desc.blk_mq_poll_rqs[i].rq.adapter
-  7234				 = adapter;
-  7235			adapter->notification_desc.blk_mq_poll_rqs[i].rq.msix_idx =
-  7236				 i + adapter->notification_desc.iopoll_qdex;
-  7237			atomic_set(
-  7238				&adapter->notification_desc.blk_mq_poll_rqs[i].rq.busy,
-  7239					 0);
-  7240			snprintf(adapter->notification_desc.blk_mq_poll_rqs[i].rq.name,
-  7241				 LEAPRAID_NAME_LENGTH,
-  7242				 "%s%u-MQ-Poll%u", LEAPRAID_DRIVER_NAME,
-  7243				 adapter->adapter_attr.id, i);
-  7244			atomic_set(&adapter->notification_desc.blk_mq_poll_rqs[i].busy,
-  7245				 0);
-  7246			atomic_set(
-  7247				&adapter->notification_desc.blk_mq_poll_rqs[i].pause,
-  7248				 0);
-  7249		}
-  7250	
-  7251		adapter->notification_desc.msix_cpu_map_sz =
-  7252			 num_online_cpus();
-  7253		adapter->notification_desc.msix_cpu_map =
-  7254			 kzalloc(adapter->notification_desc.msix_cpu_map_sz,
-  7255				 GFP_KERNEL);
-  7256		if (!adapter->notification_desc.msix_cpu_map)
-  7257			return -ENOMEM;
-  7258		memset(adapter->notification_desc.msix_cpu_map, 0,
-  7259			 adapter->notification_desc.msix_cpu_map_sz);
-  7260	
-  7261		adapter->notification_desc.msix_enable = true;
-  7262		rc = leapraid_setup_irqs(adapter);
-  7263		if (rc) {
-  7264			leapraid_free_irq(adapter);
-  7265			adapter->notification_desc.msix_enable = false;
-  7266			goto legacy_int;
-  7267		}
-  7268	
-  7269		return 0;
-  7270	
-  7271	legacy_int:
-  7272		rc = leapraid_set_legacy_int(adapter);
-  7273	
-  7274		return rc;
-  7275	}
-  7276	
+
+vim +1489 fs/bcachefs/io_write.c
+
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1345  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1346  static void bch2_nocow_write(struct bch_write_op *op)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1347  {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1348  	struct bch_fs *c = op->c;
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1349  	struct btree_trans *trans;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1350  	struct btree_iter iter;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1351  	struct bkey_s_c k;
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1352  	struct bkey_ptrs_c ptrs;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1353  	u32 snapshot;
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1354  	const struct bch_extent_ptr *stale_at;
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1355  	int stale, ret;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1356  
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1357  	if (op->flags & BCH_WRITE_move)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1358  		return;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1359  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1360  	trans = bch2_trans_get(c);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1361  retry:
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1362  	bch2_trans_begin(trans);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1363  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1364  	ret = bch2_subvolume_get_snapshot(trans, op->subvol, &snapshot);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1365  	if (unlikely(ret))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1366  		goto err;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1367  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1368  	bch2_trans_iter_init(trans, &iter, BTREE_ID_extents,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1369  			     SPOS(op->pos.inode, op->pos.offset, snapshot),
+5dd8c60e1e0448 fs/bcachefs/io_write.c Kent Overstreet 2024-04-07  1370  			     BTREE_ITER_slots);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1371  	while (1) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1372  		struct bio *bio = &op->wbio.bio;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1373  
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1374  		ret = bch2_trans_relock(trans);
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1375  		if (ret)
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1376  			break;
+ca563dccb2f0fb fs/bcachefs/io_write.c Kent Overstreet 2024-04-09  1377  
+f68e453b6c94c5 fs/bcachefs/io_write.c Kent Overstreet 2025-07-30  1378  		k = bch2_btree_iter_peek_slot(&iter);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1379  		ret = bkey_err(k);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1380  		if (ret)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1381  			break;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1382  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1383  		/* fall back to normal cow write path? */
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1384  		if (unlikely(k.k->p.snapshot != snapshot ||
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1385  			     !bch2_extent_is_writeable(op, k)))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1386  			break;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1387  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1388  		if (bch2_keylist_realloc(&op->insert_keys,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1389  					 op->inline_keys,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1390  					 ARRAY_SIZE(op->inline_keys),
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1391  					 k.k->u64s))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1392  			break;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1393  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1394  		/* Get iorefs before dropping btree locks: */
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1395  		ptrs = bch2_bkey_ptrs_c(k);
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1396  		if (!bkey_get_dev_iorefs(c, ptrs))
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1397  			goto out;
+48af853925998c fs/bcachefs/io_write.c Kent Overstreet 2024-05-03  1398  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1399  		/* Unlock before taking nocow locks, doing IO: */
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1400  		bkey_reassemble(op->insert_keys.top, k);
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1401  		k = bkey_i_to_s_c(op->insert_keys.top);
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1402  		ptrs = bch2_bkey_ptrs_c(k);
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1403  
+6bd68ec266ad71 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1404  		bch2_trans_unlock(trans);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1405  
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1406  		bch2_bkey_nocow_lock(c, ptrs, BUCKET_NOCOW_LOCK_UPDATE);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1407  
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1408  		/*
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1409  		 * This could be handled better: If we're able to trylock the
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1410  		 * nocow locks with btree locks held we know dirty pointers
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1411  		 * can't be stale
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1412  		 */
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1413  		bkey_for_each_ptr(ptrs, ptr) {
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1414  			struct bch_dev *ca = bch2_dev_have_ref(c, ptr->dev);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1415  
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1416  			int gen = bucket_gen_get(ca, PTR_BUCKET_NR(ca, ptr));
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1417  			stale = gen < 0 ? gen : gen_after(gen, ptr->gen);
+d9534cc9fc4552 fs/bcachefs/io_write.c Kent Overstreet 2023-12-30  1418  			if (unlikely(stale)) {
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1419  				stale_at = ptr;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1420  				goto err_bucket_stale;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1421  			}
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1422  
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1423  			if (ptr->unwritten)
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1424  				op->flags |= BCH_WRITE_convert_unwritten;
+d9534cc9fc4552 fs/bcachefs/io_write.c Kent Overstreet 2023-12-30  1425  		}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1426  
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1427  		bch2_cut_front(op->pos, op->insert_keys.top);
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1428  		if (op->flags & BCH_WRITE_convert_unwritten)
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1429  			bch2_cut_back(POS(op->pos.inode, op->pos.offset + bio_sectors(bio)), op->insert_keys.top);
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1430  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1431  		bio = &op->wbio.bio;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1432  		if (k.k->p.offset < op->pos.offset + bio_sectors(bio)) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1433  			bio = bio_split(bio, k.k->p.offset - op->pos.offset,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1434  					GFP_KERNEL, &c->bio_write);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1435  			wbio_init(bio)->put_bio = true;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1436  			bio->bi_opf = op->wbio.bio.bi_opf;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1437  		} else {
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1438  			op->flags |= BCH_WRITE_submitted;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1439  		}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1440  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1441  		op->pos.offset += bio_sectors(bio);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1442  		op->written += bio_sectors(bio);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1443  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1444  		bio->bi_end_io	= bch2_write_endio;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1445  		bio->bi_private	= &op->cl;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1446  		bio->bi_opf |= REQ_OP_WRITE;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1447  		closure_get(&op->cl);
+5a06cb8000addb fs/bcachefs/io_write.c Kent Overstreet 2025-03-08  1448  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1449  		bch2_submit_wbio_replicas(to_wbio(bio), c, BCH_DATA_user,
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1450  					  op->insert_keys.top, true);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1451  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1452  		bch2_keylist_push(&op->insert_keys);
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1453  		if (op->flags & BCH_WRITE_submitted)
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1454  			break;
+f68e453b6c94c5 fs/bcachefs/io_write.c Kent Overstreet 2025-07-30  1455  		bch2_btree_iter_advance(&iter);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1456  	}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1457  out:
+363832bfd5fd98 fs/bcachefs/io_write.c Kent Overstreet 2025-07-30  1458  	bch2_trans_iter_exit(&iter);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1459  err:
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1460  	if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1461  		goto retry;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1462  
+097cc9d0d60a36 fs/bcachefs/io_write.c Kent Overstreet 2024-11-13  1463  	bch2_trans_put(trans);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1464  	if (ret) {
+2fe208303a1140 fs/bcachefs/io_write.c Kent Overstreet 2025-03-20  1465  		bch2_write_op_error(op, op->pos.offset,
+1ccbcd32057727 fs/bcachefs/io_write.c Kent Overstreet 2025-02-10  1466  				    "%s(): btree lookup error: %s", __func__, bch2_err_str(ret));
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1467  		op->error = ret;
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1468  		op->flags |= BCH_WRITE_submitted;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1469  	}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1470  
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1471  	/* fallback to cow write path? */
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1472  	if (!(op->flags & BCH_WRITE_submitted)) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1473  		closure_sync(&op->cl);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1474  		__bch2_nocow_write_done(op);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1475  		op->insert_keys.top = op->insert_keys.keys;
+14e2523fc59d16 fs/bcachefs/io_write.c Kent Overstreet 2025-01-19  1476  	} else if (op->flags & BCH_WRITE_sync) {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1477  		closure_sync(&op->cl);
+d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1478  		bch2_nocow_write_done(&op->cl.work);
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1479  	} else {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1480  		/*
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1481  		 * XXX
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1482  		 * needs to run out of process context because ei_quota_lock is
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1483  		 * a mutex
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1484  		 */
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1485  		continue_at(&op->cl, bch2_nocow_write_done, index_update_wq(op));
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1486  	}
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1487  	return;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1488  err_bucket_stale:
+eb957f411913ae fs/bcachefs/io_write.c Kent Overstreet 2025-07-14 @1489  	CLASS(printbuf, buf)();
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1490  	if (bch2_fs_inconsistent_on(stale < 0, c,
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1491  				    "pointer to invalid bucket in nocow path on device %u\n  %s",
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1492  				    stale_at->dev,
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06 @1493  				    (bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+09b9c72bd4b77a fs/bcachefs/io_write.c Kent Overstreet 2025-05-28  1494  		ret = bch_err_throw(c, data_write_invalid_ptr);
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1495  	} else {
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1496  		/* We can retry this: */
+09b9c72bd4b77a fs/bcachefs/io_write.c Kent Overstreet 2025-05-28  1497  		ret = bch_err_throw(c, transaction_restart);
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1498  	}
+9432e90df1b8a5 fs/bcachefs/io_write.c Kent Overstreet 2024-06-06  1499  
+085a52995cf05e fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1500  	bch2_bkey_nocow_unlock(c, k, BUCKET_NOCOW_LOCK_UPDATE);
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1501  	bkey_for_each_ptr(ptrs, ptr)
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1502  		enumerated_ref_put(&bch2_dev_have_ref(c, ptr->dev)->io_ref[WRITE],
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1503  				   BCH_DEV_WRITE_REF_io_write);
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1504  
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1505  	/* Fall back to COW path: */
+a14e2f089f5d64 fs/bcachefs/io_write.c Kent Overstreet 2025-09-23  1506  	goto out;
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1507  }
+a8b3a677e786fa fs/bcachefs/io.c       Kent Overstreet 2022-11-02  1508  
+
+:::::: The code at line 1489 was first introduced by commit
+:::::: eb957f411913ae99722b1abd265038ed280a2b1b bcachefs: convert io_write.c to CLASS/guards
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
