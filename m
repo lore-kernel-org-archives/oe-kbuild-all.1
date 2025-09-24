@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9C62BEFF3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 08:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540E628136C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 09:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758703942; cv=none; b=qMEsJ8Qc471oFMpnvBz/WW+cQWEQMqBxn6LHts8KXFruMOrkr5mCPz8U1QNVmGuoE77fLSHqTWG9yjo0thadxAnKFQr9/jQqTGCjJ9zWKRzXBrDyhi3rTWxzcQ/obS8/W1yVbJGWwwnxBk1yQkW1/nevrFqJV4La9pLGRtwiyzI=
+	t=1758704930; cv=none; b=Zo6zIAKV8sSgc9w0cqvp3sxC8s9wuAgtdljIecHNUmiymtQwE+HrbJIgB/TMcUGRpeLObtReono96goD6iHOkhSYpX/mVQQX9r4OqkZEjR6YnLbXacyqO+4XFwYL/SQuMX6mg7E0Uh9GQxianjsiGLTn8vx2tbctDUgt7eHlrvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758703942; c=relaxed/simple;
-	bh=Ms2qGYUy1CHkhn5h0wyOV8SnChb6GEz0rlPz899jI0M=;
+	s=arc-20240116; t=1758704930; c=relaxed/simple;
+	bh=1lRhFVpy/Bv4Gtjjzpds787pEfndqXe4avfsUoZQqPo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TMUnZXnoVu65qdIWcP7Njydvs98uuwtnnPqx0MoqfoyVrPxSpxPMEALh38B8m8CpEsWVmU7OE2DvxDS/1dTCOEhjHAOwhlaSCx3YeM3PBMpjeaY/q0A/RE23BTBPO4G7Ipjk9EIn9gviq7tli0DmmQo6+hEmyv/iZ45KQ92QRmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMFhy5OR; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=OVYUk12EJ49PAYtmaGmEyb2bSoBop++38o+qhJSAos5lRDZ2trd/NEP4+2hrkQ6svlQzpXtVIFMa5eAcpQJIWYOroXl1UdHEIX4gkdzdavcN56haaolCWlaO3123oqauzM8mgSKHWCyETWbh2YeUYd7N19ljUDpsITj4kjFtmT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiN+8oaI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMFhy5OR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiN+8oaI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758703941; x=1790239941;
+  t=1758704929; x=1790240929;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ms2qGYUy1CHkhn5h0wyOV8SnChb6GEz0rlPz899jI0M=;
-  b=AMFhy5ORsh6UbsOueiYtW3q7jW9TTsdAWg/+aOv7C6rbkuIFF+h1JvN8
-   PjlmKlw/fwy49+E/a4mqIgL95llJfScZvi+LUdYlAID13697ipsSWwYaC
-   t889ZGEWEjuAdn5hYf2G5QWMCXuu4RS5wgUxFvETw/2JHfH4pbdTEM+4K
-   2nYdugSkapaDVBYapcdLweTpwypwwXpfvW2yHSQ4AVaGAN8aPbFh1IB41
-   ktmO8aNnsuDauJnsohMPZHs5+B2as9GVwuktIw2mOCdstz/vqVIw9+sX+
-   N8qFFo9+jp4UNB4nkgn841F7btThm4TROwvQzUcTOlNaxZPxv2ADbzEKZ
-   Q==;
-X-CSE-ConnectionGUID: Xgvyp57CRKiQ93TwC4JITQ==
-X-CSE-MsgGUID: iTFUmAzsRxOU1IrL5JndjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60699550"
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="60699550"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 01:52:21 -0700
-X-CSE-ConnectionGUID: 23k1c7EESN+9qoSaR2eBew==
-X-CSE-MsgGUID: vy/P/OxORCKGhX7Ej72Uew==
+  bh=1lRhFVpy/Bv4Gtjjzpds787pEfndqXe4avfsUoZQqPo=;
+  b=QiN+8oaIJUMGx4PTMGiuzsld/FbNE2IU5NEw/T/H4KkvFLx8BMaJ3SBw
+   c/eEkp1KQ35F+G3penVektmeus73WhrE0bGiDOct9u72OufUUVc81396+
+   ZlVe0+Wp8RcXaojDgrI5P+75g1OsXqIY9dkSYMMBy1TklbpRui/Lv1wQt
+   YrmtDgWWrLRGKfTayiwi7Jlh8xTPeBxvJVIasrJNUz6ynqzBKPMxMuBnr
+   iJiQukZ+0YAIJXM5qGFd7bLPC23C/4zojcy4Ys6EHA48RI3Y8q+3zcf33
+   qLqoFwmfBs5Ntjj8KjiqjiZTrcZWjiOXTr7imFrbvjtp76Do6pZ+wHXiz
+   w==;
+X-CSE-ConnectionGUID: GyMT873uRLyDKY6lUV6mPA==
+X-CSE-MsgGUID: /Jnf3KagQ5ytcCoAKgSzjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60911374"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60911374"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 02:08:47 -0700
+X-CSE-ConnectionGUID: Bd3mQysmREGgnlZw5M2jVg==
+X-CSE-MsgGUID: ZSmODR6OQF2Fb10auqsORA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="180999514"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 24 Sep 2025 01:52:20 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="176110496"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 02:08:45 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1LEW-000000004Rd-3BwO;
-	Wed, 24 Sep 2025 08:52:16 +0000
-Date: Wed, 24 Sep 2025 10:51:48 +0200
+	id 1v1LUR-0003yB-1X;
+	Wed, 24 Sep 2025 09:08:43 +0000
+Date: Wed, 24 Sep 2025 17:08:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.17-r4lite 38/116]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10080000
- (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the
- regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202509241033.Lo6y6EDB-lkp@intel.com>
+Subject: [android-common:android13-5.15 1/1]
+ drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse: sparse:
+ incorrect type in argument 3 (different address spaces)
+Message-ID: <202509241919.HzNaO0c8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.17-r4lite
-head:   9a70bbe70bba99a85bc2ae4e361c254101229422
-commit: 39bb7cea2c1ad79f7b3c39e0b4de11a6a51656a9 [38/116] dt-bindings: net: pcs: add bindings for MediaTek USXGMII PCS
-config: arm64-randconfig-2051-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241033.Lo6y6EDB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241033.Lo6y6EDB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   0adf7888fd0aa146baed7b11d7f57eedb0727c93
+commit: d2016efbc42a642ea512d5496eb2672a79a12bf3 [1/1] PCI: endpoint: pci-epf-vntb: Fix the incorrect usage of __iomem attribute
+config: i386-randconfig-r113-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241919.HzNaO0c8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241919.HzNaO0c8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509241033.Lo6y6EDB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509241919.HzNaO0c8-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:548:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *epf_db @@     got void *[assigned] mw_addr @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:548:21: sparse:     expected void [noderef] __iomem *epf_db
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:548:21: sparse:     got void *[assigned] mw_addr
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void [noderef] __iomem *virt_addr @@     got void *[assigned] mw_addr @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse:     expected void [noderef] __iomem *virt_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse:     got void *[assigned] mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     got void [noderef] __iomem *epf_db
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:600:45: sparse: sparse: Using plain integer as NULL pointer
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:985:16: sparse: sparse: symbol 'vpci_ops' was not declared. Should it be static?
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1091:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1091:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1091:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1102:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1102:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1102:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1113:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1113:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1113:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1125:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1125:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1125:33: sparse:     got struct epf_ntb_ctrl *reg
+
+vim +560 drivers/pci/endpoint/functions/pci-epf-vntb.c
+
+e2b6ef72b7aea9 Frank Li              2022-02-22  511  
+e2b6ef72b7aea9 Frank Li              2022-02-22  512  /**
+e2b6ef72b7aea9 Frank Li              2022-02-22  513   * epf_ntb_db_bar_init() - Configure Doorbell window BARs
+e2b6ef72b7aea9 Frank Li              2022-02-22  514   * @ntb: NTB device that facilitates communication between HOST and vHOST
+e2b6ef72b7aea9 Frank Li              2022-02-22  515   */
+e2b6ef72b7aea9 Frank Li              2022-02-22  516  static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
+e2b6ef72b7aea9 Frank Li              2022-02-22  517  {
+e2b6ef72b7aea9 Frank Li              2022-02-22  518  	const struct pci_epc_features *epc_features;
+e2b6ef72b7aea9 Frank Li              2022-02-22  519  	u32 align;
+e2b6ef72b7aea9 Frank Li              2022-02-22  520  	struct device *dev = &ntb->epf->dev;
+e2b6ef72b7aea9 Frank Li              2022-02-22  521  	int ret;
+e2b6ef72b7aea9 Frank Li              2022-02-22  522  	struct pci_epf_bar *epf_bar;
+d2016efbc42a64 Manivannan Sadhasivam 2025-07-09  523  	void *mw_addr;
+e2b6ef72b7aea9 Frank Li              2022-02-22  524  	enum pci_barno barno;
+e2b6ef72b7aea9 Frank Li              2022-02-22  525  	size_t size = 4 * ntb->db_count;
+e2b6ef72b7aea9 Frank Li              2022-02-22  526  
+e2b6ef72b7aea9 Frank Li              2022-02-22  527  	epc_features = pci_epc_get_features(ntb->epf->epc,
+e2b6ef72b7aea9 Frank Li              2022-02-22  528  					    ntb->epf->func_no,
+e2b6ef72b7aea9 Frank Li              2022-02-22  529  					    ntb->epf->vfunc_no);
+e2b6ef72b7aea9 Frank Li              2022-02-22  530  	align = epc_features->align;
+e2b6ef72b7aea9 Frank Li              2022-02-22  531  
+e2b6ef72b7aea9 Frank Li              2022-02-22  532  	if (size < 128)
+e2b6ef72b7aea9 Frank Li              2022-02-22  533  		size = 128;
+e2b6ef72b7aea9 Frank Li              2022-02-22  534  
+e2b6ef72b7aea9 Frank Li              2022-02-22  535  	if (align)
+e2b6ef72b7aea9 Frank Li              2022-02-22  536  		size = ALIGN(size, align);
+e2b6ef72b7aea9 Frank Li              2022-02-22  537  	else
+e2b6ef72b7aea9 Frank Li              2022-02-22  538  		size = roundup_pow_of_two(size);
+e2b6ef72b7aea9 Frank Li              2022-02-22  539  
+e2b6ef72b7aea9 Frank Li              2022-02-22  540  	barno = ntb->epf_ntb_bar[BAR_DB];
+e2b6ef72b7aea9 Frank Li              2022-02-22  541  
+e2b6ef72b7aea9 Frank Li              2022-02-22  542  	mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
+e2b6ef72b7aea9 Frank Li              2022-02-22  543  	if (!mw_addr) {
+e2b6ef72b7aea9 Frank Li              2022-02-22  544  		dev_err(dev, "Failed to allocate OB address\n");
+e2b6ef72b7aea9 Frank Li              2022-02-22  545  		return -ENOMEM;
+e2b6ef72b7aea9 Frank Li              2022-02-22  546  	}
+e2b6ef72b7aea9 Frank Li              2022-02-22  547  
+e2b6ef72b7aea9 Frank Li              2022-02-22  548  	ntb->epf_db = mw_addr;
+e2b6ef72b7aea9 Frank Li              2022-02-22  549  
+e2b6ef72b7aea9 Frank Li              2022-02-22  550  	epf_bar = &ntb->epf->bar[barno];
+e2b6ef72b7aea9 Frank Li              2022-02-22  551  
+e2b6ef72b7aea9 Frank Li              2022-02-22  552  	ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
+e2b6ef72b7aea9 Frank Li              2022-02-22  553  	if (ret) {
+e2b6ef72b7aea9 Frank Li              2022-02-22  554  		dev_err(dev, "Doorbell BAR set failed\n");
+e2b6ef72b7aea9 Frank Li              2022-02-22  555  			goto err_alloc_peer_mem;
+e2b6ef72b7aea9 Frank Li              2022-02-22  556  	}
+e2b6ef72b7aea9 Frank Li              2022-02-22  557  	return ret;
+e2b6ef72b7aea9 Frank Li              2022-02-22  558  
+e2b6ef72b7aea9 Frank Li              2022-02-22  559  err_alloc_peer_mem:
+e2b6ef72b7aea9 Frank Li              2022-02-22 @560  	pci_epc_mem_free_addr(ntb->epf->epc, epf_bar->phys_addr, mw_addr, epf_bar->size);
+e2b6ef72b7aea9 Frank Li              2022-02-22  561  	return -1;
+e2b6ef72b7aea9 Frank Li              2022-02-22  562  }
+e2b6ef72b7aea9 Frank Li              2022-02-22  563  
+
+:::::: The code at line 560 was first introduced by commit
+:::::: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb PCI: endpoint: Support NTB transfer between RC and EP
+
+:::::: TO: Frank Li <Frank.Li@nxp.com>
+:::::: CC: Sasha Levin <sashal@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
