@@ -1,73 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E4832D5B0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 20:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5B324679A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 21:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758746131; cv=none; b=kWsucaTsWmKnoSlK9s7IdkqL6Yn8I4JilOrYl+Mwi9aZbUofAUu13GLQdE2U+BoxjjU3tySDyJIN6Hfsz4JIk083xtGO1JMjD1RWb/5dLopzdyONG2hWYRFxMVkIlAg0ww8Jf5VrXjJzRLBLRQ0vm6NnzBSQCrNjzG5MCoJP+v4=
+	t=1758749250; cv=none; b=Nk8jYZ/uYWc1OZctfLSBALW2k5wPUTIkRZ6KuqbpNvd8e6zpKdOY0g3Y9bXV2aY21Dkzg1IlH5zIbcEI6GGwTaVOJa4/H/6ShKBy+Z6D5/CRzY8CATeqWA/Yhzi2LaPZSyiJAHaustrPRqj1N77haYJ5KOy5Azwnvksk1RVnh3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758746131; c=relaxed/simple;
-	bh=yIIG1XirvNHRjmi8n5doZRkSjBLwdxxinyVL08mmVww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idlXrLWftyRxdzu0Vxh+qSHQJxEeE9n68b6oeNEI53FMznKgvahSj+oQOd7Q4iLQR1fu6Wvv8aZyy7aNesPKvW6hNKmp/StGmt/S4TC4oG/w8/E2BSBnLXEJ96kZyQBtv14X1y7xv6Z1KUHYL9fHV1Wvs+hbjlRLaB2g8nt5rR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cImYsZAx; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1758749250; c=relaxed/simple;
+	bh=CuNmC9fMGvljO155Q/Qh5vI6K7F/S3I2rG6lxRiyNJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nzqycYm65VjMDK4vbJkOBxzxyxMCwJFP5d6aPOGE3BE1suObnW2EJcRFjc7Dwk+Yc6AlFIpVUXSnGfsCupGtw66vOYpe+XLQen/sUnb1deE0skRvTKaLwR8SKO8yt3ZhYtP5QcX0f984Nh+dLe7zkVx1289ARBnHINYdcb/LJr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myso5ueW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cImYsZAx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myso5ueW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758746130; x=1790282130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yIIG1XirvNHRjmi8n5doZRkSjBLwdxxinyVL08mmVww=;
-  b=cImYsZAxVyHhV/PeuE6AmvED8MkGu5EMy0N6jSJPah5jAwgSsbLfnUdO
-   ERkl5GdkZL7adenQAlozkjP+IHZUdG60MJpmL/0Oax4utRsaH9x12egNn
-   c0y5RwVjiewbxb5lw6agnABe4iqpoS0pl1zAzqhkEj7A8uE/Ht38kvibm
-   l2QqnmVXbPVaZg+7fS58rmoGW0aCWRWboJgOXWVz8l12e6/B0XzUo7VNJ
-   Krx2DRWGsYjTEAzAol84rqN1Aj73uwUYNw7/Mn9sgSq+e+WKKT2NXPQtv
-   T0GCaijmbgcVncTUbvGI4GLAuQEEJi5D71D7hnClXPtu8cre3810M/g4R
-   Q==;
-X-CSE-ConnectionGUID: UdNSLTCUQCKo4CybOexJ7g==
-X-CSE-MsgGUID: 7IqrpmKdS3+DBJxzxXXLEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="61107257"
+  t=1758749248; x=1790285248;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CuNmC9fMGvljO155Q/Qh5vI6K7F/S3I2rG6lxRiyNJ4=;
+  b=myso5ueWIF7gPm7J/UZ0T7jYq3r+9sEOlv3jRUQ5JEzymjqgcsK6g2k+
+   1JBUP8NI+Mwkws6RaLCzz7D+bGJANXQfU8+ZdfYSMoR6jAHXkWAZLZqO/
+   IgZE+oYWXewH9EnZxTlDDw2+vD3Y4NPkefTPalElJwin9FnaldeOK4mZh
+   KK+bX3Hm9zBYvxvpFsdKGnYny52hEUfwnhccRJEf1h+kjCTjn6yGkkuZj
+   j36snNvsLkcZFBr3REan31IJD/gf/DwMvKP2hDIOxLUvX+Roh+wbSHbcn
+   syWyLWzTBqPDwjOKsXw1KNFoA5qYtkRauAGHjaj7sU/o/7yoJgbXGREG0
+   w==;
+X-CSE-ConnectionGUID: rY5YxAzUQ3igyPlZXG9nfw==
+X-CSE-MsgGUID: JPwH41FLSx2DNCD2zBNRiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="64895984"
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="61107257"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 13:35:29 -0700
-X-CSE-ConnectionGUID: fGvhU9vnSUqnQqd/QW8Okg==
-X-CSE-MsgGUID: kGVSi16kQa6u+aYiLlNf8A==
+   d="scan'208";a="64895984"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 14:27:28 -0700
+X-CSE-ConnectionGUID: fpehmbipSvyFGlOUVK+uxg==
+X-CSE-MsgGUID: 52vsXBVBQuKO4CR+wwY70g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="181405897"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 24 Sep 2025 13:35:22 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="214265639"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa001.jf.intel.com with ESMTP; 24 Sep 2025 14:27:27 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v1WCt-0004Xt-1P;
-	Wed, 24 Sep 2025 20:35:19 +0000
-Date: Thu, 25 Sep 2025 04:34:31 +0800
+	id 1v1X1I-000000004eX-2fpf;
+	Wed, 24 Sep 2025 21:27:24 +0000
+Date: Wed, 24 Sep 2025 23:26:55 +0200
 From: kernel test robot <lkp@intel.com>
-To: Manikanta Guntupalli <manikanta.guntupalli@amd.com>, git@amd.com,
-	michal.simek@amd.com, alexandre.belloni@bootlin.com,
-	Frank.Li@nxp.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, pgaj@cadence.com,
-	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
-	arnd@arndb.de, quic_msavaliy@quicinc.com, Shyam-sundar.S-k@amd.com,
-	sakari.ailus@linux.intel.com, billy_tsai@aspeedtech.com,
-	kees@kernel.org, gustavoars@kernel.org,
-	jarkko.nikula@linux.intel.com, jorge.marques@analog.com,
-	linux-i3c@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, radhey.shyam.pandey@amd.com,
-	srinivas.goud@amd.com, shubhrajyoti.datta@amd.com,
-	manion05gk@gmail.com,
-	Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-Subject: Re: [PATCH V7 2/4] asm-generic/io.h: Add big-endian MMIO accessors
-Message-ID: <202509250413.sOTeU37m-lkp@intel.com>
-References: <20250923154551.2112388-3-manikanta.guntupalli@amd.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/dev-bitstruct 10/10] warning: equal expressions as
+ operands to `-`
+Message-ID: <202509242340.kTk9JeC6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,127 +61,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923154551.2112388-3-manikanta.guntupalli@amd.com>
 
-Hi Manikanta,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master arnd-asm-generic/master v6.17-rc7 next-20250924]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Guntupalli/dt-bindings-i3c-Add-AMD-I3C-master-controller-support/20250923-234944
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250923154551.2112388-3-manikanta.guntupalli%40amd.com
-patch subject: [PATCH V7 2/4] asm-generic/io.h: Add big-endian MMIO accessors
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20250925/202509250413.sOTeU37m-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250413.sOTeU37m-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/dev-bitstruct
+head:   b32d7e59ee65f3aa21afc5c467495cac8fd5703f
+commit: b32d7e59ee65f3aa21afc5c467495cac8fd5703f [10/10] Add hardening for out of bounds access
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250924/202509242340.kTk9JeC6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509242340.kTk9JeC6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509250413.sOTeU37m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509242340.kTk9JeC6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:12,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/sparc/include/asm/hardirq_32.h:11,
-                    from arch/sparc/include/asm/hardirq.h:7,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from include/linux/perf_event.h:43,
-                    from arch/sparc/mm/fault_32.c:22:
->> arch/sparc/include/asm/io.h:16:9: warning: 'readw_be' redefined
-      16 | #define readw_be(__addr)        __raw_readw(__addr)
-         |         ^~~~~~~~
-   In file included from arch/sparc/include/asm/io_32.h:21,
-                    from arch/sparc/include/asm/io.h:7:
-   include/asm-generic/io.h:304:9: note: this is the location of the previous definition
-     304 | #define readw_be readw_be
-         |         ^~~~~~~~
->> arch/sparc/include/asm/io.h:17:9: warning: 'readl_be' redefined
-      17 | #define readl_be(__addr)        __raw_readl(__addr)
-         |         ^~~~~~~~
-   include/asm-generic/io.h:319:9: note: this is the location of the previous definition
-     319 | #define readl_be readl_be
-         |         ^~~~~~~~
->> arch/sparc/include/asm/io.h:19:9: warning: 'writel_be' redefined
-      19 | #define writel_be(__w, __addr)  __raw_writel(__w, __addr)
-         |         ^~~~~~~~~
-   include/asm-generic/io.h:363:9: note: this is the location of the previous definition
-     363 | #define writel_be writel_be
-         |         ^~~~~~~~~
->> arch/sparc/include/asm/io.h:20:9: warning: 'writew_be' redefined
-      20 | #define writew_be(__l, __addr)  __raw_writew(__l, __addr)
-         |         ^~~~~~~~~
-   include/asm-generic/io.h:351:9: note: this is the location of the previous definition
-     351 | #define writew_be writew_be
-         |         ^~~~~~~~~
+>> warning: equal expressions as operands to `-`
+   --> rust/kernel/bits/bitfield.rs:311:32
+   |
+   311 |             const BITS: u32 = ($hi - $lo + 1) as u32;
+   |                                ^^^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#eq_op
+   = note: `-W clippy::eq-op` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::eq_op)]`
 --
-   In file included from include/linux/io.h:12,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/sparc/include/asm/hardirq_32.h:11,
-                    from arch/sparc/include/asm/hardirq.h:7,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/highmem.h:12,
-                    from include/linux/pagemap.h:11,
-                    from arch/sparc/mm/srmmu.c:15:
->> arch/sparc/include/asm/io.h:16:9: warning: 'readw_be' redefined
-      16 | #define readw_be(__addr)        __raw_readw(__addr)
-         |         ^~~~~~~~
-   In file included from arch/sparc/include/asm/io_32.h:21,
-                    from arch/sparc/include/asm/io.h:7:
-   include/asm-generic/io.h:304:9: note: this is the location of the previous definition
-     304 | #define readw_be readw_be
-         |         ^~~~~~~~
->> arch/sparc/include/asm/io.h:17:9: warning: 'readl_be' redefined
-      17 | #define readl_be(__addr)        __raw_readl(__addr)
-         |         ^~~~~~~~
-   include/asm-generic/io.h:319:9: note: this is the location of the previous definition
-     319 | #define readl_be readl_be
-         |         ^~~~~~~~
->> arch/sparc/include/asm/io.h:19:9: warning: 'writel_be' redefined
-      19 | #define writel_be(__w, __addr)  __raw_writel(__w, __addr)
-         |         ^~~~~~~~~
-   include/asm-generic/io.h:363:9: note: this is the location of the previous definition
-     363 | #define writel_be writel_be
-         |         ^~~~~~~~~
->> arch/sparc/include/asm/io.h:20:9: warning: 'writew_be' redefined
-      20 | #define writew_be(__l, __addr)  __raw_writew(__l, __addr)
-         |         ^~~~~~~~~
-   include/asm-generic/io.h:351:9: note: this is the location of the previous definition
-     351 | #define writew_be writew_be
-         |         ^~~~~~~~~
-   arch/sparc/mm/srmmu.c: In function 'poke_hypersparc':
-   arch/sparc/mm/srmmu.c:1074:32: warning: variable 'clear' set but not used [-Wunused-but-set-variable]
-    1074 |         volatile unsigned long clear;
-         |                                ^~~~~
-
-
-vim +/readw_be +16 arch/sparc/include/asm/io.h
-
-21dccddf45aae2 Jan Andersson 2011-05-10   9  
-21dccddf45aae2 Jan Andersson 2011-05-10  10  /*
-21dccddf45aae2 Jan Andersson 2011-05-10  11   * Defines used for both SPARC32 and SPARC64
-21dccddf45aae2 Jan Andersson 2011-05-10  12   */
-21dccddf45aae2 Jan Andersson 2011-05-10  13  
-21dccddf45aae2 Jan Andersson 2011-05-10  14  /* Big endian versions of memory read/write routines */
-21dccddf45aae2 Jan Andersson 2011-05-10  15  #define readb_be(__addr)	__raw_readb(__addr)
-21dccddf45aae2 Jan Andersson 2011-05-10 @16  #define readw_be(__addr)	__raw_readw(__addr)
-21dccddf45aae2 Jan Andersson 2011-05-10 @17  #define readl_be(__addr)	__raw_readl(__addr)
-21dccddf45aae2 Jan Andersson 2011-05-10  18  #define writeb_be(__b, __addr)	__raw_writeb(__b, __addr)
-21dccddf45aae2 Jan Andersson 2011-05-10 @19  #define writel_be(__w, __addr)	__raw_writel(__w, __addr)
-21dccddf45aae2 Jan Andersson 2011-05-10 @20  #define writew_be(__l, __addr)	__raw_writew(__l, __addr)
-21dccddf45aae2 Jan Andersson 2011-05-10  21  
+>> warning: this operation has no effect
+   --> rust/kernel/bits/bitfield.rs:311:32
+   |
+   311 |             const BITS: u32 = ($hi - $lo + 1) as u32;
+   |                                ^^^^^^^^^ help: consider reducing it to: `$hi`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#identity_op
+   = note: `-W clippy::identity-op` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::identity_op)]`
 
 -- 
 0-DAY CI Kernel Test Service
