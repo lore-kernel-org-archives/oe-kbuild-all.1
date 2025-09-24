@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A25C314B68;
-	Wed, 24 Sep 2025 17:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636561C6FF6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 17:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758733740; cv=none; b=eGXjDUjr+RksGvIcvWEPqVqZDdlpo6s+Nn1p+YLFh1ua6bipKrr/xiATotttVnLcQZcLQVuBK+FwqtifMJ9MHJ6HjaljngcGDvM0pKuf+cFeFZbAEERsXW9qQwOG9zNO8vcPblZ97DwM9JvsL/KwCcn6jtfykoONEBH/pwiSk48=
+	t=1758734067; cv=none; b=D8VgYad90GIyrEKcy0+Hae83qaRpflgycQhTvk29zrWfz8GyS2yxmepHKLjYsuMY/EVa7i8VGXK5Fw+7liEeeRbFQJ+DqVnsJEuptDycfYb4i9JvVfwKKueKoHE18QBZQ5ll7WG/2uwilhK9DjS6guw0RcWs/ZQ+CTKYPC1I5rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758733740; c=relaxed/simple;
-	bh=aeWps3hGKLyWKjZOJweWrTxcCTaDaWqTIIpaS/fAWuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hvg/gUztUarV82A0it36aPERvs9LD9/5iNRum7pVImWwhhBobkfYuMWPW8taJANBhuqX8dgD64GliiHJ4Ew3amcOMWvQ9YckA93tv6MSvrS8nwEMS1BJXhhnzNz4lvzNMsJA0wFOzclr+pmbOVIivQzkaLGkqkpMXZnAJorv6xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nYou8iYr; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1758734067; c=relaxed/simple;
+	bh=SyCCfzObpARbQE6fF7NA4AvEvSLyJuU4o9Ul96Ir2UU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HURhVo+RmZviBWL+mcXq+NUdgPhtbuUyJpCCxYfI0+Wv502evuubKHHD54xXwmr69CUDY3W37vwBnCTjKxfC40jA3y+ybTil/UrQ8gX7Cizol4w57rC8BkUWUMnmX/2p1RBOiAI2SnrF7URoxP0ErxlByws4YXzJOPtGXL/yzRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAjHSXKp; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nYou8iYr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAjHSXKp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758733739; x=1790269739;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aeWps3hGKLyWKjZOJweWrTxcCTaDaWqTIIpaS/fAWuQ=;
-  b=nYou8iYr72yW+ojOXvHnXVfNt5oGit2A+RuQYj+zxo9y+FJm6Te1HVJ6
-   WbvXRScshXuTunf614GNSl7t5CMxfL5eoSFWaKDC78NWmK1UQSlKm4I5Z
-   rmO38gsUrQEBCia63qo0TaE44P8p7r4xrXjpyCRXuT2+juU0fFyEdIiII
-   eseB0QPC9o5gOsXtZz2ChW8zr+oL6OoJqA9rX7hpx2aLs6nkbLwOb9WGi
-   tH7Ox9hfQkfHgpA/S5G/mTPpXLqGqhPMmpm9UMQLy89LSKK7VNdHwv0pO
-   3kGxnCQHg9L9vdUZXkUHmoKOPb6msg8wXbj49DqwdC26chmShD9D2xMEl
-   A==;
-X-CSE-ConnectionGUID: 9U0+4NqLR/SjES2OAm7EhA==
-X-CSE-MsgGUID: 99A/w4bcQXqS2BtGgfdQXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="83643418"
+  t=1758734066; x=1790270066;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SyCCfzObpARbQE6fF7NA4AvEvSLyJuU4o9Ul96Ir2UU=;
+  b=DAjHSXKpYm+n1+kEOlPcQN0193YyIdu5gjdLHU6xwqASDqz03TGRbG89
+   UB0IrAhsDNsFvdF1M83jFLRD+L6D0UssSZJc7sBXlZ4zQGH8FhxJbPEQq
+   X41JvRjJXA23c1az4zFeRH9PgVkOvclr3cIjGSMy3CFzq9extde2bgHwG
+   JCmCNmj4K2fxhTecrakS2dQZOoJIpT0yXoJ4TfA8O1nCJEVJu9vOO6BCZ
+   THesCE9CmgJ7Qp0ezfovIk9jHFWX+AytaYomaVG6RKKCMcBZG6KK2qp69
+   b/XCCXkBCBK31+IXvDYWbFXpsxCO4/sz12+Qc78OdcZJJqS84dKPS12yT
+   w==;
+X-CSE-ConnectionGUID: OtdZlG2OS+KJ491+H66Mhw==
+X-CSE-MsgGUID: 3dAwqjZTRPCPQNPE5i7YMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="60930991"
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="83643418"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 10:08:45 -0700
-X-CSE-ConnectionGUID: Yhq3NqxFTYOm0i0PtY1iGg==
-X-CSE-MsgGUID: dDWvxP7bSZ+FFgPaJk9r+Q==
+   d="scan'208";a="60930991"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 10:14:26 -0700
+X-CSE-ConnectionGUID: ogD4rKAbRiqp1yb14bs3Gw==
+X-CSE-MsgGUID: 0zYudOMwRK+VZw/1Mc0wXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="181473381"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Sep 2025 10:08:40 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="177485233"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa008.fm.intel.com with ESMTP; 24 Sep 2025 10:14:25 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v1Sys-0004NB-0I;
-	Wed, 24 Sep 2025 17:08:38 +0000
-Date: Thu, 25 Sep 2025 01:07:45 +0800
+	id 1v1T4Q-000000004bl-3jdu;
+	Wed, 24 Sep 2025 17:14:22 +0000
+Date: Wed, 24 Sep 2025 19:13:36 +0200
 From: kernel test robot <lkp@intel.com>
-To: Shenwei Wang <shenwei.wang@nxp.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-imx@nxp.com,
-	Shenwei Wang <shenwei.wang@nxp.com>
-Subject: Re: [PATCH v2 3/4] gpio: imx-rpmsg: add imx-rpmsg GPIO driver
-Message-ID: <202509250023.gNpm32hs-lkp@intel.com>
-References: <20250922200413.309707-4-shenwei.wang@nxp.com>
+To: Traian Schiau <traianx.schiau@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:5.15/android_u 3/3] htmldocs:
+ Documentation/ABI/testing/sysfs-bus-dvctrace:9: WARNING: Block quote ends
+ without a blank line; unexpected unindent. [docutils]
+Message-ID: <202509241919.xP9wHyJY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,44 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922200413.309707-4-shenwei.wang@nxp.com>
 
-Hi Shenwei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on remoteproc/rproc-next]
-[also build test WARNING on brgl/gpio/for-next shawnguo/for-next linus/master v6.17-rc7 next-20250923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/dt-bindings-remoteproc-imx_rproc-Add-rpmsg-subnode-support/20250923-040844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20250922200413.309707-4-shenwei.wang%40nxp.com
-patch subject: [PATCH v2 3/4] gpio: imx-rpmsg: add imx-rpmsg GPIO driver
-config: arm64-randconfig-r121-20250924 (https://download.01.org/0day-ci/archive/20250925/202509250023.gNpm32hs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250023.gNpm32hs-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_u
+head:   038b979913cc03833b6d6cc18d3a50f11d1040b6
+commit: 17ccf44f150e31edea9558b43221c0778e36fa22 [3/3] dvctrace-bus: DvC-Trace bus driver
+reproduce: (https://download.01.org/0day-ci/archive/20250924/202509241919.xP9wHyJY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509250023.gNpm32hs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509241919.xP9wHyJY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-imx-rpmsg.c:410:44: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +410 drivers/gpio/gpio-imx-rpmsg.c
+   p_volume_max    playback volume control max value (in 1/256 dB)
+   p_volume_res    playback volume control resolution (in 1/256 dB)
+   =========  ============================ [docutils]
+   Documentation/ABI/testing/sysfs-bus-dvctrace:9: ERROR: Unexpected indentation. [docutils]
+   Documentation/ABI/testing/sysfs-bus-dvctrace:9: ERROR: Unexpected indentation. [docutils]
+>> Documentation/ABI/testing/sysfs-bus-dvctrace:9: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-platform-dptf:130: ERROR: Unexpected indentation. [docutils]
+   Documentation/ABI/testing/sysfs-platform-dptf:130: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-platform-dptf:130: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi:35: ERROR: Unexpected indentation. [docutils]
+   Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi:2: ERROR: Unexpected indentation. [docutils]
 
-   405	
-   406	static void imx_rpmsg_gpio_remove_action(void *data)
-   407	{
-   408		struct imx_rpmsg_gpio_port *port = data;
-   409	
- > 410		port->info.port_store[port->idx] = 0;
-   411	}
-   412	
+
+vim +9 Documentation/ABI/testing/sysfs-bus-dvctrace
+
+   > 9	Date:		May 2015
+    10	KernelVersion:	4.0
+    11	Contact:	Traian Schiau <traianx.schiau@intel.com>
+    12	Description:	(R) The status of a dvc-trace source device with
+    13			respect to an USB function driver.
+    14			  Free - The device is free
+    15			  Reserved - The device is reserved by an USB
+    16				function but not in use.
+    17			  In use - The device is used by an USB function.
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
