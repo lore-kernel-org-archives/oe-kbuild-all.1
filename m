@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42319F130
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 18:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B98156F20
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 19:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758739650; cv=none; b=J1VAqMEyNJHrh2s2cOYPck1lOjuT5EDa6r91PzHwue8ke7+DLjx1yanLW+j18LC5e0cqLAXzIWmwLzHFI1oJcT9sFHdUe8lc+9JJfoJKgjdzjpqzCus8UfDL/SIhvcJgBmhZTO0ZwGmdIAzi0XIJYuwCwUOxkz6KRKuM+jzADKU=
+	t=1758741049; cv=none; b=T0l0Jq8ZnOwTbYa8o7o9Q+zhrhcYdpBmFYJW/IoTzl2e0s2B1qDR6CLVHroG5+KcFoL3fSdGIslltjjE0PKtuE2kziMI1q0BIyCS+O7GClmFIRwNS2ciHm8sKQya6ZgfpIE4lbbVpcYMndDCorZvvunIxl0PSSxTDWQQF5xTZsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758739650; c=relaxed/simple;
-	bh=IXyVQ+AOAmUZHrDJLa70HH6VsYhdaIOnC4xwMRQpdqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=syvE4VaBU6Osp+S9+325SxjcoKG/N0OOiRV1O8byGJLBXUAjRs03e3tlVlnoTwwt6MNL1jECOZTI6vnIB7+xE6QeUAFcldQDPeClBsBnRU4Kzkl2QfqBe9i80mCqQgZPPuReXk3Y3J6YsHKxdDmmEZQ4BAahdOIZ2l2bPFi+cgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HjbFRCYt; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1758741049; c=relaxed/simple;
+	bh=EG8x2jtizeJG3yiW42c2IdRC9fQ9/O2UIX7L2gZFaC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fa48KiEiwofnb3/KO5xSESHaH2neEhaPZWEUKEVjdraqBg4ed72OwPA2m3PQ13l0HQjIqrkjNx+ttL8xBfYitcUpX3HCesZHE7ENYx7iaPbXL3pEkvx5kIcfAo7Ol4gilU4S9+XC1mZ/Ab2lSBzlNYJsEx43eLnv1F8pI724v1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9cPG0dM; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HjbFRCYt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9cPG0dM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758739649; x=1790275649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IXyVQ+AOAmUZHrDJLa70HH6VsYhdaIOnC4xwMRQpdqA=;
-  b=HjbFRCYtV9R6BE0LpmT0okgohyf6IFbdzi8FsH8WvrWiCc85sXrVT6Vx
-   FLpXvnaCPq+0c+EZMiNhKW1eJ2tOrF5J5TPU++7f2j0DeoqVNiIS+vD0/
-   7SdrZ1ofRq2e+7AmuvEcdEgD499tr/tF3zKWozLV7e1KH1NJeh46t5HXg
-   jpatex39V0VKEE6MccjBfREXJUQlciD5O30S2WA7k56Ojuj1aa4SZn2sw
-   VdNBZOE+deXCdR7XuWRoS6J2TI2mI0/eDSnC5z2533Cf9XenJdyjDs7d1
-   ot4V4xUwNohBvj8UI+S8Y7uwHmqX8lfJuIllzkXSS+9NzcDuTkgnWdtVP
+  t=1758741046; x=1790277046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EG8x2jtizeJG3yiW42c2IdRC9fQ9/O2UIX7L2gZFaC0=;
+  b=R9cPG0dMN4AZ1/hzfGnCuWXHyMq7OHO6u+azM/4uqWdXtq4havELCBcs
+   DZRZw1BvH7ktkuc3vi2hfGVHwOEEpMNr9Jrq30yxcc8gcmH0MSH4fuB/t
+   MGGYUceroFlswlFhcp/U/5Xp/4cciTqGOvi7YPJJhVn2Adr4T6VM4Mutf
+   /W5vUmeWAyxD4ktVJd5zlKZGyX5VgPBgLKw11DkRsaDR27EGuerN8+Byr
+   O3XSMc7GMwCDzDYXdOH0lDpSwUJva69PjNHsnjnoj+G+VVWgLPd9rsTkU
+   LhLtLKzyXsRudRgTUAsrwb6oKWeKLA+vfUMKf0k/JJDQN7fU1syJHD3zH
    w==;
-X-CSE-ConnectionGUID: aOY4X8RRSv6IE85Xp7+AeA==
-X-CSE-MsgGUID: YP0Nq2tSQwytmtGgv4rEuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="60086090"
+X-CSE-ConnectionGUID: QU9aW/YVRXikX7PDhNKkGQ==
+X-CSE-MsgGUID: sBObtBh0TTOEPUd5AW5TmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="64691008"
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="60086090"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 11:47:28 -0700
-X-CSE-ConnectionGUID: BvJOpdmQRVK1P/8Jt5vRDQ==
-X-CSE-MsgGUID: WZMBORl+T9KfrIRFPE7h2Q==
+   d="scan'208";a="64691008"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 12:10:46 -0700
+X-CSE-ConnectionGUID: tTzMU4ERT2OiRhRmFfQFvw==
+X-CSE-MsgGUID: 6M9s9B2dQ6+OqQ4iPDW7lA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="177186498"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa008.jf.intel.com with ESMTP; 24 Sep 2025 11:47:26 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="176242884"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2025 12:10:42 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1UWR-000000004dN-3I7H;
-	Wed, 24 Sep 2025 18:47:23 +0000
-Date: Wed, 24 Sep 2025 20:46:41 +0200
+	id 1v1Usx-0004SD-2i;
+	Wed, 24 Sep 2025 19:10:39 +0000
+Date: Thu, 25 Sep 2025 03:10:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Traian Schiau <traianx.schiau@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:5.15/android_u 3/3] htmldocs:
- Documentation/ABI/testing/sysfs-bus-dvctrace:29: WARNING: Line block ends
- without a blank line. [docutils]
-Message-ID: <202509242025.qTv5sv3w-lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	David Airlie <airlied@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 04/10] drm/rcar-du: dsi: Clean up VCLKSET register
+ macros
+Message-ID: <202509250233.QOpzRcHv-lkp@intel.com>
+References: <20250924003003.91039-5-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +75,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250924003003.91039-5-marek.vasut+renesas@mailbox.org>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_u
-head:   038b979913cc03833b6d6cc18d3a50f11d1040b6
-commit: 6209920da07b83c50d895565c5798228503496ce [3/3] dvctrace: Topology descriptors support.
-reproduce: (https://download.01.org/0day-ci/archive/20250924/202509242025.qTv5sv3w-lkp@intel.com/reproduce)
+Hi Marek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-tip/drm-tip next-20250924]
+[cannot apply to linus/master v6.17-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Fix-missing-parameter-in-RXSETR_-EN-macros/20250924-083415
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250924003003.91039-5-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH v2 04/10] drm/rcar-du: dsi: Clean up VCLKSET register macros
+config: arc-randconfig-002-20250924 (https://download.01.org/0day-ci/archive/20250925/202509250233.QOpzRcHv-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250233.QOpzRcHv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509242025.qTv5sv3w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509250233.QOpzRcHv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   p_volume_min    playback volume control min value (in 1/256 dB)
-   p_volume_max    playback volume control max value (in 1/256 dB)
-   p_volume_res    playback volume control resolution (in 1/256 dB)
-   =========  ============================ [docutils]
-   Documentation/ABI/testing/sysfs-bus-dvctrace:29: ERROR: Unexpected indentation. [docutils]
->> Documentation/ABI/testing/sysfs-bus-dvctrace:29: WARNING: Line block ends without a blank line. [docutils]
-   Documentation/ABI/testing/sysfs-bus-dvctrace:29: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-bus-dvctrace:9: ERROR: Unexpected indentation. [docutils]
-   Documentation/ABI/testing/sysfs-bus-dvctrace:9: ERROR: Unexpected indentation. [docutils]
-   Documentation/ABI/testing/sysfs-bus-dvctrace:9: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/ABI/testing/sysfs-bus-dvctrace:49: ERROR: Unexpected indentation. [docutils]
+   In file included from drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:29:
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c: In function 'rcar_mipi_dsi_startup':
+>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h:256:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     256 | #define VCLKSET_BPP_24                  FIELD_PREP(VCLKSET_BPP_MASK, 3)
+         |                                         ^~~~~~~~~~
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:629:28: note: in expansion of macro 'VCLKSET_BPP_24'
+     629 |                 vclkset |= VCLKSET_BPP_24;
+         |                            ^~~~~~~~~~~~~~
 
 
-vim +29 Documentation/ABI/testing/sysfs-bus-dvctrace
+vim +/FIELD_PREP +256 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
 
-  > 29	Date:		May 2015
-    30	KernelVersion:	4.0
-    31	Contact:	Traian Schiau <traianx.schiau@intel.com>
-    32	Description:	(RW) Hex-dump of the descriptors provided by the
-    33			source device.
-    34			eg. A debug class output connection descriptor
-    35			09 24 02 04 03 00 00 00 00
-    36			ll tt ss xx xx xx xx xx ii
-    37			 |  |  |                 +- iConnection string id.
-    38			 |  |  +- Descriptor sub-type DC_OUTPUT_CONNECTION
-    39			 |  +- Descriptor type (USB_DT_CS_INTERFACE)
-    40			 +- Descriptor length
-    41			Writing:
-    42			  - is not allowed while the device is Reserved or In Use.
-    43			  - will replace all the descriptors currently present.
-    44			  - will remove any strings previously provided.
-    45			  - should use the same format.
-    46			  - accepts multiple descriptors separated by space or '\n'.
-    47	
+   246	
+   247	#define VCLKSET				0x100c
+   248	#define VCLKSET_CKEN			(1 << 16)
+   249	#define VCLKSET_COLOR_YCC		(1 << 8) /* 0:RGB 1:YCbCr */
+   250	#define VCLKSET_DIV_V3U(x)		(((x) & 0x3) << 4)
+   251	#define VCLKSET_DIV_V4H(x)		(((x) & 0x7) << 4)
+   252	#define VCLKSET_BPP_MASK		(3 << 2)
+   253	#define VCLKSET_BPP_16			FIELD_PREP(VCLKSET_BPP_MASK, 0)
+   254	#define VCLKSET_BPP_18			FIELD_PREP(VCLKSET_BPP_MASK, 1)
+   255	#define VCLKSET_BPP_18L			FIELD_PREP(VCLKSET_BPP_MASK, 2)
+ > 256	#define VCLKSET_BPP_24			FIELD_PREP(VCLKSET_BPP_MASK, 3)
+   257	#define VCLKSET_LANE(x)			(((x) & 0x3) << 0)
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
