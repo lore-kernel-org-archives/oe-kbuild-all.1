@@ -1,133 +1,281 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF8E158DAC;
-	Wed, 24 Sep 2025 06:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C351C9DE5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 06:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758695042; cv=none; b=lIJf+J1GOvw1+CYSIo/8BdCNZ4KrCj2/AK9eF6n+BWhaLWGfoMXLmVxGgc/cQHlJVg0CxeKxzJjaSpst+fnqAyuC48CrjQXlx7HGcQN2hp3mrISaXgb26pIWvXEB7FPLJFx4pOggP4tUS2D9voZE77zE+DOlbE+6XA99Ewvd5ec=
+	t=1758695701; cv=none; b=d+zo0UZjNlzI5xTjGO+Qcn9FOOgUzyVc6LzujLFxSY/iUgVNoc+ju1WhC9btKdaa474MmamsjDLwUiOBH56zTaIZulOMMKEshNXfb5DSIEYjwxhVeQLdvaxetRiUKSuC1QClP+PpcIRIrau/FWDMdNWTSeQKmLgmP98cOU2FySA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758695042; c=relaxed/simple;
-	bh=I8HZOQSfMokSwjPSe8/m4cjs8hXw4JsvLpSWTtiD+48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LjD/2+q8WNCblQb08zC4x/gYnLJnCE6YBad4jUbY2CuxMIPdvLki/99ud3HqC9M7//UwaEjpSUXb4kIGdXkTwC7BzLPr+CeN2bgqx0Xcz77K/8aRX7KwRhxL9W/NMCZ+xw06nsRlKVbW4ie5kUFfHog67Lx6cxkVd80iL9sxnrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Urzj0iPJ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1758695701; c=relaxed/simple;
+	bh=RYs6dFZoDg6kEk1qs/2ATg5d1YjH6ApQZkfP4u1s+cs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L/PR8GmMDy1PCDlyDDyrvvar9WEGbch3N4boDoFmGWNqf0geiX7hPlVCjhG9jgm+BwLIPyDAkAGOPiININCB3KiASiZA5iKjl0FhQc0n2rrpbJXnolGKPkkwiDUWrXH2oZwH0UPNsu43IeHNmktKeEcVPPOEEYV+5eaGRVTq0Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DoxnygIT; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Urzj0iPJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DoxnygIT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758695040; x=1790231040;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=I8HZOQSfMokSwjPSe8/m4cjs8hXw4JsvLpSWTtiD+48=;
-  b=Urzj0iPJ4ZiVQI9DzxPPC/on5X+IaBChp4IzwNRD431eVtXpmewJoih7
-   QFYDzpKxkEjHTlZD2FFQfLM6CjGRmu+Jx3hl/4GqAsIRtuZMfJfT8na7R
-   pwKg4cTxwG+zEcW8aOok5BydjJQFaE5KhBiMWc6T6okl8IMgoHfCm11gU
-   9vwLzjPjafkjoW8PgYqrCyarzsNV4kwD47cP2FxBVrXQPPnyXTkXWTNwE
-   DFpB9L4xlMOo6F57IF+xMup5Kkpxq9neBdoL8JkzhXU0XyrYNpQ7IG7K1
-   EpPNzG6knTvIswsl2OoMeHBZ1HnLRsZ3CwH79wbz7fW7n/xQa2pbYwbvI
+  t=1758695700; x=1790231700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RYs6dFZoDg6kEk1qs/2ATg5d1YjH6ApQZkfP4u1s+cs=;
+  b=DoxnygITenzxNnhLvARtDOK1wwxZiBBc/t/KfelUFEOyBSpvoq/eLzHU
+   GR7MGiaD+3jk/I12MZGivQEjFTXI7yxf2sEW7WSQ4Is6vfqvN1tDRdBz3
+   7b2ow6YlMUuYaYU95d9jJbg7Kzj4iUxkoeXwuwZllvMUO+Y0ePTlI1WkG
+   N4i62oXJKen9ih5LtYygXtsc+52CcXXNAEB/SYH1DREilR1kj0lUfx68c
+   PLL4t8/P8pr5dRL1L/9QFrRdDWUfhD1oN531Qm9e2wJ6/G0RFeA3TDQZO
+   N1zEHTXu7ACC0r/tTXKklMe8/JYke/fH6IEk3ME8PTfIlHBnjDZNJCBkO
    g==;
-X-CSE-ConnectionGUID: LyH2xOglSV+VCMiKMvr8zw==
-X-CSE-MsgGUID: hQLQGO5YQEqO92mqJdLGaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60908763"
-X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="60908763"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 23:24:00 -0700
-X-CSE-ConnectionGUID: A6RkHmk2TX6oO+2f83ep4Q==
-X-CSE-MsgGUID: yqUs/8LFSpCGR9c5V8ZrXA==
+X-CSE-ConnectionGUID: hZTFtx3NSnSS27TW+udsfA==
+X-CSE-MsgGUID: HFkDcmOmT4yQCa5JNVJFrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60926305"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60926305"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 23:34:59 -0700
+X-CSE-ConnectionGUID: Nd63gH7LS9CBANKqRHa9yA==
+X-CSE-MsgGUID: p2x5b2q5TD2w7Q350HXPkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="177394726"
+   d="scan'208";a="176789062"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2025 23:23:57 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Sep 2025 23:34:57 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1Iuw-0003rB-29;
-	Wed, 24 Sep 2025 06:23:54 +0000
-Date: Wed, 24 Sep 2025 14:23:10 +0800
+	id 1v1J5b-0003rR-1U;
+	Wed, 24 Sep 2025 06:34:55 +0000
+Date: Wed, 24 Sep 2025 14:34:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@collabora.com,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	=?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
-Subject: Re: [PATCH] drm/shmem-helper: Add huge page fault handler
-Message-ID: <202509241315.8jjCyL7U-lkp@intel.com>
-References: <20250923095634.50051-1-loic.molinari@collabora.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 1/1]
+ drivers/net/wireless/marvell/libertas/cfg.c:1106:18: warning: comparison of
+ distinct pointer types ('typeof (ssid_eid[1]) *' (aka 'const unsigned char
+ *') and 'typeof (32) *' (aka 'int *'))
+Message-ID: <202509241433.m1ZuOEbP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250923095634.50051-1-loic.molinari@collabora.com>
 
-Hi Loïc,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.17-rc7 next-20250923]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-shmem-helper-Add-huge-page-fault-handler/20250923-175753
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250923095634.50051-1-loic.molinari%40collabora.com
-patch subject: [PATCH] drm/shmem-helper: Add huge page fault handler
-config: i386-buildonly-randconfig-002-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241315.8jjCyL7U-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   c92395c2d69365e987de03603133963279b28a32
+commit: 00ad031167017b5cfaf2c0e0ae4a7d1a624882ac [1/1] wifi: libertas: cap SSID len in lbs_associate()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250924/202509241433.m1ZuOEbP-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241315.8jjCyL7U-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241433.m1ZuOEbP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509241315.8jjCyL7U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509241433.m1ZuOEbP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_gem_shmem_helper.c:595:2: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
-     595 |         }
-         |         ^
-   drivers/gpu/drm/drm_gem_shmem_helper.c:548:21: warning: unused variable 'paddr' [-Wunused-variable]
-     548 |         unsigned long pfn, paddr;
-         |                            ^~~~~
->> drivers/gpu/drm/drm_gem_shmem_helper.c:594:2: warning: variable 'ret' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-     594 |         default:
-         |         ^~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:600:9: note: uninitialized use occurs here
-     600 |         return ret;
-         |                ^~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:545:16: note: initialize the variable 'ret' to silence this warning
-     545 |         vm_fault_t ret;
-         |                       ^
-         |                        = 0
-   3 warnings generated.
+>> drivers/net/wireless/marvell/libertas/cfg.c:1106:18: warning: comparison of distinct pointer types ('typeof (ssid_eid[1]) *' (aka 'const unsigned char *') and 'typeof (32) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+    1106 |                 u32 ssid_len = min(ssid_eid[1], IEEE80211_MAX_SSID_LEN);
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:876:19: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/kernel.h:857:4: note: expanded from macro '__safe_cmp'
+     857 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:843:29: note: expanded from macro '__typecheck'
+     843 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                            ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +595 drivers/gpu/drm/drm_gem_shmem_helper.c
+vim +1106 drivers/net/wireless/marvell/libertas/cfg.c
 
-2194a63a818db71 Noralf Trønnes  2019-03-12  593  
-16bf6748ef6aaf1 Loïc Molinari   2025-09-23 @594  	default:
-d611b4a0907cece Neil Roberts    2021-02-23 @595  	}
-d611b4a0907cece Neil Roberts    2021-02-23  596  
-16bf6748ef6aaf1 Loïc Molinari   2025-09-23  597   out:
-21aa27ddc582693 Dmitry Osipenko 2023-05-30  598  	dma_resv_unlock(shmem->base.resv);
-d611b4a0907cece Neil Roberts    2021-02-23  599  
-d611b4a0907cece Neil Roberts    2021-02-23  600  	return ret;
-2194a63a818db71 Noralf Trønnes  2019-03-12  601  }
-2194a63a818db71 Noralf Trønnes  2019-03-12  602  
+  1049	
+  1050	
+  1051	/*
+  1052	 * Create association request
+  1053	 */
+  1054	#define LBS_ASSOC_MAX_CMD_SIZE                     \
+  1055		(sizeof(struct cmd_ds_802_11_associate)    \
+  1056		 - 512 /* cmd_ds_802_11_associate.iebuf */ \
+  1057		 + LBS_MAX_SSID_TLV_SIZE                   \
+  1058		 + LBS_MAX_CHANNEL_TLV_SIZE                \
+  1059		 + LBS_MAX_CF_PARAM_TLV_SIZE               \
+  1060		 + LBS_MAX_AUTH_TYPE_TLV_SIZE              \
+  1061		 + LBS_MAX_WPA_TLV_SIZE)
+  1062	
+  1063	static int lbs_associate(struct lbs_private *priv,
+  1064			struct cfg80211_bss *bss,
+  1065			struct cfg80211_connect_params *sme)
+  1066	{
+  1067		struct cmd_ds_802_11_associate_response *resp;
+  1068		struct cmd_ds_802_11_associate *cmd = kzalloc(LBS_ASSOC_MAX_CMD_SIZE,
+  1069							      GFP_KERNEL);
+  1070		const u8 *ssid_eid;
+  1071		size_t len, resp_ie_len;
+  1072		int status;
+  1073		int ret;
+  1074		u8 *pos;
+  1075		u8 *tmp;
+  1076	
+  1077		if (!cmd) {
+  1078			ret = -ENOMEM;
+  1079			goto done;
+  1080		}
+  1081		pos = &cmd->iebuf[0];
+  1082	
+  1083		/*
+  1084		 * cmd              50 00
+  1085		 * length           34 00
+  1086		 * sequence         xx xx
+  1087		 * result           00 00
+  1088		 * BSS id           00 13 19 80 da 30
+  1089		 * capabilities     11 00
+  1090		 * listen interval  0a 00
+  1091		 * beacon interval  00 00
+  1092		 * DTIM period      00
+  1093		 * TLVs             xx   (up to 512 bytes)
+  1094		 */
+  1095		cmd->hdr.command = cpu_to_le16(CMD_802_11_ASSOCIATE);
+  1096	
+  1097		/* Fill in static fields */
+  1098		memcpy(cmd->bssid, bss->bssid, ETH_ALEN);
+  1099		cmd->listeninterval = cpu_to_le16(MRVDRV_DEFAULT_LISTEN_INTERVAL);
+  1100		cmd->capability = cpu_to_le16(bss->capability);
+  1101	
+  1102		/* add SSID TLV */
+  1103		rcu_read_lock();
+  1104		ssid_eid = ieee80211_bss_get_ie(bss, WLAN_EID_SSID);
+  1105		if (ssid_eid) {
+> 1106			u32 ssid_len = min(ssid_eid[1], IEEE80211_MAX_SSID_LEN);
+  1107	
+  1108			pos += lbs_add_ssid_tlv(pos, ssid_eid + 2, ssid_len);
+  1109		} else {
+  1110			lbs_deb_assoc("no SSID\n");
+  1111		}
+  1112		rcu_read_unlock();
+  1113	
+  1114		/* add DS param TLV */
+  1115		if (bss->channel)
+  1116			pos += lbs_add_channel_tlv(pos, bss->channel->hw_value);
+  1117		else
+  1118			lbs_deb_assoc("no channel\n");
+  1119	
+  1120		/* add (empty) CF param TLV */
+  1121		pos += lbs_add_cf_param_tlv(pos);
+  1122	
+  1123		/* add rates TLV */
+  1124		tmp = pos + 4; /* skip Marvell IE header */
+  1125		pos += lbs_add_common_rates_tlv(pos, bss);
+  1126		lbs_deb_hex(LBS_DEB_ASSOC, "Common Rates", tmp, pos - tmp);
+  1127	
+  1128		/* add auth type TLV */
+  1129		if (MRVL_FW_MAJOR_REV(priv->fwrelease) >= 9)
+  1130			pos += lbs_add_auth_type_tlv(pos, sme->auth_type);
+  1131	
+  1132		/* add WPA/WPA2 TLV */
+  1133		if (sme->ie && sme->ie_len)
+  1134			pos += lbs_add_wpa_tlv(pos, sme->ie, sme->ie_len);
+  1135	
+  1136		len = (sizeof(*cmd) - sizeof(cmd->iebuf)) +
+  1137			(u16)(pos - (u8 *) &cmd->iebuf);
+  1138		cmd->hdr.size = cpu_to_le16(len);
+  1139	
+  1140		lbs_deb_hex(LBS_DEB_ASSOC, "ASSOC_CMD", (u8 *) cmd,
+  1141				le16_to_cpu(cmd->hdr.size));
+  1142	
+  1143		/* store for later use */
+  1144		memcpy(priv->assoc_bss, bss->bssid, ETH_ALEN);
+  1145	
+  1146		ret = lbs_cmd_with_response(priv, CMD_802_11_ASSOCIATE, cmd);
+  1147		if (ret)
+  1148			goto done;
+  1149	
+  1150		/* generate connect message to cfg80211 */
+  1151	
+  1152		resp = (void *) cmd; /* recast for easier field access */
+  1153		status = le16_to_cpu(resp->statuscode);
+  1154	
+  1155		/* Older FW versions map the IEEE 802.11 Status Code in the association
+  1156		 * response to the following values returned in resp->statuscode:
+  1157		 *
+  1158		 *    IEEE Status Code                Marvell Status Code
+  1159		 *    0                       ->      0x0000 ASSOC_RESULT_SUCCESS
+  1160		 *    13                      ->      0x0004 ASSOC_RESULT_AUTH_REFUSED
+  1161		 *    14                      ->      0x0004 ASSOC_RESULT_AUTH_REFUSED
+  1162		 *    15                      ->      0x0004 ASSOC_RESULT_AUTH_REFUSED
+  1163		 *    16                      ->      0x0004 ASSOC_RESULT_AUTH_REFUSED
+  1164		 *    others                  ->      0x0003 ASSOC_RESULT_REFUSED
+  1165		 *
+  1166		 * Other response codes:
+  1167		 *    0x0001 -> ASSOC_RESULT_INVALID_PARAMETERS (unused)
+  1168		 *    0x0002 -> ASSOC_RESULT_TIMEOUT (internal timer expired waiting for
+  1169		 *                                    association response from the AP)
+  1170		 */
+  1171		if (MRVL_FW_MAJOR_REV(priv->fwrelease) <= 8) {
+  1172			switch (status) {
+  1173			case 0:
+  1174				break;
+  1175			case 1:
+  1176				lbs_deb_assoc("invalid association parameters\n");
+  1177				status = WLAN_STATUS_CAPS_UNSUPPORTED;
+  1178				break;
+  1179			case 2:
+  1180				lbs_deb_assoc("timer expired while waiting for AP\n");
+  1181				status = WLAN_STATUS_AUTH_TIMEOUT;
+  1182				break;
+  1183			case 3:
+  1184				lbs_deb_assoc("association refused by AP\n");
+  1185				status = WLAN_STATUS_ASSOC_DENIED_UNSPEC;
+  1186				break;
+  1187			case 4:
+  1188				lbs_deb_assoc("authentication refused by AP\n");
+  1189				status = WLAN_STATUS_UNKNOWN_AUTH_TRANSACTION;
+  1190				break;
+  1191			default:
+  1192				lbs_deb_assoc("association failure %d\n", status);
+  1193				/* v5 OLPC firmware does return the AP status code if
+  1194				 * it's not one of the values above.  Let that through.
+  1195				 */
+  1196				break;
+  1197			}
+  1198		}
+  1199	
+  1200		lbs_deb_assoc("status %d, statuscode 0x%04x, capability 0x%04x, "
+  1201			      "aid 0x%04x\n", status, le16_to_cpu(resp->statuscode),
+  1202			      le16_to_cpu(resp->capability), le16_to_cpu(resp->aid));
+  1203	
+  1204		resp_ie_len = le16_to_cpu(resp->hdr.size)
+  1205			- sizeof(resp->hdr)
+  1206			- 6;
+  1207		cfg80211_connect_result(priv->dev,
+  1208					priv->assoc_bss,
+  1209					sme->ie, sme->ie_len,
+  1210					resp->iebuf, resp_ie_len,
+  1211					status,
+  1212					GFP_KERNEL);
+  1213	
+  1214		if (status == 0) {
+  1215			/* TODO: get rid of priv->connect_status */
+  1216			priv->connect_status = LBS_CONNECTED;
+  1217			netif_carrier_on(priv->dev);
+  1218			if (!priv->tx_pending_len)
+  1219				netif_tx_wake_all_queues(priv->dev);
+  1220		}
+  1221	
+  1222		kfree(cmd);
+  1223	done:
+  1224		return ret;
+  1225	}
+  1226	
 
 -- 
 0-DAY CI Kernel Test Service
