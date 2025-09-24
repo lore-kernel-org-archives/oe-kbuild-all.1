@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E891E5201;
-	Wed, 24 Sep 2025 00:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2801E52F99
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 01:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758675111; cv=none; b=V4CuPl2mfOaWfAWH8RIPo9EyxOqvPOsq/gp9s1caM/0+nc6bX8QiuARZasFr8ePMVTV6xwvkQYkE9SH0c1fkkj4XwXSAGYKc4h829QQoQmSAiZUfE6zIe2LvUqJEDScflzZbN7Zrqmsx2Cu3THd31wvDCD9XbnlDFxIuQOn2SW4=
+	t=1758675729; cv=none; b=X4M5Uc8gMcBQn3Bu3/7ipNLifH+j0HD00ngWU9D22ypRpUQvuQXpN+DlvdmgNpgi/06kGgVMZ0RINkjqnHIXA95xkBJvaAy6URWgxbQg+rYiKBi/UdBlYDfJDiIvq05kP8OUhCY8l9j4mYjawkw1MSgWCN3PfotUkCWnSueZoPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758675111; c=relaxed/simple;
-	bh=jLL/9vva6zqkJR3ahbsZnJ898KzWELN4WdHoMGgcJdM=;
+	s=arc-20240116; t=1758675729; c=relaxed/simple;
+	bh=pFunarHf/Ry+TmbJvv8jzu+OIZD/iUBczL26oeRjccc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qh9Ec4InDgPERXFN935mUitF+W4SKcRtG5F2Z4kt0iB8GnkGdjW+0sowWJaz7wgh1RHaM/12TJcGjgzzU1wNMgbB/hWNTnhM3ZQelmomAQP4aTZ/96dFi7ibWUeaDMJRrsd1E2wk3VkcRXOlj5mM1JjzX29sPTWqEvK7EIhDPzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pft7SRj6; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=d+IBB7+IQm+GhgvNkqa5qo3RemXtp11L/vLyyze6VSkCQlFHb2QYXZ4jdFlnRZ2yPEYWeblzci6WtEGmWk/721fhUuRA4Ea96LJNuBFkm9krZU3uzOOkcY8htvAQHr4C7Pru95xmR1SOfqs8LOd7C4FxWPY00UEm59BAuD8cqHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JpfjAESl; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pft7SRj6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpfjAESl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758675109; x=1790211109;
+  t=1758675727; x=1790211727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jLL/9vva6zqkJR3ahbsZnJ898KzWELN4WdHoMGgcJdM=;
-  b=Pft7SRj6N2p6ZP1xp3vpuHOD+FDTAIxyqsMwRSqVTM4Tm0naWOkLBmj3
-   WrG5bCYrjODDhs28Eqw7yKApSjt3tIT1hr421jIaShBLV9TIMuR5RGw1T
-   sogc0Kc7XEfbxYf3mny5+lxlJLivfa/Ou8GVgYHcNQGxo7fNms+bMivj/
-   vno+GlqwroYWIA9FavSMi709FMHTF0M89C+0pSBN8jP8V50MzdAf0mkFv
-   Xwht6hE8mV1CD5WwFH4hyAkGZBFEp6UvJkLz00L6XT4I/2v8IwZG3XQY4
-   bw8o9JTO0IdRS+9rxZXjUj8ux8d2ce3JzYOPC33D25r7Pq+dSAVvsQ4xM
-   g==;
-X-CSE-ConnectionGUID: g4Oct8gOQxqNKBuEZLYQmQ==
-X-CSE-MsgGUID: 8oCMTObIRdySb24Gd0IZWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="60180877"
+  bh=pFunarHf/Ry+TmbJvv8jzu+OIZD/iUBczL26oeRjccc=;
+  b=JpfjAESlFZghwYYQD0w8TKPKLdlp4Y87f/PkKg7xHcvGSaGGWFABvt/D
+   MAWrmyQKyxBzPJYgwFsAxZs+6/1Bms5elizaQEBWs2Y2N0imnNDfNIVl4
+   34vJJumNKhtkDZbrEw4+2O5EdJqZ/wUawCOzLr1tIci8f5W2sYvMJStW4
+   5xBK3RE+RLxGLCul/EFA9KLcUF0OamVP/0LHhNxGnmyI32GYCJcsrwJSH
+   H1dS6NNGSqT96yCH73nmZC1VBCOwa+U+wpF0gizeG67NFkl1IHJRCVJgb
+   y/vPX6zDzAEuKIVu+sld0MreMKyHu7ayhjjNTF0CQ33aVHnmvMk6y2Asc
+   w==;
+X-CSE-ConnectionGUID: BJuqmdz2S5GUGUQe0f4Xog==
+X-CSE-MsgGUID: pBFMSHpASjaUYecg12qztQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="72071673"
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="60180877"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 17:51:48 -0700
-X-CSE-ConnectionGUID: 6E7a4+/QSTayRZ5rvHjGFA==
-X-CSE-MsgGUID: YgzU2ypgQlCWxt1qwKLvsA==
+   d="scan'208";a="72071673"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2025 18:02:06 -0700
+X-CSE-ConnectionGUID: /qysHImvSxGQ83vHwdiKTg==
+X-CSE-MsgGUID: wFAlKjviTWqaVQqt2bfTFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,289,1751266800"; 
-   d="scan'208";a="182169998"
+   d="scan'208";a="200602466"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2025 17:51:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2025 18:02:05 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1Dj4-0003fx-0c;
-	Wed, 24 Sep 2025 00:51:28 +0000
-Date: Wed, 24 Sep 2025 08:51:08 +0800
+	id 1v1DtS-0003gj-37;
+	Wed, 24 Sep 2025 01:02:02 +0000
+Date: Wed, 24 Sep 2025 09:01:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:test 6/10] samples/ftrace/ftrace-direct-multi.c:228:65:
- error: too few arguments to function call, expected 3, have 2
-Message-ID: <202509240807.fmfwk0FM-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 1/1]
+ drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of
+ distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long
+ *') and 'typeof (1) *' (aka 'int *'))
+Message-ID: <202509240848.LlWAWLQ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,130 +64,228 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git test
-head:   1b7fc74c36a93e90816f58c37a84522f0949095a
-commit: 1f794792351edadc4dfae1ff42137d4de53960bb [6/10] ftrace: Use direct hash interface in direct functions
-config: x86_64-buildonly-randconfig-001-20250924 (https://download.01.org/0day-ci/archive/20250924/202509240807.fmfwk0FM-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   c92395c2d69365e987de03603133963279b28a32
+commit: 6242f1a36109cc7f9d1236c228543e841fa83a6d [1/1] media: venus: vdec: Clamp param smaller than 1fps and bigger than 240.
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250924/202509240848.LlWAWLQ7-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509240807.fmfwk0FM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509240848.LlWAWLQ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509240807.fmfwk0FM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509240848.LlWAWLQ7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> samples/ftrace/ftrace-direct-multi.c:228:65: error: too few arguments to function call, expected 3, have 2
-     228 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi.c:233:66: error: too few arguments to function call, expected 4, have 3
-     233 |         unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                        ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> samples/ftrace/ftrace-direct-too.c:243:65: error: too few arguments to function call, expected 3, have 2
-     243 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-too.c:248:65: error: too few arguments to function call, expected 4, have 3
-     248 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> samples/ftrace/ftrace-direct-multi-modify.c:347:48: error: too few arguments to function call, expected 4, have 2
-     347 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
-         |                       ~~~~~~~~~~~~~~~~~~~~                   ^
-   include/linux/ftrace.h:542:5: note: 'modify_ftrace_direct' declared here
-     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
-         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi-modify.c:365:48: error: too few arguments to function call, expected 3, have 2
-     365 |         ret = register_ftrace_direct(&direct, my_tramp);
-         |               ~~~~~~~~~~~~~~~~~~~~~~                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi-modify.c:375:50: error: too few arguments to function call, expected 4, have 3
-     375 |         unregister_ftrace_direct(&direct, my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                        ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   3 errors generated.
---
->> samples/ftrace/ftrace-direct-modify.c:305:48: error: too few arguments to function call, expected 4, have 2
-     305 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
-         |                       ~~~~~~~~~~~~~~~~~~~~                   ^
-   include/linux/ftrace.h:542:5: note: 'modify_ftrace_direct' declared here
-     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
-         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-modify.c:321:48: error: too few arguments to function call, expected 3, have 2
-     321 |         ret = register_ftrace_direct(&direct, my_tramp);
-         |               ~~~~~~~~~~~~~~~~~~~~~~                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-modify.c:331:50: error: too few arguments to function call, expected 4, have 3
-     331 |         unregister_ftrace_direct(&direct, my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                        ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   3 errors generated.
---
->> samples/ftrace/ftrace-direct.c:210:65: error: too few arguments to function call, expected 3, have 2
-     210 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct.c:215:65: error: too few arguments to function call, expected 4, have 3
-     215 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   2 errors generated.
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long *') and 'typeof (1) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:45: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:883:19: note: expanded from macro 'max'
+     883 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/kernel.h:867:35: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ~~~~~~~~~~~^~~~~
+   include/linux/kernel.h:857:16: note: expanded from macro '__safe_cmp'
+     857 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ~~~~~~~~~~~~^~~~~
+   include/linux/kernel.h:843:22: note: expanded from macro '__typecheck'
+     843 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                    ^
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof ((typeof (us_per_frame))__builtin_choose_expr(((!!(sizeof ((typeof (us_per_frame) *)1 == (typeof (1) *)1))) && ((sizeof(int) == sizeof (*(8 ? ((void *)((long)(us_per_frame) * 0L)) : (int *)8))) && (sizeof(int) == sizeof (*(8 ? ((void *)((long)(1) * 0L)) : (int *)8))))), ((us_per_frame) > (1) ? (us_per_frame) : (1)), ({
+       typeof (us_per_frame) __UNIQUE_ID___x494 = (us_per_frame);
+       typeof (1) __UNIQUE_ID___y495 = (1);
+       ((__UNIQUE_ID___x494) > (__UNIQUE_ID___y495) ? (__UNIQUE_ID___x494) : (__UNIQUE_ID___y495));
+   }))) *' (aka 'unsigned long long *') and 'typeof (1000000L) *' (aka 'long *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:28: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:876:19: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/kernel.h:857:4: note: expanded from macro '__safe_cmp'
+     857 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:843:29: note: expanded from macro '__typecheck'
+     843 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                            ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long *') and 'typeof (1) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:45: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:883:19: note: expanded from macro 'max'
+     883 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/kernel.h:857:43: note: expanded from macro '__safe_cmp'
+     857 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                                       ~~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/kernel.h:854:19: note: expanded from macro '__no_side_effects'
+     854 |                 (__is_constexpr(x) && __is_constexpr(y))
+         |                  ~~~~~~~~~~~~~~~^~
+   include/linux/kernel.h:851:48: note: expanded from macro '__is_constexpr'
+     851 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
+         |                                                       ^
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long *') and 'typeof (1) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:45: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:883:19: note: expanded from macro 'max'
+     883 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/kernel.h:876:33: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/kernel.h:868:9: note: expanded from macro '__careful_cmp'
+     868 |                 __cmp(x, y, op), \
+         |                 ~~~~~~^~~~~~~~~
+   include/linux/kernel.h:859:27: note: expanded from macro '__cmp'
+     859 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                           ^
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long *') and 'typeof (1) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:45: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:883:19: note: expanded from macro 'max'
+     883 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/kernel.h:876:33: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/kernel.h:868:9: note: expanded from macro '__careful_cmp'
+     868 |                 __cmp(x, y, op), \
+         |                 ~~~~~~^~~~~~~~~
+   include/linux/kernel.h:859:40: note: expanded from macro '__cmp'
+     859 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+         |                                        ^
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long *') and 'typeof (1) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:45: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:883:19: note: expanded from macro 'max'
+     883 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/kernel.h:876:33: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/kernel.h:869:14: note: expanded from macro '__careful_cmp'
+     869 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+         |                 ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:862:10: note: expanded from macro '__cmp_once'
+     862 |                 typeof(x) unique_x = (x);               \
+         |                        ^
+>> drivers/media/platform/qcom/venus/vdec.c:421:17: warning: comparison of distinct pointer types ('typeof (us_per_frame) *' (aka 'unsigned long long *') and 'typeof (1) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     421 |         us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:920:45: note: expanded from macro 'clamp'
+     920 | #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+         |                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:883:19: note: expanded from macro 'max'
+     883 | #define max(x, y)       __careful_cmp(x, y, >)
+         |                         ^
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/kernel.h:876:33: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/kernel.h:869:14: note: expanded from macro '__careful_cmp'
+     869 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+         |                 ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:862:25: note: expanded from macro '__cmp_once'
+     862 |                 typeof(x) unique_x = (x);               \
+         |                                       ^
+>> drivers/media/platform/qcom/venus/vdec.c:424:8: warning: comparison of distinct pointer types ('typeof (240) *' (aka 'int *') and 'typeof (fps) *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+     424 |         fps = min(VENUS_MAX_FPS, fps);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:876:19: note: expanded from macro 'min'
+     876 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:867:24: note: expanded from macro '__careful_cmp'
+     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/kernel.h:857:4: note: expanded from macro '__safe_cmp'
+     857 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:843:29: note: expanded from macro '__typecheck'
+     843 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                            ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   8 warnings generated.
 
 
-vim +228 samples/ftrace/ftrace-direct-multi.c
+vim +421 drivers/media/platform/qcom/venus/vdec.c
 
-5fae941b9a6f95 Jiri Olsa      2021-10-08  222  
-5fae941b9a6f95 Jiri Olsa      2021-10-08  223  static int __init ftrace_direct_multi_init(void)
-5fae941b9a6f95 Jiri Olsa      2021-10-08  224  {
-5fae941b9a6f95 Jiri Olsa      2021-10-08  225  	ftrace_set_filter_ip(&direct, (unsigned long) wake_up_process, 0, 0);
-5fae941b9a6f95 Jiri Olsa      2021-10-08  226  	ftrace_set_filter_ip(&direct, (unsigned long) schedule, 0, 0);
-5fae941b9a6f95 Jiri Olsa      2021-10-08  227  
-da8bdfbd422333 Florent Revest 2023-03-21 @228  	return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-5fae941b9a6f95 Jiri Olsa      2021-10-08  229  }
-5fae941b9a6f95 Jiri Olsa      2021-10-08  230  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
-
-:::::: TO: Florent Revest <revest@chromium.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   398	
+   399	static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+   400	{
+   401		struct venus_inst *inst = to_inst(file);
+   402		struct v4l2_captureparm *cap = &a->parm.capture;
+   403		struct v4l2_fract *timeperframe = &cap->timeperframe;
+   404		u64 us_per_frame, fps;
+   405	
+   406		if (a->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+   407		    a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+   408			return -EINVAL;
+   409	
+   410		memset(cap->reserved, 0, sizeof(cap->reserved));
+   411		if (!timeperframe->denominator)
+   412			timeperframe->denominator = inst->timeperframe.denominator;
+   413		if (!timeperframe->numerator)
+   414			timeperframe->numerator = inst->timeperframe.numerator;
+   415		cap->readbuffers = 0;
+   416		cap->extendedmode = 0;
+   417		cap->capability = V4L2_CAP_TIMEPERFRAME;
+   418		us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+   419		do_div(us_per_frame, timeperframe->denominator);
+   420	
+ > 421		us_per_frame = clamp(us_per_frame, 1, USEC_PER_SEC);
+   422		fps = (u64)USEC_PER_SEC;
+   423		do_div(fps, us_per_frame);
+ > 424		fps = min(VENUS_MAX_FPS, fps);
+   425	
+   426		inst->fps = fps;
+   427		inst->timeperframe = *timeperframe;
+   428	
+   429		return 0;
+   430	}
+   431	
 
 -- 
 0-DAY CI Kernel Test Service
