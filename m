@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991A12E1758
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 10:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED1E2FE04A;
+	Wed, 24 Sep 2025 11:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758711208; cv=none; b=ZoiBi1LcFRoB5ZlzjoiyFh5/HD5jj3ZDLNLRbveIv0mSpNhenecfZTfkyr3jyeUHrAIIjssg2c6cDB3FLhmtsju89LHNV180l4RxBNCxcAomPYzELjz+VAlueiyhrqW51x/BCA79ys7R+ajD390BUEX+l8DRcrjxTJw8edujP7U=
+	t=1758714290; cv=none; b=CrQhX8QUW9qIfXpJkVuJwex7XBlf39IvxiVS6eedSi59yC4TE9cPScMgXKplvzuwa63nG6W1bsXxR4+z5hElFWIHLAMUiOstDE51KAxmMilfIacHZyl1PHXp78BKFPIN/pkaJ1hfsxOXsFhJv8+zyoFbJoyrmfCOG1nTJqagBzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758711208; c=relaxed/simple;
-	bh=LHxvxSmkdeweuXihq7xbAkQOxs2RzWZUhoqtUCK8pDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CfhekZWZ4cLfobkH+AR1LCN9+x64pE3azjnRsG5mW7bJmsZ8OcNRofug/qoLfRUPYjjL6P8lFS0lq/DPrkN5loqmPbsbi/sIzJUi7EwX1C2B0w6q9QmwLX8JtN87+2o59133V7/49xJycreK8P3PlK5UOHsTbw4HaDWHfoXFyBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aQL8m3TT; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1758714290; c=relaxed/simple;
+	bh=2r6nKLaH2V7Wgf0Cze0yBmmog7bds/FSzcDmhG9RCdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkVZD2R9nzyobQCtfND7g44oSpYzAiNWrxPE05mAwciyvVBFYvUgqiQTOdIif/zrjeoU3H+4cT+YadglstNFK+S1k2YuV+v4FoHyp5gl7r36kRiJ+eJ4Q+Csuckh5hb7khHfK50EWhsYgR8Ek6WJsRCftf4PdCTndBuj+Mm/xWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3WjJ9bX; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aQL8m3TT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3WjJ9bX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758711203; x=1790247203;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LHxvxSmkdeweuXihq7xbAkQOxs2RzWZUhoqtUCK8pDo=;
-  b=aQL8m3TTVJp3x+N06ZQk7vh26GYwCyNS/nzLQQa6q5g2gVW7yTGvX47c
-   4yK1lI5aqagvNkn0TMRqtwLqOdyFDNSEriGLUjTJImDX04Y732UjyYEjf
-   O6AERa0UjFZmNOsrqaAWL9qwE4n19ZUY+yU12TEHThqFD14aXQQCCD08e
-   NztO5pdYo4blw7mIUlYOz68iPHGyrXrguoaQK6j0dSJS6fJS3+eKrzTG2
-   +pD80yh4JYdoFl84PFZAYpkfi6u2mHYq2oH3fgqqZGVg/Jf64olFhpmka
-   F/Nv9jQEkIk7QwYMw2IOyu9hEfnfbI77SoWg+5RbLtLoeYIw5b/U5osVv
-   A==;
-X-CSE-ConnectionGUID: KanxZpQGTfKh0pI7ncwRiQ==
-X-CSE-MsgGUID: sMOVpaTYSQW8Mewhi20WcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="63631559"
+  t=1758714285; x=1790250285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2r6nKLaH2V7Wgf0Cze0yBmmog7bds/FSzcDmhG9RCdw=;
+  b=U3WjJ9bXg59f6THR8LpMwm+LBz2q4w0uQpSHhOwwztHCiH3liyIUKvUY
+   bUxwfbN0bWfG9ZdRFkBAsZ61YoVuz2aFPH6DQxaA3TgzjGOtAfXe1W1ug
+   29gCzVHXAS6owijIysbdOAhndlNoRLHQaIfdOQkpB+mYKn9QwMsfOgeSy
+   +uqnAG5ux5tsykBMcrnG4Q5Cisfvdv6mr0Rr4SxJnvfXTQvVJck4oIP6J
+   pbfiODNHHHqUOFJ9sUzCG2CH9eQIoI4tZpU6+/tojX5zVw1j8cOctd9Vi
+   fAz1UvwDR5dYYbJecT71Ns0vUBuzfLA+6/goKmdQ9aPBHDwsbRYI0+W41
+   Q==;
+X-CSE-ConnectionGUID: /jgerxOyRpup6Va1bA8LRQ==
+X-CSE-MsgGUID: nOi/6gcySsu2o6VvQDtbXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11561"; a="71685545"
 X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="63631559"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 03:53:22 -0700
-X-CSE-ConnectionGUID: 8MmbKL04QkWL9/OQ8gN/nA==
-X-CSE-MsgGUID: hFsA0pAITJWvOwSW++5Saw==
+   d="scan'208";a="71685545"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 04:44:44 -0700
+X-CSE-ConnectionGUID: P4kIzxqYRh2I3ozjgjB3qQ==
+X-CSE-MsgGUID: JucmBIuZRCCECjDrpi+MtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,290,1751266800"; 
-   d="scan'208";a="182174582"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa005.jf.intel.com with ESMTP; 24 Sep 2025 03:53:21 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="207944954"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2025 04:44:41 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1N7d-000000004TJ-3BfB;
-	Wed, 24 Sep 2025 10:53:17 +0000
-Date: Wed, 24 Sep 2025 12:52:41 +0200
+	id 1v1NvK-00046X-1Q;
+	Wed, 24 Sep 2025 11:44:38 +0000
+Date: Wed, 24 Sep 2025 19:44:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomas Winkler <tomas.winkler@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: [intel-lts:5.15/android_u 3/3] htmldocs:
- ./include/uapi/linux/rpmb.h:168: warning: expecting prototype for struct
- rpmb_cmd. Prototype was for struct rpmb_ioc_cmd instead
-Message-ID: <202509241227.GhUdjg6C-lkp@intel.com>
+To: I Viswanath <viswanathiyyappan@gmail.com>, petkan@nucleusys.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: Re: [PATCH net] net: usb: remove rtl8150 driver
+Message-ID: <202509241928.kYioHrov-lkp@intel.com>
+References: <20250923022205.9075-1-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +68,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250923022205.9075-1-viswanathiyyappan@gmail.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_u
-head:   038b979913cc03833b6d6cc18d3a50f11d1040b6
-commit: a2d17e22111160662f622d94e4ed6c6740330039 [3/3] char: rpmb: Document Replay Protected Memory Block (RPMB) subsystem
-reproduce: (https://download.01.org/0day-ci/archive/20250924/202509241227.GhUdjg6C-lkp@intel.com/reproduce)
+Hi Viswanath,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/I-Viswanath/net-usb-remove-rtl8150-driver/20250923-102726
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250923022205.9075-1-viswanathiyyappan%40gmail.com
+patch subject: [PATCH net] net: usb: remove rtl8150 driver
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250924/202509241928.kYioHrov-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241928.kYioHrov-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509241227.GhUdjg6C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509241928.kYioHrov-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/cypress,hyperflash.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,kmb_display.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/imx8-jpeg.yaml
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/driver-api/rpmb.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/regulator/silergy,sy8106a.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-   Warning: drivers/md/Kconfig references a file that doesn't exist: file:Documentation/block/dm-user.rst
-   Warning: fs/locks.c references a file that doesn't exist: Documentation/filesystems/mandatory-locking.rst
-   Warning: include/uapi/linux/dm-user.h references a file that doesn't exist: Documentation/block/dm-user.rst
---
-   Error: Cannot open file ./include/linux/reset.h
-   Error: Cannot open file ./include/linux/reset.h
-   Error: Cannot open file ./include/linux/reset-controller.h
-   Error: Cannot open file ./include/linux/reset-controller.h
-   Error: Cannot open file ./include/linux/rpmb.h
->> ./include/uapi/linux/rpmb.h:168: warning: expecting prototype for struct rpmb_cmd. Prototype was for struct rpmb_ioc_cmd instead
-   Error: Cannot open file ./include/linux/slimbus.h
-   Error: Cannot open file ./include/linux/slimbus.h
-   Error: Cannot open file ./include/linux/spi/spi.h
-   Error: Cannot open file ./include/linux/spi/spi.h
-   Error: Cannot open file ./include/linux/surface_aggregator/serial_hub.h
---
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/regulator/machine.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/regulator/driver.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/reset.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/reset-controller.h' failed with return code 2
-   Documentation/driver-api/rpmb/introduction.rst:79: ERROR: Unexpected indentation. [docutils]
->> Documentation/driver-api/rpmb/introduction.rst:80: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/rpmb.h' failed with return code 1
-   Documentation/driver-api/rpmb/introduction:120: ./drivers/char/rpmb/core.c:80: WARNING: Duplicate C declaration, also defined at driver-api/rpmb/introduction:32.
-   Declaration is '.. c:function:: int rpmb_cmd_seq (struct rpmb_dev *rdev, struct rpmb_cmd *cmds, u32 ncmds)'. [duplicate_declaration.c]
-   Documentation/driver-api/rpmb/introduction:120: ./drivers/char/rpmb/core.c:110: WARNING: Duplicate C declaration, also defined at driver-api/rpmb/introduction:37.
-   Declaration is '.. c:function:: int rpmb_get_capacity (struct rpmb_dev *rdev)'. [duplicate_declaration.c]
->> Documentation/driver-api/rpmb/rpmb-tool.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent. [docutils]
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/slimbus.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/spi/spi.h' failed with return code 2
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/surface_aggregator/serial_hub.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/surface_aggregator/controller.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/surface_aggregator/device.h' failed with return code 1
-
-
-vim +168 ./include/uapi/linux/rpmb.h
-
-3071f7f819138e Tomas Winkler 2015-07-16  152  
-3071f7f819138e Tomas Winkler 2015-07-16  153  /**
-3071f7f819138e Tomas Winkler 2015-07-16  154   * struct rpmb_cmd - rpmb access command
-3071f7f819138e Tomas Winkler 2015-07-16  155   *
-3071f7f819138e Tomas Winkler 2015-07-16  156   * @flags: command flags
-3071f7f819138e Tomas Winkler 2015-07-16  157   *      0 - read command
-3071f7f819138e Tomas Winkler 2015-07-16  158   *      1 - write command RPMB_F_WRITE
-3071f7f819138e Tomas Winkler 2015-07-16  159   *      2 - reliable write RPMB_F_REL_WRITE
-3071f7f819138e Tomas Winkler 2015-07-16  160   * @nframes: number of rpmb data frames in the command.
-3071f7f819138e Tomas Winkler 2015-07-16  161   *           0 means 1 frame with meta data only.
-3071f7f819138e Tomas Winkler 2015-07-16  162   * @frames_ptr:  a pointer to the list of rpmb frames
-3071f7f819138e Tomas Winkler 2015-07-16  163   */
-3071f7f819138e Tomas Winkler 2015-07-16  164  struct rpmb_ioc_cmd {
-3071f7f819138e Tomas Winkler 2015-07-16  165  	__u32 flags;
-3071f7f819138e Tomas Winkler 2015-07-16  166  	__u32 nframes;
-3071f7f819138e Tomas Winkler 2015-07-16  167  	__aligned_u64 frames_ptr;
-3071f7f819138e Tomas Winkler 2015-07-16 @168  };
-3071f7f819138e Tomas Winkler 2015-07-16  169  
-
-:::::: The code at line 168 was first introduced by commit
-:::::: 3071f7f819138e910165410ce3471124629220c3 char: rpmb: provide a user space interface
-
-:::::: TO: Tomas Winkler <tomas.winkler@intel.com>
-:::::: CC: Pan, Kris <kris.pan@intel.com>
+>> make[6]: *** No rule to make target 'drivers/net/usb/rtl8150.o', needed by 'drivers/net/usb/built-in.a'.
+   make[6]: Target 'drivers/net/usb/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
