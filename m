@@ -1,28 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7B12EC0A1;
-	Thu, 25 Sep 2025 10:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B831D6AA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 11:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758796125; cv=none; b=jJUNBHy+UB0CybuK7pcirZg6BMxBhUt8tghqLAlpgVhe+/JhDhMFZ9bZWuRUWpTPd5oFiYpcIg10j3HHyjtF8i9EqI/N+3rny6d951E58BpmwDw8RK0+fbsO+JFx/aZlhpxm2VOPdaxoG7a759XakZaTJHPHv5lMH8k9MufJcD8=
+	t=1758798562; cv=none; b=Q7MIFyB3llHzzRqAM7nvndVKnKR1BinDKSgAvrK1f6lBPxE360arwTAmGDQxteXdDJf+uC5KIiRRNcR3nEhEUy/VL+CG5ZpF0QJ2v79j8UbUNbqpP5AM5tiJpLBQQB7kxIMuq1MK37LJRHeeVE1SSNg/B0nomlN8ltZ/AwV/KwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758796125; c=relaxed/simple;
-	bh=GTEdlIQJ4X0zEOKmiDRTbe+z2Vlkhkonjn7D1kh3VeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ANgjHKkz4DWRBtuH4XayokgPqICs6J113qzDRAWmmwRvEPpMlms0T4A3UDAUrYKoTFAThkag42AUSHBe4glRkMtS4YU5TDPY59ELo6S05xt7jxIdjzphRH+44ZUPmNfa6r7GLLMvm0p3gQF3PLDmgPwTkot1s6wQocU13uoKZQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB2B8C4CEF0;
-	Thu, 25 Sep 2025 10:28:43 +0000 (UTC)
-Date: Thu, 25 Sep 2025 11:28:41 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: arch/arm64/kernel/signal.c:1300: undefined reference to
- `preserve_gcs_context'
-Message-ID: <aNUZWQdNsyDPGEWc@arm.com>
-References: <202509241856.XvV8zSHD-lkp@intel.com>
+	s=arc-20240116; t=1758798562; c=relaxed/simple;
+	bh=GV4z7kbDv03Cml2lUiGV3sDBc4J48v+LtPXHD4cqpvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KpfaP3yc4TriEg3NH11HVpt5jAUjAntNo6owYUgYppHd7j0Rd1bFrTzyOKeaEohxWJyK57WpAEEB/SY9RzzEkdFB38hG0fQe211pV/Y0KhT8CSD1I7m9LnhhjutAFVCYxAXwtgd8O/LwJ35zQFziXVxczkZCTZq4NCBZtATfsVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L0gFGcBn; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L0gFGcBn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758798561; x=1790334561;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GV4z7kbDv03Cml2lUiGV3sDBc4J48v+LtPXHD4cqpvA=;
+  b=L0gFGcBndBkFD4Hvz20kWC/8PllKjWJjful8DJ5ncAIl+YW0tGxPfaPa
+   jHTrLdANnzoEZnFO1ZWyuWqmUZZuwAPljRe59Mx54TbqNwuR0D0x/PbCn
+   XA3WIp/Ut/8f0ZQW8cRRGNfXCuoZqu+Oun3wOw8XsTXkooEN4X/FIJs9V
+   2c3emIgs4fWuZ1h7sjbrh6Yo8Cm+A0D2tRJrJiZ+ytokVdlVVrzb2XmUQ
+   BlAR9T6cE58akHBKhqqoFQ7fSIt40cxXdRLAeSMKO8C52x1r7B7shY7gC
+   FV6TN+nElhDPTCAl6sWUHyYmNLc8ytOCewOwqT/+jlFJwV9zgR8bEN4eL
+   A==;
+X-CSE-ConnectionGUID: OTNaBUyBQByAw9fbTTxIjA==
+X-CSE-MsgGUID: BoIykQ1ETGeF+RQoEjqKxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61027352"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61027352"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 04:09:04 -0700
+X-CSE-ConnectionGUID: A3lZUn1qQzuNM6UAXp/tDA==
+X-CSE-MsgGUID: v1AGRiNQSAuanizYpdPa1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
+   d="scan'208";a="181699590"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2025 04:09:02 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v1jqN-0005AP-2e;
+	Thu, 25 Sep 2025 11:08:59 +0000
+Date: Thu, 25 Sep 2025 19:08:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [niks:b4/uid_slot 2/2] drivers/pci/slot.c:104:30: sparse: sparse:
+ symbol 'pci_slot_default_groups' was not declared. Should it be static?
+Message-ID: <202509251858.LEIbNYjG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -31,52 +61,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202509241856.XvV8zSHD-lkp@intel.com>
 
-On Wed, Sep 24, 2025 at 06:30:53PM +0800, kernel test robot wrote:
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   cec1e6e5d1ab33403b809f79cd20d6aff124ccfe
-> commit: f00b53f1614f7be554fd28b9594ef4e63e2686c5 arm64: cpufeature: Add GCS to cpucap_is_possible()
-> date:   10 months ago
-> config: arm64-randconfig-r132-20250924 (https://download.01.org/0day-ci/archive/20250924/202509241856.XvV8zSHD-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250924/202509241856.XvV8zSHD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git b4/uid_slot
+head:   87b502098882192d5986bcaec909f9a44a45cce4
+commit: 87b502098882192d5986bcaec909f9a44a45cce4 [2/2] PCI: s390: Expose the UID as an arch specific PCI slot attribute
+config: loongarch-randconfig-r133-20250925 (https://download.01.org/0day-ci/archive/20250925/202509251858.LEIbNYjG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251858.LEIbNYjG-lkp@intel.com/reproduce)
 
-Robin's commit was supposed to fix this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509251858.LEIbNYjG-lkp@intel.com/
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509241856.XvV8zSHD-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->    aarch64-linux-ld: Unexpected run-time procedure linkages detected!
->    aarch64-linux-ld: arch/arm64/kernel/signal.o: in function `setup_sigframe':
-> >> arch/arm64/kernel/signal.c:1300: undefined reference to `preserve_gcs_context'
->    aarch64-linux-ld: arch/arm64/kernel/signal.o: in function `restore_sigframe':
-> >> arch/arm64/kernel/signal.c:1042: undefined reference to `restore_gcs_context'
-> 
-> 
-> vim +1300 arch/arm64/kernel/signal.c
-> 
-> bb4891a6c3551f Dave Martin      2017-06-15  1258  
-> 20987de3c2c45c Dave Martin      2017-06-15  1259  static int setup_sigframe(struct rt_sigframe_user_layout *user,
-> 2e8a1acea8597f Kevin Brodsky    2024-10-29  1260  			  struct pt_regs *regs, sigset_t *set,
-> 2e8a1acea8597f Kevin Brodsky    2024-10-29  1261  			  const struct user_access_state *ua_state)
-> 2c020ed8d148f7 Catalin Marinas  2012-03-05  1262  {
-[...]
-> 16f47bb9ac8afe Mark Brown       2024-10-01  1297  	if (system_supports_gcs() && err == 0 && user->gcs_offset) {
-> 16f47bb9ac8afe Mark Brown       2024-10-01  1298  		struct gcs_context __user *gcs_ctx =
-> 16f47bb9ac8afe Mark Brown       2024-10-01  1299  			apply_user_offset(user, user->gcs_offset);
-> 16f47bb9ac8afe Mark Brown       2024-10-01 @1300  		err |= preserve_gcs_context(gcs_ctx);
-> 16f47bb9ac8afe Mark Brown       2024-10-01  1301  	}
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/slot.c:104:30: sparse: sparse: symbol 'pci_slot_default_groups' was not declared. Should it be static?
 
-It looks like the compiler was not able to remove these calls. Is this
-compiler-specific?
+vim +/pci_slot_default_groups +104 drivers/pci/slot.c
+
+   103	
+ > 104	const struct attribute_group *pci_slot_default_groups[] = {
+   105		&pci_slot_default_group,
+   106	#ifdef ARCH_PCI_SLOT_GROUPS
+   107		ARCH_PCI_SLOT_GROUPS,
+   108	#endif
+   109		NULL,
+   110	};
+   111	
 
 -- 
-Catalin
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
