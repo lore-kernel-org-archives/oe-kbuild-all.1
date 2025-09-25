@@ -1,71 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAB42EA141
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 22:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27411F8AC8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 23:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758840912; cv=none; b=UQo4opnpfNNVfZo0LyrhkaHwnYmutJ62X/xt0v66fxePjczpijJ8OJ3VN3pzXuCPbJW7tX9MH2GecvRL9dcS44BUUAt8LCielFS83rB/fIWae32gcqTErNzlG7NptHGduudyks4/ZZ89vF4/PlbVDipw0MjGMKQI9FraiTsGq5U=
+	t=1758842186; cv=none; b=Smst63+dt+u0UmFDGdhk6NAOtYaHrB+AM7n2+xs5LeQCmXtVHi6rQXY38t5751JNbUePBxyU41joK85vtGLFX+9DqvZnQxjWIOZl7COm5aLHw7RxepjJzv0lgfiAXF9DOA28IXBTiBWvNDLn6GYvqkfj5m8UQ6kdWVC9F5GAZcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758840912; c=relaxed/simple;
-	bh=Wcm+0+MGr0QhGbbKqE9by5FkhaqCe/1wQYUpEehdWbc=;
+	s=arc-20240116; t=1758842186; c=relaxed/simple;
+	bh=moV+f4gCBC1qfazBctyv0QJ2cMUxIEDpv3d4OjwPEZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ktHmxXLF0zoNzbN+2y8HALVGOiJPE9k8WwNeU3cLkgbYm2QmuEeAbNWhC+1vDRJEfNm4Ttn6dAZJeciDUxCQ7VYwNLbh0ErDKA8ZwnPKcEwtXEx4tYw81E8mBsL2z5Gog2ZBnpgFixxOCfb89ouf6OLSX8IAuP+m9nQQbgZUUs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lzzZ21HT; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=uvMZwg7CzOoqdnSKJpzR3Q0TWUr5GUS6mrAndOG4+mesH6FVB6y5zAJEjk16DHvLD6ivrc6mKZi1LUFEiI1EEaWZYxXlSOx5rdC/A+PavFnwDLuwknKvBRWXDJvJpdBWdaXxlC0TRSLHRxpA3mCsZJZdkx7xGyeonP+iQL8PzYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etl119aQ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzzZ21HT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etl119aQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758840910; x=1790376910;
+  t=1758842184; x=1790378184;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Wcm+0+MGr0QhGbbKqE9by5FkhaqCe/1wQYUpEehdWbc=;
-  b=lzzZ21HTRGBJUdf5vB71H/iSq09A9L6XizR843EXIsbc5Kllk0F4OAd/
-   C0lkBXxGs2KR13OnaLiP+FYx2eifo85Ig8qB8vK1qef/tGhsARmTOmeDC
-   6V0V4M18044F9nTS9m8vjtuLSNRz3H36VlCF3Jdw87RDWuJOjQU9E2A5J
-   eTvVBocmcoQFpL9aUimtv/+axjeQKVzhurbGxnafNdOQjtV84oBKBpVjA
-   TI8nxmRvHeiuPVqF5jKEYX8XW9cfaZ30jhO2XxOjOMQGv/lH5Amp36y2z
-   3ZR0gXrUVRYN9kaZzR4KG/5DO5PqYCwc/JK7AJtCLnXnuDCrKxNlp+3d2
-   A==;
-X-CSE-ConnectionGUID: ijWj/dbHQUWAKUkNoLzIBg==
-X-CSE-MsgGUID: PMRFS8bmQv6y6cNNjhYDug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64985622"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64985622"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 15:55:10 -0700
-X-CSE-ConnectionGUID: 3ZgUONWAQ9KZXqtUzThLIQ==
-X-CSE-MsgGUID: m4VRglUzTn60fiyCen3W5Q==
+  bh=moV+f4gCBC1qfazBctyv0QJ2cMUxIEDpv3d4OjwPEZA=;
+  b=etl119aQDzaysgeITzZ7ksnmaI72c1nWQglrycCDck17dmkrQ3o1jHNQ
+   7hl6W3nHy4AfZQ5OkhHd+0iVj9NRbWXhAlecmjBjMedkQYIKPPv/rsJ5/
+   0AQboYvMJ3JH5tbv8EPTE5/UPybp6AjdNJtn3DKnFd2iynpwqBeixB61T
+   KWXr6Oor2kvOP1pO/d1eFkKvYpaMM5pg7OAxP7OD1HQfYz/C7W2yNIs1I
+   BzOKyLyviYDwhbW13O6QnkVuH/mO+cOY7f4QmUZYP9qxrDCPymTS8pR4k
+   nn3x02Y4L/eJ9sLWk2egosqhl2POusoeGzhf/bo7gqHfd1+A1dldHbN7G
+   g==;
+X-CSE-ConnectionGUID: HOLfLsA7QpODIl+OXqz23g==
+X-CSE-MsgGUID: 9HABC6DSQD6FK459a2ckew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="61094503"
+X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
+   d="scan'208";a="61094503"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 16:16:23 -0700
+X-CSE-ConnectionGUID: le1XJv8kRXy9X77xuX6F+w==
+X-CSE-MsgGUID: c1KF4yyIQCm8ewlLpMqN5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="176586918"
+   d="scan'208";a="181759216"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 25 Sep 2025 15:55:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 25 Sep 2025 16:16:20 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1ure-0005gz-38;
-	Thu, 25 Sep 2025 22:55:02 +0000
-Date: Fri, 26 Sep 2025 06:55:01 +0800
+	id 1v1vCD-0005iX-2E;
+	Thu, 25 Sep 2025 23:16:17 +0000
+Date: Fri, 26 Sep 2025 07:15:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhangchao Zhang <ot_zhangchao.zhang@mediatek.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Luiz Von Dentz <luiz.dentz@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Deren Wu <deren.Wu@mediatek.com>, Chris Lu <chris.lu@mediatek.com>,
-	Hao Qin <Hao.qin@mediatek.com>,
-	linux-bluetooth <linux-bluetooth@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-mediatek <linux-mediatek@lists.infradead.org>,
-	Zhangchao Zhang <ot_zhangchao.zhang@mediatek.com>
-Subject: Re: [PATCH v8] Bluetooth: mediatek: add gpio pin to reset bt
-Message-ID: <202509260623.nZX7ipvc-lkp@intel.com>
-References: <20250925092058.16648-1-ot_zhangchao.zhang@mediatek.com>
+To: Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	David Collins <david.collins@oss.qualcomm.com>,
+	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
+Subject: Re: [PATCH v2 2/2] spmi: spmi-pmic-arb: add support for PMIC arbiter
+ v8
+Message-ID: <202509260638.JQl4hfnp-lkp@intel.com>
+References: <20250924-glymur-spmi-v8-v2-2-202fc7a66a97@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,86 +70,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925092058.16648-1-ot_zhangchao.zhang@mediatek.com>
+In-Reply-To: <20250924-glymur-spmi-v8-v2-2-202fc7a66a97@oss.qualcomm.com>
 
-Hi Zhangchao,
+Hi Kamal,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bluetooth/master]
-[also build test ERROR on bluetooth-next/master linus/master v6.17-rc7 next-20250925]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c3067c2c38316c3ef013636c93daa285ee6aaa2e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhangchao-Zhang/Bluetooth-mediatek-add-gpio-pin-to-reset-bt/20250925-172508
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20250925092058.16648-1-ot_zhangchao.zhang%40mediatek.com
-patch subject: [PATCH v8] Bluetooth: mediatek: add gpio pin to reset bt
-config: sh-randconfig-001-20250926 (https://download.01.org/0day-ci/archive/20250926/202509260623.nZX7ipvc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260623.nZX7ipvc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamal-Wadhwa/dt-bindings-spmi-add-bindings-for-glymur-spmi-pmic-arb-arbiter-v8/20250925-010123
+base:   c3067c2c38316c3ef013636c93daa285ee6aaa2e
+patch link:    https://lore.kernel.org/r/20250924-glymur-spmi-v8-v2-2-202fc7a66a97%40oss.qualcomm.com
+patch subject: [PATCH v2 2/2] spmi: spmi-pmic-arb: add support for PMIC arbiter v8
+config: x86_64-buildonly-randconfig-004-20250926 (https://download.01.org/0day-ci/archive/20250926/202509260638.JQl4hfnp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260638.JQl4hfnp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509260623.nZX7ipvc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509260638.JQl4hfnp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/bluetooth/btusb.c: In function 'btusb_mtk_reset':
->> drivers/bluetooth/btusb.c:2769:19: error: 'struct btusb_data' has no member named 'rest_gpio'; did you mean 'reset_gpio'?
-    2769 |         if (data->rest_gpio) {
-         |                   ^~~~~~~~~
-         |                   reset_gpio
-
-
-vim +2769 drivers/bluetooth/btusb.c
-
-  2740	
-  2741	static int btusb_mtk_reset(struct hci_dev *hdev, void *rst_data)
-  2742	{
-  2743		struct btusb_data *data = hci_get_drvdata(hdev);
-  2744		struct btmtk_data *btmtk_data = hci_get_priv(hdev);
-  2745		int err;
-  2746	
-  2747		/* It's MediaTek specific bluetooth reset mechanism via USB */
-  2748		if (test_and_set_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags)) {
-  2749			bt_dev_err(hdev, "last reset failed? Not resetting again");
-  2750			return -EBUSY;
-  2751		}
-  2752	
-  2753		err = usb_autopm_get_interface(data->intf);
-  2754		if (err < 0)
-  2755			return err;
-  2756	
-  2757		/* Release MediaTek ISO data interface */
-  2758		btusb_mtk_release_iso_intf(hdev);
-  2759	
-  2760		btusb_stop_traffic(data);
-  2761		usb_kill_anchored_urbs(&data->tx_anchor);
-  2762	
-  2763		/* Toggle the hard reset line. The MediaTek device is going to
-  2764		 * yank itself off the USB and then replug. The cleanup is handled
-  2765		 * correctly on the way out (standard USB disconnect), and the new
-  2766		 * device is detected cleanly and bound to the driver again like
-  2767		 * it should be.
-  2768		 */
-> 2769		if (data->rest_gpio) {
-  2770			gpiod_set_value_cansleep(data->reset_gpio, 1);
-  2771			msleep(200);
-  2772			gpiod_set_value_cansleep(data->reset_gpio, 0);
-  2773			return 0;
-  2774		}
-  2775	
-  2776		err = btmtk_usb_subsys_reset(hdev, btmtk_data->dev_id);
-  2777	
-  2778		usb_queue_reset_device(data->intf);
-  2779		clear_bit(BTMTK_HW_RESET_ACTIVE, &btmtk_data->flags);
-  2780	
-  2781		return err;
-  2782	}
-  2783	
+>> Warning: drivers/spmi/spmi-pmic-arb.c:155 bad line:                         particular SPMI bus instance
 
 -- 
 0-DAY CI Kernel Test Service
