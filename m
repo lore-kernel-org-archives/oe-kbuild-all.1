@@ -1,117 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA67242D9F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 08:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E27283FEF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 09:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758787502; cv=none; b=qhQt0Rd4OzbTPLC2BqGbrPUfQkCxOGgM5HueYfGuPKfcpusEVMeuteYS5y3jjoZBZx3WyZcJEdj7PKRRdfTDJP+CUqCIlJj1zS0Sr9AE0wcR5gD3VhkoUhuAyAkEWC+y/Nu3+gKKssYGuo8Xh7Qm+N1+BJYCdfOCo7F5PXeWm0A=
+	t=1758792968; cv=none; b=ZSqvJdTA9se06AXQZkFr2HGYty1ZVyyZdKagutEkwe+xR8kEdPwc5cisweS5x0knQF7SWMZ11++YMVJr+oBZ2bSIx88qTcwVcHaFHu2Y3Zmxj2WgcaYK3cw/RNoqmSjo+B+AlRZ1DaqzhVW/jo9cFBVVYYoc43ywYR6Zb+c8/tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758787502; c=relaxed/simple;
-	bh=rYyXxlBGjW+fW8RT9+6EcT7A+KojzwwNLk/C97s3Pds=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TdeZR0YoWLqv1seNs7TW+3gxKTFI4upj8Eu+GDW+9LlDiF8aWzIwdzXS7ecPvZ7CAzG1F93ylzsUwEKa0k+DG3mWUhhwqkpNZZbkp+bI0qobTIR8T449f0pa0i5xp5e/xL45bAz8fUb1XMfjZlR+iYc3z1Mtem0yQ/xJFgqp7Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G8Z4RNBi; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758792968; c=relaxed/simple;
+	bh=JoEco1ORCJ3vsujBfD97FlP/QCfpmBzbQnAHO29lOUw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E/lgn6GC7AIa8SAY6TUrX00sjAnY/G9VU/oylWyaYMyWSCednVXA9NGqHuiEPOJKACEUwqrrn09XYhGH1MuJJqoj83zA56CF1hrsclGzjATdhW+Kp65Ce2WLqajo40VmtkjMv2QtN2o6a76gMsd9nhkZXJ2sGu7x0IfUEHtvyXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EFGrT1/2; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G8Z4RNBi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758787501; x=1790323501;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rYyXxlBGjW+fW8RT9+6EcT7A+KojzwwNLk/C97s3Pds=;
-  b=G8Z4RNBiLugMltDZELZbARWYvXwawYG4drTevN4pZi+q5E6VPuX812rS
-   CxyLxKffh3FAol2tsGIbq46rborEwf4QYbUIdz6JZLukWGCg61b0lwqCD
-   u5IpRhkQg9ZmLXbVNMZ3nZnx0jrVcb5YYlkiSh9xsagfczp2ud39jF5Ia
-   9cyZOY45wLlXOesGaXULekoF6TQWhj2kaF6ksvAmlDWe1QxBeVk7yqq64
-   YcLZtkO0M9Z31li+5bS+TvwlbQ3QPCOUM25cikW9FwPL+/a4XzyeF4cjo
-   4tn4Goj85hHI2u5cMkdvmNPjPEKJp1VYZLRIS55GbbAKk/1rOdRGQzcg0
-   Q==;
-X-CSE-ConnectionGUID: 3xwA77WWRiq4YKFbOSfFgQ==
-X-CSE-MsgGUID: 6udbvAPyTwOk+Jwkt6Xnjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61045269"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61045269"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 01:05:00 -0700
-X-CSE-ConnectionGUID: XbP/FV+3T+Ww+hmLOgDGFQ==
-X-CSE-MsgGUID: mJYZrIEfRISVYJY4vFFgvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
-   d="scan'208";a="178031281"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Sep 2025 01:04:58 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v1gy9-000537-2C;
-	Thu, 25 Sep 2025 08:04:51 +0000
-Date: Thu, 25 Sep 2025 16:04:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Farhan Ali <alifm@linux.ibm.com>, linux-s390@vger.kernel.org,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, alex.williamson@redhat.com,
-	helgaas@kernel.org, clg@redhat.com, alifm@linux.ibm.com,
-	schnelle@linux.ibm.com, mjrosato@linux.ibm.com
-Subject: Re: [PATCH v4 08/10] vfio-pci/zdev: Add a device feature for error
- information
-Message-ID: <202509251506.Z5Ov6pYQ-lkp@intel.com>
-References: <20250924171628.826-9-alifm@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EFGrT1/2"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46cf7bbfda8so4192785e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 02:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1758792964; x=1759397764; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=jYEu1Tq9xAippcq+IfTMzB7lzIXzWuNmB21Rn5eEr7o=;
+        b=EFGrT1/2Apr9DBM7RFlLmoQ+YdA62ipwfVia0JDWt9no+Dw4bGQ3ozHs+oCsuKYB2X
+         N3w0tICIq2RTDUGilwdM2t7FNvE1yvJF/jQyEEW13nO/caNB3bAEPwqwT3avVuMktGQs
+         AYgWkHSCjq5B7dDiJ5zvXBEISFSZ58tLUccNuwBP0jPNjoX5fJjqX4ahbiqJXMIwF/bN
+         ABVZBnEtAs5PEfLlQipAUxpXrKlHycFt0e95FvKjk5vVWVYD2Na7WleTCLPo7tVtKIz1
+         u1NBNhWR6qIrC3USwVd+F4G4Xo5LPSi97wNyMkDq7kBkKL16uLZmST+ElsbksqhuMryR
+         f5kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758792964; x=1759397764;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jYEu1Tq9xAippcq+IfTMzB7lzIXzWuNmB21Rn5eEr7o=;
+        b=DNN9GNPRo0jyogKn1KBtwulrxni5nJCaDcNA6axBBUwhKVULg8yQykglVnLG3ZuGaw
+         sa0k7YxhPBWlrc3jDm/hrflDct+IR6wc/aTZUDDhPh/BIfCFBpz3x4Or7RQAejR8+3pU
+         a+1a23UqG3S2dy1IAUreDiwxW5ZkzkZe7knmeuP0Pe3zFrXxKBg2BntKGTsJtcjhvYZq
+         phnyahcYNGb+IwTrMEfvilBJMcv7xx0+EhU1lcfCeWnr/oNYyAPhHoc/L16DCZhL68xU
+         6MwkBD7y3zL7X/u3siNsPnQN5sm00gRnWzTYY3JTb3jX2M+v0S/iRmWBG+btFRkPOWwh
+         Qj5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXaVdTlnjWlKgK6Z46956AL0LWlIK6P1JEUiRYXihT/Q350zHdCZI0B9upOZrsTB4TqVO7jSl2UqRfE4YCd@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvyxotpEVMuLWx1ICT+RFnRT/Ql+FvFcgTJn1gCYCxCLtWTB95
+	jKf9J0NQv9hC5Lrhvp2lK+ZvyznYrH4DJ3h+58jnCsDMLHlwJzqn5Qr1Mse6PB/o/PE=
+X-Gm-Gg: ASbGnctSbpkWUnDavl9ZsFGugTYlYJhyp1azmclKc39kRQJZuIUDjOaQ2MnskMFv7Rx
+	UjXKY2oDwRttIMF6a8TcHdCohoBlL4wwmIYWeweNERVqdUA4OlXqn7l17LTmAcShTRc3dwFn98g
+	a4uR69SiPkbZorGinly0X0/8PH+MS/62KtI+y2OQovg7xJI0mwyttl4JENqFXaaQ+1WCljLOSJJ
+	aQWmDpD62DKCxrrwxnVgxvNt97nkxFUNJhFtrh4UVTBkEtqsdUGh8EY1aFKpr4ARCqRIvOFZYzD
+	0hzoH0UWNVkd02t4Ob6vpK5eXMUXrYRvDlZOWXv//M8gtaVDjxFEQlV0EDnWk0FldEsjqr6vDE4
+	+rj228xO8CtiDr5EBGEy2tAPtD6jx6FNof167Gbo50r6RpLKY5y0=
+X-Google-Smtp-Source: AGHT+IESDLQxVAaClx4hDQ1zShJdqPgjF0sYhTJKCdatbY7PyftOErKA70gNMLZ6WhwLXV5qZroClQ==
+X-Received: by 2002:a05:6000:400b:b0:3f0:4365:1d36 with SMTP id ffacd0b85a97d-40e4354dfddmr3090098f8f.16.1758792964018;
+        Thu, 25 Sep 2025 02:36:04 -0700 (PDT)
+Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed69ba58csm18624025ad.121.2025.09.25.02.36.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Sep 2025 02:36:03 -0700 (PDT)
+Message-ID: <a3f50592-0816-42fb-a7f0-185ceb975016@suse.com>
+Date: Thu, 25 Sep 2025 19:05:59 +0930
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250924171628.826-9-alifm@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 11380/12207] fs/btrfs/extent_io.c:401
+ find_lock_delalloc_range() error: we previously assumed 'fs_info' could be
+ null (see line 378)
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ David Sterba <dsterba@suse.com>
+References: <202509250925.4L4JQTtn-lkp@intel.com>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <202509250925.4L4JQTtn-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Farhan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus awilliam-vfio/next s390/features linus/master v6.17-rc7]
-[cannot apply to awilliam-vfio/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Farhan-Ali/PCI-Avoid-saving-error-values-for-config-space/20250925-012105
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250924171628.826-9-alifm%40linux.ibm.com
-patch subject: [PATCH v4 08/10] vfio-pci/zdev: Add a device feature for error information
-config: csky-randconfig-002-20250925 (https://download.01.org/0day-ci/archive/20250925/202509251506.Z5Ov6pYQ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251506.Z5Ov6pYQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509251506.Z5Ov6pYQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/vfio/pci/vfio_pci_config.c:29:
->> drivers/vfio/pci/vfio_pci_priv.h:106:12: warning: 'vfio_pci_zdev_feature_err' defined but not used [-Wunused-function]
-     106 | static int vfio_pci_zdev_feature_err(struct vfio_device *device, u32 flags,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/vfio_pci_zdev_feature_err +106 drivers/vfio/pci/vfio_pci_priv.h
+在 2025/9/25 15:40, Dan Carpenter 写道:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   b5a4da2c459f79a2c87c867398f1c0c315779781
+> commit: 7b26da407420e5054e3f06c5d13271697add9423 [11380/12207] btrfs: fix the incorrect max_bytes value for find_lock_delalloc_range()
+> config: i386-randconfig-141-20250925 (https://download.01.org/0day-ci/archive/20250925/202509250925.4L4JQTtn-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202509250925.4L4JQTtn-lkp@intel.com/
+> 
+> smatch warnings:
+> fs/btrfs/extent_io.c:401 find_lock_delalloc_range() error: we previously assumed 'fs_info' could be null (see line 378)
+> 
+> vim +/fs_info +401 fs/btrfs/extent_io.c
+> 
+> ce9f967f31ea91 Johannes Thumshirn 2018-11-19  368  EXPORT_FOR_TESTS
+> 3522e90301d7a6 Lu Fengqi          2018-11-29  369  noinline_for_stack bool find_lock_delalloc_range(struct inode *inode,
+> c987f1e6d4435a Josef Bacik        2024-07-24  370  						 struct folio *locked_folio,
+> c987f1e6d4435a Josef Bacik        2024-07-24  371  						 u64 *start, u64 *end)
+> c8b978188c9a0f Chris Mason        2008-10-29  372  {
+> 41044b41ad2c8c David Sterba       2023-09-14  373  	struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
+> 9978059be8a1af Goldwyn Rodrigues  2019-06-21  374  	struct extent_io_tree *tree = &BTRFS_I(inode)->io_tree;
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  375  	const u64 orig_start = *start;
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  376  	const u64 orig_end = *end;
+> f7b12a62f008a3 Naohiro Aota       2022-07-09  377  	/* The sanity tests may not set a valid fs_info. */
+> f7b12a62f008a3 Naohiro Aota       2022-07-09 @378  	u64 max_bytes = fs_info ? fs_info->max_extent_size : BTRFS_MAX_EXTENT_SIZE;
+>                                                                          ^^^^^^^
+> NULL check
 
-   105	
- > 106	static int vfio_pci_zdev_feature_err(struct vfio_device *device, u32 flags,
-   107					     void __user *arg, size_t argsz)
-   108	{
-   109		return -ENODEV;
-   110	}
-   111	#endif
-   112	
+This is a false alert.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The existing check is for selftests, but upstream commit 7c0260ee098d 
+("btrfs: tests, require fs_info for root"), it is required to have 
+btrfs_root::fs_info populated for all roots, no matter if it's selftest 
+or not.
+
+So the NULL check itself is no longer needed.
+
+Thanks,
+Qu
+> 
+> c8b978188c9a0f Chris Mason        2008-10-29  379  	u64 delalloc_start;
+> c8b978188c9a0f Chris Mason        2008-10-29  380  	u64 delalloc_end;
+> 3522e90301d7a6 Lu Fengqi          2018-11-29  381  	bool found;
+> 9655d2982b53fd Chris Mason        2009-09-02  382  	struct extent_state *cached_state = NULL;
+> c8b978188c9a0f Chris Mason        2008-10-29  383  	int ret;
+> c8b978188c9a0f Chris Mason        2008-10-29  384  	int loops = 0;
+> c8b978188c9a0f Chris Mason        2008-10-29  385
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  386  	/* Caller should pass a valid @end to indicate the search range end */
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  387  	ASSERT(orig_end > orig_start);
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  388
+> c987f1e6d4435a Josef Bacik        2024-07-24  389  	/* The range should at least cover part of the folio */
+> 55cd57faa50346 David Sterba       2025-06-10  390  	ASSERT(!(orig_start >= folio_end(locked_folio) ||
+> c987f1e6d4435a Josef Bacik        2024-07-24  391  		 orig_end <= folio_pos(locked_folio)));
+> c8b978188c9a0f Chris Mason        2008-10-29  392  again:
+> c8b978188c9a0f Chris Mason        2008-10-29  393  	/* step one, find a bunch of delalloc bytes starting at start */
+> c8b978188c9a0f Chris Mason        2008-10-29  394  	delalloc_start = *start;
+> c8b978188c9a0f Chris Mason        2008-10-29  395  	delalloc_end = 0;
+> 7b26da407420e5 Qu Wenruo          2025-09-19  396
+> 7b26da407420e5 Qu Wenruo          2025-09-19  397  	/*
+> 7b26da407420e5 Qu Wenruo          2025-09-19  398  	 * If @max_bytes is smaller than a block, btrfs_find_delalloc_range() can
+> 7b26da407420e5 Qu Wenruo          2025-09-19  399  	 * return early without handling any dirty ranges.
+> 7b26da407420e5 Qu Wenruo          2025-09-19  400  	 */
+> 7b26da407420e5 Qu Wenruo          2025-09-19 @401  	ASSERT(max_bytes >= fs_info->sectorsize);
+>                                                                              ^^^^^^^^^^^^^^^^^^^
+> Unchecked dereference
+> 
+> 7b26da407420e5 Qu Wenruo          2025-09-19  402
+> 083e75e7e6a9e2 Josef Bacik        2019-09-23  403  	found = btrfs_find_delalloc_range(tree, &delalloc_start, &delalloc_end,
+> c2a128d28a2e78 Josef Bacik        2010-02-02  404  					  max_bytes, &cached_state);
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  405  	if (!found || delalloc_end <= *start || delalloc_start > orig_end) {
+> c8b978188c9a0f Chris Mason        2008-10-29  406  		*start = delalloc_start;
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  407
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  408  		/* @delalloc_end can be -1, never go beyond @orig_end */
+> 2749f7ef3643fe Qu Wenruo          2021-09-27  409  		*end = min(delalloc_end, orig_end);
+> b351161f4f6643 Filipe Manana      2025-04-04  410  		btrfs_free_extent_state(cached_state);
+> 3522e90301d7a6 Lu Fengqi          2018-11-29  411  		return false;
+> c8b978188c9a0f Chris Mason        2008-10-29  412  	}
+> c8b978188c9a0f Chris Mason        2008-10-29  413
+> 70b99e6959a4c2 Chris Mason        2008-10-31  414  	/*
+> c987f1e6d4435a Josef Bacik        2024-07-24  415  	 * start comes from the offset of locked_folio.  We have to lock
+> c987f1e6d4435a Josef Bacik        2024-07-24  416  	 * folios in order, so we can't process delalloc bytes before
+> c987f1e6d4435a Josef Bacik        2024-07-24  417  	 * locked_folio
+> 70b99e6959a4c2 Chris Mason        2008-10-31  418  	 */
+> d397712bcc6a75 Chris Mason        2009-01-05  419  	if (delalloc_start < *start)
+> 70b99e6959a4c2 Chris Mason        2008-10-31  420  		delalloc_start = *start;
+> 70b99e6959a4c2 Chris Mason        2008-10-31  421
+> c8b978188c9a0f Chris Mason        2008-10-29  422  	/*
+> c987f1e6d4435a Josef Bacik        2024-07-24  423  	 * make sure to limit the number of folios we try to lock down
+> c8b978188c9a0f Chris Mason        2008-10-29  424  	 */
+> 7bf811a595a895 Josef Bacik        2013-10-07  425  	if (delalloc_end + 1 - delalloc_start > max_bytes)
+> 7bf811a595a895 Josef Bacik        2013-10-07  426  		delalloc_end = delalloc_start + max_bytes - 1;
+> d397712bcc6a75 Chris Mason        2009-01-05  427
+> 17dc82dc1e77a6 David Sterba       2025-08-22  428  	/* step two, lock all the folios after the folios that has start */
+> e4d80ebe50de25 Josef Bacik        2024-07-24  429  	ret = lock_delalloc_folios(inode, locked_folio, delalloc_start,
+> e4d80ebe50de25 Josef Bacik        2024-07-24  430  				   delalloc_end);
+> 9bfd61d9755a51 Nikolay Borisov    2018-10-26  431  	ASSERT(!ret || ret == -EAGAIN);
+> c8b978188c9a0f Chris Mason        2008-10-29  432  	if (ret == -EAGAIN) {
+> 7b26da407420e5 Qu Wenruo          2025-09-19  433  		/*
+> 7b26da407420e5 Qu Wenruo          2025-09-19  434  		 * Some of the folios are gone, lets avoid looping by
+> 7b26da407420e5 Qu Wenruo          2025-09-19  435  		 * shortening the size of the delalloc range we're searching.
+> c8b978188c9a0f Chris Mason        2008-10-29  436  		 */
+> b351161f4f6643 Filipe Manana      2025-04-04  437  		btrfs_free_extent_state(cached_state);
+> 7d78874273463a Chris Mason        2014-05-21  438  		cached_state = NULL;
+> c8b978188c9a0f Chris Mason        2008-10-29  439  		if (!loops) {
+> 7b26da407420e5 Qu Wenruo          2025-09-19  440  			max_bytes = fs_info->sectorsize;
+>                                                                                      ^^^^^^^^^^^^^^^^^^^
+> Here too, I suppose.
+> 
+> c8b978188c9a0f Chris Mason        2008-10-29  441  			loops = 1;
+> c8b978188c9a0f Chris Mason        2008-10-29  442  			goto again;
+> c8b978188c9a0f Chris Mason        2008-10-29  443  		} else {
+> 3522e90301d7a6 Lu Fengqi          2018-11-29  444  			found = false;
+> c8b978188c9a0f Chris Mason        2008-10-29  445  			goto out_failed;
+> c8b978188c9a0f Chris Mason        2008-10-29  446  		}
+> c8b978188c9a0f Chris Mason        2008-10-29  447  	}
+> c8b978188c9a0f Chris Mason        2008-10-29  448
+> c8b978188c9a0f Chris Mason        2008-10-29  449  	/* step three, lock the state bits for the whole range */
+> 242570e80bfdf3 Filipe Manana      2025-03-31  450  	btrfs_lock_extent(tree, delalloc_start, delalloc_end, &cached_state);
+> c8b978188c9a0f Chris Mason        2008-10-29  451
+> c8b978188c9a0f Chris Mason        2008-10-29  452  	/* then test to make sure it is all still delalloc */
+> f81c2aea711205 Filipe Manana      2025-04-04  453  	ret = btrfs_test_range_bit(tree, delalloc_start, delalloc_end,
+> 893fe243999466 David Sterba       2020-08-14  454  				   EXTENT_DELALLOC, cached_state);
+> c0707c9e1e36d5 Josef Bacik        2024-02-12  455
+> 242570e80bfdf3 Filipe Manana      2025-03-31  456  	btrfs_unlock_extent(tree, delalloc_start, delalloc_end, &cached_state);
+> c8b978188c9a0f Chris Mason        2008-10-29  457  	if (!ret) {
+> 2b41599bff1714 David Sterba       2025-01-09  458  		unlock_delalloc_folio(inode, locked_folio, delalloc_start,
+> 79be4a28d834ea Josef Bacik        2024-07-24  459  				      delalloc_end);
+> c8b978188c9a0f Chris Mason        2008-10-29  460  		cond_resched();
+> c8b978188c9a0f Chris Mason        2008-10-29  461  		goto again;
+> c8b978188c9a0f Chris Mason        2008-10-29  462  	}
+> c8b978188c9a0f Chris Mason        2008-10-29  463  	*start = delalloc_start;
+> c8b978188c9a0f Chris Mason        2008-10-29  464  	*end = delalloc_end;
+> c8b978188c9a0f Chris Mason        2008-10-29  465  out_failed:
+> c8b978188c9a0f Chris Mason        2008-10-29  466  	return found;
+> c8b978188c9a0f Chris Mason        2008-10-29  467  }
+> 
+
