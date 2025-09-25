@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58F834BA52
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 03:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56154DF49
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 03:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758770795; cv=none; b=WnqKmV5aD3kzV6QtqEvhHZ1/5iSfiPMUe+JQ4H8hL5DA9aJM+dxo/FZSwQIKb4zWi2pWTJpdKc8gEnlFuKQYhjMDQ5ruE+UotqUthMpi/RkODps9hlNYGrmtf1XgHRN84d8j42Z2GXTQQ1mo9ULQHuOtWejruN9scD7kIISB3BY=
+	t=1758772142; cv=none; b=ZypFH2XGHPo23DVan2EYT6tuaVXrCfYEgVIPbpIWTglvMPv0KjoN0fC8XazdO7ViHIVxdvkJf8dFSfpcsG3xhZdP7jO27xKH7KpncqmyOCa3vpgQifhDS5PMXEREyGZIyjLjE5L4e5GiJZ5/CtZk4TeA3bCkdbghylQE2VJ/bxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758770795; c=relaxed/simple;
-	bh=wwdd41SNS5vZtwDOOmEFK2a4Gj2wlqtkjPllVIwODW4=;
+	s=arc-20240116; t=1758772142; c=relaxed/simple;
+	bh=1+JdL3b8onh0ZppyyCvXHpe4kl8bUBZieOsFEPMhp9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mv5pt2AGiFjP0aYRL8qOjVvjaCAsQ4x9pstIHJk2RlCWRWTfcE68W//3/o3DAtrgN4PYbN/bFwk6KOa8b3UR/Rhftwmb5sN3hygjycm/sSxT4w3wpHJ4WuB3Ev9HtPkpSkBUBmQc4jk0eFDci+tzmvAPdQ0E3Fl8nX094qPg5WM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGVuYW9+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Vxr9ca4YHS6TR3tnyVOdE9p5W7n4pQm6f85UUfxLRPW4AKlxsqGu/k038OsGjaH0qVGBK45YuG8fyIrVcTG3mPRuMPgnPUqFnOUHMHp37dfHjntmrNpCyld5K7d86E72e1fhOKXRFm8nF0XFIJKnDZ/8EtMhswZWRyIkYtzjJDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XtSnG/oW; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGVuYW9+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XtSnG/oW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758770794; x=1790306794;
+  t=1758772141; x=1790308141;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wwdd41SNS5vZtwDOOmEFK2a4Gj2wlqtkjPllVIwODW4=;
-  b=TGVuYW9+Y1+CkNswoOfcC4mLB+SRuNPuN3EE6IwmZ/XU0VxZv3E8hpYQ
-   9zVNP+86bkidB1ik7xQ/3PzymgvwfEZ6iJ6/w/w0+SGbTnIQGpKYfbtbW
-   5GZJI4+7JkntptI7QSW+ej6XNnWo34/4oFs7MWygHBI+F/yOdaHJ/p/Rg
-   BclCQqeg9eUvLPLg5GGEtSyAkFiZfaALTka5rd2/cLWidMAny0aardcyu
-   Qqkx1DbuMtsJZHLAd045wV8hiiTldNfP400Bh4u09Mzsb5VEuteM4oTHg
-   CRsMM2StnLEkB8r8ZlwaRe34AeTp3VncOiFZnC3aHFgrtbyfqkYQLdcp7
-   A==;
-X-CSE-ConnectionGUID: rBF9VWcER/SgPB8CVEfKsA==
-X-CSE-MsgGUID: pjEJHL5/QQqbSjqZwTR/NA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="72181341"
-X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="72181341"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:26:33 -0700
-X-CSE-ConnectionGUID: EiUI+T+bTsGMxmrLFgWkAA==
-X-CSE-MsgGUID: vfAHrEIKTCCnUSzqe6jYAg==
+  bh=1+JdL3b8onh0ZppyyCvXHpe4kl8bUBZieOsFEPMhp9s=;
+  b=XtSnG/oW84AJS3ETgsFWc8n4dSD02TuMACmJlnaRAi5+7FvV1SBKQlIc
+   bAI3AdP/CMLHZcrTdTgKyE0DAXX4vk6KeXTJiLI2NtSLcJorQQDInFdGp
+   Yxkp7Kt/TzVqGeLKIw1Mpm+oM5/w6t+foq87j4Qr+UjgWeCHoyYMh6jSA
+   OQ83w1HZ8SjpfRN9x4WnZKCfm7DYv5j+mUoKZ62BU6v4ndq9EXbuPedAD
+   xJmX6nBueKb70XRgDM79N7o6W/9BMDQq42iS0ZbzPfUNCW6VJ/0dYIF/o
+   4tT+AKTQfCJpm0ZR6LZ8pp/IJ+QZFgD7+D7BmiZxKx0UpkRbpEQ8bpm8k
+   Q==;
+X-CSE-ConnectionGUID: tirhZ9VlTSW+bkszvISjqw==
+X-CSE-MsgGUID: F4+g26u4SXqFBOgivfEHdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64888743"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64888743"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:49:00 -0700
+X-CSE-ConnectionGUID: bLdPZX2XTjuTXito4H6o0g==
+X-CSE-MsgGUID: Itc0iBzrSd6UKu6MqQX6zQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="176808672"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Sep 2025 20:26:31 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="214347522"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 24 Sep 2025 20:48:59 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1ccn-000000004mQ-2Bqf;
-	Thu, 25 Sep 2025 03:26:29 +0000
-Date: Thu, 25 Sep 2025 05:26:12 +0200
+	id 1v1cyW-0004u9-0t;
+	Thu, 25 Sep 2025 03:48:56 +0000
+Date: Thu, 25 Sep 2025 11:48:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>,
-	icg_intg <icg_intg@intel.com>
-Subject: [intel-lts:5.15/android_u 3/3] versioncheck:
- ./drivers/media/i2c/ti953-ser.c: 11 linux/version.h not needed.
-Message-ID: <202509250557.hPSdJFR1-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/single_direct_ops 3/9] include/linux/ftrace.h:561:
+ multiple definition of `unregister_ftrace_direct_hash';
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first
+ defined here
+Message-ID: <202509251110.E3O2GY0v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +64,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/android_u
-head:   038b979913cc03833b6d6cc18d3a50f11d1040b6
-commit: 4f29719d32db19c7291043693e973b463d7df25b [3/3] media: intel-ipu4: css: scci_IPU4_master_20181222_1218 fw release
-reproduce: (https://download.01.org/0day-ci/archive/20250925/202509250557.hPSdJFR1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   512bde773529ffbb0241c282793b7f4641034fe7
+commit: 2343ed53ba7f3e2615ad0e325bbf0766ab00e9b6 [3/9] ftrace: Add unregister_ftrace_direct_hash function
+config: arm-randconfig-003-20250925 (https://download.01.org/0day-ci/archive/20250925/202509251110.E3O2GY0v-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251110.E3O2GY0v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509250557.hPSdJFR1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509251110.E3O2GY0v-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
->> ./drivers/media/i2c/ti953-ser.c: 11 linux/version.h not needed.
->> ./drivers/media/pci/intel/ipu-bus.c: 469: need linux/version.h
->> ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
->> ./drivers/media/pci/intel/ipu-dma.c: 460: need linux/version.h
->> ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 366: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 306: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-media.h: 138: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.c: 1536: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.h: 172: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.c: 1073: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.h: 227: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-tpg.c: 359: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys.h: 178: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 883: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
->> ./drivers/media/pci/intel/ipu-wrapper.c: 515: need linux/version.h
->> ./drivers/media/pci/intel/ipu.c: 771: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
->> ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1076: need linux/version.h
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./fs/incfs/integrity.c: 8 linux/version.h not needed.
-   ./init/version.c: 17 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 232: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.o: in function `unregister_ftrace_direct_hash':
+>> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.o: in function `unregister_ftrace_direct_hash':
+>> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.o: in function `unregister_ftrace_direct_hash':
+>> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.o: in function `unregister_ftrace_direct_hash':
+>> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
+
+
+vim +561 include/linux/ftrace.h
+
+763e34e74bb7d5 Steven Rostedt (VMware  2019-11-08  557) 
+203fbea7336ac9 Jiri Olsa               2024-11-12  558  int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+203fbea7336ac9 Jiri Olsa               2024-11-12  559  {
+203fbea7336ac9 Jiri Olsa               2024-11-12  560  	return -ENODEV;
+203fbea7336ac9 Jiri Olsa               2024-11-12 @561  }
+203fbea7336ac9 Jiri Olsa               2024-11-12  562  
+
+:::::: The code at line 561 was first introduced by commit
+:::::: 203fbea7336ac9a34f6150f753774e1a030b751e ftrace: Add register_ftrace_direct_hash function
+
+:::::: TO: Jiri Olsa <jolsa@kernel.org>
+:::::: CC: Jiri Olsa <jolsa@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
