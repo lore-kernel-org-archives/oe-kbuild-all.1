@@ -1,70 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ADAAD4B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 06:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA67242D9F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 08:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758782909; cv=none; b=SosTtOyj4V/7Vf666SC94hakSekesliFEtTTITdnPbdFrftG6t3f/SauVbijZdkd/lMpJuhtYpZFpAfMpJefqGK8WyxIaiFLa7QIA5ApY5jWqJUXDFAFMW8k3qSz8SkPYlTHEfIVsJWFg1MGieA0Wschtzvg/wmd+mykRpjItCk=
+	t=1758787502; cv=none; b=qhQt0Rd4OzbTPLC2BqGbrPUfQkCxOGgM5HueYfGuPKfcpusEVMeuteYS5y3jjoZBZx3WyZcJEdj7PKRRdfTDJP+CUqCIlJj1zS0Sr9AE0wcR5gD3VhkoUhuAyAkEWC+y/Nu3+gKKssYGuo8Xh7Qm+N1+BJYCdfOCo7F5PXeWm0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758782909; c=relaxed/simple;
-	bh=/Jh9narK//Vdct6harcwA5oRwFRD6C/h9Pvtm7ja7UI=;
+	s=arc-20240116; t=1758787502; c=relaxed/simple;
+	bh=rYyXxlBGjW+fW8RT9+6EcT7A+KojzwwNLk/C97s3Pds=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7++DlRgpUFGz3sxDHeh8MVNoXZF9ozMYRHi12Ff1YxisqleGB8org4SZNNlAA0KSdqY86KM9nHASE/ASic1QbkyAEJhm7iR2F7gWM5yVZbDl/wXk5blNpvCeBIeWp2g/QBCj5xeNd9lz71NgB1U1JfAov7UC6/4CNCkb/hHZU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGYesiqm; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=TdeZR0YoWLqv1seNs7TW+3gxKTFI4upj8Eu+GDW+9LlDiF8aWzIwdzXS7ecPvZ7CAzG1F93ylzsUwEKa0k+DG3mWUhhwqkpNZZbkp+bI0qobTIR8T449f0pa0i5xp5e/xL45bAz8fUb1XMfjZlR+iYc3z1Mtem0yQ/xJFgqp7Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G8Z4RNBi; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGYesiqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G8Z4RNBi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758782908; x=1790318908;
+  t=1758787501; x=1790323501;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/Jh9narK//Vdct6harcwA5oRwFRD6C/h9Pvtm7ja7UI=;
-  b=TGYesiqmEDGqbMtrh3rI5tjrJQStiy+LXm73ZrUkZTP4anpSk3quje81
-   QOPgDBSHa/SJJ4FsjTOhK6jligCWT1zF+zppHus24ijadCJwKm1tsK4d4
-   PngO6HrWyDV/4h/AwfcAdHk7zs4VR0DBPoZdl/EcHjVwIo/uKUoK3JGCB
-   PwMMO3I6jd3Iy+scliDOI2gPh0r2oibLvEtov+lMZT11PLNNn/NWVh47d
-   eNR1kX6IJjFLykw/1XjSHt5Qr8X4sV4Kjrj6ELu5U/gCtE86rrlfrrvLQ
-   eX85/0qQ5CIyyjWxeIq4NsJCUQbm3Z8FkrZ2V4d+UMrIUTodY/wq8wgxo
+  bh=rYyXxlBGjW+fW8RT9+6EcT7A+KojzwwNLk/C97s3Pds=;
+  b=G8Z4RNBiLugMltDZELZbARWYvXwawYG4drTevN4pZi+q5E6VPuX812rS
+   CxyLxKffh3FAol2tsGIbq46rborEwf4QYbUIdz6JZLukWGCg61b0lwqCD
+   u5IpRhkQg9ZmLXbVNMZ3nZnx0jrVcb5YYlkiSh9xsagfczp2ud39jF5Ia
+   9cyZOY45wLlXOesGaXULekoF6TQWhj2kaF6ksvAmlDWe1QxBeVk7yqq64
+   YcLZtkO0M9Z31li+5bS+TvwlbQ3QPCOUM25cikW9FwPL+/a4XzyeF4cjo
+   4tn4Goj85hHI2u5cMkdvmNPjPEKJp1VYZLRIS55GbbAKk/1rOdRGQzcg0
    Q==;
-X-CSE-ConnectionGUID: NjiSson9RxOskyRFXRVS6g==
-X-CSE-MsgGUID: 2D3L1kcNRaSaBv+07Oyeqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="72520232"
-X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
-   d="scan'208";a="72520232"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 23:48:27 -0700
-X-CSE-ConnectionGUID: 0laVTdjgR/O9U2gJbq7RfA==
-X-CSE-MsgGUID: 6hCP+bN0SLe9K0FCbDqTvg==
+X-CSE-ConnectionGUID: 3xwA77WWRiq4YKFbOSfFgQ==
+X-CSE-MsgGUID: 6udbvAPyTwOk+Jwkt6Xnjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61045269"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61045269"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 01:05:00 -0700
+X-CSE-ConnectionGUID: XbP/FV+3T+Ww+hmLOgDGFQ==
+X-CSE-MsgGUID: mJYZrIEfRISVYJY4vFFgvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
-   d="scan'208";a="208185905"
+   d="scan'208";a="178031281"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2025 23:48:23 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 Sep 2025 01:04:58 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1fm8-0004zj-31;
-	Thu, 25 Sep 2025 06:48:20 +0000
-Date: Thu, 25 Sep 2025 14:48:16 +0800
+	id 1v1gy9-000537-2C;
+	Thu, 25 Sep 2025 08:04:51 +0000
+Date: Thu, 25 Sep 2025 16:04:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Zahka <daniel.zahka@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Willem de Bruijn <willemb@google.com>,
-	Breno Leitao <leitao@debian.org>, Petr Machata <petrm@nvidia.com>,
-	Yuyang Huang <yuyanghuang@google.com>,
-	Xiao Liang <shaw.leon@gmail.com>,
-	Carolina Jubran <cjubran@nvidia.com>,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: Re: [PATCH net-next 1/9] netdevsim: a basic test PSP implementation
-Message-ID: <202509251404.crckqEdD-lkp@intel.com>
-References: <20250924194959.2845473-2-daniel.zahka@gmail.com>
+To: Farhan Ali <alifm@linux.ibm.com>, linux-s390@vger.kernel.org,
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, alex.williamson@redhat.com,
+	helgaas@kernel.org, clg@redhat.com, alifm@linux.ibm.com,
+	schnelle@linux.ibm.com, mjrosato@linux.ibm.com
+Subject: Re: [PATCH v4 08/10] vfio-pci/zdev: Add a device feature for error
+ information
+Message-ID: <202509251506.Z5Ov6pYQ-lkp@intel.com>
+References: <20250924171628.826-9-alifm@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,58 +67,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250924194959.2845473-2-daniel.zahka@gmail.com>
+In-Reply-To: <20250924171628.826-9-alifm@linux.ibm.com>
 
-Hi Daniel,
+Hi Farhan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus awilliam-vfio/next s390/features linus/master v6.17-rc7]
+[cannot apply to awilliam-vfio/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Zahka/netdevsim-a-basic-test-PSP-implementation/20250925-035305
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250924194959.2845473-2-daniel.zahka%40gmail.com
-patch subject: [PATCH net-next 1/9] netdevsim: a basic test PSP implementation
-config: i386-buildonly-randconfig-003-20250925 (https://download.01.org/0day-ci/archive/20250925/202509251404.crckqEdD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251404.crckqEdD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Farhan-Ali/PCI-Avoid-saving-error-values-for-config-space/20250925-012105
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250924171628.826-9-alifm%40linux.ibm.com
+patch subject: [PATCH v4 08/10] vfio-pci/zdev: Add a device feature for error information
+config: csky-randconfig-002-20250925 (https://download.01.org/0day-ci/archive/20250925/202509251506.Z5Ov6pYQ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251506.Z5Ov6pYQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509251404.crckqEdD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509251506.Z5Ov6pYQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/netdevsim/netdev.c: In function 'nsim_forward_skb':
->> drivers/net/netdevsim/netdev.c:116:36: error: 'SKB_EXT_PSP' undeclared (first use in this function); did you mean 'SKB_EXT_NUM'?
-     116 |                 __skb_ext_set(skb, SKB_EXT_PSP, psp_ext);
-         |                                    ^~~~~~~~~~~
-         |                                    SKB_EXT_NUM
-   drivers/net/netdevsim/netdev.c:116:36: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from drivers/vfio/pci/vfio_pci_config.c:29:
+>> drivers/vfio/pci/vfio_pci_priv.h:106:12: warning: 'vfio_pci_zdev_feature_err' defined but not used [-Wunused-function]
+     106 | static int vfio_pci_zdev_feature_err(struct vfio_device *device, u32 flags,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +116 drivers/net/netdevsim/netdev.c
+vim +/vfio_pci_zdev_feature_err +106 drivers/vfio/pci/vfio_pci_priv.h
 
-   102	
-   103	static int nsim_forward_skb(struct net_device *tx_dev,
-   104				    struct net_device *rx_dev,
-   105				    struct sk_buff *skb,
-   106				    struct nsim_rq *rq,
-   107				    struct skb_ext *psp_ext)
+   105	
+ > 106	static int vfio_pci_zdev_feature_err(struct vfio_device *device, u32 flags,
+   107					     void __user *arg, size_t argsz)
    108	{
-   109		int ret;
-   110	
-   111		ret = __dev_forward_skb(rx_dev, skb);
-   112		if (ret)
-   113			return ret;
-   114	
-   115		if (psp_ext)
- > 116			__skb_ext_set(skb, SKB_EXT_PSP, psp_ext);
-   117	
-   118		return nsim_napi_rx(tx_dev, rx_dev, rq, skb);
-   119	}
-   120	
+   109		return -ENODEV;
+   110	}
+   111	#endif
+   112	
 
 -- 
 0-DAY CI Kernel Test Service
