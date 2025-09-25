@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56154DF49
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 03:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CBD2E88B3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 05:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758772142; cv=none; b=ZypFH2XGHPo23DVan2EYT6tuaVXrCfYEgVIPbpIWTglvMPv0KjoN0fC8XazdO7ViHIVxdvkJf8dFSfpcsG3xhZdP7jO27xKH7KpncqmyOCa3vpgQifhDS5PMXEREyGZIyjLjE5L4e5GiJZ5/CtZk4TeA3bCkdbghylQE2VJ/bxI=
+	t=1758778969; cv=none; b=Cq1MY9lr0jduAnpC+04Ku4tEHRMlFYhCc6AtkHWb3MEzydS9nH1kgt/mfqOgXrSzPhrrEjsmJcn7nOtIVJ6kWBMenPWRy5ZloX/otlFqriXWlvZeS8/Mr93n1VmY6lSO1ojAqbHpd4VDk5T7UrQzj33jQneL6pXhT7wFUShIFrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758772142; c=relaxed/simple;
-	bh=1+JdL3b8onh0ZppyyCvXHpe4kl8bUBZieOsFEPMhp9s=;
+	s=arc-20240116; t=1758778969; c=relaxed/simple;
+	bh=1zyvOrXOz4u+9Q0v+kaU+oQXnBSLHgjPJj9PLGv9pqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vxr9ca4YHS6TR3tnyVOdE9p5W7n4pQm6f85UUfxLRPW4AKlxsqGu/k038OsGjaH0qVGBK45YuG8fyIrVcTG3mPRuMPgnPUqFnOUHMHp37dfHjntmrNpCyld5K7d86E72e1fhOKXRFm8nF0XFIJKnDZ/8EtMhswZWRyIkYtzjJDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XtSnG/oW; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=s4uBvmbXh7hkKNB2L6DZt1aLlpzya0q+1D5gD+sjpTBIAGrB+uPlZWrcZVmt7OLJAXG82TBRcWWThZOy7S2w6axeW/zed7gfoT4R0SC8skDgMHWQpcQIae4I2vqszL+jQwxG1uXLnWCZlj5TnAKKX0vuU8aciP27OtXOoYrRFGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jtx+8xj1; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XtSnG/oW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jtx+8xj1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758772141; x=1790308141;
+  t=1758778967; x=1790314967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1+JdL3b8onh0ZppyyCvXHpe4kl8bUBZieOsFEPMhp9s=;
-  b=XtSnG/oW84AJS3ETgsFWc8n4dSD02TuMACmJlnaRAi5+7FvV1SBKQlIc
-   bAI3AdP/CMLHZcrTdTgKyE0DAXX4vk6KeXTJiLI2NtSLcJorQQDInFdGp
-   Yxkp7Kt/TzVqGeLKIw1Mpm+oM5/w6t+foq87j4Qr+UjgWeCHoyYMh6jSA
-   OQ83w1HZ8SjpfRN9x4WnZKCfm7DYv5j+mUoKZ62BU6v4ndq9EXbuPedAD
-   xJmX6nBueKb70XRgDM79N7o6W/9BMDQq42iS0ZbzPfUNCW6VJ/0dYIF/o
-   4tT+AKTQfCJpm0ZR6LZ8pp/IJ+QZFgD7+D7BmiZxKx0UpkRbpEQ8bpm8k
-   Q==;
-X-CSE-ConnectionGUID: tirhZ9VlTSW+bkszvISjqw==
-X-CSE-MsgGUID: F4+g26u4SXqFBOgivfEHdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64888743"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64888743"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:49:00 -0700
-X-CSE-ConnectionGUID: bLdPZX2XTjuTXito4H6o0g==
-X-CSE-MsgGUID: Itc0iBzrSd6UKu6MqQX6zQ==
+  bh=1zyvOrXOz4u+9Q0v+kaU+oQXnBSLHgjPJj9PLGv9pqs=;
+  b=Jtx+8xj1gGr2dAyuBPkJYppE9JirjErXv32JRUoVqdGwNwKJrX4fwBE4
+   H2rTgpqq/tIbekCeIyFMVx08KFCSr3ewNyLP6VlToi2zi8Zga/j4AjMiT
+   eg5Io3hKOCpFrSeEF9St/wL3XcrKzGe2Vv5ahZ6XeK3lDlrQwtdfXZgm1
+   e7lIoISC71NiPe6pbHUli70BZldraEt2QNKScQJWlfIrodI/KfpNLcZ9b
+   i03j27KSTyNKmK200a+8cBf+AeyXJ7ozdnQR2AlWgBk0iYxkX0/oXFUTW
+   vvtt3aj7859sjxKOMXjbMJe4LwMZWNVnrfCGxI+uHnIXVpr4J0Fz529tR
+   A==;
+X-CSE-ConnectionGUID: 2777x047Qy+TyqaVGgBC8g==
+X-CSE-MsgGUID: mCdklrkPQNeoHfBL1t8mSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="61195589"
+X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
+   d="scan'208";a="61195589"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 22:42:46 -0700
+X-CSE-ConnectionGUID: C9SA6SNRT9WUx4rzunParw==
+X-CSE-MsgGUID: at68jEL2TqmL3vqad2J17A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="214347522"
+   d="scan'208";a="181242450"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 24 Sep 2025 20:48:59 -0700
+  by orviesa003.jf.intel.com with ESMTP; 24 Sep 2025 22:42:45 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1cyW-0004u9-0t;
-	Thu, 25 Sep 2025 03:48:56 +0000
-Date: Thu, 25 Sep 2025 11:48:01 +0800
+	id 1v1ekc-0004wt-1l;
+	Thu, 25 Sep 2025 05:42:42 +0000
+Date: Thu, 25 Sep 2025 13:41:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/single_direct_ops 3/9] include/linux/ftrace.h:561:
- multiple definition of `unregister_ftrace_direct_hash';
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first
- defined here
-Message-ID: <202509251110.E3O2GY0v-lkp@intel.com>
+To: "Bastien Curutchet (Schneider Electric)" <bastien.curutchet@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 11463/11867]
+ arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0
+ (microchip,ksz8873): pinctrl-names: ['default'] is too short
+Message-ID: <202509251326.SYA3QL9j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,52 +64,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
-head:   512bde773529ffbb0241c282793b7f4641034fe7
-commit: 2343ed53ba7f3e2615ad0e325bbf0766ab00e9b6 [3/9] ftrace: Add unregister_ftrace_direct_hash function
-config: arm-randconfig-003-20250925 (https://download.01.org/0day-ci/archive/20250925/202509251110.E3O2GY0v-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251110.E3O2GY0v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ce7f1a983b074f6cf8609068088ca3182c569ee4
+commit: e469b87e0fb0d1209edb6c291474b1a1afa45bd5 [11463/11867] dt-bindings: net: dsa: microchip: Add strap description to set SPI mode
+config: arm-randconfig-053-20250923 (https://download.01.org/0day-ci/archive/20250925/202509251326.SYA3QL9j-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251326.SYA3QL9j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509251110.E3O2GY0v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509251326.SYA3QL9j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.o: in function `unregister_ftrace_direct_hash':
->> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.o: in function `unregister_ftrace_direct_hash':
->> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.o: in function `unregister_ftrace_direct_hash':
->> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:559: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:559: first defined here
-   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.o: in function `unregister_ftrace_direct_hash':
->> include/linux/ftrace.h:561: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:561: first defined here
-
-
-vim +561 include/linux/ftrace.h
-
-763e34e74bb7d5 Steven Rostedt (VMware  2019-11-08  557) 
-203fbea7336ac9 Jiri Olsa               2024-11-12  558  int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-203fbea7336ac9 Jiri Olsa               2024-11-12  559  {
-203fbea7336ac9 Jiri Olsa               2024-11-12  560  	return -ENODEV;
-203fbea7336ac9 Jiri Olsa               2024-11-12 @561  }
-203fbea7336ac9 Jiri Olsa               2024-11-12  562  
-
-:::::: The code at line 561 was first introduced by commit
-:::::: 203fbea7336ac9a34f6150f753774e1a030b751e ftrace: Add register_ftrace_direct_hash function
-
-:::::: TO: Jiri Olsa <jolsa@kernel.org>
-:::::: CC: Jiri Olsa <jolsa@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[31]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[31]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
+--
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
