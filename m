@@ -1,70 +1,73 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC866FC3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 06:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789E742AA3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 06:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758780651; cv=none; b=hxtiwhQ5NWbbjoX4ofmatOt52/dWj9+IyK1PI43ambgoK7h3CTEqRmBY6sfFeJUf5ks0kxCMxEF5Bmb5n5dMZAUUXTDJudbUVVU0LF7nMvelOy1CuagnjXhiQ559zmQPuR3aUBhJ8q6CK14WJPPzzUoO6/seAzfGvPNhvPoOgjU=
+	t=1758781034; cv=none; b=P9bYcUUkpvDaFri1I7IQ+9AvYYDwjbx9ZbataewHDrAWlLbqq43hkWQcbnvHkq0fvVL8U6z/aOZHcIkM2slb2FhZEaM448hCZ9OrAmIo6cD4BLGLOoRrlfwICeM4NMRsP9WIEPFqRCGp3YE3WsKf/b0qg8huNVDj8fBxtZIEymc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758780651; c=relaxed/simple;
-	bh=/A5azENy75fHdhtH4TwZlZwODLfr6p0veaq1uSmtdcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sbiIkInZ5TUYKtyaK/zQgeVRLN08rPxckcz/ectIrOwI5PlnCSYxGEGGp2DLFJZw+PYsih1EtsF+qJcseulwvfEM902G6rz1VNKHIgakac+DJ3N8e0BzTLNnUtC6tlGvijuL6gZX8EPV1l5mbs3sicWkQ3GANZ4KrX78oeWHdnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gxWQWwTr; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758781034; c=relaxed/simple;
+	bh=no9McvNQ9dwrmydNxDE878rNinVgQfTkTR2eEwoS+Cg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yda4t+19NrpOQGHTwAKiRqYrdpyeDD0b4Tr/7VmrOCjg5Duy3K3/6vZ3BX7jkvEvxbsp2KIdbWsqA0MoVdTRGnZPBjmVamKiKdgFO53rkoCRyj+EVCy3llm/C4y4eAiYrgMQFPhgNWT/yG0PEWpB+MiDj7q/aZQ8sHTra6LukmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOnxnDTU; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gxWQWwTr"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e1e318f58so4769285e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 23:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758780647; x=1759385447; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ClpT2HPoDa5jl/eHQe7heLtiwAm/J+kpez0x7BlPj90=;
-        b=gxWQWwTrN/WcACKWBBQys2S4C93LtUDrFQMZWvF0We1wNLAmu/Tq+7dwuiS7uma+Bf
-         IUopTwI9CUXARe2xBqfnrkM7hgQwyTyLoqsb7icvPG7akXFHD+/H7K2s0jpynelQRiw4
-         wj4710LpZxe5iVysG5HdBAEP0jzMbC3ykkWxy3RvlH0vMwFt4BQ+aQ940v3J9BJyo408
-         ke/sHlreNbl/DYfQaHU9rMTLfulnH+dM0PHEjECUTEDPGn35Qf9gaZQjsghi3Suwyzmy
-         YJcy7YevOBjPvJGPQWf+qfJpxXm6+7EKGQ763QWpd2dpT9m1zfJbf2/chFirnu0UGluw
-         RmnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758780647; x=1759385447;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ClpT2HPoDa5jl/eHQe7heLtiwAm/J+kpez0x7BlPj90=;
-        b=hBCH3kCq78+dnSMSOTnjQ+bOVmZLrOJTqKkicqjuS/b8yYTGUX31FbizHVM+qYljrh
-         TohI2BaarxQw8AbcaCGlN9urzEPAnrTlKuYpErlLendgNUrKDVO5Qiq8oHBR810hters
-         eRZ91eVh2EOnK52+vDk+MSMcQ9dwl1SlVU2trkWSwq5IyxC4RwxCjw2yYPq0DZC3EGgd
-         Tmb4nccOShR3uYZowlhIFXCFyWh/DRH9mokVJeUiQfJrJ+yrn9Y4KSpZa5nqw/4xkhL+
-         6EF9j4huFipF7CKArTofsU++z/hCPmh3BzAJ8K53pnlgBRZlGyr9qQI4nCDSlVREoR4J
-         GAhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJc+hfvGLX1dP9zJ/UXSehF1SEigT09JeCaWsmGkOveMWecvj0vRA7PkStabZWuk5oye5ieWG3phGhFcYG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzrd+7ZGx2H6ntQZ1zvB7IAnTli3Qu0/qC+LW7lz/d/iUoH5zTu
-	kBiQTfYeklpX92mmDQXgmtV2e1LB5VyThln/jhp1eKxPV8NGhdElx8w2OHFo71uCrn0=
-X-Gm-Gg: ASbGncu8XVc8oLEkNBQX2fdSQG+e2yoIy0Ekmenh5GXBL3u2mTZ9j02bOPfQzrmM6MX
-	7IjQipZv65eFP4UBKp4kGnZbGqH2hVdqithjovuqKrP6ytCuVaaGI/rQavKXxc11cyRERMayFoK
-	K91XYyFCkRgKLOcjzc/8xaudUGa/ZFO0uMjtTmKH6JKfxKg47+H5uoFkmHoPkPqUjd1q8W7zzG+
-	8N3Wuvdyceo8/dkwDdbil92EOvM/rG3mQ61JZ/vfdR/KKs1g0SzvXNI+GqZEaf6t7BOWW2skrN4
-	Y45ypiNPOPpKpRkJ5LuTm8tvtSpnBTcxI5TsZRNB22erOfzNcpsxGckm3W1vNfhpKJbKuQJIc8T
-	6asY3wyl4ba2PqAuImRLN+nWWGc8=
-X-Google-Smtp-Source: AGHT+IFa77m8x7ZOSKxqVy7k9ZpC8FvBjzk/j7HoydRbNcW4lvCJobv/tZNJb9yt47RqP11Rxx+lMg==
-X-Received: by 2002:a05:600c:1d16:b0:46d:fd71:f69 with SMTP id 5b1f17b1804b1-46e329bd6a7mr18607035e9.14.1758780647424;
-        Wed, 24 Sep 2025 23:10:47 -0700 (PDT)
-Received: from localhost ([41.210.143.179])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-40fb871d051sm1507927f8f.14.2025.09.24.23.10.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 23:10:46 -0700 (PDT)
-Date: Thu, 25 Sep 2025 09:10:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	David Sterba <dsterba@suse.com>
-Subject: [linux-next:master 11380/12207] fs/btrfs/extent_io.c:401
- find_lock_delalloc_range() error: we previously assumed 'fs_info' could be
- null (see line 378)
-Message-ID: <202509250925.4L4JQTtn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOnxnDTU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758781032; x=1790317032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=no9McvNQ9dwrmydNxDE878rNinVgQfTkTR2eEwoS+Cg=;
+  b=YOnxnDTUdqhJ+4MA6Yv1ixar9bjvLrG+z5qPLWYBBAOVmFM+yVM2kk8c
+   Onxe/HyKkYLDmK4q2Bie6oieoTxFPU/jdp9wkZ8SV76ugpFZfkfG00U9k
+   clC0MiwjNv0i3zwfqqNtHrTfjAiuXacp2DBs/RXBeSFAWsdNSPgDZes48
+   FIYwGyYLgHF8OaBbkozdDEVixw3/VbuqcrrcDiL6mxtRy8P8/h4zmLQha
+   3d/WcZS3iu2Y6dDNSnHL2xbk7Vcp9+oakfczHCZ3ADbYA+raUZFZBJJOA
+   H11vW/4BH6cgC93Bc4YQle/ZDeRby+T/WRnkX0XUiYiRDgO9eBTSYb/Yz
+   Q==;
+X-CSE-ConnectionGUID: iE0mVssQRP2ShmD8B+fvBw==
+X-CSE-MsgGUID: gAV3wOOFQou6imsC9A0S1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="63716826"
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
+   d="scan'208";a="63716826"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 23:17:11 -0700
+X-CSE-ConnectionGUID: CKdBgEU7Tl2c1kZ2BI7ZZw==
+X-CSE-MsgGUID: QIB0xzXNSEabIqFmc+88Dg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
+   d="scan'208";a="177083021"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2025 23:17:04 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v1fHk-0004yD-0p;
+	Thu, 25 Sep 2025 06:16:57 +0000
+Date: Thu, 25 Sep 2025 14:15:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manikanta Guntupalli <manikanta.guntupalli@amd.com>, git@amd.com,
+	michal.simek@amd.com, alexandre.belloni@bootlin.com,
+	Frank.Li@nxp.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, pgaj@cadence.com,
+	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
+	arnd@arndb.de, quic_msavaliy@quicinc.com, Shyam-sundar.S-k@amd.com,
+	sakari.ailus@linux.intel.com, billy_tsai@aspeedtech.com,
+	kees@kernel.org, gustavoars@kernel.org,
+	jarkko.nikula@linux.intel.com, jorge.marques@analog.com,
+	linux-i3c@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, radhey.shyam.pandey@amd.com,
+	srinivas.goud@amd.com, shubhrajyoti.datta@amd.com,
+	manion05gk@gmail.com,
+	Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+Subject: Re: [PATCH V7 2/4] asm-generic/io.h: Add big-endian MMIO accessors
+Message-ID: <202509251347.sb9SGhab-lkp@intel.com>
+References: <20250923154551.2112388-3-manikanta.guntupalli@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,135 +76,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250923154551.2112388-3-manikanta.guntupalli@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b5a4da2c459f79a2c87c867398f1c0c315779781
-commit: 7b26da407420e5054e3f06c5d13271697add9423 [11380/12207] btrfs: fix the incorrect max_bytes value for find_lock_delalloc_range()
-config: i386-randconfig-141-20250925 (https://download.01.org/0day-ci/archive/20250925/202509250925.4L4JQTtn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Manikanta,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master arnd-asm-generic/master v6.17-rc7 next-20250924]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Guntupalli/dt-bindings-i3c-Add-AMD-I3C-master-controller-support/20250923-234944
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250923154551.2112388-3-manikanta.guntupalli%40amd.com
+patch subject: [PATCH V7 2/4] asm-generic/io.h: Add big-endian MMIO accessors
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20250925/202509251347.sb9SGhab-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251347.sb9SGhab-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509250925.4L4JQTtn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509251347.sb9SGhab-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/extent_io.c:401 find_lock_delalloc_range() error: we previously assumed 'fs_info' could be null (see line 378)
+All errors (new ones prefixed by >>):
 
-vim +/fs_info +401 fs/btrfs/extent_io.c
+   In file included from arch/powerpc/include/asm/io.h:962,
+                    from include/linux/io.h:12,
+                    from include/linux/irq.h:20,
+                    from arch/powerpc/include/asm/hardirq.h:6,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:8,
+                    from include/linux/cgroup.h:27,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/powerpc/kernel/asm-offsets.c:21:
+>> include/asm-generic/io.h:304:18: error: redefinition of 'readw_be'
+     304 | #define readw_be readw_be
+         |                  ^~~~~~~~
+   include/asm-generic/io.h:305:19: note: in expansion of macro 'readw_be'
+     305 | static inline u16 readw_be(const volatile void __iomem *addr)
+         |                   ^~~~~~~~
+   arch/powerpc/include/asm/io.h:517:19: note: previous definition of 'readw_be' with type 'u16(const volatile void *)' {aka 'short unsigned int(const volatile void *)'}
+     517 | static inline u16 readw_be(const volatile void __iomem *addr)
+         |                   ^~~~~~~~
+>> include/asm-generic/io.h:319:18: error: redefinition of 'readl_be'
+     319 | #define readl_be readl_be
+         |                  ^~~~~~~~
+   include/asm-generic/io.h:320:19: note: in expansion of macro 'readl_be'
+     320 | static inline u32 readl_be(const volatile void __iomem *addr)
+         |                   ^~~~~~~~
+   arch/powerpc/include/asm/io.h:522:19: note: previous definition of 'readl_be' with type 'u32(const volatile void *)' {aka 'unsigned int(const volatile void *)'}
+     522 | static inline u32 readl_be(const volatile void __iomem *addr)
+         |                   ^~~~~~~~
+>> include/asm-generic/io.h:351:19: error: redefinition of 'writew_be'
+     351 | #define writew_be writew_be
+         |                   ^~~~~~~~~
+   include/asm-generic/io.h:352:20: note: in expansion of macro 'writew_be'
+     352 | static inline void writew_be(u16 value, volatile void __iomem *addr)
+         |                    ^~~~~~~~~
+   arch/powerpc/include/asm/io.h:545:20: note: previous definition of 'writew_be' with type 'void(u16,  volatile void *)' {aka 'void(short unsigned int,  volatile void *)'}
+     545 | static inline void writew_be(u16 val, volatile void __iomem *addr)
+         |                    ^~~~~~~~~
+>> include/asm-generic/io.h:363:19: error: redefinition of 'writel_be'
+     363 | #define writel_be writel_be
+         |                   ^~~~~~~~~
+   include/asm-generic/io.h:364:20: note: in expansion of macro 'writel_be'
+     364 | static inline void writel_be(u32 value, volatile void __iomem *addr)
+         |                    ^~~~~~~~~
+   arch/powerpc/include/asm/io.h:550:20: note: previous definition of 'writel_be' with type 'void(u32,  volatile void *)' {aka 'void(unsigned int,  volatile void *)'}
+     550 | static inline void writel_be(u32 val, volatile void __iomem *addr)
+         |                    ^~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/powerpc/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1282: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-ce9f967f31ea91 Johannes Thumshirn 2018-11-19  368  EXPORT_FOR_TESTS
-3522e90301d7a6 Lu Fengqi          2018-11-29  369  noinline_for_stack bool find_lock_delalloc_range(struct inode *inode,
-c987f1e6d4435a Josef Bacik        2024-07-24  370  						 struct folio *locked_folio,
-c987f1e6d4435a Josef Bacik        2024-07-24  371  						 u64 *start, u64 *end)
-c8b978188c9a0f Chris Mason        2008-10-29  372  {
-41044b41ad2c8c David Sterba       2023-09-14  373  	struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
-9978059be8a1af Goldwyn Rodrigues  2019-06-21  374  	struct extent_io_tree *tree = &BTRFS_I(inode)->io_tree;
-2749f7ef3643fe Qu Wenruo          2021-09-27  375  	const u64 orig_start = *start;
-2749f7ef3643fe Qu Wenruo          2021-09-27  376  	const u64 orig_end = *end;
-f7b12a62f008a3 Naohiro Aota       2022-07-09  377  	/* The sanity tests may not set a valid fs_info. */
-f7b12a62f008a3 Naohiro Aota       2022-07-09 @378  	u64 max_bytes = fs_info ? fs_info->max_extent_size : BTRFS_MAX_EXTENT_SIZE;
-                                                                        ^^^^^^^
-NULL check
 
-c8b978188c9a0f Chris Mason        2008-10-29  379  	u64 delalloc_start;
-c8b978188c9a0f Chris Mason        2008-10-29  380  	u64 delalloc_end;
-3522e90301d7a6 Lu Fengqi          2018-11-29  381  	bool found;
-9655d2982b53fd Chris Mason        2009-09-02  382  	struct extent_state *cached_state = NULL;
-c8b978188c9a0f Chris Mason        2008-10-29  383  	int ret;
-c8b978188c9a0f Chris Mason        2008-10-29  384  	int loops = 0;
-c8b978188c9a0f Chris Mason        2008-10-29  385  
-2749f7ef3643fe Qu Wenruo          2021-09-27  386  	/* Caller should pass a valid @end to indicate the search range end */
-2749f7ef3643fe Qu Wenruo          2021-09-27  387  	ASSERT(orig_end > orig_start);
-2749f7ef3643fe Qu Wenruo          2021-09-27  388  
-c987f1e6d4435a Josef Bacik        2024-07-24  389  	/* The range should at least cover part of the folio */
-55cd57faa50346 David Sterba       2025-06-10  390  	ASSERT(!(orig_start >= folio_end(locked_folio) ||
-c987f1e6d4435a Josef Bacik        2024-07-24  391  		 orig_end <= folio_pos(locked_folio)));
-c8b978188c9a0f Chris Mason        2008-10-29  392  again:
-c8b978188c9a0f Chris Mason        2008-10-29  393  	/* step one, find a bunch of delalloc bytes starting at start */
-c8b978188c9a0f Chris Mason        2008-10-29  394  	delalloc_start = *start;
-c8b978188c9a0f Chris Mason        2008-10-29  395  	delalloc_end = 0;
-7b26da407420e5 Qu Wenruo          2025-09-19  396  
-7b26da407420e5 Qu Wenruo          2025-09-19  397  	/*
-7b26da407420e5 Qu Wenruo          2025-09-19  398  	 * If @max_bytes is smaller than a block, btrfs_find_delalloc_range() can
-7b26da407420e5 Qu Wenruo          2025-09-19  399  	 * return early without handling any dirty ranges.
-7b26da407420e5 Qu Wenruo          2025-09-19  400  	 */
-7b26da407420e5 Qu Wenruo          2025-09-19 @401  	ASSERT(max_bytes >= fs_info->sectorsize);
-                                                                            ^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
+vim +/readw_be +304 include/asm-generic/io.h
 
-7b26da407420e5 Qu Wenruo          2025-09-19  402  
-083e75e7e6a9e2 Josef Bacik        2019-09-23  403  	found = btrfs_find_delalloc_range(tree, &delalloc_start, &delalloc_end,
-c2a128d28a2e78 Josef Bacik        2010-02-02  404  					  max_bytes, &cached_state);
-2749f7ef3643fe Qu Wenruo          2021-09-27  405  	if (!found || delalloc_end <= *start || delalloc_start > orig_end) {
-c8b978188c9a0f Chris Mason        2008-10-29  406  		*start = delalloc_start;
-2749f7ef3643fe Qu Wenruo          2021-09-27  407  
-2749f7ef3643fe Qu Wenruo          2021-09-27  408  		/* @delalloc_end can be -1, never go beyond @orig_end */
-2749f7ef3643fe Qu Wenruo          2021-09-27  409  		*end = min(delalloc_end, orig_end);
-b351161f4f6643 Filipe Manana      2025-04-04  410  		btrfs_free_extent_state(cached_state);
-3522e90301d7a6 Lu Fengqi          2018-11-29  411  		return false;
-c8b978188c9a0f Chris Mason        2008-10-29  412  	}
-c8b978188c9a0f Chris Mason        2008-10-29  413  
-70b99e6959a4c2 Chris Mason        2008-10-31  414  	/*
-c987f1e6d4435a Josef Bacik        2024-07-24  415  	 * start comes from the offset of locked_folio.  We have to lock
-c987f1e6d4435a Josef Bacik        2024-07-24  416  	 * folios in order, so we can't process delalloc bytes before
-c987f1e6d4435a Josef Bacik        2024-07-24  417  	 * locked_folio
-70b99e6959a4c2 Chris Mason        2008-10-31  418  	 */
-d397712bcc6a75 Chris Mason        2009-01-05  419  	if (delalloc_start < *start)
-70b99e6959a4c2 Chris Mason        2008-10-31  420  		delalloc_start = *start;
-70b99e6959a4c2 Chris Mason        2008-10-31  421  
-c8b978188c9a0f Chris Mason        2008-10-29  422  	/*
-c987f1e6d4435a Josef Bacik        2024-07-24  423  	 * make sure to limit the number of folios we try to lock down
-c8b978188c9a0f Chris Mason        2008-10-29  424  	 */
-7bf811a595a895 Josef Bacik        2013-10-07  425  	if (delalloc_end + 1 - delalloc_start > max_bytes)
-7bf811a595a895 Josef Bacik        2013-10-07  426  		delalloc_end = delalloc_start + max_bytes - 1;
-d397712bcc6a75 Chris Mason        2009-01-05  427  
-17dc82dc1e77a6 David Sterba       2025-08-22  428  	/* step two, lock all the folios after the folios that has start */
-e4d80ebe50de25 Josef Bacik        2024-07-24  429  	ret = lock_delalloc_folios(inode, locked_folio, delalloc_start,
-e4d80ebe50de25 Josef Bacik        2024-07-24  430  				   delalloc_end);
-9bfd61d9755a51 Nikolay Borisov    2018-10-26  431  	ASSERT(!ret || ret == -EAGAIN);
-c8b978188c9a0f Chris Mason        2008-10-29  432  	if (ret == -EAGAIN) {
-7b26da407420e5 Qu Wenruo          2025-09-19  433  		/*
-7b26da407420e5 Qu Wenruo          2025-09-19  434  		 * Some of the folios are gone, lets avoid looping by
-7b26da407420e5 Qu Wenruo          2025-09-19  435  		 * shortening the size of the delalloc range we're searching.
-c8b978188c9a0f Chris Mason        2008-10-29  436  		 */
-b351161f4f6643 Filipe Manana      2025-04-04  437  		btrfs_free_extent_state(cached_state);
-7d78874273463a Chris Mason        2014-05-21  438  		cached_state = NULL;
-c8b978188c9a0f Chris Mason        2008-10-29  439  		if (!loops) {
-7b26da407420e5 Qu Wenruo          2025-09-19  440  			max_bytes = fs_info->sectorsize;
-                                                                                    ^^^^^^^^^^^^^^^^^^^
-Here too, I suppose.
-
-c8b978188c9a0f Chris Mason        2008-10-29  441  			loops = 1;
-c8b978188c9a0f Chris Mason        2008-10-29  442  			goto again;
-c8b978188c9a0f Chris Mason        2008-10-29  443  		} else {
-3522e90301d7a6 Lu Fengqi          2018-11-29  444  			found = false;
-c8b978188c9a0f Chris Mason        2008-10-29  445  			goto out_failed;
-c8b978188c9a0f Chris Mason        2008-10-29  446  		}
-c8b978188c9a0f Chris Mason        2008-10-29  447  	}
-c8b978188c9a0f Chris Mason        2008-10-29  448  
-c8b978188c9a0f Chris Mason        2008-10-29  449  	/* step three, lock the state bits for the whole range */
-242570e80bfdf3 Filipe Manana      2025-03-31  450  	btrfs_lock_extent(tree, delalloc_start, delalloc_end, &cached_state);
-c8b978188c9a0f Chris Mason        2008-10-29  451  
-c8b978188c9a0f Chris Mason        2008-10-29  452  	/* then test to make sure it is all still delalloc */
-f81c2aea711205 Filipe Manana      2025-04-04  453  	ret = btrfs_test_range_bit(tree, delalloc_start, delalloc_end,
-893fe243999466 David Sterba       2020-08-14  454  				   EXTENT_DELALLOC, cached_state);
-c0707c9e1e36d5 Josef Bacik        2024-02-12  455  
-242570e80bfdf3 Filipe Manana      2025-03-31  456  	btrfs_unlock_extent(tree, delalloc_start, delalloc_end, &cached_state);
-c8b978188c9a0f Chris Mason        2008-10-29  457  	if (!ret) {
-2b41599bff1714 David Sterba       2025-01-09  458  		unlock_delalloc_folio(inode, locked_folio, delalloc_start,
-79be4a28d834ea Josef Bacik        2024-07-24  459  				      delalloc_end);
-c8b978188c9a0f Chris Mason        2008-10-29  460  		cond_resched();
-c8b978188c9a0f Chris Mason        2008-10-29  461  		goto again;
-c8b978188c9a0f Chris Mason        2008-10-29  462  	}
-c8b978188c9a0f Chris Mason        2008-10-29  463  	*start = delalloc_start;
-c8b978188c9a0f Chris Mason        2008-10-29  464  	*end = delalloc_end;
-c8b978188c9a0f Chris Mason        2008-10-29  465  out_failed:
-c8b978188c9a0f Chris Mason        2008-10-29  466  	return found;
-c8b978188c9a0f Chris Mason        2008-10-29  467  }
+   297	
+   298	/*
+   299	 * {read,write}{w,l,q}_be() access big endian memory and return result
+   300	 * in native endianness.
+   301	 */
+   302	
+   303	#ifndef readw_be
+ > 304	#define readw_be readw_be
+   305	static inline u16 readw_be(const volatile void __iomem *addr)
+   306	{
+   307		u16 val;
+   308	
+   309		log_read_mmio(16, addr, _THIS_IP_, _RET_IP_);
+   310		__io_br();
+   311		val = __be16_to_cpu((__be16 __force)__raw_readw(addr));
+   312		__io_ar(val);
+   313		log_post_read_mmio(val, 16, addr, _THIS_IP_, _RET_IP_);
+   314		return val;
+   315	}
+   316	#endif
+   317	
+   318	#ifndef readl_be
+ > 319	#define readl_be readl_be
+   320	static inline u32 readl_be(const volatile void __iomem *addr)
+   321	{
+   322		u32 val;
+   323	
+   324		log_read_mmio(32, addr, _THIS_IP_, _RET_IP_);
+   325		__io_br();
+   326		val = __be32_to_cpu((__be32 __force)__raw_readl(addr));
+   327		__io_ar(val);
+   328		log_post_read_mmio(val, 32, addr, _THIS_IP_, _RET_IP_);
+   329		return val;
+   330	}
+   331	#endif
+   332	
+   333	#ifdef CONFIG_64BIT
+   334	#ifndef readq_be
+   335	#define readq_be readq_be
+   336	static inline u64 readq_be(const volatile void __iomem *addr)
+   337	{
+   338		u64 val;
+   339	
+   340		log_read_mmio(64, addr, _THIS_IP_, _RET_IP_);
+   341		__io_br();
+   342		val = __be64_to_cpu((__be64 __force)__raw_readq(addr));
+   343		__io_ar(val);
+   344		log_post_read_mmio(val, 64, addr, _THIS_IP_, _RET_IP_);
+   345		return val;
+   346	}
+   347	#endif
+   348	#endif /* CONFIG_64BIT */
+   349	
+   350	#ifndef writew_be
+ > 351	#define writew_be writew_be
+   352	static inline void writew_be(u16 value, volatile void __iomem *addr)
+   353	{
+   354		log_write_mmio(value, 16, addr, _THIS_IP_, _RET_IP_);
+   355		__io_bw();
+   356		__raw_writew((u16 __force)__cpu_to_be16(value), addr);
+   357		__io_aw();
+   358		log_post_write_mmio(value, 16, addr, _THIS_IP_, _RET_IP_);
+   359	}
+   360	#endif
+   361	
+   362	#ifndef writel_be
+ > 363	#define writel_be writel_be
+   364	static inline void writel_be(u32 value, volatile void __iomem *addr)
+   365	{
+   366		log_write_mmio(value, 32, addr, _THIS_IP_, _RET_IP_);
+   367		__io_bw();
+   368		__raw_writel((u32 __force)__cpu_to_be32(value), addr);
+   369		__io_aw();
+   370		log_post_write_mmio(value, 32, addr, _THIS_IP_, _RET_IP_);
+   371	}
+   372	#endif
+   373	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
