@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D10B3C01
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 01:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DD93C01
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 01:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758763064; cv=none; b=ei0sOxmGeEfLkf8ljqTcKBRM9TPEq6s4HhEoEd8GVdC71fll5xoesbbnbvCC0/qz9sJohTHNyKMGjLcXRKOFjimq7pw+31O1gTgE9xDr7cN1JzQEoUVypWgJwrl+Bu2DzqjVA4ecK7E5zwcrlJtm+tHARI7Xjo/AJX8pGWRgvZo=
+	t=1758763067; cv=none; b=mKtxUQe0BNJXd7OZU5hvYmc4AQUzDNNhLu6V5w4ciiAI57mPo02dsd7NOfNOY9wxIm8ekmDThs4Mi2CDx0BB+0cogeVawDIXxVk711HLJnpK4GjiVSVXh8iOf4xvI9s34yVgJ61VI5LjR08CxO9NaxTXmB8T9SUAC5BGftfW0GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758763064; c=relaxed/simple;
-	bh=GzG7zW+FyCM1PxinVj9mnxfA55wPiWh5Ew6HhkK5Hl8=;
+	s=arc-20240116; t=1758763067; c=relaxed/simple;
+	bh=0c3EjT4m2wnLDVu7SeJR6GcYerczHRzAcrZ7PKIfHH8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EuFt6VAl8X8ejW5MBavmw51S/kH2dQcK6+4EIdngOwwt4vIIWVTWidCU6lKBNJWvDV/wIZMrw+OqRMQZgOsNkZj2tfx7nnE9yu4eQMspRGD7io+OAn99UY5CDWPfKF19Zq3GNkfnY3Y5muWQjIcB9tdg5zGronMWiEINFOK7yOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mi/S+VYn; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=rUWoEJteThnuXTMeKGph+ctFGCaA2aDf0CyiPlWhLQDEKcn6PU8uOynUl555OF0kOcuVmy7PUvUbbYYnEQrs806xmVh/CRjTQo4joCBtWwcTC9OZ1qlgJF9QJJxMyZ8feIcdIeDZUsQqJxf5t9l+TcG9c9YebAwuAxoVIyAnJD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WORA2fwK; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mi/S+VYn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WORA2fwK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758763062; x=1790299062;
+  t=1758763065; x=1790299065;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GzG7zW+FyCM1PxinVj9mnxfA55wPiWh5Ew6HhkK5Hl8=;
-  b=Mi/S+VYnz53QNtmzw/sR0e88an+THfTIZJPuZ0yu1t+zW5bkYEiyvL1l
-   bb2/2IgnhTOCYfU0y4jTNdcDlHHDo840OsL1xiirEhRYcGl+eXTadYcGb
-   bYiMu9OxA3gCXddz3zUnqqGUQqxfZ3UrWWOC008kfzyxUroIS9h7k9NL2
-   jTOJD29z4nIK8pGwC7IsVKZdY7aCvqJTqlVGqK/vv0hjteA69HY4dANNg
-   xFUjrM4pOI8PPAgMv/nDy4GPpOmAWFF3odyG6XgwWiPp3c+L9aMyhcZYe
-   hVblRrggkXme1GwE7T55UtbSJ8Kx3IkhYd8USrKHLXupjM06wcQVF+jZP
+  bh=0c3EjT4m2wnLDVu7SeJR6GcYerczHRzAcrZ7PKIfHH8=;
+  b=WORA2fwKOdNgMW38dN9uWd9qfIwCwZ89I7i+bXUvVbFDSl7oTbDGCQic
+   RoY5YeECsfm7msNxVQ2EdLMnsHPt8z9F/mhUl1QAQVjWTz6yD1N1vTsOT
+   T9YeUGy4HJ/E9aTE53ANh7S39of9ktAxGa9RHHYUP/sAXTMAEnP0fmyjY
+   yYNvOzzU97FYFyd2z/znCOAl1eLRQqn2OPXAtQx6FP0iRFPp+32FKmGkr
+   42P6M+/vk2FKO0gR9xdsIQL4dCVe8soP2eO1sKK29xXEUI1+ndQbFgWBX
+   s0mo3+kOZBZOvof+FCKumMnwb7xVGrNc3THUL/m18iKYpW0dHD5zQRutc
    Q==;
-X-CSE-ConnectionGUID: P0jnF3NsTRWYlBmEd/pRPA==
-X-CSE-MsgGUID: /s2tTX6QSWSG9eB09267Lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="78710276"
+X-CSE-ConnectionGUID: WZ32KlsLS7SkIl6oisH8tQ==
+X-CSE-MsgGUID: BBMuMJDmRUGGOBLUSXzyTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="71752685"
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="78710276"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 18:17:41 -0700
-X-CSE-ConnectionGUID: PO6F4WcGQGi0eSE14T1vEA==
-X-CSE-MsgGUID: qPNPytXnSL++MrzpqjbiNw==
+   d="scan'208";a="71752685"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 18:17:45 -0700
+X-CSE-ConnectionGUID: jPNX5w7JTDiY4O+FSMSwEw==
+X-CSE-MsgGUID: E2jDRVdES5mi3TLZsS809Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="200879457"
+   d="scan'208";a="177620553"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Sep 2025 18:17:40 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 24 Sep 2025 18:17:40 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1ac6-0004mn-1X;
+	id 1v1ac6-0004mp-1b;
 	Thu, 25 Sep 2025 01:17:38 +0000
-Date: Thu, 25 Sep 2025 09:17:33 +0800
+Date: Thu, 25 Sep 2025 09:17:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm-buf 12/14] drivers/char/tpm/tpm2-cmd.c:537:8:
- error: use of undeclared label 'out'
-Message-ID: <202509250942.vEu7AqJH-lkp@intel.com>
+Subject: [jolsa-perf:bpf/single_direct_ops 2/9] include/linux/ftrace.h:558:
+ multiple definition of `register_ftrace_direct_hash';
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:558: first
+ defined here
+Message-ID: <202509250905.19LKGOa2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,113 +64,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm-buf
-head:   c3511ecb0337eea74a90bd8ccf79c05ad2ae1a6c
-commit: 75feecae0dd5e88f925008b6bdfc777366e18a76 [12/14] tpm: Make TPM buffer allocations more robust
-config: i386-buildonly-randconfig-001-20250925 (https://download.01.org/0day-ci/archive/20250925/202509250942.vEu7AqJH-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250942.vEu7AqJH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   512bde773529ffbb0241c282793b7f4641034fe7
+commit: 203fbea7336ac9a34f6150f753774e1a030b751e [2/9] ftrace: Add register_ftrace_direct_hash function
+config: arm-randconfig-003-20250925 (https://download.01.org/0day-ci/archive/20250925/202509250905.19LKGOa2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509250905.19LKGOa2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509250942.vEu7AqJH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509250905.19LKGOa2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/char/tpm/tpm2-cmd.c:14:
-   In file included from drivers/char/tpm/tpm.h:28:
-   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-     167 |         int mapping_size;
-         |             ^
->> drivers/char/tpm/tpm2-cmd.c:537:8: error: use of undeclared label 'out'
-     537 |                 goto out;
-         |                      ^
-   1 warning and 1 error generated.
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.o: in function `register_ftrace_direct_hash':
+>> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:558: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.o: in function `register_ftrace_direct_hash':
+>> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:558: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.o: in function `register_ftrace_direct_hash':
+>> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:558: first defined here
+   arm-linux-gnueabi-ld: drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.o: in function `register_ftrace_direct_hash':
+>> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.o:include/linux/ftrace.h:558: first defined here
 
 
-vim +/out +537 drivers/char/tpm/tpm2-cmd.c
+vim +558 include/linux/ftrace.h
 
-1db15344f874f6 Nayna Jain      2017-01-30  502  
-fa4f99c05320eb Nayna Jain      2019-07-11  503  ssize_t tpm2_get_pcr_allocation(struct tpm_chip *chip)
-1db15344f874f6 Nayna Jain      2017-01-30  504  {
-1db15344f874f6 Nayna Jain      2017-01-30  505  	struct tpm2_pcr_selection pcr_selection;
-1db15344f874f6 Nayna Jain      2017-01-30  506  	void *marker;
-1db15344f874f6 Nayna Jain      2017-01-30  507  	void *end;
-1db15344f874f6 Nayna Jain      2017-01-30  508  	void *pcr_select_offset;
-1db15344f874f6 Nayna Jain      2017-01-30  509  	u32 sizeof_pcr_selection;
-bcfff8384f6c4e Roberto Sassu   2019-02-06  510  	u32 nr_possible_banks;
-bcfff8384f6c4e Roberto Sassu   2019-02-06  511  	u32 nr_alloc_banks = 0;
-bcfff8384f6c4e Roberto Sassu   2019-02-06  512  	u16 hash_alg;
-1db15344f874f6 Nayna Jain      2017-01-30  513  	u32 rsp_len;
-1db15344f874f6 Nayna Jain      2017-01-30  514  	int rc;
-1db15344f874f6 Nayna Jain      2017-01-30  515  	int i = 0;
-1db15344f874f6 Nayna Jain      2017-01-30  516  
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  517  	struct tpm_buf *buf __free(kfree) = kzalloc(PAGE_SIZE, GFP_KERNEL);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  518  	if (!buf)
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  519  		return -ENOMEM;
-1db15344f874f6 Nayna Jain      2017-01-30  520  
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  521  	tpm_buf_init(buf, TPM_BUF_MAX_SIZE);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  522  	tpm_buf_reset(buf, TPM2_ST_NO_SESSIONS, TPM2_CC_GET_CAPABILITY);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  523  	tpm_buf_append_u32(buf, TPM2_CAP_PCRS);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  524  	tpm_buf_append_u32(buf, 0);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  525  	tpm_buf_append_u32(buf, 1);
-1db15344f874f6 Nayna Jain      2017-01-30  526  
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  527  	rc = tpm_transmit_cmd(chip, buf, 9, "get tpm pcr allocation");
-1db15344f874f6 Nayna Jain      2017-01-30  528  	if (rc)
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  529  		return rc;
-1db15344f874f6 Nayna Jain      2017-01-30  530  
-bcfff8384f6c4e Roberto Sassu   2019-02-06  531  	nr_possible_banks = be32_to_cpup(
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  532  		(__be32 *)&buf->data[TPM_HEADER_SIZE + 5]);
-ee156ef3755f4a Jarkko Sakkinen 2025-09-23  533  	if (nr_possible_banks > TPM2_MAX_BANKS) {
-ee156ef3755f4a Jarkko Sakkinen 2025-09-23  534  		pr_err("tpm:: unexpected large number of banks: %u > %u",
-ee156ef3755f4a Jarkko Sakkinen 2025-09-23  535  		       nr_possible_banks, TPM2_MAX_BANKS);
-bcfff8384f6c4e Roberto Sassu   2019-02-06  536  		rc = -ENOMEM;
-1db15344f874f6 Nayna Jain      2017-01-30 @537  		goto out;
-1db15344f874f6 Nayna Jain      2017-01-30  538  	}
-1db15344f874f6 Nayna Jain      2017-01-30  539  
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  540  	marker = &buf->data[TPM_HEADER_SIZE + 9];
-1db15344f874f6 Nayna Jain      2017-01-30  541  
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  542  	rsp_len = be32_to_cpup((__be32 *)&buf->data[2]);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  543  	end = &buf->data[rsp_len];
-1db15344f874f6 Nayna Jain      2017-01-30  544  
-bcfff8384f6c4e Roberto Sassu   2019-02-06  545  	for (i = 0; i < nr_possible_banks; i++) {
-1db15344f874f6 Nayna Jain      2017-01-30  546  		pcr_select_offset = marker +
-1db15344f874f6 Nayna Jain      2017-01-30  547  			offsetof(struct tpm2_pcr_selection, size_of_select);
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  548  		if (pcr_select_offset >= end)
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  549  			return -EFAULT;
-1db15344f874f6 Nayna Jain      2017-01-30  550  
-1db15344f874f6 Nayna Jain      2017-01-30  551  		memcpy(&pcr_selection, marker, sizeof(pcr_selection));
-bcfff8384f6c4e Roberto Sassu   2019-02-06  552  		hash_alg = be16_to_cpu(pcr_selection.hash_alg);
-bcfff8384f6c4e Roberto Sassu   2019-02-06  553  
-bcfff8384f6c4e Roberto Sassu   2019-02-06  554  		pcr_select_offset = memchr_inv(pcr_selection.pcr_select, 0,
-bcfff8384f6c4e Roberto Sassu   2019-02-06  555  					       pcr_selection.size_of_select);
-bcfff8384f6c4e Roberto Sassu   2019-02-06  556  		if (pcr_select_offset) {
-879b589210a9a0 Roberto Sassu   2019-02-06  557  			chip->allocated_banks[nr_alloc_banks].alg_id = hash_alg;
-879b589210a9a0 Roberto Sassu   2019-02-06  558  
-879b589210a9a0 Roberto Sassu   2019-02-06  559  			rc = tpm2_init_bank_info(chip, nr_alloc_banks);
-879b589210a9a0 Roberto Sassu   2019-02-06  560  			if (rc < 0)
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  561  				return rc;
-879b589210a9a0 Roberto Sassu   2019-02-06  562  
-bcfff8384f6c4e Roberto Sassu   2019-02-06  563  			nr_alloc_banks++;
-bcfff8384f6c4e Roberto Sassu   2019-02-06  564  		}
-bcfff8384f6c4e Roberto Sassu   2019-02-06  565  
-1db15344f874f6 Nayna Jain      2017-01-30  566  		sizeof_pcr_selection = sizeof(pcr_selection.hash_alg) +
-1db15344f874f6 Nayna Jain      2017-01-30  567  			sizeof(pcr_selection.size_of_select) +
-1db15344f874f6 Nayna Jain      2017-01-30  568  			pcr_selection.size_of_select;
-1db15344f874f6 Nayna Jain      2017-01-30  569  		marker = marker + sizeof_pcr_selection;
-1db15344f874f6 Nayna Jain      2017-01-30  570  	}
-1db15344f874f6 Nayna Jain      2017-01-30  571  
-bcfff8384f6c4e Roberto Sassu   2019-02-06  572  	chip->nr_allocated_banks = nr_alloc_banks;
-75feecae0dd5e8 Jarkko Sakkinen 2025-09-19  573  	return 0;
-1db15344f874f6 Nayna Jain      2017-01-30  574  }
-61841be6358c03 Jarkko Sakkinen 2017-02-15  575  
-
-:::::: The code at line 537 was first introduced by commit
-:::::: 1db15344f874f656b267a79467d1e7ee6442ba09 tpm: implement TPM 2.0 capability to get active PCR banks
-
-:::::: TO: Nayna Jain <nayna@linux.vnet.ibm.com>
-:::::: CC: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+   556	
+   557	int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+ > 558	{
+   559		return -ENODEV;
+   560	}
+   561	
 
 -- 
 0-DAY CI Kernel Test Service
