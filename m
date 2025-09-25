@@ -1,61 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29712287258;
-	Thu, 25 Sep 2025 06:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC866FC3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 06:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758780249; cv=none; b=QyQRaYlg2JPwb2Tl+qqrG+3OXBVqzRLk7JFmanhcXBFTSsGeqWFlfCSTjE7Rjxv+N8RzcxsGHzCVtk4sFmB8k0i5h8LRRE3u51ldwFQO2NIzzjUgrx7DD/rQuKbX43pqT51x1gPNoxTfxwoRHZ7Y6A2gxq70hd9k7DphD7LQBik=
+	t=1758780651; cv=none; b=hxtiwhQ5NWbbjoX4ofmatOt52/dWj9+IyK1PI43ambgoK7h3CTEqRmBY6sfFeJUf5ks0kxCMxEF5Bmb5n5dMZAUUXTDJudbUVVU0LF7nMvelOy1CuagnjXhiQ559zmQPuR3aUBhJ8q6CK14WJPPzzUoO6/seAzfGvPNhvPoOgjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758780249; c=relaxed/simple;
-	bh=9AovDj4POpGD4NoA6Wyfmp+E+TOIY0KiPUs1Xo8Dwx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BoxTohruIkau0/nFVPtbcu3pFvagW3jZCBGQRqNShu2zrTIOIsFoXbW3pXkTG+ohF11m3il7MVk+Geejax1futkbeYkY4RmhzttMKAZfcPyILESZjNixuPx9tnWUmBs+cDEIeoOFIK72fT2k1EjVvL/f3MwHzy+EEK93W2BnJZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNkSsCts; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758780651; c=relaxed/simple;
+	bh=/A5azENy75fHdhtH4TwZlZwODLfr6p0veaq1uSmtdcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sbiIkInZ5TUYKtyaK/zQgeVRLN08rPxckcz/ectIrOwI5PlnCSYxGEGGp2DLFJZw+PYsih1EtsF+qJcseulwvfEM902G6rz1VNKHIgakac+DJ3N8e0BzTLNnUtC6tlGvijuL6gZX8EPV1l5mbs3sicWkQ3GANZ4KrX78oeWHdnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gxWQWwTr; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNkSsCts"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758780247; x=1790316247;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9AovDj4POpGD4NoA6Wyfmp+E+TOIY0KiPUs1Xo8Dwx8=;
-  b=mNkSsCtsdILQ4TTxM+CeMkSuQNnUpsQPU904OvPWcrczpocAkfUaSz5F
-   ZBbY6HINfHQoe6IUxQCxhjD1NpJLTwhppQcLH9byodoIoOcynw9Mg8W8W
-   /aeDkCJBkOJ61YHsydqc/1OlOu7ktgX/JItdIkk0V4IY/Jh0l64P++6Fb
-   HzU+jYL68zjbC0blA/UGol2cwM4lZxC/5bnsykvMtvWysZ+0pcWX2hRkw
-   YERmnaSGv+bqrVBgK/ah+t5A0Vb3PD4p+PzESd9hj5ee25z6bVdKYur1s
-   be9hWfvqYc8r2CtcYSG1rCOpBHoJ3ST162nFRf91zHimiD4v7B7Q+Wyfp
-   A==;
-X-CSE-ConnectionGUID: LD1NvyOZRze29C0LiF3zXQ==
-X-CSE-MsgGUID: 9YCwcBj9RQe2zilykKxISQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="64727229"
-X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
-   d="scan'208";a="64727229"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 23:03:54 -0700
-X-CSE-ConnectionGUID: smpQletMR/SbonHQoq1TZA==
-X-CSE-MsgGUID: QeC6jsjxQXam48uCCLmjgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="214371757"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 24 Sep 2025 23:03:52 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v1f53-0004xV-1x;
-	Thu, 25 Sep 2025 06:03:49 +0000
-Date: Thu, 25 Sep 2025 14:03:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>, lee@kernel.org, srini@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, heiko@sntech.de
-Subject: Re: [PATCH v2 1/2] nvmem: Add driver for the eeprom in qnap-mcu
- controllers
-Message-ID: <202509251340.DSObePVn-lkp@intel.com>
-References: <20250923131815.1898332-2-heiko@sntech.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gxWQWwTr"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e1e318f58so4769285e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Sep 2025 23:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758780647; x=1759385447; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ClpT2HPoDa5jl/eHQe7heLtiwAm/J+kpez0x7BlPj90=;
+        b=gxWQWwTrN/WcACKWBBQys2S4C93LtUDrFQMZWvF0We1wNLAmu/Tq+7dwuiS7uma+Bf
+         IUopTwI9CUXARe2xBqfnrkM7hgQwyTyLoqsb7icvPG7akXFHD+/H7K2s0jpynelQRiw4
+         wj4710LpZxe5iVysG5HdBAEP0jzMbC3ykkWxy3RvlH0vMwFt4BQ+aQ940v3J9BJyo408
+         ke/sHlreNbl/DYfQaHU9rMTLfulnH+dM0PHEjECUTEDPGn35Qf9gaZQjsghi3Suwyzmy
+         YJcy7YevOBjPvJGPQWf+qfJpxXm6+7EKGQ763QWpd2dpT9m1zfJbf2/chFirnu0UGluw
+         RmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758780647; x=1759385447;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ClpT2HPoDa5jl/eHQe7heLtiwAm/J+kpez0x7BlPj90=;
+        b=hBCH3kCq78+dnSMSOTnjQ+bOVmZLrOJTqKkicqjuS/b8yYTGUX31FbizHVM+qYljrh
+         TohI2BaarxQw8AbcaCGlN9urzEPAnrTlKuYpErlLendgNUrKDVO5Qiq8oHBR810hters
+         eRZ91eVh2EOnK52+vDk+MSMcQ9dwl1SlVU2trkWSwq5IyxC4RwxCjw2yYPq0DZC3EGgd
+         Tmb4nccOShR3uYZowlhIFXCFyWh/DRH9mokVJeUiQfJrJ+yrn9Y4KSpZa5nqw/4xkhL+
+         6EF9j4huFipF7CKArTofsU++z/hCPmh3BzAJ8K53pnlgBRZlGyr9qQI4nCDSlVREoR4J
+         GAhw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJc+hfvGLX1dP9zJ/UXSehF1SEigT09JeCaWsmGkOveMWecvj0vRA7PkStabZWuk5oye5ieWG3phGhFcYG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzrd+7ZGx2H6ntQZ1zvB7IAnTli3Qu0/qC+LW7lz/d/iUoH5zTu
+	kBiQTfYeklpX92mmDQXgmtV2e1LB5VyThln/jhp1eKxPV8NGhdElx8w2OHFo71uCrn0=
+X-Gm-Gg: ASbGncu8XVc8oLEkNBQX2fdSQG+e2yoIy0Ekmenh5GXBL3u2mTZ9j02bOPfQzrmM6MX
+	7IjQipZv65eFP4UBKp4kGnZbGqH2hVdqithjovuqKrP6ytCuVaaGI/rQavKXxc11cyRERMayFoK
+	K91XYyFCkRgKLOcjzc/8xaudUGa/ZFO0uMjtTmKH6JKfxKg47+H5uoFkmHoPkPqUjd1q8W7zzG+
+	8N3Wuvdyceo8/dkwDdbil92EOvM/rG3mQ61JZ/vfdR/KKs1g0SzvXNI+GqZEaf6t7BOWW2skrN4
+	Y45ypiNPOPpKpRkJ5LuTm8tvtSpnBTcxI5TsZRNB22erOfzNcpsxGckm3W1vNfhpKJbKuQJIc8T
+	6asY3wyl4ba2PqAuImRLN+nWWGc8=
+X-Google-Smtp-Source: AGHT+IFa77m8x7ZOSKxqVy7k9ZpC8FvBjzk/j7HoydRbNcW4lvCJobv/tZNJb9yt47RqP11Rxx+lMg==
+X-Received: by 2002:a05:600c:1d16:b0:46d:fd71:f69 with SMTP id 5b1f17b1804b1-46e329bd6a7mr18607035e9.14.1758780647424;
+        Wed, 24 Sep 2025 23:10:47 -0700 (PDT)
+Received: from localhost ([41.210.143.179])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-40fb871d051sm1507927f8f.14.2025.09.24.23.10.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 23:10:46 -0700 (PDT)
+Date: Thu, 25 Sep 2025 09:10:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	David Sterba <dsterba@suse.com>
+Subject: [linux-next:master 11380/12207] fs/btrfs/extent_io.c:401
+ find_lock_delalloc_range() error: we previously assumed 'fs_info' could be
+ null (see line 378)
+Message-ID: <202509250925.4L4JQTtn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,110 +73,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923131815.1898332-2-heiko@sntech.de>
 
-Hi Heiko,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on lee-mfd/for-mfd-next linus/master lee-mfd/for-mfd-fixes v6.17-rc7 next-20250924]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/nvmem-Add-driver-for-the-eeprom-in-qnap-mcu-controllers/20250923-212052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250923131815.1898332-2-heiko%40sntech.de
-patch subject: [PATCH v2 1/2] nvmem: Add driver for the eeprom in qnap-mcu controllers
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250925/202509251340.DSObePVn-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251340.DSObePVn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b5a4da2c459f79a2c87c867398f1c0c315779781
+commit: 7b26da407420e5054e3f06c5d13271697add9423 [11380/12207] btrfs: fix the incorrect max_bytes value for find_lock_delalloc_range()
+config: i386-randconfig-141-20250925 (https://download.01.org/0day-ci/archive/20250925/202509250925.4L4JQTtn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509251340.DSObePVn-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202509250925.4L4JQTtn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/btrfs/extent_io.c:401 find_lock_delalloc_range() error: we previously assumed 'fs_info' could be null (see line 378)
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from drivers/nvmem/qnap-mcu-eeprom.c:12:
-   include/linux/mfd/qnap-mcu.h:13:2: error: unknown type name 'u32'
-      13 |         u32 baud_rate;
-         |         ^
-   include/linux/mfd/qnap-mcu.h:17:2: error: unknown type name 'bool'
-      17 |         bool usb_led;
-         |         ^
-   include/linux/mfd/qnap-mcu.h:21:11: error: unknown type name 'u8'
-      21 |                   const u8 *cmd_data, size_t cmd_data_size,
-         |                         ^
-   include/linux/mfd/qnap-mcu.h:21:25: error: unknown type name 'size_t'
-      21 |                   const u8 *cmd_data, size_t cmd_data_size,
-         |                                       ^
-   include/linux/mfd/qnap-mcu.h:22:5: error: unknown type name 'u8'
-      22 |                   u8 *reply_data, size_t reply_data_size);
-         |                   ^
-   include/linux/mfd/qnap-mcu.h:22:21: error: unknown type name 'size_t'
-      22 |                   u8 *reply_data, size_t reply_data_size);
-         |                                   ^
-   include/linux/mfd/qnap-mcu.h:24:13: error: unknown type name 'u8'
-      24 |                            const u8 *cmd_data, size_t cmd_data_size);
-         |                                  ^
-   include/linux/mfd/qnap-mcu.h:24:27: error: unknown type name 'size_t'
-      24 |                            const u8 *cmd_data, size_t cmd_data_size);
-         |                                                ^
->> drivers/nvmem/qnap-mcu-eeprom.c:28:10: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
-         |                 ^
->> drivers/nvmem/qnap-mcu-eeprom.c:28:8: error: incompatible integer to pointer conversion assigning to 'u8 *' (aka 'unsigned char *') from 'int' [-Wint-conversion]
-      28 |         reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
-         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/nvmem/qnap-mcu-eeprom.c:45:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      45 |         kfree(reply);
-         |         ^
-   1 warning and 11 errors generated.
+vim +/fs_info +401 fs/btrfs/extent_io.c
 
+ce9f967f31ea91 Johannes Thumshirn 2018-11-19  368  EXPORT_FOR_TESTS
+3522e90301d7a6 Lu Fengqi          2018-11-29  369  noinline_for_stack bool find_lock_delalloc_range(struct inode *inode,
+c987f1e6d4435a Josef Bacik        2024-07-24  370  						 struct folio *locked_folio,
+c987f1e6d4435a Josef Bacik        2024-07-24  371  						 u64 *start, u64 *end)
+c8b978188c9a0f Chris Mason        2008-10-29  372  {
+41044b41ad2c8c David Sterba       2023-09-14  373  	struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
+9978059be8a1af Goldwyn Rodrigues  2019-06-21  374  	struct extent_io_tree *tree = &BTRFS_I(inode)->io_tree;
+2749f7ef3643fe Qu Wenruo          2021-09-27  375  	const u64 orig_start = *start;
+2749f7ef3643fe Qu Wenruo          2021-09-27  376  	const u64 orig_end = *end;
+f7b12a62f008a3 Naohiro Aota       2022-07-09  377  	/* The sanity tests may not set a valid fs_info. */
+f7b12a62f008a3 Naohiro Aota       2022-07-09 @378  	u64 max_bytes = fs_info ? fs_info->max_extent_size : BTRFS_MAX_EXTENT_SIZE;
+                                                                        ^^^^^^^
+NULL check
 
-vim +/kzalloc +28 drivers/nvmem/qnap-mcu-eeprom.c
+c8b978188c9a0f Chris Mason        2008-10-29  379  	u64 delalloc_start;
+c8b978188c9a0f Chris Mason        2008-10-29  380  	u64 delalloc_end;
+3522e90301d7a6 Lu Fengqi          2018-11-29  381  	bool found;
+9655d2982b53fd Chris Mason        2009-09-02  382  	struct extent_state *cached_state = NULL;
+c8b978188c9a0f Chris Mason        2008-10-29  383  	int ret;
+c8b978188c9a0f Chris Mason        2008-10-29  384  	int loops = 0;
+c8b978188c9a0f Chris Mason        2008-10-29  385  
+2749f7ef3643fe Qu Wenruo          2021-09-27  386  	/* Caller should pass a valid @end to indicate the search range end */
+2749f7ef3643fe Qu Wenruo          2021-09-27  387  	ASSERT(orig_end > orig_start);
+2749f7ef3643fe Qu Wenruo          2021-09-27  388  
+c987f1e6d4435a Josef Bacik        2024-07-24  389  	/* The range should at least cover part of the folio */
+55cd57faa50346 David Sterba       2025-06-10  390  	ASSERT(!(orig_start >= folio_end(locked_folio) ||
+c987f1e6d4435a Josef Bacik        2024-07-24  391  		 orig_end <= folio_pos(locked_folio)));
+c8b978188c9a0f Chris Mason        2008-10-29  392  again:
+c8b978188c9a0f Chris Mason        2008-10-29  393  	/* step one, find a bunch of delalloc bytes starting at start */
+c8b978188c9a0f Chris Mason        2008-10-29  394  	delalloc_start = *start;
+c8b978188c9a0f Chris Mason        2008-10-29  395  	delalloc_end = 0;
+7b26da407420e5 Qu Wenruo          2025-09-19  396  
+7b26da407420e5 Qu Wenruo          2025-09-19  397  	/*
+7b26da407420e5 Qu Wenruo          2025-09-19  398  	 * If @max_bytes is smaller than a block, btrfs_find_delalloc_range() can
+7b26da407420e5 Qu Wenruo          2025-09-19  399  	 * return early without handling any dirty ranges.
+7b26da407420e5 Qu Wenruo          2025-09-19  400  	 */
+7b26da407420e5 Qu Wenruo          2025-09-19 @401  	ASSERT(max_bytes >= fs_info->sectorsize);
+                                                                            ^^^^^^^^^^^^^^^^^^^
+Unchecked dereference
 
-    20	
-    21	static int qnap_mcu_eeprom_read_block(struct qnap_mcu *mcu, unsigned int offset,
-    22					      void *val, size_t bytes)
-    23	{
-    24		const u8 cmd[] = { 0xf7, 0xa1, offset, bytes };
-    25		u8 *reply;
-    26		int ret = 0;
-    27	
-  > 28		reply = kzalloc(bytes + sizeof(cmd), GFP_KERNEL);
-    29		if (!reply)
-    30			return -ENOMEM;
-    31	
-    32		ret = qnap_mcu_exec(mcu, cmd, sizeof(cmd), reply, bytes + sizeof(cmd));
-    33		if (ret)
-    34			goto out;
-    35	
-    36		/* First bytes must mirror the sent command */
-    37		if (memcmp(cmd, reply, sizeof(cmd))) {
-    38			ret = -EIO;
-    39			goto out;
-    40		}
-    41	
-    42		memcpy(val, reply + sizeof(cmd), bytes);
-    43	
-    44	out:
-  > 45		kfree(reply);
-    46		return ret;
-    47	}
-    48	
+7b26da407420e5 Qu Wenruo          2025-09-19  402  
+083e75e7e6a9e2 Josef Bacik        2019-09-23  403  	found = btrfs_find_delalloc_range(tree, &delalloc_start, &delalloc_end,
+c2a128d28a2e78 Josef Bacik        2010-02-02  404  					  max_bytes, &cached_state);
+2749f7ef3643fe Qu Wenruo          2021-09-27  405  	if (!found || delalloc_end <= *start || delalloc_start > orig_end) {
+c8b978188c9a0f Chris Mason        2008-10-29  406  		*start = delalloc_start;
+2749f7ef3643fe Qu Wenruo          2021-09-27  407  
+2749f7ef3643fe Qu Wenruo          2021-09-27  408  		/* @delalloc_end can be -1, never go beyond @orig_end */
+2749f7ef3643fe Qu Wenruo          2021-09-27  409  		*end = min(delalloc_end, orig_end);
+b351161f4f6643 Filipe Manana      2025-04-04  410  		btrfs_free_extent_state(cached_state);
+3522e90301d7a6 Lu Fengqi          2018-11-29  411  		return false;
+c8b978188c9a0f Chris Mason        2008-10-29  412  	}
+c8b978188c9a0f Chris Mason        2008-10-29  413  
+70b99e6959a4c2 Chris Mason        2008-10-31  414  	/*
+c987f1e6d4435a Josef Bacik        2024-07-24  415  	 * start comes from the offset of locked_folio.  We have to lock
+c987f1e6d4435a Josef Bacik        2024-07-24  416  	 * folios in order, so we can't process delalloc bytes before
+c987f1e6d4435a Josef Bacik        2024-07-24  417  	 * locked_folio
+70b99e6959a4c2 Chris Mason        2008-10-31  418  	 */
+d397712bcc6a75 Chris Mason        2009-01-05  419  	if (delalloc_start < *start)
+70b99e6959a4c2 Chris Mason        2008-10-31  420  		delalloc_start = *start;
+70b99e6959a4c2 Chris Mason        2008-10-31  421  
+c8b978188c9a0f Chris Mason        2008-10-29  422  	/*
+c987f1e6d4435a Josef Bacik        2024-07-24  423  	 * make sure to limit the number of folios we try to lock down
+c8b978188c9a0f Chris Mason        2008-10-29  424  	 */
+7bf811a595a895 Josef Bacik        2013-10-07  425  	if (delalloc_end + 1 - delalloc_start > max_bytes)
+7bf811a595a895 Josef Bacik        2013-10-07  426  		delalloc_end = delalloc_start + max_bytes - 1;
+d397712bcc6a75 Chris Mason        2009-01-05  427  
+17dc82dc1e77a6 David Sterba       2025-08-22  428  	/* step two, lock all the folios after the folios that has start */
+e4d80ebe50de25 Josef Bacik        2024-07-24  429  	ret = lock_delalloc_folios(inode, locked_folio, delalloc_start,
+e4d80ebe50de25 Josef Bacik        2024-07-24  430  				   delalloc_end);
+9bfd61d9755a51 Nikolay Borisov    2018-10-26  431  	ASSERT(!ret || ret == -EAGAIN);
+c8b978188c9a0f Chris Mason        2008-10-29  432  	if (ret == -EAGAIN) {
+7b26da407420e5 Qu Wenruo          2025-09-19  433  		/*
+7b26da407420e5 Qu Wenruo          2025-09-19  434  		 * Some of the folios are gone, lets avoid looping by
+7b26da407420e5 Qu Wenruo          2025-09-19  435  		 * shortening the size of the delalloc range we're searching.
+c8b978188c9a0f Chris Mason        2008-10-29  436  		 */
+b351161f4f6643 Filipe Manana      2025-04-04  437  		btrfs_free_extent_state(cached_state);
+7d78874273463a Chris Mason        2014-05-21  438  		cached_state = NULL;
+c8b978188c9a0f Chris Mason        2008-10-29  439  		if (!loops) {
+7b26da407420e5 Qu Wenruo          2025-09-19  440  			max_bytes = fs_info->sectorsize;
+                                                                                    ^^^^^^^^^^^^^^^^^^^
+Here too, I suppose.
+
+c8b978188c9a0f Chris Mason        2008-10-29  441  			loops = 1;
+c8b978188c9a0f Chris Mason        2008-10-29  442  			goto again;
+c8b978188c9a0f Chris Mason        2008-10-29  443  		} else {
+3522e90301d7a6 Lu Fengqi          2018-11-29  444  			found = false;
+c8b978188c9a0f Chris Mason        2008-10-29  445  			goto out_failed;
+c8b978188c9a0f Chris Mason        2008-10-29  446  		}
+c8b978188c9a0f Chris Mason        2008-10-29  447  	}
+c8b978188c9a0f Chris Mason        2008-10-29  448  
+c8b978188c9a0f Chris Mason        2008-10-29  449  	/* step three, lock the state bits for the whole range */
+242570e80bfdf3 Filipe Manana      2025-03-31  450  	btrfs_lock_extent(tree, delalloc_start, delalloc_end, &cached_state);
+c8b978188c9a0f Chris Mason        2008-10-29  451  
+c8b978188c9a0f Chris Mason        2008-10-29  452  	/* then test to make sure it is all still delalloc */
+f81c2aea711205 Filipe Manana      2025-04-04  453  	ret = btrfs_test_range_bit(tree, delalloc_start, delalloc_end,
+893fe243999466 David Sterba       2020-08-14  454  				   EXTENT_DELALLOC, cached_state);
+c0707c9e1e36d5 Josef Bacik        2024-02-12  455  
+242570e80bfdf3 Filipe Manana      2025-03-31  456  	btrfs_unlock_extent(tree, delalloc_start, delalloc_end, &cached_state);
+c8b978188c9a0f Chris Mason        2008-10-29  457  	if (!ret) {
+2b41599bff1714 David Sterba       2025-01-09  458  		unlock_delalloc_folio(inode, locked_folio, delalloc_start,
+79be4a28d834ea Josef Bacik        2024-07-24  459  				      delalloc_end);
+c8b978188c9a0f Chris Mason        2008-10-29  460  		cond_resched();
+c8b978188c9a0f Chris Mason        2008-10-29  461  		goto again;
+c8b978188c9a0f Chris Mason        2008-10-29  462  	}
+c8b978188c9a0f Chris Mason        2008-10-29  463  	*start = delalloc_start;
+c8b978188c9a0f Chris Mason        2008-10-29  464  	*end = delalloc_end;
+c8b978188c9a0f Chris Mason        2008-10-29  465  out_failed:
+c8b978188c9a0f Chris Mason        2008-10-29  466  	return found;
+c8b978188c9a0f Chris Mason        2008-10-29  467  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
