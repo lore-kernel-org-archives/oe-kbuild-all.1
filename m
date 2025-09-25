@@ -1,165 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CBD2E88B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Sep 2025 05:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E146FC3;
+	Thu, 25 Sep 2025 06:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758778969; cv=none; b=Cq1MY9lr0jduAnpC+04Ku4tEHRMlFYhCc6AtkHWb3MEzydS9nH1kgt/mfqOgXrSzPhrrEjsmJcn7nOtIVJ6kWBMenPWRy5ZloX/otlFqriXWlvZeS8/Mr93n1VmY6lSO1ojAqbHpd4VDk5T7UrQzj33jQneL6pXhT7wFUShIFrM=
+	t=1758780237; cv=none; b=r8RxY6nzpONIJYAk3gUVLzgyAwpOj6zsIZpjp7BfNSfNPGxkAqetFjuMZKdEJPsFu2cxWQXbEeTUcnXVutyPY73KuN2pRFGOZ3v8yo7UxJgwHFKlmIbh9NohyRkJsr826oGDgmwti3NCzeeibOtMG6bnFBor0MxkF5IV9UGgCFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758778969; c=relaxed/simple;
-	bh=1zyvOrXOz4u+9Q0v+kaU+oQXnBSLHgjPJj9PLGv9pqs=;
+	s=arc-20240116; t=1758780237; c=relaxed/simple;
+	bh=6eqPjgbHpHt7trPigvZyx6AuNxP0y7NzOUE+tDZddn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s4uBvmbXh7hkKNB2L6DZt1aLlpzya0q+1D5gD+sjpTBIAGrB+uPlZWrcZVmt7OLJAXG82TBRcWWThZOy7S2w6axeW/zed7gfoT4R0SC8skDgMHWQpcQIae4I2vqszL+jQwxG1uXLnWCZlj5TnAKKX0vuU8aciP27OtXOoYrRFGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jtx+8xj1; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=GHbB/SsOf4iYMF9GdvRoqJBdDxHm/4oio40g+uGkFVKl1rGTI+mzqH/0/HZpN7o35ADJEv16+N1QvPY2EnbBKSUoE/c6TI6pH6ntLENbSI8yAh7fV5bt623gb6XTjBrbKLN/vDU0uPgVA3xcKt9UvGA2wv9gdsg55PrlwhwSRdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1AdT0m9; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jtx+8xj1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1AdT0m9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758778967; x=1790314967;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1zyvOrXOz4u+9Q0v+kaU+oQXnBSLHgjPJj9PLGv9pqs=;
-  b=Jtx+8xj1gGr2dAyuBPkJYppE9JirjErXv32JRUoVqdGwNwKJrX4fwBE4
-   H2rTgpqq/tIbekCeIyFMVx08KFCSr3ewNyLP6VlToi2zi8Zga/j4AjMiT
-   eg5Io3hKOCpFrSeEF9St/wL3XcrKzGe2Vv5ahZ6XeK3lDlrQwtdfXZgm1
-   e7lIoISC71NiPe6pbHUli70BZldraEt2QNKScQJWlfIrodI/KfpNLcZ9b
-   i03j27KSTyNKmK200a+8cBf+AeyXJ7ozdnQR2AlWgBk0iYxkX0/oXFUTW
-   vvtt3aj7859sjxKOMXjbMJe4LwMZWNVnrfCGxI+uHnIXVpr4J0Fz529tR
-   A==;
-X-CSE-ConnectionGUID: 2777x047Qy+TyqaVGgBC8g==
-X-CSE-MsgGUID: mCdklrkPQNeoHfBL1t8mSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="61195589"
-X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="61195589"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 22:42:46 -0700
-X-CSE-ConnectionGUID: C9SA6SNRT9WUx4rzunParw==
-X-CSE-MsgGUID: at68jEL2TqmL3vqad2J17A==
+  t=1758780234; x=1790316234;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6eqPjgbHpHt7trPigvZyx6AuNxP0y7NzOUE+tDZddn0=;
+  b=M1AdT0m9xb2whDafFDxXJD2MasrLnqdEHE+JP6j6B2pQMzIPJld9v1tF
+   szlrojUWHXGFH3/jegVSbyhthd1tt6eUaN4hk9U1xB8/ibB6WeRhHfR0Q
+   K9WXJt3cOhpX7WEC/VKmlwCEUMwmsBOj+pHerjzOX4U7gbvkEUv+/ozsW
+   wbLcfxp4vJVQtsISOMT0WAenvC65jN65sT+ArCsqVsqTV26eJCqPHCWFS
+   ehoZBYTeyFv44d/ih48p8DcTLp82+oLd/jKX94T2jj8jIPK3IBUxy5IB7
+   js5WtcnSwvYBLxuNczVXfEd8sU/1+x1MeBFhRrWf1rGtwEfzpBS55kcqt
+   Q==;
+X-CSE-ConnectionGUID: bQSTqMLSS1ieU49d8dPllw==
+X-CSE-MsgGUID: 3xmu4vVSQoSdmuVCi8M/Eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11563"; a="63715798"
+X-IronPort-AV: E=Sophos;i="6.18,292,1751266800"; 
+   d="scan'208";a="63715798"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 23:03:53 -0700
+X-CSE-ConnectionGUID: 6oyHcJi5TD2e657Wi9XEag==
+X-CSE-MsgGUID: xJWfe8QbR2u6eWTKDBtqFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,291,1751266800"; 
-   d="scan'208";a="181242450"
+   d="scan'208";a="177079069"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 24 Sep 2025 22:42:45 -0700
+  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2025 23:03:52 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1ekc-0004wt-1l;
-	Thu, 25 Sep 2025 05:42:42 +0000
-Date: Thu, 25 Sep 2025 13:41:45 +0800
+	id 1v1f53-0004xX-21;
+	Thu, 25 Sep 2025 06:03:49 +0000
+Date: Thu, 25 Sep 2025 14:03:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Bastien Curutchet (Schneider Electric)" <bastien.curutchet@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 11463/11867]
- arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0
- (microchip,ksz8873): pinctrl-names: ['default'] is too short
-Message-ID: <202509251326.SYA3QL9j-lkp@intel.com>
+To: Wensheng Wang <wenswang@yeah.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: [groeck-staging:hwmon-next 79/87]
+ drivers/hwmon/pmbus/mp2925.c:159:11: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202509251422.Cnmuh8EH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ce7f1a983b074f6cf8609068088ca3182c569ee4
-commit: e469b87e0fb0d1209edb6c291474b1a1afa45bd5 [11463/11867] dt-bindings: net: dsa: microchip: Add strap description to set SPI mode
-config: arm-randconfig-053-20250923 (https://download.01.org/0day-ci/archive/20250925/202509251326.SYA3QL9j-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251326.SYA3QL9j-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   5f6722c971aa9d5b9736701926c3fdd1928db272
+commit: b3a4efc88601cb5fc97b4ae23c478700a60302da [79/87] hwmon: add MP2925 and MP2929 driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250925/202509251422.Cnmuh8EH-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250925/202509251422.Cnmuh8EH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509251326.SYA3QL9j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509251422.Cnmuh8EH-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[31]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt2.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: clock-controller@20c4000 (fsl,imx6q-ccm): clocks: [[31]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx6q-clock.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6dl-skov-revc-lt6.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt2.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-revc-lt6.dtb: touchscreen (resistive-adc-touch): 'touchscreen-y-plate-ohms' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
---
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: rtc@51 (nxp,pcf85063): quartz-load-femtofarads:0: 7000 was expected
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf85063.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@0 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@1 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@2 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: cpu@3 (arm,cortex-a9): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'pu-supply', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: switch@0 (microchip,ksz8873): pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6q-skov-reve-mi1010ait-1cp1.dtb: switch@0 (microchip,ksz8873): Unevaluated properties are not allowed ('interrupt', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/microchip,ksz.yaml#
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/pmbus/mp2925.c:159:11: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     159 |                                             (ret & ~GENMASK(11, 0)) |
+         |                                              ^~~
+   drivers/hwmon/pmbus/mp2925.c:137:9: note: initialize the variable 'ret' to silence this warning
+     137 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+
+
+vim +/ret +159 drivers/hwmon/pmbus/mp2925.c
+
+   133	
+   134	static int mp2925_write_word_data(struct i2c_client *client, int page, int reg,
+   135					  u16 word)
+   136	{
+   137		int ret;
+   138	
+   139		switch (reg) {
+   140		case PMBUS_VIN_OV_FAULT_LIMIT:
+   141		case PMBUS_VIN_OV_WARN_LIMIT:
+   142		case PMBUS_VIN_UV_WARN_LIMIT:
+   143		case PMBUS_VIN_UV_FAULT_LIMIT:
+   144			/*
+   145			 * The PMBUS_VIN_OV_FAULT_LIMIT, PMBUS_VIN_OV_WARN_LIMIT,
+   146			 * PMBUS_VIN_UV_WARN_LIMIT and PMBUS_VIN_UV_FAULT_LIMIT
+   147			 * of MP2925 is linear11 format, and the exponent is a
+   148			 * constant value(5'b11100)， so the exponent of word
+   149			 * parameter should be converted to 5'b11100(0x1C).
+   150			 */
+   151			ret = pmbus_write_word_data(client, page, reg,
+   152						    mp2925_linear_exp_transfer(word, 0x1C));
+   153			if (ret < 0)
+   154				return ret;
+   155			break;
+   156		case PMBUS_VOUT_OV_FAULT_LIMIT:
+   157		case PMBUS_VOUT_UV_FAULT_LIMIT:
+   158			ret = pmbus_write_word_data(client, page, reg,
+ > 159						    (ret & ~GENMASK(11, 0)) |
+   160					FIELD_PREP(GENMASK(11, 0),
+   161						   DIV_ROUND_CLOSEST(word * MP2925_VOUT_OVUV_DIV,
+   162								     MP2925_VOUT_OVUV_UINT)));
+   163			break;
+   164		case PMBUS_OT_FAULT_LIMIT:
+   165		case PMBUS_OT_WARN_LIMIT:
+   166			/*
+   167			 * The PMBUS_OT_FAULT_LIMIT and PMBUS_OT_WARN_LIMIT of
+   168			 * MP2925 is linear11 format, and the exponent is a
+   169			 * constant value(5'b00000), so the exponent of word
+   170			 * parameter should be converted to 5'b00000.
+   171			 */
+   172			ret = pmbus_write_word_data(client, page, reg,
+   173						    mp2925_linear_exp_transfer(word, 0x00));
+   174			if (ret < 0)
+   175				return ret;
+   176			break;
+   177		case PMBUS_IOUT_OC_FAULT_LIMIT:
+   178		case PMBUS_IOUT_OC_WARN_LIMIT:
+   179			/*
+   180			 * The PMBUS_IOUT_OC_FAULT_LIMIT and PMBUS_IOUT_OC_WARN_LIMIT
+   181			 * of MP2925 is linear11 format, and the exponent is a
+   182			 * can not be changed.
+   183			 */
+   184			ret = pmbus_read_word_data(client, page, 0xff, reg);
+   185			if (ret < 0)
+   186				return ret;
+   187	
+   188			ret = pmbus_write_word_data(client, page, reg,
+   189						    mp2925_linear_exp_transfer(word,
+   190									       FIELD_GET(GENMASK(15, 11),
+   191											 ret)));
+   192			break;
+   193		default:
+   194			ret = -EINVAL;
+   195			break;
+   196		}
+   197	
+   198		return ret;
+   199	}
+   200	
 
 -- 
 0-DAY CI Kernel Test Service
