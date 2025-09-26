@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A55623BD1F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 19:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DD01F4E34
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 19:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758916545; cv=none; b=T5dSnsVd4bhCtUKa23UiSRCjfKPu0fp1RaI2A7zdTurnSHu0+PdcRVqYIbq/YghQdr/3n580toWDvgw7LtyGeqUqvx3HeDPYT8x9zayzbfuRx41IVtGJDx8LrqY/FotHqp5ZL9GrjYqsorospsRIOOpfOdSI40DylgCCQM/NW1M=
+	t=1758916600; cv=none; b=BiVVN7OrayRjUm1N97CxX3ipJCOXejxQaDUdeu6k1Bt15TFXcGbRSfJsiz5GEwUWr/zC4u5Gqmac4i1k5chby7pQtme7WQj8ocHAdFwuItoB5eyj+oZZ8UgFdHJ3y90//BFwamZyuaja7uVJpoQCUBLXQDVrMH2ZxkyU7ApGQ1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758916545; c=relaxed/simple;
-	bh=4/en2714ap2ZFqNCP8kfV+5pkoXY0sMtWwJD4mcaga8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RK1ZD1WhdbUNPAtO/Y8uF82xgb13AI0xpA4OioJ/IAoZgofptJpm7EVFs8E6Hs6WqBI0GXU/VKTJ9lsUrp0beYhGGV6prEk++TDmAuJDlTWp74y16gfV4xghPk4xSx3B12/Eu8lSpouXR5SjyLkH8MTzal7f9CGEzTFMq3zVeGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtgCjDJU; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1758916600; c=relaxed/simple;
+	bh=eFQVzPSBMdisVXm/y+0HZRjzlPuX3YcapWR1p14qQ9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ix9GfM8Kl/3qvpSXWTz0+FBkJtRqZPNC9rW/L8K2Swe40mYQLAlse+v/8BNI7i1fKXuR9ChoDC52lPkw9kmNolRvm22L6YJIQBqD/e08oqB6OpSfrHXQrQoergwuss1R1XwjD0mcZXCpWE398rn6ocTg3uclPfklcWOY8X4zc2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXnuGH4P; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtgCjDJU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXnuGH4P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758916543; x=1790452543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4/en2714ap2ZFqNCP8kfV+5pkoXY0sMtWwJD4mcaga8=;
-  b=DtgCjDJU8P69N8w69sxKyJuxS46oOW/msfAlfQC0Ow0Dgl9r1QlPBjwH
-   nCTzlnqoAbdmQfcG1uCOGcd951hQSXCq/Njvl/8r2lVr343KZnCTcRrBU
-   mWhPsTXZR1OqWZjH34BiJdauPIBFcWlrKL+2FtvXPmkj62IJmlPPU9BwC
-   OPbG/af1uWVrrsOrG8cowy4jgupGbD4yIWHhvwbYVgQrzsBCWgDprCSHY
-   lgf5HKMkEOhUju30fmnEXkJ8PhzlwR90dKkhfQln335QeKfipWff8ezoz
-   Z7jCZc+5MSvLDKkx1MCyDM6LJHeMdCupp0UOYOM+DmKx64Cxf20/oQgYr
-   A==;
-X-CSE-ConnectionGUID: yPmlRDJpRmqUw98qqoQ5hQ==
-X-CSE-MsgGUID: yBa9a33dQXaSJ8zgSdcOvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="60466223"
+  t=1758916599; x=1790452599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eFQVzPSBMdisVXm/y+0HZRjzlPuX3YcapWR1p14qQ9g=;
+  b=QXnuGH4P20ul4+74rchYvOcdOWOOZpkXjRbsHmcBgSIC8CxhYojkPU2F
+   9XPwUTIQCmN6BVCkxdk5rEQdD37seTWJ+3cx1m8rT2VXo+X5zKIA3bOrB
+   DY7PfoOt6wzs7q7KiIxlUdzghwjn/y6Y+gAGbhVuFgaHHhk1ts3ZyaUlQ
+   ES/XXM4G47VvCNv2Xr2nMcATcuC/f+nosvVdmbTOleFaahyBYj6lxPLan
+   mldufhjlLCUXp6TaWCQFh1fqI2gaRUt0Hwo6W+vIVCKaqvhkp3qU/zf84
+   HenQ+8PbhHjsIZMkdVcEUcJqoRnx3t69S3wpoyc5IJrIWxfDMPPQowyIO
+   g==;
+X-CSE-ConnectionGUID: 0GShz2UMRmaUo6zfr7doew==
+X-CSE-MsgGUID: 0pYkOSd3RD2OGKB0ex28iA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="71501188"
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="60466223"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 12:55:42 -0700
-X-CSE-ConnectionGUID: Aia+2FF5Rby5L8KX9go0PQ==
-X-CSE-MsgGUID: 4x1ZUZK/SzmGTdvzOp6sJg==
+   d="scan'208";a="71501188"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 12:56:38 -0700
+X-CSE-ConnectionGUID: xjn0suZmS0eURcaGIQDMgw==
+X-CSE-MsgGUID: YOo/SIipT+uNg74BRKNSuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="177545552"
+   d="scan'208";a="182879071"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 26 Sep 2025 12:55:37 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Sep 2025 12:56:38 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2EXR-0006YZ-3A;
-	Fri, 26 Sep 2025 19:55:34 +0000
-Date: Sat, 27 Sep 2025 03:54:36 +0800
+	id 1v2EYV-0006Yd-0E;
+	Fri, 26 Sep 2025 19:56:35 +0000
+Date: Sat, 27 Sep 2025 03:55:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH 10/10] firmware: arm_scmi: Use new Telemetry traces
-Message-ID: <202509270354.Nlj2JlQL-lkp@intel.com>
-References: <20250925203554.482371-11-cristian.marussi@arm.com>
+To: Conor Dooley <conor+lkp@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [conor:syscon-rework-5 6/8] drivers/clk/microchip/clk-mpfs.c:217:2:
+ error: use of undeclared identifier 'clk_divider_regmap_ops'; did you mean
+ 'clk_divider_ro_ops'?
+Message-ID: <202509270300.j8Eu20pZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,201 +62,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925203554.482371-11-cristian.marussi@arm.com>
 
-Hi Cristian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on trace/for-next linus/master v6.17-rc7 next-20250926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Define-a-common-SCMI_MAX_PROTOCOLS-value/20250926-044350
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20250925203554.482371-11-cristian.marussi%40arm.com
-patch subject: [PATCH 10/10] firmware: arm_scmi: Use new Telemetry traces
-config: m68k-randconfig-r131-20250926 (https://download.01.org/0day-ci/archive/20250927/202509270354.Nlj2JlQL-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270354.Nlj2JlQL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-5
+head:   f52f95f53970da26ac262fbdb5bd7bdc0701c675
+commit: 907b87c8cc760f20b9b81857b29a7f90390fba85 [6/8] clk: microchip: mpfs: use regmap for clocks
+config: i386-buildonly-randconfig-004-20250927 (https://download.01.org/0day-ci/archive/20250927/202509270300.j8Eu20pZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270300.j8Eu20pZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509270354.Nlj2JlQL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509270300.j8Eu20pZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct eplg *_e @@     got void [noderef] __iomem *eplg @@
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse:     expected struct eplg *_e
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse:     got void [noderef] __iomem *eplg
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1699:24: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1861:25: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1861:25: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1861:25: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1861:25: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1861:25: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1861:25: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1873:33: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1876:40: sparse: sparse: cast to restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1908:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] grp_id @@     got int grp_id @@
-   drivers/firmware/arm_scmi/telemetry.c:1908:21: sparse:     expected restricted __le32 [usertype] grp_id
-   drivers/firmware/arm_scmi/telemetry.c:1908:21: sparse:     got int grp_id
-   drivers/firmware/arm_scmi/telemetry.c:1909:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] control @@     got unsigned long @@
-   drivers/firmware/arm_scmi/telemetry.c:1909:22: sparse:     expected restricted __le32 [usertype] control
-   drivers/firmware/arm_scmi/telemetry.c:1909:22: sparse:     got unsigned long
-   drivers/firmware/arm_scmi/telemetry.c:1910:22: sparse: sparse: invalid assignment: |=
-   drivers/firmware/arm_scmi/telemetry.c:1910:22: sparse:    left side has type restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1910:22: sparse:    right side has type unsigned long
-   drivers/firmware/arm_scmi/telemetry.c:1912:22: sparse: sparse: invalid assignment: |=
-   drivers/firmware/arm_scmi/telemetry.c:1912:22: sparse:    left side has type restricted __le32
-   drivers/firmware/arm_scmi/telemetry.c:1912:22: sparse:    right side has type unsigned long
-   drivers/firmware/arm_scmi/telemetry.c:1921:63: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int num_dwords @@     got restricted __le32 [usertype] num_dwords @@
-   drivers/firmware/arm_scmi/telemetry.c:1921:63: sparse:     expected unsigned int num_dwords
-   drivers/firmware/arm_scmi/telemetry.c:1921:63: sparse:     got restricted __le32 [usertype] num_dwords
-   drivers/firmware/arm_scmi/telemetry.c:1922:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int *dwords @@     got restricted __le32 * @@
-   drivers/firmware/arm_scmi/telemetry.c:1922:58: sparse:     expected unsigned int *dwords
-   drivers/firmware/arm_scmi/telemetry.c:1922:58: sparse:     got restricted __le32 *
-   drivers/firmware/arm_scmi/telemetry.c:907:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:907:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:907:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:907:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:919:32: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:919:32: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:919:32: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:919:32: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1025:13: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1025:35: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1026:13: sparse: sparse: dereference of noderef expression
->> drivers/firmware/arm_scmi/telemetry.c:1039:51: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/firmware/arm_scmi/telemetry.c:1048:25: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1075:15: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1075:15: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1075:15: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1075:15: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1078:21: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1079:34: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1079:34: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1079:34: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1079:34: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1080:28: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1117:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1117:46: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1121:13: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1124:14: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1161:26: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1524:16: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1524:16: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1524:16: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1524:16: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1527:35: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1527:35: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1527:35: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1527:35: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1664:21: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1667:21: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1673:21: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1673:21: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1679:24: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1682:30: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1684:36: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1685:43: sparse: sparse: dereference of noderef expression
-   drivers/firmware/arm_scmi/telemetry.c:1686:36: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +1039 drivers/firmware/arm_scmi/telemetry.c
+>> drivers/clk/microchip/clk-mpfs.c:217:2: error: use of undeclared identifier 'clk_divider_regmap_ops'; did you mean 'clk_divider_ro_ops'?
+     217 |         CLK_PLL_OUT(CLK_MSSPLL0, "clk_msspll", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+         |         ^
+   drivers/clk/microchip/clk-mpfs.c:212:49: note: expanded from macro 'CLK_PLL_OUT'
+     212 |         .output.hw.init = CLK_HW_INIT(_name, _parent, &clk_divider_regmap_ops, 0),      \
+         |                                                        ^
+   include/linux/clk-provider.h:737:29: note: 'clk_divider_ro_ops' declared here
+     737 | extern const struct clk_ops clk_divider_ro_ops;
+         |                             ^
+   drivers/clk/microchip/clk-mpfs.c:219:2: error: use of undeclared identifier 'clk_divider_regmap_ops'; did you mean 'clk_divider_ro_ops'?
+     219 |         CLK_PLL_OUT(CLK_MSSPLL1, "clk_msspll1", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+         |         ^
+   drivers/clk/microchip/clk-mpfs.c:212:49: note: expanded from macro 'CLK_PLL_OUT'
+     212 |         .output.hw.init = CLK_HW_INIT(_name, _parent, &clk_divider_regmap_ops, 0),      \
+         |                                                        ^
+   include/linux/clk-provider.h:737:29: note: 'clk_divider_ro_ops' declared here
+     737 | extern const struct clk_ops clk_divider_ro_ops;
+         |                             ^
+   drivers/clk/microchip/clk-mpfs.c:221:2: error: use of undeclared identifier 'clk_divider_regmap_ops'; did you mean 'clk_divider_ro_ops'?
+     221 |         CLK_PLL_OUT(CLK_MSSPLL2, "clk_msspll2", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+         |         ^
+   drivers/clk/microchip/clk-mpfs.c:212:49: note: expanded from macro 'CLK_PLL_OUT'
+     212 |         .output.hw.init = CLK_HW_INIT(_name, _parent, &clk_divider_regmap_ops, 0),      \
+         |                                                        ^
+   include/linux/clk-provider.h:737:29: note: 'clk_divider_ro_ops' declared here
+     737 | extern const struct clk_ops clk_divider_ro_ops;
+         |                             ^
+   drivers/clk/microchip/clk-mpfs.c:223:2: error: use of undeclared identifier 'clk_divider_regmap_ops'; did you mean 'clk_divider_ro_ops'?
+     223 |         CLK_PLL_OUT(CLK_MSSPLL3, "clk_msspll3", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+         |         ^
+   drivers/clk/microchip/clk-mpfs.c:212:49: note: expanded from macro 'CLK_PLL_OUT'
+     212 |         .output.hw.init = CLK_HW_INIT(_name, _parent, &clk_divider_regmap_ops, 0),      \
+         |                                                        ^
+   include/linux/clk-provider.h:737:29: note: 'clk_divider_ro_ops' declared here
+     737 | extern const struct clk_ops clk_divider_ro_ops;
+         |                             ^
+   4 errors generated.
 
-  1017	
-  1018	static void scmi_telemetry_tdcf_blkts_parse(struct telemetry_info *ti,
-  1019						    struct payload __iomem *payld,
-  1020						    struct telemetry_shmti *shmti)
-  1021	{
-  1022		struct telemetry_block_ts *bts;
-  1023	
-  1024		/* Check for spec compliance */
-  1025		if (USE_LINE_TS(payld) || USE_BLK_TS(payld) ||
-  1026		    DATA_INVALID(payld) || (PAYLD_ID(payld) != 0)) {
-  1027			trace_scmi_tlm_access(0, "BLK_TS_INVALID", 0, 0);
-  1028			return;
-  1029		}
-  1030	
-  1031		/* A BLK_TS descriptor MUST be returned: it is found or it is crated */
-  1032		bts = scmi_telemetry_blkts_lookup(ti->dev, &ti->xa_bts, payld);
-  1033		if (WARN_ON(!bts))
-  1034			return;
-  1035	
-  1036		/* Update the descriptor with the lastest TS*/
-  1037		scmi_telemetry_blkts_update(shmti->last_magic, bts);
-  1038	
-> 1039		trace_scmi_tlm_collect(bts->last_ts, (u64)payld,
-  1040				       bts->last_magic, "SHMTI_BLK_TS");
-  1041	}
-  1042	
+
+vim +217 drivers/clk/microchip/clk-mpfs.c
+
+445c2da89747e2 Conor Dooley 2022-04-13  215  
+1afa9480c997b0 Conor Dooley 2024-01-22  216  static struct mpfs_msspll_out_hw_clock mpfs_msspll_out_clks[] = {
+72151193839e4f Conor Dooley 2024-01-22 @217  	CLK_PLL_OUT(CLK_MSSPLL0, "clk_msspll", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+66736997c231c7 Conor Dooley 2024-01-22  218  		    MSSPLL_POSTDIV02_SHIFT, MSSPLL_POSTDIV_WIDTH, REG_MSSPLL_POSTDIV01_CR),
+72151193839e4f Conor Dooley 2024-01-22  219  	CLK_PLL_OUT(CLK_MSSPLL1, "clk_msspll1", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+b67dae390918bc Conor Dooley 2024-01-22  220  		    MSSPLL_POSTDIV13_SHIFT, MSSPLL_POSTDIV_WIDTH, REG_MSSPLL_POSTDIV01_CR),
+72151193839e4f Conor Dooley 2024-01-22  221  	CLK_PLL_OUT(CLK_MSSPLL2, "clk_msspll2", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+b67dae390918bc Conor Dooley 2024-01-22  222  		    MSSPLL_POSTDIV02_SHIFT, MSSPLL_POSTDIV_WIDTH, REG_MSSPLL_POSTDIV23_CR),
+72151193839e4f Conor Dooley 2024-01-22  223  	CLK_PLL_OUT(CLK_MSSPLL3, "clk_msspll3", "clk_msspll_internal", CLK_DIVIDER_ONE_BASED,
+b67dae390918bc Conor Dooley 2024-01-22  224  		    MSSPLL_POSTDIV13_SHIFT, MSSPLL_POSTDIV_WIDTH, REG_MSSPLL_POSTDIV23_CR),
+445c2da89747e2 Conor Dooley 2022-04-13  225  };
+445c2da89747e2 Conor Dooley 2022-04-13  226  
+
+:::::: The code at line 217 was first introduced by commit
+:::::: 72151193839e4fe222d0be9931f6ba3a94de7aa5 clk: microchip: mpfs: convert MSSPLL outputs to clk_divider
+
+:::::: TO: Conor Dooley <conor.dooley@microchip.com>
+:::::: CC: Conor Dooley <conor.dooley@microchip.com>
 
 -- 
 0-DAY CI Kernel Test Service
