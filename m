@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120551E489
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 13:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A9538DDB;
+	Fri, 26 Sep 2025 13:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758894051; cv=none; b=FxQA+00EYmwqfjfdS9UDkq4EUGLyCH5P+ZC+Udo/0gOZNj0t4mNHAQkTs1PX9M8SbFIhpjPkgMleamJJUxPlyVrGnETZqn4JMihcvceY3nzw3tdiR6ofsQFOkTczdjqzrZCN4gUPcoP+Nc/Ox+/hYoNO16dssiDM2QMFy5EILCY=
+	t=1758894469; cv=none; b=dCxBZ9WyDZTdeK8IHBHM6JuPNhATvTlPkv7eJxFcsi+Owlced15Uiujfg2NoofRqSfEkVW8SdL9MHIwOjClUS/TqvMar7WU8UVetn39xSvc+jpPCHjulbOLbdton1YH3yw8gUwx4PUdWhW3lnsygwtci0qwLR924ssu5vTRcxBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758894051; c=relaxed/simple;
-	bh=b3I+XW1LzjCCV8USsgM5r5jnfu+FMAjzole6QqlKbJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TlZtL3kUHx4bwtpH3we/fQy73J2kkGWnifmIGRn1YJTDc/x7mhC2Hvr4CWRPbUdQveZfYt8/NGQmIgpBVi6R3+6sP82oR29eOK/oIpc5utRwN5rO7JcqaBSwdpoCpoOE3pCD50dTX5FrYvQzjtN4V58gncEExmjV/Dr4JDtShrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0s7LlVo; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1758894469; c=relaxed/simple;
+	bh=F5sJdFJrZExOT4Y38tlg7pfSvmXRgWle6iLVax55eVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hc5m140d0IuC6OBIWzy+fSpbhxhTbMVA0sgZetEKN8lI7Z1LTws8exBCT3sTk8O3/qhfY8qekVWv35pEwVwi94Foyj5b20jMNmVrSolj7WqMRIcNPxnXIqhvntLi8powZNbg3S/u0XijzPspsV8L3L/RwxNB7KPqZDLQqAk/KMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bweNgKor; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0s7LlVo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bweNgKor"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758894050; x=1790430050;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b3I+XW1LzjCCV8USsgM5r5jnfu+FMAjzole6QqlKbJ8=;
-  b=a0s7LlVomtwLJxSlOz5ufLSa+oevoyY8WaRe6QWRC9z7593bLhP0hMbK
-   9bQp/kq5NsZdD9mT1fF83xyglQMPxfhqijoblbUddrhYNBHF48IFrff9A
-   bigLHAnXHV/Cac38JMNmNU2q86O5MDYyM8r0WFK2itKX9S+FHKM2mCO/y
-   wjO2CzS95fvfkal/KU6hDZAveiIa1itUM7IZeanVh7KcrJk+wARGNjiGr
-   QrUmx+9aFS1C4SsxKHIxHwJp/TDhKVVuE6duCW0OMHh1OCYzlli6M7TA8
-   5k6bTY1BfLzTimBuwsD74ohw1+VPudqzAmSAMtCQQfqygyb9Nhs3jf/jF
+  t=1758894468; x=1790430468;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F5sJdFJrZExOT4Y38tlg7pfSvmXRgWle6iLVax55eVY=;
+  b=bweNgKorNS37gRD2btmYo3tPBCd3f0BnvIsuA5ay6WtoiN5aWChE9UIW
+   ofhAKMysNVpc2RcaVyIBqWsIwkHWjbm8J2GP+tmJNbrNNBjO2lEb/oB3n
+   OcvW+ob5dERrjfky78lh8it7b8N9Ws1ZMFV5UU8zDDtkXqpf3nS8noXiq
+   N53+qp3fnjmjuAIP+ka9iFeG5oQ18jd4R6x3MAdP7Y45ZgVHZrNk+Jfos
+   FThZu+vuWGutnsY0BK8CEYU4KcN5WWuehsyPci3F/dxrcAVzdaDwPX8jv
+   5y6JAkeZJsjIgQD5VqWDw9hEKLd13NZ4zF13ShvspWDXGKlO4rn9iPJKw
    g==;
-X-CSE-ConnectionGUID: +DSc7IRfQiOjqHA9oJHE7Q==
-X-CSE-MsgGUID: evRfSo3GRrqkhjQze27gMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="72660044"
+X-CSE-ConnectionGUID: lZWrQr5VQaqVhs22IuTWBQ==
+X-CSE-MsgGUID: 2mVc0a/6T/Wv+di7okSpZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="71475616"
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="72660044"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 06:40:50 -0700
-X-CSE-ConnectionGUID: tuRd1jteSoyZjgMkAPzSaw==
-X-CSE-MsgGUID: LNYt5PM6Q82XfwRi+rGbzw==
+   d="scan'208";a="71475616"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 06:47:47 -0700
+X-CSE-ConnectionGUID: Eiyiwf9tRtaaHrguhNPjFQ==
+X-CSE-MsgGUID: 1uGnwmjMRMiFXVFa9yQ7JQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="177176749"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 26 Sep 2025 06:40:49 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="181919291"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 26 Sep 2025 06:47:43 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v28go-000000005FF-14QP;
-	Fri, 26 Sep 2025 13:40:46 +0000
-Date: Fri, 26 Sep 2025 15:40:31 +0200
+	id 1v28nU-0006Gz-2h;
+	Fri, 26 Sep 2025 13:47:40 +0000
+Date: Fri, 26 Sep 2025 21:47:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vinicius Costa Gomes <vinicius.gomes@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kishor408 <kishorx.buchi@intel.com>
-Subject: [intel-lts:6.12/linux 0/3] htmldocs:
- Documentation/networking/ethtool-netlink.rst:1725: WARNING: Title underline
- too short.
-Message-ID: <202509261516.ehDcqi8D-lkp@intel.com>
+To: Simon Schippers <simon.schippers@tu-dortmund.de>,
+	willemdebruijn.kernel@gmail.com, jasowang@redhat.com,
+	mst@redhat.com, eperezma@redhat.com, stephen@networkplumber.org,
+	leiyang@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Simon Schippers <simon.schippers@tu-dortmund.de>,
+	Tim Gebauer <tim.gebauer@tu-dortmund.de>
+Subject: Re: [PATCH net-next v5 8/8] vhost_net: Replace rx_ring with calls of
+ TUN/TAP wrappers
+Message-ID: <202509262102.4AmV1Mms-lkp@intel.com>
+References: <20250922221553.47802-9-simon.schippers@tu-dortmund.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +70,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250922221553.47802-9-simon.schippers@tu-dortmund.de>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
-head:   140444823a5e75b687391abcd563af8d068c931f
-commit: 86d439801ac617ef74f9851058a3d5dbab8d27f1 [0/3] ethtool: Add support for configuring frame preemption
-reproduce: (https://download.01.org/0day-ci/archive/20250926/202509261516.ehDcqi8D-lkp@intel.com/reproduce)
+Hi Simon,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Schippers/__ptr_ring_full_next-Returns-if-ring-will-be-full-after-next-insertion/20250924-180633
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250922221553.47802-9-simon.schippers%40tu-dortmund.de
+patch subject: [PATCH net-next v5 8/8] vhost_net: Replace rx_ring with calls of TUN/TAP wrappers
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250926/202509262102.4AmV1Mms-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509262102.4AmV1Mms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509261516.ehDcqi8D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509262102.4AmV1Mms-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/highmem.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/highmem-internal.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/migrate.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_pause_stats ./include/linux/ethtool.h' failed with return code 1
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_fec_stats ./include/linux/ethtool.h' failed with return code 1
->> Documentation/networking/ethtool-netlink.rst:1725: WARNING: Title underline too short.
---
-   Sets transceiver module parameters.
-   ======= [docutils]
->> Documentation/networking/ethtool-netlink.rst:1725: WARNING: Title underline too short.
+>> drivers/vhost/net.c:197:3: error: expected expression
+     197 |                 WARN_ON_ONCE();
+         |                 ^
+   include/asm-generic/bug.h:111:34: note: expanded from macro 'WARN_ON_ONCE'
+     111 |         int __ret_warn_on = !!(condition);                      \
+         |                                         ^
+   1 error generated.
 
 
-vim +1725 Documentation/networking/ethtool-netlink.rst
+vim +197 drivers/vhost/net.c
 
-  1723	
-  1724	Sets transceiver module parameters.
-> 1725	=======
-  1726	  ``ETHTOOL_A_PREEMPT_HEADER``            nested  reply header
-  1727	  ``ETHTOOL_A_PREEMPT_ENABLED``           bool    frame preemption enabled
-  1728	  ``ETHTOOL_A_PREEMPT_PREEMPTIBLE_MASK``  bitset  preemptible queue mask
-  1729	  ``ETHTOOL_A_PREEMPT_ADD_FRAG_SIZE``     u32     Min additional frag size
-  1730	  ======================================  ======  ==========================
-  1731	
+   178	
+   179	static int vhost_net_buf_produce(struct vhost_net_virtqueue *nvq,
+   180			struct sock *sk)
+   181	{
+   182		struct file *file = sk->sk_socket->file;
+   183		struct vhost_net_buf *rxq = &nvq->rxq;
+   184	
+   185		rxq->head = 0;
+   186	
+   187		switch (nvq->type) {
+   188		case TUN:
+   189			rxq->tail = tun_ring_consume_batched(file,
+   190					rxq->queue, VHOST_NET_BATCH);
+   191			break;
+   192		case TAP:
+   193			rxq->tail = tap_ring_consume_batched(file,
+   194					rxq->queue, VHOST_NET_BATCH);
+   195			break;
+   196		case IF_NONE:
+ > 197			WARN_ON_ONCE();
+   198		}
+   199	
+   200		return rxq->tail;
+   201	}
+   202	
 
 -- 
 0-DAY CI Kernel Test Service
