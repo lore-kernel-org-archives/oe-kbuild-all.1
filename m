@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223EE35950;
-	Fri, 26 Sep 2025 05:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D7034BA5F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 06:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758865715; cv=none; b=OZHN+8ntQIIrmKFFN/8KyGmqlJUs42+/HzDmq7sqIsB3/YQMfOcgLONO9HxokMtkQyHFvtgEkX644QGXe8si7oygOXu3nOOQ7dTjtoN0nw8Jsb7RcE1bVD5xgexvHWOQUeFvqLc7Y15PmUX2jOCk576bnTRGrNKhCKcazoVJoOU=
+	t=1758866932; cv=none; b=FzqZivxGCov8MnvGLRPA114lbQXd+qg3UJY31YpoznYJCdPGb2Ojb5472h0SUotpcsqW7YZrc9VwuCvSnhpxwbU4VWQK5KFmO9gL1E9Dmw9RSz8tnsZYKF6/390aUc5SCwTye/9ajLeSsdsIwHGoBkJjjVqSCriXFtgMrVD97w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758865715; c=relaxed/simple;
-	bh=kGtUHGS91msd+xLGpw+kv13UN9tVyD2geDfwaYQDc9U=;
+	s=arc-20240116; t=1758866932; c=relaxed/simple;
+	bh=hhI5//EynWFiYaQMvCk3kQ/lEJk+gMXpq+zvJSOhQus=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GMzOsf0jV6DW4ceY9u6HViA1NJfGwcfBtMr1S33ZHNawmHhJ75jQDgt2X3j+71dTDJBz2APVbCvzhIR8PlwJPEeoaw8RUTGNK/UQla7Ncog4pi5vgHcZdPy3fIZC0zVydbVBYLUxbOtc0f4FIyafZq/geyCg4WGBoFsEqBYTB18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGrT5i1E; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Ouq9lZNNE74UF8MCwdbI8Bh4lUgVJ7wbOxugcERywlsjDYWKloffaFmKfe0o8LiLgWpfV8lSOH7K8p47NKEwtmfek+sQPaNFURr9917QZZ44V2jiAIC/PTwaEx94VS28WdDMUeuXA6sxNm1V3rQeiiveGfDUqfop3SLwGR+dHPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBrWibNQ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGrT5i1E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBrWibNQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758865714; x=1790401714;
+  t=1758866931; x=1790402931;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kGtUHGS91msd+xLGpw+kv13UN9tVyD2geDfwaYQDc9U=;
-  b=EGrT5i1E/xH0Q9NlNbhymyfO6VE6T8+R1LBVJAWYgIIjIZUr+iDKtOSs
-   314i97o204xuDXfTKBTQD1q1TL3K6vxCzuCLTyKgSsF95eNr6JW4ehCxm
-   M9610kTN1iTD0ez9/r4hQz7mYhwaEAHl2U6jmaevQPdXTptwHr7V62V8e
-   oUe+7N6kVh4G8IJZ1zQouDScFlUn5Yy1kDD0PJ17YHEEXFXMiHijiVhLS
-   Ljc70RRolmMrVIz/babIcaouLxyEf8pTsHn/XA1sj92oNZD5zlw6XHhZV
-   QEtgCJHJA9DFHq5m08AO/AfIfzu1dodOpROlE+R26N4cUVyQNUbHths3/
+  bh=hhI5//EynWFiYaQMvCk3kQ/lEJk+gMXpq+zvJSOhQus=;
+  b=KBrWibNQKENhhMvN3HQ9PNKyFWCZpYLGQzHxSQI3qh1hnrsWs7DeKg47
+   kB4pkIs+oTI5bx+09xSE6Bx6FbOrdTCHQLUYDwJZVR4BNHZrzTApbIHJT
+   94JYoIPuDvFNpyIMcGOH08ut1Y78vF73s/8BKSRWav2bp6dc6he7yW8fd
+   a95lbYrA9uxJdDBXDnvDG/6tvFSjmmCwOrcVG5fw4dw9JFdtz4pghLEdw
+   Nrj60ZZrz9nXHpE4pWchxreV61air9Gl1O96rVDo/5V+lyWUsaY+Xkx+J
+   ztYF52h7eBvnwIQXUOZH481AdrKCLCXxUI8f1Hi8Ci8/E75t3lFFsrioZ
    w==;
-X-CSE-ConnectionGUID: luhuctHsQ/2yp3WlrPNjCQ==
-X-CSE-MsgGUID: qgXJXIQAQwKJ6w7z9U0lcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78628558"
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="78628558"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 22:48:34 -0700
-X-CSE-ConnectionGUID: atAcMg20TKSvdVnD+6yM5A==
-X-CSE-MsgGUID: njBjIm1RSn2TYerxhAMNIQ==
+X-CSE-ConnectionGUID: F/P8kWNNSFW8+fmfhsH2tA==
+X-CSE-MsgGUID: bclMHjvzS4+hNynVZpZfqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61247471"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61247471"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 23:08:50 -0700
+X-CSE-ConnectionGUID: eDD/NhPvTxiTl157azdFNA==
+X-CSE-MsgGUID: pSdZiz4jRtmu3SdLwj5/VA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="176642508"
+   d="scan'208";a="177459997"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 25 Sep 2025 22:48:33 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 25 Sep 2025 23:08:48 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v21Jm-0005wf-02;
-	Fri, 26 Sep 2025 05:48:30 +0000
-Date: Fri, 26 Sep 2025 13:48:05 +0800
+	id 1v21dO-0005xP-1A;
+	Fri, 26 Sep 2025 06:08:46 +0000
+Date: Fri, 26 Sep 2025 14:08:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:cleanup 2/2] fs/f2fs/data.c:332:39: error: expression cannot
- be followed by a postfix '->' operator; add parentheses
-Message-ID: <202509261311.c1JiZZxU-lkp@intel.com>
+To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2938/2938] mm/page_alloc.c:4110:9: error:
+ implicit declaration of function 'dynamic_pool_should_alloc'
+Message-ID: <202509261459.GIpDqA4A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +62,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git cleanup
-head:   ea458a3f3d672b53286ed7058ba33a95c0713cac
-commit: ea458a3f3d672b53286ed7058ba33a95c0713cac [2/2] f2fs: use fscrypt_finalize_bounce_page() for cleanup
-config: x86_64-buildonly-randconfig-002-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261311.c1JiZZxU-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261311.c1JiZZxU-lkp@intel.com/reproduce)
+Hi Liu,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   3e16741023a15d92f4be3343cb4d8b508327dda3
+commit: fd855715f24e3eeadaa56de5fde21c55a14aeea0 [2938/2938] mm/mem_reliable: Fallback to dpool if reliable memory is not enough
+config: arm64-randconfig-003-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261459.GIpDqA4A-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261459.GIpDqA4A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509261311.c1JiZZxU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509261459.GIpDqA4A-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/f2fs/data.c:332:39: error: expression cannot be followed by a postfix '->' operator; add parentheses
-     332 |                 fscrypt_finalize_bounce_page(&&folio->page);
-         |                                              ~~~~~~~^
-         |                                              (      )
->> fs/f2fs/data.c:332:39: error: member reference base type 'void' is not a structure or union
-     332 |                 fscrypt_finalize_bounce_page(&&folio->page);
-         |                                              ~~~~~~~^ ~~~~
->> fs/f2fs/data.c:332:34: error: use of undeclared label 'folio'
-     332 |                 fscrypt_finalize_bounce_page(&&folio->page);
-         |                                                ^
-   3 errors generated.
+   mm/page_alloc.c: In function 'mem_reliable_fallback_dpool':
+>> mm/page_alloc.c:4110:9: error: implicit declaration of function 'dynamic_pool_should_alloc' [-Werror=implicit-function-declaration]
+    4110 |  return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +332 fs/f2fs/data.c
+vim +/dynamic_pool_should_alloc +4110 mm/page_alloc.c
 
-   316	
-   317	static void f2fs_write_end_io(struct bio *bio)
-   318	{
-   319		struct f2fs_sb_info *sbi;
-   320		struct folio_iter fi;
-   321	
-   322		iostat_update_and_unbind_ctx(bio);
-   323		sbi = bio->bi_private;
-   324	
-   325		if (time_to_inject(sbi, FAULT_WRITE_IO))
-   326			bio->bi_status = BLK_STS_IOERR;
-   327	
-   328		bio_for_each_folio_all(fi, bio) {
-   329			struct folio *folio = fi.folio;
-   330			enum count_type type;
-   331	
- > 332			fscrypt_finalize_bounce_page(&&folio->page);
-   333	
+  4101	
+  4102	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
+  4103	{
+  4104		if (!reliable_allow_fb_enabled())
+  4105			return false;
+  4106	
+  4107		if (!(gfp_mask & GFP_RELIABLE))
+  4108			return false;
+  4109	
+> 4110		return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
+  4111	}
+  4112	#else
+  4113	static inline struct zone *mem_reliable_fallback_zone(gfp_t gfp_mask,
+  4114							      struct alloc_context *ac)
+  4115	{
+  4116		return NULL;
+  4117	}
+  4118	static inline void mem_reliable_fallback_slowpath(gfp_t gfp_mask,
+  4119							  struct alloc_context *ac) {}
+  4120	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
+  4121	{
+  4122		return false;
+  4123	}
+  4124	#endif
+  4125	
 
 -- 
 0-DAY CI Kernel Test Service
