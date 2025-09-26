@@ -1,69 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE5334BA4B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 00:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D00747F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 00:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758845386; cv=none; b=qJJjG7oO3fISxBGvfZo62b32/vvtK81pzQv2SHx1ERVGTwWfhHL6/+6cJgCGxg7xzJd1jhcTFBQldQRUWLCktGF3gHzMpH2mCp8BfjuMjRBjUKegW80RnzEleJmD0OPaRXUvdkTMrejXA6ijWD42yy8jFbcKEX/bi8a7YBdflyU=
+	t=1758845987; cv=none; b=osHxPQJPaaDqh3Oo9faX02qJxSjUpx0uGE5kolQeegwlGwaPZEEfoHFvGP9ar90YuTqkljGXSpxLhjAmREYlRG+2741jQbRlvqzv/73F9EfBDfhHL4O8523J6oXnm0sYRv6ya6r+9qz2c2psQzqgzGPUf78KJ2V1dY/Aqr+h8+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758845386; c=relaxed/simple;
-	bh=rCHV2gEQn70XE/Sefd9OpykTQf7v/OKrHzYHCAgvBrM=;
+	s=arc-20240116; t=1758845987; c=relaxed/simple;
+	bh=n8M7Lv3wfpL1GX/MJgDEmNfO0OV9bNtF1FjVkjFNdY8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JWVv/65CBRr6IwZs+kwUDsTuhoqmW+/+R5FwVRm/MHcmXcdblwEOrfcfCbXzuIEZA4pSLM9VW9cx92SQwIyWoqGlm8gP18hGsvQOtnbKHJr6Ob1ySNmkfQuM7zct86r0Vf8NboD8vU7MVYQ1ITeGRt/RCBPnGUbNDzBSsslllAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+L05NGy; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=OtPSJSCVx/MbfAxJvafelRfsEzFE1MAwYYKovW+jaMOLGKly2JG77T8131laa5HSYaD/ye+zZLTkXIsjL2vta6Y6ZkNnQ5fNBfdG531idArhc8faydLzGhppJ8jfUqntdGutYiGVqAHQg3GMFt1oL4okwBkkgaE4q+29hAcRlig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5UgGNnd; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+L05NGy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5UgGNnd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758845385; x=1790381385;
+  t=1758845986; x=1790381986;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rCHV2gEQn70XE/Sefd9OpykTQf7v/OKrHzYHCAgvBrM=;
-  b=e+L05NGyjcUErloXJOz0nEPThh+aa8kyP4q7vuM6krY5MGiKmPwYgFtE
-   bdXEc0ZuxVoLBbW56/5jQlQSdel8MRya0/GWoE0AvxQtDk4lyFu838IGR
-   nrbk1sylaWSQIo0Q7MyPvqS6ebo1Ue/HbWRIElxACwg0QOA+PKo7rrJU1
-   6KJB/S5bGLGiQqL0l71z3jTW5OvvBL3FhKAYAA19yZV6CsExXMT1G6rVK
-   e+NS7fI+iWt5mtQDK37SlQzrBcZmLpVgX2D5a/mXP+Bc0SZfhMxBs5eJv
-   JvDjEy/BH49+Uzy6NA2wY4TenpIdysWhBpIfC0oSE59gSfrni/V42FRjx
-   A==;
-X-CSE-ConnectionGUID: qIDIKgI6S/67T7rtgROEvQ==
-X-CSE-MsgGUID: S4pxJgsfQYapDeXabog6GA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78610956"
+  bh=n8M7Lv3wfpL1GX/MJgDEmNfO0OV9bNtF1FjVkjFNdY8=;
+  b=T5UgGNndvdYcn2UlvGeIsXBYffBSB6ptBpke0Hb2bsp/KvwCLt7l7Ppm
+   kFGwRLxYBVAUO2y2I4zsik10XppPpQhSCL9eT9PLIiArG1njDBXRFfux1
+   YL5NN0XEtujO56JAqj1hOUzuCHiijepeM8NI9X2y7ZxMaf1tmTmTz0gIO
+   iAkd3FBQudfLb0S5AeMiDTxpFoZoxMy7RWVxO/+fDS9JfAb22fTeT/XdN
+   CQJsnliS8fiC/U5n6AY24MI+Sl+BmV0O63ki0tC8dNquVO7ILgDxsfSqg
+   ia2+fIjlu1b0FiwuTH7FabH22RgYhHs04nn6jQG7lMBgjdX5lSCrlkGEq
+   Q==;
+X-CSE-ConnectionGUID: uIrMCQDHRTy/WnE1RT7lLQ==
+X-CSE-MsgGUID: gRFqloxkQcOP0UDz21PXZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="60875625"
 X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="78610956"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 17:09:44 -0700
-X-CSE-ConnectionGUID: /XXu750FRjWG6kXmsGY3fw==
-X-CSE-MsgGUID: ThZddzr1QGm/G/5mxTbx7A==
+   d="scan'208";a="60875625"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 17:19:46 -0700
+X-CSE-ConnectionGUID: 0NCXSoKiRwKHXpULZw+g2g==
+X-CSE-MsgGUID: FS9MS3pjSbmmFlKr2kBDNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="177304580"
+   d="scan'208";a="178227175"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 25 Sep 2025 17:09:41 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 Sep 2025 17:19:40 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v1w1p-0005k1-2w;
-	Fri, 26 Sep 2025 00:09:37 +0000
-Date: Fri, 26 Sep 2025 08:08:43 +0800
+	id 1v1wBW-0005kL-1h;
+	Fri, 26 Sep 2025 00:19:38 +0000
+Date: Fri, 26 Sep 2025 08:18:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Amol Maheshwari <amahesh@qti.qualcomm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, aiqun.yu@oss.qualcomm.com,
-	tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
-	yijie.yang@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-	Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA
- formatting
-Message-ID: <202509260727.MrXkGDmN-lkp@intel.com>
-References: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>, rostedt@goodmis.org,
+	lukas@wunner.de, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, helgaas@kernel.org,
+	ilpo.jarvinen@linux.intel.com, mattc@purestorage.com,
+	Jonathan.Cameron@huawei.com
+Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com, tony.luck@intel.com,
+	bp@alien8.de, xueshuai@linux.alibaba.com, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, oleg@redhat.com, naveen@kernel.org,
+	davem@davemloft.net, mark.rutland@arm.com, peterz@infradead.org,
+	tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v11 2/3] PCI: trace: Add a RAS tracepoint to monitor link
+ speed changes
+Message-ID: <202509260804.F13FDt4V-lkp@intel.com>
+References: <20250925061928.42758-3-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,42 +72,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250924-knp-fastrpc-v1-1-4b40f8bfce1d@oss.qualcomm.com>
+In-Reply-To: <20250925061928.42758-3-xueshuai@linux.alibaba.com>
 
-Hi Jingyi,
+Hi Shuai,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on ae2d20002576d2893ecaff25db3d7ef9190ac0b6]
+[auto build test ERROR on pci/for-linus]
+[also build test ERROR on trace/for-next linus/master v6.17-rc7 next-20250925]
+[cannot apply to pci/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/misc-fastrpc-Add-support-for-new-DSP-IOVA-formatting/20250925-074855
-base:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
-patch link:    https://lore.kernel.org/r/20250924-knp-fastrpc-v1-1-4b40f8bfce1d%40oss.qualcomm.com
-patch subject: [PATCH 1/2] misc: fastrpc: Add support for new DSP IOVA formatting
-config: x86_64-buildonly-randconfig-005-20250926 (https://download.01.org/0day-ci/archive/20250926/202509260727.MrXkGDmN-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-trace-Add-a-generic-RAS-tracepoint-for-hotplug-event/20250925-142250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+patch link:    https://lore.kernel.org/r/20250925061928.42758-3-xueshuai%40linux.alibaba.com
+patch subject: [PATCH v11 2/3] PCI: trace: Add a RAS tracepoint to monitor link speed changes
+config: x86_64-buildonly-randconfig-006-20250926 (https://download.01.org/0day-ci/archive/20250926/202509260804.F13FDt4V-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260727.MrXkGDmN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509260804.F13FDt4V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509260727.MrXkGDmN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509260804.F13FDt4V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/misc/fastrpc.c:2296:34: warning: 'qcom_soc_match_table' defined but not used [-Wunused-const-variable=]
-    2296 | static const struct of_device_id qcom_soc_match_table[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/qcom_soc_match_table +2296 drivers/misc/fastrpc.c
-
-  2295	
-> 2296	static const struct of_device_id qcom_soc_match_table[] = {
-  2297		{ .compatible = "qcom,kaanapali", .data = &kaanapali_soc_data },
-  2298		{},
-  2299	};
-  2300	
+   ld: vmlinux.o: in function `trace_raw_output_pcie_link_event':
+   trace.c:(.text+0x91792a): undefined reference to `pci_speed_string'
+>> ld: trace.c:(.text+0x917935): undefined reference to `pci_speed_string'
 
 -- 
 0-DAY CI Kernel Test Service
