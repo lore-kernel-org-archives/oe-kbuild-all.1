@@ -1,129 +1,122 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F72229B1F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 16:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DD81F1302
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 16:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758904873; cv=none; b=YOC3MAmneZMd5sgWzgBgVTt9+LphJGHtLGeHfBvOqutw0jluwplbbIYlddkb3p0tDWRKq0+4+7q2TrdLJMXcOtOLwb1X0CbFkTr7IwbYjwZBdrCsvLeBs9lfIlgkxjsWjj+Wz/0iouTtoLcTPzLB+uFSvd2eIHd87bj/Mjd8u3A=
+	t=1758905219; cv=none; b=pm33Pe4TPUuEY1/ceEtZnsH0Cj+xbyHf2+sRp2DdjL2zZSyIxhDsNwdfZjEI8ftvFFLPfIvryXsc3zOmAB3ngktus3jbKeIUejwV2CJSQcvsEpLtsnTY8FE8UKdl1xIDhWe4n3MNUrrHqKJXWYYrJa3vy7ol/x+0JT3n0PDqiA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758904873; c=relaxed/simple;
-	bh=aVQU6Uf390VwLwgOyoJaPwfqW7aHy5b1UHicJhjquUI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hUg4/El7RvjKFRd2xsW6ELft2KyhSSUX9K5waEISKrAo/9wi3zJXGV1WR94SNjQQo7NymAfEl2FsOmi7o+afzcoa8B/mWBrHs9GxjwwtyUuYUGCY8EhLnHeHrlfG2vGfUtggKjPWtlyAbGJHNMY7V0EZpY6/HjSlwMJ2uSDYLqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fe7wcSLw; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758905219; c=relaxed/simple;
+	bh=VVuF0UeGszbi5w5YRaGgQVX1wHytPM3oY4kRsdxL9K0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KChpoQ+RyxvJR679ee2BvC2vDUVhxgsboO+pRdbUSo0+6nwTQC/3kJPMfqXNv1W7vsKTl7MOC9rjuWxL8CkAksLeDumrzMv22+kAYGW68lfmf29yd0jvB72VXXzaUomlmIAt58XDk/DFujMTSOClhXRwwpQu9g8JEEbrJu301zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sfyt9cRK; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fe7wcSLw"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b3727611d76so270829166b.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 09:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758904870; x=1759509670; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OhK/I355tEzWCZLpIKaGMRHfbyhnGIybWqmQS9Bgtnk=;
-        b=Fe7wcSLwSRBdQzifF/+lfU6xWvab+phYXZg51STbwXp8jmlhmkGOebSIvbJ8I9TxLw
-         GLshtTXM6mgoIYG08WNT2UbNWaaXPn1PzeUTgwAIF5kfhMh4E8geGK64I7NQ9XBpdwGM
-         sahgGQr7E06WKZLXo4fwWVn0rmHmnPLydYRFANgtzf/scwdJufWTGdRrT7R2pNzsbE3C
-         KtMz/c0C1r+wdcmONEqh66VvdEsvQK5E1JAsMWh+0DlWYwBfID7q7NDXcpCC2ID5/xdj
-         3xjl07h3tJH1YuMkA5gZDMGRMqi8El6kx92HDEmqHjmAhCjlRAFIvC54SO921CP000lg
-         UjNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758904870; x=1759509670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OhK/I355tEzWCZLpIKaGMRHfbyhnGIybWqmQS9Bgtnk=;
-        b=Q+Y5TWb9ok7D6bmqkSHqbzgYGTIVBOrkct+p3LkiOefAg/TR3DvJa+nqz3tDTblvsr
-         eDbmVsUlwDM/J1KRgY36na/aD5c8Z9YWDAMIZ2N2oaaBe8MDj/77JQtxJiDeLLlVmoEQ
-         iSO4fo3Gr3z5dWbgvBjr1VQnkW+uniXb/SYfLKrulSNYc1JAI53pFcFX+Ocuz0Lp1b8L
-         isE22sg+SRehPnNdEa/KqBlq0l+MwM6ysk3klukmOvu0Mncw7mow33GZjISIEa7VgkVE
-         Ey+4Zqtn6cioAlBG99GOdtPvcMAYHEN1rFwCYDiJVw2b7XoERsQUxDNYUJkPAtMWlHJi
-         Djgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmz9dEr/o96ymIuMCz4cqJr836XfY11dKzGOwZSiJ0F+FlP/HBhw6eSFjxx9iCrvx1reSEp6G7J3uIEHei@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIy7e8NWMRQdyR5LmM1C6BxDfkQdv/KulY5Ez8GwOtg55p1zb7
-	yfDoQe1AOxGQ+sKN/XEGc/Dw3Tl+YxordjLOJI1YqWXcDW1Jx9h4J1rxGZ6DYTUbwvOjscbpFGW
-	KsGX28dJE83EWd+7prb00+3+y7AQeKuA=
-X-Gm-Gg: ASbGncsI19+nkWgibufcgdyk4NbJFXJ/60d/cf8+Hb9E9Tm3ZhGyNGGRkVoeJ4oKqHT
-	yW9FMMT3xlYzt90SbsCkGIxprrXp6K+p1vAnQLF3R+nvD8ZyytDYL9EUojk1PDjnUvRm8NASQUC
-	L0bhsD3OeNWbfnYbjZkU6Y4uJzJh+ujre6Pyc6GGz71EjCM+9/cpVwgOfJqsWMlZZY0PoOgbE9u
-	h9qryEdgJx9hFAzgFbl4drwGfinJZAR2Kvgw+V9uWZnx9E3/3qjHYU=
-X-Google-Smtp-Source: AGHT+IGiAgB3Cp3l/+LWlbB0J5SQqcA//CNAV4YTQyXTFqA9cx49Yh6QtYgAgO3MbSqw95Dgnu0URBo7YFe9FVeY/8Q=
-X-Received: by 2002:a17:907:86a9:b0:b3a:1300:e8e4 with SMTP id
- a640c23a62f3a-b3a13102ed4mr8997966b.12.1758904870081; Fri, 26 Sep 2025
- 09:41:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sfyt9cRK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758905218; x=1790441218;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VVuF0UeGszbi5w5YRaGgQVX1wHytPM3oY4kRsdxL9K0=;
+  b=Sfyt9cRKST37oI87jDhEbQzLZMuf6XAcLM+Qx73g8Y5mU+Mw5rdSQQ4f
+   H2tM6CxErBh8ZiG2P8dPr3G+0unq3MFIRSQeNWpUAw1vmEo1chmrHZSQZ
+   NMtYhkXCmgrAs0srx+xa54EHKHtel4w1Xyb3WfGL7f+bNvjVWvHEN72tp
+   Pz1ILeX2qRCove7HYHI4ljO2O0F5bSYl2w0rc6cRd+UUGV3LB0Kn0060R
+   JY5yIbUjf5cIG0lMvGu4moB0EJvYY3YfFcTfxNYuBaINzQcrMiPcTYC91
+   9t1AyiQaiXkjxFK0Xbdv8y0CPmRMfDzKPbp8PtNLpfDT//XHGSV2DeBBN
+   Q==;
+X-CSE-ConnectionGUID: ODZ5+SgTQ2WJXiUs6m0ZFA==
+X-CSE-MsgGUID: 3xfcI1MTQ1a/+tMK7GlE0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61410328"
+X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
+   d="scan'208";a="61410328"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 09:46:58 -0700
+X-CSE-ConnectionGUID: AA/i5poxT0C3CBRUqnZCOQ==
+X-CSE-MsgGUID: gBCmhMP+Q/C630SrxX8JiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
+   d="scan'208";a="176924563"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 26 Sep 2025 09:46:57 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v2Bad-0006Rf-2j;
+	Fri, 26 Sep 2025 16:46:41 +0000
+Date: Sat, 27 Sep 2025 00:45:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 27/38] nfsd: add notification handlers for dir events
+Message-ID: <202509270005.wbvF4f6R-lkp@intel.com>
+References: <20250924-dir-deleg-v3-27-9f3af8bc5c40@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250924204409.1706524-2-joshua.hahnjy@gmail.com> <202509260132.awvdNKqF-lkp@intel.com>
-In-Reply-To: <202509260132.awvdNKqF-lkp@intel.com>
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Fri, 26 Sep 2025 12:40:58 -0400
-X-Gm-Features: AS18NWAvPCxQoYx4Q1NMydC8ffwXDXCS1U2zPQc-T1l-6SyQtlRE3k2R9alT660
-Message-ID: <CAN+CAwNBg+3RwAsBxOEMk6aK+tb2O45wfnJxBdxRPSBi+vHEUg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_vm_stats
- change detection
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Chris Mason <chris.mason@fusionio.com>, 
-	Kiryl Shutsemau <kirill@shutemov.name>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Brendan Jackman <jackmanb@google.com>, David Hildenbrand <david@redhat.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Zi Yan <ziy@nvidia.com>, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250924-dir-deleg-v3-27-9f3af8bc5c40@kernel.org>
 
-Hi Dan,
+Hi Jeff,
 
-On Fri, Sep 26, 2025 at 11:34=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
->
-> Hi Joshua,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-pag=
-e_alloc-vmstat-Simplify-refresh_cpu_vm_stats-change-detection/20250925-0445=
-32
-> base:   097a6c336d0080725c626fda118ecfec448acd0f
-> patch link:    https://lore.kernel.org/r/20250924204409.1706524-2-joshua.=
-hahnjy%40gmail.com
-> patch subject: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_=
-vm_stats change detection
-> config: mips-randconfig-r073-20250925 (https://download.01.org/0day-ci/ar=
-chive/20250926/202509260132.awvdNKqF-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project c=
-afc064fc7a96b3979a023ddae1da2b499d6c954)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202509260132.awvdNKqF-lkp@intel.com/
->
-> smatch warnings:
-> mm/page_alloc.c:2591 decay_pcp_high() error: uninitialized symbol 'todo'.
->
-> vim +/todo +2591 mm/page_alloc.c
->
-> 06fb80866d37b0 Joshua Hahn    2025-09-24  2564  bool decay_pcp_high(struc=
-t zone *zone, struct per_cpu_pages *pcp)
-> 51a755c56dc05a Ying Huang     2023-10-16  2565  {
-> 51a755c56dc05a Ying Huang     2023-10-16  2566          int high_min, to_=
-drain, batch;
-> 06fb80866d37b0 Joshua Hahn    2025-09-24  2567          bool todo;
->
-> needs to be initialized to false.
+kernel test robot noticed the following build warnings:
 
-Thank you for the catch, I think Christoph also pointed out the same
-thing earlier.
-I'll be sure to fix this up in the next version! Have a great day!
-Joshua
+[auto build test WARNING on 36c204d169319562eed170f266c58460d5dad635]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/filelock-push-the-S_ISREG-check-down-to-setlease-handlers/20250925-022057
+base:   36c204d169319562eed170f266c58460d5dad635
+patch link:    https://lore.kernel.org/r/20250924-dir-deleg-v3-27-9f3af8bc5c40%40kernel.org
+patch subject: [PATCH v3 27/38] nfsd: add notification handlers for dir events
+config: x86_64-randconfig-122-20250926 (https://download.01.org/0day-ci/archive/20250927/202509270005.wbvF4f6R-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270005.wbvF4f6R-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509270005.wbvF4f6R-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfsd/nfs4xdr.c:3763:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] *attrmask @@     got restricted __be32 [usertype] * @@
+   fs/nfsd/nfs4xdr.c:3763:18: sparse:     expected unsigned int [usertype] *attrmask
+   fs/nfsd/nfs4xdr.c:3763:18: sparse:     got restricted __be32 [usertype] *
+
+vim +3763 fs/nfsd/nfs4xdr.c
+
+  3754	
+  3755	static bool
+  3756	nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
+  3757				  struct dentry *dentry, struct nfs4_delegation *dp,
+  3758				  char *name, u32 namelen)
+  3759	{
+  3760		uint32_t *attrmask;
+  3761	
+  3762		/* Reserve space for attrmask */
+> 3763		attrmask = xdr_reserve_space(xdr, 3 * sizeof(uint32_t));
+  3764		if (!attrmask)
+  3765			return false;
+  3766	
+  3767		ne->ne_file.data = name;
+  3768		ne->ne_file.len = namelen;
+  3769		ne->ne_attrs.attrmask.element = attrmask;
+  3770	
+  3771		attrmask[0] = 0;
+  3772		attrmask[1] = 0;
+  3773		attrmask[2] = 0;
+  3774		ne->ne_attrs.attr_vals.data = NULL;
+  3775		ne->ne_attrs.attr_vals.len = 0;
+  3776		ne->ne_attrs.attrmask.count = 1;
+  3777		return true;
+  3778	}
+  3779	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
