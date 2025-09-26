@@ -1,179 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A5A1C3BE0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 16:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F72229B1F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 16:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758902704; cv=none; b=tkNrPBSbXxulJngSbg5zWk9iR+YkAuxCMZ9T6FARgdXrxqzs5OlyuBb9vG/1fbHEvump3gNBPc0mrQRVdCKZRfRywPDfXg634EyYfze0lMcFoHP8xXMqPlxWxCih9DyykI7VxldXNiXxMAiZZv4QHzxre9DJb1V5oQQHLhjYw6s=
+	t=1758904873; cv=none; b=YOC3MAmneZMd5sgWzgBgVTt9+LphJGHtLGeHfBvOqutw0jluwplbbIYlddkb3p0tDWRKq0+4+7q2TrdLJMXcOtOLwb1X0CbFkTr7IwbYjwZBdrCsvLeBs9lfIlgkxjsWjj+Wz/0iouTtoLcTPzLB+uFSvd2eIHd87bj/Mjd8u3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758902704; c=relaxed/simple;
-	bh=wUGJE+ti/MRdA0xp+XI2NHmw0de32U8bLNCQZPLQAFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E98/0yQnVi5BRD1eQKBiVMunE/i4zjodI2FTOttRL9/6UgWnpxMfXakynGGcBJQFAUvwBX0q5N4wHQ6xMAXb+kR8Bv2WA0irE3DXL5XRRyAVmJPjxVkejnH9KsvMblCPZYni2AkzRHCUl//HpJfMxcB3tkt8IIhyIMU04vew6P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UpTvJD6k; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758904873; c=relaxed/simple;
+	bh=aVQU6Uf390VwLwgOyoJaPwfqW7aHy5b1UHicJhjquUI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hUg4/El7RvjKFRd2xsW6ELft2KyhSSUX9K5waEISKrAo/9wi3zJXGV1WR94SNjQQo7NymAfEl2FsOmi7o+afzcoa8B/mWBrHs9GxjwwtyUuYUGCY8EhLnHeHrlfG2vGfUtggKjPWtlyAbGJHNMY7V0EZpY6/HjSlwMJ2uSDYLqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fe7wcSLw; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UpTvJD6k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758902703; x=1790438703;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wUGJE+ti/MRdA0xp+XI2NHmw0de32U8bLNCQZPLQAFE=;
-  b=UpTvJD6kbb4Vwbw2sdFONbAMDIu9OjnLG9VBCcyoxqtQ/dwu4v7Z+4CT
-   H4Z86T2KJCLvAotOMaQ3jKLyo8p/xBqPakU6hmUQho1DXzYCkpAfvXudX
-   g+ThFAr8EnEwnB36QM4K7AMw3A3L5Or8iv2O8PFpp3qrChRZGn/BZrsTf
-   ofahaszXU19AyCsEvE+DQ/XyIztKzTXBEDMZkpy5BKRbeSF9WbeaS70Qe
-   31NUBoQsS7biEWzTxRvtbcjOBJhZmk1r4y2HKvMp4i9VMnU+PzJSB0wjm
-   0bj8wbLRleGARYOa6hlYPjr1WYq285++xQ2ngwvgjull9ZWb3WLJRNSYn
-   w==;
-X-CSE-ConnectionGUID: gMqSUTxNTjiE7VhGu9pHKw==
-X-CSE-MsgGUID: FhT6+2rVQw2DbrIXJz6oWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="83850158"
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="83850158"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 09:05:02 -0700
-X-CSE-ConnectionGUID: CndS3x/QQduuWq+XClxM8A==
-X-CSE-MsgGUID: bjQGFKfXRwiA8SLER519ww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="208393799"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2025 09:05:00 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v2AwG-0006OZ-1s;
-	Fri, 26 Sep 2025 16:04:54 +0000
-Date: Sat, 27 Sep 2025 00:03:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@ownmail.net>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 11/11] ecryptfs: use new start_creaing/start_removing APIs
-Message-ID: <202509262333.TsoLDUkJ-lkp@intel.com>
-References: <20250926025015.1747294-12-neilb@ownmail.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fe7wcSLw"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b3727611d76so270829166b.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 09:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758904870; x=1759509670; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OhK/I355tEzWCZLpIKaGMRHfbyhnGIybWqmQS9Bgtnk=;
+        b=Fe7wcSLwSRBdQzifF/+lfU6xWvab+phYXZg51STbwXp8jmlhmkGOebSIvbJ8I9TxLw
+         GLshtTXM6mgoIYG08WNT2UbNWaaXPn1PzeUTgwAIF5kfhMh4E8geGK64I7NQ9XBpdwGM
+         sahgGQr7E06WKZLXo4fwWVn0rmHmnPLydYRFANgtzf/scwdJufWTGdRrT7R2pNzsbE3C
+         KtMz/c0C1r+wdcmONEqh66VvdEsvQK5E1JAsMWh+0DlWYwBfID7q7NDXcpCC2ID5/xdj
+         3xjl07h3tJH1YuMkA5gZDMGRMqi8El6kx92HDEmqHjmAhCjlRAFIvC54SO921CP000lg
+         UjNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758904870; x=1759509670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OhK/I355tEzWCZLpIKaGMRHfbyhnGIybWqmQS9Bgtnk=;
+        b=Q+Y5TWb9ok7D6bmqkSHqbzgYGTIVBOrkct+p3LkiOefAg/TR3DvJa+nqz3tDTblvsr
+         eDbmVsUlwDM/J1KRgY36na/aD5c8Z9YWDAMIZ2N2oaaBe8MDj/77JQtxJiDeLLlVmoEQ
+         iSO4fo3Gr3z5dWbgvBjr1VQnkW+uniXb/SYfLKrulSNYc1JAI53pFcFX+Ocuz0Lp1b8L
+         isE22sg+SRehPnNdEa/KqBlq0l+MwM6ysk3klukmOvu0Mncw7mow33GZjISIEa7VgkVE
+         Ey+4Zqtn6cioAlBG99GOdtPvcMAYHEN1rFwCYDiJVw2b7XoERsQUxDNYUJkPAtMWlHJi
+         Djgg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmz9dEr/o96ymIuMCz4cqJr836XfY11dKzGOwZSiJ0F+FlP/HBhw6eSFjxx9iCrvx1reSEp6G7J3uIEHei@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIy7e8NWMRQdyR5LmM1C6BxDfkQdv/KulY5Ez8GwOtg55p1zb7
+	yfDoQe1AOxGQ+sKN/XEGc/Dw3Tl+YxordjLOJI1YqWXcDW1Jx9h4J1rxGZ6DYTUbwvOjscbpFGW
+	KsGX28dJE83EWd+7prb00+3+y7AQeKuA=
+X-Gm-Gg: ASbGncsI19+nkWgibufcgdyk4NbJFXJ/60d/cf8+Hb9E9Tm3ZhGyNGGRkVoeJ4oKqHT
+	yW9FMMT3xlYzt90SbsCkGIxprrXp6K+p1vAnQLF3R+nvD8ZyytDYL9EUojk1PDjnUvRm8NASQUC
+	L0bhsD3OeNWbfnYbjZkU6Y4uJzJh+ujre6Pyc6GGz71EjCM+9/cpVwgOfJqsWMlZZY0PoOgbE9u
+	h9qryEdgJx9hFAzgFbl4drwGfinJZAR2Kvgw+V9uWZnx9E3/3qjHYU=
+X-Google-Smtp-Source: AGHT+IGiAgB3Cp3l/+LWlbB0J5SQqcA//CNAV4YTQyXTFqA9cx49Yh6QtYgAgO3MbSqw95Dgnu0URBo7YFe9FVeY/8Q=
+X-Received: by 2002:a17:907:86a9:b0:b3a:1300:e8e4 with SMTP id
+ a640c23a62f3a-b3a13102ed4mr8997966b.12.1758904870081; Fri, 26 Sep 2025
+ 09:41:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250926025015.1747294-12-neilb@ownmail.net>
+References: <20250924204409.1706524-2-joshua.hahnjy@gmail.com> <202509260132.awvdNKqF-lkp@intel.com>
+In-Reply-To: <202509260132.awvdNKqF-lkp@intel.com>
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+Date: Fri, 26 Sep 2025 12:40:58 -0400
+X-Gm-Features: AS18NWAvPCxQoYx4Q1NMydC8ffwXDXCS1U2zPQc-T1l-6SyQtlRE3k2R9alT660
+Message-ID: <CAN+CAwNBg+3RwAsBxOEMk6aK+tb2O45wfnJxBdxRPSBi+vHEUg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_vm_stats
+ change detection
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Chris Mason <chris.mason@fusionio.com>, 
+	Kiryl Shutsemau <kirill@shutemov.name>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Brendan Jackman <jackmanb@google.com>, David Hildenbrand <david@redhat.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Zi Yan <ziy@nvidia.com>, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi NeilBrown,
+Hi Dan,
 
-kernel test robot noticed the following build errors:
+On Fri, Sep 26, 2025 at 11:34=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> Hi Joshua,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-pag=
+e_alloc-vmstat-Simplify-refresh_cpu_vm_stats-change-detection/20250925-0445=
+32
+> base:   097a6c336d0080725c626fda118ecfec448acd0f
+> patch link:    https://lore.kernel.org/r/20250924204409.1706524-2-joshua.=
+hahnjy%40gmail.com
+> patch subject: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_=
+vm_stats change detection
+> config: mips-randconfig-r073-20250925 (https://download.01.org/0day-ci/ar=
+chive/20250926/202509260132.awvdNKqF-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project c=
+afc064fc7a96b3979a023ddae1da2b499d6c954)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202509260132.awvdNKqF-lkp@intel.com/
+>
+> smatch warnings:
+> mm/page_alloc.c:2591 decay_pcp_high() error: uninitialized symbol 'todo'.
+>
+> vim +/todo +2591 mm/page_alloc.c
+>
+> 06fb80866d37b0 Joshua Hahn    2025-09-24  2564  bool decay_pcp_high(struc=
+t zone *zone, struct per_cpu_pages *pcp)
+> 51a755c56dc05a Ying Huang     2023-10-16  2565  {
+> 51a755c56dc05a Ying Huang     2023-10-16  2566          int high_min, to_=
+drain, batch;
+> 06fb80866d37b0 Joshua Hahn    2025-09-24  2567          bool todo;
+>
+> needs to be initialized to false.
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on next-20250925]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus viro-vfs/for-next linus/master v6.17-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/debugfs-rename-end_creating-to-debugfs_end_creating/20250926-105302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250926025015.1747294-12-neilb%40ownmail.net
-patch subject: [PATCH 11/11] ecryptfs: use new start_creaing/start_removing APIs
-config: x86_64-buildonly-randconfig-003-20250926 (https://download.01.org/0day-ci/archive/20250926/202509262333.TsoLDUkJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509262333.TsoLDUkJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509262333.TsoLDUkJ-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   Warning: fs/namei.c:2815 function parameter 'de' not described in 'end_dirop'
-   Warning: fs/namei.c:2836 function parameter 'de' not described in 'end_dirop_mkdir'
-   Warning: fs/namei.c:2836 function parameter 'parent' not described in 'end_dirop_mkdir'
-   Warning: fs/namei.c:3276 function parameter 'idmap' not described in 'start_creating'
-   Warning: fs/namei.c:3276 function parameter 'parent' not described in 'start_creating'
-   Warning: fs/namei.c:3276 function parameter 'name' not described in 'start_creating'
-   Warning: fs/namei.c:3303 function parameter 'idmap' not described in 'start_removing'
-   Warning: fs/namei.c:3303 function parameter 'parent' not described in 'start_removing'
-   Warning: fs/namei.c:3303 function parameter 'name' not described in 'start_removing'
-   Warning: fs/namei.c:3332 function parameter 'idmap' not described in 'start_creating_killable'
-   Warning: fs/namei.c:3332 function parameter 'parent' not described in 'start_creating_killable'
-   Warning: fs/namei.c:3332 function parameter 'name' not described in 'start_creating_killable'
-   Warning: fs/namei.c:3363 function parameter 'idmap' not described in 'start_removing_killable'
-   Warning: fs/namei.c:3363 function parameter 'parent' not described in 'start_removing_killable'
-   Warning: fs/namei.c:3363 function parameter 'name' not described in 'start_removing_killable'
-   Warning: fs/namei.c:3386 function parameter 'parent' not described in 'start_creating_noperm'
-   Warning: fs/namei.c:3386 function parameter 'name' not described in 'start_creating_noperm'
-   Warning: fs/namei.c:3411 function parameter 'parent' not described in 'start_removing_noperm'
-   Warning: fs/namei.c:3411 function parameter 'name' not described in 'start_removing_noperm'
->> Warning: fs/namei.c:3437 function parameter 'parent' not described in 'start_creating_dentry'
->> Warning: fs/namei.c:3437 function parameter 'child' not described in 'start_creating_dentry'
-   Warning: fs/namei.c:3470 function parameter 'parent' not described in 'start_removing_dentry'
-   Warning: fs/namei.c:3470 function parameter 'child' not described in 'start_removing_dentry'
---
-   fs/ecryptfs/inode.c: In function 'ecryptfs_rename':
->> fs/ecryptfs/inode.c:630:14: error: implicit declaration of function 'start_renaming_two_dentry'; did you mean 'start_renaming_two_dentrys'? [-Wimplicit-function-declaration]
-     630 |         rc = start_renaming_two_dentry(&rd, lower_old_dentry, lower_new_dentry);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |              start_renaming_two_dentrys
-
-
-vim +630 fs/ecryptfs/inode.c
-
-   602	
-   603	static int
-   604	ecryptfs_rename(struct mnt_idmap *idmap, struct inode *old_dir,
-   605			struct dentry *old_dentry, struct inode *new_dir,
-   606			struct dentry *new_dentry, unsigned int flags)
-   607	{
-   608		int rc;
-   609		struct dentry *lower_old_dentry;
-   610		struct dentry *lower_new_dentry;
-   611		struct dentry *lower_old_dir_dentry;
-   612		struct dentry *lower_new_dir_dentry;
-   613		struct inode *target_inode;
-   614		struct renamedata rd = {};
-   615	
-   616		if (flags)
-   617			return -EINVAL;
-   618	
-   619		lower_old_dir_dentry = ecryptfs_dentry_to_lower(old_dentry->d_parent);
-   620		lower_new_dir_dentry = ecryptfs_dentry_to_lower(new_dentry->d_parent);
-   621	
-   622		lower_old_dentry = ecryptfs_dentry_to_lower(old_dentry);
-   623		lower_new_dentry = ecryptfs_dentry_to_lower(new_dentry);
-   624	
-   625		target_inode = d_inode(new_dentry);
-   626	
-   627		rd.mnt_idmap  = &nop_mnt_idmap;
-   628		rd.old_parent = lower_old_dir_dentry;
-   629		rd.new_parent = lower_new_dir_dentry;
- > 630		rc = start_renaming_two_dentry(&rd, lower_old_dentry, lower_new_dentry);
-   631		if (rc)
-   632			return rc;
-   633	
-   634		rc = vfs_rename(&rd);
-   635		if (rc)
-   636			goto out_lock;
-   637		if (target_inode)
-   638			fsstack_copy_attr_all(target_inode,
-   639					      ecryptfs_inode_to_lower(target_inode));
-   640		fsstack_copy_attr_all(new_dir, d_inode(lower_new_dir_dentry));
-   641		if (new_dir != old_dir)
-   642			fsstack_copy_attr_all(old_dir, d_inode(lower_old_dir_dentry));
-   643	out_lock:
-   644		end_renaming(&rd);
-   645		return rc;
-   646	}
-   647	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you for the catch, I think Christoph also pointed out the same
+thing earlier.
+I'll be sure to fix this up in the next version! Have a great day!
+Joshua
