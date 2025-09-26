@@ -1,154 +1,100 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C43929ACF0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B35C29B216
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 09:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758876617; cv=none; b=qqIY2YT3PBMufxFUPSGBikdH6vZHnlhhBYBSml7DmgAgG0s8w0FNQG1dqFqjT7CGOdg1itEovTT3A7chh4mb253MRXXAwV8pT88P/+NB96ik+LA5MNm/QkN75sYWtAwgs5qkZ2HC+Lj8aB4w5TYKEfK5iZm92XhCWDTm8kWL7y8=
+	t=1758879479; cv=none; b=f0cu0TYtogylTsUPCUllk4aQtDMI+KNImDgagSq0KY+RU5wqPqPa+mxMZahMiMa7D9QPexRZQfrOiF+J/gqSDerqfI6JdTskMvJwomZ5kEp34TGq5Ocn9ZhxjiqirdXOAOBXe12SYxTwNit7tMKjfhWsq9iRIb0gAKZ4ntmeHC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758876617; c=relaxed/simple;
-	bh=DW5PR20rrpRjozhjmQF7SX9wg6GFQc9bhuXeEh/lm7E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WHYRhPcz5oiDWa/bqfCeYCCJcoEogQ84IT3gz8jHSLID/FBwXUmmBlDeOUFdLyxKJIunPAzxZQpnRtLDKECQqlwpr7E6QdHHDS8fAfTE/YYC4EvHV0gOyW6QBtDtJfDeaVYuYOSMiX69S6ofkZZyysW0td76GNGmPCPTP8IgV4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KQeg2Vsp; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1758879479; c=relaxed/simple;
+	bh=0pIj8+3Ga3wiIsSnaOziM5gISs8vlMCaD0uo4PLkQp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c7DdbSaN1zdgOoVM+eTdnLMrKxUdnnZHw1SOEyMia5uYAsBdgM60aDLsXKhsiSM4egLuZr2pgu6ekdCguyb49BgT++4Ji4gAmxzJHr23QWe/k2xSqXkfH5/MIuLKLmSO0NOLRYuiuP382FaiD7cXcIb7+Nu5/BEhoH2CPAW4UbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nk27manX; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KQeg2Vsp"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q6ltY9011411
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:50:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hAvJmzrwoSb3evK5QrOHasbm0i6ySDURtAIAeME4WEE=; b=KQeg2Vsp8pY7kAkX
-	m6rMUbmJSMEIKwgoIERa7LulLjSLELt8hiu1+IYMv00GPc5ieNf3NAF40MP3wS7w
-	dTFRo4CgdmzXsaN/3r68cQKzeMyrViYEqU69TrIrqEfIVUDA2OAk9PvPSV75/YRC
-	js4NLs2Wi36DbK7EtFjIBXupnVnxtU8IQYHl38HwRIw7hdltPcaksqAF7ahiRnCi
-	EPee4tLw52eu2eNitIONh6+DOvniIs5W/h75KjX5gpG5M48EDuJhD6DgXuOwz9qI
-	7emCJKiJNJ7AllZQPh2QgkIEm+OEcpYWj/Mw8OXl9VgTZ2Nf8iDDHcAYpx9M3uXD
-	KVLVdg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0q25r4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:50:15 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4d880ce17bbso2165111cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 01:50:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758876606; x=1759481406;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hAvJmzrwoSb3evK5QrOHasbm0i6ySDURtAIAeME4WEE=;
-        b=EEDECsY6FGrUksyvUsVlmMCWzPD3kwQ5UYwgjh+v54fMsM/aQQpYhuU8BOVZZ0Lr5a
-         MBbAjGkmdF0WH446PRTOAB78mXFd8T1/j9uLdsPI1rWjE3jqeuKKp4sg0MYMBb9wljZL
-         R+t2+/IKAHCqnO8g+bhTWBzrlTUoY5sJ1Z51YOsfUAuOA4TjyfwU8LIXmqxK7J7Uz6jd
-         Kj5bjfHNw/03Lvis4gskFs7DjuSA7SmCDrhFlT9L6cujDPb39IMv3ne1unZIhgljH1tm
-         PVUMxTdp7P0aM0tMFO+YsQn0H/TyflHgfn7lOPQnLujxoUZtmjRCMOcm/83E98E2eY8a
-         gDHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIokZa6TqYLee/lhTe0TNaVE9lGkzQR0bXI2GGWGDbtjf/J0ipXValm0D/yIo96ZFtnUAEjmytP3iYr2I6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8f5/gBt4YHa5KkVL+idp15rPSBo9pqeUwHP3ZHc1Lf9scJ5Zv
-	SOtN/YnRCjKfX8br8KJuqx8Pucac8o6Q1KcYXI1JAfhkL1avpPMDV6CAY2RHqGXnR7r5D5kayMy
-	hugqBwGr1siE052YvgZyeYf3BQggeOSfimzn2ZfxgyjxtOEmQ+bQKcNhZlCP1ltWacQtT
-X-Gm-Gg: ASbGnctA/LCRr6wzxasI9JGfyzWQ4fL/yL3Yxql/ejhnJX3f1gxhMca1qmzhkdGOR2q
-	rHHRDn5NrwXtIHEwG/PJCR0S2fbQQhgfhudUL02UUX6YxXonaEUjgzZUPor4XkeHxFKNN4wHmWg
-	V0uQw9qPKyRvXDI2hmNfWaPcZLOCV8Wtu0VqtgU7xauRbAWs3dyRGDDjFn1u238HiQaLKr96zoS
-	jeNA72ppTaO8iYnKnQFixykI6p6J5KKPctQdRuYCujjlyTITjGM3kgkp89NskrE6D1Xq0HUTgUG
-	rZpWCqoXbDR8SJu6kZJyVZvu07K+hHA4Oor5vXxeOMno/KgQOS0Z0dpfg8ksf0gZHHpdzzM+OLA
-	MKYSen0Ri+Ioluz44dC4HqQ==
-X-Received: by 2002:a05:622a:1101:b0:4dc:fc58:c50c with SMTP id d75a77b69052e-4dcfc58c83bmr20483291cf.5.1758876606303;
-        Fri, 26 Sep 2025 01:50:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEiWvsH3XhfOSeK3PolvaeTD1lJD0k/Gm0XDb40I/xEqlYRxnruYGzyeye0H22WTBm31aZrg==
-X-Received: by 2002:a05:622a:1101:b0:4dc:fc58:c50c with SMTP id d75a77b69052e-4dcfc58c83bmr20483151cf.5.1758876605736;
-        Fri, 26 Sep 2025 01:50:05 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b35446f79besm326034066b.69.2025.09.26.01.50.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 01:50:05 -0700 (PDT)
-Message-ID: <e7843f88-71d5-4f7e-9f99-df06630e02fa@oss.qualcomm.com>
-Date: Fri, 26 Sep 2025 10:50:01 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nk27manX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758879477; x=1790415477;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0pIj8+3Ga3wiIsSnaOziM5gISs8vlMCaD0uo4PLkQp4=;
+  b=Nk27manX9LzgcJIt+NgfJn8g3ZLztha7rVXtS/SUfDUDYhbVtgD5S++T
+   8LWxXNPTCBysUdP1KcRe1wTZ+Zc3ARjvr8JA5tEk7jdSJiosBt8k2Tmj+
+   uPwdd65BanST5gnomMjQ3yg/aX29rF8NZzs1GFDz4RdmYoYm006bxLDRV
+   GBC7Y9pn5OjK6S+H3HW+E4c7nxYY5H+v9Ei9Fa6vRZJZasI+YLFXzQHE6
+   nvl2sNYN0ybKWE0RA749edgpoJatunk4eNoGTUQTfs/RASZaXKejYd0/R
+   Ioj2yiL9nLTTMspg4Tc64EvreC4UEdxCoXEcvfjDWKgYE4PsZWT1MS2TI
+   w==;
+X-CSE-ConnectionGUID: cC9iogDjSpuxtZCJHuYgIA==
+X-CSE-MsgGUID: OZ3XCfN9QamsHIFXplBIVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61161943"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61161943"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 02:37:56 -0700
+X-CSE-ConnectionGUID: ww7FNrdyRC696LMI/NT3qQ==
+X-CSE-MsgGUID: KtdYRZGHRiq1x7Sl8BmDDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
+   d="scan'208";a="208505121"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Sep 2025 02:37:55 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v24ti-00065Z-01;
+	Fri, 26 Sep 2025 09:37:50 +0000
+Date: Fri, 26 Sep 2025 17:37:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2938/2938] arch/arm64/include/asm/xcall.h:13:31:
+ error: use of undeclared identifier '__NR_syscalls'
+Message-ID: <202509261758.dGIOcfV5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] ASoC: codecs: va-macro: Rework version checking
-To: kernel test robot <lkp@intel.com>,
-        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Rao Mandadapu <quic_srivasam@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
-        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-References: <20250924-knp-audio-v1-1-5afa926b567c@oss.qualcomm.com>
- <202509261315.O9CiiXjb-lkp@intel.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <202509261315.O9CiiXjb-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: L_K305qi5eD5Agk5PJ8DZOi8LDuEAboc
-X-Proofpoint-GUID: L_K305qi5eD5Agk5PJ8DZOi8LDuEAboc
-X-Authority-Analysis: v=2.4 cv=aZhsXBot c=1 sm=1 tr=0 ts=68d653c7 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=zXO_E9iLSFoZqPovHQIA:9
- a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX81SdNS+B2cQP
- Wrg1leHP4Qa2aYvq7wrKWRVjDlhpfavKvMTtlP9i5Qwukcn48NRqn0xhkdTibXNXrG/0ACJCkPT
- IM/oGeFcE3Jh2ovibH8LB/zq3VS/mJMMo6wlx96OytjR0GD9UQ5edb0DJi7Y0HGHxL4B93G/7g4
- Oc2OqsGM+9KvqfR8j36mc1B6wuIZkeGP78tGlrKvbB8JzBWmrrjhF04Pp7GEHQ1KFI2kXZesZ/9
- KfmUcFy2iDt9Poced6ZtkdnDbNy7CpRN/ygnIz6hShyII+VL4TMIwOuUKqkvJFr/shrvetbtCt+
- dGGE+kbl/DpHLfxTHn5eEKyciu09vTvX9bdeRoFc4Z8T/7jKU69WTV8sSGCSXgBANc/A1is62OI
- +0dgV6j9rRN0n1YIQUeNg+ximyQxtg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_02,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 adultscore=0
- clxscore=1011 impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 9/26/25 7:36 AM, kernel test robot wrote:
-> Hi Jingyi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on ae2d20002576d2893ecaff25db3d7ef9190ac0b6]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/ASoC-codecs-va-macro-Rework-version-checking/20250925-080338
-> base:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
-> patch link:    https://lore.kernel.org/r/20250924-knp-audio-v1-1-5afa926b567c%40oss.qualcomm.com
-> patch subject: [PATCH 1/5] ASoC: codecs: va-macro: Rework version checking
-> config: i386-buildonly-randconfig-001-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261315.O9CiiXjb-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261315.O9CiiXjb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509261315.O9CiiXjb-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> sound/soc/codecs/lpass-va-macro.c:1479:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     1479 |         maj = FIELD_GET(CORE_ID_0_REV_MAJ, val);
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   3e16741023a15d92f4be3343cb4d8b508327dda3
+commit: b5fb30ccdb3d8ed46e1e740d9aaebcb96f8db97a [2938/2938] arm64: Reserve a kabi in task_struct exclusively for xcall
+config: arm64-randconfig-004-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261758.dGIOcfV5-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261758.dGIOcfV5-lkp@intel.com/reproduce)
 
-Jingyi, could you please add:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509261758.dGIOcfV5-lkp@intel.com/
 
-#include <linux/bitfield.h>
+All errors (new ones prefixed by >>):
 
-when resending?
+   In file included from arch/arm64/kernel/xcall.c:10:
+>> arch/arm64/include/asm/xcall.h:13:31: error: use of undeclared identifier '__NR_syscalls'
+      13 |         DECLARE_BITMAP(xcall_enable, __NR_syscalls);
+         |                                      ^~~~~~~~~~~~~
+   arch/arm64/kernel/xcall.c:23:8: error: use of undeclared identifier '__NR_syscalls'
+      23 |                             __NR_syscalls);
+         |                             ^~~~~~~~~~~~~
+   2 errors generated.
 
-Konrad
+
+vim +/__NR_syscalls +13 arch/arm64/include/asm/xcall.h
+
+    10	
+    11	struct xcall_info {
+    12		/* Must be first! */
+  > 13		DECLARE_BITMAP(xcall_enable, __NR_syscalls);
+    14	};
+    15	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
