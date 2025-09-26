@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5672A1D555
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 04:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E079BE56A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 05:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758862146; cv=none; b=ErW9uktExuuJmjfSpRJMwyVcslOxEmCJQRI5N4VPf1zxPxTsApIDy+sijd6YIPc0ynFi+Bk8a283Q48fPv1EI8DNlJ8g+p3qGC5pt/M9TE+WAcm0sFumWJznHmRnaHY+9DVN0eyURXMCAaEl4JRinvED23tzxdI7j/2SF89FBc8=
+	t=1758863407; cv=none; b=B9UFWStlSQsD00GKAZCcBDDhpbP60hYLSuLj7VeYmSnm2aRDdSDRJ7VaiKJUyV3ZVCBayRnpgtfDNcrO/+oHDY/+/zbHuP+/Vu2rq38JPR6lyL3JprSWCIUXE7Nzz0+FGtjdd/v4UNNuVqOk3CLVds9J/hbkO5oVf7QvVmgqKNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758862146; c=relaxed/simple;
-	bh=4na2MwMkmmAaDECDNWbXVEGbVQneUVLeyfZhzwMWr2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AqUM1OIrlT36HzD7YtSauJsHK+2bDvz2n+Tg0TDzQhcXEoU+FNg2G/72hjXorbRWzIi89KpGhVvliEjwqHRu2cna2dfTHgE6nWwdcEMrbHiEcJ2iYHbL0vD1Q/Q+jjn0vQx05Ee8PtwrDFdBDI3gNncFarwwoXhWoQsyQDv50EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cW9LP/3F; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1758863407; c=relaxed/simple;
+	bh=ID7in5Y7WH7S3WVpRbAxc5VGf47/mUXoF85uoqM1qd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a+i4iHWX9w6ewp4Qx9liZiRd4O7NY5qjTKHJUqqtR4tI63IVCxeQqGeEqKhRVwmnBpMsIFJ14EcGy6huNuJ7p3Di1EQtJAvcHOzh8CUL6BMb+4ic3O0ul1nznXRg/1b6Mgyg9yVVLPtXFZ0PYkhzW4/dCr49YgcVLLFFJEopAqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2nq5PEa; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cW9LP/3F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2nq5PEa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758862143; x=1790398143;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4na2MwMkmmAaDECDNWbXVEGbVQneUVLeyfZhzwMWr2Q=;
-  b=cW9LP/3FKm+8MQb5qhBNKcYvdynZbgPOTauxG05/ebQDKotNva3fGY18
-   eyJYj8XTHIOallLNSdO9+Sj0A4jwhxOBMhfiF+VRL89gQxMyEFbsht4oo
-   pCEkeFlcDsJJHg8TXe3lOIJDkZpyzsaHDHYVOFj2vZBnGgKhkaocmSiEf
-   tvNTF23UVVcDW8Pyo7VQhsqmswiyX0E3xjDbKaEY7CEu58V1sTxZl6pw3
-   n9VB0ahIv8GFKkJTeP7RRvldGTm7nJ4bYRhdwMu8xn3oJuVLNhgAu8zxC
-   m759VLY6Pw6Sd8TsXbSWJ82CFntJZqNpnQK0UQo4HmBo5yuF6q3po97Xw
+  t=1758863405; x=1790399405;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ID7in5Y7WH7S3WVpRbAxc5VGf47/mUXoF85uoqM1qd4=;
+  b=m2nq5PEaqwr/jNnlekS7D1RMp701sNoSFO1+9l4zKOcrDcwbLk1O7d4n
+   n1d0AYZkvFvOZ63Ta0Jq4qhjBCflv74lCCTxrePU9pYZ/lf38rGi6Se6E
+   hEXNMjdcjKU27yW9m9GYkmDsQ6BHE0uh5CXLsGCfrrrBTPyZs1ziac4Fv
+   Vm0ky0jBO06FmG1QcI/1rEVhCR/uLNgbjkQ92mRGuUXKiwzVADPsXOQ3z
+   23WxZQ9sdQHD1DgRSs6EaplYDU6P15Z0sKrtPku02l9H/OnzBzP0iK6gW
+   J4aHa2kndlrQ/rQ5M4ifY6Y6CYLi7t0MCuCwjIjm5Ga/v/3Diawe8pzvW
    g==;
-X-CSE-ConnectionGUID: fYhfECTlR5my9Z5+8nTklw==
-X-CSE-MsgGUID: C85NWJ5jSlit+aerJchgyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="60890653"
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="60890653"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 21:49:03 -0700
-X-CSE-ConnectionGUID: 5NSCml62RnC5bGQ7ZNzxUg==
-X-CSE-MsgGUID: xhQYA/zoQXmI+yKr9TDkmQ==
+X-CSE-ConnectionGUID: UTlBRMApTKukhg+2Wo+VPw==
+X-CSE-MsgGUID: 543gcmJ+QH678TVwTLw84Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65003957"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65003957"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 22:10:04 -0700
+X-CSE-ConnectionGUID: RcUNdpMQQ/OYrBpmjw1kZg==
+X-CSE-MsgGUID: WMm+rMMlSNSQFOfcdK4BaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="176634376"
+   d="scan'208";a="176790157"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 25 Sep 2025 21:48:59 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2025 22:10:03 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v20O7-0005uP-3A;
-	Fri, 26 Sep 2025 04:48:55 +0000
-Date: Fri, 26 Sep 2025 12:48:44 +0800
+	id 1v20iT-0005vN-2E;
+	Fri, 26 Sep 2025 05:09:58 +0000
+Date: Fri, 26 Sep 2025 13:09:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
-	David Collins <david.collins@oss.qualcomm.com>,
-	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/2] spmi: spmi-pmic-arb: add support for PMIC arbiter
- v8
-Message-ID: <202509261209.yuXsEYB5-lkp@intel.com>
-References: <20250924-glymur-spmi-v8-v2-2-202fc7a66a97@oss.qualcomm.com>
+To: kernel@openeuler.org, zhangnaichuan <zhangnaichuan@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2938/2938]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3168:26: error: incompatible
+ pointer types passing 'int (*)(const struct pci_dev *)' to parameter of type
+ 'const struct bus_type *'
+Message-ID: <202509261305.DCaV219R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,224 +63,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250924-glymur-spmi-v8-v2-2-202fc7a66a97@oss.qualcomm.com>
 
-Hi Kamal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on c3067c2c38316c3ef013636c93daa285ee6aaa2e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kamal-Wadhwa/dt-bindings-spmi-add-bindings-for-glymur-spmi-pmic-arb-arbiter-v8/20250925-010123
-base:   c3067c2c38316c3ef013636c93daa285ee6aaa2e
-patch link:    https://lore.kernel.org/r/20250924-glymur-spmi-v8-v2-2-202fc7a66a97%40oss.qualcomm.com
-patch subject: [PATCH v2 2/2] spmi: spmi-pmic-arb: add support for PMIC arbiter v8
-config: csky-randconfig-002-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261209.yuXsEYB5-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261209.yuXsEYB5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   3e16741023a15d92f4be3343cb4d8b508327dda3
+commit: bbaaa756ad25c0e792fcd195d32acd5715f76b12 [2938/2938] iommu: Enable smmu-v3 when 3408iMR/3416iMRraid card exist
+config: arm64-randconfig-004-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261305.DCaV219R-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261305.DCaV219R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509261209.yuXsEYB5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509261305.DCaV219R-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
-      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
-         |         ^~~~~~~~~~~~
-   include/linux/bitfield.h:75:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
-      75 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:10: note: in expansion of macro 'FIELD_PREP'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |          ^~~~~~~~~~
-   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:21: note: in expansion of macro 'GENMASK'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |                     ^~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:953:22: note: in expansion of macro 'spec_to_hwirq'
-     953 |         *out_hwirq = spec_to_hwirq(intspec[0], intspec[1], intspec[2], apid);
-         |                      ^~~~~~~~~~~~~
-   include/linux/bits.h:49:27: warning: right shift count >= width of type [-Wshift-count-overflow]
-      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
-         |                           ^~
-   include/linux/compiler_types.h:554:23: note: in definition of macro '__compiletime_assert'
-     554 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:574:9: note: in expansion of macro '_compiletime_assert'
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
-      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
-         |         ^~~~~~~~~~~~
-   include/linux/bitfield.h:75:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
-      75 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:76:56: note: in expansion of macro '__bf_shf'
-      76 |                                               (1ULL << __bf_shf(_mask))); \
-         |                                                        ^~~~~~~~
-   include/linux/bitfield.h:115:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:10: note: in expansion of macro 'FIELD_PREP'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |          ^~~~~~~~~~
-   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:21: note: in expansion of macro 'GENMASK'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |                     ^~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:953:22: note: in expansion of macro 'spec_to_hwirq'
-     953 |         *out_hwirq = spec_to_hwirq(intspec[0], intspec[1], intspec[2], apid);
-         |                      ^~~~~~~~~~~~~
-   include/linux/bits.h:49:27: warning: right shift count >= width of type [-Wshift-count-overflow]
-      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
-         |                           ^~
-   include/linux/bitfield.h:45:38: note: in definition of macro '__bf_shf'
-      45 | #define __bf_shf(x) (__builtin_ffsll(x) - 1)
-         |                                      ^
-   drivers/spmi/spmi-pmic-arb.c:125:10: note: in expansion of macro 'FIELD_PREP'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |          ^~~~~~~~~~
-   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:21: note: in expansion of macro 'GENMASK'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |                     ^~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:953:22: note: in expansion of macro 'spec_to_hwirq'
-     953 |         *out_hwirq = spec_to_hwirq(intspec[0], intspec[1], intspec[2], apid);
-         |                      ^~~~~~~~~~~~~
-   include/linux/bits.h:49:27: warning: right shift count >= width of type [-Wshift-count-overflow]
-      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
-         |                           ^~
-   include/linux/bitfield.h:116:63: note: in definition of macro 'FIELD_PREP'
-     116 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                                               ^~~~~
-   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
-      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
-         |                                 ^~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:21: note: in expansion of macro 'GENMASK'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |                     ^~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:953:22: note: in expansion of macro 'spec_to_hwirq'
-     953 |         *out_hwirq = spec_to_hwirq(intspec[0], intspec[1], intspec[2], apid);
-         |                      ^~~~~~~~~~~~~
->> include/linux/compiler_types.h:574:45: error: call to '__compiletime_assert_283' declared with attribute error: FIELD_PREP: mask is zero
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:555:25: note: in definition of macro '__compiletime_assert'
-     555 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:574:9: note: in expansion of macro '_compiletime_assert'
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:10: note: in expansion of macro 'FIELD_PREP'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |          ^~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:953:22: note: in expansion of macro 'spec_to_hwirq'
-     953 |         *out_hwirq = spec_to_hwirq(intspec[0], intspec[1], intspec[2], apid);
-         |                      ^~~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c: In function 'qpnpint_irq_domain_activate':
-   include/linux/compiler_types.h:574:45: error: call to '__compiletime_assert_273' declared with attribute error: FIELD_GET: mask is zero
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:555:25: note: in definition of macro '__compiletime_assert'
-     555 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:574:9: note: in expansion of macro '_compiletime_assert'
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:155:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     155 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:130:30: note: in expansion of macro 'FIELD_GET'
-     130 | #define hwirq_to_sid(hwirq)  FIELD_GET(GENMASK(32, 28), (hwirq))
-         |                              ^~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:888:19: note: in expansion of macro 'hwirq_to_sid'
-     888 |         u16 sid = hwirq_to_sid(d->hwirq);
-         |                   ^~~~~~~~~~~~
-   In function 'periph_interrupt',
-       inlined from 'pmic_arb_chained_irq' at drivers/spmi/spmi-pmic-arb.c:737:9:
-   include/linux/compiler_types.h:574:45: error: call to '__compiletime_assert_208' declared with attribute error: FIELD_PREP: mask is zero
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:555:25: note: in definition of macro '__compiletime_assert'
-     555 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:574:9: note: in expansion of macro '_compiletime_assert'
-     574 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      67 |                 BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:17: note: in expansion of macro '__BF_FIELD_CHECK'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:125:10: note: in expansion of macro 'FIELD_PREP'
-     125 |         (FIELD_PREP(GENMASK(32, 28), (slave_id))  | \
-         |          ^~~~~~~~~~
-   drivers/spmi/spmi-pmic-arb.c:686:40: note: in expansion of macro 'spec_to_hwirq'
-     686 |                                        spec_to_hwirq(sid, per, id, apid));
+   In file included from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:15:
+   In file included from include/linux/crash_dump.h:5:
+   In file included from include/linux/kexec.h:18:
+   In file included from include/linux/crash_core.h:6:
+   In file included from include/linux/elfcore.h:11:
+   In file included from include/linux/ptrace.h:10:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2181:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3168:27: error: use of undeclared identifier 'pci_bus_type'; did you mean 'pci_pcie_type'?
+    3168 |                 ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
+         |                                         ^~~~~~~~~~~~
+         |                                         pci_pcie_type
+   include/linux/pci.h:2453:19: note: 'pci_pcie_type' declared here
+    2453 | static inline int pci_pcie_type(const struct pci_dev *dev)
+         |                   ^
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3168:26: error: incompatible pointer types passing 'int (*)(const struct pci_dev *)' to parameter of type 'const struct bus_type *' [-Wincompatible-pointer-types]
+    3168 |                 ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
          |                                        ^~~~~~~~~~~~~
+   include/linux/device/bus.h:144:45: note: passing argument to parameter 'bus' here
+     144 | int bus_for_each_dev(const struct bus_type *bus, struct device *start, void *data,
+         |                                             ^
+   5 warnings and 2 errors generated.
 
 
-vim +/__compiletime_assert_283 +574 include/linux/compiler_types.h
+vim +3168 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  563  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  564  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  571   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  572   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @574  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  575  
+  3129	
+  3130	static int arm_smmu_init_strtab_2lvl(struct arm_smmu_device *smmu)
+  3131	{
+  3132		void *strtab;
+  3133		u64 reg;
+  3134		u32 size, l1size;
+  3135		struct arm_smmu_strtab_cfg *cfg = &smmu->strtab_cfg;
+  3136		int ret;
+  3137	
+  3138		/* Calculate the L1 size, capped to the SIDSIZE. */
+  3139		size = STRTAB_L1_SZ_SHIFT - (ilog2(STRTAB_L1_DESC_DWORDS) + 3);
+  3140		size = min(size, smmu->sid_bits - STRTAB_SPLIT);
+  3141		cfg->num_l1_ents = 1 << size;
+  3142	
+  3143		size += STRTAB_SPLIT;
+  3144		if (size < smmu->sid_bits)
+  3145			dev_warn(smmu->dev,
+  3146				 "2-level strtab only covers %u/%u bits of SID\n",
+  3147				 size, smmu->sid_bits);
+  3148	
+  3149		l1size = cfg->num_l1_ents * (STRTAB_L1_DESC_DWORDS << 3);
+  3150		strtab = dmam_alloc_coherent(smmu->dev, l1size, &cfg->strtab_dma,
+  3151					     GFP_KERNEL);
+  3152		if (!strtab) {
+  3153			dev_err(smmu->dev,
+  3154				"failed to allocate l1 stream table (%u bytes)\n",
+  3155				l1size);
+  3156			return -ENOMEM;
+  3157		}
+  3158		cfg->strtab = strtab;
+  3159	
+  3160		/* Configure strtab_base_cfg for 2 levels */
+  3161		reg  = FIELD_PREP(STRTAB_BASE_CFG_FMT, STRTAB_BASE_CFG_FMT_2LVL);
+  3162		reg |= FIELD_PREP(STRTAB_BASE_CFG_LOG2SIZE, size);
+  3163		reg |= FIELD_PREP(STRTAB_BASE_CFG_SPLIT, STRTAB_SPLIT);
+  3164		cfg->strtab_base_cfg = reg;
+  3165		ret = arm_smmu_init_l1_strtab(smmu);
+  3166	#ifdef CONFIG_SMMU_BYPASS_DEV
+  3167		if (!ret && smmu_bypass_devices_num) {
+> 3168			ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
+  3169									arm_smmu_prepare_init_l2_strtab);
+  3170		}
+  3171	#endif
+  3172		return ret;
+  3173	}
+  3174	
 
 -- 
 0-DAY CI Kernel Test Service
