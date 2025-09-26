@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435F8242D9A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 18:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2372530C101
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 18:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758910308; cv=none; b=djsbpsfBtuX7Z2Wprp6AAIDA3dBvAZzyySboDi0/a9GQ/hCkhwAnfDr/drgmv5uZt+FpgUbmwtIWYpbrhZ1h/OJzdY0vLVMKx+99to7uRlaLCJDuqAx3/W6P0MX/X+i+RqDD5WpfDuwcwM5XNzxIqmTCkY7a6vNZJ+QUD+WplcE=
+	t=1758911566; cv=none; b=Vjyn/lnGyMR9JilOtD0v8GoTt/txDDwfzi1SrQciqlly1AZAWy/5X458tp5FE6oKvLqMwtyC88CzL1MRlF0Q1W2r/aESxirWV9cTPskS5NuuYnKNEZYBB76BlpbDkE+4TP7umZ/M3OVWGOZWyZiq5V0MXnJxuNqz4fmjk7v3i94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758910308; c=relaxed/simple;
-	bh=6YcsbRUDVjvq90+XUsFM49RpOjc9gYPwErAKkZrcQYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UU9GsVGfGl3dRabMSoaxWjzoMezrExri4QUlfWQfH/RcoHlw928h+rethxPcNh2BrSDZm6TdIbwUj+bQcoO6iFukJWBDNP6Mwd7GF7RWhgGagsYCEWOHzO7LDvj80OGqEJ2VmWzv+uqCpn1R2EyZQrawUA4R+YpSf4gBGEJbfgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwEHATXi; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1758911566; c=relaxed/simple;
+	bh=VuLexOjfz/ZC0AB59SeAotntjOtYy7mFSk0ddFsEsfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AWPL5xjEYfCSJtDdbH+oCyvFWzAWqWJmV0cNW9ftKq1AUQ8FkRPJ7qSCROADjdlfB9pZSBfXsjyoLF0FkT023JlVxdakdbmQCrTREfA8bsVwWtWdQuAdtwzBfuxllH/Gs2kGuPHFCMFjWynRd3VIRSb5wY8dkA4kM3we2p92y4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3kNWTSQ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwEHATXi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3kNWTSQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758910307; x=1790446307;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6YcsbRUDVjvq90+XUsFM49RpOjc9gYPwErAKkZrcQYM=;
-  b=SwEHATXi1Ez58+mLU4c/3gOL9lCuV6LUdwpmDe03g8zTKvDit4Id/XVu
-   xfVS1gt3jYM44/Ci8RvOjmPM90/r0BiJ7mtHtAzV8N7+jHChflUQM3ZMl
-   3egfUC/G3lu8swaP2RorDYy3EwFlaYZvK6TwqRdSe/Oq9iTzHjrnNbEhH
-   mgPUCek0MzHgbrxSRKVG6DFMUUgWar06XwvdFlLShV2gdlzXhnqwb/GWK
-   L9NBImxxd+akJC/Jia6lE4zzy1dtsk0jI4TNuMOyY5hpP+Xv5dkBFSjUL
-   jz1DMt6H0r9nyg1XVKX+S3fbVYTG9JNlv+sgRFDiPJPn1TxFeGDdNi5oj
+  t=1758911566; x=1790447566;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VuLexOjfz/ZC0AB59SeAotntjOtYy7mFSk0ddFsEsfM=;
+  b=l3kNWTSQ71Z9CcBylUFRKkL0cfuTBQ23HO1TwCKg5GAJnMHRbPYy4ER5
+   fz5WmrvPPcuV1dKlWE7ssBgHqqQLByVOFSEvL74Jlpl2UiE3VfnZiUhnB
+   uhpEQEc4t4YCyKevH1NxXGTuTVx2jIrhuwvhiuTUuvaHb4ZpGgaZKdlI0
+   T73iQxg7RgPZ+cdJpTZZugAK0C++uWSZgM//L5T3GvxbUWCI14C5xIFw2
+   OZM3tZYs8/+/pH54SNXOkVgkNDrUxltDFcATm1ANI0k3MnGmUgM+TNquS
+   Ty5yUUZOrCfUJwCe3nSDevaXE7l5AFseqGMSJ13+Sa12RS+yn/pALZx07
    g==;
-X-CSE-ConnectionGUID: RMx3MVLnTaqpE2YyRuMrZw==
-X-CSE-MsgGUID: eBZ/EG0eR6OjlEBbwQYF7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61139389"
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="61139389"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 11:11:47 -0700
-X-CSE-ConnectionGUID: SYiM7HY/RyymKO/bcCngbg==
-X-CSE-MsgGUID: JoNP3XxBQKiatP6zgF2zcQ==
+X-CSE-ConnectionGUID: wtfjPNSqThWmaRgdnWmKeA==
+X-CSE-MsgGUID: vWwOdPf2TX2MQHAoemF3dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61204391"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61204391"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 11:32:45 -0700
+X-CSE-ConnectionGUID: qHgIHNr1Szq+Ib7eLBAZFQ==
+X-CSE-MsgGUID: YJ73Axq6QESrxxh43siWkg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
+   d="scan'208";a="208431184"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Sep 2025 11:11:42 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Sep 2025 11:32:44 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2CuS-0006Ud-0o;
-	Fri, 26 Sep 2025 18:11:16 +0000
-Date: Sat, 27 Sep 2025 02:10:42 +0800
+	id 1v2DFJ-0006Vf-11;
+	Fri, 26 Sep 2025 18:32:41 +0000
+Date: Sat, 27 Sep 2025 02:32:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, dan.j.williams@intel.com,
-	bhelgaas@google.com, shiju.jose@huawei.com, ming.li@zohomail.com,
-	Smita.KoralahalliChannabasappa@amd.com, rrichter@amd.com,
-	dan.carpenter@linaro.org, PradeepVineshReddy.Kodamati@amd.com,
-	lukas@wunner.de, Benjamin.Cheatham@amd.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com,
-	linux-cxl@vger.kernel.org, alucerop@amd.com, ira.weiny@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, terry.bowman@amd.com
-Subject: Re: [PATCH v12 22/25] CXL/PCI: Export and rename merge_result() to
- pci_ers_merge_result()
-Message-ID: <202509270131.UIdODBaV-lkp@intel.com>
-References: <20250925223440.3539069-23-terry.bowman@amd.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:keys-pqc 6/8] arch/arm64/crypto/sha3-ce-glue.c:55:30:
+ error: 'struct sha3_ctx' has no member named 'state'
+Message-ID: <202509270244.3ym0D5dk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,50 +61,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925223440.3539069-23-terry.bowman@amd.com>
 
-Hi Terry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 46037455cbb748c5e85071c95f2244e81986eb58]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Remove-unnecessary-CXL-Endpoint-handling-helper-functions/20250926-064816
-base:   46037455cbb748c5e85071c95f2244e81986eb58
-patch link:    https://lore.kernel.org/r/20250925223440.3539069-23-terry.bowman%40amd.com
-patch subject: [PATCH v12 22/25] CXL/PCI: Export and rename merge_result() to pci_ers_merge_result()
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250927/202509270131.UIdODBaV-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270131.UIdODBaV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
+head:   e623bce62b0197fce10bf035258ffa2692c4dfb0
+commit: fe57c66da840d93bceb6c3c629b7841cd2033f61 [6/8] crypto/sha3: Use lib/crypto/sha3
+config: arm64-randconfig-003-20250926 (https://download.01.org/0day-ci/archive/20250927/202509270244.3ym0D5dk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270244.3ym0D5dk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509270131.UIdODBaV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509270244.3ym0D5dk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> arch/powerpc/kernel/eeh_driver.c:68:28: warning: conflicting types for 'pci_ers_merge_result' due to enum/integer mismatch; have 'enum pci_ers_result(enum pci_ers_result,  enum pci_ers_result)' [-Wenum-int-mismatch]
-      68 | static enum pci_ers_result pci_ers_merge_result(enum pci_ers_result old,
-         |                            ^~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/kernel/eeh_driver.c:68:28: error: static declaration of 'pci_ers_merge_result' follows non-static declaration
-   In file included from arch/powerpc/kernel/eeh_driver.c:13:
-   include/linux/pci.h:1897:18: note: previous declaration of 'pci_ers_merge_result' with type 'pci_ers_result_t(enum pci_ers_result,  enum pci_ers_result)' {aka 'unsigned int(enum pci_ers_result,  enum pci_ers_result)'}
-    1897 | pci_ers_result_t pci_ers_merge_result(enum pci_ers_result orig,
-         |                  ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/crypto/sha3-ce-glue.c: In function 'arm64_sha3_update':
+>> arch/arm64/crypto/sha3-ce-glue.c:55:30: error: 'struct sha3_ctx' has no member named 'state'
+      55 |   rem = sha3_ce_transform(ctx->state.st, data, blocks, ds);
+         |                              ^~
+   arch/arm64/crypto/sha3-ce-glue.c: In function 'arm64_sha3_finup':
+>> arch/arm64/crypto/sha3-ce-glue.c:82:20: error: 'sctx' undeclared (first use in this function); did you mean 'ctx'?
+      82 |  sha3_ce_transform(sctx->state.st, block, 1, ds);
+         |                    ^~~~
+         |                    ctx
+   arch/arm64/crypto/sha3-ce-glue.c:82:20: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/arm64/crypto/sha3-ce-glue.c:66:19: warning: unused variable 'ctx' [-Wunused-variable]
+      66 |  struct sha3_ctx *ctx = crypto_sha3_desc(desc);
+         |                   ^~~
 
 
-vim +68 arch/powerpc/kernel/eeh_driver.c
+vim +55 arch/arm64/crypto/sha3-ce-glue.c
 
-20b344971433da Sam Bobroff 2018-05-25  67  
-30424e386a30d1 Sam Bobroff 2018-05-25 @68  static enum pci_ers_result pci_ers_merge_result(enum pci_ers_result old,
-30424e386a30d1 Sam Bobroff 2018-05-25  69  						enum pci_ers_result new)
-30424e386a30d1 Sam Bobroff 2018-05-25  70  {
-30424e386a30d1 Sam Bobroff 2018-05-25  71  	if (eeh_result_priority(new) > eeh_result_priority(old))
-30424e386a30d1 Sam Bobroff 2018-05-25  72  		return new;
-30424e386a30d1 Sam Bobroff 2018-05-25  73  	return old;
-30424e386a30d1 Sam Bobroff 2018-05-25  74  }
-30424e386a30d1 Sam Bobroff 2018-05-25  75  
+    35	
+    36	asmlinkage int sha3_ce_transform(u64 *st, const u8 *data, int blocks,
+    37					 int md_len);
+    38	
+    39	static int arm64_sha3_update(struct shash_desc *desc, const u8 *data,
+    40			       unsigned int len)
+    41	{
+    42		struct sha3_ctx *ctx = crypto_sha3_desc(desc);
+    43		struct crypto_shash *tfm = desc->tfm;
+    44		unsigned int bs, ds;
+    45		int blocks;
+    46	
+    47		ds = crypto_shash_digestsize(tfm);
+    48		bs = crypto_shash_blocksize(tfm);
+    49		blocks = len / bs;
+    50		len -= blocks * bs;
+    51		do {
+    52			int rem;
+    53	
+    54			kernel_neon_begin();
+  > 55			rem = sha3_ce_transform(ctx->state.st, data, blocks, ds);
+    56			kernel_neon_end();
+    57			data += (blocks - rem) * bs;
+    58			blocks = rem;
+    59		} while (blocks);
+    60		return len;
+    61	}
+    62	
+    63	static int arm64_sha3_finup(struct shash_desc *desc, const u8 *src, unsigned int len,
+    64				    u8 *out)
+    65	{
+  > 66		struct sha3_ctx *ctx = crypto_sha3_desc(desc);
+    67		struct crypto_shash *tfm = desc->tfm;
+    68		__le64 *digest = (__le64 *)out;
+    69		u8 block[SHA3_224_BLOCK_SIZE];
+    70		unsigned int bs, ds;
+    71		int i;
+    72	
+    73		ds = crypto_shash_digestsize(tfm);
+    74		bs = crypto_shash_blocksize(tfm);
+    75		memcpy(block, src, len);
+    76	
+    77		block[len++] = 0x06;
+    78		memset(block + len, 0, bs - len);
+    79		block[bs - 1] |= 0x80;
+    80	
+    81		kernel_neon_begin();
+  > 82		sha3_ce_transform(sctx->state.st, block, 1, ds);
+    83		kernel_neon_end();
+    84		memzero_explicit(block , sizeof(block));
+    85	
+    86		for (i = 0; i < ds / 8; i++)
+    87			put_unaligned_le64(sctx->state.st[i], digest++);
+    88	
+    89		if (ds & 4)
+    90			put_unaligned_le32(sctx->state.st[i], (__le32 *)digest);
+    91	
+    92		return 0;
+    93	}
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
