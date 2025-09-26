@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7518B15B0FE;
-	Fri, 26 Sep 2025 17:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435F8242D9A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 18:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758908351; cv=none; b=ux+myC6+EZMADH6NKfoEJU1wJeH3dDhZmK+p27Wx5wjIArNcbx3XApA5/lTi1V9yW7MrnK99ffjkwhE4jyktFkAjGjcAmjS4CcVf89uDhDZKr3mjZgYN+SfwZMzI19ScjNuoCizLZau1nLhe+pXwsVbZcJBQgZcxcFCCCAVPUgA=
+	t=1758910308; cv=none; b=djsbpsfBtuX7Z2Wprp6AAIDA3dBvAZzyySboDi0/a9GQ/hCkhwAnfDr/drgmv5uZt+FpgUbmwtIWYpbrhZ1h/OJzdY0vLVMKx+99to7uRlaLCJDuqAx3/W6P0MX/X+i+RqDD5WpfDuwcwM5XNzxIqmTCkY7a6vNZJ+QUD+WplcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758908351; c=relaxed/simple;
-	bh=X39IoOvaEEzAejj66YITLm4C1zTy42HigLrlKu3SseE=;
+	s=arc-20240116; t=1758910308; c=relaxed/simple;
+	bh=6YcsbRUDVjvq90+XUsFM49RpOjc9gYPwErAKkZrcQYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+o9W1SCfzufEi198xJaXIFTu6JVo8dmjiwJQwMkeu1A0idoywicRxemjHEVgOLdBXrsXtXBRcLhGoYJ7vTLl9CyzXgoCiosWkDe9ymlnC8v69sG12e0wcd5Gj5KL/LK9lX1BTnILkroVYAWKBe6Jl/jEqJ04a1JsNyBvweU8iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g6w5O0Xp; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=UU9GsVGfGl3dRabMSoaxWjzoMezrExri4QUlfWQfH/RcoHlw928h+rethxPcNh2BrSDZm6TdIbwUj+bQcoO6iFukJWBDNP6Mwd7GF7RWhgGagsYCEWOHzO7LDvj80OGqEJ2VmWzv+uqCpn1R2EyZQrawUA4R+YpSf4gBGEJbfgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwEHATXi; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g6w5O0Xp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwEHATXi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758908350; x=1790444350;
+  t=1758910307; x=1790446307;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=X39IoOvaEEzAejj66YITLm4C1zTy42HigLrlKu3SseE=;
-  b=g6w5O0XplRgEct8qOxjeppKyCKf8euEhzLJyJURRSq3RRaJyul89C2Kv
-   xMPmbbbI5fJh6LBHJJS0pVfhYTGYRsHnU6thyLZLBtu3rZhhDBV21ylML
-   UGN05K30LjpyRL4wjYZt0ho5cx1iGxOOROAFNG2RlIHD8qCi7KAaO00m0
-   HyjARVU3MmcwtxfnYSRPSgIPj1JHMzj5rVZ86Ou1d6G7h+HLXvdqAmlEl
-   OqUyXdFCS6H1Vst3VLN4sPm0rrumHAehSDbvLfISl35D2YOacbnOkbo9D
-   2nL2WN9rUG221HjVbVHTz95/ii4VpBLR8wrq3T0I5rmuXKI82paOJ/bjN
-   w==;
-X-CSE-ConnectionGUID: YiBnb00gTmOgzdiuJ9xzaQ==
-X-CSE-MsgGUID: 1qYEej2IR8CQqqssqJ5K7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="78888814"
+  bh=6YcsbRUDVjvq90+XUsFM49RpOjc9gYPwErAKkZrcQYM=;
+  b=SwEHATXi1Ez58+mLU4c/3gOL9lCuV6LUdwpmDe03g8zTKvDit4Id/XVu
+   xfVS1gt3jYM44/Ci8RvOjmPM90/r0BiJ7mtHtAzV8N7+jHChflUQM3ZMl
+   3egfUC/G3lu8swaP2RorDYy3EwFlaYZvK6TwqRdSe/Oq9iTzHjrnNbEhH
+   mgPUCek0MzHgbrxSRKVG6DFMUUgWar06XwvdFlLShV2gdlzXhnqwb/GWK
+   L9NBImxxd+akJC/Jia6lE4zzy1dtsk0jI4TNuMOyY5hpP+Xv5dkBFSjUL
+   jz1DMt6H0r9nyg1XVKX+S3fbVYTG9JNlv+sgRFDiPJPn1TxFeGDdNi5oj
+   g==;
+X-CSE-ConnectionGUID: RMx3MVLnTaqpE2YyRuMrZw==
+X-CSE-MsgGUID: eBZ/EG0eR6OjlEBbwQYF7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61139389"
 X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="78888814"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 10:39:09 -0700
-X-CSE-ConnectionGUID: 4tT18fXLTGGitV++G3TjIA==
-X-CSE-MsgGUID: lQkOmgqlRtq3WAN8qSAnkg==
+   d="scan'208";a="61139389"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 11:11:47 -0700
+X-CSE-ConnectionGUID: SYiM7HY/RyymKO/bcCngbg==
+X-CSE-MsgGUID: JoNP3XxBQKiatP6zgF2zcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
-   d="scan'208";a="182950121"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Sep 2025 10:39:08 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Sep 2025 11:11:42 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2CPR-0006TX-2c;
-	Fri, 26 Sep 2025 17:39:05 +0000
-Date: Sat, 27 Sep 2025 01:38:58 +0800
+	id 1v2CuS-0006Ud-0o;
+	Fri, 26 Sep 2025 18:11:16 +0000
+Date: Sat, 27 Sep 2025 02:10:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank van der Linden <fvdl@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 10/12] mm/hugetlb: do explicit CMA balancing
-Message-ID: <202509270126.MXOaMSXO-lkp@intel.com>
-References: <20250915195153.462039-11-fvdl@google.com>
+To: Terry Bowman <terry.bowman@amd.com>, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, dan.j.williams@intel.com,
+	bhelgaas@google.com, shiju.jose@huawei.com, ming.li@zohomail.com,
+	Smita.KoralahalliChannabasappa@amd.com, rrichter@amd.com,
+	dan.carpenter@linaro.org, PradeepVineshReddy.Kodamati@amd.com,
+	lukas@wunner.de, Benjamin.Cheatham@amd.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com,
+	linux-cxl@vger.kernel.org, alucerop@amd.com, ira.weiny@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, terry.bowman@amd.com
+Subject: Re: [PATCH v12 22/25] CXL/PCI: Export and rename merge_result() to
+ pci_ers_merge_result()
+Message-ID: <202509270131.UIdODBaV-lkp@intel.com>
+References: <20250925223440.3539069-23-terry.bowman@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +70,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250915195153.462039-11-fvdl@google.com>
+In-Reply-To: <20250925223440.3539069-23-terry.bowman@amd.com>
 
-Hi Frank,
+Hi Terry,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes powerpc/topic/ppc-kvm s390/features trace/for-next linus/master v6.17-rc7 next-20250926]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 46037455cbb748c5e85071c95f2244e81986eb58]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-van-der-Linden/mm-cma-add-tunable-for-CMA-fallback-limit/20250926-101411
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250915195153.462039-11-fvdl%40google.com
-patch subject: [RFC PATCH 10/12] mm/hugetlb: do explicit CMA balancing
-config: x86_64-buildonly-randconfig-001-20250926 (https://download.01.org/0day-ci/archive/20250927/202509270126.MXOaMSXO-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270126.MXOaMSXO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/cxl-pci-Remove-unnecessary-CXL-Endpoint-handling-helper-functions/20250926-064816
+base:   46037455cbb748c5e85071c95f2244e81986eb58
+patch link:    https://lore.kernel.org/r/20250925223440.3539069-23-terry.bowman%40amd.com
+patch subject: [PATCH v12 22/25] CXL/PCI: Export and rename merge_result() to pci_ers_merge_result()
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250927/202509270131.UIdODBaV-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509270131.UIdODBaV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509270126.MXOaMSXO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509270131.UIdODBaV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: balance_node_cma
-   >>> referenced by usercopy_64.c
-   >>>               vmlinux.o:(hugetlb_cma_balance)
+>> arch/powerpc/kernel/eeh_driver.c:68:28: warning: conflicting types for 'pci_ers_merge_result' due to enum/integer mismatch; have 'enum pci_ers_result(enum pci_ers_result,  enum pci_ers_result)' [-Wenum-int-mismatch]
+      68 | static enum pci_ers_result pci_ers_merge_result(enum pci_ers_result old,
+         |                            ^~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/kernel/eeh_driver.c:68:28: error: static declaration of 'pci_ers_merge_result' follows non-static declaration
+   In file included from arch/powerpc/kernel/eeh_driver.c:13:
+   include/linux/pci.h:1897:18: note: previous declaration of 'pci_ers_merge_result' with type 'pci_ers_result_t(enum pci_ers_result,  enum pci_ers_result)' {aka 'unsigned int(enum pci_ers_result,  enum pci_ers_result)'}
+    1897 | pci_ers_result_t pci_ers_merge_result(enum pci_ers_result orig,
+         |                  ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +68 arch/powerpc/kernel/eeh_driver.c
+
+20b344971433da Sam Bobroff 2018-05-25  67  
+30424e386a30d1 Sam Bobroff 2018-05-25 @68  static enum pci_ers_result pci_ers_merge_result(enum pci_ers_result old,
+30424e386a30d1 Sam Bobroff 2018-05-25  69  						enum pci_ers_result new)
+30424e386a30d1 Sam Bobroff 2018-05-25  70  {
+30424e386a30d1 Sam Bobroff 2018-05-25  71  	if (eeh_result_priority(new) > eeh_result_priority(old))
+30424e386a30d1 Sam Bobroff 2018-05-25  72  		return new;
+30424e386a30d1 Sam Bobroff 2018-05-25  73  	return old;
+30424e386a30d1 Sam Bobroff 2018-05-25  74  }
+30424e386a30d1 Sam Bobroff 2018-05-25  75  
 
 -- 
 0-DAY CI Kernel Test Service
