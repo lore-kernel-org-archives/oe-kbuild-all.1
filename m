@@ -1,561 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F50E24DFF4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 06:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C43929ACF0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758868955; cv=none; b=ZPZtAVL0W0EPfgl4UY3S4vEGwM8RI+A182/XidRha65WkdH0i9ZaRqKgQinGecnURNen695eU+yz/UxLuXOTGSR1XqfrIW7ifhkxdNa1dRW+Rr+kSzSp7Mu6i13OBmtkminbWUfwzvu6ZOxA+pWTPkrnHpXejspHECXtWC0/80U=
+	t=1758876617; cv=none; b=qqIY2YT3PBMufxFUPSGBikdH6vZHnlhhBYBSml7DmgAgG0s8w0FNQG1dqFqjT7CGOdg1itEovTT3A7chh4mb253MRXXAwV8pT88P/+NB96ik+LA5MNm/QkN75sYWtAwgs5qkZ2HC+Lj8aB4w5TYKEfK5iZm92XhCWDTm8kWL7y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758868955; c=relaxed/simple;
-	bh=vY41dDXJeLGV4+fHhjq3PRa4Ya8KnYvwDNNz4zd+JAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DelvfjuLimBeqGJRWWKFnFMq2CQ7gaZ5vsOYCTcXpRn0mUxzZ6XKn3NBktqavVFdK5KHUryzT9Xao6m30ualolDjv8OdaMlaU7tEkyuRfxxfLxt0b8K0T4To7qWxvVj/QToQ5uadTqqMsLIYSn38I1R5Adqpg5uqccL8fw8RW+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7I2gokS; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1758876617; c=relaxed/simple;
+	bh=DW5PR20rrpRjozhjmQF7SX9wg6GFQc9bhuXeEh/lm7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WHYRhPcz5oiDWa/bqfCeYCCJcoEogQ84IT3gz8jHSLID/FBwXUmmBlDeOUFdLyxKJIunPAzxZQpnRtLDKECQqlwpr7E6QdHHDS8fAfTE/YYC4EvHV0gOyW6QBtDtJfDeaVYuYOSMiX69S6ofkZZyysW0td76GNGmPCPTP8IgV4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KQeg2Vsp; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7I2gokS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758868954; x=1790404954;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vY41dDXJeLGV4+fHhjq3PRa4Ya8KnYvwDNNz4zd+JAI=;
-  b=X7I2gokS9ons2pdLE/Gkld+/fC5Rml/fSlyd6Lx8BIVEJKzEs8kGhZfc
-   kW0qgVy1IlW0JvIRFMJrhze/XT/E9NWxpZB8AsxE6ukWeU07BPC344zBN
-   wWlMQ43J54zAyiWXt7Hje3LnnHRtYKYssZEpKMOe2v91YBwlR1H2BvxGn
-   HxyQuufxS4z/aNZQWtoKn8Cv07JkWutm+OqEv7qwI6qxCrWo2IH1Ff9vZ
-   tH5e+6fWCj4K2SqnUNsqD/C/ZC2MosIiL5I0NkRyJXLadNyDYTuz0QLrh
-   Zr8pT/fsP1r4pL5QBaymw3AAce7XVIy1JapO3SZ3rXdy63TuOvyjQ33ip
-   w==;
-X-CSE-ConnectionGUID: iZmQwSQaQk6fXV85MmfHdg==
-X-CSE-MsgGUID: KbJe+n9eRymuMFCgcsdpmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="48760563"
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="48760563"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 23:42:33 -0700
-X-CSE-ConnectionGUID: KrLagLVGTUinXjbVlTGWLw==
-X-CSE-MsgGUID: g85UY9HFS0WfwRC6Ma31lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,294,1751266800"; 
-   d="scan'208";a="182800458"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Sep 2025 23:42:31 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v22A1-0005yj-1L;
-	Fri, 26 Sep 2025 06:42:29 +0000
-Date: Fri, 26 Sep 2025 14:42:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2938/2938] include/trace/events/kmem.h:419:10:
- error: incompatible pointer types passing 'struct mem_sampling_record *' to
- parameter of type 'struct mem_sampling_record *'
-Message-ID: <202509261405.3ek7Vlax-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KQeg2Vsp"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q6ltY9011411
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:50:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	hAvJmzrwoSb3evK5QrOHasbm0i6ySDURtAIAeME4WEE=; b=KQeg2Vsp8pY7kAkX
+	m6rMUbmJSMEIKwgoIERa7LulLjSLELt8hiu1+IYMv00GPc5ieNf3NAF40MP3wS7w
+	dTFRo4CgdmzXsaN/3r68cQKzeMyrViYEqU69TrIrqEfIVUDA2OAk9PvPSV75/YRC
+	js4NLs2Wi36DbK7EtFjIBXupnVnxtU8IQYHl38HwRIw7hdltPcaksqAF7ahiRnCi
+	EPee4tLw52eu2eNitIONh6+DOvniIs5W/h75KjX5gpG5M48EDuJhD6DgXuOwz9qI
+	7emCJKiJNJ7AllZQPh2QgkIEm+OEcpYWj/Mw8OXl9VgTZ2Nf8iDDHcAYpx9M3uXD
+	KVLVdg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0q25r4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:50:15 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4d880ce17bbso2165111cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 01:50:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758876606; x=1759481406;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hAvJmzrwoSb3evK5QrOHasbm0i6ySDURtAIAeME4WEE=;
+        b=EEDECsY6FGrUksyvUsVlmMCWzPD3kwQ5UYwgjh+v54fMsM/aQQpYhuU8BOVZZ0Lr5a
+         MBbAjGkmdF0WH446PRTOAB78mXFd8T1/j9uLdsPI1rWjE3jqeuKKp4sg0MYMBb9wljZL
+         R+t2+/IKAHCqnO8g+bhTWBzrlTUoY5sJ1Z51YOsfUAuOA4TjyfwU8LIXmqxK7J7Uz6jd
+         Kj5bjfHNw/03Lvis4gskFs7DjuSA7SmCDrhFlT9L6cujDPb39IMv3ne1unZIhgljH1tm
+         PVUMxTdp7P0aM0tMFO+YsQn0H/TyflHgfn7lOPQnLujxoUZtmjRCMOcm/83E98E2eY8a
+         gDHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIokZa6TqYLee/lhTe0TNaVE9lGkzQR0bXI2GGWGDbtjf/J0ipXValm0D/yIo96ZFtnUAEjmytP3iYr2I6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8f5/gBt4YHa5KkVL+idp15rPSBo9pqeUwHP3ZHc1Lf9scJ5Zv
+	SOtN/YnRCjKfX8br8KJuqx8Pucac8o6Q1KcYXI1JAfhkL1avpPMDV6CAY2RHqGXnR7r5D5kayMy
+	hugqBwGr1siE052YvgZyeYf3BQggeOSfimzn2ZfxgyjxtOEmQ+bQKcNhZlCP1ltWacQtT
+X-Gm-Gg: ASbGnctA/LCRr6wzxasI9JGfyzWQ4fL/yL3Yxql/ejhnJX3f1gxhMca1qmzhkdGOR2q
+	rHHRDn5NrwXtIHEwG/PJCR0S2fbQQhgfhudUL02UUX6YxXonaEUjgzZUPor4XkeHxFKNN4wHmWg
+	V0uQw9qPKyRvXDI2hmNfWaPcZLOCV8Wtu0VqtgU7xauRbAWs3dyRGDDjFn1u238HiQaLKr96zoS
+	jeNA72ppTaO8iYnKnQFixykI6p6J5KKPctQdRuYCujjlyTITjGM3kgkp89NskrE6D1Xq0HUTgUG
+	rZpWCqoXbDR8SJu6kZJyVZvu07K+hHA4Oor5vXxeOMno/KgQOS0Z0dpfg8ksf0gZHHpdzzM+OLA
+	MKYSen0Ri+Ioluz44dC4HqQ==
+X-Received: by 2002:a05:622a:1101:b0:4dc:fc58:c50c with SMTP id d75a77b69052e-4dcfc58c83bmr20483291cf.5.1758876606303;
+        Fri, 26 Sep 2025 01:50:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEEiWvsH3XhfOSeK3PolvaeTD1lJD0k/Gm0XDb40I/xEqlYRxnruYGzyeye0H22WTBm31aZrg==
+X-Received: by 2002:a05:622a:1101:b0:4dc:fc58:c50c with SMTP id d75a77b69052e-4dcfc58c83bmr20483151cf.5.1758876605736;
+        Fri, 26 Sep 2025 01:50:05 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b35446f79besm326034066b.69.2025.09.26.01.50.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Sep 2025 01:50:05 -0700 (PDT)
+Message-ID: <e7843f88-71d5-4f7e-9f99-df06630e02fa@oss.qualcomm.com>
+Date: Fri, 26 Sep 2025 10:50:01 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] ASoC: codecs: va-macro: Rework version checking
+To: kernel test robot <lkp@intel.com>,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Rao Mandadapu <quic_srivasam@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+References: <20250924-knp-audio-v1-1-5afa926b567c@oss.qualcomm.com>
+ <202509261315.O9CiiXjb-lkp@intel.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <202509261315.O9CiiXjb-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: L_K305qi5eD5Agk5PJ8DZOi8LDuEAboc
+X-Proofpoint-GUID: L_K305qi5eD5Agk5PJ8DZOi8LDuEAboc
+X-Authority-Analysis: v=2.4 cv=aZhsXBot c=1 sm=1 tr=0 ts=68d653c7 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=zXO_E9iLSFoZqPovHQIA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX81SdNS+B2cQP
+ Wrg1leHP4Qa2aYvq7wrKWRVjDlhpfavKvMTtlP9i5Qwukcn48NRqn0xhkdTibXNXrG/0ACJCkPT
+ IM/oGeFcE3Jh2ovibH8LB/zq3VS/mJMMo6wlx96OytjR0GD9UQ5edb0DJi7Y0HGHxL4B93G/7g4
+ Oc2OqsGM+9KvqfR8j36mc1B6wuIZkeGP78tGlrKvbB8JzBWmrrjhF04Pp7GEHQ1KFI2kXZesZ/9
+ KfmUcFy2iDt9Poced6ZtkdnDbNy7CpRN/ygnIz6hShyII+VL4TMIwOuUKqkvJFr/shrvetbtCt+
+ dGGE+kbl/DpHLfxTHn5eEKyciu09vTvX9bdeRoFc4Z8T/7jKU69WTV8sSGCSXgBANc/A1is62OI
+ +0dgV6j9rRN0n1YIQUeNg+ximyQxtg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_02,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 adultscore=0
+ clxscore=1011 impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   3e16741023a15d92f4be3343cb4d8b508327dda3
-commit: 5c9754d56876f60e199456beda45715da2d1a20b [2938/2938] mm/mem_sampling: Add eBPF interface for memory access tracing
-config: arm64-randconfig-004-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261405.3ek7Vlax-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261405.3ek7Vlax-lkp@intel.com/reproduce)
+On 9/26/25 7:36 AM, kernel test robot wrote:
+> Hi Jingyi,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on ae2d20002576d2893ecaff25db3d7ef9190ac0b6]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/ASoC-codecs-va-macro-Rework-version-checking/20250925-080338
+> base:   ae2d20002576d2893ecaff25db3d7ef9190ac0b6
+> patch link:    https://lore.kernel.org/r/20250924-knp-audio-v1-1-5afa926b567c%40oss.qualcomm.com
+> patch subject: [PATCH 1/5] ASoC: codecs: va-macro: Rework version checking
+> config: i386-buildonly-randconfig-001-20250926 (https://download.01.org/0day-ci/archive/20250926/202509261315.O9CiiXjb-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250926/202509261315.O9CiiXjb-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509261315.O9CiiXjb-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> sound/soc/codecs/lpass-va-macro.c:1479:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>     1479 |         maj = FIELD_GET(CORE_ID_0_REV_MAJ, val);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509261405.3ek7Vlax-lkp@intel.com/
+Jingyi, could you please add:
 
-All errors (new ones prefixed by >>):
+#include <linux/bitfield.h>
 
-   In file included from mm/memory.c:83:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   mm/memory.c:5502:17: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
-    5502 |         int flags = 0, nr_pages;
-         |                        ^
-   8 warnings and 2 errors generated.
---
-   In file included from mm/slub.c:46:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   mm/slub.c:2281:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
-    2281 |         unsigned int partial_slabs = 0;
-         |                      ^
-   8 warnings and 2 errors generated.
---
-   In file included from mm/slab_common.c:35:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:95:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:416:1: error: conflicting types for '__traceiter_mm_spe_record'
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
-      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
-     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-         |         ^
-   include/linux/tracepoint.h:305:6: note: expanded from macro 'DEFINE_TRACE_FN'
-     305 |         int __traceiter_##_name(void *__data, proto);                   \
-         |             ^
-   <scratch space>:79:1: note: expanded from here
-      79 | __traceiter_mm_spe_record
-         | ^
-   include/trace/events/kmem.h:416:1: note: previous declaration is here
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
-     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
-     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:252:13: note: expanded from macro '__DECLARE_TRACE'
-     252 |         extern int __traceiter_##name(data_proto);                      \
-         |                    ^
-   <scratch space>:56:1: note: expanded from here
-      56 | __traceiter_mm_spe_record
-         | ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:95:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-   include/trace/events/kmem.h:416:1: error: conflicting types for '__traceiter_mm_spe_record'
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
-      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
-     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-         |         ^
-   include/linux/tracepoint.h:319:6: note: expanded from macro 'DEFINE_TRACE_FN'
-     319 |         int __traceiter_##_name(void *__data, proto)                    \
-         |             ^
-   <scratch space>:89:1: note: expanded from here
-      89 | __traceiter_mm_spe_record
-         | ^
-   include/trace/events/kmem.h:416:1: note: previous declaration is here
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
-     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
-     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:252:13: note: expanded from macro '__DECLARE_TRACE'
-     252 |         extern int __traceiter_##name(data_proto);                      \
-         |                    ^
-   <scratch space>:56:1: note: expanded from here
-      56 | __traceiter_mm_spe_record
-         | ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:95:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:416:1: error: conflicting types for '__probestub_mm_spe_record'
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
-      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
-     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-         |         ^
-   include/linux/tracepoint.h:335:7: note: expanded from macro 'DEFINE_TRACE_FN'
-     335 |         void __probestub_##_name(void *__data, proto)                   \
-         |              ^
-   <scratch space>:100:1: note: expanded from here
-     100 | __probestub_mm_spe_record
-         | ^
-   include/trace/events/kmem.h:416:1: note: previous declaration is here
-   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
-      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
-     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-         |         ^
-   include/linux/tracepoint.h:306:7: note: expanded from macro 'DEFINE_TRACE_FN'
-     306 |         void __probestub_##_name(void *__data, proto);                  \
-         |              ^
-   <scratch space>:80:1: note: expanded from here
-      80 | __probestub_mm_spe_record
-         | ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:286:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:460:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:460:
-   include/trace/events/kmem.h:428:26: error: incomplete definition of type 'struct mem_sampling_record'
-     428 |                 __entry->vaddr = record->virt_addr;
-         |                                  ~~~~~~^
-   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:429:26: error: incomplete definition of type 'struct mem_sampling_record'
-     429 |                 __entry->paddr = record->phys_addr;
-         |                                  ~~~~~~^
-   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:430:24: error: incomplete definition of type 'struct mem_sampling_record'
-     430 |                 __entry->pid = record->context_id;
-         |                                ~~~~~~^
-   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   include/trace/events/kmem.h:416:1: error: incompatible function pointer types passing 'void (void *, struct mem_sampling_record *)' to parameter of type 'void (*)(void *, struct mem_sampling_record *)' [-Wincompatible-function-pointer-types]
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 | 
-     419 |         TP_ARGS(record),
-         |         ~~~~~~~~~~~~~~~~
-     420 | 
-     421 |         TP_STRUCT__entry(
-         |         ~~~~~~~~~~~~~~~~~
-     422 |                 __field(u64, vaddr)
-         |                 ~~~~~~~~~~~~~~~~~~~
-     423 |                 __field(u64, paddr)
-         |                 ~~~~~~~~~~~~~~~~~~~
-     424 |                 __field(int, pid)
-         |                 ~~~~~~~~~~~~~~~~~
-     425 |         ),
-         |         ~~
-     426 | 
-     427 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     428 |                 __entry->vaddr = record->virt_addr;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     429 |                 __entry->paddr = record->phys_addr;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     430 |                 __entry->pid = record->context_id;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     431 | 
-   include/trace/trace_events.h:46:2: note: expanded from macro 'TRACE_EVENT'
-      46 |         DEFINE_EVENT(name, name, PARAMS(proto), PARAMS(args));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:457:35: note: expanded from macro 'DEFINE_EVENT'
-     457 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:117:1: note: expanded from here
-     117 | trace_event_raw_event_mm_spe_record
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/events/kmem.h:416:1: note: passing argument to parameter 'cb' here
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
-     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
-     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:287:42: note: expanded from macro '__DECLARE_TRACE'
-     287 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
-         |                                                 ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:512:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:103:
-   In file included from include/trace/perf.h:75:
-   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:416:1: error: conflicting types for 'perf_trace_mm_spe_record'
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/perf.h:17:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      17 | static notrace void                                                     \
-         |                                                                         ^
-   <scratch space>:95:1: note: expanded from here
-      95 | perf_trace_mm_spe_record
-         | ^
-   include/trace/events/kmem.h:416:1: note: previous declaration is here
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/trace_events.h:467:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     467 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
-         |                                                                         ^
-   include/trace/trace_events.h:383:2: note: expanded from macro '\
-   _TRACE_PERF_PROTO'
-     383 |         perf_trace_##call(void *__data, proto);
-         |         ^
-   <scratch space>:27:1: note: expanded from here
-      27 | perf_trace_mm_spe_record
-         | ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:103:
-   In file included from include/trace/perf.h:75:
->> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Wincompatible-pointer-types]
-     419 |         TP_ARGS(record),
-         |                 ^~~~~~
-   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                                              ^
-   In file included from mm/slab_common.c:35:
-   In file included from include/trace/events/kmem.h:441:
-   In file included from include/trace/define_trace.h:103:
-   In file included from include/trace/perf.h:75:
-   include/trace/events/kmem.h:428:26: error: incomplete definition of type 'struct mem_sampling_record'
-     428 |                 __entry->vaddr = record->virt_addr;
-         |                                  ~~~~~~^
-   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:429:26: error: incomplete definition of type 'struct mem_sampling_record'
-     429 |                 __entry->paddr = record->phys_addr;
-         |                                  ~~~~~~^
-   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:430:24: error: incomplete definition of type 'struct mem_sampling_record'
-     430 |                 __entry->pid = record->context_id;
-         |                                ~~~~~~^
-   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |                         ^
-   include/trace/events/kmem.h:416:1: error: incompatible function pointer types passing 'void (void *, struct mem_sampling_record *)' to parameter of type 'void (*)(void *, struct mem_sampling_record *)' [-Wincompatible-function-pointer-types]
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |         TP_PROTO(struct mem_sampling_record *record),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 | 
-     419 |         TP_ARGS(record),
-         |         ~~~~~~~~~~~~~~~~
-     420 | 
-     421 |         TP_STRUCT__entry(
-         |         ~~~~~~~~~~~~~~~~~
-     422 |                 __field(u64, vaddr)
-         |                 ~~~~~~~~~~~~~~~~~~~
-     423 |                 __field(u64, paddr)
-         |                 ~~~~~~~~~~~~~~~~~~~
-     424 |                 __field(int, pid)
-         |                 ~~~~~~~~~~~~~~~~~
-     425 |         ),
-         |         ~~
-     426 | 
-     427 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     428 |                 __entry->vaddr = record->virt_addr;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     429 |                 __entry->paddr = record->phys_addr;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     430 |                 __entry->pid = record->context_id;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     431 | 
-   include/trace/trace_events.h:46:2: note: expanded from macro 'TRACE_EVENT'
-      46 |         DEFINE_EVENT(name, name, PARAMS(proto), PARAMS(args));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/perf.h:67:35: note: expanded from macro 'DEFINE_EVENT'
-      67 |         check_trace_callback_type_##call(perf_trace_##template);        \
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:101:1: note: expanded from here
-     101 | perf_trace_mm_spe_record
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/events/kmem.h:416:1: note: passing argument to parameter 'cb' here
-     416 | TRACE_EVENT(mm_spe_record,
-         | ^
-   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
-     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
-     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |         ^
-   include/linux/tracepoint.h:287:42: note: expanded from macro '__DECLARE_TRACE'
-     287 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
-         |                                                 ^
-   16 warnings and 17 errors generated.
-..
+when resending?
 
-
-vim +419 include/trace/events/kmem.h
-
-   388	
-   389		TP_PROTO(struct mm_struct *mm,
-   390			int member),
-   391	
-   392		TP_ARGS(mm, member),
-   393	
-   394		TP_STRUCT__entry(
-   395			__field(unsigned int, mm_id)
-   396			__field(unsigned int, curr)
-   397			__field(int, member)
-   398			__field(long, size)
-   399		),
-   400	
-   401		TP_fast_assign(
-   402			__entry->mm_id = mm_ptr_to_hash(mm);
-   403			__entry->curr = !!(current->mm == mm);
-   404			__entry->member = member;
-   405			__entry->size = (mm_counter_sum_positive(mm, member)
-   406								<< PAGE_SHIFT);
-   407		),
-   408	
-   409		TP_printk("mm_id=%u curr=%d type=%s size=%ldB",
-   410			__entry->mm_id,
-   411			__entry->curr,
-   412			__print_symbolic(__entry->member, TRACE_MM_PAGES),
-   413			__entry->size)
-   414		);
-   415	#ifdef CONFIG_ARM_SPE_MEM_SAMPLING
-   416	TRACE_EVENT(mm_spe_record,
-   417		TP_PROTO(struct mem_sampling_record *record),
-   418	
- > 419		TP_ARGS(record),
-   420	
-   421		TP_STRUCT__entry(
-   422			__field(u64, vaddr)
-   423			__field(u64, paddr)
-   424			__field(int, pid)
-   425		),
-   426	
-   427		TP_fast_assign(
-   428			__entry->vaddr = record->virt_addr;
-   429			__entry->paddr = record->phys_addr;
-   430			__entry->pid = record->context_id;
-   431	
-   432		),
-   433	
-   434		TP_printk("vaddr=%llu paddr=%llu pid=%d",
-   435			__entry->vaddr, __entry->paddr, __entry->pid)
-   436	);
-   437	#endif /* CONFIG_ARM_SPE_MEM_SAMPLING */
-   438	#endif /* _TRACE_KMEM_H */
-   439	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Konrad
