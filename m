@@ -1,82 +1,76 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D22219A79
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 15:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25289212B2F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 15:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758900854; cv=none; b=uItv0jV16HuI3vdLx12gPQv5mcC9sudFm5B2aRXBxjrkdj8IebHm8Wx7smjj7kC6Cr1CtPXm2aPZlwwwE84oVt6e0JxtaX61WGSMA7unJHo8nOK9oH3qY2VhDs6hvS1EVBTmHar5WJMfzg30rgGAEU5fJn9x/eyPwKaxV7bKH64=
+	t=1758901144; cv=none; b=bET5d/Usuu6+DRbWJzwvlZvJK/ZenfbdN88xvaHJpv2m92IZ7f1UoT7R87InIQyOmwOKXoUEK3xVf8Cjhqc/n4oURykcM04Cm2JJjyptVUCfKj/5LSEW7uUgtSR2XmGCYxg6sqBz6Fd7+MqHbpHNZi5JP5tfSq25mg6UX2dJ6tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758900854; c=relaxed/simple;
-	bh=amq4RZUuIaO1rbxYvaeVC1c+2M8VAlnoCSUSXeNoFNA=;
+	s=arc-20240116; t=1758901144; c=relaxed/simple;
+	bh=1K4sUGLBHZ9fUpOAIcQYsW8EpilQp6Ba5qGwrWESZls=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ifhgD+Q9MXJCcCkGawqaRSww9Qu19AABQyhaSuAZS3Ni97w7ov8n223QXl7z4i95cQ533YmcsgsmdmBkQ6RYRI3DwjzqTUTaSOl+BQlR33j+IcUhfyciH08XaTqfBCq7Gd7twhQ1/iYsQhER1Mn4OZxlxv/V6m/EH21bBTLeMFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v/T73TIq; arc=none smtp.client-ip=209.85.128.50
+	 Content-Disposition:In-Reply-To; b=JC4GFoa+bE6GaelSJltXz5+WhYkKxesUYNJECWjDxjU6u1J5KguCv9K6gmjKlIyiSWcGbrVp5EzcfFMSo0X6d4vn1Stuud4po+kNr2T2qCo37KYDON56Nn65ev+CFKeCBOMlVLuWLieWX0OxEI6GDSO1P/XDp18DJ/nGJOlqFEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mAXUCEX8; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v/T73TIq"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e414f90ceso5758585e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:34:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mAXUCEX8"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45f2cf99bbbso11170555e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Sep 2025 08:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758900850; x=1759505650; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1758901139; x=1759505939; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HMO5hgJCbwtV9PK2cFfsUx2fXWFzdBYn4BBsNRBK1CI=;
-        b=v/T73TIqNh64XyRtGnea4gR4i9Lc7iHIJyBOWdVIN3AWp54HI52cRIFQTwsbZjcFzc
-         f92S0CicKlml4IwME65OQpmJYPA6wUr+YC7AeDNr3wVISGVTI/DmYXU9EJo6hH1fpKXx
-         Yu1umfUI3JQbkgyfjDLNIS/bGg0wWaFsA7UOqfbW38zrS5Jk58iKnLcp26S3/MJ+pYmU
-         CkLjOqQyl8LNitTtoVCkYmacJV1hM05gnBmewxEERw2s3OW97G8aeZNTuiJhfnyYt4Zs
-         T3YpUIdcmBJI0d069CEZWcdB11EgASs6qBL7ydC2r08C7ccMn3wv2yFDZ/uJlYTfjpkw
-         V9Yg==
+        bh=4kgAcNQqeMGknJHmQ8ARkX/S7uQVoabri2v53BdYsfU=;
+        b=mAXUCEX8YN+dUb99kIZGv4QBc0DRl8UDlN9/JAoCQbOqUE4rWG7W5SMGzBAmB9PCFK
+         RPu4u2sVt31ITIgdtxvg9DpVFqo2T0JkXeIb3cQQci/AZyxOMEOBtDXxR9dqO+sInvVn
+         QQmMEytE7X9N8kxIy5bEhyFTqwX/uAl6M24dEpP7RyydWBEPyOrMvLDaYtaZH4jiErIO
+         ZL5qYH6ku1AdRWjyRi9VxjaJ5U1YW1AEdFIaHSCb4FTD4aJMLseuh/V1IeN3bZzyciUN
+         1wvblcnN8kYHGqQB5jvSRV9m+ug91jECZj4a45ZNjVfTv92kaCdoFCbtGChgq3zlJv2j
+         2/TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758900850; x=1759505650;
+        d=1e100.net; s=20230601; t=1758901139; x=1759505939;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HMO5hgJCbwtV9PK2cFfsUx2fXWFzdBYn4BBsNRBK1CI=;
-        b=mRKOPhnuNyfN5/Qa3yMRE9qZkkilLCxDd3I4pTgofsA3VQoo8fOyCsaGI57jyJJfdF
-         LVukqNZOl3LgNOlhUMr1IGiymm/7dOAIZmsKOjdo7HVWS4Xgujd//Zs+BK2yTkRaUchr
-         d20H42XF2M0l/Sb76tUTI1sRzm97kG/ZQf+lam1oSx9SeEEakduho+a6giqQtC27TG2T
-         DKgzCo7qd8nOT6JY3Rx2pXw2oCIXKQGQon8eakBFvZ3dKudoEZGnuighnBbZ9ffuBx4a
-         Uyhv5QHLBFSBIKbmleyPomuE5cBCoQgJHAC6rzsMddju5nynQr9Zmk/aDovJ0VqOy4ZN
-         tGMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXmgBdwBdoU/tqCfxBUd4MBYQwDI9jNtKHSEQBONKRsaLYG7MfDMcbuLzks3tKBXVeaUx8ju+Y+QM1ScIkX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz86GtheyWlsezB3LDU9EGuSidqdr8C3+pQ3s6YS0AR+R8jTKFC
-	48coEYoBQrQmwC7s8N6KqDYrYLATm08sN09L5Elms4qG9FeCfPeNvSu/jkLTeRWi/3g=
-X-Gm-Gg: ASbGncue1iyKFFnziHULEnoF9snXsrGCgj7w2sL3/HhXy5b5kplpU8MS5l+3KnkTwYt
-	uAI/2GHVBVLTx7+pkvzbWQjvmHTLg29/w5+o07WRZU49QoBsCZXnnOqv6dzanNGiGgH9de12HN3
-	BxVT7Ph3wW9mLk8YZdjzBx1OJ7ZSCkCzOw1nHoNLEWgQ1XOqJOJTjMjk/P01ewXgLUbGpMx6oDx
-	xAo0qOo5nUVPtyk7FKEuq1NbkXzDwll0EEjAU1nxqOKV8TV88FKJgtg8MaK8GhOTBIHQwHQk1au
-	vIWEqz7oDfoq9hmvJbfz6tZl5TUzuNmHebTwxxgRwcv/0vZoOzp3p43cFifLb/x6N8KUI3O10gu
-	11Cmb67ZT2AeZMRa6SGyFmEBzVwnk
-X-Google-Smtp-Source: AGHT+IGeo7JSWe4sg6wC+JHBWfGr9CcvjUdGf1N82kHCNBejo0CZ5f4vzEILeKedV9H4Kp7q6LdOzQ==
-X-Received: by 2002:a05:600c:8b62:b0:45d:5c71:769a with SMTP id 5b1f17b1804b1-46e39bdf9b4mr41759465e9.26.1758900850403;
-        Fri, 26 Sep 2025 08:34:10 -0700 (PDT)
+        bh=4kgAcNQqeMGknJHmQ8ARkX/S7uQVoabri2v53BdYsfU=;
+        b=IyROFAVvf/d7iJWOBIz+ywW85b4cN1rLuM7O0JfGf+w49XMt//O8AC6cRkHg7qnm4d
+         AWOpE9CHKuvgwrW2VniYgyzfCtF3W3Z/nfRCWEfmVqf8/9KYpLnxSlAyi+uMyyrudHVG
+         aLFiY6ncOfQkiXqjl71RdG3QlgPd9V8WoOsZDk9O/DdI4fpk0rp/RcZOzkmrTYkmh7nO
+         5CtyZDYGrg82jphnydeozgbQ5YNYglz/uWy1NcSq2Y9scNIRlWUOcnECirE2DrP4Sr2R
+         zE3mOuRC83i/Wc9UlZ+ze8Jl2O7BlB1/159ocTwT+m2jnk0cZmvuvEdvOc2/wtmdpbgy
+         5efg==
+X-Forwarded-Encrypted: i=1; AJvYcCVr+H8P2hNwmI1mKWZ4pfJ+RbneCQfflMC5tgiiVJLUH2CxvYPPzGu/8xGKJ6J2zqMdtidhewfFsNPAB5+3@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnB0euEniAs8Rkbw6NJKFakKFoM4yKmJbpLhMqQS1UCUs52TS8
+	gMQxH73QR4rNFecsUexb6lvch5X+4raUHumcxXKzi7CX/JErdt8BzI+SAJEnxUJYC/Q=
+X-Gm-Gg: ASbGncv5gpgIoMXZi3fWtuIzQiXmf8oTZY41qy2d8Js7NidTmvcJzNJXIdZWoNt790k
+	6JCsofoJDJSt3YxkBjeRnenrVVqmrGVrDTNellQCp7tEeLe4mH19S82t0+4DdlHYjqgZmMlZdMo
+	wgLz4XRIxfzik3HcFvrSeoBXPTpY95xMe4yP7xtXY1GLO/qFgNi+Y/xUGaUe0AvXLGOYaR/FPXd
+	Z3uORSwsMpnnVnGkByF6Ygyoa6OBNpxjd1TNFFgCYnf88a1DGa2jrFDyn84fNFnjfKgpSiklccF
+	89pOJU0p1uHrgCY19MSs80qIWODznLTbqZRzwLA1w62lNZ9lm2MlzicecBA1QLM5eiXOCJrvS8h
+	OL/VybwECW1UCWFMv8TmxdceCTWULy+IdiePLM6ZakxBYVgSRAQ==
+X-Google-Smtp-Source: AGHT+IG4FIOGcvrxDMC6xc6YryyjWgNtEn/gDy55HG40g/qAQlKrQwZkQXuag7kr8tkIOAvWnC4WqA==
+X-Received: by 2002:a05:600c:310c:b0:46e:35a0:3587 with SMTP id 5b1f17b1804b1-46e35a037c8mr56312325e9.27.1758901139257;
+        Fri, 26 Sep 2025 08:38:59 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e33bed6basm76990795e9.16.2025.09.26.08.34.09
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-40fc5602df0sm7507709f8f.36.2025.09.26.08.38.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 08:34:10 -0700 (PDT)
-Date: Fri, 26 Sep 2025 18:34:06 +0300
+        Fri, 26 Sep 2025 08:38:58 -0700 (PDT)
+Date: Fri, 26 Sep 2025 18:38:55 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Chris Mason <chris.mason@fusionio.com>,
-	Kiryl Shutsemau <kirill@shutemov.name>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Brendan Jackman <jackmanb@google.com>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Zi Yan <ziy@nvidia.com>,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify
- refresh_cpu_vm_stats change detection
-Message-ID: <202509260132.awvdNKqF-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Ariana Lazar <ariana.lazar@microchip.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ariana Lazar <ariana.lazar@microchip.com>
+Subject: Re: [PATCH 2/2] iio: dac: adding support for Microchip MCP47FEB02
+Message-ID: <202509262228.MYSY2WkV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,62 +79,201 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250924204409.1706524-2-joshua.hahnjy@gmail.com>
+In-Reply-To: <20250922-mcp47feb02-v1-2-06cb4acaa347@microchip.com>
 
-Hi Joshua,
+Hi Ariana,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Hahn/mm-page_alloc-vmstat-Simplify-refresh_cpu_vm_stats-change-detection/20250925-044532
-base:   097a6c336d0080725c626fda118ecfec448acd0f
-patch link:    https://lore.kernel.org/r/20250924204409.1706524-2-joshua.hahnjy%40gmail.com
-patch subject: [PATCH v2 1/4] mm/page_alloc/vmstat: Simplify refresh_cpu_vm_stats change detection
-config: mips-randconfig-r073-20250925 (https://download.01.org/0day-ci/archive/20250926/202509260132.awvdNKqF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ariana-Lazar/dt-bindings-iio-dac-adding-support-for-Microchip-MCP47FEB02/20250922-193559
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250922-mcp47feb02-v1-2-06cb4acaa347%40microchip.com
+patch subject: [PATCH 2/2] iio: dac: adding support for Microchip MCP47FEB02
+config: x86_64-randconfig-r073-20250926 (https://download.01.org/0day-ci/archive/20250926/202509262228.MYSY2WkV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202509260132.awvdNKqF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202509262228.MYSY2WkV-lkp@intel.com/
 
 smatch warnings:
-mm/page_alloc.c:2591 decay_pcp_high() error: uninitialized symbol 'todo'.
+drivers/iio/dac/mcp47feb02.c:1258 mcp47feb02_probe() error: uninitialized symbol 'vref_mv'.
+drivers/iio/dac/mcp47feb02.c:1258 mcp47feb02_probe() error: uninitialized symbol 'vref1_mv'.
 
-vim +/todo +2591 mm/page_alloc.c
+vim +/vref_mv +1258 drivers/iio/dac/mcp47feb02.c
 
-06fb80866d37b0 Joshua Hahn    2025-09-24  2564  bool decay_pcp_high(struct zone *zone, struct per_cpu_pages *pcp)
-51a755c56dc05a Ying Huang     2023-10-16  2565  {
-51a755c56dc05a Ying Huang     2023-10-16  2566  	int high_min, to_drain, batch;
-06fb80866d37b0 Joshua Hahn    2025-09-24  2567  	bool todo;
+2e305393740054 Ariana Lazar 2025-09-22  1108  static int mcp47feb02_probe(struct i2c_client *client)
+2e305393740054 Ariana Lazar 2025-09-22  1109  {
+2e305393740054 Ariana Lazar 2025-09-22  1110  	int err, ret, vdd_mv, vref_mv, vref1_mv, i, tmp_vref, vref_ch, gain_ch;
+2e305393740054 Ariana Lazar 2025-09-22  1111  	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+2e305393740054 Ariana Lazar 2025-09-22  1112  	const struct mcp47feb02_features *info;
+2e305393740054 Ariana Lazar 2025-09-22  1113  	enum vref_mode ref_mode, ref_mode1;
+2e305393740054 Ariana Lazar 2025-09-22  1114  	struct device *dev = &client->dev;
+2e305393740054 Ariana Lazar 2025-09-22  1115  	struct mcp47feb02_data *data;
+2e305393740054 Ariana Lazar 2025-09-22  1116  	struct iio_dev *indio_dev;
+2e305393740054 Ariana Lazar 2025-09-22  1117  
+2e305393740054 Ariana Lazar 2025-09-22  1118  	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+2e305393740054 Ariana Lazar 2025-09-22  1119  	if (!indio_dev)
+2e305393740054 Ariana Lazar 2025-09-22  1120  		return -ENOMEM;
+2e305393740054 Ariana Lazar 2025-09-22  1121  
+2e305393740054 Ariana Lazar 2025-09-22  1122  	data = iio_priv(indio_dev);
+2e305393740054 Ariana Lazar 2025-09-22  1123  	i2c_set_clientdata(client, indio_dev);
+2e305393740054 Ariana Lazar 2025-09-22  1124  	data->client = client;
+2e305393740054 Ariana Lazar 2025-09-22  1125  	info = i2c_get_match_data(client);
+2e305393740054 Ariana Lazar 2025-09-22  1126  
+2e305393740054 Ariana Lazar 2025-09-22  1127  	if (info->have_eeprom) {
+2e305393740054 Ariana Lazar 2025-09-22  1128  		data->regmap = devm_regmap_init_i2c(client, &mcp47feb02_regmap_config);
+2e305393740054 Ariana Lazar 2025-09-22  1129  		data->have_eeprom = true;
+2e305393740054 Ariana Lazar 2025-09-22  1130  	} else {
+2e305393740054 Ariana Lazar 2025-09-22  1131  		data->regmap = devm_regmap_init_i2c(client, &mcp47fvb02_regmap_config);
+2e305393740054 Ariana Lazar 2025-09-22  1132  		data->have_eeprom = false;
+2e305393740054 Ariana Lazar 2025-09-22  1133  	}
+2e305393740054 Ariana Lazar 2025-09-22  1134  
+2e305393740054 Ariana Lazar 2025-09-22  1135  	if (IS_ERR(data->regmap))
+2e305393740054 Ariana Lazar 2025-09-22  1136  		dev_err_probe(dev, PTR_ERR(data->regmap), "Error initializing i2c regmap\n");
+2e305393740054 Ariana Lazar 2025-09-22  1137  
+2e305393740054 Ariana Lazar 2025-09-22  1138  	err = mcp47feb02_parse_fw(indio_dev, info);
+2e305393740054 Ariana Lazar 2025-09-22  1139  	if (err)
+2e305393740054 Ariana Lazar 2025-09-22  1140  		return dev_err_probe(dev, err, "Error parsing devicetree data\n");
+2e305393740054 Ariana Lazar 2025-09-22  1141  
+2e305393740054 Ariana Lazar 2025-09-22  1142  	if (!info->have_ext_vref2 && data->use_vref1)
+2e305393740054 Ariana Lazar 2025-09-22  1143  		return dev_err_probe(dev, -EINVAL,
+2e305393740054 Ariana Lazar 2025-09-22  1144  				     "Second External reference is unavailable on %s\n",
+2e305393740054 Ariana Lazar 2025-09-22  1145  				     info->name);
+2e305393740054 Ariana Lazar 2025-09-22  1146  
+2e305393740054 Ariana Lazar 2025-09-22  1147  	ret = regmap_read(data->regmap, CMD_FORMAT(MCP47FEB02_VREF_REG_ADDR, READ_CMD), &vref_ch);
+2e305393740054 Ariana Lazar 2025-09-22  1148  	if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1149  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1150  
+2e305393740054 Ariana Lazar 2025-09-22  1151  	ret = regmap_read(data->regmap, CMD_FORMAT(MCP47FEB02_GAIN_STATUS_REG_ADDR, READ_CMD),
+2e305393740054 Ariana Lazar 2025-09-22  1152  			  &gain_ch);
+2e305393740054 Ariana Lazar 2025-09-22  1153  	if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1154  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1155  
+2e305393740054 Ariana Lazar 2025-09-22  1156  	gain_ch = gain_ch >> 8;
+2e305393740054 Ariana Lazar 2025-09-22  1157  
+2e305393740054 Ariana Lazar 2025-09-22  1158  	/*
+2e305393740054 Ariana Lazar 2025-09-22  1159  	 * Values stored in the nonvolatile memory will be transferred to the volatile registers
+2e305393740054 Ariana Lazar 2025-09-22  1160  	 * at startup. For safety reasons, the user receives a warning if startup values
+2e305393740054 Ariana Lazar 2025-09-22  1161  	 * do not match the ones from current devicetree configuration.
+2e305393740054 Ariana Lazar 2025-09-22  1162  	 * Nonvolatile memory can be written at any time
+2e305393740054 Ariana Lazar 2025-09-22  1163  	 */
+2e305393740054 Ariana Lazar 2025-09-22  1164  	for_each_set_bit(i, &data->active_channels_mask, data->phys_channels) {
+2e305393740054 Ariana Lazar 2025-09-22  1165  		/* VDD can be set as Vref only with Gain x1 */
+2e305393740054 Ariana Lazar 2025-09-22  1166  		if ((vref_ch & 0x03) == MCP47FEB02_VREF_VDD &&
+2e305393740054 Ariana Lazar 2025-09-22  1167  		    (gain_ch & 0x01) == MCP47FEB02_GAIN_X2) {
+2e305393740054 Ariana Lazar 2025-09-22  1168  			dev_info(dev, "vdd can be used only with gain x1\n");
+2e305393740054 Ariana Lazar 2025-09-22  1169  			ret = mcp47feb02_write_to_register(data->regmap,
+2e305393740054 Ariana Lazar 2025-09-22  1170  							   MCP47FEB02_GAIN_STATUS_REG_ADDR,
+2e305393740054 Ariana Lazar 2025-09-22  1171  							   i, MCP47FEB02_GAIN_X1);
+2e305393740054 Ariana Lazar 2025-09-22  1172  			if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1173  				return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1174  
+2e305393740054 Ariana Lazar 2025-09-22  1175  			data->chdata[i].use_2x_gain = MCP47FEB02_GAIN_X1;
+2e305393740054 Ariana Lazar 2025-09-22  1176  		}
+2e305393740054 Ariana Lazar 2025-09-22  1177  
+2e305393740054 Ariana Lazar 2025-09-22  1178  		if (data->phys_channels >= 4 && (i % 2)) {
+2e305393740054 Ariana Lazar 2025-09-22  1179  			if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_BUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1180  			    data->use_vref1 && !data->vref1_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1181  				dev_info(dev, "vref1 is unbuffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1182  			else if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_UNBUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1183  				 data->use_vref1 && data->vref1_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1184  				dev_info(dev, "vref1 is buffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1185  		} else {
+2e305393740054 Ariana Lazar 2025-09-22  1186  			if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_BUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1187  			    data->use_vref && !data->vref_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1188  				dev_info(dev, "vref is unbuffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1189  			else if ((vref_ch & 0x03) == MCP47FEB02_EXTERNAL_VREF_UNBUFFERED &&
+2e305393740054 Ariana Lazar 2025-09-22  1190  				 data->use_vref && data->vref_buffered)
+2e305393740054 Ariana Lazar 2025-09-22  1191  				dev_info(dev, "vref is buffered\n");
+2e305393740054 Ariana Lazar 2025-09-22  1192  		}
+2e305393740054 Ariana Lazar 2025-09-22  1193  
+2e305393740054 Ariana Lazar 2025-09-22  1194  		vref_ch = vref_ch >> 2;
+2e305393740054 Ariana Lazar 2025-09-22  1195  		gain_ch = gain_ch >> 1;
+2e305393740054 Ariana Lazar 2025-09-22  1196  	}
+2e305393740054 Ariana Lazar 2025-09-22  1197  
+2e305393740054 Ariana Lazar 2025-09-22  1198  	if (data->use_vref)
+2e305393740054 Ariana Lazar 2025-09-22  1199  		ref_mode = data->vref_buffered ?
+2e305393740054 Ariana Lazar 2025-09-22  1200  			MCP47FEB02_EXTERNAL_VREF_BUFFERED : MCP47FEB02_EXTERNAL_VREF_UNBUFFERED;
+2e305393740054 Ariana Lazar 2025-09-22  1201  	else
+2e305393740054 Ariana Lazar 2025-09-22  1202  		ref_mode = MCP47FEB02_INTERNAL_BAND_GAP;
+2e305393740054 Ariana Lazar 2025-09-22  1203  
+2e305393740054 Ariana Lazar 2025-09-22  1204  	if (data->use_vref1)
+2e305393740054 Ariana Lazar 2025-09-22  1205  		ref_mode1 = data->vref1_buffered ?
+2e305393740054 Ariana Lazar 2025-09-22  1206  			MCP47FEB02_EXTERNAL_VREF_BUFFERED : MCP47FEB02_EXTERNAL_VREF_UNBUFFERED;
+2e305393740054 Ariana Lazar 2025-09-22  1207  
+2e305393740054 Ariana Lazar 2025-09-22  1208  	else
+2e305393740054 Ariana Lazar 2025-09-22  1209  		ref_mode1 =  MCP47FEB02_INTERNAL_BAND_GAP;
+2e305393740054 Ariana Lazar 2025-09-22  1210  
+2e305393740054 Ariana Lazar 2025-09-22  1211  	for_each_set_bit(i, &data->active_channels_mask, data->phys_channels) {
+2e305393740054 Ariana Lazar 2025-09-22  1212  		if (data->phys_channels >= 4 && (i % 2))
+2e305393740054 Ariana Lazar 2025-09-22  1213  			tmp_vref = ref_mode1;
+2e305393740054 Ariana Lazar 2025-09-22  1214  		else
+2e305393740054 Ariana Lazar 2025-09-22  1215  			tmp_vref = ref_mode;
+2e305393740054 Ariana Lazar 2025-09-22  1216  
+2e305393740054 Ariana Lazar 2025-09-22  1217  		ret = mcp47feb02_write_to_register(data->regmap, MCP47FEB02_VREF_REG_ADDR,
+2e305393740054 Ariana Lazar 2025-09-22  1218  						   i, tmp_vref);
+2e305393740054 Ariana Lazar 2025-09-22  1219  		if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1220  			return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1221  
+2e305393740054 Ariana Lazar 2025-09-22  1222  		data->chdata[i].ref_mode = tmp_vref;
+2e305393740054 Ariana Lazar 2025-09-22  1223  	}
+2e305393740054 Ariana Lazar 2025-09-22  1224  
+2e305393740054 Ariana Lazar 2025-09-22  1225  	indio_dev->name = id->name;
+2e305393740054 Ariana Lazar 2025-09-22  1226  	if (info->have_eeprom)
+2e305393740054 Ariana Lazar 2025-09-22  1227  		indio_dev->info = &mcp47feb02_info;
+2e305393740054 Ariana Lazar 2025-09-22  1228  	else
+2e305393740054 Ariana Lazar 2025-09-22  1229  		indio_dev->info = &mcp47fvb02_info;
+2e305393740054 Ariana Lazar 2025-09-22  1230  
+2e305393740054 Ariana Lazar 2025-09-22  1231  	ret = devm_mutex_init(dev, &data->lock);
+2e305393740054 Ariana Lazar 2025-09-22  1232  	if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1233  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1234  
+2e305393740054 Ariana Lazar 2025-09-22  1235  	ret = devm_regulator_get_enable_read_voltage(dev, "vdd");
+2e305393740054 Ariana Lazar 2025-09-22  1236  	if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1237  		return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1238  
+2e305393740054 Ariana Lazar 2025-09-22  1239  	vdd_mv = ret / 1000;
+2e305393740054 Ariana Lazar 2025-09-22  1240  
+2e305393740054 Ariana Lazar 2025-09-22  1241  	if (data->use_vref) {
+2e305393740054 Ariana Lazar 2025-09-22  1242  		ret = devm_regulator_get_enable_read_voltage(dev, "vref");
+2e305393740054 Ariana Lazar 2025-09-22  1243  		if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1244  			return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1245  
+2e305393740054 Ariana Lazar 2025-09-22  1246  		vref_mv = ret / 1000;
+2e305393740054 Ariana Lazar 2025-09-22  1247  	}
 
-needs to be initialized to false.
+uninitialized on else path.
 
-51a755c56dc05a Ying Huang     2023-10-16  2568  
-51a755c56dc05a Ying Huang     2023-10-16  2569  	high_min = READ_ONCE(pcp->high_min);
-51a755c56dc05a Ying Huang     2023-10-16  2570  	batch = READ_ONCE(pcp->batch);
-51a755c56dc05a Ying Huang     2023-10-16  2571  	/*
-51a755c56dc05a Ying Huang     2023-10-16  2572  	 * Decrease pcp->high periodically to try to free possible
-51a755c56dc05a Ying Huang     2023-10-16  2573  	 * idle PCP pages.  And, avoid to free too many pages to
-51a755c56dc05a Ying Huang     2023-10-16  2574  	 * control latency.  This caps pcp->high decrement too.
-51a755c56dc05a Ying Huang     2023-10-16  2575  	 */
-51a755c56dc05a Ying Huang     2023-10-16  2576  	if (pcp->high > high_min) {
-51a755c56dc05a Ying Huang     2023-10-16  2577  		pcp->high = max3(pcp->count - (batch << CONFIG_PCP_BATCH_SCALE_MAX),
-51a755c56dc05a Ying Huang     2023-10-16  2578  				 pcp->high - (pcp->high >> 3), high_min);
-51a755c56dc05a Ying Huang     2023-10-16  2579  		if (pcp->high > high_min)
-06fb80866d37b0 Joshua Hahn    2025-09-24  2580  			todo = true;
-51a755c56dc05a Ying Huang     2023-10-16  2581  	}
-51a755c56dc05a Ying Huang     2023-10-16  2582  
-51a755c56dc05a Ying Huang     2023-10-16  2583  	to_drain = pcp->count - pcp->high;
-51a755c56dc05a Ying Huang     2023-10-16  2584  	if (to_drain > 0) {
-51a755c56dc05a Ying Huang     2023-10-16  2585  		spin_lock(&pcp->lock);
-51a755c56dc05a Ying Huang     2023-10-16  2586  		free_pcppages_bulk(zone, to_drain, pcp, 0);
-51a755c56dc05a Ying Huang     2023-10-16  2587  		spin_unlock(&pcp->lock);
-06fb80866d37b0 Joshua Hahn    2025-09-24  2588  		todo = true;
-51a755c56dc05a Ying Huang     2023-10-16  2589  	}
-51a755c56dc05a Ying Huang     2023-10-16  2590  
-51a755c56dc05a Ying Huang     2023-10-16 @2591  	return todo;
-51a755c56dc05a Ying Huang     2023-10-16  2592  }
+2e305393740054 Ariana Lazar 2025-09-22  1248  
+2e305393740054 Ariana Lazar 2025-09-22  1249  	if (data->use_vref1) {
+2e305393740054 Ariana Lazar 2025-09-22  1250  		ret = devm_regulator_get_enable_read_voltage(dev, "vref1");
+2e305393740054 Ariana Lazar 2025-09-22  1251  		if (ret < 0)
+2e305393740054 Ariana Lazar 2025-09-22  1252  			return ret;
+2e305393740054 Ariana Lazar 2025-09-22  1253  
+2e305393740054 Ariana Lazar 2025-09-22  1254  		vref1_mv = ret / 1000;
+2e305393740054 Ariana Lazar 2025-09-22  1255  	}
+
+vref1_mv not initialized on else path.
+
+2e305393740054 Ariana Lazar 2025-09-22  1256  
+2e305393740054 Ariana Lazar 2025-09-22  1257  	for_each_set_bit(i, &data->active_channels_mask, data->phys_channels) {
+2e305393740054 Ariana Lazar 2025-09-22 @1258  		ret = mcp47feb02_init_scales_avail(info, data, vdd_mv, vref_mv, vref1_mv);
+
+It doesn't matter that mcp47feb02_init_scales_avail() checks data->use_vref
+and data->use_vref1.  It's considered a bug anyway because the function is
+not marked as __always_inline.  UBSan will complain at runtime as well.
+
+2e305393740054 Ariana Lazar 2025-09-22  1259  		if (ret)
+2e305393740054 Ariana Lazar 2025-09-22  1260  			dev_err_probe(dev, ret, "failed to init scales for ch i %d\n", i);
+2e305393740054 Ariana Lazar 2025-09-22  1261  	}
+2e305393740054 Ariana Lazar 2025-09-22  1262  
+2e305393740054 Ariana Lazar 2025-09-22  1263  	err = iio_device_register(indio_dev);
+2e305393740054 Ariana Lazar 2025-09-22  1264  
+2e305393740054 Ariana Lazar 2025-09-22  1265  	return err;
+2e305393740054 Ariana Lazar 2025-09-22  1266  }
 
 -- 
 0-DAY CI Kernel Test Service
