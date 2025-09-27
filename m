@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEC42E11AB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FC72D8DA4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758978013; cv=none; b=TMxggKrB7CUA+y2ilfgLNLe2EGD75dimivYV4opwcGMe6X6Uk6Xsh6luyBVb80o/RMu2gvxfSj5XTr3tO2ryoSjAgEuDLoADWa3lm6fCfqZO3J/WvTDeWcRKo94YxSHZKhy9txOog8DRoRssKH5k/RjlvBDfZoBBi9v5bU/Q1ZU=
+	t=1758979622; cv=none; b=jFPsgI+xURWAX0M6OXfBKW+bAiWEWDIdQZaxXehIMpq0nc/u028Jg4sFeK2Pf5deOjl4SJDRGyZpIwFXsrHLr5WDXmmercofiLxmGWkaTQceV+cpUU3/Lhou4p9UCPlDf48wsAzBeF49W6UfHRpbLfkTtP0iYJLTRoUu/QzQnQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758978013; c=relaxed/simple;
-	bh=jzebUf+63bj5rtU4hJayjc7X3+u2ceh7LqvGb8ptNi0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LVHF10uKaeKcD79VJJ88ndD5SW2i/rAo8X4RYnUD3ra1lfUZ+0nSLTwchtXI8YmMyJsQHxHOO/nmIjOilFZbwvESkXu5S4u3PCrjtg4nccUGWKJ0dPqyWawiYwjtlIfWVGa9FHx3n9z3FjwCSxiZsGRwcspVUZ0jtsl0aigicz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFMfj8Gp; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1758979622; c=relaxed/simple;
+	bh=fRtju74/JSHvPk0SkIzEvZPSjq0GaZdidyiTkuBepG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FIkeBa66Kk1G08rlxKf5y1QYAbsuEFM/T3w3qE/sECLJ8nWXNB/VTuidGD92Q0f7GauDE1zX0V+EIsb+skXtrca/fgHCflVW/gLYaq4plybA4ZNfgFgf3FWeUrQgTGFpVqX3tLw26kP7lFgZYhKR8SizD8JOUup3Yt7pTWDikhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuPc3xRs; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFMfj8Gp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuPc3xRs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758978011; x=1790514011;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jzebUf+63bj5rtU4hJayjc7X3+u2ceh7LqvGb8ptNi0=;
-  b=FFMfj8GpD2d9KAYqXifXCT8527xEjI8K28QGva4/nz9DHlBj9mPws0PP
-   sj2JYCzlB2rvY0wMmlzmBXI1DthKkIyLFHfEnnQg1j4lw/z3bvvkSoOEL
-   N4jshrGIdiM5X4TH9ndZH8nHXaiMjwr6UKWrFUORAr0lsBIh2sLaARNuP
-   1n4tW3W0Mt2Hf6wRpt1/vdtCb5YWIpJ7i8MJce4Rj2ADeGywWu8fQ0p1n
-   VQXtr8Fmvjuo1iaNULNo6D0gjVRCUxLwz3NrcmP0aLj4XyDzjhkIP7mF/
-   OputxPGDQrgvRdR/rAcpJWsiRdR6Tam+cM7liWbFgfBhuzMrMzUsVVSOH
-   g==;
-X-CSE-ConnectionGUID: SJj3vuxjSNOIL9US4xYMvg==
-X-CSE-MsgGUID: pj7/NKmaTf6OKdIHuCaNJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61246383"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61246383"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:00:11 -0700
-X-CSE-ConnectionGUID: anys7G8eR6S+RNK3Vl14fw==
-X-CSE-MsgGUID: RdLCaiYJQKe1fcc5HgT3TQ==
+  t=1758979621; x=1790515621;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fRtju74/JSHvPk0SkIzEvZPSjq0GaZdidyiTkuBepG0=;
+  b=HuPc3xRsjE8nZJka/CYjEnQQRssmD5PNc+26W5zF00y8pEPbN6N9PLWu
+   4Gw7Ya5gt7YeDRJVfrK3QC8ZXN7qM4p1uP0IiXLWMkuK3uXk8/8d7vg2e
+   kcBbKfgd7fTQMj1C/cLR6L02YnWPGaK/eBtju8UnHhfv7qwGH47wc24Hp
+   OanUA3urVjy2AGIoEupXREcrrHxviEk+eTmKUV8lwXeSilD/Hlt1OFyJB
+   MQg/dF3UQ4vDCLd0JVNL59YNzVsNhKHtTiX7V7nKH0d0YzXAYUf5WD3II
+   VZXdYzqMHUJJjhKYTi2at98U3Jzp5foxsoq0K9zsmTTeyVVq7wWkDqjZL
+   Q==;
+X-CSE-ConnectionGUID: Z/7ctvTWQt64q8oFP4GW4Q==
+X-CSE-MsgGUID: 22VW4xHfS+aPBvvKorckBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61179981"
+X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
+   d="scan'208";a="61179981"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:27:00 -0700
+X-CSE-ConnectionGUID: wHWQzKNASMe9ZanJAjKQ3g==
+X-CSE-MsgGUID: 5stGFlKCRlihrurRW2XcYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="183108925"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Sep 2025 06:00:07 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="182240115"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Sep 2025 06:26:58 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v2UWy-00074F-33;
-	Sat, 27 Sep 2025 13:00:04 +0000
-Date: Sat, 27 Sep 2025 20:59:36 +0800
+	id 1v2Uwx-000000005VB-46Qo;
+	Sat, 27 Sep 2025 13:26:55 +0000
+Date: Sat, 27 Sep 2025 15:26:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, marcelo.schmitt1@gmail.com,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
-Message-ID: <202509272028.0zLNiR5w-lkp@intel.com>
-References: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Jie Zhan <zhanjie9@hisilicon.com>
+Subject: [rafael-pm:bleeding-edge 204/212] error[E0425]: cannot find value
+ `CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS` in crate `bindings`
+Message-ID: <202509271504.gmr2aLzD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,118 +64,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
 
-Hi Marcelo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 561285d048053fec8a3d6d1e3ddc60df11c393a0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-adi-ad4030-Reference-spi-peripheral-props/20250927-044546
-base:   561285d048053fec8a3d6d1e3ddc60df11c393a0
-patch link:    https://lore.kernel.org/r/0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
-config: i386-randconfig-014-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   95b83771c9f38207ff42311ccc4739db76d19f33
+commit: 8cf63e01b6b73132d69c04d35f11738705467281 [204/212] cpufreq: Make drivers using CPUFREQ_ETERNAL specify transition latency
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250927/202509271504.gmr2aLzD-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509271504.gmr2aLzD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509272028.0zLNiR5w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509271504.gmr2aLzD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_validate':
->> drivers/spi/spi-offload-trigger-pwm.c:55:15: error: implicit declaration of function 'pwm_round_waveform_might_sleep' [-Wimplicit-function-declaration]
-      55 |         ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_enable':
->> drivers/spi/spi-offload-trigger-pwm.c:81:16: error: implicit declaration of function 'pwm_set_waveform_might_sleep' [-Wimplicit-function-declaration]
-      81 |         return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_disable':
->> drivers/spi/spi-offload-trigger-pwm.c:90:15: error: implicit declaration of function 'pwm_get_waveform_might_sleep' [-Wimplicit-function-declaration]
-      90 |         ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SPI_OFFLOAD_TRIGGER_PWM
-   Depends on [n]: SPI [=y] && SPI_OFFLOAD [=y] && PWM [=n]
-   Selected by [y]:
-   - AD4030 [=y] && IIO [=y] && SPI [=y] && GPIOLIB [=y]
-
-
-vim +/pwm_round_waveform_might_sleep +55 drivers/spi/spi-offload-trigger-pwm.c
-
-ebb398ae1e052c David Lechner 2025-02-07   36  
-ebb398ae1e052c David Lechner 2025-02-07   37  static int spi_offload_trigger_pwm_validate(struct spi_offload_trigger *trigger,
-ebb398ae1e052c David Lechner 2025-02-07   38  					    struct spi_offload_trigger_config *config)
-ebb398ae1e052c David Lechner 2025-02-07   39  {
-ebb398ae1e052c David Lechner 2025-02-07   40  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
-ebb398ae1e052c David Lechner 2025-02-07   41  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
-ebb398ae1e052c David Lechner 2025-02-07   42  	struct pwm_waveform wf = { };
-ebb398ae1e052c David Lechner 2025-02-07   43  	int ret;
-ebb398ae1e052c David Lechner 2025-02-07   44  
-ebb398ae1e052c David Lechner 2025-02-07   45  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
-ebb398ae1e052c David Lechner 2025-02-07   46  		return -EINVAL;
-ebb398ae1e052c David Lechner 2025-02-07   47  
-ebb398ae1e052c David Lechner 2025-02-07   48  	if (!periodic->frequency_hz)
-ebb398ae1e052c David Lechner 2025-02-07   49  		return -EINVAL;
-ebb398ae1e052c David Lechner 2025-02-07   50  
-ebb398ae1e052c David Lechner 2025-02-07   51  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
-ebb398ae1e052c David Lechner 2025-02-07   52  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
-ebb398ae1e052c David Lechner 2025-02-07   53  	wf.duty_length_ns = wf.period_length_ns / 2;
-ebb398ae1e052c David Lechner 2025-02-07   54  
-ebb398ae1e052c David Lechner 2025-02-07  @55  	ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
-ebb398ae1e052c David Lechner 2025-02-07   56  	if (ret < 0)
-ebb398ae1e052c David Lechner 2025-02-07   57  		return ret;
-ebb398ae1e052c David Lechner 2025-02-07   58  
-ebb398ae1e052c David Lechner 2025-02-07   59  	periodic->frequency_hz = DIV_ROUND_UP_ULL(NSEC_PER_SEC, wf.period_length_ns);
-ebb398ae1e052c David Lechner 2025-02-07   60  
-ebb398ae1e052c David Lechner 2025-02-07   61  	return 0;
-ebb398ae1e052c David Lechner 2025-02-07   62  }
-ebb398ae1e052c David Lechner 2025-02-07   63  
-ebb398ae1e052c David Lechner 2025-02-07   64  static int spi_offload_trigger_pwm_enable(struct spi_offload_trigger *trigger,
-ebb398ae1e052c David Lechner 2025-02-07   65  					  struct spi_offload_trigger_config *config)
-ebb398ae1e052c David Lechner 2025-02-07   66  {
-ebb398ae1e052c David Lechner 2025-02-07   67  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
-ebb398ae1e052c David Lechner 2025-02-07   68  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
-ebb398ae1e052c David Lechner 2025-02-07   69  	struct pwm_waveform wf = { };
-ebb398ae1e052c David Lechner 2025-02-07   70  
-ebb398ae1e052c David Lechner 2025-02-07   71  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
-ebb398ae1e052c David Lechner 2025-02-07   72  		return -EINVAL;
-ebb398ae1e052c David Lechner 2025-02-07   73  
-ebb398ae1e052c David Lechner 2025-02-07   74  	if (!periodic->frequency_hz)
-ebb398ae1e052c David Lechner 2025-02-07   75  		return -EINVAL;
-ebb398ae1e052c David Lechner 2025-02-07   76  
-ebb398ae1e052c David Lechner 2025-02-07   77  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
-ebb398ae1e052c David Lechner 2025-02-07   78  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
-ebb398ae1e052c David Lechner 2025-02-07   79  	wf.duty_length_ns = wf.period_length_ns / 2;
-ebb398ae1e052c David Lechner 2025-02-07   80  
-ebb398ae1e052c David Lechner 2025-02-07  @81  	return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
-ebb398ae1e052c David Lechner 2025-02-07   82  }
-ebb398ae1e052c David Lechner 2025-02-07   83  
-ebb398ae1e052c David Lechner 2025-02-07   84  static void spi_offload_trigger_pwm_disable(struct spi_offload_trigger *trigger)
-ebb398ae1e052c David Lechner 2025-02-07   85  {
-ebb398ae1e052c David Lechner 2025-02-07   86  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
-ebb398ae1e052c David Lechner 2025-02-07   87  	struct pwm_waveform wf;
-ebb398ae1e052c David Lechner 2025-02-07   88  	int ret;
-ebb398ae1e052c David Lechner 2025-02-07   89  
-ebb398ae1e052c David Lechner 2025-02-07  @90  	ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
-ebb398ae1e052c David Lechner 2025-02-07   91  	if (ret < 0) {
-ebb398ae1e052c David Lechner 2025-02-07   92  		dev_err(st->dev, "failed to get waveform: %d\n", ret);
-ebb398ae1e052c David Lechner 2025-02-07   93  		return;
-ebb398ae1e052c David Lechner 2025-02-07   94  	}
-ebb398ae1e052c David Lechner 2025-02-07   95  
-ebb398ae1e052c David Lechner 2025-02-07   96  	wf.duty_length_ns = 0;
-ebb398ae1e052c David Lechner 2025-02-07   97  
-ebb398ae1e052c David Lechner 2025-02-07   98  	ret = pwm_set_waveform_might_sleep(st->pwm, &wf, false);
-ebb398ae1e052c David Lechner 2025-02-07   99  	if (ret < 0)
-ebb398ae1e052c David Lechner 2025-02-07  100  		dev_err(st->dev, "failed to disable PWM: %d\n", ret);
-ebb398ae1e052c David Lechner 2025-02-07  101  }
-ebb398ae1e052c David Lechner 2025-02-07  102  
+>> error[E0425]: cannot find value `CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS` in crate `bindings`
+   --> rust/kernel/cpufreq.rs:43:19
+   |
+   43    |         bindings::CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS as u32;
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `CPUFREQ_DEFAULT_TANSITION_LATENCY_NS`
+   |
+   ::: rust/bindings/bindings_generated.rs:12861:1
+   |
+   12861 | pub const CPUFREQ_DEFAULT_TANSITION_LATENCY_NS: u32 = 1000000;
+   | --------------------------------------------------- similarly named constant `CPUFREQ_DEFAULT_TANSITION_LATENCY_NS` defined here
 
 -- 
 0-DAY CI Kernel Test Service
