@@ -1,185 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E59F1891AB;
-	Sat, 27 Sep 2025 04:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1CC4316E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 05:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758947904; cv=none; b=B9PJun8yW+DdW4TANyR/7ZAHgeEXGM+pDcEIN8XiGD1JKFEj2esauc2axw7NrOkOeCzq4ZCLdqT7IKHQqVcW3RVNrz0vfm89H8OXsLEpmZF19ddxdK+PAxJJKkBtc7D2c7apR9Us12zHp7S5ZxV7jO9YiNi5q+hwxdTKO8CG38Q=
+	t=1758951086; cv=none; b=pwjbLp0SN56HMXCvfJcHTUio9+8FtWRrLqEgVPeSsnpMjYtqGcCTEP2Tf9Zjg7PpmsQT2fky5A5ADpkpPCsATGFsNdZRQP6Br3NSVou8apaHUzlszMt1BBoJErEfAoK03EoS6Ln7afjTzJ5JfKKWxrD4SWrDeEx/ewvbjMAYTE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758947904; c=relaxed/simple;
-	bh=Ml6qdQ+jE48I66+8v4t80wL43dmskcbpk6RZ6I2w/es=;
+	s=arc-20240116; t=1758951086; c=relaxed/simple;
+	bh=GRKRiu1cWCz0fIQK2Ybtl3m6ooYbp3n87BsDYuMG+5w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L0AjTUJVPf0cMPVUUpzoaXPKfciD5R2yHW4VkrPGF+dArGUugyXbjr/LEIXXnvKJcQTZCOxjItxWnYkjiSntS9cC38Xk00O9NItNy/D44m4bgolEmCNRJtO2kOItr+ISGN9UOk7eAdmMiR1Um9+sst5vE8EOZ0JQpMdMgbcq1ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vq486mDy; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=NP4qG9UJHJvTaoW5tkiMv49mTURN3U1lmvfMiImuzQ5Go7emVizZxKhmfyQKopjQlwFhhacC+BFrLctAk1Wx6xx+wGGZOv37HBAOo9KyGiOP5qBWF+fJVLy9P6v0zPgr66vfIoiis4toPM8QMYkq91A/FBkLM0OhKiC6qxPzNBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzsNiXwI; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vq486mDy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzsNiXwI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758947903; x=1790483903;
+  t=1758951084; x=1790487084;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Ml6qdQ+jE48I66+8v4t80wL43dmskcbpk6RZ6I2w/es=;
-  b=Vq486mDyhEM1jxdEp4zHzu6SoKw4xEXh6NN78qgkDAtzqTafbKLrEh3l
-   E6UDNwHe6zraOoOgISiSykJR3fuRRJQ0snSaqF50wKsXlYiMwniSJoD9v
-   VRwX4N8sgZTmZ1D4/5ixeSnuEQ/KQHmCjPyev/3UB4NLYRbkAN5pNl0uC
-   XnCNbzVebhXk5JgT6Ex10B+XvyiQVLXywVBIPJmE4iem961Phzmh67eGZ
-   IPgCp8DpQIGRnYPoTh1FtnYjpvJ+8uYLFQSkNsFOdAH0TPM7yb1nstePG
-   hWXmlL4NBUYytGSPgZwzwyKfEGF/YcLIBJxeRgqCVv5wex0j/WnyZs2mj
-   w==;
-X-CSE-ConnectionGUID: DYhlBmLjS3yV7m+BGqGyIw==
-X-CSE-MsgGUID: iA6d6P22QkSSlkNNAgg07w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65089978"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65089978"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 21:38:22 -0700
-X-CSE-ConnectionGUID: jaVL+GgSSR2fZ9qRa2mWhg==
-X-CSE-MsgGUID: 3F0XLbOETBqHwXik2VrKDQ==
+   mime-version:in-reply-to;
+  bh=GRKRiu1cWCz0fIQK2Ybtl3m6ooYbp3n87BsDYuMG+5w=;
+  b=gzsNiXwIX2BXjHTXhDhiSoTTO/kgxG2WvGNNyks7INFnkoo/16d1gUMO
+   P1ATxiKRPI8GcoBIBSrrLsVzL1ZKMh7EoBkMWE/KCpRj+xn1gluxU5L0U
+   KvsBacdAsHw3DrJtJRopJOssPp1ii6qYloE5cIIbaC2vUjP47rryRkBbI
+   exPs3pxOfR8nETGx59uJIipFB82aFUO/DkXwcxW3XquzQqOZNnZJ9vRuv
+   qDHxk4cTUyzjBk60PeBsuD4ylYnhqWScADL/WwXmmqGhHef+DDY5Oe0Tg
+   wCYfCVnhwI8H9liWAEee48eWMx28PJmrSPHXOP8dEI35HC/bO67R25SMQ
+   A==;
+X-CSE-ConnectionGUID: CSNuBq0XRiu1EaUQV/2Glw==
+X-CSE-MsgGUID: cxNIcDs5TXOW6Fzf8Ssoug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61197630"
+X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; 
+   d="scan'208";a="61197630"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 22:31:24 -0700
+X-CSE-ConnectionGUID: oWG9ymA7QVGnmWxxzROXUg==
+X-CSE-MsgGUID: VQqpaBjfRdqq9alc/vwNAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,296,1751266800"; 
-   d="scan'208";a="181784248"
+   d="scan'208";a="177711000"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 26 Sep 2025 21:38:14 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Sep 2025 22:31:21 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2MhI-0006nD-0v;
-	Sat, 27 Sep 2025 04:38:12 +0000
-Date: Sat, 27 Sep 2025 12:37:14 +0800
+	id 1v2NWh-0006oh-0d;
+	Sat, 27 Sep 2025 05:31:19 +0000
+Date: Sat, 27 Sep 2025 13:30:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Joan-Na-adi <joan.na.devcode@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v3 03/12] media: v4l: fwnode: Support ACPI's _PLD for
- v4l2_fwnode_device_parse
-Message-ID: <202509271249.8fIMriJh-lkp@intel.com>
-References: <20250926-uvc-orientation-v3-3-6dc2fa5b4220@chromium.org>
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Joan Na <joan.na@analog.com>
+Subject: Re: [PATCH 2/3] regulator: max77675: Add MAX77675 regulator driver
+Message-ID: <202509271318.cU4bEADk-lkp@intel.com>
+References: <20250926053757.480086-3-joan.na@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250926-uvc-orientation-v3-3-6dc2fa5b4220@chromium.org>
+In-Reply-To: <20250926053757.480086-3-joan.na@analog.com>
 
-Hi Ricardo,
+Hi Joan-Na-adi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328]
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on robh/for-next linus/master v6.17-rc7 next-20250926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Ribalda/media-uvcvideo-Always-set-default_value/20250926-211524
-base:   afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328
-patch link:    https://lore.kernel.org/r/20250926-uvc-orientation-v3-3-6dc2fa5b4220%40chromium.org
-patch subject: [PATCH v3 03/12] media: v4l: fwnode: Support ACPI's _PLD for v4l2_fwnode_device_parse
-config: arm-randconfig-004-20250927 (https://download.01.org/0day-ci/archive/20250927/202509271249.8fIMriJh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509271249.8fIMriJh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Joan-Na-adi/dt-bindings-regulator-Add-MAX77675-binding-header/20250926-134116
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250926053757.480086-3-joan.na%40analog.com
+patch subject: [PATCH 2/3] regulator: max77675: Add MAX77675 regulator driver
+config: parisc-randconfig-r122-20250927 (https://download.01.org/0day-ci/archive/20250927/202509271318.cU4bEADk-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509271318.cU4bEADk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509271249.8fIMriJh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509271318.cU4bEADk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/regulator/max77675-regulator.c:367:10: sparse: sparse: Initializer entry defined twice
+   drivers/regulator/max77675-regulator.c:371:10: sparse:   also defined here
 
-   In file included from include/linux/printk.h:623,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/media/v4l2-core/v4l2-fwnode.c:17:
-   drivers/media/v4l2-core/v4l2-fwnode.c: In function 'v4l2_fwnode_device_parse_acpi':
->> include/linux/acpi.h:1268:26: error: implicit declaration of function '__acpi_handle_debug'; did you mean 'acpi_handle_debug'? [-Werror=implicit-function-declaration]
-    1268 |  _dynamic_func_call(fmt, __acpi_handle_debug,   \
-         |                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:3: note: in definition of macro '__dynamic_func_call_cls'
-     224 |   func(&id, ##__VA_ARGS__);   \
-         |   ^~~~
-   include/linux/dynamic_debug.h:250:2: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |  _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:1268:2: note: in expansion of macro '_dynamic_func_call'
-    1268 |  _dynamic_func_call(fmt, __acpi_handle_debug,   \
-         |  ^~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/v4l2-fwnode.c:821:3: note: in expansion of macro 'acpi_handle_debug'
-     821 |   acpi_handle_debug(ACPI_HANDLE(dev), "cannot obtain _PLD\n");
-         |   ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +367 drivers/regulator/max77675-regulator.c
 
-
-vim +1268 include/linux/acpi.h
-
-45fef5b88d1f2f Bjørn Mork       2014-05-22  1240  
-fbfddae696572e Toshi Kani       2012-11-21  1241  /*
-fbfddae696572e Toshi Kani       2012-11-21  1242   * acpi_handle_<level>: Print message with ACPI prefix and object path
-fbfddae696572e Toshi Kani       2012-11-21  1243   *
-fbfddae696572e Toshi Kani       2012-11-21  1244   * These interfaces acquire the global namespace mutex to obtain an object
-fbfddae696572e Toshi Kani       2012-11-21  1245   * path.  In interrupt context, it shows the object path as <n/a>.
-fbfddae696572e Toshi Kani       2012-11-21  1246   */
-fbfddae696572e Toshi Kani       2012-11-21  1247  #define acpi_handle_emerg(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1248  	acpi_handle_printk(KERN_EMERG, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1249  #define acpi_handle_alert(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1250  	acpi_handle_printk(KERN_ALERT, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1251  #define acpi_handle_crit(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1252  	acpi_handle_printk(KERN_CRIT, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1253  #define acpi_handle_err(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1254  	acpi_handle_printk(KERN_ERR, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1255  #define acpi_handle_warn(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1256  	acpi_handle_printk(KERN_WARNING, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1257  #define acpi_handle_notice(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1258  	acpi_handle_printk(KERN_NOTICE, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1259  #define acpi_handle_info(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1260  	acpi_handle_printk(KERN_INFO, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1261  
-45fef5b88d1f2f Bjørn Mork       2014-05-22  1262  #if defined(DEBUG)
-fbfddae696572e Toshi Kani       2012-11-21  1263  #define acpi_handle_debug(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1264  	acpi_handle_printk(KERN_DEBUG, handle, fmt, ##__VA_ARGS__)
-fbfddae696572e Toshi Kani       2012-11-21  1265  #else
-45fef5b88d1f2f Bjørn Mork       2014-05-22  1266  #if defined(CONFIG_DYNAMIC_DEBUG)
-45fef5b88d1f2f Bjørn Mork       2014-05-22  1267  #define acpi_handle_debug(handle, fmt, ...)				\
-f1ebe04f5ba2f4 Rasmus Villemoes 2019-03-07 @1268  	_dynamic_func_call(fmt, __acpi_handle_debug,			\
-f1ebe04f5ba2f4 Rasmus Villemoes 2019-03-07  1269  			   handle, pr_fmt(fmt), ##__VA_ARGS__)
-45fef5b88d1f2f Bjørn Mork       2014-05-22  1270  #else
-fbfddae696572e Toshi Kani       2012-11-21  1271  #define acpi_handle_debug(handle, fmt, ...)				\
-fbfddae696572e Toshi Kani       2012-11-21  1272  ({									\
-fbfddae696572e Toshi Kani       2012-11-21  1273  	if (0)								\
-fbfddae696572e Toshi Kani       2012-11-21  1274  		acpi_handle_printk(KERN_DEBUG, handle, fmt, ##__VA_ARGS__); \
-fbfddae696572e Toshi Kani       2012-11-21  1275  	0;								\
-fbfddae696572e Toshi Kani       2012-11-21  1276  })
-fbfddae696572e Toshi Kani       2012-11-21  1277  #endif
-45fef5b88d1f2f Bjørn Mork       2014-05-22  1278  #endif
-fbfddae696572e Toshi Kani       2012-11-21  1279  
+   365	
+   366	static const struct regulator_ops max77675_regulator_ops = {
+ > 367		.list_voltage         = regulator_list_voltage_linear,
+   368		.enable               = regulator_enable_regmap,
+   369		.disable              = regulator_disable_regmap,
+   370		.is_enabled           = regulator_is_enabled_regmap,
+   371		.list_voltage         = regulator_list_voltage_linear,
+   372		.map_voltage          = regulator_map_voltage_linear,
+   373		.set_voltage_sel      = regulator_set_voltage_sel_regmap,
+   374		.get_voltage_sel      = regulator_get_voltage_sel_regmap,
+   375		.set_active_discharge = regulator_set_active_discharge_regmap,
+   376		.get_error_flags      = max77675_get_error_flags,
+   377	};
+   378	
 
 -- 
 0-DAY CI Kernel Test Service
