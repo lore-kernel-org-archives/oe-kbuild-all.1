@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FC72D8DA4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462A71DB127
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758979622; cv=none; b=jFPsgI+xURWAX0M6OXfBKW+bAiWEWDIdQZaxXehIMpq0nc/u028Jg4sFeK2Pf5deOjl4SJDRGyZpIwFXsrHLr5WDXmmercofiLxmGWkaTQceV+cpUU3/Lhou4p9UCPlDf48wsAzBeF49W6UfHRpbLfkTtP0iYJLTRoUu/QzQnQw=
+	t=1758981135; cv=none; b=njL/L95Kddqstg7zTie/A7qoPMXZ73F89fru8Hthq020sff+pcEmPMSiNVxeonJxOMwxu4nUJejuQFcGnpCZ01VB9uQZ8k4oUFfGd0eXn8I0FPmTcZKeALWv2QwsvU5lZWuKzEhtJkwpzxwq5FCJ1NO8BAyUaSp1dx+myN1oW5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758979622; c=relaxed/simple;
-	bh=fRtju74/JSHvPk0SkIzEvZPSjq0GaZdidyiTkuBepG0=;
+	s=arc-20240116; t=1758981135; c=relaxed/simple;
+	bh=176GQYYAzpTMAf1Sg3K2IgbLrFOV+0nTX30GHH1G0Ys=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FIkeBa66Kk1G08rlxKf5y1QYAbsuEFM/T3w3qE/sECLJ8nWXNB/VTuidGD92Q0f7GauDE1zX0V+EIsb+skXtrca/fgHCflVW/gLYaq4plybA4ZNfgFgf3FWeUrQgTGFpVqX3tLw26kP7lFgZYhKR8SizD8JOUup3Yt7pTWDikhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuPc3xRs; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=fH0wJeswqGRK0K+aAVJyTtHsK50eaZuPG8xBM2weL+7x74H2QsTkhUpwiIOt9TM9vhEfp7L8Zil57Q7dWchDVml4ysSQB0MbqaivAwRIgt3hb8KfCOLL6gtZXRoPNktWPpiG6erSv07iQXPsfxuLmCQrI6q8Ew4bYo4YgBqinIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMeN+BlM; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuPc3xRs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMeN+BlM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758979621; x=1790515621;
+  t=1758981133; x=1790517133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fRtju74/JSHvPk0SkIzEvZPSjq0GaZdidyiTkuBepG0=;
-  b=HuPc3xRsjE8nZJka/CYjEnQQRssmD5PNc+26W5zF00y8pEPbN6N9PLWu
-   4Gw7Ya5gt7YeDRJVfrK3QC8ZXN7qM4p1uP0IiXLWMkuK3uXk8/8d7vg2e
-   kcBbKfgd7fTQMj1C/cLR6L02YnWPGaK/eBtju8UnHhfv7qwGH47wc24Hp
-   OanUA3urVjy2AGIoEupXREcrrHxviEk+eTmKUV8lwXeSilD/Hlt1OFyJB
-   MQg/dF3UQ4vDCLd0JVNL59YNzVsNhKHtTiX7V7nKH0d0YzXAYUf5WD3II
-   VZXdYzqMHUJJjhKYTi2at98U3Jzp5foxsoq0K9zsmTTeyVVq7wWkDqjZL
-   Q==;
-X-CSE-ConnectionGUID: Z/7ctvTWQt64q8oFP4GW4Q==
-X-CSE-MsgGUID: 22VW4xHfS+aPBvvKorckBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="61179981"
+  bh=176GQYYAzpTMAf1Sg3K2IgbLrFOV+0nTX30GHH1G0Ys=;
+  b=IMeN+BlMrEb2sgafjfSFcsP+nVJ9JCiylLynBi7e45OHIAY/C6pvrdON
+   GsQ1w9s6fT4B6m+sARwuS9XQFRnPSv2Ak6SJxcz6Sddrl6mVMZHXCrksB
+   itCTwEFe9qaCllXClwGeknnJA0o5zh7cVAUyV6FMt8QGIWnoZZeB3UoFo
+   FIMjiFczZFU36DNFCCCL3UIY3OFzFZtqYUuHoUWNQsRg7YodGzt4xZ3UG
+   YaNGBF0xcR4UKH6gNwAzSvIZDAY1PpzlptkUiEKGBlvbD6q/CuivcZzUa
+   bE8wRq8vqSyhEaZ4nkqeIiPs2WPlH1eJ9TEX/i3yuYtL5NinBiVy/zFy4
+   w==;
+X-CSE-ConnectionGUID: u3CGo2qSSPeX84xzhwOVcA==
+X-CSE-MsgGUID: bXIG4jn4Tf+f3prDZSa9Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="61208973"
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="61179981"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:27:00 -0700
-X-CSE-ConnectionGUID: wHWQzKNASMe9ZanJAjKQ3g==
-X-CSE-MsgGUID: 5stGFlKCRlihrurRW2XcYw==
+   d="scan'208";a="61208973"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:52:12 -0700
+X-CSE-ConnectionGUID: DnICycyqSL6zDj90ydOCDQ==
+X-CSE-MsgGUID: Nj+psTydQHCmSvnGApdHzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="182240115"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Sep 2025 06:26:58 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="177110051"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 27 Sep 2025 06:52:12 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2Uwx-000000005VB-46Qo;
-	Sat, 27 Sep 2025 13:26:55 +0000
-Date: Sat, 27 Sep 2025 15:26:22 +0200
+	id 1v2VLN-00075w-0b;
+	Sat, 27 Sep 2025 13:52:09 +0000
+Date: Sat, 27 Sep 2025 21:51:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Jie Zhan <zhanjie9@hisilicon.com>
-Subject: [rafael-pm:bleeding-edge 204/212] error[E0425]: cannot find value
- `CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS` in crate `bindings`
-Message-ID: <202509271504.gmr2aLzD-lkp@intel.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>
+Subject: [sean-jc:x86/gmem_inplace 25/30] include/linux/kvm_host.h:2543:24:
+ error: implicit declaration of function 'kvm_gmem_is_private'; did you mean
+ 'kvm_mem_is_private'?
+Message-ID: <202509272154.pz9xNtSw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,31 +63,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   95b83771c9f38207ff42311ccc4739db76d19f33
-commit: 8cf63e01b6b73132d69c04d35f11738705467281 [204/212] cpufreq: Make drivers using CPUFREQ_ETERNAL specify transition latency
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250927/202509271504.gmr2aLzD-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509271504.gmr2aLzD-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/gmem_inplace
+head:   5140bf8b78f718d7df0eaf7d93420afeeb012afa
+commit: b2676a336afad33e3df10d67698430a46541e489 [25/30] KVM: Wire up kvm_mem_is_private() to guest_memfd-tracked attributes
+config: x86_64-buildonly-randconfig-004-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272154.pz9xNtSw-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272154.pz9xNtSw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509271504.gmr2aLzD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509272154.pz9xNtSw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0425]: cannot find value `CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS` in crate `bindings`
-   --> rust/kernel/cpufreq.rs:43:19
-   |
-   43    |         bindings::CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS as u32;
-   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `CPUFREQ_DEFAULT_TANSITION_LATENCY_NS`
-   |
-   ::: rust/bindings/bindings_generated.rs:12861:1
-   |
-   12861 | pub const CPUFREQ_DEFAULT_TANSITION_LATENCY_NS: u32 = 1000000;
-   | --------------------------------------------------- similarly named constant `CPUFREQ_DEFAULT_TANSITION_LATENCY_NS` defined here
+   In file included from arch/x86/events/intel/core.c:17:
+   include/linux/kvm_host.h: In function 'kvm_mem_is_private':
+>> include/linux/kvm_host.h:2543:24: error: implicit declaration of function 'kvm_gmem_is_private'; did you mean 'kvm_mem_is_private'? [-Wimplicit-function-declaration]
+    2543 |                 return kvm_gmem_is_private(slot, gfn);
+         |                        ^~~~~~~~~~~~~~~~~~~
+         |                        kvm_mem_is_private
+
+
+vim +2543 include/linux/kvm_host.h
+
+  2537	
+  2538	static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+  2539	{
+  2540		struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);
+  2541	
+  2542		if (slot && kvm_memslot_is_gmem_only(slot))
+> 2543			return kvm_gmem_is_private(slot, gfn);
+  2544	
+  2545		return kvm_get_memory_attributes(kvm, gfn) & KVM_MEMORY_ATTRIBUTE_PRIVATE;
+  2546	}
+  2547	
 
 -- 
 0-DAY CI Kernel Test Service
