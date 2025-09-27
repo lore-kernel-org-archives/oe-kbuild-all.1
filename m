@@ -1,84 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC8E1A238F;
-	Sat, 27 Sep 2025 12:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AB52DF6E6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758977327; cv=none; b=lCzfsWVxl1UBHqfYc3SQZ+tHh/49kprsltp3iL9eg/7Bo6Ye/QBz7L6bt/m9LmhfoEXCwiXg4M5mtBEnPljOBeu2J51ilhIX2s/77eK6y6CwoeMrS9W3rLer3pFI5eYA5KA6O6TVr43VRiDMLlo+ts9DktHCgRHvFfTmO0r5y50=
+	t=1758978010; cv=none; b=gAc8KRaAXwxZAtrk3fIXioMwvKqCzoFbql41p4MGtdogjKj75x65WyYnGvSMUDrttiw4iRUp6IoN2BOSbHyXW2tiS5aEsijfVO8ZN2s12CoZ0oD+MhlRglBr35PPkbz8fJc9Nx2DMamKwat8SXgjlAjIL7sK9bd4bDuUUmaM33E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758977327; c=relaxed/simple;
-	bh=0W45DesrwvOL7dwAbK4Wk7k7PmMheNSI1z8Zd+4XNIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WrxOQheYqTqpweM0/HoAF2WxXluFcaXZJ/bjmOqeGbNUngly/Z+/rpwdZxk5nTnc1hknO4lHoGIwaV4IsUv081YYdR4WD46EbBq44LIA5WZLkNloCNuPe7JW5BIOIlKgJQJe+NXJ0GuVIFRQmj9SywkNv7ikerJ+iXzUlMHpUzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqOj/vhM; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1758978010; c=relaxed/simple;
+	bh=O0wHQRZbClOVvcyOTlPcCz4vb4DeUHWF0N6tqCdJSYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hkX3mrWGAldgsEWlknFDClgPxb8qegFAY07cujtq3RuvJRwj9Hm9q1iGNIxXb8B8H9VUgyUmJ5v0qPjk4P+xTmaYo1yeahGvLJ1foquEnQ1gK6oGRH4tF0zeY0lFB3UMXhZwJ7szBBH7SB8f09UVonEb42e8J4HgYjaqIzfEbNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dOilXjqC; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqOj/vhM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dOilXjqC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758977326; x=1790513326;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0W45DesrwvOL7dwAbK4Wk7k7PmMheNSI1z8Zd+4XNIw=;
-  b=gqOj/vhMaq2Bpp8r2n75owTTNezZp9WAsc+xIGYA2S4SdGveR/XomhJh
-   tmWqSNYxgHWgTNGFPKWKS/RaLnrpp370wl6p9oV2rd5mAEVzKh/Gs/28d
-   LJgAq2GSo9Qwz2jxzOhnAE7pM1pT3IF3blNtoFlA5E2j85XnUNje6HXXs
-   Z/wJHnl7IzDolr/oegQyuy/RyoR53ZBL4pgrW/LbQNc4cqFK9EGNS3qHw
-   wFg4zVa6OtgNKd6ab6cpJ3bIbkHLV5msXOz9iY5d9+3AlFfXHccs3ODtP
-   8OyJ8g+boIy3bzxI6WSl4ZMpeseo7+OJBlqcHi4w9MIyBno2RGaN+7NVj
-   A==;
-X-CSE-ConnectionGUID: e10vwJm1QQayvfTFfyw9ow==
-X-CSE-MsgGUID: k2lcVLqlSye96w+LQsGQQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11565"; a="86734722"
-X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="86734722"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 05:48:45 -0700
-X-CSE-ConnectionGUID: EtxiiekZTFm3ZEexcFIrlg==
-X-CSE-MsgGUID: PAlpPQWsRdGdV4Lp7P0oNQ==
+  t=1758978009; x=1790514009;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O0wHQRZbClOVvcyOTlPcCz4vb4DeUHWF0N6tqCdJSYI=;
+  b=dOilXjqCv9nM+kVf2CWZqG16SvxiebtvFvbruTWAK4wBxSTABckF/qd4
+   JojwOWGoVPArq4XzjszMALxw2SjtEMknxKf846BkW5ocF9W0KPrJGYonB
+   m4QTeKc9reuQF5NRIZ93iLs+Vn+AfvLiPYhlyAaLkEiKWxrafXiEUgOgl
+   G+kQ97D/TElrOTUzlkzWPktFXSMm3oF9K+lGbSi3Kbmov9PwfjNC7JcKt
+   PT32E7U9LqUrIEY5MBLWkFfWsYpLw2QKq03l+I8dcn0eWcYpJ026+LftT
+   woyPtLGPfCFvCqcXhGq92fLgUW90ebQ0wYzBfL8mQEmWu69gkd8tCox2A
+   Q==;
+X-CSE-ConnectionGUID: H4qZFe/9QzG/9ZgUstcdSg==
+X-CSE-MsgGUID: M3+ARYBITaWyzhHUFuGujg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61246380"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61246380"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:00:08 -0700
+X-CSE-ConnectionGUID: fWrlH91LQ1m37/oLisRvbg==
+X-CSE-MsgGUID: KJ3sUrpxQhu0xsBcIBX8GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="208568713"
+   d="scan'208";a="183108926"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Sep 2025 05:48:38 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Sep 2025 06:00:07 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2ULr-00073X-2Y;
-	Sat, 27 Sep 2025 12:48:35 +0000
-Date: Sat, 27 Sep 2025 20:48:05 +0800
+	id 1v2UWy-00074H-37;
+	Sat, 27 Sep 2025 13:00:04 +0000
+Date: Sat, 27 Sep 2025 20:59:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Liu Ying <victor.liu@nxp.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/9] drm/display: hdmi-state-helpers: warn on unsupported
- InfoFrame types
-Message-ID: <202509272013.GAc17rsa-lkp@intel.com>
-References: <20250927-limit-infoframes-2-v1-1-697511bd050b@oss.qualcomm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommufd_dmabuf 2/7] ERROR: modpost: module iommufd uses
+ symbol dma_buf_unpin from namespace DMA_BUF, but does not import it.
+Message-ID: <202509272043.JjNOORAb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,58 +61,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250927-limit-infoframes-2-v1-1-697511bd050b@oss.qualcomm.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bf2602a3cb2381fb1a04bf1c39a290518d2538d1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-hdmi-state-helpers-warn-on-unsupported-InfoFrame-types/20250927-090630
-base:   bf2602a3cb2381fb1a04bf1c39a290518d2538d1
-patch link:    https://lore.kernel.org/r/20250927-limit-infoframes-2-v1-1-697511bd050b%40oss.qualcomm.com
-patch subject: [PATCH 1/9] drm/display: hdmi-state-helpers: warn on unsupported InfoFrame types
-config: x86_64-buildonly-randconfig-002-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272013.GAc17rsa-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272013.GAc17rsa-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
+head:   529f06c16cad5243825e488f9bc555be09e924eb
+commit: 2edad14f2cea09830a4fbaf4352834f474ce4394 [2/7] iommufd: Add dmabuf to iopt_pages
+config: arm-randconfig-003-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272043.JjNOORAb-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272043.JjNOORAb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509272013.GAc17rsa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509272043.JjNOORAb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/gpu/drm/display/drm_hdmi_state_helper.c:924:17: error: use of undeclared identifier 'it'
-     924 |                 dev_warn_once(it->dev, "unsupported HDMI infoframe 0x%x\n", frame->any.type);
-         |                               ^
->> drivers/gpu/drm/display/drm_hdmi_state_helper.c:924:63: error: use of undeclared identifier 'frame'
-     924 |                 dev_warn_once(it->dev, "unsupported HDMI infoframe 0x%x\n", frame->any.type);
-         |                                                                             ^
-   drivers/gpu/drm/display/drm_hdmi_state_helper.c:953:17: error: use of undeclared identifier 'it'
-     953 |                 dev_warn_once(it->dev, "unsupported HDMI infoframe 0x%x\n", frame->any.type);
-         |                               ^
-   3 errors generated.
-
-
-vim +/it +924 drivers/gpu/drm/display/drm_hdmi_state_helper.c
-
-   916	
-   917	static int clear_infoframe(struct drm_connector *connector,
-   918				   struct drm_connector_hdmi_infoframe *old_frame)
-   919	{
-   920		int ret;
-   921	
-   922		ret = clear_device_infoframe(connector, old_frame->data.any.type);
-   923		if (ret == -EOPNOTSUPP)
- > 924			dev_warn_once(it->dev, "unsupported HDMI infoframe 0x%x\n", frame->any.type);
-   925		if (ret)
-   926			return ret;
-   927	
-   928		return 0;
-   929	}
-   930	
+>> ERROR: modpost: module iommufd uses symbol dma_buf_unpin from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module iommufd uses symbol dma_buf_dynamic_attach from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module iommufd uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module iommufd uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module iommufd uses symbol dma_buf_pin from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module iommufd uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
