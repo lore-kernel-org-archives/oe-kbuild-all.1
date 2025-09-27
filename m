@@ -1,58 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AB52DF6E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:00:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEC42E11AB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 13:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758978010; cv=none; b=gAc8KRaAXwxZAtrk3fIXioMwvKqCzoFbql41p4MGtdogjKj75x65WyYnGvSMUDrttiw4iRUp6IoN2BOSbHyXW2tiS5aEsijfVO8ZN2s12CoZ0oD+MhlRglBr35PPkbz8fJc9Nx2DMamKwat8SXgjlAjIL7sK9bd4bDuUUmaM33E=
+	t=1758978013; cv=none; b=TMxggKrB7CUA+y2ilfgLNLe2EGD75dimivYV4opwcGMe6X6Uk6Xsh6luyBVb80o/RMu2gvxfSj5XTr3tO2ryoSjAgEuDLoADWa3lm6fCfqZO3J/WvTDeWcRKo94YxSHZKhy9txOog8DRoRssKH5k/RjlvBDfZoBBi9v5bU/Q1ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758978010; c=relaxed/simple;
-	bh=O0wHQRZbClOVvcyOTlPcCz4vb4DeUHWF0N6tqCdJSYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hkX3mrWGAldgsEWlknFDClgPxb8qegFAY07cujtq3RuvJRwj9Hm9q1iGNIxXb8B8H9VUgyUmJ5v0qPjk4P+xTmaYo1yeahGvLJ1foquEnQ1gK6oGRH4tF0zeY0lFB3UMXhZwJ7szBBH7SB8f09UVonEb42e8J4HgYjaqIzfEbNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dOilXjqC; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1758978013; c=relaxed/simple;
+	bh=jzebUf+63bj5rtU4hJayjc7X3+u2ceh7LqvGb8ptNi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LVHF10uKaeKcD79VJJ88ndD5SW2i/rAo8X4RYnUD3ra1lfUZ+0nSLTwchtXI8YmMyJsQHxHOO/nmIjOilFZbwvESkXu5S4u3PCrjtg4nccUGWKJ0dPqyWawiYwjtlIfWVGa9FHx3n9z3FjwCSxiZsGRwcspVUZ0jtsl0aigicz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FFMfj8Gp; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dOilXjqC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FFMfj8Gp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758978009; x=1790514009;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O0wHQRZbClOVvcyOTlPcCz4vb4DeUHWF0N6tqCdJSYI=;
-  b=dOilXjqCv9nM+kVf2CWZqG16SvxiebtvFvbruTWAK4wBxSTABckF/qd4
-   JojwOWGoVPArq4XzjszMALxw2SjtEMknxKf846BkW5ocF9W0KPrJGYonB
-   m4QTeKc9reuQF5NRIZ93iLs+Vn+AfvLiPYhlyAaLkEiKWxrafXiEUgOgl
-   G+kQ97D/TElrOTUzlkzWPktFXSMm3oF9K+lGbSi3Kbmov9PwfjNC7JcKt
-   PT32E7U9LqUrIEY5MBLWkFfWsYpLw2QKq03l+I8dcn0eWcYpJ026+LftT
-   woyPtLGPfCFvCqcXhGq92fLgUW90ebQ0wYzBfL8mQEmWu69gkd8tCox2A
-   Q==;
-X-CSE-ConnectionGUID: H4qZFe/9QzG/9ZgUstcdSg==
-X-CSE-MsgGUID: M3+ARYBITaWyzhHUFuGujg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61246380"
+  t=1758978011; x=1790514011;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jzebUf+63bj5rtU4hJayjc7X3+u2ceh7LqvGb8ptNi0=;
+  b=FFMfj8GpD2d9KAYqXifXCT8527xEjI8K28QGva4/nz9DHlBj9mPws0PP
+   sj2JYCzlB2rvY0wMmlzmBXI1DthKkIyLFHfEnnQg1j4lw/z3bvvkSoOEL
+   N4jshrGIdiM5X4TH9ndZH8nHXaiMjwr6UKWrFUORAr0lsBIh2sLaARNuP
+   1n4tW3W0Mt2Hf6wRpt1/vdtCb5YWIpJ7i8MJce4Rj2ADeGywWu8fQ0p1n
+   VQXtr8Fmvjuo1iaNULNo6D0gjVRCUxLwz3NrcmP0aLj4XyDzjhkIP7mF/
+   OputxPGDQrgvRdR/rAcpJWsiRdR6Tam+cM7liWbFgfBhuzMrMzUsVVSOH
+   g==;
+X-CSE-ConnectionGUID: SJj3vuxjSNOIL9US4xYMvg==
+X-CSE-MsgGUID: pj7/NKmaTf6OKdIHuCaNJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61246383"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61246380"
+   d="scan'208";a="61246383"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:00:08 -0700
-X-CSE-ConnectionGUID: fWrlH91LQ1m37/oLisRvbg==
-X-CSE-MsgGUID: KJ3sUrpxQhu0xsBcIBX8GA==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 06:00:11 -0700
+X-CSE-ConnectionGUID: anys7G8eR6S+RNK3Vl14fw==
+X-CSE-MsgGUID: RdLCaiYJQKe1fcc5HgT3TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="183108926"
+   d="scan'208";a="183108925"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
   by fmviesa004.fm.intel.com with ESMTP; 27 Sep 2025 06:00:07 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2UWy-00074H-37;
+	id 1v2UWy-00074F-33;
 	Sat, 27 Sep 2025 13:00:04 +0000
-Date: Sat, 27 Sep 2025 20:59:35 +0800
+Date: Sat, 27 Sep 2025 20:59:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommufd_dmabuf 2/7] ERROR: modpost: module iommufd uses
- symbol dma_buf_unpin from namespace DMA_BUF, but does not import it.
-Message-ID: <202509272043.JjNOORAb-lkp@intel.com>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
+	michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net, marcelo.schmitt1@gmail.com,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Axel Haslam <ahaslam@baylibre.com>
+Subject: Re: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
+Message-ID: <202509272028.0zLNiR5w-lkp@intel.com>
+References: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,27 +70,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
 
-tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
-head:   529f06c16cad5243825e488f9bc555be09e924eb
-commit: 2edad14f2cea09830a4fbaf4352834f474ce4394 [2/7] iommufd: Add dmabuf to iopt_pages
-config: arm-randconfig-003-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272043.JjNOORAb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272043.JjNOORAb-lkp@intel.com/reproduce)
+Hi Marcelo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 561285d048053fec8a3d6d1e3ddc60df11c393a0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-adi-ad4030-Reference-spi-peripheral-props/20250927-044546
+base:   561285d048053fec8a3d6d1e3ddc60df11c393a0
+patch link:    https://lore.kernel.org/r/0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt%40analog.com
+patch subject: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
+config: i386-randconfig-014-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509272043.JjNOORAb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509272028.0zLNiR5w-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: module iommufd uses symbol dma_buf_unpin from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module iommufd uses symbol dma_buf_dynamic_attach from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module iommufd uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module iommufd uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module iommufd uses symbol dma_buf_pin from namespace DMA_BUF, but does not import it.
->> ERROR: modpost: module iommufd uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
+   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_validate':
+>> drivers/spi/spi-offload-trigger-pwm.c:55:15: error: implicit declaration of function 'pwm_round_waveform_might_sleep' [-Wimplicit-function-declaration]
+      55 |         ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_enable':
+>> drivers/spi/spi-offload-trigger-pwm.c:81:16: error: implicit declaration of function 'pwm_set_waveform_might_sleep' [-Wimplicit-function-declaration]
+      81 |         return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_disable':
+>> drivers/spi/spi-offload-trigger-pwm.c:90:15: error: implicit declaration of function 'pwm_get_waveform_might_sleep' [-Wimplicit-function-declaration]
+      90 |         ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SPI_OFFLOAD_TRIGGER_PWM
+   Depends on [n]: SPI [=y] && SPI_OFFLOAD [=y] && PWM [=n]
+   Selected by [y]:
+   - AD4030 [=y] && IIO [=y] && SPI [=y] && GPIOLIB [=y]
+
+
+vim +/pwm_round_waveform_might_sleep +55 drivers/spi/spi-offload-trigger-pwm.c
+
+ebb398ae1e052c David Lechner 2025-02-07   36  
+ebb398ae1e052c David Lechner 2025-02-07   37  static int spi_offload_trigger_pwm_validate(struct spi_offload_trigger *trigger,
+ebb398ae1e052c David Lechner 2025-02-07   38  					    struct spi_offload_trigger_config *config)
+ebb398ae1e052c David Lechner 2025-02-07   39  {
+ebb398ae1e052c David Lechner 2025-02-07   40  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+ebb398ae1e052c David Lechner 2025-02-07   41  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
+ebb398ae1e052c David Lechner 2025-02-07   42  	struct pwm_waveform wf = { };
+ebb398ae1e052c David Lechner 2025-02-07   43  	int ret;
+ebb398ae1e052c David Lechner 2025-02-07   44  
+ebb398ae1e052c David Lechner 2025-02-07   45  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
+ebb398ae1e052c David Lechner 2025-02-07   46  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   47  
+ebb398ae1e052c David Lechner 2025-02-07   48  	if (!periodic->frequency_hz)
+ebb398ae1e052c David Lechner 2025-02-07   49  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   50  
+ebb398ae1e052c David Lechner 2025-02-07   51  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
+ebb398ae1e052c David Lechner 2025-02-07   52  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
+ebb398ae1e052c David Lechner 2025-02-07   53  	wf.duty_length_ns = wf.period_length_ns / 2;
+ebb398ae1e052c David Lechner 2025-02-07   54  
+ebb398ae1e052c David Lechner 2025-02-07  @55  	ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
+ebb398ae1e052c David Lechner 2025-02-07   56  	if (ret < 0)
+ebb398ae1e052c David Lechner 2025-02-07   57  		return ret;
+ebb398ae1e052c David Lechner 2025-02-07   58  
+ebb398ae1e052c David Lechner 2025-02-07   59  	periodic->frequency_hz = DIV_ROUND_UP_ULL(NSEC_PER_SEC, wf.period_length_ns);
+ebb398ae1e052c David Lechner 2025-02-07   60  
+ebb398ae1e052c David Lechner 2025-02-07   61  	return 0;
+ebb398ae1e052c David Lechner 2025-02-07   62  }
+ebb398ae1e052c David Lechner 2025-02-07   63  
+ebb398ae1e052c David Lechner 2025-02-07   64  static int spi_offload_trigger_pwm_enable(struct spi_offload_trigger *trigger,
+ebb398ae1e052c David Lechner 2025-02-07   65  					  struct spi_offload_trigger_config *config)
+ebb398ae1e052c David Lechner 2025-02-07   66  {
+ebb398ae1e052c David Lechner 2025-02-07   67  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+ebb398ae1e052c David Lechner 2025-02-07   68  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
+ebb398ae1e052c David Lechner 2025-02-07   69  	struct pwm_waveform wf = { };
+ebb398ae1e052c David Lechner 2025-02-07   70  
+ebb398ae1e052c David Lechner 2025-02-07   71  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
+ebb398ae1e052c David Lechner 2025-02-07   72  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   73  
+ebb398ae1e052c David Lechner 2025-02-07   74  	if (!periodic->frequency_hz)
+ebb398ae1e052c David Lechner 2025-02-07   75  		return -EINVAL;
+ebb398ae1e052c David Lechner 2025-02-07   76  
+ebb398ae1e052c David Lechner 2025-02-07   77  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
+ebb398ae1e052c David Lechner 2025-02-07   78  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
+ebb398ae1e052c David Lechner 2025-02-07   79  	wf.duty_length_ns = wf.period_length_ns / 2;
+ebb398ae1e052c David Lechner 2025-02-07   80  
+ebb398ae1e052c David Lechner 2025-02-07  @81  	return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+ebb398ae1e052c David Lechner 2025-02-07   82  }
+ebb398ae1e052c David Lechner 2025-02-07   83  
+ebb398ae1e052c David Lechner 2025-02-07   84  static void spi_offload_trigger_pwm_disable(struct spi_offload_trigger *trigger)
+ebb398ae1e052c David Lechner 2025-02-07   85  {
+ebb398ae1e052c David Lechner 2025-02-07   86  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+ebb398ae1e052c David Lechner 2025-02-07   87  	struct pwm_waveform wf;
+ebb398ae1e052c David Lechner 2025-02-07   88  	int ret;
+ebb398ae1e052c David Lechner 2025-02-07   89  
+ebb398ae1e052c David Lechner 2025-02-07  @90  	ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
+ebb398ae1e052c David Lechner 2025-02-07   91  	if (ret < 0) {
+ebb398ae1e052c David Lechner 2025-02-07   92  		dev_err(st->dev, "failed to get waveform: %d\n", ret);
+ebb398ae1e052c David Lechner 2025-02-07   93  		return;
+ebb398ae1e052c David Lechner 2025-02-07   94  	}
+ebb398ae1e052c David Lechner 2025-02-07   95  
+ebb398ae1e052c David Lechner 2025-02-07   96  	wf.duty_length_ns = 0;
+ebb398ae1e052c David Lechner 2025-02-07   97  
+ebb398ae1e052c David Lechner 2025-02-07   98  	ret = pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+ebb398ae1e052c David Lechner 2025-02-07   99  	if (ret < 0)
+ebb398ae1e052c David Lechner 2025-02-07  100  		dev_err(st->dev, "failed to disable PWM: %d\n", ret);
+ebb398ae1e052c David Lechner 2025-02-07  101  }
+ebb398ae1e052c David Lechner 2025-02-07  102  
 
 -- 
 0-DAY CI Kernel Test Service
