@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352B92E2F09
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 14:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A4D2E6106
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 14:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758983661; cv=none; b=Z5R/Ly9VLoF7vhjY7MdIOPlscCmykpucXQRJlt3umsWhzk+T+sogh2eUpofXVpQy+WtJKazk8OVhLcekHGMQubZXAIgtwVJCovYv12k8Nlm08bWDPegKWlbsor4m4UXvI4CCCqxy2pQBbfyd8aCejGdKrIz52EFJkBkmapCdIgI=
+	t=1758984931; cv=none; b=jp1X87OMOBDlXVBN6nFok/8naTipArw1taeQwdrOIM7WjzZyDq2iuJHmtAFjE+Di7aar0AhyNJFNxuNhlop0POahaAqIogoXDG3oVjSV2sSCuaEz0ehYWSnxXD1Q1Kestr7WzZXAhTX62CIm2nXo9XBvdnlI3iA/vg/o4onR74A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758983661; c=relaxed/simple;
-	bh=ZmKQpEB08Mxzlcmb0UaDyY/0gQnGSP21LOGV/UEWZ8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcQPVh8+wWvpeIWxMjWPwm52UkMuzcLEVIpoaXkyLN8ydP5T/M2AEG7DZTH6qXitYZf/3ARwc43ChlvVn+0TBUjeCdqeOFEg1kHDxuNIQRi502806Bq14mmsZ0ZOuKzYoDkNKdQnM8vjmruOeGQKyJAZCcegQ8wdB/Qk0wmyCWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckJFizty; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1758984931; c=relaxed/simple;
+	bh=4Xtgvx9h1ZLVPmSFEG38+ykN6s3tgX/8bYENjS2MG38=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XGA//IUniCGmNr7Ek6zqdvGSmQRKZ0iEXV9rS8NtBpCrvrkneUkgHKNAEpPw1zTOTpvi+E8T9k0jLThVLtxSexEbAtCr+gXlmkVC9/Xoh8uuydUeZmFaSaW0hHlXU/IydDL6PRJm9tgNueQG0GdQXmE+l2JRExEW/dhEV/FEA7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDJXHZb/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckJFizty"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDJXHZb/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758983659; x=1790519659;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZmKQpEB08Mxzlcmb0UaDyY/0gQnGSP21LOGV/UEWZ8I=;
-  b=ckJFiztyRR/hPODAT7UWhhMNiT5I2EjpuTR77ps2fdSgpnLYshmiu5IY
-   pprka5JWj24r+8OwL0N5Y94FhMWEgOD5Vq+rbEe2k6Q1QNJTVDx+EbNhQ
-   w5GkKXsSmXz+0oIJuJeVf3V0n09ox34EHrixwI54LBDQwKwCmGj9MOh1W
-   TvVwUcdSwyKCsmjY728UGExHLpuEEe6EzfeFKf75Ads6JJlUDI7IEUEeQ
-   A3ssdiqCcoTWLP/Yghxt60YPy+S3KsFlLZazt5ExaRVSkJuXl0FWYmn7t
-   GUL4EVKrKLJ+/j9hF0+JjNWdj8FsVaN5/aB5wbBVrv17E8vN4fkIkTzia
+  t=1758984930; x=1790520930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4Xtgvx9h1ZLVPmSFEG38+ykN6s3tgX/8bYENjS2MG38=;
+  b=nDJXHZb/eP8vOp6gpRGV1xW4pnn/SuUAqfnh2NO7SwTyxC7paTJ4Awf5
+   lkd1gB83/+QSw9mH0WScgNAOEt/1BWRAnzgMNKF2WtvnTS4UaJLE+7ZQT
+   mBm4Sdma5Q3pLiRRy0nA1yBUuGFkY1llhcIfDIxrVncAnohnJojyPwsDE
+   Zq9lY/+ytDe/YEkyJEjx20Eb+54MnFieHJbU6B6OuHcc2w2AbygvbtcN+
+   WZvn6B6IEE6YRAy5FsU1ScxSe4tplCbsf/GlvfpOsVcx9toueVIO+JJwi
+   D41B5XSnFBjoB/m7Ebiiwj/dAFl7aIVO+9tYhXb6jnwFVKNzbQK4RXL7s
    A==;
-X-CSE-ConnectionGUID: oMKljm1xS9GcHNw13FSMbA==
-X-CSE-MsgGUID: PMsQxT73TYObITzPpzuO9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="61182363"
+X-CSE-ConnectionGUID: zLywrzd7SqqilGUIyFXO6Q==
+X-CSE-MsgGUID: 2DTX6jEAQumEEy2hHIC27g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="65139899"
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="61182363"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 07:34:17 -0700
-X-CSE-ConnectionGUID: Cvp2keUjRg+pO+hAJsp4+Q==
-X-CSE-MsgGUID: dcU+WiugSa+1tNRKTyxyZQ==
+   d="scan'208";a="65139899"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 07:55:29 -0700
+X-CSE-ConnectionGUID: P4rJjU2lThiJKlrOQ4BMRQ==
+X-CSE-MsgGUID: 9YTI+B2rRzupoiZZfpcfXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,297,1751266800"; 
-   d="scan'208";a="176972103"
+   d="scan'208";a="214986001"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 27 Sep 2025 07:34:16 -0700
+  by orviesa001.jf.intel.com with ESMTP; 27 Sep 2025 07:55:26 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2W04-00077H-2g;
-	Sat, 27 Sep 2025 14:34:12 +0000
-Date: Sat, 27 Sep 2025 22:33:42 +0800
+	id 1v2WKX-00077p-0c;
+	Sat, 27 Sep 2025 14:55:21 +0000
+Date: Sat, 27 Sep 2025 22:54:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: adriana <adriana@arista.com>, jdelvare@suse.com,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Adriana Nicolae <adriana@arista.com>
-Subject: Re: [PATCH 1/1] DMI: Scan for DMI tbale from DTS info
-Message-ID: <202509272216.c9WBgv6U-lkp@intel.com>
-References: <20250926155612.2737443-1-adriana@arista.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Jie Zhan <zhanjie9@hisilicon.com>
+Subject: [rafael-pm:bleeding-edge 204/212]
+ drivers/cpufreq/spear-cpufreq.c:185:52: error:
+ 'CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS' undeclared; did you mean
+ 'CPUFREQ_DEFAULT_TANSITION_LATENCY_NS'?
+Message-ID: <202509280108.zOEjD8fx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,136 +66,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250926155612.2737443-1-adriana@arista.com>
 
-Hi adriana,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.17-rc7]
-[also build test WARNING on linus/master next-20250926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/adriana/DMI-Scan-for-DMI-tbale-from-DTS-info/20250926-235813
-base:   v6.17-rc7
-patch link:    https://lore.kernel.org/r/20250926155612.2737443-1-adriana%40arista.com
-patch subject: [PATCH 1/1] DMI: Scan for DMI tbale from DTS info
-config: i386-randconfig-061-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272216.c9WBgv6U-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272216.c9WBgv6U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   95b83771c9f38207ff42311ccc4739db76d19f33
+commit: 8cf63e01b6b73132d69c04d35f11738705467281 [204/212] cpufreq: Make drivers using CPUFREQ_ETERNAL specify transition latency
+config: riscv-randconfig-002-20250927 (https://download.01.org/0day-ci/archive/20250928/202509280108.zOEjD8fx-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509280108.zOEjD8fx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509272216.c9WBgv6U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509280108.zOEjD8fx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/dmi_scan.c:704:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *p @@     got void * @@
-   drivers/firmware/dmi_scan.c:704:19: sparse:     expected void [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:704:19: sparse:     got void *
->> drivers/firmware/dmi_scan.c:709:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:709:33: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:709:33: sparse:     got void [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:721:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *p @@     got void * @@
-   drivers/firmware/dmi_scan.c:721:19: sparse:     expected void [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:721:19: sparse:     got void *
-   drivers/firmware/dmi_scan.c:726:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:726:33: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:726:33: sparse:     got void [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:760:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *p @@     got void * @@
-   drivers/firmware/dmi_scan.c:760:27: sparse:     expected char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:760:27: sparse:     got void *
-   drivers/firmware/dmi_scan.c:764:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got char [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:764:41: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:764:41: sparse:     got char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:778:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *p @@     got void * @@
-   drivers/firmware/dmi_scan.c:778:19: sparse:     expected char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:778:19: sparse:     got void *
-   drivers/firmware/dmi_scan.c:782:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got char [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:782:33: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:782:33: sparse:     got char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:796:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *p @@     got void * @@
-   drivers/firmware/dmi_scan.c:796:19: sparse:     expected char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:796:19: sparse:     got void *
-   drivers/firmware/dmi_scan.c:809:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got char [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:809:49: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:809:49: sparse:     got char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:827:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got char [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:827:49: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:827:49: sparse:     got char [noderef] __iomem *p
-   drivers/firmware/dmi_scan.c:832:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got char [noderef] __iomem *p @@
-   drivers/firmware/dmi_scan.c:832:33: sparse:     expected void *addr
-   drivers/firmware/dmi_scan.c:832:33: sparse:     got char [noderef] __iomem *p
+All errors (new ones prefixed by >>):
 
-vim +704 drivers/firmware/dmi_scan.c
+   drivers/cpufreq/spear-cpufreq.c: In function 'spear_cpufreq_probe':
+>> drivers/cpufreq/spear-cpufreq.c:185:52: error: 'CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS' undeclared (first use in this function); did you mean 'CPUFREQ_DEFAULT_TANSITION_LATENCY_NS'?
+     185 |                 spear_cpufreq.transition_latency = CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS;
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                    CPUFREQ_DEFAULT_TANSITION_LATENCY_NS
+   drivers/cpufreq/spear-cpufreq.c:185:52: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/cpufreq/scmi-cpufreq.c: In function 'scmi_cpufreq_init':
+>> drivers/cpufreq/scmi-cpufreq.c:297:27: error: 'CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS' undeclared (first use in this function); did you mean 'CPUFREQ_DEFAULT_TANSITION_LATENCY_NS'?
+     297 |                 latency = CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS;
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                           CPUFREQ_DEFAULT_TANSITION_LATENCY_NS
+   drivers/cpufreq/scmi-cpufreq.c:297:27: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/cpufreq/mediatek-cpufreq-hw.c: In function 'mtk_cpufreq_hw_cpu_init':
+>> drivers/cpufreq/mediatek-cpufreq-hw.c:312:27: error: 'CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS' undeclared (first use in this function); did you mean 'CPUFREQ_DEFAULT_TANSITION_LATENCY_NS'?
+     312 |                 latency = CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS;
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                           CPUFREQ_DEFAULT_TANSITION_LATENCY_NS
+   drivers/cpufreq/mediatek-cpufreq-hw.c:312:27: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/cpufreq/cpufreq-dt.c: In function 'cpufreq_init':
+>> drivers/cpufreq/cpufreq-dt.c:107:38: error: 'CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS' undeclared (first use in this function); did you mean 'CPUFREQ_DEFAULT_TANSITION_LATENCY_NS'?
+     107 |                 transition_latency = CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS;
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      CPUFREQ_DEFAULT_TANSITION_LATENCY_NS
+   drivers/cpufreq/cpufreq-dt.c:107:38: note: each undeclared identifier is reported only once for each function it appears in
+--
+   drivers/cpufreq/scpi-cpufreq.c: In function 'scpi_cpufreq_init':
+>> drivers/cpufreq/scpi-cpufreq.c:160:27: error: 'CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS' undeclared (first use in this function); did you mean 'CPUFREQ_DEFAULT_TANSITION_LATENCY_NS'?
+     160 |                 latency = CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS;
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                           CPUFREQ_DEFAULT_TANSITION_LATENCY_NS
+   drivers/cpufreq/scpi-cpufreq.c:160:27: note: each undeclared identifier is reported only once for each function it appears in
 
-   675	
-   676	#if IS_ENABLED(CONFIG_OF)
-   677	/**
-   678	 * dmi_scan_from_dt - Find and parse DMI/SMBIOS tables from the Device Tree
-   679	 *
-   680	 * Checks if the bootloader has passed SMBIOS table addresses via the /chosen
-   681	 * node in the Device Tree. This follows the standard kernel DT bindings and
-   682	 * assumes a fixed 32-byte mapping for the entry point.
-   683	 * Returns true if a valid table is found and successfully parsed.
-   684	 */
-   685	static bool __init dmi_scan_from_dt(void)
-   686	{
-   687		struct device_node *chosen;
-   688		const __be64 *prop;
-   689		char buf[32];
-   690		void __iomem *p;
-   691		bool dmi_available = false;
-   692		u64 addr;
-   693		int len;
-   694	
-   695		chosen = of_find_node_by_path("/chosen");
-   696		if (!chosen)
-   697			return false;
-   698	
-   699		/* SMBIOSv3 (64-bit entry point) has priority */
-   700		prop = of_get_property(chosen, "linux,smbios3-table", &len);
-   701		if (prop && len >= sizeof(u64)) {
-   702			addr = be64_to_cpup(prop);
-   703	
- > 704			p = dmi_early_remap(addr, 32);
-   705			if (p == NULL)
-   706				goto out;
-   707	
-   708			memcpy_fromio(buf, p, sizeof(buf));
- > 709			dmi_early_unmap(p, 32);
-   710	
-   711			if (!dmi_smbios3_present(buf)) {
-   712				dmi_available = true;
-   713				goto out;
-   714			}
-   715		}
-   716	
-   717		prop = of_get_property(chosen, "linux,smbios-table", &len);
-   718		if (prop && len >= sizeof(u64)) {
-   719			addr = be64_to_cpup(prop);
-   720	
-   721			p = dmi_early_remap(addr, 32);
-   722			if (p == NULL)
-   723				goto out;
-   724	
-   725			memcpy_fromio(buf, p, sizeof(buf));
-   726			dmi_early_unmap(p, 32);
-   727	
-   728			if (!dmi_present(buf))
-   729				dmi_available = true;
-   730		}
-   731	
-   732	out:
-   733		of_node_put(chosen);
-   734		return dmi_available;
-   735	}
-   736	#else
-   737	static bool __init dmi_scan_from_dt(void) { return false; }
-   738	#endif /* IS_ENABLED(CONFIG_OF) */
-   739	
+
+vim +185 drivers/cpufreq/spear-cpufreq.c
+
+   169	
+   170	static int spear_cpufreq_probe(struct platform_device *pdev)
+   171	{
+   172		struct device_node *np;
+   173		struct cpufreq_frequency_table *freq_tbl;
+   174		u32 val;
+   175		int cnt, ret, i = 0;
+   176	
+   177		np = of_cpu_device_node_get(0);
+   178		if (!np) {
+   179			pr_err("No cpu node found\n");
+   180			return -ENODEV;
+   181		}
+   182	
+   183		if (of_property_read_u32(np, "clock-latency",
+   184					&spear_cpufreq.transition_latency))
+ > 185			spear_cpufreq.transition_latency = CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS;
+   186	
+   187		cnt = of_property_count_u32_elems(np, "cpufreq_tbl");
+   188		if (cnt <= 0) {
+   189			pr_err("Invalid cpufreq_tbl\n");
+   190			ret = -ENODEV;
+   191			goto out_put_node;
+   192		}
+   193	
+   194		freq_tbl = kcalloc(cnt + 1, sizeof(*freq_tbl), GFP_KERNEL);
+   195		if (!freq_tbl) {
+   196			ret = -ENOMEM;
+   197			goto out_put_node;
+   198		}
+   199	
+   200		of_property_for_each_u32(np, "cpufreq_tbl", val)
+   201			freq_tbl[i++].frequency = val;
+   202	
+   203		freq_tbl[cnt].frequency = CPUFREQ_TABLE_END;
+   204	
+   205		spear_cpufreq.freq_tbl = freq_tbl;
+   206	
+   207		of_node_put(np);
+   208	
+   209		spear_cpufreq.clk = clk_get(NULL, "cpu_clk");
+   210		if (IS_ERR(spear_cpufreq.clk)) {
+   211			pr_err("Unable to get CPU clock\n");
+   212			ret = PTR_ERR(spear_cpufreq.clk);
+   213			goto out_put_mem;
+   214		}
+   215	
+   216		ret = cpufreq_register_driver(&spear_cpufreq_driver);
+   217		if (!ret)
+   218			return 0;
+   219	
+   220		pr_err("failed register driver: %d\n", ret);
+   221		clk_put(spear_cpufreq.clk);
+   222	
+   223	out_put_mem:
+   224		kfree(freq_tbl);
+   225		return ret;
+   226	
+   227	out_put_node:
+   228		of_node_put(np);
+   229		return ret;
+   230	}
+   231	
 
 -- 
 0-DAY CI Kernel Test Service
