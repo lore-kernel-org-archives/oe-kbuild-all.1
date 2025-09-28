@@ -1,62 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511CF21FF35
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 15:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27DE25A2B5;
+	Sun, 28 Sep 2025 19:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759073815; cv=none; b=IDEfaERweMfyOsFfOTWLyP71lwhAsEym6o8HJsDe/VKYsR/bxu7w/M0+7slqNJmRY/AfAc2ns5+ahLfGP/28dt7gZBTH9jFFlAx/Aldt6KsR2NmSXHYSBNhp7/3dL2lAAAJjs72mcVK4S5MfXEFDQcKCRh+a6dXAQssHhmQXqck=
+	t=1759086627; cv=none; b=K/dfd3att1XHwmQhrq90oNpbgDDG9RAPAcri0yIYljOfuy0l2P97ZV9K3feDUiCw1YZa0ozioBXb2+hQwKhgwGCNOjxJUVznxmF+BI/4bJsXYFEfveMoe8kMEQ4V39M4226A3P4iAerEI+zpYnFtaVjzlHeV1nY6zgWzp3jvp+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759073815; c=relaxed/simple;
-	bh=Ps64nDklqamC6EV1MdTjLHaAg7vz5kbJKj7+3R+gE9M=;
+	s=arc-20240116; t=1759086627; c=relaxed/simple;
+	bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUjtStAuGw9qiGzrX1GksMbpAehS03qIBdCw8qF8Ep8C+Gk1xi75M9FoHJCtPN5ymskA1b+VkIJALijdZKEKyuydBpwjw1RyxR8OS7zq7vB18ptuM6xuZjVcw9NP9BmU0pVp7LlR7PxAwSqMAmN6lSjnmic5NCVDlb4HiXHPCJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DF6cBU6b; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=R5U98QObk/EQVq0uAsOjqxgWPGMciFbArCdkM0AouXq8znt/VLGhjVF78GQLbFXh6jZhGFaAXmGlj4/KPra0aH6hsw/8JkH95fFaPrSPFl8oUSLEq0GBlartMQL0VR6fLaHxNzgUv4HhrFHG++eniKwAK30YPXMre9G4GHIWazk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLjcCQM7; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DF6cBU6b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLjcCQM7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759073813; x=1790609813;
+  t=1759086626; x=1790622626;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ps64nDklqamC6EV1MdTjLHaAg7vz5kbJKj7+3R+gE9M=;
-  b=DF6cBU6b/Lvudm930LeQ5Kyg7rBV3+agaSizFXMaNuEH9KLV6QKNlfrM
-   9diwsSdoXE7wN0fE8wnsKGnzz2x4s8g5k8G98pG1eyCikc6CKxp+eFqCk
-   AQI0OThSTKfI2vBHoRO/TMNdPeayl5A8i0JhnO23v5jsrEbG8vS/Czo3B
-   n0za+AHuHdyZciHfulFyaP7rZRPf3TPxKmnc3zGV6dJfSJKme5+jSZk6u
-   k39Tv88T5eEOs7UlHv1bB0nV6hfwMolsW55QGL0oc7KXu8tl8Q+CFiuGE
-   iKT4WvTepBzj9ZbZrNhqtiSwuAlMNsthVep13KtHjc/Ob5T4V/DLleVz2
-   g==;
-X-CSE-ConnectionGUID: C4LDb+NcTkS+v9SPgqS+GQ==
-X-CSE-MsgGUID: UT5/GrstTESa1XgyQdRdFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="83945353"
-X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="83945353"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 08:36:52 -0700
-X-CSE-ConnectionGUID: F6YSfJnxTLOaywNqfs2gRQ==
-X-CSE-MsgGUID: jMAzwS4qRquUF6Tp0XctNw==
+  bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
+  b=KLjcCQM72/FpskmIHyhDRtcTLwuoGPBJb4BG12p+EWFr85aBiUKGORo1
+   SpH0rMfwvBY7dRN49U64xBhEJ9wqknq8DEJi3dwnzJSwjUz42h13AUyiG
+   0rAcLbUqQxWbjrkbbSqhcSmPXxgWzzykGjj9Im6nrd2n9GrZCIMmq2w++
+   yw9Y9qxBg24evxp23XrfbK7LzD99qGL5TI46n48pb+b7tTQK0lazclkV4
+   OexDZuXZdccowKmFrv5oovFPEunPlHcrIV+e/5rxZQQV1UVs3bcz1uCNQ
+   R1J37uqO1uG6ao1jCm6LsE3HbumH70z++8fNDRWym8wbNr8b3Xp1b9Foa
+   w==;
+X-CSE-ConnectionGUID: QU8vISyIS4q+9fV1Ph7C0Q==
+X-CSE-MsgGUID: HP3WoKrjRqqA3em0mi/bTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="86789066"
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="86789066"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 12:10:25 -0700
+X-CSE-ConnectionGUID: 28kYypdTR3+5govQnOWY+w==
+X-CSE-MsgGUID: N8rFLA6UT+2MHMdcmrmaDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="201703507"
+X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
+   d="scan'208";a="177315325"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Sep 2025 08:36:49 -0700
+  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2025 12:10:22 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2tSA-0007t5-0s;
-	Sun, 28 Sep 2025 15:36:46 +0000
-Date: Sun, 28 Sep 2025 23:36:12 +0800
+	id 1v2wml-0007y3-0R;
+	Sun, 28 Sep 2025 19:10:16 +0000
+Date: Mon, 29 Sep 2025 03:10:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: liu.xuemei1@zte.com.cn, anup@brainfault.org
-Cc: oe-kbuild-all@lists.linux.dev, atish.patra@linux.dev,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] RISC-V: KVM: Transparent huge page support
-Message-ID: <202509282326.NFfcoD5h-lkp@intel.com>
-References: <20250928154450701hRC3fm00QYFnGiM0_M1No@zte.com.cn>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
+	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
+	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Subject: Re: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path
+ testing
+Message-ID: <202509290238.4kkJL0x5-lkp@intel.com>
+References: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,96 +70,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250928154450701hRC3fm00QYFnGiM0_M1No@zte.com.cn>
+In-Reply-To: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
 
-Hi,
+Hi Sumit,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvm/next mst-vhost/linux-next linus/master v6.17-rc7 next-20250926]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/liu-xuemei1-zte-com-cn/RISC-V-KVM-Transparent-huge-page-support/20250928-154904
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20250928154450701hRC3fm00QYFnGiM0_M1No%40zte.com.cn
-patch subject: [PATCH] RISC-V: KVM: Transparent huge page support
-config: riscv-randconfig-001-20250928 (https://download.01.org/0day-ci/archive/20250928/202509282326.NFfcoD5h-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509282326.NFfcoD5h-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Kumar/bus-mhi-host-Add-loopback-driver-with-sysfs-interface/20250923-144109
+base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
+patch link:    https://lore.kernel.org/r/20250923-loopback_mhi-v1-2-8618f31f44aa%40oss.qualcomm.com
+patch subject: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path testing
+config: loongarch-randconfig-001-20250929 (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509282326.NFfcoD5h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509290238.4kkJL0x5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/riscv/kvm/gstage.c: In function 'gstage_supports_huge_mapping':
->> arch/riscv/kvm/gstage.c:108:39: warning: left shift count >= width of type [-Wshift-count-overflow]
-     108 |         gpa_start = memslot->base_gfn << PAGE_SIZE;
-         |                                       ^~
-
-
-vim +108 arch/riscv/kvm/gstage.c
-
-    97	
-    98	static bool gstage_supports_huge_mapping(struct kvm_memory_slot *memslot, unsigned long hva)
-    99	{
-   100		gpa_t gpa_start;
-   101		hva_t uaddr_start, uaddr_end;
-   102		size_t size;
-   103	
-   104		size = memslot->npages * PAGE_SIZE;
-   105		uaddr_start = memslot->userspace_addr;
-   106		uaddr_end = uaddr_start + size;
-   107	
- > 108		gpa_start = memslot->base_gfn << PAGE_SIZE;
-   109	
-   110		/*
-   111		 * Pages belonging to memslots that don't have the same alignment
-   112		 * within a PMD for userspace and GPA cannot be mapped with g-stage
-   113		 * PMD entries, because we'll end up mapping the wrong pages.
-   114		 *
-   115		 * Consider a layout like the following:
-   116		 *
-   117		 *    memslot->userspace_addr:
-   118		 *    +-----+--------------------+--------------------+---+
-   119		 *    |abcde|fgh  vs-stage block  |    vs-stage block tv|xyz|
-   120		 *    +-----+--------------------+--------------------+---+
-   121		 *
-   122		 *    memslot->base_gfn << PAGE_SHIFT:
-   123		 *      +---+--------------------+--------------------+-----+
-   124		 *      |abc|def  g-stage block  |    g-stage block   |tvxyz|
-   125		 *      +---+--------------------+--------------------+-----+
-   126		 *
-   127		 * If we create those g-stage blocks, we'll end up with this incorrect
-   128		 * mapping:
-   129		 *   d -> f
-   130		 *   e -> g
-   131		 *   f -> h
-   132		 */
-   133		if ((gpa_start & (PMD_SIZE - 1)) != (uaddr_start & (PMD_SIZE - 1)))
-   134			return false;
-   135	
-   136		/*
-   137		 * Next, let's make sure we're not trying to map anything not covered
-   138		 * by the memslot. This means we have to prohibit block size mappings
-   139		 * for the beginning and end of a non-block aligned and non-block sized
-   140		 * memory slot (illustrated by the head and tail parts of the
-   141		 * userspace view above containing pages 'abcde' and 'xyz',
-   142		 * respectively).
-   143		 *
-   144		 * Note that it doesn't matter if we do the check using the
-   145		 * userspace_addr or the base_gfn, as both are equally aligned (per
-   146		 * the check above) and equally sized.
-   147		 */
-   148		return (hva >= ALIGN(uaddr_start, PMD_SIZE)) && (hva < ALIGN_DOWN(uaddr_end, PMD_SIZE));
-   149	}
-   150	
+   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_dl_callback':
+>> mhi_ep_loopback.c:(.text+0x20): undefined reference to `sk_skb_reason_drop'
+   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_work_handler':
+   mhi_ep_loopback.c:(.text+0x74): undefined reference to `sk_skb_reason_drop'
+   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_ul_callback':
+>> mhi_ep_loopback.c:(.text+0x19c): undefined reference to `__alloc_skb'
+>> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x1e4): undefined reference to `skb_put'
+>> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x2b8): undefined reference to `sk_skb_reason_drop'
 
 -- 
 0-DAY CI Kernel Test Service
