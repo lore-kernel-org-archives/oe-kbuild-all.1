@@ -1,132 +1,128 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C2710E3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 00:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636BE34BA29
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 02:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759019818; cv=none; b=VyCg84DlxY4TpoSRK0WoL/b9x5GRHrfUEA5dvvKFq5W3yxILwxJBRnt9y6TsrhmhOkjKtUsxu19J99QxbIZgTFJ29FwhwIqt97UMZUh97yhh3lWydjVmTndtmNeOs/9IR8rWoHLUYi6UmYs9yg+c/DO33fQ0Dl/vAiXVMvz6dpI=
+	t=1759025921; cv=none; b=g7nD2RC/EyM5QXmlPzSSIsntEyvdYxbMSQAv4I7nuWXXNmDRwVp7uMIoxslMnRhmE1NiHnK/56sl9H0WJHeUWC/6dGpLYb2bRGlVp95iJHoyCkifrci0unlwYRP4Oro6Ti1/Yucj4S9JlImGDAZq40aC9eLbPXGs63k8AbYeRh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759019818; c=relaxed/simple;
-	bh=Ec3kGgJVgDN67m3fNTnX3j9uPixMabkIMaDfK0v9Nc0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=YAbH28tFZj0PpbhLTMtRct2Z5i6Z98tj2NvtiPTgz1i3R/FuethV5a3GJ7WzZz2pUPQaf4tK7KzMTNueWfos8GN+EDHM23GWtHIpqr9gEepvSvGXfB5vGu3BmRDvntTvUNFFBVYg5eGWnQf6xyooltsZK/m/cf3S8Q6gs13p/KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PIE0nfb5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1759025921; c=relaxed/simple;
+	bh=KMYvAwkQvls6eIJmxBJAIbmvSDyLtL8dzvvyjESJdQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LIR+onEnUh0lKI1lJbBS1y4TXEMvUlu/raSAidNf9lYTvPs8YYKKMhrrDxQM0I+KRB+mCGPQv5Er1OHlS5Ay/n7H0p3BtSMmG1YRp1J/dzmMWZn/ynmhbJ9aFvBM7AVifY6HRbpeUI+9NJNCI9CL6m3eAgNbYCkxk8ijZgagaN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eIyOtW7h; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PIE0nfb5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759019815;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o9p0c5xcfOvo18Ej2qFhdgXJdkGOw9xcm/Iggm49n5M=;
-	b=PIE0nfb5r7D1TXI+XOllF3OGrHMMgFofnSyVjXX38eNy9ctVLpfXRAEBffSiXhsTsev5SG
-	b9AOQtjg/MKJKEAdHJ01WrKRoBCN8hrtEhy8q9iC8MaVVMjmZMpn3QzH3FKIoGlxR6xliJ
-	GKe4hSk660eIvM3EYf0sc+1Z2Mj86Ic=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-122-OGG0STJ7PHK2GEj-gRc_fQ-1; Sat, 27 Sep 2025 20:36:54 -0400
-X-MC-Unique: OGG0STJ7PHK2GEj-gRc_fQ-1
-X-Mimecast-MFC-AGG-ID: OGG0STJ7PHK2GEj-gRc_fQ_1759019814
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4df80d0d4aaso23145231cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Sep 2025 17:36:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759019814; x=1759624614;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o9p0c5xcfOvo18Ej2qFhdgXJdkGOw9xcm/Iggm49n5M=;
-        b=TQVMvVPLmZvjXrPUCWga73gs9u+KzBQYUUL/MH7N9x+iFmr7YCU1QdoQOVc7nNP1qL
-         1QiO+iH2ixh+TdVHBm33yLmzzjZPpWxfa6gyOkXibXoI7V8Fn+EHuW2nCD7wMKFjMILu
-         mvFsRwwriIrBEG2sfqO24IXZ4v3LeJWO2WhXZHhLp9t/IstusBZI5l51G/+CC9m5xjzZ
-         SVeyzyuTRr6RQfqc81XI/Qcf3D2wMisvZlRgwPgKozM2c09KEDxEwrS/vX6tCbdwcQFg
-         pHWvvnIdSGSDuAipTKe2Elns1f6dBZDu9ReqlG9ex5cBs2WC2iDhUyVSYgShDgsNSJ6e
-         unow==
-X-Gm-Message-State: AOJu0Yyu49uZtw7wu0+wuoTqzp0uehFPyT7YmctlNzbuJd5M/t8g782D
-	LaWIIsZCz503A9zBv58Buj9In2VwYXK0nrMPOJMVq2xgr4q+nQEOztEYL+2YAoSg7evqhrhxw3e
-	eBxXpCSX2DeM9vdWT6VC8TWfHW62/dGb0CzXZzSKtQvcgYRqnxWOAh/xkR7nSr390kHs=
-X-Gm-Gg: ASbGnctPSpFLbAM+Aiq+UqWcuva1SB6ATh50nitm8HLkwf0wgZiaBZrX+TZXCb7d4Ua
-	ub4hqx7FB7MohjLJjohma5s0lp5haO5k8FghspIHmDNwsjWIDA+FAwUZovhWDmUbHqhP/6YM4yh
-	uDRQJnSkFKw/Y+ju4KvEuiojpZkvW2TpsFz6o2wuTEHgluyH1nstZqzr/AJjf+kQiS7WklhY/0b
-	9zIsBPsQZZVlnBxksmL73PGCi1jBiuWpZSs4m2kT+34/CYyVJ8D2Q55qN8gl2vDfI0NNfFkgAPf
-	0q5BPS17ZN+WcqrShpUgRIDisFYBwoH60pcnPpvmWQ/qR4ZdasX+hC1moCp6HswiaBUFEHalCgO
-	Z6vfhZYKDzjjtKLL2JWE5LjeKhXG3iuE=
-X-Received: by 2002:ac8:5716:0:b0:4b7:a62d:ef6f with SMTP id d75a77b69052e-4da4d314d23mr77691601cf.64.1759019813693;
-        Sat, 27 Sep 2025 17:36:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH6dBVU/UYTrTLhQQPy01sIboyLnnzG/mRBTs7ELQ0XPPLeHKR9n1q4ChDRNNNKAFi28WoAuA==
-X-Received: by 2002:ac8:5716:0:b0:4b7:a62d:ef6f with SMTP id d75a77b69052e-4da4d314d23mr77691521cf.64.1759019813331;
-        Sat, 27 Sep 2025 17:36:53 -0700 (PDT)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db0b9458e1sm47109601cf.15.2025.09.27.17.36.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 17:36:51 -0700 (PDT)
-Date: Sat, 27 Sep 2025 20:36:49 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>,
-	linux-clk@vger.kernel.org
-Subject: Re: [linux-next:master 6189/12740]
- drivers/clk/microchip/clk-core.c:391:12: error: redefinition of
- 'roclk_determine_rate'
-Message-ID: <aNiDIa3o2QLuCHzD@redhat.com>
-References: <202509280327.jsapR0Ww-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eIyOtW7h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759025920; x=1790561920;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KMYvAwkQvls6eIJmxBJAIbmvSDyLtL8dzvvyjESJdQg=;
+  b=eIyOtW7hvRy0bT/1JbBg3gEjTUVNnJO4/AG4Ez64vIhuP7fQZWU2qmom
+   lONPHayl9HP1NGwIj40U4Ol5w8ZnOQNLONsIyakcrS3clLJC7goBpeIYt
+   RLnSc/oWS2krizRux/AndobN0nJkh024lyCymhAjGOVGMeIJ5weVNAMA0
+   Q6tKLwmOJjtMBvLXX6R1h5az3X9vVBSc0BoeO8YWCTKLOLwRFx9WdtSNT
+   8ldWFz8R36LH+5Svilb6iDDbVOJugY3tgGTqdF+2JzUPx7e1oNhiBedKx
+   2YAuqCdgGIObu3kWS2KTTBPr6BEiNtwJsaS1+eIzmkGi3M7NSEgpw2fEy
+   A==;
+X-CSE-ConnectionGUID: MKTZqOSSRFGBKUPPiwhjKA==
+X-CSE-MsgGUID: 7aOIYS64T3G/KVam9jzm+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="64941128"
+X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
+   d="scan'208";a="64941128"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 19:18:39 -0700
+X-CSE-ConnectionGUID: vdYqeViTTfKsl+sZdXH+aw==
+X-CSE-MsgGUID: b39D2b+NRVSAy6dlmpz5JQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
+   d="scan'208";a="181929731"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 27 Sep 2025 19:18:37 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v2gzi-0007TP-1n;
+	Sun, 28 Sep 2025 02:18:34 +0000
+Date: Sun, 28 Sep 2025 10:17:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Fuad Tabba <tabba@google.com>
+Subject: [sean-jc:x86/gmem_inplace 23/30] include/linux/maple_tree.h:206:34:
+ error: request for member 'dep_map' in something not a structure or union
+Message-ID: <202509281012.5C0UKFqC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202509280327.jsapR0Ww-lkp@intel.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JpQJ9oV1ngsw0UG5CImx5S9HfHV-dSICjqN_IG89m9A_1759019814
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Sep 28, 2025 at 03:48:14AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   262858079afde6d367ce3db183c74d8a43a0e83f
-> commit: e9f039c08cdc9b38665aee9a88ae21f59c09ba8c [6189/12740] clk: microchip: core: convert from round_rate() to determine_rate()
-> config: mips-randconfig-r131-20250927 (https://download.01.org/0day-ci/archive/20250928/202509280327.jsapR0Ww-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cafc064fc7a96b3979a023ddae1da2b499d6c954)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509280327.jsapR0Ww-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509280327.jsapR0Ww-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/clk/microchip/clk-core.c:391:12: error: redefinition of 'roclk_determine_rate'
->      391 | static int roclk_determine_rate(struct clk_hw *hw,
->          |            ^
->    drivers/clk/microchip/clk-core.c:377:12: note: previous definition is here
->      377 | static int roclk_determine_rate(struct clk_hw *hw,
->          |            ^
-> >> drivers/clk/microchip/clk-core.c:411:18: error: call to undeclared function 'roclk_round_rate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      411 |                 nearest_rate = roclk_round_rate(hw, req->rate, &parent_rate);
->          |                                ^
->    drivers/clk/microchip/clk-core.c:926:20: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
->      926 |         .determine_rate = __clk_mux_determine_rate,
->          |                           ^~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/clk/microchip/clk-core.c:922:20: note: previous initialization is here
->      922 |         .determine_rate = sclk_determine_rate,
->          |                           ^~~~~~~~~~~~~~~~~~~
->    1 warning and 2 errors generated.
+tree:   https://github.com/sean-jc/linux x86/gmem_inplace
+head:   5140bf8b78f718d7df0eaf7d93420afeeb012afa
+commit: b06591e38322d09befa80ffcac60ddf17450778c [23/30] KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
+config: arm64-randconfig-002-20250928 (https://download.01.org/0day-ci/archive/20250928/202509281012.5C0UKFqC-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281012.5C0UKFqC-lkp@intel.com/reproduce)
 
-I fixed this with:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509281012.5C0UKFqC-lkp@intel.com/
 
-https://lore.kernel.org/linux-clk/20250927-clk-microchip-core-compile-error-v2-1-3473dbae3625@redhat.com/T/#u
+All error/warnings (new ones prefixed by >>):
 
-Sorry I had to send out a v2 with the tags.
+   In file included from include/linux/mm_types.h:12,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:14,
+                    from include/linux/backing-dev.h:13,
+                    from arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:3:
+   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_destroy_inode':
+>> include/linux/maple_tree.h:206:34: warning: dereferencing 'void *' pointer
+     206 |  (mt)->ma_external_lock = &(lock)->dep_map
+         |                                  ^~
+   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:993:3: note: in expansion of macro 'mt_set_external_lock'
+     993 |   mt_set_external_lock(&gi->attributes, NULL);
+         |   ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/maple_tree.h:206:34: error: request for member 'dep_map' in something not a structure or union
+     206 |  (mt)->ma_external_lock = &(lock)->dep_map
+         |                                  ^~
+   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:993:3: note: in expansion of macro 'mt_set_external_lock'
+     993 |   mt_set_external_lock(&gi->attributes, NULL);
+         |   ^~~~~~~~~~~~~~~~~~~~
 
-Stephen: Since the original change hasn't landed in Linus's tree yet,
-it's up to you if you want to squash this fix with my original commit.
 
-Brian
+vim +/dep_map +206 include/linux/maple_tree.h
 
+54a611b605901c Liam R. Howlett 2022-09-06  195  
+54a611b605901c Liam R. Howlett 2022-09-06  196  #ifdef CONFIG_LOCKDEP
+54a611b605901c Liam R. Howlett 2022-09-06  197  typedef struct lockdep_map *lockdep_map_p;
+134d153c9346fc Liam R. Howlett 2023-07-14  198  #define mt_lock_is_held(mt)                                             \
+134d153c9346fc Liam R. Howlett 2023-07-14  199  	(!(mt)->ma_external_lock || lock_is_held((mt)->ma_external_lock))
+134d153c9346fc Liam R. Howlett 2023-07-14  200  
+19a462f06eb5a7 Liam R. Howlett 2023-07-14  201  #define mt_write_lock_is_held(mt)					\
+19a462f06eb5a7 Liam R. Howlett 2023-07-14  202  	(!(mt)->ma_external_lock ||					\
+19a462f06eb5a7 Liam R. Howlett 2023-07-14  203  	 lock_is_held_type((mt)->ma_external_lock, 0))
+19a462f06eb5a7 Liam R. Howlett 2023-07-14  204  
+54a611b605901c Liam R. Howlett 2022-09-06  205  #define mt_set_external_lock(mt, lock)					\
+54a611b605901c Liam R. Howlett 2022-09-06 @206  	(mt)->ma_external_lock = &(lock)->dep_map
+02fdb25fb41c56 Liam R. Howlett 2023-07-05  207  
+
+:::::: The code at line 206 was first introduced by commit
+:::::: 54a611b605901c7d5d05b6b8f5d04a6ceb0962aa Maple Tree: add new data structure
+
+:::::: TO: Liam R. Howlett <Liam.Howlett@Oracle.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
