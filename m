@@ -1,108 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003F92D9ECB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 10:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3CB2D5927
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 10:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759053923; cv=none; b=sNf4E39wSJAAP3Y06n/yoRqc2pJWlv63WVvq9B6D9P7V3Q6uYnf3RHHU9dd787zV/qrqXmYUNKsL4MiSh4pdTX2Z+qlVMxmOz5FWH20zioiLpQI/3YblQvUA3/1K62EmxgzSlAFoviWZ+W4b+pppGiDLPxMlDcBeVgA1FbA3/b0=
+	t=1759056696; cv=none; b=Ib9SPbIrKmj2ixHDMlKM5VeHiLJYOndwWfWX861OSVZm5iU1jxa+nB3M6hTZfma90GX41McDJk5Y/kNkCjuRI6uheCZXMMavhSzp6dQsvQV4TyZCwH6cBha6V5V/KJzLYvbnjXii7ttBz1RzPX67/zgXZ9xtgSD7FwYKn+4+nfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759053923; c=relaxed/simple;
-	bh=FdQdV6EKcysKfdvysmJi8PmEz/o5IuIR05/jzdQQrYY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O8Dsl32UDNKvpZ9HO2nGMN4S77vUPRTrbZCVE61mB2wyvfGGsZTOdVySP33tjDwgvSjY6kx+NTheO+3nPer9+46E3BXmFFZVgFl4sgeEO4WhaPb0Db5Guv/+Pv5JW4HzzB6W/ybpzrKj6nAGO+WwzkC2W4Pur64IZpcDOu4Oxj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UnVW8d31; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759056696; c=relaxed/simple;
+	bh=5Q6/ToLJTDMRT6g1j/7OUPi2hDp2kJaKgYO71uPbQN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bRvpOfNipID2PQVS/Dbnng5YtDn9PYt3TKOnmq9fAopeXAZOUmcHlD2piRq8WgwAl+yaDCZWxZFP3tglAjt37C8VK/dAQPOMjZ8dgj4UrnmAx9QjlYVn/kqSjuLWVr1FgcGSStTDARm7LibsyBAtF5EEw0/83izDWc83ic0SsM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUOftNBF; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UnVW8d31"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86ADDC116D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 10:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759053922;
-	bh=FdQdV6EKcysKfdvysmJi8PmEz/o5IuIR05/jzdQQrYY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=UnVW8d31HjkRA8NpSPucGqBJflkwvenhwazprUTtRZz6UagdjtADK7ywERNLPJS9B
-	 lplUgfdGZ8TDBYro00L88gsdQGMOCwbsHdu1fBT4RRrXlx8+/SvHZqeu66RaiI7saN
-	 h2sgzR38VANBXfU0Uma5QtMIwvgHs9K1maVkmugTeWxaqgoV2lDP3J/fv0WEVJImag
-	 MTqAjBkNrzEys2T1s981tow7UkkSFkOCl1kHLNZToQ+NToqLqBAEIBKSvGOXHWX9BF
-	 uosH8ZAnJiSrDeh3V/NovQ7bUZa5bbY/Vbu5FThsK0HAf+U2xFuk21qoxoLsooNsTU
-	 tcnY5lq9W+ayg==
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7a7c1ecd433so1819133a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 03:05:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXQHM4MUrEArnn6xPPlGpi5e2MjfqKuLoVtjiTykDp7DaHRzmp4T2xp+48fmLwSAZbrlArAKhj8G+qjfxCJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZYg2kHpG+uRHbL5WSt+Z7lYpL4E4SjgT97AssoXT4l3K7n/i4
-	FBQ2Zg33fBK1Afxx8L5FSq2L0PS+Oy4PFC4fyyuR73L20VfX6YKg1NuTcWM/ZxL1yx1GPjQuIpk
-	q87+Jk9WAEe9HuQvcOpjaByuX8FlsaeU=
-X-Google-Smtp-Source: AGHT+IFCzORk5att9vJ/4iiSnpvi70q5WkKijwIWLiGYgkpl9JJsmcMEMupMwwP8EFtqH6wt4Q5+dfEpOmfuTRpBZfc=
-X-Received: by 2002:a05:6820:8391:b0:640:a3eb:333a with SMTP id
- 006d021491bc7-640a3eb35d9mr3616610eaf.2.1759053921906; Sun, 28 Sep 2025
- 03:05:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUOftNBF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759056694; x=1790592694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Q6/ToLJTDMRT6g1j/7OUPi2hDp2kJaKgYO71uPbQN8=;
+  b=bUOftNBFgxEnCSJBwFmLiyFfC7iy7wO51qcr6WGoXw3BP2QuFccPpUmP
+   z2CpyjTh+OdnFmyB492rfMmJvj95BbcvBM8UGU/DlQSdBFEMsP75+43C1
+   pwsVbmm+qFHqvoUfMlPBh7E1QgMzRUGIi7DbI04yhQ5AaeRwWFI9E+bT3
+   BGkC8BuGZBvUa4T/VFjeJ80/ksXU/oxk+8LVQwn7vMWM7zANAz3Y/s/Aw
+   QEJo2VLJ5yxUQu217iCeywF8PeAL2Ad0IprBwt3eVxEqMeKVW6uvdUzxu
+   2orGtSI0Wzb+CuBBJPAyk+BJDpd9hzdyMt2oNf6svVDPimdPzKURVmfMU
+   g==;
+X-CSE-ConnectionGUID: JeZiE3t3SlG6SEdRj8vxgA==
+X-CSE-MsgGUID: a/mHu4rJT6u8ZFYy0+p5JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="83936429"
+X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
+   d="scan'208";a="83936429"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 03:51:34 -0700
+X-CSE-ConnectionGUID: mpLhUsFVRLOFjQzMKUqWJw==
+X-CSE-MsgGUID: FDuLti9CR9Gm2wRfAHjvpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
+   d="scan'208";a="177566984"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 28 Sep 2025 03:51:32 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v2p05-0007jz-2K;
+	Sun, 28 Sep 2025 10:51:29 +0000
+Date: Sun, 28 Sep 2025 18:51:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH -next RFC 12/16] cpuset: unify local partition disable
+ and invalidate
+Message-ID: <202509281853.Vep3zztD-lkp@intel.com>
+References: <20250928071306.3797436-13-chenridong@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <40c2a6fc-8dd9-4f6c-9ebb-2f74f7d0b795@linaro.org>
-In-Reply-To: <40c2a6fc-8dd9-4f6c-9ebb-2f74f7d0b795@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sun, 28 Sep 2025 12:05:11 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gJe3Hy6mWB+chRbvsCM_xjPX+8XpSjGZ1G8eFr9-rFjA@mail.gmail.com>
-X-Gm-Features: AS18NWD1Lpg7GlAiS-hzXaEsjBRNWMYg6zRF_35ecXG3ljPhW1zbNbtCrvT3VfE
-Message-ID: <CAJZ5v0gJe3Hy6mWB+chRbvsCM_xjPX+8XpSjGZ1G8eFr9-rFjA@mail.gmail.com>
-Subject: Re: [GIT PULL] thermal driver for v6.18-rc1 #2
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, John Madieu <john.madieu.xa@bp.renesas.com>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux PM mailing list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250928071306.3797436-13-chenridong@huaweicloud.com>
 
-Hi Daniel,
+Hi Chen,
 
-On Sun, Sep 28, 2025 at 12:34=E2=80=AFAM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
->
-> Hi Rafael,
->
-> after an error reported by kbuild test, it appears a file missed when
-> importing the RZ/G3E new driver which stayed locally after a conflict
-> resolution. This change is on top of the previous tag. Alternatively, if
-> you wish to drop the previous PR, I can emit a new PR with this
-> offending change fixed, IOW this fix folded with initial patch (which
-> sounds cleaner to me BTW).
->
-> The following changes since commit 79428e60897916401c9ed326f6ada4d7c7c997=
-a3:
->
->    dt-bindings: thermal: qcom-tsens: Document the Glymur temperature
-> Sensor (2025-09-26 13:27:44 +0200)
->
-> are available in the Git repository at:
->
->
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git
-> tags/thermal-v6.18-rc1-2
->
-> for you to fetch changes up to dc67521c20b701b5237ff486ae078829dc1f8fea:
->
->    thermal/drivers/renesas/rzg3e: Fix add thermal driver for the Renesas
-> RZ/G3E SoC (2025-09-28 00:19:53 +0200)
->
-> ----------------------------------------------------------------
-> - Add missing file when importing conflicting change for the Renesas
->    RZ/G3E thermal driver (Daniel Lezcano)
->
-> ----------------------------------------------------------------
-> John Madieu (1):
->        thermal/drivers/renesas/rzg3e: Fix add thermal driver for the
-> Renesas RZ/G3E SoC
->
->   drivers/thermal/renesas/rzg3e_thermal.c | 547
-> ++++++++++++++++++++++++++++++++
->   1 file changed, 547 insertions(+)
->   create mode 100644 drivers/thermal/renesas/rzg3e_thermal.c
->
-> --
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-Pulled and added to linux-pm.git/linux-next, thanks!
+[auto build test WARNING on next-20250926]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cpuset-use-update_partition_sd_lb-in-update_cpumasks_hier/20250928-154546
+base:   next-20250926
+patch link:    https://lore.kernel.org/r/20250928071306.3797436-13-chenridong%40huaweicloud.com
+patch subject: [PATCH -next RFC 12/16] cpuset: unify local partition disable and invalidate
+config: x86_64-buildonly-randconfig-002-20250928 (https://download.01.org/0day-ci/archive/20250928/202509281853.Vep3zztD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281853.Vep3zztD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509281853.Vep3zztD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: kernel/cgroup/cpuset.c:1936 function parameter 'part_error' not described in 'local_partition_disable'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
