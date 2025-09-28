@@ -1,162 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588482D9ED0;
-	Sun, 28 Sep 2025 09:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3362DC772;
+	Sun, 28 Sep 2025 10:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759052406; cv=none; b=dWeEEcwBkjasl3Lj7yRwgFEtfbTlfvCrQXcqRfrgG+Zbms94SfhAzLme4DuuqIoM4kTC4WjntUU2+cEoPMjI87iRnANfTiLzU41h9byhK991MTPwyFtyWChysSXKj4StTLnZS21JoJ/HHW5zAvnazy/pXnWD6Hi0VWxPSt4PmPI=
+	t=1759053773; cv=none; b=fEPGvtdh+l6Y5vfwoYkqMBgMKpq6MNt3IA+w4aCF2Nv+RWBKj6XGRwEMtzcyLiR8qPuTIoiMTz1ADtslB/blR8+T43yMIlDHlTGVHkg7m6Y73rnSxTYSKp2CF3QISER0NZDSrYi9Q7VGBOVvUGcOGNCyY0nMPdVByIwdZIDCdhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759052406; c=relaxed/simple;
-	bh=B9r5gvsQl0PZnU9EjoIiATzXx4uh+4J6dxXjBZ2Pt9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bgB4KyL6gyzW92x6mIDuhGD6yxOoMjMQbXG1wqIMbyQpqYC7t82hz7lDvE+R62wFpPX8owd7CExVgqGKtBNwKAynPR2BeZcYy2/STKnX1Aj/V7ReH7X2Q4WVq3JosJpvSVY/H2+fKICYAtq6to49ync+dC6NWFcjCUGMEkSSaDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKLvtXkB; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759053773; c=relaxed/simple;
+	bh=Gfwr3mDuHWLuxD7y8MHqLYeaO90BwXW8nsqBi1q6KRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W3xXOBM4O+ijO6DH4kLDQW94sQRpEnvSi6hF5/GhOe6H9oZ8j5g09zvekQuR5sreUelnsYS29agqnymR/PodI31nJTsBWHjl62+KwS5WCJX2xO3i6FTSoFGuKcZZlu60bBOcdVcw8t9WYfLLZwhPRv9aQfXxASl10hdbqajc6/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vAPSIau8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKLvtXkB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759052405; x=1790588405;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B9r5gvsQl0PZnU9EjoIiATzXx4uh+4J6dxXjBZ2Pt9Q=;
-  b=DKLvtXkBR37cFYXuEe2buiHBATxqw3gkhnsTP5SmXRNtimGMsOtq9Wl0
-   +IEDcuAYLKcVVM4+F8PrQqcnRA9ARYTrXXwRfHGqKk9CiQGLJXcgL39+V
-   LVGNl5qquV7TaIdGmvOcxION45WR+Zm7FhIr3FUAjtDbqW6k5UykKWAjz
-   cOn0TQ3xx2uedGSeJMSXFzIvGEjBVEu8P5G26vVDAhNSutRG7rLkOXpHO
-   DiJtXzwlXZDxUZjgXVFR9A4jjzkTa/NXJ12jaNhve25+PFb9+sZbQrWcY
-   rDxr0Qt4dsB5X/Pumy3En3HHGAeyLTKeYJAAY2vkJr9w9NPdGPSnMi9yi
-   w==;
-X-CSE-ConnectionGUID: lsPNMADLRNy9DuF3fkPV1w==
-X-CSE-MsgGUID: yQtDMxObTL62N3OIuSttMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="64955154"
-X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="64955154"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 02:40:01 -0700
-X-CSE-ConnectionGUID: ZKD/9LMzS2alx4NOWML7VQ==
-X-CSE-MsgGUID: yDVKJSA9QqyobiyjuVk+xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="178380199"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2025 02:39:58 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v2nsq-0007i1-25;
-	Sun, 28 Sep 2025 09:39:56 +0000
-Date: Sun, 28 Sep 2025 17:39:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 209/212] drivers/acpi/battery.c:1267:2:
- error: expected expression
-Message-ID: <202509281730.ovd46eNe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAPSIau8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE42C4CEF0;
+	Sun, 28 Sep 2025 10:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759053772;
+	bh=Gfwr3mDuHWLuxD7y8MHqLYeaO90BwXW8nsqBi1q6KRA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vAPSIau84lhBXGUb3FsTzgjC1ULiMbXMAaAKQhRleenOhHgNby71HJluVBegtbitF
+	 G0knwKdJPS7+qfpZaxeVuVSMU/T3T0j1xDAIkkGScEwngSEVv2MWVf4P/9UzL9jqjE
+	 dB/I86lehNJpt80A+VO1ckHH1yWwbMy4X4KeXNXCyMvMMXZG8rvGxRatBO42pzBofe
+	 VJhzSWytIHNbCfQ1iIrW4rq9uZ2YUYFWMnoLtPn18rB95rLQ1Wf5J4HXjn81wSKTbg
+	 STm346iTn9Up7iVNEwwMqBOByZll8Earw5xDUenFL0GoNC4uFtysDhCiy6QWlM5ECL
+	 z8CYltqOz8LIQ==
+Date: Sun, 28 Sep 2025 11:02:39 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, michael.hennerich@analog.com,
+ nuno.sa@analog.com, eblanc@baylibre.com, dlechner@baylibre.com,
+ andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ corbet@lwn.net, marcelo.schmitt1@gmail.com, Trevor Gamblin
+ <tgamblin@baylibre.com>, Axel Haslam <ahaslam@baylibre.com>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>
+Subject: Re: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
+Message-ID: <20250928110239.20f81375@jic23-huawei>
+In-Reply-To: <202509272028.0zLNiR5w-lkp@intel.com>
+References: <0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt@analog.com>
+	<202509272028.0zLNiR5w-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   95b83771c9f38207ff42311ccc4739db76d19f33
-commit: ef688d5100e8f263ae94a2c86260e7231d600c84 [209/212] ACPI: battery: Add synchronization between interface updates
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20250928/202509281730.ovd46eNe-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281730.ovd46eNe-lkp@intel.com/reproduce)
+On Sat, 27 Sep 2025 20:59:36 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509281730.ovd46eNe-lkp@intel.com/
+> Hi Marcelo,
+> 
+> kernel test robot noticed the following build errors:
 
-All errors (new ones prefixed by >>):
+So, question is stubs or add a dependency.
+(Assuming there isn't a patch in flight already to add the stubs).
 
->> drivers/acpi/battery.c:1267:2: error: expected expression
-           guard(mutex)(&battery->update_lock);
-           ^
-   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
-           CLASS(_name, __UNIQUE_ID(guard))
-           ^
-   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
-           class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-           ^
-   <scratch space>:99:1: note: expanded from here
-   class_mutex_t
-   ^
-   1 error generated.
+Uwe, does it make sense to add stubs for these, similar to many of the
+other consumer interfaces?
 
+Jonathan
 
-vim +1267 drivers/acpi/battery.c
+> 
+> [auto build test ERROR on 561285d048053fec8a3d6d1e3ddc60df11c393a0]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-adi-ad4030-Reference-spi-peripheral-props/20250927-044546
+> base:   561285d048053fec8a3d6d1e3ddc60df11c393a0
+> patch link:    https://lore.kernel.org/r/0028720d2cb21898ef044458065ac8a0bc829588.1758916484.git.marcelo.schmitt%40analog.com
+> patch subject: [PATCH v3 6/8] iio: adc: ad4030: Add SPI offload support
+> config: i386-randconfig-014-20250927 (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250927/202509272028.0zLNiR5w-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509272028.0zLNiR5w-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_validate':
+> >> drivers/spi/spi-offload-trigger-pwm.c:55:15: error: implicit declaration of function 'pwm_round_waveform_might_sleep' [-Wimplicit-function-declaration]  
+>       55 |         ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
+>          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_enable':
+> >> drivers/spi/spi-offload-trigger-pwm.c:81:16: error: implicit declaration of function 'pwm_set_waveform_might_sleep' [-Wimplicit-function-declaration]  
+>       81 |         return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+>          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/spi/spi-offload-trigger-pwm.c: In function 'spi_offload_trigger_pwm_disable':
+> >> drivers/spi/spi-offload-trigger-pwm.c:90:15: error: implicit declaration of function 'pwm_get_waveform_might_sleep' [-Wimplicit-function-declaration]  
+>       90 |         ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
+>          |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for SPI_OFFLOAD_TRIGGER_PWM
+>    Depends on [n]: SPI [=y] && SPI_OFFLOAD [=y] && PWM [=n]
+>    Selected by [y]:
+>    - AD4030 [=y] && IIO [=y] && SPI [=y] && GPIOLIB [=y]
+> 
+> 
+> vim +/pwm_round_waveform_might_sleep +55 drivers/spi/spi-offload-trigger-pwm.c
+> 
+> ebb398ae1e052c David Lechner 2025-02-07   36  
+> ebb398ae1e052c David Lechner 2025-02-07   37  static int spi_offload_trigger_pwm_validate(struct spi_offload_trigger *trigger,
+> ebb398ae1e052c David Lechner 2025-02-07   38  					    struct spi_offload_trigger_config *config)
+> ebb398ae1e052c David Lechner 2025-02-07   39  {
+> ebb398ae1e052c David Lechner 2025-02-07   40  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+> ebb398ae1e052c David Lechner 2025-02-07   41  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
+> ebb398ae1e052c David Lechner 2025-02-07   42  	struct pwm_waveform wf = { };
+> ebb398ae1e052c David Lechner 2025-02-07   43  	int ret;
+> ebb398ae1e052c David Lechner 2025-02-07   44  
+> ebb398ae1e052c David Lechner 2025-02-07   45  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
+> ebb398ae1e052c David Lechner 2025-02-07   46  		return -EINVAL;
+> ebb398ae1e052c David Lechner 2025-02-07   47  
+> ebb398ae1e052c David Lechner 2025-02-07   48  	if (!periodic->frequency_hz)
+> ebb398ae1e052c David Lechner 2025-02-07   49  		return -EINVAL;
+> ebb398ae1e052c David Lechner 2025-02-07   50  
+> ebb398ae1e052c David Lechner 2025-02-07   51  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
+> ebb398ae1e052c David Lechner 2025-02-07   52  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
+> ebb398ae1e052c David Lechner 2025-02-07   53  	wf.duty_length_ns = wf.period_length_ns / 2;
+> ebb398ae1e052c David Lechner 2025-02-07   54  
+> ebb398ae1e052c David Lechner 2025-02-07  @55  	ret = pwm_round_waveform_might_sleep(st->pwm, &wf);
+> ebb398ae1e052c David Lechner 2025-02-07   56  	if (ret < 0)
+> ebb398ae1e052c David Lechner 2025-02-07   57  		return ret;
+> ebb398ae1e052c David Lechner 2025-02-07   58  
+> ebb398ae1e052c David Lechner 2025-02-07   59  	periodic->frequency_hz = DIV_ROUND_UP_ULL(NSEC_PER_SEC, wf.period_length_ns);
+> ebb398ae1e052c David Lechner 2025-02-07   60  
+> ebb398ae1e052c David Lechner 2025-02-07   61  	return 0;
+> ebb398ae1e052c David Lechner 2025-02-07   62  }
+> ebb398ae1e052c David Lechner 2025-02-07   63  
+> ebb398ae1e052c David Lechner 2025-02-07   64  static int spi_offload_trigger_pwm_enable(struct spi_offload_trigger *trigger,
+> ebb398ae1e052c David Lechner 2025-02-07   65  					  struct spi_offload_trigger_config *config)
+> ebb398ae1e052c David Lechner 2025-02-07   66  {
+> ebb398ae1e052c David Lechner 2025-02-07   67  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+> ebb398ae1e052c David Lechner 2025-02-07   68  	struct spi_offload_trigger_periodic *periodic = &config->periodic;
+> ebb398ae1e052c David Lechner 2025-02-07   69  	struct pwm_waveform wf = { };
+> ebb398ae1e052c David Lechner 2025-02-07   70  
+> ebb398ae1e052c David Lechner 2025-02-07   71  	if (config->type != SPI_OFFLOAD_TRIGGER_PERIODIC)
+> ebb398ae1e052c David Lechner 2025-02-07   72  		return -EINVAL;
+> ebb398ae1e052c David Lechner 2025-02-07   73  
+> ebb398ae1e052c David Lechner 2025-02-07   74  	if (!periodic->frequency_hz)
+> ebb398ae1e052c David Lechner 2025-02-07   75  		return -EINVAL;
+> ebb398ae1e052c David Lechner 2025-02-07   76  
+> ebb398ae1e052c David Lechner 2025-02-07   77  	wf.period_length_ns = DIV_ROUND_UP_ULL(NSEC_PER_SEC, periodic->frequency_hz);
+> ebb398ae1e052c David Lechner 2025-02-07   78  	/* REVISIT: 50% duty-cycle for now - may add config parameter later */
+> ebb398ae1e052c David Lechner 2025-02-07   79  	wf.duty_length_ns = wf.period_length_ns / 2;
+> ebb398ae1e052c David Lechner 2025-02-07   80  
+> ebb398ae1e052c David Lechner 2025-02-07  @81  	return pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+> ebb398ae1e052c David Lechner 2025-02-07   82  }
+> ebb398ae1e052c David Lechner 2025-02-07   83  
+> ebb398ae1e052c David Lechner 2025-02-07   84  static void spi_offload_trigger_pwm_disable(struct spi_offload_trigger *trigger)
+> ebb398ae1e052c David Lechner 2025-02-07   85  {
+> ebb398ae1e052c David Lechner 2025-02-07   86  	struct spi_offload_trigger_pwm_state *st = spi_offload_trigger_get_priv(trigger);
+> ebb398ae1e052c David Lechner 2025-02-07   87  	struct pwm_waveform wf;
+> ebb398ae1e052c David Lechner 2025-02-07   88  	int ret;
+> ebb398ae1e052c David Lechner 2025-02-07   89  
+> ebb398ae1e052c David Lechner 2025-02-07  @90  	ret = pwm_get_waveform_might_sleep(st->pwm, &wf);
+> ebb398ae1e052c David Lechner 2025-02-07   91  	if (ret < 0) {
+> ebb398ae1e052c David Lechner 2025-02-07   92  		dev_err(st->dev, "failed to get waveform: %d\n", ret);
+> ebb398ae1e052c David Lechner 2025-02-07   93  		return;
+> ebb398ae1e052c David Lechner 2025-02-07   94  	}
+> ebb398ae1e052c David Lechner 2025-02-07   95  
+> ebb398ae1e052c David Lechner 2025-02-07   96  	wf.duty_length_ns = 0;
+> ebb398ae1e052c David Lechner 2025-02-07   97  
+> ebb398ae1e052c David Lechner 2025-02-07   98  	ret = pwm_set_waveform_might_sleep(st->pwm, &wf, false);
+> ebb398ae1e052c David Lechner 2025-02-07   99  	if (ret < 0)
+> ebb398ae1e052c David Lechner 2025-02-07  100  		dev_err(st->dev, "failed to disable PWM: %d\n", ret);
+> ebb398ae1e052c David Lechner 2025-02-07  101  }
+> ebb398ae1e052c David Lechner 2025-02-07  102  
+> 
 
-  1212	
-  1213	static int acpi_battery_add(struct acpi_device *device)
-  1214	{
-  1215		int result = 0;
-  1216		struct acpi_battery *battery;
-  1217	
-  1218		if (!device)
-  1219			return -EINVAL;
-  1220	
-  1221		if (device->dep_unmet)
-  1222			return -EPROBE_DEFER;
-  1223	
-  1224		battery = devm_kzalloc(&device->dev, sizeof(*battery), GFP_KERNEL);
-  1225		if (!battery)
-  1226			return -ENOMEM;
-  1227		battery->device = device;
-  1228		strscpy(acpi_device_name(device), ACPI_BATTERY_DEVICE_NAME);
-  1229		strscpy(acpi_device_class(device), ACPI_BATTERY_CLASS);
-  1230		device->driver_data = battery;
-  1231		result = devm_mutex_init(&device->dev, &battery->lock);
-  1232		if (result)
-  1233			return result;
-  1234	
-  1235		result = devm_mutex_init(&device->dev, &battery->update_lock);
-  1236		if (result)
-  1237			return result;
-  1238	
-  1239		if (acpi_has_method(battery->device->handle, "_BIX"))
-  1240			set_bit(ACPI_BATTERY_XINFO_PRESENT, &battery->flags);
-  1241	
-  1242		result = acpi_battery_update_retry(battery);
-  1243		if (result)
-  1244			goto fail;
-  1245	
-  1246		pr_info("Slot [%s] (battery %s)\n", acpi_device_bid(device),
-  1247			device->status.battery_present ? "present" : "absent");
-  1248	
-  1249		battery->pm_nb.notifier_call = battery_notify;
-  1250		result = register_pm_notifier(&battery->pm_nb);
-  1251		if (result)
-  1252			goto fail;
-  1253	
-  1254		device_init_wakeup(&device->dev, 1);
-  1255	
-  1256		result = acpi_dev_install_notify_handler(device, ACPI_ALL_NOTIFY,
-  1257							 acpi_battery_notify, device);
-  1258		if (result)
-  1259			goto fail_pm;
-  1260	
-  1261		return 0;
-  1262	
-  1263	fail_pm:
-  1264		device_init_wakeup(&device->dev, 0);
-  1265		unregister_pm_notifier(&battery->pm_nb);
-  1266	fail:
-> 1267		guard(mutex)(&battery->update_lock);
-  1268	
-  1269		sysfs_remove_battery(battery);
-  1270	
-  1271		return result;
-  1272	}
-  1273	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
