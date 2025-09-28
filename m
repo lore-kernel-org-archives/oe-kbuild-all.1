@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8DC246BAA;
-	Sun, 28 Sep 2025 05:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E17B213236
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 08:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759037664; cv=none; b=ayl4VpbBtc5G114xuVnbOO0LinNt+KYsJfVMALBjOrV6qedUKsX95AwIIG5PTK9xwKILvumCiI0Lg4N2jnQv7o+gxB20weq1v04WyM9mua6gzA7BXXU/BazG4D+8DQymaOOf9y7QCdjurVaXFCNIol04+kvHp8naeOpGRrR/jsk=
+	t=1759049904; cv=none; b=HsNSJQIlwr8VxfehTO7K6e+DISyqVz7qDXl+cYqk+ImtnAIzFA65PSt4veTb2JdWc7vSsDA/hK6TE13jnyYrIVl4rTcdfxpdjzx7Sqkr0ysCAQAJ+SRLawljt8k03rPHMmaZ5Fb00CO8o4w4o+BYJ677uyJ02FBSGst9fA5vINw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759037664; c=relaxed/simple;
-	bh=xakyuO/1hDdekWWshDWBVaa367ilvRNGjQcMO4Ul1w4=;
+	s=arc-20240116; t=1759049904; c=relaxed/simple;
+	bh=n/CYU6XJ7EXuyYL/4R8INs3KNybIO1oJqRqDiB1jhAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iozmYRRLMwPuyFCuP+KdcEC5DIPsgvDJraoY2rInjnb9Caj0jHU2s/bIE94dpA+oHN3TFN+B8m0ccahVGVekgr+zskWo06ROk0T//NBh2dstQARmdZm8MsiwfTX4PxlUa0h2z8rclyqa3BpIQIHOP+rH8CTHoy3xFV7xt9Y4n3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8AeE8Vk; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=tVWadqNa75o5X7husV9gsRV9kSZ146l2XVbFDzEwTT4tIUqvx7Bqz+eUkb9GJVoMfbaR1H6KyQwrM44BpNlPHKwU6xazEIxTMCb+DqFRlefuge55c8kH3S+Y7egyFYVw1yuzEwcFyBst+Tah/dF949MTw2q8GtOQC5z/brruWIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F82fZ/Ov; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8AeE8Vk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F82fZ/Ov"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759037663; x=1790573663;
+  t=1759049901; x=1790585901;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xakyuO/1hDdekWWshDWBVaa367ilvRNGjQcMO4Ul1w4=;
-  b=n8AeE8VkNkehRpuDeTQnpp0NZ/a6VDzjIp2QgtchZze3RTKI3vHsw9ze
-   9eJT4ksRnLwIScD4F/mG/j2gqV/ecQCmCeBsOOPksmn4+2vDj+qYi9Z4Z
-   ho3AP+epg0yu9ffm94Ej41uOm5CLyaA9awuxKEzE6U9RvlpTIU03XwFJo
-   /HtgCi714aN/pnC+zNRxSV99l1EVOumxcnk4YcjMm05geNE7LrtFOvVbl
-   kzhpG9QAEUCRpxnBBfCfo78Vv/p5nZdZ6R9P5bdbeiyNhcUlqf7JrHC+4
-   oWq7JzXgpiDEV3V6UR1S78fz2auA0G2qtHPYFGLAoMOj4i4RQgBNZMF74
-   A==;
-X-CSE-ConnectionGUID: 4ERXqbB/RnO4DFlcsNUzEA==
-X-CSE-MsgGUID: FCKjCtoTTlaGRNVsr6ZOaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="71561436"
-X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
-   d="scan'208";a="71561436"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2025 22:34:23 -0700
-X-CSE-ConnectionGUID: PVChTyzrSFauydPISQQPkA==
-X-CSE-MsgGUID: v9k4s4GlTayhLAk+KsPTXA==
+  bh=n/CYU6XJ7EXuyYL/4R8INs3KNybIO1oJqRqDiB1jhAM=;
+  b=F82fZ/OvCWX9IKsM7qhNOq+ePyYXh+QIIez/lL8UIdr6fskq1Ea3Z/kZ
+   y+uQ4os36w29x5TPPVwKI902frSyR/+qpOSh8aBtQX6Wwn+JvuViAYbgu
+   umihyefW9V0tdqvleN69GZoOh0/fkt8RnYc9+OUUfgX9IwHfrIkkoTg9Y
+   CPwnDsMmwJLxdH/kXZFk7wW68dShvbHnzRLl4qqXNIYLO+Ukx1OSUo0dK
+   +TMXstlKh88RB4Fh2M09SWkceU8hisgNmrqylWeXIHicskh32tYXkKpR6
+   g4u07LCO2HGkFHDD5f7/lJfsGPwduxrgI+Opgixx7Em5A+9OxoPlU4TVK
+   w==;
+X-CSE-ConnectionGUID: DwHqPh8oRAi5RWv6clkupw==
+X-CSE-MsgGUID: tqJEOi5MRhujxiqq6Mrc3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="83932579"
+X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
+   d="scan'208";a="83932579"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 01:58:21 -0700
+X-CSE-ConnectionGUID: FyDcOJrtQmKJYH43A1yfKQ==
+X-CSE-MsgGUID: ysjf69TMRyysG77FYOM9dA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,298,1751266800"; 
-   d="scan'208";a="215083808"
+X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
+   d="scan'208";a="177243145"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 27 Sep 2025 22:34:21 -0700
+  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2025 01:58:20 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2k37-0007a7-1O;
-	Sun, 28 Sep 2025 05:34:17 +0000
-Date: Sun, 28 Sep 2025 13:34:11 +0800
+	id 1v2nEW-0007f1-1L;
+	Sun, 28 Sep 2025 08:58:16 +0000
+Date: Sun, 28 Sep 2025 16:57:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make24@iscas.ac.cn>, syniurge@gmail.com,
-	shyam-sundar.s-k@amd.com, andi.shyti@kernel.org, wsa@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, Ma Ke <make24@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] i2c: fix reference leak in MP2 PCI device
-Message-ID: <202509281317.3OLDoUnB-lkp@intel.com>
-References: <20250927105729.19164-1-make24@iscas.ac.cn>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, jjohnson@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	ath10k@lists.infradead.org,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>
+Subject: Re: [PATCH ath-next] wifi: ath10k: Support for FTM TLV test commands
+Message-ID: <202509281616.IKHm5zbZ-lkp@intel.com>
+References: <20250926201303.194029-1-loic.poulain@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,68 +64,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250927105729.19164-1-make24@iscas.ac.cn>
+In-Reply-To: <20250926201303.194029-1-loic.poulain@oss.qualcomm.com>
 
-Hi Ma,
+Hi Loic,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on linus/master v6.17-rc7 next-20250926]
+[auto build test WARNING on ath/ath-next]
+[also build test WARNING on wireless/main wireless-next/main linus/master v6.17-rc7 next-20250926]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/i2c-fix-reference-leak-in-MP2-PCI-device/20250927-190047
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20250927105729.19164-1-make24%40iscas.ac.cn
-patch subject: [PATCH] i2c: fix reference leak in MP2 PCI device
-config: i386-randconfig-011-20250928 (https://download.01.org/0day-ci/archive/20250928/202509281317.3OLDoUnB-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281317.3OLDoUnB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Loic-Poulain/wifi-ath10k-Support-for-FTM-TLV-test-commands/20250927-041539
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+patch link:    https://lore.kernel.org/r/20250926201303.194029-1-loic.poulain%40oss.qualcomm.com
+patch subject: [PATCH ath-next] wifi: ath10k: Support for FTM TLV test commands
+config: x86_64-randconfig-121-20250928 (https://download.01.org/0day-ci/archive/20250928/202509281616.IKHm5zbZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281616.IKHm5zbZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509281317.3OLDoUnB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509281616.IKHm5zbZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/ath/ath10k/testmode.c:93:23: sparse: sparse: cast to restricted __le32
+>> drivers/net/wireless/ath/ath10k/testmode.c:93:23: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/wireless/ath/ath10k/testmode.c:93:23: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/wireless/ath/ath10k/testmode.c:94:26: sparse: sparse: cast to restricted __le32
+   drivers/net/wireless/ath/ath10k/testmode.c:94:26: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/wireless/ath/ath10k/testmode.c:94:26: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/net/wireless/ath/ath10k/testmode.c:585:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] tlv_header @@     got unsigned int [assigned] [usertype] hdr_info @@
+   drivers/net/wireless/ath/ath10k/testmode.c:585:37: sparse:     expected restricted __le32 [usertype] tlv_header
+   drivers/net/wireless/ath/ath10k/testmode.c:585:37: sparse:     got unsigned int [assigned] [usertype] hdr_info
+>> drivers/net/wireless/ath/ath10k/testmode.c:586:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned short [assigned] [usertype] total_bytes @@
+   drivers/net/wireless/ath/ath10k/testmode.c:586:38: sparse:     expected restricted __le32 [usertype] len
+   drivers/net/wireless/ath/ath10k/testmode.c:586:38: sparse:     got unsigned short [assigned] [usertype] total_bytes
+>> drivers/net/wireless/ath/ath10k/testmode.c:587:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] msgref @@     got unsigned char [usertype] ftm_msgref @@
+   drivers/net/wireless/ath/ath10k/testmode.c:587:41: sparse:     expected restricted __le32 [usertype] msgref
+   drivers/net/wireless/ath/ath10k/testmode.c:587:41: sparse:     got unsigned char [usertype] ftm_msgref
+>> drivers/net/wireless/ath/ath10k/testmode.c:590:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] segmentinfo @@     got unsigned char [assigned] [usertype] seginfo @@
+   drivers/net/wireless/ath/ath10k/testmode.c:590:46: sparse:     expected restricted __le32 [usertype] segmentinfo
+   drivers/net/wireless/ath/ath10k/testmode.c:590:46: sparse:     got unsigned char [assigned] [usertype] seginfo
 
->> drivers/i2c/busses/i2c-amd-mp2-pci.c:467:2: error: use of undeclared identifier 'mp2_dev'
-     467 |         mp2_dev = (struct amd_mp2_dev *)pci_get_drvdata(pci_dev);
-         |         ^
-   drivers/i2c/busses/i2c-amd-mp2-pci.c:469:9: error: use of undeclared identifier 'mp2_dev'; did you mean 'pci_dev'?
-     469 |         return mp2_dev;
-         |                ^~~~~~~
-         |                pci_dev
-   drivers/i2c/busses/i2c-amd-mp2-pci.c:460:18: note: 'pci_dev' declared here
-     460 |         struct pci_dev *pci_dev;
-         |                         ^
->> drivers/i2c/busses/i2c-amd-mp2-pci.c:469:9: error: incompatible pointer types returning 'struct pci_dev *' from a function with result type 'struct amd_mp2_dev *' [-Werror,-Wincompatible-pointer-types]
-     469 |         return mp2_dev;
-         |                ^~~~~~~
-   3 errors generated.
+vim +93 drivers/net/wireless/ath/ath10k/testmode.c
 
-
-vim +/mp2_dev +467 drivers/i2c/busses/i2c-amd-mp2-pci.c
-
-   456	
-   457	struct amd_mp2_dev *amd_mp2_find_device(void)
-   458	{
-   459		struct device *dev;
-   460		struct pci_dev *pci_dev;
-   461	
-   462		dev = driver_find_next_device(&amd_mp2_pci_driver.driver, NULL);
-   463		if (!dev)
-   464			return NULL;
-   465	
-   466		pci_dev = to_pci_dev(dev);
- > 467		mp2_dev = (struct amd_mp2_dev *)pci_get_drvdata(pci_dev);
-   468		put_device(dev);
- > 469		return mp2_dev;
-   470	}
-   471	EXPORT_SYMBOL_GPL(amd_mp2_find_device);
-   472	
+    77	
+    78	static void ath10k_tm_event_segmented(struct ath10k *ar, u32 cmd_id, struct sk_buff *skb)
+    79	{
+    80		struct wmi_ftm_cmd *ftm = (struct wmi_ftm_cmd *)skb->data;
+    81		u8 total_segments, current_seq;
+    82		struct sk_buff *nl_skb;
+    83		u8 const *buf_pos;
+    84		u16 datalen;
+    85		u32 data_pos;
+    86		int ret;
+    87	
+    88		if (skb->len < sizeof(*ftm)) {
+    89			ath10k_warn(ar, "Invalid ftm event length: %d\n", skb->len);
+    90			return;
+    91		}
+    92	
+  > 93		current_seq = FIELD_GET(ATH10K_FTM_SEGHDR_CURRENT_SEQ, ftm->seg_hdr.segmentinfo);
+    94		total_segments = FIELD_GET(ATH10K_FTM_SEGHDR_TOTAL_SEGMENTS,
+    95					   ftm->seg_hdr.segmentinfo);
+    96		datalen = skb->len - sizeof(*ftm);
+    97		buf_pos = ftm->data;
+    98	
+    99		if (current_seq == 0) {
+   100			ar->testmode.expected_seq = 0;
+   101			ar->testmode.data_pos = 0;
+   102		}
+   103	
+   104		data_pos = ar->testmode.data_pos;
+   105	
+   106		if ((data_pos + datalen) > ATH_FTM_EVENT_MAX_BUF_LENGTH) {
+   107			ath10k_warn(ar, "Invalid ftm event length at %u: %u\n",
+   108				    data_pos, datalen);
+   109			ret = -EINVAL;
+   110			return;
+   111		}
+   112	
+   113		memcpy(&ar->testmode.eventdata[data_pos], buf_pos, datalen);
+   114		data_pos += datalen;
+   115	
+   116		if (++ar->testmode.expected_seq != total_segments) {
+   117			ar->testmode.data_pos = data_pos;
+   118			ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "partial data received %u/%u\n",
+   119				   current_seq + 1, total_segments);
+   120			return;
+   121		}
+   122	
+   123		ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "total data length %u\n", data_pos);
+   124	
+   125		nl_skb = cfg80211_testmode_alloc_event_skb(ar->hw->wiphy,
+   126							   2 * sizeof(u32) + data_pos,
+   127							   GFP_ATOMIC);
+   128		if (!nl_skb) {
+   129			ath10k_warn(ar, "failed to allocate skb for testmode wmi event\n");
+   130			return;
+   131		}
+   132	
+   133		ret = nla_put_u32(nl_skb, ATH10K_TM_ATTR_CMD, ATH10K_TM_CMD_TLV);
+   134		if (ret) {
+   135			ath10k_warn(ar, "failed to put testmode wmi event attribute: %d\n", ret);
+   136			kfree_skb(nl_skb);
+   137			return;
+   138		}
+   139	
+   140		ret = nla_put_u32(nl_skb, ATH10K_TM_ATTR_WMI_CMDID, cmd_id);
+   141		if (ret) {
+   142			ath10k_warn(ar, "failed to put testmode wmi event cmd_id: %d\n", ret);
+   143			kfree_skb(nl_skb);
+   144			return;
+   145		}
+   146	
+   147		ret = nla_put(nl_skb, ATH10K_TM_ATTR_DATA, data_pos, &ar->testmode.eventdata[0]);
+   148		if (ret) {
+   149			ath10k_warn(ar, "failed to copy skb to testmode wmi event: %d\n", ret);
+   150			kfree_skb(nl_skb);
+   151			return;
+   152		}
+   153	
+   154		cfg80211_testmode_event(nl_skb, GFP_ATOMIC);
+   155	}
+   156	
 
 -- 
 0-DAY CI Kernel Test Service
