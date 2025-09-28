@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4664A2253AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 12:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5F61F790F;
+	Sun, 28 Sep 2025 14:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759063088; cv=none; b=vD9LXQklMGJCh45vwC+Jxj3cBTGZm1aUn0acDiYEuJButPLjpKEnnXuBjYMIar0gieTKmNLYDBMG4k2bh/JH9RJWUt+733idj6jGD/mlKtT5dspdhu0jCSv7KHJ9SMELKDUpen+E4+fFAaMxOYMNGTj/Z9XV1diWMXqBEDgs0Ic=
+	t=1759068305; cv=none; b=Bbdo2EEeLVpqw6aOSKaRpWgoqbH3ZiddHahWw1dDOrnUEWpR7ErgtDSeb1R+3Ihk/kuOtH1SVcZxY8gIhine1jVlhEjmEQlo1sZRnpEUXSThlV4pcGnkl/UMb4dV1z262tEULF0wqmrZnkdLLATCZw4EzC+c4EiRrZpiZ8w/KFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759063088; c=relaxed/simple;
-	bh=F+ulgsO9spSctRxlsM4Q8HSh4h0QoKP6pPsI/AWqKPA=;
+	s=arc-20240116; t=1759068305; c=relaxed/simple;
+	bh=1M5OS7GUWwRD4CXr9HXBE3LDwxfHJJAZgQggkuRYtoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bovsgoyd1gxOrUeI/lty4AdMJbmDUR7jMmD4qCKEZHqXuUUl+db3zr2De+W4iMYlZd27AZleqqoob5T2DOj5EPGxhD61/ZXDeT7b1COj7Z8qeTwZ348pz391ZA/jumnUrqGcnzxQJRE+xBTwa+mY8Q+1s2RKHuaQeJN4NfY51BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfEfCw51; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=e76Bq6IkDrXLWVhDT1ycopGlrvmAxkiZublilV+F7Cn5uXT012RzbXZ17cXJVflfFB2VCB4CZf4P2IezVEaI/REGj8JdAhE6KA7MNZmRBMpdPb6kDXkwBR6DYjzS7KyoAtxJBsMgrfBXfy+G4pTazJ3OrGw7jgnpO3QR0PPVGc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HfyZChaT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfEfCw51"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HfyZChaT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759063086; x=1790599086;
+  t=1759068304; x=1790604304;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+ulgsO9spSctRxlsM4Q8HSh4h0QoKP6pPsI/AWqKPA=;
-  b=NfEfCw519xVABgctiB5wNZzzf+z69A0Au6zdrJIkIK3aVht/s+wCPa4e
-   3DkKSoGCH05gp5v9TZHcBgJc2bDur7yU3MpoG9TonriovcSpXM+ciyhsE
-   7W78ffG60VSpfzek3otSqQjRDG4P1wDfXBBhmziy/pgtsD/NLzxNgXHF3
-   PZ59ZhRcRazaXALQdvytS3vvot8VLO9at0IPtz6n1QfkAzG1C1wXncL02
-   kdGC8NDAwZvA1POGQhsAJhfvswYsR3Ty/LXa7fZ0OB0wtzBsOfVtvJTVF
-   5TeYtnJ2z53hqUMSLdbejGVEZmoBIKRqMTvSMsufVfgIgdkrMe2VkNwvt
-   w==;
-X-CSE-ConnectionGUID: ulw6XDH3TbCkXHf/OuhN6w==
-X-CSE-MsgGUID: 8Lnj2cC+RR6wiZ7kcqmUXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="86775370"
-X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="86775370"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 05:38:05 -0700
-X-CSE-ConnectionGUID: J+BcHAqoQ+6n4LIJV6Hu8w==
-X-CSE-MsgGUID: 3e8t3BgHTfyFhNIz9v7dGA==
+  bh=1M5OS7GUWwRD4CXr9HXBE3LDwxfHJJAZgQggkuRYtoc=;
+  b=HfyZChaTvOwEdUoYJ/dMkpWrjfjfOG1W9CY9qliCJ1Z4rrCU3MDuRbaK
+   Ukda35Uv5ZFIBq4uQDhtUEHAOULodlIhGIkFhT2aCE3c9+Fjv+7nmuctR
+   MgzrD0AKWpGR2oCc42b1wePeK3BjBMOfjHrXqCRzoXtPf1g+RXWveFoy5
+   pSceS4h4MxnP4q1+jH3lw1A8Pf+4nLxeUyj4BS+8tPv+UWC2cC/C7MO58
+   kzwiXvI1v+fOwpExloHx2/JuHCIgUXEGdr+ge2oC3jmMIR/OoJQ+LTwpO
+   IPG6E6EzWyeth4FuBIPl13NzFq0lbTO+XX/X1w7xPw7vWV7MQollLeBag
+   g==;
+X-CSE-ConnectionGUID: oSaunKN4QZWjcjmUsUlN+w==
+X-CSE-MsgGUID: Zme/GdqYRZusl9A7KsIG/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61378000"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61378000"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 07:05:03 -0700
+X-CSE-ConnectionGUID: pvHvFEAmTqaxx3CWyUFdFg==
+X-CSE-MsgGUID: 8rvT3eIuStWb8+W+2SG25Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="178401125"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2025 05:38:04 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="182429047"
+Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Sep 2025 07:05:01 -0700
+Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2qfC-000000005eP-0iF5;
-	Sun, 28 Sep 2025 12:38:02 +0000
-Date: Sun, 28 Sep 2025 14:37:13 +0200
+	id 1v2s1L-0007qD-1Q;
+	Sun, 28 Sep 2025 14:04:59 +0000
+Date: Sun, 28 Sep 2025 22:04:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Jie Zhan <zhanjie9@hisilicon.com>
-Subject: [rafael-pm:bleeding-edge 205/213] warning: casting to the same type
- is unnecessary (`u32` -> `u32`)
-Message-ID: <202509281454.ZTmjIs2S-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt_all 38/56] ERROR: modpost:
+ "iommu_pages_free_incoherent" [drivers/iommu/generic_pt/fmt/iommu_armv7s.ko]
+ undefined!
+Message-ID: <202509290031.sRv1W6Vg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,30 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   11c0c0dd019710f162cd5d246a4efdbaefdac48b
-commit: a11d30de57e312687d103e243f0ce6461ad9a5c0 [205/213] cpufreq: Make drivers using CPUFREQ_ETERNAL specify transition latency
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250928/202509281454.ZTmjIs2S-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281454.ZTmjIs2S-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt_all
+head:   522863b6a09fe03ab056bfb3d451f0acca859902
+commit: 98302a011be816bafc6adfb3db80494b7619b515 [38/56] iommupt: Add the 32 bit ARMv7s page table format
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250929/202509290031.sRv1W6Vg-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290031.sRv1W6Vg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509281454.ZTmjIs2S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509290031.sRv1W6Vg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> warning: casting to the same type is unnecessary (`u32` -> `u32`)
-   --> rust/kernel/cpufreq.rs:43:9
-   |
-   43 |         bindings::CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS as u32;
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `bindings::CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_cast
-   = note: `-W clippy::unnecessary-cast` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::unnecessary_cast)]`
+>> ERROR: modpost: "iommu_pages_free_incoherent" [drivers/iommu/generic_pt/fmt/iommu_armv7s.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
