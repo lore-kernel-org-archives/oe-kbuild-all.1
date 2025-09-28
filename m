@@ -1,67 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27DE25A2B5;
-	Sun, 28 Sep 2025 19:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB801FE45A;
+	Sun, 28 Sep 2025 20:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759086627; cv=none; b=K/dfd3att1XHwmQhrq90oNpbgDDG9RAPAcri0yIYljOfuy0l2P97ZV9K3feDUiCw1YZa0ozioBXb2+hQwKhgwGCNOjxJUVznxmF+BI/4bJsXYFEfveMoe8kMEQ4V39M4226A3P4iAerEI+zpYnFtaVjzlHeV1nY6zgWzp3jvp+g=
+	t=1759092165; cv=none; b=OhwJ6sfqTvZ1hPozUVj9LZ+fVlL8DmaK1dUjeNPYNVIP+wrd5I31OhrY5kFVPt0UyFl5cT1BF9b8tDs8GoEkTzx0mc/GtXL3rme/SgPEUKiGtueDBBbUDZb6etTqnETQGDVhajbFTKSixosutzYo+2qXvD4xJkUdOliD6f5vJzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759086627; c=relaxed/simple;
-	bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
+	s=arc-20240116; t=1759092165; c=relaxed/simple;
+	bh=1sps20PL6Y5yiXBdDDnh6VsVaOkZk+a7m0mccmk7TBk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R5U98QObk/EQVq0uAsOjqxgWPGMciFbArCdkM0AouXq8znt/VLGhjVF78GQLbFXh6jZhGFaAXmGlj4/KPra0aH6hsw/8JkH95fFaPrSPFl8oUSLEq0GBlartMQL0VR6fLaHxNzgUv4HhrFHG++eniKwAK30YPXMre9G4GHIWazk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLjcCQM7; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=dMV7wawJXLw/AwV0G1B7aqNMkkfDwDPPHBUDxvAFiF99f41lF2zaBO6Z5jaVQZMITIMQGfTY+1MThTDSspyESULdFpZdR6Mk2P3Un59BHHj2K9Zp0Px93bv7pa2qbsJURcRmaFVarc9lg3+OEV5bPGk3u4xfmjLbaCb9MX8sMEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abj/t+cM; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLjcCQM7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abj/t+cM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759086626; x=1790622626;
+  t=1759092164; x=1790628164;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ARfTGfLniAH7wUpL/BT0VpywPmBlBLL8BFcDU6AhgMY=;
-  b=KLjcCQM72/FpskmIHyhDRtcTLwuoGPBJb4BG12p+EWFr85aBiUKGORo1
-   SpH0rMfwvBY7dRN49U64xBhEJ9wqknq8DEJi3dwnzJSwjUz42h13AUyiG
-   0rAcLbUqQxWbjrkbbSqhcSmPXxgWzzykGjj9Im6nrd2n9GrZCIMmq2w++
-   yw9Y9qxBg24evxp23XrfbK7LzD99qGL5TI46n48pb+b7tTQK0lazclkV4
-   OexDZuXZdccowKmFrv5oovFPEunPlHcrIV+e/5rxZQQV1UVs3bcz1uCNQ
-   R1J37uqO1uG6ao1jCm6LsE3HbumH70z++8fNDRWym8wbNr8b3Xp1b9Foa
-   w==;
-X-CSE-ConnectionGUID: QU8vISyIS4q+9fV1Ph7C0Q==
-X-CSE-MsgGUID: HP3WoKrjRqqA3em0mi/bTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="86789066"
+  bh=1sps20PL6Y5yiXBdDDnh6VsVaOkZk+a7m0mccmk7TBk=;
+  b=abj/t+cM+Z8fNqGFPUVLlYmyXcIEGLuVU3A81TVS9FkTfwHdtVHCbp7g
+   1aOVMOAMMkyk7q450fZBPgafoW2RG6KWx35z4EwN+fO/JWwBTCXlMbruT
+   VHa0zPR8DDIHL+sIRU/GIohuU5C2gutIq6JgwslqN886BbbPEf3qruXtL
+   UnV6swUOShehFXivMZen/qlaOR/lDf1dxJS2/rcbXdHNtCfBIfLDTZxbP
+   qapbRC1kI7wfCpX5T+T5j5lrfLBO/Eb9MpyiZd48deZB33X+Vw2ygRCbM
+   /wIyo/wX62nxVRdFvrtf8ZnBOeXZk3YDEtGv1evJS9l/cgSfJwsbpMhnf
+   A==;
+X-CSE-ConnectionGUID: sijC7BaWTC6LAIKSwO/Dzg==
+X-CSE-MsgGUID: kzrIErruQbaEHw1CFl/qmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="60375463"
 X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="86789066"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 12:10:25 -0700
-X-CSE-ConnectionGUID: 28kYypdTR3+5govQnOWY+w==
-X-CSE-MsgGUID: N8rFLA6UT+2MHMdcmrmaDw==
+   d="scan'208";a="60375463"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 13:42:43 -0700
+X-CSE-ConnectionGUID: 17ksutRlRWiQdhTcqFbgFw==
+X-CSE-MsgGUID: TWYv+Q42TPGRcuEFSkLnvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="177315325"
+   d="scan'208";a="177890257"
 Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2025 12:10:22 -0700
+  by orviesa007.jf.intel.com with ESMTP; 28 Sep 2025 13:42:39 -0700
 Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v2wml-0007y3-0R;
-	Sun, 28 Sep 2025 19:10:16 +0000
-Date: Mon, 29 Sep 2025 03:10:14 +0800
+	id 1v2yE8-0007z9-3D;
+	Sun, 28 Sep 2025 20:42:36 +0000
+Date: Mon, 29 Sep 2025 04:42:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
-	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
-	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
-Subject: Re: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path
- testing
-Message-ID: <202509290238.4kkJL0x5-lkp@intel.com>
-References: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
+To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
+	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+	lee@kernel.org, pobrn@protonmail.com
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+Message-ID: <202509290415.uez00SgW-lkp@intel.com>
+References: <20250928013253.10869-2-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,37 +68,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250923-loopback_mhi-v1-2-8618f31f44aa@oss.qualcomm.com>
+In-Reply-To: <20250928013253.10869-2-W_Armin@gmx.de>
 
-Hi Sumit,
+Hi Armin,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.17-rc7 next-20250926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Kumar/bus-mhi-host-Add-loopback-driver-with-sysfs-interface/20250923-144109
-base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
-patch link:    https://lore.kernel.org/r/20250923-loopback_mhi-v1-2-8618f31f44aa%40oss.qualcomm.com
-patch subject: [PATCH 2/2] bus: mhi: ep: Add loopback driver for data path testing
-config: loongarch-randconfig-001-20250929 (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290238.4kkJL0x5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/platform-x86-Add-Uniwill-laptop-driver/20250928-093543
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20250928013253.10869-2-W_Armin%40gmx.de
+patch subject: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250929/202509290415.uez00SgW-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290415.uez00SgW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509290238.4kkJL0x5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509290415.uez00SgW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_dl_callback':
->> mhi_ep_loopback.c:(.text+0x20): undefined reference to `sk_skb_reason_drop'
-   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_work_handler':
-   mhi_ep_loopback.c:(.text+0x74): undefined reference to `sk_skb_reason_drop'
-   loongarch64-linux-ld: drivers/bus/mhi/ep/mhi_ep_loopback.o: in function `mhi_ep_loopback_ul_callback':
->> mhi_ep_loopback.c:(.text+0x19c): undefined reference to `__alloc_skb'
->> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x1e4): undefined reference to `skb_put'
->> loongarch64-linux-ld: mhi_ep_loopback.c:(.text+0x2b8): undefined reference to `sk_skb_reason_drop'
+>> drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1243 |                 guard(mutex)(&data->battery_lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:49:1: note: expanded from here
+      49 | class_mutex_t
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1250:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+    1250 |                 guard(mutex)(&data->input_lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:60:1: note: expanded from here
+      60 | class_mutex_t
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1249:2: error: cannot jump from switch statement to this case label
+    1249 |         default:
+         |         ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    1243 |                 guard(mutex)(&data->battery_lock);
+         |                 ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:47:1: note: expanded from here
+      47 | __UNIQUE_ID_guard1072
+         | ^
+   2 warnings and 1 error generated.
+
+
+vim +1243 drivers/platform/x86/uniwill/uniwill-acpi.c
+
+  1235	
+  1236	static int uniwill_notifier_call(struct notifier_block *nb, unsigned long action, void *dummy)
+  1237	{
+  1238		struct uniwill_data *data = container_of(nb, struct uniwill_data, nb);
+  1239		struct uniwill_battery_entry *entry;
+  1240	
+  1241		switch (action) {
+  1242		case UNIWILL_OSD_BATTERY_ALERT:
+> 1243			guard(mutex)(&data->battery_lock);
+  1244			list_for_each_entry(entry, &data->batteries, head) {
+  1245				power_supply_changed(entry->battery);
+  1246			}
+  1247	
+  1248			return NOTIFY_OK;
+  1249		default:
+  1250			guard(mutex)(&data->input_lock);
+  1251			sparse_keymap_report_event(data->input_device, action, 1, true);
+  1252	
+  1253			return NOTIFY_OK;
+  1254		}
+  1255	}
+  1256	
 
 -- 
 0-DAY CI Kernel Test Service
