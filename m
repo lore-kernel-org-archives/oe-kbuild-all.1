@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3CB2D5927
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 10:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4664A2253AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 12:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759056696; cv=none; b=Ib9SPbIrKmj2ixHDMlKM5VeHiLJYOndwWfWX861OSVZm5iU1jxa+nB3M6hTZfma90GX41McDJk5Y/kNkCjuRI6uheCZXMMavhSzp6dQsvQV4TyZCwH6cBha6V5V/KJzLYvbnjXii7ttBz1RzPX67/zgXZ9xtgSD7FwYKn+4+nfQ=
+	t=1759063088; cv=none; b=vD9LXQklMGJCh45vwC+Jxj3cBTGZm1aUn0acDiYEuJButPLjpKEnnXuBjYMIar0gieTKmNLYDBMG4k2bh/JH9RJWUt+733idj6jGD/mlKtT5dspdhu0jCSv7KHJ9SMELKDUpen+E4+fFAaMxOYMNGTj/Z9XV1diWMXqBEDgs0Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759056696; c=relaxed/simple;
-	bh=5Q6/ToLJTDMRT6g1j/7OUPi2hDp2kJaKgYO71uPbQN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bRvpOfNipID2PQVS/Dbnng5YtDn9PYt3TKOnmq9fAopeXAZOUmcHlD2piRq8WgwAl+yaDCZWxZFP3tglAjt37C8VK/dAQPOMjZ8dgj4UrnmAx9QjlYVn/kqSjuLWVr1FgcGSStTDARm7LibsyBAtF5EEw0/83izDWc83ic0SsM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUOftNBF; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1759063088; c=relaxed/simple;
+	bh=F+ulgsO9spSctRxlsM4Q8HSh4h0QoKP6pPsI/AWqKPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bovsgoyd1gxOrUeI/lty4AdMJbmDUR7jMmD4qCKEZHqXuUUl+db3zr2De+W4iMYlZd27AZleqqoob5T2DOj5EPGxhD61/ZXDeT7b1COj7Z8qeTwZ348pz391ZA/jumnUrqGcnzxQJRE+xBTwa+mY8Q+1s2RKHuaQeJN4NfY51BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfEfCw51; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUOftNBF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfEfCw51"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759056694; x=1790592694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Q6/ToLJTDMRT6g1j/7OUPi2hDp2kJaKgYO71uPbQN8=;
-  b=bUOftNBFgxEnCSJBwFmLiyFfC7iy7wO51qcr6WGoXw3BP2QuFccPpUmP
-   z2CpyjTh+OdnFmyB492rfMmJvj95BbcvBM8UGU/DlQSdBFEMsP75+43C1
-   pwsVbmm+qFHqvoUfMlPBh7E1QgMzRUGIi7DbI04yhQ5AaeRwWFI9E+bT3
-   BGkC8BuGZBvUa4T/VFjeJ80/ksXU/oxk+8LVQwn7vMWM7zANAz3Y/s/Aw
-   QEJo2VLJ5yxUQu217iCeywF8PeAL2Ad0IprBwt3eVxEqMeKVW6uvdUzxu
-   2orGtSI0Wzb+CuBBJPAyk+BJDpd9hzdyMt2oNf6svVDPimdPzKURVmfMU
-   g==;
-X-CSE-ConnectionGUID: JeZiE3t3SlG6SEdRj8vxgA==
-X-CSE-MsgGUID: a/mHu4rJT6u8ZFYy0+p5JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="83936429"
+  t=1759063086; x=1790599086;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F+ulgsO9spSctRxlsM4Q8HSh4h0QoKP6pPsI/AWqKPA=;
+  b=NfEfCw519xVABgctiB5wNZzzf+z69A0Au6zdrJIkIK3aVht/s+wCPa4e
+   3DkKSoGCH05gp5v9TZHcBgJc2bDur7yU3MpoG9TonriovcSpXM+ciyhsE
+   7W78ffG60VSpfzek3otSqQjRDG4P1wDfXBBhmziy/pgtsD/NLzxNgXHF3
+   PZ59ZhRcRazaXALQdvytS3vvot8VLO9at0IPtz6n1QfkAzG1C1wXncL02
+   kdGC8NDAwZvA1POGQhsAJhfvswYsR3Ty/LXa7fZ0OB0wtzBsOfVtvJTVF
+   5TeYtnJ2z53hqUMSLdbejGVEZmoBIKRqMTvSMsufVfgIgdkrMe2VkNwvt
+   w==;
+X-CSE-ConnectionGUID: ulw6XDH3TbCkXHf/OuhN6w==
+X-CSE-MsgGUID: 8Lnj2cC+RR6wiZ7kcqmUXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11566"; a="86775370"
 X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="83936429"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 03:51:34 -0700
-X-CSE-ConnectionGUID: mpLhUsFVRLOFjQzMKUqWJw==
-X-CSE-MsgGUID: FDuLti9CR9Gm2wRfAHjvpw==
+   d="scan'208";a="86775370"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 05:38:05 -0700
+X-CSE-ConnectionGUID: J+BcHAqoQ+6n4LIJV6Hu8w==
+X-CSE-MsgGUID: 3e8t3BgHTfyFhNIz9v7dGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,299,1751266800"; 
-   d="scan'208";a="177566984"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 28 Sep 2025 03:51:32 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="178401125"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2025 05:38:04 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v2p05-0007jz-2K;
-	Sun, 28 Sep 2025 10:51:29 +0000
-Date: Sun, 28 Sep 2025 18:51:05 +0800
+	id 1v2qfC-000000005eP-0iF5;
+	Sun, 28 Sep 2025 12:38:02 +0000
+Date: Sun, 28 Sep 2025 14:37:13 +0200
 From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH -next RFC 12/16] cpuset: unify local partition disable
- and invalidate
-Message-ID: <202509281853.Vep3zztD-lkp@intel.com>
-References: <20250928071306.3797436-13-chenridong@huaweicloud.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Jie Zhan <zhanjie9@hisilicon.com>
+Subject: [rafael-pm:bleeding-edge 205/213] warning: casting to the same type
+ is unnecessary (`u32` -> `u32`)
+Message-ID: <202509281454.ZTmjIs2S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +64,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250928071306.3797436-13-chenridong@huaweicloud.com>
 
-Hi Chen,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20250926]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cpuset-use-update_partition_sd_lb-in-update_cpumasks_hier/20250928-154546
-base:   next-20250926
-patch link:    https://lore.kernel.org/r/20250928071306.3797436-13-chenridong%40huaweicloud.com
-patch subject: [PATCH -next RFC 12/16] cpuset: unify local partition disable and invalidate
-config: x86_64-buildonly-randconfig-002-20250928 (https://download.01.org/0day-ci/archive/20250928/202509281853.Vep3zztD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281853.Vep3zztD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   11c0c0dd019710f162cd5d246a4efdbaefdac48b
+commit: a11d30de57e312687d103e243f0ce6461ad9a5c0 [205/213] cpufreq: Make drivers using CPUFREQ_ETERNAL specify transition latency
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250928/202509281454.ZTmjIs2S-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250928/202509281454.ZTmjIs2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509281853.Vep3zztD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509281454.ZTmjIs2S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: kernel/cgroup/cpuset.c:1936 function parameter 'part_error' not described in 'local_partition_disable'
+>> warning: casting to the same type is unnecessary (`u32` -> `u32`)
+   --> rust/kernel/cpufreq.rs:43:9
+   |
+   43 |         bindings::CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS as u32;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `bindings::CPUFREQ_DEFAULT_TRANSITION_LATENCY_NS`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_cast
+   = note: `-W clippy::unnecessary-cast` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::unnecessary_cast)]`
 
 -- 
 0-DAY CI Kernel Test Service
