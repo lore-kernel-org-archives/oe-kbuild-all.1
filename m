@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB801FE45A;
-	Sun, 28 Sep 2025 20:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A73D1D5CFB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Sep 2025 23:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759092165; cv=none; b=OhwJ6sfqTvZ1hPozUVj9LZ+fVlL8DmaK1dUjeNPYNVIP+wrd5I31OhrY5kFVPt0UyFl5cT1BF9b8tDs8GoEkTzx0mc/GtXL3rme/SgPEUKiGtueDBBbUDZb6etTqnETQGDVhajbFTKSixosutzYo+2qXvD4xJkUdOliD6f5vJzk=
+	t=1759100591; cv=none; b=Ec7FYN3cQOKw1t7qPJXzJYhle3yBCfOS6MybebIfMj0tMRytf8Zb06C4eWrlNrbqp7Iptmpkp3u/hTFifBXhtQIHMAjcm+0x17zvImvQdRniTYHxRGPksKQ9Z9wIZhWVX1pxlLBkSUdcepk/rPrDQLprccNSLdwzgy5yTSibUks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759092165; c=relaxed/simple;
-	bh=1sps20PL6Y5yiXBdDDnh6VsVaOkZk+a7m0mccmk7TBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMV7wawJXLw/AwV0G1B7aqNMkkfDwDPPHBUDxvAFiF99f41lF2zaBO6Z5jaVQZMITIMQGfTY+1MThTDSspyESULdFpZdR6Mk2P3Un59BHHj2K9Zp0Px93bv7pa2qbsJURcRmaFVarc9lg3+OEV5bPGk3u4xfmjLbaCb9MX8sMEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abj/t+cM; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1759100591; c=relaxed/simple;
+	bh=9QjUWaHRNdGsqrlP8VC+2izrx0ohI5Jf42pZRUzpZyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dqEbdEM0e8Y7/v27Z/e2qKavs4LG8Jqgt0lBajnWTDmUbBycAPAdoLVUqTfqzeX2HEras2dznn8MivvBJssetZzLvHCoh1TlYWECQHN3MGXdIyNOJMZYC1CkiVeVPUC7kYyL+L+CzeBDQ6F3IXWmL6wMFaCI5ae83GNqEbLSVLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IR6JlaCu; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abj/t+cM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IR6JlaCu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759092164; x=1790628164;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1sps20PL6Y5yiXBdDDnh6VsVaOkZk+a7m0mccmk7TBk=;
-  b=abj/t+cM+Z8fNqGFPUVLlYmyXcIEGLuVU3A81TVS9FkTfwHdtVHCbp7g
-   1aOVMOAMMkyk7q450fZBPgafoW2RG6KWx35z4EwN+fO/JWwBTCXlMbruT
-   VHa0zPR8DDIHL+sIRU/GIohuU5C2gutIq6JgwslqN886BbbPEf3qruXtL
-   UnV6swUOShehFXivMZen/qlaOR/lDf1dxJS2/rcbXdHNtCfBIfLDTZxbP
-   qapbRC1kI7wfCpX5T+T5j5lrfLBO/Eb9MpyiZd48deZB33X+Vw2ygRCbM
-   /wIyo/wX62nxVRdFvrtf8ZnBOeXZk3YDEtGv1evJS9l/cgSfJwsbpMhnf
-   A==;
-X-CSE-ConnectionGUID: sijC7BaWTC6LAIKSwO/Dzg==
-X-CSE-MsgGUID: kzrIErruQbaEHw1CFl/qmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="60375463"
+  t=1759100589; x=1790636589;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9QjUWaHRNdGsqrlP8VC+2izrx0ohI5Jf42pZRUzpZyk=;
+  b=IR6JlaCu4Gv8WaEKbAQsbYF9edNvsWsp2GiLRizrVDUtQj4p2Hf6aJtQ
+   lN4WjLQOX3AB2xYb6PYPdt5LUlMXXig/aVUd9CZk0yz6pdMbVyYjirg95
+   Hd1ukVGVduZ+AXMcYu2mMFAwofQsQoQNKiugqtW0Zy9rneQthVWVCYDtz
+   f1iRS5j5HZOmEEu5zGzNOhGo9hmv/JxZMAklFqRAcGsKWMavNKUU02b4M
+   xQ5VfZo8DQ9erpHOcVTyGW1K7eZ2LNoeZXcX+CNP/KmAeK2fN4W7+6MSC
+   /t+V1bUalTqomtZBaoQ1Dew507JLCIz22BH2xPPgycqA6hwqwc3yj6Tab
+   Q==;
+X-CSE-ConnectionGUID: xWVOGbFISfS5tWd/lXx8jw==
+X-CSE-MsgGUID: cY5qPbK8RQOVvwvvoTUL4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="72709351"
 X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="60375463"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 13:42:43 -0700
-X-CSE-ConnectionGUID: 17ksutRlRWiQdhTcqFbgFw==
-X-CSE-MsgGUID: TWYv+Q42TPGRcuEFSkLnvg==
+   d="scan'208";a="72709351"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 16:03:09 -0700
+X-CSE-ConnectionGUID: t5uB0cmYQV+7S2k/Bm3Clw==
+X-CSE-MsgGUID: 9qw92UwQQwWSp/wYOdVO/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="177890257"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 28 Sep 2025 13:42:39 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+   d="scan'208";a="215219791"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa001.jf.intel.com with ESMTP; 28 Sep 2025 16:03:08 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v2yE8-0007z9-3D;
-	Sun, 28 Sep 2025 20:42:36 +0000
-Date: Mon, 29 Sep 2025 04:42:36 +0800
+	id 1v30Q5-000000005ir-0vEM;
+	Sun, 28 Sep 2025 23:03:05 +0000
+Date: Mon, 29 Sep 2025 01:02:32 +0200
 From: kernel test robot <lkp@intel.com>
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
-	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
-	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
-	lee@kernel.org, pobrn@protonmail.com
-Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
-Message-ID: <202509290415.uez00SgW-lkp@intel.com>
-References: <20250928013253.10869-2-W_Armin@gmx.de>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 39/39] htmldocs:
+ Documentation/admin-guide/sysctl/vm.rst:856: WARNING: Title underline too
+ short.
+Message-ID: <202509290118.gd7j6aSo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,105 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250928013253.10869-2-W_Armin@gmx.de>
 
-Hi Armin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.17-rc7 next-20250926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/platform-x86-Add-Uniwill-laptop-driver/20250928-093543
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20250928013253.10869-2-W_Armin%40gmx.de
-patch subject: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250929/202509290415.uez00SgW-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509290415.uez00SgW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7a713b4060b7b172fcc990942558eb95a41b6a22
+commit: 7addd5e84ddee5fc52524ae6e0bc4ad3cb1c0c3c [39/39] anolis: mm: page_alloc: add a sysctl to tune the PCP_BATCH_SCALE
+reproduce: (https://download.01.org/0day-ci/archive/20250929/202509290118.gd7j6aSo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509290415.uez00SgW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509290118.gd7j6aSo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1243 |                 guard(mutex)(&data->battery_lock);
-         |                 ^
-   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
-     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |         ^
-   <scratch space>:49:1: note: expanded from here
-      49 | class_mutex_t
-         | ^
-   drivers/platform/x86/uniwill/uniwill-acpi.c:1250:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-    1250 |                 guard(mutex)(&data->input_lock);
-         |                 ^
-   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
-     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |         ^
-   <scratch space>:60:1: note: expanded from here
-      60 | class_mutex_t
-         | ^
-   drivers/platform/x86/uniwill/uniwill-acpi.c:1249:2: error: cannot jump from switch statement to this case label
-    1249 |         default:
-         |         ^
-   drivers/platform/x86/uniwill/uniwill-acpi.c:1243:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1243 |                 guard(mutex)(&data->battery_lock);
-         |                 ^
-   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:47:1: note: expanded from here
-      47 | __UNIQUE_ID_guard1072
-         | ^
-   2 warnings and 1 error generated.
+   Documentation/admin-guide/media/ipu3.rst:598: WARNING: Footnote [#] is not referenced. [ref.footnote]
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/pstore_zone.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/pstore_blk.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/rio_drv.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/rio.h' failed with return code 2
+>> Documentation/admin-guide/sysctl/vm.rst:856: WARNING: Title underline too short.
+--
+   percpu_pagelist_batch_scale_max
+   ============================== [docutils]
+>> Documentation/admin-guide/sysctl/vm.rst:856: WARNING: Title underline too short.
 
 
-vim +1243 drivers/platform/x86/uniwill/uniwill-acpi.c
+vim +856 Documentation/admin-guide/sysctl/vm.rst
 
-  1235	
-  1236	static int uniwill_notifier_call(struct notifier_block *nb, unsigned long action, void *dummy)
-  1237	{
-  1238		struct uniwill_data *data = container_of(nb, struct uniwill_data, nb);
-  1239		struct uniwill_battery_entry *entry;
-  1240	
-  1241		switch (action) {
-  1242		case UNIWILL_OSD_BATTERY_ALERT:
-> 1243			guard(mutex)(&data->battery_lock);
-  1244			list_for_each_entry(entry, &data->batteries, head) {
-  1245				power_supply_changed(entry->battery);
-  1246			}
-  1247	
-  1248			return NOTIFY_OK;
-  1249		default:
-  1250			guard(mutex)(&data->input_lock);
-  1251			sparse_keymap_report_event(data->input_device, action, 1, true);
-  1252	
-  1253			return NOTIFY_OK;
-  1254		}
-  1255	}
-  1256	
+   853	
+   854	
+   855	percpu_pagelist_batch_scale_max
+ > 856	==============================
+   857	In page allocator, PCP (Per-CPU pageset) is refilled and drained in
+   858	batches.  The batch number is scaled automatically to improve page
+   859	allocation/free throughput.  But too large scale factor may hurt
+   860	latency.  This option sets the upper limit of scale factor to limit
+   861	the maximum latency.
+   862	
+   863	
 
 -- 
 0-DAY CI Kernel Test Service
