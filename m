@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647E7218AAF;
-	Mon, 29 Sep 2025 05:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A9F217F56
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 05:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759122532; cv=none; b=MgIoFW3kA5nMZUzum//rP4nVbox3JlF4UiprGAj+SlYyqjfrxSh4eUkqGTpdkQM0eyaD+HSGkb6Km+XHJVHdaMNlIgjHFLnmzHYNkTiZ1xp0LYMVozPV+UFCu6+0yv3GyylgGTt2fbPsCWhBnE3z2lY4B8DDfKnOODg/JwSpVzg=
+	t=1759123133; cv=none; b=T1fIsj1/b1CNp/dBdQ8eXCv78OS1f3VlCJJ8b9nOp7z0CZUeoWzaILB6JYQKof9/kzJ/+eX+UYEgIR60Evx7ddNa1y0qi4M2KZ5JeGoLVIf8Z6ECsMc/Y1iBBDZBBexg8MPHA6L4f1X6O4GX9DF/datOegIcQoUUUAWHhkpbiXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759122532; c=relaxed/simple;
-	bh=vmFbXJ9eYjUySXUsugcD51LX03MeJy5R0X82xdmLJM8=;
+	s=arc-20240116; t=1759123133; c=relaxed/simple;
+	bh=9n7zJ2kn9d6m0EFKYn91rhEZExMvcoSIgLTKIGmh3BA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tZn8DV2tXwyE+I5gIQ3Da1VMuHIzJAeO8NjE2xGuLSjAls0o0qlXq02Bu+wn1sOSQkYmC0MPCMUz1yB2en7tIyx5o+5+VkgZQW3gg0sg8LuYk/+rNTFkAZqPbgf9USsEYHt3V8R/rKputPQsQD3WWEohrIqm+3qG1gUgYSeiBzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byVcFew5; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=RMOM82Ng9SLWryXxFVFbwALyQCMcwK4gRbXOe4+v4Cn9P9UQXwufxXZVmA+bKL99u0Vg7qne9f0hs/j5dkRrx29qA1Pz6lxcILmzJPpgdPmESTXZuLmalgVqJNW+yNHS8uoqp6mIaAoe/kJPGiKq6ggUGcagr7V/BTn0LAHYoOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrCqA0fI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byVcFew5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrCqA0fI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759122531; x=1790658531;
+  t=1759123131; x=1790659131;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vmFbXJ9eYjUySXUsugcD51LX03MeJy5R0X82xdmLJM8=;
-  b=byVcFew5J/UEUnmwW19MJlgDpQh9bn+uI+cvsyGACNAFDYDJShibIYOP
-   e1AuSsUSeEOy3xKKLvBiXmMSbFMnJzjb2wcXXV7OWtNaqp6ouhs635d7V
-   fNUA60aVEGa1Wjb7PwXXhIDBeykfeawsH+TwGVhjw2qRK6IXVEBOPiOej
-   IwZ2s6iFhJyAGREvcv1V2fK0i80ntMx2yxYZuqYFGpwdEDPQzilFwjTKR
-   g+FGuG4Jx/OSB6ggdWYxr1bGo2czkTK1G1GqLXEZyweqrKQwu5YwpG5is
-   pyIbXcIAFg0RCmtyBq9WaXwskWqdMmTh6CRDgixxzE8NrZ88VFB+waBNV
-   g==;
-X-CSE-ConnectionGUID: NFw+ehNdSbm2RjcZpAVtTg==
-X-CSE-MsgGUID: Kol6wV4dT7a8plXZia6WdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="65207093"
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="65207093"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 22:08:50 -0700
-X-CSE-ConnectionGUID: sAtN4XetTSupzn1SmhgAUA==
-X-CSE-MsgGUID: f8cccFq0TT+DSZ1Reu7tdA==
+  bh=9n7zJ2kn9d6m0EFKYn91rhEZExMvcoSIgLTKIGmh3BA=;
+  b=BrCqA0fISvKjCHXFMMHNAll/nQh53siuiRgKCnOree8ha1E+K7KUORrt
+   mKBw5JFayKtl4ziR/zogYHVj5KQJ+JZpr0ERuSZzN2VOT4uHdLK5C2BDY
+   eG2iOHlETCdZXB/75e7LYaPddwGCyZ0tuTogCCEdsmEvcsBlAj/Lix+gF
+   VJdT0GmZJdfEonA7X5f8EBqy12ucBnsBOaO6gOS8uXqF1olTjQ9BgH517
+   juE80+LpGJsqeZdIZOHei1VONIRBdDp+AOepXVNZrlnPt1FTORl4LHuF6
+   /UG+jQiSabWlEHFDnU4YpD8BdIQMGCZoDnyQW64bvv+8SaZhl+wJxk0ZY
+   A==;
+X-CSE-ConnectionGUID: LaSD7ceRSiSpjo+GMiN0gA==
+X-CSE-MsgGUID: iJekX3u2Som7lUtT2LKfYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="72722166"
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
+   d="scan'208";a="72722166"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 22:18:50 -0700
+X-CSE-ConnectionGUID: k7hu50N2SZmiEuAGLhZgpQ==
+X-CSE-MsgGUID: jpmWnsG8QzCa9NhRuDQ2fg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="177712173"
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
+   d="scan'208";a="177265556"
 Received: from lkp-server01.sh.intel.com (HELO a2c9da549b7f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Sep 2025 22:08:48 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Sep 2025 22:18:48 -0700
 Received: from kbuild by a2c9da549b7f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v367x-00003D-0N;
-	Mon, 29 Sep 2025 05:08:45 +0000
-Date: Mon, 29 Sep 2025 13:08:15 +0800
+	id 1v36Hd-00003T-2b;
+	Mon, 29 Sep 2025 05:18:45 +0000
+Date: Mon, 29 Sep 2025 13:18:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haiwei Li <haiwei.li@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Yifan Liu <yifan1.liu@intel.com>
-Subject: [acrn:6.12/linux 10/10] ./usr/include/linux/acrn.h:14:10: fatal
- error: 'asm/acrn.h' file not found
-Message-ID: <202509291226.ht0UC5ED-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202509291311.TJCt59RH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,25 +63,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/projectacrn/acrn-kernel 6.12/linux
-head:   a3634b1a933e80ff672cc47bd32d2f036cfbe755
-commit: a3634b1a933e80ff672cc47bd32d2f036cfbe755 [10/10] PM: ACRN: add s3 support for User VM
-config: i386-buildonly-randconfig-002-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291226.ht0UC5ED-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291226.ht0UC5ED-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
+commit: 506aa8b02a8d6898c64cc095d233fbae1cef8b8a dma-fence: Add safe access helpers and document the rules
+date:   4 months ago
+config: x86_64-randconfig-121-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291311.TJCt59RH-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291311.TJCt59RH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509291226.ht0UC5ED-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509291311.TJCt59RH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-fence.c:1112:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1112:51: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1112:51: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1114:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1114:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1114:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1144:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1144:51: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1144:51: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1146:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1146:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1146:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_fence.h):
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
 
-   In file included from <built-in>:1:
->> ./usr/include/linux/acrn.h:14:10: fatal error: 'asm/acrn.h' file not found
-      14 | #include <asm/acrn.h>
-         |          ^~~~~~~~~~~~
-   1 error generated.
+vim +12 include/trace/events/dma_fence.h
+
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  11  
+f54d1867005c332 include/trace/events/dma_fence.h Chris Wilson            2016-10-25 @12  DECLARE_EVENT_CLASS(dma_fence,
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  13  
+f54d1867005c332 include/trace/events/dma_fence.h Chris Wilson            2016-10-25  14  	TP_PROTO(struct dma_fence *fence),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  15  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  16  	TP_ARGS(fence),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  17  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  18  	TP_STRUCT__entry(
+ecec875a6c33790 include/trace/events/dma_fence.h Tvrtko Ursulin          2025-05-15  19  		__string(driver, dma_fence_driver_name(fence))
+ecec875a6c33790 include/trace/events/dma_fence.h Tvrtko Ursulin          2025-05-15  20  		__string(timeline, dma_fence_timeline_name(fence))
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  21  		__field(unsigned int, context)
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  22  		__field(unsigned int, seqno)
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  23  	),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  24  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  25  	TP_fast_assign(
+2c92ca849fcc6ee include/trace/events/dma_fence.h Steven Rostedt (Google  2024-05-16  26) 		__assign_str(driver);
+2c92ca849fcc6ee include/trace/events/dma_fence.h Steven Rostedt (Google  2024-05-16  27) 		__assign_str(timeline);
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  28  		__entry->context = fence->context;
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  29  		__entry->seqno = fence->seqno;
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  30  	),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  31  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  32  	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  33  		  __get_str(driver), __get_str(timeline), __entry->context,
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  34  		  __entry->seqno)
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  35  );
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  36  
+
+:::::: The code at line 12 was first introduced by commit
+:::::: f54d1867005c3323f5d8ad83eed823e84226c429 dma-buf: Rename struct fence to dma_fence
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
