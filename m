@@ -1,72 +1,59 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C536614884C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 08:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7387827D776
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 08:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759135734; cv=none; b=qj5XLh3t2VpAXcTmUC3+fqOGSePXyzwCyvjZidmA+UGVmVsX71MzDhv84aprCvS7DG9fwdK3XBh148WPl5lI/4MW8Xmr4+cL3lFcsonbiTkjTJez700bbad+BOa8vQHam6/bzcis5WXlQqsO2GQSR/y2UIQlbXTzjktKhBAtYVU=
+	t=1759136304; cv=none; b=G2r49PGo16XiaDdLH6JaWjsUyHhnqDNUNq/JBKTw/P6VVcVMI1C70A+jooTRz+zjvt6/27Y1sa015Wmir+rApgoAlnn3ngm1xdaQlSO/EObM1EqpUX7cosSivq4Dh/xqtlaRbq2By0l4O50sGdBy3F2YGcdEDgLp3GxTwsoLqaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759135734; c=relaxed/simple;
-	bh=g1mm24DACTecjNAJvzrdNdg9fsLkeeEtFb5wtV+hB2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q+07cWkqGPehuFZfXSIUhpJY4KQlWoPiRsFnNKTIF/G1338v7DY9kmTw3ThTBSqBrvA6IB6WhDaw/ILo9Ha9asW8iKH8u3kuLfwGUQP2CZAfosWXeY3HCCjQe+nsFuuNDn8XDwXWA+QrJ6QzIs+7FUNQB4UI00eIZ591vYOZUi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O94xhXZQ; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759136304; c=relaxed/simple;
+	bh=gri6s986biB8Kh7dNTb+spkZYh/NMeucGz4PK0la17g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LxMTISYCKaUM6bgnjJq90XCHVVRBZlyM6N8XQc1Qm0+z56+F6sIDDW9H9zFyKXK+ILG0PF4Dfb2XVSxCZ+Y6FNI+lRN3mZUmAbcXj9kPYk0XQcJvwj1HBRt1mayKAJOPqnQ8sXgjEbUJIeaBJls4MfV4qs83kIA2xufrpvz6D/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHoEB2x2; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O94xhXZQ"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ee64bc6b85so3836447f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 01:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759135730; x=1759740530; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vltcl8v69f7bQvSIghkVp5oW+UsVhLKoUiMkT13h1P8=;
-        b=O94xhXZQolVh59SaiDe+DP1ncS4eOTfdauPecnevzQPyS0XtVhT5EaV9igNbzzBlD8
-         CMFVeLQGdTbW1AsV0yCuOYQ6voGVHgH1bttnwFS/EF5zEn3LvbDBtl1XRfiEkZZwxck7
-         mepvAvux8wL4Y8hgAN6fcEgHMGZIOuUa+sICut9l+ENCeocIKa+qICFeQ1JfQKIo/8Ig
-         E/xpVUClNZGbAUw2LZMfDQMo0qIsHaybXPdmgWBzZeAVYo6RA4J0xpKCXEFSVp5C1QkZ
-         JZeLNW6l7fTqdWdPN+CyJ0AA1aFeFwZF5tMHKSwvOb0QgyegStky+q+8AHjibJuHQJ/d
-         l30Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759135730; x=1759740530;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vltcl8v69f7bQvSIghkVp5oW+UsVhLKoUiMkT13h1P8=;
-        b=s+T4lvMWfqdYiPMmGa07DqqRzlNB4Tf1Rbn86J/Z93Dtba7MuIduKiYtl3C3MOsw6H
-         hXu7mRM+LZ3DoO8/0mo8OQl1QJSTNiu+Byqd4gc3+cmoQhPxtt35iWfuC1UHErTOeJWd
-         u03aNOqlA/1xuomT2CzZ3AhumbhQ3e5EcSlpYD/EAEA+UneYqykrjhCgvIGLk7Y2qrwo
-         MW3wXujfp7eKkK8sqbXok2Lcd+2yiSMB0XTaSjkZD/Qwm00Awve5k6CE2NaWy1VtLYNN
-         X/RY+IKIHccXNieUOpGDcYAUPKVW0aFV+eAHEgMRYfoX1CiNSIji2fm7gDCI9R+u1hvH
-         LHAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWottTRe/ShiNDbEytxc2HkdYpB4xenwmEdAcimbbDNk6KkU8ylZEaEw1qwf/YQrtFOQUw0wer0/KQy2lDg@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfSFHU3Nit/m6vmFrgRJT3iCWN9F87EJAJcCpn4BFscPKqs8ff
-	HoJaNgCBbae7UysUP0xo2OUyoB/1ACsjmgy5Thu8DtJfYz6E06t4BJkKZ3+zqnfMPQc=
-X-Gm-Gg: ASbGncuJIBLi187yTH9dNKobbXLLmgDPSaj2iLUXkKsWwTCSBeI+PSOKxsFhHOGNaF/
-	ccNYCx1t0q8ewDghNw7BS1Kw0CfsOT5iHxtLhOqNc7aUqngOke40/8+V/AHNDswyZvVhaS2hcoD
-	4pxEq8WXJG/OqXvIpkXMxWjleHrJ7NKwKs19h6ufDFGtP/hLc+whnSqoZksqizdho8XYEE28G8J
-	XGNFJnOYzNJ36NO3or5BpJ0Psr2ksAJhF80CzYDAtIXiOt2kTXgp3sjhx95+D9oHhxU1WQDJRsp
-	v9lWPNjYppSlwY3ULcHF+4Z/arqYf6EHI1rx+SjyqLBTPWOwOK/3zjiP7buk7RBLxRNvFDbM873
-	NSxAPVB2AHBEn7IwiDa+9fBSjkBnxvaZjRfdwLS8CEygxW0oBPw==
-X-Google-Smtp-Source: AGHT+IHq24YEQ+NGSgOKpmgkwFuU/SY2eluplaIZkQeebKuol6LbVx5PSlBlDAWVI5mgbmhWjPxYOw==
-X-Received: by 2002:a5d:5f45:0:b0:3ea:a496:9ba8 with SMTP id ffacd0b85a97d-40e480ca410mr14224093f8f.29.1759135730161;
-        Mon, 29 Sep 2025 01:48:50 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-40fc5602efdsm17883106f8f.34.2025.09.29.01.48.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 01:48:49 -0700 (PDT)
-Date: Mon, 29 Sep 2025 11:48:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Mary Strodl <mstrodl@csh.rit.edu>,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org,
-	brgl@bgdev.pl, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] gpio: mpsse: use rcu to ensure worker is torn down
-Message-ID: <aNpH7gfhJXIBbCQZ@stanley.mountain>
-References: <20250923133304.273529-2-mstrodl@csh.rit.edu>
- <202509290823.hreUi6Tp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHoEB2x2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759136303; x=1790672303;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gri6s986biB8Kh7dNTb+spkZYh/NMeucGz4PK0la17g=;
+  b=MHoEB2x2lNxaMMSGT8dw8LBm7OqpJANSUq/vdbYmmhUqkACLwtUTDlUv
+   wuLm2fDoIhZhuVbDOB1EJ5JF0ErzVIIJ+rUZJQpddPjrxBJ7DIR9mHMMF
+   wYQGoG9LndWt+iHEb4Cccs7l2JFpUbdmxHPyVELyEbrO8Y6zwoWcUo2B0
+   T2lqTcYdWtxz+kgjr/REM0eCOtUI9r4CHv0Eq5oydejEzblZIlz5nADLz
+   iPBSGRpzR7F6QmI3JtZ36PI9j38cnYxk5vjKy5hYFyf5EKAOF/RbeyKV5
+   NDeheJ1ZtX28h5+sZI67KWIF5KM7n+ACx/6YtZNl613JfFXMSDA5S3yFZ
+   g==;
+X-CSE-ConnectionGUID: FbwGMvz6RqWLfLctd5jO2Q==
+X-CSE-MsgGUID: s61BJ/hcRaCWmDqj3Y7CHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61284634"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61284634"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 01:58:22 -0700
+X-CSE-ConnectionGUID: LS+k10G/S/iCbuT4y5TybQ==
+X-CSE-MsgGUID: UZqgD/9ZTNqJN/exuTkwXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
+   d="scan'208";a="177437977"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 29 Sep 2025 01:58:21 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v39i6-00005P-0v;
+	Mon, 29 Sep 2025 08:58:18 +0000
+Date: Mon, 29 Sep 2025 16:57:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>
+Subject: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+Message-ID: <202509291645.fcBIaXMb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,27 +62,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202509290823.hreUi6Tp-lkp@intel.com>
 
-On Mon, Sep 29, 2025 at 11:46:24AM +0300, Dan Carpenter wrote:
-> a14b0c5e3b0741 Mary Strodl 2025-09-23  339  		/* Make sure list consumers are finished before we tear down */
-> a14b0c5e3b0741 Mary Strodl 2025-09-23  340  		synchronize_rcu();
-> a14b0c5e3b0741 Mary Strodl 2025-09-23 @341  		list_for_each_entry(worker, &destructors, destroy)
-> a14b0c5e3b0741 Mary Strodl 2025-09-23 @342  			gpio_mpsse_stop(worker);
-> 
-> This needs to be list_for_each_entry_save() because gpio_mpsse_stop()
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
+commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid()
+date:   3 months ago
+config: alpha-randconfig-r122-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291645.fcBIaXMb-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291645.fcBIaXMb-lkp@intel.com/reproduce)
 
-s/save/safe/.  #CantType
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509291645.fcBIaXMb-lkp@intel.com/
 
-regards,
-dan carpenter
+sparse warnings: (new ones prefixed by >>)
+   net/packet/diag.c: note: in included file (through include/linux/sock_diag.h):
+>> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+   include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
+--
+   net/packet/af_packet.c:1099:13: sparse: sparse: context imbalance in '__packet_lookup_frame_in_block' - different lock contexts for basic block
+   net/packet/af_packet.c:2541:17: sparse: sparse: context imbalance in 'tpacket_rcv' - unexpected unlock
+   net/packet/af_packet.c: note: in included file (through include/net/inet_sock.h, include/net/ip.h):
+>> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+   include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
 
-> frees the worker.  Or kfree_rcu() inside an rcu lock or something.
-> 
-> a14b0c5e3b0741 Mary Strodl 2025-09-23  343  	}
-> a14b0c5e3b0741 Mary Strodl 2025-09-23  344  
-> a14b0c5e3b0741 Mary Strodl 2025-09-23  345  	while ((irq_enabled = atomic_read(&priv->irq_enabled)) &&
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +2098 include/net/sock.h
+
+^1da177e4c3f415 Linus Torvalds 2005-04-16  2094  
+e84a4927a404f36 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_uid(const struct sock *sk)
+e84a4927a404f36 Eric Dumazet   2025-06-20  2096  {
+e84a4927a404f36 Eric Dumazet   2025-06-20  2097  	/* Paired with WRITE_ONCE() in sockfs_setattr() */
+e84a4927a404f36 Eric Dumazet   2025-06-20 @2098  	return READ_ONCE(sk->sk_uid);
+e84a4927a404f36 Eric Dumazet   2025-06-20  2099  }
+e84a4927a404f36 Eric Dumazet   2025-06-20  2100  
+
+:::::: The code at line 2098 was first introduced by commit
+:::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races around sk->sk_uid
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
