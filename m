@@ -1,113 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370421A2C0B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 02:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7279316132F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 03:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759114190; cv=none; b=cQ0P1RX1GW6Dq0G9SyvBIGek9I92jTpUSkRCuUcfn3lQkdu0pa5EoRx77zlrUhB7usGCbPP1DiH3UeAzo2EpD/VnbhgWy/JVqKyuliATBj1VlbjAOKguyY34i1TgE+ByLxURE+I/PFE/XAmspLc3vLBp/9nZnUfr3cpKyzEIio8=
+	t=1759115740; cv=none; b=ptp3o1OJmWyeyi/ySSjSoDLzMKT3UxLVTkr3hCnEVkZ99iDE6Zlko4vrXA7xh3FvFxKJnkXH7MRXdhNapQE/uVnV9QmLfffh02ofK5puSHnsndGwm1dVaKG51z0qy4gYldj1ZazDLg7hJa7MLNo5NUVgUim69xWkv0ETVWn7eco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759114190; c=relaxed/simple;
-	bh=OW0N4Gyinm7nmL5fm56wMH1UV0P1vVWdFsDedmtdHE4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OGEXAUFkYfc4RCKPPFjLPPQ5Sck9pMxdS7pC6E2cZOsXYKtE5eCwvb73SFNzDclrbhC8MAzv/IkSMqtVNUtOz0BceUIVeDb6iEcGC2f2XIbvurDmTJ3jS2oE0ZnQLP9MT67AN8du2C7Kcv0fMsdta3IAmUvGtjCIRqnNZymb0mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mlSLRlTR; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1759115740; c=relaxed/simple;
+	bh=CMflEKXccTMoaU4d6zVaQNl6cvVYvIGlJQhQA1cF4Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvJrOLnRofOsC67Fouh5NE57BYSYUA50vL7D1kSRHUBCK6XyMyBNrFt6vjrQIJcJwEOH2kGzkErtI6dL3x4KIpfAnE8X0dPkho7Zr38DQHYAsRVMxCqjZvqIUJeopExhhVwMz9IjSytcxjKvRhb+05s43W/GVTu8tiCEH5Z5jUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbDktTRg; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mlSLRlTR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbDktTRg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759114188; x=1790650188;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OW0N4Gyinm7nmL5fm56wMH1UV0P1vVWdFsDedmtdHE4=;
-  b=mlSLRlTREsuqc2PMPqgTpD+pi03Js8Xc6nD014BbKvu5XK+GwnIoK6C2
-   c1yv1VlHC/fLYPlzAH2NOgMg8vUCmUlW1VpeX1VNc39isGqm6PyuWKSvm
-   J8EDQhYxnR4+u1FgfTKecAoakOEbcZvhBwrNKY9UI2xJqLeKInpQtI6+s
-   WWkftrjZiZQF2pXAGRTDU9NxINRuXrUg3QFJVvwj1rL7mwgOaRluYzZa+
-   wmnluA1jyZYE81CBQ1bTcIgcvMJh1b0v9MJTzgBpivOTk8d5e3Yu5+gum
-   aXPsKtMm8hVO9OKKkqvggvw6mtobSqEsab3Fvx4aFVl9ACb+nvbI9j1a9
+  t=1759115739; x=1790651739;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CMflEKXccTMoaU4d6zVaQNl6cvVYvIGlJQhQA1cF4Fg=;
+  b=HbDktTRgj7mtus3X2EDMiIbPWlj/wPbxqXT8fMcJuaG8auDN1cnQmxr8
+   RJkLfpUfuFtsfjM58DlK6Tj+Ds+pUDCdtVje8tWKAKBsG2f7KWv5hqR4m
+   067+2Rpp0Hn9mZyQylnXsSYSX7DPvviXFo4iTqbUfqTCXJKpaTeqXZ6Ch
+   SZ6Bl7E2qPH5oSlOQc/siZDXEyAzvL09N2R27azDyV+GgwPzXjk9IIAnO
+   Z8mUOfiHP4VsYQ6I0En+pwzYxqlHGDeO24PhjX1hmnhmbh+vILccw3j5B
+   WCwx/ad3cKEJ4sgUk+OBgpWDsUcgA4bBHaC1v15rPNaBzv5cr2Zoh+NEl
    g==;
-X-CSE-ConnectionGUID: w17l2kc4ThKohmvCCgkpHw==
-X-CSE-MsgGUID: tIIeRW6BQQWOxZ1nAzMpUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="65200281"
+X-CSE-ConnectionGUID: oHvXSS3XRNyXhZcmFs4k8w==
+X-CSE-MsgGUID: /hwxOjLzRlqHPASuRUMRrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="72783992"
 X-IronPort-AV: E=Sophos;i="6.18,300,1751266800"; 
-   d="scan'208";a="65200281"
+   d="scan'208";a="72783992"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 19:49:47 -0700
-X-CSE-ConnectionGUID: 9XY6K0LXQcOvU8YhC5QeKw==
-X-CSE-MsgGUID: shm1IseSRoy3ONIairYeCA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2025 20:15:38 -0700
+X-CSE-ConnectionGUID: NKG/MxI7QV+Kj6w5rTngXw==
+X-CSE-MsgGUID: KEoD+0lZSgO0L/MLsJyCQQ==
 X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Sep 2025 19:49:47 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
+Received: from lkp-server01.sh.intel.com (HELO a2c9da549b7f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 28 Sep 2025 20:15:36 -0700
+Received: from kbuild by a2c9da549b7f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v33xN-0008Af-06;
-	Mon, 29 Sep 2025 02:49:41 +0000
-Date: Mon, 29 Sep 2025 10:49:07 +0800
+	id 1v34MQ-00001D-0U;
+	Mon, 29 Sep 2025 03:15:34 +0000
+Date: Mon, 29 Sep 2025 11:15:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Kiryl Shutsemau <kirill@shutemov.name>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rmk-arm:zii 157/172]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:954:31: error: initialization of
- 'void (*)(struct phylink_config *, phy_interface_t)' from incompatible
- pointer type 'void (*)(struct phylink_config *)'
-Message-ID: <202509291022.cvRDmyGJ-lkp@intel.com>
+Subject: Re: [PATCHv3 1/5] mm/rmap: Fix a mlock race condition in
+ folio_referenced_one()
+Message-ID: <202509291120.IEg83u7W-lkp@intel.com>
+References: <20250923110310.689126-2-kirill@shutemov.name>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250923110310.689126-2-kirill@shutemov.name>
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm zii
-head:   a17735e3c7127b536617528d8149b429bbdfc612
-commit: 4b06c58a5e11927d403319e087b1cf8ff9816497 [157/172] net: phylink: pass PHY interface mode into MAC LPI methods
-config: x86_64-buildonly-randconfig-002-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291022.cvRDmyGJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291022.cvRDmyGJ-lkp@intel.com/reproduce)
+Hi Kiryl,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.17-rc7]
+[also build test ERROR on linus/master]
+[cannot apply to akpm-mm/mm-everything next-20250926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiryl-Shutsemau/mm-rmap-Fix-a-mlock-race-condition-in-folio_referenced_one/20250923-190546
+base:   v6.17-rc7
+patch link:    https://lore.kernel.org/r/20250923110310.689126-2-kirill%40shutemov.name
+patch subject: [PATCHv3 1/5] mm/rmap: Fix a mlock race condition in folio_referenced_one()
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20250929/202509291120.IEg83u7W-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291120.IEg83u7W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509291022.cvRDmyGJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509291120.IEg83u7W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:954:31: error: initialization of 'void (*)(struct phylink_config *, phy_interface_t)' from incompatible pointer type 'void (*)(struct phylink_config *)' [-Wincompatible-pointer-types]
-     954 |         .mac_disable_tx_lpi = mtk_mac_disable_tx_lpi,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:954:31: note: (near initialization for 'mtk_phylink_ops.mac_disable_tx_lpi')
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:955:30: error: initialization of 'int (*)(struct phylink_config *, phy_interface_t,  u32,  bool)' {aka 'int (*)(struct phylink_config *, phy_interface_t,  unsigned int,  _Bool)'} from incompatible pointer type 'int (*)(struct phylink_config *, u32,  bool)' {aka 'int (*)(struct phylink_config *, unsigned int,  _Bool)'} [-Wincompatible-pointer-types]
-     955 |         .mac_enable_tx_lpi = mtk_mac_enable_tx_lpi,
-         |                              ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:955:30: note: (near initialization for 'mtk_phylink_ops.mac_enable_tx_lpi')
+   mm/rmap.c: In function 'folio_referenced_one':
+>> mm/rmap.c:874:42: error: 'PVMW_PGTABLE_CROSSSED' undeclared (first use in this function)
+     874 |                         if (pvmw.flags & PVMW_PGTABLE_CROSSSED)
+         |                                          ^~~~~~~~~~~~~~~~~~~~~
+   mm/rmap.c:874:42: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +954 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+vim +/PVMW_PGTABLE_CROSSSED +874 mm/rmap.c
 
-952d7325362ffbe Qingfang Deng         2025-02-17  946  
-b8fc9f30821ec0c René van Dorst        2019-08-25  947  static const struct phylink_mac_ops mtk_phylink_ops = {
-51cf06ddafc91e0 Daniel Golle          2025-04-27  948  	.mac_prepare = mtk_mac_prepare,
-14a44ab0330d290 Russell King (Oracle  2022-05-18  949) 	.mac_select_pcs = mtk_mac_select_pcs,
-b8fc9f30821ec0c René van Dorst        2019-08-25  950  	.mac_config = mtk_mac_config,
-0e37ad71b2ff772 Russell King (Oracle  2022-05-18  951) 	.mac_finish = mtk_mac_finish,
-b8fc9f30821ec0c René van Dorst        2019-08-25  952  	.mac_link_down = mtk_mac_link_down,
-b8fc9f30821ec0c René van Dorst        2019-08-25  953  	.mac_link_up = mtk_mac_link_up,
-952d7325362ffbe Qingfang Deng         2025-02-17 @954  	.mac_disable_tx_lpi = mtk_mac_disable_tx_lpi,
-952d7325362ffbe Qingfang Deng         2025-02-17 @955  	.mac_enable_tx_lpi = mtk_mac_enable_tx_lpi,
-b8fc9f30821ec0c René van Dorst        2019-08-25  956  };
-b8fc9f30821ec0c René van Dorst        2019-08-25  957  
-
-:::::: The code at line 954 was first introduced by commit
-:::::: 952d7325362ffbefa6ce5619fb4e53c2159ec7a7 net: ethernet: mediatek: add EEE support
-
-:::::: TO: Qingfang Deng <dqfext@gmail.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   845	
+   846	/*
+   847	 * arg: folio_referenced_arg will be passed
+   848	 */
+   849	static bool folio_referenced_one(struct folio *folio,
+   850			struct vm_area_struct *vma, unsigned long address, void *arg)
+   851	{
+   852		struct folio_referenced_arg *pra = arg;
+   853		DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
+   854		int ptes = 0, referenced = 0;
+   855	
+   856		while (page_vma_mapped_walk(&pvmw)) {
+   857			address = pvmw.address;
+   858	
+   859			if (vma->vm_flags & VM_LOCKED) {
+   860				ptes++;
+   861				pra->mapcount--;
+   862	
+   863				/* Only mlock fully mapped pages */
+   864				if (pvmw.pte && ptes != pvmw.nr_pages)
+   865					continue;
+   866	
+   867				/*
+   868				 * All PTEs must be protected by page table lock in
+   869				 * order to mlock the page.
+   870				 *
+   871				 * If page table boundary has been cross, current ptl
+   872				 * only protect part of ptes.
+   873				 */
+ > 874				if (pvmw.flags & PVMW_PGTABLE_CROSSSED)
+   875					continue;
+   876	
+   877				/* Restore the mlock which got missed */
+   878				mlock_vma_folio(folio, vma);
+   879				page_vma_mapped_walk_done(&pvmw);
+   880				pra->vm_flags |= VM_LOCKED;
+   881				return false; /* To break the loop */
+   882			}
+   883	
+   884			/*
+   885			 * Skip the non-shared swapbacked folio mapped solely by
+   886			 * the exiting or OOM-reaped process. This avoids redundant
+   887			 * swap-out followed by an immediate unmap.
+   888			 */
+   889			if ((!atomic_read(&vma->vm_mm->mm_users) ||
+   890			    check_stable_address_space(vma->vm_mm)) &&
+   891			    folio_test_anon(folio) && folio_test_swapbacked(folio) &&
+   892			    !folio_maybe_mapped_shared(folio)) {
+   893				pra->referenced = -1;
+   894				page_vma_mapped_walk_done(&pvmw);
+   895				return false;
+   896			}
+   897	
+   898			if (lru_gen_enabled() && pvmw.pte) {
+   899				if (lru_gen_look_around(&pvmw))
+   900					referenced++;
+   901			} else if (pvmw.pte) {
+   902				if (ptep_clear_flush_young_notify(vma, address,
+   903							pvmw.pte))
+   904					referenced++;
+   905			} else if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+   906				if (pmdp_clear_flush_young_notify(vma, address,
+   907							pvmw.pmd))
+   908					referenced++;
+   909			} else {
+   910				/* unexpected pmd-mapped folio? */
+   911				WARN_ON_ONCE(1);
+   912			}
+   913	
+   914			pra->mapcount--;
+   915		}
+   916	
+   917		if (referenced)
+   918			folio_clear_idle(folio);
+   919		if (folio_test_clear_young(folio))
+   920			referenced++;
+   921	
+   922		if (referenced) {
+   923			pra->referenced++;
+   924			pra->vm_flags |= vma->vm_flags & ~VM_LOCKED;
+   925		}
+   926	
+   927		if (!pra->mapcount)
+   928			return false; /* To break the loop */
+   929	
+   930		return true;
+   931	}
+   932	
 
 -- 
 0-DAY CI Kernel Test Service
