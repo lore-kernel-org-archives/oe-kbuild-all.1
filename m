@@ -1,160 +1,206 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3022C1788
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 09:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A35EE555
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 15:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759139410; cv=none; b=GwlonFe2CKQVhgkxnEM9GZknID4JgU08Aa+uq3OlRQEudnDrpbUlZ28H7uRJvmtbfu4WPrwR6ejcw+EshABvH7v3RuyW6znrk8LB2kWWakNfQaGzBEnj0jp6uYLBWk2e3E9LrglnNnjm4uwbwDTeuMdsUe9x0H3uq98BXz0jEWU=
+	t=1759158240; cv=none; b=jqx0UWDLDiWpqsnJeZr057S8DGp0iJgIW/eVEi7SFfN5zihLUJFMi6x0CyPbszdl8SkPoB/ic4ir+/1Z2pDbq1C2uRZk74eZsPQnXTbgeON5rlqPO7P+aSv2lIOeby/cGmPb3p6dredTWH/2OAytjH7IbnsMtPHrRcVf6e8umF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759139410; c=relaxed/simple;
-	bh=mvicEPuf4r0RGtAkZoJ5xmZW/q0IyX+okVr/uMTxpmY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uQbKttvJM112i1AZIKMjfsZiPEsdHLeTjqSMibdEs+GQh+owBGSdbwicDkuOJbaOGRg6XJDJF3bRf6HzoJrH+Wou1Y3vRQKzLVwdEIZcDOpk1iUF/WRVPHk6j3UcRoAYxrSJjhYEq+iEXeVQUiW3AwTy16lVYv5IN+X1TG4J4LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pQSJYeA5; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1759158240; c=relaxed/simple;
+	bh=iSq9BTtz+d7ON3qf16iMt9wFiCVjbcaEo9r+gU16UsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ijJal00IjlP1yaJ7fEGEbvtalzmrp5Bqk6GJf6B5OqV2RhI08ViadpfsMup5D0TrO2Um01PGdWiI3lBOD32AZEXHOOiIuWaaZ5Ynj7cQghW8t/DU5GNcB+Z692OJWEU07lfLIN2VVnCdNzFUcCg0o4Y5/Yci5G9wavZnxkX/DjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Abx3spbr; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pQSJYeA5"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4db385e046dso37154121cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 02:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759139407; x=1759744207; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uBKBF55HXYFQaMFnx3x4Kb2psOZMurlqFtNAu8yb0U4=;
-        b=pQSJYeA5QioO/7jyXdz7LurLNHf8uUqZBBUjfl7CYaJPPHnCzh/tJM+oyVn+x2cghl
-         QDfbLJ8dz1Kn41ygfA9h3tB3XHN/rk06+Zy0XsInPAjgDtTHTniGp1HHdgwaiIJ1ciYC
-         Kk4my6HekBuenlW/NiTg7AZMdwYvQCzyO864anmePyacMLT4qT9UlwfKHzqJrcPUa9rc
-         WL1ILr7f9xdbS0roKNqdKb1ud5VDtm3UZgb3jZkE0+6bwwm5tKjciSIV5NaVndPjQAON
-         AypP+9Z35OYORP3nCeLPzDn15VsuWCKozCOCfT5dL+T2tjEROO+qETCa1JZ5mw8Vqv8r
-         w8NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759139407; x=1759744207;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uBKBF55HXYFQaMFnx3x4Kb2psOZMurlqFtNAu8yb0U4=;
-        b=S+kD8xKiPtA7xGzLu+8p9zU5a2FYgUGTAOX8bKzS+JJ2gzSCzJJZwqEGd1jZPVh3S5
-         tTo3TvwywP9ZQzRtm5JDuQMf4F6rhJ9faIGGxTcBMtyfTMz7Xg7+IgqUA77U/jNKIW4o
-         iJnSJwKhUF1raWD5MG7hfYMaGYgtEMvXFb4O44SNQghVR8Nsa/aghj3XNAvjD+E0SNkn
-         dRYBkwjS73QlgJwuUoLTtl22UPF4y2EAbu7BoLdm8+P38hzM7/T6KyvAzP1xLV44SUPH
-         ASiBJ3HifjV567HOYfsnJr8nGRVC1c+7FVZ1QSo8Vndv5p4Zl52lU1urDZ+I2X6kqe9X
-         R7YA==
-X-Gm-Message-State: AOJu0YzCk6QUPusYXDOVBb0MDInnwan0tRhKRzmFdLD+2eYhEEb6KRZB
-	NTKV4hwcEIcjRFFQuvUTUzq7sMa5LQiAW3OFOJ/YmkbyoWQ4aHbdYDEh+PKLhEG115jLMCAXlRI
-	o0yG+hvvWbAiGKQP3NphTrNTWK10JWtICq8ecMhCu
-X-Gm-Gg: ASbGnct2N1f8Q1p1hHuYxZ5I9tyBJZICl1BDYpddlGuN1q5F+9bmfb/hsGxqLNu8Dtm
-	1QnKYErLw4uLttBOHu+QS3D2/ClWudz9/0eprufxVEo4AbZW7muE7l8kb4H7jpJO5YFzfZFUDnD
-	jtFthJiHuTHsPPB0Oteq4KJdGvEyY0RQNd4lZLDLQBkHGYPVEkfQFn4MCR5N74r92aKeubwi99t
-	0iOPqxLvEGnxFfQT7pXsRi4
-X-Google-Smtp-Source: AGHT+IH+8BTBdjJ/qk0sPVOmAqIlSkDcP3vnsTNce6M/cqgozNtY9rsfNP9O8L2vdibMgh/FIyVwCCmU18hxA9oKtrM=
-X-Received: by 2002:a05:622a:1145:b0:4e0:e2b:1085 with SMTP id
- d75a77b69052e-4e00e2b2259mr60046921cf.26.1759139407142; Mon, 29 Sep 2025
- 02:50:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Abx3spbr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759158240; x=1790694240;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iSq9BTtz+d7ON3qf16iMt9wFiCVjbcaEo9r+gU16UsQ=;
+  b=Abx3spbrowoK0A2fKJ7qEqt8XoGrZjBawG+RArZpfSDEdp7omLRe8yPm
+   JhcbcRDxeUXbukmYesZtFRZIPqgaeH9VZPqsGW9yjcZ70DFHAGnPzFCvT
+   Wk0QnQhd5BPA490IzilfwnUjysO0wEIzuRX4/a1e70GaqEg3PbEsMzQNh
+   6VY6o+YD2wHZUJv3GJClpqzcXcxmNzsxG+9Fm1YyBI3S3WkWGpPLt1kcR
+   qTrk8teNwFla5cemGUuzqDKUNynZneSigxl/owkqNQX/yRbLVJQ2rqMcS
+   0Zh5U9+/PXGkaNHjOmYwZMylx8jS2CuPavnWeHMo2nNg2sz4w6V26l70S
+   g==;
+X-CSE-ConnectionGUID: vl7IcACZTJWWjLgTUYNV/A==
+X-CSE-MsgGUID: fPrVulWNSFCVvBcG7fX2JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65216346"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65216346"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 08:03:59 -0700
+X-CSE-ConnectionGUID: 513ozLOvT4Kyg0JFo8D5Aw==
+X-CSE-MsgGUID: 42wZI8cqQvW7sRIjkJkkfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
+   d="scan'208";a="209214924"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 08:03:57 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v3FPu-0000Md-3B;
+	Mon, 29 Sep 2025 15:03:54 +0000
+Date: Mon, 29 Sep 2025 23:03:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-06 1/1]
+ include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_328' undeclared; did
+ you mean '__UNIQUE_ID_x_327'?
+Message-ID: <202509292216.DAVxmuuD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202509291645.fcBIaXMb-lkp@intel.com>
-In-Reply-To: <202509291645.fcBIaXMb-lkp@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 29 Sep 2025 02:49:56 -0700
-X-Gm-Features: AS18NWDfCUfaZvpzjNJOJK1mKvgkeD6hO2LgWPXyr1Z7w2ehpEHzsk9zKcK9K9o
-Message-ID: <CANn89i+Bt5Coi3YOj2JjX4KWQN4tJJpyYD3EabS274T8bQwjSw@mail.gmail.com>
-Subject: Re: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>, 
-	Will Deacon <will@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, linux-alpha@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Sep 29, 2025 at 1:58=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
-> commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid()
-> date:   3 months ago
-> config: alpha-randconfig-r122-20250929 (https://download.01.org/0day-ci/a=
-rchive/20250929/202509291645.fcBIaXMb-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250929/202509291645.fcBIaXMb-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202509291645.fcBIaXMb-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->    net/packet/diag.c: note: in included file (through include/linux/sock_=
-diag.h):
-> >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
->    include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
-> --
->    net/packet/af_packet.c:1099:13: sparse: sparse: context imbalance in '=
-__packet_lookup_frame_in_block' - different lock contexts for basic block
->    net/packet/af_packet.c:2541:17: sparse: sparse: context imbalance in '=
-tpacket_rcv' - unexpected unlock
->    net/packet/af_packet.c: note: in included file (through include/net/in=
-et_sock.h, include/net/ip.h):
-> >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
->    include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
->
-> vim +2098 include/net/sock.h
->
-> ^1da177e4c3f415 Linus Torvalds 2005-04-16  2094
-> e84a4927a404f36 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_=
-uid(const struct sock *sk)
-> e84a4927a404f36 Eric Dumazet   2025-06-20  2096  {
-> e84a4927a404f36 Eric Dumazet   2025-06-20  2097         /* Paired with WR=
-ITE_ONCE() in sockfs_setattr() */
-> e84a4927a404f36 Eric Dumazet   2025-06-20 @2098         return READ_ONCE(=
-sk->sk_uid);
-> e84a4927a404f36 Eric Dumazet   2025-06-20  2099  }
-> e84a4927a404f36 Eric Dumazet   2025-06-20  2100
->
-> :::::: The code at line 2098 was first introduced by commit
-> :::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races aroun=
-d sk->sk_uid
->
-> :::::: TO: Eric Dumazet <edumazet@google.com>
-> :::::: CC: Jakub Kicinski <kuba@kernel.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-06
+head:   3ecfed22c73220e24410b3547262a6c8eca76e1c
+commit: 8d0690eed76a66fd3b5d3ad2447e82a4d2f3921e [1/1] ANDROID: CRC / ABI fixups for sched_dl_entity bitfield addition
+config: arm-randconfig-002-20250929 (https://download.01.org/0day-ci/archive/20250929/202509292216.DAVxmuuD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509292216.DAVxmuuD-lkp@intel.com/reproduce)
 
-This seems an Alpha issue to me ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509292216.DAVxmuuD-lkp@intel.com/
 
-I can submit the following fix if there is an agreement.
+All errors (new ones prefixed by >>):
 
-diff --git a/arch/alpha/include/asm/rwonce.h b/arch/alpha/include/asm/rwonc=
-e.h
-index 35542bcf92b3a883df353784bcb2d243475ccd91..b6801cd2ace962e11624737ed33=
-4a5aeb30478b7
-100644
---- a/arch/alpha/include/asm/rwonce.h
-+++ b/arch/alpha/include/asm/rwonce.h
-@@ -22,10 +22,10 @@
-  */
- #define __READ_ONCE(x)                                                 \
- ({                                                                     \
--       __unqual_scalar_typeof(x) __x =3D                                 \
--               (*(volatile typeof(__x) *)(&(x)));                      \
-+       __auto_type __x =3D                                               \
-+               (*(const volatile __unqual_scalar_typeof(x) *)&(x));    \
-        mb();                                                           \
--       (typeof(x))__x;                                                 \
-+       __x;                                                            \
- })
+   In file included from include/linux/blk-crypto.h:127,
+                    from include/linux/blk-crypto-profile.h:10,
+                    from include/linux/mmc/host.h:19,
+                    from drivers/mmc/host/mmci.c:23:
+   include/linux/blkdev.h:1721:24: error: field 'req_list' has incomplete type
+    1721 |         struct rq_list req_list;
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+>> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_328' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_327'?
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
 
- #endif /* CONFIG_SMP */
+
+vim +166 include/linux/compiler.h
+
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
