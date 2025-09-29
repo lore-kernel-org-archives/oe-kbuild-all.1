@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7387827D776
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 08:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CCB2E2DD4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 09:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759136304; cv=none; b=G2r49PGo16XiaDdLH6JaWjsUyHhnqDNUNq/JBKTw/P6VVcVMI1C70A+jooTRz+zjvt6/27Y1sa015Wmir+rApgoAlnn3ngm1xdaQlSO/EObM1EqpUX7cosSivq4Dh/xqtlaRbq2By0l4O50sGdBy3F2YGcdEDgLp3GxTwsoLqaI=
+	t=1759139310; cv=none; b=is6xiY8cLuQp1XbmoKX2rpQMyi3T6Dh/IiIFv35SFZlJHzOAY07lAFT9zVbWEZkJUAZnBdWz0HN3sShOPVg1DZFzII6vxLI2tSZakGNIsDaHaFKYSxO2ntpiu1VTEhyALdk8MT9w8AM50mOCh2eo7wy+zzQdYM0iXccYQmPBNQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759136304; c=relaxed/simple;
-	bh=gri6s986biB8Kh7dNTb+spkZYh/NMeucGz4PK0la17g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LxMTISYCKaUM6bgnjJq90XCHVVRBZlyM6N8XQc1Qm0+z56+F6sIDDW9H9zFyKXK+ILG0PF4Dfb2XVSxCZ+Y6FNI+lRN3mZUmAbcXj9kPYk0XQcJvwj1HBRt1mayKAJOPqnQ8sXgjEbUJIeaBJls4MfV4qs83kIA2xufrpvz6D/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHoEB2x2; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1759139310; c=relaxed/simple;
+	bh=KHG16Xw+5eWJbib027Wh0wiUKjgw1T/ctp6Day8cStw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MbvhpZWV+B0QlTa9sFmDEZ6EfwGxCQYRgum8qw2/iwx46BWHEgFpZJ/aVos83X+ON00CtyqzIwgr+VTU84+/z1XLZGIaWpwTVVOHk1VX+Jt8empjQJ+Ty4+/1CGHVXR6RDVoT3a5rGswDRA2UohaqvXBJQ2SO5MYKq9OrBdbORw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MsDdjWYd; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHoEB2x2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MsDdjWYd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759136303; x=1790672303;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gri6s986biB8Kh7dNTb+spkZYh/NMeucGz4PK0la17g=;
-  b=MHoEB2x2lNxaMMSGT8dw8LBm7OqpJANSUq/vdbYmmhUqkACLwtUTDlUv
-   wuLm2fDoIhZhuVbDOB1EJ5JF0ErzVIIJ+rUZJQpddPjrxBJ7DIR9mHMMF
-   wYQGoG9LndWt+iHEb4Cccs7l2JFpUbdmxHPyVELyEbrO8Y6zwoWcUo2B0
-   T2lqTcYdWtxz+kgjr/REM0eCOtUI9r4CHv0Eq5oydejEzblZIlz5nADLz
-   iPBSGRpzR7F6QmI3JtZ36PI9j38cnYxk5vjKy5hYFyf5EKAOF/RbeyKV5
-   NDeheJ1ZtX28h5+sZI67KWIF5KM7n+ACx/6YtZNl613JfFXMSDA5S3yFZ
-   g==;
-X-CSE-ConnectionGUID: FbwGMvz6RqWLfLctd5jO2Q==
-X-CSE-MsgGUID: s61BJ/hcRaCWmDqj3Y7CHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61284634"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61284634"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 01:58:22 -0700
-X-CSE-ConnectionGUID: LS+k10G/S/iCbuT4y5TybQ==
-X-CSE-MsgGUID: UZqgD/9ZTNqJN/exuTkwXw==
+  t=1759139309; x=1790675309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KHG16Xw+5eWJbib027Wh0wiUKjgw1T/ctp6Day8cStw=;
+  b=MsDdjWYd0dHWEsBd95EiQiexjcW1lgyIXH2hzWFG78CCPItnyLem661u
+   /4bHmD9jJBOwlXt2fbKbRznM97cHL0pbh4IZafHEdkVPV0rGu6yW1PMSb
+   OrRHSL1ZqLuArZoeWJ1NqcONhWdgZOY/g9ectKJuxvYSecIkvQkBjIS9q
+   UKhF1+26S3j1CUCLsYObCCR+iS1SngX2cdcrYbiJjdz75VZykMTxCDbb0
+   YlRlpceSrCPx6ATwERlp/9bEZaemXxKuzMMJNJtI023zSwzxH/hLVDch+
+   Qqp0V6NB7/ilGO4myRPV6y9KKR4icM/YouiExakaw6ly6dKXc2VSkBL1T
+   A==;
+X-CSE-ConnectionGUID: 9A8B8Ld9TiCSosDy5+beng==
+X-CSE-MsgGUID: JBVBA644RJWqIyeu9Htuzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11567"; a="64003372"
+X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
+   d="scan'208";a="64003372"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 02:48:28 -0700
+X-CSE-ConnectionGUID: Bzw6+n8KSViQzx+VavmAmA==
+X-CSE-MsgGUID: XE3RqHw8RoGH0CYN8GabXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,301,1751266800"; 
-   d="scan'208";a="177437977"
+   d="scan'208";a="209139612"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Sep 2025 01:58:21 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 02:48:26 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v39i6-00005P-0v;
-	Mon, 29 Sep 2025 08:58:18 +0000
-Date: Mon, 29 Sep 2025 16:57:35 +0800
+	id 1v3AUZ-00007v-2m;
+	Mon, 29 Sep 2025 09:48:23 +0000
+Date: Mon, 29 Sep 2025 17:48:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>
-Subject: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-Message-ID: <202509291645.fcBIaXMb-lkp@intel.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] clk: mediatek: Use devm_alloc for clk_data allocation to
+ fix memory leak on probe error
+Message-ID: <202509291736.rboPY1Uj-lkp@intel.com>
+References: <20250929023621.1968-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +68,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250929023621.1968-1-vulab@iscas.ac.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
-commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid()
-date:   3 months ago
-config: alpha-randconfig-r122-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291645.fcBIaXMb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291645.fcBIaXMb-lkp@intel.com/reproduce)
+Hi Haotian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v6.17 next-20250926]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/clk-mediatek-Use-devm_alloc-for-clk_data-allocation-to-fix-memory-leak-on-probe-error/20250929-103835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20250929023621.1968-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] clk: mediatek: Use devm_alloc for clk_data allocation to fix memory leak on probe error
+config: arc-randconfig-002-20250929 (https://download.01.org/0day-ci/archive/20250929/202509291736.rboPY1Uj-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250929/202509291736.rboPY1Uj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509291645.fcBIaXMb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509291736.rboPY1Uj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/packet/diag.c: note: in included file (through include/linux/sock_diag.h):
->> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-   include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
---
-   net/packet/af_packet.c:1099:13: sparse: sparse: context imbalance in '__packet_lookup_frame_in_block' - different lock contexts for basic block
-   net/packet/af_packet.c:2541:17: sparse: sparse: context imbalance in 'tpacket_rcv' - unexpected unlock
-   net/packet/af_packet.c: note: in included file (through include/net/inet_sock.h, include/net/ip.h):
->> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-   include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
+All warnings (new ones prefixed by >>):
 
-vim +2098 include/net/sock.h
+   In file included from drivers/clk/mediatek/clk-mt6765.c:20:
+   drivers/clk/mediatek/clk-mt6765.c: In function 'clk_mt6765_apmixed_probe':
+>> include/dt-bindings/clock/mt6765-clk.h:32:29: warning: passing argument 1 of 'mtk_devm_alloc_clk_data' makes pointer from integer without a cast [-Wint-conversion]
+    #define CLK_APMIXED_NR_CLK  22
+                                ^~
+   drivers/clk/mediatek/clk-mt6765.c:739:37: note: in expansion of macro 'CLK_APMIXED_NR_CLK'
+     clk_data = mtk_devm_alloc_clk_data(CLK_APMIXED_NR_CLK);
+                                        ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:16:
+   drivers/clk/mediatek/clk-mtk.h:234:29: note: expected 'struct device *' but argument is of type 'int'
+    struct clk_hw_onecell_data *mtk_devm_alloc_clk_data(struct device *dev,
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt6765.c:739:13: error: too few arguments to function 'mtk_devm_alloc_clk_data'
+     clk_data = mtk_devm_alloc_clk_data(CLK_APMIXED_NR_CLK);
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:16:
+   drivers/clk/mediatek/clk-mtk.h:234:29: note: declared here
+    struct clk_hw_onecell_data *mtk_devm_alloc_clk_data(struct device *dev,
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:20:
+   drivers/clk/mediatek/clk-mt6765.c: In function 'clk_mt6765_top_probe':
+   include/dt-bindings/clock/mt6765-clk.h:161:26: warning: passing argument 1 of 'mtk_devm_alloc_clk_data' makes pointer from integer without a cast [-Wint-conversion]
+    #define CLK_TOP_NR_CLK   126
+                             ^~~
+   drivers/clk/mediatek/clk-mt6765.c:773:37: note: in expansion of macro 'CLK_TOP_NR_CLK'
+     clk_data = mtk_devm_alloc_clk_data(CLK_TOP_NR_CLK);
+                                        ^~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:16:
+   drivers/clk/mediatek/clk-mtk.h:234:29: note: expected 'struct device *' but argument is of type 'int'
+    struct clk_hw_onecell_data *mtk_devm_alloc_clk_data(struct device *dev,
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt6765.c:773:13: error: too few arguments to function 'mtk_devm_alloc_clk_data'
+     clk_data = mtk_devm_alloc_clk_data(CLK_TOP_NR_CLK);
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:16:
+   drivers/clk/mediatek/clk-mtk.h:234:29: note: declared here
+    struct clk_hw_onecell_data *mtk_devm_alloc_clk_data(struct device *dev,
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:20:
+   drivers/clk/mediatek/clk-mt6765.c: In function 'clk_mt6765_ifr_probe':
+   include/dt-bindings/clock/mt6765-clk.h:228:26: warning: passing argument 1 of 'mtk_devm_alloc_clk_data' makes pointer from integer without a cast [-Wint-conversion]
+    #define CLK_IFR_NR_CLK   64
+                             ^~
+   drivers/clk/mediatek/clk-mt6765.c:813:37: note: in expansion of macro 'CLK_IFR_NR_CLK'
+     clk_data = mtk_devm_alloc_clk_data(CLK_IFR_NR_CLK);
+                                        ^~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:16:
+   drivers/clk/mediatek/clk-mtk.h:234:29: note: expected 'struct device *' but argument is of type 'int'
+    struct clk_hw_onecell_data *mtk_devm_alloc_clk_data(struct device *dev,
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/mediatek/clk-mt6765.c:813:13: error: too few arguments to function 'mtk_devm_alloc_clk_data'
+     clk_data = mtk_devm_alloc_clk_data(CLK_IFR_NR_CLK);
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/clk/mediatek/clk-mt6765.c:16:
+   drivers/clk/mediatek/clk-mtk.h:234:29: note: declared here
+    struct clk_hw_onecell_data *mtk_devm_alloc_clk_data(struct device *dev,
+                                ^~~~~~~~~~~~~~~~~~~~~~~
 
-^1da177e4c3f415 Linus Torvalds 2005-04-16  2094  
-e84a4927a404f36 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_uid(const struct sock *sk)
-e84a4927a404f36 Eric Dumazet   2025-06-20  2096  {
-e84a4927a404f36 Eric Dumazet   2025-06-20  2097  	/* Paired with WRITE_ONCE() in sockfs_setattr() */
-e84a4927a404f36 Eric Dumazet   2025-06-20 @2098  	return READ_ONCE(sk->sk_uid);
-e84a4927a404f36 Eric Dumazet   2025-06-20  2099  }
-e84a4927a404f36 Eric Dumazet   2025-06-20  2100  
 
-:::::: The code at line 2098 was first introduced by commit
-:::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races around sk->sk_uid
+vim +/mtk_devm_alloc_clk_data +32 include/dt-bindings/clock/mt6765-clk.h
 
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+eb7beb65ac30afb Mars Cheng 2020-02-21   8  
+eb7beb65ac30afb Mars Cheng 2020-02-21   9  /* APMIXEDSYS */
+eb7beb65ac30afb Mars Cheng 2020-02-21  10  #define CLK_APMIXED_ARMPLL_L		0
+eb7beb65ac30afb Mars Cheng 2020-02-21  11  #define CLK_APMIXED_ARMPLL		1
+eb7beb65ac30afb Mars Cheng 2020-02-21  12  #define CLK_APMIXED_CCIPLL		2
+eb7beb65ac30afb Mars Cheng 2020-02-21  13  #define CLK_APMIXED_MAINPLL		3
+eb7beb65ac30afb Mars Cheng 2020-02-21  14  #define CLK_APMIXED_MFGPLL		4
+eb7beb65ac30afb Mars Cheng 2020-02-21  15  #define CLK_APMIXED_MMPLL		5
+eb7beb65ac30afb Mars Cheng 2020-02-21  16  #define CLK_APMIXED_UNIV2PLL		6
+eb7beb65ac30afb Mars Cheng 2020-02-21  17  #define CLK_APMIXED_MSDCPLL		7
+eb7beb65ac30afb Mars Cheng 2020-02-21  18  #define CLK_APMIXED_APLL1		8
+eb7beb65ac30afb Mars Cheng 2020-02-21  19  #define CLK_APMIXED_MPLL		9
+eb7beb65ac30afb Mars Cheng 2020-02-21  20  #define CLK_APMIXED_ULPOSC1		10
+eb7beb65ac30afb Mars Cheng 2020-02-21  21  #define CLK_APMIXED_ULPOSC2		11
+eb7beb65ac30afb Mars Cheng 2020-02-21  22  #define CLK_APMIXED_SSUSB26M		12
+eb7beb65ac30afb Mars Cheng 2020-02-21  23  #define CLK_APMIXED_APPLL26M		13
+eb7beb65ac30afb Mars Cheng 2020-02-21  24  #define CLK_APMIXED_MIPIC0_26M		14
+eb7beb65ac30afb Mars Cheng 2020-02-21  25  #define CLK_APMIXED_MDPLLGP26M		15
+eb7beb65ac30afb Mars Cheng 2020-02-21  26  #define CLK_APMIXED_MMSYS_F26M		16
+eb7beb65ac30afb Mars Cheng 2020-02-21  27  #define CLK_APMIXED_UFS26M		17
+eb7beb65ac30afb Mars Cheng 2020-02-21  28  #define CLK_APMIXED_MIPIC1_26M		18
+eb7beb65ac30afb Mars Cheng 2020-02-21  29  #define CLK_APMIXED_MEMPLL26M		19
+eb7beb65ac30afb Mars Cheng 2020-02-21  30  #define CLK_APMIXED_CLKSQ_LVPLL_26M	20
+eb7beb65ac30afb Mars Cheng 2020-02-21  31  #define CLK_APMIXED_MIPID0_26M		21
+eb7beb65ac30afb Mars Cheng 2020-02-21 @32  #define CLK_APMIXED_NR_CLK		22
+eb7beb65ac30afb Mars Cheng 2020-02-21  33  
 
 -- 
 0-DAY CI Kernel Test Service
