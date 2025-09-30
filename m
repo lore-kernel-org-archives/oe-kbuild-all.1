@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64AB537E9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 03:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EDD22F74E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 03:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759201885; cv=none; b=m8SkGE1Qxg2193tffGI2F0RVnOBWDnJfSXbCcJ/vEUvQRg+lH4x96msD/cQB8z6lFkDeOf9ydFLvzVDO6BLbpwDyG9SkPbObGYLUuHYz27A269Zgti4aSBU8yLgAwUxOoJCDVA+qHkYf+YznNgDNq94Wfs70O14Ao0cvN2yXlBQ=
+	t=1759203051; cv=none; b=d0kRXLgzJPME8h+CSXxbkA2HYVl52inlhDk9awG4tAUOmcsTYDDzfLFMmHsmuc8tJ0raLLWrUTrCkw8EoJYjNQziOMB+8Hku0G7z4V7EcYtN9kfT5d0Gvx83a3wNZvaceIqe2RdqAvdbHSG+V0T3bbH7zJO/zVI8OfzxgrA2eig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759201885; c=relaxed/simple;
-	bh=zIjUkhV461tuERn5K0qdQmlTxA1O++mbvnN5ncU1xEs=;
+	s=arc-20240116; t=1759203051; c=relaxed/simple;
+	bh=sfnFfzh1lqtVrUauuHqu5o8JdnJ2d3xueBBp24Hsa6g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iwoYmkTEfmUlC+styAh3rnD0imATEn0xWbzYSIP1+l9v7+g83yf5xnhYKf70IoN55a32+f2wO4dbPzOfKy74nLg55GluTV97UpzKK6Qk+Gsb3E2RgvKsSMyX6YGjSKBim/ITQ1svCvkNZs6LeIHz72dFc/SqtGU4c2vOr7tzrpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHwKGc5W; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=VprOY6WjStsXRG4miIfIiRG5ZKBKS0x5SBDqWCgELZOC89gos+ITHw3H0SsswtnvRPVsI8GF6oq8pi8c2pKSIf1fVbkCLV5ic7lByQJtFIzwZ/lXC9AvpAXrr18leNiHD0hAJPnMJ5Lvf4uccLfQkneHAh8KXOgqW5+vBN6WVgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6nlmW+P; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHwKGc5W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6nlmW+P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759201884; x=1790737884;
+  t=1759203049; x=1790739049;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zIjUkhV461tuERn5K0qdQmlTxA1O++mbvnN5ncU1xEs=;
-  b=PHwKGc5WD5JeeBEtuEbDK2vUtR883aP46UjoLQK5/pSqnBIQeJx1iraS
-   amy80ZDt71tPi+HILIEGCWSJ4dtttPW6iFfdQa/BCH6nXV/rIQVC24MKv
-   6x9Ig5WbfJro+ZPXr0HGMYy47Z0FUUBXKZQNmz0cxhmVFNnIHrsi81HRt
-   WJZzma5LOPV0mODik4V+fmPMquCUOhELU43DwFSHU+8cJhugpTghRN0pb
-   oXX91nD63/Ukj/1hKk8sfJlKjiwJ60qgCLoqAQ1Me3vlaGPKlwfRIBWut
-   4vLfCUOr2L292fBBkSceVaDrKN7b5h2ch6d+JLuQXNNVygJjQmowi20fj
-   w==;
-X-CSE-ConnectionGUID: JAuNdkXpScOnGjgWahzSRg==
-X-CSE-MsgGUID: nRolV2HHSHS6hayq2ONWMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="84064993"
+  bh=sfnFfzh1lqtVrUauuHqu5o8JdnJ2d3xueBBp24Hsa6g=;
+  b=J6nlmW+PARU369BR0n3AUHhqIRQncHdVOpGGRBb79Xn9Irye2vI0HKzg
+   er81JWbj5SO8ztGidtppuj/+/xYPEF4npvZTHK8ycGTYakCrOz5UxBGTo
+   PuGPJq3jgC9hhJ5H63Gv+H8+pfn/eqGs57PKvtvn8fyba4dyedCcJQtoY
+   Gz+0K24uMUpKU+tOC1oCg4+1HF0dKHCnifWNci/8pKp2fWcwLdjG+Yr0s
+   5ptrBBADRnjvlgDrBvSptWSyXrmrfCiLNwWIixxgh5kkWJYZ8iIORhWfJ
+   oIRQTeu0IjJsR+OYGD/C71Lk23mcyK4B1WbYb42qideDSW3KyZu2QBSJP
+   A==;
+X-CSE-ConnectionGUID: P+dM6Z2qThGX2mRhBcFlDQ==
+X-CSE-MsgGUID: BqSNOcnqR7Ozxjh/zPkMgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="86894026"
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="84064993"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 20:11:23 -0700
-X-CSE-ConnectionGUID: n6Za/oEIRA2HBJZPz4ui8g==
-X-CSE-MsgGUID: I/uxiN8kSXuRimwsij6rFg==
+   d="scan'208";a="86894026"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 20:30:49 -0700
+X-CSE-ConnectionGUID: hzeahOWlQcetqRBWrKuCRA==
+X-CSE-MsgGUID: J6aThbiZST+lYR6ThZ7CDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="178359335"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Sep 2025 20:11:22 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="178200534"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 29 Sep 2025 20:30:48 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3Qls-00000000689-0U7O;
-	Tue, 30 Sep 2025 03:11:20 +0000
-Date: Tue, 30 Sep 2025 05:11:19 +0200
+	id 1v3R4f-0000sZ-28;
+	Tue, 30 Sep 2025 03:30:45 +0000
+Date: Tue, 30 Sep 2025 11:29:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sean-jc:x86/gmem_default_shared 1/10] htmldocs:
- Documentation/virt/kvm/api.rst:6424: WARNING: Literal block expected; none
- found. [docutils]
-Message-ID: <202509300514.P2rZBVjM-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 45/45] mm/ksm.c:146: warning: Function
+ parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
+Message-ID: <202509301106.2QPzJ8vS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,40 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/gmem_default_shared
-head:   71c8199c17c4609d842dc94e6d225156d8574d82
-commit: f844b9053e048ebcebbedf37c72d6084a41fa773 [1/10] KVM: Rework KVM_CAP_GUEST_MEMFD_MMAP into KVM_CAP_GUEST_MEMFD_FLAGS
-reproduce: (https://download.01.org/0day-ci/archive/20250930/202509300514.P2rZBVjM-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   aa75e6da3895e56cacebbe71d2df72767d3e89e0
+commit: ef314e56b70f4662163f3e1e094bcfa9627674c5 [45/45] anolis: kabi: reserve some space for kABI
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20250930/202509301106.2QPzJ8vS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301106.2QPzJ8vS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509300514.P2rZBVjM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509301106.2QPzJ8vS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/virt/kvm/api.rst:6424: WARNING: Literal block expected; none found. [docutils]
+>> mm/ksm.c:146: warning: Function parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
 
 
-vim +6424 Documentation/virt/kvm/api.rst
+vim +146 mm/ksm.c
 
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6423  
-3d3a04fad25a66 Fuad Tabba 2025-07-29 @6424  When the KVM MMU performs a PFN lookup to service a guest fault and the backing
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6425  guest_memfd has the GUEST_MEMFD_FLAG_MMAP set, then the fault will always be
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6426  consumed from guest_memfd, regardless of whether it is a shared or a private
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6427  fault.
-3d3a04fad25a66 Fuad Tabba 2025-07-29  6428  
+31dbd01f314364 Izik Eidus   2009-09-21  128  
+31dbd01f314364 Izik Eidus   2009-09-21  129  /**
+31dbd01f314364 Izik Eidus   2009-09-21  130   * struct ksm_scan - cursor for scanning
+31dbd01f314364 Izik Eidus   2009-09-21  131   * @mm_slot: the current mm_slot we are scanning
+31dbd01f314364 Izik Eidus   2009-09-21  132   * @address: the next address inside that to be scanned
+6514d511dbe5a7 Hugh Dickins 2009-12-14  133   * @rmap_list: link to the next rmap to be scanned in the rmap_list
+31dbd01f314364 Izik Eidus   2009-09-21  134   * @seqnr: count of completed full scans (needed when removing unstable node)
+31dbd01f314364 Izik Eidus   2009-09-21  135   *
+31dbd01f314364 Izik Eidus   2009-09-21  136   * There is only the one ksm_scan instance of this cursor structure.
+31dbd01f314364 Izik Eidus   2009-09-21  137   */
+31dbd01f314364 Izik Eidus   2009-09-21  138  struct ksm_scan {
+21fbd59136e077 Qi Zheng     2022-08-31  139  	struct ksm_mm_slot *mm_slot;
+31dbd01f314364 Izik Eidus   2009-09-21  140  	unsigned long address;
+21fbd59136e077 Qi Zheng     2022-08-31  141  	struct ksm_rmap_item **rmap_list;
+31dbd01f314364 Izik Eidus   2009-09-21  142  	unsigned long seqnr;
+ef314e56b70f46 Guixin Liu   2024-08-26  143  
+ef314e56b70f46 Guixin Liu   2024-08-26  144  	CK_KABI_RESERVE(1)
+ef314e56b70f46 Guixin Liu   2024-08-26  145  	CK_KABI_RESERVE(2)
+31dbd01f314364 Izik Eidus   2009-09-21 @146  };
+31dbd01f314364 Izik Eidus   2009-09-21  147  
 
-:::::: The code at line 6424 was first introduced by commit
-:::::: 3d3a04fad25a6621828518a2abe536142d2c1a7d KVM: Allow and advertise support for host mmap() on guest_memfd files
+:::::: The code at line 146 was first introduced by commit
+:::::: 31dbd01f314364b70c2e026a5793a29a4da8a9dc ksm: Kernel SamePage Merging
 
-:::::: TO: Fuad Tabba <tabba@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+:::::: TO: Izik Eidus <ieidus@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
