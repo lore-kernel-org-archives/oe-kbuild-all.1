@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EDD22F74E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 03:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F5926E16E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 04:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759203051; cv=none; b=d0kRXLgzJPME8h+CSXxbkA2HYVl52inlhDk9awG4tAUOmcsTYDDzfLFMmHsmuc8tJ0raLLWrUTrCkw8EoJYjNQziOMB+8Hku0G7z4V7EcYtN9kfT5d0Gvx83a3wNZvaceIqe2RdqAvdbHSG+V0T3bbH7zJO/zVI8OfzxgrA2eig=
+	t=1759205006; cv=none; b=EYZnlLGo05YVleRNC4QVM0gwYQOLeSFwhlNWIjdPBhR/+38IXvu34qELNcoMLQD34ciPCWGHfZjVWZXMn5uFoilmUYxC6nr5QxVkB0GLfGH/RvTKXwlexDkOdQxAAqnAS75yxMqgAByJe8MA9UwHZt6npxl27VbgKXGmbZaa3Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759203051; c=relaxed/simple;
-	bh=sfnFfzh1lqtVrUauuHqu5o8JdnJ2d3xueBBp24Hsa6g=;
+	s=arc-20240116; t=1759205006; c=relaxed/simple;
+	bh=mMD9rKKYTPrKpsaNGngjXCmG3RLM8/EV4arW7Giaal0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VprOY6WjStsXRG4miIfIiRG5ZKBKS0x5SBDqWCgELZOC89gos+ITHw3H0SsswtnvRPVsI8GF6oq8pi8c2pKSIf1fVbkCLV5ic7lByQJtFIzwZ/lXC9AvpAXrr18leNiHD0hAJPnMJ5Lvf4uccLfQkneHAh8KXOgqW5+vBN6WVgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6nlmW+P; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=eGwNd5hzmzY0mr7NDDOMtBCyDaLqcy5fFVS9INt3iUbyOI0cSD62tUaaKdeQfMGHiZknYg3rJGYDF+O8oWMQa8tgI7vLWOuFZWky+uWgqmTBwgGVCE5831pIG3isgk6itb4ogNfUqczDOPd6878vHW2MgbStIcYWEHogo1SMqh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tpm8IGPZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6nlmW+P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tpm8IGPZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759203049; x=1790739049;
+  t=1759205004; x=1790741004;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sfnFfzh1lqtVrUauuHqu5o8JdnJ2d3xueBBp24Hsa6g=;
-  b=J6nlmW+PARU369BR0n3AUHhqIRQncHdVOpGGRBb79Xn9Irye2vI0HKzg
-   er81JWbj5SO8ztGidtppuj/+/xYPEF4npvZTHK8ycGTYakCrOz5UxBGTo
-   PuGPJq3jgC9hhJ5H63Gv+H8+pfn/eqGs57PKvtvn8fyba4dyedCcJQtoY
-   Gz+0K24uMUpKU+tOC1oCg4+1HF0dKHCnifWNci/8pKp2fWcwLdjG+Yr0s
-   5ptrBBADRnjvlgDrBvSptWSyXrmrfCiLNwWIixxgh5kkWJYZ8iIORhWfJ
-   oIRQTeu0IjJsR+OYGD/C71Lk23mcyK4B1WbYb42qideDSW3KyZu2QBSJP
-   A==;
-X-CSE-ConnectionGUID: P+dM6Z2qThGX2mRhBcFlDQ==
-X-CSE-MsgGUID: BqSNOcnqR7Ozxjh/zPkMgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="86894026"
+  bh=mMD9rKKYTPrKpsaNGngjXCmG3RLM8/EV4arW7Giaal0=;
+  b=Tpm8IGPZoM2/qQAlCfL2kCMPThocksDRNGimAZyjIl/DJjem1GNEVA71
+   JHFI6cyGOH73a8MEDkeKIMx7AtdjAM7uv4DLgI4CEYWqLpjQ4jOcrNfwA
+   NZM0KtgrVDZhgR1t/APEJveFmcGKTZ2FT8dwVhr+ZGO1Z2LyZiBz3pjNs
+   22ONPctcez9o3oqDzHPUJGOCIug7GCEPXpeqqSo9rQxMe6lyaXiOz95mV
+   LPLIlrwtLRPXwGt2WylNJgoNKsjLQlKUABMPGZrjLqiWbXpNBmAYNBk2U
+   GaoJ9ZO3omSI3lO1FjKUqysj+2HGc1S1v6olCq+wXEFpWvMVnzLsDreMy
+   g==;
+X-CSE-ConnectionGUID: euU8t+ocSxCSlg8LkA4syg==
+X-CSE-MsgGUID: daJKI7l0RnGy7sbYqtQj6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="72070580"
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="86894026"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 20:30:49 -0700
-X-CSE-ConnectionGUID: hzeahOWlQcetqRBWrKuCRA==
-X-CSE-MsgGUID: J6aThbiZST+lYR6ThZ7CDg==
+   d="scan'208";a="72070580"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 21:03:24 -0700
+X-CSE-ConnectionGUID: 9whVPoMAR9iLTj/7UlzjXQ==
+X-CSE-MsgGUID: kX4eFeH8QnOsYC5Kztx/MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="178200534"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 29 Sep 2025 20:30:48 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+   d="scan'208";a="209363333"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 21:03:22 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v3R4f-0000sZ-28;
-	Tue, 30 Sep 2025 03:30:45 +0000
-Date: Tue, 30 Sep 2025 11:29:54 +0800
+	id 1v3RaC-0000000068j-1tLW;
+	Tue, 30 Sep 2025 04:03:20 +0000
+Date: Tue, 30 Sep 2025 06:02:28 +0200
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 45/45] mm/ksm.c:146: warning: Function
- parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
-Message-ID: <202509301106.2QPzJ8vS-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Fuad Tabba <tabba@google.com>,
+	Ackerley Tng <ackerleytng@google.com>, linux-doc@vger.kernel.org
+Subject: [sean-jc:x86/gmem_default_shared 2/10] htmldocs:
+ Documentation/virt/kvm/api.rst:6430: WARNING: Literal block ends without a
+ blank line; unexpected unindent. [docutils]
+Message-ID: <202509300613.3q6FQjEc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +64,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   aa75e6da3895e56cacebbe71d2df72767d3e89e0
-commit: ef314e56b70f4662163f3e1e094bcfa9627674c5 [45/45] anolis: kabi: reserve some space for kABI
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20250930/202509301106.2QPzJ8vS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301106.2QPzJ8vS-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/gmem_default_shared
+head:   71c8199c17c4609d842dc94e6d225156d8574d82
+commit: 65042d91905d173c70a5474c1c032076bbf702dc [2/10] KVM: guest_memfd: Add INIT_SHARED flag, reject user page faults if not set
+reproduce: (https://download.01.org/0day-ci/archive/20250930/202509300613.3q6FQjEc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509301106.2QPzJ8vS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509300613.3q6FQjEc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/ksm.c:146: warning: Function parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+>> Documentation/virt/kvm/api.rst:6430: WARNING: Literal block ends without a blank line; unexpected unindent. [docutils]
+   Documentation/virt/kvm/api.rst:6432: WARNING: Literal block expected; none found. [docutils]
 
 
-vim +146 mm/ksm.c
+vim +6430 Documentation/virt/kvm/api.rst
 
-31dbd01f314364 Izik Eidus   2009-09-21  128  
-31dbd01f314364 Izik Eidus   2009-09-21  129  /**
-31dbd01f314364 Izik Eidus   2009-09-21  130   * struct ksm_scan - cursor for scanning
-31dbd01f314364 Izik Eidus   2009-09-21  131   * @mm_slot: the current mm_slot we are scanning
-31dbd01f314364 Izik Eidus   2009-09-21  132   * @address: the next address inside that to be scanned
-6514d511dbe5a7 Hugh Dickins 2009-12-14  133   * @rmap_list: link to the next rmap to be scanned in the rmap_list
-31dbd01f314364 Izik Eidus   2009-09-21  134   * @seqnr: count of completed full scans (needed when removing unstable node)
-31dbd01f314364 Izik Eidus   2009-09-21  135   *
-31dbd01f314364 Izik Eidus   2009-09-21  136   * There is only the one ksm_scan instance of this cursor structure.
-31dbd01f314364 Izik Eidus   2009-09-21  137   */
-31dbd01f314364 Izik Eidus   2009-09-21  138  struct ksm_scan {
-21fbd59136e077 Qi Zheng     2022-08-31  139  	struct ksm_mm_slot *mm_slot;
-31dbd01f314364 Izik Eidus   2009-09-21  140  	unsigned long address;
-21fbd59136e077 Qi Zheng     2022-08-31  141  	struct ksm_rmap_item **rmap_list;
-31dbd01f314364 Izik Eidus   2009-09-21  142  	unsigned long seqnr;
-ef314e56b70f46 Guixin Liu   2024-08-26  143  
-ef314e56b70f46 Guixin Liu   2024-08-26  144  	CK_KABI_RESERVE(1)
-ef314e56b70f46 Guixin Liu   2024-08-26  145  	CK_KABI_RESERVE(2)
-31dbd01f314364 Izik Eidus   2009-09-21 @146  };
-31dbd01f314364 Izik Eidus   2009-09-21  147  
+f844b9053e048e Sean Christopherson 2025-09-29  6419  
+f844b9053e048e Sean Christopherson 2025-09-29  6420    - GUEST_MEMFD_FLAG_MMAP enables using mmap() on the file descriptor.
+f844b9053e048e Sean Christopherson 2025-09-29  6421  
+65042d91905d17 Sean Christopherson 2025-09-29  6422    - GUEST_MEMFD_FLAG_INIT_SHARED makes all memory in the file shared during
+65042d91905d17 Sean Christopherson 2025-09-29  6423      KVM_CREATE_GUEST_MEMFD (memory files created without INIT_SHARED will be
+65042d91905d17 Sean Christopherson 2025-09-29  6424      marked private).  Shared memory can be faulted into host userspace page
+65042d91905d17 Sean Christopherson 2025-09-29  6425      tables. Private memory cannot.
+65042d91905d17 Sean Christopherson 2025-09-29  6426  
+65042d91905d17 Sean Christopherson 2025-09-29  6427      Note!  Since KVM doesn't yet support in-place private<=>shared conversions,
+65042d91905d17 Sean Christopherson 2025-09-29  6428      INIT_SHARED must be specified in order to fault memory into userspace page
+65042d91905d17 Sean Christopherson 2025-09-29  6429      tables.  This limitation will go away when in-place conversions are supported.
+f844b9053e048e Sean Christopherson 2025-09-29 @6430  ::
+3d3a04fad25a66 Fuad Tabba          2025-07-29  6431  
 
-:::::: The code at line 146 was first introduced by commit
-:::::: 31dbd01f314364b70c2e026a5793a29a4da8a9dc ksm: Kernel SamePage Merging
+:::::: The code at line 6430 was first introduced by commit
+:::::: f844b9053e048ebcebbedf37c72d6084a41fa773 KVM: Rework KVM_CAP_GUEST_MEMFD_MMAP into KVM_CAP_GUEST_MEMFD_FLAGS
 
-:::::: TO: Izik Eidus <ieidus@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Sean Christopherson <seanjc@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
