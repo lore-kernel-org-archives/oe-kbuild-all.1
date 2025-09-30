@@ -1,171 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7031F37C5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 11:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF8E18A93F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 14:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759230432; cv=none; b=QyrhurTyYWmBdmvXsvAxoEQdI08678FSQMbXsreqxNC1Sglc3YFEQgFw+isRXX6DgsF2M4bek1YAPyZa9lFkOE8V6z8vPTrXheXNJp06s+abY1/2mPlrVXIeLwup/vSI0RR4X2lNSpfNmaJO0z4sBcbluMyQcOJwk2xxCSIX2FQ=
+	t=1759240950; cv=none; b=oaM/ggP/l+5IsZbgH390IeXuVSlPKK6Ya/6xQvdfhDiDzfLsyO9dIHY42PhZveXTo7u/l9og8frCMAl/X2WDBvK3uX6Mt24fYTa1oqvopRSyby+y626Hsz7Xox9rabBWDljpZh3zjwzla3qa+BKeRx+rmr3RjuQCJBhlzkQD/zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759230432; c=relaxed/simple;
-	bh=JkEgfrFobUvPs9WUhYazXemTzj5bNBhLW05gn5e7dd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qx7D93jlA6MrfdYrkwXggZSo2ECqUUKEHbAh992um/OwuowzRdbbKtDOqdzagES9OEg5HzIHM2xXQ47TapuK7pp8S3d+bitXz0oX88Uobi55v/0hcavKk2GC1Nh9PclapBnlTnuHb33geGpuSws0zklqUVyLF35NBjngd+o8qZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+WHo3vt; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1759240950; c=relaxed/simple;
+	bh=fZ2Q/oiUArxeHjMnVz8UUGxPawifeCHpdKtdKNs/ssI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S+YFiZQNevaE08MhAfAI5+A9si9GQSKAOJpXxgQOgJNNbGKxnR4DyvBnO22zgCaoNcMaHIN7kEZqWkYN4ewJ3K2TlFsw9dVDpqBMrlRFpve/4p0Pya2JOQw9FDYeG96fKbA8jM38dZlI25mxSmkC6uLU2QCl11QIzA92WoVuxXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KTbCUGj2; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+WHo3vt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KTbCUGj2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759230429; x=1790766429;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=JkEgfrFobUvPs9WUhYazXemTzj5bNBhLW05gn5e7dd8=;
-  b=C+WHo3vt7xPUc7iYxUexZY7llARR+9vmE9GiqLTQbjP9KWDIIzQLq0gG
-   1vGubEAiZlfUN2Y+9Td/2XmpyyHDrBxCgBrFHuZPgYgDO8w8mlmynf8DY
-   AjY0s5D9aXQf2R+YK1/w2IplSsJaF7XVpAumZaYHS6FolpznX2dsarh7q
-   gpBhm1JU27ThKcPIbTXf4kIsI4AlRNsTADvD4nQiZ1pkK6Su2tusHqac1
-   RIyA8MIzOR6J+tu+QstFVPTOQoJ6YhEhntg7kpA4y7NI6R4Z0qJZffHmf
-   MvFhBRGcQBsIO9m6CfWE3hdWn8Yv83vnlGTkrRD9X8Zp687O5MiiU5Kle
-   w==;
-X-CSE-ConnectionGUID: CMaKptDNRbKL+SMbdzyCqQ==
-X-CSE-MsgGUID: kfHWqIxaQm6T38BRUbGjig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="72907812"
+  t=1759240948; x=1790776948;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fZ2Q/oiUArxeHjMnVz8UUGxPawifeCHpdKtdKNs/ssI=;
+  b=KTbCUGj2Q2TsYLFXesERc0WCX2jIRWJES77jswqq1ncBWC5TmyP+WVVw
+   001+yvD89BYbqG1jnCDzjT5oaejWxY214oPNesyN5EFrmBeiquUsvAgJF
+   IRlLn4+eTtMF0KUOHUuIqPbo3F6n2gx6fve4yar3WETr0PCqjswW7fmUS
+   mPiQ7MWP6zDcTaieR15Tl+Aznouq0vcaJ46Q7HuG4dYg2caSET0esfPTn
+   ML/xzfkgxX7qvGggqsXTZcomiuF/f/ucrvqGtP8/HyFIlNDhand8qO3WI
+   pdGXbmwnLWwojRLIL/C2y+rZuoAHuz70QK/TRySVheNj2z6C8YjAE412d
+   Q==;
+X-CSE-ConnectionGUID: ltnNxB0fRvCztLZ5n7k7xw==
+X-CSE-MsgGUID: /PEktnIOToumoyvDeH7uMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="61414070"
 X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="72907812"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 04:07:09 -0700
-X-CSE-ConnectionGUID: MY9ov9QwQ5GXH8kC6Jesqg==
-X-CSE-MsgGUID: HZtVzlPZRheexbv1wLS3bA==
+   d="scan'208";a="61414070"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 07:02:27 -0700
+X-CSE-ConnectionGUID: ogEPciQXQzCoZDiy7EzuKQ==
+X-CSE-MsgGUID: UnM3L6LASiyKLMtPTilLDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="177763539"
+   d="scan'208";a="177651316"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 30 Sep 2025 04:07:01 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 Sep 2025 07:02:25 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3YCB-0001CR-16;
-	Tue, 30 Sep 2025 11:06:59 +0000
-Date: Tue, 30 Sep 2025 19:06:41 +0800
+	id 1v3avv-0001OT-0K;
+	Tue, 30 Sep 2025 14:02:23 +0000
+Date: Tue, 30 Sep 2025 22:02:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?utf-8?Q?Miko=C5=82aj?= Wasiak <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH 4/8] drm/i915: Use huge tmpfs mount point helpers
-Message-ID: <202509301837.pQ2TiJkx-lkp@intel.com>
-References: <20250929200316.18417-5-loic.molinari@collabora.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>
+Subject: [linux-nvme:nvme-6.18 4/11] include/linux/kern_levels.h:5:18:
+ warning: format '%lu' expects argument of type 'long unsigned int', but
+ argument 3 has type 'size_t' {aka 'unsigned int'}
+Message-ID: <202509302151.WHyjRfcE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250929200316.18417-5-loic.molinari@collabora.com>
 
-Hi Loïc,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[cannot apply to akpm-mm/mm-everything linus/master v6.17 next-20250929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-shmem-helper-Add-huge-page-fault-handler/20250930-040600
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250929200316.18417-5-loic.molinari%40collabora.com
-patch subject: [PATCH 4/8] drm/i915: Use huge tmpfs mount point helpers
-config: i386-randconfig-013-20250930 (https://download.01.org/0day-ci/archive/20250930/202509301837.pQ2TiJkx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301837.pQ2TiJkx-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/nvme.git nvme-6.18
+head:   876f5e3e3b1e3e78aec9b7e53bec4b949a13ce09
+commit: 2907c26f418da9a46deae686598e3006958fb1c5 [4/11] nvme-keyring: add 'dhchap' key type
+config: arc-randconfig-001-20250930 (https://download.01.org/0day-ci/archive/20250930/202509302151.WHyjRfcE-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509302151.WHyjRfcE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509301837.pQ2TiJkx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509302151.WHyjRfcE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gem/i915_gemfs.c: In function 'i915_gemfs_init':
->> drivers/gpu/drm/i915/gem/i915_gemfs.c:29:17: error: implicit declaration of function 'drm_gem_shmem_huge_mnt_create' [-Wimplicit-function-declaration]
-      29 |         gemfs = drm_gem_shmem_huge_mnt_create("within_size");
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/gem/i915_gemfs.c:29:15: error: assignment to 'struct vfsmount *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      29 |         gemfs = drm_gem_shmem_huge_mnt_create("within_size");
-         |               ^
-   drivers/gpu/drm/i915/gem/i915_gemfs.c: In function 'i915_gemfs_fini':
->> drivers/gpu/drm/i915/gem/i915_gemfs.c:46:9: error: implicit declaration of function 'drm_gem_shmem_huge_mnt_free' [-Wimplicit-function-declaration]
-      46 |         drm_gem_shmem_huge_mnt_free(i915->mm.gemfs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arc/include/asm/bug.h:30,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from drivers/nvme/common/keyring.c:6:
+   drivers/nvme/common/keyring.c: In function 'nvme_dhchap_psk_preparse':
+>> include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/printk.h:135:11: note: in definition of macro 'no_printk'
+     135 |   _printk(fmt, ##__VA_ARGS__);  \
+         |           ^~~
+   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
+         |                    ^~~~~~~~
+   include/linux/printk.h:644:12: note: in expansion of macro 'KERN_DEBUG'
+     644 |  no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |            ^~~~~~~~~~
+   drivers/nvme/common/keyring.c:343:3: note: in expansion of macro 'pr_debug'
+     343 |   pr_debug("%s: Invalid data length %lu\n", __func__, datalen);
+         |   ^~~~~~~~
+   drivers/nvme/common/keyring.c:343:39: note: format string is defined here
+     343 |   pr_debug("%s: Invalid data length %lu\n", __func__, datalen);
+         |                                     ~~^
+         |                                       |
+         |                                       long unsigned int
+         |                                     %u
 
 
-vim +/drm_gem_shmem_huge_mnt_create +29 drivers/gpu/drm/i915/gem/i915_gemfs.c
+vim +5 include/linux/kern_levels.h
 
-     9	
-    10	void i915_gemfs_init(struct drm_i915_private *i915)
-    11	{
-    12		struct vfsmount *gemfs;
-    13	
-    14		/*
-    15		 * By creating our own shmemfs mountpoint, we can pass in
-    16		 * mount flags that better match our usecase.
-    17		 *
-    18		 * One example, although it is probably better with a per-file
-    19		 * control, is selecting huge page allocations ("huge=within_size").
-    20		 * However, we only do so on platforms which benefit from it, or to
-    21		 * offset the overhead of iommu lookups, where with latter it is a net
-    22		 * win even on platforms which would otherwise see some performance
-    23		 * regressions such a slow reads issue on Broadwell and Skylake.
-    24		 */
-    25	
-    26		if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
-    27			return;
-    28	
-  > 29		gemfs = drm_gem_shmem_huge_mnt_create("within_size");
-    30		if (IS_ERR(gemfs))
-    31			goto err;
-    32	
-    33		i915->mm.gemfs = gemfs;
-    34		drm_info(&i915->drm, "Using Transparent Hugepages\n");
-    35		return;
-    36	
-    37	err:
-    38		drm_notice(&i915->drm,
-    39			   "Transparent Hugepage support is recommended for optimal performance%s\n",
-    40			   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
-    41						      " when IOMMU is enabled!");
-    42	}
-    43	
-    44	void i915_gemfs_fini(struct drm_i915_private *i915)
-    45	{
-  > 46		drm_gem_shmem_huge_mnt_free(i915->mm.gemfs);
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
