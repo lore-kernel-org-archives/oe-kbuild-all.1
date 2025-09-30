@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81682566FC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Sep 2025 20:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B674734BA4D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 01:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759179200; cv=none; b=exOgC5LskjD5oelHmZyX/cg6sMIwQbv/rpbhmhLKEf/8jcNAaHKrOipwAPRwkjidNB6AS6qvNFRlPm+C5ZjSvVTGj/2WoGfOfYqRMCJ1ml/0nXkyGAoJWERETlvetl7qupSZ+BOtL/ILK9FZO1Lwn53hBs/k7d1JDi/0d5L6Rwo=
+	t=1759196865; cv=none; b=FAY3AcyxvlW7LMp3xjBBsPc3tZNSfdSFVQpmSvCqau+yk33Onc04IPJux3N7mQiYI65qnLSgssc/gPU2ZMByeTcb9V2RLAWHq+sHpNFpxlYiEHIonkcUfs/pab0ufYLBc1LSJ2IUgHkXe0m7ra5AV4HqF5FdKR7vQ0EnOfCz0zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759179200; c=relaxed/simple;
-	bh=1lf7Fqtg/5YJ3Un6TbzIkZeDyTlJs+Fxby7daGYMzaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TTerZatthoqoV++yzFKbGauGtS3H/nx4Ganzk363cLa2nRYj0yAjLaTRdZfz9tLeKC9WzLip6GG9XzCkbdjtwYlCbGibGpKShAJGCkzL3ZNdOp6rXtQ+6l1F07DbqHAGh60rard2Ru0xWvFhOF/hOwpt504b8pR3zNt3eSRjhEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Msl7PkLA; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1759196865; c=relaxed/simple;
+	bh=HgStWjYtyMljxtoehnaC6lpeJVqBYQGuOxxP3cAccdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jy/dkjDbFHBxdbXgKfcbUJpnJ1PorazpTynLcfj2au7AX0n2BtQWHse8v/zK8GBWI0gYABdWZep8ZCHLCoidn8Q8BakWPxFcbVCzmKGQA5bHSyQTclCkJHutzPG9KX6LWOpnCZyra4XDLPxgReKsflw5Qqag5rZ3azuqiNHcCec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SX7reB4g; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Msl7PkLA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SX7reB4g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759179199; x=1790715199;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1lf7Fqtg/5YJ3Un6TbzIkZeDyTlJs+Fxby7daGYMzaI=;
-  b=Msl7PkLAqT7Sn4nGtukHhH4VQff3ZvnjscsaeYelsVVWkPwfscWP5pHb
-   kIeylW4YZq63JU6D98tpjdra9SBcpURYlY6PmOC0ht1gsp69xripTB04V
-   zDkYUjEX95okyH0cPNoHnZMHKUUByUSUPITERSzyO/srydyAhT/cco2lR
-   9r8V1xiHDdsn0UckUNj/rBzvNG+umisGQ6vYNGkybmOsaeEpFBLiGaAQL
-   k61zQscdcfXyaUw+LJQDSa2zHlGayOI3z6FoyXo6+fwEhKhGPNPuVZMfd
-   7p3CIF4ybufVVbGPrpu6w6PL7eIxC266WVVNKhL1fsYAITc9FpFpA7n93
+  t=1759196863; x=1790732863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HgStWjYtyMljxtoehnaC6lpeJVqBYQGuOxxP3cAccdo=;
+  b=SX7reB4gVCAQUD9IzDUK226+xSQ2f2iYapIrxNETlDYlhPIZAHBl6BD6
+   VooHxfwmze/12erEjqP4wZCgJfDQZ2xCWiwco2TZQGphZXPkl4kBRWgND
+   cj4ya4dK9pCxrs2W3DBGHiVNRaQdXXb+an6x/USlHPKs1QzTJyW2d9Hkm
+   20+4ICnz5w0F9+9nZeeHxBvD+8y/Nn5Fv06ZuStH01fsEGlnfW0kePc0z
+   x3zlAXn0VX2/GUOaiXBRa+/prbvJWqIUY9g2pqo2wsxbvnDy8b2kfKNWo
+   0GQPKWYRWIsHz45f2KKvoijt07NujGQ61ZmPaQmo0+BRkPqjxU/enh3ws
    w==;
-X-CSE-ConnectionGUID: ZIVy23zsRKmPQY4zrfS+vQ==
-X-CSE-MsgGUID: RIqBBEESQN24VKRJqptzeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="61345712"
-X-IronPort-AV: E=Sophos;i="6.18,302,1751266800"; 
-   d="scan'208";a="61345712"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 13:53:18 -0700
-X-CSE-ConnectionGUID: /NWpcwObSoCo2Mc6ze0tXw==
-X-CSE-MsgGUID: sbCiMNLASDO4MWmXck/ulQ==
+X-CSE-ConnectionGUID: Nm1cH7OATR2RkHwdwqSsRw==
+X-CSE-MsgGUID: aq2kbCTZShevhSokVePWIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61404404"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61404404"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 18:47:43 -0700
+X-CSE-ConnectionGUID: MC0JFXgtTmCRKCgKeYCDXg==
+X-CSE-MsgGUID: FGhQtfEzRxa6drq++mMHtg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,302,1751266800"; 
-   d="scan'208";a="179096093"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Sep 2025 13:53:17 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
+   d="scan'208";a="209335217"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 18:47:39 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3Kry-000000005z7-40WJ;
-	Mon, 29 Sep 2025 20:53:14 +0000
-Date: Mon, 29 Sep 2025 22:52:24 +0200
+	id 1v3PSq-0000ol-2H;
+	Tue, 30 Sep 2025 01:47:36 +0000
+Date: Tue, 30 Sep 2025 09:47:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [linuxsecuritymodule:main 1/1] htmldocs: Warning: README.md
- references a file that doesn't exist: Documentation/API/obsolete
-Message-ID: <202509292208.v7fqEzib-lkp@intel.com>
+To: Julian Sun <sunjunchao@bytedance.com>, linux-fsdevel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+	ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, clm@fb.com, dsterba@suse.com,
+	xiubli@redhat.com, idryomov@gmail.com, tytso@mit.edu,
+	adilger.kernel@dilger.ca, jaegeuk@kernel.org, chao@kernel.org,
+	willy@infradead.org, jack@suse.cz, brauner@kernel.org,
+	agruenba@redhat.com
+Subject: Re: [PATCH] fs: Make wbc_to_tag() extern and use it in fs.
+Message-ID: <202509300954.4OaImb0r-lkp@intel.com>
+References: <20250929095544.308392-1-sunjunchao@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,32 +68,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250929095544.308392-1-sunjunchao@bytedance.com>
 
-tree:   https://github.com/LinuxSecurityModule/kernel main
-head:   3df91be27cdd585c3fe381b42b1816a260682759
-commit: 3df91be27cdd585c3fe381b42b1816a260682759 [1/1] lsm: add a LSM specific README.md and SECURITY.md
-reproduce: (https://download.01.org/0day-ci/archive/20250929/202509292208.v7fqEzib-lkp@intel.com/reproduce)
+Hi Julian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on ceph-client/testing ceph-client/for-linus tytso-ext4/dev jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev gfs2/for-next akpm-mm/mm-everything linus/master v6.17 next-20250929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/fs-Make-wbc_to_tag-extern-and-use-it-in-fs/20250929-175656
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250929095544.308392-1-sunjunchao%40bytedance.com
+patch subject: [PATCH] fs: Make wbc_to_tag() extern and use it in fs.
+config: s390-randconfig-001-20250930 (https://download.01.org/0day-ci/archive/20250930/202509300954.4OaImb0r-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509300954.4OaImb0r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509292208.v7fqEzib-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509300954.4OaImb0r-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
->> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
->> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
-   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
-   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
-   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
-   Using alabaster theme
-   ERROR: Cannot find file ./include/linux/pci.h
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-mmio.o
+>> ERROR: modpost: "wbc_to_tag" [fs/btrfs/btrfs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
