@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F6B27604B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 10:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCB82F6182
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 10:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759226752; cv=none; b=EnkI18/Zh9ssVPGis0nNVjy/P1GsxXrp0A0+sYT9Jg5uZeWpo7zRw6sHZWyPJIXSJnZZT6mQqDIVm9e/bhB60ybi7GSTpkyj08+/o06sYYWuwQVpu+eNcXVG/05lD5UiK2+Id/2y4zFecrTgf0a/SVTB9g7gMWDJPce5gQIptVY=
+	t=1759228624; cv=none; b=rUTy3D3K4xRDYukLq4R12slkuYy61gDaV171ltpOiHkmhdiXqWIe+rtqCTdHmdB8wHvCW99pUBWcotI3RO3wBydNoh9b9lI7S/leARO+N+8Rg7ng59cfb7hb1i4ig8IcH5ZBNH28opNYSEFXeVzQBnaTyeYOYJ2IFaM0RM+M8rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759226752; c=relaxed/simple;
-	bh=npvtgCQVERmCarOfKSvie70oeT0wMLmYdU95Di6tZxk=;
+	s=arc-20240116; t=1759228624; c=relaxed/simple;
+	bh=sbz5AL1wVvoPI4VgrY33BmNwLhxdJAx+xAgmOKchchs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EwILvSxyzMJRK9tRYtVaPOXkFL9jDEJk6xQ16vpKDybRI6aWMmwpjiaYqe1HygVV1inx9Exn8ZD4H2m5x1WLfX1LugOEiF5Pli3neNc0WVpbb3zJplLny2jqWjy1s4yuP68XSbcOuBrjR5JYyLPSrQtY5Y4ZAJvilkGKWVlaEkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gOGVF1ml; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=uGNeKSavwk64mMotYmioi6mP73vIYCYotAhHWfvbRQuDgpcII/N8/HkFgjHG2/mQ88hvTTxCStqTdUcaqCTpjuYDky2l3QN0363kBy9FSimDQwZUdXLqoxs13k17Omsqg3WO7Yy/RiwF5vmGXY0BpV9jvNdpu3Y9/vhjCSFvwnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bsJF09NL; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gOGVF1ml"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bsJF09NL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759226750; x=1790762750;
+  t=1759228623; x=1790764623;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=npvtgCQVERmCarOfKSvie70oeT0wMLmYdU95Di6tZxk=;
-  b=gOGVF1mlA0+lFGOqGZxGDLEala+0OHUHvQ5YBJg9a0EZi/Rgm8FChSPz
-   bdLuOhr4a6qM0APrAwtkg6vgw7OybUh/p+lIMYWXp+JrRW5ccl5A3S0Q9
-   J1KOtyQTPFylcP/wlCrbUUhpZI6u5FTNPY7vG7ZRMqslUIOamdqPVzHLU
-   FyGai2uuS7OkxB1vgoeO+3/HszP3OhARUZI6DPuB6Qog1jNzC59xX62E6
-   30+6gf1VEOxQjvibzEs3kfM4KkwHPzXZ/Ozr4oxHqZ4zCH946MB1e2g+u
-   LZK4oEwVtsuqsIv6VRt/RgTYv3FFjptXmCeNtCk4vNEfBs9Y2SUVdz9v/
-   w==;
-X-CSE-ConnectionGUID: /6Do2LHmSlSJ016tQezstQ==
-X-CSE-MsgGUID: 6LxTJSbiR3GYnZW1w7/yVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="72097646"
+  bh=sbz5AL1wVvoPI4VgrY33BmNwLhxdJAx+xAgmOKchchs=;
+  b=bsJF09NLE20XzLX+UOAPiXZnhcifHHe/fL/DF+3/b7ON6aBLx4Tyv/q9
+   KaoERAS6HnNq05YJ4R173S7ksyI2QyYUMPFnnFhEyKlojOM0htDsfb4A0
+   5BWCqOk2peP3LW+Mg6BLW1JwaiJdLlD21KmjunK8V/KlJ4cHWp38TMlOY
+   xjIj/TLgnuAbbj8+H5AIHCEsc47Iysc67A9PqtTC/y2r65b182cMfA1v+
+   SVRb/vCIbCcdB3OoyJcAZjR2pA382oxRwGZpsJVg+o8lCUs7rbyFKIO73
+   ot/kUO9z26Fe+tz9Y0IMiMDLusYISrPQF+zj+fdtDumHr1E2MqaZsolRS
+   Q==;
+X-CSE-ConnectionGUID: BLcE7ae9RTK1kyA+ykhUOA==
+X-CSE-MsgGUID: j3DqNs7XTtCkP/HO8J2uUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="61589874"
 X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="72097646"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 03:05:49 -0700
-X-CSE-ConnectionGUID: PV+0NBfaTwSqEdenvWAgLQ==
-X-CSE-MsgGUID: K51ZkYz/TQmtpVOD/uXFwQ==
+   d="scan'208";a="61589874"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 03:37:00 -0700
+X-CSE-ConnectionGUID: 1JEwtSrhQpaqBfQvrOYe3A==
+X-CSE-MsgGUID: ORJaRpGvQfCsMc7rucxYXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="178889093"
+   d="scan'208";a="178283490"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Sep 2025 03:05:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Sep 2025 03:36:52 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3XEq-00019L-1H;
-	Tue, 30 Sep 2025 10:05:40 +0000
-Date: Tue, 30 Sep 2025 18:05:36 +0800
+	id 1v3Xj0-0001Ax-0s;
+	Tue, 30 Sep 2025 10:36:50 +0000
+Date: Tue, 30 Sep 2025 18:36:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -74,9 +74,9 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH 2/8] drm/gem: Introduce drm_gem_get_unmapped_area() fop
-Message-ID: <202509301702.DL6CeU62-lkp@intel.com>
-References: <20250929200316.18417-3-loic.molinari@collabora.com>
+Subject: Re: [PATCH 6/8] drm/panthor: Introduce huge tmpfs mount point option
+Message-ID: <202509301834.aoEcLO0C-lkp@intel.com>
+References: <20250929200316.18417-7-loic.molinari@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,91 +86,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250929200316.18417-3-loic.molinari@collabora.com>
+In-Reply-To: <20250929200316.18417-7-loic.molinari@collabora.com>
 
 Hi Loïc,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.17 next-20250929]
-[cannot apply to akpm-mm/mm-everything]
+[cannot apply to akpm-mm/mm-everything linus/master v6.17 next-20250929]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-shmem-helper-Add-huge-page-fault-handler/20250930-040600
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250929200316.18417-3-loic.molinari%40collabora.com
-patch subject: [PATCH 2/8] drm/gem: Introduce drm_gem_get_unmapped_area() fop
-config: arm-randconfig-002-20250930 (https://download.01.org/0day-ci/archive/20250930/202509301702.DL6CeU62-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301702.DL6CeU62-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250929200316.18417-7-loic.molinari%40collabora.com
+patch subject: [PATCH 6/8] drm/panthor: Introduce huge tmpfs mount point option
+config: i386-buildonly-randconfig-004-20250930 (https://download.01.org/0day-ci/archive/20250930/202509301834.aoEcLO0C-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509301834.aoEcLO0C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509301702.DL6CeU62-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509301834.aoEcLO0C-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_gem.c: In function 'drm_gem_get_unmapped_area':
->> drivers/gpu/drm/drm_gem.c:1280:9: error: implicit declaration of function 'mm_get_unmapped_area'; did you mean 'shmem_get_unmapped_area'? [-Werror=implicit-function-declaration]
-     return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0, flags);
-            ^~~~~~~~~~~~~~~~~~~~
-            shmem_get_unmapped_area
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/panthor/panthor_gem.c: In function 'panthor_gem_init':
+>> drivers/gpu/drm/panthor/panthor_gem.c:24:14: error: 'panthor_transparent_hugepage' undeclared (first use in this function); did you mean 'has_transparent_hugepage'?
+      24 |         if (!panthor_transparent_hugepage)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |              has_transparent_hugepage
+   drivers/gpu/drm/panthor/panthor_gem.c:24:14: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +1280 drivers/gpu/drm/drm_gem.c
+vim +24 drivers/gpu/drm/panthor/panthor_gem.c
 
-  1238	
-  1239	/**
-  1240	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
-  1241	 * @filp: DRM file pointer
-  1242	 * @uaddr: User address hint
-  1243	 * @len: Mapping length
-  1244	 * @pgoff: Offset (in pages)
-  1245	 * @flags: Mapping flags
-  1246	 *
-  1247	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
-  1248	 * mmap calls on the DRM file descriptor will first try to find a free linear
-  1249	 * address space large enough for a mapping. Since GEM objects are backed by
-  1250	 * shmem buffers, this should preferably be handled by the shmem virtual memory
-  1251	 * filesystem which can appropriately align addresses to huge page sizes when
-  1252	 * needed.
-  1253	 *
-  1254	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
-  1255	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
-  1256	 * the right file pointer.
-  1257	 *
-  1258	 * If a GEM object is not available at the given offset or if the caller is not
-  1259	 * granted access to it, fall back to mm_get_unmapped_area().
-  1260	 */
-  1261	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
-  1262						unsigned long len, unsigned long pgoff,
-  1263						unsigned long flags)
-  1264	{
-  1265	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-  1266		struct drm_gem_object *obj;
-  1267		unsigned long ret;
-  1268	
-  1269		obj = drm_gem_object_lookup_from_offset(filp, pgoff, len >> PAGE_SHIFT);
-  1270		if (IS_ERR(obj))
-  1271			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
-  1272						    flags);
-  1273	
-  1274		ret = shmem_get_unmapped_area(obj->filp, uaddr, len, 0, flags);
-  1275	
-  1276		drm_gem_object_put(obj);
-  1277	
-  1278		return ret;
-  1279	#else
-> 1280		return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0, flags);
-  1281	#endif
-  1282	}
-  1283	EXPORT_SYMBOL(drm_gem_get_unmapped_area);
-  1284	
+    19	
+    20	void panthor_gem_init(struct panthor_device *ptdev)
+    21	{
+    22		struct vfsmount *huge_mnt;
+    23	
+  > 24		if (!panthor_transparent_hugepage)
+    25			return;
+    26	
+    27		huge_mnt = drm_gem_shmem_huge_mnt_create("within_size");
+    28		if (IS_ERR(huge_mnt)) {
+    29			drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%ld)\n",
+    30				 PTR_ERR(huge_mnt));
+    31			return;
+    32		}
+    33	
+    34		ptdev->huge_mnt = huge_mnt;
+    35	
+    36		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
+    37	}
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
