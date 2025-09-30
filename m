@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4F413EFE3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 01:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3481EA65
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 02:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759197526; cv=none; b=bqnYjhfHEd0b6btnQHvKwcgtRzMHINXsUZp3Wyz//VBI0o0D84e7NdYrkvqEHhm5FAl6qLFAzhpNKrurYgOzboPTbrMmD7Ora5t0PHseGbjTMu0/WmgQQPqGlLIlVMT4q1+dEv6LqXC6b1qknzEK2IsmYjCFTnyHmLW9UMz9o5k=
+	t=1759198126; cv=none; b=qeuyl9UQS99JozzYr3adh+Y0MkDRZgd/PsNm4BixAwAYZbgE21oCu+5rRuLKYyu9wFrwxsenmsjDu2u2a9zqp1SIdBDqfNk7pEbexIQg+JO5hUwHHSwLGoFCiEzDozphzciCKZaCf4q7NuCUiMwwYowIKKDQUfjd/KuW9Uc+7GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759197526; c=relaxed/simple;
-	bh=tB20YtoaQNm1TRsLJW3oQQhC60mlpvbrxY7xlXH5rUU=;
+	s=arc-20240116; t=1759198126; c=relaxed/simple;
+	bh=QLcP8VioUUVE468697aTbUKcfrRDxRDEldaMyrFQrsw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0xOX5tcOpEpxfmkTuu7kHxsQI9m4CwkczY0ioIQOQ9tfT+CngtEfl1gQpxiEtOQXxGBa/HSfG4h84eJQkcSn9wJVM7OXQrBTt/DX9L4Hmh8YygF5c6LEVI4cN2F4RvMHs1OhrYQOxsoufve4hmeiJ9Jof6f4rIEtu3ij7j/cjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np6/YvNe; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=jn5aEoiNUMHN+K+9xKacSX/CBsw+qrO1yRUqyvsAr5YoprfuAHPwCp8Exfzas/+qv6S9YdO0X5QGx8w2FykhcDDCwDKslDhtGQlmrraxynzBB6N385aR1SexAHj8u10YkJkFtwRXyNOHhs9x/IJ2yk4R5DHrnqI2tor9ZHEzGC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B55gmxDI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np6/YvNe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B55gmxDI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759197525; x=1790733525;
+  t=1759198124; x=1790734124;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tB20YtoaQNm1TRsLJW3oQQhC60mlpvbrxY7xlXH5rUU=;
-  b=Np6/YvNeJWnyYLLEBboMY+4eRiINgUYy4IvRU9RBE0LRolH5fl3GiNdY
-   7PVqeBRE1G3e0BX64shv5/9XlravVuTlpdUyE//vVabQ1OhfzEEueXPor
-   9E41LlMcmQxOL+Z5iYopFEnMyeiyxlkfx7Zrih8CzUKZdDHLBIEseU2tZ
-   e+q/nWXMjN7kxjIevB4JJ30QT+EWxSfCM5PU6Rm30xI4TtTKGKNcG9BXb
-   bNol9Mc4ftc6/6436b82GfsRRZ/Nzc5znFaz+RrKRA7BBSQaIlAGY2NmE
-   6WFwAARnRnbi2ESembHJYIAfkTdDgAWCidVmqmjDMRk6wScX+nIHVKNgP
+  bh=QLcP8VioUUVE468697aTbUKcfrRDxRDEldaMyrFQrsw=;
+  b=B55gmxDIE4Z0b9CB72DtVhLoTeDB/k2DZCOm8BFJe80f+bZ36Ebr72H+
+   9VnW6X2x6ltQLheJrWypXXAPC3lsf6Syp/nJF+efULjmrMCGeG1CMDQ6S
+   V10tz1borCgi6qabdIC6Y/F85NaFHhzyYY/9VmAEUCmIWOYy55Pl+Yh0R
+   k1JPt7TcwxA9eBpiBnuZerYmR/H4OT8KAFOjlUzScrTwHUaQFcqjEILKA
+   e0heCbzzdeAM9UlL2+FMMHpUuKl9iITYxGH8RkhdwM2/m4DUcXbKIblFi
+   i9GJtLySy94qrKmvXDm5RL2QcuHi5NLaUjVBFYdPoDlspqrj78cxKLrhu
    w==;
-X-CSE-ConnectionGUID: WyB7TGQlQiCUg+fA+NFYsQ==
-X-CSE-MsgGUID: XsmjFLO0RJOiHmN09SCUWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61489968"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61489968"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 18:58:44 -0700
-X-CSE-ConnectionGUID: uCXbLUXmRxehKCeiFvuH/A==
-X-CSE-MsgGUID: vc2P2cxGS5ujUsnH2zHRzg==
+X-CSE-ConnectionGUID: cVpPypImS32GCOTP7HF1ig==
+X-CSE-MsgGUID: rbf1oxHTQfS9mXDE6Hn47w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11568"; a="72063914"
+X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
+   d="scan'208";a="72063914"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 19:08:41 -0700
+X-CSE-ConnectionGUID: gRB5QKrVQEi5uUCj3oml3Q==
+X-CSE-MsgGUID: /m3pSyIfSVWfun+PqsZzQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,303,1751266800"; 
-   d="scan'208";a="178188959"
+   d="scan'208";a="209339801"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 29 Sep 2025 18:58:40 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Sep 2025 19:08:40 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3PdV-0000p5-1R;
-	Tue, 30 Sep 2025 01:58:37 +0000
-Date: Tue, 30 Sep 2025 09:57:37 +0800
+	id 1v3PnC-0000pD-0f;
+	Tue, 30 Sep 2025 02:08:38 +0000
+Date: Tue, 30 Sep 2025 10:07:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Sun <sunjunchao@bytedance.com>, linux-fsdevel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, clm@fb.com, dsterba@suse.com,
-	xiubli@redhat.com, idryomov@gmail.com, tytso@mit.edu,
-	adilger.kernel@dilger.ca, jaegeuk@kernel.org, chao@kernel.org,
-	willy@infradead.org, jack@suse.cz, brauner@kernel.org,
-	agruenba@redhat.com
-Subject: Re: [PATCH v2] fs: Make wbc_to_tag() inline and use it in fs.
-Message-ID: <202509300940.yjAtss49-lkp@intel.com>
-References: <20250929111349.448324-1-sunjunchao@bytedance.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Riana Tauro <riana.tauro@intel.com>
+Subject: Re: [PATCH 2/2] drm/xe: Introduce the usage of drm_ras with
+ supported HW errors
+Message-ID: <202509300919.eiP7GKSP-lkp@intel.com>
+References: <20250929214415.326414-6-rodrigo.vivi@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,88 +65,145 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250929111349.448324-1-sunjunchao@bytedance.com>
+In-Reply-To: <20250929214415.326414-6-rodrigo.vivi@intel.com>
 
-Hi Julian,
+Hi Rodrigo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on ceph-client/testing ceph-client/for-linus tytso-ext4/dev jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev gfs2/for-next akpm-mm/mm-everything linus/master v6.17 next-20250929]
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-misc/drm-misc-next drm-tip/drm-tip next-20250929]
+[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.17]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/fs-Make-wbc_to_tag-inline-and-use-it-in-fs/20250929-191847
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250929111349.448324-1-sunjunchao%40bytedance.com
-patch subject: [PATCH v2] fs: Make wbc_to_tag() inline and use it in fs.
-config: arc-randconfig-001-20250930 (https://download.01.org/0day-ci/archive/20250930/202509300940.yjAtss49-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509300940.yjAtss49-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rodrigo-Vivi/drm-ras-Introduce-the-DRM-RAS-infrastructure-over-generic-netlink/20250930-054726
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250929214415.326414-6-rodrigo.vivi%40intel.com
+patch subject: [PATCH 2/2] drm/xe: Introduce the usage of drm_ras with supported HW errors
+config: parisc-randconfig-002-20250930 (https://download.01.org/0day-ci/archive/20250930/202509300919.eiP7GKSP-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509300919.eiP7GKSP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509300940.yjAtss49-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509300919.eiP7GKSP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/page-writeback.c: In function 'writeback_get_folio':
->> mm/page-writeback.c:2456:5: error: implicit declaration of function 'wbc_to_tag' [-Werror=implicit-function-declaration]
-    2456 |     wbc_to_tag(wbc), &wbc->fbatch);
-         |     ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   fs/f2fs/data.c: In function 'f2fs_write_cache_pages':
->> fs/f2fs/data.c:3006:8: error: implicit declaration of function 'wbc_to_tag' [-Werror=implicit-function-declaration]
-    3006 |  tag = wbc_to_tag(wbc);
-         |        ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   fs/btrfs/extent_io.c: In function 'extent_write_cache_pages':
->> fs/btrfs/extent_io.c:2463:8: error: implicit declaration of function 'wbc_to_tag' [-Werror=implicit-function-declaration]
-    2463 |  tag = wbc_to_tag(wbc);
-         |        ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   fs/ext4/inode.c: In function 'mpage_prepare_extent_to_map':
->> fs/ext4/inode.c:2622:8: error: implicit declaration of function 'wbc_to_tag' [-Werror=implicit-function-declaration]
-    2622 |  tag = wbc_to_tag(mpd->wbc);
-         |        ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/gpu/drm/xe/xe_hw_error.c:8:
+>> include/linux/find.h:6:2: error: #error only <linux/bitmap.h> can be included directly
+       6 | #error only <linux/bitmap.h> can be included directly
+         |  ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:64:2: note: in expansion of macro 'ERR_INFO'
+      64 |  ERR_INFO(XE_GT_ERROR, "GT Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:64:2: note: in expansion of macro 'ERR_INFO'
+      64 |  ERR_INFO(XE_GT_ERROR, "GT Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:65:2: note: in expansion of macro 'ERR_INFO'
+      65 |  ERR_INFO(XE_SGGI_DATA_PARITY_ERROR, "SGGI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:65:2: note: in expansion of macro 'ERR_INFO'
+      65 |  ERR_INFO(XE_SGGI_DATA_PARITY_ERROR, "SGGI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:66:2: note: in expansion of macro 'ERR_INFO'
+      66 |  ERR_INFO(XE_DISPLAY_ERROR, "Display Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:66:2: note: in expansion of macro 'ERR_INFO'
+      66 |  ERR_INFO(XE_DISPLAY_ERROR, "Display Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:67:2: note: in expansion of macro 'ERR_INFO'
+      67 |  ERR_INFO(XE_SGDI_DATA_PARITY_ERROR, "SGDI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:67:2: note: in expansion of macro 'ERR_INFO'
+      67 |  ERR_INFO(XE_SGDI_DATA_PARITY_ERROR, "SGDI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:68:2: note: in expansion of macro 'ERR_INFO'
+      68 |  ERR_INFO(XE_GSC_ERROR, "GSC Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:68:2: note: in expansion of macro 'ERR_INFO'
+      68 |  ERR_INFO(XE_GSC_ERROR, "GSC Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:69:2: note: in expansion of macro 'ERR_INFO'
+      69 |  ERR_INFO(XE_SGLI_DATA_PARITY_ERROR, "SGLI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:69:2: note: in expansion of macro 'ERR_INFO'
+      69 |  ERR_INFO(XE_SGLI_DATA_PARITY_ERROR, "SGLI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:70:2: note: in expansion of macro 'ERR_INFO'
+      70 |  ERR_INFO(XE_SGUNIT_ERROR, "SG Unit Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:70:2: note: in expansion of macro 'ERR_INFO'
+      70 |  ERR_INFO(XE_SGUNIT_ERROR, "SG Unit Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:71:2: note: in expansion of macro 'ERR_INFO'
+      71 |  ERR_INFO(XE_SGCI_DATA_PARITY_ERROR, "SGCI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: note: (near initialization for 'dev_err_stat_nonfatal_reg')
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
+         |   ^~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:71:2: note: in expansion of macro 'ERR_INFO'
+      71 |  ERR_INFO(XE_SGCI_DATA_PARITY_ERROR, "SGCI Data Parity Error"),
+         |  ^~~~~~~~
+   drivers/gpu/drm/xe/xe_hw_error.c:61:3: error: nonconstant array index in initializer
+      61 |  [__ffs(_bit)] = { .name = _name, .counter = ATOMIC64_INIT(0) }
 
 
-vim +/wbc_to_tag +2456 mm/page-writeback.c
+vim +6 include/linux/find.h
 
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2444) 
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2445) static struct folio *writeback_get_folio(struct address_space *mapping,
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2446) 		struct writeback_control *wbc)
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2447) {
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2448) 	struct folio *folio;
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2449) 
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2450) retry:
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2451) 	folio = folio_batch_next(&wbc->fbatch);
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2452) 	if (!folio) {
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2453) 		folio_batch_release(&wbc->fbatch);
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2454) 		cond_resched();
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2455) 		filemap_get_folios_tag(mapping, &wbc->index, wbc_end(wbc),
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15 @2456) 				wbc_to_tag(wbc), &wbc->fbatch);
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2457) 		folio = folio_batch_next(&wbc->fbatch);
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2458) 		if (!folio)
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2459) 			return NULL;
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2460) 	}
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2461) 
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2462) 	folio_lock(folio);
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2463) 	if (unlikely(!folio_prepare_writeback(mapping, wbc, folio))) {
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2464) 		folio_unlock(folio);
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2465) 		goto retry;
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2466) 	}
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2467) 
-a2cbc13638d909 Matthew Wilcox (Oracle  2024-02-15  2468) 	trace_wbc_writepage(wbc, inode_to_bdi(mapping->host));
-e6d0ab87c8efe9 Matthew Wilcox (Oracle  2024-02-15  2469) 	return folio;
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2470) }
-751e0d559c62a8 Matthew Wilcox (Oracle  2024-02-15  2471) 
+47d8c15615c0a2 Yury Norov 2021-08-14  4  
+47d8c15615c0a2 Yury Norov 2021-08-14  5  #ifndef __LINUX_BITMAP_H
+47d8c15615c0a2 Yury Norov 2021-08-14 @6  #error only <linux/bitmap.h> can be included directly
+47d8c15615c0a2 Yury Norov 2021-08-14  7  #endif
+47d8c15615c0a2 Yury Norov 2021-08-14  8  
 
 -- 
 0-DAY CI Kernel Test Service
