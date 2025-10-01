@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C62A35977;
-	Wed,  1 Oct 2025 09:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0384434BA4E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 09:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759311347; cv=none; b=f6NHJuWS0+qlAC2OWVM2Oul/WpQpoUBpZWM3tIZ8CtdZE3Li7V8xRIKJfgxnnxNDLnznLZsM/DBtiCKsEKf0PUBrPDSzzN676A4NuShxGNhxvRStGKeEPV7rYrnD+YQfUUjkaZFZCcTR+m8W36BrsoWG9zhlAlEFbvxWuNJFdvQ=
+	t=1759312608; cv=none; b=GBKJil2nsD1OXxgA1JflIylMu56NDSM/3i4VBLnmqe4nC+08hdFfFeCSnuqVZMgHBENScOO6QFgpxn9hLUq9FCJKUA+PVN8EQyuvF3I0avvosANKF6RL3hqcykBVnsVgRSYqhy7s9JKvOo3z94651fY4PrekUY5dJoXgbTzLTOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759311347; c=relaxed/simple;
-	bh=0Cm9BtFz3hGv542uyhD/dUaWxOasSWCZ6bIwzvIGJLY=;
+	s=arc-20240116; t=1759312608; c=relaxed/simple;
+	bh=hwjD0fhnSwJsj/0UPm0JH2EGRXyH+6nbzMp6p3WLqGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EPmyhx1Z5scdqzhLf1qcXwjPCBICjH0auBoD2ph2roE9hRbsZaV4mW75PFmesf4sFtx1w1h1aB/dYRQvir9ydeMAPJQDgWWayS2g4wp46j2xB7OkNxkjmHp1/Pb9wB36vihCksh2fsFUpMNdT/gb8JPu47DMjl962eDZxk+oQ7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxQJ8f5M; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=mL9k98OwqOFdaMTiD3czFAfr0uK/vy9J6fJNXK/xW5WcADgbr42fZ5BcbKgDFtFb3toemLRRYZUVD9BObZXTbQIi515CUSkyzZj4ZO8Ml0tt/56IAxPzPCU7IOzsT24mrXyScKebQofTu5+AIY9D2EDtJIHe7b8NVE0Lc350ovg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bh4KLlOM; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxQJ8f5M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bh4KLlOM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759311345; x=1790847345;
+  t=1759312606; x=1790848606;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Cm9BtFz3hGv542uyhD/dUaWxOasSWCZ6bIwzvIGJLY=;
-  b=YxQJ8f5MFQlEXWfgT9p3HJKXHNHQWm3hBhz1a3WEF88YJTX3P0U+z6Y1
-   pBHD1/34mcF+EQEx7XnAYZwT9UauMYE7fjjtvycyyiokCXReYVRhBwjCL
-   YiaY7nxVlboiXDd5UZCVjHFgCyRCdLcnHx+1l58ZA+mpYkzpQ77ZiVpPf
-   0AQubJMZAmCpnqKtHr+VF3dWz8kmkN8qWCBfDmmPPsP0qv1rATZwkR5E5
-   L8i39WuEiJhwCrXkGTUrZbZ6Qpg1jKAyc6l82OdqKma8fFLqAo3d7COW0
-   aoaMH/NVar5TjnxzSlrVM4irzibfj4N+XbihFdfoAVGogrsRWDFW4hdVy
+  bh=hwjD0fhnSwJsj/0UPm0JH2EGRXyH+6nbzMp6p3WLqGM=;
+  b=bh4KLlOM98KIMDDEJ659bx2KVtn5SpNU4KAbA4/o9Y4gy7qW1gZfhpzW
+   X0T1FwjCPrTWQv8vTJHVlZLzChnLQsdtzR5WWn+aAt6p5tjDIW8LX4m/z
+   p5I+cA7ms41uBDKYb+oTydE4uSMmHFyvJTqXnS7P/5X6KoAWe09QY6stk
+   1CGOxjjtCgCHy5m8k3arinisvW8gCdkKxPHFIXBRZhEqXqtS6BFj+cgOD
+   klklDTsdBoYgNi8S1pAY18R7pu2rmt3VJJO6mzGwFtNQPp6yJLh5F3P2a
+   yYauoilMUm48W4rDjA/bP/8jzloMHwhZiJi1OG8zlHanI9sjiROcGnCDP
    Q==;
-X-CSE-ConnectionGUID: pV5Bp754TuuQV3hV9e7xvw==
-X-CSE-MsgGUID: YdV5BJBWQBeSJQQla1I+6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="79231688"
+X-CSE-ConnectionGUID: nszv8oKFSuSOrWeNC3XGEQ==
+X-CSE-MsgGUID: 4QGjsspZSlukNfRafCU3pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60618368"
 X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="79231688"
+   d="scan'208";a="60618368"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 02:35:44 -0700
-X-CSE-ConnectionGUID: PNukmB5bQJCjXF2Y4R7GXQ==
-X-CSE-MsgGUID: bfCaMSbJTFyMfSJ+W52kdw==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 02:56:45 -0700
+X-CSE-ConnectionGUID: 4Yy1QphmQceQxcOa3v2zIg==
+X-CSE-MsgGUID: wAXZZ2ixSoq1w8MHHRB0jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="178795122"
+   d="scan'208";a="178798488"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Oct 2025 02:35:42 -0700
+  by orviesa008.jf.intel.com with ESMTP; 01 Oct 2025 02:56:44 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3tFL-0002sN-1f;
-	Wed, 01 Oct 2025 09:35:39 +0000
-Date: Wed, 1 Oct 2025 17:35:15 +0800
+	id 1v3tZh-0002tb-1g;
+	Wed, 01 Oct 2025 09:56:41 +0000
+Date: Wed, 1 Oct 2025 17:55:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:vfio_get_region_info_op 23/28]
- drivers/gpu/drm/i915/gvt/kvmgt.c:1235:34: error: incompatible pointer types
- passing 'struct vfio_info_cap **' to parameter of type 'struct vfio_info_cap
- *'; remove &
-Message-ID: <202510011720.Gy8hWYxq-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 30/73]
+ drivers/media/i2c/ccs/ccs-core.c:1032:6: error: 'V4L2_CID_COLOR_PATTERN'
+ undeclared; did you mean 'V4L2_CID_CFA_PATTERN'?
+Message-ID: <202510011715.xFrUYlcl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,166 +63,279 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux vfio_get_region_info_op
-head:   efea69dc6e5be19ed7b37490c863b00b304a3cb0
-commit: da16ef5849c0c3eff92ead1c944776a7af4ddf3b [23/28] vfio/gvt: Convert to get_region_info_caps
-config: x86_64-buildonly-randconfig-005-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011720.Gy8hWYxq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011720.Gy8hWYxq-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   ba7808a5f3363959e2cd9a8afc4bb43f1e62f659
+commit: d014de35ea501c3fc66a32a680731d0eea106cbb [30/73] media: ccs: Add support for embedded data stream
+config: arc-randconfig-002-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011715.xFrUYlcl-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011715.xFrUYlcl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510011720.Gy8hWYxq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510011715.xFrUYlcl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/gvt/kvmgt.c:54:
-   In file included from drivers/gpu/drm/i915/gvt/gvt.h:37:
-   include/linux/vfio.h:139:13: warning: declaration of 'struct vfio_info_cap' will not be visible outside of this function [-Wvisibility]
-     139 |                                         struct vfio_info_cap *caps);
-         |                                                ^
->> drivers/gpu/drm/i915/gvt/kvmgt.c:1235:34: error: incompatible pointer types passing 'struct vfio_info_cap **' to parameter of type 'struct vfio_info_cap *'; remove & [-Werror,-Wincompatible-pointer-types]
-    1235 |                 ret = vfio_info_add_capability(&caps, &cap_type.header,
-         |                                                ^~~~~
-   include/linux/vfio.h:363:52: note: passing argument to parameter 'caps' here
-     363 | int vfio_info_add_capability(struct vfio_info_cap *caps,
-         |                                                    ^
-   drivers/gpu/drm/i915/gvt/kvmgt.c:1447:26: error: incompatible function pointer types initializing 'int (*)(struct vfio_device *, struct vfio_region_info *, struct vfio_info_cap *)' with an expression of type 'int (struct vfio_device *, struct vfio_region_info *, struct vfio_info_cap *)' [-Wincompatible-function-pointer-types]
-    1447 |         .get_region_info_caps = intel_vgpu_get_region_info,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
+   drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_init_controls':
+>> drivers/media/i2c/ccs/ccs-core.c:1032:6: error: 'V4L2_CID_COLOR_PATTERN' undeclared (first use in this function); did you mean 'V4L2_CID_CFA_PATTERN'?
+         V4L2_CID_COLOR_PATTERN, sensor->default_pixel_order,
+         ^~~~~~~~~~~~~~~~~~~~~~
+         V4L2_CID_CFA_PATTERN
+   drivers/media/i2c/ccs/ccs-core.c:1032:6: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/media/i2c/ccs/ccs-core.c:1037:6: error: 'V4L2_CID_COLOR_PATTERN_FLIP' undeclared (first use in this function); did you mean 'V4L2_CID_CFA_PATTERN_FLIP'?
+         V4L2_CID_COLOR_PATTERN_FLIP,
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         V4L2_CID_CFA_PATTERN_FLIP
+>> drivers/media/i2c/ccs/ccs-core.c:1038:6: error: 'V4L2_COLOR_PATTERN_FLIP_BOTH' undeclared (first use in this function); did you mean 'V4L2_CFA_PATTERN_FLIP_BOTH'?
+         V4L2_COLOR_PATTERN_FLIP_BOTH,
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         V4L2_CFA_PATTERN_FLIP_BOTH
 
 
-vim +1235 drivers/gpu/drm/i915/gvt/kvmgt.c
+vim +1032 drivers/media/i2c/ccs/ccs-core.c
 
-659643f7d81432 Jike Song           2016-12-08  1142  
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1143  static int intel_vgpu_get_region_info(struct vfio_device *vfio_dev,
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1144  				      struct vfio_region_info *info,
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1145  				      struct vfio_info_cap *caps)
-659643f7d81432 Jike Song           2016-12-08  1146  {
-659643f7d81432 Jike Song           2016-12-08  1147  	struct vfio_region_info_cap_sparse_mmap *sparse = NULL;
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1148  	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
-659643f7d81432 Jike Song           2016-12-08  1149  	int nr_areas = 1;
-659643f7d81432 Jike Song           2016-12-08  1150  	int cap_type_id;
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1151  	unsigned int i;
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1152  	int ret;
-659643f7d81432 Jike Song           2016-12-08  1153  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1154  	switch (info->index) {
-659643f7d81432 Jike Song           2016-12-08  1155  	case VFIO_PCI_CONFIG_REGION_INDEX:
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1156  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1157  		info->size = vgpu->gvt->device_info.cfg_space_size;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1158  		info->flags = VFIO_REGION_INFO_FLAG_READ |
-659643f7d81432 Jike Song           2016-12-08  1159  			      VFIO_REGION_INFO_FLAG_WRITE;
-659643f7d81432 Jike Song           2016-12-08  1160  		break;
-659643f7d81432 Jike Song           2016-12-08  1161  	case VFIO_PCI_BAR0_REGION_INDEX:
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1162  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1163  		info->size = vgpu->cfg_space.bar[info->index].size;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1164  		if (!info->size) {
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1165  			info->flags = 0;
-659643f7d81432 Jike Song           2016-12-08  1166  			break;
-659643f7d81432 Jike Song           2016-12-08  1167  		}
-659643f7d81432 Jike Song           2016-12-08  1168  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1169  		info->flags = VFIO_REGION_INFO_FLAG_READ |
-659643f7d81432 Jike Song           2016-12-08  1170  			      VFIO_REGION_INFO_FLAG_WRITE;
-659643f7d81432 Jike Song           2016-12-08  1171  		break;
-659643f7d81432 Jike Song           2016-12-08  1172  	case VFIO_PCI_BAR1_REGION_INDEX:
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1173  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1174  		info->size = 0;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1175  		info->flags = 0;
-659643f7d81432 Jike Song           2016-12-08  1176  		break;
-659643f7d81432 Jike Song           2016-12-08  1177  	case VFIO_PCI_BAR2_REGION_INDEX:
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1178  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1179  		info->flags = VFIO_REGION_INFO_FLAG_CAPS |
-659643f7d81432 Jike Song           2016-12-08  1180  			      VFIO_REGION_INFO_FLAG_MMAP |
-659643f7d81432 Jike Song           2016-12-08  1181  			      VFIO_REGION_INFO_FLAG_READ |
-659643f7d81432 Jike Song           2016-12-08  1182  			      VFIO_REGION_INFO_FLAG_WRITE;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1183  		info->size = gvt_aperture_sz(vgpu->gvt);
-659643f7d81432 Jike Song           2016-12-08  1184  
-cd3e05836fc665 Gustavo A. R. Silva 2019-05-24  1185  		sparse = kzalloc(struct_size(sparse, areas, nr_areas),
-cd3e05836fc665 Gustavo A. R. Silva 2019-05-24  1186  				 GFP_KERNEL);
-659643f7d81432 Jike Song           2016-12-08  1187  		if (!sparse)
-659643f7d81432 Jike Song           2016-12-08  1188  			return -ENOMEM;
-659643f7d81432 Jike Song           2016-12-08  1189  
-dda01f787df9f9 Alex Williamson     2017-12-12  1190  		sparse->header.id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
-dda01f787df9f9 Alex Williamson     2017-12-12  1191  		sparse->header.version = 1;
-659643f7d81432 Jike Song           2016-12-08  1192  		sparse->nr_areas = nr_areas;
-659643f7d81432 Jike Song           2016-12-08  1193  		cap_type_id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
-659643f7d81432 Jike Song           2016-12-08  1194  		sparse->areas[0].offset =
-659643f7d81432 Jike Song           2016-12-08  1195  			PAGE_ALIGN(vgpu_aperture_offset(vgpu));
-659643f7d81432 Jike Song           2016-12-08  1196  		sparse->areas[0].size = vgpu_aperture_sz(vgpu);
-659643f7d81432 Jike Song           2016-12-08  1197  		break;
-659643f7d81432 Jike Song           2016-12-08  1198  
-659643f7d81432 Jike Song           2016-12-08  1199  	case VFIO_PCI_BAR3_REGION_INDEX ... VFIO_PCI_BAR5_REGION_INDEX:
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1200  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1201  		info->size = 0;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1202  		info->flags = 0;
-072ec93d50fd4c Pei Zhang           2017-12-08  1203  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1204  		gvt_dbg_core("get region info bar:%d\n", info->index);
-659643f7d81432 Jike Song           2016-12-08  1205  		break;
-659643f7d81432 Jike Song           2016-12-08  1206  
-659643f7d81432 Jike Song           2016-12-08  1207  	case VFIO_PCI_ROM_REGION_INDEX:
-659643f7d81432 Jike Song           2016-12-08  1208  	case VFIO_PCI_VGA_REGION_INDEX:
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1209  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1210  		info->size = 0;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1211  		info->flags = 0;
-072ec93d50fd4c Pei Zhang           2017-12-08  1212  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1213  		gvt_dbg_core("get region info index:%d\n", info->index);
-659643f7d81432 Jike Song           2016-12-08  1214  		break;
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1215  	default: {
-dda01f787df9f9 Alex Williamson     2017-12-12  1216  		struct vfio_region_info_cap_type cap_type = {
-dda01f787df9f9 Alex Williamson     2017-12-12  1217  			.header.id = VFIO_REGION_INFO_CAP_TYPE,
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1218  			.header.version = 1
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1219  		};
-659643f7d81432 Jike Song           2016-12-08  1220  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1221  		if (info->index >= VFIO_PCI_NUM_REGIONS + vgpu->num_regions)
-659643f7d81432 Jike Song           2016-12-08  1222  			return -EINVAL;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1223  		info->index = array_index_nospec(
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1224  			info->index, VFIO_PCI_NUM_REGIONS + vgpu->num_regions);
-659643f7d81432 Jike Song           2016-12-08  1225  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1226  		i = info->index - VFIO_PCI_NUM_REGIONS;
-659643f7d81432 Jike Song           2016-12-08  1227  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1228  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1229  		info->size = vgpu->region[i].size;
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1230  		info->flags = vgpu->region[i].flags;
-659643f7d81432 Jike Song           2016-12-08  1231  
-62980cacc37f58 Christoph Hellwig   2022-04-11  1232  		cap_type.type = vgpu->region[i].type;
-62980cacc37f58 Christoph Hellwig   2022-04-11  1233  		cap_type.subtype = vgpu->region[i].subtype;
-659643f7d81432 Jike Song           2016-12-08  1234  
-dccd2c351c3792 Jason Gunthorpe     2025-09-30 @1235  		ret = vfio_info_add_capability(&caps, &cap_type.header,
-dda01f787df9f9 Alex Williamson     2017-12-12  1236  					       sizeof(cap_type));
-659643f7d81432 Jike Song           2016-12-08  1237  		if (ret)
-659643f7d81432 Jike Song           2016-12-08  1238  			return ret;
-659643f7d81432 Jike Song           2016-12-08  1239  	}
-659643f7d81432 Jike Song           2016-12-08  1240  	}
-659643f7d81432 Jike Song           2016-12-08  1241  
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1242  	if ((info->flags & VFIO_REGION_INFO_FLAG_CAPS) && sparse) {
-659643f7d81432 Jike Song           2016-12-08  1243  		switch (cap_type_id) {
-659643f7d81432 Jike Song           2016-12-08  1244  		case VFIO_REGION_INFO_CAP_SPARSE_MMAP:
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1245  			ret = vfio_info_add_capability(
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1246  				caps, &sparse->header,
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1247  				struct_size(sparse, areas, sparse->nr_areas));
-7590ebb8b45646 Yi Wang             2018-08-08  1248  			if (ret) {
-659643f7d81432 Jike Song           2016-12-08  1249  				kfree(sparse);
-659643f7d81432 Jike Song           2016-12-08  1250  				return ret;
-7590ebb8b45646 Yi Wang             2018-08-08  1251  			}
-659643f7d81432 Jike Song           2016-12-08  1252  			break;
-659643f7d81432 Jike Song           2016-12-08  1253  		default:
-7590ebb8b45646 Yi Wang             2018-08-08  1254  			kfree(sparse);
-659643f7d81432 Jike Song           2016-12-08  1255  			return -EINVAL;
-659643f7d81432 Jike Song           2016-12-08  1256  		}
-659643f7d81432 Jike Song           2016-12-08  1257  	}
-659643f7d81432 Jike Song           2016-12-08  1258  
-7590ebb8b45646 Yi Wang             2018-08-08  1259  	kfree(sparse);
-da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1260  	return 0;
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1261  }
-dccd2c351c3792 Jason Gunthorpe     2025-09-30  1262  
-
-:::::: The code at line 1235 was first introduced by commit
-:::::: dccd2c351c379223261e8d9626214590dfa42c61 vfio/gvt: Provide a get_region_info op
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+   829	
+   830	static int ccs_init_controls(struct ccs_sensor *sensor)
+   831	{
+   832		struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+   833		struct v4l2_fwnode_device_properties props;
+   834		int rval;
+   835	
+   836		rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 22);
+   837		if (rval)
+   838			return rval;
+   839	
+   840		sensor->pixel_array->ctrl_handler.lock = &sensor->mutex;
+   841	
+   842		rval = v4l2_fwnode_device_parse(&client->dev, &props);
+   843		if (rval)
+   844			return rval;
+   845	
+   846		rval = v4l2_ctrl_new_fwnode_properties(&sensor->pixel_array->ctrl_handler,
+   847						       &ccs_ctrl_ops, &props);
+   848		if (rval)
+   849			return rval;
+   850	
+   851		switch (CCS_LIM(sensor, ANALOG_GAIN_CAPABILITY)) {
+   852		case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL: {
+   853			struct {
+   854				const char *name;
+   855				u32 id;
+   856				s32 value;
+   857			} const gain_ctrls[] = {
+   858				{ "Analogue Gain m0", V4L2_CID_CCS_ANALOGUE_GAIN_M0,
+   859				  CCS_LIM(sensor, ANALOG_GAIN_M0), },
+   860				{ "Analogue Gain c0", V4L2_CID_CCS_ANALOGUE_GAIN_C0,
+   861				  CCS_LIM(sensor, ANALOG_GAIN_C0), },
+   862				{ "Analogue Gain m1", V4L2_CID_CCS_ANALOGUE_GAIN_M1,
+   863				  CCS_LIM(sensor, ANALOG_GAIN_M1), },
+   864				{ "Analogue Gain c1", V4L2_CID_CCS_ANALOGUE_GAIN_C1,
+   865				  CCS_LIM(sensor, ANALOG_GAIN_C1), },
+   866			};
+   867			struct v4l2_ctrl_config ctrl_cfg = {
+   868				.type = V4L2_CTRL_TYPE_INTEGER,
+   869				.ops = &ccs_ctrl_ops,
+   870				.flags = V4L2_CTRL_FLAG_READ_ONLY,
+   871				.step = 1,
+   872			};
+   873			unsigned int i;
+   874	
+   875			for (i = 0; i < ARRAY_SIZE(gain_ctrls); i++) {
+   876				ctrl_cfg.name = gain_ctrls[i].name;
+   877				ctrl_cfg.id = gain_ctrls[i].id;
+   878				ctrl_cfg.min = ctrl_cfg.max = ctrl_cfg.def =
+   879					gain_ctrls[i].value;
+   880	
+   881				v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+   882						     &ctrl_cfg, NULL);
+   883			}
+   884	
+   885			v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler,
+   886					  &ccs_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+   887					  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN),
+   888					  CCS_LIM(sensor, ANALOG_GAIN_CODE_MAX),
+   889					  max(CCS_LIM(sensor, ANALOG_GAIN_CODE_STEP),
+   890					      1U),
+   891					  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN));
+   892		}
+   893			break;
+   894	
+   895		case CCS_ANALOG_GAIN_CAPABILITY_ALTERNATE_GLOBAL: {
+   896			struct {
+   897				const char *name;
+   898				u32 id;
+   899				u16 min, max, step;
+   900			} const gain_ctrls[] = {
+   901				{
+   902					"Analogue Linear Gain",
+   903					V4L2_CID_CCS_ANALOGUE_LINEAR_GAIN,
+   904					CCS_LIM(sensor, ANALOG_LINEAR_GAIN_MIN),
+   905					CCS_LIM(sensor, ANALOG_LINEAR_GAIN_MAX),
+   906					max(CCS_LIM(sensor,
+   907						    ANALOG_LINEAR_GAIN_STEP_SIZE),
+   908					    1U),
+   909				},
+   910				{
+   911					"Analogue Exponential Gain",
+   912					V4L2_CID_CCS_ANALOGUE_EXPONENTIAL_GAIN,
+   913					CCS_LIM(sensor, ANALOG_EXPONENTIAL_GAIN_MIN),
+   914					CCS_LIM(sensor, ANALOG_EXPONENTIAL_GAIN_MAX),
+   915					max(CCS_LIM(sensor,
+   916						    ANALOG_EXPONENTIAL_GAIN_STEP_SIZE),
+   917					    1U),
+   918				},
+   919			};
+   920			struct v4l2_ctrl_config ctrl_cfg = {
+   921				.type = V4L2_CTRL_TYPE_INTEGER,
+   922				.ops = &ccs_ctrl_ops,
+   923			};
+   924			unsigned int i;
+   925	
+   926			for (i = 0; i < ARRAY_SIZE(gain_ctrls); i++) {
+   927				ctrl_cfg.name = gain_ctrls[i].name;
+   928				ctrl_cfg.min = ctrl_cfg.def = gain_ctrls[i].min;
+   929				ctrl_cfg.max = gain_ctrls[i].max;
+   930				ctrl_cfg.step = gain_ctrls[i].step;
+   931				ctrl_cfg.id = gain_ctrls[i].id;
+   932	
+   933				v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+   934						     &ctrl_cfg, NULL);
+   935			}
+   936		}
+   937		}
+   938	
+   939		if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+   940		    (CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING |
+   941		     CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION)) {
+   942			const struct v4l2_ctrl_config ctrl_cfg = {
+   943				.name = "Shading Correction",
+   944				.type = V4L2_CTRL_TYPE_BOOLEAN,
+   945				.id = V4L2_CID_CCS_SHADING_CORRECTION,
+   946				.ops = &ccs_ctrl_ops,
+   947				.max = 1,
+   948				.step = 1,
+   949			};
+   950	
+   951			v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+   952					     &ctrl_cfg, NULL);
+   953		}
+   954	
+   955		if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+   956		    CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION) {
+   957			const struct v4l2_ctrl_config ctrl_cfg = {
+   958				.name = "Luminance Correction Level",
+   959				.type = V4L2_CTRL_TYPE_BOOLEAN,
+   960				.id = V4L2_CID_CCS_LUMINANCE_CORRECTION_LEVEL,
+   961				.ops = &ccs_ctrl_ops,
+   962				.max = 255,
+   963				.step = 1,
+   964				.def = 128,
+   965			};
+   966	
+   967			sensor->luminance_level =
+   968				v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+   969						     &ctrl_cfg, NULL);
+   970		}
+   971	
+   972		if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+   973		    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL ||
+   974		    CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+   975		    SMIAPP_DIGITAL_GAIN_CAPABILITY_PER_CHANNEL)
+   976			v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler,
+   977					  &ccs_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+   978					  CCS_LIM(sensor, DIGITAL_GAIN_MIN),
+   979					  CCS_LIM(sensor, DIGITAL_GAIN_MAX),
+   980					  max(CCS_LIM(sensor, DIGITAL_GAIN_STEP_SIZE),
+   981					      1U),
+   982					  0x100);
+   983	
+   984		/* Exposure limits will be updated soon, use just something here. */
+   985		sensor->exposure = v4l2_ctrl_new_std(
+   986			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+   987			V4L2_CID_EXPOSURE, 0, 0, 1, 0);
+   988	
+   989		sensor->hflip = v4l2_ctrl_new_std(
+   990			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+   991			V4L2_CID_HFLIP, 0, 1, 1, 0);
+   992		sensor->vflip = v4l2_ctrl_new_std(
+   993			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+   994			V4L2_CID_VFLIP, 0, 1, 1, 0);
+   995	
+   996		sensor->vblank = v4l2_ctrl_new_std(
+   997			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+   998			V4L2_CID_VBLANK, 0, 1, 1, 0);
+   999	
+  1000		if (sensor->vblank)
+  1001			sensor->vblank->flags |= V4L2_CTRL_FLAG_UPDATE;
+  1002	
+  1003		sensor->hblank = v4l2_ctrl_new_std(
+  1004			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+  1005			V4L2_CID_HBLANK, 0, 1, 1, 0);
+  1006	
+  1007		if (sensor->hblank)
+  1008			sensor->hblank->flags |= V4L2_CTRL_FLAG_UPDATE;
+  1009	
+  1010		sensor->pixel_rate_parray = v4l2_ctrl_new_std(
+  1011			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
+  1012			V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
+  1013	
+  1014		v4l2_ctrl_new_std_menu_items(&sensor->pixel_array->ctrl_handler,
+  1015					     &ccs_ctrl_ops, V4L2_CID_TEST_PATTERN,
+  1016					     ARRAY_SIZE(ccs_test_patterns) - 1,
+  1017					     0, 0, ccs_test_patterns);
+  1018	
+  1019		if (sensor->pixel_array->ctrl_handler.error) {
+  1020			dev_err(&client->dev,
+  1021				"pixel array controls initialization failed (%d)\n",
+  1022				sensor->pixel_array->ctrl_handler.error);
+  1023			return sensor->pixel_array->ctrl_handler.error;
+  1024		}
+  1025	
+  1026		sensor->pixel_array->sd.ctrl_handler =
+  1027			&sensor->pixel_array->ctrl_handler;
+  1028	
+  1029		v4l2_ctrl_cluster(2, &sensor->hflip);
+  1030	
+  1031		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
+> 1032				  V4L2_CID_COLOR_PATTERN, sensor->default_pixel_order,
+  1033				  sensor->default_pixel_order, 1,
+  1034				  sensor->default_pixel_order);
+  1035	
+  1036		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
+> 1037				  V4L2_CID_COLOR_PATTERN_FLIP,
+> 1038				  V4L2_COLOR_PATTERN_FLIP_BOTH,
+  1039				  V4L2_COLOR_PATTERN_FLIP_BOTH, 1,
+  1040				  V4L2_COLOR_PATTERN_FLIP_BOTH);
+  1041	
+  1042		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
+  1043				  V4L2_CID_METADATA_LAYOUT,
+  1044				  V4L2_METADATA_LAYOUT_CCS,
+  1045				  V4L2_METADATA_LAYOUT_CCS, 1,
+  1046				  V4L2_METADATA_LAYOUT_CCS);
+  1047	
+  1048		rval = v4l2_ctrl_handler_init(&sensor->src->ctrl_handler, 0);
+  1049		if (rval)
+  1050			return rval;
+  1051	
+  1052		sensor->src->ctrl_handler.lock = &sensor->mutex;
+  1053	
+  1054		sensor->pixel_rate_csi = v4l2_ctrl_new_std(
+  1055			&sensor->src->ctrl_handler, &ccs_ctrl_ops,
+  1056			V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
+  1057	
+  1058		if (sensor->src->ctrl_handler.error) {
+  1059			dev_err(&client->dev,
+  1060				"src controls initialization failed (%d)\n",
+  1061				sensor->src->ctrl_handler.error);
+  1062			return sensor->src->ctrl_handler.error;
+  1063		}
+  1064	
+  1065		sensor->src->sd.ctrl_handler = &sensor->src->ctrl_handler;
+  1066	
+  1067		return 0;
+  1068	}
+  1069	
 
 -- 
 0-DAY CI Kernel Test Service
