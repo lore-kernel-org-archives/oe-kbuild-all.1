@@ -1,295 +1,608 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D50822172E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 05:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403A9C148
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 06:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759297723; cv=none; b=t9Paw2GythM+Ao1/Qx+Cpcw6tA9Z7e5Hc6jE9plcgVArtWM7Ad8Ew1yoqfO4Cw6PxeU/kintjGBLcGlVoRxQe7nvIIqPJjCeahKv7sUnJLqtjspzKtU83llwxCxHq9tdxqJv/1uoi5DKly4WxflfyLxlxAuXsUFxZ6f5hi0R+L0=
+	t=1759300290; cv=none; b=QKW8vCxpnKcfNWpXB8SpgKE4pajqFTFFOu9P+8v1MripqX+OiVnP+rpN2n3z9z+J1DRGF6w65YpWt9CiLSC6EnS0NxCHsTZm8q6eax9qgj50foK/9y7JzwP7dt5taEzzxsFXg37ttpajrOIX597wCDTq8aLfWas0To7oEoo2jTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759297723; c=relaxed/simple;
-	bh=4DQAUi0WJMJ6qbtQA/mAZOs1ErFx37l9lKnV34IplE4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jOici2S3Whxwe1rIv/R07MA4L09a/fdfkVr48vZUZ2VBuRv4GU5e5mdzSTu+3wlUa1LgLUPdDgb/7WqA405mlIuV83n8oYCOOkP8/gVYpf/fx/y5iUq0mGVtJbSDvPYw3VwWMe/zGlCMJSyE48jUvVDLcE2vwQdkOcS9QRByUDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=W+14kP0B; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1759300290; c=relaxed/simple;
+	bh=fCtwUyxg2tcZaIiloMxT08yCCGMZ0Qy8lqhMrlp8Hwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ErqXyug341QWyP9wLTY7joo/TtYanowxMLcCVciw3C4A6GpM35kU5pThzP9CR3SlsxqZZ479mmtEwtmR1YR71RcFEI81/pVcB5cpONRj3pzhm7UNWOYZN9S9/jxDsFb3ZHDBoPjcnBgcvZk3442Le5LmYE2nJIqN2vpt4d0nybM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JK42xsCK; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="W+14kP0B"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-62fc2d92d34so12353885a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 22:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1759297720; x=1759902520; darn=lists.linux.dev;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4DQAUi0WJMJ6qbtQA/mAZOs1ErFx37l9lKnV34IplE4=;
-        b=W+14kP0BYmfs4sVO83AYahs5ncq5U6fPwNj2cSLLXr5PbGdGp96wzSC+J3/tiy4YLB
-         k4mS1aWZ/X72Co2cEo+efZELEH0/dVuHzZcBhKEc9hdhcvBLaJuQCWtj6+5ezEwd8BwX
-         XTMpQCJZMVlMhxdEag3OzQ8XkfuAh5nytwFpklfFI+9h6olWkqOUAT9KivH9qXj9JUuU
-         GICfQ5PIZz0dZ+Ilu1Wc/vAPM0hT75/QhbkXaqUevqJvtw7kBuwXwUxls1BflDj4pG5e
-         /BOaWBGVFQ0tlwGJVCwgifPJtLbgml5xF18MRmUu2iVMeB4/ybHKPTmn3PX3+RV3uzeW
-         kwew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759297720; x=1759902520;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4DQAUi0WJMJ6qbtQA/mAZOs1ErFx37l9lKnV34IplE4=;
-        b=kFyZtO+ga9OgN/C4u6DJud84SowPg+ui4ETnPQ1Vm2wcXmNYImfOIgc/fg8LUrODqK
-         9UNTvqsZMPvZN3xwFZcsxZu5eCRSgRkjgBMi31KKQ2PRo22zH6ZhgfX+mrj7exg+FB/3
-         imIlEhKy+XL6lIg/61cTjL5ns6mnfMcM/GNG2GlFdYGScb2+tohsNSLfJ/rz/Vaz9gKD
-         eIPzHvB38HRI3WtmXrAd0Yl3HCd0V1RyprmDak+SzKqrB/BDUoGX9hWgEO6EaR7GF2+j
-         nYQO496tkM71nZ7nWgzPJbmQrhuacawtT/ose6pj3IxXbpIcz4Nsd/b2r1o0oug/W0Bz
-         zoMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWQKO+edDlehu57omlpJ5PBDT4XVkG5QfSOIxIm19t6UGGH487QdIQ71RW72saYpgqTN5FpIqsg3peLuOuY@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1vulD+kDMQYng68lVX+1I2UQyw+gfs62Vxj7ielc8rwEJJHyQ
-	9eCsTD0jLLtI5RirHPbfunGwGUEt2f9mV+ZIrZ4ZAOl5WJMdnaBMCRYokomnkoa1sZc=
-X-Gm-Gg: ASbGncvJ3LXP5gPiJ5xPl6rhoqIemC8Askc9pX4VzShvDmQ2HEUmmmHJ2Mq1VYZ5CkP
-	jukwcyQEfUKmJ4dqFkogTRtRF4BRz7M0RhM1il4/HL2EFUwa/Wq7HOL9wB2Fv/MFCvwJK8vc4ve
-	pRKkvCgoDF+Psi8yRRqp3MRDTEMBlFg5NyUpVs+hYTTR8fd1y7sVbBegGIEpLHClOZju7Jv934b
-	ny+FnI/Gh6/CGFRT+LLhZVulRs3HOgfKMlxXR0sPU9B7IlxAY47SdpqTz6U+Le+xhM3OjGqQmXZ
-	KY9a7I8MjSNQHELLjvhVjRYjJQP6eCoQjr0x+zTO8Wx8Mf4m9RsO5LfojlUX4G0tEzui7MrryG6
-	EJHbTBVf353uZL6NywbpRM67rJbQUwxR1AUIub3K13d8vZZjL26YUcVXfHRhmn3a9sOZ5Zm8UI9
-	diOcE0EBZLVcLgRnArVHYhfz76xe+i0ihYjY1Z9pHmUbRuqMP/BN+wln8lR6CAUaBujfeg
-X-Google-Smtp-Source: AGHT+IE/17b2UUzfXlD1t/DLm5DVVKaqJxK80m0nHtzrA+dBmOcZIvDnf8hqsrkxUUQ7m0SMeAvPmQ==
-X-Received: by 2002:a05:6402:34c1:b0:629:3f9d:b06c with SMTP id 4fb4d7f45d1cf-63678d01890mr2562619a12.33.1759297719591;
-        Tue, 30 Sep 2025 22:48:39 -0700 (PDT)
-Received: from ?IPV6:2003:e5:873f:400:7b4f:e512:a417:5a86? (p200300e5873f04007b4fe512a4175a86.dip0.t-ipconnect.de. [2003:e5:873f:400:7b4f:e512:a417:5a86])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634a3ae2cd7sm11345129a12.31.2025.09.30.22.48.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Sep 2025 22:48:39 -0700 (PDT)
-Message-ID: <8c99285f-3268-49b5-a7c3-028761f7ada4@suse.com>
-Date: Wed, 1 Oct 2025 07:48:38 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JK42xsCK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759300287; x=1790836287;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fCtwUyxg2tcZaIiloMxT08yCCGMZ0Qy8lqhMrlp8Hwg=;
+  b=JK42xsCKwH/pYXW5wNsSQvqZlz3WT+G5pux5LlEI13P7d8U7XZ6I7C2C
+   Tv7yOuVqmuEiXxRPiB3wlk2lwTm8YL/pPknCVYQzRY02R+GH64h22pQW0
+   TR3myhahjX/MZLBE3X2Z0g/04mf+99xrdA73eR4cNVTqq63Dt+GjR87ZE
+   br7oyTcMmBoRNi/hddYhcRqUboOD8SZ2u3wAW+Mb/xFI9C+yrNKlwbtNK
+   f/Tz1Iw9PWGES8hGt6HQPnBS11ji2Zz7bf7cWdHtLcNy5A3uJr/Myjy7W
+   whsP56pEQh2HgJ0pByxs1Zz6YFIOxHeJbo7R288knM/S9TyTkrUyqySkJ
+   Q==;
+X-CSE-ConnectionGUID: THroF3STSc2MHzQA4bds4A==
+X-CSE-MsgGUID: u5JhvZlnRQijdcdhHiWVdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61608020"
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
+   d="scan'208";a="61608020"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 23:31:27 -0700
+X-CSE-ConnectionGUID: K9q77eyPQjy1yhbcQCmyNQ==
+X-CSE-MsgGUID: TN01pntrScGYtpRtYNf9og==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 30 Sep 2025 23:31:25 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v3qN1-0002kp-1a;
+	Wed, 01 Oct 2025 06:31:23 +0000
+Date: Wed, 1 Oct 2025 14:30:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 2/2] mm/slub.c:4040:1: warning: no
+ previous prototype for function 'oot___kmalloc_0'
+Message-ID: <202510011429.0EDW6T5C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/12] x86/paravirt: Don't use pv_ops vector for MSR
- access functions
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, xin@zytor.com,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Ajay Kaher <ajay.kaher@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, xen-devel@lists.xenproject.org
-References: <20250930070356.30695-12-jgross@suse.com>
- <202510010555.InsgYDTd-lkp@intel.com>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <202510010555.InsgYDTd-lkp@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qwD3EhbmEV4miglMzzQiWUdE"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qwD3EhbmEV4miglMzzQiWUdE
-Content-Type: multipart/mixed; boundary="------------cht0KJsh0UXplkShlKz4mmR0";
- protected-headers="v1"
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, xin@zytor.com,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Ajay Kaher <ajay.kaher@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, xen-devel@lists.xenproject.org
-Message-ID: <8c99285f-3268-49b5-a7c3-028761f7ada4@suse.com>
-Subject: Re: [PATCH v2 11/12] x86/paravirt: Don't use pv_ops vector for MSR
- access functions
-References: <20250930070356.30695-12-jgross@suse.com>
- <202510010555.InsgYDTd-lkp@intel.com>
-In-Reply-To: <202510010555.InsgYDTd-lkp@intel.com>
+Hi Yi,
 
---------------cht0KJsh0UXplkShlKz4mmR0
-Content-Type: multipart/mixed; boundary="------------79lqUm0t09DO937HXCfwgzdf"
+FYI, the error/warning still remains.
 
---------------79lqUm0t09DO937HXCfwgzdf
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   6e46858a22077fce652e4757d5624bf5816c6639
+commit: baa47e1aa754428b439764393f2d71fb6bce04bf [2/2] anolis: mm: introduce per module slab for oot memory isolation
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251001/202510011429.0EDW6T5C-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011429.0EDW6T5C-lkp@intel.com/reproduce)
 
-T24gMzAuMDkuMjUgMjM6MjcsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3RlOg0KPiBIaSBKdWVy
-Z2VuLA0KPiANCj4ga2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9sbG93aW5nIGJ1
-aWxkIGVycm9yczoNCj4gDQo+IFthdXRvIGJ1aWxkIHRlc3QgRVJST1Igb24gdGlwL3g4Ni9j
-b3JlXQ0KPiBbYWxzbyBidWlsZCB0ZXN0IEVSUk9SIG9uIGxpbnVzL21hc3RlciB2Ni4xN10N
-Cj4gW2Nhbm5vdCBhcHBseSB0byBrdm0vcXVldWUga3ZtL25leHQgdGlwL21hc3RlciBrdm0v
-bGludXgtbmV4dCB0aXAvYXV0by1sYXRlc3QgbmV4dC0yMDI1MDkyOV0NCj4gW0lmIHlvdXIg
-cGF0Y2ggaXMgYXBwbGllZCB0byB0aGUgd3JvbmcgZ2l0IHRyZWUsIGtpbmRseSBkcm9wIHVz
-IGEgbm90ZS4NCj4gQW5kIHdoZW4gc3VibWl0dGluZyBwYXRjaCwgd2Ugc3VnZ2VzdCB0byB1
-c2UgJy0tYmFzZScgYXMgZG9jdW1lbnRlZCBpbg0KPiBodHRwczovL2dpdC1zY20uY29tL2Rv
-Y3MvZ2l0LWZvcm1hdC1wYXRjaCNfYmFzZV90cmVlX2luZm9ybWF0aW9uXQ0KPiANCj4gdXJs
-OiAgICBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwtbGFiLWxrcC9saW51eC9jb21taXRzL0p1
-ZXJnZW4tR3Jvc3MvY29jby10ZHgtUmVuYW1lLU1TUi1hY2Nlc3MtaGVscGVycy8yMDI1MDkz
-MC0xNTA3NTMNCj4gYmFzZTogICB0aXAveDg2L2NvcmUNCj4gcGF0Y2ggbGluazogICAgaHR0
-cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI1MDkzMDA3MDM1Ni4zMDY5NS0xMi1qZ3Jvc3Ml
-NDBzdXNlLmNvbQ0KPiBwYXRjaCBzdWJqZWN0OiBbUEFUQ0ggdjIgMTEvMTJdIHg4Ni9wYXJh
-dmlydDogRG9uJ3QgdXNlIHB2X29wcyB2ZWN0b3IgZm9yIE1TUiBhY2Nlc3MgZnVuY3Rpb25z
-DQo+IGNvbmZpZzogeDg2XzY0LWJ1aWxkb25seS1yYW5kY29uZmlnLTAwMS0yMDI1MTAwMSAo
-aHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjUxMDAxLzIwMjUx
-MDAxMDU1NS5JbnNnWURUZC1sa3BAaW50ZWwuY29tL2NvbmZpZykNCj4gY29tcGlsZXI6IGNs
-YW5nIHZlcnNpb24gMjAuMS44IChodHRwczovL2dpdGh1Yi5jb20vbGx2bS9sbHZtLXByb2pl
-Y3QgODdmMDIyN2NiNjAxNDdhMjZhMWVlYjRmYjA2ZTNiNTA1ZTljNzI2MSkNCj4gcmVwcm9k
-dWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBk
-YXktY2kvYXJjaGl2ZS8yMDI1MTAwMS8yMDI1MTAwMTA1NTUuSW5zZ1lEVGQtbGtwQGludGVs
-LmNvbS9yZXByb2R1Y2UpDQo+IA0KPiBJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFy
-YXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5ldyB2ZXJzaW9uIG9mDQo+IHRo
-ZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4gfCBS
-ZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+IHwgQ2xv
-c2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjUxMDAxMDU1
-NS5JbnNnWURUZC1sa3BAaW50ZWwuY29tLw0KPiANCj4gQWxsIGVycm9ycyAobmV3IG9uZXMg
-cHJlZml4ZWQgYnkgPj4pOg0KPiANCj4gICAgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBhcmNo
-L3g4Ni9rZXJuZWwvYXNtLW9mZnNldHMuYzo5Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBm
-cm9tIGluY2x1ZGUvbGludXgvY3J5cHRvLmg6MTg6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVk
-IGZyb20gaW5jbHVkZS9saW51eC9zbGFiLmg6MTY6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVk
-IGZyb20gaW5jbHVkZS9saW51eC9nZnAuaDo3Og0KPiAgICAgSW4gZmlsZSBpbmNsdWRlZCBm
-cm9tIGluY2x1ZGUvbGludXgvbW16b25lLmg6MjI6DQo+ICAgICBJbiBmaWxlIGluY2x1ZGVk
-IGZyb20gaW5jbHVkZS9saW51eC9tbV90eXBlcy5oOjE2Og0KPiAgICAgSW4gZmlsZSBpbmNs
-dWRlZCBmcm9tIGluY2x1ZGUvbGludXgvdXByb2Jlcy5oOjE4Og0KPiAgICAgSW4gZmlsZSBp
-bmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvdGltZXIuaDo2Og0KPiAgICAgSW4gZmlsZSBp
-bmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgva3RpbWUuaDoyNToNCj4gICAgIEluIGZpbGUg
-aW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2ppZmZpZXMuaDoxMDoNCj4gICAgIEluIGZp
-bGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L3RpbWUuaDo2MDoNCj4gICAgIEluIGZp
-bGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L3RpbWUzMi5oOjEzOg0KPiAgICAgSW4g
-ZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvdGltZXguaDo2NzoNCj4gICAgIElu
-IGZpbGUgaW5jbHVkZWQgZnJvbSBhcmNoL3g4Ni9pbmNsdWRlL2FzbS90aW1leC5oOjY6DQo+
-ICAgICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC94ODYvaW5jbHVkZS9hc20vdHNjLmg6
-MTE6DQo+Pj4gYXJjaC94ODYvaW5jbHVkZS9hc20vbXNyLmg6MzI3OjEwOiBmYXRhbCBlcnJv
-cjogJ2FzbS94ZW4vbXNyLmgnIGZpbGUgbm90IGZvdW5kDQo+ICAgICAgIDMyNyB8ICNpbmNs
-dWRlIDxhc20veGVuL21zci5oPg0KPiAgICAgICAgICAgfCAgICAgICAgICBefn5+fn5+fn5+
-fn5+fn4NCj4gICAgIDEgZXJyb3IgZ2VuZXJhdGVkLg0KPiAgICAgbWFrZVszXTogKioqIFtz
-Y3JpcHRzL01ha2VmaWxlLmJ1aWxkOjE4MjogYXJjaC94ODYva2VybmVsL2FzbS1vZmZzZXRz
-LnNdIEVycm9yIDEgc2h1ZmZsZT0zNDcxNDk1Mjg4DQo+ICAgICBtYWtlWzNdOiBUYXJnZXQg
-J3ByZXBhcmUnIG5vdCByZW1hZGUgYmVjYXVzZSBvZiBlcnJvcnMuDQo+ICAgICBtYWtlWzJd
-OiAqKiogW01ha2VmaWxlOjEyODI6IHByZXBhcmUwXSBFcnJvciAyIHNodWZmbGU9MzQ3MTQ5
-NTI4OA0KPiAgICAgbWFrZVsyXTogVGFyZ2V0ICdwcmVwYXJlJyBub3QgcmVtYWRlIGJlY2F1
-c2Ugb2YgZXJyb3JzLg0KPiAgICAgbWFrZVsxXTogKioqIFtNYWtlZmlsZToyNDg6IF9fc3Vi
-LW1ha2VdIEVycm9yIDIgc2h1ZmZsZT0zNDcxNDk1Mjg4DQo+ICAgICBtYWtlWzFdOiBUYXJn
-ZXQgJ3ByZXBhcmUnIG5vdCByZW1hZGUgYmVjYXVzZSBvZiBlcnJvcnMuDQo+ICAgICBtYWtl
-OiAqKiogW01ha2VmaWxlOjI0ODogX19zdWItbWFrZV0gRXJyb3IgMiBzaHVmZmxlPTM0NzE0
-OTUyODgNCj4gICAgIG1ha2U6IFRhcmdldCAncHJlcGFyZScgbm90IHJlbWFkZSBiZWNhdXNl
-IG9mIGVycm9ycy4NCj4gDQo+IA0KPiB2aW0gKzMyNyBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9t
-c3IuaA0KPiANCj4gICAgIDMyNQkNCj4gICAgIDMyNgkjaWZkZWYgQ09ORklHX1hFTl9QVg0K
-PiAgID4gMzI3CSNpbmNsdWRlIDxhc20veGVuL21zci5oPg0KPiAgICAgMzI4CQ0KPiANCg0K
-VWgsIEkgZm9yZ290IHRvICJnaXQgYWRkIiB0aGF0IG5ldyBoZWFkZXIgZmlsZS4gV2lsbCBi
-ZSBjb3JyZWN0ZWQgaW4gVjMuDQoNCg0KSnVlcmdlbg0K
---------------79lqUm0t09DO937HXCfwgzdf
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510011429.0EDW6T5C-lkp@intel.com/
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+All warnings (new ones prefixed by >>):
 
-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
-kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
-=3DeeAB
------END PGP PUBLIC KEY BLOCK-----
+>> mm/slub.c:4040:1: warning: no previous prototype for function 'oot___kmalloc_0' [-Wmissing-prototypes]
+    4040 | DEFINE_OOT_FUNC___kmalloc(0);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:190:1: note: expanded from here
+     190 | oot___kmalloc_0
+         | ^
+   mm/slub.c:4040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4040 | DEFINE_OOT_FUNC___kmalloc(0);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4041:1: warning: no previous prototype for function 'oot___kmalloc_1' [-Wmissing-prototypes]
+    4041 | DEFINE_OOT_FUNC___kmalloc(1);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:206:1: note: expanded from here
+     206 | oot___kmalloc_1
+         | ^
+   mm/slub.c:4041:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4041 | DEFINE_OOT_FUNC___kmalloc(1);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4042:1: warning: no previous prototype for function 'oot___kmalloc_2' [-Wmissing-prototypes]
+    4042 | DEFINE_OOT_FUNC___kmalloc(2);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:222:1: note: expanded from here
+     222 | oot___kmalloc_2
+         | ^
+   mm/slub.c:4042:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4042 | DEFINE_OOT_FUNC___kmalloc(2);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4043:1: warning: no previous prototype for function 'oot___kmalloc_3' [-Wmissing-prototypes]
+    4043 | DEFINE_OOT_FUNC___kmalloc(3);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:16:1: note: expanded from here
+      16 | oot___kmalloc_3
+         | ^
+   mm/slub.c:4043:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4043 | DEFINE_OOT_FUNC___kmalloc(3);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4044:1: warning: no previous prototype for function 'oot___kmalloc_4' [-Wmissing-prototypes]
+    4044 | DEFINE_OOT_FUNC___kmalloc(4);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:32:1: note: expanded from here
+      32 | oot___kmalloc_4
+         | ^
+   mm/slub.c:4044:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4044 | DEFINE_OOT_FUNC___kmalloc(4);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4045:1: warning: no previous prototype for function 'oot___kmalloc_5' [-Wmissing-prototypes]
+    4045 | DEFINE_OOT_FUNC___kmalloc(5);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:48:1: note: expanded from here
+      48 | oot___kmalloc_5
+         | ^
+   mm/slub.c:4045:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4045 | DEFINE_OOT_FUNC___kmalloc(5);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4046:1: warning: no previous prototype for function 'oot___kmalloc_6' [-Wmissing-prototypes]
+    4046 | DEFINE_OOT_FUNC___kmalloc(6);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:64:1: note: expanded from here
+      64 | oot___kmalloc_6
+         | ^
+   mm/slub.c:4046:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4046 | DEFINE_OOT_FUNC___kmalloc(6);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4047:1: warning: no previous prototype for function 'oot___kmalloc_7' [-Wmissing-prototypes]
+    4047 | DEFINE_OOT_FUNC___kmalloc(7);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:80:1: note: expanded from here
+      80 | oot___kmalloc_7
+         | ^
+   mm/slub.c:4047:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4047 | DEFINE_OOT_FUNC___kmalloc(7);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4048:1: warning: no previous prototype for function 'oot___kmalloc_8' [-Wmissing-prototypes]
+    4048 | DEFINE_OOT_FUNC___kmalloc(8);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:96:1: note: expanded from here
+      96 | oot___kmalloc_8
+         | ^
+   mm/slub.c:4048:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4048 | DEFINE_OOT_FUNC___kmalloc(8);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4049:1: warning: no previous prototype for function 'oot___kmalloc_9' [-Wmissing-prototypes]
+    4049 | DEFINE_OOT_FUNC___kmalloc(9);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:112:1: note: expanded from here
+     112 | oot___kmalloc_9
+         | ^
+   mm/slub.c:4049:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4049 | DEFINE_OOT_FUNC___kmalloc(9);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4050:1: warning: no previous prototype for function 'oot___kmalloc_10' [-Wmissing-prototypes]
+    4050 | DEFINE_OOT_FUNC___kmalloc(10);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:128:1: note: expanded from here
+     128 | oot___kmalloc_10
+         | ^
+   mm/slub.c:4050:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4050 | DEFINE_OOT_FUNC___kmalloc(10);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4051:1: warning: no previous prototype for function 'oot___kmalloc_11' [-Wmissing-prototypes]
+    4051 | DEFINE_OOT_FUNC___kmalloc(11);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:144:1: note: expanded from here
+     144 | oot___kmalloc_11
+         | ^
+   mm/slub.c:4051:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4051 | DEFINE_OOT_FUNC___kmalloc(11);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4052:1: warning: no previous prototype for function 'oot___kmalloc_12' [-Wmissing-prototypes]
+    4052 | DEFINE_OOT_FUNC___kmalloc(12);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:160:1: note: expanded from here
+     160 | oot___kmalloc_12
+         | ^
+   mm/slub.c:4052:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4052 | DEFINE_OOT_FUNC___kmalloc(12);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4053:1: warning: no previous prototype for function 'oot___kmalloc_13' [-Wmissing-prototypes]
+    4053 | DEFINE_OOT_FUNC___kmalloc(13);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:2:1: note: expanded from here
+       2 | oot___kmalloc_13
+         | ^
+   mm/slub.c:4053:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4053 | DEFINE_OOT_FUNC___kmalloc(13);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4054:1: warning: no previous prototype for function 'oot___kmalloc_14' [-Wmissing-prototypes]
+    4054 | DEFINE_OOT_FUNC___kmalloc(14);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:18:1: note: expanded from here
+      18 | oot___kmalloc_14
+         | ^
+   mm/slub.c:4054:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4054 | DEFINE_OOT_FUNC___kmalloc(14);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4055:1: warning: no previous prototype for function 'oot___kmalloc_15' [-Wmissing-prototypes]
+    4055 | DEFINE_OOT_FUNC___kmalloc(15);
+         | ^
+   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^
+   <scratch space>:34:1: note: expanded from here
+      34 | oot___kmalloc_15
+         | ^
+   mm/slub.c:4055:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4055 | DEFINE_OOT_FUNC___kmalloc(15);
+         | ^
+         | static 
+   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
+    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
+         |                                                                         ^
+>> mm/slub.c:4136:1: warning: no previous prototype for function 'oot___kmalloc_node_0' [-Wmissing-prototypes]
+    4136 | DEFINE_OOT_FUNC___kmalloc_node(0);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:66:1: note: expanded from here
+      66 | oot___kmalloc_node_0
+         | ^
+   mm/slub.c:4136:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4136 | DEFINE_OOT_FUNC___kmalloc_node(0);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+>> mm/slub.c:4137:1: warning: no previous prototype for function 'oot___kmalloc_node_1' [-Wmissing-prototypes]
+    4137 | DEFINE_OOT_FUNC___kmalloc_node(1);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:83:1: note: expanded from here
+      83 | oot___kmalloc_node_1
+         | ^
+   mm/slub.c:4137:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4137 | DEFINE_OOT_FUNC___kmalloc_node(1);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+>> mm/slub.c:4138:1: warning: no previous prototype for function 'oot___kmalloc_node_2' [-Wmissing-prototypes]
+    4138 | DEFINE_OOT_FUNC___kmalloc_node(2);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:100:1: note: expanded from here
+     100 | oot___kmalloc_node_2
+         | ^
+   mm/slub.c:4138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4138 | DEFINE_OOT_FUNC___kmalloc_node(2);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+>> mm/slub.c:4139:1: warning: no previous prototype for function 'oot___kmalloc_node_3' [-Wmissing-prototypes]
+    4139 | DEFINE_OOT_FUNC___kmalloc_node(3);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:117:1: note: expanded from here
+     117 | oot___kmalloc_node_3
+         | ^
+   mm/slub.c:4139:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4139 | DEFINE_OOT_FUNC___kmalloc_node(3);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+   mm/slub.c:4140:1: warning: no previous prototype for function 'oot___kmalloc_node_4' [-Wmissing-prototypes]
+    4140 | DEFINE_OOT_FUNC___kmalloc_node(4);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:134:1: note: expanded from here
+     134 | oot___kmalloc_node_4
+         | ^
+   mm/slub.c:4140:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4140 | DEFINE_OOT_FUNC___kmalloc_node(4);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+   mm/slub.c:4141:1: warning: no previous prototype for function 'oot___kmalloc_node_5' [-Wmissing-prototypes]
+    4141 | DEFINE_OOT_FUNC___kmalloc_node(5);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:151:1: note: expanded from here
+     151 | oot___kmalloc_node_5
+         | ^
+   mm/slub.c:4141:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4141 | DEFINE_OOT_FUNC___kmalloc_node(5);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+   mm/slub.c:4142:1: warning: no previous prototype for function 'oot___kmalloc_node_6' [-Wmissing-prototypes]
+    4142 | DEFINE_OOT_FUNC___kmalloc_node(6);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:5:1: note: expanded from here
+       5 | oot___kmalloc_node_6
+         | ^
+   mm/slub.c:4142:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4142 | DEFINE_OOT_FUNC___kmalloc_node(6);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+   mm/slub.c:4143:1: warning: no previous prototype for function 'oot___kmalloc_node_7' [-Wmissing-prototypes]
+    4143 | DEFINE_OOT_FUNC___kmalloc_node(7);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:22:1: note: expanded from here
+      22 | oot___kmalloc_node_7
+         | ^
+   mm/slub.c:4143:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4143 | DEFINE_OOT_FUNC___kmalloc_node(7);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+   mm/slub.c:4144:1: warning: no previous prototype for function 'oot___kmalloc_node_8' [-Wmissing-prototypes]
+    4144 | DEFINE_OOT_FUNC___kmalloc_node(8);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^
+   <scratch space>:39:1: note: expanded from here
+      39 | oot___kmalloc_node_8
+         | ^
+   mm/slub.c:4144:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4144 | DEFINE_OOT_FUNC___kmalloc_node(8);
+         | ^
+         | static 
+   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
+         |                                                                         ^
+   mm/slub.c:4145:1: warning: no previous prototype for function 'oot___kmalloc_node_9' [-Wmissing-prototypes]
+    4145 | DEFINE_OOT_FUNC___kmalloc_node(9);
+         | ^
+   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
 
---------------79lqUm0t09DO937HXCfwgzdf--
 
---------------cht0KJsh0UXplkShlKz4mmR0--
+vim +/oot___kmalloc_0 +4040 mm/slub.c
 
---------------qwD3EhbmEV4miglMzzQiWUdE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+  4039	
+> 4040	DEFINE_OOT_FUNC___kmalloc(0);
+> 4041	DEFINE_OOT_FUNC___kmalloc(1);
+> 4042	DEFINE_OOT_FUNC___kmalloc(2);
+> 4043	DEFINE_OOT_FUNC___kmalloc(3);
+> 4044	DEFINE_OOT_FUNC___kmalloc(4);
+> 4045	DEFINE_OOT_FUNC___kmalloc(5);
+> 4046	DEFINE_OOT_FUNC___kmalloc(6);
+> 4047	DEFINE_OOT_FUNC___kmalloc(7);
+> 4048	DEFINE_OOT_FUNC___kmalloc(8);
+> 4049	DEFINE_OOT_FUNC___kmalloc(9);
+> 4050	DEFINE_OOT_FUNC___kmalloc(10);
+> 4051	DEFINE_OOT_FUNC___kmalloc(11);
+> 4052	DEFINE_OOT_FUNC___kmalloc(12);
+> 4053	DEFINE_OOT_FUNC___kmalloc(13);
+> 4054	DEFINE_OOT_FUNC___kmalloc(14);
+> 4055	DEFINE_OOT_FUNC___kmalloc(15);
+  4056	
+  4057	#ifdef CONFIG_NUMA
+  4058	static void *kmalloc_large_node(size_t size, gfp_t flags, int node)
+  4059	{
+  4060		struct page *page;
+  4061		void *ptr = NULL;
+  4062		unsigned int order = get_order(size);
+  4063	
+  4064		flags |= __GFP_COMP;
+  4065		page = alloc_pages_node(node, flags, order);
+  4066		if (page) {
+  4067			ptr = page_address(page);
+  4068			mod_lruvec_page_state(page, NR_SLAB_UNRECLAIMABLE_B,
+  4069					      PAGE_SIZE << order);
+  4070		}
+  4071	
+  4072		return kmalloc_large_node_hook(ptr, size, flags);
+  4073	}
+  4074	
+  4075	void *__kmalloc_node(size_t size, gfp_t flags, int node)
+  4076	{
+  4077		struct kmem_cache *s;
+  4078		void *ret;
+  4079	
+  4080		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {
+  4081			ret = kmalloc_large_node(size, flags, node);
+  4082	
+  4083			trace_kmalloc_node(_RET_IP_, ret,
+  4084					   size, PAGE_SIZE << get_order(size),
+  4085					   flags, node);
+  4086	
+  4087			return ret;
+  4088		}
+  4089	
+  4090		s = kmalloc_slab(size, flags);
+  4091	
+  4092		if (unlikely(ZERO_OR_NULL_PTR(s)))
+  4093			return s;
+  4094	
+  4095		ret = slab_alloc_node(s, flags, node, _RET_IP_, size);
+  4096	
+  4097		trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);
+  4098	
+  4099		ret = kasan_kmalloc(s, ret, size, flags);
+  4100	
+  4101		return ret;
+  4102	}
+  4103	EXPORT_SYMBOL(__kmalloc_node);
+  4104	
+  4105	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
+  4106	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
+  4107	{									\
+  4108		struct kmem_cache *s;						\
+  4109		void *ret;							\
+  4110										\
+  4111		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {			\
+  4112			ret = kmalloc_large_node(size, flags, node);		\
+  4113										\
+  4114			trace_kmalloc_node(_RET_IP_, ret,			\
+  4115					   size, PAGE_SIZE << get_order(size),	\
+  4116					   flags, node);			\
+  4117										\
+  4118			return ret;						\
+  4119		}								\
+  4120										\
+  4121		s = oot_kmalloc_slab(index, size, flags);			\
+  4122										\
+  4123		if (unlikely(ZERO_OR_NULL_PTR(s)))				\
+  4124			return s;						\
+  4125										\
+  4126		ret = slab_alloc_node(s, flags, node, _RET_IP_, size);		\
+  4127										\
+  4128		trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);	\
+  4129										\
+  4130		ret = kasan_kmalloc(s, ret, size, flags);			\
+  4131										\
+  4132		return ret;							\
+  4133	}									\
+  4134	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
+  4135	
+> 4136	DEFINE_OOT_FUNC___kmalloc_node(0);
+> 4137	DEFINE_OOT_FUNC___kmalloc_node(1);
+> 4138	DEFINE_OOT_FUNC___kmalloc_node(2);
+> 4139	DEFINE_OOT_FUNC___kmalloc_node(3);
+> 4140	DEFINE_OOT_FUNC___kmalloc_node(4);
+> 4141	DEFINE_OOT_FUNC___kmalloc_node(5);
+> 4142	DEFINE_OOT_FUNC___kmalloc_node(6);
+> 4143	DEFINE_OOT_FUNC___kmalloc_node(7);
+> 4144	DEFINE_OOT_FUNC___kmalloc_node(8);
+> 4145	DEFINE_OOT_FUNC___kmalloc_node(9);
+> 4146	DEFINE_OOT_FUNC___kmalloc_node(10);
+> 4147	DEFINE_OOT_FUNC___kmalloc_node(11);
+> 4148	DEFINE_OOT_FUNC___kmalloc_node(12);
+> 4149	DEFINE_OOT_FUNC___kmalloc_node(13);
+> 4150	DEFINE_OOT_FUNC___kmalloc_node(14);
+> 4151	DEFINE_OOT_FUNC___kmalloc_node(15);
+  4152	
 
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmjcwLYFAwAAAAAACgkQsN6d1ii/Ey+V
-zggAiGGv9dwzqk1bPEe3rdx0CuLqy6A6t7w9ay8FUfx76po9ul5QWLGJwMiu0wGNg6lT52S5oZ5q
-YOzgmDy9UGCWfIdcR4sMAtXjoVxlmN/4l5j50CzQub9rB50qIIqq9gw9Yipg6iLoC2w/8IPV2GXt
-rN7k4l5+XJIk+s6WiWwROlNh34CY5kinTjn7DHZrVx43UlXrXt66zHORYdFCDgLb2Yxmz3DALkvS
-kgAwGheqtlr52QLY0jKN3JndClF0Kp4jpkVigwRvWJW49tHBOpnbCIbrO2f/GxYwN359WXw7Q/tD
-SLJOWOjd9gXXHQHOAnkWnNyTo+/lPVcO6JYWYqP/XA==
-=4wxD
------END PGP SIGNATURE-----
-
---------------qwD3EhbmEV4miglMzzQiWUdE--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
