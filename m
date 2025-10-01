@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE8419DF4F;
-	Wed,  1 Oct 2025 08:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C62A35977;
+	Wed,  1 Oct 2025 09:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759307620; cv=none; b=TfAzV+dV60hTOlHGYqyrScyjLGlYOnuvO40MtRQ81hTNP1H3aLc6OPZrO/Zhac94L5BRexkaqXgryfcBs6T0GkN00wWrkS4fDQVgm7ofNZF4IP2mtV2NvXg6LdbDq+KGAfv0iEyDzMimJ80NEg20tzrrD1Q494Wy84wZMgwTHiU=
+	t=1759311347; cv=none; b=f6NHJuWS0+qlAC2OWVM2Oul/WpQpoUBpZWM3tIZ8CtdZE3Li7V8xRIKJfgxnnxNDLnznLZsM/DBtiCKsEKf0PUBrPDSzzN676A4NuShxGNhxvRStGKeEPV7rYrnD+YQfUUjkaZFZCcTR+m8W36BrsoWG9zhlAlEFbvxWuNJFdvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759307620; c=relaxed/simple;
-	bh=CkhS9nO4OcwZ75+Xz4ricIYnN+zqZxXwC5+z7Wwgp7g=;
+	s=arc-20240116; t=1759311347; c=relaxed/simple;
+	bh=0Cm9BtFz3hGv542uyhD/dUaWxOasSWCZ6bIwzvIGJLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pxMPTtZYoitNf06HKntUJTZIbdjxGf1ABVfXMYbx0qk25HlslTDGdRriv/IPYztxMIETKTlFgocx3eMoYjSZqRmCiB3kRiBkDiQKB1gFOn3jsZMvnxAsK8+E/ksbs22VT639F87l1N/qu3sCNwQMjEaFG81/8/mMlmsTZXlnQ1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bN8aQEKt; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=EPmyhx1Z5scdqzhLf1qcXwjPCBICjH0auBoD2ph2roE9hRbsZaV4mW75PFmesf4sFtx1w1h1aB/dYRQvir9ydeMAPJQDgWWayS2g4wp46j2xB7OkNxkjmHp1/Pb9wB36vihCksh2fsFUpMNdT/gb8JPu47DMjl962eDZxk+oQ7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxQJ8f5M; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bN8aQEKt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxQJ8f5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759307619; x=1790843619;
+  t=1759311345; x=1790847345;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CkhS9nO4OcwZ75+Xz4ricIYnN+zqZxXwC5+z7Wwgp7g=;
-  b=bN8aQEKtwzPUuwBReip00QzQRKG46haZingXDHAM1SxcYZ09N7tQBOnW
-   HoKDzyQWB0HVsbozXyIgldNLJRClwhibaWwxzQ3I+w/6gU0UXAXL+HDdp
-   TY0niUEQQhpnhb4FJA2W+2XJzfOvMrWCj7S5FnVj0dQkEIUJ7ocTRNbgL
-   hT6a4i5EO8DQ2JsEQ+9S0U2abN8O31epxKL98G5I8tTaJkI9c3r0H6LHx
-   q3wJs3xGqMYNf6RP8WAjHyx5gSYYz6AcxXWISEHt2hhWKbXmro6j82KWv
-   ymWod+lksY+LAG4/mNDc/6UBRI7yryd0kPzHHMhCvUhNSCjA8UiYgENC0
-   w==;
-X-CSE-ConnectionGUID: d8/LgiISS+uIUCZWrQr7LA==
-X-CSE-MsgGUID: GsQTX0edRbaU63Ra2s6rbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="84196359"
+  bh=0Cm9BtFz3hGv542uyhD/dUaWxOasSWCZ6bIwzvIGJLY=;
+  b=YxQJ8f5MFQlEXWfgT9p3HJKXHNHQWm3hBhz1a3WEF88YJTX3P0U+z6Y1
+   pBHD1/34mcF+EQEx7XnAYZwT9UauMYE7fjjtvycyyiokCXReYVRhBwjCL
+   YiaY7nxVlboiXDd5UZCVjHFgCyRCdLcnHx+1l58ZA+mpYkzpQ77ZiVpPf
+   0AQubJMZAmCpnqKtHr+VF3dWz8kmkN8qWCBfDmmPPsP0qv1rATZwkR5E5
+   L8i39WuEiJhwCrXkGTUrZbZ6Qpg1jKAyc6l82OdqKma8fFLqAo3d7COW0
+   aoaMH/NVar5TjnxzSlrVM4irzibfj4N+XbihFdfoAVGogrsRWDFW4hdVy
+   Q==;
+X-CSE-ConnectionGUID: pV5Bp754TuuQV3hV9e7xvw==
+X-CSE-MsgGUID: YdV5BJBWQBeSJQQla1I+6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="79231688"
 X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="84196359"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 01:33:38 -0700
-X-CSE-ConnectionGUID: 3Zs3Y9PhSGu4YGq3bgFUZA==
-X-CSE-MsgGUID: bsNHBe0iSrezyTGLpiDg3Q==
+   d="scan'208";a="79231688"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 02:35:44 -0700
+X-CSE-ConnectionGUID: PNukmB5bQJCjXF2Y4R7GXQ==
+X-CSE-MsgGUID: bfCaMSbJTFyMfSJ+W52kdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="209689188"
+   d="scan'208";a="178795122"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Oct 2025 01:33:36 -0700
+  by orviesa008.jf.intel.com with ESMTP; 01 Oct 2025 02:35:42 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3sHG-0002pv-0V;
-	Wed, 01 Oct 2025 08:33:34 +0000
-Date: Wed, 1 Oct 2025 16:33:22 +0800
+	id 1v3tFL-0002sN-1f;
+	Wed, 01 Oct 2025 09:35:39 +0000
+Date: Wed, 1 Oct 2025 17:35:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:vfio_get_region_info_op 25/28]
- drivers/vfio/pci/vfio_pci_core.c:1005:16: warning: unused variable 'minsz'
-Message-ID: <202510011644.GIbWHIIW-lkp@intel.com>
+Subject: [jgunthorpe:vfio_get_region_info_op 23/28]
+ drivers/gpu/drm/i915/gvt/kvmgt.c:1235:34: error: incompatible pointer types
+ passing 'struct vfio_info_cap **' to parameter of type 'struct vfio_info_cap
+ *'; remove &
+Message-ID: <202510011720.Gy8hWYxq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,155 +66,164 @@ Content-Disposition: inline
 
 tree:   https://github.com/jgunthorpe/linux vfio_get_region_info_op
 head:   efea69dc6e5be19ed7b37490c863b00b304a3cb0
-commit: 248fdef198f527aa782953cdc9d94978725986d9 [25/28] vfio/pci: Convert all PCI drivers to get_region_info_caps
-config: i386-buildonly-randconfig-005-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011644.GIbWHIIW-lkp@intel.com/config)
+commit: da16ef5849c0c3eff92ead1c944776a7af4ddf3b [23/28] vfio/gvt: Convert to get_region_info_caps
+config: x86_64-buildonly-randconfig-005-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011720.Gy8hWYxq-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011644.GIbWHIIW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011720.Gy8hWYxq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510011644.GIbWHIIW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510011720.Gy8hWYxq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/vfio/pci/vfio_pci_core.c:35:
-   In file included from drivers/vfio/pci/vfio_pci_priv.h:5:
-   In file included from include/linux/vfio_pci_core.h:13:
+   In file included from drivers/gpu/drm/i915/gvt/kvmgt.c:54:
+   In file included from drivers/gpu/drm/i915/gvt/gvt.h:37:
    include/linux/vfio.h:139:13: warning: declaration of 'struct vfio_info_cap' will not be visible outside of this function [-Wvisibility]
      139 |                                         struct vfio_info_cap *caps);
          |                                                ^
->> drivers/vfio/pci/vfio_pci_core.c:1005:16: warning: unused variable 'minsz' [-Wunused-variable]
-    1005 |         unsigned long minsz = offsetofend(struct vfio_region_info, offset);
-         |                       ^~~~~
-   2 warnings generated.
+>> drivers/gpu/drm/i915/gvt/kvmgt.c:1235:34: error: incompatible pointer types passing 'struct vfio_info_cap **' to parameter of type 'struct vfio_info_cap *'; remove & [-Werror,-Wincompatible-pointer-types]
+    1235 |                 ret = vfio_info_add_capability(&caps, &cap_type.header,
+         |                                                ^~~~~
+   include/linux/vfio.h:363:52: note: passing argument to parameter 'caps' here
+     363 | int vfio_info_add_capability(struct vfio_info_cap *caps,
+         |                                                    ^
+   drivers/gpu/drm/i915/gvt/kvmgt.c:1447:26: error: incompatible function pointer types initializing 'int (*)(struct vfio_device *, struct vfio_region_info *, struct vfio_info_cap *)' with an expression of type 'int (struct vfio_device *, struct vfio_region_info *, struct vfio_info_cap *)' [-Wincompatible-function-pointer-types]
+    1447 |         .get_region_info_caps = intel_vgpu_get_region_info,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +/minsz +1005 drivers/vfio/pci/vfio_pci_core.c
+vim +1235 drivers/gpu/drm/i915/gvt/kvmgt.c
 
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31   998  
-82d2acf97b7df6 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30   999  int vfio_pci_ioctl_get_region_info(struct vfio_device *core_vdev,
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1000  				   struct vfio_region_info *info,
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1001  				   struct vfio_info_cap *caps)
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1002  {
-82d2acf97b7df6 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1003  	struct vfio_pci_core_device *vdev =
-82d2acf97b7df6 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1004  		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31 @1005  	unsigned long minsz = offsetofend(struct vfio_region_info, offset);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1006  	struct pci_dev *pdev = vdev->pdev;
-28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1007  	int i, ret;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1008  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1009  	switch (info->index) {
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1010  	case VFIO_PCI_CONFIG_REGION_INDEX:
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1011  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1012  		info->size = pdev->cfg_size;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1013  		info->flags = VFIO_REGION_INFO_FLAG_READ |
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1014  			      VFIO_REGION_INFO_FLAG_WRITE;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1015  		break;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1016  	case VFIO_PCI_BAR0_REGION_INDEX ... VFIO_PCI_BAR5_REGION_INDEX:
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1017  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1018  		info->size = pci_resource_len(pdev, info->index);
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1019  		if (!info->size) {
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1020  			info->flags = 0;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1021  			break;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1022  		}
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1023  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1024  		info->flags = VFIO_REGION_INFO_FLAG_READ |
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1025  			      VFIO_REGION_INFO_FLAG_WRITE;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1026  		if (vdev->bar_mmap_supported[info->index]) {
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1027  			info->flags |= VFIO_REGION_INFO_FLAG_MMAP;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1028  			if (info->index == vdev->msix_bar) {
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1029  				ret = msix_mmappable_cap(vdev, caps);
-188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1030  				if (ret)
-188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1031  					return ret;
-188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1032  			}
-188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1033  		}
-188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1034  
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1035  		break;
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1036  	case VFIO_PCI_ROM_REGION_INDEX: {
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1037  		void __iomem *io;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1038  		size_t size;
-abafbc551fdded drivers/vfio/pci/vfio_pci.c      Alex Williamson      2020-04-22  1039  		u16 cmd;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1040  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1041  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1042  		info->flags = 0;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1043  		info->size = 0;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1044  
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1045  		if (pci_resource_start(pdev, PCI_ROM_RESOURCE)) {
-0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-02-15  1046  			/*
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1047  			 * Check ROM content is valid. Need to enable memory
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1048  			 * decode for ROM access in pci_map_rom().
-0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-02-15  1049  			 */
-abafbc551fdded drivers/vfio/pci/vfio_pci.c      Alex Williamson      2020-04-22  1050  			cmd = vfio_pci_memory_lock_and_enable(vdev);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1051  			io = pci_map_rom(pdev, &size);
-0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-02-15  1052  			if (io) {
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1053  				info->flags = VFIO_REGION_INFO_FLAG_READ;
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1054  				/* Report the BAR size, not the ROM size. */
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1055  				info->size = pci_resource_len(pdev,
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1056  							      PCI_ROM_RESOURCE);
-0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-02-15  1057  				pci_unmap_rom(pdev, io);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1058  			}
-abafbc551fdded drivers/vfio/pci/vfio_pci.c      Alex Williamson      2020-04-22  1059  			vfio_pci_memory_unlock_and_restore(vdev, cmd);
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1060  		} else if (pdev->rom && pdev->romlen) {
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1061  			info->flags = VFIO_REGION_INFO_FLAG_READ;
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1062  			/* Report BAR size as power of two. */
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1063  			info->size = roundup_pow_of_two(pdev->romlen);
-e021e6cbfb5a69 drivers/vfio/pci/vfio_pci_core.c Yunxiang Li          2025-01-02  1064  		}
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1065  
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1066  		break;
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1067  	}
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1068  	case VFIO_PCI_VGA_REGION_INDEX:
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1069  		if (!vdev->has_vga)
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1070  			return -EINVAL;
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1071  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1072  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1073  		info->size = 0xc0000;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1074  		info->flags = VFIO_REGION_INFO_FLAG_READ |
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1075  			      VFIO_REGION_INFO_FLAG_WRITE;
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1076  
-84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-02-18  1077  		break;
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1078  	default: {
-dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-12-12  1079  		struct vfio_region_info_cap_type cap_type = {
-dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-12-12  1080  			.header.id = VFIO_REGION_INFO_CAP_TYPE,
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1081  			.header.version = 1
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1082  		};
-c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-11-17  1083  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1084  		if (info->index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions)
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1085  			return -EINVAL;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1086  		info->index = array_index_nospec(
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1087  			info->index, VFIO_PCI_NUM_REGIONS + vdev->num_regions);
-28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1088  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1089  		i = info->index - VFIO_PCI_NUM_REGIONS;
-28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1090  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1091  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1092  		info->size = vdev->region[i].size;
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1093  		info->flags = vdev->region[i].flags;
-28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1094  
-c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-11-17  1095  		cap_type.type = vdev->region[i].type;
-c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-11-17  1096  		cap_type.subtype = vdev->region[i].subtype;
-c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-11-17  1097  
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1098  		ret = vfio_info_add_capability(caps, &cap_type.header,
-dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-12-12  1099  					       sizeof(cap_type));
-28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1100  		if (ret)
-28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-02-22  1101  			return ret;
-c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-11-17  1102  
-c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-12-19  1103  		if (vdev->region[i].ops->add_capability) {
-ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1104  			ret = vdev->region[i].ops->add_capability(
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1105  				vdev, &vdev->region[i], caps);
-c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-12-19  1106  			if (ret)
-c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-12-19  1107  				return ret;
-c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-12-19  1108  		}
-c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-11-17  1109  	}
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1110  	}
-248fdef198f527 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1111  	return 0;
-2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-08-31  1112  }
-82d2acf97b7df6 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2025-09-30  1113  EXPORT_SYMBOL_GPL(vfio_pci_ioctl_get_region_info);
-89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-07-31  1114  
+659643f7d81432 Jike Song           2016-12-08  1142  
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1143  static int intel_vgpu_get_region_info(struct vfio_device *vfio_dev,
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1144  				      struct vfio_region_info *info,
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1145  				      struct vfio_info_cap *caps)
+659643f7d81432 Jike Song           2016-12-08  1146  {
+659643f7d81432 Jike Song           2016-12-08  1147  	struct vfio_region_info_cap_sparse_mmap *sparse = NULL;
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1148  	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
+659643f7d81432 Jike Song           2016-12-08  1149  	int nr_areas = 1;
+659643f7d81432 Jike Song           2016-12-08  1150  	int cap_type_id;
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1151  	unsigned int i;
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1152  	int ret;
+659643f7d81432 Jike Song           2016-12-08  1153  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1154  	switch (info->index) {
+659643f7d81432 Jike Song           2016-12-08  1155  	case VFIO_PCI_CONFIG_REGION_INDEX:
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1156  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1157  		info->size = vgpu->gvt->device_info.cfg_space_size;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1158  		info->flags = VFIO_REGION_INFO_FLAG_READ |
+659643f7d81432 Jike Song           2016-12-08  1159  			      VFIO_REGION_INFO_FLAG_WRITE;
+659643f7d81432 Jike Song           2016-12-08  1160  		break;
+659643f7d81432 Jike Song           2016-12-08  1161  	case VFIO_PCI_BAR0_REGION_INDEX:
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1162  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1163  		info->size = vgpu->cfg_space.bar[info->index].size;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1164  		if (!info->size) {
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1165  			info->flags = 0;
+659643f7d81432 Jike Song           2016-12-08  1166  			break;
+659643f7d81432 Jike Song           2016-12-08  1167  		}
+659643f7d81432 Jike Song           2016-12-08  1168  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1169  		info->flags = VFIO_REGION_INFO_FLAG_READ |
+659643f7d81432 Jike Song           2016-12-08  1170  			      VFIO_REGION_INFO_FLAG_WRITE;
+659643f7d81432 Jike Song           2016-12-08  1171  		break;
+659643f7d81432 Jike Song           2016-12-08  1172  	case VFIO_PCI_BAR1_REGION_INDEX:
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1173  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1174  		info->size = 0;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1175  		info->flags = 0;
+659643f7d81432 Jike Song           2016-12-08  1176  		break;
+659643f7d81432 Jike Song           2016-12-08  1177  	case VFIO_PCI_BAR2_REGION_INDEX:
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1178  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1179  		info->flags = VFIO_REGION_INFO_FLAG_CAPS |
+659643f7d81432 Jike Song           2016-12-08  1180  			      VFIO_REGION_INFO_FLAG_MMAP |
+659643f7d81432 Jike Song           2016-12-08  1181  			      VFIO_REGION_INFO_FLAG_READ |
+659643f7d81432 Jike Song           2016-12-08  1182  			      VFIO_REGION_INFO_FLAG_WRITE;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1183  		info->size = gvt_aperture_sz(vgpu->gvt);
+659643f7d81432 Jike Song           2016-12-08  1184  
+cd3e05836fc665 Gustavo A. R. Silva 2019-05-24  1185  		sparse = kzalloc(struct_size(sparse, areas, nr_areas),
+cd3e05836fc665 Gustavo A. R. Silva 2019-05-24  1186  				 GFP_KERNEL);
+659643f7d81432 Jike Song           2016-12-08  1187  		if (!sparse)
+659643f7d81432 Jike Song           2016-12-08  1188  			return -ENOMEM;
+659643f7d81432 Jike Song           2016-12-08  1189  
+dda01f787df9f9 Alex Williamson     2017-12-12  1190  		sparse->header.id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
+dda01f787df9f9 Alex Williamson     2017-12-12  1191  		sparse->header.version = 1;
+659643f7d81432 Jike Song           2016-12-08  1192  		sparse->nr_areas = nr_areas;
+659643f7d81432 Jike Song           2016-12-08  1193  		cap_type_id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
+659643f7d81432 Jike Song           2016-12-08  1194  		sparse->areas[0].offset =
+659643f7d81432 Jike Song           2016-12-08  1195  			PAGE_ALIGN(vgpu_aperture_offset(vgpu));
+659643f7d81432 Jike Song           2016-12-08  1196  		sparse->areas[0].size = vgpu_aperture_sz(vgpu);
+659643f7d81432 Jike Song           2016-12-08  1197  		break;
+659643f7d81432 Jike Song           2016-12-08  1198  
+659643f7d81432 Jike Song           2016-12-08  1199  	case VFIO_PCI_BAR3_REGION_INDEX ... VFIO_PCI_BAR5_REGION_INDEX:
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1200  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1201  		info->size = 0;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1202  		info->flags = 0;
+072ec93d50fd4c Pei Zhang           2017-12-08  1203  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1204  		gvt_dbg_core("get region info bar:%d\n", info->index);
+659643f7d81432 Jike Song           2016-12-08  1205  		break;
+659643f7d81432 Jike Song           2016-12-08  1206  
+659643f7d81432 Jike Song           2016-12-08  1207  	case VFIO_PCI_ROM_REGION_INDEX:
+659643f7d81432 Jike Song           2016-12-08  1208  	case VFIO_PCI_VGA_REGION_INDEX:
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1209  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1210  		info->size = 0;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1211  		info->flags = 0;
+072ec93d50fd4c Pei Zhang           2017-12-08  1212  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1213  		gvt_dbg_core("get region info index:%d\n", info->index);
+659643f7d81432 Jike Song           2016-12-08  1214  		break;
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1215  	default: {
+dda01f787df9f9 Alex Williamson     2017-12-12  1216  		struct vfio_region_info_cap_type cap_type = {
+dda01f787df9f9 Alex Williamson     2017-12-12  1217  			.header.id = VFIO_REGION_INFO_CAP_TYPE,
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1218  			.header.version = 1
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1219  		};
+659643f7d81432 Jike Song           2016-12-08  1220  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1221  		if (info->index >= VFIO_PCI_NUM_REGIONS + vgpu->num_regions)
+659643f7d81432 Jike Song           2016-12-08  1222  			return -EINVAL;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1223  		info->index = array_index_nospec(
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1224  			info->index, VFIO_PCI_NUM_REGIONS + vgpu->num_regions);
+659643f7d81432 Jike Song           2016-12-08  1225  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1226  		i = info->index - VFIO_PCI_NUM_REGIONS;
+659643f7d81432 Jike Song           2016-12-08  1227  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1228  		info->offset = VFIO_PCI_INDEX_TO_OFFSET(info->index);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1229  		info->size = vgpu->region[i].size;
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1230  		info->flags = vgpu->region[i].flags;
+659643f7d81432 Jike Song           2016-12-08  1231  
+62980cacc37f58 Christoph Hellwig   2022-04-11  1232  		cap_type.type = vgpu->region[i].type;
+62980cacc37f58 Christoph Hellwig   2022-04-11  1233  		cap_type.subtype = vgpu->region[i].subtype;
+659643f7d81432 Jike Song           2016-12-08  1234  
+dccd2c351c3792 Jason Gunthorpe     2025-09-30 @1235  		ret = vfio_info_add_capability(&caps, &cap_type.header,
+dda01f787df9f9 Alex Williamson     2017-12-12  1236  					       sizeof(cap_type));
+659643f7d81432 Jike Song           2016-12-08  1237  		if (ret)
+659643f7d81432 Jike Song           2016-12-08  1238  			return ret;
+659643f7d81432 Jike Song           2016-12-08  1239  	}
+659643f7d81432 Jike Song           2016-12-08  1240  	}
+659643f7d81432 Jike Song           2016-12-08  1241  
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1242  	if ((info->flags & VFIO_REGION_INFO_FLAG_CAPS) && sparse) {
+659643f7d81432 Jike Song           2016-12-08  1243  		switch (cap_type_id) {
+659643f7d81432 Jike Song           2016-12-08  1244  		case VFIO_REGION_INFO_CAP_SPARSE_MMAP:
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1245  			ret = vfio_info_add_capability(
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1246  				caps, &sparse->header,
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1247  				struct_size(sparse, areas, sparse->nr_areas));
+7590ebb8b45646 Yi Wang             2018-08-08  1248  			if (ret) {
+659643f7d81432 Jike Song           2016-12-08  1249  				kfree(sparse);
+659643f7d81432 Jike Song           2016-12-08  1250  				return ret;
+7590ebb8b45646 Yi Wang             2018-08-08  1251  			}
+659643f7d81432 Jike Song           2016-12-08  1252  			break;
+659643f7d81432 Jike Song           2016-12-08  1253  		default:
+7590ebb8b45646 Yi Wang             2018-08-08  1254  			kfree(sparse);
+659643f7d81432 Jike Song           2016-12-08  1255  			return -EINVAL;
+659643f7d81432 Jike Song           2016-12-08  1256  		}
+659643f7d81432 Jike Song           2016-12-08  1257  	}
+659643f7d81432 Jike Song           2016-12-08  1258  
+7590ebb8b45646 Yi Wang             2018-08-08  1259  	kfree(sparse);
+da16ef5849c0c3 Jason Gunthorpe     2025-09-30  1260  	return 0;
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1261  }
+dccd2c351c3792 Jason Gunthorpe     2025-09-30  1262  
 
-:::::: The code at line 1005 was first introduced by commit
-:::::: 2ecf3b58ed7bc52ad58e02bb1596130fa6e6da53 vfio-pci: Break up vfio_pci_core_ioctl() into one function per ioctl
+:::::: The code at line 1235 was first introduced by commit
+:::::: dccd2c351c379223261e8d9626214590dfa42c61 vfio/gvt: Provide a get_region_info op
 
 :::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
