@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D152C11C8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 10:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216EC2DEA9D;
+	Wed,  1 Oct 2025 11:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759316273; cv=none; b=Iut1bqj2lI+Xpz5NOXNsNRbqJ77RSOhsJiKwL7Z9s1Xb85JVgx/qwYRk+7gWDG0a2QRsreOtPDHi2dLZNsXlAAQD+CmtfbgFxzjQDh5YpzxI23nmsCBmjKXBthz23jM74qfpjToChMqPPfZ8yTLPeSDITNLn5QbhfnRdkvd+ALA=
+	t=1759319458; cv=none; b=AO3lRn2dHV6kh3SLXWS3BTtASznoqw7wbWFHh9WT/ZUquKPX37ZQuFRu+KbzT0FNVNwjtY/wfplPAGPJ8vXMXkJXzDBCwicelTmfwsUMTxoUCbifp/k0YhbkWB0oSG1SFb+J/og1CfAg5XQSdYZFMgYs2SNMNPIGcVG3DvA4JhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759316273; c=relaxed/simple;
-	bh=I5UHrnDJ/jELA8m5hFTMnMMRJZOKXe8QY+tVO0EBmPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GUbWA1q7sIvWpAE9qJZhOiu7p318LDo2AE+ei2PpiwJApaYnmeMkFKJWcUcOMRdPXT2TheXimL3OwfVWnf2Nhi7myZw79eppJj5bv+/zhpe9xjI7SOTd+6wVOaNRXC4v1JpCwmGJ7W6B1uzeD9ALpQGwRIdRljER3gU9VJT8Peg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltPwJR9O; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1759319458; c=relaxed/simple;
+	bh=UUMgyh1khVMAvCaYjTZGs4C0yTwafGUhOSzbw+S1OlM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ciajR2h+SxAKJoKm/Z4ozQVlwFLmPM5EynN+AJK4J4QpyH9lDqG0CUhTo3BoZZH0/o3WVGE27N2OlirUD5i4sVCVdWp68tVNIAx/xz16Pr64lG/MNo4wi23bND0+4rkat2e7fMqWSvmc+we1LuvKQUnZI0hNclCjVYCWcBqJJyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBKrq1Gc; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltPwJR9O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBKrq1Gc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759316270; x=1790852270;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I5UHrnDJ/jELA8m5hFTMnMMRJZOKXe8QY+tVO0EBmPc=;
-  b=ltPwJR9OOhMGemMHTpgtZkdH9CU70gqgjVzwaAK9iXRnobjRMSKCy5vT
-   4TiS3E8Br5i/aqlEcxf+thZ+XxT10I6l36ZOwI7yiqPxZ7KnRE6ZK2nUI
-   C+41gYeZdb2uEHmc7EnBzzidY3d/8saVNrx4CqKPKUptv4UuUgjFf3HPb
-   oNlr5d4sWmSbCF8ToidtOlzbRy5jeDnDW5Txq2bIbbY/HjwK/095T+mVe
-   /TmN+IegY5qJ9i8UPRskMp3420ob8GKtI/ZyBl5KfgOxUXJSrOuqFt5hf
-   gIxNesigUAhxIaLHHHQFoZh0oRfwSUMVLM6UgS+z++iNtieCpMV2RNCZP
+  t=1759319456; x=1790855456;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UUMgyh1khVMAvCaYjTZGs4C0yTwafGUhOSzbw+S1OlM=;
+  b=LBKrq1GcrfHQRdxDPp2doNE2IqsPjuYdxAZg2R+Edm12DKLh/+7HmaKp
+   /1w7QEDVtIz2u09vmmPhb8UP75B6aZ8q40gx5zXYHefQSBLsLcJRNosIt
+   EYPzCngZ3Kq6kdZq4VTCX59SVFb/01tnYhDCVfDrCEJh5W8+rLSrm9krK
+   2t1hUfC8GfxjLCC8QKTxjQAfrlQlRVqS7O43dwTz2jlKX5t9LgSsF7mNz
+   tpGoFZwvO1LpcCo51BO81dDzGWBYOAwqiZsXwpRhsGzFqvtkHl2quzdfB
+   XGYKwC6k0nM3hTFWvkv57aLDwVv3ATl6908WM/G5XZdkUiyVO+GbSySdR
    g==;
-X-CSE-ConnectionGUID: fdUbIm95Qnq+VYomWaIRYw==
-X-CSE-MsgGUID: ToKX+YC9Q1O7Ojqt3LpRoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65405463"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65405463"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 03:57:50 -0700
-X-CSE-ConnectionGUID: 6XBrrRF/R2W9nsZis2V+TQ==
-X-CSE-MsgGUID: TKnv1J32QOKwfxRW80R79Q==
+X-CSE-ConnectionGUID: 2GRHPrpQShOEhilatGep1Q==
+X-CSE-MsgGUID: 10kN87GMTJqmiWyq/fWkIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="65443972"
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
+   d="scan'208";a="65443972"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 04:50:55 -0700
+X-CSE-ConnectionGUID: usEHt5hORTqkcXV+hJVCiA==
+X-CSE-MsgGUID: oJ6f0FRMQWy3rQi94VIwEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="209483107"
+   d="scan'208";a="215893106"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2025 03:57:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2025 04:50:53 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3uWo-0002vX-1R;
-	Wed, 01 Oct 2025 10:57:46 +0000
-Date: Wed, 1 Oct 2025 18:57:39 +0800
+	id 1v3vMB-0002xH-01;
+	Wed, 01 Oct 2025 11:50:51 +0000
+Date: Wed, 1 Oct 2025 19:50:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 47/73]
- drivers/media/i2c/ov2740.c:985:42: error: 'client' undeclared
-Message-ID: <202510011855.Lg39xxNl-lkp@intel.com>
+To: James Houghton <jthoughton@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	James Houghton <jthoughton@google.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] KVM: For manual-protect GET_DIRTY_LOG, do not hold
+ slots lock
+Message-ID: <202510011941.dJGxEiZE-lkp@intel.com>
+References: <20250930172850.598938-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +67,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250930172850.598938-1-jthoughton@google.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   ba7808a5f3363959e2cd9a8afc4bb43f1e62f659
-commit: 7b24bfc3b454db19fc1a4ad0009f6f817c9bb039 [47/73] media: ov2740: Add support for embedded data
-config: csky-randconfig-002-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011855.Lg39xxNl-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011855.Lg39xxNl-lkp@intel.com/reproduce)
+Hi James,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a6ad54137af92535cfe32e19e5f3bc1bb7dbd383]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-selftests-Add-parallel-KVM_GET_DIRTY_LOG-to-dirty_log_perf_test/20251001-013306
+base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383
+patch link:    https://lore.kernel.org/r/20250930172850.598938-1-jthoughton%40google.com
+patch subject: [PATCH 1/2] KVM: For manual-protect GET_DIRTY_LOG, do not hold slots lock
+config: x86_64-buildonly-randconfig-005-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011941.dJGxEiZE-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011941.dJGxEiZE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510011855.Lg39xxNl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510011941.dJGxEiZE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/i2c/ov2740.c: In function 'ov2740_enable_streams':
->> drivers/media/i2c/ov2740.c:985:42: error: 'client' undeclared (first use in this function)
-     985 |         ret = pm_runtime_resume_and_get(&client->dev);
-         |                                          ^~~~~~
-   drivers/media/i2c/ov2740.c:985:42: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/i2c/ov2740.c: In function 'ov2740_disable_streams':
-   drivers/media/i2c/ov2740.c:1060:25: error: 'client' undeclared (first use in this function)
-    1060 |         pm_runtime_put(&client->dev);
-         |                         ^~~~~~
-
-
-vim +/client +985 drivers/media/i2c/ov2740.c
-
-   970	
-   971	static int ov2740_enable_streams(struct v4l2_subdev *sd,
-   972					 struct v4l2_subdev_state *state, u32 pad,
-   973					 u64 streams_mask)
-   974	{
-   975		struct ov2740 *ov2740 = to_ov2740(sd);
-   976		const struct ov2740_reg_list *reg_list;
-   977		int link_freq_index;
-   978		int ret;
-   979	
-   980		if (ov2740->streaming) {
-   981			ov2740->streaming |= streams_mask;
-   982			return 0;
-   983		}
-   984	
- > 985		ret = pm_runtime_resume_and_get(&client->dev);
-   986		if (ret < 0)
-   987			return ret;
-   988	
-   989		ret = ov2740_identify_module(ov2740);
-   990		if (ret)
-   991			goto out_pm_put;
-   992	
-   993		if (ov2740->nvm)
-   994			ov2740_load_otp_data(ov2740->nvm);
-   995	
-   996		/* Reset the sensor */
-   997		ret = ov2740_write_reg(ov2740, 0x0103, 1, 0x01);
-   998		if (ret) {
-   999			dev_err(ov2740->dev, "failed to reset\n");
-  1000			goto out_pm_put;
-  1001		}
-  1002	
-  1003		usleep_range(10000, 15000);
-  1004	
-  1005		link_freq_index = ov2740->cur_mode->link_freq_index;
-  1006		reg_list = &link_freq_configs[link_freq_index].reg_list;
-  1007		ret = ov2740_write_reg_list(ov2740, reg_list);
-  1008		if (ret) {
-  1009			dev_err(ov2740->dev, "failed to set plls\n");
-  1010			goto out_pm_put;
-  1011		}
-  1012	
-  1013		reg_list = &ov2740->cur_mode->reg_list;
-  1014		ret = ov2740_write_reg_list(ov2740, reg_list);
-  1015		if (ret) {
-  1016			dev_err(ov2740->dev, "failed to set mode\n");
-  1017			goto out_pm_put;
-  1018		}
-  1019	
-  1020		ret = __v4l2_ctrl_handler_setup(ov2740->sd.ctrl_handler);
-  1021		if (ret)
-  1022			goto out_pm_put;
-  1023	
-  1024		ret = ov2740_write_reg(ov2740, OV2740_REG_EMBEDDED_FLAG, 1,
-  1025				       OV2740_EMBEDDED_FLAG_MYSTERY);
-  1026		if (ret)
-  1027			goto out_pm_put;
-  1028	
-  1029		ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-  1030				       OV2740_MODE_STREAMING);
-  1031		if (ret) {
-  1032			dev_err(&client->dev, "failed to start streaming\n");
-  1033			goto out_pm_put;
-  1034		}
-  1035	
-  1036		ov2740->streaming |= streams_mask;
-  1037	
-  1038		return 0;
-  1039	
-  1040	out_pm_put:
-  1041		pm_runtime_put(&client->dev);
-  1042	
-  1043		return ret;
-  1044	}
-  1045	
+>> Warning: arch/x86/kvm/../../../virt/kvm/kvm_main.c:2220 function parameter 'protect' not described in 'kvm_get_dirty_log_protect'
 
 -- 
 0-DAY CI Kernel Test Service
