@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074BD1F03C5;
-	Wed,  1 Oct 2025 15:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBCE248F72
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 16:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759332860; cv=none; b=Y1NmOKv2AVtURYAOdVdP0zbFQ9cFVE83Z2sH4hR5nN+7cuMdm8A4w3gBFlrQKjQb4fVZqPaqKFGoaWwef+2ZI5MR9z8tgcBet7pBx9zChC56zygtZ2OMGfCtCj2TLl7V5tBHJldvJMVmeh2xPDe3jFWAYL+bDfO4C2V6MjW6dLU=
+	t=1759334964; cv=none; b=DvoXFpTNbpEHhEQ22uxWlvEFl+yJiQdNZ5XbAkIJ23jR3a6jbKsa4njJfsgLRGo8VSBHUHa/sgihGlDh3m1MrqrDnLOhY09O8QhgVKF1A4Axi5VeHBOD5jNo5qP+GovUX95Ysd+Hn5itVKmrAjHWqj5Q7a50/nph8NQIBOhgad8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759332860; c=relaxed/simple;
-	bh=lnyR9CiCDVlhtaHIBa8Xp4CgZ59rL0AJ1nDMPQMG+V8=;
+	s=arc-20240116; t=1759334964; c=relaxed/simple;
+	bh=TCOpqVg4hyJWiDzdHH3FiBbqr9wRHRe+Ef5F7XTdRjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pm583sJpmKb9K4MwC1VaPcjKHV7qrE742ShiYEG83BWPZ59SVPS4FqgQGo5yA7nyUsLa7zIenDm64VqIfyXjTlvjXVR1uOtgtF3/F5fGe0o9TVT9ZVwMCVwkJp54Uvk5hUzRB/dnkoA+e2c2FR7oZezEFkJWwPnG9zZgTBhID7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrawMnb/; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition:In-Reply-To; b=TQTeqhXum6OCaRn7xfUknljSUyZ0vOZQJsrUDDiX+KUSIOflhjW1S0GlbHozRNjE+s8QggDNsa1e0mNBmY972LgK7CaGPgHMMLvR/jkTlL2+u+sTeX+n7/b3Y5tHQDnvuM+knJ0ZxtM8ng2xPopOWMNKPXK+9L616pNKIsGvjCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwkUDOOP; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrawMnb/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwkUDOOP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759332859; x=1790868859;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lnyR9CiCDVlhtaHIBa8Xp4CgZ59rL0AJ1nDMPQMG+V8=;
-  b=nrawMnb/eVHcrIsSRdU4o1dJIT+/5XNImKyQvWvRqOqfx4ZXCrirkic4
-   6HxJh80Nv7rQtX0BarIJZ5XmTLxAlW0t6X2JxIms3C7r6UvcbqM3CWaDH
-   fvrFVzqNt8pIHwlZTAJ55DLfuEY2PXoLXqRHQtbt2cGJyKzhsWiiaJFmI
-   11AhRj5jwU6xvbUQXmyTv/IJJMBlCAuaCo3rTmWOj6Dap2OsCZxexfgpM
-   dhYaVO1x/CeCNEvYakSLoqL1AGDQmKGHw10Cwqmbt/WqvpgC1kKUfX195
-   pxPK1jNBaUfLJtpscI1m6GwF/o6CGEZSdtiI+oy6A+hrlIzKjHH+ht77g
-   A==;
-X-CSE-ConnectionGUID: Ivj8v0VpQ4Ws95WD4GTeeA==
-X-CSE-MsgGUID: HbQyMc8eR8S0pUk3woCFOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60825268"
+  t=1759334962; x=1790870962;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=TCOpqVg4hyJWiDzdHH3FiBbqr9wRHRe+Ef5F7XTdRjg=;
+  b=NwkUDOOPNqQpw3/Adkow5XfvdMKAEUGVJ0IkYJNE8zAn60p5xl1O4Zk8
+   Uspdh1aZ2QqMtsFNAsFDMT7qyRkujEukpydLbBoVUe/UinCsXk3BySiaZ
+   dcAD3Exh5yF2NH9BhGrE0AA2ji4UTVYpDLvVU89fnIdzgVNwpOTpSyk97
+   YQGnS05UC3NDHxoNNmipmHiKHi1qKf+SQMKgNfWYwyvnnqUwwfb0ex6TJ
+   pEkUhMPF6X6mSDb68KvvWH5yanxBAYXg4M5xmVgy/2+y2dI2i6Wya1u9g
+   Rsbj0IQY8oqS0d5/5JT/7mVJbd5POQTLArCtADrlnrMOFwXHrHnnFyUaq
+   w==;
+X-CSE-ConnectionGUID: W/3fLzeJRTqf+lfKAiMcBQ==
+X-CSE-MsgGUID: Rd2aG5WnR6KqNwMIZYK9tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61651628"
 X-IronPort-AV: E=Sophos;i="6.18,307,1751266800"; 
-   d="scan'208";a="60825268"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 08:34:18 -0700
-X-CSE-ConnectionGUID: AmYTzjd4Ru23VMBOcc1dHA==
-X-CSE-MsgGUID: ysQRxSnEQBa0FriJoM0yag==
+   d="scan'208";a="61651628"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 09:09:21 -0700
+X-CSE-ConnectionGUID: M6KPd9ysQQ+dMwhsEahyJA==
+X-CSE-MsgGUID: gkl74EAtQK6IBtJlEvYfuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,307,1751266800"; 
-   d="scan'208";a="177938036"
+   d="scan'208";a="209542458"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Oct 2025 08:34:16 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2025 09:09:19 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3yqL-00038J-29;
-	Wed, 01 Oct 2025 15:34:13 +0000
-Date: Wed, 1 Oct 2025 23:33:54 +0800
+	id 1v3zOH-00039j-07;
+	Wed, 01 Oct 2025 16:09:17 +0000
+Date: Thu, 2 Oct 2025 00:08:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ackerley Tng <ackerleytng@google.com>,
-	Vishal Annapurve <vannapurve@google.com>,
-	Fuad Tabba <tabba@google.com>
-Subject: [sean-jc:x86/gmem_inplace 30/37]
- arch/x86/kvm/../../../virt/kvm/guest_memfd.c:1016:3: error: member reference
- base type 'void' is not a structure or union
-Message-ID: <202510012352.KRNCbmOW-lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] stable: crypto: sha256 - fix crash at kexec
+Message-ID: <aN1SFiV-v3YDfxvl@6acc96db341b>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251001-stable_crash-v1-1-3071c0bd795e@debian.org>
 
-tree:   https://github.com/sean-jc/linux x86/gmem_inplace
-head:   1b94e099a7fd1a1e2d61d908a51937b494816d7c
-commit: 929f1ef0baca80f6b4f19add5f95823eab942e02 [30/37] KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
-config: x86_64-buildonly-randconfig-005-20251001 (https://download.01.org/0day-ci/archive/20251001/202510012352.KRNCbmOW-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510012352.KRNCbmOW-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510012352.KRNCbmOW-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:1016:3: error: member reference base type 'void' is not a structure or union
-    1016 |                 mt_set_external_lock(&gi->attributes, NULL);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/maple_tree.h:206:34: note: expanded from macro 'mt_set_external_lock'
-     206 |         (mt)->ma_external_lock = &(lock)->dep_map
-         |                                   ~~~~~~^ ~~~~~~~
-   1 error generated.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +/void +1016 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
-
-   994	
-   995	static void kvm_gmem_destroy_inode(struct inode *inode)
-   996	{
-   997		struct gmem_inode *gi = GMEM_I(inode);
-   998	
-   999		mpol_free_shared_policy(&gi->policy);
-  1000	
-  1001		/* Nothing to do if the maple tree hasn't been initialized. */
-  1002		if (mt_external_lock(&gi->attributes)) {
-  1003			/*
-  1004			 * Acquire the invalidation lock purely to make lockdep happy,
-  1005			 * the inode is unreachable at this point.
-  1006			 */
-  1007			filemap_invalidate_lock(inode->i_mapping);
-  1008			__mt_destroy(&gi->attributes);
-  1009			filemap_invalidate_unlock(inode->i_mapping);
-  1010	
-  1011			/*
-  1012			 * Purge the maple tree locking state to prepare for the next
-  1013			 * use of the inode and thus the tree.
-  1014			 */
-  1015			mt_init(&gi->attributes);
-> 1016			mt_set_external_lock(&gi->attributes, NULL);
-  1017		}
-  1018	}
-  1019	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] stable: crypto: sha256 - fix crash at kexec
+Link: https://lore.kernel.org/stable/20251001-stable_crash-v1-1-3071c0bd795e%40debian.org
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
