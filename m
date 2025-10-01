@@ -1,60 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C88B18DB26;
-	Wed,  1 Oct 2025 00:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB409202997
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 00:45:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759278179; cv=none; b=FilIJqrwDnc1NmiH94dymbJYqETfk6T0f9GeLMIf1NnLJZpp2/ND/PpYrmqhMEnya78VVBb9665hW8NfmpVA03jL+BXHMVu3qIbYGxJGWE+RKE0k4niQA5ey3OXWfnWeh55+tbEY84kOP0l5mfxWLJqRoFA/X+Q3KojDnBJFDtk=
+	t=1759279502; cv=none; b=sFDRquJ4wUlPQzyKf2eIT+lkfUGncMe0y+jvBwlOcC6GuHTkcjWAucJuoHC+AwJmjilE905QWfC7reSfpTRBEPdJUmlT31crTbXubmgUL5l86WsVIdvJNF6vYFD/CJXIzUm6EeGMArbDjkAri/bydH0t3VOby9No20onA4J6QXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759278179; c=relaxed/simple;
-	bh=ttZMJ17cT3J1GVhUrSoBwlOzeYW63nL7hvO5wKHbnbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n5p7CRkEnKk/q2AB26GH3NQ4h3MYcTo1RMfAlPU/0y50O89+M26/Acyej+aKLNBJAYAGsRgGqIA0cpklcjK6dggZn/N+s2L4bPhZuZT5BKawSuuhhJ2unxp+5GlYHb2u67gVAP4UyV2jjZXaPc2ID6tQRwQSp+n6fsVm0VLSpqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7r4Swif; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1759279502; c=relaxed/simple;
+	bh=tphxb6DI5+DwhHBI73v7hYTP6GVyWqcs3Q7BvKryrmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J4oBTIm85X32R+RrrOUWABsA/Vl652b1QIW5+7t+iuw+W4mdM/Oq+tlniRizyDQfWhBIRDRKo05hMIOklJZkSIlkvTNfmUz3yYyU/1NMUWuz5/tp3YJGc9rCqp4ZOG7eSTTAuQzqLSu+aX5t+a12BI3q+wnSHpy0dSMjHSgmA2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlmwr6dN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7r4Swif"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlmwr6dN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759278178; x=1790814178;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ttZMJ17cT3J1GVhUrSoBwlOzeYW63nL7hvO5wKHbnbw=;
-  b=n7r4SwifhRYj05fd5/Fi//9oAyCmqTuaViukISqYWCTkUJAS424Dn3L4
-   Qvn0RxxvqgHOYL+xN4vR7j9auiq6jWlOWuJHLJXgY05g96arnSEXlG0VU
-   RTo59Oo6dx9oV08cWErjIJKxVpMf9LuYbjEQxAwO3MtStE6dtSw5cCxYP
-   kY7GL92I+ftQ+ve2d9OBDF279xuGKCVOCtkY4AiAJHqHtJQFfq1KPE2hG
-   bIqAN/+VF7rAcpdHhby7UjxRs3hXz3tmCstniqtCDf3qUJiyhxj6/tQ2e
-   nE65ou5Z3PuKrdMI9ug4PMswxAXyO70wh1CVNpdmXJZqaDgONH4ftH0fj
-   g==;
-X-CSE-ConnectionGUID: 7iSqnG8aROSEznYwjqqz4A==
-X-CSE-MsgGUID: W74+fTtHQ46VSLhPf85fqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="86993104"
+  t=1759279501; x=1790815501;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tphxb6DI5+DwhHBI73v7hYTP6GVyWqcs3Q7BvKryrmA=;
+  b=dlmwr6dN4X0H3ltv/heoS9MtGXbF3UWSLRziR99/md8XmWytq3AxsEt0
+   a63zsQb3zq2Qp0/kFmbdqSasKn6OaWFPgM7kd6nNRUYOq+zoWfVPJxEM0
+   nj05GthN/e03w8cFyCexZAUlem194Z7AXeTdqkalV/olEIbh+TotSKvRa
+   /yzQcTJcTCEQGmW6eC5UOLvks4KhI0MQPSBxIYOfSLGcDsBk+1HheD3sj
+   r8m+9jRPXf2MVitB8haLWVrifWXgr+JmEWBlVceu9YRLVwkpGW2aapZl1
+   UtFYITByEf0KCM8wWWJHZJr1QbbTaLQYcpV3WoNGgNJVg48sLAeztXZNL
+   A==;
+X-CSE-ConnectionGUID: kivjuiq4QeyeAS8sj1G/+g==
+X-CSE-MsgGUID: DDdkPdA4QzqZvH4mMVlOLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="86995097"
 X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; 
-   d="scan'208";a="86993104"
+   d="scan'208";a="86995097"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 17:22:57 -0700
-X-CSE-ConnectionGUID: kOQ4ZWHcRIu/QqXwpjakSg==
-X-CSE-MsgGUID: BB48GV28QmWEZ6PqUO1N2g==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 17:45:01 -0700
+X-CSE-ConnectionGUID: DLZQLaqsScmamOqEfRPxUw==
+X-CSE-MsgGUID: K75oPXxHTEWVRq5WeL5BKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; 
-   d="scan'208";a="209606684"
+   d="scan'208";a="209609693"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Sep 2025 17:22:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Sep 2025 17:44:58 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3kcP-0002aN-0R;
-	Wed, 01 Oct 2025 00:22:53 +0000
-Date: Wed, 1 Oct 2025 08:22:20 +0800
+	id 1v3kxi-0002b5-30;
+	Wed, 01 Oct 2025 00:44:54 +0000
+Date: Wed, 1 Oct 2025 08:44:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <seanjc@google.com>
-Subject: [sean-jc:x86/gmem_inplace 25/26]
- arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:169:26: error: expected ';'
- after return statement
-Message-ID: <202510010847.0QVfAdWU-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	William Zhang <william.zhang@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 6/6] pinctrl: bcm: bcmbca: Add support for BCM6846
+Message-ID: <202510010811.0pbFyQ24-lkp@intel.com>
+References: <20250930-bcmbca-pinctrl-v1-6-73218459a094@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,154 +73,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250930-bcmbca-pinctrl-v1-6-73218459a094@linaro.org>
 
-tree:   https://github.com/sean-jc/linux x86/gmem_inplace
-head:   7b78235a3c713211742f3296322be1419f79d575
-commit: 74a7ef30a7ca775cdec44541c66c45b170d8ba80 [25/26] KVM: guest_memfd: Skip LRU for guest_memfd folios
-config: arm64-randconfig-001-20250930 (https://download.01.org/0day-ci/archive/20251001/202510010847.0QVfAdWU-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510010847.0QVfAdWU-lkp@intel.com/reproduce)
+Hi Linus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f5ae30d69d7543eee0d70083daf4de8fe15d585]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/pinctrl-bcm-Rename-bcm4908-to-bcmbca/20250930-200534
+base:   8f5ae30d69d7543eee0d70083daf4de8fe15d585
+patch link:    https://lore.kernel.org/r/20250930-bcmbca-pinctrl-v1-6-73218459a094%40linaro.org
+patch subject: [PATCH 6/6] pinctrl: bcm: bcmbca: Add support for BCM6846
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251001/202510010811.0pbFyQ24-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510010811.0pbFyQ24-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510010847.0QVfAdWU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510010811.0pbFyQ24-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:169:26: error: expected ';' after return statement
-     169 |                 return ERR_PTR(-ENOMEM)
-         |                                        ^
-         |                                        ;
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:172:6: error: use of undeclared identifier 'err'
-     172 |         if (err)
-         |             ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:177:2: error: use of undeclared identifier 'err'
-     177 |         err = __filemap_add_folio(mapping, folio, index, gfp, NULL);
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
          |         ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:178:6: error: use of undeclared identifier 'err'
-     178 |         if (err) {
-         |             ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:187:17: error: use of undeclared identifier 'err'
-     187 |         return ERR_PTR(err);
-         |                        ^
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:200:1: error: function definition is not allowed here
-     200 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:226:1: error: function definition is not allowed here
-     226 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:266:1: error: function definition is not allowed here
-     266 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:277:1: error: function definition is not allowed here
-     277 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:303:1: error: function definition is not allowed here
-     303 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:351:1: error: function definition is not allowed here
-     351 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:374:1: error: function definition is not allowed here
-     374 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:423:1: error: function definition is not allowed here
-     423 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:433:1: error: function definition is not allowed here
-     433 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:438:1: error: function definition is not allowed here
-     438 | {
-         | ^
->> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:508:12: error: use of undeclared identifier 'kvm_gmem_fault_user_mapping'
-     508 |         .fault          = kvm_gmem_fault_user_mapping,
-         |                           ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:516:1: error: function definition is not allowed here
-     516 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:532:1: error: function definition is not allowed here
-     532 | {
-         | ^
-   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:568:1: error: function definition is not allowed here
-     568 | {
-         | ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   <built-in>:371:9: note: previous definition is here
+     371 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/pinctrl/bcm/pinctrl-bcmbca.c:527:27: warning: unused variable 'bcm6846_spis_groups' [-Wunused-const-variable]
+     527 | static const char * const bcm6846_spis_groups[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +169 arch/arm64/kvm/../../../virt/kvm/guest_memfd.c
+vim +/bcm6846_spis_groups +527 drivers/pinctrl/bcm/pinctrl-bcmbca.c
 
-   155	
-   156	static struct folio *__kvm_gmem_get_folio(struct address_space *mapping,
-   157						  pgoff_t index,
-   158						  struct mempolicy *policy)
-   159	{
-   160		const gfp_t gfp = mapping_gfp_mask(mapping);
-   161		struct folio *folio;
-   162	
-   163		folio = filemap_lock_folio(mapping, index);
-   164		if (!IS_ERR(folio))
-   165			return folio;
-   166	
-   167		folio = filemap_alloc_folio(gfp, 0, policy);
-   168		if (!folio) {
- > 169			return ERR_PTR(-ENOMEM)
-   170	
-   171		err = mem_cgroup_charge(folio, NULL, gfp, false);
- > 172		if (err)
-   173			goto err_put;
-   174	
-   175		__folio_set_locked(folio);
-   176	
-   177		err = __filemap_add_folio(mapping, folio, index, gfp, NULL);
-   178		if (err) {
-   179			__folio_clear_locked(folio);
-   180			goto err_put;
-   181		}
-   182	
-   183		return folio;
-   184	
-   185	err_put:
-   186		folio_put(folio);
-   187		return ERR_PTR(err);
-   188	}
-   189	
-   190	/*
-   191	 * Returns a locked folio on success.  The caller is responsible for
-   192	 * setting the up-to-date flag before the memory is mapped into the guest.
-   193	 * There is no backing storage for the memory, so the folio will remain
-   194	 * up-to-date until it's removed.
-   195	 *
-   196	 * Ignore accessed, referenced, and dirty flags.  The memory is
-   197	 * unevictable and there is no storage to write back to.
-   198	 */
-   199	static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
- > 200	{
-   201		/* TODO: Support huge pages. */
-   202		struct address_space *mapping = inode->i_mapping;
-   203		struct mempolicy *policy;
-   204		struct folio *folio;
-   205	
-   206		/*
-   207		 * Fast-path: See if folio is already present in mapping to avoid
-   208		 * policy_lookup.
-   209		 */
-   210		folio = filemap_lock_folio(mapping, index);
-   211		if (!IS_ERR(folio))
-   212			return folio;
-   213	
-   214		policy = kvm_gmem_get_folio_policy(GMEM_I(inode), index);
-   215	
-   216		do {
-   217			folio = __kvm_gmem_get_folio(mapping, index, policy);
-   218		} while (IS_ERR(folio) && PTR_ERR(folio) == -EEXIST);
-   219	
-   220		mpol_cond_put(policy);
-   221		return folio;
-   222	}
-   223	
+   499	
+   500	static const char * const bcm6846_led_0_groups[] = { "led_0_grp_a", "led_0_grp_b" };
+   501	static const char * const bcm6846_led_1_groups[] = { "led_1_grp_a", "led_1_grp_b" };
+   502	static const char * const bcm6846_led_2_groups[] = { "led_2_grp_a", "led_2_grp_b" };
+   503	static const char * const bcm6846_led_3_groups[] = { "led_3_grp_a", "led_3_grp_b" };
+   504	static const char * const bcm6846_led_4_groups[] = { "led_4_grp_a", "led_4_grp_b" };
+   505	static const char * const bcm6846_led_5_groups[] = { "led_5_grp_a", "led_5_grp_b" };
+   506	static const char * const bcm6846_led_6_groups[] = { "led_6_grp_a", "led_6_grp_b" };
+   507	static const char * const bcm6846_led_7_groups[] = { "led_7_grp_a", "led_7_grp_b" };
+   508	static const char * const bcm6846_led_8_groups[] = { "led_8_grp_a", "led_8_grp_b" };
+   509	static const char * const bcm6846_led_9_groups[] = { "led_9_grp_a", "led_9_grp_b" };
+   510	static const char * const bcm6846_led_10_groups[] = { "led_10_grp_a", "led_10_grp_b" };
+   511	static const char * const bcm6846_led_11_groups[] = { "led_11_grp_a", "led_11_grp_b" };
+   512	static const char * const bcm6846_led_12_groups[] = { "led_12_grp_a", "led_12_grp_b" };
+   513	static const char * const bcm6846_led_13_groups[] = { "led_13_grp" };
+   514	static const char * const bcm6846_led_14_groups[] = { "led_14_grp" };
+   515	static const char * const bcm6846_led_15_groups[] = { "led_15_grp" };
+   516	static const char * const bcm6846_led_16_groups[] = { "led_16_grp" };
+   517	static const char * const bcm6846_led_17_groups[] = { "led_17_grp" };
+   518	static const char * const bcm6846_ser_led_groups[] = { "ser_led_grp_a", "ser_led_grp_b" };
+   519	/* We use these three groups with the NAND function to get as many pins as we want */
+   520	static const char * const bcm6846_nand_groups[] = { "nand_ctrl_grp", "nand_data_grp", "nand_wp_grp" };
+   521	static const char * const bcm6846_emmc_groups[] = { "emmc_ctrl_grp" };
+   522	/* Activate SPIM with "spim_grp" and then as many selects as used with "spim_ssN_grp" groups */
+   523	static const char * const bcm6846_spim_groups[] = {
+   524		"spim_grp_a", "spim_ss0_grp_a",	"spim_ss1_grp_a", "spim_ss2_grp_a", "spim_ss3_grp_a",
+   525		"spim_grp_b", "spim_ss0_grp_b",	"spim_ss1_grp_b", "spim_ss2_grp_b", "spim_ss3_grp_b",
+   526		"spim_grp_c", "spim_ss0_grp_c",	"spim_ss1_grp_c" };
+ > 527	static const char * const bcm6846_spis_groups[] = {
+   528		"spis_grp_a", "spim_ss_grp_a",
+   529		"spis_grp_b", "spis_ss_grp_b" };
+   530	static const char * const bcm6846_usb0_pwr_groups[] = { "usb0_pwr_grp" };
+   531	static const char * const bcm6846_usb1_pwr_groups[] = { "usb1_pwr_grp" };
+   532	static const char * const bcm6846_i2c_groups[] = { "i2c_grp" };
+   533	static const char * const bcm6846_rgmii_groups[] = { "rgmii_grp", "rgmii_rx_ok_grp", "rgmii_start_stop_grp" };
+   534	static const char * const bcm6846_mii_groups[] = { "mii_grp" };
+   535	static const char * const bcm6846_signal_detect_groups[] = { "signal_detect_grp_a", "signal_detect_grp_b" };
+   536	static const char * const bcm6846_one_sec_pls_groups[] = { "one_sec_pls_grp_a", "one_sec_pls_grp_b" };
+   537	static const char * const bcm6846_rogue_onu_groups[] = { "rogue_onu_grp_a", "rogue_onu_grp_b" };
+   538	static const char * const bcm6846_wan_groups[] = { "wan_mdio_grp", "wan_nco_grp",
+   539		"wan_early_txen_grp_a", "wan_early_txen_grp_b", "wan_nco_1pps_sig_grp_a", "wan_nco_1pps_sig_grp_b" };
+   540	static const char * const bcm6846_uart0_groups[] = { "uart0_grp" };
+   541	static const char * const bcm6846_uart2_groups[] = { "uart2_grp" };
+   542	
 
 -- 
 0-DAY CI Kernel Test Service
