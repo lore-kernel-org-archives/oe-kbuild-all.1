@@ -1,86 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from out203-205-221-149.mail.qq.com (out203-205-221-149.mail.qq.com [203.205.221.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146121F582B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Sep 2025 23:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D5D2CCC5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 00:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759275716; cv=none; b=HQk+lzklc3/avzWZ2zmXOjC8EfmCgZWd9iaN3jeLR5VO7DnMsVjWGBlm8mVqiw4tI705DvClbmauy1TUzBL87LytlItVStRA1od4OEjheR5neofcLWg+ZcN7jNPNxl7bvRTA4Bc1m2ivbruSApor6RDd0TQW0l2oU1CVvasow3A=
+	t=1759278019; cv=none; b=EUDZB1HcwdY4XmMJLadOYZv0tw5Vm1GGaEtdprk2zQQtPWd8mbxm1JTUBJBk9ewAqIirtHjqN2fzfrU7/lKuLzH4JMYTE7xhY1w9b/+w1/tN3t6H1x8iHdKmw6Rb2dgfW+8JmWX6UEKkausKpqHu/toEKvX1/HZ1MDx0ipvufQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759275716; c=relaxed/simple;
-	bh=setGPAaMl0szg+/+RCRHRq/BssOrcSKuvvbT1Y7tiuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gnlD00EnxQB5K9b9yRWD+LItuds7z/AkMp7GDh0jBfErd9IFPzZKSx/SKoLHLriPt2rmvx4ZTAMoEvN1s2x4VHdAQnea57RMPGlrgEEcsS4mvr7iZ941pa+W+Izquiv2IWYK6mBNZRDy5yg/D5DeY8GrR1zmLVC2Kz6+uAPcN+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfhmdW8J; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759278019; c=relaxed/simple;
+	bh=bq4yFxx1HYQIW2bfM3PlOQWATujxdL6DB7bogzXV3p0=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=MjSHUes3rrzBgSFPqRit7vNxhejkgIa5D2Mf6zs6QtF5HxIdxu7nnBEEOMmj5GVBtrjz/CY2P7K4u0U7sTX63YrEM26CkuEL198T+m5PqP3fnZ23LJp8D56HK1Phvy2kP3yRsugjZ4hPwjaXXfEcGB4zkRAl2brUDTQzsZrK/qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=lYLR4hCZ; arc=none smtp.client-ip=203.205.221.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfhmdW8J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759275714; x=1790811714;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=setGPAaMl0szg+/+RCRHRq/BssOrcSKuvvbT1Y7tiuU=;
-  b=DfhmdW8J4yMFZiNt23wJBCihtfsEfubaQZv/t+ssxs9fsC1yghBjm54i
-   eYIdEYRsS1idsFCDV35ZuUeDwdvXCnh6MUsrf5fklKiS2dVzamFbgB6FZ
-   ypoCG7ttufJgK3Ha77X5nvMRGeCw3hsod07kuA4yrxRQPUis66ooRhtEu
-   n/5vAZax1OUo9RXS+saTjQX05Rn5qFrunevuWsAbEfEaOaTCvt/NyVw20
-   JJAosV+nppHr34DZAN5q3MJ3APlShEWjG+y/3KUkXwBe18F7VGFa/QDAh
-   iCCP5HijtPgqQ+DqR0JSQfH8HygGjbN3N7hAc5bwB1TVGgLin2ikhdRq/
-   g==;
-X-CSE-ConnectionGUID: MrmXz9qDR462epBdX4Km9Q==
-X-CSE-MsgGUID: gycI/tt/Rq+zWTXmggynUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60758065"
-X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; 
-   d="scan'208";a="60758065"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 16:41:54 -0700
-X-CSE-ConnectionGUID: 0EJbzPGIRFal3AHNlcA5pQ==
-X-CSE-MsgGUID: IDpywVhfTau8MBoN+bkSeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,305,1751266800"; 
-   d="scan'208";a="183053337"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Sep 2025 16:41:52 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v3jyg-0002Z9-17;
-	Tue, 30 Sep 2025 23:41:50 +0000
-Date: Wed, 1 Oct 2025 07:41:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>
-Subject: [pci:controller/keystone 3/3] WARNING: modpost: vmlinux: section
- mismatch in reference: ks_pcie_host_init+0x148c (section:
- .text.ks_pcie_host_init) -> hook_fault_code (section: .init.text)
-Message-ID: <202510010726.GPljD7FR-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="lYLR4hCZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1759277998; bh=qOEFdnGNyH/+56s3eWv79VZSXfiYDJ78DUr6/PPdkwc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=lYLR4hCZWf93/fAzcFysWP8xYTS26Bbz3mjjtS33rrn54bjbLr+BEWNJrI264DDXl
+	 0La6cd3QrMWPnfz+xcedZJ31J5WXyO6FC5yRSNQSvqe0Szghgd3NGn6y6CjMF6SfUG
+	 g73teYayx8LABTnTkrw97ZlPjKSYvpN2/OPKV1jg=
+Received: from pek-lxu-l1.corp.ad.wrs.com ([111.198.230.220])
+	by newxmesmtplogicsvrsza36-0.qq.com (NewEsmtp) with SMTP
+	id 4F793E47; Wed, 01 Oct 2025 08:19:55 +0800
+X-QQ-mid: xmsmtpt1759277995ts7e8m12j
+Message-ID: <tencent_FF701BFF4BB31BF8255CBAEFBB9033779E08@qq.com>
+X-QQ-XMAILINFO: NvH2zBBgt3uTiE2eZS5Fne7onYDpCzE+1Poxhq8IsKDO+pP3+IlKZaSJlYZHQ3
+	 XawgWJVQljiwoIa0HK4CtnObZ5jFT2kXzTzGpNHEALhxyEcl2wdlxt25ZyUon78hfsXTr5rJtwJy
+	 AAIpQ/32aGthJwo4F1BuZXsK0b9ErqMZhYdnx5rs95UXXMPkOss9i5Q3A52i3Dw14KwD59f+aW9K
+	 NcEUs0BxocyJRJeIIojwwBj/hUyNdv/G5rpIcmkakURiwk0dkFCjNQpl7N/Evl12fmVpGu9b6UsT
+	 jqGh20jQpFntkcFwGzP4fzgGDwqbYpHwUDKZx5SkrN2cV9L9O6zxutiHlRm6fhmcKv+Qb8V7Jd3k
+	 JswvNAzM3PeKUiYV4Ii1yjKDuMlDuvITjgPCoFK6pH2RZThlc8qUaFj7xw0n6HUSZwQ9XPzAERLo
+	 AJuCUvdmZ6MELWYSOgBIsHqtesa/vBQgOn6yamw2Yb0glEDpeLTm5DRThqtnNT2nPUpep+oLG/il
+	 FYub6NtgIXHwsngSfxlGELfjQtPmlo3uiRrk+6hIWGvKVCVT7k53SxLDnqF+KvlJOuAyaNIN/8us
+	 56z2gdV/bbOviPQMMgPKJGaXJRhTbgoCMh+UkNYyZ8mBDRZ75EZEciHFBsUO6EAZySs+ygK9aZ8J
+	 SPddTMU7zftzCxzOyshPz8VYNFukyH7/3BuEaqayFrbJG999aGVGeSsC8E58z8ugkfQ722qWPY5u
+	 0kL0eqJhBgqtIWY1FPMKjSZEy0i6ca4JYUN/ms7pNSYP+BqAmbamLT0xcPjn9kMnUI5zqrIcOMt2
+	 gZyV2721Y5ay+8ETDAopJQMggYjHXol3IfoLjCa5eyJ6ch8WlpkG6sKoExoX0KtnrLmQTJU/InDD
+	 k6ChxFkXFA3e2G23HnszG1m9o0tKWjfZD7XdFHdz7sCZDb0dumeN8QtYCDOghSZrBQ1A64J0F77V
+	 zXVeVJX3LJKglDcIa5kcLyoIILoBc6pbdqCs4eKn/wENoQLIfMXhBnLQbJ6k/5gQkUDkJhguA=
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From: Edward Adam Davis <eadavis@qq.com>
+To: lkp@intel.com
+Cc: eadavis@qq.com,
+	kent.overstreet@linux.dev,
+	linux-bcachefs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	syzbot+ba71155d3eacc8f42477@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH V2] bcachefs: Prevent written from exceeding sectors
+Date: Wed,  1 Oct 2025 08:19:57 +0800
+X-OQ-MSGID: <20251001001956.1053529-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <202510010446.t1B7jtcS-lkp@intel.com>
+References: <202510010446.t1B7jtcS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/keystone
-head:   860daf4ba3c034995bafa4c3756942262a9cd32d
-commit: 860daf4ba3c034995bafa4c3756942262a9cd32d [3/3] PCI: keystone: Remove the __init macro from non-initialization functions
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251001/202510010726.GPljD7FR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510010726.GPljD7FR-lkp@intel.com/reproduce)
+syzbot reported btree node oob in bch2_btree_node_read_done. [1]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510010726.GPljD7FR-lkp@intel.com/
+Add sanity check for written, avoid exceeding the allowed access limits
+for btree node.
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+[1]
+BUG: KASAN: slab-out-of-bounds in bch2_btree_node_read_done+0x950/0x5550 fs/bcachefs/btree_io.c:1128
+Call Trace:
+ bch2_btree_node_read_done+0x950/0x5550 fs/bcachefs/btree_io.c:1128
+ btree_node_read_work+0x40e/0xe60 fs/bcachefs/btree_io.c:1440
+ bch2_btree_root_read+0x5f0/0x760 fs/bcachefs/btree_io.c:1928
+ read_btree_roots+0x2c6/0x840 fs/bcachefs/recovery.c:615
+ bch2_fs_recovery+0x261f/0x3a50 fs/bcachefs/recovery.c:1006
+ bch2_fs_start+0xaaf/0xda0 fs/bcachefs/super.c:1213
+ bch2_fs_get_tree+0xb39/0x1520 fs/bcachefs/fs.c:2488
+ vfs_get_tree+0x8f/0x2b0 fs/super.c:1815
+ do_new_mount+0x2a2/0x9e0 fs/namespace.c:3808
 
->> WARNING: modpost: vmlinux: section mismatch in reference: ks_pcie_host_init+0x148c (section: .text.ks_pcie_host_init) -> hook_fault_code (section: .init.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+Reported-by: syzbot+ba71155d3eacc8f42477@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ba71155d3eacc8f42477
+Tested-by: syzbot+ba71155d3eacc8f42477@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+V1 -> V2: change msg data type to unsigned int for btree_sectors()
 
+ fs/bcachefs/btree_io.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/fs/bcachefs/btree_io.c b/fs/bcachefs/btree_io.c
+index 590cd29f3e86..ab14fff1452f 100644
+--- a/fs/bcachefs/btree_io.c
++++ b/fs/bcachefs/btree_io.c
+@@ -1087,6 +1087,13 @@ int bch2_btree_node_read_done(struct bch_fs *c, struct bch_dev *ca,
+ 		     "bad magic: want %llx, got %llx",
+ 		     bset_magic(c), le64_to_cpu(b->data->magic));
+ 
++	btree_err_on(ptr_written >= btree_sectors(c),
++		     -BCH_ERR_btree_node_read_err_must_retry,
++		     c, ca, b, NULL, NULL,
++		     btree_node_bad_magic,
++		     "wrong written %u, btree sectors is %u",
++		     ptr_written, btree_sectors(c));
++
+ 	if (b->key.k.type == KEY_TYPE_btree_ptr_v2) {
+ 		struct bch_btree_ptr_v2 *bp =
+ 			&bkey_i_to_btree_ptr_v2(&b->key)->v;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
