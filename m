@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0384434BA4E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 09:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D152C11C8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  1 Oct 2025 10:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759312608; cv=none; b=GBKJil2nsD1OXxgA1JflIylMu56NDSM/3i4VBLnmqe4nC+08hdFfFeCSnuqVZMgHBENScOO6QFgpxn9hLUq9FCJKUA+PVN8EQyuvF3I0avvosANKF6RL3hqcykBVnsVgRSYqhy7s9JKvOo3z94651fY4PrekUY5dJoXgbTzLTOc=
+	t=1759316273; cv=none; b=Iut1bqj2lI+Xpz5NOXNsNRbqJ77RSOhsJiKwL7Z9s1Xb85JVgx/qwYRk+7gWDG0a2QRsreOtPDHi2dLZNsXlAAQD+CmtfbgFxzjQDh5YpzxI23nmsCBmjKXBthz23jM74qfpjToChMqPPfZ8yTLPeSDITNLn5QbhfnRdkvd+ALA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759312608; c=relaxed/simple;
-	bh=hwjD0fhnSwJsj/0UPm0JH2EGRXyH+6nbzMp6p3WLqGM=;
+	s=arc-20240116; t=1759316273; c=relaxed/simple;
+	bh=I5UHrnDJ/jELA8m5hFTMnMMRJZOKXe8QY+tVO0EBmPc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mL9k98OwqOFdaMTiD3czFAfr0uK/vy9J6fJNXK/xW5WcADgbr42fZ5BcbKgDFtFb3toemLRRYZUVD9BObZXTbQIi515CUSkyzZj4ZO8Ml0tt/56IAxPzPCU7IOzsT24mrXyScKebQofTu5+AIY9D2EDtJIHe7b8NVE0Lc350ovg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bh4KLlOM; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=GUbWA1q7sIvWpAE9qJZhOiu7p318LDo2AE+ei2PpiwJApaYnmeMkFKJWcUcOMRdPXT2TheXimL3OwfVWnf2Nhi7myZw79eppJj5bv+/zhpe9xjI7SOTd+6wVOaNRXC4v1JpCwmGJ7W6B1uzeD9ALpQGwRIdRljER3gU9VJT8Peg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltPwJR9O; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bh4KLlOM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltPwJR9O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759312606; x=1790848606;
+  t=1759316270; x=1790852270;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hwjD0fhnSwJsj/0UPm0JH2EGRXyH+6nbzMp6p3WLqGM=;
-  b=bh4KLlOM98KIMDDEJ659bx2KVtn5SpNU4KAbA4/o9Y4gy7qW1gZfhpzW
-   X0T1FwjCPrTWQv8vTJHVlZLzChnLQsdtzR5WWn+aAt6p5tjDIW8LX4m/z
-   p5I+cA7ms41uBDKYb+oTydE4uSMmHFyvJTqXnS7P/5X6KoAWe09QY6stk
-   1CGOxjjtCgCHy5m8k3arinisvW8gCdkKxPHFIXBRZhEqXqtS6BFj+cgOD
-   klklDTsdBoYgNi8S1pAY18R7pu2rmt3VJJO6mzGwFtNQPp6yJLh5F3P2a
-   yYauoilMUm48W4rDjA/bP/8jzloMHwhZiJi1OG8zlHanI9sjiROcGnCDP
-   Q==;
-X-CSE-ConnectionGUID: nszv8oKFSuSOrWeNC3XGEQ==
-X-CSE-MsgGUID: 4QGjsspZSlukNfRafCU3pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60618368"
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="60618368"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 02:56:45 -0700
-X-CSE-ConnectionGUID: 4Yy1QphmQceQxcOa3v2zIg==
-X-CSE-MsgGUID: wAXZZ2ixSoq1w8MHHRB0jA==
+  bh=I5UHrnDJ/jELA8m5hFTMnMMRJZOKXe8QY+tVO0EBmPc=;
+  b=ltPwJR9OOhMGemMHTpgtZkdH9CU70gqgjVzwaAK9iXRnobjRMSKCy5vT
+   4TiS3E8Br5i/aqlEcxf+thZ+XxT10I6l36ZOwI7yiqPxZ7KnRE6ZK2nUI
+   C+41gYeZdb2uEHmc7EnBzzidY3d/8saVNrx4CqKPKUptv4UuUgjFf3HPb
+   oNlr5d4sWmSbCF8ToidtOlzbRy5jeDnDW5Txq2bIbbY/HjwK/095T+mVe
+   /TmN+IegY5qJ9i8UPRskMp3420ob8GKtI/ZyBl5KfgOxUXJSrOuqFt5hf
+   gIxNesigUAhxIaLHHHQFoZh0oRfwSUMVLM6UgS+z++iNtieCpMV2RNCZP
+   g==;
+X-CSE-ConnectionGUID: fdUbIm95Qnq+VYomWaIRYw==
+X-CSE-MsgGUID: ToKX+YC9Q1O7Ojqt3LpRoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65405463"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65405463"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 03:57:50 -0700
+X-CSE-ConnectionGUID: 6XBrrRF/R2W9nsZis2V+TQ==
+X-CSE-MsgGUID: TKnv1J32QOKwfxRW80R79Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="178798488"
+   d="scan'208";a="209483107"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Oct 2025 02:56:44 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2025 03:57:48 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v3tZh-0002tb-1g;
-	Wed, 01 Oct 2025 09:56:41 +0000
-Date: Wed, 1 Oct 2025 17:55:47 +0800
+	id 1v3uWo-0002vX-1R;
+	Wed, 01 Oct 2025 10:57:46 +0000
+Date: Wed, 1 Oct 2025 18:57:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 30/73]
- drivers/media/i2c/ccs/ccs-core.c:1032:6: error: 'V4L2_CID_COLOR_PATTERN'
- undeclared; did you mean 'V4L2_CID_CFA_PATTERN'?
-Message-ID: <202510011715.xFrUYlcl-lkp@intel.com>
+Subject: [sailus-media-tree:metadata 47/73]
+ drivers/media/i2c/ov2740.c:985:42: error: 'client' undeclared
+Message-ID: <202510011855.Lg39xxNl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,277 +64,107 @@ Content-Disposition: inline
 
 tree:   git://linuxtv.org/sailus/media_tree.git metadata
 head:   ba7808a5f3363959e2cd9a8afc4bb43f1e62f659
-commit: d014de35ea501c3fc66a32a680731d0eea106cbb [30/73] media: ccs: Add support for embedded data stream
-config: arc-randconfig-002-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011715.xFrUYlcl-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011715.xFrUYlcl-lkp@intel.com/reproduce)
+commit: 7b24bfc3b454db19fc1a4ad0009f6f817c9bb039 [47/73] media: ov2740: Add support for embedded data
+config: csky-randconfig-002-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011855.Lg39xxNl-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011855.Lg39xxNl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510011715.xFrUYlcl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510011855.Lg39xxNl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/ccs/ccs-core.c: In function 'ccs_init_controls':
->> drivers/media/i2c/ccs/ccs-core.c:1032:6: error: 'V4L2_CID_COLOR_PATTERN' undeclared (first use in this function); did you mean 'V4L2_CID_CFA_PATTERN'?
-         V4L2_CID_COLOR_PATTERN, sensor->default_pixel_order,
-         ^~~~~~~~~~~~~~~~~~~~~~
-         V4L2_CID_CFA_PATTERN
-   drivers/media/i2c/ccs/ccs-core.c:1032:6: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/media/i2c/ccs/ccs-core.c:1037:6: error: 'V4L2_CID_COLOR_PATTERN_FLIP' undeclared (first use in this function); did you mean 'V4L2_CID_CFA_PATTERN_FLIP'?
-         V4L2_CID_COLOR_PATTERN_FLIP,
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         V4L2_CID_CFA_PATTERN_FLIP
->> drivers/media/i2c/ccs/ccs-core.c:1038:6: error: 'V4L2_COLOR_PATTERN_FLIP_BOTH' undeclared (first use in this function); did you mean 'V4L2_CFA_PATTERN_FLIP_BOTH'?
-         V4L2_COLOR_PATTERN_FLIP_BOTH,
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         V4L2_CFA_PATTERN_FLIP_BOTH
+   drivers/media/i2c/ov2740.c: In function 'ov2740_enable_streams':
+>> drivers/media/i2c/ov2740.c:985:42: error: 'client' undeclared (first use in this function)
+     985 |         ret = pm_runtime_resume_and_get(&client->dev);
+         |                                          ^~~~~~
+   drivers/media/i2c/ov2740.c:985:42: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/i2c/ov2740.c: In function 'ov2740_disable_streams':
+   drivers/media/i2c/ov2740.c:1060:25: error: 'client' undeclared (first use in this function)
+    1060 |         pm_runtime_put(&client->dev);
+         |                         ^~~~~~
 
 
-vim +1032 drivers/media/i2c/ccs/ccs-core.c
+vim +/client +985 drivers/media/i2c/ov2740.c
 
-   829	
-   830	static int ccs_init_controls(struct ccs_sensor *sensor)
-   831	{
-   832		struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-   833		struct v4l2_fwnode_device_properties props;
-   834		int rval;
-   835	
-   836		rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 22);
-   837		if (rval)
-   838			return rval;
-   839	
-   840		sensor->pixel_array->ctrl_handler.lock = &sensor->mutex;
-   841	
-   842		rval = v4l2_fwnode_device_parse(&client->dev, &props);
-   843		if (rval)
-   844			return rval;
-   845	
-   846		rval = v4l2_ctrl_new_fwnode_properties(&sensor->pixel_array->ctrl_handler,
-   847						       &ccs_ctrl_ops, &props);
-   848		if (rval)
-   849			return rval;
-   850	
-   851		switch (CCS_LIM(sensor, ANALOG_GAIN_CAPABILITY)) {
-   852		case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL: {
-   853			struct {
-   854				const char *name;
-   855				u32 id;
-   856				s32 value;
-   857			} const gain_ctrls[] = {
-   858				{ "Analogue Gain m0", V4L2_CID_CCS_ANALOGUE_GAIN_M0,
-   859				  CCS_LIM(sensor, ANALOG_GAIN_M0), },
-   860				{ "Analogue Gain c0", V4L2_CID_CCS_ANALOGUE_GAIN_C0,
-   861				  CCS_LIM(sensor, ANALOG_GAIN_C0), },
-   862				{ "Analogue Gain m1", V4L2_CID_CCS_ANALOGUE_GAIN_M1,
-   863				  CCS_LIM(sensor, ANALOG_GAIN_M1), },
-   864				{ "Analogue Gain c1", V4L2_CID_CCS_ANALOGUE_GAIN_C1,
-   865				  CCS_LIM(sensor, ANALOG_GAIN_C1), },
-   866			};
-   867			struct v4l2_ctrl_config ctrl_cfg = {
-   868				.type = V4L2_CTRL_TYPE_INTEGER,
-   869				.ops = &ccs_ctrl_ops,
-   870				.flags = V4L2_CTRL_FLAG_READ_ONLY,
-   871				.step = 1,
-   872			};
-   873			unsigned int i;
-   874	
-   875			for (i = 0; i < ARRAY_SIZE(gain_ctrls); i++) {
-   876				ctrl_cfg.name = gain_ctrls[i].name;
-   877				ctrl_cfg.id = gain_ctrls[i].id;
-   878				ctrl_cfg.min = ctrl_cfg.max = ctrl_cfg.def =
-   879					gain_ctrls[i].value;
-   880	
-   881				v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
-   882						     &ctrl_cfg, NULL);
-   883			}
-   884	
-   885			v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler,
-   886					  &ccs_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-   887					  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN),
-   888					  CCS_LIM(sensor, ANALOG_GAIN_CODE_MAX),
-   889					  max(CCS_LIM(sensor, ANALOG_GAIN_CODE_STEP),
-   890					      1U),
-   891					  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN));
-   892		}
-   893			break;
-   894	
-   895		case CCS_ANALOG_GAIN_CAPABILITY_ALTERNATE_GLOBAL: {
-   896			struct {
-   897				const char *name;
-   898				u32 id;
-   899				u16 min, max, step;
-   900			} const gain_ctrls[] = {
-   901				{
-   902					"Analogue Linear Gain",
-   903					V4L2_CID_CCS_ANALOGUE_LINEAR_GAIN,
-   904					CCS_LIM(sensor, ANALOG_LINEAR_GAIN_MIN),
-   905					CCS_LIM(sensor, ANALOG_LINEAR_GAIN_MAX),
-   906					max(CCS_LIM(sensor,
-   907						    ANALOG_LINEAR_GAIN_STEP_SIZE),
-   908					    1U),
-   909				},
-   910				{
-   911					"Analogue Exponential Gain",
-   912					V4L2_CID_CCS_ANALOGUE_EXPONENTIAL_GAIN,
-   913					CCS_LIM(sensor, ANALOG_EXPONENTIAL_GAIN_MIN),
-   914					CCS_LIM(sensor, ANALOG_EXPONENTIAL_GAIN_MAX),
-   915					max(CCS_LIM(sensor,
-   916						    ANALOG_EXPONENTIAL_GAIN_STEP_SIZE),
-   917					    1U),
-   918				},
-   919			};
-   920			struct v4l2_ctrl_config ctrl_cfg = {
-   921				.type = V4L2_CTRL_TYPE_INTEGER,
-   922				.ops = &ccs_ctrl_ops,
-   923			};
-   924			unsigned int i;
-   925	
-   926			for (i = 0; i < ARRAY_SIZE(gain_ctrls); i++) {
-   927				ctrl_cfg.name = gain_ctrls[i].name;
-   928				ctrl_cfg.min = ctrl_cfg.def = gain_ctrls[i].min;
-   929				ctrl_cfg.max = gain_ctrls[i].max;
-   930				ctrl_cfg.step = gain_ctrls[i].step;
-   931				ctrl_cfg.id = gain_ctrls[i].id;
-   932	
-   933				v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
-   934						     &ctrl_cfg, NULL);
-   935			}
-   936		}
-   937		}
-   938	
-   939		if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
-   940		    (CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING |
-   941		     CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION)) {
-   942			const struct v4l2_ctrl_config ctrl_cfg = {
-   943				.name = "Shading Correction",
-   944				.type = V4L2_CTRL_TYPE_BOOLEAN,
-   945				.id = V4L2_CID_CCS_SHADING_CORRECTION,
-   946				.ops = &ccs_ctrl_ops,
-   947				.max = 1,
-   948				.step = 1,
-   949			};
-   950	
-   951			v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
-   952					     &ctrl_cfg, NULL);
-   953		}
-   954	
-   955		if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
-   956		    CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION) {
-   957			const struct v4l2_ctrl_config ctrl_cfg = {
-   958				.name = "Luminance Correction Level",
-   959				.type = V4L2_CTRL_TYPE_BOOLEAN,
-   960				.id = V4L2_CID_CCS_LUMINANCE_CORRECTION_LEVEL,
-   961				.ops = &ccs_ctrl_ops,
-   962				.max = 255,
-   963				.step = 1,
-   964				.def = 128,
-   965			};
-   966	
-   967			sensor->luminance_level =
-   968				v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
-   969						     &ctrl_cfg, NULL);
-   970		}
-   971	
-   972		if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
-   973		    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL ||
-   974		    CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
-   975		    SMIAPP_DIGITAL_GAIN_CAPABILITY_PER_CHANNEL)
-   976			v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler,
-   977					  &ccs_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-   978					  CCS_LIM(sensor, DIGITAL_GAIN_MIN),
-   979					  CCS_LIM(sensor, DIGITAL_GAIN_MAX),
-   980					  max(CCS_LIM(sensor, DIGITAL_GAIN_STEP_SIZE),
-   981					      1U),
-   982					  0x100);
-   983	
-   984		/* Exposure limits will be updated soon, use just something here. */
-   985		sensor->exposure = v4l2_ctrl_new_std(
-   986			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-   987			V4L2_CID_EXPOSURE, 0, 0, 1, 0);
+   970	
+   971	static int ov2740_enable_streams(struct v4l2_subdev *sd,
+   972					 struct v4l2_subdev_state *state, u32 pad,
+   973					 u64 streams_mask)
+   974	{
+   975		struct ov2740 *ov2740 = to_ov2740(sd);
+   976		const struct ov2740_reg_list *reg_list;
+   977		int link_freq_index;
+   978		int ret;
+   979	
+   980		if (ov2740->streaming) {
+   981			ov2740->streaming |= streams_mask;
+   982			return 0;
+   983		}
+   984	
+ > 985		ret = pm_runtime_resume_and_get(&client->dev);
+   986		if (ret < 0)
+   987			return ret;
    988	
-   989		sensor->hflip = v4l2_ctrl_new_std(
-   990			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-   991			V4L2_CID_HFLIP, 0, 1, 1, 0);
-   992		sensor->vflip = v4l2_ctrl_new_std(
-   993			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-   994			V4L2_CID_VFLIP, 0, 1, 1, 0);
+   989		ret = ov2740_identify_module(ov2740);
+   990		if (ret)
+   991			goto out_pm_put;
+   992	
+   993		if (ov2740->nvm)
+   994			ov2740_load_otp_data(ov2740->nvm);
    995	
-   996		sensor->vblank = v4l2_ctrl_new_std(
-   997			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-   998			V4L2_CID_VBLANK, 0, 1, 1, 0);
-   999	
-  1000		if (sensor->vblank)
-  1001			sensor->vblank->flags |= V4L2_CTRL_FLAG_UPDATE;
+   996		/* Reset the sensor */
+   997		ret = ov2740_write_reg(ov2740, 0x0103, 1, 0x01);
+   998		if (ret) {
+   999			dev_err(ov2740->dev, "failed to reset\n");
+  1000			goto out_pm_put;
+  1001		}
   1002	
-  1003		sensor->hblank = v4l2_ctrl_new_std(
-  1004			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-  1005			V4L2_CID_HBLANK, 0, 1, 1, 0);
-  1006	
-  1007		if (sensor->hblank)
-  1008			sensor->hblank->flags |= V4L2_CTRL_FLAG_UPDATE;
-  1009	
-  1010		sensor->pixel_rate_parray = v4l2_ctrl_new_std(
-  1011			&sensor->pixel_array->ctrl_handler, &ccs_ctrl_ops,
-  1012			V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
-  1013	
-  1014		v4l2_ctrl_new_std_menu_items(&sensor->pixel_array->ctrl_handler,
-  1015					     &ccs_ctrl_ops, V4L2_CID_TEST_PATTERN,
-  1016					     ARRAY_SIZE(ccs_test_patterns) - 1,
-  1017					     0, 0, ccs_test_patterns);
-  1018	
-  1019		if (sensor->pixel_array->ctrl_handler.error) {
-  1020			dev_err(&client->dev,
-  1021				"pixel array controls initialization failed (%d)\n",
-  1022				sensor->pixel_array->ctrl_handler.error);
-  1023			return sensor->pixel_array->ctrl_handler.error;
-  1024		}
-  1025	
-  1026		sensor->pixel_array->sd.ctrl_handler =
-  1027			&sensor->pixel_array->ctrl_handler;
+  1003		usleep_range(10000, 15000);
+  1004	
+  1005		link_freq_index = ov2740->cur_mode->link_freq_index;
+  1006		reg_list = &link_freq_configs[link_freq_index].reg_list;
+  1007		ret = ov2740_write_reg_list(ov2740, reg_list);
+  1008		if (ret) {
+  1009			dev_err(ov2740->dev, "failed to set plls\n");
+  1010			goto out_pm_put;
+  1011		}
+  1012	
+  1013		reg_list = &ov2740->cur_mode->reg_list;
+  1014		ret = ov2740_write_reg_list(ov2740, reg_list);
+  1015		if (ret) {
+  1016			dev_err(ov2740->dev, "failed to set mode\n");
+  1017			goto out_pm_put;
+  1018		}
+  1019	
+  1020		ret = __v4l2_ctrl_handler_setup(ov2740->sd.ctrl_handler);
+  1021		if (ret)
+  1022			goto out_pm_put;
+  1023	
+  1024		ret = ov2740_write_reg(ov2740, OV2740_REG_EMBEDDED_FLAG, 1,
+  1025				       OV2740_EMBEDDED_FLAG_MYSTERY);
+  1026		if (ret)
+  1027			goto out_pm_put;
   1028	
-  1029		v4l2_ctrl_cluster(2, &sensor->hflip);
-  1030	
-  1031		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
-> 1032				  V4L2_CID_COLOR_PATTERN, sensor->default_pixel_order,
-  1033				  sensor->default_pixel_order, 1,
-  1034				  sensor->default_pixel_order);
+  1029		ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
+  1030				       OV2740_MODE_STREAMING);
+  1031		if (ret) {
+  1032			dev_err(&client->dev, "failed to start streaming\n");
+  1033			goto out_pm_put;
+  1034		}
   1035	
-  1036		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
-> 1037				  V4L2_CID_COLOR_PATTERN_FLIP,
-> 1038				  V4L2_COLOR_PATTERN_FLIP_BOTH,
-  1039				  V4L2_COLOR_PATTERN_FLIP_BOTH, 1,
-  1040				  V4L2_COLOR_PATTERN_FLIP_BOTH);
-  1041	
-  1042		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler, NULL,
-  1043				  V4L2_CID_METADATA_LAYOUT,
-  1044				  V4L2_METADATA_LAYOUT_CCS,
-  1045				  V4L2_METADATA_LAYOUT_CCS, 1,
-  1046				  V4L2_METADATA_LAYOUT_CCS);
-  1047	
-  1048		rval = v4l2_ctrl_handler_init(&sensor->src->ctrl_handler, 0);
-  1049		if (rval)
-  1050			return rval;
-  1051	
-  1052		sensor->src->ctrl_handler.lock = &sensor->mutex;
-  1053	
-  1054		sensor->pixel_rate_csi = v4l2_ctrl_new_std(
-  1055			&sensor->src->ctrl_handler, &ccs_ctrl_ops,
-  1056			V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
-  1057	
-  1058		if (sensor->src->ctrl_handler.error) {
-  1059			dev_err(&client->dev,
-  1060				"src controls initialization failed (%d)\n",
-  1061				sensor->src->ctrl_handler.error);
-  1062			return sensor->src->ctrl_handler.error;
-  1063		}
-  1064	
-  1065		sensor->src->sd.ctrl_handler = &sensor->src->ctrl_handler;
-  1066	
-  1067		return 0;
-  1068	}
-  1069	
+  1036		ov2740->streaming |= streams_mask;
+  1037	
+  1038		return 0;
+  1039	
+  1040	out_pm_put:
+  1041		pm_runtime_put(&client->dev);
+  1042	
+  1043		return ret;
+  1044	}
+  1045	
 
 -- 
 0-DAY CI Kernel Test Service
