@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936B613B5AE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 15:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71087156230;
+	Thu,  2 Oct 2025 15:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759418065; cv=none; b=aF/n2ki5hN0KyRsiqJpzjqK5fY+TDn4L3b3y+GAkxP3uWLQFXsVyz+WhLk69QbnUx2Xk/XWO/3n4jlpFza22yXi7DtosxkDJzpKcsxobmyKESW1xdsisdEr0swOn7B34XOekm1AsOTr78Bmmu8YYrPdMQhdXh4Isutw3xJj6hiE=
+	t=1759418662; cv=none; b=ZbETnRzB/yXncMX/zqCobPxfzyWFShL9VoFcBMHfBNf2i/NPXOSIjMTFtMh/eyx/RNFRd8MA/CSSsKT86PmKMHYn22+ocXH7QbENgJiCvg6UwiIkSh9KYaNejLDeylmJJf4mc5ygdjLwNMGJtdvLO1kmBA+Wlx492cuhAeljyQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759418065; c=relaxed/simple;
-	bh=sjIOPYdX4qJbJxV2DmMmA4rLEpf5cDAztd85PV9jfpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qu1jdunihrxX1T6TYUKKtFbk0ufo8S7G3hsAeGKIeAHbh+Od8+WFfTw9vIS6Tg95+mzO85cmxAG88kC5HKzKNnSqJN7uc1h/Ih5aYefeejUmV2l5ZVGHdUdIpX6rwg14o2EaGskf4yszHEiRdbD4/ARg2JVu7/EYTecJqTgncrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eGldDdYu; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1759418662; c=relaxed/simple;
+	bh=KTW3ZnSUOwjzPpITRy4BCvcebORZReQ0eliDIO1mQvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UYy4LQ0G8YCiipQ9PCc+e4xkUcTa7McZMoOknVitWPtGcI1YExs01sLIJnoijtaKPLbllQYu5OxkMGlNz4sw/jANrG+iIUer2jMtMfJr+3J3jfUXLnmIz+OGuqyItq2mymgE7QP3lxmt8R6z18Du0gJZVuud16Ppii1FiuDFrVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dzYh/Cet; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eGldDdYu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzYh/Cet"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759418063; x=1790954063;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sjIOPYdX4qJbJxV2DmMmA4rLEpf5cDAztd85PV9jfpo=;
-  b=eGldDdYuZZXOG5MryYl21AiRX0PgbfmLRsUW+8DbFCokqIgeAKnejAZp
-   aX7PsVbEmPMChHjpHJlg/0xr7vrsXVHH6qtlGykeCceB8FcdkbLAPACQG
-   u5Po02OnTLfjOAyyDMu58t7iIMb9AJ7dEgaJ/4ghbuMLeP/R2mAUwi1L6
-   /p3RlIm9ho1ym0RGYLaWe4Na1Rjo88IRbTBA37BmWPqMz72ILcWcXFq1z
-   T2va8shKKXTbwNlCkNejpwzV9i5FCHd8SpPkzXzhzrQMwvZjYzEkzIDLX
-   SHqegAfJVymBxeVGXe0J9G8VNbK8PoN4QPccutpoCJF377JePg8kPrjSs
-   g==;
-X-CSE-ConnectionGUID: BbkIeaIKTwCgPq3SGE8ukg==
-X-CSE-MsgGUID: YCE03XhQTZKafWH8HIJ/Cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="60743552"
+  t=1759418661; x=1790954661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KTW3ZnSUOwjzPpITRy4BCvcebORZReQ0eliDIO1mQvA=;
+  b=dzYh/CetM8Cj5WOrlz1NZgE1wlYak7U6SKArnzA6qeS0P12ipZ/zjRDv
+   ozmXmwgXdoDkb3+ZOHm+PSERawkqba4YxEETyP72IcLKhBvXkipOCl3I2
+   hC5nmyS4Q9tVb7sfFXfpAf4gEWZczMRRLTvXDG6TKGaVLz+Yhrtij273i
+   MqH1pYzbO5ODLld3NjVf/0R6wJtxcVNQkLr26wTH/3geuNG9Y8kR/i+W2
+   oj9D0n1lYtm8pPu3I9qSnNYRB0WhhXKsDU1QSdCBnXtN6WOVo5f5O7fVd
+   YDNJaW7jJlhOjyvN58E3ltjJhW2h37a8aLOpovv6hUbApFiu2vSQcmCGB
+   A==;
+X-CSE-ConnectionGUID: zlsd5rN9QjWbdR4M+q2LKA==
+X-CSE-MsgGUID: pX2cXbOGRPmJ+6nE/MD7pA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="61415847"
 X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="60743552"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 08:14:23 -0700
-X-CSE-ConnectionGUID: 5BV9pExnSuuVrrJk0cMXww==
-X-CSE-MsgGUID: V0+SX+9NTgi6DfL+S4+8uQ==
+   d="scan'208";a="61415847"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 08:24:20 -0700
+X-CSE-ConnectionGUID: HUFcQhV0RjeDEAWhH/N+xg==
+X-CSE-MsgGUID: 1WEBNXCWQSCY/YEeOP3HfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="178339629"
+   d="scan'208";a="210029743"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 Oct 2025 08:14:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2025 08:24:19 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4L0Z-0003tF-1P;
-	Thu, 02 Oct 2025 15:14:15 +0000
-Date: Thu, 2 Oct 2025 23:13:38 +0800
+	id 1v4LAG-0003tT-16;
+	Thu, 02 Oct 2025 15:24:16 +0000
+Date: Thu, 2 Oct 2025 23:24:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ram Prakash Gupta <quic_rampraka@quicinc.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	quic_rampraka@quicinc.com, quic_pragalla@quicinc.com,
-	quic_sayalil@quicinc.com, quic_nitirawa@quicinc.com,
-	quic_bhaskarv@quicinc.com, kernel@oss.qualcomm.com,
-	Sachin Gupta <quic_sachgupt@quicinc.com>
-Subject: Re: [PATCH v4 4/4] mmc: sdhci-msm: Rectify DLL programming sequence
- for SDCC
-Message-ID: <202510022258.5n14WOx5-lkp@intel.com>
-References: <20250929113515.26752-5-quic_rampraka@quicinc.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu-fwspec 4/14] drivers/iommu/riscv/iommu.c:1483:29:
+ error: redefinition of 'iommu' with a different type: 'struct
+ riscv_iommu_device *' vs 'struct iommu_device *'
+Message-ID: <202510022323.BvXzi3Uv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,82 +62,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250929113515.26752-5-quic_rampraka@quicinc.com>
 
-Hi Ram,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk-dt/for-next linus/master ulf-hansson-mmc-mirror/next v6.17 next-20250929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ram-Prakash-Gupta/dt-bindings-mmc-Add-dll-hsr-list-for-HS400-and-HS200-modes/20250929-193817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250929113515.26752-5-quic_rampraka%40quicinc.com
-patch subject: [PATCH v4 4/4] mmc: sdhci-msm: Rectify DLL programming sequence for SDCC
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20251002/202510022258.5n14WOx5-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251002/202510022258.5n14WOx5-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu-fwspec
+head:   670b33a8cfd32984040c12e995134b9cb4cdf0a5
+commit: db8ec1fd99f998cb3daefa01d8eadffbbb9aa439 [4/14] iommu/riscv: Use probe_device_fwspec()
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20251002/202510022323.BvXzi3Uv-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251002/202510022323.BvXzi3Uv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510022258.5n14WOx5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510022323.BvXzi3Uv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/s390/include/asm/bug.h:69,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from arch/s390/include/asm/cmpxchg.h:11,
-                    from arch/s390/include/asm/atomic.h:16,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/s390/include/asm/bitops.h:75,
-                    from include/linux/bitops.h:67,
-                    from arch/s390/include/asm/machine.h:25,
-                    from arch/s390/include/asm/lowcore.h:13,
-                    from arch/s390/include/asm/current.h:13,
-                    from arch/s390/include/asm/preempt.h:5,
-                    from include/linux/preempt.h:79,
-                    from arch/s390/include/asm/timex.h:13,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/mmc/host/sdhci-msm.c:8:
-   drivers/mmc/host/sdhci-msm.c: In function 'sdhci_msm_configure_dll':
->> include/linux/kern_levels.h:5:25: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:557:9: note: in expansion of macro 'printk'
-     557 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:557:16: note: in expansion of macro 'KERN_ERR'
-     557 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/mmc/host/sdhci-msm.c:927:33: note: in expansion of macro 'pr_err'
-     927 |                                 pr_err("%s: %s: Non standard clk freq =%u\n",
-         |                                 ^~~~~~
+>> drivers/iommu/riscv/iommu.c:1483:29: error: redefinition of 'iommu' with a different type: 'struct riscv_iommu_device *' vs 'struct iommu_device *'
+    1483 |         struct riscv_iommu_device *iommu =
+         |                                    ^
+   drivers/iommu/riscv/iommu.c:1479:65: note: previous definition is here
+    1479 | static int riscv_iommu_probe_device_fwspec(struct iommu_device *iommu,
+         |                                                                 ^
+>> drivers/iommu/riscv/iommu.c:1484:44: error: no member named 'iommu' in 'struct iommu_device'
+    1484 |                 container_of(iommu, struct iommu_device, iommu);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/container_of.h:21:49: note: expanded from macro 'container_of'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+      22 |                       __same_type(*(ptr), void),                        \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      23 |                       "pointer type mismatch in container_of()");       \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:507:74: note: expanded from macro '__same_type'
+     507 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/iommu/riscv/iommu.c:1484:3: error: no member named 'iommu' in 'iommu_device'
+    1484 |                 container_of(iommu, struct iommu_device, iommu);
+         |                 ^                                        ~~~~~
+   include/linux/container_of.h:24:21: note: expanded from macro 'container_of'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^              ~~~~~~
+   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^                        ~~~~~~
+>> drivers/iommu/riscv/iommu.c:1494:13: error: no member named 'ddt_mode' in 'struct iommu_device'
+    1494 |         if (iommu->ddt_mode <= RISCV_IOMMU_DDTP_IOMMU_MODE_BARE)
+         |             ~~~~~  ^
+>> drivers/iommu/riscv/iommu.c:1505:13: error: no member named 'caps' in 'struct iommu_device'
+    1505 |         if (iommu->caps & RISCV_IOMMU_CAPABILITIES_AMO_HWAD)
+         |             ~~~~~  ^
+>> drivers/iommu/riscv/iommu.c:1508:27: error: incompatible pointer types passing 'struct iommu_device *' to parameter of type 'struct riscv_iommu_device *' [-Wincompatible-pointer-types]
+    1508 |                 dc = riscv_iommu_get_dc(iommu, fwspec->ids[i]);
+         |                                         ^~~~~
+   drivers/iommu/riscv/iommu.c:561:77: note: passing argument to parameter 'iommu' here
+     561 | static struct riscv_iommu_dc *riscv_iommu_get_dc(struct riscv_iommu_device *iommu,
+         |                                                                             ^
+   6 errors generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +1483 drivers/iommu/riscv/iommu.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+  1478	
+  1479	static int riscv_iommu_probe_device_fwspec(struct iommu_device *iommu,
+  1480						   struct device *dev)
+  1481	{
+  1482		struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> 1483		struct riscv_iommu_device *iommu =
+> 1484			container_of(iommu, struct iommu_device, iommu);
+  1485		struct riscv_iommu_info *info;
+  1486		struct riscv_iommu_dc *dc;
+  1487		u64 tc;
+  1488		int i;
+  1489	
+  1490		/*
+  1491		 * IOMMU hardware operating in fail-over BARE mode will provide
+  1492		 * identity translation for all connected devices anyway...
+  1493		 */
+> 1494		if (iommu->ddt_mode <= RISCV_IOMMU_DDTP_IOMMU_MODE_BARE)
+  1495			return -ENODEV;
+  1496	
+  1497		info = kzalloc(sizeof(*info), GFP_KERNEL);
+  1498		if (!info)
+  1499			return -ENOMEM;
+  1500		/*
+  1501		 * Allocate and pre-configure device context entries in
+  1502		 * the device directory. Do not mark the context valid yet.
+  1503		 */
+  1504		tc = 0;
+> 1505		if (iommu->caps & RISCV_IOMMU_CAPABILITIES_AMO_HWAD)
+  1506			tc |= RISCV_IOMMU_DC_TC_SADE;
+  1507		for (i = 0; i < fwspec->num_ids; i++) {
+> 1508			dc = riscv_iommu_get_dc(iommu, fwspec->ids[i]);
+  1509			if (!dc) {
+  1510				kfree(info);
+  1511				return -ENODEV;
+  1512			}
+  1513			if (READ_ONCE(dc->tc) & RISCV_IOMMU_DC_TC_V)
+  1514				dev_warn(dev, "already attached to IOMMU device directory\n");
+  1515			WRITE_ONCE(dc->tc, tc);
+  1516		}
+  1517	
+  1518		dev_iommu_priv_set(dev, info);
+  1519	
+  1520		return 0;
+  1521	}
+  1522	
 
 -- 
 0-DAY CI Kernel Test Service
