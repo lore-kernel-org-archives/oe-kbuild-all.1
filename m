@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214EB15853B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 04:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A84D34BA40
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 05:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759379367; cv=none; b=D1yyO9/g5NXQfswnmWEfpkrRwbrq22O3/ptX8Umb9LuS2HNHigBIZ0bQEeAnDg82fc+j7W0dnTPZPesnhV/yDdsMgraiBLrK67iI4hPEX90myOj4pWpoPLILB0vV8FUYGpl5nAhw8S/+ygNRpWBeGE1uIpIM0nJhKXcg35EXL44=
+	t=1759383955; cv=none; b=kv2onRLsuqJ1VNgJLNM6VmpdemTrD09HZI5X2PjCSLYjOPghsNVU+jWK9QMfYJYCrbUi9CGNNwH8jsncf2Sri3RV5gddGoGndUKsVs+Up+Wm6V734HF25n2+GN/oTKLq9D0u1K3gIX9YeK4GYI4TKFl07Q1ig5BXJ+eiUf7gbBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759379367; c=relaxed/simple;
-	bh=9f+HXNcD7IOFZER/ertfy9YqZjvmxhL5wyEiNgnR4kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YIdHIish/eBpopxEvPkemm6kRoSP9x283Xuz1jNoSM/eMD+2TU1+GlVWI+jL9gVio0qu8vTulnV8aZZPE79yyrJ4ITC9KhfWvu72vqU2IgyG5S27SuuE/WfRBGo94+7OSGGiX6sEy9LEu2AmNW2gWEp5KDI8LtwuAOqib7Q9ft8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9PdWfBF; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1759383955; c=relaxed/simple;
+	bh=5CPxgKaNu6wBZMX7LQ8+BechwRpbB/Czx7tdjhwOyi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Vzj82LagZVGhWJCiXLIgyZmdipAb1I7SiCx7OJYGbrY+cwIXGnRk3ZVjFccPcfeuXVDT6Ct+e2yAc3Amt9gNdq4DGahCbp/D9zmUEVDDc4ML/pZzkTxZJBlSe2BEJFbmJzp7rlrxJr8b3KNDpytVBJ6U4fd3ZYWbPX5GPGQkQ10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9sdPW4a; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9PdWfBF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9sdPW4a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759379365; x=1790915365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9f+HXNcD7IOFZER/ertfy9YqZjvmxhL5wyEiNgnR4kw=;
-  b=f9PdWfBFqfh+2tPk0+T31gJzm2lnG500w44WT4vhNIrOWLfT0OnF3rux
-   fpiVR9pICUapeBO1Gp0sY+L5pJWsL6sR8FszEZI/Li5umsRkT6LlvDPbf
-   iwwbkHKjs/Gl0l5cpdqPFHyGYW4m8O2uvSUSeZhy4aSS/Xx2k1F77UWvF
-   2y70x6wKFsyiIlJdfESrvX3c6IVYPONRcajGt9rAWLNcyQ4/xwYrIrW5p
-   0QdC5JxFMSHdwMTanyBc+VT86tC3chYdTgfdBb71ScM3qeIiIHx3js0TE
-   v3G2IHvVlUth0RCSjsbrwchCr4QVPtRUawCk+iF6FD+seYxV2a0kW+hlm
-   g==;
-X-CSE-ConnectionGUID: JBz6trCrQSWtsnbfo7xXAQ==
-X-CSE-MsgGUID: X164NLFjQcCyqPw8PNj8bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="73016724"
-X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
-   d="scan'208";a="73016724"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 21:29:24 -0700
-X-CSE-ConnectionGUID: LZEq29e4Tqu8t5/Q3RYwFw==
-X-CSE-MsgGUID: wbDqmC1RT0KGjEqOh3Vncg==
+  t=1759383953; x=1790919953;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5CPxgKaNu6wBZMX7LQ8+BechwRpbB/Czx7tdjhwOyi0=;
+  b=f9sdPW4aONzxGkfxsMtoRB2ZRmSYSdFVQ344jb7obUCnQnwthM7LtQ3m
+   h55gdiy6/MoYE/BVtAkdsnDM6T9/TAl6Uj9OhGLhyUpQwj9EpA+c4/tGq
+   JHaAyWVKeceFOgtNjRijK9VZ1HW2WkDLF0K1bp9Vw76YpwQQ/pX4VBwh1
+   MogIH2BITLSCC9h7WGRglvDRK2PkKQIB2an3R8y8KBlrk1J/nvF0wfggd
+   PTq3SM3CDq2+4ZL4ltbndwOTxc326qU6K4d0jTy1aAfudm/1UVFLNxyWE
+   uEG281e/lEd9WKUSKKJtABvLIFlRCVVRv0eceIxibWD2z4urngUPDeZPd
+   A==;
+X-CSE-ConnectionGUID: mM0UjioVTD+lBInQDYAisg==
+X-CSE-MsgGUID: bjozKeq6TcCT+Gz5XtJTFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65488595"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65488595"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 22:45:52 -0700
+X-CSE-ConnectionGUID: sUjwVKrlRlSIkOlbrXnzwg==
+X-CSE-MsgGUID: aL3BA1wZQ1SEnHQ3Kq1h2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
-   d="scan'208";a="179734321"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Oct 2025 21:29:21 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+   d="scan'208";a="178586837"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 01 Oct 2025 22:45:50 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v4AwR-0003Z5-0K;
-	Thu, 02 Oct 2025 04:29:19 +0000
-Date: Thu, 2 Oct 2025 12:29:15 +0800
+	id 1v4C8S-000000006sx-0R2F;
+	Thu, 02 Oct 2025 05:45:48 +0000
+Date: Thu, 2 Oct 2025 07:44:50 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jason Miu <jasonmiu@google.com>, Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>, Changyuan Lyu <changyuanl@google.com>,
-	David Matlack <dmatlack@google.com>,
-	David Rientjes <rientjes@google.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v1 1/3] kho: Adopt KHO radix tree data structures
-Message-ID: <202510021229.mKL5i2Vt-lkp@intel.com>
-References: <20251001011941.1513050-2-jasonmiu@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 49/49]
+ arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/mminfra:
+ failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+Message-ID: <202510020731.pui8AjoJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,36 +62,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251001011941.1513050-2-jasonmiu@google.com>
 
-Hi Jason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rppt-memblock/for-next]
-[also build test WARNING on linus/master v6.17]
-[cannot apply to rppt-memblock/fixes akpm-mm/mm-everything next-20250929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Miu/kho-Adopt-KHO-radix-tree-data-structures/20251001-092230
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git for-next
-patch link:    https://lore.kernel.org/r/20251001011941.1513050-2-jasonmiu%40google.com
-patch subject: [PATCH v1 1/3] kho: Adopt KHO radix tree data structures
-config: x86_64-randconfig-005-20251001 (https://download.01.org/0day-ci/archive/20251002/202510021229.mKL5i2Vt-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251002/202510021229.mKL5i2Vt-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   fea2361acd4bfebf9bd8bbaa0f11161a1787ea28
+commit: 6577adeb68e3606bdd5979fc52634422b7f13098 [49/49] CHROMIUM: arm64: dts: mt8189: Fix mminfra dts conflict
+config: arm64-randconfig-2052-20250929 (https://download.01.org/0day-ci/archive/20251002/202510020731.pui8AjoJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 2d6ce5148cf144ab800116e1f75a5d007e82cf58)
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251002/202510020731.pui8AjoJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510021229.mKL5i2Vt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510020731.pui8AjoJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> WARNING: modpost: vmlinux: section mismatch in reference: kho_radix_walk_trees_callback+0x83 (section: .text) -> __memblock_reserve (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: kho_radix_walk_trees_callback+0x91 (section: .text) -> memblock_reserved_mark_noinit (section: .init.text)
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku0.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-jye-sku1048576.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-obiwan-sku131073.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-quigon-sku196617.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-shaak-sku2097153.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8193.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/spmi@1cc06000: failed to match any schema with compatible: ['mediatek,mt8189-spmi']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: mt6319@7 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: mt6319@8 (mediatek,mt6315-regulator): 'buck1-modeset-mask' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/timer@1cc10000: failed to match any schema with compatible: ['mediatek,mt8189-timer', 'mediatek,mt6878-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/syscon@1e010000: failed to match any schema with compatible: ['mediatek,mt8189-vadsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/devapc@1e019000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/mminfra: failed to match any schema with compatible: ['mediatek,mt8189-mminfra']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/syscon@1e800000: failed to match any schema with compatible: ['mediatek,mt8189-mm-infra', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/smi@1e801000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: iommu@1e802000 (mediatek,mt8189-iommu-mm): interrupts: [[0, 278, 4, 0], [0, 279, 4, 0], [0, 280, 4, 0], [0, 281, 4, 0], [0, 282, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/smi@1e807000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/smi@1e808000: failed to match any schema with compatible: ['mediatek,mt8189-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/smi@1e809000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/smi@1e80a000: failed to match any schema with compatible: ['mediatek,mt8189-smi-sub-common']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: /soc/devapc@1e826000: failed to match any schema with compatible: ['mediatek,mt8189-devapc']
+   arch/arm64/boot/dts/mediatek/mt8189-skywalker-tarkin-sku8194.dtb: gce@1e980000 (mediatek,mt8189-gce): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
 
 -- 
 0-DAY CI Kernel Test Service
