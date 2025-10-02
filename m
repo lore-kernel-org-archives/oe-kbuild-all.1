@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBD3163
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 00:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B192B23C8C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 02:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759364048; cv=none; b=ZcUrQVuQAXcIyjMlk4spNLpsRiqujBUN2hHzGfXn423d5/OyI0Y7jRZNNjiGcsm3Prx7Ub7jNazUOI7TdS+1QdKOOW2LzzBl5v18li74q5BTEDQC65e0rWx3ciXzl/XZSBrOW428jmBZGqY0p94yEc8cweVIVhuYNIP28tQJCuo=
+	t=1759372037; cv=none; b=upKc9EPU2TEjCGnT/d4nS4gSCbm4hENkNicAHauyBSTJo00kOx8l0e02SrhJQAokA3JZRjU3skffkxfQ9tA0LyEG+90aq0TvnNO1aDO+jWy4O4IMODBsrM+TeLyZuZZ5MtPINNsx4n8EACIalMdYS6B23w8DmZhcSrDqHExsosw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759364048; c=relaxed/simple;
-	bh=vgWIWdCzpsu1OacLiuXWyM5m8s3gHqWeC+dd/lMOdy0=;
+	s=arc-20240116; t=1759372037; c=relaxed/simple;
+	bh=L87MXufzqFw8MSNO6RQS5qDzIaT068tEwknrRqEGM9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X0MTzfi5i3g08bXmhMPAt+zbRvM2EycJoQv0IFrdXBk1CNUVbsgfmSa4wP04j4kDmJ7ftalakLha0nbIaa2+lxbe4N8IJe0+DRoLMLm8j4KMZQ+QDu61hGAi/+TEweS84G2QibZDvAmzsiHb13LhzNpv9x/dEYTpYkJaSnm/r38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eKVf8hHR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=pjqu1jviOjni+LbYGYeCD8xXhDFRne/hLcToYv5A+kFzMuacFVs+BNL4TqIIynb0rWZGVJOEJ595J9fvmzIBDT7ZJeKViS605yDUzmJz+kMl5jv0mIKJU3eaThtuHoOWJjXqm6UMwpDEtgXBSGLNz9KrHJaO7RwIbttapTwyfes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJflNZFn; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eKVf8hHR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJflNZFn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759364046; x=1790900046;
+  t=1759372036; x=1790908036;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vgWIWdCzpsu1OacLiuXWyM5m8s3gHqWeC+dd/lMOdy0=;
-  b=eKVf8hHRYbQbl2zCElGSncRCfO83PMMg9b9TiFWIzj/zSTJADz6JDIXp
-   ZTZ3qyB4JywU7y5iUv5OzLwIp5esFiUcQl5oiGNExuUkKom8uhGWHLtWR
-   hKE99bFHDZAznAEndbXUBkARe9waGTob2fsP9ro7yuAlCfzxIY9HFN1b1
-   RqBlkXYvsMl39nqnM+5/cy4xCsbOS7GnmiKsfPluhv1NjYFwqzoapVB+M
-   ksZoHoKqaC/DizE8p0DMo8bXh12bmpIu5P1GSpKw1ETUNCtG/Li98jhhC
-   L3JYf+GBcpjDjNFfTETMMJ/aCetxmemDV9sdqR6nOQJEDgAJXpCV06J/e
-   A==;
-X-CSE-ConnectionGUID: VOQLEa6MQqKkxVX24Z2hDw==
-X-CSE-MsgGUID: Yt0rR+VgR3ypvNOW5yvXJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60863844"
+  bh=L87MXufzqFw8MSNO6RQS5qDzIaT068tEwknrRqEGM9s=;
+  b=hJflNZFndNZEnLIgyXEQAn9GQ4ujNfMmd8lz6V3gi2yWpDoGEOzNMlyJ
+   541s+2WmlEIcwgzEGeAF01ZTqZHWlucnSVTtGS31VXjj6DPzWViBYC9gC
+   lrLQspr/WZTI5qNRMI/4goCcqyLRVGheIw6Rcfx5UInQifFzzE4UM6DSo
+   poPGPm+QjE/743dSifVx159bDmoGrHcSjjexVpiH+EwZGcOTlnimGftvC
+   JkcY9ii+iROhB3BR/iKgBuvi5grwf6gB1HJuM3n6/4ELpvsKhGVDu0Mfo
+   0JBHSJThpdbNEzGOJu7Vo3Cnv4YuY6DQzFXte6017okT9RPn/0Dh7NOcS
+   Q==;
+X-CSE-ConnectionGUID: FIEuftHXTQKa/s845cr5Bw==
+X-CSE-MsgGUID: Sjlbv0RFTaexk4qtLZrQmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="72328055"
 X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
-   d="scan'208";a="60863844"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 17:14:06 -0700
-X-CSE-ConnectionGUID: 43wHW9ffRLWI24eD0r22Zg==
-X-CSE-MsgGUID: N40iFHvQQp+sfTGZ1Njipw==
+   d="scan'208";a="72328055"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 19:27:15 -0700
+X-CSE-ConnectionGUID: y2OAQW+wSQyj3/+LYb2zJQ==
+X-CSE-MsgGUID: ujx4n8BWR3yYqO5gnu0oyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
-   d="scan'208";a="178867208"
+   d="scan'208";a="202665588"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Oct 2025 17:14:03 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Oct 2025 19:27:12 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v46xM-0003TT-2L;
-	Thu, 02 Oct 2025 00:14:00 +0000
-Date: Thu, 2 Oct 2025 08:13:40 +0800
+	id 1v492D-0003W9-2t;
+	Thu, 02 Oct 2025 02:27:09 +0000
+Date: Thu, 2 Oct 2025 10:26:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: victor.duicu@microchip.com, jic23@kernel.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, marius.cristea@microchip.com,
-	victor.duicu@microchip.com, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] iio: temperature: add support for MCP998X
-Message-ID: <202510020803.3pQv1jeZ-lkp@intel.com>
-References: <20250930133131.13797-3-victor.duicu@microchip.com>
+To: Vladimir Moravcevic <vmoravcevic@axiado.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
+	Tzu-Hao Wei <twei@axiado.com>,
+	Axiado Reviewers <linux-maintainer@axiado.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Vladimir Moravcevic <vmoravcevic@axiado.com>,
+	Prasad Bolisetty <pbolisetty@axiado.com>
+Subject: Re: [PATCH v2 2/3] spi: axiado: Add driver for Axiado SPI DB
+ controller
+Message-ID: <202510021040.CnRgMGPA-lkp@intel.com>
+References: <20250929-axiado-ax3000-soc-spi-db-controller-driver-v2-2-b0c089c3ba81@axiado.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,116 +72,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250930133131.13797-3-victor.duicu@microchip.com>
+In-Reply-To: <20250929-axiado-ax3000-soc-spi-db-controller-driver-v2-2-b0c089c3ba81@axiado.com>
 
-Hi,
+Hi Vladimir,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 561285d048053fec8a3d6d1e3ddc60df11c393a0]
+[auto build test WARNING on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/victor-duicu-microchip-com/dt-bindings-iio-temperature-add-support-for-MCP998X/20250930-213443
-base:   561285d048053fec8a3d6d1e3ddc60df11c393a0
-patch link:    https://lore.kernel.org/r/20250930133131.13797-3-victor.duicu%40microchip.com
-patch subject: [PATCH v6 2/2] iio: temperature: add support for MCP998X
-config: i386-randconfig-013-20251002 (https://download.01.org/0day-ci/archive/20251002/202510020803.3pQv1jeZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251002/202510020803.3pQv1jeZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Moravcevic/dt-bindings-spi-axiado-ax3000-spi-Add-binding-for-Axiado-SPI-DB-controller/20250929-170017
+base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
+patch link:    https://lore.kernel.org/r/20250929-axiado-ax3000-soc-spi-db-controller-driver-v2-2-b0c089c3ba81%40axiado.com
+patch subject: [PATCH v2 2/3] spi: axiado: Add driver for Axiado SPI DB controller
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251002/202510021040.CnRgMGPA-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251002/202510021040.CnRgMGPA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510020803.3pQv1jeZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510021040.CnRgMGPA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iio/temperature/mcp9982.c: In function 'mcp9982_read_raw':
->> drivers/iio/temperature/mcp9982.c:467:24: error: implicit declaration of function 'get_unaligned_be16' [-Werror=implicit-function-declaration]
-     467 |                 *val = get_unaligned_be16(bulk_read + 1);
-         |                        ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/spi/spi-axiado.c: In function 'ax_spi_irq':
+>> drivers/spi/spi-axiado.c:348:21: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+     348 |         irqreturn_t status;
+         |                     ^~~~~~
 
 
-vim +/get_unaligned_be16 +467 drivers/iio/temperature/mcp9982.c
+vim +/status +348 drivers/spi/spi-axiado.c
 
-   416	
-   417	static int mcp9982_read_raw(struct iio_dev *indio_dev,
-   418				    struct iio_chan_spec const *chan, int *val,
-   419				    int *val2, long mask)
-   420	{
-   421		unsigned int tmp_reg, reg_status;
-   422		struct mcp9982_priv *priv = iio_priv(indio_dev);
-   423		unsigned long *src;
-   424		int ret;
-   425		u8 bulk_read[3];
-   426	
-   427		if (priv->run_state) {
-   428			/*
-   429			 * When working in Run mode, after modifying a parameter (like sampling
-   430			 * frequency) we have to wait a delay before reading the new values.
-   431			 * We can't determine when the conversion is done based on the BUSY bit.
-   432			 */
-   433			if (priv->wait_before_read) {
-   434				if (!time_after(jiffies, priv->time_limit))
-   435					mdelay(jiffies_to_msecs(priv->time_limit - jiffies));
-   436				priv->wait_before_read = false;
-   437			}
-   438		} else {
-   439			ret = regmap_write(priv->regmap, MCP9982_ONE_SHOT_ADDR, 1);
-   440			if (ret)
-   441				return ret;
-   442			/*
-   443			 * In Standby state after writing in OneShot register wait for
-   444			 * the start of conversion and then poll the BUSY bit.
-   445			 */
-   446			mdelay(125);
-   447			ret = regmap_read_poll_timeout(priv->regmap, MCP9982_STATUS_ADDR,
-   448						       reg_status, !(reg_status & MCP9982_STATUS_BUSY),
-   449						       mcp9982_delay_ms[priv->sampl_idx] * USEC_PER_MSEC,
-   450						       0);
-   451			if (ret)
-   452				return ret;
-   453		}
-   454		guard(mutex)(&priv->lock);
-   455	
-   456		switch (mask) {
-   457		case IIO_CHAN_INFO_RAW:
-   458			/*
-   459			 * The Block Read Protocol first returns the number of user readable
-   460			 * bytes, held in bulk_read[0], followed by the data.
-   461			 */
-   462			ret = regmap_bulk_read(priv->regmap, MCP9982_TEMP_MEM_BLOCK_ADDR(chan->channel),
-   463					       &bulk_read, sizeof(bulk_read));
-   464			if (ret)
-   465				return ret;
-   466	
- > 467			*val = get_unaligned_be16(bulk_read + 1);
-   468	
-   469			return IIO_VAL_INT;
-   470		case IIO_CHAN_INFO_SCALE:
-   471			*val = 0;
-   472			*val2 = MCP9982_SCALE;
-   473			return IIO_VAL_INT_PLUS_NANO;
-   474		case IIO_CHAN_INFO_SAMP_FREQ:
-   475			*val = mcp9982_conv_rate[priv->sampl_idx][0];
-   476			*val2 = mcp9982_conv_rate[priv->sampl_idx][1];
-   477			return IIO_VAL_INT_PLUS_MICRO;
-   478		case IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY:
-   479			ret = regmap_read(priv->regmap, MCP9982_RUNNING_AVG_ADDR, &tmp_reg);
-   480			if (ret)
-   481				return ret;
-   482			*src = tmp_reg;
-   483			*val = mcp9982_3db_values_map_tbl[priv->sampl_idx][bitmap_weight(src, 2)][0];
-   484			*val2 = mcp9982_3db_values_map_tbl[priv->sampl_idx][bitmap_weight(src, 2)][1];
-   485			return IIO_VAL_INT_PLUS_MICRO;
-   486		case IIO_CHAN_INFO_OFFSET:
-   487			*val = MCP9982_OFFSET;
-   488			return IIO_VAL_INT;
-   489		default:
-   490			return -EINVAL;
-   491		}
-   492	}
-   493	
+   330	
+   331	/**
+   332	 * ax_spi_irq - Interrupt service routine of the SPI controller
+   333	 * @irq:	IRQ number
+   334	 * @dev_id:	Pointer to the xspi structure
+   335	 *
+   336	 * This function handles RX FIFO almost full and Host Transfer Completed interrupts only.
+   337	 * On RX FIFO amlost full interrupt this function reads the received data from RX FIFO and
+   338	 * fills the TX FIFO if there is any data remaining to be transferred.
+   339	 * On Host Transfer Completed interrupt this function indicates that transfer is completed,
+   340	 * the SPI subsystem will clear MTC bit.
+   341	 *
+   342	 * Return:	IRQ_HANDLED when handled; IRQ_NONE otherwise.
+   343	 */
+   344	static irqreturn_t ax_spi_irq(int irq, void *dev_id)
+   345	{
+   346		struct spi_controller *ctlr = dev_id;
+   347		struct ax_spi *xspi = spi_controller_get_devdata(ctlr);
+ > 348		irqreturn_t status;
+   349		u32 intr_status;
+   350	
+   351		status = IRQ_NONE;
+   352		intr_status = ax_spi_read(xspi, AX_SPI_IVR);
+   353		if (!intr_status)
+   354			return IRQ_NONE;
+   355	
+   356		/*
+   357		 * Handle "Message Transfer Complete" interrupt.
+   358		 * This means all bytes have been shifted out of the TX FIFO.
+   359		 * It's time to harvest the final incoming bytes from the RX FIFO.
+   360		 */
+   361		if (intr_status & AX_SPI_IVR_MTCV) {
+   362			// Clear the MTC interrupt flag immediately.
+   363			ax_spi_write(xspi, AX_SPI_ISR, AX_SPI_ISR_MTC);
+   364	
+   365			// For a TX-only transfer, rx_buf would be NULL.
+   366			// In the spi-core, rx_copy_remaining would be 0.
+   367			// So we can finalize immediately.
+   368			if (!xspi->rx_buf) {
+   369				ax_spi_write(xspi, AX_SPI_IMR, 0x00);
+   370				spi_finalize_current_transfer(ctlr);
+   371				return IRQ_HANDLED;
+   372			}
+   373	
+   374			// For a full-duplex transfer, process any remaining RX data.
+   375			// The helper function will handle finalization if everything is received.
+   376			ax_spi_process_rx_and_finalize(ctlr);
+   377			return IRQ_HANDLED;
+   378		}
+   379	
+   380		/*
+   381		 * Handle "RX FIFO Full / Threshold Met" interrupt.
+   382		 * This means we need to make space in the RX FIFO by reading from it.
+   383		 */
+   384		if (intr_status & AX_SPI_IVR_RFFV) {
+   385			if (ax_spi_process_rx_and_finalize(ctlr)) {
+   386				// Transfer was finalized inside the helper, we are done.
+   387			} else {
+   388				// RX is not yet complete. If there are still TX bytes to send
+   389				// (for very long transfers), we can fill the TX FIFO again.
+   390				if (xspi->tx_bytes)
+   391					ax_spi_fill_tx_fifo(xspi);
+   392			}
+   393			return IRQ_HANDLED;
+   394		}
+   395	
+   396		return IRQ_NONE;
+   397	}
+   398	
 
 -- 
 0-DAY CI Kernel Test Service
