@@ -1,80 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6085828507C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 23:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E36E254B1B;
+	Thu,  2 Oct 2025 23:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759447212; cv=none; b=Xd6v8y2768Mbe8OwIvOgzDGgMnEK6A5g10Yx4OdZb9QZ4LHv1O61EC0gycXIaMjoM3ghoPTXIyVv8jcwD2thd9fUVwqR1pOsleXuRiHIRc5vqu4JZm4pukk/F1NZmkKw0ydfSw37h+7IXuhJkstUXhpXE49MpCja6aZRLjE3mdM=
+	t=1759448194; cv=none; b=bP8puZt3N4pvYLI0ZOSY0PPsxMVFHz5yWXiqlTO2vXdJvaijRRpJjFSC5eLedUX2eRP89cvvfxPLygjrJEbEpft7aHZ0XGSUczu5euVV4mrY5Hvh28wJhxTkvXbewv8b/gEhoqfRifoC9GuUC6QY4AZ1MySi2yYjCuYibYb9YZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759447212; c=relaxed/simple;
-	bh=zer4Xzjj7dBSQqyLbsDiI/IqBCXEGdFEHlexlQ6sVGk=;
+	s=arc-20240116; t=1759448194; c=relaxed/simple;
+	bh=CEbRtWPBQw7JVTWw+FlDva3KxertbeH1B9CTjxieDeM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RtVgynTpA4ziiTmB62LXQwOKsNFTZ2Wl5bJDDnbUmACxtAQMVXERDE82224jWwzyS38+WNw3F1ccKlZCIUxDvbUgiqWt1xGrBxgonUYDKfguviwwcK46y2tivy0qGrJNNzuIKY4wJoKP3TgaRjVLHnjX4kXRy2TMpnmwKLmsMnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tiih65xx; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ARenRL4gJbiHkCaugwtN4DmYYA8LbO9ntyU99n3J6ysIzAiHLYxCZ1BK0eCJ0t2CS4IHtkRKXg3dUdC93FOu3+LQp+cdyzvnB4w+tf/NK1m0+9tkoYwecdJ1lEa1VJDrrdhvb2AGfk+4XbUb6h3GC7RvbYToeLr2shWdia00kA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i5AetzD5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tiih65xx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759447209; x=1790983209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zer4Xzjj7dBSQqyLbsDiI/IqBCXEGdFEHlexlQ6sVGk=;
-  b=Tiih65xxm5nh/Ts+3u8+zcdrALE0dRvkBwxFcN9c1PPtC8xIWmfpLjm2
-   Ula7sePnRuDa1CX2JOFNNICqfMSaUNmLXXcwenH5a+JXufIUOhEOyhd0h
-   UNDmI1TLDy70st5+GLysUD9pwIT+qQnMIKnUpqW4JHt7ce7C1X/Nvlp3m
-   c/djssyPi6RbKktEmX+KoDJMEjr9f19vo5WU/B27SJX4+43i3uVdHHDt+
-   FYJ+WyD6bRe6YC8o70wEkKmhEwTv+hAet4nYRruz5UWTNa9iJyFNF5dtw
-   MIILj9pbZ1WwSpreUbSP9uNLCSMzH8ezERjHy+er+3Rm2G6hnuISD7MEO
-   g==;
-X-CSE-ConnectionGUID: eoNu8szOTHi8kcpoaaqd3A==
-X-CSE-MsgGUID: WFSTMPDgRMuC/Mj8hsc7/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="61775393"
-X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
-   d="scan'208";a="61775393"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 16:20:08 -0700
-X-CSE-ConnectionGUID: OX9JyEZvQMKLN55bhMJf0Q==
-X-CSE-MsgGUID: jLVVd7kZT8Omi4yhL6VRCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
-   d="scan'208";a="179103637"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Oct 2025 16:20:02 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v4Sad-0004BT-1y;
-	Thu, 02 Oct 2025 23:19:59 +0000
-Date: Fri, 3 Oct 2025 07:19:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
-	ganglxie <ganglxie@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
-	Candice Li <candice.li@amd.com>,
-	Victor Skvortsov <victor.skvortsov@amd.com>,
-	Roman Li <roman.li@amd.com>, Alvin Lee <Alvin.Lee2@amd.com>,
-	Karthi Kandasamy <karthi.kandasamy@amd.com>,
-	David Rosca <david.rosca@amd.com>,
-	Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	bhanuseshukumar@gmail.com
-Subject: Re: [PATCH] drm: amd:  Use kmalloc_array to prevent overflow of
- dynamic size calculation
-Message-ID: <202510030646.pqNWfKQ0-lkp@intel.com>
-References: <20251002022241.77823-1-bhanuseshukumar@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i5AetzD5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16B5BC4CEF4;
+	Thu,  2 Oct 2025 23:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759448193;
+	bh=CEbRtWPBQw7JVTWw+FlDva3KxertbeH1B9CTjxieDeM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i5AetzD5ovQTdk0lHoCmueZNdQDYuMa+bcXRbOhEVGJyFC72roSaMmMu840bJZGvq
+	 CfpWjfCU4ULVanQueinCMgQNkufB3uNZCE6+xPK4zoqVMHOm6/3v15PnkNmKYZiKit
+	 sQuX9bdUdHXmYsD1h8Q61yMLUD7Az4MXvikQ9tLrYeULFTABLdU2Rpw2yuFanr/AoF
+	 1t8yGrblI75tkUQy1tvt4XroslhXSWZNaH2GaDzmAln0HnOXngzSSgA9fPYwC2smR3
+	 G7OLWwNwblV0JUqfFLfVJJYUg15nUrjR2oTnSHJMIf7wIvCPdpAuhiGx60cMiWwVir
+	 Z+Rn0Ba4mXwYg==
+Date: Thu, 2 Oct 2025 16:36:27 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: kernel test robot <lkp@intel.com>, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
+	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+	lee@kernel.org, pobrn@protonmail.com
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+Message-ID: <20251002233627.GA3978676@ax162>
+References: <20250928013253.10869-2-W_Armin@gmx.de>
+ <202509290415.uez00SgW-lkp@intel.com>
+ <6146d57b-f855-40b1-a644-3af6b28ceea4@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,172 +50,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251002022241.77823-1-bhanuseshukumar@gmail.com>
+In-Reply-To: <6146d57b-f855-40b1-a644-3af6b28ceea4@gmx.de>
 
-Hi Bhanu,
+Hi Armin,
 
-kernel test robot noticed the following build warnings:
+On Thu, Oct 02, 2025 at 08:41:19PM +0200, Armin Wolf wrote:
+> i think this is a problem inside the clang compiler. I did not encounter this warning when
+> build for x86-64 using gcc.
 
-[auto build test WARNING on amd-pstate/linux-next]
-[also build test WARNING on amd-pstate/bleeding-edge v6.17]
-[cannot apply to linus/master next-20251002]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Clang is actually saving you from yourself, it is a bug in GCC that it
+does not warn for this:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bhanu-Seshu-Kumar-Valluri/drm-amd-Use-kmalloc_array-to-prevent-overflow-of-dynamic-size-calculation/20251002-102458
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20251002022241.77823-1-bhanuseshukumar%40gmail.com
-patch subject: [PATCH] drm: amd:  Use kmalloc_array to prevent overflow of dynamic size calculation
-config: x86_64-randconfig-003-20251003 (https://download.01.org/0day-ci/archive/20251003/202510030646.pqNWfKQ0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510030646.pqNWfKQ0-lkp@intel.com/reproduce)
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510030646.pqNWfKQ0-lkp@intel.com/
+> > vim +1243 drivers/platform/x86/uniwill/uniwill-acpi.c
+> > 
+> >    1235	
+> >    1236	static int uniwill_notifier_call(struct notifier_block *nb, unsigned long action, void *dummy)
+> >    1237	{
+> >    1238		struct uniwill_data *data = container_of(nb, struct uniwill_data, nb);
+> >    1239		struct uniwill_battery_entry *entry;
+> >    1240	
+> >    1241		switch (action) {
+> >    1242		case UNIWILL_OSD_BATTERY_ALERT:
+> > > 1243			guard(mutex)(&data->battery_lock);
 
-All warnings (new ones prefixed by >>):
+mutex_unlock() will be called on &data->battery_lock even when the
+default case is taken, as demonstrated by the following test case.
 
-   In file included from include/linux/percpu.h:5,
-                    from arch/x86/include/asm/msr.h:16,
-                    from arch/x86/include/asm/tsc.h:11,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs.h:11,
-                    from include/linux/debugfs.h:15,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:24:
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c: In function 'amdgpu_ras_badpages_read':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                                     ^~~~~~
-   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
-     239 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                ^~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                                     ^~~~~~
-   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
-     239 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                ^~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                                     ^~~~~~
-   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
-     243 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                ^~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                                     ^~~~~~
-   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
-     243 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                ^~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: warning: 'kmalloc_array_noprof' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                                     ^~~~~~
-   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
-     246 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                ^~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:37: note: earlier argument should specify number of elements, later size of each element
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                                     ^~~~~~
-   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
-     246 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2569:16: note: in expansion of macro 'kmalloc_array'
-    2569 |         *bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-         |                ^~~~~~~~~~~~~
+> >    1244			list_for_each_entry(entry, &data->batteries, head) {
+> >    1245				power_supply_changed(entry->battery);
+> >    1246			}
+> >    1247	
+> >    1248			return NOTIFY_OK;
+> >    1249		default:
+> >    1250			guard(mutex)(&data->input_lock);
+> >    1251			sparse_keymap_report_event(data->input_device, action, 1, true);
+> >    1252	
+> >    1253			return NOTIFY_OK;
+> >    1254		}
+> >    1255	}
+> >    1256	
+> > 
+> 
 
+$ cat test.c
+#include <stdio.h>
 
-vim +2569 drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+void cleanup_1(int *a) { printf("+ %s(%p)\n", __func__, a); }
+void cleanup_2(int *a) { printf("+ %s(%p)\n", __func__, a); }
+void cleanup_3(int *a) { printf("+ %s(%p)\n", __func__, a); }
 
-  2546	
-  2547	/* return 0 on success.
-  2548	 * caller need free bps.
-  2549	 */
-  2550	static int amdgpu_ras_badpages_read(struct amdgpu_device *adev,
-  2551			struct ras_badpage **bps, unsigned int *count)
-  2552	{
-  2553		struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
-  2554		struct ras_err_handler_data *data;
-  2555		int i = 0;
-  2556		int ret = 0, status;
-  2557	
-  2558		if (!con || !con->eh_data || !bps || !count)
-  2559			return -EINVAL;
-  2560	
-  2561		mutex_lock(&con->recovery_lock);
-  2562		data = con->eh_data;
-  2563		if (!data || data->count == 0) {
-  2564			*bps = NULL;
-  2565			ret = -EINVAL;
-  2566			goto out;
-  2567		}
-  2568	
-> 2569		*bps = kmalloc_array(sizeof(struct ras_badpage), data->count, GFP_KERNEL);
-  2570		if (!*bps) {
-  2571			ret = -ENOMEM;
-  2572			goto out;
-  2573		}
-  2574	
-  2575		for (; i < data->count; i++) {
-  2576			(*bps)[i] = (struct ras_badpage){
-  2577				.bp = data->bps[i].retired_page,
-  2578				.size = AMDGPU_GPU_PAGE_SIZE,
-  2579				.flags = AMDGPU_RAS_RETIRE_PAGE_RESERVED,
-  2580			};
-  2581			status = amdgpu_vram_mgr_query_page_status(&adev->mman.vram_mgr,
-  2582					data->bps[i].retired_page << AMDGPU_GPU_PAGE_SHIFT);
-  2583			if (status == -EBUSY)
-  2584				(*bps)[i].flags = AMDGPU_RAS_RETIRE_PAGE_PENDING;
-  2585			else if (status == -ENOENT)
-  2586				(*bps)[i].flags = AMDGPU_RAS_RETIRE_PAGE_FAULT;
-  2587		}
-  2588	
-  2589		*count = data->count;
-  2590	out:
-  2591		mutex_unlock(&con->recovery_lock);
-  2592		return ret;
-  2593	}
-  2594	
+void no_scopes(int a)
+{
+    printf("%s(%d)\n", __func__, a);
+    switch (a) {
+    case 1:
+        int case_1 __attribute__((cleanup(cleanup_1)));
+        return;
+    case 2:
+        int case_2 __attribute__((cleanup(cleanup_2)));
+        return;
+    default:
+        int case_default __attribute__((cleanup(cleanup_3)));
+        return;
+    }
+}
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+void with_scopes(int a)
+{
+    printf("%s(%d)\n", __func__, a);
+    switch (a) {
+    case 1: {
+        int case_1 __attribute__((cleanup(cleanup_1)));
+        return;
+    }
+    case 2: {
+        int case_2 __attribute__((cleanup(cleanup_2)));
+        return;
+    }
+    default: {
+        int case_default __attribute__((cleanup(cleanup_3)));
+        return;
+    }
+    }
+}
+
+int main(void)
+{
+    no_scopes(1); printf("\n");
+    no_scopes(2); printf("\n");
+    no_scopes(3); printf("\n");
+
+    with_scopes(1); printf("\n");
+    with_scopes(2); printf("\n");
+    with_scopes(3);
+}
+
+$ gcc -O2 test.c
+
+$ ./a.out
+no_scopes(1)
++ cleanup_1(0x7ffea3450c0c)
+
+no_scopes(2)
++ cleanup_2(0x7ffea3450c10)
++ cleanup_1(0x7ffea3450c0c)
+
+no_scopes(3)
++ cleanup_3(0x7ffea3450c14)
++ cleanup_2(0x7ffea3450c10)
++ cleanup_1(0x7ffea3450c0c)
+
+with_scopes(1)
++ cleanup_1(0x7ffea3450c14)
+
+with_scopes(2)
++ cleanup_2(0x7ffea3450c14)
+
+with_scopes(3)
++ cleanup_3(0x7ffea3450c14)
+
+$ clang -O2 test.c
+test.c:12:9: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+   12 |         int case_1 __attribute__((cleanup(cleanup_1)));
+      |         ^
+test.c:15:9: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+   15 |         int case_2 __attribute__((cleanup(cleanup_2)));
+      |         ^
+test.c:18:9: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+   18 |         int case_default __attribute__((cleanup(cleanup_3)));
+      |         ^
+test.c:17:5: error: cannot jump from switch statement to this case label
+   17 |     default:
+      |     ^
+test.c:15:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   15 |         int case_2 __attribute__((cleanup(cleanup_2)));
+      |             ^
+test.c:12:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   12 |         int case_1 __attribute__((cleanup(cleanup_1)));
+      |             ^
+test.c:14:5: error: cannot jump from switch statement to this case label
+   14 |     case 2:
+      |     ^
+test.c:12:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   12 |         int case_1 __attribute__((cleanup(cleanup_1)));
+      |             ^
+3 warnings and 2 errors generated.
+
+https://godbolt.org/z/1Tx7Gj1xf
+
+I would add the scoping to the case labels or use scoped_guard() to
+avoid this, which would also avoid the instances of -Wc23-extensions.
+
+Cheers,
+Nathan
