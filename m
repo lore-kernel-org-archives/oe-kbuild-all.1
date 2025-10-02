@@ -1,128 +1,113 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3A02459E7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 21:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF312737EE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  2 Oct 2025 21:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759441393; cv=none; b=Tw4y9rXmdapXtZgKnD+tOGnR++Oinvlp9c+0Vcfh4aACaWSBO6BRIypdGG5319URgQKASU7pMCXp7cI3E/z1JYK6ah3pX2DeB1ngtSu/AgM9X/GFfFbo31fx21Ufhz1BwkYhaTtwvVHXHC06qIQiLNKeiP+YqA1vCoW8nvehKtU=
+	t=1759441496; cv=none; b=mItijpMOe57xYOR+0a3mlK+kCX6GVwBFGEhQCjnRXvOVUI8IlyANIdRWHNGc5iSFPzcloBbggrei8BrlUlQWG4t02E2tCVctTyDOtGI3WoTGqsxuJhAxwoWRMXpOr6Ji1pZyWWhx5HObsfoOWHj136zy+Dg512QkkBhf+gNC+W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759441393; c=relaxed/simple;
-	bh=EC/JwrRzEfWyNU1MymFPlAzzZzaW3cKzpLn7u1s1Ig4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N6YELyuCS/IF88L8QgjziXA+mZl5fJjiXxL55WEgCQIXnK8l5fthHlNUAaSImK31Lk5v8y2oO4syxrlef61WqnsrYFeLGzCUiLleRFVvVrLblplFqmVjAQBOcIOaG7MzaorOpeMdxsqvqUKUrdETg47ZE5kzwFNwmOcBaTNYeaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iGNu7NUM; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759441496; c=relaxed/simple;
+	bh=+bQjfMox0LYSANw6kFUEUHC5pwsK+yglyGHXY1J7mTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RRvKGY2/KRkrdChFQVWhuHJn1vxuy52C57Sm1p2WYP1RbYGt1qLolXXBfGCQO4FMwxB+WjjD+QEte2OLWU596LZPCYBW4T8kqI6M+YTSXjeBOZYAcK5vdA/JZrrJRI+hh5Z2p6UJ2C80DngyEXowjTk20L235uCxnrbzcuvnzoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExaE53wy; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGNu7NUM"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b520539e95bso32342a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 02 Oct 2025 14:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759441391; x=1760046191; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lPcXFzKT5wVu+oYSVpByRjAYmnWsxgWqvNHhKj+wPuQ=;
-        b=iGNu7NUMWE5PbNkpEKK2vipMjhFP8IswEElytcBgFhQLnZR8cWYPnjVK0q/LWJbcGv
-         rxiMk5wOGFapnWRyZasxg6+KmPcjlAppb7ZbSGGqz4n9OqTxTomCHMtdl+zcFYd8gTWC
-         JxDC85CgPt1KL9wmcKJp1vVQdXmGjffbun0nd4cEg7G11vkdKTwoRDONZNtCFdjwx8B4
-         59KKc+271XoKVn9oDFbA89wQl27734tKRI8S9r6wPfbN8lUpLZkJXrF9L3PeYDQaAzSa
-         yxZ33YQ2Yc8RL84A1NrAb4FHR7DVBujTl5Ceb+F+7Z1GeA9RwSV6r659E1Xg7ljFA6pF
-         HY1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759441391; x=1760046191;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lPcXFzKT5wVu+oYSVpByRjAYmnWsxgWqvNHhKj+wPuQ=;
-        b=GHRNUcnOfx2991Gc2cbfu5AEHX3KTpIqq5/QN0C3zQmePaDFMSk7NFCrjbSILhfACG
-         YusCsykI1PNsQbE1lRi51vY012CUxNOYNkF1aGLQUDZIT888T8+MnIyo6Svd7Z/NJ22Z
-         eOJqDfZKhxvKDdYRLnrtSEukip6gLqVjqZDaTgCDX3H15HIIae6jdHW3BcIh2nNweaHC
-         Fzt1wmrfTnGw5g12Z7ff+FxGkBtAzML+W0XL1TfTEvSNFAyU4nGEnjuOryaM4iGcA6om
-         +2iiNp6mvVrkKqPTPVgBmrWDs3P5N2NtneKi+UCg9QjHP+CZ7pAwyd1ggx0Tb531zXbQ
-         uYDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWX9tm+EC4lIAGvP+5VrKj3YwaGnIajCLCst4kPepBIgrwCRixen1pcq9mQDYquH5syQbV52kVr/ykvjTRy@lists.linux.dev
-X-Gm-Message-State: AOJu0YwE8EO7tY3yVs3R5CrkRMp14U9oMYmhE6bSv5CqBpnipQvd/dLr
-	1SqdTGTPpvy/Co9Z4CGrMtwuGMDLq5Drz4gav9KhjFFjtD6gHDe8m575YU+nrCo9KAIbNhon1XQ
-	zMG63PWUjNhcSqxouWHGs6k8DjPAbxfU=
-X-Gm-Gg: ASbGncvaMzYHahoV/2c/2Qmn+F4J+LK7oOoe1m9lk/cpXLBpxoOBFG5d69HKrF3fuOS
-	07XaTftOA/o/JPz2skoIm/5MqnRxWxowiVcXY22aOkP16h78LROxTJShkGtKpNHvCMDr4UdSKV4
-	CdDyXlUeEEhDG7MNKup9GGgECKXbihOqI6LSzj2lfaQRdF5UPat/xmDknUhhuy7YMWaDPN7F1+y
-	vFx+X2oA2tgDCvFrkr8NrWWew0qOyoFtY8+ij3HY6/cGf2fsVAr36NjCiUaCAl5rlNwm5tj8LgD
-	2HWEQdN6bUlknthGInFEbntCuj7TX2k2Qbkh9iKx4szQ7nuD1g==
-X-Google-Smtp-Source: AGHT+IFZzSxiqDHj6MHdqyQ1Q1hdzZXvFd6lioB0p3uh+24Ijmg973MsU4BcCXMws2SWUfETRmGWtCjrkLphe1TQaL8=
-X-Received: by 2002:a17:902:d2ca:b0:288:8c30:f08c with SMTP id
- d9443c01a7336-28e9a5d22c7mr5070435ad.2.1759441391458; Thu, 02 Oct 2025
- 14:43:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExaE53wy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759441495; x=1790977495;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+bQjfMox0LYSANw6kFUEUHC5pwsK+yglyGHXY1J7mTk=;
+  b=ExaE53wy+ETDDeE7lDkkSaAawzy3KoEg84IMYdviDZeyzfeje3jot+4d
+   BJkOMvBzYTnIElCnQ4PLTFpjYTAOimL5fEETHZcNvSffmupFRFidW4zBi
+   3xmbU//heYpmAuds2VYkqcT3ut8DXmNaTVrErj3b3Ks7VOctGVno8lowd
+   4nqUnL1J0+3GLy9AdoO2AoePqbiuvk/AWCZ5g731g44kKZBuvhtvTWQL7
+   iZ5Zskb2gE7E+svDEVP2IpoE9ObNrqIQWqAWJpwuzQuz4Pfqf0HgiY8nM
+   DPMRPEON+i+1ZXcT5Iib1SOzEfttMatZUqzRRQluOExBZ7LO7AEGCPQZ5
+   A==;
+X-CSE-ConnectionGUID: t5ErTKeXSA+zdTEagyKLzA==
+X-CSE-MsgGUID: 1Na8ez3QSeOr4j+I/G0ngA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="61770308"
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
+   d="scan'208";a="61770308"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 14:44:54 -0700
+X-CSE-ConnectionGUID: jfS8c8r1T8qbK/zClWus7A==
+X-CSE-MsgGUID: uCEahISYSu20Xtv6VqmdzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
+   d="scan'208";a="210114226"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 02 Oct 2025 14:44:53 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v4R6Z-00048Z-0W;
+	Thu, 02 Oct 2025 21:44:51 +0000
+Date: Fri, 3 Oct 2025 05:44:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm:csi-v6 3/7] drivers/media/platform/video-mux.c:172:10: error:
+ 'const struct v4l2_subdev_video_ops' has no member named 'g_frame_interval'
+Message-ID: <202510030540.zCd32Zmk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202510030449.VfSaAjvd-lkp@intel.com> <20251002141925.ab86656b1d50f6e27f216209@linux-foundation.org>
-In-Reply-To: <20251002141925.ab86656b1d50f6e27f216209@linux-foundation.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 2 Oct 2025 23:42:59 +0200
-X-Gm-Features: AS18NWD7b1CZpOPQhwI0Dn5y2ltKsgZ6GaZnx5tlIYsi0bLzqLKsPKXfvkSWyuI
-Message-ID: <CANiq72kOhRdGtQe2UVYmDLdbw6VNkiMtdFzkQizsfQV0gLY1Hg@mail.gmail.com>
-Subject: Re: [linux-next:master 13069/13300] error[E0425]: cannot find value
- `VM_MERGEABLE` in crate `bindings`
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, Jakub Acs <acsjakub@amazon.de>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Oct 2, 2025 at 11:19=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> No idea.  Let me cc rust-for-linux.
->
-> It's a one-line patch:
->
-> --- a/include/linux/mm.h~mm-ksm-fix-flag-dropping-behavior-in-ksm_madvise
-> +++ a/include/linux/mm.h
-> @@ -296,7 +296,7 @@ extern unsigned int kobjsize(const void
->  #define VM_MIXEDMAP    0x10000000      /* Can contain "struct page" and =
-pure PFN pages */
->  #define VM_HUGEPAGE    0x20000000      /* MADV_HUGEPAGE marked this vma =
-*/
->  #define VM_NOHUGEPAGE  0x40000000      /* MADV_NOHUGEPAGE marked this vm=
-a */
-> -#define VM_MERGEABLE   0x80000000      /* KSM may merge identical pages =
-*/
-> +#define VM_MERGEABLE   BIT(31)         /* KSM may merge identical pages =
-*/
->
->  #ifdef CONFIG_ARCH_USES_HIGH_VMA_FLAGS
->  #define VM_HIGH_ARCH_BIT_0     32      /* bit only usable on 64-bit arch=
-itectures */
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git csi-v6
+head:   9afab5ec0a06e2fc9c2cb2b739bc6caececf815a
+commit: 4d73fea00b5748e8b6fb7363f4fefa75bc998932 [3/7] media: staging/imx: add frame intervals back in
+config: csky-randconfig-001-20251003 (https://download.01.org/0day-ci/archive/20251003/202510030540.zCd32Zmk-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510030540.zCd32Zmk-lkp@intel.com/reproduce)
 
-Yeah, non-trivial macros confuse `bindgen`.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510030540.zCd32Zmk-lkp@intel.com/
 
-For the moment, you can do e.g. [1].
+All errors (new ones prefixed by >>):
 
-Other times, we have changed `#define`s into `enum`s -- that also works.
+>> drivers/media/platform/video-mux.c:172:10: error: 'const struct v4l2_subdev_video_ops' has no member named 'g_frame_interval'
+     172 |         .g_frame_interval = vidsw_g_frame_interval,
+         |          ^~~~~~~~~~~~~~~~
+>> drivers/media/platform/video-mux.c:172:29: error: initialization of 'int (*)(struct v4l2_subdev *, void *, unsigned int *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_frame_interval *)' [-Wincompatible-pointer-types]
+     172 |         .g_frame_interval = vidsw_g_frame_interval,
+         |                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/video-mux.c:172:29: note: (near initialization for 'video_mux_subdev_video_ops.s_rx_buffer')
+   drivers/media/platform/video-mux.c:145:12: note: 'vidsw_g_frame_interval' declared here
+     145 | static int vidsw_g_frame_interval(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/video-mux.c:173:10: error: 'const struct v4l2_subdev_video_ops' has no member named 's_frame_interval'
+     173 |         .s_frame_interval = vidsw_s_frame_interval,
+         |          ^~~~~~~~~~~~~~~~
+>> drivers/media/platform/video-mux.c:173:29: error: initialization of 'int (*)(struct v4l2_subdev *, u32)' {aka 'int (*)(struct v4l2_subdev *, unsigned int)'} from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_frame_interval *)' [-Wincompatible-pointer-types]
+     173 |         .s_frame_interval = vidsw_s_frame_interval,
+         |                             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/video-mux.c:173:29: note: (near initialization for 'video_mux_subdev_video_ops.pre_streamon')
+   drivers/media/platform/video-mux.c:155:12: note: 'vidsw_s_frame_interval' declared here
+     155 | static int vidsw_s_frame_interval(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
-I hope that helps.
 
-Cheers,
-Miguel
+vim +172 drivers/media/platform/video-mux.c
 
-[1]
+   169	
+   170	static const struct v4l2_subdev_video_ops video_mux_subdev_video_ops = {
+   171		.s_stream = video_mux_s_stream,
+ > 172		.g_frame_interval = vidsw_g_frame_interval,
+ > 173		.s_frame_interval = vidsw_s_frame_interval,
+   174	};
+   175	
 
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helpe=
-r.h
-index 5128e2f12038..918f4c74067b 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -106,3 +106,5 @@ const xa_mark_t RUST_CONST_HELPER_XA_PRESENT =3D XA_PRE=
-SENT;
-
- const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC =3D XA_FLAGS_ALLOC;
- const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC1 =3D XA_FLAGS_ALLOC1;
-+
-+const vm_flags_t RUST_CONST_HELPER_VM_MERGEABLE =3D VM_MERGEABLE;
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
