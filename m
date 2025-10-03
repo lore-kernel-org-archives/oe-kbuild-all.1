@@ -1,263 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785863987D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 20:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A13825784A;
+	Fri,  3 Oct 2025 21:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759524662; cv=none; b=ly6345QCmyrO4EpuMuVJiIk5CBtUJ4sOQSWmj9S/FjSib8ML376sErkI85DT7rXgVuKusgpTr0e6eRItrighwoq0/jlj4pqLNow3ksHjbbjRJw6kwRoKZsu1tu+QNRpn/2ps+52WZ9WxtqJGZ0QUJ2XO3aKio8GtlJcj6qP991c=
+	t=1759526332; cv=none; b=pTwaDfJbs7RYPLQtevzSDAw3fTmr0J7OP1qYgRKwPw+Kk6WxEkB7twyr1Y7BF6EOMeQTnwa3d4nxgBhhRb6ztCFy8cDKMY6Byo0MqPBaQwk6oVT2bHIcDkdVlM7u/ZaVg3mdbCbrxsJPrvb14fNadu+j+mjT32zwI3c0M/2uinw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759524662; c=relaxed/simple;
-	bh=yZBi6ZOqQK8HjYNj6Y5xtCI2XfLy8fR0heAO36ACFKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RtnVoJ/ruaUqwt7z4SGQuwOMHs58M+uSXPKvylUnJMoCoGORnNcVtz+P3xBANSbEWl1ei3gONPiluxCJNLIc+spHE+4maCpaIFP0IbUT6dIAvhMXmdFP41f4U1SHUa6RElMnBBOytupo3ACqn5fdfBepyfdx59Wj5WSylXI67y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qni7S7H8; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759526332; c=relaxed/simple;
+	bh=cdi8diOKvl/kFzstYU62V3dp+byOlFAovUvaea9RHdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lV66Ea7prahevVqrKFuS/jektciDV9sxDKEhRx0uoHFksgF6pXqYHervAM7uvqa2X9dXZlxUt2lobdWHLRUwnEIcBQVt+MYqCVt+XdMc8JQIvdiIg000I1sFx/MBwPMniYxR+Uc95RR180FTFhT+6uDk2uPreX2AIyBl+vg8EhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=JOjGjDdY; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qni7S7H8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759524660; x=1791060660;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yZBi6ZOqQK8HjYNj6Y5xtCI2XfLy8fR0heAO36ACFKo=;
-  b=Qni7S7H8g79luZtW9/M+KnxHuZ106RfGLSI2+cvoj0Q3LKVQsiWiB3Io
-   XSlBvzqV4Zi0kBINZ4VfGJgdW0JE29g03Hq0Z1UIEI5PiD/uFMdXJ8JwW
-   VNhCpuOVq0mY6XZHx1JQwFTkf6OkwiG/a90iGDplPUHbJJkdepzViUqKf
-   7QXQYx4vKMBYX7Uy9mJwsA7SWrSTMBk+Vqby7CMqInS9fTyzqNu6fvQeP
-   /dHq+GgGQZLIoYSXRyF4ngTcipk9S3S83/t19AWZlOpNQLm3sSCVo9tR6
-   z46r7FcstML+NjSNsejW0cDwyyj2r3zL6rQ6duuraB8oH/ZwqRiHTzWKj
-   A==;
-X-CSE-ConnectionGUID: u5oA5/AGRQmgl7mZmDGpIA==
-X-CSE-MsgGUID: VpmEhOF/RqqtRdkYLPAHbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="84434894"
-X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
-   d="scan'208";a="84434894"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 13:50:59 -0700
-X-CSE-ConnectionGUID: JsPEL8JDR2KC/Emc5clWlQ==
-X-CSE-MsgGUID: DiI2g0w1SiuYVHM2UFBLtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
-   d="scan'208";a="179299111"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Oct 2025 13:50:58 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v4mjw-0004sr-15;
-	Fri, 03 Oct 2025 20:50:56 +0000
-Date: Sat, 4 Oct 2025 04:50:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 13240/13363]
- arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revA.dtb:
- spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one
- must be fixed:
-Message-ID: <202510040434.KzlnjhdR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="JOjGjDdY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
+	s=s31663417; t=1759526318; x=1760131118; i=quwenruo.btrfs@gmx.com;
+	bh=ClOl3KBa/fy5rJhCOL7memoPu2mkys7ELD5JHWEkEtc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=JOjGjDdY22NgZcABCzuruymCVxpy9JdysN3dSvJbkwSuox1Cw+GZkRdltYsBIPz9
+	 i6rc1cXkkOnycqISSuGbnVzbToAMHwUN2LQUFbAGT2kMq0KzRBMy2dJwIcvh+LGYr
+	 MRnMydwrvG/PgY8A5sXlDuFUWKEolUToKJ0TdRcN+Rtemt6VKAEpTspt8HMP7c60M
+	 0lAuJV7W+3CDvEB9RrKme9Lp4sqc4zJ17/uzI8DflKtqPDqCUcCVI3oliTYjJ3eud
+	 d0BjtCtWcHLGbhuEHZ2tdb4pcfw93yt4fGUP+0utThzzWmo1RxxYtkz8/5Yp/YLbE
+	 n8ziF96Cg7HUFOUj/w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.0.229] ([159.196.52.54]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N8XU1-1uA1YC2NAv-00tvZE; Fri, 03
+ Oct 2025 23:18:38 +0200
+Message-ID: <e6efa85d-744d-4041-b156-9f9909ca99a0@gmx.com>
+Date: Sat, 4 Oct 2025 06:48:33 +0930
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] btrfs: make btrfs_repair_io_failure() handle bs > ps
+ cases without large folios
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>,
+ linux-btrfs@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <202510030550.mqFoO0Dw-lkp@intel.com>
+ <234df03b-e6fc-44c8-a28f-aa51305d87a0@gmx.com>
+ <aN-rOq9boL0hXZ3R@stanley.mountain>
+Content-Language: en-US
+From: Qu Wenruo <quwenruo.btrfs@gmx.com>
+Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
+ BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1YAUJEP5a
+ sQAKCRDCPZHzoSX+qF+mB/9gXu9C3BV0omDZBDWevJHxpWpOwQ8DxZEbk9b9LcrQlWdhFhyn
+ xi+l5lRziV9ZGyYXp7N35a9t7GQJndMCFUWYoEa+1NCuxDs6bslfrCaGEGG/+wd6oIPb85xo
+ naxnQ+SQtYLUFbU77WkUPaaIU8hH2BAfn9ZSDX9lIxheQE8ZYGGmo4wYpnN7/hSXALD7+oun
+ tZljjGNT1o+/B8WVZtw/YZuCuHgZeaFdhcV2jsz7+iGb+LsqzHuznrXqbyUQgQT9kn8ZYFNW
+ 7tf+LNxXuwedzRag4fxtR+5GVvJ41Oh/eygp8VqiMAtnFYaSlb9sjia1Mh+m+OBFeuXjgGlG
+ VvQFzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
+ CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
+ /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
+ GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
+ q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
+ ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCZxF1gQUJEP5a0gAK
+ CRDCPZHzoSX+qHGpB/kB8A7M7KGL5qzat+jBRoLwB0Y3Zax0QWuANVdZM3eJDlKJKJ4HKzjo
+ B2Pcn4JXL2apSan2uJftaMbNQbwotvabLXkE7cPpnppnBq7iovmBw++/d8zQjLQLWInQ5kNq
+ Vmi36kmq8o5c0f97QVjMryHlmSlEZ2Wwc1kURAe4lsRG2dNeAd4CAqmTw0cMIrR6R/Dpt3ma
+ +8oGXJOmwWuDFKNV4G2XLKcghqrtcRf2zAGNogg3KulCykHHripG3kPKsb7fYVcSQtlt5R6v
+ HZStaZBzw4PcDiaAF3pPDBd+0fIKS6BlpeNRSFG94RYrt84Qw77JWDOAZsyNfEIEE0J6LSR/
+In-Reply-To: <aN-rOq9boL0hXZ3R@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:z9W0w/aMEbBUZfUL8mNd9BCT8+hGTUtbIKrLqeUXjbIySpsQYa6
+ 2Eap3rXiY+kGFQ+nFMVieakfOz2JMyXEe6QqvAtQ9JbbJnYb4S9q9GBRq8dI09RgTINbOA6
+ kXVDSot1kKDk2XJJV5yKJw9V0OyslLSH6rRzrvnMt3JucdxCFZ7nsMksCdsVplrDh4ZDilP
+ pLCwR6bqma1BwMvkBNofA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/+uAWj/nRIg=;GtprqLy8GiiRPtC3A4p5Yh0i8i2
+ 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
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47a8d4b89844f5974f634b4189a39d5ccbacd81c
-commit: 5a329d89d777c398d013bb2f3be76cd5425d67b8 [13240/13363] Merge branch 'for-linus' of https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
-config: arm64-randconfig-051-20251003 (https://download.01.org/0day-ci/archive/20251004/202510040434.KzlnjhdR-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-dtschema version: 2025.9.dev1+g4b28bc79f
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510040434.KzlnjhdR-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510040434.KzlnjhdR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revA.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
---
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revA.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revB.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revB.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kd-g-revA.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kd-g-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kd-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kd-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kd-g-revA.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kd-g-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kd-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kd-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kv-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kv-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kv-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kv-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kv-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kv-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kr-g-revB.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kr-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-sm-k24-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
---
-   arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kr-g-revB.dtb: gpio@11 (dlg,slg7xl45106): 'label' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/trivial-gpio.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kr-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['cdns,spi-r1p6'] is too short
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
-   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
->> arch/arm64/boot/dts/xilinx/zynqmp-smk-k24-revA-sck-kr-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+=E5=9C=A8 2025/10/3 20:23, Dan Carpenter =E5=86=99=E9=81=93:
+> On Fri, Oct 03, 2025 at 06:47:11PM +0930, Qu Wenruo wrote:
+>>> cc53bd2085c8fa David Sterba      2025-09-17  885  	if (unlikely(!smap.=
+dev->bdev ||
+>>> cc53bd2085c8fa David Sterba      2025-09-17  886  		     !test_bit(BTR=
+FS_DEV_STATE_WRITEABLE, &smap.dev->dev_state))) {
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  887  		ret =3D -EIO;
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  888  		goto out_counter_d=
+ec;
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  889  	}
+>>> bacf60e5158629 Christoph Hellwig 2022-11-15  890
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01  891  	bio =3D bio_alloc(s=
+map.dev->bdev, nr_steps, REQ_OP_WRITE | REQ_SYNC, GFP_NOFS);
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01  892  	/* Backed by fs_bio=
+_set, shouldn't fail. */
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01  893  	ASSERT(bio);
+>>> 2d65a91734a195 Qu Wenruo         2025-10-01 @894  	bio->bi_iter.bi_sec=
+tor =3D smap.physical >> SECTOR_SHIFT;
+>>
+>> I have no idea how to make smatch happy.
+>=20
+> I would just delete the unnecessary NULL check,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sounds good, as all other fses are doing without a NULL check.
+
+Thanks,
+Qu
+
+> but an equally valid
+> thing is to just ignore the warning.  In the kernel, all old warnings
+> are false positives.  I'm never aiming for being completely free from
+> static checker warnings because that means we have to be less ambitious
+> about what we check for.
+>=20
+> regards,
+> dan carpenter
+>=20
+>=20
+
