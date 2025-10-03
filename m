@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965F9286D5C;
-	Fri,  3 Oct 2025 15:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68993286400
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 15:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759505429; cv=none; b=jj4SKOVzMl/sbiX7eEkDK4juLN2HccW0G+EuzKUNhjng2OO+hLh2fRKIpFaNZSNR/GaTAUAMiZM/0ZEHvM7xWDPh8uko0dai69R99YUgWmErYpvfyT2/BsqWqMqV3EyFanrsfNmVVzelW+4mFDfTUp5YqC4N8bUnOOY7ymMXzzE=
+	t=1759505431; cv=none; b=Fchxnhmg2sDesqtPE/FWo3fdtcPPJyWXUh2sAW5xlinzFNa3WFL/BrItueeVZkthTTY61wl6YsWN2LK7raC6QgVIFuYFAwEAtg+uoBW6ZT4QCKw0FvatYGz+we8+IbopjzMPXOX6Jq47YTM94Xt3STtYqrt79VoISA930N2Hx7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759505429; c=relaxed/simple;
-	bh=q/9Xu2YYVG+OUUPaY0oOhfiQYqYmkFvJm1jxGPXbccQ=;
+	s=arc-20240116; t=1759505431; c=relaxed/simple;
+	bh=6UBzWXopvHYpLniDEP3eQNtT2j9LiRZy5/uLLZwAkvI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j9alaOfosxaIn6BJYrdt3a2faB1VrKNq9By9Yh/+zXhA13ZT55iti5vmOgrwkE+FjwLMDwBMEFGDmQnXJuL7YrDIHZgpoItDPtTwn/oACwZaWc82D2b/QOOULKEOO4L3ATRExTRNMlM7K41thQTdj1XhgnESW5kgr4iNFEnGk6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvamK2Hk; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=eyNCYObWNfpwHNz55yVM1iO6/fI3crq7mjrk3fLh8aaDqvGT6thMOJFKWHGiqVd8jK2v4iPV9Zm0GyyOHr30+MjdPjVavJmByyxTsk91qAq29mbKWMlDXf+Lt5jqh6aeno2gVYApif4y8KYfkw20rvQdEl7zIbS2YokSyHh6YNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MosRjGWq; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvamK2Hk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MosRjGWq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759505428; x=1791041428;
+  t=1759505429; x=1791041429;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q/9Xu2YYVG+OUUPaY0oOhfiQYqYmkFvJm1jxGPXbccQ=;
-  b=QvamK2Hkj+qU4qqyfEQJOO1bsXhFjR4JpfFQjtxwkTwLDsOA7Y3e7gtc
-   cggT4KI85HIfF6KZ49jFUL1z3nRcCSLLuoIQ7Vl6I+5UIUkUT8+ym20dv
-   8U2+vO6esydE5uLpGInp4J6lQLKLG9E2QStxvqU0frxNrgQ4ZQl2zsQY5
-   ywf1Pin62+SFn1qHz4U9JkmnaG+oZKNQcbdsV7j7sKe90nO5ehlzfLXVq
-   gVMzyNZBXme0CDaCsTbjc4zHjdiL6V+cbdi0c0+Ee+nHUOprlp5SxrDTW
-   EOovcV1F2HzLdU4pw4+7c50IVhvDG3RZs/nNrZyDU/Y1fKsOXkyBBLuYU
+  bh=6UBzWXopvHYpLniDEP3eQNtT2j9LiRZy5/uLLZwAkvI=;
+  b=MosRjGWqIhzckFnaBxejNTHXfgxwEWqlUrH6MtdFpRFBsT/YqGbH6pwW
+   WIDPQ9hh/JquVRy39MAHAuSSol4iQ9nOx+GPtJeLFr4yfPkPFUvTvSy7b
+   LTLMm3RX79pWwKrec0urMGlRwS3OAqR39YzaaLGzEn6sxeRUso8JEMqri
+   w5DmNqagL10S7Yq3IHreezCCZ8FNkCKIxuKPwLo1nabC1CzTVNgtVn3MD
+   +5liE5oN4kKrxtJQ5fnGHNLhqASnMysj3Ejem/gAOO/fh7ZciaWQE6S5L
+   xuJGc8af9KgAHXBb6MApKGC4PKi5s79BsbEegaCQLRywZRTC2CbtENimW
    w==;
-X-CSE-ConnectionGUID: ihF0HE5FTueVITbwWex3pA==
-X-CSE-MsgGUID: olHoZa5/Tseh8/fxAbOP2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="60826083"
+X-CSE-ConnectionGUID: UhXj48NQRQ+XQ6WPwQa3Pg==
+X-CSE-MsgGUID: w2s3DsKOSXi7lL6PX7EGFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="60826084"
 X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
-   d="scan'208";a="60826083"
+   d="scan'208";a="60826084"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 08:30:27 -0700
-X-CSE-ConnectionGUID: BDdaxFHARMmz3JkgtkXyTg==
-X-CSE-MsgGUID: KR53dd6NS0C+e6sSWxZPiQ==
+X-CSE-ConnectionGUID: J/kxDKHSQxmSV/hjsgM62Q==
+X-CSE-MsgGUID: tvvb88UeTr2M91Dw7Y2qHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
-   d="scan'208";a="184505759"
+   d="scan'208";a="184505761"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Oct 2025 08:30:25 -0700
+  by orviesa005.jf.intel.com with ESMTP; 03 Oct 2025 08:30:26 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4hjj-0004cc-1E;
+	id 1v4hjj-0004ce-1J;
 	Fri, 03 Oct 2025 15:30:23 +0000
-Date: Fri, 3 Oct 2025 23:29:53 +0800
+Date: Fri, 3 Oct 2025 23:29:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Daniel Borkmann <daniel@iogearbox.net>
-Subject: [cilium:pr/netkit-iouring2 16/17] net/xdp/xsk.c:129:44: error: too
- few arguments to function call, expected 3, have 2
-Message-ID: <202510032323.xc2oFL3L-lkp@intel.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 13060/13363]
+ arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: spi@ff040000
+ (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was
+ unexpected)
+Message-ID: <202510032336.PjyL10gR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +64,255 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/cilium/linux.git pr/netkit-iouring2
-head:   8f75591c849f4deeaa81c54aa15f111c1db0d47e
-commit: b1267b3c6afc658b47021929dc9ae44acef2c68f [16/17] errata: mp open/close conversion
-config: hexagon-randconfig-001-20251003 (https://download.01.org/0day-ci/archive/20251003/202510032323.xc2oFL3L-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510032323.xc2oFL3L-lkp@intel.com/reproduce)
+Hi Conor,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47a8d4b89844f5974f634b4189a39d5ccbacd81c
+commit: 4092fc5f35cecb01d59b2cdf7740b203eac6948a [13060/13363] spi: dt-bindings: cadence: add soc-specific compatible strings for zynqmp and versal-net
+config: arm64-randconfig-052-20251003 (https://download.01.org/0day-ci/archive/20251003/202510032336.PjyL10gR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.9.dev1+g4b28bc79f
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510032336.PjyL10gR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510032323.xc2oFL3L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510032336.PjyL10gR-lkp@intel.com/
 
-Note: the cilium/pr/netkit-iouring2 HEAD 8f75591c849f4deeaa81c54aa15f111c1db0d47e builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
->> net/xdp/xsk.c:129:44: error: too few arguments to function call, expected 3, have 2
-     129 |                 __netif_get_rx_queue_peer(&dev, &queue_id);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~                ^
-   include/net/netdev_rx_queue.h:96:1: note: '__netif_get_rx_queue_peer' declared here
-      96 | __netif_get_rx_queue_peer(struct net_device **dev, unsigned int *rxq_idx,
-         | ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      97 |                           bool virt_to_phys_only);
-         |                           ~~~~~~~~~~~~~~~~~~~~~~
-   net/xdp/xsk.c:150:44: error: too few arguments to function call, expected 3, have 2
-     150 |                 __netif_get_rx_queue_peer(&dev, &queue_id);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~                ^
-   include/net/netdev_rx_queue.h:96:1: note: '__netif_get_rx_queue_peer' declared here
-      96 | __netif_get_rx_queue_peer(struct net_device **dev, unsigned int *rxq_idx,
-         | ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      97 |                           bool virt_to_phys_only);
-         |                           ~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +129 net/xdp/xsk.c
-
-1c1efc2af15886 Magnus Karlsson    2020-08-28  125  
-c835a0c7c90035 Daniel Borkmann    2025-09-03  126  void xsk_clear_pool_at_qid(struct net_device *dev, unsigned int queue_id)
-1c1efc2af15886 Magnus Karlsson    2020-08-28  127  {
-c835a0c7c90035 Daniel Borkmann    2025-09-03  128  	if (queue_id < dev->real_num_rx_queues)
-c835a0c7c90035 Daniel Borkmann    2025-09-03 @129  		__netif_get_rx_queue_peer(&dev, &queue_id);
-b425e24a934e21 Maxim Mikityanskiy 2021-01-18  130  	if (queue_id < dev->num_rx_queues)
-1c1efc2af15886 Magnus Karlsson    2020-08-28  131  		dev->_rx[queue_id].pool = NULL;
-b425e24a934e21 Maxim Mikityanskiy 2021-01-18  132  	if (queue_id < dev->num_tx_queues)
-1c1efc2af15886 Magnus Karlsson    2020-08-28  133  		dev->_tx[queue_id].pool = NULL;
-1c1efc2af15886 Magnus Karlsson    2020-08-28  134  }
-1c1efc2af15886 Magnus Karlsson    2020-08-28  135  
-
-:::::: The code at line 129 was first introduced by commit
-:::::: c835a0c7c90035db3e1ca49bdb371bdd62ffa6bd xsk: Proxy pool management for mapped queues
-
-:::::: TO: Daniel Borkmann <daniel@iogearbox.net>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux.yaml#
+   arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: i2c-mux@75 (nxp,pca9548): i2c@3: Unevaluated properties are not allowed ('label' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux.yaml#
+   arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: pmic@5e (ti,tps65086): 'regulators' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65086.yaml#
+   arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+>> arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: spi@ff040000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/avnet-ultra96-rev1.dtb: leds (gpio-leds): led-ds4:linux,default-trigger: 'oneOf' conditional failed, one must be fixed:
+   	'phy0rx' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', 'audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk', 'netdev', 'none', 'rc-feedback', 'torch', 'usb-gadget', 'usb-host', 'usbport']
+--
+>> arch/arm64/boot/dts/xilinx/zynqmp-zc1232-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1232-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+>> arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm015-dc1.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm015-dc1.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: nand-controller@ff100000 (xlnx,zynqmp-nand-controller): Unevaluated properties are not allowed ('arasan,has-mdma', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/arasan,nand-controller.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: spi@ff040000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm016-dc2.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm017-dc3.dtb: nand-controller@ff100000 (xlnx,zynqmp-nand-controller): Unevaluated properties are not allowed ('arasan,has-mdma', 'num-cs', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/arasan,nand-controller.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm017-dc3.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm017-dc3.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm018-dc4.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm018-dc4.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm018-dc4.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zc1751-xm018-dc4.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: i2c-mux@75 (nxp,pca9548): i2c@0: Unevaluated properties are not allowed ('label' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: i2c-mux@75 (nxp,pca9548): i2c@1: Unevaluated properties are not allowed ('label' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: i2c-mux@75 (nxp,pca9548): i2c@2: Unevaluated properties are not allowed ('label' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: i2c-mux@75 (nxp,pca9548): i2c@3: Unevaluated properties are not allowed ('label' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: pmic@5e (ti,tps65086): 'regulators' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65086.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: spi@ff040000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu100-revC.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@1/clock-generator@36: failed to match any schema with compatible: ['silabs,si5341']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@2/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@3/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+>> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@1/clock-generator@36: failed to match any schema with compatible: ['silabs,si5341']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@2/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@3/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+>> arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev1.0.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+>> arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu104-revC.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@1/clock-generator@36: failed to match any schema with compatible: ['silabs,si5341']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@2/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: /axi/i2c@ff030000/i2c-mux@74/i2c@3/clock-generator@5d: failed to match any schema with compatible: ['silabs,si570']
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: sc18is603@2f (nxp,sc18is603): $nodename:0: 'sc18is603@2f' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/spi/nxp,sc18is.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-zcu111-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+>> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phys' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA.dtb: display@fd4a0000 (xlnx,zynqmp-dpsub-1.7): 'phy-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/xlnx/xlnx,zynqmp-dpsub.yaml#
+--
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kv-g-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kv-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+>> arch/arm64/boot/dts/xilinx/zynqmp-smk-k26-revA-sck-kv-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+--
+>> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kv-g-revA.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kv-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kv-g-revA.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
+--
+>> arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kv-g-revB.dtb: spi@ff040000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kv-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['cdns,spi-r1p6'] is too short
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynq-spi-r1p6']
+   	'cdns,spi-r1p6' is not one of ['xlnx,zynqmp-spi-r1p6', 'xlnx,versal-net-spi-r1p6']
+   	from schema $id: http://devicetree.org/schemas/spi/spi-cadence.yaml#
+   arch/arm64/boot/dts/xilinx/zynqmp-sm-k26-revA-sck-kv-g-revB.dtb: spi@ff050000 (cdns,spi-r1p6): Unevaluated properties are not allowed ('compatible' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
