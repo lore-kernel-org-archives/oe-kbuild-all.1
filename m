@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDCD1A238C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 23:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D154319DFA2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 23:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759533314; cv=none; b=r+HRa8U0YdjdT+W/ZhicdbrZx5mfB43NEZw77B3mt6SLwW4qtqceGW+4VlWBNM39vALbL6mTzxmKCFclcuYZpOfWBjz5xAX0NYIfRUjvMCMgJdlogunk63kOPcD0m2Bpa1e+ugAXo+un0sHy6LuQYTG/gAsxGho89pVbfMI8PCg=
+	t=1759534576; cv=none; b=sV0G19xTFLcuytg8xObrh5oTxbmFTJM3iE1yefDvday0pploB0R6jq0aTMZB391xoDTZCxgLgPE9euECAo8SCD3mQLkgnKT5pr8rcO7G5u9E+TpnHEYPXIN39gRV8HqmiDJLxWmIZfNtQPKI0MTHiOSqKvdn7HQ1uMIckcZ+Mhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759533314; c=relaxed/simple;
-	bh=j3SRLK1Dl/qon21nHYPunrOv9eDFcqgE0Hzrd+vBNS4=;
+	s=arc-20240116; t=1759534576; c=relaxed/simple;
+	bh=Hsnue/tqfpty/qIduDst0jOJhTlA/ziL6uor4XIVov4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RQbt7VLLXRG8OO2O+rAsflRUB+aBX5/N2BIQmJ4rI82rI0a/fLHHJQSxrbppPsgI5wUT1F7VFcCuO2ZV7iQG5nanRwTihl0bQGSsoiPcadIY6nsLszbbcIX14aRVKELxACms8vP+Kn3DyKfys/oAV3Lc0n5LYDnywERwublWF3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JI6mUTPi; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=qqteCS0S8XrheW7fv5KITZLW8nEwycSPPVMT0yZ1yQvWlXhi76V58NHD1Q/IDAf5cKUdbbq/Mxl+J6DAiOpliTO7wxbx0JV2nHasnRwnV+kAvhhjwPmsV2Bp+C7t8xaQD+KujldGIqxsIxdV4Crp328OSk03PhGKHvUrQpHMi9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k1ZCnHIy; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JI6mUTPi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k1ZCnHIy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759533312; x=1791069312;
+  t=1759534574; x=1791070574;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j3SRLK1Dl/qon21nHYPunrOv9eDFcqgE0Hzrd+vBNS4=;
-  b=JI6mUTPiQctDitjIokEIm39RHHhIqYCU2jltHAbP7uEFK1g+J0Wm69nW
-   MCQhe0Ojb6aRcFXRn51jNb5S88pORN7pK+AKQ1u+XjKWlUifs3/xxbkZC
-   gigqpXzy+Rzq1Q8pOmAzWXy5s4f3kXHDP96CenAUbmvnQt9hG3ZGgHRge
-   EOpCO4XuMKCEO08avHAX1dgwmnKQqMbjvsHUkfxXDdpTLololsX2augzS
-   SUvR7gzjUHpwshVBQuQk0KsbVsXCkqGokEZMOGzNmBc9rHR5ue5qeReTt
-   c/0M9jNy2Fna3MFN3C2ZfvhBAxKpa8exy4KSB1x62okjdukWZfN7Fal86
-   w==;
-X-CSE-ConnectionGUID: e7yF3PfbS5S/tD78DAnURg==
-X-CSE-MsgGUID: z7jxp41pTCOcSegLBv+mWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="72436557"
-X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
-   d="scan'208";a="72436557"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 16:15:11 -0700
-X-CSE-ConnectionGUID: /WrhiwilRze0fXpp55eXBw==
-X-CSE-MsgGUID: aA2QFd07Sq6b2WuZiUzAbA==
+  bh=Hsnue/tqfpty/qIduDst0jOJhTlA/ziL6uor4XIVov4=;
+  b=k1ZCnHIye73eAhOGUVdOEI43019xvPIqsMGHyG9Holtdva7gIQwSSHYg
+   y5yhAjAW65PAO1ZK2OYHTW9DyV/roCD+gkMcIDUNci8RGij/HJPAdp2T9
+   rVqbCFKusKA6DBYx9rVMmu+XpMJJghKq+PoIP2Y5mHJ2twXwLMMpMgVPB
+   udHytuPaOmRGX7LSLW9yN1LcUsJ6rUTJ6/0EcSiC9tzsuxXq5RKcyZ045
+   mb90JN3iB9BNthPzzhGy4yaPvfM204dGI21hl1VzzV7r8C0V4N4ZN6zN7
+   lR2Ka53poU7GqkqRHv6lqn3kEn7uLhrOWVlOq1peipl398SLaLuAzgw9B
+   g==;
+X-CSE-ConnectionGUID: W4TXzlbhTsO74a+EiCxVhQ==
+X-CSE-MsgGUID: omf/9hapRfuQxLHkFFXFcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="73246258"
+X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
+   d="scan'208";a="73246258"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 16:36:12 -0700
+X-CSE-ConnectionGUID: nhc7lK1nTZC8UabqplHtGA==
+X-CSE-MsgGUID: YnXdkBbXQE6pXHIB8RnaiA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,313,1751266800"; 
-   d="scan'208";a="184593483"
+X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
+   d="scan'208";a="179322555"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Oct 2025 16:15:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 Oct 2025 16:36:11 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4ozT-0004xz-2P;
-	Fri, 03 Oct 2025 23:15:07 +0000
-Date: Sat, 4 Oct 2025 07:14:59 +0800
+	id 1v4pJp-0004yR-0p;
+	Fri, 03 Oct 2025 23:36:09 +0000
+Date: Sat, 4 Oct 2025 07:35:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-07 1/1]
- include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_317' undeclared; did
- you mean '__UNIQUE_ID_x_316'?
-Message-ID: <202510040701.vovspbXE-lkp@intel.com>
+Subject: [zen:6.17/zen-sauce 4/29]
+ drivers/pci/controller/intel-nvme-remap.c:47:33: error: field 'sysdata' has
+ incomplete type
+Message-ID: <202510040717.SZyux6K5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,143 +63,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-07
-head:   61a50bd2ab96cff3fc532a92900b0024254fc5b4
-commit: c1a3f22e0669cc6bdbd3344d9e953c8eacfeed70 [1/1] ANDROID: CRC / ABI fixups for sched_dl_entity bitfield addition
-config: arm-randconfig-002-20251004 (https://download.01.org/0day-ci/archive/20251004/202510040701.vovspbXE-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510040701.vovspbXE-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.17/zen-sauce
+head:   c962d79d9e0133c53f1b88081abc3e3ad54265a0
+commit: 0b7ff9ce1af3206c716ea6eb2b7ffe4144ffd290 [4/29] ZEN: PCI: Add Intel remapped NVMe device support
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251004/202510040717.SZyux6K5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510040717.SZyux6K5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510040701.vovspbXE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510040717.SZyux6K5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/blk-crypto.h:127,
-                    from include/linux/blk-crypto-profile.h:10,
-                    from include/linux/mmc/host.h:19,
-                    from drivers/mmc/host/mmci.c:23:
-   include/linux/blkdev.h:1721:24: error: field 'req_list' has incomplete type
-    1721 |         struct rq_list req_list;
-         |                        ^~~~~~~~
-   In file included from <command-line>:
-   drivers/mmc/host/mmci.c: In function 'mmci_probe':
->> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_317' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_316'?
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
-      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
+>> drivers/pci/controller/intel-nvme-remap.c:47:33: error: field 'sysdata' has incomplete type
+      47 |         struct pci_sysdata      sysdata;
+         |                                 ^~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from ./arch/um/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/um/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/irq.h:14,
+                    from drivers/pci/controller/intel-nvme-remap.c:37:
+   drivers/pci/controller/intel-nvme-remap.c: In function 'nrdev_from_bus':
+   include/linux/compiler_types.h:507:27: error: expression in static assertion is not an integer
+     507 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/pci/controller/intel-nvme-remap.c:74:16: note: in expansion of macro 'container_of'
+      74 |         return container_of(bus->sysdata, struct nvme_remap_dev, sysdata);
+         |                ^~~~~~~~~~~~
+   In file included from include/linux/pci.h:44,
+                    from drivers/pci/controller/intel-nvme-remap.c:40:
+   drivers/pci/controller/intel-nvme-remap.c: At top level:
+   include/linux/pci_ids.h:23:41: warning: initialized field overwritten [-Woverride-init]
+      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
+         |                                         ^~~~~~
+   drivers/pci/controller/intel-nvme-remap.c:447:26: note: in expansion of macro 'PCI_CLASS_STORAGE_RAID'
+     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci_ids.h:23:41: note: (near initialization for 'nvme_remap_ids[0].class')
+      23 | #define PCI_CLASS_STORAGE_RAID          0x0104
+         |                                         ^~~~~~
+   drivers/pci/controller/intel-nvme-remap.c:447:26: note: in expansion of macro 'PCI_CLASS_STORAGE_RAID'
+     447 |                 .class = PCI_CLASS_STORAGE_RAID << 8,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/intel-nvme-remap.c:448:31: warning: initialized field overwritten [-Woverride-init]
+     448 |                 .class_mask = 0xffffff00,
+         |                               ^~~~~~~~~~
+   drivers/pci/controller/intel-nvme-remap.c:448:31: note: (near initialization for 'nvme_remap_ids[0].class_mask')
 
 
-vim +166 include/linux/compiler.h
+vim +/sysdata +47 drivers/pci/controller/intel-nvme-remap.c
 
-fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
-a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-6f33d58794ef4c Rusty Russell        2012-11-22  167  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
-
-:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    43	
+    44	struct nvme_remap_dev {
+    45		struct pci_dev		*dev;		/* AHCI device */
+    46		struct pci_bus		*bus;		/* our fake PCI bus */
+  > 47		struct pci_sysdata	sysdata;
+    48		int			irq_base;	/* our fake interrupts */
+    49	
+    50		/*
+    51		 * When we detect an all-ones write to a BAR register, this flag
+    52		 * is set, so that we return the BAR size on the next read (a
+    53		 * standard PCI behaviour).
+    54		 * This includes the assumption that an all-ones BAR write is
+    55		 * immediately followed by a read of the same register.
+    56		 */
+    57		bool			bar_sizing;
+    58	
+    59		/*
+    60		 * Resources copied from the AHCI device, to be regarded as
+    61		 * resources on our fake bus.
+    62		 */
+    63		struct resource		ahci_resources[PCI_NUM_RESOURCES];
+    64	
+    65		/* Resources corresponding to the NVMe devices. */
+    66		struct resource		remapped_dev_mem[AHCI_MAX_REMAP];
+    67	
+    68		/* Number of remapped NVMe devices found. */
+    69		int			num_remapped_devices;
+    70	};
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
