@@ -1,77 +1,77 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1BC23ABB0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 10:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824312D24B9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 11:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759489039; cv=none; b=qOA6mOHJ9c9am3Wir8m+/k6xKYfMO1+dTh5Y48o3No6SfMFXE/7BCuB2QOmDsKIMEYMZcldY4U8vW1mcqPm5P1xJTGcOc3aV+0LF5i0PPTqPYbawj8o3Fidp5LulKH1woVeNHN+TajBV9mIPisfdSMgL7iuZdkgFEz6SmrYHHmU=
+	t=1759490530; cv=none; b=K3xoepzNX0GZXcSKt90ZwQCIOYk0YAKeoVtNIQAN0pUrCQiO6UvtRD4TEkFqbWii5O7hkpk3DT+QuBOy/4sl3sl5ed2tPP06OThN+IFAMVYJQjRHqEldkI4YtiFAUJ26oZnyvllWCKssUALJvfECy5s7acfhn3Z5PXEbNF+65OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759489039; c=relaxed/simple;
-	bh=aXy9gBXaBTxAnTUlR9TOwwYyFKC04/lcyGxK1fY9uJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qCnKf5hU/g2cCFkKlBiq6vIBVxYY5YGaQY4LhXlPJe73RdilYDoyrP1XKpdY2ZFaKcxZ0MDiyuBnhqZlfkxnECfvcI/om+xF96dLmNVN8iqX8l2kh0qoW4L+ebgIORCBhWZJhKLNdASEvn80nkLHc58q9BXgDXkNdPDTOnFcDX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UY6Pbt3D; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759490530; c=relaxed/simple;
+	bh=SQ0wWE5s+n+etYy51keKtH5RFeBQ0HfzRhF5vbYQQLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvQSxIBio5wme/m2zD6i5ZINBGVVl14uECOdr8FSZAi/M1/hHYCQsuQWb0Duo+OkyByMvNe/3qxbeWIav6ihh+hWz9K5k/phPsbA+Hfl0Zhd5aTrqkQU89tkNAIY9k0K99e2rs6dwoIV/ltTxIBX4VkrtXtglwPP2TNkhcAKMmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAdlNTgn; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UY6Pbt3D"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-46e37d10ed2so19085615e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 03 Oct 2025 03:57:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759489036; x=1760093836; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1xS4Y6iDbMRGz2VqCrGr1IDJyincVKJTk6nAhL7QGfw=;
-        b=UY6Pbt3DZlk8nfIaKMW/KuK/M2zLxaciJUchDEbzj/GsnmBXFoX0w5jWaRysG8N+Gx
-         5xegGT+7hj19A1uNSgPswS0tyj8/0ev3i3Gbswy+JbpBxo3EzFAcdehqsju+gbhgCptY
-         f6t+dG2XA8LlX+y/zaTss844Wiu9DNEFtZGsxnv6sseaJbrtcnpwrE6IneI0BUaMipNA
-         yQb5aVY6obR+LOVqPmgE8rTfkfkHQtSz1jkaxDw8Rg6XAufIz6swyLH81PLyqE7fCSqr
-         odGs4evFma2xlmD9b4ZnU9wf77+amkNOnOjDbhOeAb3niRHaseKpQuRDwj8YuXeRwcw+
-         4TjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759489036; x=1760093836;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1xS4Y6iDbMRGz2VqCrGr1IDJyincVKJTk6nAhL7QGfw=;
-        b=JK+lGm9Qv7b5GTi+ZTPK6LFIhe+ZaAFZCjTMDEsYJ5lpGzmGwDyeDqdo0GsO9DGNQy
-         bAe9dQ//B8jYWVQ9prywCzdLNsbJY56VizetYbDAy+PWWhnCcNxty16d+foZiJKeZ9V+
-         eAVSvvi1JCJ4z2/ZWEhH2V6TB3Gf8nscMkh6osDXBCeaTs9KA5SUO/JaWnmk8ngda56x
-         qfGVGPiRnHsKwXvMrkO1ihly8iJfZeV/7YrSn8dUYNkhc/KdVCH1bQvJP89BqEXVWYo8
-         9Z0IT3tOsTl+rFdD5fKkY6W48TWHp8w/zFmEmx5z4x5tZ1KBmrcVlJ1iWpyKoDsunfzM
-         /W2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWW6LNo0uZ1H1O1y3Yswkp5fRk/pguwPZ+lMdpXLtIUSLsEs1hkcEnAG3X91IhtH7kIr6UfTMqCVPqISPAE@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQm5FNDheXx2ca1RcZ2fOGphkAa4MnRTLI1/8punw8n6dQmCTW
-	n+8vM0z/MXpay5TymDMzX/1530bp76tpu2N+eXh2+qvndMlbCJg57bQ7Be0hzVpquI8=
-X-Gm-Gg: ASbGncubOJV7YlTve7tODlI/gU6VfktgsGjonPjZFAmh223gjDKk5ubKaUpDZ5fyQPh
-	9eJO2CKG1MNLIVl+OWlgETtcv9kywW2D80DrqORcZixUfXnTTEolGqp9HqpfjiWlxO5FiJvW7F2
-	bGdP/81ajrA6K9dP4Tv/LvMH2bl2Fis6vtYPPJgtp4gXQZ68RyaeB2Jc4HlLJIoulEnMREtL4hh
-	YPzIQ5ocsF4VXc3qALA+earrxvTos2puOhnQ1Wy7KkjfVuK9qdPTzTETiXbTvGpuJVDMNErHDpu
-	n/NIdxsrDuYjd3Lod1jTjXTh1SWW7GCJjMiW0J4657LHvWdFc+dbew0gGvS4TtIFf+nvKp3lqdF
-	PWGf5xG7MdSA3BvV9bq8UNvi6Jylud8zPvS251T4bMIi04Y/lYXWmvAVfqrKdcBCzqM0=
-X-Google-Smtp-Source: AGHT+IG9rqI6j+T0wl0gQkLZ5/cQkIbFJyOMyYF7rO18hBvllbU4djIfXDdxUGYlPS4BODhKDsCSpg==
-X-Received: by 2002:a05:600c:8b83:b0:45b:8adf:cf2b with SMTP id 5b1f17b1804b1-46e71142e6fmr15133295e9.21.1759489035661;
-        Fri, 03 Oct 2025 03:57:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e619b7e37sm121671965e9.1.2025.10.03.03.57.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 03:57:15 -0700 (PDT)
-Date: Fri, 3 Oct 2025 13:57:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Peter Rosin <peda@axentia.se>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH v2 2/5] i2c: mux: add support for per channel bus
- frequency
-Message-ID: <202510031735.TE7FVj0R-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAdlNTgn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759490527; x=1791026527;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SQ0wWE5s+n+etYy51keKtH5RFeBQ0HfzRhF5vbYQQLs=;
+  b=bAdlNTgnO06tQv/3hrJ5ZHeiqs6gqnxhcTUBWx6SilKkHAG3bl/Rnbrk
+   k2HLqIAOimRwuWOT5Hc1GApctl2NyZY/LufMvhKoDRZpMYJB/ec29mxqI
+   tNgXAO3fbU2ZxA3ikxaJfKJxwSyDDhIdclAU1vuy5v77F2Uks+J2019Ic
+   fM5XL1c1mXwPgCr9p1sXCRfPmQ1dYyicTSSYnWWQYrkkAwcHQGBSx+S5t
+   c90GDPMimYZflmAUwV3jiUbtFilQ9hQA2iwwNhBbP3r4hPJfV6DzIksd1
+   Ca+OfMC52VZoCpjf31jP3FIT6wRoiCrZYEnkbSwY3kRpT5EVQCwhiW8sK
+   A==;
+X-CSE-ConnectionGUID: 4TODDdCdTD2RZQEGb3al1g==
+X-CSE-MsgGUID: FAjQzJ0ASGW3RJxDaMZ3pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65598992"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65598992"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 04:22:07 -0700
+X-CSE-ConnectionGUID: A2+NWnNvTceCQPXkBdgigg==
+X-CSE-MsgGUID: yuKJlNbaQEGhIEug+NUPYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
+   d="scan'208";a="179080867"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 03 Oct 2025 04:22:02 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v4drK-0004Vj-2C;
+	Fri, 03 Oct 2025 11:21:58 +0000
+Date: Fri, 3 Oct 2025 19:21:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hari Bathini <hbathini@linux.ibm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Naveen N. Rao" <naveen@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>, bpf@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Song Liu <songliubraving@fb.com>, Jiri Olsa <jolsa@kernel.org>,
+	Viktor Malik <vmalik@redhat.com>, live-patching@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	Jiri Kosina <jikos@kernel.org>, linux-trace-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>
+Subject: Re: [PATCH] powerpc64/bpf: support direct_call on livepatch function
+Message-ID: <202510031817.t50YvoeN-lkp@intel.com>
+References: <20251002192755.86441-1-hbathini@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,207 +80,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251002-i2c-mux-v2-2-b698564cd956@gmail.com>
+In-Reply-To: <20251002192755.86441-1-hbathini@linux.ibm.com>
 
-Hi Marcus,
+Hi Hari,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcus-Folkesson/i2c-core-add-callback-to-change-bus-frequency/20251002-224414
-base:   22f20375f5b71f30c0d6896583b93b6e4bba7279
-patch link:    https://lore.kernel.org/r/20251002-i2c-mux-v2-2-b698564cd956%40gmail.com
-patch subject: [PATCH v2 2/5] i2c: mux: add support for per channel bus frequency
-config: i386-randconfig-141-20251003 (https://download.01.org/0day-ci/archive/20251003/202510031735.TE7FVj0R-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes trace/for-next bpf-next/net bpf-next/master bpf/master linus/master v6.17 next-20251002]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hari-Bathini/powerpc64-bpf-support-direct_call-on-livepatch-function/20251003-033243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20251002192755.86441-1-hbathini%40linux.ibm.com
+patch subject: [PATCH] powerpc64/bpf: support direct_call on livepatch function
+config: powerpc64-randconfig-001-20251003 (https://download.01.org/0day-ci/archive/20251003/202510031817.t50YvoeN-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510031817.t50YvoeN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510031735.TE7FVj0R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510031817.t50YvoeN-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/i2c-mux.c:506 i2c_mux_add_adapter() error: uninitialized symbol 'ret'.
+All errors (new ones prefixed by >>):
 
-vim +/ret +506 drivers/i2c/i2c-mux.c
+   In file included from arch/powerpc/net/bpf_jit_comp.c:24:
+   arch/powerpc/net/bpf_jit_comp.c: In function '__arch_prepare_bpf_trampoline':
+>> include/linux/stddef.h:16:33: error: 'struct thread_info' has no member named 'livepatch_sp'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:857:17: note: in expansion of macro 'EMIT'
+     857 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, offsetof(struct thread_info, livepatch_sp)));
+         |                 ^~~~
+   arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:857:22: note: in expansion of macro 'PPC_RAW_ADDI'
+     857 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, offsetof(struct thread_info, livepatch_sp)));
+         |                      ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:857:47: note: in expansion of macro 'offsetof'
+     857 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, offsetof(struct thread_info, livepatch_sp)));
+         |                                               ^~~~~~~~
+>> arch/powerpc/net/bpf_jit_comp.c:860:48: error: 'LIVEPATCH_STACK_FRAME_SIZE' undeclared (first use in this function)
+     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:860:17: note: in expansion of macro 'EMIT'
+     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
+         |                 ^~~~
+   arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:860:22: note: in expansion of macro 'PPC_RAW_ADDI'
+     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
+         |                      ^~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit_comp.c:860:48: note: each undeclared identifier is reported only once for each function it appears in
+     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+         |                                  ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:860:17: note: in expansion of macro 'EMIT'
+     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
+         |                 ^~~~
+   arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
+     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
+         |                                                                                     ^~~~~
+   arch/powerpc/net/bpf_jit_comp.c:860:22: note: in expansion of macro 'PPC_RAW_ADDI'
+     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
+         |                      ^~~~~~~~~~~~
 
-a7ab72390b7706 Peter Rosin        2016-04-20  336  int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
-fec1982d70721c Heiner Kallweit    2024-04-18  337  			u32 force_nr, u32 chan_id)
-a7ab72390b7706 Peter Rosin        2016-04-20  338  {
-a7ab72390b7706 Peter Rosin        2016-04-20  339  	struct i2c_adapter *parent = muxc->parent;
-0826374bff5741 Michael Lawnick    2010-08-11  340  	struct i2c_mux_priv *priv;
-c9449affad2ae0 Gerlando Falauto   2014-11-13  341  	char symlink_name[20];
-0826374bff5741 Michael Lawnick    2010-08-11  342  	int ret;
-0826374bff5741 Michael Lawnick    2010-08-11  343  
-a7ab72390b7706 Peter Rosin        2016-04-20  344  	if (muxc->num_adapters >= muxc->max_adapters) {
-a7ab72390b7706 Peter Rosin        2016-04-20  345  		dev_err(muxc->dev, "No room for more i2c-mux adapters\n");
-a7ab72390b7706 Peter Rosin        2016-04-20  346  		return -EINVAL;
-a7ab72390b7706 Peter Rosin        2016-04-20  347  	}
-a7ab72390b7706 Peter Rosin        2016-04-20  348  
-a7ab72390b7706 Peter Rosin        2016-04-20  349  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-0826374bff5741 Michael Lawnick    2010-08-11  350  	if (!priv)
-a7ab72390b7706 Peter Rosin        2016-04-20  351  		return -ENOMEM;
-0826374bff5741 Michael Lawnick    2010-08-11  352  
-0826374bff5741 Michael Lawnick    2010-08-11  353  	/* Set up private adapter data */
-a7ab72390b7706 Peter Rosin        2016-04-20  354  	priv->muxc = muxc;
-0826374bff5741 Michael Lawnick    2010-08-11  355  	priv->chan_id = chan_id;
-0826374bff5741 Michael Lawnick    2010-08-11  356  
-0826374bff5741 Michael Lawnick    2010-08-11  357  	/* Need to do algo dynamically because we don't know ahead
-0826374bff5741 Michael Lawnick    2010-08-11  358  	 * of time what sort of physical adapter we'll be dealing with.
-0826374bff5741 Michael Lawnick    2010-08-11  359  	 */
-6ef91fcca8a8ba Peter Rosin        2016-05-04  360  	if (parent->algo->master_xfer) {
-6ef91fcca8a8ba Peter Rosin        2016-05-04  361  		if (muxc->mux_locked)
-614b1c3cbfb0ec Wolfram Sang       2025-06-12  362  			priv->algo.xfer = i2c_mux_master_xfer;
-6ef91fcca8a8ba Peter Rosin        2016-05-04  363  		else
-614b1c3cbfb0ec Wolfram Sang       2025-06-12  364  			priv->algo.xfer = __i2c_mux_master_xfer;
-6ef91fcca8a8ba Peter Rosin        2016-05-04  365  	}
-7168bff2cfd710 Wolfram Sang       2019-04-03  366  	if (parent->algo->master_xfer_atomic)
-614b1c3cbfb0ec Wolfram Sang       2025-06-12  367  		priv->algo.xfer_atomic = priv->algo.master_xfer;
-7168bff2cfd710 Wolfram Sang       2019-04-03  368  
-6ef91fcca8a8ba Peter Rosin        2016-05-04  369  	if (parent->algo->smbus_xfer) {
-6ef91fcca8a8ba Peter Rosin        2016-05-04  370  		if (muxc->mux_locked)
-0826374bff5741 Michael Lawnick    2010-08-11  371  			priv->algo.smbus_xfer = i2c_mux_smbus_xfer;
-6ef91fcca8a8ba Peter Rosin        2016-05-04  372  		else
-6ef91fcca8a8ba Peter Rosin        2016-05-04  373  			priv->algo.smbus_xfer = __i2c_mux_smbus_xfer;
-6ef91fcca8a8ba Peter Rosin        2016-05-04  374  	}
-7168bff2cfd710 Wolfram Sang       2019-04-03  375  	if (parent->algo->smbus_xfer_atomic)
-7168bff2cfd710 Wolfram Sang       2019-04-03  376  		priv->algo.smbus_xfer_atomic = priv->algo.smbus_xfer;
-7168bff2cfd710 Wolfram Sang       2019-04-03  377  
-0826374bff5741 Michael Lawnick    2010-08-11  378  	priv->algo.functionality = i2c_mux_functionality;
-0826374bff5741 Michael Lawnick    2010-08-11  379  
-0826374bff5741 Michael Lawnick    2010-08-11  380  	/* Now fill out new adapter structure */
-0826374bff5741 Michael Lawnick    2010-08-11  381  	snprintf(priv->adap.name, sizeof(priv->adap.name),
-0826374bff5741 Michael Lawnick    2010-08-11  382  		 "i2c-%d-mux (chan_id %d)", i2c_adapter_id(parent), chan_id);
-0826374bff5741 Michael Lawnick    2010-08-11  383  	priv->adap.owner = THIS_MODULE;
-0826374bff5741 Michael Lawnick    2010-08-11  384  	priv->adap.algo = &priv->algo;
-0826374bff5741 Michael Lawnick    2010-08-11  385  	priv->adap.algo_data = priv;
-0826374bff5741 Michael Lawnick    2010-08-11  386  	priv->adap.dev.parent = &parent->dev;
-2212a8529eb06c Elie De Brauwer    2013-12-09  387  	priv->adap.retries = parent->retries;
-2212a8529eb06c Elie De Brauwer    2013-12-09  388  	priv->adap.timeout = parent->timeout;
-dc362d50ba94ea Alexander Sverdlin 2015-06-12  389  	priv->adap.quirks = parent->quirks;
-d1ed7985b9a6b8 Peter Rosin        2016-08-25  390  	if (muxc->mux_locked)
-d1ed7985b9a6b8 Peter Rosin        2016-08-25  391  		priv->adap.lock_ops = &i2c_mux_lock_ops;
-d1ed7985b9a6b8 Peter Rosin        2016-08-25  392  	else
-d1ed7985b9a6b8 Peter Rosin        2016-08-25  393  		priv->adap.lock_ops = &i2c_parent_lock_ops;
-0826374bff5741 Michael Lawnick    2010-08-11  394  
-bc45449b144461 David Daney        2012-04-12  395  	/*
-bc45449b144461 David Daney        2012-04-12  396  	 * Try to populate the mux adapter's of_node, expands to
-bc45449b144461 David Daney        2012-04-12  397  	 * nothing if !CONFIG_OF.
-bc45449b144461 David Daney        2012-04-12  398  	 */
-a7ab72390b7706 Peter Rosin        2016-04-20  399  	if (muxc->dev->of_node) {
-b2d57b56047b99 Peter Rosin        2016-07-09  400  		struct device_node *dev_node = muxc->dev->of_node;
-b2d57b56047b99 Peter Rosin        2016-07-09  401  		struct device_node *mux_node, *child = NULL;
-bc45449b144461 David Daney        2012-04-12  402  		u32 reg;
-bc45449b144461 David Daney        2012-04-12  403  
-b2d57b56047b99 Peter Rosin        2016-07-09  404  		if (muxc->arbitrator)
-b2d57b56047b99 Peter Rosin        2016-07-09  405  			mux_node = of_get_child_by_name(dev_node, "i2c-arb");
-b2d57b56047b99 Peter Rosin        2016-07-09  406  		else if (muxc->gate)
-b2d57b56047b99 Peter Rosin        2016-07-09  407  			mux_node = of_get_child_by_name(dev_node, "i2c-gate");
-b2d57b56047b99 Peter Rosin        2016-07-09  408  		else
-b2d57b56047b99 Peter Rosin        2016-07-09  409  			mux_node = of_get_child_by_name(dev_node, "i2c-mux");
-b2d57b56047b99 Peter Rosin        2016-07-09  410  
-b2d57b56047b99 Peter Rosin        2016-07-09  411  		if (mux_node) {
-b2d57b56047b99 Peter Rosin        2016-07-09  412  			/* A "reg" property indicates an old-style DT entry */
-b2d57b56047b99 Peter Rosin        2016-07-09  413  			if (!of_property_read_u32(mux_node, "reg", &reg)) {
-b2d57b56047b99 Peter Rosin        2016-07-09  414  				of_node_put(mux_node);
-b2d57b56047b99 Peter Rosin        2016-07-09  415  				mux_node = NULL;
-b2d57b56047b99 Peter Rosin        2016-07-09  416  			}
-b2d57b56047b99 Peter Rosin        2016-07-09  417  		}
-b2d57b56047b99 Peter Rosin        2016-07-09  418  
-b2d57b56047b99 Peter Rosin        2016-07-09  419  		if (!mux_node)
-b2d57b56047b99 Peter Rosin        2016-07-09  420  			mux_node = of_node_get(dev_node);
-b2d57b56047b99 Peter Rosin        2016-07-09  421  		else if (muxc->arbitrator || muxc->gate)
-b2d57b56047b99 Peter Rosin        2016-07-09  422  			child = of_node_get(mux_node);
-b2d57b56047b99 Peter Rosin        2016-07-09  423  
-b2d57b56047b99 Peter Rosin        2016-07-09  424  		if (!child) {
-b2d57b56047b99 Peter Rosin        2016-07-09  425  			for_each_child_of_node(mux_node, child) {
-bc45449b144461 David Daney        2012-04-12  426  				ret = of_property_read_u32(child, "reg", &reg);
-bc45449b144461 David Daney        2012-04-12  427  				if (ret)
-bc45449b144461 David Daney        2012-04-12  428  					continue;
-b2d57b56047b99 Peter Rosin        2016-07-09  429  				if (chan_id == reg)
-bc45449b144461 David Daney        2012-04-12  430  					break;
-bc45449b144461 David Daney        2012-04-12  431  			}
-64f0150a54ef60 Marcus Folkesson   2025-10-02  432  		}
-64f0150a54ef60 Marcus Folkesson   2025-10-02  433  
-64f0150a54ef60 Marcus Folkesson   2025-10-02  434  		of_property_read_u32(child, "clock-frequency", &priv->adap.clock_hz);
-64f0150a54ef60 Marcus Folkesson   2025-10-02  435  
-64f0150a54ef60 Marcus Folkesson   2025-10-02  436  		/*
-64f0150a54ef60 Marcus Folkesson   2025-10-02  437  		 * Warn if the mux adapter is not parent-locked as
-64f0150a54ef60 Marcus Folkesson   2025-10-02  438  		 * this may cause issues for some hardware topologies.
-64f0150a54ef60 Marcus Folkesson   2025-10-02  439  		 */
-64f0150a54ef60 Marcus Folkesson   2025-10-02  440  		if ((priv->adap.clock_hz < parent->clock_hz) && muxc->mux_locked)
-64f0150a54ef60 Marcus Folkesson   2025-10-02  441  			dev_warn(muxc->dev,
-64f0150a54ef60 Marcus Folkesson   2025-10-02  442  				 "channel %u is slower than parent on a non parent-locked mux\n",
-64f0150a54ef60 Marcus Folkesson   2025-10-02  443  				 chan_id);
-64f0150a54ef60 Marcus Folkesson   2025-10-02  444  
-64f0150a54ef60 Marcus Folkesson   2025-10-02  445  		/* If the mux adapter has no clock-frequency property, inherit from parent */
-64f0150a54ef60 Marcus Folkesson   2025-10-02  446  		if (!priv->adap.clock_hz)
-64f0150a54ef60 Marcus Folkesson   2025-10-02  447  			priv->adap.clock_hz = parent->clock_hz;
-64f0150a54ef60 Marcus Folkesson   2025-10-02  448  
-64f0150a54ef60 Marcus Folkesson   2025-10-02  449  		/* We don't support mux adapters faster than their parent */
-64f0150a54ef60 Marcus Folkesson   2025-10-02  450  		if (priv->adap.clock_hz > parent->clock_hz) {
-64f0150a54ef60 Marcus Folkesson   2025-10-02  451  			dev_err(muxc->dev,
-64f0150a54ef60 Marcus Folkesson   2025-10-02  452  				"channel (%u) is faster (%u) than parent (%u)\n",
-64f0150a54ef60 Marcus Folkesson   2025-10-02  453  				chan_id, priv->adap.clock_hz, parent->clock_hz);
-64f0150a54ef60 Marcus Folkesson   2025-10-02  454  
-64f0150a54ef60 Marcus Folkesson   2025-10-02  455  			of_node_put(mux_node);
-64f0150a54ef60 Marcus Folkesson   2025-10-02  456  			goto err_free_priv;
 
-ret = -EINVAL;
+vim +16 include/linux/stddef.h
 
-bc45449b144461 David Daney        2012-04-12  457  		}
-b2d57b56047b99 Peter Rosin        2016-07-09  458  
-b2d57b56047b99 Peter Rosin        2016-07-09  459  		priv->adap.dev.of_node = child;
-b2d57b56047b99 Peter Rosin        2016-07-09  460  		of_node_put(mux_node);
-bc45449b144461 David Daney        2012-04-12  461  	}
-bc45449b144461 David Daney        2012-04-12  462  
-8eb5c87a92c065 Dustin Byford      2015-10-23  463  	/*
-8eb5c87a92c065 Dustin Byford      2015-10-23  464  	 * Associate the mux channel with an ACPI node.
-8eb5c87a92c065 Dustin Byford      2015-10-23  465  	 */
-a7ab72390b7706 Peter Rosin        2016-04-20  466  	if (has_acpi_companion(muxc->dev))
-a7ab72390b7706 Peter Rosin        2016-04-20  467  		acpi_preset_companion(&priv->adap.dev,
-a7ab72390b7706 Peter Rosin        2016-04-20  468  				      ACPI_COMPANION(muxc->dev),
-8eb5c87a92c065 Dustin Byford      2015-10-23  469  				      chan_id);
-8eb5c87a92c065 Dustin Byford      2015-10-23  470  
-0826374bff5741 Michael Lawnick    2010-08-11  471  	if (force_nr) {
-0826374bff5741 Michael Lawnick    2010-08-11  472  		priv->adap.nr = force_nr;
-0826374bff5741 Michael Lawnick    2010-08-11  473  		ret = i2c_add_numbered_adapter(&priv->adap);
-9fce894d03a98e Peter Rosin        2017-05-15  474  		if (ret < 0) {
-8d4d159f25a79b Peter Rosin        2017-04-03  475  			dev_err(&parent->dev,
-8d4d159f25a79b Peter Rosin        2017-04-03  476  				"failed to add mux-adapter %u as bus %u (error=%d)\n",
-8d4d159f25a79b Peter Rosin        2017-04-03  477  				chan_id, force_nr, ret);
-9fce894d03a98e Peter Rosin        2017-05-15  478  			goto err_free_priv;
-9fce894d03a98e Peter Rosin        2017-05-15  479  		}
-0826374bff5741 Michael Lawnick    2010-08-11  480  	} else {
-0826374bff5741 Michael Lawnick    2010-08-11  481  		ret = i2c_add_adapter(&priv->adap);
-9fce894d03a98e Peter Rosin        2017-05-15  482  		if (ret < 0) {
-8d4d159f25a79b Peter Rosin        2017-04-03  483  			dev_err(&parent->dev,
-8d4d159f25a79b Peter Rosin        2017-04-03  484  				"failed to add mux-adapter %u (error=%d)\n",
-8d4d159f25a79b Peter Rosin        2017-04-03  485  				chan_id, ret);
-9fce894d03a98e Peter Rosin        2017-05-15  486  			goto err_free_priv;
-0826374bff5741 Michael Lawnick    2010-08-11  487  		}
-0826374bff5741 Michael Lawnick    2010-08-11  488  	}
-0826374bff5741 Michael Lawnick    2010-08-11  489  
-a7ab72390b7706 Peter Rosin        2016-04-20  490  	WARN(sysfs_create_link(&priv->adap.dev.kobj, &muxc->dev->kobj,
-a7ab72390b7706 Peter Rosin        2016-04-20  491  			       "mux_device"),
-51cf3b0e2a72bb Wolfram Sang       2014-11-13  492  	     "can't create symlink to mux device\n");
-51cf3b0e2a72bb Wolfram Sang       2014-11-13  493  
-c9449affad2ae0 Gerlando Falauto   2014-11-13  494  	snprintf(symlink_name, sizeof(symlink_name), "channel-%u", chan_id);
-a7ab72390b7706 Peter Rosin        2016-04-20  495  	WARN(sysfs_create_link(&muxc->dev->kobj, &priv->adap.dev.kobj,
-a7ab72390b7706 Peter Rosin        2016-04-20  496  			       symlink_name),
-f657c9fe268882 Wolfram Sang       2018-05-21  497  	     "can't create symlink to channel %u\n", chan_id);
-0826374bff5741 Michael Lawnick    2010-08-11  498  	dev_info(&parent->dev, "Added multiplexed i2c bus %d\n",
-0826374bff5741 Michael Lawnick    2010-08-11  499  		 i2c_adapter_id(&priv->adap));
-0826374bff5741 Michael Lawnick    2010-08-11  500  
-a7ab72390b7706 Peter Rosin        2016-04-20  501  	muxc->adapter[muxc->num_adapters++] = &priv->adap;
-a7ab72390b7706 Peter Rosin        2016-04-20  502  	return 0;
-9fce894d03a98e Peter Rosin        2017-05-15  503  
-9fce894d03a98e Peter Rosin        2017-05-15  504  err_free_priv:
-9fce894d03a98e Peter Rosin        2017-05-15  505  	kfree(priv);
-9fce894d03a98e Peter Rosin        2017-05-15 @506  	return ret;
-0826374bff5741 Michael Lawnick    2010-08-11  507  }
+6e218287432472 Richard Knutsson 2006-09-30  14  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
+14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
+3876488444e712 Denys Vlasenko   2015-03-09  17  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
