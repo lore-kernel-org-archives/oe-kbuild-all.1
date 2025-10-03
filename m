@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824312D24B9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 11:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDA927EC99
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  3 Oct 2025 11:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759490530; cv=none; b=K3xoepzNX0GZXcSKt90ZwQCIOYk0YAKeoVtNIQAN0pUrCQiO6UvtRD4TEkFqbWii5O7hkpk3DT+QuBOy/4sl3sl5ed2tPP06OThN+IFAMVYJQjRHqEldkI4YtiFAUJ26oZnyvllWCKssUALJvfECy5s7acfhn3Z5PXEbNF+65OU=
+	t=1759491186; cv=none; b=dge91gCuvnUerkKVxLNLAcqPxQ8PejhPaOO56vP+CIKqt7PvU7FQKpbp1pb1rtGsXwp/iQcNW1eBtw8Cwm94vbuFRkEGd+oEBxw+SNlY2xRDNH4gbA6Y8fMCcDftb9LHQF5/Uor0Vm/pDyi3I/9p+MgETphpkC+MX83JhWGib8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759490530; c=relaxed/simple;
-	bh=SQ0wWE5s+n+etYy51keKtH5RFeBQ0HfzRhF5vbYQQLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvQSxIBio5wme/m2zD6i5ZINBGVVl14uECOdr8FSZAi/M1/hHYCQsuQWb0Duo+OkyByMvNe/3qxbeWIav6ihh+hWz9K5k/phPsbA+Hfl0Zhd5aTrqkQU89tkNAIY9k0K99e2rs6dwoIV/ltTxIBX4VkrtXtglwPP2TNkhcAKMmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAdlNTgn; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1759491186; c=relaxed/simple;
+	bh=r/ry++pB5ypOdmZUdCZyKtUe1qFpgAesdGa/or0qJdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MdGajaAMoRdLgGX/LXKtX6d2Y3xM62iOoQ+Y+Hxx4waFtlvoU37Ep94QgO5IcyBXoqcftvYFvDepYaepfvqZzdRuJrYHudv6VqXlfydw/yO+B7PkpemmerxXPzLY9g+5pQQHe5P67eunb0GvB7M/7bcRqJydn+vCK6dIDzairB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fy4qFAp3; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAdlNTgn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fy4qFAp3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759490527; x=1791026527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SQ0wWE5s+n+etYy51keKtH5RFeBQ0HfzRhF5vbYQQLs=;
-  b=bAdlNTgnO06tQv/3hrJ5ZHeiqs6gqnxhcTUBWx6SilKkHAG3bl/Rnbrk
-   k2HLqIAOimRwuWOT5Hc1GApctl2NyZY/LufMvhKoDRZpMYJB/ec29mxqI
-   tNgXAO3fbU2ZxA3ikxaJfKJxwSyDDhIdclAU1vuy5v77F2Uks+J2019Ic
-   fM5XL1c1mXwPgCr9p1sXCRfPmQ1dYyicTSSYnWWQYrkkAwcHQGBSx+S5t
-   c90GDPMimYZflmAUwV3jiUbtFilQ9hQA2iwwNhBbP3r4hPJfV6DzIksd1
-   Ca+OfMC52VZoCpjf31jP3FIT6wRoiCrZYEnkbSwY3kRpT5EVQCwhiW8sK
-   A==;
-X-CSE-ConnectionGUID: 4TODDdCdTD2RZQEGb3al1g==
-X-CSE-MsgGUID: FAjQzJ0ASGW3RJxDaMZ3pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65598992"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65598992"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 04:22:07 -0700
-X-CSE-ConnectionGUID: A2+NWnNvTceCQPXkBdgigg==
-X-CSE-MsgGUID: yuKJlNbaQEGhIEug+NUPYg==
+  t=1759491184; x=1791027184;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r/ry++pB5ypOdmZUdCZyKtUe1qFpgAesdGa/or0qJdk=;
+  b=Fy4qFAp3ftgqiatuW072ChfHnDSm+2hpdQc8rQCAH3cp5e92izV//G9B
+   6kwsGvGBRIPVBT8iegHcx/p9vIZgnLe+HzwMqpTbL8k2hXZa710Kn6ZyP
+   R6BayBprWIjdpm9yTpRAahC8hms9/9glsf7TfVkPmOaF5sFRIjs3SejzC
+   V63S6e5nFKVXZBxTUCbZobKlWvVSMCF0QUDd2nl5T8vR3CwFTJWqvJD54
+   SgC4V/X17HS7miDzHk4MBRdP1uNg1CzzV3H/m/IX/KrfRk7oFfK5o5MQJ
+   tnbDYf+KbeaigvtB1U7WCFyme5KbE4yavTHd3a5tnwmBNr+1FWoWcVlkZ
+   w==;
+X-CSE-ConnectionGUID: Rt7lZhWGTEyc5kUXJktK8g==
+X-CSE-MsgGUID: 1VgvxSlDQbmuerUmQa2zRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="64387982"
+X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
+   d="scan'208";a="64387982"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 04:33:03 -0700
+X-CSE-ConnectionGUID: RrSBXiZaQGKf9RLPQRQMtg==
+X-CSE-MsgGUID: VK+LP/EZR96sjfRfqO8hRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
-   d="scan'208";a="179080867"
+   d="scan'208";a="209948407"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Oct 2025 04:22:02 -0700
+  by orviesa002.jf.intel.com with ESMTP; 03 Oct 2025 04:33:02 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4drK-0004Vj-2C;
-	Fri, 03 Oct 2025 11:21:58 +0000
-Date: Fri, 3 Oct 2025 19:21:53 +0800
+	id 1v4e1z-0004Vy-1d;
+	Fri, 03 Oct 2025 11:32:59 +0000
+Date: Fri, 3 Oct 2025 19:32:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hari Bathini <hbathini@linux.ibm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N. Rao" <naveen@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>, bpf@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Song Liu <songliubraving@fb.com>, Jiri Olsa <jolsa@kernel.org>,
-	Viktor Malik <vmalik@redhat.com>, live-patching@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	Jiri Kosina <jikos@kernel.org>, linux-trace-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>
-Subject: Re: [PATCH] powerpc64/bpf: support direct_call on livepatch function
-Message-ID: <202510031817.t50YvoeN-lkp@intel.com>
-References: <20251002192755.86441-1-hbathini@linux.ibm.com>
+To: ckkim <changkon12@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.17.y 7/42]
+ drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart'
+ undeclared
+Message-ID: <202510031952.KMBKO3TZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,91 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251002192755.86441-1-hbathini@linux.ibm.com>
 
-Hi Hari,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes trace/for-next bpf-next/net bpf-next/master bpf/master linus/master v6.17 next-20251002]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hari-Bathini/powerpc64-bpf-support-direct_call-on-livepatch-function/20251003-033243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20251002192755.86441-1-hbathini%40linux.ibm.com
-patch subject: [PATCH] powerpc64/bpf: support direct_call on livepatch function
-config: powerpc64-randconfig-001-20251003 (https://download.01.org/0day-ci/archive/20251003/202510031817.t50YvoeN-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510031817.t50YvoeN-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.17.y
+head:   59883f5092542f2ddea60beae00e640a10004243
+commit: e96c61e9270dc19119d7c31f7d5a71e65dd9fb41 [7/42] ODROID-COMMON: power:reset: Add odroid support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251003/202510031952.KMBKO3TZ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510031952.KMBKO3TZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510031817.t50YvoeN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510031952.KMBKO3TZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/powerpc/net/bpf_jit_comp.c:24:
-   arch/powerpc/net/bpf_jit_comp.c: In function '__arch_prepare_bpf_trampoline':
->> include/linux/stddef.h:16:33: error: 'struct thread_info' has no member named 'livepatch_sp'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
-      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
-         |                                  ^~~~~
-   arch/powerpc/net/bpf_jit_comp.c:857:17: note: in expansion of macro 'EMIT'
-     857 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, offsetof(struct thread_info, livepatch_sp)));
-         |                 ^~~~
-   arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
-     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
-         |                                                                                     ^~~~~
-   arch/powerpc/net/bpf_jit_comp.c:857:22: note: in expansion of macro 'PPC_RAW_ADDI'
-     857 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, offsetof(struct thread_info, livepatch_sp)));
-         |                      ^~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit_comp.c:857:47: note: in expansion of macro 'offsetof'
-     857 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, offsetof(struct thread_info, livepatch_sp)));
-         |                                               ^~~~~~~~
->> arch/powerpc/net/bpf_jit_comp.c:860:48: error: 'LIVEPATCH_STACK_FRAME_SIZE' undeclared (first use in this function)
-     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
-      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
-         |                                  ^~~~~
-   arch/powerpc/net/bpf_jit_comp.c:860:17: note: in expansion of macro 'EMIT'
-     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
-         |                 ^~~~
-   arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
-     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
-         |                                                                                     ^~~~~
-   arch/powerpc/net/bpf_jit_comp.c:860:22: note: in expansion of macro 'PPC_RAW_ADDI'
-     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
-         |                      ^~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit_comp.c:860:48: note: each undeclared identifier is reported only once for each function it appears in
-     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
-      29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
-         |                                  ^~~~~
-   arch/powerpc/net/bpf_jit_comp.c:860:17: note: in expansion of macro 'EMIT'
-     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
-         |                 ^~~~
-   arch/powerpc/include/asm/ppc-opcode.h:501:85: note: in expansion of macro 'IMM_L'
-     501 | #define PPC_RAW_ADDI(d, a, i)           (0x38000000 | ___PPC_RT(d) | ___PPC_RA(a) | IMM_L(i))
-         |                                                                                     ^~~~~
-   arch/powerpc/net/bpf_jit_comp.c:860:22: note: in expansion of macro 'PPC_RAW_ADDI'
-     860 |                 EMIT(PPC_RAW_ADDI(_R12, _R12, -LIVEPATCH_STACK_FRAME_SIZE));
-         |                      ^~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for 'odroid_card_reset' [-Wmissing-prototypes]
+      63 | void odroid_card_reset(void)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c: In function 'odroid_restart_probe':
+>> drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart' undeclared (first use in this function)
+     141 |                 arm_pm_restart = do_odroid_restart;
+         |                 ^~~~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c:141:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +16 include/linux/stddef.h
+vim +/arm_pm_restart +141 drivers/power/reset/odroid-reboot.c
 
-6e218287432472 Richard Knutsson 2006-09-30  14  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
-14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
-3876488444e712 Denys Vlasenko   2015-03-09  17  
+   133	
+   134	static int odroid_restart_probe(struct platform_device *pdev)
+   135	{
+   136		struct device_node *of_node;
+   137		u32 id;
+   138	
+   139		if (!of_property_read_u32(pdev->dev.of_node, "sys_reset", &id)) {
+   140			psci_function_id_restart = id;
+ > 141			arm_pm_restart = do_odroid_restart;
+   142		}
+   143	
+   144		if (!of_property_read_u32(pdev->dev.of_node, "sys_poweroff", &id)) {
+   145			psci_function_id_poweroff = id;
+   146			pm_power_off = do_odroid_poweroff;
+   147		}
+   148	
+   149		of_node = pdev->dev.of_node;
+   150	
+   151		sd_vqsw = of_get_named_gpio(of_node, "sd-vqsw", 0);
+   152		if (!gpio_is_valid(sd_vqsw)) sd_vqsw = 0;
+   153	
+   154		sd_vmmc = of_get_named_gpio(of_node, "sd-vmmc", 0);
+   155		if (!gpio_is_valid(sd_vmmc)) sd_vmmc = 0;
+   156	
+   157		sd_vqen = of_get_named_gpio(of_node, "sd-vqen", 0);
+   158		if (!gpio_is_valid(sd_vqen)) sd_vqen = 0;
+   159	
+   160		return 0;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
