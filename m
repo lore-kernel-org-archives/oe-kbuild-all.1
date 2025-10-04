@@ -1,115 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6155550276;
-	Sat,  4 Oct 2025 08:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C32322A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 08:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759565398; cv=none; b=BApFKdaNHQiIA27msiKUV0i5sM+PLI8ryEMisF9fETzzXjORY7RfSuM1KrU+YLwpnO9VN2eoMUMNE3/6bCuj+NwbVH2dwhQf+hK0TU5PFm3rarVIonky8GOxaaIXR8uIgUOitO9+GKPDKHy5DC52uFdRSG8Wsva/D65hgp2Y8yU=
+	t=1759566956; cv=none; b=OHPcMoBBNtIlcpFXZQJMUY3cwxbnaue29OYMXsGuNC9NjVoYbEbcvIjBgClEVwN/T6pdggVc8g4oR6TrBE0tH9OC7hirQL+vttnE56I6T6jqsDeTk77gWOct/5P+nSlSF091ouPdYx6tBlnuIJApVi7XQiKGxfEprzdyzsX0g5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759565398; c=relaxed/simple;
-	bh=B96OmDeOmMDIhrgUpXpMInr1UGo5k+vzJaFEQqQ3TuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ApDrLB4gv1N350LXOvs8VbhAMkPfl8adp+IKobp2CNJZXb5BU6NR49lMWIjoWe6e9bN36sUl0lkc0mFOl7T5QFsHCyD5QWJfqjrCTCXQvO9SlPT+NKnf7duJBvTTx9/aUeNfCQnMdHKfTUBeXjkKSSoTD8nqik4ArpgNOxMxN7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=budMKm4/; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759566956; c=relaxed/simple;
+	bh=JsQqE9p1BnSsmmi8AuDK+KSrAV78o80Mh5hwa3pmkBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=RbkIWALakPjKTn6OOtQmzdU4uDvQIqyKoboE5Gwbos8fe4IWAh9NAHeRFZoQWrIdcJZ6LqLTWQD/EpmwD0ZZ+UehKtMT2PtuRByiY3RgtEAn51oZKV3vUz7TuAI7D/jyGwOvruMAEZnhuBmMGOH8QtYxX6IqyR8nc1U3/dor+vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rKeRjO4j; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="budMKm4/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759565397; x=1791101397;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B96OmDeOmMDIhrgUpXpMInr1UGo5k+vzJaFEQqQ3TuI=;
-  b=budMKm4/o7s0x4EwmiA52HJoor5Uxznqd95y0GGrIW4H8Jt+thdYo0e7
-   v76AfsDOkmKpCL9iMvNgI5hWtlCcXl/KBC2SNte2fGfkUApocnM/QJATb
-   TZWtPR8QOdCoDhAdTaoAUAt6/DM+AVGoPHoad3XkXZQ2bHCaAIq271VXG
-   dlbgxxoyDkWdA6ipMqUHoUiEToHSoIKDuOg0Ub7l5GFG3ufXPFC5Rr5Wn
-   832Fp/gJX4cx5IC4U9ykRXrW8E/mF+X2A2+zeOTdCaY1dRIs2Doxj0ELr
-   cogF8fgqvDbfca6VXbHcusBqQcFHdb0kwNmOVm0lsAoSwEBzJs6JpgAck
-   Q==;
-X-CSE-ConnectionGUID: TCL5aeiUR06AvAXMFZdqPQ==
-X-CSE-MsgGUID: mCOC2V6bQvWwiuVEeTZz3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61749217"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="61749217"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 01:09:57 -0700
-X-CSE-ConnectionGUID: fL8QGjcqTXm1u6X0ZSdpdw==
-X-CSE-MsgGUID: 5v6lvpaFSeeHqo6qgEPQVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="183855351"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Oct 2025 01:09:51 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v4xKu-00059b-1f;
-	Sat, 04 Oct 2025 08:09:48 +0000
-Date: Sat, 4 Oct 2025 16:09:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Roman Kisel <romank@linux.microsoft.com>, arnd@arndb.de, bp@alien8.de,
-	corbet@lwn.net, dave.hansen@linux.intel.com, decui@microsoft.com,
-	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
-	mikelley@microsoft.com, mingo@redhat.com, tglx@linutronix.de,
-	Tianyu.Lan@microsoft.com, wei.liu@kernel.org, x86@kernel.org,
-	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	benhill@microsoft.com, bperkins@microsoft.com,
-	sunilmut@microsoft.com, romank@linux.microsoft.com
-Subject: Re: [PATCH hyperv-next v6 05/17] arch/x86: mshyperv: Trap on access
- for some synthetic MSRs
-Message-ID: <202510041544.zPic8ogA-lkp@intel.com>
-References: <20251003222710.6257-6-romank@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rKeRjO4j"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46e4ad36541so33861255e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Oct 2025 01:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759566952; x=1760171752; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SAZP7F4LpAyeiWuUVfM9K9SMysgSblKGV29vPTVd7ME=;
+        b=rKeRjO4jGNpQOIRCdoy7Y3yWU4puyBN3GViswvgcYyJdEX6mMdq4BgypMmVNCyEJoO
+         u9SFVWLG2gDNJj05PJDYaZjOCYbat1yQIm+50AwlcUU5ICwtqIGtLlZhC9roggf8ydFL
+         37fdMuVozvkUZ3tf/3vWA7KlUFIONlyCvceZs/Fg2UKRP8FViEvw8WLxda9ODOoVQGVH
+         XbEArX14bpsVuDOChOqIrCtXe9kgzPRg/6mth6wIdng6iE8mylFaat2PAq4+bLWlFu5L
+         Xy5GZLoeOg34tyvwkIU9Drkdoik6RfAHcDfmSbS/VDmBpiZvsM8Gnjc++V8aYLg1dRtO
+         wNdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759566952; x=1760171752;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SAZP7F4LpAyeiWuUVfM9K9SMysgSblKGV29vPTVd7ME=;
+        b=UpMmfQWpKmgjO7bEmixDvh6thzdyBhQv4Ej/Tt5Kq72eeqbPfDs1fEs2x+wvoGU52/
+         cJINfWqqu7y+M0xbfZgcrFo7BBAKsb4ms9fE7TNKzc5Xbs6TiwDMF0sWFYor8CAPluqZ
+         jDtAD2dJAPMBHNhVInFFB0V5+0GWca25BRQLRCrnn4EvrC8/Cv2YUxn0G4xGlmbhMRk+
+         mQhHjGEwqmInqFAUh03NsyvoaOCLWvEYbBG6LJVZStieobVLQUgo5M7gFCOz1SSc65V8
+         NR3l735bzWcQVAWea9/emPyU+gC6FhhMHWgInh4DUJUUwAs/4XvZ+UTLWjDw4bJC+QHu
+         mPHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWo0i4jsUipGi3mS/BIaM3RhK0R2ntkiI16QOglJXm2DiycdoqKz9IzAxUSzLY0IvfN8tVkiWkXUJ9zK70@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDpIyymK7u+bXg4pWL2CA97XrQj/VfEtcIi/x+9Na6Asnuuu3A
+	ArpdJMdzzz5cyc21i/wK5gqWmn9GAN78HxPPt6keQzvcSt9Vt+JclH3IYbOLRjEW3wY=
+X-Gm-Gg: ASbGncsUi3HuLow3Q8zqviv9WCHJlJKrLYjDRO1VNWRSPCxI4jYVqEgk80EfilI9K4I
+	5Jr/Ey/sfdzWQ1DZeECHhHfTDRpCvmoQXFLq6fvysxbORXUPhdUroDerdsDBP55HGRX0u5ixrN8
+	/8/c4CxX0v4nXtd5HV4/1dHu6YtlveNMs2aieYjkWGVBF5fLrnhpxJlC2G88yZeEY6wEIZmDmgy
+	uhxOt1zmO2ARvR4rdd4mMZF3I55F/Fo8q1TpbfS7MAHwNMSsyjJonC7EoEGDty+42yrgMq3NzaQ
+	YTnEb2dd0f1wbUaJ3uFp/etuK3/hnsCSUrWmf7PXsW8m6GfXpvsL0lSFVG3G9MU/OqP4kVM5UHQ
+	9++uSqBJjKRPB4B6vb+mNvZER+3ujMctXWsci4yqFLGKy2RQvZXt7JDasFuG1sa56FmA=
+X-Google-Smtp-Source: AGHT+IGa6E+3wJm7+c+5/woLvErvO0WuhjoiRpVAjW0z69Cszk2FpgixLHJeZ82h4IS7E9Toa0IMxQ==
+X-Received: by 2002:a05:600c:8b6e:b0:46e:4499:ba30 with SMTP id 5b1f17b1804b1-46e71153ad0mr42510465e9.30.1759566952004;
+        Sat, 04 Oct 2025 01:35:52 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e723614c9sm63490555e9.14.2025.10.04.01.35.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Oct 2025 01:35:51 -0700 (PDT)
+Date: Sat, 4 Oct 2025 11:35:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Will McVicker <willmcvicker@google.com>, kernel-team@android.com,
+	linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+Subject: Re: [PATCH] sched: drop unused variable cpumask in mm_cid_get()
+Message-ID: <202510041546.DvhFLp2x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251003222710.6257-6-romank@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251002-sched-w1-v1-1-a6fdf549d179@linaro.org>
 
-Hi Roman,
+Hi André,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on b595edcb24727e7f93e7962c3f6f971cc16dd29e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/Documentation-hyperv-Confidential-VMBus/20251004-063158
-base:   b595edcb24727e7f93e7962c3f6f971cc16dd29e
-patch link:    https://lore.kernel.org/r/20251003222710.6257-6-romank%40linux.microsoft.com
-patch subject: [PATCH hyperv-next v6 05/17] arch/x86: mshyperv: Trap on access for some synthetic MSRs
-config: i386-buildonly-randconfig-003-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041544.zPic8ogA-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Draszik/sched-drop-unused-variable-cpumask-in-mm_cid_get/20251002-192448
+base:   3b9b1f8df454caa453c7fb07689064edb2eda90a
+patch link:    https://lore.kernel.org/r/20251002-sched-w1-v1-1-a6fdf549d179%40linaro.org
+patch subject: [PATCH] sched: drop unused variable cpumask in mm_cid_get()
+config: i386-randconfig-141-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041546.DvhFLp2x-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041544.zPic8ogA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510041544.zPic8ogA-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510041546.DvhFLp2x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/sched/sched.h:3810 switch_mm_cid() error: we previously assumed 'next->mm' could be null (see line 3772)
 
->> arch/x86/kernel/cpu/mshyperv.c:46:13: warning: unused variable 'hv_para_sint_proxy' [-Wunused-variable]
-      46 | static bool hv_para_sint_proxy;
-         |             ^~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +3810 kernel/sched/sched.h
 
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3762  static inline void switch_mm_cid(struct rq *rq,
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3763  				 struct task_struct *prev,
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3764  				 struct task_struct *next)
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3765  {
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3766  	/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3767  	 * Provide a memory barrier between rq->curr store and load of
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3768  	 * {prev,next}->mm->pcpu_cid[cpu] on rq->curr->mm transition.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3769  	 *
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3770  	 * Should be adapted if context_switch() is modified.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3771  	 */
+223baf9d17f25e Mathieu Desnoyers 2023-04-20 @3772  	if (!next->mm) {                                // to kernel
 
-vim +/hv_para_sint_proxy +46 arch/x86/kernel/cpu/mshyperv.c
+Can ->mm_cid_active be true when next->mm is false?  I don't know.
+If so then it's fine.  I suspect it's fine...
 
-    41	
-    42	/*
-    43	 * When running with the paravisor, controls proxying the synthetic interrupts
-    44	 * from the host
-    45	 */
-  > 46	static bool hv_para_sint_proxy;
-    47	
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3773  		/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3774  		 * user -> kernel transition does not guarantee a barrier, but
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3775  		 * we can use the fact that it performs an atomic operation in
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3776  		 * mmgrab().
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3777  		 */
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3778  		if (prev->mm)                           // from user
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3779  			smp_mb__after_mmgrab();
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3780  		/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3781  		 * kernel -> kernel transition does not change rq->curr->mm
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3782  		 * state. It stays NULL.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3783  		 */
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3784  	} else {                                        // to user
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3785  		/*
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3786  		 * kernel -> user transition does not provide a barrier
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3787  		 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3788  		 * Provide it here.
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3789  		 */
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3790  		if (!prev->mm) {                        // from kernel
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3791  			smp_mb();
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3792  		} else {				// from user
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3793  			/*
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3794  			 * user->user transition relies on an implicit
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3795  			 * memory barrier in switch_mm() when
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3796  			 * current->mm changes. If the architecture
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3797  			 * switch_mm() does not have an implicit memory
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3798  			 * barrier, it is emitted here.  If current->mm
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3799  			 * is unchanged, no barrier is needed.
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3800  			 */
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3801  			smp_mb__after_switch_mm();
+fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3802  		}
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3803  	}
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3804  	if (prev->mm_cid_active) {
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3805  		mm_cid_snapshot_time(rq, prev->mm);
+
+Same thing for "prev->mm".
+
+223baf9d17f25e Mathieu Desnoyers 2023-04-20  3806  		mm_cid_put_lazy(prev);
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3807  		prev->mm_cid = -1;
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3808  	}
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3809  	if (next->mm_cid_active)
+7e019dcc470f27 Mathieu Desnoyers 2024-10-09 @3810  		next->last_mm_cid = next->mm_cid = mm_cid_get(rq, next, next->mm);
+                                                                                                                        ^^^^^^^^
+Unchecked dereference.
+
+af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3811  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
