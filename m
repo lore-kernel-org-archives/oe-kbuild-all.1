@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AEE175BF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 06:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727F234BA3F;
+	Sat,  4 Oct 2025 07:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759557886; cv=none; b=X/2Y68MCHnf0Sq/SRqMVydcNc758geVfnJS915AI2dbN3kmN/KK7iY0da7LohVzDZnvobUeZtYTlblzXXX5Ww0qLtVPjN/oRJxRKnLIkNciFRlMIM1J0cVS3m938G2AISOzq4IpagVYpMircoMAr+HhJuz2JOrCFYfEYd0NJ5Qg=
+	t=1759562212; cv=none; b=OnlNIjKUNAvSrDv/uSlHql3Phd0H+Hel4Nje5G9Rlx/bedQHhYpdElPSJzQJUI+7ty2ZEItFXZQUc1Q6SKFMuI4aQdVKcTYpGyjRKcCf8cIGL/+EFSOAG8k8M1YNvYK1FKN4nswuU16JoeMYn4PZ9P3sQgswsOYZ1MumG0UNGhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759557886; c=relaxed/simple;
-	bh=vkeJJ7YKg7/IC+5297re7ILPA04DsaKGaSjSmaYwMSU=;
+	s=arc-20240116; t=1759562212; c=relaxed/simple;
+	bh=GN75K08pQ4IQp/o1K21cWNmwgKDg771mmExliqsoMts=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=vGrXXAdCxVS1oqr1vrU6f9TdjYWC0RJExqrQ95/rhIDKxJGPwrNIDw6mOmwWYs38vJ5Fu3DW9EYQt70pwbsga/WMqbfuIpw7OqsTIK6ih/g1Gl1o7VvUr3+3aEAqv491O12L+J4+KsYiNmREoo90B/c3h3F2IO7U1XWDCx3/Nrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8b/f3FK; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=X1gDt5EGeqNvTM3ZzLJLmm0lkQ8U1NhxVIRTMWNRb0zACOHye8uQ/V2R8vCol1Zccwo7mT0SLwlbhFlYB5EvdirOqhJ1oRQL7AzGqXa1qNDAZrZ1SzePYlSlhmd0AYiVAxedH0M8lxrti4LSyfD0r2y+v1QqDtm8OsVJnQXKdLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gC9qWPQn; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8b/f3FK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gC9qWPQn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759557885; x=1791093885;
+  t=1759562210; x=1791098210;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vkeJJ7YKg7/IC+5297re7ILPA04DsaKGaSjSmaYwMSU=;
-  b=f8b/f3FKnRQ7ASha8C0Ph122EeS9izUqMcMsGbZSZ03Oq9Oqs/NPoNn5
-   g7sGUmIVu0i4sWKmyBb6SbBhi+xd0STNRAR4hDzuF1Q1OeKnvyeMuSBjY
-   BdUHMIxWTbWYkPpBNrVfsghZXn53MW4AfSvT6Hwz3rDxFMcuM7ZODA9+Q
-   b7iSr3ITuUfCkUJgTH9wt2oa+yKs9s53FsAeN/N8+cAYUN73TEfMKD7rR
-   LrEZQ9EjgVlzNYfExXk1ATlLQA1lT/xtM2kUXXYnhLKv8FrtUtiJ2AP8o
-   7UaYV4ilTxuxgF87C00oPVlqc6zBAJX6t62tSFb1GxIv1JSH3ee42ySk1
-   w==;
-X-CSE-ConnectionGUID: ezOpuNtvTLG19xv0N6usnw==
-X-CSE-MsgGUID: G/DlWe5tRBGnTYODPm7JXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="64447529"
+  bh=GN75K08pQ4IQp/o1K21cWNmwgKDg771mmExliqsoMts=;
+  b=gC9qWPQnnP/mZ2JZBCSloJ/NC+rv5Quia6pMW4BE3KTR+9ii/plJG7dn
+   ULQns4DVD6lIC7gzCKsTj897/GQQv0LssKLFas+ajbkccQLBPPAuNbF5X
+   aGwDw8+qvZtqKkA5CRM1yUTjYx9uEsIgkOuidaSuIoa34kUCsNkAnRAma
+   H9eSHIzN/38EHbgX5tuAaGApQcrJ5oU3uFirl7aOx5pdyDUq/3y5o1BXk
+   v4A1/iD+pCVplO6OYgKiS7iTm57aAPsS/aO3FHkLJjlVc+kRIsws/2P2V
+   npzu/tWtJWhittGSUUlYrHHeRwFtTLUh0W+apI/aJG/QgpDdjN5KygZ2s
+   A==;
+X-CSE-ConnectionGUID: 7/aa/O5MRvKNUsH+16Zltg==
+X-CSE-MsgGUID: aNfjMJ6+QUmPk5WoQ+nh7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="84453658"
 X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="64447529"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 23:04:44 -0700
-X-CSE-ConnectionGUID: ZT8lhu68Q06OZVVrpmV9/A==
-X-CSE-MsgGUID: JYhbnpL1QzmXMqovbmoyKA==
+   d="scan'208";a="84453658"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 00:16:50 -0700
+X-CSE-ConnectionGUID: P49kNJvSRj6R+EV1AJkm4w==
+X-CSE-MsgGUID: yfinJdHsSGeSVKaEppUtUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="179881948"
+   d="scan'208";a="178749380"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Oct 2025 23:04:42 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Oct 2025 00:16:47 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4vNn-00056h-21;
-	Sat, 04 Oct 2025 06:04:39 +0000
-Date: Sat, 4 Oct 2025 14:04:21 +0800
+	id 1v4wVZ-00058V-0K;
+	Sat, 04 Oct 2025 07:16:45 +0000
+Date: Sat, 4 Oct 2025 15:16:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martyna Szapar-Mudlaw <martyna.szapar-mudlaw@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+To: Emil Tantilov <emil.s.tantilov@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
 	Tony Nguyen <anthony.l.nguyen@intel.com>,
 	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Simon Horman <horms@kernel.org>
-Subject: [tnguy-net-queue:dev-queue 2/17]
- drivers/net/ethernet/intel/ice/ice_main.c:5120:19: error: 'struct ice_hw'
- has no member named 'fwlog_cfg'
-Message-ID: <202510041304.yOU8z8P5-lkp@intel.com>
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Chittim Madhu <madhu.chittim@intel.com>
+Subject: [tnguy-net-queue:dev-queue 7/17]
+ drivers/net/ethernet/intel/idpf/xdp.c:421:20: error: use of undeclared
+ identifier '__IDPF_VPORT_UP'; did you mean 'IDPF_VPORT_UP'?
+Message-ID: <202510041511.Kfu7sVNC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,129 +68,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Emil,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
 head:   e50b34f0f3fb86c9be2f9ad3b7ed483f18b46896
-commit: 1f7e7f027658aba172437f3a0451ca7a30bf268e [2/17] ice: fix fwlog after driver reinit
-config: x86_64-buildonly-randconfig-005-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041304.yOU8z8P5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041304.yOU8z8P5-lkp@intel.com/reproduce)
+commit: 7c0e8a950dbd30ca46e999cf1d25f3e97a98f174 [7/17] idpf: convert vport state to bitmap
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20251004/202510041511.Kfu7sVNC-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041511.Kfu7sVNC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510041304.yOU8z8P5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510041511.Kfu7sVNC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/ice/ice_main.c: In function 'ice_load':
->> drivers/net/ethernet/intel/ice/ice_main.c:5120:19: error: 'struct ice_hw' has no member named 'fwlog_cfg'
-    5120 |         if (pf->hw.fwlog_cfg.options & ICE_FWLOG_OPTION_IS_REGISTERED) {
-         |                   ^
->> drivers/net/ethernet/intel/ice/ice_main.c:5120:40: error: 'ICE_FWLOG_OPTION_IS_REGISTERED' undeclared (first use in this function); did you mean 'LIBIE_FWLOG_OPTION_IS_REGISTERED'?
-    5120 |         if (pf->hw.fwlog_cfg.options & ICE_FWLOG_OPTION_IS_REGISTERED) {
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                        LIBIE_FWLOG_OPTION_IS_REGISTERED
-   drivers/net/ethernet/intel/ice/ice_main.c:5120:40: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/ethernet/intel/ice/ice_main.c:5121:23: error: implicit declaration of function 'ice_fwlog_register'; did you mean 'libie_fwlog_reregister'? [-Wimplicit-function-declaration]
-    5121 |                 err = ice_fwlog_register(&pf->hw);
-         |                       ^~~~~~~~~~~~~~~~~~
-         |                       libie_fwlog_reregister
-   drivers/net/ethernet/intel/ice/ice_main.c:5123:31: error: 'struct ice_hw' has no member named 'fwlog_cfg'
-    5123 |                         pf->hw.fwlog_cfg.options &=
-         |                               ^
-   drivers/net/ethernet/intel/ice/ice_main.c: In function 'ice_rebuild':
-   drivers/net/ethernet/intel/ice/ice_main.c:7687:15: error: 'struct ice_hw' has no member named 'fwlog_cfg'
-    7687 |         if (hw->fwlog_cfg.options & ICE_FWLOG_OPTION_IS_REGISTERED) {
-         |               ^~
-   drivers/net/ethernet/intel/ice/ice_main.c:7687:37: error: 'ICE_FWLOG_OPTION_IS_REGISTERED' undeclared (first use in this function); did you mean 'LIBIE_FWLOG_OPTION_IS_REGISTERED'?
-    7687 |         if (hw->fwlog_cfg.options & ICE_FWLOG_OPTION_IS_REGISTERED) {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                     LIBIE_FWLOG_OPTION_IS_REGISTERED
-   drivers/net/ethernet/intel/ice/ice_main.c:7690:27: error: 'struct ice_hw' has no member named 'fwlog_cfg'
-    7690 |                         hw->fwlog_cfg.options &=
-         |                           ^~
+>> drivers/net/ethernet/intel/idpf/xdp.c:421:20: error: use of undeclared identifier '__IDPF_VPORT_UP'; did you mean 'IDPF_VPORT_UP'?
+     421 |                 if (np->state == __IDPF_VPORT_UP)
+         |                                  ^~~~~~~~~~~~~~~
+         |                                  IDPF_VPORT_UP
+   drivers/net/ethernet/intel/idpf/idpf.h:138:2: note: 'IDPF_VPORT_UP' declared here
+     138 |         IDPF_VPORT_UP,
+         |         ^
+   1 error generated.
 
 
-vim +5120 drivers/net/ethernet/intel/ice/ice_main.c
+vim +421 drivers/net/ethernet/intel/idpf/xdp.c
 
-  5106	
-  5107	/**
-  5108	 * ice_load - load pf by init hw and starting VSI
-  5109	 * @pf: pointer to the pf instance
-  5110	 *
-  5111	 * This function has to be called under devl_lock.
-  5112	 */
-  5113	int ice_load(struct ice_pf *pf)
-  5114	{
-  5115		struct ice_vsi *vsi;
-  5116		int err;
-  5117	
-  5118		devl_assert_locked(priv_to_devlink(pf));
-  5119	
-> 5120		if (pf->hw.fwlog_cfg.options & ICE_FWLOG_OPTION_IS_REGISTERED) {
-> 5121			err = ice_fwlog_register(&pf->hw);
-  5122			if (err)
-  5123				pf->hw.fwlog_cfg.options &=
-  5124					~ICE_FWLOG_OPTION_IS_REGISTERED;
-  5125		}
-  5126	
-  5127		vsi = ice_get_main_vsi(pf);
-  5128	
-  5129		/* init channel list */
-  5130		INIT_LIST_HEAD(&vsi->ch_list);
-  5131	
-  5132		err = ice_cfg_netdev(vsi);
-  5133		if (err)
-  5134			return err;
-  5135	
-  5136		/* Setup DCB netlink interface */
-  5137		ice_dcbnl_setup(vsi);
-  5138	
-  5139		err = ice_init_mac_fltr(pf);
-  5140		if (err)
-  5141			goto err_init_mac_fltr;
-  5142	
-  5143		err = ice_devlink_create_pf_port(pf);
-  5144		if (err)
-  5145			goto err_devlink_create_pf_port;
-  5146	
-  5147		SET_NETDEV_DEVLINK_PORT(vsi->netdev, &pf->devlink_port);
-  5148	
-  5149		err = ice_register_netdev(vsi);
-  5150		if (err)
-  5151			goto err_register_netdev;
-  5152	
-  5153		err = ice_tc_indir_block_register(vsi);
-  5154		if (err)
-  5155			goto err_tc_indir_block_register;
-  5156	
-  5157		ice_napi_add(vsi);
-  5158	
-  5159		ice_init_features(pf);
-  5160	
-  5161		err = ice_init_rdma(pf);
-  5162		if (err)
-  5163			goto err_init_rdma;
-  5164	
-  5165		ice_service_task_restart(pf);
-  5166	
-  5167		clear_bit(ICE_DOWN, pf->state);
-  5168	
-  5169		return 0;
-  5170	
-  5171	err_init_rdma:
-  5172		ice_deinit_features(pf);
-  5173		ice_tc_indir_block_unregister(vsi);
-  5174	err_tc_indir_block_register:
-  5175		ice_unregister_netdev(vsi);
-  5176	err_register_netdev:
-  5177		ice_devlink_destroy_pf_port(pf);
-  5178	err_devlink_create_pf_port:
-  5179	err_init_mac_fltr:
-  5180		ice_decfg_netdev(vsi);
-  5181		return err;
-  5182	}
-  5183	
+cba102cd719029 Alexander Lobakin 2025-08-26  407  
+705457e7211f22 Michal Kubiak     2025-08-26  408  static int idpf_xdp_setup_prog(struct idpf_vport *vport,
+705457e7211f22 Michal Kubiak     2025-08-26  409  			       const struct netdev_bpf *xdp)
+705457e7211f22 Michal Kubiak     2025-08-26  410  {
+705457e7211f22 Michal Kubiak     2025-08-26  411  	const struct idpf_netdev_priv *np = netdev_priv(vport->netdev);
+705457e7211f22 Michal Kubiak     2025-08-26  412  	struct bpf_prog *old, *prog = xdp->prog;
+705457e7211f22 Michal Kubiak     2025-08-26  413  	struct idpf_vport_config *cfg;
+705457e7211f22 Michal Kubiak     2025-08-26  414  	int ret;
+705457e7211f22 Michal Kubiak     2025-08-26  415  
+705457e7211f22 Michal Kubiak     2025-08-26  416  	cfg = vport->adapter->vport_config[vport->idx];
+705457e7211f22 Michal Kubiak     2025-08-26  417  
+705457e7211f22 Michal Kubiak     2025-08-26  418  	if (test_bit(IDPF_REMOVE_IN_PROG, vport->adapter->flags) ||
+705457e7211f22 Michal Kubiak     2025-08-26  419  	    !test_bit(IDPF_VPORT_REG_NETDEV, cfg->flags) ||
+705457e7211f22 Michal Kubiak     2025-08-26  420  	    !!vport->xdp_prog == !!prog) {
+705457e7211f22 Michal Kubiak     2025-08-26 @421  		if (np->state == __IDPF_VPORT_UP)
+705457e7211f22 Michal Kubiak     2025-08-26  422  			idpf_xdp_copy_prog_to_rqs(vport, prog);
+705457e7211f22 Michal Kubiak     2025-08-26  423  
+705457e7211f22 Michal Kubiak     2025-08-26  424  		old = xchg(&vport->xdp_prog, prog);
+705457e7211f22 Michal Kubiak     2025-08-26  425  		if (old)
+705457e7211f22 Michal Kubiak     2025-08-26  426  			bpf_prog_put(old);
+705457e7211f22 Michal Kubiak     2025-08-26  427  
+705457e7211f22 Michal Kubiak     2025-08-26  428  		cfg->user_config.xdp_prog = prog;
+705457e7211f22 Michal Kubiak     2025-08-26  429  
+705457e7211f22 Michal Kubiak     2025-08-26  430  		return 0;
+705457e7211f22 Michal Kubiak     2025-08-26  431  	}
+705457e7211f22 Michal Kubiak     2025-08-26  432  
+705457e7211f22 Michal Kubiak     2025-08-26  433  	if (!vport->num_xdp_txq && vport->num_txq == cfg->max_q.max_txq) {
+705457e7211f22 Michal Kubiak     2025-08-26  434  		NL_SET_ERR_MSG_MOD(xdp->extack,
+705457e7211f22 Michal Kubiak     2025-08-26  435  				   "No Tx queues available for XDP, please decrease the number of regular SQs");
+705457e7211f22 Michal Kubiak     2025-08-26  436  		return -ENOSPC;
+705457e7211f22 Michal Kubiak     2025-08-26  437  	}
+705457e7211f22 Michal Kubiak     2025-08-26  438  
+705457e7211f22 Michal Kubiak     2025-08-26  439  	old = cfg->user_config.xdp_prog;
+705457e7211f22 Michal Kubiak     2025-08-26  440  	cfg->user_config.xdp_prog = prog;
+705457e7211f22 Michal Kubiak     2025-08-26  441  
+705457e7211f22 Michal Kubiak     2025-08-26  442  	ret = idpf_initiate_soft_reset(vport, IDPF_SR_Q_CHANGE);
+705457e7211f22 Michal Kubiak     2025-08-26  443  	if (ret) {
+705457e7211f22 Michal Kubiak     2025-08-26  444  		NL_SET_ERR_MSG_MOD(xdp->extack,
+705457e7211f22 Michal Kubiak     2025-08-26  445  				   "Could not reopen the vport after XDP setup");
+705457e7211f22 Michal Kubiak     2025-08-26  446  
+705457e7211f22 Michal Kubiak     2025-08-26  447  		cfg->user_config.xdp_prog = old;
+705457e7211f22 Michal Kubiak     2025-08-26  448  		old = prog;
+705457e7211f22 Michal Kubiak     2025-08-26  449  	}
+705457e7211f22 Michal Kubiak     2025-08-26  450  
+705457e7211f22 Michal Kubiak     2025-08-26  451  	if (old)
+705457e7211f22 Michal Kubiak     2025-08-26  452  		bpf_prog_put(old);
+705457e7211f22 Michal Kubiak     2025-08-26  453  
+aaa3ac6480baeb Alexander Lobakin 2025-08-26  454  	libeth_xdp_set_redirect(vport->netdev, vport->xdp_prog);
+aaa3ac6480baeb Alexander Lobakin 2025-08-26  455  
+705457e7211f22 Michal Kubiak     2025-08-26  456  	return ret;
+705457e7211f22 Michal Kubiak     2025-08-26  457  }
+705457e7211f22 Michal Kubiak     2025-08-26  458  
+
+:::::: The code at line 421 was first introduced by commit
+:::::: 705457e7211f22c49b410eb25e83cef8a61bd560 idpf: implement XDP_SETUP_PROG in ndo_bpf for splitq
+
+:::::: TO: Michal Kubiak <michal.kubiak@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
