@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A80F13774D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 10:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A25339A8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 11:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759574587; cv=none; b=FK2ZLQcQ1qVQNLmACQ+JORaGqNGqT4lc1ePxzoHS7pdE9q3K+cA9ZeZMS8L1GU1R+eRM1AZmFc1thGO50EiWorP48hLqF+XyIBn0viQxwjbCPPZ/xINbAQCTf4rLa4XE2ZtiIp7VuEtd76EKTWWQl31m30I3b3hgbxLyz12NNzc=
+	t=1759575909; cv=none; b=A/bQUJ6Zrmvej6bEU0nDEWMyV3PohayzM3YGz4ptUWsiPDjzbttmg/6pJUInoDjujjCUxIs93p9+BUnVHLroIETFBJ5OGciJ5wuCEd+qnblsAcIDJmw4xCg9gFhI9+tx1WmLVF5R7i3ttuVhPGlLrF5CFm2uKS5cWqDnTa9Azqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759574587; c=relaxed/simple;
-	bh=ZVlQkCaHDufpfMZEhdCSTwC/huN3oIihJjRtYKMbfbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p89J/5eiEXOkCzm4PBK2aeSkMZqCD+G2Io18BOPX+mhs4MEHNWJUcY2XhuEn0mewQo61v7gSs4+KHR7Z1tXpdgm7XA48rYsKBxw0ndH6WNDPgCLViJPGJRnOnkNNWAq4WjnKztYcU9F3Ykz2gimHXwky8XdNh+Rr0m4Ii7FwWfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfDa4aLr; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1759575909; c=relaxed/simple;
+	bh=YymLoYoPxYqvFLQAZRwL4A8Jz0tVFPJthzVjTRWUfG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hPRvR/ygY1SLZLaBDwN+TjA0q60lgTxSIgQePevbLcdr3oip4fSCNvueBOJn2i3uc7PqJMquZYe1vwZ6zjhu5bvPvtSr36uGhAtPG1y98m3cAhP0Pdo0lkqW7kLDtvcUCSBLc5CsRHMBtE0JTx0ZlzaUKTkBhg4PH9SSgxaMqYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEL4wm11; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfDa4aLr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEL4wm11"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759574584; x=1791110584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZVlQkCaHDufpfMZEhdCSTwC/huN3oIihJjRtYKMbfbY=;
-  b=hfDa4aLrBw2le1HLLUs+AYEB98VwtrjABJdc0ZK65wwDlCe2Qp9VQp+7
-   frM2VHiV1bPAnVw8HhcC+fOerz8EUjQbK6hhblXBaBGfGUhGrwyrZLhHH
-   972zeejevAZKQyQ6NPhQpm9UX2eiR9NOG6JDAnd9JQLOzwZqWsoVxkhuH
-   TMesgbDN4nvQarwWJa+IBk6F4HCL8V73OGp0xGNnl7QTHe5cJKhrBlrc3
-   ORyyzoYG4RqHNxGmlAe+EFd127FhwxT/a224OpnSbChCXyGUEn+GySAdE
-   VjoQ86lwzK1VviEXUIEStitZYVXNK8Y3yC2teGpFmE0Tj64uGSAkOWTx7
+  t=1759575906; x=1791111906;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YymLoYoPxYqvFLQAZRwL4A8Jz0tVFPJthzVjTRWUfG8=;
+  b=TEL4wm11ug45Wy8k3je/AVv5Icg4DdawsJKeUZlpPAaOFcdHpS+MfhrB
+   GKzcHm6qlRdJMH6iF+PyN0W7+dpwoBYHN1P+c9U/upay/0ARuVWJ0h4ck
+   B71Hg6I/gIMZB/VEpJMMTnJwrf4sGqUvtXcVdf1SxtXrqyezoOuUxVF9V
+   ZQc/FGpCQqQ5ctMyti207tuhS1FNLmvi1detFs4thu/qYK3yYNUiV+9lI
+   +HonQE673CAOkEzHZjFedwZZFNLruO6FvTqq8n2p8pm8j0xQxvpWULZqb
+   xe0MYlXh1NmAPhmZ8YaUtqP51KoMpG9EaFH7loF/2Yj8esJp32K0L6vtS
    g==;
-X-CSE-ConnectionGUID: NThC+HUvS4y68v/Fya+Meg==
-X-CSE-MsgGUID: RrHmmQJHQwGyQE7D3DiotQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="73262457"
+X-CSE-ConnectionGUID: DRO+SSnuQQ6RaTlKRCKKpA==
+X-CSE-MsgGUID: Issc/hv+RSGbM3PrgFYDgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="72512351"
 X-IronPort-AV: E=Sophos;i="6.18,315,1751266800"; 
-   d="scan'208";a="73262457"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 03:43:04 -0700
-X-CSE-ConnectionGUID: kH02L0mTQXeFAs12tzPH/g==
-X-CSE-MsgGUID: scLKnoFoT8m8wrvoKjoWTg==
+   d="scan'208";a="72512351"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 04:05:05 -0700
+X-CSE-ConnectionGUID: wt0CGFRcSHamzpgFhX/3+g==
+X-CSE-MsgGUID: PErs7qIgQByWncuDO3a+oQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,315,1751266800"; 
-   d="scan'208";a="216586956"
+   d="scan'208";a="179411758"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2025 03:43:02 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 04 Oct 2025 04:05:04 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4zjA-0005Dz-1V;
-	Sat, 04 Oct 2025 10:43:00 +0000
-Date: Sat, 4 Oct 2025 18:42:25 +0800
+	id 1v504U-0005ER-0E;
+	Sat, 04 Oct 2025 11:05:02 +0000
+Date: Sat, 4 Oct 2025 19:04:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.17/prjc 574/583] kernel/sched/alt_core.c:1466:39: error:
- 'struct thread_info' has no member named 'cpu'
-Message-ID: <202510041831.RpEVULjC-lkp@intel.com>
+Subject: Re: [PATCH v1 3/5] Bluetooth: ISO: Add support to bind to trigger
+ PAST
+Message-ID: <202510041823.Gu7nrN3J-lkp@intel.com>
+References: <20251003153424.470938-3-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,194 +64,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251003153424.470938-3-luiz.dentz@gmail.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.17/prjc
-head:   e901d7e18045fc771c34a9c19af59305b838071b
-commit: 408e2859c2cc3905b06666e854c1e10325301780 [574/583] sched/smp/alt: Make SMP unconditional
-config: x86_64-buildonly-randconfig-001-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041831.RpEVULjC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041831.RpEVULjC-lkp@intel.com/reproduce)
+Hi Luiz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on bluetooth/master linus/master v6.17 next-20251003]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-hci_core-Introduce-HCI_CONN_FLAG_PAST/20251003-233649
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20251003153424.470938-3-luiz.dentz%40gmail.com
+patch subject: [PATCH v1 3/5] Bluetooth: ISO: Add support to bind to trigger PAST
+config: openrisc-randconfig-r123-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041823.Gu7nrN3J-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041823.Gu7nrN3J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510041831.RpEVULjC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510041823.Gu7nrN3J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/bluetooth/hci_sync.c:7256:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [usertype] handle @@     got unsigned short [usertype] handle @@
+   net/bluetooth/hci_sync.c:7256:19: sparse:     expected restricted __le16 [addressable] [usertype] handle
+   net/bluetooth/hci_sync.c:7256:19: sparse:     got unsigned short [usertype] handle
+   net/bluetooth/hci_sync.c:7273:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [usertype] handle @@     got unsigned short [usertype] handle @@
+   net/bluetooth/hci_sync.c:7273:19: sparse:     expected restricted __le16 [addressable] [usertype] handle
+   net/bluetooth/hci_sync.c:7273:19: sparse:     got unsigned short [usertype] handle
 
-   In file included from <command-line>:
-   kernel/sched/alt_core.c: In function '__set_task_cpu':
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
-     552 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
-     552 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
-     552 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
-     552 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
-     552 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      60 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:382,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/smp.h:12,
-                    from include/linux/sched/clock.h:5,
-                    from kernel/sched/alt_core.c:14:
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                           ^
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
->> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |                                       ^~
-   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                  ^
-   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
-    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-         |         ^~~~~~~~~~
-   kernel/sched/alt_core.c: At top level:
->> kernel/sched/alt_core.c:1469:6: error: redefinition of 'set_task_cpu'
-    1469 | void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
-         |      ^~~~~~~~~~~~
-   In file included from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/alt_core.c:15:
-   include/linux/sched.h:2263:20: note: previous definition of 'set_task_cpu' with type 'void(struct task_struct *, unsigned int)'
-    2263 | static inline void set_task_cpu(struct task_struct *p, unsigned int cpu)
-         |                    ^~~~~~~~~~~~
+vim +7256 net/bluetooth/hci_sync.c
 
-
-vim +1466 kernel/sched/alt_core.c
-
-ffc3f73cc688cd Alfred Chen 2019-08-19  1456  
-ffc3f73cc688cd Alfred Chen 2019-08-19  1457  static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
-ffc3f73cc688cd Alfred Chen 2019-08-19  1458  {
-ffc3f73cc688cd Alfred Chen 2019-08-19  1459  	/*
-ffc3f73cc688cd Alfred Chen 2019-08-19  1460  	 * After ->cpu is set up to a new value, task_access_lock(p, ...) can be
-ffc3f73cc688cd Alfred Chen 2019-08-19  1461  	 * successfully executed on another CPU. We must ensure that updates of
-ffc3f73cc688cd Alfred Chen 2019-08-19  1462  	 * per-task data have been completed by this moment.
-ffc3f73cc688cd Alfred Chen 2019-08-19  1463  	 */
-ffc3f73cc688cd Alfred Chen 2019-08-19  1464  	smp_wmb();
-ffc3f73cc688cd Alfred Chen 2019-08-19  1465  
-ffc3f73cc688cd Alfred Chen 2019-08-19 @1466  	WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-ffc3f73cc688cd Alfred Chen 2019-08-19  1467  }
-ffc3f73cc688cd Alfred Chen 2019-08-19  1468  
-ffc3f73cc688cd Alfred Chen 2019-08-19 @1469  void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
-ffc3f73cc688cd Alfred Chen 2019-08-19  1470  {
-4ae83feabb2dcf Alfred Chen 2021-08-11  1471  	unsigned int state = READ_ONCE(p->__state);
-4ae83feabb2dcf Alfred Chen 2021-08-11  1472  
-ffc3f73cc688cd Alfred Chen 2019-08-19  1473  	/*
-ffc3f73cc688cd Alfred Chen 2019-08-19  1474  	 * We should never call set_task_cpu() on a blocked task,
-ffc3f73cc688cd Alfred Chen 2019-08-19  1475  	 * ttwu() will sort out the placement.
-ffc3f73cc688cd Alfred Chen 2019-08-19  1476  	 */
-4ae83feabb2dcf Alfred Chen 2021-08-11  1477  	WARN_ON_ONCE(state != TASK_RUNNING && state != TASK_WAKING && !p->on_rq);
-4ae83feabb2dcf Alfred Chen 2021-08-11  1478  
-
-:::::: The code at line 1466 was first introduced by commit
-:::::: ffc3f73cc688cd9e7aaff0d1dc8201b5f29e9503 Project C v5.7.5-r2
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+  7245	
+  7246	static int hci_le_past_set_info_sync(struct hci_dev *hdev, void *data)
+  7247	{
+  7248		struct past_data *past = data;
+  7249		struct hci_cp_le_past_set_info cp;
+  7250	
+  7251		if (!hci_conn_valid(hdev, past->conn) ||
+  7252		    !hci_conn_valid(hdev, past->le))
+  7253			return -ECANCELED;
+  7254	
+  7255		memset(&cp, 0, sizeof(cp));
+> 7256		cp.handle = past->le->handle;
+  7257		cp.adv_handle = past->conn->iso_qos.bcast.bis;
+  7258	
+  7259		return __hci_cmd_sync_status(hdev, HCI_OP_LE_PAST_SET_INFO,
+  7260					     sizeof(cp), &cp, HCI_CMD_TIMEOUT);
+  7261	}
+  7262	
 
 -- 
 0-DAY CI Kernel Test Service
