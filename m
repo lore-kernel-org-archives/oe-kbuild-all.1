@@ -1,69 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12187221F20
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 07:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4AC1C6B4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 08:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759562933; cv=none; b=MK6k81PuCKFeJyB2+PX5hBGH2ox3Fh98FPLBkf75AShRf/wc2GGj8iHBDH+zCq7bB2mSDlhIH8HS4RzzPU0DQ1Cs1wiz6Iv7L6Zj+OiHf1iacIFn8PV2geBGg+2gQMuWM6ZXSQiggZq1W7tS2Ovw9Btq+GGsZ6VtWTIdx6WoFUM=
+	t=1759564886; cv=none; b=kemw5Y+ZW5v6Itnmo5uvl+HhvFm9tqv+ZM+F1zUsQD5m51k2mSsHoeNEfFGiuWNb9Lw4ftl4eIz3zZuX1NzLiYOQTrTViMdrVwkvQQVRY8hrMu05xY5sGgGKU0+GZlYG1b6Tgf5q3JRjTyBW0f/BZMFxT9Yfu4yZ5IY+mpCSBg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759562933; c=relaxed/simple;
-	bh=Loo773o+nNlKAHZV9BqWO5rGZNFf3qmRPjEFQXtovHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HDMim4ZOqK2iQ2TSDq55LxhExKlnqI68sMi5+1tZI9LwjqaVkKYAVQUd9VHFprOxFQgsxQxuQg6CEnAHDl/UpghBgFqLghnwybvGgWWHoQDmdU5iQUfL2MNOQjk7F4HhDtggYribK96ywQ/ssSsIHCtp3cBoiZ/Hppgwz4OzSYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gr1lJ247; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1759564886; c=relaxed/simple;
+	bh=Pj2M+0PzvorHguVW/2/QGNd1gTr+5Y1C5fIaXKaoIbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fizYkhoykrjIStO1YXXoij7IALgIxJIvO2h8+SIV3ZqHNRgBaHaNYrMd7gNhvozLCrijuQQtyRYI5edmvu5qkanZ+eANztZOhG732JuHdF0uGlnZkaplyWGRwcflxgXmvVRWEzs4AvodUnThf7dtJMNHVKkAsvArGkFU2EIrWvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giAiekbN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gr1lJ247"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giAiekbN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759562933; x=1791098933;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Loo773o+nNlKAHZV9BqWO5rGZNFf3qmRPjEFQXtovHY=;
-  b=Gr1lJ247xDfOChx/ANgpe4k9X0YkdzOyPe+NRDAxZHoVr5r6Ml5nbLBO
-   slyp9wnrxOboZtSNrsFFc8Z5fDcFsioTtVsIbxEZQrb0Lym1JeCf8qDbg
-   Cz1I3TKc08cr2MdlLuhFKvwmmcivaXF2qmwaESIdxlG5oUpOMdr81q3wg
-   zdfFN11Q4hkZ2lSEU9eL0Vl0zPFIivvhbWUz2wv6vfzIe5bMqkATvF2Rk
-   ERgLpktsij8HlpQ+InSmcMw9XwB5XMemDx5dV9sPhvMFNWQ5I6gmpILLS
-   l7V9N+im+INxp4KV696tWT3UeD3FdrQgwdOuIMe5TIPjSn1gG9LmxpQbP
+  t=1759564885; x=1791100885;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Pj2M+0PzvorHguVW/2/QGNd1gTr+5Y1C5fIaXKaoIbE=;
+  b=giAiekbNjz2reU42UXm9WbmP3iMnQaKqs2aBqDktYwv9Wv6ODncBGCML
+   y/Xjszs62h/OeNA6GEDzOKFGVQOSLYJQOr4vdQU9MWp0xdIuF9EIhztLg
+   pEa0XmfUElNzZ72rMSGz7Ky2SYSuXXO3JUF5InBJOVm4ZHRAvH6xEFIzW
+   87SGmn7c9vFUiqL+AQ2nn0dtLUbR6GMZXi1dTOzxOsfOIg1N3/5czpMeI
+   8N4I3ZvJZDQL75PuYeOikqUcOXuyUdkIuKULGaCqmLSs5mohEOBpot48u
+   UYMUBtbnkOlVLvF33vERP8cigX6DoC6nCKU4S63vi10xopEQYtoXeVz6D
    Q==;
-X-CSE-ConnectionGUID: npuY/TPwQJuQ6yU8TqlseQ==
-X-CSE-MsgGUID: /8Bb+UXHTgG/mbJvn08P/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="61538893"
+X-CSE-ConnectionGUID: 4Jgima/US4CgscLtCkJJLQ==
+X-CSE-MsgGUID: 9t7ijSGwTOO4E/88JPU7Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="73259140"
 X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="61538893"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 00:28:52 -0700
-X-CSE-ConnectionGUID: GlTyvsNSRlyCVeq+HKfhBw==
-X-CSE-MsgGUID: TF6WPJYORZS2on2lZz658g==
+   d="scan'208";a="73259140"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 01:01:24 -0700
+X-CSE-ConnectionGUID: fa4SidByQBmpWeBlw7EcQw==
+X-CSE-MsgGUID: TinRKPooQ0iL0/NC0jzhBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="210438407"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Oct 2025 00:28:48 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+   d="scan'208";a="210144787"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by orviesa002.jf.intel.com with ESMTP; 04 Oct 2025 01:01:23 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1v4whB-00058l-2y;
-	Sat, 04 Oct 2025 07:28:45 +0000
-Date: Sat, 4 Oct 2025 15:27:46 +0800
+	id 1v4xCi-000000007bx-3geu;
+	Sat, 04 Oct 2025 08:01:20 +0000
+Date: Sat, 4 Oct 2025 10:00:37 +0200
 From: kernel test robot <lkp@intel.com>
-To: Radu Rendec <rrendec@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Brian Masney <bmasney@redhat.com>,
-	Eric Chanudet <echanude@redhat.com>,
-	Alessandro Carminati <acarmina@redhat.com>,
-	Jared Kangas <jkangas@redhat.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] PCI: dwc: Enable MSI affinity support
-Message-ID: <202510041550.xoRbz92p-lkp@intel.com>
-References: <20251003160421.951448-4-rrendec@redhat.com>
+To: Eddie James <eajames@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [linux-next:master 12827/13363]
+ arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb:
+ /ahb/apb/bus@1e78a000/i2c@400/pwm@53: failed to match any schema with
+ compatible: ['maxim,max31785a']
+Message-ID: <202510041016.51gNQdjS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,51 +64,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251003160421.951448-4-rrendec@redhat.com>
 
-Hi Radu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on pci/next pci/for-linus mani-mhi/mhi-next linus/master v6.17 next-20251003]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Rendec/genirq-Add-interrupt-redirection-infrastructure/20251004-000948
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20251003160421.951448-4-rrendec%40redhat.com
-patch subject: [PATCH 3/3] PCI: dwc: Enable MSI affinity support
-config: x86_64-randconfig-002-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041550.xoRbz92p-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041550.xoRbz92p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47a8d4b89844f5974f634b4189a39d5ccbacd81c
+commit: 26e26da13e0aeebc097b1972b77514db98281105 [12827/13363] ARM: dts: aspeed: Add Balcones system
+config: arm-randconfig-2052-20251003 (https://download.01.org/0day-ci/archive/20251004/202510041016.51gNQdjS-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.8
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041016.51gNQdjS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510041550.xoRbz92p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510041016.51gNQdjS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ld: vmlinux.o: in function `dw_pcie_init_dev_msi_info':
->> drivers/pci/controller/dwc/pcie-designware-host.c:36:(.text+0x21dd630): undefined reference to `irq_chip_pre_redirect_parent'
-
-
-vim +36 drivers/pci/controller/dwc/pcie-designware-host.c
-
-    28	
-    29	static bool dw_pcie_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
-    30					      struct irq_domain *real_parent, struct msi_domain_info *info)
-    31	{
-    32		if (!msi_lib_init_dev_msi_info(dev, domain, real_parent, info))
-    33			return false;
-    34	
-    35		info->chip->irq_ack = dw_pcie_msi_ack;
-  > 36		info->chip->irq_pre_redirect = irq_chip_pre_redirect_parent;
-    37		return true;
-    38	}
-    39	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/bus@1e78a000/i2c@400/pwm@53: failed to match any schema with compatible: ['maxim,max31785a']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: pressure-sensor@76 (infineon,dps310): '#io-channel-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
