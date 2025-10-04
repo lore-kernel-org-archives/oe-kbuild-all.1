@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB701C2E0;
-	Sat,  4 Oct 2025 04:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257D9219E8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 04:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759551758; cv=none; b=GCmMsijuv1EU4TWMTmHQMIt0Gik7rkXQbHQcmqpm+gAqsVtm9H9CrKGllpSHJF4J5AyBGh8R8o0zDii172zNQ9iJETsiXlm752pHLDIJW2AzmwrQSJEcnGq1CL9YDG8v8oUtQ3eJxDYxSMb5blTI5R29vWW+DzshwiY0CTP/SI8=
+	t=1759552962; cv=none; b=NZM6e2WK1PFx42nl1OQqX+VlBmOXxVgHGtntmv796IO19kF7B7FAu0JswydYxXFlUZYzG16Ao0qpDEbpsMb3OFEt/e6vg39LZEYN3jqXbMuvSqHyo+p/F7RaTRpdsV9tPGy3jkTTUbW2XCpLhrd+GdkuV7dub5TKLMmIsXRF1Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759551758; c=relaxed/simple;
-	bh=9oQzcLpHQ1LMGAFieebjt9F4lLpFUVl/U1vrpjTBleU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uKbmc1O9CJm023RUoC5S+HF5h5+rjcdWKljEaK3BHvz6kh5KkK5RiOKoPrv5XkH0ZXYpd1lw6rDad13r4kA9towxF+RB7avx1ieG4ELpaGfldnx5SHR6V8ruQnVCn1ybARgTagfCB6Aam01En6pvppJjmD2ADa5sWh9Ds138Axw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MH1uZJtT; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1759552962; c=relaxed/simple;
+	bh=PNvfYT2zxLYtc1zFaIJE5ItnL96oO0muyalbaJ3ykVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Byf3pDrZ8HV8U5cIpbexCRt9MlG6rG8a83KML/e7WhoeO+Cd645yW5cJiKG5vlXj+KzkO+5bCEalSxvnl7Y27f4AQgtRzww/Ba1Zh836cM15Pt+gVFGqqGWVI+iqgsQcgUrOjdgLDseVEDs8MRnpfZvzFXzYUNiMeJIh1w1vNzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QhJhfSVb; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MH1uZJtT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QhJhfSVb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759551757; x=1791087757;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9oQzcLpHQ1LMGAFieebjt9F4lLpFUVl/U1vrpjTBleU=;
-  b=MH1uZJtT/PpnQ0xoSTwL9X1wB363EsJoGW2Yh3k2EpCKFViveW5ZD/wA
-   LRcrCobpJ9KDyZDawDPoaDeNlGjY9pci98a7uESTJqIclr7sqXSOxiYrA
-   V40U/bymMgFLy3+iylGwfABD9lWcqm3jt78vw4oxlT0A0meLkxg0Mvbz4
-   BpZmUoQICF2gTvCy4zl4hXVLn83n5kqo0VDVDbb4AkqmzB++A9aNKOXdo
-   XEGMiEKbqdWqEqObA9UMXpoKng75ERoCSQEhKZY4zc1gpnb51ldDTcsSg
-   zHgkcg2J3cZs9pfsHlyEnpfdpzsfZWN81VHBFTxD04cHKwvX7Ivc7R1rP
+  t=1759552960; x=1791088960;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PNvfYT2zxLYtc1zFaIJE5ItnL96oO0muyalbaJ3ykVo=;
+  b=QhJhfSVb5Np1rEsim9fDTVu+DTSf+nOsib2tssAn8KNkAC8NwxDsYtW5
+   CWivzcVWT1x6Q5iw0SWweh2RPpYnoMYGdbWSxzgAbxhf2laT+EwLvwKNV
+   R3Ge8wDkdoDiDOaTzF7sARCM9G7WQ+n39mhQVMUcjLbKl7s1sfIvbPbsY
+   cN5Yy4FOrsd2kFkRxSKQ1VxOEcbhLbCDGuFs70rZYuyF4Eoqs1soSNaL0
+   c+nbfsbfUTEVVVFWGuSLctSJs40zYmev1/3BGVwJy7NOrrc/uLvbdPsbk
+   wIDs1z4u3i3MHoiWSKMcSkwTYj8NjtWmrq+mamfPy9OwsC05YDjSOaUc7
    A==;
-X-CSE-ConnectionGUID: r/5IutobTMegfAx7C1B9vw==
-X-CSE-MsgGUID: uwz0XAsVQQGqQbaWuike2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="72075300"
+X-CSE-ConnectionGUID: TOLjGnAEQaqzJCbJBpHkYQ==
+X-CSE-MsgGUID: D/ZzQyC0Sm2s44a6FxxUaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="73181651"
 X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="72075300"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 21:22:36 -0700
-X-CSE-ConnectionGUID: hu2Gfj4vS5qYlrvRBuQSuQ==
-X-CSE-MsgGUID: Z3//4wumTcKQYWODAZajBA==
+   d="scan'208";a="73181651"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 21:42:39 -0700
+X-CSE-ConnectionGUID: 8X8Sje8WQD+jHHwvJFYn0A==
+X-CSE-MsgGUID: Bdc8UeCeRLWyRHmYvhv/mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,314,1751266800"; 
-   d="scan'208";a="179367869"
+   d="scan'208";a="210420621"
 Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Oct 2025 21:22:34 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Oct 2025 21:42:36 -0700
 Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v4tmy-00054z-1h;
-	Sat, 04 Oct 2025 04:22:32 +0000
-Date: Sat, 4 Oct 2025 12:22:08 +0800
+	id 1v4u6M-00055X-0v;
+	Sat, 04 Oct 2025 04:42:34 +0000
+Date: Sat, 4 Oct 2025 12:42:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramesh Errabolu <ramesh@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>
-Subject: [linux-next:master 13105/13363] ld.lld: error: undefined symbol:
- zpci_fw_sysfs_init
-Message-ID: <202510041229.XuZ9q7Fv-lkp@intel.com>
+To: Radu Rendec <rrendec@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Brian Masney <bmasney@redhat.com>,
+	Eric Chanudet <echanude@redhat.com>,
+	Alessandro Carminati <acarmina@redhat.com>,
+	Jared Kangas <jkangas@redhat.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] PCI: dwc: Enable MSI affinity support
+Message-ID: <202510041241.KgbWC5KM-lkp@intel.com>
+References: <20251003160421.951448-4-rrendec@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +72,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251003160421.951448-4-rrendec@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   47a8d4b89844f5974f634b4189a39d5ccbacd81c
-commit: 198c570d7131cca92eec058c952203c33042f906 [13105/13363] s390/pci: Expose firmware provided UID Checking state in sysfs
-config: s390-randconfig-002-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041229.XuZ9q7Fv-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041229.XuZ9q7Fv-lkp@intel.com/reproduce)
+Hi Radu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on pci/next pci/for-linus mani-mhi/mhi-next linus/master v6.17 next-20251003]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Rendec/genirq-Add-interrupt-redirection-infrastructure/20251004-000948
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20251003160421.951448-4-rrendec%40redhat.com
+patch subject: [PATCH 3/3] PCI: dwc: Enable MSI affinity support
+config: i386-randconfig-002-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041241.KgbWC5KM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041241.KgbWC5KM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510041229.XuZ9q7Fv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510041241.KgbWC5KM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: zpci_fw_sysfs_init
-   >>> referenced by pci.c:1191 (arch/s390/pci/pci.c:1191)
-   >>>               arch/s390/pci/pci.o:(pci_base_init) in archive vmlinux.a
+>> drivers/pci/controller/dwc/pcie-designware-host.c:137:13: warning: 'dw_pci_pre_redirect' defined but not used [-Wunused-function]
+     137 | static void dw_pci_pre_redirect(struct irq_data *d)
+         |             ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/dw_pci_pre_redirect +137 drivers/pci/controller/dwc/pcie-designware-host.c
+
+   136	
+ > 137	static void dw_pci_pre_redirect(struct irq_data *d)
+   138	{
+   139		struct dw_pcie_rp *pp  = irq_data_get_irq_chip_data(d);
+   140		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+   141		unsigned int res, bit, ctrl;
+   142	
+   143		ctrl = d->hwirq / MAX_MSI_IRQS_PER_CTRL;
+   144		res = ctrl * MSI_REG_CTRL_BLOCK_SIZE;
+   145		bit = d->hwirq % MAX_MSI_IRQS_PER_CTRL;
+   146	
+   147		dw_pcie_writel_dbi(pci, PCIE_MSI_INTR0_STATUS + res, BIT(bit));
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
