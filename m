@@ -1,178 +1,255 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C32322A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 08:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A80F13774D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Oct 2025 10:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759566956; cv=none; b=OHPcMoBBNtIlcpFXZQJMUY3cwxbnaue29OYMXsGuNC9NjVoYbEbcvIjBgClEVwN/T6pdggVc8g4oR6TrBE0tH9OC7hirQL+vttnE56I6T6jqsDeTk77gWOct/5P+nSlSF091ouPdYx6tBlnuIJApVi7XQiKGxfEprzdyzsX0g5w=
+	t=1759574587; cv=none; b=FK2ZLQcQ1qVQNLmACQ+JORaGqNGqT4lc1ePxzoHS7pdE9q3K+cA9ZeZMS8L1GU1R+eRM1AZmFc1thGO50EiWorP48hLqF+XyIBn0viQxwjbCPPZ/xINbAQCTf4rLa4XE2ZtiIp7VuEtd76EKTWWQl31m30I3b3hgbxLyz12NNzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759566956; c=relaxed/simple;
-	bh=JsQqE9p1BnSsmmi8AuDK+KSrAV78o80Mh5hwa3pmkBE=;
+	s=arc-20240116; t=1759574587; c=relaxed/simple;
+	bh=ZVlQkCaHDufpfMZEhdCSTwC/huN3oIihJjRtYKMbfbY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=RbkIWALakPjKTn6OOtQmzdU4uDvQIqyKoboE5Gwbos8fe4IWAh9NAHeRFZoQWrIdcJZ6LqLTWQD/EpmwD0ZZ+UehKtMT2PtuRByiY3RgtEAn51oZKV3vUz7TuAI7D/jyGwOvruMAEZnhuBmMGOH8QtYxX6IqyR8nc1U3/dor+vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rKeRjO4j; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=p89J/5eiEXOkCzm4PBK2aeSkMZqCD+G2Io18BOPX+mhs4MEHNWJUcY2XhuEn0mewQo61v7gSs4+KHR7Z1tXpdgm7XA48rYsKBxw0ndH6WNDPgCLViJPGJRnOnkNNWAq4WjnKztYcU9F3Ykz2gimHXwky8XdNh+Rr0m4Ii7FwWfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfDa4aLr; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rKeRjO4j"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-46e4ad36541so33861255e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Oct 2025 01:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759566952; x=1760171752; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SAZP7F4LpAyeiWuUVfM9K9SMysgSblKGV29vPTVd7ME=;
-        b=rKeRjO4jGNpQOIRCdoy7Y3yWU4puyBN3GViswvgcYyJdEX6mMdq4BgypMmVNCyEJoO
-         u9SFVWLG2gDNJj05PJDYaZjOCYbat1yQIm+50AwlcUU5ICwtqIGtLlZhC9roggf8ydFL
-         37fdMuVozvkUZ3tf/3vWA7KlUFIONlyCvceZs/Fg2UKRP8FViEvw8WLxda9ODOoVQGVH
-         XbEArX14bpsVuDOChOqIrCtXe9kgzPRg/6mth6wIdng6iE8mylFaat2PAq4+bLWlFu5L
-         Xy5GZLoeOg34tyvwkIU9Drkdoik6RfAHcDfmSbS/VDmBpiZvsM8Gnjc++V8aYLg1dRtO
-         wNdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759566952; x=1760171752;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SAZP7F4LpAyeiWuUVfM9K9SMysgSblKGV29vPTVd7ME=;
-        b=UpMmfQWpKmgjO7bEmixDvh6thzdyBhQv4Ej/Tt5Kq72eeqbPfDs1fEs2x+wvoGU52/
-         cJINfWqqu7y+M0xbfZgcrFo7BBAKsb4ms9fE7TNKzc5Xbs6TiwDMF0sWFYor8CAPluqZ
-         jDtAD2dJAPMBHNhVInFFB0V5+0GWca25BRQLRCrnn4EvrC8/Cv2YUxn0G4xGlmbhMRk+
-         mQhHjGEwqmInqFAUh03NsyvoaOCLWvEYbBG6LJVZStieobVLQUgo5M7gFCOz1SSc65V8
-         NR3l735bzWcQVAWea9/emPyU+gC6FhhMHWgInh4DUJUUwAs/4XvZ+UTLWjDw4bJC+QHu
-         mPHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWo0i4jsUipGi3mS/BIaM3RhK0R2ntkiI16QOglJXm2DiycdoqKz9IzAxUSzLY0IvfN8tVkiWkXUJ9zK70@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDpIyymK7u+bXg4pWL2CA97XrQj/VfEtcIi/x+9Na6Asnuuu3A
-	ArpdJMdzzz5cyc21i/wK5gqWmn9GAN78HxPPt6keQzvcSt9Vt+JclH3IYbOLRjEW3wY=
-X-Gm-Gg: ASbGncsUi3HuLow3Q8zqviv9WCHJlJKrLYjDRO1VNWRSPCxI4jYVqEgk80EfilI9K4I
-	5Jr/Ey/sfdzWQ1DZeECHhHfTDRpCvmoQXFLq6fvysxbORXUPhdUroDerdsDBP55HGRX0u5ixrN8
-	/8/c4CxX0v4nXtd5HV4/1dHu6YtlveNMs2aieYjkWGVBF5fLrnhpxJlC2G88yZeEY6wEIZmDmgy
-	uhxOt1zmO2ARvR4rdd4mMZF3I55F/Fo8q1TpbfS7MAHwNMSsyjJonC7EoEGDty+42yrgMq3NzaQ
-	YTnEb2dd0f1wbUaJ3uFp/etuK3/hnsCSUrWmf7PXsW8m6GfXpvsL0lSFVG3G9MU/OqP4kVM5UHQ
-	9++uSqBJjKRPB4B6vb+mNvZER+3ujMctXWsci4yqFLGKy2RQvZXt7JDasFuG1sa56FmA=
-X-Google-Smtp-Source: AGHT+IGa6E+3wJm7+c+5/woLvErvO0WuhjoiRpVAjW0z69Cszk2FpgixLHJeZ82h4IS7E9Toa0IMxQ==
-X-Received: by 2002:a05:600c:8b6e:b0:46e:4499:ba30 with SMTP id 5b1f17b1804b1-46e71153ad0mr42510465e9.30.1759566952004;
-        Sat, 04 Oct 2025 01:35:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e723614c9sm63490555e9.14.2025.10.04.01.35.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Oct 2025 01:35:51 -0700 (PDT)
-Date: Sat, 4 Oct 2025 11:35:47 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Will McVicker <willmcvicker@google.com>, kernel-team@android.com,
-	linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-Subject: Re: [PATCH] sched: drop unused variable cpumask in mm_cid_get()
-Message-ID: <202510041546.DvhFLp2x-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfDa4aLr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759574584; x=1791110584;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZVlQkCaHDufpfMZEhdCSTwC/huN3oIihJjRtYKMbfbY=;
+  b=hfDa4aLrBw2le1HLLUs+AYEB98VwtrjABJdc0ZK65wwDlCe2Qp9VQp+7
+   frM2VHiV1bPAnVw8HhcC+fOerz8EUjQbK6hhblXBaBGfGUhGrwyrZLhHH
+   972zeejevAZKQyQ6NPhQpm9UX2eiR9NOG6JDAnd9JQLOzwZqWsoVxkhuH
+   TMesgbDN4nvQarwWJa+IBk6F4HCL8V73OGp0xGNnl7QTHe5cJKhrBlrc3
+   ORyyzoYG4RqHNxGmlAe+EFd127FhwxT/a224OpnSbChCXyGUEn+GySAdE
+   VjoQ86lwzK1VviEXUIEStitZYVXNK8Y3yC2teGpFmE0Tj64uGSAkOWTx7
+   g==;
+X-CSE-ConnectionGUID: NThC+HUvS4y68v/Fya+Meg==
+X-CSE-MsgGUID: RrHmmQJHQwGyQE7D3DiotQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="73262457"
+X-IronPort-AV: E=Sophos;i="6.18,315,1751266800"; 
+   d="scan'208";a="73262457"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2025 03:43:04 -0700
+X-CSE-ConnectionGUID: kH02L0mTQXeFAs12tzPH/g==
+X-CSE-MsgGUID: scLKnoFoT8m8wrvoKjoWTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,315,1751266800"; 
+   d="scan'208";a="216586956"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2025 03:43:02 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v4zjA-0005Dz-1V;
+	Sat, 04 Oct 2025 10:43:00 +0000
+Date: Sat, 4 Oct 2025 18:42:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.17/prjc 574/583] kernel/sched/alt_core.c:1466:39: error:
+ 'struct thread_info' has no member named 'cpu'
+Message-ID: <202510041831.RpEVULjC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251002-sched-w1-v1-1-a6fdf549d179@linaro.org>
 
-Hi André,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Draszik/sched-drop-unused-variable-cpumask-in-mm_cid_get/20251002-192448
-base:   3b9b1f8df454caa453c7fb07689064edb2eda90a
-patch link:    https://lore.kernel.org/r/20251002-sched-w1-v1-1-a6fdf549d179%40linaro.org
-patch subject: [PATCH] sched: drop unused variable cpumask in mm_cid_get()
-config: i386-randconfig-141-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041546.DvhFLp2x-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://github.com/zen-kernel/zen-kernel 6.17/prjc
+head:   e901d7e18045fc771c34a9c19af59305b838071b
+commit: 408e2859c2cc3905b06666e854c1e10325301780 [574/583] sched/smp/alt: Make SMP unconditional
+config: x86_64-buildonly-randconfig-001-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041831.RpEVULjC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251004/202510041831.RpEVULjC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510041546.DvhFLp2x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510041831.RpEVULjC-lkp@intel.com/
 
-smatch warnings:
-kernel/sched/sched.h:3810 switch_mm_cid() error: we previously assumed 'next->mm' could be null (see line 3772)
+All errors (new ones prefixed by >>):
 
-vim +3810 kernel/sched/sched.h
+   In file included from <command-line>:
+   kernel/sched/alt_core.c: In function '__set_task_cpu':
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
+     552 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
+     552 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
+     552 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
+     552 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/linux/compiler_types.h:552:23: note: in definition of macro '__compiletime_assert'
+     552 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:382,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/smp.h:12,
+                    from include/linux/sched/clock.h:5,
+                    from kernel/sched/alt_core.c:14:
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                           ^
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+>> kernel/sched/alt_core.c:1466:39: error: 'struct thread_info' has no member named 'cpu'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |                                       ^~
+   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                  ^
+   kernel/sched/alt_core.c:1466:9: note: in expansion of macro 'WRITE_ONCE'
+    1466 |         WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+         |         ^~~~~~~~~~
+   kernel/sched/alt_core.c: At top level:
+>> kernel/sched/alt_core.c:1469:6: error: redefinition of 'set_task_cpu'
+    1469 | void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
+         |      ^~~~~~~~~~~~
+   In file included from include/linux/sched/signal.h:7,
+                    from include/linux/sched/cputime.h:5,
+                    from kernel/sched/alt_core.c:15:
+   include/linux/sched.h:2263:20: note: previous definition of 'set_task_cpu' with type 'void(struct task_struct *, unsigned int)'
+    2263 | static inline void set_task_cpu(struct task_struct *p, unsigned int cpu)
+         |                    ^~~~~~~~~~~~
 
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3762  static inline void switch_mm_cid(struct rq *rq,
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3763  				 struct task_struct *prev,
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3764  				 struct task_struct *next)
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3765  {
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3766  	/*
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3767  	 * Provide a memory barrier between rq->curr store and load of
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3768  	 * {prev,next}->mm->pcpu_cid[cpu] on rq->curr->mm transition.
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3769  	 *
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3770  	 * Should be adapted if context_switch() is modified.
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3771  	 */
-223baf9d17f25e Mathieu Desnoyers 2023-04-20 @3772  	if (!next->mm) {                                // to kernel
 
-Can ->mm_cid_active be true when next->mm is false?  I don't know.
-If so then it's fine.  I suspect it's fine...
+vim +1466 kernel/sched/alt_core.c
 
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3773  		/*
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3774  		 * user -> kernel transition does not guarantee a barrier, but
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3775  		 * we can use the fact that it performs an atomic operation in
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3776  		 * mmgrab().
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3777  		 */
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3778  		if (prev->mm)                           // from user
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3779  			smp_mb__after_mmgrab();
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3780  		/*
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3781  		 * kernel -> kernel transition does not change rq->curr->mm
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3782  		 * state. It stays NULL.
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3783  		 */
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3784  	} else {                                        // to user
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3785  		/*
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3786  		 * kernel -> user transition does not provide a barrier
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3787  		 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3788  		 * Provide it here.
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3789  		 */
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3790  		if (!prev->mm) {                        // from kernel
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3791  			smp_mb();
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3792  		} else {				// from user
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3793  			/*
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3794  			 * user->user transition relies on an implicit
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3795  			 * memory barrier in switch_mm() when
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3796  			 * current->mm changes. If the architecture
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3797  			 * switch_mm() does not have an implicit memory
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3798  			 * barrier, it is emitted here.  If current->mm
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3799  			 * is unchanged, no barrier is needed.
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3800  			 */
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3801  			smp_mb__after_switch_mm();
-fe90f3967bdb3e Mathieu Desnoyers 2024-04-15  3802  		}
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3803  	}
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3804  	if (prev->mm_cid_active) {
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3805  		mm_cid_snapshot_time(rq, prev->mm);
+ffc3f73cc688cd Alfred Chen 2019-08-19  1456  
+ffc3f73cc688cd Alfred Chen 2019-08-19  1457  static inline void __set_task_cpu(struct task_struct *p, unsigned int cpu)
+ffc3f73cc688cd Alfred Chen 2019-08-19  1458  {
+ffc3f73cc688cd Alfred Chen 2019-08-19  1459  	/*
+ffc3f73cc688cd Alfred Chen 2019-08-19  1460  	 * After ->cpu is set up to a new value, task_access_lock(p, ...) can be
+ffc3f73cc688cd Alfred Chen 2019-08-19  1461  	 * successfully executed on another CPU. We must ensure that updates of
+ffc3f73cc688cd Alfred Chen 2019-08-19  1462  	 * per-task data have been completed by this moment.
+ffc3f73cc688cd Alfred Chen 2019-08-19  1463  	 */
+ffc3f73cc688cd Alfred Chen 2019-08-19  1464  	smp_wmb();
+ffc3f73cc688cd Alfred Chen 2019-08-19  1465  
+ffc3f73cc688cd Alfred Chen 2019-08-19 @1466  	WRITE_ONCE(task_thread_info(p)->cpu, cpu);
+ffc3f73cc688cd Alfred Chen 2019-08-19  1467  }
+ffc3f73cc688cd Alfred Chen 2019-08-19  1468  
+ffc3f73cc688cd Alfred Chen 2019-08-19 @1469  void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
+ffc3f73cc688cd Alfred Chen 2019-08-19  1470  {
+4ae83feabb2dcf Alfred Chen 2021-08-11  1471  	unsigned int state = READ_ONCE(p->__state);
+4ae83feabb2dcf Alfred Chen 2021-08-11  1472  
+ffc3f73cc688cd Alfred Chen 2019-08-19  1473  	/*
+ffc3f73cc688cd Alfred Chen 2019-08-19  1474  	 * We should never call set_task_cpu() on a blocked task,
+ffc3f73cc688cd Alfred Chen 2019-08-19  1475  	 * ttwu() will sort out the placement.
+ffc3f73cc688cd Alfred Chen 2019-08-19  1476  	 */
+4ae83feabb2dcf Alfred Chen 2021-08-11  1477  	WARN_ON_ONCE(state != TASK_RUNNING && state != TASK_WAKING && !p->on_rq);
+4ae83feabb2dcf Alfred Chen 2021-08-11  1478  
 
-Same thing for "prev->mm".
+:::::: The code at line 1466 was first introduced by commit
+:::::: ffc3f73cc688cd9e7aaff0d1dc8201b5f29e9503 Project C v5.7.5-r2
 
-223baf9d17f25e Mathieu Desnoyers 2023-04-20  3806  		mm_cid_put_lazy(prev);
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3807  		prev->mm_cid = -1;
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3808  	}
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3809  	if (next->mm_cid_active)
-7e019dcc470f27 Mathieu Desnoyers 2024-10-09 @3810  		next->last_mm_cid = next->mm_cid = mm_cid_get(rq, next, next->mm);
-                                                                                                                        ^^^^^^^^
-Unchecked dereference.
-
-af7f588d8f7355 Mathieu Desnoyers 2022-11-22  3811  }
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
