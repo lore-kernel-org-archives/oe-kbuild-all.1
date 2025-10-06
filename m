@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4A79CD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Oct 2025 23:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3321DE4C2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Oct 2025 07:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759707992; cv=none; b=mYqLZh7uxneoh81naVpLfyrqw6jcxFQP/J8kp6Ec/J0aG/70F54qXCNfUlmH7VBZRwOg1i9SFQRlORYddtncCAW9PGsXc7U35CL2XAjozmO/E/4n3/zUyPLwKfwyGZkhC/EvGE8CwmYGmHdm15RReEmPx5mUBKN51H4T8Ez5fS0=
+	t=1759736001; cv=none; b=Dqop9dDz0Bz4YEIAKcFWJ6FRbw5+hSseYzUZ85YipGZQzcUg4JAhW3gjp6tmzMTICAeWAfpxQ2Tl4a96sO6WW5tk3fJdnEw2EZwZg75/cqiEeufgklSZOPty92PzT+7pY249yoDI8j1PaMjBT0gG7iAvvgLCKXq76V/1mjAlZRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759707992; c=relaxed/simple;
-	bh=bWd+acx4FighV7OLpuFhAow2jBjh8y9ifOfxAY/RBhM=;
+	s=arc-20240116; t=1759736001; c=relaxed/simple;
+	bh=SZzGHvqd25HlgCSKTD0VdSNQ1UMIgyKDNBEAI3lCnbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b17eWp6Um/qMkZkwtgJePJk66GvojEuuX2cUTAE+9lECd4vH1P6unUGia5LXsBE2dBsKdCJurrFKd7RH8j2WL3C/L6hT8areSgy/RY5ZN1u+yRUHJwEV1TQtprriMmpLyKDx1GpEVC6Uu0p1US/oQS/4MKghKfz2EgD6CaQ5Dsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3YrCcp8; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=r60GL1Rb+eVgKs4p9FM0o8FhgybWtP4PaaA9t+ZWwXi8pxP6ua2l3dgV9Odtn3mgxc5/j5shwypK5zS7NT0Dy58hWQYQu9K6Z4MaYgAJrpui3vc4oBYYAtS1+NxSNvgpj770W17jesBz0IP6c/hsH46ThbJeR+R1hguKNg3jjTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OptTUq2E; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3YrCcp8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759707991; x=1791243991;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bWd+acx4FighV7OLpuFhAow2jBjh8y9ifOfxAY/RBhM=;
-  b=X3YrCcp8SXZ348achfXPIqlCDKSMTOINyfFo0YcC48vKbO1SY1yLIxY/
-   YS+W4BUz+cyhGrLzUZRREMskgAkyM7awcfWwsEBbV5eJK7LDBumYdHd4z
-   NUuP/B0k5cGNUsDrXU/19DotAdV1ZPm+dvn5Ztz+G2snQRi3YWOEEip9n
-   h8Pf9sgHEiKjDV6NcctcPPy0FyGzPInkiRF22huVsFSCg7P2mPEPf6SvD
-   VARYKUxkJbm8rFLiZbDVF4rIS4lmK+lJH5qjzCpHKvfvT396tmr4VlA6a
-   OEHcUWheIQ5XdTmGlnT9y6LoXdfZMBTfza717jRdBvkrtC/8joVGAUGRR
-   Q==;
-X-CSE-ConnectionGUID: uEy/VWTzSVu+BySDztrhwQ==
-X-CSE-MsgGUID: 4ZsPsC2nTlKclCLC2YgmVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11573"; a="61771064"
-X-IronPort-AV: E=Sophos;i="6.18,318,1751266800"; 
-   d="scan'208";a="61771064"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2025 16:46:30 -0700
-X-CSE-ConnectionGUID: 3Mrkr3mKR+yN4elDOllGqw==
-X-CSE-MsgGUID: vz2AJXhbS7i3E9AOFgEtpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,318,1751266800"; 
-   d="scan'208";a="185042267"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2025 16:46:29 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1v5YQs-000000007k1-3gRw;
-	Sun, 05 Oct 2025 23:46:26 +0000
-Date: Mon, 6 Oct 2025 01:45:41 +0200
-From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sj:damon/next 120/121] htmldocs:
- Documentation/admin-guide/mm/damon/stat.rst:13: WARNING: malformed hyperlink
- target. [docutils]
-Message-ID: <202510060124.YaUaLfkH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OptTUq2E"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-46e2e6a708fso29145675e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Oct 2025 00:33:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759735998; x=1760340798; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=D3ZEr2d7pwTIHaluHUG7JQgfUgOPLmXul/6qgxWDE8g=;
+        b=OptTUq2EDWjI3uLZpQDQB/zw6IfDNj6VAeGAdYHLk/ZZDiCLzWSBCj3hyF+6No4/rr
+         RqYCZMCvcwU2oUUqw7ZlqbMWYcCPz1Bn9ebrVAi3gjEwDsQmOJGNXPtphJfH0HWDyV5h
+         mHNm0IMNZX/7y+sPn4h7n6c6JI0IeRDBMw5leocD2n0wPX1e2fKUVMTrSov5eIlYOg0J
+         rksNMb2OIm11N6DbltJVimvaau8E2MXfQpxA3ZSlxMgLCDsAvPO4ksRdFFztS2EjzQWA
+         bXcAon4L01yvEJxRVk2dXApPx26c+vfEKpSJZvRIhEMdXOL2hYF/PVKNx+7Y+qL6vCse
+         dj4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759735998; x=1760340798;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D3ZEr2d7pwTIHaluHUG7JQgfUgOPLmXul/6qgxWDE8g=;
+        b=Ys9y0f5466jS4nji3ZgP9tt0PZE6shC+Mdoe4paczT6eg/YWUIar3agCVSS1ucdMbQ
+         0bUuyBbUwQtIUb14HF498WFc2/0cLi7rhMpDHkgLlKG1gqTV2VoJ0k03y69ZXH27fDE8
+         Dql3+0BVoz5VsGjP6MO0zPyv7sg4Nc/JcNpItMhExSqqdxSm6x1BkT75UmOt+8FrB5mD
+         9hDpckoVLn811XsDoxc0iCVXhiEhwho2ZfZ1+qhamKUhyEOE+5ENQOq68d15p/moxz9w
+         viGSrPyfJ3lgqBs+ZD9pGQAIE+Ihk3tuXGvJeU9b7bEYVPqdj3uDnJ6xdu0OR7oRN4km
+         FzuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWe9xezfgllDHeYidI052gLYpCqLQg+fvdQtiQQbV0vCBzBGdvocfl7P3gJn5FrXw+0qHOf3m8Jcq+GQZ3c@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyh1IkNv3QepREOzM/d/tbQUO13hpI3GzQHGpJxJUrf6RBSZ77o
+	KZbLlpX4Ej3Ai9+f+8KFGq3glRlAuKUNa2HHvdKPFCBMpZM5JOY79U2DtAzpA6OI/P8=
+X-Gm-Gg: ASbGncvu3VsqvMtX4EkQ4S4WDCd2eesd4eRdYBFhTe8aVKMYv8OMO18htOWzcb5xnLT
+	1zn7A8rDIN91Oswc60lfIhQemlQP5jc67QyCGJxKqPyT+VcXN/Z7l2i6iTmR10SXJNUQ2WaeD45
+	Ygh4+D3sElRTrzKLDW6pGAqxmkwKJwReO6Ng3fijyAiu4pOCEUEcemjRyqIwJrFa/mv/HlLTbFy
+	Mz7xMCxgXIErDwTQm0GHy0oXz3A3hXntHYstAaGtFMdyuZNqhzXyrfFA/oYDxpVvcb4JMsTK3by
+	sntGhl3d+nU5FaipdHWsHZ5yMpmlRcmrW2MsdVmh7zwBLuJlnsLJLb9hpfI6f8O063Rfcyo6kJI
+	CsY9zglenMbnCOM5hLgs2i3VnDMSDbyW2zbNu4mKqZO5UUcyFwAKDQNbek0Pu9FvV4No=
+X-Google-Smtp-Source: AGHT+IEY3Vdz6DSENDPXWHaU3Pw3qJ2jmGm2AQUbIDp0HgmMLAwC9lJKK+vWRw7LBtZ3XAYcVnYPJQ==
+X-Received: by 2002:a05:600c:3149:b0:46e:33b2:c8da with SMTP id 5b1f17b1804b1-46e7114829cmr64921245e9.32.1759735998124;
+        Mon, 06 Oct 2025 00:33:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e619b8507sm243679325e9.3.2025.10.06.00.33.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 00:33:17 -0700 (PDT)
+Date: Mon, 6 Oct 2025 10:33:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, James Houghton <jthoughton@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	James Houghton <jthoughton@google.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] KVM: For manual-protect GET_DIRTY_LOG, do not hold
+ slots lock
+Message-ID: <202510041919.LaZWBcDN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +76,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250930172850.598938-1-jthoughton@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   d2a846a38c8b6e1f2473db076998642ea3bac918
-commit: 94d350c7971494ad1967e5d04745401a08adbd83 [120/121] Docs/admin-guide/mm/damon/stat: document aggr_interval_us parameter
-reproduce: (https://download.01.org/0day-ci/archive/20251006/202510060124.YaUaLfkH-lkp@intel.com/reproduce)
+Hi James,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-selftests-Add-parallel-KVM_GET_DIRTY_LOG-to-dirty_log_perf_test/20251001-013306
+base:   a6ad54137af92535cfe32e19e5f3bc1bb7dbd383
+patch link:    https://lore.kernel.org/r/20250930172850.598938-1-jthoughton%40google.com
+patch subject: [PATCH 1/2] KVM: For manual-protect GET_DIRTY_LOG, do not hold slots lock
+config: x86_64-randconfig-161-20251004 (https://download.01.org/0day-ci/archive/20251004/202510041919.LaZWBcDN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510060124.YaUaLfkH-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510041919.LaZWBcDN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/../../../virt/kvm/kvm_main.c:2290 kvm_get_dirty_log_protect() error: uninitialized symbol 'flush'.
 
-   WARNING: No kernel-doc for file ./include/linux/pci.h
-   ERROR: Cannot find file ./include/linux/mod_devicetable.h
-   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
-   ERROR: Cannot find file ./include/linux/bootconfig.h
-   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
->> Documentation/admin-guide/mm/damon/stat.rst:13: WARNING: malformed hyperlink target. [docutils]
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
---
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/admin-guide/mm/damon/stat.rst:51: WARNING: undefined label: 'damon_stat_monitoring_accuracy_overhead' [ref.ref]
+vim +/flush +2290 arch/x86/kvm/../../../virt/kvm/kvm_main.c
 
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2255  	n = kvm_dirty_bitmap_bytes(memslot);
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2256  	if (!protect) {
+2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  2257  		/*
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2258  		 * Unlike kvm_get_dirty_log, we never flush, because no flush is
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2259  		 * needed until KVM_CLEAR_DIRTY_LOG.  There is some code
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2260  		 * duplication between this function and kvm_get_dirty_log, but
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2261  		 * hopefully all architecture transition to
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2262  		 * kvm_get_dirty_log_protect and kvm_get_dirty_log can be
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2263  		 * eliminated.
+2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  2264  		 */
+2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  2265  		dirty_bitmap_buffer = dirty_bitmap;
+2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  2266  	} else {
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2267  		bool flush;
 
-vim +13 Documentation/admin-guide/mm/damon/stat.rst
+flush needs to be initialized to false.
 
-    12	
-  > 13	.. _damon_stat_monitoring_accuracy_overhead
-    14	
-    15	Monitoring Accuracy and Overhead
-    16	================================
-    17	
-    18	DAMON_STAT uses monitoring intervals :ref:`auto-tuning
-    19	<damon_design_monitoring_intervals_autotuning>` to make its accuracy high and
-    20	overhead minimum.  It auto-tunes the intervals aiming 4 % of observable access
-    21	events to be captured in each snapshot, while limiting the resulting sampling
-    22	events to be 5 milliseconds in minimum and 10 seconds in maximum.  On a few
-    23	production server systems, it resulted in consuming only 0.x % single CPU time,
-    24	while capturing reasonable quality of access patterns.
-    25	
-    26	Interface: Module Parameters
-    27	============================
-    28	
-    29	To use this feature, you should first ensure your system is running on a kernel
-    30	that is built with ``CONFIG_DAMON_STAT=y``.  The feature can be enabled by
-    31	default at build time, by setting ``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` true.
-    32	
-    33	To let sysadmins enable or disable it at boot and/or runtime, and read the
-    34	monitoring results, DAMON_STAT provides module parameters.  Following
-    35	sections are descriptions of the parameters.
-    36	
-    37	enabled
-    38	-------
-    39	
-    40	Enable or disable DAMON_STAT.
-    41	
-    42	You can enable DAMON_STAT by setting the value of this parameter as ``Y``.
-    43	Setting it as ``N`` disables DAMON_STAT.  The default value is set by
-    44	``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` build config option.
-    45	
-    46	aggr_interval_us
-    47	----------------
-    48	
-    49	Auto-tuned time interval for the last snapshot in microseconds.
-    50	
-  > 51	The current aggregation interval of DAMON that :ref:`auto-tuned
-    52	<damon_stat_monitoring_accuracy_overhead>`.
-    53	
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2268  
+03133347b4452ef virt/kvm/kvm_main.c    Claudio Imbrenda    2018-04-30  2269  		dirty_bitmap_buffer = kvm_second_dirty_bitmap(memslot);
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2270  		memset(dirty_bitmap_buffer, 0, n);
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2271  
+531810caa9f4bc9 virt/kvm/kvm_main.c    Ben Gardon          2021-02-02  2272  		KVM_MMU_LOCK(kvm);
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2273  		for (i = 0; i < n / sizeof(long); i++) {
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2274  			unsigned long mask;
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2275  			gfn_t offset;
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2276  
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2277  			if (!dirty_bitmap[i])
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2278  				continue;
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2279  
+0dff084607bd555 virt/kvm/kvm_main.c    Sean Christopherson 2020-02-18  2280  			flush = true;
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2281  			mask = xchg(&dirty_bitmap[i], 0);
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2282  			dirty_bitmap_buffer[i] = mask;
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2283  
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2284  			offset = i * BITS_PER_LONG;
+58d2930f4ee335a virt/kvm/kvm_main.c    Takuya Yoshikawa    2015-03-17  2285  			kvm_arch_mmu_enable_log_dirty_pt_masked(kvm, memslot,
+58d2930f4ee335a virt/kvm/kvm_main.c    Takuya Yoshikawa    2015-03-17  2286  								offset, mask);
+58d2930f4ee335a virt/kvm/kvm_main.c    Takuya Yoshikawa    2015-03-17  2287  		}
+531810caa9f4bc9 virt/kvm/kvm_main.c    Ben Gardon          2021-02-02  2288  		KVM_MMU_UNLOCK(kvm);
+2a31b9db153530d virt/kvm/kvm_main.c    Paolo Bonzini       2018-10-23  2289  
+0dff084607bd555 virt/kvm/kvm_main.c    Sean Christopherson 2020-02-18 @2290  		if (flush)
+
+Either uninitialized or true.  Never false.
+
+619b5072443c05c virt/kvm/kvm_main.c    David Matlack       2023-08-11  2291  			kvm_flush_remote_tlbs_memslot(kvm, memslot);
+82fb1294f7ad3ee virt/kvm/kvm_main.c    James Houghton      2025-09-30  2292  	}
+0dff084607bd555 virt/kvm/kvm_main.c    Sean Christopherson 2020-02-18  2293  
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2294  	if (copy_to_user(log->dirty_bitmap, dirty_bitmap_buffer, n))
+58d6db349172786 virt/kvm/kvm_main.c    Markus Elfring      2017-01-22  2295  		return -EFAULT;
+58d6db349172786 virt/kvm/kvm_main.c    Markus Elfring      2017-01-22  2296  	return 0;
+ba0513b5b8ffbcb virt/kvm/kvm_main.c    Mario Smarduch      2015-01-15  2297  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
