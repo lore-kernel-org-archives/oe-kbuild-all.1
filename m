@@ -1,61 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847791D61A3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Oct 2025 19:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02061D61A3;
+	Mon,  6 Oct 2025 19:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759777655; cv=none; b=eDoctBOrK86RbU7kDx1dwWBjzGdyFiv2joEhfVpNfV4FjjIXgfrI8mvrDLBMcNcSCqocPTvZnk5N3hnj7BndFRD1COoSkqs/Ji03GpTHGTZi3PR9j3TbvCR/K5Gbk4EBhUp+nXQXb9QB0CycPpN4Zzf4h1lX/lpIOnZRn3b8+tU=
+	t=1759777706; cv=none; b=ZlE6mvjrqMW8l0X0JbL6pGtmekn0jEv4TY/egC+i0xqaORBvNbQW4xvk6mHCRgHM0vaKoVBl/PdiLRTPXg9rH8GW1OJlncypvFjplIj8jz/uGi1VOCVPjiOWM9313/bk9etO53B42Sd0emmRjoHfcEpKd0Udv2286dxmRBK7TA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759777655; c=relaxed/simple;
-	bh=5WR8ZRy5ict2zVu7uyyenGpgrH/6XqUEhOueOBUdMtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FCxyWuXzIljOBBor6UQm9A0BWkoxOuUH1EMJBsrIgX48dBWz3YkpruYDF0aAr9H8pE5s8tjY5qDMiv2OQX8CzaKYSlQHW1T2r/NUrkOVi6q9X5mcL6PsjbylWP7gqGdpsVZzD8UpEjHwBm2o2f1Xy+9aZfzjYvCHOZP8XAr8OqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8wQjRSZ; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759777706; c=relaxed/simple;
+	bh=y7eB5Aq5t61EIBq8FizZqyAOn5r9BRoMjG9Gdpz6Tzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vh3isF4Yv3iGI3vZ07VmtjLteKX6M/sEhSr5V/C7b2gs3H6nh4G7XV6aapuuOrtab9Ps8Mq0uce8dmpqATDtdfdzFUGsA8x2b+CWlNDb6aVPOWHjZh1UbLIGs80xEN316jrpmsFcHeMyr/ZJyTnMattvo96djDEYmt8Ag6sh3f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uD8hJPWF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8wQjRSZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759777654; x=1791313654;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5WR8ZRy5ict2zVu7uyyenGpgrH/6XqUEhOueOBUdMtI=;
-  b=b8wQjRSZ9BgAhwxR8Z2LPHqyps8f0kSThhqzUOx3NLNCWID6KdgQTgjz
-   lPxFd2kPhhZ92s3IIZCDNIcfK47Opxs7xYY5q0uRM65+8MA+mg0o9r6Nb
-   04dkarDIaIIoJg8K7KTQu9md0qcxOrlxuzNKr1SqAZmYoPGN4JSj/IQRO
-   RM0tSnXy8j5j8+jjmYME/9YG6fabBh10kFV54IB2LNpGo+4ROfIOpLRs3
-   olcioEfItRPCUyD3exlPnvcR0Cky18F1LC1EgBEV/n6WuPwvnbdszu6Bf
-   bDtNxstb4ajsPi8f1SvE6jakyu452InAX3jfHVLRCyYBQk+++xcU3buRd
-   A==;
-X-CSE-ConnectionGUID: o70NeZFDS2KKntwAHO1cTA==
-X-CSE-MsgGUID: 1MWSrZ0qQvi645Q/kknsKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11574"; a="87423329"
-X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; 
-   d="scan'208";a="87423329"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2025 12:07:33 -0700
-X-CSE-ConnectionGUID: FWfdMei0QkWN7gw+jalpOg==
-X-CSE-MsgGUID: hIb/2xnFS9S1AmO8lc5XsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,320,1751266800"; 
-   d="scan'208";a="210927130"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Oct 2025 12:07:31 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1v5qYT-000000007oT-44GT;
-	Mon, 06 Oct 2025 19:07:29 +0000
-Date: Mon, 6 Oct 2025 21:06:37 +0200
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 159/159]
- arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to
- match any schema with compatible: ['google,anakin-sku1',
- 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8',
- 'google,anakin-sku256', 'google,anakin-sku257', 'google,...
-Message-ID: <202510062117.SG37Ypd3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uD8hJPWF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD38C4CEF5;
+	Mon,  6 Oct 2025 19:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759777705;
+	bh=y7eB5Aq5t61EIBq8FizZqyAOn5r9BRoMjG9Gdpz6Tzo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uD8hJPWFbKLdWtulj5XUIgCrgpIcXYfvHT3M5zcTUwJx1jEWY9+hLIGQtBcBkAUmw
+	 aw6NdNg7CAlhFc2cpBwi7dDlXnRBv6CeW0mahR9pAxsbLsG6z/uQvR2nBsDicZgIhc
+	 Wp7PA+XsGZG4KcPFfEFda/4JIgRQsRyorjpZOI1MeAFcgefs+fuBvBxe0YFFHwicea
+	 ETsv4DZwn81arKsESHcZ9H4om40CElC0vToQ9HpDxiqOBFw6xz1Nl9IxwwStJkn2E3
+	 JCUoblTAm/VMMN75XQyLiCL81CvjUtiRxD0Axr83xKYZHe8/kreEvJR27D6hnhZNY3
+	 L2JuBxXk++h2Q==
+Date: Mon, 6 Oct 2025 12:08:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: kernel test robot <lkp@intel.com>, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, chumuzero@gmail.com, corbet@lwn.net,
+	cs@tuxedo.de, wse@tuxedocomputers.com, ggo@tuxedocomputers.com,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
+	alok.a.tiwari@oracle.com, linux-leds@vger.kernel.org,
+	lee@kernel.org, pobrn@protonmail.com
+Subject: Re: [PATCH v4 1/2] platform/x86: Add Uniwill laptop driver
+Message-ID: <20251006190819.GA2406882@ax162>
+References: <20250928013253.10869-2-W_Armin@gmx.de>
+ <202509290415.uez00SgW-lkp@intel.com>
+ <6146d57b-f855-40b1-a644-3af6b28ceea4@gmx.de>
+ <20251002233627.GA3978676@ax162>
+ <402f254d-7217-43e8-867f-66daab3ead86@gmx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +52,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <402f254d-7217-43e8-867f-66daab3ead86@gmx.de>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   e0ef1daced4a5641517cb9946b304901f2dbe124
-commit: 71a95bf6a74088803e70511466fde6cf60d8eefd [159/159] CHROMIUM: arm64: dts: mt8189-skywalker-anakin: Change skuid for none touch skuid
-config: arm64-randconfig-2051-20251006 (https://download.01.org/0day-ci/archive/20251006/202510062117.SG37Ypd3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-dtschema version: 2025.8
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251006/202510062117.SG37Ypd3-lkp@intel.com/reproduce)
+On Sun, Oct 05, 2025 at 08:06:57PM +0200, Armin Wolf wrote:
+> Am 03.10.25 um 01:36 schrieb Nathan Chancellor:
+> 
+> > Hi Armin,
+> > 
+> > On Thu, Oct 02, 2025 at 08:41:19PM +0200, Armin Wolf wrote:
+> > > i think this is a problem inside the clang compiler. I did not encounter this warning when
+> > > build for x86-64 using gcc.
+> > Clang is actually saving you from yourself, it is a bug in GCC that it
+> > does not warn for this:
+> > 
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
+> 
+> Oh my, i didn't expect that. Thank you for explaining this issue to to me,
+> it seems that i still have much to learn.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510062117.SG37Ypd3-lkp@intel.com/
+In your defense, it is quite a subtle interaction. It is probably worth
+throwing something in the documentation that explicitly calls this out,
+though I am not immediately sure of where...
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,chinchou' was expected
-   	'google,chinchou-sku17' was expected
-   	'google,elm-rev3' was expected
-   	'google,chinchou-sku20' was expected
-   	'google,elm' was expected
-   	'google,chinchou-sku22' was expected
-   	'google,chinchou-sku23' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /: failed to match any schema with compatible: ['google,anakin-sku1', 'google,anakin-sku2', 'google,anakin-sku5', 'google,anakin-sku8', 'google,anakin-sku256', 'google,anakin-sku257', 'google,anakin-sku258', 'google,anakin-sku259', 'google,anakin-sku260', 'google,anakin-sku261', 'google,anakin-sku262', 'google,anakin-sku263', 'google,anakin-sku264', 'google,anakin-sku265', 'google,anakin-sku266', 'google,anakin-sku267', 'google,anakin-sku2147483647', 'google,anakin', 'mediatek,mt8189']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: scmi (arm,scmi): 'protocol@80' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/firmware/arm,scmi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: /wl-info@c2bf090: failed to match any schema with compatible: ['mediatek,wl-info']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: soc (simple-bus): opp-table-gpu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: soc (simple-bus): emiisu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: soc (simple-bus): sound: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-anakin-sku1.dtb: soc (simple-bus): mminfra: 'ranges' is a required property
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
