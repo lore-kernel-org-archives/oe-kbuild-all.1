@@ -1,60 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9944521CC79
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 16:49:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74D42236EB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 16:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760028544; cv=none; b=nVUFSTIUGLXp4AOWEtD6i2AfceDjxQ6nzJ+umdlJz476e1cjPzM0JnJVCJFik8vmUOcuLuRUAPZwUpMbXjjoU3sdHFmPz9+2uCOawswbjIpaHjAPBbKocLgCs8nIxeeoM8O1Uj7KSaUeLESPn5i5BNjc/NBDw6IeY0UDPZEem0I=
+	t=1760028545; cv=none; b=QTPZe8T10iK/E05sbKrXtL5y1B8urnuDjJ5C49TeCdJZ0ePol8BhOQuWB3tP2Q91kighEjh7N8mGfRUoveePn9HLmFCPv09dZhUraHKsLpwjyRU/6eMzFWE985roExS14MmGaGVZ2vIjU/6W5I12uQtWyIXWYWjwEfLn0TLSwgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760028544; c=relaxed/simple;
-	bh=Pl9Hq/vM+6feRl2LaKUS4Oli+fOh6lHYXnAI5R4rKKE=;
+	s=arc-20240116; t=1760028545; c=relaxed/simple;
+	bh=1TzUcnwgjEN0gNNPpUHv1Ovokylsh6Xk6QfDEhG7vv0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QoeH8d2Cmm15xCMpMrWUknd5rnifDwNHQMF8wpDTWU3HoukiF5m8k89fQJD9TfCu303t5SDlStCzt7DKWuAwY7tGkgnO57Mt37iGcMSDGcRDOqm/UVEtbSMwE4QK0m67SyX4XgFtrqeAsjm4bKFG3NrFpKqcAlmbKOI29P497vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzFSESIc; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=jnXLRMNeG/hFynYCvlUS2FUuK/6kUCnGNv5TooQ/7UGKmOymNkqSuibiNSbu/mOXbmy+IhbLmHAfDdpbJiCyzIYWK3C9bnu9tb/9Oc6nWZJto0stXVMD//KIxJdvvc/Lo0WOTGL7BRykiGoPqXi4WuH3n4WvSAbGDKj8baEjv9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGU4aJRy; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzFSESIc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGU4aJRy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760028542; x=1791564542;
+  t=1760028543; x=1791564543;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Pl9Hq/vM+6feRl2LaKUS4Oli+fOh6lHYXnAI5R4rKKE=;
-  b=YzFSESIcuIW/HlYAntDPlTrgOjwxan0V10Qm6XBzsMuJmsmgqQKfBMSn
-   255CIGjDBKhlCSSLY1aGZo+WRix03zanqqmwzJ9asHDYw43WCcI6IFZVA
-   cHm3nIZEN52rdLrbTeu2K0CW0RSzXJBm+UNCtuertZ3WQ+ZVpX6FdSMs6
-   1t+JErO9DbDWfbTGzvUPrRJCW6nTRLGNjigCpcrVsf5CCavghDuV0h+QG
-   jBxBfMCxqB0UOOrdqIvpYdfEXY7qq+2HQR4txIeHG3pyHLmWn4h+eRgon
-   OknervpDN6ji9BiuQSylGzM5pgvTdELcaFdHBqzTQkoidR5QochEk0MMC
-   g==;
-X-CSE-ConnectionGUID: DMlqQPEcQ7CkXt7t+H86zQ==
-X-CSE-MsgGUID: GQG7oonvTtKIy7HHeUnqxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62147470"
+  bh=1TzUcnwgjEN0gNNPpUHv1Ovokylsh6Xk6QfDEhG7vv0=;
+  b=oGU4aJRy/Le9slFCSXwwoB1nwpIlrTFAOrz2QCCYFwuw/ZMwaMvOUj8g
+   F7etlkW7qq3Y51L6yn9jnFaD7/eRH/f6+jwF3f0AL1Eo+mp61gVFZFfLA
+   Y8gWn2ghHTBhZAFEV3te4TMRDOoMu2JktxxFx6rnyI/HfCCSprCG0huAK
+   0deqNHe5L+bfyFx9occCOcaHWaW0uiDGnL7AFnyZ+yqwMaaXCPioQN/ot
+   d1J8iaPTBDzcB/EHdXlRjZNCCDosbVAWPrSzdVzbHjpg1Iba/qKDhrP8a
+   TQf9A8f8zg+Mu8l/jy73MS/c1ay0rIkvcAxsXStCf9aQr2asX55aw8ERc
+   Q==;
+X-CSE-ConnectionGUID: ovb5ESdMQIWKbhx8HgGR7w==
+X-CSE-MsgGUID: 51flMTO0RO2hak38EZ4C8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62147480"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="62147470"
+   d="scan'208";a="62147480"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 09:49:01 -0700
-X-CSE-ConnectionGUID: OAt+czjeTTij9J9ZeCWiLA==
-X-CSE-MsgGUID: LIj3DmcMTCC3FDD4zYzawA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 09:49:03 -0700
+X-CSE-ConnectionGUID: 4RHkDBvhRt+FjlkfWXLCkQ==
+X-CSE-MsgGUID: EFu18xe0RzypojlyTbvvyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="185145920"
+   d="scan'208";a="185145921"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2025 09:49:00 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6tp4-00012D-0D;
+	id 1v6tp4-00012B-08;
 	Thu, 09 Oct 2025 16:48:58 +0000
-Date: Fri, 10 Oct 2025 00:48:47 +0800
+Date: Fri, 10 Oct 2025 00:48:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] drm/gpusvm, drm/xe: Fix userptr to not allow device
- private pages
-Message-ID: <202510100044.fDyGwTie-lkp@intel.com>
-References: <20250930122752.96034-1-thomas.hellstrom@linux.intel.com>
+To: Fushuai Wang <wangfushuai@baidu.com>, Jason@zx2c4.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, wireguard@lists.zx2c4.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Fushuai Wang <wangfushuai@baidu.com>
+Subject: Re: [PATCH] wireguard: allowedips: Use kfree_rcu() instead of
+ call_rcu()
+Message-ID: <202510100057.ZUiqBtur-lkp@intel.com>
+References: <20251005122626.26988-1-wangfushuai@baidu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +67,208 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250930122752.96034-1-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20251005122626.26988-1-wangfushuai@baidu.com>
 
-Hi Thomas,
+Hi Fushuai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on linus/master]
-[cannot apply to drm-tip/drm-tip v6.17 next-20251009]
+[auto build test ERROR on linus/master]
+[also build test ERROR on crng-random/master v6.17 next-20251009]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-gpusvm-drm-xe-Fix-userptr-to-not-allow-device-private-pages/20250930-203135
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250930122752.96034-1-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH v2] drm/gpusvm, drm/xe: Fix userptr to not allow device private pages
-config: x86_64-randconfig-077-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100044.fDyGwTie-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100044.fDyGwTie-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fushuai-Wang/wireguard-allowedips-Use-kfree_rcu-instead-of-call_rcu/20251009-142048
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251005122626.26988-1-wangfushuai%40baidu.com
+patch subject: [PATCH] wireguard: allowedips: Use kfree_rcu() instead of call_rcu()
+config: m68k-hp300_defconfig (https://download.01.org/0day-ci/archive/20251010/202510100057.ZUiqBtur-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100057.ZUiqBtur-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100044.fDyGwTie-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100057.ZUiqBtur-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:382,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:30,
-                    from include/linux/gfp_types.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/drm/drm_managed.h:6,
-                    from drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c:7:
-   drivers/gpu/drm/xe/xe_svm.h: In function 'xe_svm_init':
->> include/linux/stddef.h:8:14: error: passing argument 5 of 'drm_gpusvm_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/gpu/drm/xe/xe_svm.h:217:38: note: in expansion of macro 'NULL'
-     217 |                                NULL, NULL, 0, 0, 0, NULL, NULL, 0);
-         |                                      ^~~~
-   In file included from drivers/gpu/drm/xe/xe_bo_types.h:11,
-                    from drivers/gpu/drm/xe/xe_bo.h:11,
-                    from drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c:18:
-   include/drm/drm_gpusvm.h:254:35: note: expected 'long unsigned int' but argument is of type 'void *'
-     254 |                     unsigned long mm_start, unsigned long mm_range,
-         |                     ~~~~~~~~~~~~~~^~~~~~~~
-   include/linux/stddef.h:8:14: error: passing argument 10 of 'drm_gpusvm_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/gpu/drm/xe/xe_svm.h:217:59: note: in expansion of macro 'NULL'
-     217 |                                NULL, NULL, 0, 0, 0, NULL, NULL, 0);
-         |                                                           ^~~~
-   include/drm/drm_gpusvm.h:257:59: note: expected 'int' but argument is of type 'void *'
-     257 |                     const unsigned long *chunk_sizes, int num_chunks);
-         |                                                       ~~~~^~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_res_cursor.h:38,
-                    from drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c:23:
->> drivers/gpu/drm/xe/xe_svm.h:216:16: error: too many arguments to function 'drm_gpusvm_init'
-     216 |         return drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM (simple)", &vm->xe->drm,
-         |                ^~~~~~~~~~~~~~~
-   include/drm/drm_gpusvm.h:251:5: note: declared here
-     251 | int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
-         |     ^~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   drivers/net/wireguard/allowedips.c: In function 'remove_node':
+>> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
+     575 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
+     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                 ^~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                              ^~~~~~~~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   drivers/net/wireguard/allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
+     269 |         kfree_rcu(&node, rcu);
+         |         ^~~~~~~~~
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/dcache.h:8,
+                    from include/linux/fs.h:9,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/linux/ip.h:16,
+                    from drivers/net/wireguard/allowedips.h:10,
+                    from drivers/net/wireguard/allowedips.c:6:
+>> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
+    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
+         |                                         ^~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   drivers/net/wireguard/allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
+     269 |         kfree_rcu(&node, rcu);
+         |         ^~~~~~~~~
+>> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
+     575 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
+     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                 ^~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                              ^~~~~~~~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   drivers/net/wireguard/allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
+     275 |         kfree_rcu(&parent, rcu);
+         |         ^~~~~~~~~
+>> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
+    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
+         |                                         ^~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   drivers/net/wireguard/allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
+     275 |         kfree_rcu(&parent, rcu);
+         |         ^~~~~~~~~
+--
+   In file included from <command-line>:
+   allowedips.c: In function 'remove_node':
+>> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
+     575 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
+     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                 ^~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                              ^~~~~~~~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
+     269 |         kfree_rcu(&node, rcu);
+         |         ^~~~~~~~~
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/dcache.h:8,
+                    from include/linux/fs.h:9,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/linux/ip.h:16,
+                    from allowedips.h:10,
+                    from allowedips.c:6:
+>> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
+    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
+         |                                         ^~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
+     269 |         kfree_rcu(&node, rcu);
+         |         ^~~~~~~~~
+>> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
+     575 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
+     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                 ^~~~~~~~~~~~
+   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
+    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
+         |                              ^~~~~~~~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
+     275 |         kfree_rcu(&parent, rcu);
+         |         ^~~~~~~~~
+>> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
+    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
+         |                                         ^~
+   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
+    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+         |                             ^~~~~~~~~~~~~~~~
+   allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
+     275 |         kfree_rcu(&parent, rcu);
+         |         ^~~~~~~~~
 
 
-vim +/drm_gpusvm_init +8 include/linux/stddef.h
+vim +16 include/linux/stddef.h
 
-^1da177e4c3f415 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f415 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f415 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e2182874324727 Richard Knutsson 2006-09-30  9  
+6e218287432472 Richard Knutsson 2006-09-30  14  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
+14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
+3876488444e712 Denys Vlasenko   2015-03-09  17  
 
 -- 
 0-DAY CI Kernel Test Service
