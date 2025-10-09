@@ -1,93 +1,124 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC4B158874
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 18:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964A823BCF5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 18:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760033722; cv=none; b=Pqs8+pQU2LYNZSlq2L5F5+pfS89DtMc057ekXzPyPYDCrr9sj0EImDbEmFQGR2o7doCFmjDg91iO4dzyya/siJYKjexeTG+f0ws9U6oVmCDwZuoBtN2zHRTIZmQc7qkpwlGh41R/BaZW2FZ+KcIlvo29jTLYB0td7HDV+ZEbAiE=
+	t=1760034326; cv=none; b=MXxWV6+HdYTZO7EX5mG9b3ww6+NtSVBdjIZ/Fv+/QvJpdTdAFOlYWCtkVx5ixGZpgDTC7DsnHa7rj/BBCbNBzZpWTp6Y5QnUO6bIsNnqkEFyR6nVK2D75WjWVXEhd6whUIAYI6qg31PhNvJ1iSNB+AnlmiZaBNqWwQaSd1JCW9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760033722; c=relaxed/simple;
-	bh=vn4n4RSlfropTQ5buc9FvEgi9hxnZliFrOPmLk0O+rg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TQq9Pc6pWFjVZBn4K+m5/whfIj0Q4bBeo0Tmi6dLbmOXeledawd73ml2pFax9/vBPsttOb0ojLJM9M/s9eolsnT7FjOVHqqGQAlZslDJpw62fINgSLda6/RINTdTUpzz/NKgHUPD3sdz9sNu+xceExY/oAkTL5ONahqvbugdObM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bzDBBAjr; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760034326; c=relaxed/simple;
+	bh=dp+++NQlQngAk+rRono0rMK4ALNQfQUK3Ef+gZzyonM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z5oixWQl0oj0mV2kcA1f6k+gO88WDBPtUv+heDDPZI+IgVPE43u9/mYfauQTOVJL6MekaIoo1M0YAqxHZdqbQr9qVusseujt/pfLz4/1aPJRTK3rVWvsFKbnfdMITS9chuFD3ul7UyTM0/dfLvr25+DZwQtK1weQeGGNBuZkmG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KChd3ifW; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bzDBBAjr"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2680ee37b21so2230305ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Oct 2025 11:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760033720; x=1760638520; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vn4n4RSlfropTQ5buc9FvEgi9hxnZliFrOPmLk0O+rg=;
-        b=bzDBBAjrQKZolbdFoXSyFLCCQ0KGfoDOcwlkkN85tZF7gHmkRkLpVrIlyyZwYpOGdy
-         cDqX0n1pNA3YwrJ6nt09/z7fVTKEUVLqvp9cKMGJcAfG+j2Rgsemn2dfwaikwEdj/DM5
-         xwTQ4MNG0Qdr1sHpf6Ih+mis38OrSvGnKRYyDc8MHGw8c81V3RTM/4zUPvD2Ghtrzh54
-         Cztq+hRoDpjptYQVmVwrLiUKtQTsi2wVOJCUYZIyUdMNugpaEKjoWDQjnDDg3gpFyiYZ
-         Z0RIXrI7uKqltn2LflwwVGt2biDPS5jyOmR4ywKHFdZOeflJr6tmXhwS+zHSzLXYR5q1
-         qRRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760033720; x=1760638520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vn4n4RSlfropTQ5buc9FvEgi9hxnZliFrOPmLk0O+rg=;
-        b=J11i6wtC7kjz/K2XjkcTy7rjEsK33bv7FjeGZ7YNHljYNSaPbQhipfF4RMNxGBLN2z
-         F7x2sqmszrJzqGcfJdMfEyrKV+AvfsIYrtEPAdqcndJy3AYfRZEt0jiRbw0L9l8xVen+
-         jftkv0Q56k4djpj6HmKm8UDg2x7QFj3pBH774aIEh8t02tPAF88qxPk2xSAbhep0mV80
-         gT/3uqAOG7Ddt7HXa34kfdjv40a1FnGqiUrhXOxsFwYaB1lFHltIeS1ZLqcSOyywBtXv
-         iQHfU/A9RjId4Ogcoy+xkQjUjgvcTxRoWdy7Ea0j3IrDrsfdXsPo39MiNKZMY7QmXi78
-         wC2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUnU4QYLUw2iWwm4F24T3uZawgVtNz21wgWaOHc6wYlxCQ94AoxHoQTLU4l2N/tzqdIuO31iX+IIkT2pEsu@lists.linux.dev
-X-Gm-Message-State: AOJu0YwijGIQ3kgYRWKtVdO4LNSuna04mmzRSymFd6/XhziM0s7dYyhI
-	fXVWy6nql7KuMxnutnT9Z9gq2I/ryJkr9lSAXZO9IHgSy+QOoQoq0yV/faQq1vJs8jP+IatyVEL
-	zChUNBralzhJ4P2afKKMiMlE0EfNJ6/c=
-X-Gm-Gg: ASbGncslfFSlj2KZk1+J+RVLtLrgpgHutGYXb7mOQdoFd8+sWARTLPiswRLgjfAHSok
-	wQKKagjVOaWmeL/f3VZEwSDfHOfEIu/icRCgrVTVjSoo0/OJPzb2N636GY8pfo6EXWV0H5+sCUS
-	lhp0UMuQ7Hy2bDZ2C+wqpkRLJ/x6LvAkxcp2YD2lHqo5wYlWFIOhcURDs8/PrJzpsxEJin4mfF5
-	yTxYPDY55+6+1/07KK78s4JFeLk8/MClxHEHXA+9i0MPGSC996zw+zQmJIonCZ4JnFah/QKXPEA
-	pAnJ4A7gEWvdfGyBRaiCUrAgmmtIUCppn+DZeKOeNkuQIyJH/g==
-X-Google-Smtp-Source: AGHT+IFc9KYDo0vVba2RUD8DAtI69bgAyM4PDwpagg31YnO4T9LE79wjEuU97MRUl6V1rW7V/9/UNL+E0+rlTC6BKDA=
-X-Received: by 2002:a17:902:c94c:b0:28e:aacb:e6f7 with SMTP id
- d9443c01a7336-2902723ca5dmr61015185ad.3.1760033719751; Thu, 09 Oct 2025
- 11:15:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KChd3ifW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760034325; x=1791570325;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dp+++NQlQngAk+rRono0rMK4ALNQfQUK3Ef+gZzyonM=;
+  b=KChd3ifWwTfPKwNYvbXlRo0saKVaudQRvyTKfS98a2vQuDLhTlyxSGwo
+   NQ5J0C2uWHsddJiXxd2IjDtj+HUki75GKxR7hl1kvG4SJx/0Yo+qaD5i7
+   R2H15pcnA2TMdW1+sKwj/grJpOJ8SJae3U+HfoHxGUIerHhHcF6TyAUs1
+   HAHpxq9/GnW1bwaRN/LolByiupwCl8dWb37E4FZOfB3AgrcZL+rvNlT+S
+   6hBk9gmJdiPS4sWUB9ANBIReleDNtwQ58JG/YATj446/IUUHAePreUxIJ
+   23XC++CsqZyuvphRJE80FdJeOj8qoFySaeJtTVLY3mtnmMLtaKA3UEkJg
+   g==;
+X-CSE-ConnectionGUID: 5oz7Is67Sm+VlhKa2hpj4A==
+X-CSE-MsgGUID: uujXnR0TSYCnyfILTy7fVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73684623"
+X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
+   d="scan'208";a="73684623"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 11:25:24 -0700
+X-CSE-ConnectionGUID: lp5baOu8Q7uCh8l/RQSoEw==
+X-CSE-MsgGUID: 1jU4KYvYSsSwmry8ct0c9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
+   d="scan'208";a="184807942"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Oct 2025 11:25:22 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v6vKJ-0001CZ-3D;
+	Thu, 09 Oct 2025 18:25:20 +0000
+Date: Fri, 10 Oct 2025 02:25:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:bugfix/common 6/8] include/linux/kern_levels.h:5:18: warning:
+ too many arguments for format
+Message-ID: <202510100237.gjKDkxV8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202510100127.yuqhg8uo-lkp@intel.com> <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
- <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
-In-Reply-To: <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 9 Oct 2025 20:15:06 +0200
-X-Gm-Features: AS18NWBY_LEofIxL13seTuWRCLS4mtbWJ5eZPeFPnSTCgp-cv4muXJzm_9R95HE
-Message-ID: <CANiq72kTPjukgmAxDfLg2s4JHdaKaw=bY4DLVjTr7-9bqv5D3A@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-new 36/102] error[E0425]: cannot find value `VM_READ`
- in crate `bindings`
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, Jakub Acs <acsjakub@amazon.de>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Oct 9, 2025 at 8:14=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> We can either define helper constants in
-> `rust/bindings/bindings_helper.h` for the ones that the Rust side is
-> already using (like last time) or use `enum`s on the C header.
->
-> If you have it in a branch, I can prepare a quick diff for you to fold.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
+head:   f413b3ee5d939ae78a851e6451d374f0d4772b15
+commit: fcf3088e82150dea902ce346c4461e0525d7ba17 [6/8] f2fs: freeze fs operations during f2fs_enable_checkpoint()
+config: riscv-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100237.gjKDkxV8-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100237.gjKDkxV8-lkp@intel.com/reproduce)
 
-Should I test on
-https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100237.gjKDkxV8-lkp@intel.com/
 
-Cheers,
-Miguel
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/printk.h:7,
+                    from include/asm-generic/bug.h:22,
+                    from arch/riscv/include/asm/bug.h:90,
+                    from include/linux/bug.h:5,
+                    from arch/riscv/include/asm/cmpxchg.h:9,
+                    from arch/riscv/include/asm/barrier.h:14,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from fs/f2fs/super.c:8:
+   fs/f2fs/super.c: In function 'f2fs_enable_checkpoint':
+>> include/linux/kern_levels.h:5:18: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/kern_levels.h:14:19: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO KERN_SOH "6" /* informational */
+         |                   ^~~~~~~~
+   fs/f2fs/f2fs.h:1969:26: note: in expansion of macro 'KERN_INFO'
+    1969 |  f2fs_printk(sbi, false, KERN_INFO fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~
+   fs/f2fs/super.c:2693:2: note: in expansion of macro 'f2fs_info'
+    2693 |  f2fs_info(sbi, "%s sync_fs, meta: %lld, imeta: %lld, node: %lld, dents: %lld, qdata: lld",
+         |  ^~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
+   Selected by [y]:
+   - RISCV [=y]
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
