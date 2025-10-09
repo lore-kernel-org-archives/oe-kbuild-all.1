@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3AC2417E6;
-	Thu,  9 Oct 2025 15:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AB7B663
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 15:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760022167; cv=none; b=peDNsoVtjq9rPWMeWvVyw+efbrKiILATk+6J+CxEEvhQi5S7reJP5lctmHnFc88jvL3XlmoQPrCYsPQGUpieuJaGWu2NwOmvwmMsx0UTAfy7Q0XHN/tTdjK9nTrtrkvufMFQ0xTEDt5Vys9ulu/arUylyZ7swa3a/nPoVqL8+2k=
+	t=1760022168; cv=none; b=deiH0ryCjDIO+FPQf7gov2qaNVMnMtWzBpYv1H35gKU2+2AscLWR1vMpVxAKWdRPHUWhvNaznPN2O4O3cLsx4m372bf1vj59tsdJAf670DMMmXKKfsPxqvYtwj9lJAbDlUBRBcO07DrdYOScvt1tf2YOzyb6shzNUBa0RZ/23MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760022167; c=relaxed/simple;
-	bh=Gj5G46QFWGjSz9FUz2xVDHoyy50Dljewu/SyxI/TZ38=;
+	s=arc-20240116; t=1760022168; c=relaxed/simple;
+	bh=cpu151zP3sMHJhuAJxAWv4pjvgwUQw+h5XnrHICVB2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XwXZ0X2JS9SKDu5thKPhsMpzFFurDkP9k3ONygQ7yzAJhao0K6gK3o3qc38DCPSHQBMtJsYfVMSah95LviFVKWx8hBB6rmXUsg+5mlXXRa9ESJRZglbs5o6x4BO2SO2IHEoDk/pTAOfbhPKfij2nbQe2qOpAH8aPP7k5gWiXurc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V6/lxHcU; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=nFxkN+mIuW/C3n2b+ld+k5nYRAQcMNlp7QkjMwBI4+M6rL9S8Fvq0JuvyvYoWu6yAIPvZykWxIAfTlzGZzhwU/miQQgZEfDT4XWpBphn7Xzc0ZMlmqiHOfu1G+AcTv6resTucu7shUNQCouiQek9YepYphGAXIqW8yyQLGs8KPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qw/o5aAF; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V6/lxHcU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qw/o5aAF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1760022166; x=1791558166;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gj5G46QFWGjSz9FUz2xVDHoyy50Dljewu/SyxI/TZ38=;
-  b=V6/lxHcU8dkf2EZemstnpwhP4JUn9odzHvdxPRaVTGWXeZnepvKHnbTY
-   uAJTMt1cfbZEkQvYVh1vMzu8kNZP8QT6gdf3J0wpdXRfVR2GK9EVe4N5H
-   4rnGJaAGZK28mmtH3AqxiE/DbdCec/mo2qvtpJJEb4PQyo7KS/z5guSu1
-   rKLkdN7tlHsXU1phQSbHqXsfzacIeXxU0xt3uBSqG9+QKaE9HzKHkgdwX
-   ptplMqct8hukULy9bcEeXLQ7pcjFCaT+NBqRLwV51JJW6RV0R2gKTJ8nZ
-   NItjqjqiHvIX/r8sy49frenTYrLS/RilZ4xD9OjoYa4Ahkzf87v8D+GT/
-   w==;
-X-CSE-ConnectionGUID: nWO2enDcSwmwSoZNRmpNRQ==
-X-CSE-MsgGUID: Ty713YqKSMOTntN6KO56+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="66087888"
+  bh=cpu151zP3sMHJhuAJxAWv4pjvgwUQw+h5XnrHICVB2w=;
+  b=Qw/o5aAF0Vd2O6tRsarcFSWE5tJ0p+JE2vBdi5k+YvAYZkC/XSbf9v8G
+   XpB1G4IhDAF7rhanvYZaTYi/5DIs46jMCAHLyw1mXv9m+tZFj9LOEJlSF
+   ogBpKwSlIvKOhXuQPA7Zg1GbuxeLqjXHsyZkvwsRHiRbEsCGz8T41sfLL
+   HsDOeImyWPuDh86HDQQxEfxuRdbKdNLc3sFFzK1VfdEHmnrmH64Ja2nfC
+   64s3ybRR9v70o+0PfJGV1oPmfJS04LlmHlwBjMmW2EZ0wn1jBYoILXPWo
+   55HF2JGVzN8QW8fY544xTqZ4g8ldGzj8sVucc4mVqUy3+YDFOstTW36iV
+   A==;
+X-CSE-ConnectionGUID: I+WEm5AVQWWHUO9yXOBdJQ==
+X-CSE-MsgGUID: H5uxcLsqSRCBno/B1EFEfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="64855781"
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="66087888"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 08:02:45 -0700
-X-CSE-ConnectionGUID: uj4eTCjWSDaRG15vIhv5TA==
-X-CSE-MsgGUID: +G2A3AdPT0mATTbQ/iYmMw==
+   d="scan'208";a="64855781"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 08:02:45 -0700
+X-CSE-ConnectionGUID: oZHRjQb8TRCfeQitWdDCVw==
+X-CSE-MsgGUID: qdyXaMTuTMumhfTGJtgnqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="181147466"
+   d="scan'208";a="204440393"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Oct 2025 08:02:44 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2025 08:02:44 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6sAD-0000rv-2o;
+	id 1v6sAD-0000s0-36;
 	Thu, 09 Oct 2025 15:02:41 +0000
-Date: Thu, 9 Oct 2025 23:01:49 +0800
+Date: Thu, 9 Oct 2025 23:01:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <elfring@users.sourceforge.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steve French <stfrench@microsoft.com>
-Subject: [linux-next:master 13403/13588] fs/smb/client/smb2ops.c:3128:3:
- warning: variable 'rc' is uninitialized when used here
-Message-ID: <202510092253.kjfjscfD-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1327/1327] mm/vmscan.c:3257:21: error:
+ implicit declaration of function 'kernel_swap_enabled'
+Message-ID: <202510092256.OaFtw9Dz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b2f041c47acb45db82b4e847af6e17eb66cd32d
-commit: e3699346828bf78aaacdae52356c69c1ab0f8cd6 [13403/13588] smb: client: Simplify a return statement in get_smb2_acl_by_path()
-config: hexagon-randconfig-001-20251009 (https://download.01.org/0day-ci/archive/20251009/202510092253.kjfjscfD-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251009/202510092253.kjfjscfD-lkp@intel.com/reproduce)
+Hi liubo,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b0534aa9eeb9c05e780430c051477b8eb5768330
+commit: 44983705e56ab22fda801d66e2a6bd0d1be7ca0b [1327/1327] etmem: add original kernel swap enabled options
+config: x86_64-buildonly-randconfig-005-20241216 (https://download.01.org/0day-ci/archive/20251009/202510092256.OaFtw9Dz-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251009/202510092256.OaFtw9Dz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510092253.kjfjscfD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510092256.OaFtw9Dz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/smb/client/smb2ops.c:3128:3: warning: variable 'rc' is uninitialized when used here [-Wuninitialized]
-                   free_xid(xid);
-                   ^~~~~~~~~~~~~
-   fs/smb/client/cifsproto.h:54:6: note: expanded from macro 'free_xid'
-           if (rc)                                                         \
-               ^~
-   fs/smb/client/smb2ops.c:3112:8: note: initialize the variable 'rc' to silence this warning
-           int rc;
-                 ^
-                  = 0
-   1 warning generated.
+   mm/vmscan.c:2734:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
+    2734 |                 unsigned long node_lru_pages = 0;
+         |                               ^
+>> mm/vmscan.c:3257:21: error: implicit declaration of function 'kernel_swap_enabled' [-Werror,-Wimplicit-function-declaration]
+    3257 |         if (sc != NULL && !kernel_swap_enabled())
+         |                            ^
+   mm/vmscan.c:3257:21: note: did you mean 'kernfs_ns_enabled'?
+   include/linux/kernfs.h:309:20: note: 'kernfs_ns_enabled' declared here
+     309 | static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
+         |                    ^
+   1 warning and 1 error generated.
 
 
-vim +/rc +3128 fs/smb/client/smb2ops.c
+vim +/kernel_swap_enabled +3257 mm/vmscan.c
 
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3104  
-3651487607ae77 fs/smb/client/smb2ops.c ChenXiaoSong       2024-08-22  3105  static struct smb_ntsd *
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3106  get_smb2_acl_by_path(struct cifs_sb_info *cifs_sb,
-3970acf7ddb9aa fs/cifs/smb2ops.c       Boris Protopopov   2020-12-18  3107  		     const char *path, u32 *pacllen, u32 info)
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3108  {
-3651487607ae77 fs/smb/client/smb2ops.c ChenXiaoSong       2024-08-22  3109  	struct smb_ntsd *pntsd = NULL;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3110  	u8 oplock = SMB2_OPLOCK_LEVEL_NONE;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3111  	unsigned int xid;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3112  	int rc;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3113  	struct cifs_tcon *tcon;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3114  	struct tcon_link *tlink = cifs_sb_tlink(cifs_sb);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3115  	struct cifs_fid fid;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3116  	struct cifs_open_parms oparms;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3117  	__le16 *utf16_path;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3118  
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3119  	cifs_dbg(FYI, "get smb3 acl for path %s\n", path);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3120  	if (IS_ERR(tlink))
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3121  		return ERR_CAST(tlink);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3122  
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3123  	tcon = tlink_tcon(tlink);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3124  	xid = get_xid();
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3125  
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3126  	utf16_path = cifs_convert_path_to_utf16(path, cifs_sb);
-cfe89091644c44 fs/cifs/smb2ops.c       Steve French       2018-05-19  3127  	if (!utf16_path) {
-cfe89091644c44 fs/cifs/smb2ops.c       Steve French       2018-05-19 @3128  		free_xid(xid);
-e3699346828bf7 fs/smb/client/smb2ops.c Markus Elfring     2025-10-08  3129  		return ERR_PTR(-ENOMEM);
-cfe89091644c44 fs/cifs/smb2ops.c       Steve French       2018-05-19  3130  	}
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3131  
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3132  	oparms = (struct cifs_open_parms) {
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3133  		.tcon = tcon,
-fddc6ccc487e5d fs/cifs/smb2ops.c       Shyam Prasad N     2023-03-17  3134  		.path = path,
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3135  		.desired_access = READ_CONTROL,
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3136  		.disposition = FILE_OPEN,
-3c3317daef0afa fs/cifs/smb2ops.c       Steve French       2020-10-21  3137  		/*
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3138  		 * When querying an ACL, even if the file is a symlink
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3139  		 * we want to open the source not the target, and so
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3140  		 * the protocol requires that the client specify this
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3141  		 * flag when opening a reparse point
-3c3317daef0afa fs/cifs/smb2ops.c       Steve French       2020-10-21  3142  		 */
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3143  		.create_options = cifs_create_options(cifs_sb, 0) |
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3144  				  OPEN_REPARSE_POINT,
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3145  		.fid = &fid,
-de036dcaca65cf fs/cifs/smb2ops.c       Volker Lendecke    2023-01-11  3146  	};
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3147  
-3970acf7ddb9aa fs/cifs/smb2ops.c       Boris Protopopov   2020-12-18  3148  	if (info & SACL_SECINFO)
-3970acf7ddb9aa fs/cifs/smb2ops.c       Boris Protopopov   2020-12-18  3149  		oparms.desired_access |= SYSTEM_SECURITY;
-3970acf7ddb9aa fs/cifs/smb2ops.c       Boris Protopopov   2020-12-18  3150  
-69dda3059e7a4d fs/cifs/smb2ops.c       Aurelien Aptel     2020-03-02  3151  	rc = SMB2_open(xid, &oparms, utf16_path, &oplock, NULL, NULL, NULL,
-69dda3059e7a4d fs/cifs/smb2ops.c       Aurelien Aptel     2020-03-02  3152  		       NULL);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3153  	kfree(utf16_path);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3154  	if (!rc) {
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3155  		rc = SMB2_query_acl(xid, tlink_tcon(tlink), fid.persistent_fid,
-3970acf7ddb9aa fs/cifs/smb2ops.c       Boris Protopopov   2020-12-18  3156  				    fid.volatile_fid, (void **)&pntsd, pacllen,
-3970acf7ddb9aa fs/cifs/smb2ops.c       Boris Protopopov   2020-12-18  3157  				    info);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3158  		SMB2_close(xid, tcon, fid.persistent_fid, fid.volatile_fid);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3159  	}
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3160  
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3161  	cifs_put_tlink(tlink);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3162  	free_xid(xid);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3163  
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3164  	cifs_dbg(FYI, "%s: rc = %d ACL len %d\n", __func__, rc, *pacllen);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3165  	if (rc)
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3166  		return ERR_PTR(rc);
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3167  	return pntsd;
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3168  }
-2f1afe25997fc2 fs/cifs/smb2ops.c       Shirish Pargaonkar 2017-06-22  3169  
-
-:::::: The code at line 3128 was first introduced by commit
-:::::: cfe89091644c441a1ade6dae6d2e47b715648615 smb3: fix various xid leaks
-
-:::::: TO: Steve French <stfrench@microsoft.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+  3250	
+  3251	/*
+  3252	 * Check if original kernel swap is enabled
+  3253	 * turn off kernel swap,but leave page cache reclaim on
+  3254	 */
+  3255	static inline void kernel_swap_check(struct scan_control *sc)
+  3256	{
+> 3257		if (sc != NULL && !kernel_swap_enabled())
+  3258			sc->may_swap = 0;
+  3259	}
+  3260	
 
 -- 
 0-DAY CI Kernel Test Service
