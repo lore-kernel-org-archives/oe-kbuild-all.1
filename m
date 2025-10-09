@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1060C2C21FA;
-	Thu,  9 Oct 2025 12:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F4C23E334
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 12:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760012790; cv=none; b=JpnyPgw5SOOTua5qIYIgBcxkUkDo9Nqs5AcLXG1fsok1Cceqao2/F++9cM6MAsLvI9toETPy89NI9D8ZPHAly/aQJww3FOtmcvClOocYbFYAY3ulBXiv9d3J7zjVav9STgG+8na87/j5w/U3xZwqdcX9qeXeNHKICkiekcX/k2U=
+	t=1760013166; cv=none; b=KoGvO4zWmQa1CTzsllQmp/M1SSauApLnYQ8P1yYCGbxNH+zCA/LOkopLOBMP+pjgiSx6LsVxqV1JrMmO2XOsepSJzNY2RPs33351wu1JzWk+mUCnB4gs86TTCh7Dn7ixmgbRCI39uqpg23g2ZYuoU8G0Qxwf/Bh/CMaazH76XTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760012790; c=relaxed/simple;
-	bh=PwNYCka6VK6f9SVre5w3AUR7bmOfk4kk2ilZiqHHtRg=;
+	s=arc-20240116; t=1760013166; c=relaxed/simple;
+	bh=668Z3MlV85j12M7E4iYG5aHUTUwErdII4XWxAOFpOZ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YWk1kWjKn2anfuzJnL5BMy4QM42XUdyhNQbYwinQRmyQAOtNlT/imipWtawhRgtIZ1lQyluK64bNgl28yG4Psc1ACXvBJdlINxS8JmRkpbUBDmmo88MqnXAVGGLrr9ZCL0grClc3mhu7Y/LLmpwJNVeTnsoTWrAFLIA+KfKlim0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFTiFroe; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition:In-Reply-To; b=J5WnxdijbmiKBXh3KGYStb+tWvEeeXuSij+aWAj386/WcArt5PT1WqBPF8WCwtSPfG/+6JT3+X5YaTZrKJAUA7txQYFPwv5xA+3VxAUkOhWgD4Q5Q2NTCjRRa4xPruKIU2hVjIdost7ZpW7ll2kHEfR7WuqrWRmNRlhLw0ynsNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8wZ04/M; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFTiFroe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8wZ04/M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760012789; x=1791548789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PwNYCka6VK6f9SVre5w3AUR7bmOfk4kk2ilZiqHHtRg=;
-  b=mFTiFroe1+eOkF7qrVD1ROrQmCZvqME5Jk2azDY22ShHssTwgcRISxKI
-   eV2L6WquPs03igNuad+se3yWRCPnXugps+wRhUVj0Pm58y/aZDdbFasvA
-   kW4WKxxu0HtbI2A6I6IuNbt2ZWjLeWW5Xg6kW1VRVGMtsVmzrAJpzsFkp
-   f2JPRffuSdhpC15QC/5ivevLBPMSg1m3A24IIitloP+NEY3pFuKFhKIxQ
-   gAbS1eATelNTmOgxf6CJHpPEXNeFu5xR5HyUqRYeZydCjJIvKD2uwv44/
-   EqQB04p/3IZ/UXq5hq1gmKw7tbddOwGCK+qXqcigNj/ae5xh3gCKcXzG7
-   Q==;
-X-CSE-ConnectionGUID: WOgXx+TjQB6GiXsqX9ZRZw==
-X-CSE-MsgGUID: k0aku+4xR7KKRppBo5kI/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="72901440"
-X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="72901440"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 05:26:28 -0700
-X-CSE-ConnectionGUID: f29/VLIbTbqkfNTiHx3NrQ==
-X-CSE-MsgGUID: mcCLi9DtRQ6P+O7CfBuwiA==
+  t=1760013165; x=1791549165;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=668Z3MlV85j12M7E4iYG5aHUTUwErdII4XWxAOFpOZ8=;
+  b=X8wZ04/MgOmk7o95nrG1NkYNC0HKFi1tZ0UXvZCWYqvUjI9iKKwGvrJy
+   ayIjmm1ypHipjgksN4IwKQAKlQlPqzCmPMzY85OcK5EluPuxoGhXbgdAu
+   zHXQJmY9pl8iftHIRVumoRgKClUQM8wFeowRpO6DJICgRPEEN0/IyeR1h
+   d2i2yULMu7FVBKRD+4i2qni6Qh47e4S3kG7MtR7et0Dz8hrbYY84xI9jc
+   cBtTOzxFW1Wy4wUdfzGfviGYQ/xf97KmzD2pgqOwjaYRTw/qkU1i+wvDd
+   HTkDd1hECvsj54ulPhBuW97PagUK+oeAKnMmil2t07UwSQjtHm0D2bAIu
+   g==;
+X-CSE-ConnectionGUID: Osx7gAskQ3u0W66kGfRGag==
+X-CSE-MsgGUID: qW3ONOHLQ1aIrrvxILbesw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66047882"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66047882"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 05:32:28 -0700
+X-CSE-ConnectionGUID: r1Q4jEQ5TWycCWDyvKMAag==
+X-CSE-MsgGUID: Fkst9ZhtTjSj8ln3k5ji6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="180726200"
+   d="scan'208";a="180278769"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2025 05:26:28 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Oct 2025 05:32:27 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6piy-0000gx-1Y;
-	Thu, 09 Oct 2025 12:26:24 +0000
-Date: Thu, 9 Oct 2025 20:26:08 +0800
+	id 1v6pom-0000hD-2z;
+	Thu, 09 Oct 2025 12:32:24 +0000
+Date: Thu, 9 Oct 2025 20:31:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 509/541]
- fs/bcachefs/fs/logged_ops.c:45:2: error: cannot jump from this goto
- statement to its label
-Message-ID: <202510092019.hrMbrGzH-lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/6] drm/panic: Fix overlap between qr code and logo
+Message-ID: <aOerOTyCvH_S8kc-@a686f2e3b087>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251009122955.562888-3-jfalempe@redhat.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   844a56feb885b00aaaa93b55a7eb27e6495b3379
-commit: e06cf0ce070d016275022eef411ecc5b199c2e29 [509/541] bcachefs; use __cleanup() for bch2_bkey_buf_exit()
-config: s390-randconfig-002-20251009 (https://download.01.org/0day-ci/archive/20251009/202510092019.hrMbrGzH-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251009/202510092019.hrMbrGzH-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510092019.hrMbrGzH-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> fs/bcachefs/fs/logged_ops.c:45:2: error: cannot jump from this goto statement to its label
-      45 |         fsck_err_on(test_bit(BCH_FS_clean_recovery, &c->flags),
-         |         ^
-   fs/bcachefs/init/error.h:143:2: note: expanded from macro 'fsck_err_on'
-     143 |         __fsck_err_on(cond, c, FSCK_CAN_FIX|FSCK_CAN_IGNORE, _err_type, __VA_ARGS__)
-         |         ^
-   fs/bcachefs/init/error.h:130:20: note: expanded from macro '__fsck_err_on'
-     130 |         (unlikely(cond) ? __fsck_err(c, _flags, _err_type, __VA_ARGS__) : false);\
-         |                           ^
-   fs/bcachefs/init/error.h:117:26: note: expanded from macro '__fsck_err'
-     117 | #define __fsck_err(...)         fsck_err_wrap(bch2_fsck_err(__VA_ARGS__))
-         |                                 ^
-   fs/bcachefs/init/error.h:111:3: note: expanded from macro 'fsck_err_wrap'
-     111 |                 goto fsck_err;                                          \
-         |                 ^
-   fs/bcachefs/fs/logged_ops.c:51:18: note: jump bypasses initialization of variable with __attribute__((cleanup))
-      51 |         struct bkey_buf sk __cleanup(bch2_bkey_buf_exit);
-         |                         ^
-   1 error generated.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +45 fs/bcachefs/fs/logged_ops.c
-
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  36  
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  37  static int resume_logged_op(struct btree_trans *trans, struct btree_iter *iter,
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  38  			    struct bkey_s_c k)
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  39  {
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  40  	struct bch_fs *c = trans->c;
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  41  	u32 restart_count = trans->restart_count;
-5a95261552e63a fs/bcachefs/logged_ops.c    Kent Overstreet 2025-07-14  42  	CLASS(printbuf, buf)();
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  43  	int ret = 0;
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  44  
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26 @45  	fsck_err_on(test_bit(BCH_FS_clean_recovery, &c->flags),
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  46  		    trans, logged_op_but_clean,
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  47  		    "filesystem marked as clean but have logged op\n%s",
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  48  		    (bch2_bkey_val_to_text(&buf, c, k),
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  49  		     buf.buf));
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  50  
-e06cf0ce070d01 fs/bcachefs/fs/logged_ops.c Kent Overstreet 2025-10-08  51  	struct bkey_buf sk __cleanup(bch2_bkey_buf_exit);
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  52  	bch2_bkey_buf_init(&sk);
-49c0ca1fbc434f fs/bcachefs/fs/logged_ops.c Kent Overstreet 2025-10-08  53  	bch2_bkey_buf_reassemble(&sk, k);
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  54  
-0f25eb4b60771f fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-23  55  	const struct bch_logged_op_fn *fn = logged_op_fn(sk.k->k.type);
-0f25eb4b60771f fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-23  56  	if (fn)
-cecfed9b446da5 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-03-31  57  		fn->resume(trans, sk.k);
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  58  
-0f25eb4b60771f fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-23  59  	ret = bch2_logged_op_finish(trans, sk.k);
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  60  fsck_err:
-d50d7a5fa4df31 fs/bcachefs/logged_ops.c    Kent Overstreet 2024-09-26  61  	return ret ?: trans_was_restarted(trans, restart_count);
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  62  }
-aaad530ac6b1c8 fs/bcachefs/logged_ops.c    Kent Overstreet 2023-08-27  63  
-
-:::::: The code at line 45 was first introduced by commit
-:::::: d50d7a5fa4df3190b6b6c6d6551b631fda4a4ed2 bcachefs: Check for logged ops when clean
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 2/6] drm/panic: Fix overlap between qr code and logo
+Link: https://lore.kernel.org/stable/20251009122955.562888-3-jfalempe%40redhat.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
