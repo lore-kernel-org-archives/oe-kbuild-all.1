@@ -1,60 +1,60 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0094386331
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 18:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC4B158874
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 18:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760033656; cv=none; b=is+KNXtsYkAK2xBGXsBZ+SnlL42nFUbh/zOa9q4qzYDkdbLcV7RSyGcigfn5fJshivVKB23u3REG3BcgDgvRMO48/sbQCFMlNG4JkqgtZ21Q5fKtiLfsvkbZV03+wsTuum5uXracEIsgkrrkMEYVfjN8n/wJXSL7KI1AIQiltSE=
+	t=1760033722; cv=none; b=Pqs8+pQU2LYNZSlq2L5F5+pfS89DtMc057ekXzPyPYDCrr9sj0EImDbEmFQGR2o7doCFmjDg91iO4dzyya/siJYKjexeTG+f0ws9U6oVmCDwZuoBtN2zHRTIZmQc7qkpwlGh41R/BaZW2FZ+KcIlvo29jTLYB0td7HDV+ZEbAiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760033656; c=relaxed/simple;
-	bh=Se0ggIlBcEjUSR5vPSSxwDuywotTlhvRBXIE0uhueKk=;
+	s=arc-20240116; t=1760033722; c=relaxed/simple;
+	bh=vn4n4RSlfropTQ5buc9FvEgi9hxnZliFrOPmLk0O+rg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GA6rg11VF/MxsxQE9CqblCYuUeKMlgsRXSaSNUKJhZc33aNymFi07WAhwD5CFPkLb+1lzUQxhe9Ui1torwPZb09RqFD6bW0qIoYQoAUk2ymK125QDD7Jss19FfcHNBEDN9MyPZzXSmnhl3lgK9yu8njtEEH56ZUPeYGAmctPKfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Brb9Ux7t; arc=none smtp.client-ip=209.85.215.173
+	 To:Cc:Content-Type; b=TQq9Pc6pWFjVZBn4K+m5/whfIj0Q4bBeo0Tmi6dLbmOXeledawd73ml2pFax9/vBPsttOb0ojLJM9M/s9eolsnT7FjOVHqqGQAlZslDJpw62fINgSLda6/RINTdTUpzz/NKgHUPD3sdz9sNu+xceExY/oAkTL5ONahqvbugdObM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bzDBBAjr; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Brb9Ux7t"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b632bf035d0so66162a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Oct 2025 11:14:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bzDBBAjr"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2680ee37b21so2230305ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Oct 2025 11:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760033654; x=1760638454; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1760033720; x=1760638520; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Se0ggIlBcEjUSR5vPSSxwDuywotTlhvRBXIE0uhueKk=;
-        b=Brb9Ux7tU8FkODqRB0yE95P5AulMf90PvEEozdbQnIjRB1tAKDqkxt/0YvcA1hU2LZ
-         F80a/1rJocLxqZpz90rgc+QIMUYGvxqzluCpUEOI6oEvLNgWbR+u/zErDcGCNokDmUbt
-         NKX9/DACjnlOqOfAxCfzjpYSlTnkNavnPb4GbU3anCe457bhSHitYqzAlhQU8np+T1+P
-         ECeMhr97ikQM4ksLCdbGJvdF0hSg0I+HUpa7U+OUgJcqWePssGh0nWJ97aFRtfXttrnc
-         VUB37OHS79aVmlMOccLLqnlfVKPJlctVuUpdtJBDnYeuXv3bpeppxuIz13RIDAq+hMjn
-         uUOQ==
+        bh=vn4n4RSlfropTQ5buc9FvEgi9hxnZliFrOPmLk0O+rg=;
+        b=bzDBBAjrQKZolbdFoXSyFLCCQ0KGfoDOcwlkkN85tZF7gHmkRkLpVrIlyyZwYpOGdy
+         cDqX0n1pNA3YwrJ6nt09/z7fVTKEUVLqvp9cKMGJcAfG+j2Rgsemn2dfwaikwEdj/DM5
+         xwTQ4MNG0Qdr1sHpf6Ih+mis38OrSvGnKRYyDc8MHGw8c81V3RTM/4zUPvD2Ghtrzh54
+         Cztq+hRoDpjptYQVmVwrLiUKtQTsi2wVOJCUYZIyUdMNugpaEKjoWDQjnDDg3gpFyiYZ
+         Z0RIXrI7uKqltn2LflwwVGt2biDPS5jyOmR4ywKHFdZOeflJr6tmXhwS+zHSzLXYR5q1
+         qRRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760033654; x=1760638454;
+        d=1e100.net; s=20230601; t=1760033720; x=1760638520;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Se0ggIlBcEjUSR5vPSSxwDuywotTlhvRBXIE0uhueKk=;
-        b=ZMARecL8Tm8ktXBchbgnoWkA55bPqrKRJYSlC5TJ16GWr/5tzWWh49k9u2+y9Z2+dZ
-         hij4zdlMvP4TYtvPrxhbRvIhajHqIqY7CdXrvtJ4xqjVQVxv/KSqVd8B4n69FDILEhte
-         ngaPE0K46Qx4D4kx1PsRDlbXXLICTIy7o3cEOfwdKUMLzbNee9oJ0BIFfyG2r+2seoZx
-         AbpJqLQmGLx++/j1pInpRasK0g8isNTAoFooIbzml5gzYdvU1B3jFYFDt3mje8fFv2Ax
-         +QoQ1ZMXOnCX+oNzhZDDHvip59pZOA7N9Nh0SPhR2OksRh28ItSS4fgjNV9J28s5decF
-         8aEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMBFcjC5xk8V2dtQNabKmIgMvf74ovZK5ggENxarxifAKcC6uGIzvY4t5nOCfvb8qmFrkiUpG/39xJfTC2@lists.linux.dev
-X-Gm-Message-State: AOJu0YzsD5Lb8bmVDPCk48OojugQCzhPsAzkFg2lD9qwbS4bR3eY+vxY
-	JgGPhN9icKp9A0AXZk35SlSQeZgpm87uavJkG8HUsrXsssNfKONTEbc85/y5gqedMQSwHZwb9bN
-	ji0DUg6jfPDPDwDUTwdcidKJZ/D0KGco=
-X-Gm-Gg: ASbGncu/EpmG5ktnuL2GCExGuXnCFzQ1rXyx8OusW/PIEHDgGPmsMQM6/3wZMJdXg4N
-	8t+B5xc2bHDutDTAO/O25lHfmM8taCOUT2bsz+tCjixy6lTwLcbCSkie/sT4xfyhLMszN890ZbS
-	LWw8LMMli37R3xyYy+VLeU8oJe3q4K4Qh48pAGYh1pyoWCKPTuHpdU8Yl+0wblkxYmKWwaH9Hz2
-	y+aAY+q6Rb/anQB9ZzFWDCvvZdZ0ihMjsrGRF7cLwBI2JCekILn+OUk61ZfUd2Q2Yk+dwlZJTN1
-	BeplcCC9jFGBXet50ng4VFyQw6D8MvWEoNvZOB/1C4wLFvHqRw==
-X-Google-Smtp-Source: AGHT+IGGPYXRNsSxfchYlEX7hmMR6KUS05w+/U5AckCkquWjVaqc6cm6OPP4NlzecvU0kbAiqldhBLf3tX6fgvs0CJk=
-X-Received: by 2002:a17:903:18c:b0:27a:186f:53ec with SMTP id
- d9443c01a7336-290273040acmr66870915ad.9.1760033653987; Thu, 09 Oct 2025
- 11:14:13 -0700 (PDT)
+        bh=vn4n4RSlfropTQ5buc9FvEgi9hxnZliFrOPmLk0O+rg=;
+        b=J11i6wtC7kjz/K2XjkcTy7rjEsK33bv7FjeGZ7YNHljYNSaPbQhipfF4RMNxGBLN2z
+         F7x2sqmszrJzqGcfJdMfEyrKV+AvfsIYrtEPAdqcndJy3AYfRZEt0jiRbw0L9l8xVen+
+         jftkv0Q56k4djpj6HmKm8UDg2x7QFj3pBH774aIEh8t02tPAF88qxPk2xSAbhep0mV80
+         gT/3uqAOG7Ddt7HXa34kfdjv40a1FnGqiUrhXOxsFwYaB1lFHltIeS1ZLqcSOyywBtXv
+         iQHfU/A9RjId4Ogcoy+xkQjUjgvcTxRoWdy7Ea0j3IrDrsfdXsPo39MiNKZMY7QmXi78
+         wC2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUnU4QYLUw2iWwm4F24T3uZawgVtNz21wgWaOHc6wYlxCQ94AoxHoQTLU4l2N/tzqdIuO31iX+IIkT2pEsu@lists.linux.dev
+X-Gm-Message-State: AOJu0YwijGIQ3kgYRWKtVdO4LNSuna04mmzRSymFd6/XhziM0s7dYyhI
+	fXVWy6nql7KuMxnutnT9Z9gq2I/ryJkr9lSAXZO9IHgSy+QOoQoq0yV/faQq1vJs8jP+IatyVEL
+	zChUNBralzhJ4P2afKKMiMlE0EfNJ6/c=
+X-Gm-Gg: ASbGncslfFSlj2KZk1+J+RVLtLrgpgHutGYXb7mOQdoFd8+sWARTLPiswRLgjfAHSok
+	wQKKagjVOaWmeL/f3VZEwSDfHOfEIu/icRCgrVTVjSoo0/OJPzb2N636GY8pfo6EXWV0H5+sCUS
+	lhp0UMuQ7Hy2bDZ2C+wqpkRLJ/x6LvAkxcp2YD2lHqo5wYlWFIOhcURDs8/PrJzpsxEJin4mfF5
+	yTxYPDY55+6+1/07KK78s4JFeLk8/MClxHEHXA+9i0MPGSC996zw+zQmJIonCZ4JnFah/QKXPEA
+	pAnJ4A7gEWvdfGyBRaiCUrAgmmtIUCppn+DZeKOeNkuQIyJH/g==
+X-Google-Smtp-Source: AGHT+IFc9KYDo0vVba2RUD8DAtI69bgAyM4PDwpagg31YnO4T9LE79wjEuU97MRUl6V1rW7V/9/UNL+E0+rlTC6BKDA=
+X-Received: by 2002:a17:902:c94c:b0:28e:aacb:e6f7 with SMTP id
+ d9443c01a7336-2902723ca5dmr61015185ad.3.1760033719751; Thu, 09 Oct 2025
+ 11:15:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,11 +62,12 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <202510100127.yuqhg8uo-lkp@intel.com> <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
-In-Reply-To: <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
+ <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
+In-Reply-To: <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 9 Oct 2025 20:14:01 +0200
-X-Gm-Features: AS18NWAfpscSsC1ClYA_YRgf8xWotiQcbCSD3SzI9XzV_-V8UQWJVV7bXNBwDfs
-Message-ID: <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
+Date: Thu, 9 Oct 2025 20:15:06 +0200
+X-Gm-Features: AS18NWBY_LEofIxL13seTuWRCLS4mtbWJ5eZPeFPnSTCgp-cv4muXJzm_9R95HE
+Message-ID: <CANiq72kTPjukgmAxDfLg2s4JHdaKaw=bY4DLVjTr7-9bqv5D3A@mail.gmail.com>
 Subject: Re: [akpm-mm:mm-new 36/102] error[E0425]: cannot find value `VM_READ`
  in crate `bindings`
 To: Andrew Morton <akpm@linux-foundation.org>
@@ -76,16 +77,17 @@ Cc: kernel test robot <lkp@intel.com>, Jakub Acs <acsjakub@amazon.de>, llvm@list
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 9, 2025 at 8:05=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
+On Thu, Oct 9, 2025 at 8:14=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> Alice, Miguel, please remind what to do about this?
+> We can either define helper constants in
+> `rust/bindings/bindings_helper.h` for the ones that the Rust side is
+> already using (like last time) or use `enum`s on the C header.
+>
+> If you have it in a branch, I can prepare a quick diff for you to fold.
 
-We can either define helper constants in
-`rust/bindings/bindings_helper.h` for the ones that the Rust side is
-already using (like last time) or use `enum`s on the C header.
-
-If you have it in a branch, I can prepare a quick diff for you to fold.
+Should I test on
+https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new?
 
 Cheers,
 Miguel
