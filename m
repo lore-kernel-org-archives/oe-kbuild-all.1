@@ -1,274 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74D42236EB
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 16:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024CE1DEFE8;
+	Thu,  9 Oct 2025 17:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760028545; cv=none; b=QTPZe8T10iK/E05sbKrXtL5y1B8urnuDjJ5C49TeCdJZ0ePol8BhOQuWB3tP2Q91kighEjh7N8mGfRUoveePn9HLmFCPv09dZhUraHKsLpwjyRU/6eMzFWE985roExS14MmGaGVZ2vIjU/6W5I12uQtWyIXWYWjwEfLn0TLSwgs=
+	t=1760029210; cv=none; b=m8dP524idfPDajAl4MZZ/7Y4p2A7cC+rQ/hU18NL6u0R3N5PpO3HwaGiN4AY6KVYgMEfNEm97+hpRWBezwoIdD61+ZDOLxdSBkaL24/MzxlHu/YnsljV5Sp8veq0THSmkCq2NoQnUjWrGvegsx/p6f/orwtrU+quoSVhPB9pV9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760028545; c=relaxed/simple;
-	bh=1TzUcnwgjEN0gNNPpUHv1Ovokylsh6Xk6QfDEhG7vv0=;
+	s=arc-20240116; t=1760029210; c=relaxed/simple;
+	bh=qHALCCO4zmc9O+5R1DF2w4wAbmTKhq0ny40dvtb3LSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jnXLRMNeG/hFynYCvlUS2FUuK/6kUCnGNv5TooQ/7UGKmOymNkqSuibiNSbu/mOXbmy+IhbLmHAfDdpbJiCyzIYWK3C9bnu9tb/9Oc6nWZJto0stXVMD//KIxJdvvc/Lo0WOTGL7BRykiGoPqXi4WuH3n4WvSAbGDKj8baEjv9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGU4aJRy; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=RRp0I3uvtcjDd//rpEKrFi1Z6lLbjqR5sZ7HZtrskN/o+wWDFQ3buprn5s0whXtbCAdDSk6EcrXFf8y7/NwpcoHVnhBaa+6IQd6U60w9npnotGG24YbRo2kifpIpbAPXarz97l9Q6Qxop7PEiGZIthBklK/F/6bn0mkf0DLv8gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqECiipY; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGU4aJRy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqECiipY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760028543; x=1791564543;
+  t=1760029208; x=1791565208;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1TzUcnwgjEN0gNNPpUHv1Ovokylsh6Xk6QfDEhG7vv0=;
-  b=oGU4aJRy/Le9slFCSXwwoB1nwpIlrTFAOrz2QCCYFwuw/ZMwaMvOUj8g
-   F7etlkW7qq3Y51L6yn9jnFaD7/eRH/f6+jwF3f0AL1Eo+mp61gVFZFfLA
-   Y8gWn2ghHTBhZAFEV3te4TMRDOoMu2JktxxFx6rnyI/HfCCSprCG0huAK
-   0deqNHe5L+bfyFx9occCOcaHWaW0uiDGnL7AFnyZ+yqwMaaXCPioQN/ot
-   d1J8iaPTBDzcB/EHdXlRjZNCCDosbVAWPrSzdVzbHjpg1Iba/qKDhrP8a
-   TQf9A8f8zg+Mu8l/jy73MS/c1ay0rIkvcAxsXStCf9aQr2asX55aw8ERc
-   Q==;
-X-CSE-ConnectionGUID: ovb5ESdMQIWKbhx8HgGR7w==
-X-CSE-MsgGUID: 51flMTO0RO2hak38EZ4C8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62147480"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=qHALCCO4zmc9O+5R1DF2w4wAbmTKhq0ny40dvtb3LSo=;
+  b=hqECiipY6X67mcjtHUN+TpZvF9cX4E+U5zNpC/WkslUmAfm/rhSRBUbY
+   PZPkvNrxyuT3pu4L+swSFejPYgsnS0hb8hcbk6MxJ9eocq2W8qtZqU0MS
+   jilpCgFk513HIhW/WNPOv0DHhyskE93TeaBiM0Sqc8gtzABD84pucAUIQ
+   z1qr50iPYIZjCkbCxmS7E+g6I/g4tgzC8UB+51QCzLv1BdbEArYfnfCPf
+   ZzxBK2RDCtac/j44ZUxUSeyvfEYXEFP3w1s7mJOHDkQlFl1SNBaaQKfTa
+   EnTUIjkwnw1fEbp7FvA7HvgDweKFUzFrpr2NXz5ig1whxvByXqvrYkSRM
+   g==;
+X-CSE-ConnectionGUID: oapcQO6VQoqziQAXek8l9g==
+X-CSE-MsgGUID: a8beVjJTSAWD3a2RlQ4wEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="79686800"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="62147480"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 09:49:03 -0700
-X-CSE-ConnectionGUID: 4RHkDBvhRt+FjlkfWXLCkQ==
-X-CSE-MsgGUID: EFu18xe0RzypojlyTbvvyQ==
+   d="scan'208";a="79686800"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 10:00:07 -0700
+X-CSE-ConnectionGUID: YkTPKiieR0ySgBqMi7CC3g==
+X-CSE-MsgGUID: 6raujUmnReSDGMNgLlA4Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="185145921"
+   d="scan'208";a="180359215"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2025 09:49:00 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 Oct 2025 10:00:05 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6tp4-00012B-08;
-	Thu, 09 Oct 2025 16:48:58 +0000
-Date: Fri, 10 Oct 2025 00:48:53 +0800
+	id 1v6tzm-00013P-2U;
+	Thu, 09 Oct 2025 17:00:02 +0000
+Date: Fri, 10 Oct 2025 00:59:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fushuai Wang <wangfushuai@baidu.com>, Jason@zx2c4.com,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, wireguard@lists.zx2c4.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fushuai Wang <wangfushuai@baidu.com>
-Subject: Re: [PATCH] wireguard: allowedips: Use kfree_rcu() instead of
- call_rcu()
-Message-ID: <202510100057.ZUiqBtur-lkp@intel.com>
-References: <20251005122626.26988-1-wangfushuai@baidu.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 06/20] drm/i915/cdclk: Extract dg2_power_well_count()
+Message-ID: <202510100011.UWvFqHK3-lkp@intel.com>
+References: <20250923171943.7319-7-ville.syrjala@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251005122626.26988-1-wangfushuai@baidu.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250923171943.7319-7-ville.syrjala@linux.intel.com>
 
-Hi Fushuai,
+Hi Ville,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on crng-random/master v6.17 next-20251009]
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.17 next-20251009]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fushuai-Wang/wireguard-allowedips-Use-kfree_rcu-instead-of-call_rcu/20251009-142048
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251005122626.26988-1-wangfushuai%40baidu.com
-patch subject: [PATCH] wireguard: allowedips: Use kfree_rcu() instead of call_rcu()
-config: m68k-hp300_defconfig (https://download.01.org/0day-ci/archive/20251010/202510100057.ZUiqBtur-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100057.ZUiqBtur-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-Introduce-intel_crtc_enable_changed-and-intel_any_crtc_enable_changed/20250926-204211
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20250923171943.7319-7-ville.syrjala%40linux.intel.com
+patch subject: [PATCH 06/20] drm/i915/cdclk: Extract dg2_power_well_count()
+config: i386-randconfig-011-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100011.UWvFqHK3-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100011.UWvFqHK3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100057.ZUiqBtur-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100011.UWvFqHK3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/net/wireguard/allowedips.c: In function 'remove_node':
->> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
-     575 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
-     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                 ^~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                              ^~~~~~~~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
-     269 |         kfree_rcu(&node, rcu);
-         |         ^~~~~~~~~
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/dcache.h:8,
-                    from include/linux/fs.h:9,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/linux/ip.h:16,
-                    from drivers/net/wireguard/allowedips.h:10,
-                    from drivers/net/wireguard/allowedips.c:6:
->> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
-    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
-         |                                         ^~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
-     269 |         kfree_rcu(&node, rcu);
-         |         ^~~~~~~~~
->> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
-     575 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
-     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                 ^~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                              ^~~~~~~~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
-     275 |         kfree_rcu(&parent, rcu);
-         |         ^~~~~~~~~
->> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
-    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
-         |                                         ^~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
-     275 |         kfree_rcu(&parent, rcu);
-         |         ^~~~~~~~~
---
-   In file included from <command-line>:
-   allowedips.c: In function 'remove_node':
->> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
-     575 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
-     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                 ^~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                              ^~~~~~~~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
-     269 |         kfree_rcu(&node, rcu);
-         |         ^~~~~~~~~
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/dcache.h:8,
-                    from include/linux/fs.h:9,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/linux/ip.h:16,
-                    from allowedips.h:10,
-                    from allowedips.c:6:
->> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
-    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
-         |                                         ^~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   allowedips.c:269:9: note: in expansion of macro 'kfree_rcu'
-     269 |         kfree_rcu(&node, rcu);
-         |         ^~~~~~~~~
->> include/linux/stddef.h:16:33: error: '*0' is a pointer; did you mean to use '->'?
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:575:23: note: in definition of macro '__compiletime_assert'
-     575 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:595:9: note: in expansion of macro '_compiletime_assert'
-     595 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:17: note: in expansion of macro 'BUILD_BUG_ON'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                 ^~~~~~~~~~~~
-   include/linux/rcupdate.h:1124:30: note: in expansion of macro 'offsetof'
-    1124 |                 BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);    \
-         |                              ^~~~~~~~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
-     275 |         kfree_rcu(&parent, rcu);
-         |         ^~~~~~~~~
->> include/linux/rcupdate.h:1125:41: error: '___p' is a pointer to pointer; did you mean to dereference it before applying '->' to it?
-    1125 |                 kvfree_call_rcu(&((___p)->rhf), (void *) (___p));       \
-         |                                         ^~
-   include/linux/rcupdate.h:1087:29: note: in expansion of macro 'kvfree_rcu_arg_2'
-    1087 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-         |                             ^~~~~~~~~~~~~~~~
-   allowedips.c:275:9: note: in expansion of macro 'kfree_rcu'
-     275 |         kfree_rcu(&parent, rcu);
-         |         ^~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_cdclk.c:2619:6: error: variable 'voltage_level' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+    2619 |         if (!intel_cdclk_changed(&old_cdclk_state->actual,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2620 |                                  &new_cdclk_state->actual) &&
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2621 |             dg2_power_well_count(display, old_cdclk_state) ==
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2622 |             dg2_power_well_count(display, old_cdclk_state))
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:2649:30: note: uninitialized use occurs here
+    2649 |         intel_pcode_notify(display, voltage_level, num_active_pipes, cdclk,
+         |                                     ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:2619:2: note: remove the 'if' if its condition is always true
+    2619 |         if (!intel_cdclk_changed(&old_cdclk_state->actual,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2620 |                                  &new_cdclk_state->actual) &&
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2621 |             dg2_power_well_count(display, old_cdclk_state) ==
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2622 |             dg2_power_well_count(display, old_cdclk_state))
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2623 | 
+    2624 |         /* According to "Sequence Before Frequency Change", voltage level set to 0x3 */
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2625 |         voltage_level = DISPLAY_TO_PCODE_VOLTAGE_MAX;
+>> drivers/gpu/drm/i915/display/intel_cdclk.c:2619:6: error: variable 'voltage_level' is used uninitialized whenever '&&' condition is false [-Werror,-Wsometimes-uninitialized]
+    2619 |         if (!intel_cdclk_changed(&old_cdclk_state->actual,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2620 |                                  &new_cdclk_state->actual) &&
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:2649:30: note: uninitialized use occurs here
+    2649 |         intel_pcode_notify(display, voltage_level, num_active_pipes, cdclk,
+         |                                     ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:2619:6: note: remove the '&&' if its condition is always true
+    2619 |         if (!intel_cdclk_changed(&old_cdclk_state->actual,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2620 |                                  &new_cdclk_state->actual) &&
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:2616:42: note: initialize the variable 'voltage_level' to silence this warning
+    2616 |         unsigned int cdclk = 0; u8 voltage_level, num_active_pipes = 0;
+         |                                                 ^
+         |                                                  = '\0'
+   2 errors generated.
 
 
-vim +16 include/linux/stddef.h
+vim +2619 drivers/gpu/drm/i915/display/intel_cdclk.c
 
-6e218287432472 Richard Knutsson 2006-09-30  14  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
-14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
-3876488444e712 Denys Vlasenko   2015-03-09  17  
+aaf1b5cf5e779df Ville Syrjälä       2025-09-23  2608  
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2609  static void intel_cdclk_pcode_pre_notify(struct intel_atomic_state *state)
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2610  {
+d34927acff91501 Ville Syrjälä       2024-09-06  2611  	struct intel_display *display = to_intel_display(state);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2612  	const struct intel_cdclk_state *old_cdclk_state =
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2613  		intel_atomic_get_old_cdclk_state(state);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2614  	const struct intel_cdclk_state *new_cdclk_state =
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2615  		intel_atomic_get_new_cdclk_state(state);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2616  	unsigned int cdclk = 0; u8 voltage_level, num_active_pipes = 0;
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2617  	bool change_cdclk, update_pipe_count;
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2618  
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04 @2619  	if (!intel_cdclk_changed(&old_cdclk_state->actual,
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2620  				 &new_cdclk_state->actual) &&
+aaf1b5cf5e779df Ville Syrjälä       2025-09-23  2621  	    dg2_power_well_count(display, old_cdclk_state) ==
+aaf1b5cf5e779df Ville Syrjälä       2025-09-23  2622  	    dg2_power_well_count(display, old_cdclk_state))
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2623  
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2624  	/* According to "Sequence Before Frequency Change", voltage level set to 0x3 */
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2625  	voltage_level = DISPLAY_TO_PCODE_VOLTAGE_MAX;
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2626  
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2627  	change_cdclk = new_cdclk_state->actual.cdclk != old_cdclk_state->actual.cdclk;
+aaf1b5cf5e779df Ville Syrjälä       2025-09-23  2628  	update_pipe_count = dg2_power_well_count(display, new_cdclk_state) >
+aaf1b5cf5e779df Ville Syrjälä       2025-09-23  2629  		dg2_power_well_count(display, old_cdclk_state);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2630  
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2631  	/*
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2632  	 * According to "Sequence Before Frequency Change",
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2633  	 * if CDCLK is increasing, set bits 25:16 to upcoming CDCLK,
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2634  	 * if CDCLK is decreasing or not changing, set bits 25:16 to current CDCLK,
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2635  	 * which basically means we choose the maximum of old and new CDCLK, if we know both
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2636  	 */
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2637  	if (change_cdclk)
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2638  		cdclk = max(new_cdclk_state->actual.cdclk, old_cdclk_state->actual.cdclk);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2639  
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2640  	/*
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2641  	 * According to "Sequence For Pipe Count Change",
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2642  	 * if pipe count is increasing, set bits 25:16 to upcoming pipe count
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2643  	 * (power well is enabled)
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2644  	 * no action if it is decreasing, before the change
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2645  	 */
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2646  	if (update_pipe_count)
+aaf1b5cf5e779df Ville Syrjälä       2025-09-23  2647  		num_active_pipes = dg2_power_well_count(display, new_cdclk_state);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2648  
+d34927acff91501 Ville Syrjälä       2024-09-06  2649  	intel_pcode_notify(display, voltage_level, num_active_pipes, cdclk,
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2650  			   change_cdclk, update_pipe_count);
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2651  }
+ceb0cc3b428825f Stanislav Lisovskiy 2023-05-04  2652  
 
 -- 
 0-DAY CI Kernel Test Service
