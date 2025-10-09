@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D9B1C3306
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 16:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4387B220F3E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 16:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760027883; cv=none; b=pFOg0f4Gm7SLqGLrIm+bdgw45e2pqpXcHDEmtUo2Gfv8Lto+fK52LzbhS4FramI7Y2nXTYMC6yQ/FmCLdQyOFtiuErf7B8DJ5cwAszZgW9+irieFPaD0uXh1yUZX6ZUlXmN6X0JlxpkF6DYHj/Wl0Ro8gTKd7yzaVx+DyO/Sl5Y=
+	t=1760027883; cv=none; b=VKuH8P3Cynsrxsw+hkGJ6T1uNFPmZXPFIo3NhOnpt3JRGcVatFHMM6n8afjegsLkOOfGVCnDMtlTTIAbUzWSdxoxsxT5a70bAAbd/Z/yM4sIje0L4ijP10Pv6n9wX6g4Fwse1OjvLl0wePYWXLcy6BoCYR4AQrtUgfq9d+cNFL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760027883; c=relaxed/simple;
-	bh=/bfWbTV9IiaR9rzvV9g7HtKP0oenXXle3qPDjYmwrB4=;
+	bh=UtF/xhA3Y4+BG6VEUwdbEawkuFZBt7JIdn8+bK8Fb4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pFaeMy4g81287H+JOTVqLLsQlM9VQG0GvnPAzMYOWA9Ydr+Mcp3eR7WVTQTmNodG33VvlEGRphkFuSZ8BI/zDAVKYml86gWHGb0snzrNoCQZVWeIH/DmLHe/GEa/JxNWwoAzDHzBa+fthoksYSu11FfuOXh8Ci5YKVEJBVv62XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NDFmMvAR; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=L78j8P4kZZAoPUSLE0ZrL+ghB6DMSc88J9DVx/V62GU2xJslMNvisZdsbFiy4i35zl3AYLtaxcPKP7+a6Qe1hoP8OqB4j2ndUv1TSvZaHJA1oPCShkoWxj7E3ZS5zq10TYgjLBVW4tVVvqm+mFeQhhWDJJB+BH5i5mWiHmRvzqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXCZvHXN; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NDFmMvAR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXCZvHXN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760027879; x=1791563879;
+  t=1760027882; x=1791563882;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/bfWbTV9IiaR9rzvV9g7HtKP0oenXXle3qPDjYmwrB4=;
-  b=NDFmMvARhaPmxfXRyWcKblnc7Z+2k+FWMWgCZHBPscESOOh0KcWsrzuE
-   /IwItLH8KkMwNBLM1bdgZzQWZwl60Nrb2yQEikDIMiY9lLa0IMKMlj6uL
-   wNbEx5k1vu3YfoSmYd3iRCtzmogP9eWPf7x0RKlFP/CuSP9aPkFEwv+yo
-   Jcja7ELoNxdOhgltByWDA1rE72VhWCfiY2IE0DAWxH1cdrfu7FWmVkuxQ
-   rArDl234SwNkTZ7oe0r6o2JW1hMNOBg9BGGu2i5xN+ol3JxflFh0t3eB5
-   9QdR+09F6Cmp1pRPHk1vyatYnJOT88z5L7UOOrhHkLa6pCblZKpuy2ELr
-   w==;
-X-CSE-ConnectionGUID: iZ1TKxstSLuMRLa/eeObmg==
-X-CSE-MsgGUID: /gcbzYZgQNGCpe25NM78ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73672976"
+  bh=UtF/xhA3Y4+BG6VEUwdbEawkuFZBt7JIdn8+bK8Fb4U=;
+  b=SXCZvHXNMEWZOcV0t9jqL+pGvNZYz5h97hQ0oSFHacLKhBWoRZf5LBpu
+   0DvQZicEpGunOVEMAHhn5+pMd5/kdBzQazOfuy7UJktZdSOt3APl159Ls
+   6pGcdMEyrj3JsNwS8rQJccBnAH/E4jHOBcusv1bGWGqetSgAJPgaCc2hA
+   IkMrY1S/VaYYFvyf3w6YGn0LRiWoMBKGid8qV7tO2nralWhyFOgCQixmP
+   Ig81C0X2qDCKg/JlZfsmJZzhPGz5/B1K+Ucmm5WeUqslQycSirnEBf4yS
+   AwVOyiZW7BFdCZ19RCzS2+HzU3cj1bnv5oOtSlu4GU74b3B1oQt0WONCm
+   g==;
+X-CSE-ConnectionGUID: uoHzDmEDSHuWkYMnfnyuNQ==
+X-CSE-MsgGUID: kTixBeC/TqSuie6Sq48R2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="65893385"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="73672976"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 09:37:59 -0700
-X-CSE-ConnectionGUID: UgZ5+tq8TEWTVIalSNLxDw==
-X-CSE-MsgGUID: WiAhyU8LRKCajGPeNUdPOA==
+   d="scan'208";a="65893385"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 09:38:00 -0700
+X-CSE-ConnectionGUID: wLNBg/qAQXuyEoRM1YwuZQ==
+X-CSE-MsgGUID: +Jk/21/hRS2aexpDoD48jA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="181182058"
+   d="scan'208";a="211408311"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2025 09:37:58 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 Oct 2025 09:37:58 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6teN-000114-2h;
+	id 1v6teN-00011F-2x;
 	Thu, 09 Oct 2025 16:37:55 +0000
-Date: Fri, 10 Oct 2025 00:37:09 +0800
+Date: Fri, 10 Oct 2025 00:37:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-quota-cleanups 17/20] fs/xfs/xfs_qm.c:1396:6: warning:
- variable 'error' is used uninitialized whenever 'if' condition is true
-Message-ID: <202510100015.g7ccC3D1-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1480/1480] mm/debug.c:174:3: warning:
+ format specifies type 'void *' but the argument has type 'int'
+Message-ID: <202510100017.B6OQmCin-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,105 +62,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-quota-cleanups
-head:   7bc9beb7cf78de1e9425c5bcc3e943744fa6b89a
-commit: c894f1aafc49e6d9af7695c0b7ceaa90af8f49d2 [17/20] xfs: open code xfs_qm_dquot_walk
-config: riscv-randconfig-002-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100015.g7ccC3D1-lkp@intel.com/config)
+Hi Ding,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   b0534aa9eeb9c05e780430c051477b8eb5768330
+commit: 2d2fe6b40444bd8f84f674930ac5f98a6314702e [1480/1480] ascend: mm: add an owner for mm_struct
+config: x86_64-randconfig-r112-20250311 (https://download.01.org/0day-ci/archive/20251010/202510100017.B6OQmCin-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100015.g7ccC3D1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100017.B6OQmCin-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100015.g7ccC3D1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100017.B6OQmCin-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/xfs/xfs_qm.c:1396:6: warning: variable 'error' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1396 |         if (!XFS_DQ_IS_DIRTY(dqp))
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:1417:9: note: uninitialized use occurs here
-    1417 |         return error;
-         |                ^~~~~
-   fs/xfs/xfs_qm.c:1396:2: note: remove the 'if' if its condition is always false
-    1396 |         if (!XFS_DQ_IS_DIRTY(dqp))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-    1397 |                 goto out_unlock;
-         |                 ~~~~~~~~~~~~~~~
-   fs/xfs/xfs_qm.c:1379:13: note: initialize the variable 'error' to silence this warning
-    1379 |         int                     error;
-         |                                      ^
-         |                                       = 0
-   1 warning generated.
+   mm/debug.c: note: in included file (through include/linux/kernel.h):
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/debug.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/debug.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+>> mm/debug.c:174:3: warning: format specifies type 'void *' but the argument has type 'int' [-Wformat]
+     135 |                 atomic_read(&mm->tlb_flush_pending),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:175:3: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+     142 |                 mm->def_flags, &mm->def_flags
+         |                 ^~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:175:18: warning: format specifies type 'unsigned long' but the argument has type 'const unsigned long *' [-Wformat]
+     143 |                 mm->def_flags, &mm->def_flags
+         |                                ^~~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:143:21: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     143 |                 "def_flags: %#lx(%pGv)\n",
+         |                                  ~^
+   include/linux/printk.h:342:27: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ^~~
+   include/linux/printk.h:332:21: note: expanded from macro 'pr_fmt'
+     332 | #define pr_fmt(fmt) fmt
+         |                     ^~~
+   4 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
-   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
-   Selected by [y]:
-   - RISCV [=y]
 
+vim +174 mm/debug.c
 
-vim +1396 fs/xfs/xfs_qm.c
+82742a3a515219 Sasha Levin           2014-10-09  114  
+31c9afa6db122a Sasha Levin           2014-10-09  115  void dump_mm(const struct mm_struct *mm)
+31c9afa6db122a Sasha Levin           2014-10-09  116  {
+7a9cdebdcc17e4 Linus Torvalds        2018-09-12  117  	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
+31c9afa6db122a Sasha Levin           2014-10-09  118  #ifdef CONFIG_MMU
+152a2d199e1385 Matthew Wilcox        2018-01-04  119  		"get_unmapped_area %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  120  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  121  		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  122  		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
+31c9afa6db122a Sasha Levin           2014-10-09  123  		"hiwater_rss %lx hiwater_vm %lx total_vm %lx locked_vm %lx\n"
+84638335900f19 Konstantin Khlebnikov 2016-01-14  124  		"pinned_vm %lx data_vm %lx exec_vm %lx stack_vm %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  125  		"start_code %lx end_code %lx start_data %lx end_data %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  126  		"start_brk %lx brk %lx start_stack %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  127  		"arg_start %lx arg_end %lx env_start %lx env_end %lx\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  128  		"binfmt %px flags %lx core_state %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  129  #ifdef CONFIG_AIO
+152a2d199e1385 Matthew Wilcox        2018-01-04  130  		"ioctx_table %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  131  #endif
+2d2fe6b40444bd Ding Tianhong         2021-10-30  132  #ifdef CONFIG_MM_OWNER
+152a2d199e1385 Matthew Wilcox        2018-01-04  133  		"owner %px "
+31c9afa6db122a Sasha Levin           2014-10-09  134  #endif
+152a2d199e1385 Matthew Wilcox        2018-01-04  135  		"exe_file %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  136  #ifdef CONFIG_MMU_NOTIFIER
+152a2d199e1385 Matthew Wilcox        2018-01-04  137  		"mmu_notifier_mm %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  138  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  139  #ifdef CONFIG_NUMA_BALANCING
+31c9afa6db122a Sasha Levin           2014-10-09  140  		"numa_next_scan %lu numa_scan_offset %lu numa_scan_seq %d\n"
+31c9afa6db122a Sasha Levin           2014-10-09  141  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  142  		"tlb_flush_pending %d\n"
+b8eceeb99014cf Vlastimil Babka       2016-03-15 @143  		"def_flags: %#lx(%pGv)\n",
+31c9afa6db122a Sasha Levin           2014-10-09  144  
+7a9cdebdcc17e4 Linus Torvalds        2018-09-12  145  		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
+31c9afa6db122a Sasha Levin           2014-10-09  146  #ifdef CONFIG_MMU
+31c9afa6db122a Sasha Levin           2014-10-09  147  		mm->get_unmapped_area,
+31c9afa6db122a Sasha Levin           2014-10-09  148  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  149  		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
+31c9afa6db122a Sasha Levin           2014-10-09  150  		mm->pgd, atomic_read(&mm->mm_users),
+31c9afa6db122a Sasha Levin           2014-10-09  151  		atomic_read(&mm->mm_count),
+af5b0f6a09e42c Kirill A. Shutemov    2017-11-15  152  		mm_pgtables_bytes(mm),
+31c9afa6db122a Sasha Levin           2014-10-09  153  		mm->map_count,
+53f4e528406789 Daniel Jordan         2019-08-14  154  		mm->hiwater_rss, mm->hiwater_vm, mm->total_vm,
+53f4e528406789 Daniel Jordan         2019-08-14  155  		atomic_long_read(&mm->locked_vm),
+84638335900f19 Konstantin Khlebnikov 2016-01-14  156  		mm->pinned_vm, mm->data_vm, mm->exec_vm, mm->stack_vm,
+31c9afa6db122a Sasha Levin           2014-10-09  157  		mm->start_code, mm->end_code, mm->start_data, mm->end_data,
+31c9afa6db122a Sasha Levin           2014-10-09  158  		mm->start_brk, mm->brk, mm->start_stack,
+31c9afa6db122a Sasha Levin           2014-10-09  159  		mm->arg_start, mm->arg_end, mm->env_start, mm->env_end,
+31c9afa6db122a Sasha Levin           2014-10-09  160  		mm->binfmt, mm->flags, mm->core_state,
+31c9afa6db122a Sasha Levin           2014-10-09  161  #ifdef CONFIG_AIO
+31c9afa6db122a Sasha Levin           2014-10-09  162  		mm->ioctx_table,
+31c9afa6db122a Sasha Levin           2014-10-09  163  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  164  #ifdef CONFIG_MEMCG
+31c9afa6db122a Sasha Levin           2014-10-09  165  		mm->owner,
+31c9afa6db122a Sasha Levin           2014-10-09  166  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  167  		mm->exe_file,
+31c9afa6db122a Sasha Levin           2014-10-09  168  #ifdef CONFIG_MMU_NOTIFIER
+31c9afa6db122a Sasha Levin           2014-10-09  169  		mm->mmu_notifier_mm,
+31c9afa6db122a Sasha Levin           2014-10-09  170  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  171  #ifdef CONFIG_NUMA_BALANCING
+31c9afa6db122a Sasha Levin           2014-10-09  172  		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
+31c9afa6db122a Sasha Levin           2014-10-09  173  #endif
+16af97dc5a8975 Nadav Amit            2017-08-10 @174  		atomic_read(&mm->tlb_flush_pending),
+b8eceeb99014cf Vlastimil Babka       2016-03-15 @175  		mm->def_flags, &mm->def_flags
+31c9afa6db122a Sasha Levin           2014-10-09  176  	);
+31c9afa6db122a Sasha Levin           2014-10-09  177  }
+31c9afa6db122a Sasha Levin           2014-10-09  178  
 
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1367  
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1368  STATIC int
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1369  xfs_qm_flush_one(
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1370  	struct xfs_mount	*mp,
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1371  	xfs_dqtype_t		type,
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1372  	unsigned long		*idx,
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1373  	struct list_head	*buffer_list)
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1374  {
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1375  	struct xfs_quotainfo	*qi = mp->m_quotainfo;
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1376  	struct radix_tree_root	*tree = xfs_dquot_tree(qi, type);
-fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1377  	struct xfs_buf		*bp = NULL;
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1378  	struct xfs_dquot	*dqp;
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1379  	int			error;
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1380  
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1381  	mutex_lock(&qi->qi_tree_lock);
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1382  	if (!radix_tree_gang_lookup(tree, (void **)&dqp, *idx, 1)) {
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1383  		mutex_unlock(&qi->qi_tree_lock);
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1384  		*idx = 0;
-662f80f12918cb fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1385  		return 0;
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1386  	}
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1387  
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1388  	*idx = dqp->q_id + 1;
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1389  	if (!lockref_get_not_dead(&dqp->q_lockref)) {
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1390  		mutex_unlock(&qi->qi_tree_lock);
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1391  		return -EAGAIN;
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1392  	}
-c894f1aafc49e6 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1393  	mutex_unlock(&qi->qi_tree_lock);
-662f80f12918cb fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1394  
-9053ad45ff46f1 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-18  1395  	mutex_lock(&dqp->q_qlock);
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14 @1396  	if (!XFS_DQ_IS_DIRTY(dqp))
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1397  		goto out_unlock;
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1398  
-d62016b1a2df24 fs/xfs/xfs_qm.c       Dave Chinner      2025-06-26  1399  	xfs_qm_dqunpin_wait(dqp);
-d62016b1a2df24 fs/xfs/xfs_qm.c       Dave Chinner      2025-06-26  1400  	xfs_dqflock(dqp);
-7912e7fef2aebe fs/xfs/xfs_qm.c       Brian Foster      2017-06-14  1401  
-ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1402  	error = xfs_dquot_use_attached_buf(dqp, &bp);
-fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1403  	if (error)
-fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1404  		goto out_unlock;
-ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1405  	if (!bp) {
-ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1406  		error = -EFSCORRUPTED;
-ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1407  		goto out_unlock;
-ca378189fdfa89 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1408  	}
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1409  
-a40fe30868ba43 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1410  	error = xfs_qm_dqflush(dqp, bp);
-a40fe30868ba43 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1411  	if (!error)
-43ff2122e6492b fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1412  		xfs_buf_delwri_queue(bp, buffer_list);
-fe7257fd4b8ae9 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-04-23  1413  	xfs_buf_relse(bp);
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1414  out_unlock:
-df288224396047 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1415  	mutex_unlock(&dqp->q_qlock);
-df288224396047 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1416  	xfs_qm_dqrele(dqp);
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1417  	return error;
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1418  }
-b84a3a96751f93 fs/xfs/xfs_qm.c       Christoph Hellwig 2012-03-14  1419  
+:::::: The code at line 174 was first introduced by commit
+:::::: 16af97dc5a8975371a83d9e30a64038b48f40a2d mm: migrate: prevent racy access to tlb_flush_pending
 
-:::::: The code at line 1396 was first introduced by commit
-:::::: b84a3a96751f93071c1863f2962273973c8b8f5e xfs: remove the per-filesystem list of dquots
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Ben Myers <bpm@sgi.com>
+:::::: TO: Nadav Amit <nadav.amit@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
