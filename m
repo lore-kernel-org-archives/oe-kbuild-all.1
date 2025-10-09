@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D1D23AE93
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 18:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07642556E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 19:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760036250; cv=none; b=OR74CYiDABmsJSUHGj5EdI8k2msJCSILEg1qKszTkrCxCLAG1+xcVbdnrLGWPxbWH6TjG4ekbuqkDrOEcyPyiIni6Y/s0ebYapRE/YCG5KJW+4A9ybigT+4aCTPO/I7PBTx9fCiemOJEMhXHymJDzqkER7so+XccD4JNh4yfpDw=
+	t=1760036972; cv=none; b=dpi0yzjS/sAxVZNloMp8oCeBXgCCdogK6shDCL18D52LdzGQCDkqv6jskmk4MxjBV75G3sLRE2sj3YH/20ufH8gd7rOzyXn2kXkSKoJAV1+lMQMzLz2xa95FgLC3R41iJ/FQxWegdGSWWhrzT7Qb7N7kTOEgAm4qHsiZ0K8+RmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760036250; c=relaxed/simple;
-	bh=z/hRY5UwnUIsDZi/90Kdq5nMnoSNuUScfz8ZpHARnso=;
+	s=arc-20240116; t=1760036972; c=relaxed/simple;
+	bh=Xx5KliLyAPs5x58LOJGcBxHWJMPp4C3kkAlSs+Y/zAA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O8Yr+OMRyt5qM+hTPX5YQ4P4ugWPOoynJQgBIST5UJYFL3BBQuElpec7SGtCwZeWx2MpoeZgCAxUoqftaEt2Pb5sgcI1t4AeQxKQdxFnXMDEK2/PJgY6NHY4Paf+by2rnhmGoZcEa6xUBqKwumiK9CIY59XT/X6e4JAhP8Ku77Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdrWRhQo; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=ojUFozfheLHCLVJMMSkZjWTi92t6FIfVi2z4dKtYXF/6GFlMpRRiEMt2I0m85kcOT2egvqnekfv8NFHEFOTedk/tSbM395zTFMAqc7AhrrVyg1pbOmctqDkP6+odWYuoqG5/KSU0ppMwV96Za6j3Bc94DubMB+/ll4LTdeU16kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SYkbSTYA; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdrWRhQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SYkbSTYA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760036249; x=1791572249;
+  t=1760036971; x=1791572971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z/hRY5UwnUIsDZi/90Kdq5nMnoSNuUScfz8ZpHARnso=;
-  b=cdrWRhQod8yLrNUoL3WxuGGF2N05leLZ4YYDgSW8FpU9tpgVC/SKXR1a
-   6JPZ4tOrrJ6V/1zWwdMi045VYB+pKH2DJPjQ+B6VqWzKXO+1RWsfYIVYW
-   VY45ebvrPhOny7OgSSBVdfzsxSweuS4hU64PAmaKtOKNAdNGtpQJtMm/0
-   Fp8D/gPFVExLd9sWexcyiwBlEoypQ1idFH3zJXzHATZ/CeXmbOUGWVkod
-   70CEyaUAA+oU75JxKkDVWQIgqVjouYb6nNOWVm66NiPjVOdC2OlUYittA
-   7DgEAbHv2BScSDMtFM32WfCklRgMYIs2Jbx64A5PrzVRhBCiuet578D4h
-   A==;
-X-CSE-ConnectionGUID: V6WzH9UESpqWMpXiBpODhQ==
-X-CSE-MsgGUID: PYC1Is5qTZqPnzckj+FeaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62141948"
+  bh=Xx5KliLyAPs5x58LOJGcBxHWJMPp4C3kkAlSs+Y/zAA=;
+  b=SYkbSTYAM8Nb41nTKZsQxeKbUILLLJ5Xdv7RQ6G4r2xCacEUMHgBoRp2
+   n5kuQzxDcbxZySQXZHxv2oZmB1lftiOWtTwS3ZRN/1leiHD1GmyM7tT4x
+   Qebo/HlBnlkS5dWgt8kVB6WgLnls9SE0zcCzhIc1XTCVxjqcxQP9a6Zs7
+   87ilIP5GBAjSWF6jk2nj3aCTCsR8CiY79VS8bHcayAjCPo0BIqyfBAXp3
+   tok0EMpJwODYgKa3Tq6uE4YCS779EPJLBWykbWV51NL3vF6LKtvjMhbpg
+   3PTY4y2gvMBM5aBo8aedPl8LvJERdSWa1eqKmBXtxbnRrQxKVMrUIyNM0
+   g==;
+X-CSE-ConnectionGUID: giaJ4Zf5RKaKBabnXmGTiQ==
+X-CSE-MsgGUID: typIUOZhRsOUjaTf6HPJZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73362263"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="62141948"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 11:57:28 -0700
-X-CSE-ConnectionGUID: XC5Hr1sWTx6A5PRYl6HCQw==
-X-CSE-MsgGUID: fadd3hj/STqk1vY3UptDCA==
+   d="scan'208";a="73362263"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 12:09:30 -0700
+X-CSE-ConnectionGUID: 2VyYTLmqTcWpVumgy4+FtQ==
+X-CSE-MsgGUID: Ksa7ANbnRnWtPYz9bYp8sA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="186047590"
+   d="scan'208";a="211439777"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Oct 2025 11:57:26 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 Oct 2025 12:09:29 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6vpM-0001En-0E;
-	Thu, 09 Oct 2025 18:57:24 +0000
-Date: Fri, 10 Oct 2025 02:57:14 +0800
+	id 1v6w10-0001GJ-1H;
+	Thu, 09 Oct 2025 19:09:26 +0000
+Date: Fri, 10 Oct 2025 03:08:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chao Yu <chao@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 7/8] fs/f2fs/gc.c:1272:17: warning: passing
+Subject: [chao:bugfix/common 7/8] fs/f2fs/gc.c:1272:31: error: passing
  argument 1 of 'ERR_PTR' makes integer from pointer without a cast
-Message-ID: <202510100226.wSzrD5pI-lkp@intel.com>
+Message-ID: <202510100242.gY7XTRWR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,23 +65,23 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
 head:   f413b3ee5d939ae78a851e6451d374f0d4772b15
 commit: 61d4bb37555be9c60f096a988d05569095c789f3 [7/8] f2fs: use f2fs_filemap_get_folio() instead of f2fs_pagecache_get_page()
-config: riscv-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100226.wSzrD5pI-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100226.wSzrD5pI-lkp@intel.com/reproduce)
+config: sh-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100242.gY7XTRWR-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100242.gY7XTRWR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100226.wSzrD5pI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100242.gY7XTRWR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    fs/f2fs/gc.c: In function 'ra_data_block':
->> fs/f2fs/gc.c:1272:17: warning: passing argument 1 of 'ERR_PTR' makes integer from pointer without a cast [-Wint-conversion]
-    1272 |   err = ERR_PTR(efolio);
-         |                 ^~~~~~
-         |                 |
-         |                 struct folio *
+>> fs/f2fs/gc.c:1272:31: error: passing argument 1 of 'ERR_PTR' makes integer from pointer without a cast [-Wint-conversion]
+    1272 |                 err = ERR_PTR(efolio);
+         |                               ^~~~~~
+         |                               |
+         |                               struct folio *
    In file included from include/linux/cleanup.h:6,
                     from include/linux/preempt.h:11,
                     from include/linux/spinlock.h:56,
@@ -92,34 +92,21 @@ All warnings (new ones prefixed by >>):
    include/linux/err.h:39:48: note: expected 'long int' but argument is of type 'struct folio *'
       39 | static inline void * __must_check ERR_PTR(long error)
          |                                           ~~~~~^~~~~
->> fs/f2fs/gc.c:1272:7: warning: assignment to 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-    1272 |   err = ERR_PTR(efolio);
-         |       ^
+>> fs/f2fs/gc.c:1272:21: error: assignment to 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+    1272 |                 err = ERR_PTR(efolio);
+         |                     ^
    fs/f2fs/gc.c: In function 'move_data_block':
-   fs/f2fs/gc.c:1414:17: warning: passing argument 1 of 'ERR_PTR' makes integer from pointer without a cast [-Wint-conversion]
-    1414 |   err = ERR_PTR(efolio);
-         |                 ^~~~~~
-         |                 |
-         |                 struct folio *
-   In file included from include/linux/cleanup.h:6,
-                    from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from fs/f2fs/gc.c:8:
+   fs/f2fs/gc.c:1414:31: error: passing argument 1 of 'ERR_PTR' makes integer from pointer without a cast [-Wint-conversion]
+    1414 |                 err = ERR_PTR(efolio);
+         |                               ^~~~~~
+         |                               |
+         |                               struct folio *
    include/linux/err.h:39:48: note: expected 'long int' but argument is of type 'struct folio *'
       39 | static inline void * __must_check ERR_PTR(long error)
          |                                           ~~~~~^~~~~
-   fs/f2fs/gc.c:1414:7: warning: assignment to 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-    1414 |   err = ERR_PTR(efolio);
-         |       ^
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
-   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
-   Selected by [y]:
-   - RISCV [=y]
+   fs/f2fs/gc.c:1414:21: error: assignment to 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+    1414 |                 err = ERR_PTR(efolio);
+         |                     ^
 
 
 vim +/ERR_PTR +1272 fs/f2fs/gc.c
