@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D7DB663
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 15:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35462EC0B6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 15:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760022171; cv=none; b=CAjUVPJfJWJ4Lwic5F3DlaT6N3Tv5VGsMSwGnCtU4FXfYJssZ2J3gZkEeUJgEpJRDxhTMLq/S8A/FKGSVeH0+yIsa5dNJZV8vvLabhJxtndDRZk4hL+ED6U6Erl07+VKRW8QWBHz4JeVsKGctRKbJpggoReKsslxvCt5ZAtBXNo=
+	t=1760022773; cv=none; b=bh2fp5Y1A1UM3ll+ZfV1nBMuG1OGZDVnKKDR3b6+JJXLOpyq/36KbMZhUkOsXu/WnukynZbKaErbLyWn7FnCZv6wzK2mzFIHgcDvYvfpiyenqzqYFxRUKDEUJ51G1JpgKurTf6oZyCj58PrJktZsmtUNTXo/4JSXGSONVGViQjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760022171; c=relaxed/simple;
-	bh=Vvd+uQ15TZQZRp2x7CkfO8IjS19BxwdIMaoJgQIfurU=;
+	s=arc-20240116; t=1760022773; c=relaxed/simple;
+	bh=eBA4yNjSGfgUGGy2ke8Yq5V84j+9qYReVHlmY/I45wo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BvEwDtQ3P+R0WZGFPm20d2GLb++7+YFlGETMk3Eg4srGPUgfJAblnDy6z5zIwO7lRwkT51gFikgXMX8IiXgJ6wgASNA/gVaHFETXOBWsanEkQ7Kv+KuIvemvsUlKfMnWwmwkmnWUL81RZ/lgWovkSFcgRZm6F01N+FmgJWF1Y94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCPnofQO; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=OdMSfn5hNgaUcdnL7UHsgWiZOuvq0XNaFPnDc61u59wHt2e1rJZoQalNT/jGjo3LPN5fvkMcYSotX3rngHrhrELyhf5XarhbS8dGffeB8rS5C4fUjPf0Mbd/6fv0RbZJs7bwxSJDy07nLYb9gmWGn26FPrSjO3jFtXw2Thg5x+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKqgJqX7; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCPnofQO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKqgJqX7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760022169; x=1791558169;
+  t=1760022769; x=1791558769;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vvd+uQ15TZQZRp2x7CkfO8IjS19BxwdIMaoJgQIfurU=;
-  b=FCPnofQO6nZzZ5zyTDcEV39Ova8wUctqacxI8mXxzyXpeHHCbIMr1MNO
-   XrGsu9Xpx2wjd3b7CtEdO/Meh5mGoer4nv6GLDE+PXx9carNOtCVsab3w
-   JOnZCDJjxk5igEYPbY9/4qcIx6He6g6g+JkZpQMVdiNx33geIBviZRUrc
-   3yOZPk6iHEauo4BD/6Db/hjFh5G/0f2a4OcQLGTsy2TGWprN2/u1yTmj6
-   50j5llFMSdEf4IT73HruGZ/CkpPLHtp/KX3UYTg0UBijO6O6q9bumL3yd
-   7WY5YKSh+lAvdZW670NQ8m7DGPIdHIEGB6MeQuJ/reUp9qL+mBGhaqQom
-   A==;
-X-CSE-ConnectionGUID: EwbZJNlxTOGw/rq2tK5KsQ==
-X-CSE-MsgGUID: S23QvKlHTfqpse1vh9+Pxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="64855785"
+  bh=eBA4yNjSGfgUGGy2ke8Yq5V84j+9qYReVHlmY/I45wo=;
+  b=PKqgJqX7gMO5E/HspuN79Pq7x9aPXaPBQaMde/d/aJIe3VVOrCnhYouy
+   w34fcD6DIvpWVB5jqRuAkE6ZVI9RtLMY1TNHENo8homMFuCr8Hi2IQZdR
+   HlxruO1h+S2uA9iVi53JSXFb9tT/jp/U+qIIbN/dEUQSwxhBTr5m1Hqwu
+   Tsm2KnZNhkZc3fPeK10tE7gb3NUoqd9lR4gocWiL2h8Ff4fEpyejDO+Wy
+   EDV4zbRl9UDI4aMTHsZHvNDhZVDUlKL6WV5Kg+TwFD03TUyrk6l2APz8R
+   w0rXzMV4u9LWcCAjGopYZfoJt8vFKPLrqodY/KW57xcxxdFeOsSk5afmR
+   w==;
+X-CSE-ConnectionGUID: iJwHU4rhQte+e2IO4symRg==
+X-CSE-MsgGUID: 6l2wLr3WR22oxUW4xo8L1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="61442571"
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="64855785"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 08:02:45 -0700
-X-CSE-ConnectionGUID: JUGFxcG4SoirrWk9/oc5rw==
-X-CSE-MsgGUID: s/yQW75WTE+wLStkX0ktsg==
+   d="scan'208";a="61442571"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 08:12:48 -0700
+X-CSE-ConnectionGUID: 8Zg5q880S9KBMfb+VWNk7Q==
+X-CSE-MsgGUID: UjlWaxeYRXKGbzhTdBHUfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="204440396"
+   d="scan'208";a="179974980"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2025 08:02:44 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 Oct 2025 08:12:46 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6sAD-0000s3-3B;
-	Thu, 09 Oct 2025 15:02:41 +0000
-Date: Thu, 9 Oct 2025 23:01:50 +0800
+	id 1v6sJv-0000sn-1S;
+	Thu, 09 Oct 2025 15:12:43 +0000
+Date: Thu, 9 Oct 2025 23:12:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Li Nan <linan122@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1343/1343] fs/ext4/mballoc.o: warning:
- objtool: ext4_mb_complex_scan_group()+0x11a4: unreachable instruction
-Message-ID: <202510092235.vuhTySNB-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3225/3225] block/bio.c:412: warning: Function
+ parameter or member 'nr_iovecs_int' not described in 'bio_alloc_bioset'
+Message-ID: <202510092349.7PXA9UVS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +62,166 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Theodore,
+Hi Li,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b0534aa9eeb9c05e780430c051477b8eb5768330
-commit: 41298197ead9e85ee2ec1d52122f03fd1863cff2 [1343/1343] ext4: convert BUG_ON's to WARN_ON's in mballoc.c
-config: x86_64-randconfig-101-20241223 (https://download.01.org/0day-ci/archive/20251009/202510092235.vuhTySNB-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251009/202510092235.vuhTySNB-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ed0b197442ae45344fe89df38c8549ec188846b6
+commit: 6381672514c4d94637cd4db830b8644440abe99a [3225/3225] block: fix kabi broken
+config: arm64-randconfig-001-20251009 (https://download.01.org/0day-ci/archive/20251009/202510092349.7PXA9UVS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251009/202510092349.7PXA9UVS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510092235.vuhTySNB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510092349.7PXA9UVS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/mballoc.c:4734: warning: Function parameter or member 'bh' not described in 'ext4_free_blocks'
->> fs/ext4/mballoc.o: warning: objtool: ext4_mb_complex_scan_group()+0x11a4: unreachable instruction
+>> block/bio.c:412: warning: Function parameter or member 'nr_iovecs_int' not described in 'bio_alloc_bioset'
+>> block/bio.c:412: warning: Excess function parameter 'nr_iovecs' description in 'bio_alloc_bioset'
+
+
+vim +412 block/bio.c
+
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  374  
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  375  /**
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  376   * bio_alloc_bioset - allocate a bio for I/O
+519c8e9ffd8614 block/bio.c Randy Dunlap        2017-10-16  377   * @gfp_mask:   the GFP_* mask given to the slab allocator
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  378   * @nr_iovecs:	number of iovecs to pre-allocate
+db18efac0bd644 fs/bio.c    Jaak Ristioja       2010-01-15  379   * @bs:		the bio_set to allocate from.
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  380   *
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  381   * Description:
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  382   *   If @bs is NULL, uses kmalloc() to allocate the bio; else the allocation is
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  383   *   backed by the @bs's mempool.
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  384   *
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  385   *   When @bs is not NULL, if %__GFP_DIRECT_RECLAIM is set then bio_alloc will
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  386   *   always be able to allocate a bio. This is due to the mempool guarantees.
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  387   *   To make this work, callers must never allocate more than 1 bio at a time
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  388   *   from this pool. Callers that need to allocate more than 1 bio must always
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  389   *   submit the previously allocated bio for IO before attempting to allocate
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  390   *   a new one. Failure to do so can cause deadlocks under memory pressure.
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  391   *
+ed00aabd5eb9fb block/bio.c Christoph Hellwig   2020-07-01  392   *   Note that when running under submit_bio_noacct() (i.e. any block
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  393   *   driver), bios are not submitted until after you return - see the code in
+ed00aabd5eb9fb block/bio.c Christoph Hellwig   2020-07-01  394   *   submit_bio_noacct() that converts recursion into iteration, to prevent
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  395   *   stack overflows.
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  396   *
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  397   *   This would normally mean allocating multiple bios under
+ed00aabd5eb9fb block/bio.c Christoph Hellwig   2020-07-01  398   *   submit_bio_noacct() would be susceptible to deadlocks, but we have
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  399   *   deadlock avoidance code that resubmits any blocked bios from a rescuer
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  400   *   thread.
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  401   *
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  402   *   However, we do not guarantee forward progress for allocations from other
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  403   *   mempools. Doing multiple allocations from the same mempool under
+ed00aabd5eb9fb block/bio.c Christoph Hellwig   2020-07-01  404   *   submit_bio_noacct() should be avoided - instead, use bio_set's front_pad
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  405   *   for per bio allocations.
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  406   *
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  407   *   RETURNS:
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  408   *   Pointer to new bio on success, NULL on failure.
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  409   */
+6381672514c4d9 block/bio.c Li Lingfeng         2025-02-10  410  struct bio *bio_alloc_bioset(gfp_t gfp_mask, unsigned int nr_iovecs_int,
+7a88fa19194458 block/bio.c Dan Carpenter       2017-03-23  411  			     struct bio_set *bs)
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16 @412  {
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  413  	gfp_t saved_gfp = gfp_mask;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  414  	unsigned front_pad;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  415  	unsigned inline_vecs;
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  416  	struct bio_vec *bvl = NULL;
+451a9ebf653d28 fs/bio.c    Tejun Heo           2009-04-15  417  	struct bio *bio;
+451a9ebf653d28 fs/bio.c    Tejun Heo           2009-04-15  418  	void *p;
+6381672514c4d9 block/bio.c Li Lingfeng         2025-02-10  419  	unsigned short nr_iovecs = (unsigned short)nr_iovecs_int;
+0a0d96b03a1f3b fs/bio.c    Jens Axboe          2008-09-11  420  
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  421  	if (!bs) {
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  422  		if (nr_iovecs > UIO_MAXIOV)
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  423  			return NULL;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  424  
+1f4fe21cf45c79 block/bio.c Gustavo A. R. Silva 2020-06-19  425  		p = kmalloc(struct_size(bio, bi_inline_vecs, nr_iovecs), gfp_mask);
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  426  		front_pad = 0;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  427  		inline_vecs = nr_iovecs;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  428  	} else {
+d8f429e1669b97 block/bio.c Junichi Nomura      2014-10-03  429  		/* should not use nobvec bioset for nr_iovecs > 0 */
+8aa6ba2f6e3dea block/bio.c Kent Overstreet     2018-05-08  430  		if (WARN_ON_ONCE(!mempool_initialized(&bs->bvec_pool) &&
+8aa6ba2f6e3dea block/bio.c Kent Overstreet     2018-05-08  431  				 nr_iovecs > 0))
+d8f429e1669b97 block/bio.c Junichi Nomura      2014-10-03  432  			return NULL;
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  433  		/*
+ed00aabd5eb9fb block/bio.c Christoph Hellwig   2020-07-01  434  		 * submit_bio_noacct() converts recursion to iteration; this
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  435  		 * means if we're running beneath it, any bios we allocate and
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  436  		 * submit will not be submitted (and thus freed) until after we
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  437  		 * return.
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  438  		 *
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  439  		 * This exposes us to a potential deadlock if we allocate
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  440  		 * multiple bios from the same bio_set() while running
+ed00aabd5eb9fb block/bio.c Christoph Hellwig   2020-07-01  441  		 * underneath submit_bio_noacct(). If we were to allocate
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  442  		 * multiple bios (say a stacking block driver that was splitting
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  443  		 * bios), we would deadlock if we exhausted the mempool's
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  444  		 * reserve.
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  445  		 *
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  446  		 * We solve this, and guarantee forward progress, with a rescuer
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  447  		 * workqueue per bio_set. If we go to allocate and there are
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  448  		 * bios on current->bio_list, we first try the allocation
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  449  		 * without __GFP_DIRECT_RECLAIM; if that fails, we punt those
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  450  		 * bios we would be blocking to the rescuer workqueue before
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  451  		 * we retry with the original gfp_flags.
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  452  		 */
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  453  
+f5fe1b51905df7 block/bio.c NeilBrown           2017-03-10  454  		if (current->bio_list &&
+f5fe1b51905df7 block/bio.c NeilBrown           2017-03-10  455  		    (!bio_list_empty(&current->bio_list[0]) ||
+47e0fb461fca1a block/bio.c NeilBrown           2017-06-18  456  		     !bio_list_empty(&current->bio_list[1])) &&
+47e0fb461fca1a block/bio.c NeilBrown           2017-06-18  457  		    bs->rescue_workqueue)
+d0164adc89f6bb block/bio.c Mel Gorman          2015-11-06  458  			gfp_mask &= ~__GFP_DIRECT_RECLAIM;
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  459  
+8aa6ba2f6e3dea block/bio.c Kent Overstreet     2018-05-08  460  		p = mempool_alloc(&bs->bio_pool, gfp_mask);
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  461  		if (!p && gfp_mask != saved_gfp) {
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  462  			punt_bios_to_rescuer(bs);
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  463  			gfp_mask = saved_gfp;
+8aa6ba2f6e3dea block/bio.c Kent Overstreet     2018-05-08  464  			p = mempool_alloc(&bs->bio_pool, gfp_mask);
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  465  		}
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  466  
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  467  		front_pad = bs->front_pad;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  468  		inline_vecs = BIO_INLINE_VECS;
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  469  	}
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  470  
+451a9ebf653d28 fs/bio.c    Tejun Heo           2009-04-15  471  	if (unlikely(!p))
+451a9ebf653d28 fs/bio.c    Tejun Heo           2009-04-15  472  		return NULL;
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  473  
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  474  	bio = p + front_pad;
+3a83f4677539bc block/bio.c Ming Lei            2016-11-22  475  	bio_init(bio, NULL, 0);
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  476  
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  477  	if (nr_iovecs > inline_vecs) {
+ed996a52c868b6 block/bio.c Christoph Hellwig   2016-07-19  478  
+958384da6a734e block/bio.c Christoph Hellwig   2025-02-10  479  		bvl = bvec_alloc(&bs->bvec_pool, &nr_iovecs, gfp_mask);
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  480  		if (!bvl && gfp_mask != saved_gfp) {
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  481  			punt_bios_to_rescuer(bs);
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  482  			gfp_mask = saved_gfp;
+958384da6a734e block/bio.c Christoph Hellwig   2025-02-10  483  			bvl = bvec_alloc(&bs->bvec_pool, &nr_iovecs, gfp_mask);
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  484  		}
+df2cb6daa4cbc3 fs/bio.c    Kent Overstreet     2012-09-10  485  
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  486  		if (unlikely(!bvl))
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  487  			goto err_free;
+a38352e0ac02db fs/bio.c    Kent Overstreet     2012-05-25  488  
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  489  	} else if (nr_iovecs) {
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  490  		bvl = bio->bi_inline_vecs;
+392ddc32982a5c fs/bio.c    Jens Axboe          2008-12-23  491  	}
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  492  
+3f86a82aeb03e6 fs/bio.c    Kent Overstreet     2012-09-06  493  	bio->bi_pool = bs;
+392ddc32982a5c fs/bio.c    Jens Axboe          2008-12-23  494  	bio->bi_max_vecs = nr_iovecs;
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  495  	bio->bi_io_vec = bvl;
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  496  	return bio;
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  497  
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  498  err_free:
+8aa6ba2f6e3dea block/bio.c Kent Overstreet     2018-05-08  499  	mempool_free(p, &bs->bio_pool);
+34053979fb1d92 fs/bio.c    Ingo Molnar         2009-02-21  500  	return NULL;
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  501  }
+a112a71d45b5e4 fs/bio.c    H Hartley Sweeten   2009-09-26  502  EXPORT_SYMBOL(bio_alloc_bioset);
+^1da177e4c3f41 fs/bio.c    Linus Torvalds      2005-04-16  503  
+
+:::::: The code at line 412 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
