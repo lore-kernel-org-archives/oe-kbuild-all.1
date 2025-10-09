@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D4725782A;
-	Thu,  9 Oct 2025 19:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2987125A655
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 20:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760038837; cv=none; b=B2jEdWicO8wK6/cWaOSbj0yi7Ho6KHuW6cYw7ZTrpVziOHs95/5YRv9761BB/jucFtoENNSR+JSClZaVFB8pnpUEVO7rPTtiwTjIjhNwX3W4S44OiCCpfnOt943Gka3C5MCNaRjb2FXAwHa4iElEIHS1pesXXfw1yBetRCIKUD0=
+	t=1760040159; cv=none; b=btw9/V9Oe/pDw++Q3Amj+mHp2X3Rps14zPkZhtgcQz6WJid9jZ+PIgRixUl/nLqWbfl9TvIRAjNLPfWeUNI/TFNO1mKubFfB30vokthzhLWf50E2Wvxp55yUDhorZG9Ib3/tYqa2ZTmXg4skX+A+gt9jjS6fI38Ph8vodjxTX1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760038837; c=relaxed/simple;
-	bh=s9+Yrni+QqOzxGduaFuMdR1jUz13vxS1Vd6ubw1Ixhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptkGMQsdJiV0j0xskZBwi4Uv9sDFiZdLHuWbr3EfXndFSx6g6X2C6FVPapQJOQJMznVFpDVxqowkdUDy5Ts5yei+1lxD+ONoaPjRilD4Fz+//lpuRKHEEqEkFN/fmEyAyipRWOpA851+QEVo+kWrMq5h7XpbK3d3jib7Yc+K0MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oKeExOQ+; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1760040159; c=relaxed/simple;
+	bh=aH/nQNbOf1C1fDA05OKHVQZSUxiJwJSjFw576qEgLUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uwDiZ5nirbO2BVNSRpXlwtnyVl79zNUxQ+21of0ubkgqK/UOrxzUp5pW14s/pHtZ345MRY6/RDT4xfIfWyqp/KE9ZmcwwbZujyKF8TeMaHEGWPHzMIP5VZAMp5Lemf8mQhxk8D6PsvlJDSkW1UPOFUgP8JX0uetXmzP1hDYUKiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2f6c1m0; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oKeExOQ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2f6c1m0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760038836; x=1791574836;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s9+Yrni+QqOzxGduaFuMdR1jUz13vxS1Vd6ubw1Ixhw=;
-  b=oKeExOQ+L37BYzSJcZLt6fHBPyiPzv1g8TG2SNeTD9WfsljswLTPq9kU
-   0f1McRU3en3u5izCp1hIGwpHC+D+ahtuEpBETvtxjqZGVE9t1BqPSslUy
-   9s4wJxepIHh0oLdlzG5i2h+JTVefx3XKP2yjKzWfAUjVBpYF2KOauXk/O
-   Zc4myaNbWMi6b30zMB9IiUEU4qLK4eGvgRIJu8i8wClKvABcCuY9fbcbw
-   cOHhuZW9xAKJHJEHeaxysmt7gaGQ64CjsosojKy4ctPK7Td34dvqbVZR3
-   qQzewQ2MHFrb7J6DMHy+AW9rzSselFfR0GuWW7tzd9dFNOElBbxeYUV3I
-   w==;
-X-CSE-ConnectionGUID: nOm5MPtYToKE0elL7Alv7Q==
-X-CSE-MsgGUID: ccpGdjNCSEWBWqikUqDv8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="66114411"
+  t=1760040159; x=1791576159;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aH/nQNbOf1C1fDA05OKHVQZSUxiJwJSjFw576qEgLUQ=;
+  b=K2f6c1m0oed1XhXE4hwDSlQDixsvHq3B63EodeBNBxUXf9UnbyaAxCeS
+   43Iw+6n+y+J7q/uoI/oG3tNzVdsDSxJglUjivLmn7I3chBY9F7uu8PPda
+   1u156x7jAXjbKs38WqFQMOvjkyRSqPJSMcINZtBjovTZpRhsnQr50ity3
+   5FDLf9uofX7GMtYvX/xOB+GSEUpFE/XE3K47+kc5FokDI425KbpvhegBE
+   AhiMA/4Q3+4tvGBD9l5rYD2h2tup+5e5N9+hqXijuDU9/WV91pkDtVXS3
+   c/0dNVYduiVEFJVQ9EEiayYFtOB+MjO/KfBFLnwFa9crWy+PjR7CP/HLv
+   Q==;
+X-CSE-ConnectionGUID: kJ4t8wsoQHiAufY/Tk7dvg==
+X-CSE-MsgGUID: 6/p+wWfoTdCSaUhjozGeog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62301775"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="66114411"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 12:40:36 -0700
-X-CSE-ConnectionGUID: g7n3pGkOTR+meJ82k4WEUg==
-X-CSE-MsgGUID: Ehccs8cHReuk5eO1PxwHAQ==
+   d="scan'208";a="62301775"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 13:02:38 -0700
+X-CSE-ConnectionGUID: GNIShs5iSTuCC2s2NCSuKA==
+X-CSE-MsgGUID: /O5fw0onSVqXtzsup9FRyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="185179416"
+   d="scan'208";a="184829054"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2025 12:40:33 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Oct 2025 13:02:36 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6wV5-0001KF-29;
-	Thu, 09 Oct 2025 19:40:31 +0000
-Date: Fri, 10 Oct 2025 03:40:28 +0800
+	id 1v6wqQ-0001MF-1h;
+	Thu, 09 Oct 2025 20:02:34 +0000
+Date: Fri, 10 Oct 2025 04:01:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, riel@surriel.com,
-	frederic@kernel.org, atomlin@atomlin.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] tick/nohz: avoid showing '(null)' if nohz_full= not set
-Message-ID: <202510100304.IpfE7EKh-lkp@intel.com>
-References: <20251006005824.76187-1-atomlin@atomlin.com>
+To: Eric Biggers <ebiggers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:wip-wrapped-keys-pixel 3/5]
+ drivers/soc/google/gsa_mbox.c:73:13: error: implicit declaration of function
+ 'readl'
+Message-ID: <202510100336.iy40BkPQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,53 +62,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251006005824.76187-1-atomlin@atomlin.com>
 
-Hi Aaron,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.17 next-20251009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tick-nohz-avoid-showing-null-if-nohz_full-not-set/20251009-142404
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20251006005824.76187-1-atomlin%40atomlin.com
-patch subject: [PATCH] tick/nohz: avoid showing '(null)' if nohz_full= not set
-config: x86_64-randconfig-078-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100304.IpfE7EKh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100304.IpfE7EKh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-wrapped-keys-pixel
+head:   ecc5e8a50b95d1f6fc660f096cf5898c504c5faf
+commit: d64dd19171cd5ed080da78948efd530080ba42fa [3/5] soc: google: Add driver for Google Security Anchor (GSA)
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251010/202510100336.iy40BkPQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100336.iy40BkPQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100304.IpfE7EKh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100336.iy40BkPQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/base/cpu.c:307:10: warning: address of array 'tick_nohz_full_mask' will always evaluate to 'true' [-Wpointer-bool-conversion]
-     307 |         return !tick_nohz_full_mask ?
-         |                ~^~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   drivers/soc/google/gsa_mbox.c: In function 'gsa_mbox_mask_irq0':
+>> drivers/soc/google/gsa_mbox.c:73:13: error: implicit declaration of function 'readl' [-Wimplicit-function-declaration]
+      73 |         v = readl(mbox->base + MBOX_INTMR0_REG);
+         |             ^~~~~
+>> drivers/soc/google/gsa_mbox.c:75:9: error: implicit declaration of function 'writel' [-Wimplicit-function-declaration]
+      75 |         writel(v, mbox->base + MBOX_INTMR0_REG);
+         |         ^~~~~~
 
 
-vim +307 drivers/base/cpu.c
+vim +/readl +73 drivers/soc/google/gsa_mbox.c
 
-   302	
-   303	#ifdef CONFIG_NO_HZ_FULL
-   304	static ssize_t print_cpus_nohz_full(struct device *dev,
-   305					    struct device_attribute *attr, char *buf)
-   306	{
- > 307		return !tick_nohz_full_mask ?
-   308			sysfs_emit(buf, "\n") :
-   309			sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(tick_nohz_full_mask));
-   310	}
-   311	static DEVICE_ATTR(nohz_full, 0444, print_cpus_nohz_full, NULL);
-   312	#endif
-   313	
+    66	
+    67	static void gsa_mbox_mask_irq0(struct gsa_mbox *mbox, u32 mask)
+    68	{
+    69		u32 v;
+    70		unsigned long irq_flags;
+    71	
+    72		spin_lock_irqsave(&mbox->slock, irq_flags);
+  > 73		v = readl(mbox->base + MBOX_INTMR0_REG);
+    74		v |= mask;
+  > 75		writel(v, mbox->base + MBOX_INTMR0_REG);
+    76		mbox->exp_intmr0 = v;
+    77		spin_unlock_irqrestore(&mbox->slock, irq_flags);
+    78	}
+    79	
 
 -- 
 0-DAY CI Kernel Test Service
