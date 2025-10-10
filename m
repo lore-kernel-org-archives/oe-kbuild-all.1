@@ -1,96 +1,188 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E5E23C4E9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 08:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3920C1799F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 08:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760084391; cv=none; b=hUMfZAm1Lu69UW+kbzmQ1F9vqKPKHO0I1uVdC8q/Q180F7iY0SBTz5H4m4qpJHD0uT/SqpR1NH2t/1XBQ22Sp0KC2m2YDkYkWV+yW+Nt+T9kSTB6Y6xr97yo7yQdqgnpOqDV685V7sm8PwpwrhYfvfTR1m8NekDtiiDt7Ks5Sak=
+	t=1760085918; cv=none; b=ZzY/WHafD2VHoqnB61pVcuo/GO/nR0/6bMFfQa8/XcYFty2CkaEp4zfV7gVCcrtsTcvgcvJ6wHPJopHRW/4/9+w89xx6Iu0p/u1CUsHSwlBi8gIYx2CDmypdNTr51heF7tRXFrDWj62nreD/rvGEZYYilfHcKzAjYPszkM6j2oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760084391; c=relaxed/simple;
-	bh=Cq5sJ7aSsShFxc17IH78w46REgBf/R4daQQ88MHxHWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sGmz6tt1Staw8QVbO/VkHSUXLi0FLxpO1iHPTJA+R9OjuN0cOCPHI8Swzfcy1MgTS/03mr00LN4GDbn6gk59mAXhwrOhGgI5SRSo8SHlUo//YtGWTHiZ1b3ZpLEg5hd6dAjWkq8q3ri37YMhXMK6BbUZoZwUScYAXfzKYvN8PoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAQASiMm; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760085918; c=relaxed/simple;
+	bh=0hkmzo9sEM+b8slOw7f3y38WOERUTTPFFZDlRrSW4l0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZOladaQZ9JITy4jlXUrzfpNDVeYMUTM/4H0MLta1n/llR+3EGqazQ+c8HLZ5fU683Pc6ZOLfvuLKtQiMVF+eqc1r/f2YLYS8ROSz5b59uKIIrPsofMFU8/lO73uB0dGPxDvDn+FYR3Mc67eixIcsvRmOwjeXSgR3+XnE+F/h+k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UT31UluM; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAQASiMm"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-280fc0e9f50so3136275ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 01:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760084389; x=1760689189; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cq5sJ7aSsShFxc17IH78w46REgBf/R4daQQ88MHxHWQ=;
-        b=JAQASiMmzndZRplvCMenaEIybktdxfW1NZPZ1cL3Tb9z/aOKTO2mTCPC6ime1MF8Zr
-         63dMo6oOIHwCVxp+bu3yhWK3u7ckauP9wyyzshhmAWEu0v5ApbZwzFKazlQg3vQs2a28
-         5AWPt+bEq8E8JkJ4PHyE+uP/Vf4pGeKMiMQi4siJ8QxByqCU1gqu3qbXCx9ApmQr35nj
-         oL28m6gaFPrRmsV8+ayraXdmrfy2CKCP0o8a30cTjqV/R40G4dyax1wqbVxwtoREOHaW
-         Qp67gOEsOnXNp2croC2LBTxDqVqsm4un5yxEnh3utEVhSUdUTCBpay+itHxr4dDUBnWs
-         BTmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760084389; x=1760689189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cq5sJ7aSsShFxc17IH78w46REgBf/R4daQQ88MHxHWQ=;
-        b=P0PVyAE+bktYUB39WRpy+0dXaKgvNW/+DKPrwxZ3TSRX8CgZfOK2YY4iDYhcakazJe
-         JzGSZgYuXiOCdNEa8LKh1TpY/LoFLtLmaetERxPkCpkQ1SxKyE6Kl9A0zbb9WC6tpHai
-         BRxS8/zaKyWhte8RNS6aTRKT30jAt8uno0HW8VHRDLceHK24Xs3DK4st9zdTGY0KVEsf
-         iYJYiwwnKnsg5Zdbe8SDQKJVy3xel8u48L31AtYHd5p+9vfth87A1tbotX/2hIUScWzO
-         RsY6V1i7y/l7Z6zkaRyXFGY1LifekzrL3zsNnrXiim3gWUjEIyv+WFJw00pAOOFpHGxk
-         Gbhg==
-X-Forwarded-Encrypted: i=1; AJvYcCU89bDdT0MC9PigdoE3dlcZna+5UhFvMXDpafnYzyGiFJya8hK5fj6PQabQ2NdU+P3r4A5RwCQdisTcBFJh@lists.linux.dev
-X-Gm-Message-State: AOJu0YyU5f6HDNh6a+qhEQDGeYALBp/+0EbGG0K813VucghMniRpugGX
-	RZK5WJ/m0hMxmStOpuxhgplc8DMGUXfxM3QpS71Lyi16B8zd7T4V2LFjyAx2t63F5AYdpFXBBoD
-	2YbABRpZxqV8cYX5RAWFQpEAyLPKy+jg=
-X-Gm-Gg: ASbGncsH89Zl63KyJBI+kg+fqyab7bs8j+rAMXxUnGTgcH/XI91WBbJX2pEerx9d6wE
-	nmRUNGn0PYwIzm5symrYar406eFCRT/RrjupxLpjq2GvnYSMLIqxc/dvN6F9uThWsksmVWI6m/a
-	Jl9Jjse7/Xz7duRDKjzKfl7Agl/nq3MlcVRcuYfA2NZLQ2hSFKhVb3jqCHyfLMRJnFdctPyePs2
-	FX9rwI+rQ4PsSIIELA18f3nkZ6KMgpD4UO3+n25Ei81n/PMPgBzGEZqRSUaJMS+gRJEeiITO2yM
-	J/HrwsebgYDNQRESuolbRDM86D7nGQz8ObrN/Bohlfzo
-X-Google-Smtp-Source: AGHT+IHsGqk0VxZVnRC6qblIgP8WmMkDMtg7G1rQix4D/f/fNxV3LDfDLnO6Fj2/zAlwLN0dYCpWL+UWmTlPxiqHxts=
-X-Received: by 2002:a17:903:18c:b0:27a:186f:53ec with SMTP id
- d9443c01a7336-290273040acmr83793555ad.9.1760084389280; Fri, 10 Oct 2025
- 01:19:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UT31UluM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760085915; x=1791621915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0hkmzo9sEM+b8slOw7f3y38WOERUTTPFFZDlRrSW4l0=;
+  b=UT31UluM8O82/xS0IekHi7sBPEmqvh6HRzy8qqpMfLRofF3xwshAGyNu
+   Ak4PC5h8UXLiE/YAJ4nIrOmAhfG0mMw9HCW+z1vy+e2amFy+MPxuizX1t
+   fX70OBm81JFtOvDalhCS3OBQwludigUzD9jSw0ypjctINvQbOp69vxGfG
+   dg0PZXxtEgIc8vVAlSJAp7gUSGytVkRw8620FVl9uoBYixymV/rULRNfE
+   BcPuO6TEr4qWbXWbNmApf0gbhJ50H6kqhVpYdKGhKyWqoPaPwaDvjD1Vs
+   8a95nrSfFOf8Sndv1rXSgQoa2eeMXFiuc5lgghih5k8GKpljhSvYw6xyL
+   Q==;
+X-CSE-ConnectionGUID: skDlFSRrT8ONI4AcHUndHg==
+X-CSE-MsgGUID: LZhhYEwSQUOTCAnk9aTvhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62245337"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62245337"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 01:45:14 -0700
+X-CSE-ConnectionGUID: zT/Oa/p/ThS6t0xITBCewQ==
+X-CSE-MsgGUID: XTZn9jzPTyO0L3xrCuO3mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
+   d="scan'208";a="180034733"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2025 01:45:11 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v78kO-0002Tv-1m;
+	Fri, 10 Oct 2025 08:45:08 +0000
+Date: Fri, 10 Oct 2025 16:44:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peng Fan <peng.fan@nxp.com>, Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Andrew Davis <afd@ti.com>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 6/6] remoteproc: core: Consolidate bool flags into 1-bit
+ bitfields
+Message-ID: <202510101653.wulDfnoN-lkp@intel.com>
+References: <20251005-remoteproc-cleanup-v1-6-09a9fdea0063@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202510100127.yuqhg8uo-lkp@intel.com> <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
- <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
- <20251010060618.GA80465@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
- <CANiq72kndiqwEm-OZLd6JumAaBy7KrzYf_rDjwhtw5Uh4vdTCg@mail.gmail.com>
- <20251010074458.GA91144@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com> <CANiq72mzrJNTe6aw5zJ_vyhXO1jDR96hmvQEXPkqFj=dnwSnSA@mail.gmail.com>
-In-Reply-To: <CANiq72mzrJNTe6aw5zJ_vyhXO1jDR96hmvQEXPkqFj=dnwSnSA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 10 Oct 2025 10:19:37 +0200
-X-Gm-Features: AS18NWCOn0jUQlOTDgY6ZmGAYLoWjP7H_Q3V1N2lr7McmrZCKjd0e-TiKap1ODw
-Message-ID: <CANiq72nkvd0UApjCYUcYu19nv+Ow2irz8WEPahiAf=6N5RZiyg@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-new 36/102] error[E0425]: cannot find value `VM_READ`
- in crate `bindings`
-To: Jakub Acs <acsjakub@amazon.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251005-remoteproc-cleanup-v1-6-09a9fdea0063@nxp.com>
 
-On Fri, Oct 10, 2025 at 10:13=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Otherwise, for the moment we can go with [1]. It is just a single `#ifdef=
-`.
+Hi Peng,
 
-And if this becomes a bigger deal before we can start applying
-`bindgen`'s feature for this, we can always look into imitating
-`bindgen` to fetch the values on our own, i.e. with an extra step in
-the build or similar. It wouldn't be the first time we do things like
-that...
+kernel test robot noticed the following build errors:
 
-Cheers,
-Miguel
+[auto build test ERROR on 3b9b1f8df454caa453c7fb07689064edb2eda90a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/remoteproc-core-Drop-redundant-initialization-of-ret-in-rproc_shutdown/20251010-012012
+base:   3b9b1f8df454caa453c7fb07689064edb2eda90a
+patch link:    https://lore.kernel.org/r/20251005-remoteproc-cleanup-v1-6-09a9fdea0063%40nxp.com
+patch subject: [PATCH 6/6] remoteproc: core: Consolidate bool flags into 1-bit bitfields
+config: riscv-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101653.wulDfnoN-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101653.wulDfnoN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510101653.wulDfnoN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_probe':
+>> drivers/remoteproc/stm32_rproc.c:860:42: error: cannot take address of bit-field 'auto_boot'
+     860 |  ret = stm32_rproc_parse_dt(pdev, ddata, &rproc->auto_boot);
+         |                                          ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
+   Selected by [y]:
+   - RISCV [=y]
+
+
+vim +/auto_boot +860 drivers/remoteproc/stm32_rproc.c
+
+376ffdc044568f Mathieu Poirier  2020-07-14  832  
+13140de09cc2dd Fabien Dessenne  2019-05-14  833  static int stm32_rproc_probe(struct platform_device *pdev)
+13140de09cc2dd Fabien Dessenne  2019-05-14  834  {
+13140de09cc2dd Fabien Dessenne  2019-05-14  835  	struct device *dev = &pdev->dev;
+13140de09cc2dd Fabien Dessenne  2019-05-14  836  	struct stm32_rproc *ddata;
+13140de09cc2dd Fabien Dessenne  2019-05-14  837  	struct device_node *np = dev->of_node;
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  838  	const char *fw_name;
+13140de09cc2dd Fabien Dessenne  2019-05-14  839  	struct rproc *rproc;
+376ffdc044568f Mathieu Poirier  2020-07-14  840  	unsigned int state;
+13140de09cc2dd Fabien Dessenne  2019-05-14  841  	int ret;
+13140de09cc2dd Fabien Dessenne  2019-05-14  842  
+13140de09cc2dd Fabien Dessenne  2019-05-14  843  	ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
+13140de09cc2dd Fabien Dessenne  2019-05-14  844  	if (ret)
+13140de09cc2dd Fabien Dessenne  2019-05-14  845  		return ret;
+13140de09cc2dd Fabien Dessenne  2019-05-14  846  
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  847  	/* Look for an optional firmware name */
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  848  	ret = rproc_of_parse_firmware(dev, 0, &fw_name);
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  849  	if (ret < 0 && ret != -EINVAL)
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  850  		return ret;
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  851  
+710028a2e4d76c Arnaud Pouliquen 2025-03-27  852  	rproc = devm_rproc_alloc(dev, np->name, &st_rproc_ops, fw_name, sizeof(*ddata));
+13140de09cc2dd Fabien Dessenne  2019-05-14  853  	if (!rproc)
+13140de09cc2dd Fabien Dessenne  2019-05-14  854  		return -ENOMEM;
+13140de09cc2dd Fabien Dessenne  2019-05-14  855  
+8210fc873d2f1a Mathieu Poirier  2020-07-14  856  	ddata = rproc->priv;
+8210fc873d2f1a Mathieu Poirier  2020-07-14  857  
+3898fc99d19934 Clement Leger    2020-04-10  858  	rproc_coredump_set_elf_info(rproc, ELFCLASS32, EM_NONE);
+8210fc873d2f1a Mathieu Poirier  2020-07-14  859  
+8210fc873d2f1a Mathieu Poirier  2020-07-14 @860  	ret = stm32_rproc_parse_dt(pdev, ddata, &rproc->auto_boot);
+8210fc873d2f1a Mathieu Poirier  2020-07-14  861  	if (ret)
+8210fc873d2f1a Mathieu Poirier  2020-07-14  862  		goto free_rproc;
+8210fc873d2f1a Mathieu Poirier  2020-07-14  863  
+95e32f868aa67c Mathieu Poirier  2020-07-14  864  	ret = stm32_rproc_of_memory_translations(pdev, ddata);
+95e32f868aa67c Mathieu Poirier  2020-07-14  865  	if (ret)
+95e32f868aa67c Mathieu Poirier  2020-07-14  866  		goto free_rproc;
+95e32f868aa67c Mathieu Poirier  2020-07-14  867  
+376ffdc044568f Mathieu Poirier  2020-07-14  868  	ret = stm32_rproc_get_m4_status(ddata, &state);
+376ffdc044568f Mathieu Poirier  2020-07-14  869  	if (ret)
+376ffdc044568f Mathieu Poirier  2020-07-14  870  		goto free_rproc;
+376ffdc044568f Mathieu Poirier  2020-07-14  871  
+6e20a05104e55d Arnaud POULIQUEN 2021-03-12  872  	if (state == M4_STATE_CRUN)
+376ffdc044568f Mathieu Poirier  2020-07-14  873  		rproc->state = RPROC_DETACHED;
+376ffdc044568f Mathieu Poirier  2020-07-14  874  
+13140de09cc2dd Fabien Dessenne  2019-05-14  875  	rproc->has_iommu = false;
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  876  	ddata->workqueue = create_workqueue(dev_name(dev));
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  877  	if (!ddata->workqueue) {
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  878  		dev_err(dev, "cannot create workqueue\n");
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  879  		ret = -ENOMEM;
+dadbdb9c304c51 Mathieu Poirier  2020-07-14  880  		goto free_resources;
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  881  	}
+13140de09cc2dd Fabien Dessenne  2019-05-14  882  
+13140de09cc2dd Fabien Dessenne  2019-05-14  883  	platform_set_drvdata(pdev, rproc);
+13140de09cc2dd Fabien Dessenne  2019-05-14  884  
+4a56e423e0e19b Fabien Dessenne  2019-11-15  885  	ret = stm32_rproc_request_mbox(rproc);
+4a56e423e0e19b Fabien Dessenne  2019-11-15  886  	if (ret)
+8210fc873d2f1a Mathieu Poirier  2020-07-14  887  		goto free_wkq;
+13140de09cc2dd Fabien Dessenne  2019-05-14  888  
+13140de09cc2dd Fabien Dessenne  2019-05-14  889  	ret = rproc_add(rproc);
+13140de09cc2dd Fabien Dessenne  2019-05-14  890  	if (ret)
+13140de09cc2dd Fabien Dessenne  2019-05-14  891  		goto free_mb;
+13140de09cc2dd Fabien Dessenne  2019-05-14  892  
+13140de09cc2dd Fabien Dessenne  2019-05-14  893  	return 0;
+13140de09cc2dd Fabien Dessenne  2019-05-14  894  
+13140de09cc2dd Fabien Dessenne  2019-05-14  895  free_mb:
+13140de09cc2dd Fabien Dessenne  2019-05-14  896  	stm32_rproc_free_mbox(rproc);
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  897  free_wkq:
+714cf5e3846047 Arnaud Pouliquen 2019-10-25  898  	destroy_workqueue(ddata->workqueue);
+dadbdb9c304c51 Mathieu Poirier  2020-07-14  899  free_resources:
+dadbdb9c304c51 Mathieu Poirier  2020-07-14  900  	rproc_resource_cleanup(rproc);
+13140de09cc2dd Fabien Dessenne  2019-05-14  901  free_rproc:
+410119ee29b6c1 Fabien Dessenne  2019-08-26  902  	if (device_may_wakeup(dev)) {
+410119ee29b6c1 Fabien Dessenne  2019-08-26  903  		dev_pm_clear_wake_irq(dev);
+410119ee29b6c1 Fabien Dessenne  2019-08-26  904  		device_init_wakeup(dev, false);
+410119ee29b6c1 Fabien Dessenne  2019-08-26  905  	}
+13140de09cc2dd Fabien Dessenne  2019-05-14  906  	return ret;
+13140de09cc2dd Fabien Dessenne  2019-05-14  907  }
+13140de09cc2dd Fabien Dessenne  2019-05-14  908  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
