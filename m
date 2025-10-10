@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8385C28641D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Oct 2025 22:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B51C2868B;
+	Fri, 10 Oct 2025 00:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760049544; cv=none; b=t6TZfHGeL2Zda510wD9TJU1eu9+es0uKiMm5sHKADkB9d2Jx4AT03JvoXtgj+r7yIbKKRy/4tGHAjJA6ZdA3ggFCz38pRqGvRi26dXhwuLDB9WuvvGMprpe7tCkNBVkOPpNNH40X/NCbcMX86me97+X+yW5BCQB28UpkHCmppQ0=
+	t=1760056278; cv=none; b=fmdQPvr0KHh+ejxtdpTS2CY6s4Um4r7g+rrzPvZ//lUcrwJWevKy/Eb0m/BTSix8oIDheWz4VVAsC7TXlVTivBns+3ho9p12B36axfrZ96W/OqvqfFH5Ap3syyuT6g9yWp6atmZWCl6OfMr4sHBZbyRnM7HzQqyB6llaPt4uv2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760049544; c=relaxed/simple;
-	bh=tjuWJC0yrFiqy88M5fh1ypslPt1a2+8jIXYY6rI0YfM=;
+	s=arc-20240116; t=1760056278; c=relaxed/simple;
+	bh=1vnp0fmRk32oEpPHfRK6vIfjBdcpZL44B6OCwTfN5i4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UyJDkpvJcMyaYWXL/Vo+a8mVDDgMJbtJNoKaU+UyqQP+0vDdzvgObglv8OzhT6rPpdXDo28JEDfd0ABMz6lkh1rBZUswScxNeNfawEtp0ATKjP0qqA2iGRLkgp6Sk//SY+xYE4YNcfz7HsKFGJfXMbMC6dlaGJNVm8sjOJYwNdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTG94R/B; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=frhWdab82iuZHXHsOICTQFJT2cWSBLyko20x+RjVofZkfXPhNeRnm9PtQO/YRKYOX23QByG2E6i7ou6DoDL+/pyZmtbjburZ0g5Yy3M6qyW4zLjdR+shP4R7uMwwVubZmDYlfwa4OvmHdEI/IdjsICLcswi3rNlf3tfatvV3gLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zr8m2+1+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTG94R/B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zr8m2+1+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760049543; x=1791585543;
+  t=1760056275; x=1791592275;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tjuWJC0yrFiqy88M5fh1ypslPt1a2+8jIXYY6rI0YfM=;
-  b=nTG94R/BCeGcPPrcCPswlfofmSlWSF9LnUWQXoC6Sauo7JD7jZT+A8Vv
-   0t6LddtYXUQqprEI8IjGDmdn10r72YSyIIJot5MYTcDEOF6YQV62DrORS
-   0ba7mvr/6fN3DE3Fp3pbpXulYp38InW2N7NSd40iEPYj+NSZiY6CVwByS
-   5mwuyU+AZhBWxzVe/xlDHaOiAR0VFdlVC7I72xBpiWfcAFn1H+jjAeayp
-   V3c/NZfpEolUCpfhWnv04H5TEaM/TP2VZ/TLQ9/EqCyzLUdW9UGRLrbHO
-   5s1NEdbZwnsVikcibzOVNHOw7dPKegbHIWOz4ZIfGqjmiGraAOFT3DxSF
-   Q==;
-X-CSE-ConnectionGUID: SGyKr7SDQoyyiFHZQW8g+g==
-X-CSE-MsgGUID: dbIZlxhSQxGqmFbSQZu8IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62427696"
+  bh=1vnp0fmRk32oEpPHfRK6vIfjBdcpZL44B6OCwTfN5i4=;
+  b=Zr8m2+1+D68SI5Ey0SkT05uzRvcjkN6ugI8QesLcFFlbYpgS5TSTf0jB
+   //t+j94Uc3wPD4JUiRdLdGCRIrsA2z5ultkvPJorUMvP8ZvSALC/kw9Wi
+   zdPdEN2Z249PVlPOnwOGMK5hCn6Hy6KMDKFXd1f+SGQXBTPRoBNkFa9tG
+   CHhwOiOoF4BnE4GdlHfVpSj7CFXUD3SLxgMVhf9GRo9YJsdJbxwK6OEGv
+   GLgg7lHQGPSc4AB/gmsuzrMlbkV5dcd7o2nosucth0MyZBX3ck3waDFhv
+   2bi0xsXp1kKQxzzsCIwVP+Dnnofh0xZRFG1+dXPP0JcXE04tidm1FpY/H
+   w==;
+X-CSE-ConnectionGUID: TKETTLjhSuC7mN3h2tCxDA==
+X-CSE-MsgGUID: LfvIcPJKRa6FOpexX8jS9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73621579"
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="62427696"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 15:39:03 -0700
-X-CSE-ConnectionGUID: V/spqdrbQZiY+ar5bHHv9Q==
-X-CSE-MsgGUID: 32aj+9Z9SQSIE1bG+Y58Fg==
+   d="scan'208";a="73621579"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 17:31:14 -0700
+X-CSE-ConnectionGUID: hI8qPSqIS2OICwNfeww3ZQ==
+X-CSE-MsgGUID: G/DQRLtIR4Ww/tFUioN1bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="186093230"
+   d="scan'208";a="181615725"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Oct 2025 15:39:00 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Oct 2025 17:31:13 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v6zHm-0001ZQ-1P;
-	Thu, 09 Oct 2025 22:38:58 +0000
-Date: Fri, 10 Oct 2025 06:38:42 +0800
+	id 1v712N-0001fP-1a;
+	Fri, 10 Oct 2025 00:31:11 +0000
+Date: Fri, 10 Oct 2025 08:30:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: drivers/mailbox/mtk-gpueb-mailbox.c:203:28: sparse: sparse: symbol
- 'mtk_gpueb_mbox_ops' was not declared. Should it be static?
-Message-ID: <202510100629.3nGvrhEU-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v6.18-rc1-separate-dabt-codepath
+ 12/13] <instantiation>:85:16: error: index must be an integer in range
+ [-256, 255].
+Message-ID: <202510100852.UPFEcNLC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,32 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5472d60c129f75282d94ae5ad072ee6dfb7c7246
-commit: dbca0eabb821a6278925712a7bb263d0997e9c8f mailbox: add MediaTek GPUEB IPI mailbox
-date:   3 days ago
-config: arc-randconfig-r112-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100629.3nGvrhEU-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100629.3nGvrhEU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v6.18-rc1-separate-dabt-codepath
+head:   472ab81a994df0203a9a26838be93ec226d7070d
+commit: 90d506997156d4ab112ab04c1cc410029cf8afc7 [12/13] arm64: Support dynamic kernel stacks
+config: arm64-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100852.UPFEcNLC-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100852.UPFEcNLC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100629.3nGvrhEU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510100852.UPFEcNLC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/mtk-gpueb-mailbox.c:203:28: sparse: sparse: symbol 'mtk_gpueb_mbox_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/mtk_gpueb_mbox_ops +203 drivers/mailbox/mtk-gpueb-mailbox.c
-
-   202	
- > 203	const struct mbox_chan_ops mtk_gpueb_mbox_ops = {
-   204		.send_data = mtk_gpueb_mbox_send_data,
-   205		.startup = mtk_gpueb_mbox_startup,
-   206		.shutdown = mtk_gpueb_mbox_shutdown,
-   207		.last_tx_done = mtk_gpueb_mbox_last_tx_done,
-   208	};
-   209	
+>> <instantiation>:85:16: error: index must be an integer in range [-256, 255].
+    ldr x21, [sp, #S_STACK_DABT_SP]
+                  ^
+   <instantiation>:2:2: note: while in macro instantiation
+    kernel_entry 1, 64, 1
+    ^
+   arch/arm64/kernel/entry.S:700:2: note: while in macro instantiation
+    entry_handler 1, t, 64, 1, sync_stack_dabt
+    ^
+>> <instantiation>:85:16: error: index must be an integer in range [-256, 255].
+    ldr x21, [sp, #S_STACK_DABT_SP]
+                  ^
+   <instantiation>:2:2: note: while in macro instantiation
+    kernel_entry 1, 64, 1
+    ^
+   arch/arm64/kernel/entry.S:706:2: note: while in macro instantiation
+    entry_handler 1, h, 64, 1, sync_stack_dabt
+    ^
 
 -- 
 0-DAY CI Kernel Test Service
