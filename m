@@ -1,151 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.83.148.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC3023CB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 06:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050B61DF26E;
+	Fri, 10 Oct 2025 06:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.83.148.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760076298; cv=none; b=A1LkLEaHzXVJrMYGEzZ/Blt5IZQ6QkranGyFJrdrQOxq3X15L5J8AnhCYPJvcOZ4yZZucR+tWSKEvA2QxEsqA09lDI0O8wcQDt07yw46dDUPH2zOCrF1T2wxUxbLFqHQoGZP8OtPCuv9MA5VlRHMZkjNhD4TooI30JgbH7SmoOg=
+	t=1760076436; cv=none; b=B5veY1PafNKPlETMP7fVGPG1vSiRAWjwQfyVpI7L8AY9a+ch42jJ/+PKBSO5IEhCduRnR441CUH9yExiMt06GnKkQSozS37C8zMwPUwK08suD8g/bZp6q75SSXMe+lyjvPuYskrSXPMDtv6IvrrwBH5sQpqTyFSGiGPLdrv9ZQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760076298; c=relaxed/simple;
-	bh=q7XlA/YYtI/VbBdQcyXsx2+JwK1YcfTAlGidp1cFxOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cyCMPT7VW8sg636qoLT6Y7peaji7x6Eol4dqoEjy1kG6ael7fp478iXIpa9HuatMGRLRBjm4Pjfax8L3UEM+yQgUdIh+sqceK48q/1esIQ6D1+qZKUJ37Z8peox2foCW5mBNQ0A5bn+gj8OgocJ8tSf4s6rJAOBCrE54RlFrbT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ahfWC4pr; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760076436; c=relaxed/simple;
+	bh=WJdYbEdswEL2qtCJ2STUf7ntn6Iq6i8d56dp1sDUz3Q=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2By76P9WlbxGyEgDrwlmdenvc/hzxijJkeFChSkCZEdax8b8qBthRnOU28pBvS+i2Serv1K9CrJAvbntWfmpGh6YCXRAi8u1rU/MEg6gRq8j+SzIp2wQzVJ3vX/keAGFyepSGpDrtm2xyIPHA7A6nwhWxeaonH5fc/joYtODVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=ivy9RZH2; arc=none smtp.client-ip=35.83.148.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ahfWC4pr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760076296; x=1791612296;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q7XlA/YYtI/VbBdQcyXsx2+JwK1YcfTAlGidp1cFxOY=;
-  b=ahfWC4prriS7Wh/OE1U31O8cCtXR0bK5lws9uF+x4Y3KDiKE2QaDsG9S
-   XwGbbP2ET4B+Y3gbVM8f8iHOa0cJm7eBkt/fL106pQ+G35OSf4296XsvR
-   8VOGIWmbVrXe9LNGfvupV3eMLK9vLww+3KVxKky4gZZ6S5iaOShZIMgfa
-   TkXUjZK4DihY/FEIXlQbbWzKhHCDSWFMXFEbdW/4hOG8RVWZzKiUBvskv
-   cCZ5SKHKudzKJKU7dK2YCF9wiZRWZ/Bn6YBeRTVHe/er3Hx24IphLOCOY
-   9nk62KlxwlFmKUkSD6Wh47rqdJZbitNJRh8ZG/4kWJ8EqI3OkSC++08N8
-   A==;
-X-CSE-ConnectionGUID: cPXNNyHETCqh7WoxMOao/g==
-X-CSE-MsgGUID: BrVQiRjMSbivheJldjXlgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="66149898"
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="66149898"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 23:04:55 -0700
-X-CSE-ConnectionGUID: o2G1HpudQa+S6VzWy+EARA==
-X-CSE-MsgGUID: fPy2LZReQDuQ8t6P2e9seA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="204604866"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2025 23:04:54 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v76FI-0002LD-0o;
-	Fri, 10 Oct 2025 06:04:52 +0000
-Date: Fri, 10 Oct 2025 14:04:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v6.18-rc1-separate-dabt-codepath-syncstack4all
- 12/13] arch/arm64/kernel/entry.S:702: Error: undefined symbol
- S_STACK_DABT_SP used as an immediate value
-Message-ID: <202510101336.6SKKKxS5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="ivy9RZH2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
+  t=1760076435; x=1791612435;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=WJdYbEdswEL2qtCJ2STUf7ntn6Iq6i8d56dp1sDUz3Q=;
+  b=ivy9RZH2srAKXKhggr1xe6Jv0yaaO2BUIcZG6+MGIyWOLGJbVD/dTi5l
+   TWY6+8BSgEUSusdzgUXfR5MQguV692yWz6UESafBjmog4SmZphTSUikDo
+   qzLUt49+Fn/WzvLpoelm2lALTrR2KA212MBSZEQ+SGp7UfnaXJboLr2KE
+   VxrjtPNtYsGmTK3+9OzcLBC4nw8hxYdIEBpVLzMOkCDGiMYoTZCydkPBo
+   u91IH+a5+eafzkAwJrSVlO6QNgotIiGyOYWVKZSUbvztlY1Tw2H+S/xdr
+   wDmlw1r5ezrkEDIRkoH7zuSTVe94yo/+dzScqKY+y5QMVyRZ0uG1MA75T
+   Q==;
+X-CSE-ConnectionGUID: +GroEsTKQluxlXnMqrVBhA==
+X-CSE-MsgGUID: mAboILn4T3iTSWY6Z0Jzvg==
+X-IronPort-AV: E=Sophos;i="6.19,218,1754956800"; 
+   d="scan'208";a="4447007"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 06:07:12 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.7.35:42599]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.15.171:2525] with esmtp (Farcaster)
+ id bd58cc9d-fc6e-4c2e-8deb-efc1ee480171; Fri, 10 Oct 2025 06:07:12 +0000 (UTC)
+X-Farcaster-Flow-ID: bd58cc9d-fc6e-4c2e-8deb-efc1ee480171
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Fri, 10 Oct 2025 06:07:12 +0000
+Received: from dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com
+ (172.19.75.107) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 10 Oct 2025
+ 06:07:10 +0000
+Date: Fri, 10 Oct 2025 06:07:08 +0000
+From: Jakub Acs <acsjakub@amazon.de>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, kernel test robot
+	<lkp@intel.com>, <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda
+	<ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [akpm-mm:mm-new 36/102] error[E0425]: cannot find value
+ `VM_READ` in crate `bindings`
+Message-ID: <20251010060618.GA80465@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
+References: <202510100127.yuqhg8uo-lkp@intel.com>
+ <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
+ <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
+In-Reply-To: <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-ClientProxiedBy: EX19D046UWA002.ant.amazon.com (10.13.139.39) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Transfer-Encoding: base64
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v6.18-rc1-separate-dabt-codepath-syncstack4all
-head:   b1b798131387a63cead97374f3a68db539aa6709
-commit: 7312a87be3da31a57f1d289b1564c6760545db30 [12/13] arm64: Support dynamic kernel stacks
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251010/202510101336.6SKKKxS5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101336.6SKKKxS5-lkp@intel.com/reproduce)
+T24gVGh1LCBPY3QgMDksIDIwMjUgYXQgMDg6MTQ6MDFQTSArMDIwMCwgTWlndWVsIE9qZWRhIHdy
+b3RlOgo+IE9uIFRodSwgT2N0IDksIDIwMjUgYXQgODowNeKAr1BNIEFuZHJldyBNb3J0b24gPGFr
+cG1AbGludXgtZm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+ID4KPiA+IEFsaWNlLCBNaWd1ZWwsIHBs
+ZWFzZSByZW1pbmQgd2hhdCB0byBkbyBhYm91dCB0aGlzPwo+IAo+IFdlIGNhbiBlaXRoZXIgZGVm
+aW5lIGhlbHBlciBjb25zdGFudHMgaW4KPiBgcnVzdC9iaW5kaW5ncy9iaW5kaW5nc19oZWxwZXIu
+aGAgZm9yIHRoZSBvbmVzIHRoYXQgdGhlIFJ1c3Qgc2lkZSBpcwo+IGFscmVhZHkgdXNpbmcgKGxp
+a2UgbGFzdCB0aW1lKSBvciB1c2UgYGVudW1gcyBvbiB0aGUgQyBoZWFkZXIuCgpGV0lXIEFsaWNl
+IHN1Z2dlc3RlZCB0aGUgZW51bSB2ZXJzaW9uIGFuZCB3ZSBkaXNjdXNzZWQgYWRqdXN0bWVudCB0
+byB0aGUKcGF0Y2ggaW4gdGhyZWFkIFsxXS4gSSB3YXMgZ29pbmcgdG8gc2VuZCBuZXcgdmVyc2lv
+biBvZiB0aGUgcGF0Y2ggYXMKc29vbiBhcyBJIGZpZ3VyZSBvdXQgaG93IHRvIHRlc3QgZm9yIHRo
+ZSBpc3N1ZSBwb2ludGVkIG91dCBieSBEZXJyaWNrIGluClsyXS4KClBsZWFzZSBsZXQgbWUga25v
+dyBpZiB0aGF0IGlzIGRlc2lyZWQgb3Igd2hldGhlciB5b3UncmUgdGFraW5nIGNhcmUgb2YKaXQg
+aGVyZS4gQW5kL29yIGhvdyBlbHNlIEkgY2FuIGhlbHAuCgoKWzFdOiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9hbGwvMjAyNTEwMDgxMjU0MjcuNjg3MzUtMS1hY3NqYWt1YkBhbWF6b24uZGUvClsy
+XTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjUxMDA3MTcwMTU2LkdRMTU4NzkxNUBm
+cm9nc2Zyb2dzZnJvZ3MvCgpUaGFua3MsCkpha3ViCgoKCkFtYXpvbiBXZWIgU2VydmljZXMgRGV2
+ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApUYW1hcmEtRGFuei1TdHIuIDEzCjEwMjQzIEJl
+cmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hsYWVnZXIKRWluZ2V0cmFnZW4g
+YW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDI1Nzc2NCBCClNpdHo6IEJl
+cmxpbgpVc3QtSUQ6IERFIDM2NSA1MzggNTk3Cg==
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101336.6SKKKxS5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arm64/kernel/entry.S: Assembler messages:
->> arch/arm64/kernel/entry.S:702: Error: undefined symbol S_STACK_DABT_SP used as an immediate value
-   arch/arm64/kernel/entry.S:707: Error: undefined symbol S_STACK_DABT_SP used as an immediate value
-
-
-vim +702 arch/arm64/kernel/entry.S
-
-   661	
-   662	
-   663		.macro entry_handler el:req, ht:req, regsize:req, el1_sync:req, label:req
-   664	SYM_CODE_START_LOCAL(el\el\ht\()_\regsize\()_\label)
-   665		kernel_entry \el, \regsize, \el1_sync
-   666		mov	x0, sp
-   667		bl	el\el\ht\()_\regsize\()_\label\()_handler
-   668		.if \el == 0
-   669		b	ret_to_user
-   670		.endif
-   671	#ifdef CONFIG_DYNAMIC_STACK
-   672		/*
-   673		 * This .ifeqs with .if inside it looks a bit insane and this
-   674		 * is because .ifeqs doesn't support nesting whatsoever: you
-   675		 * can put .if:s inside an .ifeqs but you simply can't put an
-   676		 * .ifeqs inside an .if and expect it to work, the result will
-   677		 * be that the assembler inside an .ifeqs nested inside an .if
-   678		 * will be evaluated if the .ifeqs evaluates to true no matter
-   679		 * what the outer .if evaluates to.
-   680		 *
-   681		 * This is probably a bug in the GNU Assembler that I work
-   682		 * around like this.
-   683		*/
-   684		.if \el != 0 && \el1_sync == 1
-   685		b	ret_to_kernel_el1_sync
-   686		.else
-   687		.if \el != 0
-   688		b	ret_to_kernel
-   689		.endif
-   690		.endif
-   691	#else
-   692		.if \el != 0
-   693		b	ret_to_kernel
-   694		.endif
-   695	#endif
-   696	SYM_CODE_END(el\el\ht\()_\regsize\()_\label)
-   697		.endm
-   698	
-   699	/*
-   700	 * Early exception handlers
-   701	 */
- > 702		entry_handler	1, t, 64, 1, sync
-   703		entry_handler	1, t, 64, 0, irq
-   704		entry_handler	1, t, 64, 0, fiq
-   705		entry_handler	1, t, 64, 0, error
-   706	
-   707		entry_handler	1, h, 64, 1, sync
-   708		entry_handler	1, h, 64, 0, irq
-   709		entry_handler	1, h, 64, 0, fiq
-   710		entry_handler	1, h, 64, 0, error
-   711	
-   712		entry_handler	0, t, 64, 0, sync
-   713		entry_handler	0, t, 64, 0, irq
-   714		entry_handler	0, t, 64, 0, fiq
-   715		entry_handler	0, t, 64, 0, error
-   716	
-   717		entry_handler	0, t, 32, 0, sync
-   718		entry_handler	0, t, 32, 0, irq
-   719		entry_handler	0, t, 32, 0, fiq
-   720		entry_handler	0, t, 32, 0, error
-   721	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
