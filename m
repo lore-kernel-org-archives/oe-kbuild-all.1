@@ -1,83 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15FA14286
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 06:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBE3245019
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 06:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760078826; cv=none; b=EM/P8lT16WoQkJmT8LGzjv5k4W5+VgfUN1vbRL/BkKZX8vCkYsd8rOQtB3y3iFZ291obX2DO50BLY35YORVhlAC1sQmW8Sz243LwLhIu5qDlo3ROdHlyjcWjC8rfYmmhlVZWB+qetOOunic4fNZYTeayatIUKvS9e4MHLwGmxTs=
+	t=1760079561; cv=none; b=ROLIxGCesd+c0d+nufrnCo3eIqoOhoQfKRMnIBFgLXP9NqBQ6i7VOH5jpF6jViqswLoIKS3u97AKnxG44Zduc0dEIK1va08cP9O4bmB6VUf867IAQhwcT8lC3MzVeyBZP4UVBOwA5kl1gN3Kxlrf06K43CcBY8Fbs2yTciN0CFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760078826; c=relaxed/simple;
-	bh=Ir4c1WomDR+DqQpYDsLfUxCUDvVPV3MQSuselxES2Y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EFzc2DjbEeiZjemGcqeAOmDGyND7y7MBh+WiRlde60KcA9v4jGL0MJA5Dm2GMIlNUoNgW9Cg3J9U5GUfo6g1QgR6nLkI3rNxSVCRKS5R7LRKQqtBVuIy3Sp/V3WhkfiHMG9MAHNJkj4oEQvut6Gz0eRt5UtsnPI2wuNvPXHbsF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TgXqvveC; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760079561; c=relaxed/simple;
+	bh=2dB8tTCAO9ji3Z4boU5e7IS4dANk0Sx09hvrwHzIYTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ytd+/V7XqAdCdNDXx31uSJ1bn5N13FA7Dp8wo3by0q1eWVcoqM7C2p/yi+SoUDE1DsxNHt/AuNABNVIVFP0dOxjOphaExouAeLSYXWc8HmZoE8VaiL2M8XPCzSaHPLxat4Y36JEYsVuEBGYeS/ZwfVdPe9/zPI1UQ4dTMLGHEpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJrpBy45; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TgXqvveC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760078824; x=1791614824;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ir4c1WomDR+DqQpYDsLfUxCUDvVPV3MQSuselxES2Y4=;
-  b=TgXqvveClqOVXlKOz/EWjtT+4XrzHfjRiUr+pViuLs8lJqlb5tgiJ8yI
-   SSrowBwrlLge9twP0cibkl2wG7/aE1jlqX/JM9g7QWQkvS72h2ngAW0R7
-   AIlrEFU5ctI8loKiOVbrslIzyjf/zIUVbBXst/LsjoFLqh1LYsuk0rkGG
-   Imu5caNQ5xtxnCQwijjhDRifSyj+IOjXjuDb7ve+3AUKuqRdSvErEYd3e
-   ibG1iJnW0vy3d0UEOhq0dBSo5yHkb0sokJ1ATQQJtqRg2VC80cBiTm+g/
-   uv620Z6VmIsRRrjRAaMaQ/RixnKI9YVVVCR+wqKAWG6jZh40XbxtDc+dp
-   Q==;
-X-CSE-ConnectionGUID: z4SDkCPxTOaA2K3WUc/+vg==
-X-CSE-MsgGUID: BAo7rsI6RhyWUqN5pMH9Ig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62215722"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62215722"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 23:46:59 -0700
-X-CSE-ConnectionGUID: +WJB3QmzTdq0zTx+6KZlIg==
-X-CSE-MsgGUID: 3pUtPABjTrCUb4RsDfQrqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="180156137"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Oct 2025 23:46:58 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v76tz-0002MJ-1W;
-	Fri, 10 Oct 2025 06:46:55 +0000
-Date: Fri, 10 Oct 2025 14:46:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Emil Renner Berthing <kernel@esmil.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [esmil:visionfive 31/31] firmware/brcm/brcmfmac43430-sdio.bin:
- warning: ignored by one of the .gitignore files
-Message-ID: <202510101435.PbTxYpEC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJrpBy45"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2698d47e6e7so3043835ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Oct 2025 23:59:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760079559; x=1760684359; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s/KsRtAPQyYYfQyL6T3MHYdC3MZg30zHcUpFS/EA2b8=;
+        b=DJrpBy45jQ72ugpw+wS1yJKBIFoguKlKPSJBGKzSwnrj2qoPWSHOhOPOBzyDAIwRwc
+         fWzBlDLZNnROwiZpwIsGVHeEQAHvDvOznnw63z/WWfCOSyEelimyCVquOm588T5sHqar
+         oQM1fBfJd4veUh24a4hrUyqBexgQ/Y4tFb4H2ViOozQ6JGqucbFap8GwvPGlNxtnAm7T
+         SeRSQdbNEOuF01a7zG633j1NQX7m/N45hPhP8v+QoNmJTgyYPmpAN09310i/2MHI08a6
+         I2eMMTzoLFMhrhHx3EQ+fsnxoavd73B2VCP/chJSp5w9SqBvSEB4DS8Y4P7x+mI7Gcir
+         vKRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760079559; x=1760684359;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s/KsRtAPQyYYfQyL6T3MHYdC3MZg30zHcUpFS/EA2b8=;
+        b=mA4SpE64C7beBvr+LO25aujrLp+LrL2pYev4Ft7QSsm7PGTOb0pSZJ6Ubibk3wS1/B
+         U6nF2xm2VWXudrbDftL5aTpjMGq1V3M2sENvIgNRmoXX64SPxwbvYuypCCy4fExq2cKM
+         cG9zHtQavOA/CBAly+KxwOQAhwCG1xnmgARbZrZbyMEv51DYhIniUupnmHhu/Yl8qjzb
+         OmewfRlI1fbbXFUsrP+KX7Pm5S3xSQN+ZVZdAiebCsKa1Xb+fRY9CMWTPQCz4gB4wLF6
+         jGnWY2ViNpnHRb5NRx7ulrW3WLGJ2S62WaPXwGcL/oooQb43GGy8WREnRFhpFI+I4Ywq
+         jR5w==
+X-Forwarded-Encrypted: i=1; AJvYcCW3gLDiU/0MuqS5feE4ZExfp0dO0wSTNGSzYlQT7Rwj9s82f67NQtQmLP5BWioYW3hkdBhLrr27c3JT3hJG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTD2l3FuUeWfXBfjpZtZzODGCAfOYjoUtHXqadVAEiwlUacRa+
+	vhYJhW5YzeWmi/bo7BDoeVniRLNhu3AhiHvb6Qs5LiVWROcyfix6uO0P78TWuST/y2o3S4RSGKM
+	vl7PZ8kRnes1TlsYy31W13IGn12cAdRI=
+X-Gm-Gg: ASbGncs9k3ulDYVcls/habsE0H2Sqb4Y4rfcV2vyGy62SDFBr+e9wWSLmNuv14nUHyi
+	HEzZ9fBdsV4WyD3F5D47O2pbl2fkFEfKpnAGgPFEaS+ZP6f+Vgu+6e9lJjeW+fwPLsL9pAwKHfi
+	rhH8aj6ToIAxorzIwxdNlUq6wxvl8VyrVJWU8uZZD3kb8aoXhzf0+3p5k9xYxgD3CsQPhGGMj3O
+	Lvxw7SXZ9fySet/xSF6HD0+7ZNVfyofB250GhzIzS3DJI1HKkrN6cW/DX09tIpdQS3Mo9XtocGB
+	jIXenewRRYtUS4qEjiyhR3m/btoM/pZjTF9tJuK6znCb
+X-Google-Smtp-Source: AGHT+IEUQCZh2bXNZHQ88G1WlQFzYGLfnLI6ghhtXSvp0Cccxl6SfEYz7wbupJhdzFbhRIa9rBWq/hVI+k012AHDODc=
+X-Received: by 2002:a17:902:ce87:b0:27e:eabe:7604 with SMTP id
+ d9443c01a7336-29027449af2mr78609005ad.9.1760079559298; Thu, 09 Oct 2025
+ 23:59:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202510100127.yuqhg8uo-lkp@intel.com> <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
+ <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com> <20251010060618.GA80465@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
+In-Reply-To: <20251010060618.GA80465@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 10 Oct 2025 08:59:06 +0200
+X-Gm-Features: AS18NWBsqvp1_UAZLl54SYhCuFPQy0caeuUUUgRAWv4x_WbqElbX_D_UZSSrijI
+Message-ID: <CANiq72kndiqwEm-OZLd6JumAaBy7KrzYf_rDjwhtw5Uh4vdTCg@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-new 36/102] error[E0425]: cannot find value `VM_READ`
+ in crate `bindings`
+To: Jakub Acs <acsjakub@amazon.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/esmil/linux visionfive
-head:   e0d906c0ce2d81cc429b4807a71c98f3e6f0253c
-commit: e0d906c0ce2d81cc429b4807a71c98f3e6f0253c [31/31] [NOT-FOR-UPSTREAM] Add build instructions
-config: s390-randconfig-001-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101435.PbTxYpEC-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101435.PbTxYpEC-lkp@intel.com/reproduce)
+On Fri, Oct 10, 2025 at 8:07=E2=80=AFAM Jakub Acs <acsjakub@amazon.de> wrot=
+e:
+>
+> FWIW Alice suggested the enum version and we discussed adjustment to the
+> patch in thread [1]. I was going to send new version of the patch as
+> soon as I figure out how to test for the issue pointed out by Derrick in
+> [2].
+>
+> Please let me know if that is desired or whether you're taking care of
+> it here. And/or how else I can help.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101435.PbTxYpEC-lkp@intel.com/
+The `enum` approach is what we usually suggest if possible, and in
+this case it also avoids having to replicate conditional compilation
+on the Rust side, which is good.
 
-All warnings (new ones prefixed by >>):
+However, using it here as-is means the resulting type of
+`VM_MERGEABLE` is `unsigned int`, not `unsigned long` -- but wasn't
+that an issue? i.e.
 
->> firmware/brcm/brcmfmac43430-sdio.bin: warning: ignored by one of the .gitignore files
+    https://lore.kernel.org/all/20250930130023.60106-1-acsjakub@amazon.de/
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+We may be able to use a dummy larger constant to force the compiler to
+pick a bigger underlying type, e.g. something like:
+
+    __VM_FLAGS_FORCE_UL    =3D BIT(63),
+
+But note that older versions of GCC and Clang keep the smaller `enum`
+constants as `int` (i.e. small and signed), even if they will pick
+`unsigned long` for the bigger ones. Newer versions will pick
+`unsigned long` for all.
+
+The best would be to use C23-like `enum : unsigned long { ... }`, but
+sadly we don't have a recent enough GCC as a minimum in the kernel
+(GCC 13).
+
+If there are extra complications with the `enum` approach (i.e. second
+link), then perhaps just replicating it on the Rust side is simpler.
+
+Cheers,
+Miguel
