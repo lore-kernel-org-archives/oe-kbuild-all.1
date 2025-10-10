@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2323016E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 19:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248C026B77D;
+	Fri, 10 Oct 2025 20:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760125461; cv=none; b=RAwxvczjFKzoCBLHPC12eIP5nHJ7WWn2Iea30bO58ShQhShUAi4pusJ2wuEldKK2D2nV5e16mkjlCipypU9fJX1N4SXQsLs4NqJKfyHXS5xs9OjqhHxLXXOS9Kexdjex/JCKcztb/oFAOIqVcFYFAMQ+nSrKOVRMVH2Ezdmg9Qw=
+	t=1760127984; cv=none; b=MOdolu/lnM3FS9GpRLIPr6TdTnF0e5B7sQQ6DBB8EiP38BtWTZP5C9Bk5mwSbtfQVlQVYMPOSrHyPQuiEkMlUSH85F/dVVZ2c2zf3uOp7fyfDTJ2/nR6sWqIT1IK7tVrHjXHr1eOyyR7Z0vAM2FAAWVb8alPriJamIRx/OXS1W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760125461; c=relaxed/simple;
-	bh=08jh/wWNVQ1Hr0SzTZPtMljTCBAq+04w4969ErdWQAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gp/nG1S5H0W5bSmqWDEcB1KMrZ4srB4XpI+MT7Pf+thync0tyLM6KyGxys5bMXPSBNL1FVeTziY7s8lyv429m90OylwWFLMMGUUStXFSdUe+d+0UsFvdl3FEJCDfln93qipdlx448wchcZdf0TIvqO66EpUgX+fAJK5cYYc8uws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFAJEZC4; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1760127984; c=relaxed/simple;
+	bh=9Nkt3qD9mO43UJxeJX7roK0mxjtAID4KVzCqRRVtgGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kVMcda2XMtsXREKDKCxU6oJE8FqGwh3tRBQfG6scglsDHgb/7xLpGxfeiP5t2ZFOJ/ysayuedTNA9Sis8M3zbMKESHvvDpPqG7eH8ItQgsnmHOUIJjxvk0IJnc+pbNCvZx5jmx2S3b0AJaVuJbNxQ09wf/7+pf2l6SGBdPyMBY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R37D6q/b; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFAJEZC4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R37D6q/b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760125459; x=1791661459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=08jh/wWNVQ1Hr0SzTZPtMljTCBAq+04w4969ErdWQAs=;
-  b=OFAJEZC4SHMJdZMd1AecoWBc0gAV+pO+XoXCjk1j8LahXfQGUuCTiRv5
-   mRewbLy/naD/5HzX92MpP0SRnQMto5WeYyzzc/fDOoOWasd9Uo+maO93E
-   E03ptrox+oWFJKplBGirV31fEZi0aexWDtmXH7oZnKX26q0QNhoDbbt7I
-   2hcg1yh01BrOEdNEcazYcIP8XDDXQJhozED6AQhfkmosQxHhIhJPOBKD2
-   ZKSlUmjY8xJfj4f9SiR1WfKGbsyKVZMz2ES5pl/qxNFk31gAoSQo8fqLG
-   tOrwadl2pZ3rsHG4FrDvTuvZtBIZU3diCdAPPEckgL3vjGLHl/RTEK42k
-   w==;
-X-CSE-ConnectionGUID: E6KTQWaqT2qOK6Yqg0lXXw==
-X-CSE-MsgGUID: B4x1BzxtQ9SNudfpSBwkgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="73791150"
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="73791150"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 12:44:19 -0700
-X-CSE-ConnectionGUID: MyZn7C6nRlSo9464mF0yNQ==
-X-CSE-MsgGUID: pmcPCNmDRnuuhCneKuQJ3g==
+  t=1760127983; x=1791663983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9Nkt3qD9mO43UJxeJX7roK0mxjtAID4KVzCqRRVtgGw=;
+  b=R37D6q/b3/jr5M3MlM2PKd/amYuWaHHwx1NFcd4UMNgCvn1FL5ad4H4g
+   W9ydtVFoyQvZC93lwwCLSCiqAmxusFHgkhWTDXyv21Au/7X4Xpv6Wfg4M
+   puqKhetoAH6RpOPCNmfd2etVX9OACKRI5PJlK+26FfPGTU1nqXE2OHOJC
+   BAm2XQcSQbtIwBJ3IryIWXzrJHZsOxJPP13A1WKj8c+XfylhWs7WtWRsN
+   2iC4KPwS+yvCm6mRODIZJ5Z05JnZSe26Qg3eYE06DeOW/j5WeztvSwwDf
+   w4cvHCqP55ubyQEdC/1XxuLa84RJOTbeChpdG/BPf21QaDHZaE3pL93A2
+   Q==;
+X-CSE-ConnectionGUID: FIfyuRnkQqu8IXzEY/hpSg==
+X-CSE-MsgGUID: bXLCqeikStesQmQo/pq+wA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="64974404"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="64974404"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 13:26:22 -0700
+X-CSE-ConnectionGUID: mT4QdCroSLeq9I3WxNRdww==
+X-CSE-MsgGUID: zCoF4rMKRmS1ReJe5Bmdzw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="211700533"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="181010993"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Oct 2025 12:44:17 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 10 Oct 2025 13:26:21 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7J2E-00036d-1Y;
-	Fri, 10 Oct 2025 19:44:14 +0000
-Date: Sat, 11 Oct 2025 03:43:31 +0800
+	id 1v7Jgx-000395-15;
+	Fri, 10 Oct 2025 20:26:19 +0000
+Date: Sat, 11 Oct 2025 04:25:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: pip-izony <eeodqql09@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Seungjin Bae <eeodqql09@gmail.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] Input: pegasus-notetaker - fix out-of-bounds access
- vulnerability in pegasus_parse_packet() function of the pegasus driver
-Message-ID: <202510110303.ibbCe4PD-lkp@intel.com>
-References: <20251007214131.3737115-2-eeodqql09@gmail.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/midr-cleanup 8/9]
+ drivers/char/hw_random/cavium-rng-vf.c:41:47: error: use of undeclared
+ identifier 'MIDR_THUNDERX_83XX'
+Message-ID: <202510110450.sB27sg1e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,173 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251007214131.3737115-2-eeodqql09@gmail.com>
 
-Hi pip-izony,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.17 next-20251010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/pip-izony/Input-pegasus-notetaker-fix-out-of-bounds-access-vulnerability-in-pegasus_parse_packet-function-of-the-pegasus-driver/20251009-180618
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20251007214131.3737115-2-eeodqql09%40gmail.com
-patch subject: [PATCH] Input: pegasus-notetaker - fix out-of-bounds access vulnerability in pegasus_parse_packet() function of the pegasus driver
-config: powerpc64-randconfig-r073-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110303.ibbCe4PD-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/midr-cleanup
+head:   618c85796192e749547d92f873bce0fed4d4d146
+commit: 56d09155630e4aa4fcbffac9fefaac63ed0ab349 [8/9] WIP: arm64: cputype: Delete unused MIDR definitions
+config: arm64-randconfig-003-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110450.sB27sg1e-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110450.sB27sg1e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110303.ibbCe4PD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110450.sB27sg1e-lkp@intel.com/
 
-smatch warnings:
-drivers/input/tablet/pegasus_notetaker.c:314 pegasus_probe() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +314 drivers/input/tablet/pegasus_notetaker.c
+>> drivers/char/hw_random/cavium-rng-vf.c:41:47: error: use of undeclared identifier 'MIDR_THUNDERX_83XX'
+      41 |         if (midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_83XX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:44:47: error: use of undeclared identifier 'MIDR_THUNDERX_81XX'
+      44 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_81XX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:47:47: error: use of undeclared identifier 'MIDR_THUNDERX'
+      47 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:41:47: error: use of undeclared identifier 'MIDR_THUNDERX_83XX'
+      41 |         if (midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_83XX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:44:47: error: use of undeclared identifier 'MIDR_THUNDERX_81XX'
+      44 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_81XX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:47:47: error: use of undeclared identifier 'MIDR_THUNDERX'
+      47 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:41:47: error: use of undeclared identifier 'MIDR_THUNDERX_83XX'
+      41 |         if (midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_83XX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:44:47: error: use of undeclared identifier 'MIDR_THUNDERX_81XX'
+      44 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_81XX,
+         |                                                      ^
+>> drivers/char/hw_random/cavium-rng-vf.c:47:47: error: use of undeclared identifier 'MIDR_THUNDERX'
+      47 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX,
+         |                                                      ^
+   9 errors generated.
 
-   270	
-   271	static int pegasus_probe(struct usb_interface *intf,
-   272				 const struct usb_device_id *id)
-   273	{
-   274		struct usb_device *dev = interface_to_usbdev(intf);
-   275		struct usb_endpoint_descriptor *endpoint;
-   276		struct pegasus *pegasus;
-   277		struct input_dev *input_dev;
-   278		int error;
-   279		int pipe;
-   280	
-   281		/* We control interface 0 */
-   282		if (intf->cur_altsetting->desc.bInterfaceNumber >= 1)
-   283			return -ENODEV;
-   284	
-   285		/* Sanity check that the device has an endpoint */
-   286		if (intf->cur_altsetting->desc.bNumEndpoints < 1) {
-   287			dev_err(&intf->dev, "Invalid number of endpoints\n");
-   288			return -EINVAL;
-   289		}
-   290	
-   291		endpoint = &intf->cur_altsetting->endpoint[0].desc;
-   292	
-   293		pegasus = kzalloc(sizeof(*pegasus), GFP_KERNEL);
-   294		input_dev = input_allocate_device();
-   295		if (!pegasus || !input_dev) {
-   296			error = -ENOMEM;
-   297			goto err_free_mem;
-   298		}
-   299	
-   300		mutex_init(&pegasus->pm_mutex);
-   301	
-   302		pegasus->usbdev = dev;
-   303		pegasus->dev = input_dev;
-   304		pegasus->intf = intf;
-   305	
-   306		pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
-   307		/* Sanity check that pipe's type matches endpoint's type */
-   308		if (usb_pipe_type_check(dev, pipe)) {
-   309			error = -EINVAL;
-   310			goto err_free_mem;
-   311		}
-   312	
-   313		pegasus->data_len = usb_maxpacket(dev, pipe);
- > 314	    if (pegasus->data_len < 5) {
-   315			dev_err(&intf->dev, "Invalid number of wMaxPacketSize\n");
-   316			error = -EINVAL;
-   317			goto err_free_mem;
-   318		}
-   319	
-   320		pegasus->data = usb_alloc_coherent(dev, pegasus->data_len, GFP_KERNEL,
-   321						   &pegasus->data_dma);
-   322		if (!pegasus->data) {
-   323			error = -ENOMEM;
-   324			goto err_free_mem;
-   325		}
-   326	
-   327		pegasus->irq = usb_alloc_urb(0, GFP_KERNEL);
-   328		if (!pegasus->irq) {
-   329			error = -ENOMEM;
-   330			goto err_free_dma;
-   331		}
-   332	
-   333		usb_fill_int_urb(pegasus->irq, dev, pipe,
-   334				 pegasus->data, pegasus->data_len,
-   335				 pegasus_irq, pegasus, endpoint->bInterval);
-   336	
-   337		pegasus->irq->transfer_dma = pegasus->data_dma;
-   338		pegasus->irq->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
-   339	
-   340		if (dev->manufacturer)
-   341			strscpy(pegasus->name, dev->manufacturer,
-   342				sizeof(pegasus->name));
-   343	
-   344		if (dev->product) {
-   345			if (dev->manufacturer)
-   346				strlcat(pegasus->name, " ", sizeof(pegasus->name));
-   347			strlcat(pegasus->name, dev->product, sizeof(pegasus->name));
-   348		}
-   349	
-   350		if (!strlen(pegasus->name))
-   351			snprintf(pegasus->name, sizeof(pegasus->name),
-   352				 "USB Pegasus Device %04x:%04x",
-   353				 le16_to_cpu(dev->descriptor.idVendor),
-   354				 le16_to_cpu(dev->descriptor.idProduct));
-   355	
-   356		usb_make_path(dev, pegasus->phys, sizeof(pegasus->phys));
-   357		strlcat(pegasus->phys, "/input0", sizeof(pegasus->phys));
-   358	
-   359		INIT_WORK(&pegasus->init, pegasus_init);
-   360	
-   361		usb_set_intfdata(intf, pegasus);
-   362	
-   363		input_dev->name = pegasus->name;
-   364		input_dev->phys = pegasus->phys;
-   365		usb_to_input_id(dev, &input_dev->id);
-   366		input_dev->dev.parent = &intf->dev;
-   367	
-   368		input_set_drvdata(input_dev, pegasus);
-   369	
-   370		input_dev->open = pegasus_open;
-   371		input_dev->close = pegasus_close;
-   372	
-   373		__set_bit(EV_ABS, input_dev->evbit);
-   374		__set_bit(EV_KEY, input_dev->evbit);
-   375	
-   376		__set_bit(ABS_X, input_dev->absbit);
-   377		__set_bit(ABS_Y, input_dev->absbit);
-   378	
-   379		__set_bit(BTN_TOUCH, input_dev->keybit);
-   380		__set_bit(BTN_RIGHT, input_dev->keybit);
-   381		__set_bit(BTN_TOOL_PEN, input_dev->keybit);
-   382	
-   383		__set_bit(INPUT_PROP_DIRECT, input_dev->propbit);
-   384		__set_bit(INPUT_PROP_POINTER, input_dev->propbit);
-   385	
-   386		input_set_abs_params(input_dev, ABS_X, -1500, 1500, 8, 0);
-   387		input_set_abs_params(input_dev, ABS_Y, 1600, 3000, 8, 0);
-   388	
-   389		error = input_register_device(pegasus->dev);
-   390		if (error)
-   391			goto err_free_urb;
-   392	
-   393		return 0;
-   394	
-   395	err_free_urb:
-   396		usb_free_urb(pegasus->irq);
-   397	err_free_dma:
-   398		usb_free_coherent(dev, pegasus->data_len,
-   399				  pegasus->data, pegasus->data_dma);
-   400	err_free_mem:
-   401		input_free_device(input_dev);
-   402		kfree(pegasus);
-   403		usb_set_intfdata(intf, NULL);
-   404	
-   405		return error;
-   406	}
-   407	
+
+vim +/MIDR_THUNDERX_83XX +41 drivers/char/hw_random/cavium-rng-vf.c
+
+cc2f1908c6b8f6 Omer Khaliq   2016-08-23  38  
+680efb33546be8 Sunil Goutham 2021-10-29  39  static inline bool is_octeontx(struct pci_dev *pdev)
+680efb33546be8 Sunil Goutham 2021-10-29  40  {
+680efb33546be8 Sunil Goutham 2021-10-29 @41  	if (midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_83XX,
+680efb33546be8 Sunil Goutham 2021-10-29  42  				    MIDR_CPU_VAR_REV(0, 0),
+680efb33546be8 Sunil Goutham 2021-10-29  43  				    MIDR_CPU_VAR_REV(3, 0)) ||
+680efb33546be8 Sunil Goutham 2021-10-29 @44  	    midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_81XX,
+680efb33546be8 Sunil Goutham 2021-10-29  45  				    MIDR_CPU_VAR_REV(0, 0),
+680efb33546be8 Sunil Goutham 2021-10-29  46  				    MIDR_CPU_VAR_REV(3, 0)) ||
+680efb33546be8 Sunil Goutham 2021-10-29 @47  	    midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX,
+680efb33546be8 Sunil Goutham 2021-10-29  48  				    MIDR_CPU_VAR_REV(0, 0),
+680efb33546be8 Sunil Goutham 2021-10-29  49  				    MIDR_CPU_VAR_REV(3, 0)))
+680efb33546be8 Sunil Goutham 2021-10-29  50  		return true;
+680efb33546be8 Sunil Goutham 2021-10-29  51  
+680efb33546be8 Sunil Goutham 2021-10-29  52  	return false;
+680efb33546be8 Sunil Goutham 2021-10-29  53  }
+680efb33546be8 Sunil Goutham 2021-10-29  54  
+
+:::::: The code at line 41 was first introduced by commit
+:::::: 680efb33546be8960ccbb2f4e0e43034d9c93b30 hwrng: cavium - Check health status while reading random data
+
+:::::: TO: Sunil Goutham <sgoutham@marvell.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
