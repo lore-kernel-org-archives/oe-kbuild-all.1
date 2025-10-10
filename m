@@ -1,58 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0515C2FC881
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 16:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546B82FC88A;
+	Fri, 10 Oct 2025 16:57:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760115427; cv=none; b=mbD7EEnAKbRIZ0s6bsihn5KMwZVZzu57aphn9Xt/a++6o2cms1ZbFg3F9rNOgklMNzX1l78EsKgzlyrdtyMDYFIUEcjjX1j07WYiRjqgM0FpGMIToJvUmyo77GlGmAHmx01Aad2asIwmmFH5PtICpkdjy4RQZ52r3ITCP4qVQwc=
+	t=1760115427; cv=none; b=LuKF75/FvMUBg+80h9Xsddm0nfGlwI2cAPi/MeSCi3Q5+7OGLvdKjqvfPGSgcv83vgYVK1h9lReVkBJacHnIY09CnHf12X6RKnOFmf7H6hlkwN1JtvMun8ILyV6Ix84sZxSZBFXA+DxJIP9GKCp7TEZtlDoSCbTRohW3N4uFe6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1760115427; c=relaxed/simple;
-	bh=4O9f64z1f5sYk1vmr11qYi5VTsKivbeuNl98xzly4Iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K18JGYH6WMu3JUjZ8HtjsYpsgkC9jbW+Mp/OKNyga5Jc66xpcQc430vjgn6ErFWg5cbFsu+/Sg1SePFXuNrA+P/6JhTWRANue+nRufUo/M1Xzn4mlodjPozJVnwt3lPfYMDkLXnJOwHnjp/aBYyJw/XbdGfC6NDE67E7J5tAogI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=INLu/QeQ; arc=none smtp.client-ip=192.198.163.14
+	bh=l0fiWZYVG+wfmCw7kScmyAYvT0108Un2WDvxgohMa4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gtjl90VypMHfVq5NAEyo6kSDemLK7UumJspVFAU8zbLJVW87FTo7iDe1/hjqeX+eIksJ64Lhdj1brYryJyfC2KTuDFcxDeKhP5s9Au4qmnA1IhkRqQe9xVv7xC8tA2cN5VIhRkNQ3x/E3JoV74bHxvdmAcEQ0Pcjiidh+v09cSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgT/Sc9t; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="INLu/QeQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgT/Sc9t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760115426; x=1791651426;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4O9f64z1f5sYk1vmr11qYi5VTsKivbeuNl98xzly4Iw=;
-  b=INLu/QeQxOGT4Au8naNSfTABoWVq5c+TfaP+NUm77Sz8Zhih1BulewSV
-   AL9Bl8sMW9qFYWExjHFHGR1wkAuGDcJkYOvgHgaubiwFuuKyiLHxegi3e
-   Z9PRmD464qUakDBnl7MiehpwuKpTleMuzMm1tRBAx9xn6A9gnxkAPzL5I
-   WpGuyMQJKcZls39EjnmTQ2InxHZSvvHlZkMhY1qbHNSTAokfs9uWNkyO0
-   m+par9pqBeSOd+0I804I37lFQ+w7+CgP/nOjx07a9NKivWq0g/mU0syBD
-   1fmVdRzhNE2L/Zox+1E2bZVohmnSsAFF6eImPVJJp9UQP2llYbmDpQ1Br
-   w==;
-X-CSE-ConnectionGUID: qqZhYAllTt6sunucRgrErw==
-X-CSE-MsgGUID: 7Pm5Gay4RQy6dG2kzkUixg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62367659"
+  t=1760115427; x=1791651427;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l0fiWZYVG+wfmCw7kScmyAYvT0108Un2WDvxgohMa4o=;
+  b=HgT/Sc9tahvTNo7kr5vdJbizsE96Z5VpR3wGSuZo7W7CvYQfi+jJ2ihz
+   7aLKzrBnETTzXjFdwe2wKb86+BM9z2kL4yChnA8Sp3Z5OAb6LTY+Y8PQ3
+   c93HiCxmDuW9V6kqH0E+b0YDj4QjPrUjBIk0KjXZBjUrCm18K1Nuqzfjw
+   Dt2885L75NZQ9DIBebxZB73IoXDADa7wPAHgoqyGAcZ6p8rSKvqHTFoed
+   dCBMgTjJ3yKhGWhV3FG8xY9vRDXmygub3tpGeyUte00ymTQqewqbCy7Ga
+   9s9tZ6HX8CMFnXvGOKU+vQLN3RMnzfmx5pEQb5s6YyM31PeAkKNWKFaY0
+   g==;
+X-CSE-ConnectionGUID: jGS+lSlIQ+yeT3dXOSDUhg==
+X-CSE-MsgGUID: AxVWtvCjRsqkmHK0fHgjsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62367666"
 X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="62367659"
+   d="scan'208";a="62367666"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 09:57:03 -0700
-X-CSE-ConnectionGUID: /1gT4fW/RLWbuGXlObBIuw==
-X-CSE-MsgGUID: fUe8vRfjQgqLeahLVju/dg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 09:57:04 -0700
+X-CSE-ConnectionGUID: jgY5epT1SJWEgpZleUaRIA==
+X-CSE-MsgGUID: aoCx4benQO2MyTbhCbqfeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="180703372"
+   d="scan'208";a="180703370"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Oct 2025 09:57:02 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 10 Oct 2025 09:57:01 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7GQN-0002ys-2i;
+	id 1v7GQN-0002yl-2V;
 	Fri, 10 Oct 2025 16:56:59 +0000
-Date: Sat, 11 Oct 2025 00:56:15 +0800
+Date: Sat, 11 Oct 2025 00:56:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steve French <stfrench@microsoft.com>
-Subject: [linux-next:master 13531/13643] fs/smb/client/inode.c:1813:13:
- warning: variable 'sillyname_len' set but not used
-Message-ID: <202510110331.X9JFTlLK-lkp@intel.com>
+To: Joshua Watt <jpewhacker@gmail.com>, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Joshua Watt <jpewhacker@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Subject: Re: [PATCH] NFS: Fix state renewals missing after boot
+Message-ID: <202510110046.sj3dc5HD-lkp@intel.com>
+References: <20251008230935.738405-1-JPEWhacker@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,199 +66,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251008230935.738405-1-JPEWhacker@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2b763d4652393c90eaa771a5164502ec9dd965ae
-commit: af991ae5d88f7800e5ac60d95c1bb9ca2fb63fa7 [13531/13643] cifs: Fix random name construction for cifs_rename_pending_delete()
-config: i386-randconfig-012-20251010 (https://download.01.org/0day-ci/archive/20251011/202510110331.X9JFTlLK-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110331.X9JFTlLK-lkp@intel.com/reproduce)
+Hi Joshua,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on linus/master v6.17 next-20251010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Watt/NFS-Fix-state-renewals-missing-after-boot/20251010-103708
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20251008230935.738405-1-JPEWhacker%40gmail.com
+patch subject: [PATCH] NFS: Fix state renewals missing after boot
+config: mips-ip32_defconfig (https://download.01.org/0day-ci/archive/20251011/202510110046.sj3dc5HD-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110046.sj3dc5HD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110331.X9JFTlLK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110046.sj3dc5HD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/smb/client/inode.c: In function 'cifs_rename_pending_delete':
->> fs/smb/client/inode.c:1813:13: warning: variable 'sillyname_len' set but not used [-Wunused-but-set-variable]
-    1813 |         int sillyname_len;
-         |             ^~~~~~~~~~~~~
+>> fs/nfs/client.c:184:7: error: no member named 'cl_last_renewal' in 'struct nfs_client'
+     184 |         clp->cl_last_renewal = jiffies;
+         |         ~~~  ^
+   1 error generated.
 
 
-vim +/sillyname_len +1813 fs/smb/client/inode.c
+vim +184 fs/nfs/client.c
 
-  1783	
-  1784	#ifdef CONFIG_CIFS_ALLOW_INSECURE_LEGACY
-  1785	/*
-  1786	 * Open the given file (if it isn't already), set the DELETE_ON_CLOSE bit
-  1787	 * and rename it to a random name that hopefully won't conflict with
-  1788	 * anything else.
-  1789	 */
-  1790	#define SILLYNAME_PREFIX ".smb"
-  1791	#define SILLYNAME_PREFIX_LEN ((unsigned int)sizeof(SILLYNAME_PREFIX) - 1)
-  1792	#define SILLYNAME_FILEID_LEN ((unsigned int)sizeof(u64) << 1)
-  1793	#define SILLYNAME_COUNTER_LEN ((unsigned int)sizeof(unsigned int) << 1)
-  1794	#define SILLYNAME_LEN (SILLYNAME_PREFIX_LEN + \
-  1795			SILLYNAME_FILEID_LEN + \
-  1796			SILLYNAME_COUNTER_LEN)
-  1797	int
-  1798	cifs_rename_pending_delete(const char *full_path, struct dentry *dentry,
-  1799				   const unsigned int xid)
-  1800	{
-  1801		int oplock = 0;
-  1802		int rc;
-  1803		struct cifs_fid fid;
-  1804		struct cifs_open_parms oparms;
-  1805		struct inode *inode = d_inode(dentry);
-  1806		struct cifsInodeInfo *cifsInode = CIFS_I(inode);
-  1807		struct cifs_sb_info *cifs_sb = CIFS_SB(inode->i_sb);
-  1808		struct tcon_link *tlink;
-  1809		struct cifs_tcon *tcon;
-  1810		__u32 dosattr, origattr;
-  1811		FILE_BASIC_INFO *info_buf = NULL;
-  1812		unsigned char sillyname[SILLYNAME_LEN + 1];
-> 1813		int sillyname_len;
-  1814	
-  1815		tlink = cifs_sb_tlink(cifs_sb);
-  1816		if (IS_ERR(tlink))
-  1817			return PTR_ERR(tlink);
-  1818		tcon = tlink_tcon(tlink);
-  1819	
-  1820		/* construct random name ".smb<inodenum><counter>" */
-  1821		while (true) {
-  1822			static unsigned int sillycounter; /* globally unique */
-  1823			bool sillyname_available = false;
-  1824			struct dentry *sdentry = NULL;
-  1825	
-  1826			sillycounter++;
-  1827			sillyname_len = scnprintf(sillyname, sizeof(sillyname),
-  1828					 SILLYNAME_PREFIX "%0*llx%0*x",
-  1829					 SILLYNAME_FILEID_LEN, (unsigned long long)cifsInode->uniqueid,
-  1830					 SILLYNAME_COUNTER_LEN, sillycounter);
-  1831			sdentry = lookup_noperm(&QSTR(sillyname), dentry->d_parent);
-  1832			if (IS_ERR(sdentry)) {
-  1833				rc = -EBUSY;
-  1834				goto out;
-  1835			}
-  1836	
-  1837			if (d_inode(sdentry) == NULL) /* need negative lookup */
-  1838				sillyname_available = true;
-  1839	
-  1840			dput(sdentry);
-  1841	
-  1842			if (sillyname_available)
-  1843				break;
-  1844		}
-  1845	
-  1846		/*
-  1847		 * We cannot rename the file if the server doesn't support
-  1848		 * CAP_INFOLEVEL_PASSTHRU
-  1849		 */
-  1850		if (!(tcon->ses->capabilities & CAP_INFOLEVEL_PASSTHRU)) {
-  1851			rc = -EBUSY;
-  1852			goto out;
-  1853		}
-  1854	
-  1855		oparms = (struct cifs_open_parms) {
-  1856			.tcon = tcon,
-  1857			.cifs_sb = cifs_sb,
-  1858			.desired_access = DELETE | FILE_WRITE_ATTRIBUTES,
-  1859			.create_options = cifs_create_options(cifs_sb, CREATE_NOT_DIR),
-  1860			.disposition = FILE_OPEN,
-  1861			.path = full_path,
-  1862			.fid = &fid,
-  1863		};
-  1864	
-  1865		rc = CIFS_open(xid, &oparms, &oplock, NULL);
-  1866		if (rc != 0)
-  1867			goto out;
-  1868	
-  1869		origattr = cifsInode->cifsAttrs;
-  1870		if (origattr == 0)
-  1871			origattr |= ATTR_NORMAL;
-  1872	
-  1873		dosattr = origattr & ~ATTR_READONLY;
-  1874		if (dosattr == 0)
-  1875			dosattr |= ATTR_NORMAL;
-  1876		dosattr |= ATTR_HIDDEN;
-  1877	
-  1878		/* set ATTR_HIDDEN and clear ATTR_READONLY, but only if needed */
-  1879		if (dosattr != origattr) {
-  1880			info_buf = kzalloc(sizeof(*info_buf), GFP_KERNEL);
-  1881			if (info_buf == NULL) {
-  1882				rc = -ENOMEM;
-  1883				goto out_close;
-  1884			}
-  1885			info_buf->Attributes = cpu_to_le32(dosattr);
-  1886			rc = CIFSSMBSetFileInfo(xid, tcon, info_buf, fid.netfid,
-  1887						current->tgid);
-  1888			/* although we would like to mark the file hidden
-  1889	 		   if that fails we will still try to rename it */
-  1890			if (!rc)
-  1891				cifsInode->cifsAttrs = dosattr;
-  1892			else
-  1893				dosattr = origattr; /* since not able to change them */
-  1894		}
-  1895	
-  1896		/* rename the file */
-  1897		rc = CIFSSMBRenameOpenFile(xid, tcon, fid.netfid, sillyname,
-  1898					   cifs_sb->local_nls,
-  1899					   cifs_remap(cifs_sb));
-  1900		if (rc != 0) {
-  1901			rc = -EBUSY;
-  1902			goto undo_setattr;
-  1903		}
-  1904	
-  1905		/* try to set DELETE_ON_CLOSE */
-  1906		if (!test_bit(CIFS_INO_DELETE_PENDING, &cifsInode->flags)) {
-  1907			rc = CIFSSMBSetFileDisposition(xid, tcon, true, fid.netfid,
-  1908						       current->tgid);
-  1909			/*
-  1910			 * some samba versions return -ENOENT when we try to set the
-  1911			 * file disposition here. Likely a samba bug, but work around
-  1912			 * it for now. This means that some cifsXXX files may hang
-  1913			 * around after they shouldn't.
-  1914			 *
-  1915			 * BB: remove this hack after more servers have the fix
-  1916			 */
-  1917			if (rc == -ENOENT)
-  1918				rc = 0;
-  1919			else if (rc != 0) {
-  1920				rc = -EBUSY;
-  1921				goto undo_rename;
-  1922			}
-  1923			set_bit(CIFS_INO_DELETE_PENDING, &cifsInode->flags);
-  1924		}
-  1925	
-  1926	out_close:
-  1927		CIFSSMBClose(xid, tcon, fid.netfid);
-  1928	out:
-  1929		kfree(info_buf);
-  1930		cifs_put_tlink(tlink);
-  1931		return rc;
-  1932	
-  1933		/*
-  1934		 * reset everything back to the original state. Don't bother
-  1935		 * dealing with errors here since we can't do anything about
-  1936		 * them anyway.
-  1937		 */
-  1938	undo_rename:
-  1939		CIFSSMBRenameOpenFile(xid, tcon, fid.netfid, dentry->d_name.name,
-  1940					cifs_sb->local_nls, cifs_remap(cifs_sb));
-  1941	undo_setattr:
-  1942		if (dosattr != origattr) {
-  1943			info_buf->Attributes = cpu_to_le32(origattr);
-  1944			if (!CIFSSMBSetFileInfo(xid, tcon, info_buf, fid.netfid,
-  1945						current->tgid))
-  1946				cifsInode->cifsAttrs = origattr;
-  1947		}
-  1948	
-  1949		goto out_close;
-  1950	}
-  1951	#endif /* CONFIG_CIFS_ALLOW_INSECURE_LEGACY */
-  1952	
+   141	
+   142	/*
+   143	 * Allocate a shared client record
+   144	 *
+   145	 * Since these are allocated/deallocated very rarely, we don't
+   146	 * bother putting them in a slab cache...
+   147	 */
+   148	struct nfs_client *nfs_alloc_client(const struct nfs_client_initdata *cl_init)
+   149	{
+   150		struct nfs_client *clp;
+   151		int err = -ENOMEM;
+   152	
+   153		if ((clp = kzalloc(sizeof(*clp), GFP_KERNEL)) == NULL)
+   154			goto error_0;
+   155	
+   156		clp->cl_minorversion = cl_init->minorversion;
+   157		clp->cl_nfs_mod = cl_init->nfs_mod;
+   158		if (!get_nfs_version(clp->cl_nfs_mod))
+   159			goto error_dealloc;
+   160	
+   161		clp->rpc_ops = clp->cl_nfs_mod->rpc_ops;
+   162	
+   163		refcount_set(&clp->cl_count, 1);
+   164		clp->cl_cons_state = NFS_CS_INITING;
+   165	
+   166		memcpy(&clp->cl_addr, cl_init->addr, cl_init->addrlen);
+   167		clp->cl_addrlen = cl_init->addrlen;
+   168	
+   169		if (cl_init->hostname) {
+   170			err = -ENOMEM;
+   171			clp->cl_hostname = kstrdup(cl_init->hostname, GFP_KERNEL);
+   172			if (!clp->cl_hostname)
+   173				goto error_cleanup;
+   174		}
+   175	
+   176		INIT_LIST_HEAD(&clp->cl_superblocks);
+   177		clp->cl_rpcclient = ERR_PTR(-EINVAL);
+   178	
+   179		clp->cl_flags = cl_init->init_flags;
+   180		clp->cl_proto = cl_init->proto;
+   181		clp->cl_nconnect = cl_init->nconnect;
+   182		clp->cl_max_connect = cl_init->max_connect ? cl_init->max_connect : 1;
+   183		clp->cl_net = get_net_track(cl_init->net, &clp->cl_ns_tracker, GFP_KERNEL);
+ > 184		clp->cl_last_renewal = jiffies;
+   185	
 
 -- 
 0-DAY CI Kernel Test Service
