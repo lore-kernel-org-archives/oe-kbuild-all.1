@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38ED26CE1A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 10:19:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AE8285060;
+	Fri, 10 Oct 2025 10:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760091565; cv=none; b=s+Mi7gXSfLBRWaDkGh+Zns6ziQjlZv1ERoUtTPw7SIn/UJoplNfo5Az4Uh5ZJra9IYqz0vIiYV6pLhafOg2vzrgi11sBkUnfm0vky8pEhkxLaMIQm3KAdv1Rel9QCgkIjTGhI9WwAgcem+nlr5C1TQH9lqG/dj9/XCcuMZhhFZI=
+	t=1760091566; cv=none; b=BfiRR2V4WEfKR4umWm6zHPzYpaw1LcwAdu2SRdxtkhH3DKIp7k1XdsyP0gi7NL8aKsTF1wiQVQfKjUQ9S7LtTAqWgsKhS0bDJmmwXwffwG23XdZu+8rwTdGKkgRqZgKgw1G7CWMI5vPefc0hV7kpGLge6X20slxt5scbo/l9BlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760091565; c=relaxed/simple;
-	bh=dgGReKGpGjCNW3w2o2EMwgn1c2dXdcl2li4SCvYsDfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TCvRyQRzropuDsaSG4R+K4u9/Jf+o95KpTTukUsy5jccoH0penoBZ66zD/eoQzE1lS3o3cTZnjdTL7FY66XHU5sXrJebzq6MQKmQM2ukbgtbVqzjPSeGyvcuYEcZMYQNe4r2WaUOaYiWYXuT+ZrAveyuACTy+9Pa/crs1ircN/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPFxOyCV; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1760091566; c=relaxed/simple;
+	bh=wQIlBG9sQs89jP/0wVDIgDa58MqypRn8Qhj4FpYx1Jc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=crglVC8h8ZhsKb7lUKgNibseR6s11kwfGs9v49Q2jNdRPkHcv7npFxlpxeGByHrn2xP9KkiNkYeXe85QC9GpkWbJMKVC1yX+AUnMduUmOCAR+zsydXCZH01/dAAff0raIVvem89jmssFJ2d/CfhVjRmTqIzhwJzYKAYEpzh8kx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j8fmp9Bb; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPFxOyCV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8fmp9Bb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1760091564; x=1791627564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dgGReKGpGjCNW3w2o2EMwgn1c2dXdcl2li4SCvYsDfc=;
-  b=JPFxOyCVXO13qgSXMNQI115q+IPsVloDX1XiggJWXEsiZoNwecBNiPSy
-   WhlAZSNynO62/gnU0utYjPHFAQyFME9maCSb4DSRbh9KJomg7ugPTvg0y
-   Y9zeWpq/2pugACh1y7T2ipbacbt48Tr+ayXmM5ssVxO9VAqQDWv8b5jr+
-   qPu+ztd5Jtqb9IgabHIr6qx1JF59dGt1wqp1nvQmrASNXBgH46zWpP51D
-   QKPvbTKTK5SDsje2QiIw8Fq5NPiF7BmQEgHMxajjjsz95oG5e1p7Zs9EH
-   uk/UCOtILgNbQlD9pAdjOfrczkB76wXO+C+6ev4CFlPXrCyixZsAW+z7O
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wQIlBG9sQs89jP/0wVDIgDa58MqypRn8Qhj4FpYx1Jc=;
+  b=j8fmp9BbfEIWMW7D1Y/e6PWyIyL+vUao2GreHnv61rIdbOJVZC9ApbMG
+   Tdl/Cpmbk5yW0NRTYlm3TNZeIWE4xEcsQHRkqYdLqaEBVyrz99eMQMF3e
+   Prp5teOETmRLuo1ElBs7PF2iwkxGKRmdd8A7ZODpCXtifBdyvaI6lW9K3
+   DU+/vXNHzMJkxwsNZ++d45LD9GY1y3Kd4p/cwEUzBURGGtQiw/DHiwClG
+   jEPMSBLJS6ZI7ucCykYAm6qlNfuC9kQ/rPbi9jSy4qQPu3vMsM5nsOBuL
+   Ya3/JYpAw06bpYkwkH36tnxcRQOZfUq1i5PzxgT320qsw8IZixUd+3mT/
    w==;
-X-CSE-ConnectionGUID: xxGT463aSKy+Ix/Bq6u1Rg==
-X-CSE-MsgGUID: R/9y1LI8SqeuihKKvOuS6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73411853"
+X-CSE-ConnectionGUID: mILDCM0TQ5islj8WIwkjQw==
+X-CSE-MsgGUID: 0Cll6UcYQHeuN67CNMfMMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="73411857"
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="73411853"
+   d="scan'208";a="73411857"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 03:19:21 -0700
-X-CSE-ConnectionGUID: gB9Umr/2TTqB43b145cdTg==
-X-CSE-MsgGUID: gufkWno4RjWqo6uWCbgSAA==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 03:19:22 -0700
+X-CSE-ConnectionGUID: TJpItxSwQN2cElvRuabkaA==
+X-CSE-MsgGUID: Uj8D8BTcQmytnIyQvo6ZAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="184977480"
+   d="scan'208";a="184977482"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 10 Oct 2025 03:19:20 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7ADV-0002Xt-1g;
+	id 1v7ADV-0002Xr-1d;
 	Fri, 10 Oct 2025 10:19:17 +0000
-Date: Fri, 10 Oct 2025 18:18:51 +0800
+Date: Fri, 10 Oct 2025 18:18:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2959/2959]
- drivers/net/ethernet/wangxun/txgbe/txgbe_sriov.c:865:9: error: use of
- undeclared label 'out'
-Message-ID: <202510101828.gRkDvu1F-lkp@intel.com>
+To: Kaushlendra Kumar <kaushlendra.kumar@intel.com>, rafael@kernel.org,
+	lenb@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org,
+	Kaushlendra Kumar <kaushlendra.kumar@intel.com>
+Subject: Re: [PATCH] ACPI: video: Replace backlight_device_register() with
+ devm variant
+Message-ID: <202510101817.Xkl2fc9D-lkp@intel.com>
+References: <20251007030730.3192901-1-kaushlendra.kumar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,111 +66,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251007030730.3192901-1-kaushlendra.kumar@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5eb2e030c0e9dcbd54aac7aea8a1a806ac347251
-commit: 2048b5b7f264f56a4d9e73079e790e13c8596aaf [2959/2959] net: wangxun: txgbe: add support for wangxun 10G/25G/40G
-config: arm64-randconfig-003-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101828.gRkDvu1F-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101828.gRkDvu1F-lkp@intel.com/reproduce)
+Hi Kaushlendra,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.17 next-20251009]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kaushlendra-Kumar/ACPI-video-Replace-backlight_device_register-with-devm-variant/20251010-133230
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20251007030730.3192901-1-kaushlendra.kumar%40intel.com
+patch subject: [PATCH] ACPI: video: Replace backlight_device_register() with devm variant
+config: i386-buildonly-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101817.Xkl2fc9D-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101817.Xkl2fc9D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101828.gRkDvu1F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510101817.Xkl2fc9D-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_sriov.c:15:
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     987 |         u32 cur_diff = 0;
-         |             ^
->> drivers/net/ethernet/wangxun/txgbe/txgbe_sriov.c:865:9: error: use of undeclared label 'out'
-     865 |                         goto out;
-         |                              ^
-   1 warning and 1 error generated.
---
-   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:10:
-   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_e56.h:8:
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     987 |         u32 cur_diff = 0;
-         |             ^
->> drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:6111:24: warning: unused variable 'adapter' [-Wunused-variable]
-    6111 |         struct txgbe_adapter *adapter = (struct txgbe_adapter *)hw->back;
-         |                               ^~~~~~~
->> drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:6450:3: error: use of undeclared identifier 'adapter'
-    6450 |                 e_info(drv, " bucket hash should always be 0 in mask\n");
-         |                 ^
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:1292:13: note: expanded from macro 'e_info'
-    1292 |         netif_info(adapter, msglvl, adapter->netdev, format, ## arg)
-         |                    ^
->> drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:6450:3: error: use of undeclared identifier 'adapter'
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:1292:13: note: expanded from macro 'e_info'
-    1292 |         netif_info(adapter, msglvl, adapter->netdev, format, ## arg)
-         |                    ^
->> drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:6450:3: error: use of undeclared identifier 'adapter'
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:1292:13: note: expanded from macro 'e_info'
-    1292 |         netif_info(adapter, msglvl, adapter->netdev, format, ## arg)
-         |                    ^
->> drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:6450:3: error: use of undeclared identifier 'adapter'
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:1292:30: note: expanded from macro 'e_info'
-    1292 |         netif_info(adapter, msglvl, adapter->netdev, format, ## arg)
-         |                                     ^
-   drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:7554:6: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-    7554 |         int status;
-         |             ^
-   drivers/net/ethernet/wangxun/txgbe/txgbe_hw.c:7687:6: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-    7687 |         int status;
-         |             ^
-   4 warnings and 4 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
-   Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
-   Selected by [m]:
-   - SXE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 || ARM64 [=y]) && PCI [=y]
-   - SXE_VF [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 || ARM64 [=y]) && PCI [=y]
+>> drivers/acpi/acpi_video.c:1732:6: warning: variable 'pdev' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1732 |         if (ACPI_SUCCESS(acpi_get_parent(device->dev->handle, &acpi_parent))) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/acpi/acexcep.h:57:41: note: expanded from macro 'ACPI_SUCCESS'
+      57 | #define ACPI_SUCCESS(a)                 (!(a))
+         |                                         ^~~~~~
+   drivers/acpi/acpi_video.c:1744:54: note: uninitialized use occurs here
+    1744 |         device->backlight = devm_backlight_device_register(&pdev->dev,
+         |                                                             ^~~~
+   drivers/acpi/acpi_video.c:1732:2: note: remove the 'if' if its condition is always true
+    1732 |         if (ACPI_SUCCESS(acpi_get_parent(device->dev->handle, &acpi_parent))) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpi_video.c:1716:22: note: initialize the variable 'pdev' to silence this warning
+    1716 |         struct pci_dev *pdev;
+         |                             ^
+         |                              = NULL
+   1 warning generated.
 
 
-vim +/out +865 drivers/net/ethernet/wangxun/txgbe/txgbe_sriov.c
+vim +1732 drivers/acpi/acpi_video.c
 
-   851	
-   852	static int txgbe_set_vf_vlan_msg(struct txgbe_adapter *adapter,
-   853					 u32 *msgbuf, u16 vf)
-   854	{
-   855		struct txgbe_hw *hw = &adapter->hw;
-   856		int add = (msgbuf[0] & TXGBE_VT_MSGINFO_MASK) >> TXGBE_VT_MSGINFO_SHIFT;
-   857		int vid = (msgbuf[1] & TXGBE_PSR_VLAN_SWC_VLANID_MASK);
-   858		int vlan_offload = (msgbuf[0] & TXGBE_VT_MSGINFO_MASK) >>
-   859							TXGBE_VT_MSGINFO_VLAN_OFFLOAD_SHIFT;
-   860		int err = 0;
-   861		u8 tcs = netdev_get_num_tc(adapter->netdev);
-   862	
-   863		if (adapter->vfinfo[vf].pf_vlan || tcs) {
-   864			if (!vlan_offload) {
- > 865				goto out;
-   866			} else {
-   867				e_warn(drv, "VF %d attempted to override set VLAN configuration\n",
-   868				       vf);
-   869				return -1;
-   870			}
-   871		}
-   872	
-   873		if (add)
-   874			adapter->vfinfo[vf].vlan_count++;
-   875		else if (adapter->vfinfo[vf].vlan_count)
-   876			adapter->vfinfo[vf].vlan_count--;
-   877	
-   878		/* in case of promiscuous mode any VLAN filter set for a VF must
-   879		 * also have the PF pool added to it.
-   880		 */
-   881		if (add && adapter->netdev->flags & IFF_PROMISC)
-   882			err = txgbe_set_vf_vlan(adapter, add, vid, VMDQ_P(0));
-   883	
-   884		err = txgbe_set_vf_vlan(adapter, add, vid, vf);
-   885		if (!err && adapter->vfinfo[vf].spoofchk_enabled)
-   886			hw->mac.ops.set_vlan_anti_spoofing(hw, true, vf);
-   887	
+c504f8cb68eb0d drivers/acpi/video.c      Zhang Rui         2009-12-30  1712  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1713  static void acpi_video_dev_register_backlight(struct acpi_video_device *device)
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1714  {
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1715  	struct backlight_properties props;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1716  	struct pci_dev *pdev;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1717  	acpi_handle acpi_parent;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1718  	struct device *parent = NULL;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1719  	int result;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1720  	static int count;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1721  	char *name;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1722  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1723  	result = acpi_video_init_brightness(device);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1724  	if (result)
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1725  		return;
+654a182d8562d5 drivers/acpi/video.c      Hans de Goede     2015-06-09  1726  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1727  	name = kasprintf(GFP_KERNEL, "acpi_video%d", count);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1728  	if (!name)
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1729  		return;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1730  	count++;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1731  
+ccd45faf497374 drivers/acpi/acpi_video.c Nikita Kiryushin  2023-11-09 @1732  	if (ACPI_SUCCESS(acpi_get_parent(device->dev->handle, &acpi_parent))) {
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1733  		pdev = acpi_get_pci_dev(acpi_parent);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1734  		if (pdev) {
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1735  			parent = &pdev->dev;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1736  			pci_dev_put(pdev);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1737  		}
+ccd45faf497374 drivers/acpi/acpi_video.c Nikita Kiryushin  2023-11-09  1738  	}
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1739  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1740  	memset(&props, 0, sizeof(struct backlight_properties));
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1741  	props.type = BACKLIGHT_FIRMWARE;
+d485ef43072e54 drivers/acpi/acpi_video.c Dmitry Frank      2017-04-19  1742  	props.max_brightness =
+d485ef43072e54 drivers/acpi/acpi_video.c Dmitry Frank      2017-04-19  1743  		device->brightness->count - ACPI_VIDEO_FIRST_LEVEL - 1;
+ef5cc540f10200 drivers/acpi/acpi_video.c Kaushlendra Kumar 2025-10-07  1744  	device->backlight = devm_backlight_device_register(&pdev->dev,
+ef5cc540f10200 drivers/acpi/acpi_video.c Kaushlendra Kumar 2025-10-07  1745  							  name,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1746  							  parent,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1747  							  device,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1748  							  &acpi_backlight_ops,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1749  							  &props);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1750  	kfree(name);
+ef5cc540f10200 drivers/acpi/acpi_video.c Kaushlendra Kumar 2025-10-07  1751  	if (IS_ERR(device->backlight))
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1752  		return;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1753  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1754  	/*
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1755  	 * Save current brightness level in case we have to restore it
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1756  	 * before acpi_video_device_lcd_set_level() is called next time.
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1757  	 */
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1758  	device->backlight->props.brightness =
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1759  			acpi_video_get_brightness(device->backlight);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1760  
+172c48caed91a9 drivers/acpi/acpi_video.c Hans de Goede     2023-11-27  1761  	device->cooling_dev = thermal_cooling_device_register("LCD", device,
+172c48caed91a9 drivers/acpi/acpi_video.c Hans de Goede     2023-11-27  1762  							      &video_cooling_ops);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1763  	if (IS_ERR(device->cooling_dev)) {
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1764  		/*
+99678ed73a50d2 drivers/acpi/video.c      Hans de Goede     2014-05-15  1765  		 * Set cooling_dev to NULL so we don't crash trying to free it.
+99678ed73a50d2 drivers/acpi/video.c      Hans de Goede     2014-05-15  1766  		 * Also, why the hell we are returning early and not attempt to
+99678ed73a50d2 drivers/acpi/video.c      Hans de Goede     2014-05-15  1767  		 * register video output if cooling device registration failed?
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1768  		 * -- dtor
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1769  		 */
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1770  		device->cooling_dev = NULL;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1771  		return;
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1772  	}
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1773  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1774  	dev_info(&device->dev->dev, "registered as cooling_device%d\n",
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1775  		 device->cooling_dev->id);
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1776  	result = sysfs_create_link(&device->dev->dev.kobj,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1777  			&device->cooling_dev->device.kobj,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1778  			"thermal_cooling");
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1779  	if (result)
+2924d2f837788b drivers/acpi/acpi_video.c Rafael J. Wysocki 2021-02-03  1780  		pr_info("sysfs link creation failed\n");
+2924d2f837788b drivers/acpi/acpi_video.c Rafael J. Wysocki 2021-02-03  1781  
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1782  	result = sysfs_create_link(&device->cooling_dev->device.kobj,
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1783  			&device->dev->dev.kobj, "device");
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1784  	if (result)
+2924d2f837788b drivers/acpi/acpi_video.c Rafael J. Wysocki 2021-02-03  1785  		pr_info("Reverse sysfs link creation failed\n");
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1786  }
+67b662e189f469 drivers/acpi/video.c      Aaron Lu          2013-10-11  1787  
 
 -- 
 0-DAY CI Kernel Test Service
