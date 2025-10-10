@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B045D1D63E4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 08:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE71A26E6F8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 08:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760083331; cv=none; b=OnHfHKIfYR8QTgjdH28w0VszXqq4RpLS8BGueO4EYqNtB03R/ZPmBemZDG68vPibb3jnp4iZB3sFz9uIAoxApWnjqFGaPY01XqivvjftSkQdRQNgdw7x6ML4MhBltDOjvslD+BfYNAmhhyCS2Thd9MAy1WVU65XZ5zrSV/t+WxU=
+	t=1760083931; cv=none; b=dQmYUA+h/42IEZaKR6U8QT4nUfSYTG8lUqe8q3Wyz5ttmvH921YKRVF8wV4lYmjiVZSqN3360PIQ3xaIenSeCAIPkfXtb83ILFvZQ0FRz8J1+14/SFUSod6yRpEWts1MQHEHyKj8YwXmmjnxuFmXsowBxayIjLzv71SdEA9Ln/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760083331; c=relaxed/simple;
-	bh=cviFP9rrvwYYJLMTAmzy67tvS/bWe4YhO1+QZmllZQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jl8DksUl/4IXCyWLrtn8FR8LhfJKKAOao9kANQz5hgO6pJQj7NMtENuhfbYKNM4HXXJlNSCThadNorAImBj+RLA4hGCxNVzwrj56qu2VOwUMVyFwLZY4q93fwpReYq2f2T8M5A7SvWu++rPaWjwnm31OjKhBkiuPUzDax+NdX0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR/7S/Xq; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1760083931; c=relaxed/simple;
+	bh=wEfkIqJZzdauB4CukX1UapDQQ8G3GPgnn26au9PmCjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z1GrLb4D0ZEVcL3zCghz3sj+wkQ9SGwHgskazVb9OwVnWDFRzsq5hBHoUdwxWnsWM4JdNnQ9gf0+SBMOPSDaiah4jJOmzB4Ld7HIMI/CoMMdiWVp6vwi944DOoQCFVt+ZM1UwTtUtgBproJbHfhDNrtl9RRqI4I15wHeu/T0w58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMaZbBjy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR/7S/Xq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMaZbBjy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760083329; x=1791619329;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cviFP9rrvwYYJLMTAmzy67tvS/bWe4YhO1+QZmllZQI=;
-  b=mR/7S/XqsZ0jqC4qYUfjdpD3S+L3NyWfOYH0Km5NjlHl3PuXFvvbv5kH
-   VNdshe5vSI0gRkkk5jn8WrXeF62vaCqtjnXYvchjz4RsRhc1wAtZANo5C
-   FiVEF8ruOXu2oeKte6yiKzRFVZyD/xmDfOkCw4e0ydUbQm29qPyWJnebI
-   qXM/wVQz7y5dVKdLRqpls1Rq86Lp/hIe9sIwPQxLjsOWsRjqFC5kN5yxE
-   Nfq9kTh2N99g4b21SK2r27nCfJfgEi5KEhNYjbanB0DMprPu4NtJjFBAf
-   TeujrC7H3b1BRwu2SJOXKBJvHfZVk20TeYmOZGIRG9J8S4xV19PS4nNAa
+  t=1760083929; x=1791619929;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wEfkIqJZzdauB4CukX1UapDQQ8G3GPgnn26au9PmCjs=;
+  b=DMaZbBjyCTPPUZCzgnpoTXdEdKoKYmypB2C3NQaeO+rjDZyLq9kTBBik
+   NINcOmj8RKdrkq5/MtOsvGi/dH9r4Ty+WSq06oro7V+iPNLWS0dGCHt3U
+   8xbzVlNZYquYkBTCU+Ts6LKrRtY8c+4zsxdNI6HHZdNHzb45vg2w21fnW
+   68GfLvtkxF7kfg6i5/BHo6liD1GFnBcVA+HVwW7LgTQMk/kHIOUr2G5n+
+   JDYRe4khFWAplRTc18n3GypnVmyRNwZBkp/7A5fzSOTM/df4LBj00Wlvy
+   sSrlsYvpTedw0pwR56+m8r6GbbdSoKjMntXNf1d9IOz7fTfLeRhfOqnwQ
    A==;
-X-CSE-ConnectionGUID: qcUS2x3JTAyTiF/KRoXNZA==
-X-CSE-MsgGUID: xFb3irIYSRSk28yrs68fOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62328954"
+X-CSE-ConnectionGUID: 5cjRm5WxSv+6R9ZqhhJQyg==
+X-CSE-MsgGUID: GygnTOzETfSTzg9yl1kezw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="64924247"
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="62328954"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 01:02:07 -0700
-X-CSE-ConnectionGUID: /RYTgAIzT/CEhVfp3X3nYg==
-X-CSE-MsgGUID: gcDOIQ8rR9uxU74YowEpgQ==
+   d="scan'208";a="64924247"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 01:12:09 -0700
+X-CSE-ConnectionGUID: 4zmRtJ/vTjmFcrZirQMs/Q==
+X-CSE-MsgGUID: Q71nVsQRSXWck0LBrBnyvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="181351750"
+   d="scan'208";a="211880151"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Oct 2025 01:02:06 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Oct 2025 01:12:07 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v784i-0002RR-0U;
-	Fri, 10 Oct 2025 08:02:04 +0000
-Date: Fri, 10 Oct 2025 16:01:20 +0800
+	id 1v78EP-0002SR-14;
+	Fri, 10 Oct 2025 08:12:05 +0000
+Date: Fri, 10 Oct 2025 16:11:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 1/1] mm/shrinker.c:688:6: warning: no
- previous prototype for 'register_shrinker_prepared'
-Message-ID: <202510101510.04hlD5L8-lkp@intel.com>
+To: Luca Coelho <luciano.coelho@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, vinod.govindapillai@intel.com,
+	ville.syrjala@linux.intel.com
+Subject: Re: [PATCH v2 4/7] drm/i915/wm: convert x/y-tiling bools to an enum
+Message-ID: <202510101543.qQD4XNoc-lkp@intel.com>
+References: <20251007075729.468669-5-luciano.coelho@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,48 +63,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251007075729.468669-5-luciano.coelho@intel.com>
 
-Hi Qi,
+Hi Luca,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   eb81fd92a9db00ec051630a8937aa93319a08d2a
-commit: f1dadc895ed84d664e6d2d008be8225d3b051db7 [1/1] mm: shrinker: remove old APIs
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251010/202510101510.04hlD5L8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101510.04hlD5L8-lkp@intel.com/reproduce)
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.17 next-20251009]
+[cannot apply to drm-i915/for-linux-next-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Coelho/drm-i915-wm-clarify-watermark-ops-with-comments/20251010-123245
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20251007075729.468669-5-luciano.coelho%40intel.com
+patch subject: [PATCH v2 4/7] drm/i915/wm: convert x/y-tiling bools to an enum
+config: arm-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101543.qQD4XNoc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101543.qQD4XNoc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101510.04hlD5L8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510101543.qQD4XNoc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/shrinker.c:688:6: warning: no previous prototype for 'register_shrinker_prepared' [-Wmissing-prototypes]
-     688 | void register_shrinker_prepared(struct shrinker *shrinker)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_wm_latency':
+>> drivers/gpu/drm/i915/display/skl_watermark.c:629:33: error: 'WM_TILING_X_TILED' undeclared (first use in this function)
+     629 |             wp && wp->tiling == WM_TILING_X_TILED)
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/skl_watermark.c:629:33: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_compute_wm_params':
+   drivers/gpu/drm/i915/display/skl_watermark.c:1673:30: error: 'WM_TILING_X_TILED' undeclared (first use in this function)
+    1673 |                 wp->tiling = WM_TILING_X_TILED;
+         |                              ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/skl_watermark.c:1716:27: error: 'WM_TILING_Y_FAMILY' undeclared (first use in this function); did you mean 'WM_TILING_Y_Yf_4'?
+    1716 |         if (wp->tiling == WM_TILING_Y_FAMILY) {
+         |                           ^~~~~~~~~~~~~~~~~~
+         |                           WM_TILING_Y_Yf_4
+   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_compute_plane_wm':
+   drivers/gpu/drm/i915/display/skl_watermark.c:1820:27: error: 'WM_TILING_Y_FAMILY' undeclared (first use in this function); did you mean 'WM_TILING_Y_Yf_4'?
+    1820 |         if (wp->tiling == WM_TILING_Y_FAMILY) {
+         |                           ^~~~~~~~~~~~~~~~~~
+         |                           WM_TILING_Y_Yf_4
+   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_compute_transition_wm':
+   drivers/gpu/drm/i915/display/skl_watermark.c:2018:27: error: 'WM_TILING_Y_FAMILY' undeclared (first use in this function); did you mean 'WM_TILING_Y_Yf_4'?
+    2018 |         if (wp->tiling == WM_TILING_Y_FAMILY) {
+         |                           ^~~~~~~~~~~~~~~~~~
+         |                           WM_TILING_Y_Yf_4
 
 
-vim +/register_shrinker_prepared +688 mm/shrinker.c
+vim +/WM_TILING_X_TILED +629 drivers/gpu/drm/i915/display/skl_watermark.c
 
-314369bb029a4d Qi Zheng 2023-09-11  687  
-314369bb029a4d Qi Zheng 2023-09-11 @688  void register_shrinker_prepared(struct shrinker *shrinker)
-314369bb029a4d Qi Zheng 2023-09-11  689  {
-314369bb029a4d Qi Zheng 2023-09-11  690  	down_write(&shrinker_rwsem);
-314369bb029a4d Qi Zheng 2023-09-11  691  	list_add_tail(&shrinker->list, &shrinker_list);
-314369bb029a4d Qi Zheng 2023-09-11  692  	shrinker->flags |= SHRINKER_REGISTERED;
-314369bb029a4d Qi Zheng 2023-09-11  693  	shrinker_debugfs_add(shrinker);
-314369bb029a4d Qi Zheng 2023-09-11  694  	up_write(&shrinker_rwsem);
-314369bb029a4d Qi Zheng 2023-09-11  695  }
-314369bb029a4d Qi Zheng 2023-09-11  696  
-
-:::::: The code at line 688 was first introduced by commit
-:::::: 314369bb029a4d7f5018a64217e28d549e42fb65 mm: vmscan: move shrinker-related code into a separate file
-
-:::::: TO: Qi Zheng <zhengqi.arch@bytedance.com>
-:::::: CC: winterddd <tianruidong@linux.alibaba.com>
+   597	
+   598	static int skl_compute_wm_params(const struct intel_crtc_state *crtc_state,
+   599					 int width, const struct drm_format_info *format,
+   600					 u64 modifier, unsigned int rotation,
+   601					 u32 plane_pixel_rate, struct skl_wm_params *wp,
+   602					 int color_plane, unsigned int pan_x);
+   603	
+   604	static void skl_compute_plane_wm(const struct intel_crtc_state *crtc_state,
+   605					 struct intel_plane *plane,
+   606					 int level,
+   607					 unsigned int latency,
+   608					 const struct skl_wm_params *wp,
+   609					 const struct skl_wm_level *result_prev,
+   610					 struct skl_wm_level *result /* out */);
+   611	
+   612	static unsigned int skl_wm_latency(struct intel_display *display, int level,
+   613					   const struct skl_wm_params *wp)
+   614	{
+   615		unsigned int latency = display->wm.skl_latency[level];
+   616	
+   617		if (latency == 0)
+   618			return 0;
+   619	
+   620		/*
+   621		 * WaIncreaseLatencyIPCEnabled: kbl,cfl
+   622		 * Display WA #1141: kbl,cfl
+   623		 */
+   624		if ((display->platform.kabylake || display->platform.coffeelake ||
+   625		     display->platform.cometlake) && skl_watermark_ipc_enabled(display))
+   626			latency += 4;
+   627	
+   628		if (skl_needs_memory_bw_wa(display) &&
+ > 629		    wp && wp->tiling == WM_TILING_X_TILED)
+   630			latency += 15;
+   631	
+   632		return latency;
+   633	}
+   634	
 
 -- 
 0-DAY CI Kernel Test Service
