@@ -1,57 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB4B3FB31
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 03:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1A01F4C99;
+	Fri, 10 Oct 2025 04:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760068556; cv=none; b=qo4V/dx6i9rnc/k3NGbf/psIkL7t/gCTtE5HtowNyFx8UT41SQmBmmMmfUqxjfEx9gHP8X+b4V/5TeMiKj1E+6meD09vo/lbW3C6i/RSsRvJrnWlfoqIgfhPpLs+b84wc/aWPIIKuIMsjC+lsx7QKy6egQ1AFXmbOZgx1a2ZHiY=
+	t=1760070123; cv=none; b=p+FyzFBL/dFJPZHS9dA1Z6XrZJUKTkigURe5XV84AScYVVanYLaepBgS9np8psUQaTzRc6yKyE9otKfxezlMmGFzSDetddQllYtdFXDS7VLa5cDtwrqbvb0Xnz4h0O0z6cHB8oSNaH7M2WT3ldZHJMHz4IaTFKIoScPpNjc9SB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760068556; c=relaxed/simple;
-	bh=4QX0REg8wScugCmpmdKPYZiB8BCKgqZ+ZIPv+rdIcLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mn6x4jYxszGymLzLLJaE/us7moKhJxAODaa50IRX/AHfzJPl6VRVFC/BlZyYgSqc6a7jFVYK3AQQiDcnEvwEc7gYwwrroigAYdzh7ZWdXvMGOEJhVqsFGtaOWiyj8DXRGhd/d4L+njjmf61npRfOyufp9V5SH4AFJ6TQSoSSNcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMCuiAoY; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1760070123; c=relaxed/simple;
+	bh=V8lVhg40i6i3dzj7FEuSEzfEDeikzBVx4RlBJVsKO+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aWnrUKvgK0D5DJmsgwBIXwFLrUu+MPfc/u2GuJ2Bllc9Ls5EVHUQeGqg74LoYHp921tymTKJW0G5baGLaOCcNvi9XwNmqbA5KFSTB46b4zRW+xDipR/yrCoTdJ/7SRoKv2hZg9SxZw8K2D4BRUvU2NcVciE9Fq5JExzyIhw8VxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c57DB32K; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMCuiAoY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c57DB32K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760068554; x=1791604554;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4QX0REg8wScugCmpmdKPYZiB8BCKgqZ+ZIPv+rdIcLQ=;
-  b=AMCuiAoYsK+H5fG9l165cLB+qMcRNObbJCqsLqo6yowK94nfiuZrC6yM
-   2J0D2MI8H2VPVG7OMZOKajeJEvuvtHK9G+bAejeoQ3cEaHIBXpKf37sAj
-   +bkCMdVMfUZYAsxPCdaO50X20hRqARqPovkr37RMHAsmnCamDFF7ODzGt
-   /P1N2I6T7vMyMQ0NWan5kQ1EiaHY6Kb8EbmZiJouh6z43IpY+VGJtsjNu
-   8RfopeGx40C5C2z+SzELVKGkxhqtdQjKDRBe7Z98FqlACdTLiJzSYwzms
-   Eiu4Gtj0C3z7gzKf/dvHbYW52HUZHe6cCAHu9RYZamx+mLf8xahPXnFmt
-   Q==;
-X-CSE-ConnectionGUID: FdNZIy37TpGgMckdTERwiQ==
-X-CSE-MsgGUID: wD86LQc8Ss65EHWdh1rpuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="62383799"
+  t=1760070122; x=1791606122;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V8lVhg40i6i3dzj7FEuSEzfEDeikzBVx4RlBJVsKO+g=;
+  b=c57DB32KSOf0zK988eamVPjR3OfcjjlGWIs61efAOxZM+XlmcAVKFzNt
+   07ino3Lxnyd+mBqCZJ0yI+WiShmCoMhNYOEu/C8JNX6kWvbZTM1b4545q
+   RtTwxlzS0iMGHQdQSInJTn3R3GiHJUGaFPsZ7a4Ey2bY1Ad5f2j3u+Rpz
+   KuHjth36z8QdAo0V7hgUc1tGgasIJ7/Q3K72ohsbk0Ol/yUaZC45hjYOo
+   +HciHOXmsIrZA/+VmbU/OCwJ6R2HqpHO4aKpzJ5lsnvpMhM9XYY3wpK+M
+   BAxg+dHjDA9j0yR2mxRgVQWO0TvsqxqUiIEoPRKTLow14Nchk8ifcE212
+   g==;
+X-CSE-ConnectionGUID: M0eyd99kS9OOt5pHmQQAxA==
+X-CSE-MsgGUID: Kj0p8onJRjq0stUOW02HwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="79931634"
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="62383799"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 20:55:53 -0700
-X-CSE-ConnectionGUID: Y+BMStA5TIuieAJhHP+89g==
-X-CSE-MsgGUID: dSlzwQPFSF2P2yyahDMpOg==
+   d="scan'208";a="79931634"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 21:22:00 -0700
+X-CSE-ConnectionGUID: 7bOHdkV+SSOVseicgkDGvw==
+X-CSE-MsgGUID: Ilpw6yfLTLq+oUU9z57IIA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
+   d="scan'208";a="180572606"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Oct 2025 20:55:52 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Oct 2025 21:21:56 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v74EQ-000259-2L;
-	Fri, 10 Oct 2025 03:55:50 +0000
-Date: Fri, 10 Oct 2025 11:55:18 +0800
+	id 1v74dd-00028h-2m;
+	Fri, 10 Oct 2025 04:21:53 +0000
+Date: Fri, 10 Oct 2025 12:21:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 1/1] mm/shrinker.c:698: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202510101122.yEImm9qY-lkp@intel.com>
+To: Chuan Liu via B4 Relay <devnull+chuan.liu.amlogic.com@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Chuan Liu <chuan.liu@amlogic.com>
+Subject: Re: [PATCH 11/19] arm64: dts: amlogic: A4: Add peripherals clock
+ controller node
+Message-ID: <202510101124.3xwn3STp-lkp@intel.com>
+References: <20250930-a4_a5_add_clock_driver-v1-11-a9acf7951589@amlogic.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,35 +76,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250930-a4_a5_add_clock_driver-v1-11-a9acf7951589@amlogic.com>
 
-Hi Qi,
+Hi Chuan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   eb81fd92a9db00ec051630a8937aa93319a08d2a
-commit: 1e63c23f99e1610c8c483368df6922ec9076d95a [1/1] drm/ttm: introduce pool_shrink_rwsem
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251010/202510101122.yEImm9qY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101122.yEImm9qY-lkp@intel.com/reproduce)
+[auto build test ERROR on 01f3a6d1d59b8e25a6de243b0d73075cf0415eaf]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuan-Liu-via-B4-Relay/dt-bindings-clock-Add-Amlogic-A4-SCMI-clock-controller/20250930-174011
+base:   01f3a6d1d59b8e25a6de243b0d73075cf0415eaf
+patch link:    https://lore.kernel.org/r/20250930-a4_a5_add_clock_driver-v1-11-a9acf7951589%40amlogic.com
+patch subject: [PATCH 11/19] arm64: dts: amlogic: A4: Add peripherals clock controller node
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251010/202510101124.3xwn3STp-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101124.3xwn3STp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101122.yEImm9qY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510101124.3xwn3STp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/shrinker.c:698: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
-
-
-vim +698 mm/shrinker.c
-
-   695	
-   696	
-   697	/**
- > 698	 * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
+   Error: arch/arm64/boot/dts/amlogic/amlogic-a4.dtsi:119.19-20 syntax error
+>> FATAL ERROR: Unable to parse input tree
 
 -- 
 0-DAY CI Kernel Test Service
