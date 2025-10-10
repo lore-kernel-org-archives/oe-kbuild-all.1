@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D471F5435
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 07:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5248274FDF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 07:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760081286; cv=none; b=hQP193vRI8nXkO2byiwT64m1A9vwj9nk7CIIGhSv12gyWb3r6mYRCHvpTG6tPkmJH6mKV5M3IIQFA1FpYsm70Q6JWkd7nJA0TybqwiLTiNOXTHeBIbvkcEQXf/4L7pQf9KsbDF2lEi0SgrNI3/2TZQ2AOHqaJ0NvoRWBPuXD8ow=
+	t=1760081950; cv=none; b=g6iwt7LiL9bclb9LKcxMGBI0MXsJZzXP9bHLcXY4AxQlIVbwiiZDLEpT4/zlWtpojon4L1U+BqkNWoCAX0ens0/kRIJ54P6Mv2i5Auk8C8Ot1sKOSmBC6XPVIQKCWaNOXejxlgph+pX+UsmO4fkA3Bl4l83Y92tUicInXfd9Mhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760081286; c=relaxed/simple;
-	bh=ClRIefqeUJtiXvNpxnvg4LwVv+2sw3P639q7gjNGjmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xna3xHnyX2foOXtrMXT4dbTqwyDlgV6Cg2ypp3z0uvTB9SuhSqXkXCHVPVr985e9ZvlTh7sW0IGytJiCc5wFvlt8m4EwCJxbfVtkMpZmN6aCAnlamI6SUAmj4hsBg2rlJJyJCeZvSDEL5iisaKesYMlvTLfxBySQfULmEghUSC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baK2sUas; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1760081950; c=relaxed/simple;
+	bh=t5IJJx4kPbbwg7ljX2+w4hVtPwBcGYi2Buk9ChSRlgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PZVP5kX/CLgFAEEcx3b2R6LWEDhjxjXAmyG5C+7uPbLCAi5yC7eGmnBKzRBPdvBDDcjnQBWPd2rEg+B9/5Lemhtft3qc1s5t6PcNLlN2+DnafyF91L/uzB2UVaGthWxW4dvW5daBM//DQgcnRwdgv6XktKF9lx670qMtRi4f9Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cp8Atrw/; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baK2sUas"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp8Atrw/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760081284; x=1791617284;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ClRIefqeUJtiXvNpxnvg4LwVv+2sw3P639q7gjNGjmg=;
-  b=baK2sUask0RuL2wNggaKo0mOEmMxzo/Tj+vsk1od6ltf66yQio6YttTb
-   nh4WflotmbJxeGFSY7dTF422L5+AAtmFqBtuyt2Vrr3S+5ST9F3hJw3C9
-   s1SbMnbuMRH+rXicpD7/MmJcP3uJpyMdPRY+s4zdwj31LLVI3cSQ5KNzz
-   O/FxInNeJicfGZwYgd2yzHOV7xx8KRir2uHL5iT5tUkDqLJ2cAH4qsxG3
-   J3x5FVD1GaEfGUbkLYQ/9mcv+lb9PNn8QCIdouWMbBJWCMPwZmMT1NoGq
-   or1sE438PUHeR8EW6r7YN485XrXmqpaxm8w0pkygZtTs/+W6oy05RdaSl
-   g==;
-X-CSE-ConnectionGUID: 5Aco8Ss4T/SmIkjWn0Igsw==
-X-CSE-MsgGUID: 6/yEjsYVTQKsOmhRjbwE4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="64920711"
+  t=1760081949; x=1791617949;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t5IJJx4kPbbwg7ljX2+w4hVtPwBcGYi2Buk9ChSRlgw=;
+  b=Cp8Atrw/RHIRUNq3r83MhZH2agOxw+T4B8UF+eLDYJMFPI3scqHeyuK8
+   kwrXBLivhWT+myhRGhDu86Xd0ZRvcHx24mEZnFp0JmXZdC/S35/uyta+e
+   BYC//amO2enuDcpC6+vPByCBZEe44YpBWZh7SoYrZbkVmiipXQnHCSJG3
+   sV9wB8SgtEUCTkoYu5lE0QYkGDvrK0I5SjdR40Mbz6xFmoiHneBatMtCf
+   oucdT07SX/RKfbc/R9zheA4gLrDhHqZofD5z/8pA+oi1Jd2EjgP4p2Pbg
+   FJ2ZrYJvef24Omfbeol0x0qTzyYGUfxPParBUWVZ5NZuxkxO1imXBpdPQ
+   Q==;
+X-CSE-ConnectionGUID: PQmiNPdhQyC020D7felLJw==
+X-CSE-MsgGUID: rt5THAfeR6a7RdqsFOVBKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="61330665"
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="64920711"
+   d="scan'208";a="61330665"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 00:28:03 -0700
-X-CSE-ConnectionGUID: Iz1HxXK+RzKc3tOw+oQvqQ==
-X-CSE-MsgGUID: +8yBkJqFS+23yQ5HjgzitA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 00:39:08 -0700
+X-CSE-ConnectionGUID: Rqx7rlU1ShC+slAvdV4afg==
+X-CSE-MsgGUID: 4EPbltHWSIaL7RyweUdzsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="184949953"
+   d="scan'208";a="184951573"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Oct 2025 00:28:03 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 Oct 2025 00:39:05 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v77Xk-0002PL-18;
-	Fri, 10 Oct 2025 07:28:00 +0000
-Date: Fri, 10 Oct 2025 15:27:31 +0800
+	id 1v77iQ-0002Q7-0S;
+	Fri, 10 Oct 2025 07:39:02 +0000
+Date: Fri, 10 Oct 2025 15:38:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/aarch64-dynamic-kernel-stacks-v6.18-rc1-separate-dabt-codepath-syncstack4all
- 13/13] arch/arm64/mm/fault.c:305:64: error: 'sync_stack_ptr' undeclared; did
- you mean 'sync_stack'?
-Message-ID: <202510101559.JPHz9bQo-lkp@intel.com>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	linux-cxl@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Gregory Price <gourry@gourry.net>,
+	Robert Richter <rrichter@amd.com>,
+	Cheatham Benjamin <benjamin.cheatham@amd.com>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Subject: Re: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes
+ on x86
+Message-ID: <202510101555.zofjGvZF-lkp@intel.com>
+References: <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +75,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/aarch64-dynamic-kernel-stacks-v6.18-rc1-separate-dabt-codepath-syncstack4all
-head:   b1b798131387a63cead97374f3a68db539aa6709
-commit: b1b798131387a63cead97374f3a68db539aa6709 [13/13] Print stack whereabouts info on kernel paging fault
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251010/202510101559.JPHz9bQo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101559.JPHz9bQo-lkp@intel.com/reproduce)
+Hi Fabio,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 46037455cbb748c5e85071c95f2244e81986eb58]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/cxl-core-Change-match_-_by_range-signatures/20251010-111627
+base:   46037455cbb748c5e85071c95f2244e81986eb58
+patch link:    https://lore.kernel.org/r/20251006155836.791418-3-fabio.m.de.francesco%40linux.intel.com
+patch subject: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes on x86
+config: i386-buildonly-randconfig-005-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101555.zofjGvZF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101555.zofjGvZF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101559.JPHz9bQo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510101555.zofjGvZF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:30,
-                    from include/linux/ioport.h:13,
-                    from include/linux/acpi.h:12,
-                    from arch/arm64/mm/fault.c:10:
-   arch/arm64/mm/fault.c: In function 'die_kernel_fault':
->> arch/arm64/mm/fault.c:305:64: error: 'sync_stack_ptr' undeclared (first use in this function); did you mean 'sync_stack'?
-     305 |         unsigned long sync_stack = (unsigned long)raw_cpu_read(sync_stack_ptr);
-         |                                                                ^~~~~~~~~~~~~~
-   include/linux/compiler.h:244:47: note: in definition of macro 'TYPEOF_UNQUAL'
-     244 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
-         |                                               ^~~
-   include/linux/percpu-defs.h:412:41: note: in expansion of macro '__pcpu_size_call_return'
-     412 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/mm/fault.c:305:51: note: in expansion of macro 'raw_cpu_read'
-     305 |         unsigned long sync_stack = (unsigned long)raw_cpu_read(sync_stack_ptr);
-         |                                                   ^~~~~~~~~~~~
-   arch/arm64/mm/fault.c:305:64: note: each undeclared identifier is reported only once for each function it appears in
-     305 |         unsigned long sync_stack = (unsigned long)raw_cpu_read(sync_stack_ptr);
-         |                                                                ^~~~~~~~~~~~~~
-   include/linux/compiler.h:244:47: note: in definition of macro 'TYPEOF_UNQUAL'
-     244 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
-         |                                               ^~~
-   include/linux/percpu-defs.h:412:41: note: in expansion of macro '__pcpu_size_call_return'
-     412 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/mm/fault.c:305:51: note: in expansion of macro 'raw_cpu_read'
-     305 |         unsigned long sync_stack = (unsigned long)raw_cpu_read(sync_stack_ptr);
-         |                                                   ^~~~~~~~~~~~
+   ld: drivers/cxl/core/platform_quirks.o: in function `platform_res_adjust':
+>> drivers/cxl/core/platform_quirks.c:95:(.text+0x1f1): undefined reference to `__udivdi3'
 
 
-vim +305 arch/arm64/mm/fault.c
+vim +95 drivers/cxl/core/platform_quirks.c
 
-   299	
-   300	static void die_kernel_fault(const char *msg, unsigned long addr,
-   301				     unsigned long esr, struct pt_regs *regs)
-   302	{
-   303		unsigned long stack = (unsigned long)current->stack;
-   304		unsigned long irq_stack = (unsigned long)raw_cpu_read(irq_stack_ptr);
- > 305		unsigned long sync_stack = (unsigned long)raw_cpu_read(sync_stack_ptr);
-   306		bust_spinlocks(1);
-   307	
-   308		pr_alert("Unable to handle kernel %s at virtual address %016lx\n", msg,
-   309			 addr);
-   310	
-   311		pr_alert("TASK STACK: 0x%08lx-0x%08lx\n",
-   312			 stack, stack + THREAD_SIZE - 1);
-   313		pr_alert("IRQ STACK: 0x%08lx-0x%08lx\n",
-   314			 irq_stack, irq_stack + IRQ_STACK_SIZE - 1);
-   315		pr_alert("SYNC STACK: 0x%08lx-0x%08lx\n",
-   316			 sync_stack, sync_stack + SYNC_STACK_SIZE - 1);
-   317	
-   318		kasan_non_canonical_hook(addr);
-   319	
-   320		mem_abort_decode(esr);
-   321	
-   322		show_pte(addr);
-   323		die("Oops", regs, esr);
-   324		bust_spinlocks(0);
-   325		make_task_dead(SIGKILL);
-   326	}
-   327	
+    76	
+    77	void platform_res_adjust(struct resource *res,
+    78				 struct cxl_endpoint_decoder *cxled,
+    79				 const struct cxl_root_decoder *cxlrd)
+    80	{
+    81		if (!platform_cxlrd_matches_cxled(cxlrd, cxled))
+    82			return;
+    83	
+    84		guard(rwsem_write)(&cxl_rwsem.dpa);
+    85		dev_dbg(cxled_to_memdev(cxled)->dev.parent,
+    86			"Low Memory Hole detected. Resources were (%s: %pr, %pr)\n",
+    87			dev_name(&cxled->cxld.dev), res, cxled->dpa_res);
+    88		if (res) {
+    89			/* Trim region resource overlap with LMH */
+    90			res->end = cxlrd->res->end;
+    91		}
+    92		/* Match endpoint decoder's DPA resource to root decoder's */
+    93		cxled->dpa_res->end =
+    94			cxled->dpa_res->start +
+  > 95			resource_size(cxlrd->res) / cxled->cxld.interleave_ways - 1;
 
 -- 
 0-DAY CI Kernel Test Service
