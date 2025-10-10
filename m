@@ -1,123 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346442F7463
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 15:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CCA2FB0BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 15:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760109133; cv=none; b=W3Co+V1EWObGj/23f4Sz0Km5QaenIrZi4lzfy5gUYtIT9IvjRub5/fmBt3+pUoLhHVRW7WJZJQGezA1CmQyQC3GIfOkUM3BxtLqxKXYt81W4651exkKHNoHHxHlSO7gDeVqCq9/c0Dida8M3icntyRIwsSqL/ahsJlAO6PaKhqs=
+	t=1760110979; cv=none; b=PwgpSUDXMvPgpqxgfGpl/sJhYZ7G1p0ZUmsmu4k3hpeKJDJ+NoJ+ZZMIQQiOLh3pwbxwwzM0PWcdsShRXLrNWIUePqz2yv0YqJxDC3CCs7MWIA9fXQxCCIq2cmJXbumL+KxGDnshvK98WzqScrdNOHLwjggHGf9Cw03Hdlaa20I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760109133; c=relaxed/simple;
-	bh=WIkXLM1r7Q1O7LPVjMvifve9AQ66MNpnx4ZqY/8T61M=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=V1a5phTT0IqfDjFx9liasDfrDgtW9PpE2KTT17CsDPqzrDHjlOIpXKohcT3f2hLRE6Rb7uR7BvJ8m6GRk3spwHHAy2qx6Lf4k6ujkpxvwhLCb6Djq838juk+8BOW+Leq2LwPj7iXznZEz+Rd4ic77THRVWgkUyLUoNcaCY99GlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EFbjDWdR; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1760110979; c=relaxed/simple;
+	bh=Hv3TfVnKHIu7LdTwfSqN+KKHB7aDFxFsgk3qMrG4ddE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hWR8GR/tfECPr+XWxdOmh6H+okY0Uvr6XQ+JjPIv3OAHBZz7SKnEPNYlT/0epkwxpNV8aBPrvJXD5FM8WnNjjm7OGORl5/uIHUBIoCRlML9Xngvza+rb/kdXxEcnIHZRJuSFLBDyFBeAiPJjUs+MfOYmJsXpx5Q9pDG2L6ZxI6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g2Sy2pkB; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EFbjDWdR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760109131;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qHCdZi6C7ELhvkHmBE99ONw5f0wTBtemnyHf1SDAuNY=;
-	b=EFbjDWdRcyA56fcCXLlK55h9E3lF8+aaPpuezJ3m8xCbpG8nvC84G1In9Fw5sAAwnh5TOA
-	j1uR/hWS4BZizbbdUAbY71dqCRZevxe1COCLcKqZiBFeGVxWfLrcaBsjV7GooSi4PkNH5L
-	xGLmsKSlOdWJDRiSh11L1v5DjBebQAs=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-266-5gxgZ7HqORGcbXAp1Yrqxg-1; Fri,
- 10 Oct 2025 11:12:07 -0400
-X-MC-Unique: 5gxgZ7HqORGcbXAp1Yrqxg-1
-X-Mimecast-MFC-AGG-ID: 5gxgZ7HqORGcbXAp1Yrqxg_1760109125
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B964918005BF;
-	Fri, 10 Oct 2025 15:12:03 +0000 (UTC)
-Received: from [10.45.224.32] (unknown [10.45.224.32])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E0D821955F42;
-	Fri, 10 Oct 2025 15:11:56 +0000 (UTC)
-Date: Fri, 10 Oct 2025 17:11:49 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-cc: Helge Deller <deller@gmx.de>, sukrut heroorkar <hsukrut3@gmail.com>, 
-    David Hunter <david.hunter.linux@gmail.com>, 
-    kernel test robot <lkp@intel.com>, Bernie Thompson <bernie@plugable.com>, 
-    Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>, 
-    Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-    Zsolt Kajtar <soci@c64.rulez.org>, 
-    Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>, 
-    linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-    linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-    oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] fbdev: udlfb: make CONFIG_FB_DEVICE optional
-In-Reply-To: <6b1f8366-7ec8-4c1f-9563-29e06a8060e2@suse.de>
-Message-ID: <b8472f68-982b-c00b-55cc-547c72bef34c@redhat.com>
-References: <20250924175743.6790-1-hsukrut3@gmail.com> <202509272320.3K8kdDCw-lkp@intel.com> <bb9d90ca-aa4d-4168-bdc5-543109c74493@gmail.com> <CAHCkknrZ-ieNKeg-aj3-NVqgGSk770jJpUpCvn_SuffkPu+ZrQ@mail.gmail.com> <edccab86-321b-4e6e-998f-3ce320ee0193@gmx.de>
- <41ef536d-2399-43f8-8041-c6b0e642aba2@suse.de> <CAHCkknrAKGxzAYE-R3QX20W4faR9Wfjgn37peyHRJcZ6PRLENA@mail.gmail.com> <c1d86274-44e2-4ceb-b887-5c4af45d8b37@gmx.de> <6b1f8366-7ec8-4c1f-9563-29e06a8060e2@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2Sy2pkB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760110977; x=1791646977;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Hv3TfVnKHIu7LdTwfSqN+KKHB7aDFxFsgk3qMrG4ddE=;
+  b=g2Sy2pkBuKpJrarbVOXtVwXzyw9ZrcoSkhfBVJ4LLXMQOBRNgp7tSrbc
+   qfwlQ3HZ0RL7CyjMr5SkAg7lJgnTW6M1VPG+v2iSydo0V2JhiJdrQMC68
+   +Wu7i/SHaKTdwmUJUOuZ7m3IfPIRkXGXKLwUGh8QUMDkiCNwqiVxZzNOt
+   4mC5buVFlpNDga9KZJyWq199ysgf4iPKw9ShlIh4jHxIqH+Nr8p+p1Syb
+   UnFCozrK5x8FuYWHyy/BTcS3s4ZsYxLv4mWABCuUIJgrp2AdaQHXNYks6
+   CfxvswU2UJVIjUrIJHOTTagsXYzAvhDbIyQC7uzKO9TLdYeUcFKW3EqKd
+   w==;
+X-CSE-ConnectionGUID: LHSb5mFRRmmqdeHmvIaXdA==
+X-CSE-MsgGUID: PvZULr9JRqSpldRLhrhATw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="72588474"
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="72588474"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 08:42:57 -0700
+X-CSE-ConnectionGUID: o3tY7xwxRUiDWNT0Dd8q3w==
+X-CSE-MsgGUID: x4Bw7hlZTMWJPhoDR9Eq1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="180124184"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2025 08:42:55 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7FGe-0002ug-2A;
+	Fri, 10 Oct 2025 15:42:52 +0000
+Date: Fri, 10 Oct 2025 23:42:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/mem_reliable.c:126:5:
+ sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it
+ be static?
+Message-ID: <202510102344.gEz84vGP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="-1463811712-636264779-1760108298=:3315052"
-Content-ID: <b28657e4-9db0-51fc-5872-290b4927a66a@redhat.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   0e7e343932646d9a28d9b5f8b025d781051fa52a
+commit: 1845e7add95773a24019fb72bbea24a0a568663b [1740/1740] mm: Add reliable memory use limit for user tasks
+config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20251010/202510102344.gEz84vGP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510102344.gEz84vGP-lkp@intel.com/reproduce)
 
----1463811712-636264779-1760108298=:3315052
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <77da2ba4-763b-3169-d87c-f655b00b6162@redhat.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510102344.gEz84vGP-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> mm/mem_reliable.c:126:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:126:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
+     126 | int reliable_limit_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
+vim +/reliable_limit_handler +126 mm/mem_reliable.c
 
-On Tue, 7 Oct 2025, Thomas Zimmermann wrote:
+   124	
+   125	#ifdef CONFIG_SYSCTL
+ > 126	int reliable_limit_handler(struct ctl_table *table, int write,
+   127		void __user *buffer, size_t *length, loff_t *ppos)
+   128	{
+   129		unsigned long old = task_reliable_limit;
+   130		int ret;
+   131	
+   132		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   133		if (ret == 0 && write) {
+   134			if (task_reliable_limit > total_reliable_mem_sz()) {
+   135				task_reliable_limit = old;
+   136				return -EINVAL;
+   137			}
+   138		}
+   139	
+   140		return ret;
+   141	}
+   142	
 
-> Hi
-> 
-> Am 03.10.25 um 21:50 schrieb Helge Deller:
-> > On 10/3/25 20:43, sukrut heroorkar wrote:
-> > > On Thu, Oct 2, 2025 at 8:52 AM Thomas Zimmermann <tzimmermann@suse.de>
-> > > wrote:
-> > > > Am 02.10.25 um 08:41 schrieb Helge Deller:
-> > > > > > > > kernel test robot noticed the following build errors:
-> > > > > > > 
-> > > > > > > Did you compile and test this code before submitting this patch?
-> > > > > > 
-> > > > > > Yes, I had compiled & loaded the udlfb module with no errors. Please
-> > > > > > let me know how to proceed in this case.
-> > > > > 
-> > > > > Look at the reported build error, which seems to happen in dev_dbg().
-> > > > > So, maybe in your testing you did not have debugging enabled?
-> > > > > The report contains the .config file with which you can test.
-> > > > 
-> > > > Can we rather make an effort to remove the udlfb driver entirely? A few
-> > > > years back, there was one user who was still using it because of some
-> > > > problems with the DRM udl driver. But I think we've addressed them. The
-> > > > discussion is at [1].
-
-It was me - and I am still using it on an ARM64 MacchiatoBIN board because 
-the board doesn't have graphics output.
-
-The problems with the UDL DRM driver were:
-
-* crashes with full-screen framebuffer applications, such as "links2 -g", 
-"fbi" or "fbgs". On UDLFB, there are no crashes.
-
-* worse performance - the UDL DRM driver updates everything in a given 
-rectangle, while the UDLFB driver keeps back-buffer and front-buffer and 
-updates only differences between them.
-
-* crash when you unplug the card while Xorg was running (already fixed)
-
-Mikulas
----1463811712-636264779-1760108298=:3315052--
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
