@@ -1,71 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E032BEFFE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 18:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FF520A5DD;
+	Fri, 10 Oct 2025 18:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760121740; cv=none; b=DAc8gNgaPFgxRR5/ZPW2YEbcUhNHuF6Hz0e+FgLkgXz73zH4ycs7OnfE7/+jJK+PRdItlxwZJsM/ddofYlxHgON+oOTHaSZgYA2WLtTCNS7CIN7DmGtQ0OCrnkV3MHp6S7y0UlCOTgmhEtICTfuK5hFBB2S5N6hRnyELLUrfqII=
+	t=1760122337; cv=none; b=CkvVrizBA7O8yRiWSFNu50Xn9Wt+pd+Mj4xJbfrSpP7CjGfaPN9wEe5URtdpFQBUF6XYM+B4XkUvA4E0pjYfGfD6PiUyGPctV9NjDSw/qbpBtUNmBTGQ3pTwTSS+QbH56eXaU/dtWthyNr6RKBo8A3QrUIyIC1Ce03iluBd885Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760121740; c=relaxed/simple;
-	bh=yr5O1vBEL2Wcyj75rjICSFJodCn8Ot3ie+4ynX8Yldk=;
+	s=arc-20240116; t=1760122337; c=relaxed/simple;
+	bh=7cw4jqDvi9CcszI/Tpt1T8nehrBpthSbcfCNKRKBQ/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5fO9WxGzR6dvVeoSHs+GhLGmyGjfuVfZi5vsNtxFCF75PVrBObKHfjrj4/Z7ZeMp079muCxSAudSb9YXRja8WfyS5UPYtAiivFfyxTHB7zhTy88JiRIYvDDOTD+WKFJMoL3oOW2aJqE/fZ7AZkTmWkGHLiqjU6pUTvi+I0MgKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hY6xOg/m; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ojz2jOvA80pSQEzVhP/NToD78ZihZRRpFojyk/DsOMVyO84Z30UhDo5NBKzJPKYR/BvxAzPdg5z8kCLVUacooHbEBsfI89+i01vSF386pWXi89uDyuYzGMuHmUjT7obVlWBtRo21ZCo5nZrrCO7b1pefUry8jfSdpK/VMxrDGYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jk/jwqOq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hY6xOg/m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jk/jwqOq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760121739; x=1791657739;
+  t=1760122336; x=1791658336;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yr5O1vBEL2Wcyj75rjICSFJodCn8Ot3ie+4ynX8Yldk=;
-  b=hY6xOg/mxPP8kJtu+ReunRCg/q2cUbaWPg//Q4V1f3BFr8elyz/IKDTK
-   Q/0ffPTdLtCOkNwIorajcEclvwCvyFfeV0CvkaOQqQS/TfSKrS4IzZTq8
-   IVN3yL7pJE9OOoFb6ovO1a4z4/CwlWFVBZRQw81NrWj3Q2+jubwlasJM1
-   u03Sfsdo1DED+zKL1BsyZglwxj15ddSrrZtr/dhzcziuiJgK0B9zqdaBv
-   TDOt6Re35HxfpqTAxaAneMJvCG6TEpkvY9EnrKtch5spk76Z4XHSbGJLs
-   IFblwBqeuFetbjhHWzVicuk3D7VBWQnZU1uqj4Gqcv0ktfuzto9cfwvBn
-   w==;
-X-CSE-ConnectionGUID: OSsSqkO3S/aMbxyGbtuZbQ==
-X-CSE-MsgGUID: 5rvjoSKYS26MPoxX7xSp2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62288501"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62288501"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 11:42:18 -0700
-X-CSE-ConnectionGUID: udKB6OpJROCUFgb3Kiq00g==
-X-CSE-MsgGUID: 9kUA5bX/QIC8UPbCsBCYfg==
+  bh=7cw4jqDvi9CcszI/Tpt1T8nehrBpthSbcfCNKRKBQ/o=;
+  b=jk/jwqOqdm28MaNROkr700zI2vEIlT/lM5zSCB3D+i9lL2NH9WoHqrQk
+   jgZfkN28/KBlZ8yx9vgkLYSJKxUl0SztKiGEBij4R+6fX9M6knvYj8o6o
+   eT1FFxPPMG7qvpD5PrQ3JPM4OGp1ubsPW1DiIgS6w0Rt70FCvNZAWqXXs
+   Hmp+WKHgVwjfglvBRv0fcvdq2jj6z6l9Hnu6etW2v5sSG/ZiYSdq+rL/I
+   Q6wjrjOrrEbaMTuYfcBP1UyaUeQr0hAAlPRqPrhhLbszSNdCoNNsWuYJX
+   CI8w/fx2hn/STh+EyrMSln+g2MytH34EuAn7xGvyKl4/gS5Sk5UZng5f6
+   g==;
+X-CSE-ConnectionGUID: wsNyMf5qSpiEDA+aHewoIQ==
+X-CSE-MsgGUID: SqK14nKLQlesrlbERP1XYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62443195"
+X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
+   d="scan'208";a="62443195"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 11:52:15 -0700
+X-CSE-ConnectionGUID: /pobF2rZT/+U+MpeFjfwrQ==
+X-CSE-MsgGUID: RcrkWcLWT9KsK32pklhu6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,219,1754982000"; 
-   d="scan'208";a="180158850"
+   d="scan'208";a="181054932"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2025 11:42:12 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 Oct 2025 11:52:13 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7I49-000345-2q;
-	Fri, 10 Oct 2025 18:42:09 +0000
-Date: Sat, 11 Oct 2025 02:41:35 +0800
+	id 1v7IDq-00034R-1w;
+	Fri, 10 Oct 2025 18:52:10 +0000
+Date: Sat, 11 Oct 2025 02:51:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peng Fan <peng.fan@nxp.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sebin Francis <sebin.francis@ti.com>,
-	Brian Masney <bmasney@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v5 4/6] clk: Add KUnit tests for assigned-clock-sscs
-Message-ID: <202510110212.VLPx3MCC-lkp@intel.com>
-References: <20251009-clk-ssc-v5-1-v5-4-d6447d76171e@nxp.com>
+To: Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Joachim Vandersmissen <git@jvdsn.com>,
+	David Howells <dhowells@redhat.com>,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: Re: [PATCH] lib/crypto: Add FIPS pre-operational self-test for SHA
+ algorithms
+Message-ID: <202510110210.5FlCrJl7-lkp@intel.com>
+References: <20251006172612.75240-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,62 +69,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251009-clk-ssc-v5-1-v5-4-d6447d76171e@nxp.com>
+In-Reply-To: <20251006172612.75240-1-ebiggers@kernel.org>
 
-Hi Peng,
+Hi Eric,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 7c3ba4249a3604477ea9c077e10089ba7ddcaa03]
+[auto build test ERROR on e5f0a698b34ed76002dc5cff3804a61c80233a7a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/dt-bindings-clock-Add-spread-spectrum-definition/20251010-085803
-base:   7c3ba4249a3604477ea9c077e10089ba7ddcaa03
-patch link:    https://lore.kernel.org/r/20251009-clk-ssc-v5-1-v5-4-d6447d76171e%40nxp.com
-patch subject: [PATCH v5 4/6] clk: Add KUnit tests for assigned-clock-sscs
-config: s390-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251011/202510110212.VLPx3MCC-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110212.VLPx3MCC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Biggers/lib-crypto-Add-FIPS-pre-operational-self-test-for-SHA-algorithms/20251010-085409
+base:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
+patch link:    https://lore.kernel.org/r/20251006172612.75240-1-ebiggers%40kernel.org
+patch subject: [PATCH] lib/crypto: Add FIPS pre-operational self-test for SHA algorithms
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20251011/202510110210.5FlCrJl7-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110210.5FlCrJl7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110212.VLPx3MCC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110210.5FlCrJl7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/clk/clk_test.c:115:32: error: initialization of 'int (*)(struct clk_hw *, const struct clk_spread_spectrum *)' from incompatible pointer type 'int (*)(struct clk_hw *, struct clk_spread_spectrum *)' [-Wincompatible-pointer-types]
-     115 |         .set_spread_spectrum = clk_dummy_set_spread_spectrum,
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk_test.c:115:32: note: (near initialization for 'clk_dummy_rate_ops.set_spread_spectrum')
-   drivers/clk/clk_test.c:87:12: note: 'clk_dummy_set_spread_spectrum' declared here
-      87 | static int clk_dummy_set_spread_spectrum(struct clk_hw *hw,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk_test.c:122:32: error: initialization of 'int (*)(struct clk_hw *, const struct clk_spread_spectrum *)' from incompatible pointer type 'int (*)(struct clk_hw *, struct clk_spread_spectrum *)' [-Wincompatible-pointer-types]
-     122 |         .set_spread_spectrum = clk_dummy_set_spread_spectrum,
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk_test.c:122:32: note: (near initialization for 'clk_dummy_maximize_rate_ops.set_spread_spectrum')
-   drivers/clk/clk_test.c:87:12: note: 'clk_dummy_set_spread_spectrum' declared here
-      87 | static int clk_dummy_set_spread_spectrum(struct clk_hw *hw,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk_test.c:129:32: error: initialization of 'int (*)(struct clk_hw *, const struct clk_spread_spectrum *)' from incompatible pointer type 'int (*)(struct clk_hw *, struct clk_spread_spectrum *)' [-Wincompatible-pointer-types]
-     129 |         .set_spread_spectrum = clk_dummy_set_spread_spectrum,
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk_test.c:129:32: note: (near initialization for 'clk_dummy_minimize_rate_ops.set_spread_spectrum')
-   drivers/clk/clk_test.c:87:12: note: 'clk_dummy_set_spread_spectrum' declared here
-      87 | static int clk_dummy_set_spread_spectrum(struct clk_hw *hw,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +115 drivers/clk/clk_test.c
-
-   110	
-   111	static const struct clk_ops clk_dummy_rate_ops = {
-   112		.recalc_rate = clk_dummy_recalc_rate,
-   113		.determine_rate = clk_dummy_determine_rate,
-   114		.set_rate = clk_dummy_set_rate,
- > 115		.set_spread_spectrum = clk_dummy_set_spread_spectrum,
-   116	};
-   117	
+>> ld.lld: error: undefined symbol: fips_enabled
+   >>> referenced by sha256.c
+   >>>               arch/s390/purgatory/purgatory:(sha256_mod_init)
+--
+>> ld.lld: error: undefined symbol: hmac_sha256_usingrawkey
+   >>> referenced by sha256.c
+   >>>               arch/s390/purgatory/purgatory:(sha256_mod_init)
+--
+>> ld.lld: error: undefined symbol: panic
+   >>> referenced by sha256.c
+   >>>               arch/s390/purgatory/purgatory:(sha256_mod_init)
 
 -- 
 0-DAY CI Kernel Test Service
