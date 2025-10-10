@@ -1,162 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE71A26E6F8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 08:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944A926E6F8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 08:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760083931; cv=none; b=dQmYUA+h/42IEZaKR6U8QT4nUfSYTG8lUqe8q3Wyz5ttmvH921YKRVF8wV4lYmjiVZSqN3360PIQ3xaIenSeCAIPkfXtb83ILFvZQ0FRz8J1+14/SFUSod6yRpEWts1MQHEHyKj8YwXmmjnxuFmXsowBxayIjLzv71SdEA9Ln/E=
+	t=1760083999; cv=none; b=grr7RiHq20Yj+3sdLk3RfqvijcPMO/vnbx4Cy7zs53RFOut8mjx7jvkPlxjou420V8GWObiMG/Z6MbANqfwJCQM1ZNJNYmeI0i9z3SAWZIGQlpbeBFjC/f/bgOUpVEIIycNGRlpXpq81jdmeLu+hp5tVGDNmnYuo52ccQgvuwgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760083931; c=relaxed/simple;
-	bh=wEfkIqJZzdauB4CukX1UapDQQ8G3GPgnn26au9PmCjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z1GrLb4D0ZEVcL3zCghz3sj+wkQ9SGwHgskazVb9OwVnWDFRzsq5hBHoUdwxWnsWM4JdNnQ9gf0+SBMOPSDaiah4jJOmzB4Ld7HIMI/CoMMdiWVp6vwi944DOoQCFVt+ZM1UwTtUtgBproJbHfhDNrtl9RRqI4I15wHeu/T0w58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMaZbBjy; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760083999; c=relaxed/simple;
+	bh=Kibn+V5CQV02MW3VmtCIWKOR5kSgeJ6N3BdER4N5TcI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hFuMR09kDtq4cTQsdeHEVA2lPuTWSP8G/CiUkn+Nu8CBien8M39MGuhaOeN9PUVl0OKOtaZ5Pr4unjzyy8boIxfegUk2gk1x/npFPiN0LpUHI3hEzSi78fVAfqbeFMcuXF4IRMO+wIjWm50c04vu9T4x06W2oU1zT19wv2BV8Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AwuiCskY; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMaZbBjy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760083929; x=1791619929;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wEfkIqJZzdauB4CukX1UapDQQ8G3GPgnn26au9PmCjs=;
-  b=DMaZbBjyCTPPUZCzgnpoTXdEdKoKYmypB2C3NQaeO+rjDZyLq9kTBBik
-   NINcOmj8RKdrkq5/MtOsvGi/dH9r4Ty+WSq06oro7V+iPNLWS0dGCHt3U
-   8xbzVlNZYquYkBTCU+Ts6LKrRtY8c+4zsxdNI6HHZdNHzb45vg2w21fnW
-   68GfLvtkxF7kfg6i5/BHo6liD1GFnBcVA+HVwW7LgTQMk/kHIOUr2G5n+
-   JDYRe4khFWAplRTc18n3GypnVmyRNwZBkp/7A5fzSOTM/df4LBj00Wlvy
-   sSrlsYvpTedw0pwR56+m8r6GbbdSoKjMntXNf1d9IOz7fTfLeRhfOqnwQ
-   A==;
-X-CSE-ConnectionGUID: 5cjRm5WxSv+6R9ZqhhJQyg==
-X-CSE-MsgGUID: GygnTOzETfSTzg9yl1kezw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="64924247"
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="64924247"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 01:12:09 -0700
-X-CSE-ConnectionGUID: 4zmRtJ/vTjmFcrZirQMs/Q==
-X-CSE-MsgGUID: Q71nVsQRSXWck0LBrBnyvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,218,1754982000"; 
-   d="scan'208";a="211880151"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Oct 2025 01:12:07 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v78EP-0002SR-14;
-	Fri, 10 Oct 2025 08:12:05 +0000
-Date: Fri, 10 Oct 2025 16:11:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luca Coelho <luciano.coelho@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, vinod.govindapillai@intel.com,
-	ville.syrjala@linux.intel.com
-Subject: Re: [PATCH v2 4/7] drm/i915/wm: convert x/y-tiling bools to an enum
-Message-ID: <202510101543.qQD4XNoc-lkp@intel.com>
-References: <20251007075729.468669-5-luciano.coelho@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwuiCskY"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-781257bd4e2so139291b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 01:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760083997; x=1760688797; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+wM+C8meSFUf89iBos4e9b9ElmXv19ZrqBcY5kPeD/U=;
+        b=AwuiCskYHEdduGN1CG4HZaZrHPIuoM+WvxFX+m+dCzCSYpP3frtO60nIZoOAbU6xxV
+         SdSd3FgrO6UQMNjqGikMaElQCySHH/gjIS76/x5OHVEvum9GAYumVmNDMsz7lTp+8z8i
+         1fH0UMedsHoruL14b6ZujxCaKfjfo3keFLxjCARDmjsJpuO7liK5q72T7iwQD64phsNx
+         F1UYJcKhhQ/Zd92D9H56CgSrJjT+OdfEAFfBUWau/mnYDMudjAiS35TqqFLJHLJHh6xy
+         StjZtVH2f5ksv68VXjWvO2yxCu9zusS9piVk7dejmpD/H4LJsuU6KNh2EeerB8vwHxbF
+         dR/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760083997; x=1760688797;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+wM+C8meSFUf89iBos4e9b9ElmXv19ZrqBcY5kPeD/U=;
+        b=YgNgcC3EA5jdUnikBBBFBNkDRPifQg1juGBwFmI3H3Yv95+EXcRdMZ73jM84yWVEFj
+         vJZk0296hbyzAudYx9J9Z1dfH6ulj5smXaYtqsrk6IsSN0g2jtK2VjbF3Bm56/P4DSU1
+         9YD0H0x8qjliKFs0FMOpVmsgbXkDsj6mjEHHOqm1Yrmr7snSCNItsRDPY9/gkWgE2rZj
+         yZIUEn7Q9l6frfwodefSh8HgcUBpqEWXwlec5xlGQ5vly7COKKOpEJlStwiVKhbFb9jV
+         /1GuuxRf5EZqFqvG48BXfxIWA6iK7y0JDFoDCsVhvo8U5zroDSGwdxhvs77xJt/5ZAy0
+         gwCw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIYdlR3p6LDmO2Alb+cyTyKiDRyNrHYSSKXrdIQ4w6g04gZAMgaDkajEy6PNTmjVQlTOVAk3JFsfeaibs0@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywq135Gff2Y3JfCg3/TZ5F4mvh94MiWjQKNdTKB/0MhhGzvAFDC
+	X5KXr1dIGuQKCvUMJnMKHfucvT42ydWW43LG0FokiU6TdTtt/uXVAPwicVzrAO4Lt32vcZZ/PGJ
+	VFVrPzPJ9T3Y5keQEImj8t0x6HeJy1LA=
+X-Gm-Gg: ASbGncvrqLdLFnN2K8RWmud4kx8akOQzDbwpnw4a9huGjQufzDkcDNeTKbJyPviCmPp
+	pYiv7KR6CNYiPju2qx9PPV8842Wd1Edi6/vEhs5r9EkEngZwQfoxXgpbDEBiTqIGLWSeqVX1NQH
+	WUPjsoLFTKjKUmCrpYpU+0zA0bnaeNvYqqcrbRCmQ5m+f3y+297f2nBQJrkat6JZw8HkTnnwHgl
+	kSfmGD/ZjcG9yopmtu0KYOVQ2Q+I2cdAfs6e5ExW2ySnj32O+qCC+CJBaN3rq+zKInioaxVWxH0
+	s46Q/MRUTHJUdzVEdHmAz9bgBZK1OobDNGQW3bUTN2vZ
+X-Google-Smtp-Source: AGHT+IFdkga+t+zjNZdz4Z2XPhEtJNUAlFk/vUhhv9BDFlxUqeNhsotPLJ09GEKkawpw/ItDjLsilTqPl3STcyuQYOU=
+X-Received: by 2002:a17:902:d4d2:b0:25c:9c28:b425 with SMTP id
+ d9443c01a7336-2902745c0a2mr89160145ad.11.1760083996696; Fri, 10 Oct 2025
+ 01:13:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251007075729.468669-5-luciano.coelho@intel.com>
+References: <202510100127.yuqhg8uo-lkp@intel.com> <20251009110555.29a67af19f5cc4d40e66713c@linux-foundation.org>
+ <CANiq72kKSz=UK+O4tnV0Kmw_HmJhJJ+KNZnUBWtOWqanrG+7Vg@mail.gmail.com>
+ <20251010060618.GA80465@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
+ <CANiq72kndiqwEm-OZLd6JumAaBy7KrzYf_rDjwhtw5Uh4vdTCg@mail.gmail.com> <20251010074458.GA91144@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
+In-Reply-To: <20251010074458.GA91144@dev-dsk-acsjakub-1b-6f9934e2.eu-west-1.amazon.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 10 Oct 2025 10:13:03 +0200
+X-Gm-Features: AS18NWCKK8TWzVbSWJUkTcYGK_N5_ArO41xibbqihc9xfH2UWC9bF9H18mvQyqc
+Message-ID: <CANiq72mzrJNTe6aw5zJ_vyhXO1jDR96hmvQEXPkqFj=dnwSnSA@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-new 36/102] error[E0425]: cannot find value `VM_READ`
+ in crate `bindings`
+To: Jakub Acs <acsjakub@amazon.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Luca,
+On Fri, Oct 10, 2025 at 9:45=E2=80=AFAM Jakub Acs <acsjakub@amazon.de> wrot=
+e:
+>
+> This is a tricky one - VM_MERGEABLE being `unsigned int` is only an issue
+> if there are flags using any of the upper 32 bits. And if that is the
+> case, CONFIG_ARCH_USES_HIGH_VMA_FLAGS has to be 'y', -> thus the enum
+> will also have BIT(33), BIT(34), and so on. So from that perspective
+> we're ok (checked by running a reproducer).
 
-kernel test robot noticed the following build errors:
+Ah, good, that simplifies things, yeah. A comment about the fact that
+we rely on higher ones existing on the enum may make sense to add.
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.17 next-20251009]
-[cannot apply to drm-i915/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Or, even better, an static assert testing the type of `VM_MERGEABLE`.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Coelho/drm-i915-wm-clarify-watermark-ops-with-comments/20251010-123245
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20251007075729.468669-5-luciano.coelho%40intel.com
-patch subject: [PATCH v2 4/7] drm/i915/wm: convert x/y-tiling bools to an enum
-config: arm-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510101543.qQD4XNoc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510101543.qQD4XNoc-lkp@intel.com/reproduce)
+> This ofc remains true, I'm not yet sure how to test that complication.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510101543.qQD4XNoc-lkp@intel.com/
+If we keep the macros, then I was thinking we can avoid replicating a
+bit of conditional compilation elsewhere by blackboxing the zeros,
+e.g.
 
-All errors (new ones prefixed by >>):
+    # define VM_SOFTDIRTY  BINDGEN_BLACKBOX(0)
 
-   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_wm_latency':
->> drivers/gpu/drm/i915/display/skl_watermark.c:629:33: error: 'WM_TILING_X_TILED' undeclared (first use in this function)
-     629 |             wp && wp->tiling == WM_TILING_X_TILED)
-         |                                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/skl_watermark.c:629:33: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_compute_wm_params':
-   drivers/gpu/drm/i915/display/skl_watermark.c:1673:30: error: 'WM_TILING_X_TILED' undeclared (first use in this function)
-    1673 |                 wp->tiling = WM_TILING_X_TILED;
-         |                              ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/skl_watermark.c:1716:27: error: 'WM_TILING_Y_FAMILY' undeclared (first use in this function); did you mean 'WM_TILING_Y_Yf_4'?
-    1716 |         if (wp->tiling == WM_TILING_Y_FAMILY) {
-         |                           ^~~~~~~~~~~~~~~~~~
-         |                           WM_TILING_Y_Yf_4
-   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_compute_plane_wm':
-   drivers/gpu/drm/i915/display/skl_watermark.c:1820:27: error: 'WM_TILING_Y_FAMILY' undeclared (first use in this function); did you mean 'WM_TILING_Y_Yf_4'?
-    1820 |         if (wp->tiling == WM_TILING_Y_FAMILY) {
-         |                           ^~~~~~~~~~~~~~~~~~
-         |                           WM_TILING_Y_Yf_4
-   drivers/gpu/drm/i915/display/skl_watermark.c: In function 'skl_compute_transition_wm':
-   drivers/gpu/drm/i915/display/skl_watermark.c:2018:27: error: 'WM_TILING_Y_FAMILY' undeclared (first use in this function); did you mean 'WM_TILING_Y_Yf_4'?
-    2018 |         if (wp->tiling == WM_TILING_Y_FAMILY) {
-         |                           ^~~~~~~~~~~~~~~~~~
-         |                           WM_TILING_Y_Yf_4
+That way we can keep dummier lists on the Rust helpers. But it does
+look a bit out of place (though it is a smaller change than the whole
+`enum` thing).
 
+Otherwise, for the moment we can go with [1]. It is just a single `#ifdef`.
 
-vim +/WM_TILING_X_TILED +629 drivers/gpu/drm/i915/display/skl_watermark.c
+Cheers,
+Miguel
 
-   597	
-   598	static int skl_compute_wm_params(const struct intel_crtc_state *crtc_state,
-   599					 int width, const struct drm_format_info *format,
-   600					 u64 modifier, unsigned int rotation,
-   601					 u32 plane_pixel_rate, struct skl_wm_params *wp,
-   602					 int color_plane, unsigned int pan_x);
-   603	
-   604	static void skl_compute_plane_wm(const struct intel_crtc_state *crtc_state,
-   605					 struct intel_plane *plane,
-   606					 int level,
-   607					 unsigned int latency,
-   608					 const struct skl_wm_params *wp,
-   609					 const struct skl_wm_level *result_prev,
-   610					 struct skl_wm_level *result /* out */);
-   611	
-   612	static unsigned int skl_wm_latency(struct intel_display *display, int level,
-   613					   const struct skl_wm_params *wp)
-   614	{
-   615		unsigned int latency = display->wm.skl_latency[level];
-   616	
-   617		if (latency == 0)
-   618			return 0;
-   619	
-   620		/*
-   621		 * WaIncreaseLatencyIPCEnabled: kbl,cfl
-   622		 * Display WA #1141: kbl,cfl
-   623		 */
-   624		if ((display->platform.kabylake || display->platform.coffeelake ||
-   625		     display->platform.cometlake) && skl_watermark_ipc_enabled(display))
-   626			latency += 4;
-   627	
-   628		if (skl_needs_memory_bw_wa(display) &&
- > 629		    wp && wp->tiling == WM_TILING_X_TILED)
-   630			latency += 15;
-   631	
-   632		return latency;
-   633	}
-   634	
+[1]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helpe=
+r.h
+index 2e43c66635a2..3c3a03051060 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -108,6 +108,33 @@ const xa_mark_t RUST_CONST_HELPER_XA_PRESENT =3D XA_PR=
+ESENT;
+
+ const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC =3D XA_FLAGS_ALLOC;
+ const gfp_t RUST_CONST_HELPER_XA_FLAGS_ALLOC1 =3D XA_FLAGS_ALLOC1;
++
++const vm_flags_t RUST_CONST_HELPER_VM_READ =3D VM_READ;
++const vm_flags_t RUST_CONST_HELPER_VM_WRITE =3D VM_WRITE;
++const vm_flags_t RUST_CONST_HELPER_VM_EXEC =3D VM_EXEC;
++const vm_flags_t RUST_CONST_HELPER_VM_SHARED =3D VM_SHARED;
++const vm_flags_t RUST_CONST_HELPER_VM_MAYREAD =3D VM_MAYREAD;
++const vm_flags_t RUST_CONST_HELPER_VM_MAYWRITE =3D VM_MAYWRITE;
++const vm_flags_t RUST_CONST_HELPER_VM_MAYEXEC =3D VM_MAYEXEC;
++const vm_flags_t RUST_CONST_HELPER_VM_MAYSHARE =3D VM_MAYSHARE;
++const vm_flags_t RUST_CONST_HELPER_VM_PFNMAP =3D VM_PFNMAP;
++const vm_flags_t RUST_CONST_HELPER_VM_IO =3D VM_IO;
++const vm_flags_t RUST_CONST_HELPER_VM_DONTCOPY =3D VM_DONTCOPY;
++const vm_flags_t RUST_CONST_HELPER_VM_DONTEXPAND =3D VM_DONTEXPAND;
++const vm_flags_t RUST_CONST_HELPER_VM_LOCKONFAULT =3D VM_LOCKONFAULT;
++const vm_flags_t RUST_CONST_HELPER_VM_ACCOUNT =3D VM_ACCOUNT;
++const vm_flags_t RUST_CONST_HELPER_VM_NORESERVE =3D VM_NORESERVE;
++const vm_flags_t RUST_CONST_HELPER_VM_HUGETLB =3D VM_HUGETLB;
++const vm_flags_t RUST_CONST_HELPER_VM_SYNC =3D VM_SYNC;
++const vm_flags_t RUST_CONST_HELPER_VM_ARCH_1 =3D VM_ARCH_1;
++const vm_flags_t RUST_CONST_HELPER_VM_WIPEONFORK =3D VM_WIPEONFORK;
++const vm_flags_t RUST_CONST_HELPER_VM_DONTDUMP =3D VM_DONTDUMP;
++#ifdef CONFIG_MEM_SOFT_DIRTY
++const vm_flags_t RUST_CONST_HELPER_VM_SOFTDIRTY =3D VM_SOFTDIRTY;
++#endif
++const vm_flags_t RUST_CONST_HELPER_VM_MIXEDMAP =3D VM_MIXEDMAP;
++const vm_flags_t RUST_CONST_HELPER_VM_HUGEPAGE =3D VM_HUGEPAGE;
++const vm_flags_t RUST_CONST_HELPER_VM_NOHUGEPAGE =3D VM_NOHUGEPAGE;
+ const vm_flags_t RUST_CONST_HELPER_VM_MERGEABLE =3D VM_MERGEABLE;
+
+ #if IS_ENABLED(CONFIG_ANDROID_BINDER_IPC_RUST)
