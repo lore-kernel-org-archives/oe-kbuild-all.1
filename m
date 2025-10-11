@@ -1,196 +1,109 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAED2367CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 21:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B638F34BA38
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 22:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760219258; cv=none; b=eYqA2d5Xv72O5S/fAtvZuGOoU9jwhRYylrZ7uQtTd6P/yYHoySdtHELe/PRipoTw4+brLSewtaAZXHTnLrQ7+ARVyQpWzUDhoiXRr6H88vVyBtTCW5m7daYvjCpOQr2dTa7R+R19037EFdaWUQuRQrMKzNUNQEo73mV3QTriZYs=
+	t=1760220250; cv=none; b=Aw6Ib3zgijQOsH/PrxaP8LBHbc4noR2ak4qSEusuGY0pL/7f5bdA/0WouI4rvyp4ENN+fZoyWQEQ6QxeLrYu3EqLELbDpupWpfdRaRXW+gvos7yI+JZ7mcttJREbj+zbqjNFEpLFYcPrYsCjCbcpq0FovqlPaoCqvUzTEEeAnYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760219258; c=relaxed/simple;
-	bh=k3isVL9WAak5fCunvMYwDOeBvT+ja7+ZdbuXDmgU/9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o541YCFPGd5vQjBR2gALUzzWo9dYmNnF83E/D7abV/r/4P2YW7s2SiuBzcvqYOnymEiDiwx4x7/4GCRuV/KHRUpnoG30ANx07ZwryGC31jj+LmCoiW2LvxGWWKsu6D3zk/9EIBwMGTrlrmT33Akjv67+FENoCyJp2mbHJxiJWEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Mo6mhW/3; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1760220250; c=relaxed/simple;
+	bh=i7Jgr7fdDvNL25cRTpbIZFz0XW9pXyGITE2m+CfhP+E=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=YQqoVPck+SzMgEfi+UqWWrmARthrOq2GOlzeKP1BTBpFHphArz6LpvnULc+Lvvvjr9iU3E+sGt0mWgsKIiR4D3GJoRPDYjnPy+PAAEsuV5Sha+xQZNaoCvIVhn0pudyd66EH4M+8prMAVXdi8XWHGSoKAOMmDQ/+t9xTpmCF/nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qSKUSl/e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Mo6mhW/3"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-4308afd43f0so418255ab.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 14:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760219256; x=1760824056; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=edG0NGbrr85u0FtLnw6wkiSc/A0YKw/98Yub9scsGaw=;
-        b=Mo6mhW/3O5V3ytn4K5kQmbdrgljxlFeEWns7TKtQM4A84VtYd85sV2wWIR5/dCqggE
-         fQhe6dHI2szOpWAT3ABci9/wN7GRx/7wQuIGIx3xDYXutMpXiobSmdG+Iefs07lDWaOt
-         Tl8PQe4vqmlE2tA5WybP8/KeR7MocX4mJXdJ10va/LEpcJ8/JJjvNNGdTB6xit88qaJG
-         VCq72pRhgJlLv/KjTWwzzBmaiEmGuGhoXInM3c2WZQlnIyxMhJ8NfWovnviUGgN/8Xdr
-         b3mB8ivqPwA86F7WkTMTPkkGyQC+Z7Rfj0Z5RGRr9zP0bFK2fY0dpzc500mJI6rtYbPI
-         P/jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760219256; x=1760824056;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=edG0NGbrr85u0FtLnw6wkiSc/A0YKw/98Yub9scsGaw=;
-        b=C/SMXd36J0NjW3mDmlFhoK44b8du1wOxFwxQs42a7Cm/UsjNTykKFxVLClR0PEEO0t
-         q4YwwZDeDg9uc50Hq4khXPvxwX1TskYxFGH74+0nHrNCdQOi+yXPcNvGIdNDkHsEkIvK
-         LK9pai0EI1It8RvAXGXd+JWbHK9wmVir5pH1PecBHFzGUr75xAFNQ+x16cTvjPcMFUhh
-         DyAmvRHs6pwDk2WbMmV+VMZ9/bV/WVU8D9MGzJ7uM+/FK1WDfDU0/p9M5Nq4QTLSrFxH
-         UchJGU+hFJgEa+a0XZUMgJC8MX5AfAI3ZYH9DuqNbX9vconccpl4606cXECn2/Hzj02l
-         MbBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKASyWjromu8SmFZ+TZW2F6QGiXb4f6Vab8KOxtKwCVc1WEcMs2Udnc8x50NKz9i6fdKnIr9J/gHDp7szT@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAFZLP5e/O4obdXoOcrAXztRZAXhQpC6vd0Naa+stOTLH1n4VY
-	Kj39S8odKDl3MkHqEH2yb6ix3ISzlRr/URsd2ph3FipVh+CdtJwLDsHPpsk98ykZXnWBlkuU7/O
-	xgJuaBH9jTyYCYzI+XNpKmqPNe/XGR9yOclo6Dmfp
-X-Gm-Gg: ASbGncuQwLsfliTqE2bBaKfThPQzqnoSTEtfeA075Ok1fFguZM4nqUJet//rQfEPYgp
-	S5CrIYJYiwtEktL7lEe4kWUHJzYKHPJUZ68aJn2L6n/34Y8he9XMhaS9kgkmkRJJxl1DKJJw/LM
-	GqeyWvRfmS20CaVZ3uYU7WfFQnJFtAavhJkuX2tNUlvsK+2SXJngs8NKfrqcoMPF423+LMcoqlU
-	+RJweywkZWGJXBWTAGK2vgt0FDFZHU=
-X-Google-Smtp-Source: AGHT+IFFaqWGr6zppAMQlQaEOPe0SaZYdxA84DzbcLcqHShRGwrEbPejok43SDIXTETu3rLoVc/dTHFUc/Jq0m7QB2s=
-X-Received: by 2002:a05:622a:808d:b0:4e6:eaea:af3f with SMTP id
- d75a77b69052e-4e6eaeaaf5dmr21268691cf.3.1760219255521; Sat, 11 Oct 2025
- 14:47:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qSKUSl/e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4DEEC4CEF4;
+	Sat, 11 Oct 2025 22:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1760220249;
+	bh=i7Jgr7fdDvNL25cRTpbIZFz0XW9pXyGITE2m+CfhP+E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qSKUSl/eTQ5ivoH4pFV14ujJlqK3eYh+4YOokcp1S7cm1Rp7lv43wi6ZYOWFbteLe
+	 VrhxyCQkLIsQE0OC2h1dsVmZsWGddu8XTj6XEnn06IPYYXrb01tc7d966oKhkCMSzP
+	 cFIoobUGLuElwOxs39Pe9rnX/3QG2bgtiHA4TC1E=
+Date: Sat, 11 Oct 2025 15:04:08 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Baoquan He <bhe@redhat.com>, linux-mm@kvack.org,
+ oe-kbuild-all@lists.linux.dev, chrisl@kernel.org, kasong@tencent.com,
+ youngjun.park@lge.com, baohua@kernel.org, shikemeng@huaweicloud.com,
+ nphamcs@gmail.com
+Subject: Re: [PATCH v4 mm-new 1/2] mm/swap: do not choose swap device
+ according to numa node
+Message-Id: <20251011150408.b865cffc3a8fb8bf834067f7@linux-foundation.org>
+In-Reply-To: <202510120456.vTSygUXV-lkp@intel.com>
+References: <20251011081624.224202-2-bhe@redhat.com>
+	<202510120456.vTSygUXV-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20251010011951.2136980-6-surenb@google.com> <202510111059.aKceYLLH-lkp@intel.com>
-In-Reply-To: <202510111059.aKceYLLH-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sat, 11 Oct 2025 14:47:24 -0700
-X-Gm-Features: AS18NWDufVi4cEGnv1sKGIKBBNV8Et6IGfR8sPmz2Ei8b77bsJTwPJgzvhpHvVI
-Message-ID: <CAJuCfpHKr392MiS=gnjpomwdzTnesgBpXSkVk5h87wLJwo7qVQ@mail.gmail.com>
-Subject: Re: [PATCH 5/8] mm/tests: add cleancache kunit test
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, david@redhat.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, vbabka@suse.cz, alexandru.elisei@arm.com, 
-	peterx@redhat.com, sj@kernel.org, rppt@kernel.org, mhocko@suse.com, 
-	corbet@lwn.net, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	hch@infradead.org, jack@suse.cz, willy@infradead.org, 
-	m.szyprowski@samsung.com, robin.murphy@arm.com, hannes@cmpxchg.org, 
-	zhengqi.arch@bytedance.com, shakeel.butt@linux.dev, axelrasmussen@google.com, 
-	yuanchu@google.com, weixugc@google.com, minchan@kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 10, 2025 at 7:58=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Suren,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on 70478cb9da6fc4e7b987219173ba1681d5f7dd3d]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
-/mm-implement-cleancache/20251010-134501
-> base:   70478cb9da6fc4e7b987219173ba1681d5f7dd3d
-> patch link:    https://lore.kernel.org/r/20251010011951.2136980-6-surenb%=
-40google.com
-> patch subject: [PATCH 5/8] mm/tests: add cleancache kunit test
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/2=
-0251011/202510111059.aKceYLLH-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd70=
-8029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251011/202510111059.aKceYLLH-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On Sun, 12 Oct 2025 04:45:07 +0800 kernel test robot <lkp@intel.com> wrote:
+
+> Hi Baoquan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-swap-do-not-choose-swap-device-according-to-numa-node/20251011-161743
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20251011081624.224202-2-bhe%40redhat.com
+> patch subject: [PATCH v4 mm-new 1/2] mm/swap: do not choose swap device according to numa node
+> config: i386-buildonly-randconfig-003-20251012 (https://download.01.org/0day-ci/archive/20251012/202510120456.vTSygUXV-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120456.vTSygUXV-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510111059.aKceYLLH-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> mm/tests/cleancache_kunit.c:358:6: warning: variable 'unused' set but =
-not used [-Wunused-but-set-variable]
->      358 |         int unused =3D 0;
->          |             ^
->    1 warning generated.
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510120456.vTSygUXV-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from include/linux/list.h:5,
+>                     from include/linux/wait.h:7,
+>                     from include/linux/wait_bit.h:8,
+>                     from include/linux/fs.h:7,
+>                     from include/linux/highmem.h:5,
+>                     from include/linux/bvec.h:10,
+>                     from include/linux/blk_types.h:10,
+>                     from include/linux/blkdev.h:9,
+>                     from mm/swapfile.c:9:
 
-Right, I'll remove it.
+Thanks.  I did this.  Baoquan, please review and retest?
 
->
->
-> vim +/unused +358 mm/tests/cleancache_kunit.c
->
->    353
->    354  static void cleancache_backend_api_test(struct kunit *test)
->    355  {
->    356          struct folio *folio;
->    357          LIST_HEAD(folios);
->  > 358          int unused =3D 0;
->    359          int used =3D 0;
->    360
->    361          /* Store inode folios into cleancache */
->    362          fill_cleancache(test);
->    363
->    364          /* Get all donated folios back */
->    365          for (int fidx =3D 0; fidx < FOLIO_COUNT; fidx++) {
->    366                  KUNIT_EXPECT_EQ(test, cleancache_backend_get_foli=
-o(test_data.pool_id,
->    367                                                  test_data.pool_fo=
-lios[fidx]),  0);
->    368                  set_page_refcounted(&test_data.pool_folios[fidx]-=
->page);
->    369          }
->    370
->    371          /* Try putting a refcounted folio */
->    372          KUNIT_EXPECT_NE(test, cleancache_backend_put_folio(test_d=
-ata.pool_id,
->    373                                          test_data.pool_folios[0])=
-, 0);
->    374
->    375          /* Put some of the folios back into cleancache */
->    376          for (int fidx =3D 0; fidx < FOLIOS_PER_INODE; fidx++) {
->    377                  folio_ref_freeze(test_data.pool_folios[fidx], 1);
->    378                  KUNIT_EXPECT_EQ(test, cleancache_backend_put_foli=
-o(test_data.pool_id,
->    379                                                  test_data.pool_fo=
-lios[fidx]), 0);
->    380          }
->    381
->    382          /* Put the rest back into cleancache but keep half of fol=
-ios still refcounted */
->    383          for (int fidx =3D FOLIOS_PER_INODE; fidx < FOLIO_COUNT; f=
-idx++) {
->    384                  if (fidx % 2) {
->    385                          folio_ref_freeze(test_data.pool_folios[fi=
-dx], 1);
->    386                          unused++;
->    387                  } else {
->    388                          used++;
->    389                  }
->    390                  list_add(&test_data.pool_folios[fidx]->lru, &foli=
-os);
->    391          }
->    392          KUNIT_EXPECT_NE(test, cleancache_backend_put_folios(test_=
-data.pool_id,
->    393                                          &folios), 0);
->    394          /* Used folios should be still in the list */
->    395          KUNIT_EXPECT_EQ(test, list_count_nodes(&folios), used);
->    396
->    397          /* Release refcounts and put the remaining folios into cl=
-eancache */
->    398          list_for_each_entry(folio, &folios, lru)
->    399                  folio_ref_freeze(folio, 1);
->    400          KUNIT_EXPECT_EQ(test, cleancache_backend_put_folios(test_=
-data.pool_id,
->    401                                          &folios), 0);
->    402          KUNIT_EXPECT_TRUE(test, list_empty(&folios));
->    403  }
->    404
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+
+--- a/mm/swapfile.c~mm-swap-do-not-choose-swap-device-according-to-numa-node-fix
++++ a/mm/swapfile.c
+@@ -1388,11 +1388,10 @@ start_over:
+ static bool swap_sync_discard(void)
+ {
+ 	bool ret = false;
+-	int nid = numa_node_id();
+ 	struct swap_info_struct *si, *next;
+ 
+ 	spin_lock(&swap_avail_lock);
+-	plist_for_each_entry_safe(si, next, &swap_avail_heads[nid], avail_lists[nid]) {
++	plist_for_each_entry_safe(si, next, &swap_avail_head, avail_list) {
+ 		spin_unlock(&swap_avail_lock);
+ 		if (get_swap_device_info(si)) {
+ 			if (si->flags & SWP_PAGE_DISCARD)
+@@ -2890,7 +2889,6 @@ SYSCALL_DEFINE1(swapoff, const char __us
+ 	del_from_avail_list(p, true);
+ 	if (p->prio < 0) {
+ 		struct swap_info_struct *si = p;
+-		int nid;
+ 
+ 		plist_for_each_entry_continue(si, &swap_active_head, list) {
+ 			si->prio++;
+_
+
