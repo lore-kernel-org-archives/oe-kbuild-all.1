@@ -1,113 +1,107 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0F21A9FAE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 11:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52FF221F00;
+	Sat, 11 Oct 2025 11:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760182339; cv=none; b=tjl5YnNSdmtywsxV9CqAXYc4cUSl7gLRCoFbbtpPvqT8hblI+A8q+nc6Q3Tjts1joXy0wxErRNb0IvK9lgkPSlA67qK+8u2cOgALops9yYU9a+p3W2jTiIoqXKHmOFavWE/7dw/87w2irc3nj7+zvnNtIeGmi3BZD8IqDo5v1iU=
+	t=1760182555; cv=none; b=WsVA1+JlWLdzDlXgNcPcCvOVlHlMjLWyY4TzpqdR9/jN15A0iqRhaFHAYLC85oyER1ychj1QV8KxuJs0CiLBFG1UoWC4UnV91u+scHeyeUN03T1Is9xC1p2gq9/NjEU/1bd2+ZirlR/IADs78gdetuXlKJgq5ujBUH7YUY+Carc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760182339; c=relaxed/simple;
-	bh=ZpdfRoBap7LNXkf5zLdbDNb3gQIfNj+XPTaqjYigr+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mLRXv/MpBkbgLI51rMZmBPp+PL/fvCsvybmeaEj7Iak0QscllWnaF4mEctCagIH5guQOL5IzAHiGFbMqVWSIB2E6g112VqhCe2oyYI+gW9xeM6g6PecBngtgUqlQCIUFP6A7yrnD5hCAWGqBjsUYYiEPqtXqXeNIpVLFtMAPyI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWZTIZVe; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760182555; c=relaxed/simple;
+	bh=Qwx9nE59ChClGj+2o6/qydJnGr/6bfEvsCpmFoxC8fA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KC9A8O4aUMStmoMjAEikXE57E8D6GzzHF+xvN+yey2p/N71V7L18eRR4JXeXKa+DT9pRqfiueOrZLApS6jKhaxQ6SoDtPXKQycJdT6XYMaoKo2CnM7bP2LaVWo4VL/ylkZPtnpMlE2wRI/E8nnLJP3yDXiiBAK2SudeF9I+NGaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgFjQ26r; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWZTIZVe"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f42b54d1b9so2471427f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 04:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760182333; x=1760787133; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/WhtfIdoyiawysQgDo2chqo5YvMHlXM3yb3ox9uDzOo=;
-        b=FWZTIZVeu3ridndIKBdZ92Ig96qjj7oHhHswWCr7yJ0V19t6/sE4fd4tMNthNVXm1o
-         4dL1WP8EiZtyDoszI1KtgOd9V4tfjxgIZUUaukgwSJIkK0eCl6HsdmECverOBYnK3++s
-         aZtZT3jNCt4pgEltNi7X7tpj1ITk2mIoUkO/FgKw3kzXJRvAj4UWwRZXZSDFEe35xTBt
-         Or4+H4mtdKIZ9xdAvIn9RlXG1s+wR4EXgsqKeUIdMYPqGHZWjuxvzzwrUrN261zZZBiV
-         GXFxAJbgSWZ33xBLLSABz8Akbd6T0593PpknDX2mbdsc4nfI1o7ysT1uHcw4lEedUqEf
-         BwvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760182333; x=1760787133;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/WhtfIdoyiawysQgDo2chqo5YvMHlXM3yb3ox9uDzOo=;
-        b=XtEaNF/pvrZyG0VvMEl54zaV/uxaJLHJFipREIVJNpTNTipzpkHfwZGlZCHcfZsKDK
-         ZDeds1mcV5h8b30tDhHWpcYQ6qwFim5c/gQTyNAO7FK26d10OZzNFgx/xn4Zjtt1J5q7
-         m9VSZ+CZn57aOkERKb+JlGitm4sIWtpFrfFo6bVSfajIlYzYQ65AGMS4e8JbS1zwS7po
-         LO3LuoULczYMTX6nvasBs8mQYTHDrMu3QHLNLJcIRkIzK5zB90hlPLZY9h/LHpj9MyuN
-         fkYBWEm1kA/aSOT/0BL19gild20umnktWUidVp8LauPyxk9UESsNOc/pDTb5mx2flyRK
-         dYUg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1Eo+MnBX38Gr4he6mwtunevagnyfc6UtB5WyutpbE9rM4db333dUpUJr5r0wntcGa4YUhRP+X2nSubrNx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxnruu9py/KSisy6SXkcYBC8wBOtWcWTaWlAi3bDQ1cV/ldZIcO
-	UhYzzgT6hwqdZ6zrzuvd2gbeVNxKlYmZohcgN1taHUcl/crlwLmjNEwj
-X-Gm-Gg: ASbGnctNtSyg+YySrnGQ1vFYBbCxyeafnF1HkT6fgFE4Kvo5S+9Co6z6wbqkhRPHbtv
-	xYWZyaxHONHSkGGOkSmvwwQzRQh0re0Et5wDWtvy1BdXt3VQhOQGz3HdlQNhfnBLusp+kcFIlcp
-	9dS5eZsl3YkmCoSvmGrz6+H51ZoScixN3VGmdCqdOyT20gYjGOakyFl+VbrBkS9aloghljU7MsO
-	LQDqBhpn5VESNGsL2Qvx2H1rugZUoXWh8QmzEoR83i3Mvf8By26gfXPlnJ6sT62alj7fVy0Fp/B
-	PVPcLnd+O+dLp3aeL3B4CXtaX4RKYvAS+3Mdzxq0AbfCDjl7dXc0mA1XLfvbxN/xP4oFcFxY05o
-	fwJWhyVFcoyVRyoMrDWxK7PHcl8XmnjB1yxOa/kZZP6MJgpdcfwUI
-X-Google-Smtp-Source: AGHT+IF7DO50xv43OfmrBovVOqHhm6Smo19LkroOnjaPG77MXlD2olVAe7mIm+QWfvK5CGw0ung3Eg==
-X-Received: by 2002:a5d:588b:0:b0:425:86c2:7b4a with SMTP id ffacd0b85a97d-4266d0da0a8mr8912169f8f.24.1760182332662;
-        Sat, 11 Oct 2025 04:32:12 -0700 (PDT)
-Received: from gmail.com ([51.154.250.0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce582a9csm8676910f8f.12.2025.10.11.04.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Oct 2025 04:32:12 -0700 (PDT)
-Date: Sat, 11 Oct 2025 11:32:11 +0000
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Michael =?utf-8?B?QsO8c2No?= <mb@bues.ch>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] driver: gpio-bt8xx: use generic PCI PM
-Message-ID: <aOpAO7j0Uyo6FPcu@gmail.com>
-References: <20251010105338.664564-1-vaibhavgupta40@gmail.com>
- <202510110924.dUQeeRV6-lkp@intel.com>
- <20251011122612.4fa7c97a@barney>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgFjQ26r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760182549; x=1791718549;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qwx9nE59ChClGj+2o6/qydJnGr/6bfEvsCpmFoxC8fA=;
+  b=hgFjQ26rYAjq6B8yipWWHARZJrCtOXqdQk0ukYlJ6x5sufhEMMiQArpY
+   K05ldDIOQosfF7rHRT3vcaYH5F73TYrI+gBK3DzmbKFaQSawmCqgAcPnt
+   ISf54y+LJgqD5Mli7U7tbs6HDcudjQm5rDpC446fg29Yk6gXN0JHeXjCw
+   I7nTdXVEajepffRiNvsYbPvaQnQOtojV2ONhqVrAJthc4hI1SoI8V3erO
+   r2oQ/gR6dMgjWlh1GDz8xJft42HKOCMqLH4uo4oplZ5w+9y8gI8jK7DAI
+   1rW1Qyc9NVRyRvFjQz5dWi75wuFCJ2olh1Df42CxCPQml8aO+9/rcAqZY
+   A==;
+X-CSE-ConnectionGUID: K9iR1QcoQyKtX/zLxoC1Fg==
+X-CSE-MsgGUID: 0XApFSZ+QAq45DVgUqOSlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62087004"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="62087004"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 04:35:48 -0700
+X-CSE-ConnectionGUID: /TYwJ5OUTm2ImCH7+6gbCQ==
+X-CSE-MsgGUID: QY8AQaa3QDynOSJmVw0YQw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Oct 2025 04:35:47 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7Xt3-0003jh-0V;
+	Sat, 11 Oct 2025 11:35:45 +0000
+Date: Sat, 11 Oct 2025 19:35:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Junaid Shahid <junaids@google.com>,
+	Yosry Ahmed <yosryahmed@google.com>
+Subject: [bjackman:asi/next 35/50] arch/x86/mm/tlb.c:1811:20: warning:
+ function 'cr3_matches_current_mm' is not needed and will not be emitted
+Message-ID: <202510111941.S3eziun0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251011122612.4fa7c97a@barney>
 
-On Sat, Oct 11, 2025 at 12:26:12PM +0200, Michael Büsch wrote:
-> On Sat, 11 Oct 2025 09:43:54 +0800
-> kernel test robot <lkp@intel.com> wrote:
-> 
-> > Hi Vaibhav,
-> > 
-> > kernel test robot noticed the following build errors:
-> 
-> >    drivers/gpio/gpio-bt8xx.c: In function 'bt8xxgpio_suspend':
-> > >> drivers/gpio/gpio-bt8xx.c:233:19: error: 'struct bt8xxgpio' has no member named 'saved_outen'  
-> >      233 |                 bg->saved_outen = bgread(BT848_GPIO_OUT_EN);
-> >          |                   ^~
-> 
-> 
-> It looks like the
-> #ifdef CONFIG_PM
-> must be removed from struct bt8xxgpio definition.
-> 
-> -- 
-> Michael Büsch
-> https://bues.ch/
+tree:   https://github.com/bjackman/linux asi/next
+head:   a6190e0f5b9d575cc97ef8289a7a6c5b0106fc4b
+commit: b81276f766968738ddea77183e5b16043384ee81 [35/50] mm: asi: Avoid warning from NMI userspace accesses in ASI context
+config: i386-buildonly-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251011/202510111941.S3eziun0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111941.S3eziun0-lkp@intel.com/reproduce)
 
-Hello Michael,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510111941.S3eziun0-lkp@intel.com/
 
-Ah yes, this macro somehow got overlooked by me. I will send a v2.
-Thanks for the review!
+All warnings (new ones prefixed by >>):
 
-Regards,
-Vaibhav
+>> arch/x86/mm/tlb.c:1811:20: warning: function 'cr3_matches_current_mm' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+    1811 | static inline bool cr3_matches_current_mm(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/cr3_matches_current_mm +1811 arch/x86/mm/tlb.c
+
+  1810	
+> 1811	static inline bool cr3_matches_current_mm(void)
+  1812	{
+  1813		struct asi *asi = asi_get_current();
+  1814		unsigned long pgd_asi = __pa(asi_pgd(asi));
+  1815		unsigned long pgd_cr3;
+  1816	
+  1817		/*
+  1818		 * Prevent read_cr3_pa -> [NMI, asi_exit] -> asi_get_current,
+  1819		 * otherwise we might find CR3 pointing to the ASI PGD but not
+  1820		 * find a current ASI domain.
+  1821		 */
+  1822		barrier();
+  1823		pgd_cr3 = read_cr3_pa();
+  1824		return pgd_cr3 == __pa(current->mm->pgd) || pgd_cr3 == pgd_asi;
+  1825	}
+  1826	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
