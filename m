@@ -1,61 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AE84C81
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 07:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC235153BED
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 09:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760169575; cv=none; b=TUajRE2/3J5vDqUOjzRWUui9D4HDhLBZ513JOLvNv7mS03lR0Ve9PlG2oqcu+A+D3jG+72U12amDp9BMfKCQaKfx/A5xnxomaWrZbrLgPeJ6aQmCNKKjnHx3m/7jsqifD9ppLHUZesixM2Ug+6jWgChOW4xH7C5Xc+z508B+o0s=
+	t=1760173246; cv=none; b=icmLCQ2W8Uo+tdywKWouDpjAIh13PG3O/DicF5zwpjnU3Qao3FCjyNwADUhcT3AQnW4eUdITEpMveWZy3jRhi/3/mCiGJVxDShS1mjABuy+UA70JkyjwWrZolhIntG/T/hA5OchB4Z0067zc4Czcd0smacMwdgs1MZW2ptqf8K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760169575; c=relaxed/simple;
-	bh=8v1LnbbHFIfqA7vJouybB86oy19ps3TIzwxEhAJtQTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Egsu3BYNhFcO7sC5hbT82QNcwEPWc/WQ58McYLege9h1tD33hmnae0htvPp5Eb9y6AlXjuiLe5xBYNkSxMqeWkAWcGmY5uS82WsA2G0Gw//EsiLmL7VXexru1fvfXHj0qFln9Su0vauulMBlfP+k2TatWy/Puz/dMivy08RL1es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQf9HPP2; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1760173246; c=relaxed/simple;
+	bh=NmICyN7z5pd3yUB5P/aHf1eTN2vJpiuLtAiyWdk719s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mprrcxH30YB2Lu9SB6CA0WV1LiohkirFmtP/v2rfd5+QD8Opm+5ljKXGpn8VGryiGd7FE0CLWt3y9fOSrISFAnyFTELxlzUUjabv0XUSbJPJNUtX4U0kpO79YhYIlWQeNhySPpYNM5bhrbVJ6whKFmUOxuZvo2GBLnVFC8bq6rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfxBEWPv; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQf9HPP2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfxBEWPv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760169574; x=1791705574;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8v1LnbbHFIfqA7vJouybB86oy19ps3TIzwxEhAJtQTk=;
-  b=HQf9HPP2pHXBo4qPJ7tq2IM4L8ovMmIT0eOvTjxzN/4K1uzUu6PmmLOo
-   f6jx8Gp20b+Mqk7qkCACDHzTUPc9DbDqBC9x57Q2tk9PHcNBifniyX/Ni
-   Ubn02qmKUVZPysjnpfGb+Oa522o+5d7Wpl5FEb6Nno9ryu2tqJZ0j5Hfs
-   1AW1uR3JrAPez8Pj8QAEMAqlg2GMiDCgKfBH/LHeKUp4Rdx3X0drA7ks7
-   rqBweJxeKb+K9bcJcSFP56XVWxCvMFoJ0tn5uVzAKIvuZgoDCICzjZ8aG
-   yqnQ3LEdQ3iuSTUfpFfBJ4f6ZF6fh8aI+QmVvzKsjNSsSlrFXG2OwHqj7
-   w==;
-X-CSE-ConnectionGUID: OFp0zsfrSXuJA+JyUPB5Ww==
-X-CSE-MsgGUID: 7KyWlNQVTaG3+UDI+J3s7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="66234321"
+  t=1760173241; x=1791709241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NmICyN7z5pd3yUB5P/aHf1eTN2vJpiuLtAiyWdk719s=;
+  b=OfxBEWPvucB9HGTXoh9O9ARboa7XhHXkYDKAdBAcM2ghE/o5COWTeesK
+   9VpElkak2p/kYuooLPu2IYHFe+fmiRi0HB5SNbUdTMyDSRl2XOxu3zFbC
+   APavLQjNJx3sP0f0Y8ERYdEMPVA0WSkAojrY8DoHdAzkJ2dpYrsdCpKmT
+   xFkzPjh9vCvMW5PF0xkTMYUoTCL2TWWAaDNzv54MUGW/Nw6cS3EJOVf7e
+   YWxAXvE5kl6hr+nG/XWkLitTOD86emAK3SqkXcnr7jSkXx/OPwH8pPXuS
+   JxYS2MGiiTrZldY/rq1pXyiY01p6agAe1GbJxCWM+x7XbOd1aDhq1eai1
+   Q==;
+X-CSE-ConnectionGUID: lZCdLUTORtCPJfZtkJ0R1w==
+X-CSE-MsgGUID: mc9dUalLQX2dgGrGTaNrKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62277605"
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="66234321"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 00:59:32 -0700
-X-CSE-ConnectionGUID: NeCWoKbJSHav64IBGy1+OQ==
-X-CSE-MsgGUID: 16ccj2lkTQWTxVQBuwpw9A==
+   d="scan'208";a="62277605"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 02:00:40 -0700
+X-CSE-ConnectionGUID: 4mnZvWzqSiqoAc10AJdWXw==
+X-CSE-MsgGUID: GTrHiaj5QCSB0FokPuEspA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="186270708"
+   d="scan'208";a="181590217"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Oct 2025 00:59:30 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 11 Oct 2025 02:00:34 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7UVi-0003cx-2t;
-	Sat, 11 Oct 2025 07:59:26 +0000
-Date: Sat, 11 Oct 2025 15:58:32 +0800
+	id 1v7VSq-0003f5-06;
+	Sat, 11 Oct 2025 09:00:32 +0000
+Date: Sat, 11 Oct 2025 17:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>
-Subject: include/linux/stddef.h:8:14: warning: passing argument 5 of
- 'drm_gpusvm_init' makes integer from pointer without a cast
-Message-ID: <202510111506.HRLvzZmk-lkp@intel.com>
+To: Zi Yan <ziy@nvidia.com>, linmiaohe@huawei.com, david@redhat.com,
+	jane.chu@oracle.com, kernel@pankajraghav.com,
+	syzbot+e6367ea2fdab6ed46056@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
+	akpm@linux-foundation.org, mcgrof@kernel.org,
+	nao.horiguchi@gmail.com,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 1/2] mm/huge_memory: do not change split_huge_page*()
+ target order silently.
+Message-ID: <202510111633.onu4Yaey-lkp@intel.com>
+References: <20251010173906.3128789-2-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,83 +77,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251010173906.3128789-2-ziy@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0739473694c4878513031006829f1030ec850bc2
-commit: 10aa5c80603088d10c2cd5e7e27d561a8fb59c7e drm/gpusvm, drm/xe: Fix userptr to not allow device private pages
-date:   8 days ago
-config: x86_64-randconfig-r123-20251011 (https://download.01.org/0day-ci/archive/20251011/202510111506.HRLvzZmk-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111506.HRLvzZmk-lkp@intel.com/reproduce)
+Hi Zi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.17 next-20251010]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_memory-do-not-change-split_huge_page-target-order-silently/20251011-014145
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251010173906.3128789-2-ziy%40nvidia.com
+patch subject: [PATCH 1/2] mm/huge_memory: do not change split_huge_page*() target order silently.
+config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20251011/202510111633.onu4Yaey-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111633.onu4Yaey-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510111506.HRLvzZmk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510111633.onu4Yaey-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/objtool_types.h:7,
-                    from include/linux/objtool.h:5,
-                    from include/linux/instrumentation.h:7,
-                    from arch/x86/include/asm/bug.h:6,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/pagemap.h:8,
-                    from include/drm/ttm/ttm_tt.h:30,
-                    from drivers/gpu/drm/xe/xe_bo.h:9,
-                    from drivers/gpu/drm/xe/xe_bo.c:6:
-   drivers/gpu/drm/xe/xe_svm.h: In function 'xe_svm_init':
->> include/linux/stddef.h:8:14: warning: passing argument 5 of 'drm_gpusvm_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/gpu/drm/xe/xe_svm.h:217:38: note: in expansion of macro 'NULL'
-     217 |                                NULL, NULL, 0, 0, 0, NULL, NULL, 0);
-         |                                      ^~~~
-   In file included from drivers/gpu/drm/xe/xe_bo_types.h:11,
-                    from drivers/gpu/drm/xe/xe_bo.h:11:
-   include/drm/drm_gpusvm.h:254:35: note: expected 'long unsigned int' but argument is of type 'void *'
-     254 |                     unsigned long mm_start, unsigned long mm_range,
-         |                     ~~~~~~~~~~~~~~^~~~~~~~
-   include/linux/stddef.h:8:14: warning: passing argument 10 of 'drm_gpusvm_init' makes integer from pointer without a cast [-Wint-conversion]
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-         |              |
-         |              void *
-   drivers/gpu/drm/xe/xe_svm.h:217:59: note: in expansion of macro 'NULL'
-     217 |                                NULL, NULL, 0, 0, 0, NULL, NULL, 0);
-         |                                                           ^~~~
-   include/drm/drm_gpusvm.h:257:59: note: expected 'int' but argument is of type 'void *'
-     257 |                     const unsigned long *chunk_sizes, int num_chunks);
-         |                                                       ~~~~^~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_res_cursor.h:38,
-                    from drivers/gpu/drm/xe/xe_bo.c:34:
-   drivers/gpu/drm/xe/xe_svm.h:216:16: error: too many arguments to function 'drm_gpusvm_init'
-     216 |         return drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM (simple)", &vm->xe->drm,
-         |                ^~~~~~~~~~~~~~~
-   include/drm/drm_gpusvm.h:251:5: note: declared here
-     251 | int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
-         |     ^~~~~~~~~~~~~~~
+   mm/truncate.c: In function 'truncate_inode_partial_folio':
+>> mm/truncate.c:229:14: error: too many arguments to function 'try_folio_split'; expected 3, have 4
+     229 |         if (!try_folio_split(folio, split_at, NULL, min_order)) {
+         |              ^~~~~~~~~~~~~~~                        ~~~~~~~~~
+   In file included from include/linux/mm.h:1081,
+                    from arch/parisc/include/asm/cacheflush.h:5,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/writeback.h:13,
+                    from include/linux/backing-dev.h:16,
+                    from mm/truncate.c:12:
+   include/linux/huge_mm.h:588:19: note: declared here
+     588 | static inline int try_folio_split(struct folio *folio, struct page *page,
+         |                   ^~~~~~~~~~~~~~~
+   mm/truncate.c:259:25: error: too many arguments to function 'try_folio_split'; expected 3, have 4
+     259 |                         try_folio_split(folio2, split_at2, NULL, min_order);
+         |                         ^~~~~~~~~~~~~~~                          ~~~~~~~~~
+   include/linux/huge_mm.h:588:19: note: declared here
+     588 | static inline int try_folio_split(struct folio *folio, struct page *page,
+         |                   ^~~~~~~~~~~~~~~
 
 
-vim +/drm_gpusvm_init +8 include/linux/stddef.h
+vim +/try_folio_split +229 mm/truncate.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e218287432472 Richard Knutsson 2006-09-30  9  
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   179	
+   180	/*
+   181	 * Handle partial folios.  The folio may be entirely within the
+   182	 * range if a split has raced with us.  If not, we zero the part of the
+   183	 * folio that's within the [start, end] range, and then split the folio if
+   184	 * it's large.  split_page_range() will discard pages which now lie beyond
+   185	 * i_size, and we rely on the caller to discard pages which lie within a
+   186	 * newly created hole.
+   187	 *
+   188	 * Returns false if splitting failed so the caller can avoid
+   189	 * discarding the entire folio which is stubbornly unsplit.
+   190	 */
+   191	bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+   192	{
+   193		loff_t pos = folio_pos(folio);
+   194		size_t size = folio_size(folio);
+   195		unsigned int offset, length;
+   196		struct page *split_at, *split_at2;
+   197		unsigned int min_order;
+   198	
+   199		if (pos < start)
+   200			offset = start - pos;
+   201		else
+   202			offset = 0;
+   203		if (pos + size <= (u64)end)
+   204			length = size - offset;
+   205		else
+   206			length = end + 1 - pos - offset;
+   207	
+   208		folio_wait_writeback(folio);
+   209		if (length == size) {
+   210			truncate_inode_folio(folio->mapping, folio);
+   211			return true;
+   212		}
+   213	
+   214		/*
+   215		 * We may be zeroing pages we're about to discard, but it avoids
+   216		 * doing a complex calculation here, and then doing the zeroing
+   217		 * anyway if the page split fails.
+   218		 */
+   219		if (!mapping_inaccessible(folio->mapping))
+   220			folio_zero_range(folio, offset, length);
+   221	
+   222		if (folio_needs_release(folio))
+   223			folio_invalidate(folio, offset, length);
+   224		if (!folio_test_large(folio))
+   225			return true;
+   226	
+   227		min_order = mapping_min_folio_order(folio->mapping);
+   228		split_at = folio_page(folio, PAGE_ALIGN_DOWN(offset) / PAGE_SIZE);
+ > 229		if (!try_folio_split(folio, split_at, NULL, min_order)) {
+   230			/*
+   231			 * try to split at offset + length to make sure folios within
+   232			 * the range can be dropped, especially to avoid memory waste
+   233			 * for shmem truncate
+   234			 */
+   235			struct folio *folio2;
+   236	
+   237			if (offset + length == size)
+   238				goto no_split;
+   239	
+   240			split_at2 = folio_page(folio,
+   241					PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
+   242			folio2 = page_folio(split_at2);
+   243	
+   244			if (!folio_try_get(folio2))
+   245				goto no_split;
+   246	
+   247			if (!folio_test_large(folio2))
+   248				goto out;
+   249	
+   250			if (!folio_trylock(folio2))
+   251				goto out;
+   252	
+   253			/*
+   254			 * make sure folio2 is large and does not change its mapping.
+   255			 * Its split result does not matter here.
+   256			 */
+   257			if (folio_test_large(folio2) &&
+   258			    folio2->mapping == folio->mapping)
+   259				try_folio_split(folio2, split_at2, NULL, min_order);
+   260	
+   261			folio_unlock(folio2);
+   262	out:
+   263			folio_put(folio2);
+   264	no_split:
+   265			return true;
+   266		}
+   267		if (folio_test_dirty(folio))
+   268			return false;
+   269		truncate_inode_folio(folio->mapping, folio);
+   270		return true;
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
