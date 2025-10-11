@@ -1,109 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B638F34BA38
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 22:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD2E188580;
+	Sat, 11 Oct 2025 22:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760220250; cv=none; b=Aw6Ib3zgijQOsH/PrxaP8LBHbc4noR2ak4qSEusuGY0pL/7f5bdA/0WouI4rvyp4ENN+fZoyWQEQ6QxeLrYu3EqLELbDpupWpfdRaRXW+gvos7yI+JZ7mcttJREbj+zbqjNFEpLFYcPrYsCjCbcpq0FovqlPaoCqvUzTEEeAnYg=
+	t=1760221787; cv=none; b=hOeQGs1DpYzNjVcYuH8bFtCcIj3LAD7N7uWQuffBorpHMTXajCoAr+BUTzSHWGwCtHyyHDXgN/xFHkygzD76+mZd89KI0dWaDt0NhXBN4s6XqHrVi6ls3jg/l9MjPga5nmPLrY8PraZoIsfZGuQRv4YyG+G5gAmONA62H+prkj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760220250; c=relaxed/simple;
-	bh=i7Jgr7fdDvNL25cRTpbIZFz0XW9pXyGITE2m+CfhP+E=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=YQqoVPck+SzMgEfi+UqWWrmARthrOq2GOlzeKP1BTBpFHphArz6LpvnULc+Lvvvjr9iU3E+sGt0mWgsKIiR4D3GJoRPDYjnPy+PAAEsuV5Sha+xQZNaoCvIVhn0pudyd66EH4M+8prMAVXdi8XWHGSoKAOMmDQ/+t9xTpmCF/nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qSKUSl/e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760221787; c=relaxed/simple;
+	bh=9ftHdqHrokZcQXhNcrNBSsyfRb38s2MdEhcqUsS5UxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SSs3Ib9Tlydz3N1W/R4pzdscOfbT8PZ3OdrC/ilVNiYv2izRJG24FrpUZC644yrRxIkk3y2cHjOrrFpo6/im0twIj99gR8Xd+LzyoPuFhMyx278ZrmVH4rV4vIpsP8eVmxB0voTKmuyh6vRE12elSVuvZECRx5HYsGQTUbq3AoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEH1qPYD; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qSKUSl/e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4DEEC4CEF4;
-	Sat, 11 Oct 2025 22:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1760220249;
-	bh=i7Jgr7fdDvNL25cRTpbIZFz0XW9pXyGITE2m+CfhP+E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qSKUSl/eTQ5ivoH4pFV14ujJlqK3eYh+4YOokcp1S7cm1Rp7lv43wi6ZYOWFbteLe
-	 VrhxyCQkLIsQE0OC2h1dsVmZsWGddu8XTj6XEnn06IPYYXrb01tc7d966oKhkCMSzP
-	 cFIoobUGLuElwOxs39Pe9rnX/3QG2bgtiHA4TC1E=
-Date: Sat, 11 Oct 2025 15:04:08 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Baoquan He <bhe@redhat.com>, linux-mm@kvack.org,
- oe-kbuild-all@lists.linux.dev, chrisl@kernel.org, kasong@tencent.com,
- youngjun.park@lge.com, baohua@kernel.org, shikemeng@huaweicloud.com,
- nphamcs@gmail.com
-Subject: Re: [PATCH v4 mm-new 1/2] mm/swap: do not choose swap device
- according to numa node
-Message-Id: <20251011150408.b865cffc3a8fb8bf834067f7@linux-foundation.org>
-In-Reply-To: <202510120456.vTSygUXV-lkp@intel.com>
-References: <20251011081624.224202-2-bhe@redhat.com>
-	<202510120456.vTSygUXV-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEH1qPYD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760221786; x=1791757786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=9ftHdqHrokZcQXhNcrNBSsyfRb38s2MdEhcqUsS5UxA=;
+  b=iEH1qPYDh+bttozWoB9budNuMO0KxcnYiyunQLEeFZeFyekztSmHT8xi
+   s77AKp9Ksu31UT15gaGTmSU6u8xFJ6fhXC35lW8l9OPsIMv7AFslgMZYy
+   wZl6SNOLPCkIDvkFw7HOOByPlKh9dXQFXeZpIRn1ohMTWlFsShv43bYMo
+   PIdcvvWmuF2icDwoFnZ6iUucqTkb4Jq8u095V4rhINp6cqVvV+Iw98ezm
+   38TGqsYBwF8oU5F9bqdfozKjQgmza7Sr3zjzvocCEFBqPFC/ZR0MJcgXh
+   GMAMsHZxUeKr8WmYgLCpcTcuh5PyI1V7ENITU47+QQC7rnWo8qgJZk8DX
+   A==;
+X-CSE-ConnectionGUID: AZG4Fta7SEeEM9RrUpF+lg==
+X-CSE-MsgGUID: zgnLYbHiQ2yGWFLR+5S3Pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="72660431"
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="72660431"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 15:29:45 -0700
+X-CSE-ConnectionGUID: 6aRIkqUKSgqrljdR0Y68Gg==
+X-CSE-MsgGUID: VJALYLfTRNSHXLaG4Pa2/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="181682031"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Oct 2025 15:29:40 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7i5p-00041T-2l;
+	Sat, 11 Oct 2025 22:29:37 +0000
+Date: Sun, 12 Oct 2025 06:28:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukasz Laguna <lukasz.laguna@intel.com>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Subject: Re: [PATCH 07/26] drm/xe/pf: Add support for encap/decap of
+ bitstream to/from packet
+Message-ID: <202510120631.vW6dpp07-lkp@intel.com>
+References: <20251011193847.1836454-8-michal.winiarski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251011193847.1836454-8-michal.winiarski@intel.com>
 
-On Sun, 12 Oct 2025 04:45:07 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Michał,
 
-> Hi Baoquan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-swap-do-not-choose-swap-device-according-to-numa-node/20251011-161743
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20251011081624.224202-2-bhe%40redhat.com
-> patch subject: [PATCH v4 mm-new 1/2] mm/swap: do not choose swap device according to numa node
-> config: i386-buildonly-randconfig-003-20251012 (https://download.01.org/0day-ci/archive/20251012/202510120456.vTSygUXV-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120456.vTSygUXV-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510120456.vTSygUXV-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/list.h:5,
->                     from include/linux/wait.h:7,
->                     from include/linux/wait_bit.h:8,
->                     from include/linux/fs.h:7,
->                     from include/linux/highmem.h:5,
->                     from include/linux/bvec.h:10,
->                     from include/linux/blk_types.h:10,
->                     from include/linux/blkdev.h:9,
->                     from mm/swapfile.c:9:
+kernel test robot noticed the following build warnings:
 
-Thanks.  I did this.  Baoquan, please review and retest?
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20251010]
+[cannot apply to awilliam-vfio/next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master awilliam-vfio/for-linus v6.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/drm-xe-pf-Remove-GuC-version-check-for-migration-support/20251012-034301
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251011193847.1836454-8-michal.winiarski%40intel.com
+patch subject: [PATCH 07/26] drm/xe/pf: Add support for encap/decap of bitstream to/from packet
+config: riscv-randconfig-002-20251012 (https://download.01.org/0day-ci/archive/20251012/202510120631.vW6dpp07-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120631.vW6dpp07-lkp@intel.com/reproduce)
 
---- a/mm/swapfile.c~mm-swap-do-not-choose-swap-device-according-to-numa-node-fix
-+++ a/mm/swapfile.c
-@@ -1388,11 +1388,10 @@ start_over:
- static bool swap_sync_discard(void)
- {
- 	bool ret = false;
--	int nid = numa_node_id();
- 	struct swap_info_struct *si, *next;
- 
- 	spin_lock(&swap_avail_lock);
--	plist_for_each_entry_safe(si, next, &swap_avail_heads[nid], avail_lists[nid]) {
-+	plist_for_each_entry_safe(si, next, &swap_avail_head, avail_list) {
- 		spin_unlock(&swap_avail_lock);
- 		if (get_swap_device_info(si)) {
- 			if (si->flags & SWP_PAGE_DISCARD)
-@@ -2890,7 +2889,6 @@ SYSCALL_DEFINE1(swapoff, const char __us
- 	del_from_avail_list(p, true);
- 	if (p->prio < 0) {
- 		struct swap_info_struct *si = p;
--		int nid;
- 
- 		plist_for_each_entry_continue(si, &swap_active_head, list) {
- 			si->prio++;
-_
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510120631.vW6dpp07-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/xe/xe_sriov_pf_migration_data.c:272 function parameter 'xe' not described in 'xe_sriov_pf_migration_data_read'
+>> Warning: drivers/gpu/drm/xe/xe_sriov_pf_migration_data.c:382 function parameter 'xe' not described in 'xe_sriov_pf_migration_data_write'
+>> Warning: drivers/gpu/drm/xe/xe_sriov_pf_migration_data.c:467 function parameter 'xe' not described in 'xe_sriov_pf_migration_data_save_init'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
