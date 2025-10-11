@@ -1,89 +1,103 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A5B800
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 18:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1484C200C2;
+	Sat, 11 Oct 2025 20:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760206556; cv=none; b=UPX8yNiiviAB5UGcp1aeaUGQoN9OSbJyKsYnIVJ+TcBpZfCwnm77Ga0wt8keZDDM4HJkHkFRpykH4jKGlcIO2bNDzlEg3MnrkdlJGKS9eOJgsZWps6dnRmy3Q6wXokTfFjJvBo+IjM7ofzUxd7njnXUM1VZIFyEVfDpbF+I6yDU=
+	t=1760213014; cv=none; b=agdFwfmC1h0+pcMroZyUv0VJL6RPwWd+VGUrfXCIEMZwDbN5yV3Hy383m9awfL6lEpmwsOmJEYYcjInIhpQKOtg9rYrtjIwJZc4JHSbtK2vAQ5AxtOMBXXsv7POxI+ehES6kBZEpR/2+EP6vUIFHX+3dpaAh7+/CFWlvNwIRltQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760206556; c=relaxed/simple;
-	bh=TX7cRtWMuDg6zUqF5l/AgCTzPSwbXr51IrjeoCjsPIA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCFUzQVgAamMMY4+VQ21katt3vtKdp3q/486FEx0FkxAjZLqIEAPOJAz9OwP7bEepxW4O3NPiF/yqROFiyx+qcCVmSkSwc5ETjb67kWGVSF6POV3y0JDqyHA/A0Ck8Kzvm6iiYbjjt896jAUv1ZIA3RaNZ9/jSN3I1TaXIO5foA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=LWCJ4YL8; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1760213014; c=relaxed/simple;
+	bh=sXduRfgN8QZmJb/jAmwsjJjU3f1IeTvflTj6WHXOhwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iT0/1YlEWNHY8HE5KGxM02vdUgjZfljKq60z8wKeYeO1aanrpPLfsGh5mK6hV+tjdL3w61RCwPIflNLByLmZwbToEpjuh+TN7QhRpHFuAJ77nLbWN3I68sFXCpDINzNVN+ahqR7J2NxRtUKehn2KgrHSKYVTnCRIW0UJ/jSkMF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gb3UgXmk; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="LWCJ4YL8"
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59B97qB21458941
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 11:15:54 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=s2048-2025-q2; bh=L1C29Ctmx9qCKv+di4pj
-	qiXnnC/V+sqZE21wYALDeSA=; b=LWCJ4YL8/bC2F3pgYQud75r9F31NoIeUVhrR
-	flm9CRmfaMeL9D14HlRxqtEVZOAcGj9cb6Vck84A0ugIzlhuJYkhDgIxKyjLmL6K
-	OyEmc17w7tBsLp+WuxzRJqU0TSiWV+ZGUKYSQpFOFBh3kHTKNIRXvHvXUzWIXOIJ
-	rGyz8Uba9o2CvP8mfmScTGpJvYf9Ef9BGxX4O9Sd9uO/Z1RLsvGEVVAImcwNhTGY
-	6ud4fj+K61bix2Q2Ihl68CRGG2lwQIHG073rB8ve0HB3mG7LaXiPm+3eN9/681k1
-	9BAfWncitJNUdv/bls8Y4c3Z4c44XY66Qe35Aw12h1Vx3V8FxA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 49qmb8ssp8-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 11:15:53 -0700 (PDT)
-Received: from twshared23637.05.prn5.facebook.com (2620:10d:c0a8:1c::11) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Sat, 11 Oct 2025 18:15:52 +0000
-Received: by devgpu015.cco6.facebook.com (Postfix, from userid 199522)
-	id 818C7F5FBD1; Sat, 11 Oct 2025 11:15:48 -0700 (PDT)
-Date: Sat, 11 Oct 2025 11:15:48 -0700
-From: Alex Mastro <amastro@fb.com>
-To: kernel test robot <lkp@intel.com>
-CC: Alex Williamson <alex.williamson@redhat.com>,
-        <oe-kbuild-all@lists.linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Alejandro
- Jimenez <alejandro.j.jimenez@oracle.com>,
-        <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 3/3] vfio/type1: handle DMA map/unmap up to the
- addressable limit
-Message-ID: <aOqe1JMVG5bg/iwU@devgpu015.cco6.facebook.com>
-References: <20251010-fix-unmap-v3-3-306c724d6998@fb.com>
- <202510111953.naYvy8XB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gb3UgXmk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760213013; x=1791749013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sXduRfgN8QZmJb/jAmwsjJjU3f1IeTvflTj6WHXOhwQ=;
+  b=gb3UgXmkNLIxqi5C5aGazimkxzhkxaZQUL2DE8+X8cZ0ZRCLimiiYA4V
+   cf0wSZNJ12ETGBtygdPrvfHwtdPu/54vUJKZwRvvM5GPqjqZofor59tLB
+   jmO4GwPwSxT2cdiC1p6g1llvS4zCGatm5F/CsupIMFFaM+E5RZrEc60Tj
+   pr80qMbdodhPlmHwhi4n+nqsUDl9yzeBzH29tOrbREfMjQf2smDn07Kzg
+   tpxmcLFRJ1FyOJrj4oYyoBg/h4PWxI17+69VDp3TimVXpzWFqvhFlTcBn
+   oqNdzhll1rgMsXtveIFsCeWaURKL63+S02fDq52/jMx3fHVbkxwlfzHhY
+   A==;
+X-CSE-ConnectionGUID: pnCDwzbuQ1CVL6gtb6yM+g==
+X-CSE-MsgGUID: aXkF5ooASQikmKk7/uSzaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="62283136"
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="62283136"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 13:03:32 -0700
+X-CSE-ConnectionGUID: E0auJUmHRtKjkKJAS1drpQ==
+X-CSE-MsgGUID: 5leZJdpdQdGk8tquT9KLog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="218347965"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Oct 2025 13:03:29 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7foN-0003xb-0M;
+	Sat, 11 Oct 2025 20:03:27 +0000
+Date: Sun, 12 Oct 2025 04:03:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: jayxu1990@gmail.com, Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+	avnerkhan@utexas.edu, rdlee.upstream@gmail.com,
+	Jay Xu <jayxu1990@gmail.com>
+Subject: Re: [PATCH] mtd: core: Add nand_id sysfs attribute for NAND devices
+Message-ID: <202510120356.STGKDkA5-lkp@intel.com>
+References: <20251007224049.2798233-1-jayxu1990@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202510111953.naYvy8XB-lkp@intel.com>
-X-FB-Internal: Safe
-X-Proofpoint-GUID: 02J21UJB9egXNAg80HSCQDpR0TlqAIHM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDEwMyBTYWx0ZWRfX9UHbKIaa0Cth
- 1/af+bQ2YFpUvm+ub5tmZ049Hu0+T5s4fY4y3LK4leMcYixZMBgQcdLsZf6Yv8uk4I9mUiLdtHI
- QcsMOIm+UjmBEnxzyGpJxsQOkVJmGXTJoeY95iGXybQLgRCqgTJlEdkLceN4KDziut25nHLwBOS
- pxRKYMyBnbhCNcDRi8A7rxrcPBdkscbTynmgTQvIaT/oCEBUf+LhFavbL0TJvgdP8dnlmINRJm8
- FAC043qijzlWlff2IWINpoHnW69y3h+MDMyNMmITKmqlBfrdaYipgSU3OGEOWxO7+x/asF4zCUf
- 31C7TKrbolPJHkzaVh7bDyvJ1bKes12SDlAlQfZ93+lvYo5XUUJWeTJ8fF97qso8OoJClL+g3tb
- PFCsW78WwaKYfriLnTqx2+trgnXWEQ==
-X-Authority-Analysis: v=2.4 cv=M/NA6iws c=1 sm=1 tr=0 ts=68ea9ed9 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=yATVoKGFPd4u651EB8cA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: 02J21UJB9egXNAg80HSCQDpR0TlqAIHM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
+In-Reply-To: <20251007224049.2798233-1-jayxu1990@gmail.com>
 
-On Sat, Oct 11, 2025 at 07:57:07PM +0800, kernel test robot wrote:
-> >> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'dma_addr_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
->       25 | #define U64_MAX         ((u64)~0ULL)
->          |                         ^
->    drivers/vfio/vfio_iommu_type1.c:1361:28: note: in expansion of macro 'U64_MAX'
->     1361 |                 iova_end = U64_MAX;
->          |                            ^~~~~~~
+Hi,
 
-I see. I suppose it should be ~(dma_addr_t)0 . I don't see a DMA_ADDR_MAX.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mtd/mtd/next]
+[also build test ERROR on mtd/mtd/fixes linus/master v6.17 next-20251010]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/jayxu1990-gmail-com/mtd-core-Add-nand_id-sysfs-attribute-for-NAND-devices/20251010-092101
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next
+patch link:    https://lore.kernel.org/r/20251007224049.2798233-1-jayxu1990%40gmail.com
+patch subject: [PATCH] mtd: core: Add nand_id sysfs attribute for NAND devices
+config: i386-buildonly-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251012/202510120356.STGKDkA5-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120356.STGKDkA5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510120356.STGKDkA5-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: nand_readid_op
+   >>> referenced by mtdcore.c:359 (drivers/mtd/mtdcore.c:359)
+   >>>               drivers/mtd/mtdcore.o:(mtd_nand_id_show) in archive vmlinux.a
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
