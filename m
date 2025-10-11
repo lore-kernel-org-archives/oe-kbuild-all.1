@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A1B1F3FEC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 14:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3708511CAF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 14:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760192706; cv=none; b=D7POS9J3U7sYE1sDbmjTsI27PvDZ8Xd6c0yQHMBOFAdMP1tZeST2MIyYKoOZoTOSWdXYggdf/UvpdscyV/RDBBkFWhfgQ9K6cVcXuHQ/fMZOrMeNEu0Ed+a+Z8D+DWlEb/cIVWJZdmmfKwWlHUD0l0FaGjGf8Bn8oJNIptrQ2kQ=
+	t=1760193365; cv=none; b=l8CiU5a9m62TCGLEFOPdASTRfR+QrRrtsTnDifEd32roCB/oLuOnkf/ocFBFqdV078HIILyU49pjBcHiz/hfWG0XJntXunEIICY5YSkW58+3MqToxWJxNwXOYjkZpC7W9f01mkBOEHKHMujO5SmO5fJsrI0KxDDfafmKw4dhOdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760192706; c=relaxed/simple;
-	bh=EfnPezzGCuDtc5pA23YbvB1YQJ9u9y7zLGi2HjZ2fv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oVtzzCj+ChdjF7UnksNNmYYD8MiCTaZ0JO7N2kYIzB/Aa6BmDYamcFxxYG7XMOA6JHaI/rN19RK2h1P97YaA5Zqsm/G78lkq98aqhkxRfldWuKHBeRzqS5Qq5wI8nnb1d84ifZqFmtSM7S4LRjJiDOhgNJK33g3eyBGIYVao4Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+phDwQB; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1760193365; c=relaxed/simple;
+	bh=J/csdSZVvguBBUYsK2fyJ9ss/1iYJfY+/SqGFgDcdt8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P8CL27z8ZJ2GLckINyF7hXO2pseig0T9HRzp+tWX7SXWTR96XGvV62GFXUYwnMM4smf+U+NzM3VZq8BercPWQU19I/ede8DS+IvbSBgte0ZGdjmcEuTSiekXMiax3tkQ+Md2jiksYkqdbCC2qPLa6JW9bZusfbCkL0cUOWiWlac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aSUp8SJ1; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+phDwQB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSUp8SJ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760192704; x=1791728704;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EfnPezzGCuDtc5pA23YbvB1YQJ9u9y7zLGi2HjZ2fv8=;
-  b=M+phDwQBGmjy9bwryzEtOGV9TVmskYljSk9kiTJa7gdFcFXmBePZ+J+W
-   Vp+g70kHz7RZtgjSqhHk2wvIN1U8YF5vCb0oCIQiL9S50WHUryc3HCHAQ
-   JCRn78wDsLv9jrewMoCHzG9aq0YrNpqaKRCvcE217XFGnkgwzC3rRIF80
-   t8KO26RF3hWdOzSszwkNTzKpHcrLXqkM6JvTRccPMkJ6E1eM8HiGmXc1e
-   S6kdFLTRUEO64Yh3jKCrUClIdt4vP5SSaqJb9OwDfyVQGJAuEQOPM8+7P
-   aXSI0hVIigQyTDC4kXZHLFZ1gg65ca/szOzpLjD92dLeZZMgTgKGTebeq
+  t=1760193364; x=1791729364;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J/csdSZVvguBBUYsK2fyJ9ss/1iYJfY+/SqGFgDcdt8=;
+  b=aSUp8SJ1IgpI+nKdiSXTg5KhASdvAuogtgcoXRcMlE9dny9UKnc9ZU5l
+   v8PwXE9HXZTpLdoV0Y9F4SmhzNkCsiCS95mVuRCwQYNclIGqsXwXWKY0c
+   cpZOYWRScHKtOEN7FzMhM2HvqCKAGa5TbqXGx7x3CXNhUBPgeoHKyv3b/
+   rlTcqVKGzFzkfXwg7o5rseHUYvzFUGik+ZsPJiczPMuGybmfHCJD/kEzU
+   jgJ/EM9FGweAfI9r9xn2JYqrzMeZPebWk7syoWFYgVxW/XklTAxKfQm/F
+   ACihO7btTFbTyhD+G0W2/QlROt+uXzNgS+I22P2Hur1sdGgqRkx68cAzn
    Q==;
-X-CSE-ConnectionGUID: Z49eng4WSFq9ntOAMOuqKg==
-X-CSE-MsgGUID: kCqwt/uyT5ye/bj1vqSxMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="85016392"
+X-CSE-ConnectionGUID: nI9jD3JNR9WVud4AEvTQ2g==
+X-CSE-MsgGUID: 6tsCNQsTQ3CtiS+loUFpKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="72643560"
 X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="85016392"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 07:25:04 -0700
-X-CSE-ConnectionGUID: FQXNO099TE2Lp+3P92lOdg==
-X-CSE-MsgGUID: pjSEXfoVRgCQA07sLEryfg==
+   d="scan'208";a="72643560"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 07:36:03 -0700
+X-CSE-ConnectionGUID: b6pTwkdVSueGRIOciM2nVw==
+X-CSE-MsgGUID: dxn1qSZHSUaupRX09GNf/g==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
+   d="scan'208";a="180783934"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Oct 2025 07:25:01 -0700
+  by orviesa009.jf.intel.com with ESMTP; 11 Oct 2025 07:36:02 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7aWo-0003oN-2e;
-	Sat, 11 Oct 2025 14:24:58 +0000
-Date: Sat, 11 Oct 2025 22:24:41 +0800
+	id 1v7ahT-0003od-27;
+	Sat, 11 Oct 2025 14:35:59 +0000
+Date: Sat, 11 Oct 2025 22:35:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next] bpf: consistently use bpf_rcu_lock_held()
- everywhere
-Message-ID: <202510112101.pygcEmGf-lkp@intel.com>
-References: <20251010173021.3952776-1-andrii@kernel.org>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bjackman:asi/next 12/50] WARNING: modpost: vmlinux: phys_p4d_init:
+ EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+Message-ID: <202510112214.iFG37ttn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,88 +61,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251010173021.3952776-1-andrii@kernel.org>
 
-Hi Andrii,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-consistently-use-bpf_rcu_lock_held-everywhere/20251011-013430
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251010173021.3952776-1-andrii%40kernel.org
-patch subject: [PATCH bpf-next] bpf: consistently use bpf_rcu_lock_held() everywhere
-config: i386-buildonly-randconfig-001-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112101.pygcEmGf-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112101.pygcEmGf-lkp@intel.com/reproduce)
+tree:   https://github.com/bjackman/linux asi/next
+head:   a6190e0f5b9d575cc97ef8289a7a6c5b0106fc4b
+commit: 2cc804bf952e0feac37034ec79885be15dc675ed [12/50] KUnit test to run phys_p4d_init()
+config: x86_64-buildonly-randconfig-005-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112214.iFG37ttn-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112214.iFG37ttn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510112101.pygcEmGf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510112214.iFG37ttn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/workqueue.h:17,
-                    from include/linux/bpf.h:11,
-                    from include/linux/bpf_verifier.h:7,
-                    from net/core/filter.c:21:
-   include/linux/bpf_local_storage.h: In function 'bpf_local_storage_lookup':
->> include/linux/bpf_local_storage.h:149:39: error: implicit declaration of function 'bpf_rcu_lock_held'; did you mean 'rcu_read_lock_held'? [-Werror=implicit-function-declaration]
-     149 |                                       bpf_rcu_lock_held());
-         |                                       ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:399:53: note: in definition of macro 'RCU_LOCKDEP_WARN'
-     399 |                 if (debug_lockdep_rcu_enabled() && (c) &&               \
-         |                                                     ^
-   include/linux/rcupdate.h:680:9: note: in expansion of macro '__rcu_dereference_check'
-     680 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf_local_storage.h:148:17: note: in expansion of macro 'rcu_dereference_check'
-     148 |         sdata = rcu_dereference_check(local_storage->cache[smap->cache_idx],
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +149 include/linux/bpf_local_storage.h
-
-450af8d0f6be2e KP Singh         2020-08-25  129  
-c83597fa5dc6b3 Yonghong Song    2022-10-25  130  struct bpf_map *
-c83597fa5dc6b3 Yonghong Song    2022-10-25  131  bpf_local_storage_map_alloc(union bpf_attr *attr,
-08a7ce384e33e5 Martin KaFai Lau 2023-03-22  132  			    struct bpf_local_storage_cache *cache,
-08a7ce384e33e5 Martin KaFai Lau 2023-03-22  133  			    bool bpf_ma);
-450af8d0f6be2e KP Singh         2020-08-25  134  
-68bc61c26cacf1 Marco Elver      2024-02-07  135  void __bpf_local_storage_insert_cache(struct bpf_local_storage *local_storage,
-68bc61c26cacf1 Marco Elver      2024-02-07  136  				      struct bpf_local_storage_map *smap,
-68bc61c26cacf1 Marco Elver      2024-02-07  137  				      struct bpf_local_storage_elem *selem);
-68bc61c26cacf1 Marco Elver      2024-02-07  138  /* If cacheit_lockit is false, this lookup function is lockless */
-68bc61c26cacf1 Marco Elver      2024-02-07  139  static inline struct bpf_local_storage_data *
-450af8d0f6be2e KP Singh         2020-08-25  140  bpf_local_storage_lookup(struct bpf_local_storage *local_storage,
-450af8d0f6be2e KP Singh         2020-08-25  141  			 struct bpf_local_storage_map *smap,
-68bc61c26cacf1 Marco Elver      2024-02-07  142  			 bool cacheit_lockit)
-68bc61c26cacf1 Marco Elver      2024-02-07  143  {
-68bc61c26cacf1 Marco Elver      2024-02-07  144  	struct bpf_local_storage_data *sdata;
-68bc61c26cacf1 Marco Elver      2024-02-07  145  	struct bpf_local_storage_elem *selem;
-68bc61c26cacf1 Marco Elver      2024-02-07  146  
-68bc61c26cacf1 Marco Elver      2024-02-07  147  	/* Fast path (cache hit) */
-68bc61c26cacf1 Marco Elver      2024-02-07  148  	sdata = rcu_dereference_check(local_storage->cache[smap->cache_idx],
-68bc61c26cacf1 Marco Elver      2024-02-07 @149  				      bpf_rcu_lock_held());
-68bc61c26cacf1 Marco Elver      2024-02-07  150  	if (sdata && rcu_access_pointer(sdata->smap) == smap)
-68bc61c26cacf1 Marco Elver      2024-02-07  151  		return sdata;
-68bc61c26cacf1 Marco Elver      2024-02-07  152  
-68bc61c26cacf1 Marco Elver      2024-02-07  153  	/* Slow path (cache miss) */
-68bc61c26cacf1 Marco Elver      2024-02-07  154  	hlist_for_each_entry_rcu(selem, &local_storage->list, snode,
-68bc61c26cacf1 Marco Elver      2024-02-07  155  				  rcu_read_lock_trace_held())
-68bc61c26cacf1 Marco Elver      2024-02-07  156  		if (rcu_access_pointer(SDATA(selem)->smap) == smap)
-68bc61c26cacf1 Marco Elver      2024-02-07  157  			break;
-68bc61c26cacf1 Marco Elver      2024-02-07  158  
-68bc61c26cacf1 Marco Elver      2024-02-07  159  	if (!selem)
-68bc61c26cacf1 Marco Elver      2024-02-07  160  		return NULL;
-68bc61c26cacf1 Marco Elver      2024-02-07  161  	if (cacheit_lockit)
-68bc61c26cacf1 Marco Elver      2024-02-07  162  		__bpf_local_storage_insert_cache(local_storage, smap, selem);
-68bc61c26cacf1 Marco Elver      2024-02-07  163  	return SDATA(selem);
-68bc61c26cacf1 Marco Elver      2024-02-07  164  }
-450af8d0f6be2e KP Singh         2020-08-25  165  
+>> WARNING: modpost: vmlinux: phys_p4d_init: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
 
 -- 
 0-DAY CI Kernel Test Service
