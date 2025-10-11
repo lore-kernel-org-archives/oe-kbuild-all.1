@@ -1,172 +1,148 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666132147E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 06:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E81223DC1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 07:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760164722; cv=none; b=PRGb9Hi3RFF8F5RiPSCLsczQlS+YsWXxW5Iv9MJY9BbCFtV0YTfsOxj4DX4895YcUGVJVgZtD+CEIyagDUjTodD/TYFN1uoyXp6sMPJl0vdMyry6po7XGuUDznJQ+oYLIUJVpYDBO5pdfYDX5FGcZeAa3WIGWW4Rrfges2w4V3Q=
+	t=1760167049; cv=none; b=L63CJsEGM8Wi240YPQNJ4Nj7HPQyMQy0ANKtbf/ttrQYYXl1dUwXIuO0ZCkP/eBm+ekF66oX4Ju+lX7Ayz467LlGU6+DNy9o+zivhdm382UtYP+LipUOTv7hvFGAk5Yt/Q0X60awp2DNsJx1EHww4VGgXG2NFSCyztP7mHaaOSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760164722; c=relaxed/simple;
-	bh=LjdMP4wX5K2PJoIkDNssZ0x5qpw4jYUvKfOFzldt+78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=leRkfqeqxE509+rNiTrvOJGFUWY72RiHxafVPS+vLAyJ1675GFT8gInXuSp0xH+WlewpREQQ+GYMxTqd9eWxhqK119i561QyyCllxLAK1i0L1NdPj6+3h+nzjF0UAjde5/R/NgJTDqI9ABD906nEgeRmpjXmNvU+znDZCTH92ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BN4R4zCk; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760167049; c=relaxed/simple;
+	bh=OJsuk7Bq1tiucDj3zwoxiPKlQflQ5d0J6elh6MQlxhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OG0xndwNawVUnWQG977SJPb8XarFZ5dUSAZVHIU+zUinZ0G9U7FqatE+SbEdDvFx007ccOgabRNPn+NSUSlPkDOGRsCASaOy5ylbZ3VvXMSXmecCpu6EctKmYObhYGaIHBalUpLtliNzgzbcdXjREtW2mDEYWnfhl4cSna8sluE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NdRlMAmP; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BN4R4zCk"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-333abc4394dso474164a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 23:38:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760164720; x=1760769520; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i4KsdyrgfWB/FqT6OOcbFSO1XBvuLxrHfzAVePQ1iTY=;
-        b=BN4R4zCkJD1BNBcoFrS4BbIwM7Ydy9PVyPtxqteuBKsA7it2Vek/greevzuSSLBay1
-         wdq5jQdgEXplD3pwrxE3C597liBFjfSjRDrn8XRUaWfiaVQDTMXyKeoeo+iR5NDOepQB
-         sLZEeliwQu9zls5MM+DYGtLANqFnOTIE8gQMEivFZEyBm8ZM2DFlpzwK1CNxj1NIyg4n
-         g50ZLzEEM6deLjyPbLRPFbc59DN+E8Uuxw2cYfdwCNOCArXxBlOS+X+JLFb55XlbzwWk
-         HTLnfLtkbHYMpBBpyGclrxcPA+joxzu8tK2Uzjj4BtUIUuYVgfzbY46YOnOHV0zEd09X
-         Eflw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760164720; x=1760769520;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i4KsdyrgfWB/FqT6OOcbFSO1XBvuLxrHfzAVePQ1iTY=;
-        b=nzNVkA6DAJxbxpsrtWAbGmi+Pbk8sgwLMwCl/Y/47aiAnkeL9a+/a7nPhYPN91bA7a
-         3wu8YtbIyIpBOJuzqE7hXLTN6QNalf1vBjE4yrNCbHvOEmtYL4gm14Wy+DsE1JMDYhN/
-         m6pw7scyn201wJr059zFxF79eVlW5BcsE7cGc0Vk6/sYeeGEBw9KNSw4yoOCR28+FxLb
-         ZEJaMb3fjKCCzt0gd8Oso09FETe4/bQEwZBAyc1YOw/BZi/m+YOhDxIAK3/ZqyDF3PWN
-         dsRU1Wf/NPJ8cX5K0IMQy3omZ6mPsi+BgUS/+sKmxaF/mlUft91x5weaYfKEgqbDKu9n
-         b/Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCWP0iZFmlZxqDtqoXsPQDdmza2T6vIyI5tmwyBnUjT2BjWw+iYYLCbNZuZp1x/pQrMRPyaljsJtNX0DDx5Q@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+0zaIMmoy/FOX/Sh9YNSs5S/tLk+SRPE4qYlnW4mPe4oPi1vs
-	KuGvkAEG5Z9uqTjetYBjRIG1FPS1U0TKmFdbsFpRRcHjy5HXmZjYDOug
-X-Gm-Gg: ASbGncssgxxmZOEWE1SiQldqbRyYFFqcFfjuOgBt/EmmklStquJFyLz2IqrIzbhSfZ+
-	3H45HBDzcFwjdMicjSGZnOsaaeSNEfbm4YfEzEbkJga55KLyA3fcI1ilndjhxkQno0LK+xlSkKK
-	YuBb6Fq1oBryZh8WYPBtU2WUgIUo73gCbtKy1VVU+Xg9vi3kr5yCy63E6Yvvd1BOCfep/tMDB2l
-	Df63b/tuZB8PjbQc8GuAXwMNXm9MZwIlJ09Ffh936VA35FdQksfXOAdvj++Sj8XQo2cl0MDuf+a
-	aa8P9plZBzmvf1IFHjO4qLKFLSZNnBBEhwH84XEAbfbuCBW4dUNdCPpirMahh7Zb6p7eJzjwDyN
-	WjeAs1pzucpd8u7t3kunkDcoNXqdOrbRQNbYkbmFkB9Pe/7Fk
-X-Google-Smtp-Source: AGHT+IF1JQXObCuG7xFhogMbxfyVhO5SQR9FmzcjivYXOk8ZFuH6BJG6HLBb/IJlGVfYnt4qekicwg==
-X-Received: by 2002:a17:903:1a6f:b0:257:3283:b859 with SMTP id d9443c01a7336-29027321d06mr119587995ad.9.1760164720383;
-        Fri, 10 Oct 2025 23:38:40 -0700 (PDT)
-Received: from ranganath.. ([2406:7400:98:ffd0:8dcb:f5b3:8234:d05])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034dea083sm76040465ad.24.2025.10.10.23.38.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Oct 2025 23:38:39 -0700 (PDT)
-From: Ranganath V N <vnranganath.20@gmail.com>
-To: lkp@intel.com
-Cc: adilger.kernel@dilger.ca,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	tytso@mit.edu,
-	vnranganath.20@gmail.com
-Subject: [PATCH v2] fs: ext4: fix uninitialized symbols
-Date: Sat, 11 Oct 2025 12:08:29 +0530
-Message-ID: <20251011063830.47485-1-vnranganath.20@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202510110207.yBvUMr5Z-lkp@intel.com>
-References: <202510110207.yBvUMr5Z-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NdRlMAmP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760167048; x=1791703048;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OJsuk7Bq1tiucDj3zwoxiPKlQflQ5d0J6elh6MQlxhc=;
+  b=NdRlMAmPmq9El9Qi7dGg3HrCwsBVAOW1mvknKLZL14XMI1HlvCl0rDHc
+   9kdWpWgXLswzfm51eW2WaSQWIxU2Psm/2oT+BiUTqwxnW68jsgEw6JAF/
+   yiF6yP+5iACYr5v8ff/vCAvaoAJlcq01j05i1UsHkiTmGMRaSVk5bvWcx
+   YcjkV65v6SI4ndc07dXknHMxWOnG//y2Q7H7Jv43UmFireJqOsomqMNbv
+   b2gDCCDYr8/wefq24A+JOaRN5GWwKzzvZ2GmDSKsXM33rv3sZnD2I9DD9
+   ZoWsxBsR2ybuikE4XL4K6bIrkMKkf2AgM8/ZLLqSZ1xO5a9lXsVBOECpB
+   Q==;
+X-CSE-ConnectionGUID: q6n5Sy+ySrqZZwYhzrt5fA==
+X-CSE-MsgGUID: nU39GgI7TNe2Am4gyofeBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="49935321"
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="49935321"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 00:17:27 -0700
+X-CSE-ConnectionGUID: UDmvaDYLSZusfV1OpIW/1Q==
+X-CSE-MsgGUID: azUneQ5xSlaw/aMarZHt8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
+   d="scan'208";a="218255521"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Oct 2025 00:17:26 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v7Tr1-0003bL-1h;
+	Sat, 11 Oct 2025 07:17:23 +0000
+Date: Sat, 11 Oct 2025 15:16:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kees:dev/next-20250929/sockaddr-removal-min 11/11]
+ net/packet/af_packet.c:3287:30: error: 'struct sockaddr' has no member named
+ 'sa_data_min'; did you mean 'sa_data'?
+Message-ID: <202510111528.2yzNaiLr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix the issue detected by the smatch tool.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git dev/next-20250929/sockaddr-removal-min
+head:   890ccb746e6ede1b2a805c027cf4168b4f52c734
+commit: 890ccb746e6ede1b2a805c027cf4168b4f52c734 [11/11] net: Convert struct sockaddr to fixed-size "sa_data[14]"
+config: i386-buildonly-randconfig-001-20251011 (https://download.01.org/0day-ci/archive/20251011/202510111528.2yzNaiLr-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111528.2yzNaiLr-lkp@intel.com/reproduce)
 
-fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
-fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:1829 ext4_get_parent() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:3162 ext4_rmdir() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:3242 __ext4_unlink() error: uninitialized symbol 'de'.
-fs/ext4/namei.c:3697 ext4_find_delete_entry() error: uninitialized symbol 'de'.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510111528.2yzNaiLr-lkp@intel.com/
 
-These changes enhance code clarity, address static analysis tool errors.
+All errors (new ones prefixed by >>):
 
-Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
----
+   net/packet/af_packet.c: In function 'packet_bind_spkt':
+>> net/packet/af_packet.c:3287:30: error: 'struct sockaddr' has no member named 'sa_data_min'; did you mean 'sa_data'?
+    3287 |         char name[sizeof(sa->sa_data_min) + 1];
+         |                              ^~~~~~~~~~~
+         |                              sa_data
+   In file included from include/linux/string.h:382,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/ethtool.h:16,
+                    from net/packet/af_packet.c:51:
+   net/packet/af_packet.c:3298:46: error: 'struct sockaddr' has no member named 'sa_data_min'; did you mean 'sa_data'?
+    3298 |         memcpy(name, sa->sa_data, sizeof(sa->sa_data_min));
+         |                                              ^~~~~~~~~~~
+   include/linux/fortify-string.h:627:48: note: in definition of macro '__fortify_memcpy_chk'
+     627 |         const size_t __fortify_size = (size_t)(size);                   \
+         |                                                ^~~~
+   net/packet/af_packet.c:3298:9: note: in expansion of macro 'memcpy'
+    3298 |         memcpy(name, sa->sa_data, sizeof(sa->sa_data_min));
+         |         ^~~~~~
+   net/packet/af_packet.c:3299:25: error: 'struct sockaddr' has no member named 'sa_data_min'; did you mean 'sa_data'?
+    3299 |         name[sizeof(sa->sa_data_min)] = 0;
+         |                         ^~~~~~~~~~~
+         |                         sa_data
+   net/packet/af_packet.c:3287:14: warning: unused variable 'name' [-Wunused-variable]
+    3287 |         char name[sizeof(sa->sa_data_min) + 1];
+         |              ^~~~
+   net/packet/af_packet.c:3302:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3302 | }
+         | ^
 
-v2:
-corrected the kernel test robot noticed build errors.
 
- fs/ext4/inode.c |  2 +-
- fs/ext4/namei.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+vim +3287 net/packet/af_packet.c
 
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 5b7a15db4953..f20db3f4ef68 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -3544,7 +3544,7 @@ static int ext4_map_blocks_atomic_write_slow(handle_t *handle,
- 	ext4_lblk_t m_lblk = map->m_lblk;
- 	unsigned int m_len = map->m_len;
- 	unsigned int mapped_len = 0, m_flags = 0;
--	ext4_fsblk_t next_pblk;
-+	ext4_fsblk_t next_pblk = 0;
- 	bool check_next_pblk = false;
- 	int ret = 0;
- 
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 2cd36f59c9e3..045616033515 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -1762,7 +1762,7 @@ static struct buffer_head * ext4_dx_find_entry(struct inode *dir,
- static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
- {
- 	struct inode *inode;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 	struct buffer_head *bh;
- 
- 	if (dentry->d_name.len > EXT4_NAME_LEN)
-@@ -1818,7 +1818,7 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsi
- struct dentry *ext4_get_parent(struct dentry *child)
- {
- 	__u32 ino;
--	struct ext4_dir_entry_2 * de;
-+	struct ext4_dir_entry_2 * de = NULL;
- 	struct buffer_head *bh;
- 
- 	bh = ext4_find_entry(d_inode(child), &dotdot_name, &de, NULL);
-@@ -3133,7 +3133,7 @@ static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
- 	int retval;
- 	struct inode *inode;
- 	struct buffer_head *bh;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 	handle_t *handle = NULL;
- 
- 	retval = ext4_emergency_state(dir->i_sb);
-@@ -3224,7 +3224,7 @@ int __ext4_unlink(struct inode *dir, const struct qstr *d_name,
- {
- 	int retval = -ENOENT;
- 	struct buffer_head *bh;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 	handle_t *handle;
- 	int skip_remove_dentry = 0;
- 
-@@ -3688,7 +3688,7 @@ static int ext4_find_delete_entry(handle_t *handle, struct inode *dir,
- {
- 	int retval = -ENOENT;
- 	struct buffer_head *bh;
--	struct ext4_dir_entry_2 *de;
-+	struct ext4_dir_entry_2 *de = NULL;
- 
- 	bh = ext4_find_entry(dir, d_name, &de, NULL);
- 	if (IS_ERR(bh))
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3277  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3278  /*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3279   *	Bind a packet socket to a device
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3280   */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3281  
+e934673e634f20 Kees Cook           2025-07-17  3282  static int packet_bind_spkt(struct socket *sock, struct sockaddr_unspec *uaddr,
+40d4e3dfc2f56a Eric Dumazet        2009-07-21  3283  			    int addr_len)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3284  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3285  	struct sock *sk = sock->sk;
+e934673e634f20 Kees Cook           2025-07-17  3286  	struct sockaddr *sa = (struct sockaddr *)uaddr;
+e934673e634f20 Kees Cook           2025-07-17 @3287  	char name[sizeof(sa->sa_data_min) + 1];
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3288  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3289  	/*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3290  	 *	Check legality
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3291  	 */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3292  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3293  	if (addr_len != sizeof(struct sockaddr))
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3294  		return -EINVAL;
+540e2894f79055 Alexander Potapenko 2017-03-01  3295  	/* uaddr->sa_data comes from the userspace, it's not guaranteed to be
+540e2894f79055 Alexander Potapenko 2017-03-01  3296  	 * zero-terminated.
+540e2894f79055 Alexander Potapenko 2017-03-01  3297  	 */
+e934673e634f20 Kees Cook           2025-07-17  3298  	memcpy(name, sa->sa_data, sizeof(sa->sa_data_min));
+e934673e634f20 Kees Cook           2025-07-17  3299  	name[sizeof(sa->sa_data_min)] = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3300  
+6ffc57ea004234 Eric Dumazet        2023-05-26  3301  	return packet_do_bind(sk, name, 0, 0);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3302  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  3303  
+
+:::::: The code at line 3287 was first introduced by commit
+:::::: e934673e634f2034bdfd11c5d3e7370ba0dd0427 net: Convert proto_ops bind() callbacks to use sockaddr_unspec
+
+:::::: TO: Kees Cook <kees@kernel.org>
+:::::: CC: Kees Cook <kees@kernel.org>
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
