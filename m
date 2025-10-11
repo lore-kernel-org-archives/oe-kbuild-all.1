@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E6B2652B7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 13:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A1B1F3FEC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 14:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760189040; cv=none; b=FW88FhysD7SmrfznyrS0CaYAzmQEsIY2GlhVkZXtX0jrDJAR9ePXvi3BOTT842Pdd1jB7+1Un1tkSTqTRXLdYMj5RDMwrZogPGc+TJrv3X9ArOMxLpKe8XH1q0epv4KI1IDUXAm4V/raniVzHZWO9wvbP9ZVZsZ3TMdaGm+Rk4w=
+	t=1760192706; cv=none; b=D7POS9J3U7sYE1sDbmjTsI27PvDZ8Xd6c0yQHMBOFAdMP1tZeST2MIyYKoOZoTOSWdXYggdf/UvpdscyV/RDBBkFWhfgQ9K6cVcXuHQ/fMZOrMeNEu0Ed+a+Z8D+DWlEb/cIVWJZdmmfKwWlHUD0l0FaGjGf8Bn8oJNIptrQ2kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760189040; c=relaxed/simple;
-	bh=vd8x+6guveuIkurLDI0nZmJ8rgW6AIMIsEarolMZEo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OBed415LRkW3GNyJuD1KFYNBFXrWZNYZHmYJ0X9JSi/QKB42nAkdBrKUrEk0UysksgQx1XzOO8EsNwSGuQPxZ9gSFWWYsLe+ScsKOZ4cIiab/y/s0JhIFt1QavdxoKCtfI4opGCS5IACKy569RGFh/ClyvWnw5vC2zWhqm+vfbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApweCvYO; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1760192706; c=relaxed/simple;
+	bh=EfnPezzGCuDtc5pA23YbvB1YQJ9u9y7zLGi2HjZ2fv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oVtzzCj+ChdjF7UnksNNmYYD8MiCTaZ0JO7N2kYIzB/Aa6BmDYamcFxxYG7XMOA6JHaI/rN19RK2h1P97YaA5Zqsm/G78lkq98aqhkxRfldWuKHBeRzqS5Qq5wI8nnb1d84ifZqFmtSM7S4LRjJiDOhgNJK33g3eyBGIYVao4Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+phDwQB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApweCvYO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+phDwQB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760189039; x=1791725039;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vd8x+6guveuIkurLDI0nZmJ8rgW6AIMIsEarolMZEo0=;
-  b=ApweCvYOv6dwXenPq2J6BITlTfmQtJKJyPnLTcgaICSqrulSrdQNJKuf
-   UqRu6Gh4A84hV4lN9JTA01EP+yVVEs3X8sX96qAIO7AOcx7TOuVcqUcqm
-   9ga0r/NZDWa9Pq2KAY0mOB1gbkWXxSq/1qkDAt/AFWRyfiH+Wj2D5//LF
-   VF/9bSM0NXBvOurIq4tSqWw/8BvQTcCgmtafK/T2lHRjll6n5OAB/dJkK
-   n0s/8hpO+o+LHOPvzyv5vL9lM6whQzk0bAkgD3BvY6GTjYnkKDpsIjXZF
-   U9VuFhJBJI3zc65Xfc0HfYiXlCZACbphMz0OHiNgFWRxRdvaxE/o8tyyQ
-   g==;
-X-CSE-ConnectionGUID: QutuwtMqRnW9Iwc0iDAeuQ==
-X-CSE-MsgGUID: JEqC1GJMRru51eNMX2KTug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="66042896"
+  t=1760192704; x=1791728704;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EfnPezzGCuDtc5pA23YbvB1YQJ9u9y7zLGi2HjZ2fv8=;
+  b=M+phDwQBGmjy9bwryzEtOGV9TVmskYljSk9kiTJa7gdFcFXmBePZ+J+W
+   Vp+g70kHz7RZtgjSqhHk2wvIN1U8YF5vCb0oCIQiL9S50WHUryc3HCHAQ
+   JCRn78wDsLv9jrewMoCHzG9aq0YrNpqaKRCvcE217XFGnkgwzC3rRIF80
+   t8KO26RF3hWdOzSszwkNTzKpHcrLXqkM6JvTRccPMkJ6E1eM8HiGmXc1e
+   S6kdFLTRUEO64Yh3jKCrUClIdt4vP5SSaqJb9OwDfyVQGJAuEQOPM8+7P
+   aXSI0hVIigQyTDC4kXZHLFZ1gg65ca/szOzpLjD92dLeZZMgTgKGTebeq
+   Q==;
+X-CSE-ConnectionGUID: Z49eng4WSFq9ntOAMOuqKg==
+X-CSE-MsgGUID: kCqwt/uyT5ye/bj1vqSxMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="85016392"
 X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="66042896"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 06:23:58 -0700
-X-CSE-ConnectionGUID: 228wYSD8QT2fmvxmbzQwBg==
-X-CSE-MsgGUID: HNakmuk2RNK3vAN1BAy93A==
+   d="scan'208";a="85016392"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 07:25:04 -0700
+X-CSE-ConnectionGUID: FQXNO099TE2Lp+3P92lOdg==
+X-CSE-MsgGUID: pjSEXfoVRgCQA07sLEryfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="218299324"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Oct 2025 06:23:57 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Oct 2025 07:25:01 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7ZZi-0003nL-09;
-	Sat, 11 Oct 2025 13:23:54 +0000
-Date: Sat, 11 Oct 2025 21:22:55 +0800
+	id 1v7aWo-0003oN-2e;
+	Sat, 11 Oct 2025 14:24:58 +0000
+Date: Sat, 11 Oct 2025 22:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.17-r4pro2 134/139]
- utils/firmware/mediatek/mt7987/i2p5ge-phy-DSPBitTb.bin: warning: ignored by
- one of the .gitignore files
-Message-ID: <202510112145.Kk5DVPE7-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH bpf-next] bpf: consistently use bpf_rcu_lock_held()
+ everywhere
+Message-ID: <202510112101.pygcEmGf-lkp@intel.com>
+References: <20251010173021.3952776-1-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +62,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251010173021.3952776-1-andrii@kernel.org>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.17-r4pro2
-head:   7b9918476e16be05ccbbc0d029a1672264fb604e
-commit: 6beb9c43422026d43a76a771dcbafa58cd4a95de [134/139] firmware: add firmware for mt7987/BPI-R4Lite phy
-config: i386-buildonly-randconfig-001-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112145.Kk5DVPE7-lkp@intel.com/config)
+Hi Andrii,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-consistently-use-bpf_rcu_lock_held-everywhere/20251011-013430
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20251010173021.3952776-1-andrii%40kernel.org
+patch subject: [PATCH bpf-next] bpf: consistently use bpf_rcu_lock_held() everywhere
+config: i386-buildonly-randconfig-001-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112101.pygcEmGf-lkp@intel.com/config)
 compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112145.Kk5DVPE7-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112101.pygcEmGf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510112145.Kk5DVPE7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510112101.pygcEmGf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   .github/workflows/build.yml: warning: ignored by one of the .gitignore files
-   utils/firmware/aeonsemi/as21x1x_fw.bin: warning: ignored by one of the .gitignore files
->> utils/firmware/mediatek/mt7987/i2p5ge-phy-DSPBitTb.bin: warning: ignored by one of the .gitignore files
->> utils/firmware/mediatek/mt7987/i2p5ge-phy-pmb.bin: warning: ignored by one of the .gitignore files
+   In file included from include/linux/workqueue.h:17,
+                    from include/linux/bpf.h:11,
+                    from include/linux/bpf_verifier.h:7,
+                    from net/core/filter.c:21:
+   include/linux/bpf_local_storage.h: In function 'bpf_local_storage_lookup':
+>> include/linux/bpf_local_storage.h:149:39: error: implicit declaration of function 'bpf_rcu_lock_held'; did you mean 'rcu_read_lock_held'? [-Werror=implicit-function-declaration]
+     149 |                                       bpf_rcu_lock_held());
+         |                                       ^~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:399:53: note: in definition of macro 'RCU_LOCKDEP_WARN'
+     399 |                 if (debug_lockdep_rcu_enabled() && (c) &&               \
+         |                                                     ^
+   include/linux/rcupdate.h:680:9: note: in expansion of macro '__rcu_dereference_check'
+     680 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bpf_local_storage.h:148:17: note: in expansion of macro 'rcu_dereference_check'
+     148 |         sdata = rcu_dereference_check(local_storage->cache[smap->cache_idx],
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +149 include/linux/bpf_local_storage.h
+
+450af8d0f6be2e KP Singh         2020-08-25  129  
+c83597fa5dc6b3 Yonghong Song    2022-10-25  130  struct bpf_map *
+c83597fa5dc6b3 Yonghong Song    2022-10-25  131  bpf_local_storage_map_alloc(union bpf_attr *attr,
+08a7ce384e33e5 Martin KaFai Lau 2023-03-22  132  			    struct bpf_local_storage_cache *cache,
+08a7ce384e33e5 Martin KaFai Lau 2023-03-22  133  			    bool bpf_ma);
+450af8d0f6be2e KP Singh         2020-08-25  134  
+68bc61c26cacf1 Marco Elver      2024-02-07  135  void __bpf_local_storage_insert_cache(struct bpf_local_storage *local_storage,
+68bc61c26cacf1 Marco Elver      2024-02-07  136  				      struct bpf_local_storage_map *smap,
+68bc61c26cacf1 Marco Elver      2024-02-07  137  				      struct bpf_local_storage_elem *selem);
+68bc61c26cacf1 Marco Elver      2024-02-07  138  /* If cacheit_lockit is false, this lookup function is lockless */
+68bc61c26cacf1 Marco Elver      2024-02-07  139  static inline struct bpf_local_storage_data *
+450af8d0f6be2e KP Singh         2020-08-25  140  bpf_local_storage_lookup(struct bpf_local_storage *local_storage,
+450af8d0f6be2e KP Singh         2020-08-25  141  			 struct bpf_local_storage_map *smap,
+68bc61c26cacf1 Marco Elver      2024-02-07  142  			 bool cacheit_lockit)
+68bc61c26cacf1 Marco Elver      2024-02-07  143  {
+68bc61c26cacf1 Marco Elver      2024-02-07  144  	struct bpf_local_storage_data *sdata;
+68bc61c26cacf1 Marco Elver      2024-02-07  145  	struct bpf_local_storage_elem *selem;
+68bc61c26cacf1 Marco Elver      2024-02-07  146  
+68bc61c26cacf1 Marco Elver      2024-02-07  147  	/* Fast path (cache hit) */
+68bc61c26cacf1 Marco Elver      2024-02-07  148  	sdata = rcu_dereference_check(local_storage->cache[smap->cache_idx],
+68bc61c26cacf1 Marco Elver      2024-02-07 @149  				      bpf_rcu_lock_held());
+68bc61c26cacf1 Marco Elver      2024-02-07  150  	if (sdata && rcu_access_pointer(sdata->smap) == smap)
+68bc61c26cacf1 Marco Elver      2024-02-07  151  		return sdata;
+68bc61c26cacf1 Marco Elver      2024-02-07  152  
+68bc61c26cacf1 Marco Elver      2024-02-07  153  	/* Slow path (cache miss) */
+68bc61c26cacf1 Marco Elver      2024-02-07  154  	hlist_for_each_entry_rcu(selem, &local_storage->list, snode,
+68bc61c26cacf1 Marco Elver      2024-02-07  155  				  rcu_read_lock_trace_held())
+68bc61c26cacf1 Marco Elver      2024-02-07  156  		if (rcu_access_pointer(SDATA(selem)->smap) == smap)
+68bc61c26cacf1 Marco Elver      2024-02-07  157  			break;
+68bc61c26cacf1 Marco Elver      2024-02-07  158  
+68bc61c26cacf1 Marco Elver      2024-02-07  159  	if (!selem)
+68bc61c26cacf1 Marco Elver      2024-02-07  160  		return NULL;
+68bc61c26cacf1 Marco Elver      2024-02-07  161  	if (cacheit_lockit)
+68bc61c26cacf1 Marco Elver      2024-02-07  162  		__bpf_local_storage_insert_cache(local_storage, smap, selem);
+68bc61c26cacf1 Marco Elver      2024-02-07  163  	return SDATA(selem);
+68bc61c26cacf1 Marco Elver      2024-02-07  164  }
+450af8d0f6be2e KP Singh         2020-08-25  165  
 
 -- 
 0-DAY CI Kernel Test Service
