@@ -1,74 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC235153BED
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 09:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F472F9C1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 09:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760173246; cv=none; b=icmLCQ2W8Uo+tdywKWouDpjAIh13PG3O/DicF5zwpjnU3Qao3FCjyNwADUhcT3AQnW4eUdITEpMveWZy3jRhi/3/mCiGJVxDShS1mjABuy+UA70JkyjwWrZolhIntG/T/hA5OchB4Z0067zc4Czcd0smacMwdgs1MZW2ptqf8K8=
+	t=1760175764; cv=none; b=Rc2M0b32EodtrQ/QBPbrngRpn78fW4WH4xkF76FNumLPaKIvgMGKV9psdShCh62CDf7zj9abAQfBX/mE+D6ejz01txzZWJaOxdi1ojQX+q8T0jbYnzSW8Las4PmxZCU7vzuQPAvJ84HiVxFqmQphsTVkWSZlFZD/tdQBqiFX0SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760173246; c=relaxed/simple;
-	bh=NmICyN7z5pd3yUB5P/aHf1eTN2vJpiuLtAiyWdk719s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mprrcxH30YB2Lu9SB6CA0WV1LiohkirFmtP/v2rfd5+QD8Opm+5ljKXGpn8VGryiGd7FE0CLWt3y9fOSrISFAnyFTELxlzUUjabv0XUSbJPJNUtX4U0kpO79YhYIlWQeNhySPpYNM5bhrbVJ6whKFmUOxuZvo2GBLnVFC8bq6rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfxBEWPv; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1760175764; c=relaxed/simple;
+	bh=LB5w1Sibc+BzrvEHm28xnJ/wEj4F6S4aBrvN+OtVu+w=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ljk4PhGSZRg84k7P+OhfgwhpqELifNX3aWZpzw6ahi6xDM7yPXe++MZpxPwtP9HQIaDPV8GAZQzvSh6eHqgSvG1Pics20Q1ZJgEE6CSEAq822uCbyholRwg3vG27UYW6lGLFyYaKRbXd8Qmvkc5N8abjdATU7kTR0zGNc1xRrSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aoeSOiZm; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfxBEWPv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aoeSOiZm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760173241; x=1791709241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NmICyN7z5pd3yUB5P/aHf1eTN2vJpiuLtAiyWdk719s=;
-  b=OfxBEWPvucB9HGTXoh9O9ARboa7XhHXkYDKAdBAcM2ghE/o5COWTeesK
-   9VpElkak2p/kYuooLPu2IYHFe+fmiRi0HB5SNbUdTMyDSRl2XOxu3zFbC
-   APavLQjNJx3sP0f0Y8ERYdEMPVA0WSkAojrY8DoHdAzkJ2dpYrsdCpKmT
-   xFkzPjh9vCvMW5PF0xkTMYUoTCL2TWWAaDNzv54MUGW/Nw6cS3EJOVf7e
-   YWxAXvE5kl6hr+nG/XWkLitTOD86emAK3SqkXcnr7jSkXx/OPwH8pPXuS
-   JxYS2MGiiTrZldY/rq1pXyiY01p6agAe1GbJxCWM+x7XbOd1aDhq1eai1
-   Q==;
-X-CSE-ConnectionGUID: lZCdLUTORtCPJfZtkJ0R1w==
-X-CSE-MsgGUID: mc9dUalLQX2dgGrGTaNrKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62277605"
+  t=1760175759; x=1791711759;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=LB5w1Sibc+BzrvEHm28xnJ/wEj4F6S4aBrvN+OtVu+w=;
+  b=aoeSOiZmiRJHiXFMVA7rUeyez1KJocZ7UWqefinSX5UL33V6xYJMLbCy
+   gxzoxSHzWzF8a7dBis1Y5myLcZRZe1t2LNy/sn1k1iilNCD9ombtTcPxO
+   MzKw78cxLgrAfKdchy3nrFsqq0t1vX/Yte3fN10l4ZDGJd0Qp3ttpYaoB
+   tYSJxw/6+vQbCMF0TcyvqHfSPVzdr7xF0BlbO2ERHMF/qU17SRf9M80Qn
+   9CJA7h5Qb8WgzfFOH1VE02MY3GoTAORtQ6vdeLLE3gN9mZr0yDhcAZqkO
+   KB+q3bhVHBFM4zJf6jXcmiSqQMlB6LD6D3qeGeXaHQbw3jWqQQrh1dmT1
+   A==;
+X-CSE-ConnectionGUID: Qa8C4L70SIWqeilAgkW4dA==
+X-CSE-MsgGUID: eDomEntfTAqBy+ng6cWpeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="73486865"
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="62277605"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 02:00:40 -0700
-X-CSE-ConnectionGUID: 4mnZvWzqSiqoAc10AJdWXw==
-X-CSE-MsgGUID: GTrHiaj5QCSB0FokPuEspA==
+   d="scan'208";a="73486865"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 02:42:39 -0700
+X-CSE-ConnectionGUID: jnCtZps2SpO2h4gFRTt4SA==
+X-CSE-MsgGUID: qnXKtEx7SGuf5tn8ihoF9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="181590217"
+   d="scan'208";a="185426382"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Oct 2025 02:00:34 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Oct 2025 02:42:37 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7VSq-0003f5-06;
-	Sat, 11 Oct 2025 09:00:32 +0000
-Date: Sat, 11 Oct 2025 17:00:15 +0800
+	id 1v7W7W-0003gN-2b;
+	Sat, 11 Oct 2025 09:42:34 +0000
+Date: Sat, 11 Oct 2025 17:42:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zi Yan <ziy@nvidia.com>, linmiaohe@huawei.com, david@redhat.com,
-	jane.chu@oracle.com, kernel@pankajraghav.com,
-	syzbot+e6367ea2fdab6ed46056@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
-	akpm@linux-foundation.org, mcgrof@kernel.org,
-	nao.horiguchi@gmail.com,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 1/2] mm/huge_memory: do not change split_huge_page*()
- target order silently.
-Message-ID: <202510111633.onu4Yaey-lkp@intel.com>
-References: <20251010173906.3128789-2-ziy@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jeff Layton <jlayton@kernel.org>
+Subject: [jlayton:kdevops 1/3] fs/nfsd/nfsfh.c:699:23: warning: unused
+ variable 'inode'
+Message-ID: <202510111741.4tkN0Uzm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,154 +60,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251010173906.3128789-2-ziy@nvidia.com>
 
-Hi Zi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.17 next-20251010]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_memory-do-not-change-split_huge_page-target-order-silently/20251011-014145
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251010173906.3128789-2-ziy%40nvidia.com
-patch subject: [PATCH 1/2] mm/huge_memory: do not change split_huge_page*() target order silently.
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20251011/202510111633.onu4Yaey-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111633.onu4Yaey-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   111666a803b9733b5c590aec6312443ad3dac2f5
+commit: 177818f176ef904fb18d237d1dbba00c2643aaf2 [1/3] Merge branch 'mrchuck/nfsd-next'
+config: m68k-mac_defconfig (https://download.01.org/0day-ci/archive/20251011/202510111741.4tkN0Uzm-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111741.4tkN0Uzm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510111633.onu4Yaey-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510111741.4tkN0Uzm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/truncate.c: In function 'truncate_inode_partial_folio':
->> mm/truncate.c:229:14: error: too many arguments to function 'try_folio_split'; expected 3, have 4
-     229 |         if (!try_folio_split(folio, split_at, NULL, min_order)) {
-         |              ^~~~~~~~~~~~~~~                        ~~~~~~~~~
-   In file included from include/linux/mm.h:1081,
-                    from arch/parisc/include/asm/cacheflush.h:5,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/writeback.h:13,
-                    from include/linux/backing-dev.h:16,
-                    from mm/truncate.c:12:
-   include/linux/huge_mm.h:588:19: note: declared here
-     588 | static inline int try_folio_split(struct folio *folio, struct page *page,
-         |                   ^~~~~~~~~~~~~~~
-   mm/truncate.c:259:25: error: too many arguments to function 'try_folio_split'; expected 3, have 4
-     259 |                         try_folio_split(folio2, split_at2, NULL, min_order);
-         |                         ^~~~~~~~~~~~~~~                          ~~~~~~~~~
-   include/linux/huge_mm.h:588:19: note: declared here
-     588 | static inline int try_folio_split(struct folio *folio, struct page *page,
-         |                   ^~~~~~~~~~~~~~~
+   fs/nfsd/nfsfh.c: In function 'fh_getattr':
+>> fs/nfsd/nfsfh.c:699:23: warning: unused variable 'inode' [-Wunused-variable]
+     699 |         struct inode *inode = d_inode(p.dentry);
+         |                       ^~~~~
 
 
-vim +/try_folio_split +229 mm/truncate.c
+vim +/inode +699 fs/nfsd/nfsfh.c
 
-   179	
-   180	/*
-   181	 * Handle partial folios.  The folio may be entirely within the
-   182	 * range if a split has raced with us.  If not, we zero the part of the
-   183	 * folio that's within the [start, end] range, and then split the folio if
-   184	 * it's large.  split_page_range() will discard pages which now lie beyond
-   185	 * i_size, and we rely on the caller to discard pages which lie within a
-   186	 * newly created hole.
-   187	 *
-   188	 * Returns false if splitting failed so the caller can avoid
-   189	 * discarding the entire folio which is stubbornly unsplit.
-   190	 */
-   191	bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
-   192	{
-   193		loff_t pos = folio_pos(folio);
-   194		size_t size = folio_size(folio);
-   195		unsigned int offset, length;
-   196		struct page *split_at, *split_at2;
-   197		unsigned int min_order;
-   198	
-   199		if (pos < start)
-   200			offset = start - pos;
-   201		else
-   202			offset = 0;
-   203		if (pos + size <= (u64)end)
-   204			length = size - offset;
-   205		else
-   206			length = end + 1 - pos - offset;
-   207	
-   208		folio_wait_writeback(folio);
-   209		if (length == size) {
-   210			truncate_inode_folio(folio->mapping, folio);
-   211			return true;
-   212		}
-   213	
-   214		/*
-   215		 * We may be zeroing pages we're about to discard, but it avoids
-   216		 * doing a complex calculation here, and then doing the zeroing
-   217		 * anyway if the page split fails.
-   218		 */
-   219		if (!mapping_inaccessible(folio->mapping))
-   220			folio_zero_range(folio, offset, length);
-   221	
-   222		if (folio_needs_release(folio))
-   223			folio_invalidate(folio, offset, length);
-   224		if (!folio_test_large(folio))
-   225			return true;
-   226	
-   227		min_order = mapping_min_folio_order(folio->mapping);
-   228		split_at = folio_page(folio, PAGE_ALIGN_DOWN(offset) / PAGE_SIZE);
- > 229		if (!try_folio_split(folio, split_at, NULL, min_order)) {
-   230			/*
-   231			 * try to split at offset + length to make sure folios within
-   232			 * the range can be dropped, especially to avoid memory waste
-   233			 * for shmem truncate
-   234			 */
-   235			struct folio *folio2;
-   236	
-   237			if (offset + length == size)
-   238				goto no_split;
-   239	
-   240			split_at2 = folio_page(folio,
-   241					PAGE_ALIGN_DOWN(offset + length) / PAGE_SIZE);
-   242			folio2 = page_folio(split_at2);
-   243	
-   244			if (!folio_try_get(folio2))
-   245				goto no_split;
-   246	
-   247			if (!folio_test_large(folio2))
-   248				goto out;
-   249	
-   250			if (!folio_trylock(folio2))
-   251				goto out;
-   252	
-   253			/*
-   254			 * make sure folio2 is large and does not change its mapping.
-   255			 * Its split result does not matter here.
-   256			 */
-   257			if (folio_test_large(folio2) &&
-   258			    folio2->mapping == folio->mapping)
-   259				try_folio_split(folio2, split_at2, NULL, min_order);
-   260	
-   261			folio_unlock(folio2);
-   262	out:
-   263			folio_put(folio2);
-   264	no_split:
-   265			return true;
-   266		}
-   267		if (folio_test_dirty(folio))
-   268			return false;
-   269		truncate_inode_folio(folio->mapping, folio);
-   270		return true;
-   271	}
-   272	
+^1da177e4c3f415 Linus Torvalds 2005-04-16  684  
+c1f203e46c55ac0 Chuck Lever    2025-07-02  685  /**
+c1f203e46c55ac0 Chuck Lever    2025-07-02  686   * fh_getattr - Retrieve attributes on a local file
+c1f203e46c55ac0 Chuck Lever    2025-07-02  687   * @fhp: File handle of target file
+c1f203e46c55ac0 Chuck Lever    2025-07-02  688   * @stat: Caller-supplied kstat buffer to be filled in
+c1f203e46c55ac0 Chuck Lever    2025-07-02  689   *
+c1f203e46c55ac0 Chuck Lever    2025-07-02  690   * Returns nfs_ok on success, otherwise an NFS status code is
+c1f203e46c55ac0 Chuck Lever    2025-07-02  691   * returned.
+c1f203e46c55ac0 Chuck Lever    2025-07-02  692   */
+c1f203e46c55ac0 Chuck Lever    2025-07-02  693  __be32 fh_getattr(const struct svc_fh *fhp, struct kstat *stat)
+c1f203e46c55ac0 Chuck Lever    2025-07-02  694  {
+c1f203e46c55ac0 Chuck Lever    2025-07-02  695  	struct path p = {
+c1f203e46c55ac0 Chuck Lever    2025-07-02  696  		.mnt		= fhp->fh_export->ex_path.mnt,
+c1f203e46c55ac0 Chuck Lever    2025-07-02  697  		.dentry		= fhp->fh_dentry,
+c1f203e46c55ac0 Chuck Lever    2025-07-02  698  	};
+81538c8e42806ee Linus Torvalds 2025-10-06 @699  	struct inode *inode = d_inode(p.dentry);
+c1f203e46c55ac0 Chuck Lever    2025-07-02  700  	u32 request_mask = STATX_BASIC_STATS;
+c1f203e46c55ac0 Chuck Lever    2025-07-02  701  
+737a72eed2e5058 Chuck Lever    2025-09-29  702  	if (d_is_reg(p.dentry))
+6f322e6110a6281 Mike Snitzer   2025-09-29  703  		request_mask |= (STATX_DIOALIGN | STATX_DIO_READ_ALIGN);
+6f322e6110a6281 Mike Snitzer   2025-09-29  704  
+c1f203e46c55ac0 Chuck Lever    2025-07-02  705  	if (fhp->fh_maxsize == NFS4_FHSIZE)
+c1f203e46c55ac0 Chuck Lever    2025-07-02  706  		request_mask |= (STATX_BTIME | STATX_CHANGE_COOKIE);
+c1f203e46c55ac0 Chuck Lever    2025-07-02  707  
+c1f203e46c55ac0 Chuck Lever    2025-07-02  708  	return nfserrno(vfs_getattr(&p, stat, request_mask,
+c1f203e46c55ac0 Chuck Lever    2025-07-02  709  				    AT_STATX_SYNC_AS_STAT));
+c1f203e46c55ac0 Chuck Lever    2025-07-02  710  }
+c1f203e46c55ac0 Chuck Lever    2025-07-02  711  
+
+:::::: The code at line 699 was first introduced by commit
+:::::: 81538c8e42806eed71ce125723877a7c2307370c Merge tag 'nfsd-6.18' of git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
+
+:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
