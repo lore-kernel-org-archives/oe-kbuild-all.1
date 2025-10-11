@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAEA4594A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 15:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB61827F16A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 15:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760197692; cv=none; b=dZY0tmsBttkfc1aN/+EaF2UYoQ4K/wgSIns6EgdfCpFZdh3aHMCVKwNlq7QNmvJaraqggrlBuD7RPCrSm5Qas3FGXKr6GXSUeoRQJbo33YtT2xQ3XpuHdN5EAT8OuShSHeCzph044FCvChSAio7v0he+T3hRhetQaNwEDpZ6740=
+	t=1760198293; cv=none; b=gXps6WJnhAeL5wILgynHW5ncaGM/Iel/9jmM+uNfoqWZiTp0UhacxPOL75V0a7Cuiq4nv2wk/cBhtsmdfR3Hp3EgP56Yw4PsmMkL7f4qQMi8UdfZ0QfRGcqATqGnz4/neHKXOWc8KbieVCVJ3sIstzrSoEwh3Utbu31qTfDz65w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760197692; c=relaxed/simple;
-	bh=BraN50pxP1PkqNLK5NK21UMzfxwlnCpPOnKfwFG/S4M=;
+	s=arc-20240116; t=1760198293; c=relaxed/simple;
+	bh=CxSv245CkaV7RyG+PXp5+tABatCcQy2L+SJbR6D84fg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OfRUw3Garbi1sRbDltgMS/egmJiwFrRZAJjjaWshwl7zKfGXHNpq0eD0xZtiYgEe2iFdoqM8qpkpejaHK5DzEznYiBdxdjRCNzKPWmcg0QP8ebP5qmj7n4VongdLpshm5kA6xZGwLJM5ircYm/ynodo//3YG3H9Tx4cQJKGQJ+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FM8e0GfG; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Q+YBntZassJ3DeTJYgO4nqDCNlMnChaG3MqSiTQvAbtUIFuXM2XRmDOuN0HGAAumKakuLnHiowP7GfjnW2ZVNjEYpxStpMID9LetYZtDIOhaDuPimMO1FaVMImQAFfdIDpxd9y18/xumIY9NKS1jaKOWJiiL9nyO1tJ56S3N9H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeqMOMPc; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FM8e0GfG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeqMOMPc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760197690; x=1791733690;
+  t=1760198291; x=1791734291;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BraN50pxP1PkqNLK5NK21UMzfxwlnCpPOnKfwFG/S4M=;
-  b=FM8e0GfG0n7/JqY5+JZxMzWYiJC6yuFdaTNg0NgmW42j749PQWbd0k5b
-   /VB2sHsnDtZ4RA/TrlWWKyxtMS+KoGkYsEMrUUVEIcSho4g4hdyPwB2si
-   JCcrTo5ps0gepYfeRVEIEmUJ9hrGnBynoxNGoyl6hydzyQcA6duVePBsb
-   nFtNm0U2Q+ClKxmGHBZAUulViyI6Modn4sCypNcLQDeVkKi7Ibi1Yiqdo
-   pR9nAuwmH2GTOI1dXgBVJ7Njdy8hF7AVy2nbe14kMgPS0qoDfeqeG0Iqc
-   uLlmo9iEXTAP6uWkzu5mnvQ67HMgp3Ly8cxME3tk1HxiTyOSn+f7YA54M
+  bh=CxSv245CkaV7RyG+PXp5+tABatCcQy2L+SJbR6D84fg=;
+  b=TeqMOMPcgj+xXnEHZkPc5HcYFbpncJq+pBW4BrvVGmwjNlQYxIXCmHLx
+   2t0VlBcIqt9FbQiBMSH86AMMzZkiGVV67CF/x/orY6aseNextCmGi7vNm
+   2XAEJd8vz1bwjPv9T6GJPNMljUw15aFqe2CA/L99fXoc0FDNp1hM+TBNS
+   GWYRCSGxW3jexzfJKt1H/mzWTnrlVNRjMsr0omJ7kWcB1kb8gfYvdeorb
+   ZbqOC/IGGzYeuLrIdb8obLZq736pT76p4+RG1nzfHN2lK1ZbXmqwRFuc4
+   HTcgKvWAQmLN125We5OxdBzuw33r0iOpR66+/kajB9Ma1VKNE2ege+J+K
    g==;
-X-CSE-ConnectionGUID: zuaWxFNcSZuVsbhbxLjyQA==
-X-CSE-MsgGUID: l9ECQgfZRNy5w9xTUs7SgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="66247382"
+X-CSE-ConnectionGUID: Qo5nRI1OTCO4+dmIOaqEhA==
+X-CSE-MsgGUID: 2u9G9vlxRsOW9xfqk9wtXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="49948461"
 X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="66247382"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 08:48:09 -0700
-X-CSE-ConnectionGUID: AUMSXk8YTNu6oHWXS3rGqg==
-X-CSE-MsgGUID: q19hWg9aQIO8lnBKABDFvw==
+   d="scan'208";a="49948461"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 08:58:11 -0700
+X-CSE-ConnectionGUID: L9hA4XYFSSSSaF3sbPPR6w==
+X-CSE-MsgGUID: tQeoEqm6ROCaPDmnC3uXrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="185586623"
+   d="scan'208";a="181223735"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Oct 2025 08:48:08 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Oct 2025 08:58:09 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7bpG-0003q1-07;
-	Sat, 11 Oct 2025 15:48:06 +0000
-Date: Sat, 11 Oct 2025 23:47:51 +0800
+	id 1v7byw-0003qF-26;
+	Sat, 11 Oct 2025 15:58:06 +0000
+Date: Sat, 11 Oct 2025 23:58:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-stripe-delete-from-trigger 490/536]
- fs/bcachefs/fs/str_hash.c:325:1: warning: the frame size of 1304 bytes is
- larger than 1280 bytes
-Message-ID: <202510112359.pEVIK2fl-lkp@intel.com>
+To: Shivank Garg <shivankg@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Subject: [davidhildenbrand:guestmemfd-preview 18/26]
+ arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:155:10: error: implicit
+ declaration of function '__filemap_get_folio_mpol'; did you mean
+ '__filemap_get_folio'?
+Message-ID: <202510112316.Bx2Qh3kC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,137 +65,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-stripe-delete-from-trigger
-head:   9d5f419e4198e8c6a75bffc754d730ea33438d7d
-commit: 5a5d439f733e9437f0f0c9b9536ba46111a4e4b6 [490/536] bcachefs: DEFINE_CLASS(btree_iter_copy)
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251011/202510112359.pEVIK2fl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112359.pEVIK2fl-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux guestmemfd-preview
+head:   0c301bf7489a928d4839f3ee7477966a681543a2
+commit: 0214cede5073bcc0f7cd671ca0c3ec99ef4eb164 [18/26] KVM: guest_memfd: Enforce NUMA mempolicy using shared policy
+config: arm64-randconfig-001-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112316.Bx2Qh3kC-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112316.Bx2Qh3kC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510112359.pEVIK2fl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510112316.Bx2Qh3kC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/bcachefs/fs/str_hash.c: In function 'bch2_str_hash_repair_key':
->> fs/bcachefs/fs/str_hash.c:325:1: warning: the frame size of 1304 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     325 | }
-         | ^
+   arch/arm64/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_get_folio':
+>> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:155:10: error: implicit declaration of function '__filemap_get_folio_mpol'; did you mean '__filemap_get_folio'? [-Werror=implicit-function-declaration]
+     155 |  folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~
+         |          __filemap_get_folio
+>> arch/arm64/kvm/../../../virt/kvm/guest_memfd.c:155:8: warning: assignment to 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     155 |  folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+         |        ^
+   cc1: some warnings being treated as errors
 
 
-vim +325 fs/bcachefs/fs/str_hash.c
+vim +155 arch/arm64/kvm/../../../virt/kvm/guest_memfd.c
 
-6ea607ca61475f fs/bcachefs/str_hash.c Kent Overstreet 2024-12-08  224  
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  225  /* Put a str_hash key in its proper location, checking for duplicates */
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  226  int bch2_str_hash_repair_key(struct btree_trans *trans,
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  227  			     struct snapshots_seen *s,
-6ea607ca61475f fs/bcachefs/str_hash.c Kent Overstreet 2024-12-08  228  			     const struct bch_hash_desc *desc,
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  229  			     struct bch_hash_info *hash_info,
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  230  			     struct btree_iter *k_iter, struct bkey_s_c k,
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  231  			     struct btree_iter *dup_iter, struct bkey_s_c dup_k,
-c72def523799a0 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  232  			     bool *updated_before_k_pos)
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  233  {
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  234  	struct bch_fs *c = trans->c;
-25ce5aa344849e fs/bcachefs/str_hash.c Kent Overstreet 2025-07-14  235  	CLASS(printbuf, buf)();
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  236  	bool free_snapshots_seen = false;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  237  	int ret = 0;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  238  
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  239  	if (!s) {
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  240  		s = bch2_trans_kmalloc(trans, sizeof(*s));
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  241  		ret = PTR_ERR_OR_ZERO(s);
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  242  		if (ret)
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  243  			goto out;
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  244  
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  245  		s->pos = k_iter->pos;
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  246  		darray_init(&s->ids);
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  247  
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  248  		ret = bch2_get_snapshot_overwrites(trans, desc->btree_id, k_iter->pos, &s->ids);
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  249  		if (ret)
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  250  			goto out;
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  251  
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  252  		free_snapshots_seen = true;
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  253  	}
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  254  
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  255  	if (!dup_k.k) {
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  256  		struct bkey_i *new = bch2_bkey_make_mut_noupdate(trans, k);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  257  		ret = PTR_ERR_OR_ZERO(new);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  258  		if (ret)
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  259  			goto out;
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  260  
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  261  		dup_k = bch2_hash_set_or_get_in_snapshot(trans, dup_iter, *desc, hash_info,
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  262  				       (subvol_inum) { 0, new->k.p.inode },
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  263  				       new->k.p.snapshot, new,
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  264  				       STR_HASH_must_create|
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  265  				       BTREE_ITER_with_updates|
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  266  				       BTREE_UPDATE_internal_snapshot_node);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  267  		ret = bkey_err(dup_k);
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  268  		if (ret)
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  269  			goto out;
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  270  		if (dup_k.k)
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  271  			goto duplicate_entries;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  272  
-c72def523799a0 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  273  		if (bpos_lt(new->k.p, k.k->p))
-c72def523799a0 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  274  			*updated_before_k_pos = true;
-c72def523799a0 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  275  
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  276  		ret =   bch2_insert_snapshot_whiteouts(trans, desc->btree_id,
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  277  						       k_iter->pos, new->k.p) ?:
-a5922682602788 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  278  			bch2_hash_delete_at(trans, *desc, hash_info, k_iter,
-d21262d4e35d44 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-28  279  					    BTREE_ITER_with_updates|
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  280  					    BTREE_UPDATE_internal_snapshot_node) ?:
-6ea607ca61475f fs/bcachefs/str_hash.c Kent Overstreet 2024-12-08  281  			bch2_fsck_update_backpointers(trans, s, *desc, hash_info, new) ?:
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  282  			bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc) ?:
-4667d9653c3473 fs/bcachefs/str_hash.c Kent Overstreet 2025-06-26  283  			bch_err_throw(c, transaction_restart_commit);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  284  	} else {
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  285  duplicate_entries:
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  286  		ret = hash_pick_winner(trans, *desc, hash_info, k, dup_k);
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  287  		if (ret < 0)
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  288  			goto out;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  289  
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  290  		if (!fsck_err(trans, hash_table_key_duplicate,
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  291  			      "duplicate hash table keys%s:\n%s",
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  292  			      ret != 2 ? "" : ", both point to valid inodes",
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  293  			      (printbuf_reset(&buf),
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  294  			       bch2_bkey_val_to_text(&buf, c, k),
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  295  			       prt_newline(&buf),
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  296  			       bch2_bkey_val_to_text(&buf, c, dup_k),
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  297  			       buf.buf)))
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  298  			goto out;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  299  
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  300  		switch (ret) {
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  301  		case 0:
-6ea607ca61475f fs/bcachefs/str_hash.c Kent Overstreet 2024-12-08  302  			ret = bch2_hash_delete_at(trans, *desc, hash_info, k_iter, 0);
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  303  			break;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  304  		case 1:
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  305  			ret = bch2_hash_delete_at(trans, *desc, hash_info, dup_iter, 0);
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  306  			break;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  307  		case 2:
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  308  			ret = bch2_fsck_rename_dirent(trans, s, *desc, hash_info,
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  309  						      bkey_s_c_to_dirent(k),
-c72def523799a0 fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  310  						      updated_before_k_pos) ?:
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  311  				bch2_hash_delete_at(trans, *desc, hash_info, k_iter,
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  312  						    BTREE_ITER_with_updates);
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  313  			goto out;
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  314  		}
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  315  
-d4c9fc000bd1bc fs/bcachefs/str_hash.c Kent Overstreet 2024-12-04  316  		ret = bch2_trans_commit(trans, NULL, NULL, 0) ?:
-4667d9653c3473 fs/bcachefs/str_hash.c Kent Overstreet 2025-06-26  317  			bch_err_throw(c, transaction_restart_commit);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  318  	}
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  319  out:
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  320  fsck_err:
-363832bfd5fd98 fs/bcachefs/str_hash.c Kent Overstreet 2025-07-30  321  	bch2_trans_iter_exit(dup_iter);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  322  	if (free_snapshots_seen)
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  323  		darray_exit(&s->ids);
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  324  	return ret;
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31 @325  }
-2bf380c005adcc fs/bcachefs/str_hash.c Kent Overstreet 2025-05-31  326  
-
-:::::: The code at line 325 was first introduced by commit
-:::::: 2bf380c005adcc653464215a5170afa3367c0b22 bcachefs: Fix dirent_casefold_mismatch repair
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   129	
+   130	/*
+   131	 * Returns a locked folio on success.  The caller is responsible for
+   132	 * setting the up-to-date flag before the memory is mapped into the guest.
+   133	 * There is no backing storage for the memory, so the folio will remain
+   134	 * up-to-date until it's removed.
+   135	 *
+   136	 * Ignore accessed, referenced, and dirty flags.  The memory is
+   137	 * unevictable and there is no storage to write back to.
+   138	 */
+   139	static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+   140	{
+   141		/* TODO: Support huge pages. */
+   142		struct mempolicy *policy;
+   143		struct folio *folio;
+   144	
+   145		/*
+   146		 * Fast-path: See if folio is already present in mapping to avoid
+   147		 * policy_lookup.
+   148		 */
+   149		folio = __filemap_get_folio(inode->i_mapping, index,
+   150					    FGP_LOCK | FGP_ACCESSED, 0);
+   151		if (!IS_ERR(folio))
+   152			return folio;
+   153	
+   154		policy = kvm_gmem_get_folio_policy(GMEM_I(inode), index);
+ > 155		folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+   156						 FGP_LOCK | FGP_ACCESSED | FGP_CREAT,
+   157						 mapping_gfp_mask(inode->i_mapping), policy);
+   158		mpol_cond_put(policy);
+   159	
+   160		return folio;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
