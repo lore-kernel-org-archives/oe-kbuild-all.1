@@ -1,119 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4A627A935
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 17:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A5B800
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 18:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760203279; cv=none; b=FDUKhMtwl3vhUAYC9Zznb2uNCkp0XnVZ6Nr/7I/lDCxBbqnt3wfbNcImS4X735NGpQMC7ecGOgmFl127MtO1vULtF0y5qYEtFdzs8ZZm4d6qeliWqSA57I2SciCc0PKdA4UN2dfaoUaLQihuKZLKVHuX6lmmUf4Fg3jWz51L7J4=
+	t=1760206556; cv=none; b=UPX8yNiiviAB5UGcp1aeaUGQoN9OSbJyKsYnIVJ+TcBpZfCwnm77Ga0wt8keZDDM4HJkHkFRpykH4jKGlcIO2bNDzlEg3MnrkdlJGKS9eOJgsZWps6dnRmy3Q6wXokTfFjJvBo+IjM7ofzUxd7njnXUM1VZIFyEVfDpbF+I6yDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760203279; c=relaxed/simple;
-	bh=XUHPLDy3ahSohjQRyrVVW43zWmk2SKMAdtQCHjA93mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jNTIU4WZjJ3JEySv7UHNu+SRbeojD0137iPdV8fD72APz/aznsFivdkuObMfvq8oiNWnRRxgEHuHPQJYWLZMyQ3p8hBXG5eNUxl43odOw024OBD8gpw9ighCR9y6thI+670Sy1UzmVgt63dTTt9BxrPp2LdrLbqYaAPeD/18aUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHEbq3aj; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760206556; c=relaxed/simple;
+	bh=TX7cRtWMuDg6zUqF5l/AgCTzPSwbXr51IrjeoCjsPIA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eCFUzQVgAamMMY4+VQ21katt3vtKdp3q/486FEx0FkxAjZLqIEAPOJAz9OwP7bEepxW4O3NPiF/yqROFiyx+qcCVmSkSwc5ETjb67kWGVSF6POV3y0JDqyHA/A0Ck8Kzvm6iiYbjjt896jAUv1ZIA3RaNZ9/jSN3I1TaXIO5foA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=LWCJ4YL8; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHEbq3aj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760203278; x=1791739278;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XUHPLDy3ahSohjQRyrVVW43zWmk2SKMAdtQCHjA93mo=;
-  b=CHEbq3ajxfuhB0Ej1p9oxdXQleU25+evHmtOI4vAHiDHiShWFxVOXJYK
-   xuWLhixC9k4OhDI716IGWdJ8Fo+Wg9MHprNLEwwjQYjzD8BE5DhU20g9o
-   jNjhFRseJQXAeth6Nbvv5KuMm/ctVdQbWnorvif4iR0ca328vcmhSezDQ
-   ZoFyEK7evYkaHBZYNJNDqMMQYXYeB2bncBSBhRBuwKwuZSo4FuJhZNPUc
-   52MlOEX3htVeQgjhVvuMkkQiXJIcey+FLLNcDGfj5CqoipQm1u4/zd9Xy
-   JAfeEvK0u5Z/2OeHCk5yGL4kpwPMSbYo34UhhudffyB7YZJ9z8YswfRl0
-   g==;
-X-CSE-ConnectionGUID: dCBLIDPzQyGwCxnhIJEeKg==
-X-CSE-MsgGUID: rGtUlaxtSPuiOYZIYc40VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="65017449"
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="65017449"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 10:21:18 -0700
-X-CSE-ConnectionGUID: UTN5lWA5SiSnuUmkNlICnw==
-X-CSE-MsgGUID: JDfQEKL3TlWysw6UVZMuJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="181991376"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Oct 2025 10:21:16 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7dHO-0003tb-2R;
-	Sat, 11 Oct 2025 17:21:14 +0000
-Date: Sun, 12 Oct 2025 01:20:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Eric Biggers <ebiggers@kernel.org>
-Subject: [ardb:arm64-fpsimd-on-stack-v4 8/21] lib/crc/arm/crc-t10dif.h:22:81:
- error: expected ')' before '{' token
-Message-ID: <202510120119.EhaHVPre-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="LWCJ4YL8"
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59B97qB21458941
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 11:15:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=s2048-2025-q2; bh=L1C29Ctmx9qCKv+di4pj
+	qiXnnC/V+sqZE21wYALDeSA=; b=LWCJ4YL8/bC2F3pgYQud75r9F31NoIeUVhrR
+	flm9CRmfaMeL9D14HlRxqtEVZOAcGj9cb6Vck84A0ugIzlhuJYkhDgIxKyjLmL6K
+	OyEmc17w7tBsLp+WuxzRJqU0TSiWV+ZGUKYSQpFOFBh3kHTKNIRXvHvXUzWIXOIJ
+	rGyz8Uba9o2CvP8mfmScTGpJvYf9Ef9BGxX4O9Sd9uO/Z1RLsvGEVVAImcwNhTGY
+	6ud4fj+K61bix2Q2Ihl68CRGG2lwQIHG073rB8ve0HB3mG7LaXiPm+3eN9/681k1
+	9BAfWncitJNUdv/bls8Y4c3Z4c44XY66Qe35Aw12h1Vx3V8FxA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 49qmb8ssp8-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 11:15:53 -0700 (PDT)
+Received: from twshared23637.05.prn5.facebook.com (2620:10d:c0a8:1c::11) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Sat, 11 Oct 2025 18:15:52 +0000
+Received: by devgpu015.cco6.facebook.com (Postfix, from userid 199522)
+	id 818C7F5FBD1; Sat, 11 Oct 2025 11:15:48 -0700 (PDT)
+Date: Sat, 11 Oct 2025 11:15:48 -0700
+From: Alex Mastro <amastro@fb.com>
+To: kernel test robot <lkp@intel.com>
+CC: Alex Williamson <alex.williamson@redhat.com>,
+        <oe-kbuild-all@lists.linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Alejandro
+ Jimenez <alejandro.j.jimenez@oracle.com>,
+        <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 3/3] vfio/type1: handle DMA map/unmap up to the
+ addressable limit
+Message-ID: <aOqe1JMVG5bg/iwU@devgpu015.cco6.facebook.com>
+References: <20251010-fix-unmap-v3-3-306c724d6998@fb.com>
+ <202510111953.naYvy8XB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <202510111953.naYvy8XB-lkp@intel.com>
+X-FB-Internal: Safe
+X-Proofpoint-GUID: 02J21UJB9egXNAg80HSCQDpR0TlqAIHM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDEwMyBTYWx0ZWRfX9UHbKIaa0Cth
+ 1/af+bQ2YFpUvm+ub5tmZ049Hu0+T5s4fY4y3LK4leMcYixZMBgQcdLsZf6Yv8uk4I9mUiLdtHI
+ QcsMOIm+UjmBEnxzyGpJxsQOkVJmGXTJoeY95iGXybQLgRCqgTJlEdkLceN4KDziut25nHLwBOS
+ pxRKYMyBnbhCNcDRi8A7rxrcPBdkscbTynmgTQvIaT/oCEBUf+LhFavbL0TJvgdP8dnlmINRJm8
+ FAC043qijzlWlff2IWINpoHnW69y3h+MDMyNMmITKmqlBfrdaYipgSU3OGEOWxO7+x/asF4zCUf
+ 31C7TKrbolPJHkzaVh7bDyvJ1bKes12SDlAlQfZ93+lvYo5XUUJWeTJ8fF97qso8OoJClL+g3tb
+ PFCsW78WwaKYfriLnTqx2+trgnXWEQ==
+X-Authority-Analysis: v=2.4 cv=M/NA6iws c=1 sm=1 tr=0 ts=68ea9ed9 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=kj9zAlcOel0A:10 a=x6icFKpwvdMA:10 a=yATVoKGFPd4u651EB8cA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: 02J21UJB9egXNAg80HSCQDpR0TlqAIHM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-11_03,2025-10-06_01,2025-03-28_01
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-fpsimd-on-stack-v4
-head:   4924331534c3687fd56cd3b5a0c2432cf3c0b4c3
-commit: a563dcdce73e7c95ab0bda641dd9fe29c7d70c9e [8/21] lib/crc: Switch ARM and arm64 to 'ksimd' scoped guard API
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251012/202510120119.EhaHVPre-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120119.EhaHVPre-lkp@intel.com/reproduce)
+On Sat, Oct 11, 2025 at 07:57:07PM +0800, kernel test robot wrote:
+> >> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'dma_addr_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+>       25 | #define U64_MAX         ((u64)~0ULL)
+>          |                         ^
+>    drivers/vfio/vfio_iommu_type1.c:1361:28: note: in expansion of macro 'U64_MAX'
+>     1361 |                 iova_end = U64_MAX;
+>          |                            ^~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510120119.EhaHVPre-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from lib/crc/crc-t10dif-main.c:63:
-   lib/crc/arm/crc-t10dif.h: In function 'crc_t10dif_arch':
->> lib/crc/arm/crc-t10dif.h:22:81: error: expected ')' before '{' token
-      22 |                 if (static_branch_likely(&have_pmull) && likely(may_use_simd()) {
-         |                    ~                                                            ^
->> lib/crc/arm/crc-t10dif.h:35:9: error: expected expression before '}' token
-      35 |         }
-         |         ^
-
-
-vim +22 lib/crc/arm/crc-t10dif.h
-
-    14	
-    15	asmlinkage u16 crc_t10dif_pmull64(u16 init_crc, const u8 *buf, size_t len);
-    16	asmlinkage void crc_t10dif_pmull8(u16 init_crc, const u8 *buf, size_t len,
-    17					  u8 out[16]);
-    18	
-    19	static inline u16 crc_t10dif_arch(u16 crc, const u8 *data, size_t length)
-    20	{
-    21		if (length >= CRC_T10DIF_PMULL_CHUNK_SIZE) {
-  > 22			if (static_branch_likely(&have_pmull) && likely(may_use_simd()) {
-    23				scoped_ksimd()
-    24					return crc_t10dif_pmull64(crc, data, length);
-    25			} else if (length > CRC_T10DIF_PMULL_CHUNK_SIZE &&
-    26				   static_branch_likely(&have_neon) &&
-    27				   likely(may_use_simd())) {
-    28				u8 buf[16] __aligned(16);
-    29	
-    30				scoped_ksimd()
-    31					crc_t10dif_pmull8(crc, data, length, buf);
-    32	
-    33				return crc_t10dif_generic(0, buf, sizeof(buf));
-    34			}
-  > 35		}
-    36		return crc_t10dif_generic(crc, data, length);
-    37	}
-    38	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I see. I suppose it should be ~(dma_addr_t)0 . I don't see a DMA_ADDR_MAX.
