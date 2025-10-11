@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AB1263F36
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 12:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91561B142D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 12:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760184541; cv=none; b=PBYlbDdNkSedwyQBT8tgO22gPh/JEGx52J+YvlImC1vsiiLkUCMlZ1PbMxH2d0gXWwOyD3AG55DAhzkO6tA7n4DC50H8Ll7kNSjGN9wgmaKhv1xBlQh3SdlK1mwZLBGow/krmnxm512FD+LSQJ2iQx8MCkL/za4+IYfoEIRV/Dc=
+	t=1760185137; cv=none; b=qsiRRCSZNumSvrMwMGWSL8r9Bh1+GWDP9vkzB8Aph9DejZ+Kv6SsOrWsVpFaG22K3M6Z48J8VAaqQNMpW6OJV/NWxiv4cWoFuZSRhN4ONCYThxKVqxR3/pv4e8r/SeaTVCGjv6NYH52ZXUZ3bOBNwnwNpBn1H+0oivnoKQJW54E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760184541; c=relaxed/simple;
-	bh=w3xGrX+1VRhr0RQ7XQ9cpiXJorK5YeJAkemidrbd/88=;
+	s=arc-20240116; t=1760185137; c=relaxed/simple;
+	bh=dsD8WySaqGC0GebiDEW/YsVRIFC4VjHVpVmmZ/toX6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r1QHBZyFaxNIlqUe2pNEsJ9N/DtU6qqTQzL3TjndM5Q1O6cEDpNudfaUyjFN5/KRSZnNcaennUCVjvFPucZpJSDLSP3oDKHiAzKtpylkTERN+RsnzcDZhz3a6TKUeC3ePbjJs7I3mb6+1gFxz6r5r7my/DSQVebQ+EdNffATCz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mlTouuYn; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=mExCRfp104tfWPOK+k7iSf5cieaWCjifaiQpQ7wmz5WfzVBLKxG+i/LYpundAMy9VyKtyLPdGB+eBeIliDrBCRuGIihQxtGUL5XuG2hWfhQ2DQ7ZwsQFjoRf4nqMV37Y9cqCByftFWTdy9MmoINVOayHHIs37v7L31jOsSQNxXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIbztUL3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mlTouuYn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIbztUL3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760184535; x=1791720535;
+  t=1760185132; x=1791721132;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=w3xGrX+1VRhr0RQ7XQ9cpiXJorK5YeJAkemidrbd/88=;
-  b=mlTouuYnBiBzZeIKRa01Seg292YASQ/BfldqzDhEk/hCYyAFp1oq07HL
-   OWOCCGLGwxHOwDBkyGWcDfydiHD2to1ONpqfPKz1s2guA87ydq1gxzUSU
-   +7FyZMNdgVEXFYcRwPeKfu6fdiSe6dsZ25xVd+1HKSt5RIM1pQJ/fgnjB
-   KeF5nk3e8QvSs/lFkzfEyjxWJ7h6rqtTPZgvCERNtdwrIUkCZUmw5mlAW
-   bfr8wALEPzepq8ojwUt/BNKOYsHipj7OlMA+2bdiY7Pofz/4yEhU/iXIk
-   DDi5Z3Vj4q/LP5/gfkqmUnKKNHobq3z+TInORfSlQJbCpFVzXRzlP+i9M
-   A==;
-X-CSE-ConnectionGUID: t3sdERbVQ/y/2cZOXcHm1Q==
-X-CSE-MsgGUID: oVRT5u6YQPGAeoi5A0s12A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="87847229"
+  bh=dsD8WySaqGC0GebiDEW/YsVRIFC4VjHVpVmmZ/toX6E=;
+  b=cIbztUL3Ryu6U7be6UnJrl7Kmzej71zpZXu+TSHavF3XBj3QtkV3/Mmf
+   QL0Rz9TxVSLXDUnbtBZXHtAEI6l5nAO+rcnZRAVfOkLQrh3njxHxNIGD+
+   BIOvbaXXLij1GDuVlk+AbcJKs5d5znsKOe22EwV5MxirttInjTrJIRhHW
+   TwpqGVfFc4+PFrvj2duHXdU90NO57sCnwGR1+LgwGN0gt/Iv75Ou/jlfa
+   SAQc1l8KTkuF+wlant7Y1kaFVcvFF96CGXAZ/FNyoSOW9IsDlffPtYa3h
+   l70ny7j3/jf86SdkIVaDXdDwvHX9Ibzr9Tott4wJw+uHzBTIP97hNvCjY
+   Q==;
+X-CSE-ConnectionGUID: h4zO0aRnRZGTi5DOg/tmww==
+X-CSE-MsgGUID: IZpcXRO+QXuqkWXY3MDhjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="85011434"
 X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="87847229"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 05:08:55 -0700
-X-CSE-ConnectionGUID: r+kwUlfHQ+akfi6i8DtZIQ==
-X-CSE-MsgGUID: C+4Uk8xpTlySaGgoG7jdow==
+   d="scan'208";a="85011434"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 05:18:51 -0700
+X-CSE-ConnectionGUID: dCNWzoBIT7CO5ZA9rr59wA==
+X-CSE-MsgGUID: Wx5ee5AGRHyfV5t5fGWTQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="180767626"
+   d="scan'208";a="204865396"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Oct 2025 05:08:50 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Oct 2025 05:18:50 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7YP1-0003kf-1O;
-	Sat, 11 Oct 2025 12:08:47 +0000
-Date: Sat, 11 Oct 2025 20:07:56 +0800
+	id 1v7YYi-0003kx-0Q;
+	Sat, 11 Oct 2025 12:18:48 +0000
+Date: Sat, 11 Oct 2025 20:18:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, john.johansen@canonical.com,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org,
-	rdunlap@infradead.org, linux-api@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org,
-	Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>
-Subject: Re: [PATCH v6 1/5] Wire up lsm_config_self_policy and
- lsm_config_system_policy syscalls
-Message-ID: <202510111947.0ObJ6YUH-lkp@intel.com>
-References: <20251010132610.12001-2-maxime.belair@canonical.com>
+To: Amery Hung <ameryhung@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 bpf-next 2/4] bpf: Support associating BPF program
+ with struct_ops
+Message-ID: <202510112055.riGV8zne-lkp@intel.com>
+References: <20251010174953.2884682-3-ameryhung@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,226 +63,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251010132610.12001-2-maxime.belair@canonical.com>
+In-Reply-To: <20251010174953.2884682-3-ameryhung@gmail.com>
 
-Hi Maxime,
+Hi Amery,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 9c32cda43eb78f78c73aee4aa344b777714e259b]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-B-lair/Wire-up-lsm_config_self_policy-and-lsm_config_system_policy-syscalls/20251010-213606
-base:   9c32cda43eb78f78c73aee4aa344b777714e259b
-patch link:    https://lore.kernel.org/r/20251010132610.12001-2-maxime.belair%40canonical.com
-patch subject: [PATCH v6 1/5] Wire up lsm_config_self_policy and lsm_config_system_policy syscalls
-config: sh-randconfig-001-20251011 (https://download.01.org/0day-ci/archive/20251011/202510111947.0ObJ6YUH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111947.0ObJ6YUH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/bpf-Allow-verifier-to-fixup-kernel-module-kfuncs/20251011-015144
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20251010174953.2884682-3-ameryhung%40gmail.com
+patch subject: [RFC PATCH v1 bpf-next 2/4] bpf: Support associating BPF program with struct_ops
+config: i386-buildonly-randconfig-004-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112055.riGV8zne-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112055.riGV8zne-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510111947.0ObJ6YUH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510112055.riGV8zne-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/umh.c:9:0:
->> include/linux/syscalls.h:994:45: error: expected ';', ',' or ')' before 'u32'
-              u32 __user size, u32 common_flags u32 flags);
-                                                ^~~
---
-   In file included from kernel/fork.c:56:0:
->> include/linux/syscalls.h:994:45: error: expected ';', ',' or ')' before 'u32'
-              u32 __user size, u32 common_flags u32 flags);
-                                                ^~~
-   kernel/fork.c: In function '__do_sys_clone3':
-   kernel/fork.c:3135:2: warning: #warning clone3() entry point is missing, please fix [-Wcpp]
-    #warning clone3() entry point is missing, please fix
-     ^~~~~~~
+   In file included from include/linux/security.h:35,
+                    from include/linux/perf_event.h:53,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:95,
+                    from include/linux/syscalls_api.h:1,
+                    from kernel/sched/sched.h:61,
+                    from kernel/sched/rq-offsets.c:5:
+   include/linux/bpf.h: In function 'bpf_struct_ops_assoc_prog':
+>> include/linux/bpf.h:2066:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+    2066 |         return -EOPNOTSUPP;
+         |                ^
+   include/linux/bpf.h:2064:20: note: declared here
+    2064 | static inline void bpf_struct_ops_assoc_prog(struct bpf_map *map, struct bpf_prog *prog)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1 shuffle=2700263361
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=2700263361
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2700263361
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2700263361
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +994 include/linux/syscalls.h
+vim +/return +2066 include/linux/bpf.h
 
-   817	
-   818	/* CONFIG_MMU only */
-   819	asmlinkage long sys_swapon(const char __user *specialfile, int swap_flags);
-   820	asmlinkage long sys_swapoff(const char __user *specialfile);
-   821	asmlinkage long sys_mprotect(unsigned long start, size_t len,
-   822					unsigned long prot);
-   823	asmlinkage long sys_msync(unsigned long start, size_t len, int flags);
-   824	asmlinkage long sys_mlock(unsigned long start, size_t len);
-   825	asmlinkage long sys_munlock(unsigned long start, size_t len);
-   826	asmlinkage long sys_mlockall(int flags);
-   827	asmlinkage long sys_munlockall(void);
-   828	asmlinkage long sys_mincore(unsigned long start, size_t len,
-   829					unsigned char __user * vec);
-   830	asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
-   831	asmlinkage long sys_process_madvise(int pidfd, const struct iovec __user *vec,
-   832				size_t vlen, int behavior, unsigned int flags);
-   833	asmlinkage long sys_process_mrelease(int pidfd, unsigned int flags);
-   834	asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
-   835				unsigned long prot, unsigned long pgoff,
-   836				unsigned long flags);
-   837	asmlinkage long sys_mseal(unsigned long start, size_t len, unsigned long flags);
-   838	asmlinkage long sys_mbind(unsigned long start, unsigned long len,
-   839					unsigned long mode,
-   840					const unsigned long __user *nmask,
-   841					unsigned long maxnode,
-   842					unsigned flags);
-   843	asmlinkage long sys_get_mempolicy(int __user *policy,
-   844					unsigned long __user *nmask,
-   845					unsigned long maxnode,
-   846					unsigned long addr, unsigned long flags);
-   847	asmlinkage long sys_set_mempolicy(int mode, const unsigned long __user *nmask,
-   848					unsigned long maxnode);
-   849	asmlinkage long sys_migrate_pages(pid_t pid, unsigned long maxnode,
-   850					const unsigned long __user *from,
-   851					const unsigned long __user *to);
-   852	asmlinkage long sys_move_pages(pid_t pid, unsigned long nr_pages,
-   853					const void __user * __user *pages,
-   854					const int __user *nodes,
-   855					int __user *status,
-   856					int flags);
-   857	asmlinkage long sys_rt_tgsigqueueinfo(pid_t tgid, pid_t  pid, int sig,
-   858			siginfo_t __user *uinfo);
-   859	asmlinkage long sys_perf_event_open(
-   860			struct perf_event_attr __user *attr_uptr,
-   861			pid_t pid, int cpu, int group_fd, unsigned long flags);
-   862	asmlinkage long sys_accept4(int, struct sockaddr __user *, int __user *, int);
-   863	asmlinkage long sys_recvmmsg(int fd, struct mmsghdr __user *msg,
-   864				     unsigned int vlen, unsigned flags,
-   865				     struct __kernel_timespec __user *timeout);
-   866	asmlinkage long sys_recvmmsg_time32(int fd, struct mmsghdr __user *msg,
-   867				     unsigned int vlen, unsigned flags,
-   868				     struct old_timespec32 __user *timeout);
-   869	asmlinkage long sys_wait4(pid_t pid, int __user *stat_addr,
-   870					int options, struct rusage __user *ru);
-   871	asmlinkage long sys_prlimit64(pid_t pid, unsigned int resource,
-   872					const struct rlimit64 __user *new_rlim,
-   873					struct rlimit64 __user *old_rlim);
-   874	asmlinkage long sys_fanotify_init(unsigned int flags, unsigned int event_f_flags);
-   875	#if defined(CONFIG_ARCH_SPLIT_ARG64)
-   876	asmlinkage long sys_fanotify_mark(int fanotify_fd, unsigned int flags,
-   877	                                unsigned int mask_1, unsigned int mask_2,
-   878					int dfd, const char  __user * pathname);
-   879	#else
-   880	asmlinkage long sys_fanotify_mark(int fanotify_fd, unsigned int flags,
-   881					  u64 mask, int fd,
-   882					  const char  __user *pathname);
-   883	#endif
-   884	asmlinkage long sys_name_to_handle_at(int dfd, const char __user *name,
-   885					      struct file_handle __user *handle,
-   886					      void __user *mnt_id, int flag);
-   887	asmlinkage long sys_open_by_handle_at(int mountdirfd,
-   888					      struct file_handle __user *handle,
-   889					      int flags);
-   890	asmlinkage long sys_clock_adjtime(clockid_t which_clock,
-   891					struct __kernel_timex __user *tx);
-   892	asmlinkage long sys_clock_adjtime32(clockid_t which_clock,
-   893					struct old_timex32 __user *tx);
-   894	asmlinkage long sys_syncfs(int fd);
-   895	asmlinkage long sys_setns(int fd, int nstype);
-   896	asmlinkage long sys_pidfd_open(pid_t pid, unsigned int flags);
-   897	asmlinkage long sys_sendmmsg(int fd, struct mmsghdr __user *msg,
-   898				     unsigned int vlen, unsigned flags);
-   899	asmlinkage long sys_process_vm_readv(pid_t pid,
-   900					     const struct iovec __user *lvec,
-   901					     unsigned long liovcnt,
-   902					     const struct iovec __user *rvec,
-   903					     unsigned long riovcnt,
-   904					     unsigned long flags);
-   905	asmlinkage long sys_process_vm_writev(pid_t pid,
-   906					      const struct iovec __user *lvec,
-   907					      unsigned long liovcnt,
-   908					      const struct iovec __user *rvec,
-   909					      unsigned long riovcnt,
-   910					      unsigned long flags);
-   911	asmlinkage long sys_kcmp(pid_t pid1, pid_t pid2, int type,
-   912				 unsigned long idx1, unsigned long idx2);
-   913	asmlinkage long sys_finit_module(int fd, const char __user *uargs, int flags);
-   914	asmlinkage long sys_sched_setattr(pid_t pid,
-   915						struct sched_attr __user *attr,
-   916						unsigned int flags);
-   917	asmlinkage long sys_sched_getattr(pid_t pid,
-   918						struct sched_attr __user *attr,
-   919						unsigned int size,
-   920						unsigned int flags);
-   921	asmlinkage long sys_renameat2(int olddfd, const char __user *oldname,
-   922				      int newdfd, const char __user *newname,
-   923				      unsigned int flags);
-   924	asmlinkage long sys_seccomp(unsigned int op, unsigned int flags,
-   925				    void __user *uargs);
-   926	asmlinkage long sys_getrandom(char __user *buf, size_t count,
-   927				      unsigned int flags);
-   928	asmlinkage long sys_memfd_create(const char __user *uname_ptr, unsigned int flags);
-   929	asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned int size);
-   930	asmlinkage long sys_execveat(int dfd, const char __user *filename,
-   931				const char __user *const __user *argv,
-   932				const char __user *const __user *envp, int flags);
-   933	asmlinkage long sys_userfaultfd(int flags);
-   934	asmlinkage long sys_membarrier(int cmd, unsigned int flags, int cpu_id);
-   935	asmlinkage long sys_mlock2(unsigned long start, size_t len, int flags);
-   936	asmlinkage long sys_copy_file_range(int fd_in, loff_t __user *off_in,
-   937					    int fd_out, loff_t __user *off_out,
-   938					    size_t len, unsigned int flags);
-   939	asmlinkage long sys_preadv2(unsigned long fd, const struct iovec __user *vec,
-   940				    unsigned long vlen, unsigned long pos_l, unsigned long pos_h,
-   941				    rwf_t flags);
-   942	asmlinkage long sys_pwritev2(unsigned long fd, const struct iovec __user *vec,
-   943				    unsigned long vlen, unsigned long pos_l, unsigned long pos_h,
-   944				    rwf_t flags);
-   945	asmlinkage long sys_pkey_mprotect(unsigned long start, size_t len,
-   946					  unsigned long prot, int pkey);
-   947	asmlinkage long sys_pkey_alloc(unsigned long flags, unsigned long init_val);
-   948	asmlinkage long sys_pkey_free(int pkey);
-   949	asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
-   950				  unsigned mask, struct statx __user *buffer);
-   951	asmlinkage long sys_rseq(struct rseq __user *rseq, uint32_t rseq_len,
-   952				 int flags, uint32_t sig);
-   953	asmlinkage long sys_open_tree(int dfd, const char __user *path, unsigned flags);
-   954	asmlinkage long sys_open_tree_attr(int dfd, const char __user *path,
-   955					   unsigned flags,
-   956					   struct mount_attr __user *uattr,
-   957					   size_t usize);
-   958	asmlinkage long sys_move_mount(int from_dfd, const char __user *from_path,
-   959				       int to_dfd, const char __user *to_path,
-   960				       unsigned int ms_flags);
-   961	asmlinkage long sys_mount_setattr(int dfd, const char __user *path,
-   962					  unsigned int flags,
-   963					  struct mount_attr __user *uattr, size_t usize);
-   964	asmlinkage long sys_fsopen(const char __user *fs_name, unsigned int flags);
-   965	asmlinkage long sys_fsconfig(int fs_fd, unsigned int cmd, const char __user *key,
-   966				     const void __user *value, int aux);
-   967	asmlinkage long sys_fsmount(int fs_fd, unsigned int flags, unsigned int ms_flags);
-   968	asmlinkage long sys_fspick(int dfd, const char __user *path, unsigned int flags);
-   969	asmlinkage long sys_pidfd_send_signal(int pidfd, int sig,
-   970					       siginfo_t __user *info,
-   971					       unsigned int flags);
-   972	asmlinkage long sys_pidfd_getfd(int pidfd, int fd, unsigned int flags);
-   973	asmlinkage long sys_landlock_create_ruleset(const struct landlock_ruleset_attr __user *attr,
-   974			size_t size, __u32 flags);
-   975	asmlinkage long sys_landlock_add_rule(int ruleset_fd, enum landlock_rule_type rule_type,
-   976			const void __user *rule_attr, __u32 flags);
-   977	asmlinkage long sys_landlock_restrict_self(int ruleset_fd, __u32 flags);
-   978	asmlinkage long sys_memfd_secret(unsigned int flags);
-   979	asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
-   980						    unsigned long home_node,
-   981						    unsigned long flags);
-   982	asmlinkage long sys_cachestat(unsigned int fd,
-   983			struct cachestat_range __user *cstat_range,
-   984			struct cachestat __user *cstat, unsigned int flags);
-   985	asmlinkage long sys_map_shadow_stack(unsigned long addr, unsigned long size, unsigned int flags);
-   986	asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx __user *ctx,
-   987					      u32 __user *size, u32 flags);
-   988	asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx __user *ctx,
-   989					      u32 size, u32 flags);
-   990	asmlinkage long sys_lsm_list_modules(u64 __user *ids, u32 __user *size, u32 flags);
-   991	asmlinkage long sys_lsm_config_self_policy(u32 lsm_id, u32 op, void __user *buf,
-   992						   u32 __user size, u32 common_flags, u32 flags);
-   993	asmlinkage long sys_lsm_config_system_policy(u32 lsm_id, u32 op, void __user *buf,
- > 994						     u32 __user size, u32 common_flags u32 flags);
-   995	
-   996	
+  2031	
+  2032	int bpf_struct_ops_test_run(struct bpf_prog *prog, const union bpf_attr *kattr,
+  2033				    union bpf_attr __user *uattr);
+  2034	#endif
+  2035	int bpf_struct_ops_desc_init(struct bpf_struct_ops_desc *st_ops_desc,
+  2036				     struct btf *btf,
+  2037				     struct bpf_verifier_log *log);
+  2038	void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map);
+  2039	void bpf_struct_ops_desc_release(struct bpf_struct_ops_desc *st_ops_desc);
+  2040	#else
+  2041	#define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+  2042	static inline bool bpf_try_module_get(const void *data, struct module *owner)
+  2043	{
+  2044		return try_module_get(owner);
+  2045	}
+  2046	static inline void bpf_module_put(const void *data, struct module *owner)
+  2047	{
+  2048		module_put(owner);
+  2049	}
+  2050	static inline int bpf_struct_ops_supported(const struct bpf_struct_ops *st_ops, u32 moff)
+  2051	{
+  2052		return -ENOTSUPP;
+  2053	}
+  2054	static inline int bpf_struct_ops_map_sys_lookup_elem(struct bpf_map *map,
+  2055							     void *key,
+  2056							     void *value)
+  2057	{
+  2058		return -EINVAL;
+  2059	}
+  2060	static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+  2061	{
+  2062		return -EOPNOTSUPP;
+  2063	}
+  2064	static inline void bpf_struct_ops_assoc_prog(struct bpf_map *map, struct bpf_prog *prog)
+  2065	{
+> 2066		return -EOPNOTSUPP;
+  2067	}
+  2068	static inline void bpf_struct_ops_disassoc_prog(struct bpf_prog *prog)
+  2069	{
+  2070	}
+  2071	static inline void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map)
+  2072	{
+  2073	}
+  2074	
 
 -- 
 0-DAY CI Kernel Test Service
