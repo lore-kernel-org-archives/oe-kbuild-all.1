@@ -1,120 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mail.bues.ch (bues.ch [116.203.120.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1BD265632;
-	Sat, 11 Oct 2025 12:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77954258ED5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 12:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.120.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760185863; cv=none; b=bCdZve3Zw3mGhg6HHjNxs1whUw/ihD5rfoI/UTaRUHo1KWc6G3kdPvwRzu4woWUERgUzyP7tMC9Kfzn51IMszPH1QKjc9WLb78HMqmPsZozAh2noNnFCcUXRM/5DQz2UexGpz2pg90vkSwJWHxtDnRdrirvkjTnnBFlvj6wDSb8=
+	t=1760185961; cv=none; b=gH6JixMKgCgesTbZxjiqOy35H6bf1l4bvj3bItkMLpKzNSKvLKp9CFzgOerUgziv71JV+jFd5fL0sVX+yeSeS8Qb9ZtY9isigWvro9HLg5H1lD6YtKXnZ7cKSPXmLLcZoD/JFzNrRBLDrO8wl4sp5OeHdEhQrowpa3cRsgfCcKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760185863; c=relaxed/simple;
-	bh=+5QbXJmrqOQWnNS40XIOD6gLT2026MGFYlD4O21zUGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UZmeyWIU91Jimef9vDfP6Kz28VO7MoYU07vkqDzCeKqT4aZirxgFjj7to7+SzXZtLCBvwtzTnt15y2Dml5HkfJ1PJQDIpuLcF3BahIH4w2qEheeJ2rqRSd5Jn990OYr/tbcpKPkYGhmkRsRHCCEESBKICGYg6lmRF30nAdf/hR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=meaK4HYk; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760185961; c=relaxed/simple;
+	bh=cCZ2p70/kuhMxhzeBgdAjjrySpX5QKPNMe6h3cPolwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Cao+d6SlRiv+7nexhWA9Jdl/po35QbPAvTgI86nLYsN7HPO4kFLQmjuq4HLYgbR/5fA2SA48pR5pggrL6PzZ22qIHSyk4bf4s5ETzRRdqkcrHF+3jFfUzRGBglafp0BBBKEp/4lrWSdkBwFDcSePfRwkzSBfpEvSBUeMDCboY1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bues.ch; spf=pass smtp.mailfrom=bues.ch; dkim=pass (2048-bit key) header.d=bues.ch header.i=@bues.ch header.b=I1NSls5o; arc=none smtp.client-ip=116.203.120.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bues.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bues.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="meaK4HYk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760185858; x=1791721858;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+5QbXJmrqOQWnNS40XIOD6gLT2026MGFYlD4O21zUGw=;
-  b=meaK4HYkKLdFnqTlwUAaCLMoIPAi38bFnCLhqzq/dHK4eZMiDw5Hr09C
-   c3e2KidxPrTnIp6ENSgFmBfB1fUdkb4I8KnntDfbqn3BXB2dovd++9OvR
-   aZF6E9bfZ6h/tBn9cHGMGH1VFvDr+CCZC5lwWYhrxErGCmizqTDuG1bdA
-   vcTti5nK2gc28bmdUVDWnEF0r4vGvfTjAU2S2juiTWpECa2wm8lMxFS9y
-   J2Xr/1u5LwfkO88tt0zdRYLQZ+lypOMaNFhdO0FAGFTNE0Rv2ZDHzgoau
-   XQIs3SPh58P0zcEXzTQp1fyasOJzppSmu5OUEs/rMED4Red/7sV56gdcp
-   g==;
-X-CSE-ConnectionGUID: BH5vsHr0S/2chgx5neHm2A==
-X-CSE-MsgGUID: T/drKHMHQdqCZsfAhtgD+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="61418155"
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="61418155"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 05:30:53 -0700
-X-CSE-ConnectionGUID: dMQ+HE9YRrSjSm34ASJdIQ==
-X-CSE-MsgGUID: oG/tLOyHTha7Xb8Df8SeEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="181957155"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Oct 2025 05:30:51 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7YkL-0003lS-1k;
-	Sat, 11 Oct 2025 12:30:49 +0000
-Date: Sat, 11 Oct 2025 20:30:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/rv-reactor-signal 3/9]
- kernel/trace/rv/monitors/sleep/sleep.c:219:26: error: static declaration of
- 'rv_sleep' follows non-static declaration
-Message-ID: <202510112012.OM38qh6e-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bues.ch header.i=@bues.ch header.b="I1NSls5o"
+Date: Sat, 11 Oct 2025 14:31:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bues.ch; s=main;
+	t=1760185954;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCZ2p70/kuhMxhzeBgdAjjrySpX5QKPNMe6h3cPolwQ=;
+	b=I1NSls5oM8nZzFMOyPmVXLTyGAjQIXXk2+7lU816eccn9OobZkkGMjpq8cGvollGMclCSJ
+	1d+IjooZkemxjnqYH1rDdewUgoOR73OmulRQ6rHQFjD0V4Xw5VR2TgsFSLHQSf/DT7WhAL
+	qMnkmhddqX4ybkcj3cEMwmokOUvt2R08islz39hmHJwcCa5HlJDwNVhYRjw+7yE+gYkXmv
+	9R4P2Xasyo8nt50qgtDxhy9xk/4H1gsHPSN/zKPJor0K8u4HuHtM4f4uOfW3wOSBzwIKBI
+	0ciyK/oX7jSI12b+5bTOKePq+tEHsQFr5G98LduVDVwLYCyopS2ii6BXgZokow==
+From: Michael =?UTF-8?B?QsO8c2No?= <mb@bues.ch>
+To: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Bjorn
+ Helgaas <helgaas@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] driver: gpio-bt8xx: use generic PCI PM
+Message-ID: <20251011143123.094043ed@barney>
+In-Reply-To: <aOpAO7j0Uyo6FPcu@gmail.com>
+References: <20251010105338.664564-1-vaibhavgupta40@gmail.com>
+ <202510110924.dUQeeRV6-lkp@intel.com>
+ <20251011122612.4fa7c97a@barney>
+ <aOpAO7j0Uyo6FPcu@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/W.N9qOOrmDnZC9J+c1/PHb=";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/rv-reactor-signal
-head:   5f1e83d0ead9b8fc09102bea3ac5c9c87daeb8a9
-commit: 2efa5e94593e45e512dfc2e6429f93c98e69479b [3/9] rv: Pass va_list to reactors
-config: x86_64-randconfig-008-20251011 (https://download.01.org/0day-ci/archive/20251011/202510112012.OM38qh6e-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112012.OM38qh6e-lkp@intel.com/reproduce)
+--Sig_/W.N9qOOrmDnZC9J+c1/PHb=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510112012.OM38qh6e-lkp@intel.com/
+On Sat, 11 Oct 2025 11:32:11 +0000
+Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
 
-All errors (new ones prefixed by >>):
-
->> kernel/trace/rv/monitors/sleep/sleep.c:219:26: error: static declaration of 'rv_sleep' follows non-static declaration
-     219 | static struct rv_monitor rv_sleep = {
-         |                          ^
-   include/rv/ltl_monitor.h:24:26: note: previous declaration is here
-      24 | extern struct rv_monitor RV_MONITOR_NAME;
-         |                          ^
-   include/rv/ltl_monitor.h:19:25: note: expanded from macro 'RV_MONITOR_NAME'
-      19 | #define RV_MONITOR_NAME CONCATENATE(rv_, MONITOR_NAME)
-         |                         ^
-   include/linux/args.h:26:27: note: expanded from macro 'CONCATENATE'
-      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
-         |                           ^
-   include/linux/args.h:25:24: note: expanded from macro '__CONCAT'
-      25 | #define __CONCAT(a, b) a ## b
-         |                        ^
-   <scratch space>:94:1: note: expanded from here
-      94 | rv_sleep
-         | ^
-   1 error generated.
+> > It looks like the
+> > #ifdef CONFIG_PM
+> > must be removed from struct bt8xxgpio definition.
+> Ah yes, this macro somehow got overlooked by me. I will send a v2.
+> Thanks for the review!
 
 
-vim +/rv_sleep +219 kernel/trace/rv/monitors/sleep/sleep.c
+Also, the SIMPLE_DEV_PM_OPS macro seems to be deprecated in favour of DEFIN=
+E_SIMPLE_DEV_PM_OPS.
 
-f74f8bb246cf22 Nam Cao 2025-07-09  218  
-f74f8bb246cf22 Nam Cao 2025-07-09 @219  static struct rv_monitor rv_sleep = {
-f74f8bb246cf22 Nam Cao 2025-07-09  220  	.name = "sleep",
-f74f8bb246cf22 Nam Cao 2025-07-09  221  	.description = "Monitor that RT tasks do not undesirably sleep",
-f74f8bb246cf22 Nam Cao 2025-07-09  222  	.enable = enable_sleep,
-f74f8bb246cf22 Nam Cao 2025-07-09  223  	.disable = disable_sleep,
-f74f8bb246cf22 Nam Cao 2025-07-09  224  };
-f74f8bb246cf22 Nam Cao 2025-07-09  225  
+And please do a compile test when submitting v2. Thanks :)
 
-:::::: The code at line 219 was first introduced by commit
-:::::: f74f8bb246cf22f27752977da62079cb615f55b2 rv: Add rtapp_sleep monitor
+--=20
+Michael B=C3=BCsch
+https://bues.ch/
 
-:::::: TO: Nam Cao <namcao@linutronix.de>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+--Sig_/W.N9qOOrmDnZC9J+c1/PHb=
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEihRzkKVZOnT2ipsS9TK+HZCNiw4FAmjqThsACgkQ9TK+HZCN
+iw5Ljw/9HBplmVLY/YRlv5s5tOEBqGO8FdnzZ99Fhitq16jKo1lwpJA1HXPzSjBq
+Ga3jD67cPBtI/YRmwpi2oQq8+4kV4UKdOKoXrnOvfXvYrRgqNNjIT0FAs74jOpAL
+C4ggQKmV5Tit6VpqsQ23WTP0vF994PbVk/bE83WtZ2qpKpw645C+vNJJX89ir4ln
+0ZSurc47ID10WJkDcMoitsakPKimr7CMLYk9OfFDRJpNPW59AOp8P0tT3QlJNejX
+paUuponVs+/vhmhZoP1QLc+Ttl0w6FvcTahDYPbTMnkswRVT2DM467lm/0vIZBOu
+1t2qYxlJaIThUV57gv7lMGPMCGLAYXUvyPoWuQI4FRRkPIN+UqCMwn61+CWLSK6c
+hEQ7XQqKHA9BVHfReE1XghnK6OAZVMdhFABt7hhpfvRk68nSZkq1voSlQrBgNaGI
+8yIa5cFmJR2GeKnBObzzTGol6E+usROKKyzspUTmK30HzYBQXHQTl5CmfpeWGVGM
+dfBoBCG1k1XkG8vqF5Wn93KWN318y4j/cLRH6lh/sxAUOH+JHmdAOMXjTo9OPsYo
+8bVkYcX8JdlYym0JVkOMLUTEBHfOx/znGAIC3EiOTHgHdAfkxsjguhzo749D+Sw1
+cA8nF6yo3sJXJKL9mR7NR+w35sjT+kQwAcglNbpnoKJ9MDTWlEo=
+=fNvI
+-----END PGP SIGNATURE-----
+
+--Sig_/W.N9qOOrmDnZC9J+c1/PHb=--
