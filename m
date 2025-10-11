@@ -1,64 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA6929CE1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 00:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4A5C13B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 01:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760143852; cv=none; b=OGpIEEgMXiYsOm3GPa6vrH+n2YlSFkDJcq0QFjVDrqhUKWC2n2n+87CuUbgyZO5Z3zufk+XRDVmX2Iz6gblDvAxihH8VI/JyW2FkFe5uFCy4nAXv85os+ZVtA4UsLsGDqrwk0riMYGV56tmZS2De/8+cuqZ+zY+7xof24xBydN8=
+	t=1760144512; cv=none; b=ksS3/X5ZElL4U8ERlRXl+6eg+rVILqvWvbrsw1twGHNeuECNAI+3W9Cg+1w9U+FArxHKYN3ZgIWiJur5iAsudFV3zPJ3LLxt5aFacBM/7R8tWzAuv9O29tfH+9wrz/MbFr5PjbIXgB5op7uPg+WXZ0GYS50yymEl4m7ayM2fsiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760143852; c=relaxed/simple;
-	bh=9mgsASjVFIeADDVrI9fvFoRPP0l3FSfJJNlhNk/Q2lY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f8MmPCle69wOpCRvP2NKGYjR7TZnDZSzBICcdLbykPzWwL1Wp6+LO9sOf9CJvn33911SeeWNMbMvsiK727EnWOeu/tVO46n4c4ustAvPX4fJmj8QAUMMpLExKs/Ii32oeeozZBWoQvArdnolm+uNy1/FLVeh83WzsOJekrgV3P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEeqoph7; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1760144512; c=relaxed/simple;
+	bh=X45PYNWvTZfKbTqrcftHywr2cc73JxyM+hYoem6N2g8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f8gjKHAY3Zc6UgQ0OeQgE5ZSKGsoXob0W3AdqMy/Mef7cIUne/QydnPMicAZCSJULX4/ES/drRmPtRY9qJYxpoyx8jYqcBm+OQhdoQzZU/xzYQPu5Z+Eapw0V6IjO5oGFwP0vGA8glqqTJ+vUxelLdC/okls38wojmzJDr9mTsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DldtCHCK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEeqoph7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DldtCHCK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760143851; x=1791679851;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9mgsASjVFIeADDVrI9fvFoRPP0l3FSfJJNlhNk/Q2lY=;
-  b=XEeqoph7gRAkA4rrZXR3jJnqF6on56XjUr9bKB/kuDbnbknQ86IHfIfv
-   FIdbXENInCIb/9vM8rbK/nHC9EBAP1f0pj51ap0E5EZEuH45ISVV8T6TZ
-   bRBs3+IqK31nrl5EUKYHozi7amTKIjJs4EhHo5J/CHY2AqxzlPM4K//tp
-   TO/IhP819iuhDqoia+r2FaVOaRq0hRhODagxnwZcIGUva0Er8kzW7Vxj9
-   3Gz2qkxLcFmlsOM21iPYBWaP8tve+uJY872QcAnGiAiRKLkdMcBi64UB2
-   u6m1Vzyf9uMgUwOMg4Dsk8SbG2sI4ljdVfMH06Xt2XH31oLv8lpaquu8h
-   g==;
-X-CSE-ConnectionGUID: jR0oamjqSDWJogXDIUvg7A==
-X-CSE-MsgGUID: jve9NylwQqKZR0y0ex1PXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66194857"
+  t=1760144511; x=1791680511;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X45PYNWvTZfKbTqrcftHywr2cc73JxyM+hYoem6N2g8=;
+  b=DldtCHCK2F5OigYUTYOBG2PIcWA0KufOa2TGVcUOC3R5MTbefrLdaiHh
+   /9gKXLD1Do7UGrn3UphMk1fmBY9NZk7wiuUloqKOAsvgUNZXCmDS42bsa
+   0jg29URlsrg0OlxFVgTZaWv3C8UD2rf8DcW7p9ei0RdHywTsFgxebiYQK
+   wkxogsuTeXJG6xNCBw+4v4plLq1DzA/kLJSoP+8TkSHCmd8WzPv3n1/qi
+   0/1i9rkDVmWikmxhgG3gu0Kgz5E+/EtaZW1OQfbSf6PZL9csvp0c3PmgM
+   ZWym9ws7oKkje4NPA9ZUHMKoIPRHrsbg9krkM9fMSTBKN6CIGOr5xUllt
+   Q==;
+X-CSE-ConnectionGUID: KERLI8CyThW0lEiNnLKtOw==
+X-CSE-MsgGUID: 1qBwIUSsS8eArvgz0kmmLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66195378"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="66194857"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 17:50:50 -0700
-X-CSE-ConnectionGUID: XAAY603OTAq3vXDWwrrrVg==
-X-CSE-MsgGUID: j9ZDNPDASAWyNKWZhItqmg==
+   d="scan'208";a="66195378"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 18:01:50 -0700
+X-CSE-ConnectionGUID: zgRSAnNkTrKSNQGLODRX7Q==
+X-CSE-MsgGUID: mdc0tqTkR5W3u6AM8isQwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="181529200"
+   d="scan'208";a="186222885"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Oct 2025 17:50:46 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Oct 2025 18:01:49 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7Noq-0003LT-2A;
-	Sat, 11 Oct 2025 00:50:44 +0000
-Date: Sat, 11 Oct 2025 08:50:20 +0800
+	id 1v7NzW-0003M5-16;
+	Sat, 11 Oct 2025 01:01:46 +0000
+Date: Sat, 11 Oct 2025 09:00:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, acsjakub@amazon.de
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	axelrasmussen@google.com, chengming.zhou@linux.dev,
-	david@redhat.com, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, peterx@redhat.com,
-	xu.xin16@zte.com.cn, rust-for-linux@vger.kernel.org,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH] mm: use enum for vm_flags
-Message-ID: <202510110850.4VXzbsF7-lkp@intel.com>
-References: <20251007162136.1885546-1-aliceryhl@google.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:master 466/534] fs/bcachefs/vfs/fs.c:1025:1:
+ warning: the frame size of 1368 bytes is larger than 1280 bytes
+Message-ID: <202510110850.SyeNqtuM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,133 +61,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251007162136.1885546-1-aliceryhl@google.com>
 
-Hi Alice,
+Hi Kent,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/mm-use-enum-for-vm_flags/20251010-095004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251007162136.1885546-1-aliceryhl%40google.com
-patch subject: [PATCH] mm: use enum for vm_flags
-config: powerpc64-randconfig-r111-20251011 (https://download.01.org/0day-ci/archive/20251011/202510110850.4VXzbsF7-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110850.4VXzbsF7-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs master
+head:   9a59939e496692bfa0e4cd6e7b8f79d416c49f72
+commit: 8ff2ecbdf502cca297f1f2f318d40f294d9edbe7 [466/534] bcachefs: move vfs-specific code to vfs/
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251011/202510110850.SyeNqtuM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510110850.SyeNqtuM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510110850.4VXzbsF7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510110850.SyeNqtuM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/proc/task_mmu.c:1184:5: sparse: sparse: undefined preprocessor identifier 'VM_HIGH_ARCH_3'
->> fs/proc/task_mmu.c:1187:5: sparse: sparse: undefined preprocessor identifier 'VM_HIGH_ARCH_4'
-   fs/proc/task_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'proc_get_vma' - unexpected unlock
-   fs/proc/task_mmu.c:309:9: sparse: sparse: context imbalance in 'm_start' - different lock contexts for basic block
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'm_stop' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +/VM_HIGH_ARCH_3 +1184 fs/proc/task_mmu.c
+   fs/bcachefs/vfs/fs.c: In function 'bch2_rename2':
+>> fs/bcachefs/vfs/fs.c:1025:1: warning: the frame size of 1368 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    1025 | }
+         | ^
 
-e070ad49f31155 Mauricio Lin       2005-09-03  1120  
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1121  static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1122  {
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1123  	/*
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1124  	 * Don't forget to update Documentation/ on changes.
-5778ace04e6f07 Brahmajit Das      2024-10-05  1125  	 *
-5778ace04e6f07 Brahmajit Das      2024-10-05  1126  	 * The length of the second argument of mnemonics[]
-5778ace04e6f07 Brahmajit Das      2024-10-05  1127  	 * needs to be 3 instead of previously set 2
-5778ace04e6f07 Brahmajit Das      2024-10-05  1128  	 * (i.e. from [BITS_PER_LONG][2] to [BITS_PER_LONG][3])
-5778ace04e6f07 Brahmajit Das      2024-10-05  1129  	 * to avoid spurious
-5778ace04e6f07 Brahmajit Das      2024-10-05  1130  	 * -Werror=unterminated-string-initialization warning
-5778ace04e6f07 Brahmajit Das      2024-10-05  1131  	 *  with GCC 15
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1132  	 */
-5778ace04e6f07 Brahmajit Das      2024-10-05  1133  	static const char mnemonics[BITS_PER_LONG][3] = {
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1134  		/*
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1135  		 * In case if we meet a flag we don't know about.
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1136  		 */
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1137  		[0 ... (BITS_PER_LONG-1)] = "??",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1138  
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1139  		[ilog2(VM_READ)]	= "rd",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1140  		[ilog2(VM_WRITE)]	= "wr",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1141  		[ilog2(VM_EXEC)]	= "ex",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1142  		[ilog2(VM_SHARED)]	= "sh",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1143  		[ilog2(VM_MAYREAD)]	= "mr",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1144  		[ilog2(VM_MAYWRITE)]	= "mw",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1145  		[ilog2(VM_MAYEXEC)]	= "me",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1146  		[ilog2(VM_MAYSHARE)]	= "ms",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1147  		[ilog2(VM_GROWSDOWN)]	= "gd",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1148  		[ilog2(VM_PFNMAP)]	= "pf",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1149  		[ilog2(VM_LOCKED)]	= "lo",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1150  		[ilog2(VM_IO)]		= "io",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1151  		[ilog2(VM_SEQ_READ)]	= "sr",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1152  		[ilog2(VM_RAND_READ)]	= "rr",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1153  		[ilog2(VM_DONTCOPY)]	= "dc",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1154  		[ilog2(VM_DONTEXPAND)]	= "de",
-8614d6c5eda005 Jason A. Donenfeld 2022-12-05  1155  		[ilog2(VM_LOCKONFAULT)]	= "lf",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1156  		[ilog2(VM_ACCOUNT)]	= "ac",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1157  		[ilog2(VM_NORESERVE)]	= "nr",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1158  		[ilog2(VM_HUGETLB)]	= "ht",
-b6fb293f2497a9 Jan Kara           2017-11-01  1159  		[ilog2(VM_SYNC)]	= "sf",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1160  		[ilog2(VM_ARCH_1)]	= "ar",
-d2cd9ede6e193d Rik van Riel       2017-09-06  1161  		[ilog2(VM_WIPEONFORK)]	= "wf",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1162  		[ilog2(VM_DONTDUMP)]	= "dd",
-424037b77519d1 Daniel Kiss        2020-03-16  1163  #ifdef CONFIG_ARM64_BTI
-424037b77519d1 Daniel Kiss        2020-03-16  1164  		[ilog2(VM_ARM64_BTI)]	= "bt",
-424037b77519d1 Daniel Kiss        2020-03-16  1165  #endif
-ec8e41aec13005 Naoya Horiguchi    2013-11-12  1166  #ifdef CONFIG_MEM_SOFT_DIRTY
-ec8e41aec13005 Naoya Horiguchi    2013-11-12  1167  		[ilog2(VM_SOFTDIRTY)]	= "sd",
-ec8e41aec13005 Naoya Horiguchi    2013-11-12  1168  #endif
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1169  		[ilog2(VM_MIXEDMAP)]	= "mm",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1170  		[ilog2(VM_HUGEPAGE)]	= "hg",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1171  		[ilog2(VM_NOHUGEPAGE)]	= "nh",
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1172  		[ilog2(VM_MERGEABLE)]	= "mg",
-16ba6f811dfe44 Andrea Arcangeli   2015-09-04  1173  		[ilog2(VM_UFFD_MISSING)]= "um",
-16ba6f811dfe44 Andrea Arcangeli   2015-09-04  1174  		[ilog2(VM_UFFD_WP)]	= "uw",
-9f3419315f3cdc Catalin Marinas    2019-11-27  1175  #ifdef CONFIG_ARM64_MTE
-9f3419315f3cdc Catalin Marinas    2019-11-27  1176  		[ilog2(VM_MTE)]		= "mt",
-9f3419315f3cdc Catalin Marinas    2019-11-27  1177  		[ilog2(VM_MTE_ALLOWED)]	= "",
-9f3419315f3cdc Catalin Marinas    2019-11-27  1178  #endif
-5212213aa5a235 Ram Pai            2018-03-27  1179  #ifdef CONFIG_ARCH_HAS_PKEYS
-c1192f84284146 Dave Hansen        2016-02-12  1180  		/* These come out via ProtectionKey: */
-c1192f84284146 Dave Hansen        2016-02-12  1181  		[ilog2(VM_PKEY_BIT0)]	= "",
-c1192f84284146 Dave Hansen        2016-02-12  1182  		[ilog2(VM_PKEY_BIT1)]	= "",
-c1192f84284146 Dave Hansen        2016-02-12  1183  		[ilog2(VM_PKEY_BIT2)]	= "",
-9f82f15ddfdd60 Joey Gouly         2024-08-22 @1184  #if VM_PKEY_BIT3
-c1192f84284146 Dave Hansen        2016-02-12  1185  		[ilog2(VM_PKEY_BIT3)]	= "",
-9f82f15ddfdd60 Joey Gouly         2024-08-22  1186  #endif
-2c9e0a6fa2bb75 Ram Pai            2018-03-27 @1187  #if VM_PKEY_BIT4
-2c9e0a6fa2bb75 Ram Pai            2018-03-27  1188  		[ilog2(VM_PKEY_BIT4)]	= "",
-c1192f84284146 Dave Hansen        2016-02-12  1189  #endif
-5212213aa5a235 Ram Pai            2018-03-27  1190  #endif /* CONFIG_ARCH_HAS_PKEYS */
-7677f7fd8be766 Axel Rasmussen     2021-05-04  1191  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
-7677f7fd8be766 Axel Rasmussen     2021-05-04  1192  		[ilog2(VM_UFFD_MINOR)]	= "ui",
-7677f7fd8be766 Axel Rasmussen     2021-05-04  1193  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
-bcc9d04e749a8c Mark Brown         2024-10-01  1194  #ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
-54007f818206dc Yu-cheng Yu        2023-06-12  1195  		[ilog2(VM_SHADOW_STACK)] = "ss",
-399ab86ea55039 Jeff Xu            2024-06-14  1196  #endif
-d175ee98fe545d Christophe Leroy   2024-09-02  1197  #if defined(CONFIG_64BIT) || defined(CONFIG_PPC32)
-9651fcedf7b92d Jason A. Donenfeld 2022-12-08  1198  		[ilog2(VM_DROPPABLE)] = "dp",
-d175ee98fe545d Christophe Leroy   2024-09-02  1199  #endif
-d175ee98fe545d Christophe Leroy   2024-09-02  1200  #ifdef CONFIG_64BIT
-399ab86ea55039 Jeff Xu            2024-06-14  1201  		[ilog2(VM_SEALED)] = "sl",
-54007f818206dc Yu-cheng Yu        2023-06-12  1202  #endif
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1203  	};
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1204  	size_t i;
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1205  
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1206  	seq_puts(m, "VmFlags: ");
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1207  	for (i = 0; i < BITS_PER_LONG; i++) {
-c1192f84284146 Dave Hansen        2016-02-12  1208  		if (!mnemonics[i][0])
-c1192f84284146 Dave Hansen        2016-02-12  1209  			continue;
-5778ace04e6f07 Brahmajit Das      2024-10-05  1210  		if (vma->vm_flags & (1UL << i))
-5778ace04e6f07 Brahmajit Das      2024-10-05  1211  			seq_printf(m, "%s ", mnemonics[i]);
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1212  	}
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1213  	seq_putc(m, '\n');
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1214  }
-834f82e2aa9a8e Cyrill Gorcunov    2012-12-17  1215  
+
+vim +1025 fs/bcachefs/vfs/fs.c
+
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   886  
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   887  static int bch2_rename2(struct mnt_idmap *idmap,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   888  			struct inode *src_vdir, struct dentry *src_dentry,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   889  			struct inode *dst_vdir, struct dentry *dst_dentry,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   890  			unsigned flags)
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   891  {
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   892  	struct bch_fs *c = src_vdir->i_sb->s_fs_info;
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   893  	struct bch_inode_info *src_dir = to_bch_ei(src_vdir);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   894  	struct bch_inode_info *dst_dir = to_bch_ei(dst_vdir);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   895  	struct bch_inode_info *src_inode = to_bch_ei(src_dentry->d_inode);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   896  	struct bch_inode_info *dst_inode = to_bch_ei(dst_dentry->d_inode);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   897  	struct bch_inode_unpacked dst_dir_u, src_dir_u;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   898  	struct bch_inode_unpacked src_inode_u, dst_inode_u, *whiteout_inode_u;
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   899  	enum bch_rename_mode mode = flags & RENAME_EXCHANGE
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   900  		? BCH_RENAME_EXCHANGE
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   901  		: dst_dentry->d_inode
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   902  		? BCH_RENAME_OVERWRITE : BCH_RENAME;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   903  	bool whiteout = !!(flags & RENAME_WHITEOUT);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   904  	int ret;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   905  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   906  	if (flags & ~(RENAME_NOREPLACE|RENAME_EXCHANGE|RENAME_WHITEOUT))
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   907  		return -EINVAL;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   908  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   909  	if (mode == BCH_RENAME_OVERWRITE) {
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   910  		ret = filemap_write_and_wait_range(src_inode->v.i_mapping,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   911  						   0, LLONG_MAX);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   912  		if (ret)
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   913  			return ret;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   914  	}
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   915  
+168f4c5fb375131 fs/bcachefs/fs.c Kent Overstreet   2019-06-24   916  	bch2_lock_inodes(INODE_UPDATE_LOCK,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   917  			 src_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   918  			 dst_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   919  			 src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   920  			 dst_inode);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   921  
+999ab9fb206f604 fs/bcachefs/fs.c Kent Overstreet   2025-07-14   922  	CLASS(btree_trans, trans)(c);
+f369de82679f4f7 fs/bcachefs/fs.c Kent Overstreet   2024-07-04   923  
+112d21fd1a122f7 fs/bcachefs/fs.c Kent Overstreet   2024-06-08   924  	ret   = bch2_subvol_is_ro_trans(trans, src_dir->ei_inum.subvol) ?:
+112d21fd1a122f7 fs/bcachefs/fs.c Kent Overstreet   2024-06-08   925  		bch2_subvol_is_ro_trans(trans, dst_dir->ei_inum.subvol);
+0d72ab35a925d66 fs/bcachefs/fs.c Kent Overstreet   2023-12-29   926  	if (ret)
+74ec2f302402c4c fs/bcachefs/fs.c Kent Overstreet   2024-10-14   927  		goto err_tx_restart;
+0d72ab35a925d66 fs/bcachefs/fs.c Kent Overstreet   2023-12-29   928  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   929  	if (inode_attr_changing(dst_dir, src_inode, Inode_opt_project)) {
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   930  		ret = bch2_fs_quota_transfer(c, src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   931  					     dst_dir->ei_qid,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   932  					     1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   933  					     KEY_TYPE_QUOTA_PREALLOC);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   934  		if (ret)
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   935  			goto err;
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   936  	}
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   937  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   938  	if (mode == BCH_RENAME_EXCHANGE &&
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   939  	    inode_attr_changing(src_dir, dst_inode, Inode_opt_project)) {
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   940  		ret = bch2_fs_quota_transfer(c, dst_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   941  					     src_dir->ei_qid,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   942  					     1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   943  					     KEY_TYPE_QUOTA_PREALLOC);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   944  		if (ret)
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   945  			goto err;
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   946  	}
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   947  retry:
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   948  	bch2_trans_begin(trans);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   949  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   950  	ret = bch2_rename_trans(trans,
+6fed42bb7750e21 fs/bcachefs/fs.c Kent Overstreet   2021-03-16   951  				inode_inum(src_dir), &src_dir_u,
+6fed42bb7750e21 fs/bcachefs/fs.c Kent Overstreet   2021-03-16   952  				inode_inum(dst_dir), &dst_dir_u,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   953  				&src_inode_u,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   954  				&dst_inode_u,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   955  				&src_dentry->d_name,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   956  				&dst_dentry->d_name,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   957  				mode);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   958  	if (unlikely(ret))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   959  		goto err_tx_restart;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   960  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   961  	if (whiteout) {
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   962  		whiteout_inode_u = bch2_trans_kmalloc_nomemzero(trans, sizeof(*whiteout_inode_u));
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   963  		ret = PTR_ERR_OR_ZERO(whiteout_inode_u);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   964  		if (unlikely(ret))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   965  			goto err_tx_restart;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   966  		bch2_inode_init_early(c, whiteout_inode_u);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   967  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   968  		ret = bch2_create_trans(trans,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   969  					inode_inum(src_dir), &src_dir_u,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   970  					whiteout_inode_u,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   971  					&src_dentry->d_name,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   972  					from_kuid(i_user_ns(&src_dir->v), current_fsuid()),
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   973  					from_kgid(i_user_ns(&src_dir->v), current_fsgid()),
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   974  					S_IFCHR|WHITEOUT_MODE, 0,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   975  					NULL, NULL, (subvol_inum) { 0 }, 0) ?:
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   976  		      bch2_quota_acct(c, bch_qid(whiteout_inode_u), Q_INO, 1,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   977  				      KEY_TYPE_QUOTA_PREALLOC);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   978  		if (unlikely(ret))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   979  			goto err_tx_restart;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   980  	}
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   981  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   982  	ret = bch2_trans_commit(trans, NULL, NULL, 0);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   983  	if (unlikely(ret)) {
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   984  err_tx_restart:
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   985  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   986  			goto retry;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   987  		goto err;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   988  	}
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   989  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   990  	BUG_ON(src_inode->v.i_ino != src_inode_u.bi_inum);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   991  	BUG_ON(dst_inode &&
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   992  	       dst_inode->v.i_ino != dst_inode_u.bi_inum);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   993  
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12   994  	bch2_inode_update_after_write(trans, src_dir, &src_dir_u,
+e614a6c52d32c9c fs/bcachefs/fs.c Hongbo Li         2025-01-07   995  				      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   996  
+68a2054d88f7cd2 fs/bcachefs/fs.c Kent Overstreet   2021-11-05   997  	if (src_dir != dst_dir)
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12   998  		bch2_inode_update_after_write(trans, dst_dir, &dst_dir_u,
+e614a6c52d32c9c fs/bcachefs/fs.c Hongbo Li         2025-01-07   999  					      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1000  
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12  1001  	bch2_inode_update_after_write(trans, src_inode, &src_inode_u,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1002  				      ATTR_CTIME);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1003  
+68a2054d88f7cd2 fs/bcachefs/fs.c Kent Overstreet   2021-11-05  1004  	if (dst_inode)
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12  1005  		bch2_inode_update_after_write(trans, dst_inode, &dst_inode_u,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1006  					      ATTR_CTIME);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1007  err:
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1008  	bch2_fs_quota_transfer(c, src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1009  			       bch_qid(&src_inode->ei_inode),
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1010  			       1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1011  			       KEY_TYPE_QUOTA_NOCHECK);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1012  	if (dst_inode)
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1013  		bch2_fs_quota_transfer(c, dst_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1014  				       bch_qid(&dst_inode->ei_inode),
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1015  				       1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1016  				       KEY_TYPE_QUOTA_NOCHECK);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1017  
+168f4c5fb375131 fs/bcachefs/fs.c Kent Overstreet   2019-06-24  1018  	bch2_unlock_inodes(INODE_UPDATE_LOCK,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1019  			   src_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1020  			   dst_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1021  			   src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1022  			   dst_inode);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1023  
+1a1c93e7f814174 fs/bcachefs/fs.c Kent Overstreet   2024-02-09  1024  	return bch2_err_class(ret);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16 @1025  }
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1026  
+
+:::::: The code at line 1025 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
