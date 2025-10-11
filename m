@@ -1,155 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9633D6F;
-	Sat, 11 Oct 2025 05:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666132147E6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Oct 2025 06:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760160803; cv=none; b=pGzFQBKQu9ILqiEy1i8eVbuyVZ/Oegxvoj6URKU/QoZ/WF8YtAV3hJTDzB0k1PMKkBdfHxhoOgPYbH9dbFBpuUDAqDCtcwxbxGbmpEVVBrD8u+F8kk2qkZHM69ZN9zex/n1QfJ/OpLemCF3mMh86M6XjjT6a0U0jMyA12vlLFO4=
+	t=1760164722; cv=none; b=PRGb9Hi3RFF8F5RiPSCLsczQlS+YsWXxW5Iv9MJY9BbCFtV0YTfsOxj4DX4895YcUGVJVgZtD+CEIyagDUjTodD/TYFN1uoyXp6sMPJl0vdMyry6po7XGuUDznJQ+oYLIUJVpYDBO5pdfYDX5FGcZeAa3WIGWW4Rrfges2w4V3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760160803; c=relaxed/simple;
-	bh=tICeZKtlPTGn6MN+AocuuzSNU12FNBC7lzLtzqfGuwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxzAQmnp8gETRqWHeNY4pt++TDGJToMDKcJLMBrK9Ey+fpWGHDL0RONS6MqrQe2islMV/ZneppT/h7LyitSXOCS3xayTED2uZqle3Ur0uJKt4j8ukXxwsDPqPKclFASdNT52Q1I6XE6O7aUfdg0lFIw/y/nwa4sOr8Fwq+SFvgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vk+03wve; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760164722; c=relaxed/simple;
+	bh=LjdMP4wX5K2PJoIkDNssZ0x5qpw4jYUvKfOFzldt+78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=leRkfqeqxE509+rNiTrvOJGFUWY72RiHxafVPS+vLAyJ1675GFT8gInXuSp0xH+WlewpREQQ+GYMxTqd9eWxhqK119i561QyyCllxLAK1i0L1NdPj6+3h+nzjF0UAjde5/R/NgJTDqI9ABD906nEgeRmpjXmNvU+znDZCTH92ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BN4R4zCk; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vk+03wve"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760160801; x=1791696801;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tICeZKtlPTGn6MN+AocuuzSNU12FNBC7lzLtzqfGuwQ=;
-  b=Vk+03wvenVJslzJufj+yYpmkYn0JVZ/nEPuJbKUbJK3Z0fKdgb48oLKJ
-   /T1HpInqBmky9zJf+zAUItkquPt4cwOi/fc2OsRHiJkdl/14SCGZnmbUH
-   8ag9SYYDk6STR3Wguy7Ok+uXvLZf+X5ILO++TC95G0OAcA62bhBcIbFg7
-   FHjfklxaU88v+414PYatXXsuIe/i6GsZM0QsVV2rEmmhxroMDWAeZNkr/
-   R5OLCmec5J42zYVkvQGZtzBps1AjLUVnk70Y3P9gt1UuXKke6OTS1o6Hb
-   MgGQa5umARsOep/s34WF+QSKEUQ5xjV1lbdhBesBAJ438O67OXDKTWo/n
-   Q==;
-X-CSE-ConnectionGUID: LV6mUlL5QIynUGo1GMp5nQ==
-X-CSE-MsgGUID: uIs1AGvNQqKrEJmIQ6a94A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11578"; a="62416213"
-X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="62416213"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2025 22:33:20 -0700
-X-CSE-ConnectionGUID: IPZXp56TS/iOLDMQYGX7lQ==
-X-CSE-MsgGUID: C0av3SMDRfSz2cMTpx53hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,220,1754982000"; 
-   d="scan'208";a="212094623"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Oct 2025 22:33:16 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7SEE-0003Xj-04;
-	Sat, 11 Oct 2025 05:33:14 +0000
-Date: Sat, 11 Oct 2025 13:32:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sven =?iso-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de,
-	Sven =?iso-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>
-Subject: Re: [PATCH 16/16] media: rockchip: rga: add rga3 support
-Message-ID: <202510111354.QeqIltfU-lkp@intel.com>
-References: <20251007-spu-rga3-v1-16-36ad85570402@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BN4R4zCk"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-333abc4394dso474164a91.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Oct 2025 23:38:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760164720; x=1760769520; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i4KsdyrgfWB/FqT6OOcbFSO1XBvuLxrHfzAVePQ1iTY=;
+        b=BN4R4zCkJD1BNBcoFrS4BbIwM7Ydy9PVyPtxqteuBKsA7it2Vek/greevzuSSLBay1
+         wdq5jQdgEXplD3pwrxE3C597liBFjfSjRDrn8XRUaWfiaVQDTMXyKeoeo+iR5NDOepQB
+         sLZEeliwQu9zls5MM+DYGtLANqFnOTIE8gQMEivFZEyBm8ZM2DFlpzwK1CNxj1NIyg4n
+         g50ZLzEEM6deLjyPbLRPFbc59DN+E8Uuxw2cYfdwCNOCArXxBlOS+X+JLFb55XlbzwWk
+         HTLnfLtkbHYMpBBpyGclrxcPA+joxzu8tK2Uzjj4BtUIUuYVgfzbY46YOnOHV0zEd09X
+         Eflw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760164720; x=1760769520;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i4KsdyrgfWB/FqT6OOcbFSO1XBvuLxrHfzAVePQ1iTY=;
+        b=nzNVkA6DAJxbxpsrtWAbGmi+Pbk8sgwLMwCl/Y/47aiAnkeL9a+/a7nPhYPN91bA7a
+         3wu8YtbIyIpBOJuzqE7hXLTN6QNalf1vBjE4yrNCbHvOEmtYL4gm14Wy+DsE1JMDYhN/
+         m6pw7scyn201wJr059zFxF79eVlW5BcsE7cGc0Vk6/sYeeGEBw9KNSw4yoOCR28+FxLb
+         ZEJaMb3fjKCCzt0gd8Oso09FETe4/bQEwZBAyc1YOw/BZi/m+YOhDxIAK3/ZqyDF3PWN
+         dsRU1Wf/NPJ8cX5K0IMQy3omZ6mPsi+BgUS/+sKmxaF/mlUft91x5weaYfKEgqbDKu9n
+         b/Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCWP0iZFmlZxqDtqoXsPQDdmza2T6vIyI5tmwyBnUjT2BjWw+iYYLCbNZuZp1x/pQrMRPyaljsJtNX0DDx5Q@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+0zaIMmoy/FOX/Sh9YNSs5S/tLk+SRPE4qYlnW4mPe4oPi1vs
+	KuGvkAEG5Z9uqTjetYBjRIG1FPS1U0TKmFdbsFpRRcHjy5HXmZjYDOug
+X-Gm-Gg: ASbGncssgxxmZOEWE1SiQldqbRyYFFqcFfjuOgBt/EmmklStquJFyLz2IqrIzbhSfZ+
+	3H45HBDzcFwjdMicjSGZnOsaaeSNEfbm4YfEzEbkJga55KLyA3fcI1ilndjhxkQno0LK+xlSkKK
+	YuBb6Fq1oBryZh8WYPBtU2WUgIUo73gCbtKy1VVU+Xg9vi3kr5yCy63E6Yvvd1BOCfep/tMDB2l
+	Df63b/tuZB8PjbQc8GuAXwMNXm9MZwIlJ09Ffh936VA35FdQksfXOAdvj++Sj8XQo2cl0MDuf+a
+	aa8P9plZBzmvf1IFHjO4qLKFLSZNnBBEhwH84XEAbfbuCBW4dUNdCPpirMahh7Zb6p7eJzjwDyN
+	WjeAs1pzucpd8u7t3kunkDcoNXqdOrbRQNbYkbmFkB9Pe/7Fk
+X-Google-Smtp-Source: AGHT+IF1JQXObCuG7xFhogMbxfyVhO5SQR9FmzcjivYXOk8ZFuH6BJG6HLBb/IJlGVfYnt4qekicwg==
+X-Received: by 2002:a17:903:1a6f:b0:257:3283:b859 with SMTP id d9443c01a7336-29027321d06mr119587995ad.9.1760164720383;
+        Fri, 10 Oct 2025 23:38:40 -0700 (PDT)
+Received: from ranganath.. ([2406:7400:98:ffd0:8dcb:f5b3:8234:d05])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034dea083sm76040465ad.24.2025.10.10.23.38.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 23:38:39 -0700 (PDT)
+From: Ranganath V N <vnranganath.20@gmail.com>
+To: lkp@intel.com
+Cc: adilger.kernel@dilger.ca,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	tytso@mit.edu,
+	vnranganath.20@gmail.com
+Subject: [PATCH v2] fs: ext4: fix uninitialized symbols
+Date: Sat, 11 Oct 2025 12:08:29 +0530
+Message-ID: <20251011063830.47485-1-vnranganath.20@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202510110207.yBvUMr5Z-lkp@intel.com>
+References: <202510110207.yBvUMr5Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251007-spu-rga3-v1-16-36ad85570402@pengutronix.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Sven,
+Fix the issue detected by the smatch tool.
 
-kernel test robot noticed the following build warnings:
+fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
+fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:1829 ext4_get_parent() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:3162 ext4_rmdir() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:3242 __ext4_unlink() error: uninitialized symbol 'de'.
+fs/ext4/namei.c:3697 ext4_find_delete_entry() error: uninitialized symbol 'de'.
 
-[auto build test WARNING on afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328]
+These changes enhance code clarity, address static analysis tool errors.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sven-P-schel/media-rockchip-rga-use-clk_bulk-api/20251010-104411
-base:   afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328
-patch link:    https://lore.kernel.org/r/20251007-spu-rga3-v1-16-36ad85570402%40pengutronix.de
-patch subject: [PATCH 16/16] media: rockchip: rga: add rga3 support
-config: riscv-randconfig-002-20251011 (https://download.01.org/0day-ci/archive/20251011/202510111354.QeqIltfU-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510111354.QeqIltfU-lkp@intel.com/reproduce)
+Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510111354.QeqIltfU-lkp@intel.com/
+v2:
+corrected the kernel test robot noticed build errors.
 
-All warnings (new ones prefixed by >>):
+ fs/ext4/inode.c |  2 +-
+ fs/ext4/namei.c | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
->> drivers/media/platform/rockchip/rga/rga3-hw.c:144:15: warning: variable 'src_h' set but not used [-Wunused-but-set-variable]
-     144 |         unsigned int src_h, src_w, dst_h, dst_w;
-         |                      ^
->> drivers/media/platform/rockchip/rga/rga3-hw.c:144:22: warning: variable 'src_w' set but not used [-Wunused-but-set-variable]
-     144 |         unsigned int src_h, src_w, dst_h, dst_w;
-         |                             ^
->> drivers/media/platform/rockchip/rga/rga3-hw.c:144:29: warning: variable 'dst_h' set but not used [-Wunused-but-set-variable]
-     144 |         unsigned int src_h, src_w, dst_h, dst_w;
-         |                                    ^
->> drivers/media/platform/rockchip/rga/rga3-hw.c:144:36: warning: variable 'dst_w' set but not used [-Wunused-but-set-variable]
-     144 |         unsigned int src_h, src_w, dst_h, dst_w;
-         |                                           ^
-   4 warnings generated.
-
-
-vim +/src_h +144 drivers/media/platform/rockchip/rga/rga3-hw.c
-
-   137	
-   138	static void rga3_cmd_set_win0_format(struct rga_ctx *ctx)
-   139	{
-   140		u32 *cmd = ctx->rga->cmdbuf_virt;
-   141		const struct rga3_fmt *in = ctx->in.fmt;
-   142		const struct rga3_fmt *out = ctx->out.fmt;
-   143		const struct v4l2_format_info *in_fmt, *out_fmt;
- > 144		unsigned int src_h, src_w, dst_h, dst_w;
-   145		bool r2y, y2r;
-   146		u8 rd_format;
-   147		unsigned int reg;
-   148	
-   149		src_h = ctx->in.crop.height;
-   150		src_w = ctx->in.crop.width;
-   151		dst_h = ctx->out.crop.height;
-   152		dst_w = ctx->out.crop.width;
-   153	
-   154		in_fmt = v4l2_format_info(in->fourcc);
-   155		out_fmt = v4l2_format_info(out->fourcc);
-   156		r2y = v4l2_is_format_rgb(in_fmt) && v4l2_is_format_yuv(out_fmt);
-   157		y2r = v4l2_is_format_yuv(in_fmt) && v4l2_is_format_rgb(out_fmt);
-   158	
-   159		if (in->semi_planar)
-   160			rd_format = RGA3_RDWR_FORMAT_SEMI_PLANAR;
-   161		else
-   162			rd_format = RGA3_RDWR_FORMAT_INTERLEAVED;
-   163	
-   164		reg = RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
-   165		cmd[reg >> 2] |= FIELD_PREP(RGA3_WIN_PIC_FORMAT, in->hw_format)
-   166			      |  FIELD_PREP(RGA3_WIN_YC_SWAP, in->yc_swap)
-   167			      |  FIELD_PREP(RGA3_WIN_RBUV_SWAP, in->rbuv_swap)
-   168			      |  FIELD_PREP(RGA3_WIN_RD_FORMAT, rd_format)
-   169			      |  FIELD_PREP(RGA3_WIN_R2Y, r2y)
-   170			      |  FIELD_PREP(RGA3_WIN_Y2R, y2r)
-   171			      |  FIELD_PREP(RGA3_WIN_CSC_MODE, RGA3_WIN_CSC_MODE_BT601_F);
-   172	}
-   173	
-
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 5b7a15db4953..f20db3f4ef68 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -3544,7 +3544,7 @@ static int ext4_map_blocks_atomic_write_slow(handle_t *handle,
+ 	ext4_lblk_t m_lblk = map->m_lblk;
+ 	unsigned int m_len = map->m_len;
+ 	unsigned int mapped_len = 0, m_flags = 0;
+-	ext4_fsblk_t next_pblk;
++	ext4_fsblk_t next_pblk = 0;
+ 	bool check_next_pblk = false;
+ 	int ret = 0;
+ 
+diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
+index 2cd36f59c9e3..045616033515 100644
+--- a/fs/ext4/namei.c
++++ b/fs/ext4/namei.c
+@@ -1762,7 +1762,7 @@ static struct buffer_head * ext4_dx_find_entry(struct inode *dir,
+ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
+ {
+ 	struct inode *inode;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 	struct buffer_head *bh;
+ 
+ 	if (dentry->d_name.len > EXT4_NAME_LEN)
+@@ -1818,7 +1818,7 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsi
+ struct dentry *ext4_get_parent(struct dentry *child)
+ {
+ 	__u32 ino;
+-	struct ext4_dir_entry_2 * de;
++	struct ext4_dir_entry_2 * de = NULL;
+ 	struct buffer_head *bh;
+ 
+ 	bh = ext4_find_entry(d_inode(child), &dotdot_name, &de, NULL);
+@@ -3133,7 +3133,7 @@ static int ext4_rmdir(struct inode *dir, struct dentry *dentry)
+ 	int retval;
+ 	struct inode *inode;
+ 	struct buffer_head *bh;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 	handle_t *handle = NULL;
+ 
+ 	retval = ext4_emergency_state(dir->i_sb);
+@@ -3224,7 +3224,7 @@ int __ext4_unlink(struct inode *dir, const struct qstr *d_name,
+ {
+ 	int retval = -ENOENT;
+ 	struct buffer_head *bh;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 	handle_t *handle;
+ 	int skip_remove_dentry = 0;
+ 
+@@ -3688,7 +3688,7 @@ static int ext4_find_delete_entry(handle_t *handle, struct inode *dir,
+ {
+ 	int retval = -ENOENT;
+ 	struct buffer_head *bh;
+-	struct ext4_dir_entry_2 *de;
++	struct ext4_dir_entry_2 *de = NULL;
+ 
+ 	bh = ext4_find_entry(dir, d_name, &de, NULL);
+ 	if (IS_ERR(bh))
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
