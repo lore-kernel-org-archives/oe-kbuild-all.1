@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E8D2B2D7;
-	Sun, 12 Oct 2025 03:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214697261D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Oct 2025 05:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760238790; cv=none; b=gHvyi6PJalkpDCY6/1zoUeRPGoEWWxqjYi3GvkZyFzv7K8gp3JUEXZeuW6FmSEASwnKYnTuSmlDoPjZGt+ov7TnPXa/h0e0IiU18IWKPdsyKSHtamBmu+4TDaCPx3QlgoozoiiA3JfqF/S01cwGKQRPfmkpEKqZTWrrEzS9QRQQ=
+	t=1760248597; cv=none; b=fpAqgY11jFed4ulMmnX2dIdP+UlbjtBOzg8jLXd1Fwx2vJaIzkI1kJpyJxbvdfuh9Vb0uRuxnwBdjqhQLS8G7mAPmaNWj9LIr/lsCCs/JYoh3WtcqLyrpCYHE47ijlfruuc6l+XDtdb5GYFUcav7hFZM3ik4GLeDvn4Bm1BrmkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760238790; c=relaxed/simple;
-	bh=LgCBazIKENUMWDtTVXVJ1949c/UQTOe/HuPTUIj7gzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c1UVfxm4xrYrAf2pZlRe22WUATJvC4HeBajRZS+6MtKJ5M+8K41I8in/bA+Zj3oXeioo5JiOe+z0jA0eF8vThWMb0UBJA1Z4mmhrdwXx845Ee+uwjwHu9ELTodg+UO+VtZHNqUXo+a6+3qJ7Bn+OeOs9TzJWwWRw/bwXCGQA7lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cp74K/rB; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1760248597; c=relaxed/simple;
+	bh=l2nzRy5NLxFup+skwiT1b6JZ2Uomg31kzhWiriqB6rA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hA4ZxlerHN1z+EeCA7ORYE5ySbpgX+Ffj0hqevZkJ4l7Rjc8QoStuZY9LfUJJqa1Uk9a78+4m/T7CFo6dylgeRdWL+Ots0GLLABFcq1nHihOhInphMR6okAXqmgu9L/AbgJC40R/KcJVeD03bpl9Abhk+t9af4MDGj1hdWX88k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZ7kHstU; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cp74K/rB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZ7kHstU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760238789; x=1791774789;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LgCBazIKENUMWDtTVXVJ1949c/UQTOe/HuPTUIj7gzU=;
-  b=cp74K/rB8bINCGi8m0gcGQ5KqijxFPZC0w86YJ+OsHUBA4SczlC0LAv3
-   qmqPo+IUGp73tIwQml19KhfSG/bCRWg4Roo0EYMbwjZCl712d6Gdj5qeO
-   p+vVdqThFgnnGFOeBdvx0NeJ6qkRZ6qjBKFzkLxXg3dBG8X3L70Ao+vfe
-   0+yXQkeL8YEu4w/fDim5U4w9OyfBcaQMr0RBQ+ZoHEKYDSrj9GosoBkA+
-   D4wk/NozAAf/2PQ1SsAVyahA1Cb753D6QOdjLB28WoX6WdhMw/DV/eNOl
-   1Nodfw1/bCxNKaW4a7LHQ0RPA7ZkmEV7bzkMZHuPwX1LXYcOHZLWXxaXN
-   w==;
-X-CSE-ConnectionGUID: zNATSHXWTUeJZigRkouEIw==
-X-CSE-MsgGUID: CmI3aUmZQH+iibxlOaDojQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="62510333"
+  t=1760248595; x=1791784595;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l2nzRy5NLxFup+skwiT1b6JZ2Uomg31kzhWiriqB6rA=;
+  b=XZ7kHstUjq55jKl5xJrTqIH6fsIMmT5oYKHecd4q42DiyhL0Mi7de+wN
+   J69+FwekP1w/2cIlI3xo37ybdQ4bbsr3fiRxhmttehwvFq9+chsOkmv1L
+   FeP+8Z4w9avfDPiKCfZoQ0iC/KL09kMNaWxeBszPaK6nFnQGN5FQ+rDj6
+   45rgw/cD8u/6rafrNtbGIckaE47BndyE/LMyElXA5QeDi+Z/YdczvEvNY
+   Tu1oQnbfyj0Mcj1u1CA0f6UP2Sdo2mX0F2ou5TcXejLUEHh/JX3Xz0uHN
+   x+CbyZRVpqmii9/SnUoo9YqieP4g+ClwwCC9o15dMzF7MgP5pNREbtJbo
+   A==;
+X-CSE-ConnectionGUID: MZ6toUzuT960nsMeMUW4bw==
+X-CSE-MsgGUID: A3OP6pD+T2yQCGoyikY3gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="85042741"
 X-IronPort-AV: E=Sophos;i="6.19,222,1754982000"; 
-   d="scan'208";a="62510333"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 20:13:07 -0700
-X-CSE-ConnectionGUID: QdHrMtJ9SPmASB0zARVHzA==
-X-CSE-MsgGUID: mgmTFntXSbm6mXD79aJaQg==
+   d="scan'208";a="85042741"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 22:56:34 -0700
+X-CSE-ConnectionGUID: unZk5amvQN6eBOIq7S6w7Q==
+X-CSE-MsgGUID: i8GgWrwKSQaZbz4mz1MgqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,222,1754982000"; 
-   d="scan'208";a="186583057"
+   d="scan'208";a="185569513"
 Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Oct 2025 20:13:03 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 Oct 2025 22:56:33 -0700
 Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v7mW5-0004AR-0j;
-	Sun, 12 Oct 2025 03:13:01 +0000
-Date: Sun, 12 Oct 2025 11:12:23 +0800
+	id 1v7p4J-0004EJ-1B;
+	Sun, 12 Oct 2025 05:56:31 +0000
+Date: Sun, 12 Oct 2025 13:55:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, michael.riesch@wolfvision.net,
-	robh@kernel.org, s.hauer@pengutronix.de,
-	dri-devel@lists.freedesktop.org, simona@ffwll.ch, airlied@gmail.com,
-	tzimmermann@suse.de, mripard@kernel.org, hjc@rock-chips.com,
-	heiko@sntech.de, andy.yan@rock-chips.com,
-	maarten.lankhorst@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alok.a.tiwari@oracle.com, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] drm/rockchip: vop2: use correct destination rectangle
- height check
-Message-ID: <202510121013.tqU2DAEC-lkp@intel.com>
-References: <20251011130450.123444-1-alok.a.tiwari@oracle.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.18-rc 110/110]
+ drivers/net/phy/as21xxx.c:432:20: warning: variable 'ret' set but not used
+Message-ID: <202510121325.ml2pXWd7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,118 +61,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251011130450.123444-1-alok.a.tiwari@oracle.com>
 
-Hi Alok,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rockchip/for-next]
-[also build test ERROR on linus/master v6.17 next-20251010]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alok-Tiwari/drm-rockchip-vop2-use-correct-destination-rectangle-height-check/20251011-210653
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20251011130450.123444-1-alok.a.tiwari%40oracle.com
-patch subject: [PATCH] drm/rockchip: vop2: use correct destination rectangle height check
-config: sparc64-randconfig-001-20251012 (https://download.01.org/0day-ci/archive/20251012/202510121013.tqU2DAEC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510121013.tqU2DAEC-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-rc
+head:   936e993c16c5c695eb2ce063a5a11f122a580727
+commit: 936e993c16c5c695eb2ce063a5a11f122a580727 [110/110] net: phy: as21: try the driver from mtk-sdk
+config: s390-randconfig-001-20251012 (https://download.01.org/0day-ci/archive/20251012/202510121325.ml2pXWd7-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510121325.ml2pXWd7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510121013.tqU2DAEC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510121325.ml2pXWd7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1034:34: error: call to undeclared function 'drm_rect_heigh'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1034 |             drm_rect_width(dest) < 4 || drm_rect_heigh(dest) < 4) {
-         |                                         ^
-   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1034:34: note: did you mean 'drm_rect_height'?
-   include/drm/drm_rect.h:196:19: note: 'drm_rect_height' declared here
-     196 | static inline int drm_rect_height(const struct drm_rect *r)
-         |                   ^
-   1 error generated.
+   drivers/net/phy/as21xxx.c: In function 'aeon_set_default_value':
+>> drivers/net/phy/as21xxx.c:432:20: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int pos = 0, val, ret = 0, remaining;
+                       ^~~
+   drivers/net/phy/as21xxx.c: At top level:
+   drivers/net/phy/as21xxx.c:1333:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1333:18: note: (near initialization for 'as21xxx_drivers[2].read_status')
+   drivers/net/phy/as21xxx.c:1350:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1350:18: note: (near initialization for 'as21xxx_drivers[3].read_status')
+   drivers/net/phy/as21xxx.c:1367:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1367:18: note: (near initialization for 'as21xxx_drivers[4].read_status')
+   drivers/net/phy/as21xxx.c:1384:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1384:18: note: (near initialization for 'as21xxx_drivers[5].read_status')
+   drivers/net/phy/as21xxx.c:1401:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1401:18: note: (near initialization for 'as21xxx_drivers[6].read_status')
+   drivers/net/phy/as21xxx.c:1418:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1418:18: note: (near initialization for 'as21xxx_drivers[7].read_status')
+   drivers/net/phy/as21xxx.c:1435:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1435:18: note: (near initialization for 'as21xxx_drivers[8].read_status')
+   drivers/net/phy/as21xxx.c:1452:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1452:18: note: (near initialization for 'as21xxx_drivers[9].read_status')
+   drivers/net/phy/as21xxx.c:1469:18: warning: initialized field overwritten [-Woverride-init]
+      .read_status = as21xxx_read_status,
+                     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/as21xxx.c:1469:18: note: (near initialization for 'as21xxx_drivers[10].read_status')
 
 
-vim +/drm_rect_heigh +1034 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+vim +/ret +432 drivers/net/phy/as21xxx.c
 
-   991	
-   992	static int vop2_plane_atomic_check(struct drm_plane *plane,
-   993					   struct drm_atomic_state *astate)
-   994	{
-   995		struct drm_plane_state *pstate = drm_atomic_get_new_plane_state(astate, plane);
-   996		struct drm_framebuffer *fb = pstate->fb;
-   997		struct drm_crtc *crtc = pstate->crtc;
-   998		struct drm_crtc_state *cstate;
-   999		struct vop2_video_port *vp;
-  1000		struct vop2 *vop2;
-  1001		const struct vop2_data *vop2_data;
-  1002		struct drm_rect *dest = &pstate->dst;
-  1003		struct drm_rect *src = &pstate->src;
-  1004		int min_scale = FRAC_16_16(1, 8);
-  1005		int max_scale = FRAC_16_16(8, 1);
-  1006		int format;
-  1007		int ret;
-  1008	
-  1009		if (!crtc)
-  1010			return 0;
-  1011	
-  1012		vp = to_vop2_video_port(crtc);
-  1013		vop2 = vp->vop2;
-  1014		vop2_data = vop2->data;
-  1015	
-  1016		cstate = drm_atomic_get_existing_crtc_state(pstate->state, crtc);
-  1017		if (WARN_ON(!cstate))
-  1018			return -EINVAL;
-  1019	
-  1020		ret = drm_atomic_helper_check_plane_state(pstate, cstate,
-  1021							  min_scale, max_scale,
-  1022							  true, true);
-  1023		if (ret)
-  1024			return ret;
-  1025	
-  1026		if (!pstate->visible)
-  1027			return 0;
-  1028	
-  1029		format = vop2_convert_format(fb->format->format);
-  1030		if (format < 0)
-  1031			return format;
-  1032	
-  1033		if (drm_rect_width(src) >> 16 < 4 || drm_rect_height(src) >> 16 < 4 ||
-> 1034		    drm_rect_width(dest) < 4 || drm_rect_heigh(dest) < 4) {
-  1035			drm_err(vop2->drm, "Invalid size: %dx%d->%dx%d, min size is 4x4\n",
-  1036				drm_rect_width(src) >> 16, drm_rect_height(src) >> 16,
-  1037				drm_rect_width(dest), drm_rect_height(dest));
-  1038			pstate->visible = false;
-  1039			return 0;
-  1040		}
-  1041	
-  1042		if (drm_rect_width(src) >> 16 > vop2_data->max_input.width ||
-  1043		    drm_rect_height(src) >> 16 > vop2_data->max_input.height) {
-  1044			drm_err(vop2->drm, "Invalid source: %dx%d. max input: %dx%d\n",
-  1045				drm_rect_width(src) >> 16,
-  1046				drm_rect_height(src) >> 16,
-  1047				vop2_data->max_input.width,
-  1048				vop2_data->max_input.height);
-  1049			return -EINVAL;
-  1050		}
-  1051	
-  1052		/*
-  1053		 * Src.x1 can be odd when do clip, but yuv plane start point
-  1054		 * need align with 2 pixel.
-  1055		 */
-  1056		if (fb->format->is_yuv && ((pstate->src.x1 >> 16) % 2)) {
-  1057			drm_err(vop2->drm, "Invalid Source: Yuv format not support odd xpos\n");
-  1058			return -EINVAL;
-  1059		}
-  1060	
-  1061		return 0;
-  1062	}
-  1063	
+   424	
+   425	static int aeon_set_default_value(struct phy_device *phydev)
+   426	{
+   427		static const unsigned char base_data[] = {0x32, 0x30, 0x32, 0x33, 0x30, 0x37, 0x31, 0x34};
+   428		unsigned char bytebuf[16];
+   429		unsigned short *wdata;
+   430		unsigned int mask;
+   431		int byte_count, wdata_count = 0;
+ > 432		int pos = 0, val, ret = 0, remaining;
+   433		unsigned char padded_bytes[MEM_WORD_SIZE] = {0};
+   434		mask = param1 | 14;
+   435		memcpy(bytebuf, base_data, sizeof(base_data));
+   436		bytebuf[8] = mask & 0xff;
+   437		bytebuf[9] = (mask >> 8) & 0xff;
+   438		byte_count = 10;
+   439		wdata = kmalloc(MAX_WDATA_SIZE * sizeof(unsigned short), GFP_KERNEL);
+   440		if (!wdata) {
+   441			pr_err("Failed to allocate wdata array\n");
+   442			return -ENOMEM;
+   443		}
+   444		while (pos + MEM_WORD_SIZE <= byte_count) {
+   445			if (wdata_count + 2 > MAX_WDATA_SIZE) {
+   446				pr_err("wdata array overflow\n");
+   447				ret = -ENOSPC;
+   448				goto cleanup;
+   449			}
+   450			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos]);
+   451			wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&bytebuf[pos + 2]);
+   452			pos += MEM_WORD_SIZE;
+   453		}
+   454		remaining = byte_count - pos;
+   455		if (remaining > 0) {
+   456			if (wdata_count + 2 <= MAX_WDATA_SIZE) {
+   457				// Here we just need padded_bytes once, otherwise we need to read from mem
+   458				memcpy(padded_bytes, &bytebuf[pos], remaining);
+   459				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[0]);
+   460				wdata[wdata_count++] = le16_to_cpu(*(unsigned short *)&padded_bytes[2]);
+   461			}
+   462		}
+   463		val = aeon_cl45_read(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
+   464		val |= 0x12;
+   465		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
+   466		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_FW_START_ADDR,
+   467				(u16)(AEON_MEM_DEFAULT_ADDR & 0xFFFF));
+   468		phy_modify_mmd(phydev, MDIO_MMD_VEND1,
+   469				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD,
+   470				0x3ffc, 0xc000);
+   471		aeon_cl45_write_burst(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_LOAD,
+   472				(unsigned char *)wdata, wdata_count*2);
+   473		val = aeon_cl45_read(phydev, MDIO_MMD_VEND1,
+   474				VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD); //GLB_REG_MDIO_INDIRECT_ADDRCMD
+   475		val &= 0x3FFF;
+   476		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_MDIO_INDIRECT_ADDRCMD, val);
+   477		val = aeon_cl45_read(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL); //GLB_REG_CPU_CTRL
+   478		val &= 0xFFED;
+   479		phy_write_mmd(phydev, MDIO_MMD_VEND1, VEND1_GLB_REG_CPU_CTRL, val);
+   480	cleanup:
+   481		kfree(wdata);
+   482		return 0;
+   483	}
+   484	
 
 -- 
 0-DAY CI Kernel Test Service
