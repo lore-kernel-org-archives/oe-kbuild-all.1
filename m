@@ -1,50 +1,66 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B562EBBAB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Oct 2025 19:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1134C2EF667
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Oct 2025 19:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760296076; cv=none; b=WDInlWKjYj1/mjbl0Utj/w70IAll4/cLnn1vcRdLfmeLQdviGTxiCEk3nhPefGhjvwHltnTUVQi9Ekcql7GMgY4FfkrNs5HBeh5Vj8eRRdS9tGcHPp0VXXE7HHJ9cIgpS/sgPSVYhxFUgRM7oL4ASYX4785vv1nj/ir7tCa2RBs=
+	t=1760297103; cv=none; b=jodbXmAANzjSl3SXjW2DAAADY3ozrEwLsSuBv1xdX2eMTqOiPB+hlslJR2Zvd4cUzdvwjyKublcUyPO/sHTzICbtWDlZa2gYw5uABFsXGTStuOsi6DozgZpDRTwLOY3mQCdvy0jpXBZ5Ec8sA2iG274JtVW/hYP+e0ii4EDQV00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760296076; c=relaxed/simple;
-	bh=45E1b0cOd8vVwMpH1NaiaACbdU3WHCZKthIdb9vaxZ0=;
+	s=arc-20240116; t=1760297103; c=relaxed/simple;
+	bh=bUeIQzQMvtVSx2wlqAfCOMciN9kUQ2iGtUINKzACuuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IxPwE4cDfrkWavvAg40uowewFyQvDt87e/ILWPBEmCIUmzL5zkaeeQ5tHQkQW71oU5q+oWfDA3Tju8owcXl+Jf40ftaewzFojqx3yRgCHC6unoFrjFv/++1jIY6lAOD8LN11Qe4EBc8ML82EE2ktsgJIz3pI5VU+wEhJx+7VRnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=V4KThtQX; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=G3mL75D+cs3FJv6A7VpGRmKj4rE8O7GLbZwInQJRtp40NYJjQNgDMlQQGd8VFOJeceZo9ZvM3ZVknkAWwb9oHCPmybp7Uowu7uAjJM6mISPlEBZnROa0ERW3NhErULpzyb8hR4yCgbXxA/hzeeDsrBCiBkBLOCDklEYtsub0o5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ir/i7x9S; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="V4KThtQX"
-Received: from trampoline.thunk.org (pool-173-48-113-184.bstnma.fios.verizon.net [173.48.113.184])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 59CJ7Vc4016344
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Oct 2025 15:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1760296054; bh=Njp2cf3h0BFIMRzHckuQXhpEa7uPfeq2Zq1D7V9BgnU=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=V4KThtQXO0ZQ0NWvG+WbwFgzpWOzovsbr3o+8Ki4wtSAQJsLatEz1ULX+DUyblNYP
-	 0Fx3GUMU85AT7hQuxkZmPTUkwC/y+Bf6j9QUfPatAi7ifrlcvi5oOZt0Tx0gQeWAsK
-	 hLobENL0KzGw49nqDehBrrmQtIUD9jijS8gfSkZJ2/r8TRmfobobDkP5XEGo42HlFq
-	 +V0oJ82Q5ZnAwmq/PNNiwgc0ccW5pb46sxZM8kvvFp+mSjrJ+hqqcngwh5GEa9lpkX
-	 IYS1ZUSRctfhoU3yOFOrhaxGRZ9j4fj6zzsRSIBfYkcZmoNJYCRdHGVONMBgWMjZmL
-	 lM6UnIEWOl1/g==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 190112E00D9; Sun, 12 Oct 2025 15:07:31 -0400 (EDT)
-Date: Sun, 12 Oct 2025 15:07:31 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Ranganath V N <vnranganath.20@gmail.com>
-Cc: lkp@intel.com, adilger.kernel@dilger.ca, david.hunter.linux@gmail.com,
-        khalid@kernel.org, linux-ext4@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-        skhan@linuxfoundation.org
-Subject: Re: [PATCH v2] fs: ext4: fix uninitialized symbols
-Message-ID: <20251012190731.GF354523@mit.edu>
-References: <202510110207.yBvUMr5Z-lkp@intel.com>
- <20251011063830.47485-1-vnranganath.20@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ir/i7x9S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760297102; x=1791833102;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bUeIQzQMvtVSx2wlqAfCOMciN9kUQ2iGtUINKzACuuM=;
+  b=Ir/i7x9S6C4xO2PgOAQDbIL6u2t7uzwK5+OZZozWnJXm5/OgE4uA9/TE
+   fxZDdnCUTK0XfH2zqvt8aZRJM2vIsMjOVReh+WdANfRGa3TsEEfFsId06
+   Az4AZtkcN1G9JNyNE6r0Dtw03wD3tC+1DMq36pi0iIFxfyL68C4FH0LjW
+   bEG0+sgtGreHs+SP2NCgrV2zqM6I4oR7M9app/iOk2AAnsSBTtZHT1D/m
+   mZpRgeM2Jor6OHHNWCe0FvokUYXe9nCYjiX0BoeXMpVMu+6kVn6kPfrBg
+   lmNHq2X6EouZ+pY7RDw2c0BmWZjjXBFc5v0eNdvbO1Nl9eOjk0c7JhRvJ
+   g==;
+X-CSE-ConnectionGUID: rN+ZkP0uT1eA97aTspYsMQ==
+X-CSE-MsgGUID: SMU1WoY5Qe2VgQuWKvWzXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="73128674"
+X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
+   d="scan'208";a="73128674"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 12:25:01 -0700
+X-CSE-ConnectionGUID: uXC0FsY1Q4mxJbSbMfk11A==
+X-CSE-MsgGUID: uFBe9pJFSSCDRWNUq8rVtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
+   d="scan'208";a="185831798"
+Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 12 Oct 2025 12:24:59 -0700
+Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v81ge-0004Yd-1o;
+	Sun, 12 Oct 2025 19:24:56 +0000
+Date: Mon, 13 Oct 2025 03:24:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] media: iris: enable support for SC7280 platform
+Message-ID: <202510130211.Ujh708qh-lkp@intel.com>
+References: <20251012-iris-sc7280-v2-8-d53a1a4056c3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,30 +69,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251011063830.47485-1-vnranganath.20@gmail.com>
+In-Reply-To: <20251012-iris-sc7280-v2-8-d53a1a4056c3@oss.qualcomm.com>
 
-On Sat, Oct 11, 2025 at 12:08:29PM +0530, Ranganath V N wrote:
-> Fix the issue detected by the smatch tool.
-> 
-> fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
+Hi Dmitry,
 
-This one is valid, and I agree with your proposed changed.  (Although
-the worst that will happen is that in case of an ENOSPC error comined
-with a corrpted file system the warning message may print an
-uninitialized value.  So not a big eal, but we might as well fix it.)
+kernel test robot noticed the following build errors:
 
-> fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
+[auto build test ERROR on 0b2f041c47acb45db82b4e847af6e17eb66cd32d]
 
-This is a false positive for smatch.  There isn't actualy a prolem
-here, because all of these funtions are calling ext4_find_entry() or
-ext4_lookup_entry(), and the callers will not try to dereference the
-pointer passed into *res_dir ('de') if the function has either
-returned NULL or an ERR_PTR(), and that's in fact correct.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/media-iris-turn-platform-caps-into-constants/20251013-002837
+base:   0b2f041c47acb45db82b4e847af6e17eb66cd32d
+patch link:    https://lore.kernel.org/r/20251012-iris-sc7280-v2-8-d53a1a4056c3%40oss.qualcomm.com
+patch subject: [PATCH v2 8/8] media: iris: enable support for SC7280 platform
+config: arm64-randconfig-002-20251013 (https://download.01.org/0day-ci/archive/20251013/202510130211.Ujh708qh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510130211.Ujh708qh-lkp@intel.com/reproduce)
 
-I don't especially mind the fix (but I do wish smatch could be
-smarter).  Out of curiosity, if we move the *res_dir = NULL from
-__ext4_find_entry() and move it so it's unconditionally set in
-ext4_find_entry() and ext4_lookup_entry(), is that sufficient to make
-smatch stop complaining?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510130211.Ujh708qh-lkp@intel.com/
 
-					- Ted
+All errors (new ones prefixed by >>):
+
+>> drivers/media/platform/qcom/iris/iris_platform_gen1.c:15:10: fatal error: iris_platform_sc7280.h: No such file or directory
+    #include "iris_platform_sc7280.h"
+             ^~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +15 drivers/media/platform/qcom/iris/iris_platform_gen1.c
+
+    14	
+  > 15	#include "iris_platform_sc7280.h"
+    16	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
