@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EF3270576;
-	Mon, 13 Oct 2025 12:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCB31E8332
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 13:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760358503; cv=none; b=RvNZvEvVkpGza1xZOiWRT+DRBMzgO0ONKng+nBibvm0685pTTXDY1npMoPoOpqM0LeicZ4bf1bsL4oj+60QFGaA/kRpidgzFhU4Nh3tKHNGRu5CB0zPywgo2pk1o34kL6KW87SwCUqAY7LCtoB7Yy4GKvxAE9Dox0CkvPv/4LMo=
+	t=1760363848; cv=none; b=Sp7KwgvsNvpwyOxmoJpMxQA/xw56eelUC5pKu0O3rta7EUiJWnGkG5HrUqo0db9Uix1Pr/5Jx9dhT5m+Z2+OoLSbXjV53olzffBAaxfkjxTrtwVfc5pwynTL+1fg3KS3pQvb6Yc7jKkuxkvS/yE68MfmQ807FAgK6vf11S27pyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760358503; c=relaxed/simple;
-	bh=062beN90GWCCZdiCP0fTDtp5gYxwQtheCLAnof9Ihbs=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tpN/4jP1dNJ1qnOoVIwIg08A0IuVFG7gOEwzlYh5LxncNlvbEhoKfVeaZ+0nAF0nzmGJrTavWQ2FKe1y28nmPge03mrtebb64oDNgyPex+ne4vs8tDTg0zTThZghqlBKiS1/OB407bgOFzMXHhcZvX9ezWB1lGRBkB1oHOnW1Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jb+NHj2q; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1760363848; c=relaxed/simple;
+	bh=2ytmKdc8RqHmSGhC1Ril+imo1M7HY+r4D+fBAnif8YA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lC2kwQaQ6gLxIo/7GoWOHL6lm7FmfXoQj2lDXhUVjgongjwvJIcZecI7i3j16QWKIuFbkPh1w6JqduJ1WBJ5/1CZNfQFuSDhLGZVX/Brr1LjRIDIr5xSSEj8eI+jjFizMt/xebNOAs2N5lVSF6HV6bM8oM6rVipz+6+UXj4bjec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwXS5Tm+; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jb+NHj2q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwXS5Tm+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760358502; x=1791894502;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=062beN90GWCCZdiCP0fTDtp5gYxwQtheCLAnof9Ihbs=;
-  b=jb+NHj2qCKD9luVrnB2353qMhx/tDe0OE6yyFkzF+9nZszFAA3B8X6dA
-   dsSJEYW7vnYAfg7lu/hbrzMhYGLhtltlOJMdO8IZU5qFX9PJoYsZvKuv3
-   vUeIRVu5lWAW1XIHftEx11LaD8LNlHX1wxTSFpPZW3xkKyttGOpWbsU3T
-   qk1ZsRC6DnFymHtzTy8B5EOXcB4gfI6Z2LUi+RfRGWCgCpcuxodQrjqev
-   Rgj+KurEsVCcailHPXxnMOzfN5iglUyNcNxr6bFoscSuSgkBPnaQ64SVW
-   uXNdWigzLYo84NudYvt/Nk8dpw7TTcy7bi71QnQD7/1ZkW67VxnC4qnPu
-   Q==;
-X-CSE-ConnectionGUID: qoVThwOORFykABIEbYF3zQ==
-X-CSE-MsgGUID: cvptwfb1RQ6xL3HRdPQ3YA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="73840273"
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="73840273"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 05:28:20 -0700
-X-CSE-ConnectionGUID: 4EQwnOmmSQ2xuh+b1ZiVMg==
-X-CSE-MsgGUID: Z07tOXdFR4+9UXpDxr4yNw==
+  t=1760363847; x=1791899847;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2ytmKdc8RqHmSGhC1Ril+imo1M7HY+r4D+fBAnif8YA=;
+  b=AwXS5Tm+12DP7qqzm1JuHz9G0MtGRIwpfN4Hfj30dvWev4nF2uclUrkZ
+   SS6GjgSFLG9goelXESjz0itmybZnHqN0wWHfnblU/q9Lc+k0GSph/sVZY
+   Zp22bNXT/asSkG/fOrvhqHxO9+bICrE6EBfDPwP0WgvokhAbRDkf0aGpK
+   +k1brNKSNErMv6qOEnZ2MMScXbSRZqr8pXcGrxbEWzDvQXkv1wf2W55x3
+   FMDrvQSknZJWMRbFT43d656IiPhpCAaVE1QGwG6AeocfJtTMoLdmLeprH
+   oPmgJ0/TK7zGLuR2deVDL5bSkB+TbXHmdOS3IzPjYl/GwgnnbGp8niBie
+   w==;
+X-CSE-ConnectionGUID: CcP0t+GKRZK2N9mrVaat/w==
+X-CSE-MsgGUID: TrCrwCFBRvK8rnL89uV5cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66326712"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66326712"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 06:57:26 -0700
+X-CSE-ConnectionGUID: PgROEOLlQMaIFtvnKsgWTg==
+X-CSE-MsgGUID: dlwghr6DRuecvBjG5oyGdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="212209652"
-Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
-  by orviesa002.jf.intel.com with ESMTP; 13 Oct 2025 05:28:19 -0700
-Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+   d="scan'208";a="180748619"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 13 Oct 2025 06:57:25 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8Hey-000000008sb-2R5a;
-	Mon, 13 Oct 2025 12:28:16 +0000
-Date: Mon, 13 Oct 2025 14:27:18 +0200
+	id 1v8J3C-0000Tt-0P;
+	Mon, 13 Oct 2025 13:57:22 +0000
+Date: Mon, 13 Oct 2025 21:57:13 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [jlayton:kdevops 1/3] fs/nfsd/nfsfh.c:699:16: warning: unused
- variable 'inode'
-Message-ID: <202510112203.B1ZqlPPr-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3227/3227] arch/x86/kvm/x86.c:8661:5: warning:
+ no previous prototype for function '__kvm_vcpu_halt'
+Message-ID: <202510132118.GCFTQYLt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   111666a803b9733b5c590aec6312443ad3dac2f5
-commit: 177818f176ef904fb18d237d1dbba00c2643aaf2 [1/3] Merge branch 'mrchuck/nfsd-next'
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251011/202510112203.B1ZqlPPr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251011/202510112203.B1ZqlPPr-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   990be7492566e0cfb03f18b813b905a67bf29ef1
+commit: c499a3120204c834ff963c43d90a5ff33194b34c [3227/3227] KVM: SVM: Add support for booting APs in an SEV-ES guest
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251013/202510132118.GCFTQYLt-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510132118.GCFTQYLt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510112203.B1ZqlPPr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510132118.GCFTQYLt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/nfsd/nfsfh.c:699:16: warning: unused variable 'inode' [-Wunused-variable]
-     699 |         struct inode *inode = d_inode(p.dentry);
-         |                       ^~~~~
-   1 warning generated.
+   arch/x86/kvm/x86.c:809:5: warning: no previous prototype for function 'kvm_read_guest_page_mmu' [-Wmissing-prototypes]
+     809 | int kvm_read_guest_page_mmu(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
+         |     ^
+   arch/x86/kvm/x86.c:809:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     809 | int kvm_read_guest_page_mmu(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
+         | ^
+         | static 
+>> arch/x86/kvm/x86.c:8661:5: warning: no previous prototype for function '__kvm_vcpu_halt' [-Wmissing-prototypes]
+    8661 | int __kvm_vcpu_halt(struct kvm_vcpu *vcpu, int state, int reason)
+         |     ^
+   arch/x86/kvm/x86.c:8661:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    8661 | int __kvm_vcpu_halt(struct kvm_vcpu *vcpu, int state, int reason)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/inode +699 fs/nfsd/nfsfh.c
+vim +/__kvm_vcpu_halt +8661 arch/x86/kvm/x86.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  684  
-c1f203e46c55ac Chuck Lever    2025-07-02  685  /**
-c1f203e46c55ac Chuck Lever    2025-07-02  686   * fh_getattr - Retrieve attributes on a local file
-c1f203e46c55ac Chuck Lever    2025-07-02  687   * @fhp: File handle of target file
-c1f203e46c55ac Chuck Lever    2025-07-02  688   * @stat: Caller-supplied kstat buffer to be filled in
-c1f203e46c55ac Chuck Lever    2025-07-02  689   *
-c1f203e46c55ac Chuck Lever    2025-07-02  690   * Returns nfs_ok on success, otherwise an NFS status code is
-c1f203e46c55ac Chuck Lever    2025-07-02  691   * returned.
-c1f203e46c55ac Chuck Lever    2025-07-02  692   */
-c1f203e46c55ac Chuck Lever    2025-07-02  693  __be32 fh_getattr(const struct svc_fh *fhp, struct kstat *stat)
-c1f203e46c55ac Chuck Lever    2025-07-02  694  {
-c1f203e46c55ac Chuck Lever    2025-07-02  695  	struct path p = {
-c1f203e46c55ac Chuck Lever    2025-07-02  696  		.mnt		= fhp->fh_export->ex_path.mnt,
-c1f203e46c55ac Chuck Lever    2025-07-02  697  		.dentry		= fhp->fh_dentry,
-c1f203e46c55ac Chuck Lever    2025-07-02  698  	};
-81538c8e42806e Linus Torvalds 2025-10-06 @699  	struct inode *inode = d_inode(p.dentry);
-c1f203e46c55ac Chuck Lever    2025-07-02  700  	u32 request_mask = STATX_BASIC_STATS;
-c1f203e46c55ac Chuck Lever    2025-07-02  701  
-737a72eed2e505 Chuck Lever    2025-09-29  702  	if (d_is_reg(p.dentry))
-6f322e6110a628 Mike Snitzer   2025-09-29  703  		request_mask |= (STATX_DIOALIGN | STATX_DIO_READ_ALIGN);
-6f322e6110a628 Mike Snitzer   2025-09-29  704  
-c1f203e46c55ac Chuck Lever    2025-07-02  705  	if (fhp->fh_maxsize == NFS4_FHSIZE)
-c1f203e46c55ac Chuck Lever    2025-07-02  706  		request_mask |= (STATX_BTIME | STATX_CHANGE_COOKIE);
-c1f203e46c55ac Chuck Lever    2025-07-02  707  
-c1f203e46c55ac Chuck Lever    2025-07-02  708  	return nfserrno(vfs_getattr(&p, stat, request_mask,
-c1f203e46c55ac Chuck Lever    2025-07-02  709  				    AT_STATX_SYNC_AS_STAT));
-c1f203e46c55ac Chuck Lever    2025-07-02  710  }
-c1f203e46c55ac Chuck Lever    2025-07-02  711  
-
-:::::: The code at line 699 was first introduced by commit
-:::::: 81538c8e42806eed71ce125723877a7c2307370c Merge tag 'nfsd-6.18' of git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  8660	
+> 8661	int __kvm_vcpu_halt(struct kvm_vcpu *vcpu, int state, int reason)
+  8662	{
+  8663		++vcpu->stat.halt_exits;
+  8664		if (lapic_in_kernel(vcpu)) {
+  8665			vcpu->arch.mp_state = state;
+  8666			return 1;
+  8667		} else {
+  8668			vcpu->run->exit_reason = reason;
+  8669			return 0;
+  8670		}
+  8671	}
+  8672	
 
 -- 
 0-DAY CI Kernel Test Service
