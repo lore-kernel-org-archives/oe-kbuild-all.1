@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0E5219E8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 16:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1E82D2383;
+	Mon, 13 Oct 2025 17:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760372404; cv=none; b=GiFN/BatdX7VuCuguRB5PPe18Ke0INfGqgFaJYnZQLc9KinqOd+sXSCgCs5Dw12hyOP2M71DsFZm2LF5IC90N31BnydhXmTBEcD/e+HEB1zcsR3rS2fUaxyzxpI4IR0Y2xFrLeP+W2YEHLiZhmr/VODsqzTa0GqxqvAY9YvE86U=
+	t=1760375100; cv=none; b=fNmrp1FaB22KywwoCJBF5ejVhZ93WeKKlvtPbKYociwfF3QD2nt4gtYXTNpZjKr4/Fxg3HtFyEIWRqYA8e8mHdUf0tR35KBJIYZ9mjJOa+rRN6S840scig0vCuHD1+Rb5pdEHNA/vCDsKO3FvyQK8QVkBn2J430H7lLVy1Ti6LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760372404; c=relaxed/simple;
-	bh=vMdryYjDeXxhdiKwNHAB5XvAQz/+LzGVstn26sSyN2U=;
+	s=arc-20240116; t=1760375100; c=relaxed/simple;
+	bh=/taaVzlfbYrSFt/9WuLeBRfhN/FLkp74TvhX9fD0ank=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QPjFqFObxJztiYZIzmiY2t9RcRoN1+T8s1Uhi7d+QVpFh6+9KU5gaicoLYi6RYgfvlZxsw2W6OIaDI/wXsSGn0mYquWpYSUGun2eJlGa6czZDtO0AtizZtT8LGuyurvxwqyBQirnb2Z2mIWjJwTeDIcmZSZExPu2p6VerHY5QQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHqdQZ/G; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=l4zipnqmLcWlAnLmTc3itfifbVIIb5PaTDaqAqYI+51IwVIBAGIyHEjH2zluVGhfPb656ZgsWvWRiLjcGVnJvrMzhM2zEBU2ijzpXgW2kFd1E8CgGTjCB/4cysszzpB7JGwnjhtwCr5Nl131vOEUUAs2TCk4bfjQTIdJcqlYTM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c85XmqUC; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHqdQZ/G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c85XmqUC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760372402; x=1791908402;
+  t=1760375097; x=1791911097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vMdryYjDeXxhdiKwNHAB5XvAQz/+LzGVstn26sSyN2U=;
-  b=gHqdQZ/GU58jSw2HLU+CXMROk0LoptJYMMoUG0mYZpLRgDCGubtlo99p
-   1oi07dSPOB6lpXEN44t5Oz73MB8JJ8vxIGOBShKoJ9FhfoMe31mSSqQv1
-   DuhefQT7yWL5Q/w11Gyd7uL1BsngaiGkXpoMHQLajBgNzB5++vn8jefWI
-   0aRYmESRyUbkhGarvI4kYOkaUf3jnx1Vo1Wf8568YVZkR3+TYczZc0s2v
-   /nzQYb4eWNRvN2CI/3wmy9Eo68thQxI+GwAVsGRWsr+p7QQjKcfUFEg9Q
-   fLtAHaHP+coTdjEfKLgZ26ySRwTvto2mHvMk1kcXLU1Dm46B5xo6uzycq
-   Q==;
-X-CSE-ConnectionGUID: a1tVEKGBThqJ1BdA7LFbww==
-X-CSE-MsgGUID: 156J5uLYRN21xibYhmj91g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62450073"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62450073"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 09:20:02 -0700
-X-CSE-ConnectionGUID: HqhIM7bxRbS4lUkt99SGRg==
-X-CSE-MsgGUID: uVKTI5bLSw6CD+lecvYbTQ==
+  bh=/taaVzlfbYrSFt/9WuLeBRfhN/FLkp74TvhX9fD0ank=;
+  b=c85XmqUCPb3cVL2tavYfh969EgsXjDQICKPN65phJEzVN8KIfWpgdQ62
+   glU/UZMQpjD5uzX/lXyCfa0lmBjmmQkSfhtQgSo49YrbodDZIct/7uMGv
+   pWDpt1aSZ7ehczqKatOhaip7nNv6ATDuR6LxDiUA4Q9eQiaZdHLea5aR9
+   ihp/y/0878cYR+eYfAMKqCpbiXvU6ggwTjrFOWxQr+BH1JaRE3pnxJHSh
+   5dOIlHKkPVziPCKR9YvyXgkmymW0XbnP8a3hoq4tlOFd19cxUrB0Ysqfs
+   3CmXbHhxuAiYr8SLjvdoelvQu3R4QpnG1SktM2OfpWEU3nLQsrXLwLJ2b
+   g==;
+X-CSE-ConnectionGUID: g98rNFc4TOOtBGHquTV0rw==
+X-CSE-MsgGUID: rNAdflplQsCPRekAAnKjfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="72782975"
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
+   d="scan'208";a="72782975"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 10:04:49 -0700
+X-CSE-ConnectionGUID: TK6zYFZrTxKynHREOqk1Zg==
+X-CSE-MsgGUID: b+KG3zrMRDiAVoIegbSD9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="186931648"
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
+   d="scan'208";a="182091419"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Oct 2025 09:20:00 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Oct 2025 10:04:48 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8LHC-0001id-01;
-	Mon, 13 Oct 2025 16:19:58 +0000
-Date: Tue, 14 Oct 2025 00:12:14 +0800
+	id 1v8LyX-0001tT-1c;
+	Mon, 13 Oct 2025 17:04:45 +0000
+Date: Tue, 14 Oct 2025 01:04:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [peterz-queue:sched/cleanup-pick 21/23]
- kernel/sched/fair.c:12903:33: warning: passing argument 2 of
- 'rq_modified_above' discards 'const' qualifier from pointer target type
-Message-ID: <202510140008.vTIgbDzP-lkp@intel.com>
+ kernel/sched/fair.c:12903:33: error: passing 'const struct sched_class *' to
+ parameter of type 'struct sched_class *' discards qualifiers
+Message-ID: <202510140047.VQ0KDdgl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,25 +66,125 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/cleanup-pick
 head:   a85bb9c58a6293b7823fff6c715026bad24d3fff
 commit: 3e92434695a42323aaa6b1d6a78245f1c31b3421 [21/23] sched: Detect per-class runqueue changes
-config: arc-randconfig-001-20251013 (https://download.01.org/0day-ci/archive/20251014/202510140008.vTIgbDzP-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140008.vTIgbDzP-lkp@intel.com/reproduce)
+config: riscv-randconfig-002-20251013 (https://download.01.org/0day-ci/archive/20251014/202510140047.VQ0KDdgl-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140047.VQ0KDdgl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510140008.vTIgbDzP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510140047.VQ0KDdgl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'sched_balance_newidle':
->> kernel/sched/fair.c:12903:33: warning: passing argument 2 of 'rq_modified_above' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     if (rq_modified_above(this_rq, &fair_sched_class))
-                                    ^~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/fair.c:57:
-   kernel/sched/sched.h:2593:73: note: expected 'struct sched_class *' but argument is of type 'const struct sched_class *'
-    static inline bool rq_modified_above(struct rq *rq, struct sched_class *class)
-                                                        ~~~~~~~~~~~~~~~~~~~~^~~~~
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     838 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:108:53: note: expanded from macro 'insb'
+     108 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:846:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     846 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:109:53: note: expanded from macro 'insw'
+     109 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:854:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     854 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:110:53: note: expanded from macro 'insl'
+     110 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:863:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     863 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:122:55: note: expanded from macro 'outsb'
+     122 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:872:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     872 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:123:55: note: expanded from macro 'outsw'
+     123 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:881:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     881 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:124:55: note: expanded from macro 'outsl'
+     124 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:140:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> kernel/sched/fair.c:12903:33: error: passing 'const struct sched_class *' to parameter of type 'struct sched_class *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+    12903 |         if (rq_modified_above(this_rq, &fair_sched_class))
+          |                                        ^~~~~~~~~~~~~~~~~
+   kernel/sched/sched.h:2593:73: note: passing argument to parameter 'class' here
+    2593 | static inline bool rq_modified_above(struct rq *rq, struct sched_class *class)
+         |                                                                         ^
+   7 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=n]
+   Selected by [y]:
+   - RISCV [=y]
 
 
 vim +12903 kernel/sched/fair.c
