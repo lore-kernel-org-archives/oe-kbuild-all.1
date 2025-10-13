@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E52301706
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 10:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FEA3016EB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 10:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760352282; cv=none; b=UQ73G55PYKnp+JHXqn0EvOGJ2YXQqnkRcAkxqhr4di40btS7bOtqZNcyc6j30qiJ97FdMP75q4yPPpLM6vFNoRalpgO+u8h8sGTJM5MajL9H1rDH/fJ3XZaF+x00lYMWIauWQrpAyT9/CjSMQqZUigbOcYeai3K2a3z101Nwlg4=
+	t=1760352297; cv=none; b=TAh9hLfHIitQviaakTwHVNbjW6Xbxe9hhLvUOyl0vKfsQoNyUrhXluHlIDsiDFZU9xKE0ONiUkmqIgmzMLg4INwWvEhljR0eNCQmprEHBMJOz1CHIz4LhHyItO8zSb0n/hNGzlHd2zovfFLPh3+hfZWmdbD9BvIjmmZNkYiaeko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760352282; c=relaxed/simple;
-	bh=0rgFXAdhZYIl4uZfRj/KpdaKtwfix/8nzFdE6wQsJ20=;
+	s=arc-20240116; t=1760352297; c=relaxed/simple;
+	bh=8VEiOmYfSa26wlU8+UbdBM6wlM5ITFlFuycGKVjvTxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tIAz+EWRLCz9HvOMbhRRi40AztFm0cWyY8LXXJR1iX8CbDyL18g8K9XLZgILrKECpCEmA3iBeN+5OQUrZ2SzMy7OlS8vL/W2/+pLi3411cEBqXneTEHxbWVDXXNAGVF+6LNaokgx1t5ywuY5M5IITbQCph4lwuu+tAShc8cY5IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9W0L0Ec; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Qt3hKqLHM0Nj151LlNKIaSkAbj+4L8R2xDfehy9FZmxedFSTR31CB+kEP/ocjVJlWQVjHVTeDhvC5NrBwnr1k4SFO5vzhHIpZb6E34ucM9y9Dpq/zCO7hH9npurf9/RSSm+4A0nOmQrY/YSd6fV/TA3OW/umX2dWj24f2zjTxbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eQBe8B8R; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9W0L0Ec"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQBe8B8R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760352277; x=1791888277;
+  t=1760352284; x=1791888284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0rgFXAdhZYIl4uZfRj/KpdaKtwfix/8nzFdE6wQsJ20=;
-  b=d9W0L0EcY6G4IO6XY0euKihuuzRB8JCfSeLQsbKLAPbQMM9YlrRyasFd
-   pNVGtgg8oGPn9KIKoLHfJxXLbBoMcVpjDwsWO+84wFrVbR+9ewvcszazC
-   sSLpeQs2SjSbXIZtvlvkowrTZcR4VM6sSnNXjxqPMSCPwq54ibkKSA5sM
-   csFEEAUoNS+mXOmubxhiOdlnJYbYHJDDbS6iBMpM266AkwTt7Y1KjU9mf
-   9kjcFWJpnDSfUjZonvGtCcef0VgjRVANgH0DJa4EPib7+ZlJBp1xL9l/l
-   qYUwBLNgZWATv8eQddLwXM9rsiFM83qsNZZ6jWyQLczSHIXIa0YvOAuXG
-   Q==;
-X-CSE-ConnectionGUID: hARyN4MPRkmfvT78nS04cg==
-X-CSE-MsgGUID: EODp2EoHTIWvGdyrNbyMpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="62520070"
+  bh=8VEiOmYfSa26wlU8+UbdBM6wlM5ITFlFuycGKVjvTxA=;
+  b=eQBe8B8R3kUfXufJAODepLJeLV6fgSCetZuFVyUZBn0BtDIy60/uMdRM
+   MO5T1ehaOc3jffQUdK6ZXe0OEA26bBINoEAxG0y5e8+JwoPtWwZuv1OaY
+   NkGOcNmvS9EW5JCkmi+z7fVshcNY//6keBuZkj7DO0mHZJXtdKqlv7DB8
+   0YtljjvTmEpl+QQZcdMTnDNToAAKR9u0m2SNUduFKO6Yo6b9eM3kpnhO1
+   edzUmDTvIz815J/WNJ59p345X7GMbWPVwePMo/vlo6oSP/cYtdPK2Y68a
+   wGngMH9MPaiEn8ax9oZtHC9D4FfXSem6oDQwXcg7qjvFJRONDr7ZGGJWg
+   A==;
+X-CSE-ConnectionGUID: 0sCpRVffQ7uJT4jfaH1roA==
+X-CSE-MsgGUID: LHWxQXCQTSy27lOaxxxU6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="62520068"
 X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="62520070"
+   d="scan'208";a="62520068"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 03:44:33 -0700
-X-CSE-ConnectionGUID: HioUa1mXRHS5FkQQZ5ef6w==
-X-CSE-MsgGUID: JDR7KF+jQbuQWBDrmUv2ug==
+X-CSE-ConnectionGUID: qZOuYs5+TwGJ8VA/6FQIPA==
+X-CSE-MsgGUID: a+gkEM5rTf62VyI+x+yOGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
-   d="scan'208";a="205252812"
+   d="scan'208";a="205252810"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 13 Oct 2025 03:44:31 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8G2X-0000Mn-2L;
+	id 1v8G2X-0000Ml-2H;
 	Mon, 13 Oct 2025 10:44:29 +0000
-Date: Mon, 13 Oct 2025 18:43:45 +0800
+Date: Mon, 13 Oct 2025 18:43:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:master /569] fs/bcachefs/data/rebalance.c:368:2: error: a
- label can only be part of a statement and a declaration is not a statement
-Message-ID: <202510131849.cvspSn85-lkp@intel.com>
+Subject: [bcachefs:master 565/565] fs/bcachefs/data/rebalance.c:368:2:
+ warning: label followed by a declaration is a C23 extension
+Message-ID: <202510131803.9NpzN9E8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +64,23 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://evilpiepirate.org/git/bcachefs.git master
-head:   ab6262d0e3688744f5ecdd6086e0c15e3ec22c79
-commit: c2566abb1266756014a8464808dcdf7def91fe31 [/569] bcachefs: bch2_bkey_get_io_opts() responsible for indirect extent opts
-config: arm-randconfig-001-20251013 (https://download.01.org/0day-ci/archive/20251013/202510131849.cvspSn85-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510131849.cvspSn85-lkp@intel.com/reproduce)
+head:   c2566abb1266756014a8464808dcdf7def91fe31
+commit: c2566abb1266756014a8464808dcdf7def91fe31 [565/565] bcachefs: bch2_bkey_get_io_opts() responsible for indirect extent opts
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251013/202510131803.9NpzN9E8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510131803.9NpzN9E8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510131849.cvspSn85-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510131803.9NpzN9E8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/bcachefs/data/rebalance.c: In function 'bch2_bkey_get_io_opts':
->> fs/bcachefs/data/rebalance.c:368:2: error: a label can only be part of a statement and a declaration is not a statement
-     368 |  const struct bch_extent_rebalance *old = bch2_bkey_rebalance_opts(k);
-         |  ^~~~~
+>> fs/bcachefs/data/rebalance.c:368:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     368 |         const struct bch_extent_rebalance *old = bch2_bkey_rebalance_opts(k);
+         |         ^
+   1 warning generated.
 
 
 vim +368 fs/bcachefs/data/rebalance.c
