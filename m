@@ -1,105 +1,142 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB082040AB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 11:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0610123BCE3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 12:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760353391; cv=none; b=gNqxczll7IQHL4O6x/KpOxIkZuleLQCUQ/0IeaoAmnY1n9C3zKUKLI4X5H6sRRWmIx8zAn0Cj7b/R8TPDCok6KresFTxAxfcpWaeAlxS1rwBdoX3s/jjn5K7ysHzIrTrZCiMsb2wrcvzUbWOmVPGR/PolFs+oG4jwM9L3LSs1CQ=
+	t=1760358441; cv=none; b=UH45dDoGjDBSCb7J8nAypzhECJT2PkOPDqatBKkRpy2H7VRo5A464sVrzqfls/uhRuy8vt9iWhdpYGiGe8RtHERlHw2JnnhvdwX4IDrIutD5jFSpn/Y2pm8vTNc093sufGNkqqU4MLY7QZF3bCT4ikes2OYvJQGI0qTPGiHR1ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760353391; c=relaxed/simple;
-	bh=MEZMPp0/6x2Hj8xdnea+WEkAGujy3+yoVNtutOdRFkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=THdqvMy1q4mr0FvpAsHTg3A3AySUwNwJ3XNyF5icMcbZyvCtIubGwStpsjoInJHrNnMKR/pmDWj1c/kjAEoKhMtF/gr6hRPGbExGLCWLQY2rXqMTHcHw7735JXmGHK4xj0A8W6ZY/NBJUcEB5uDn+9jsNwBhRn3z8FY55pDj+Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LYk996h2; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760358441; c=relaxed/simple;
+	bh=tIO5ex0j+Pyr+Z4CQQOwMWUZFlaougdUfX/tbF7AQio=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JTu12YEaCdTz+nyGLes67giukZJtC151BoFKS3nO01RG/s5Xq/8Do/nHefuu96oUlSUu+Cwplwoq816KnRUEIsN7NEijWT/M1HiNG70MTxjDr22Vs5tVhtnLAp32ZsxK8qkpNlHsA1Ky+KtqonYjlJ/oEtv07YJOA4Yn2vv0D2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ie2zK1md; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LYk996h2"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e37d6c21eso23192585e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 04:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760353388; x=1760958188; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=R36zhEWTXjAMC9qqqcZ2hDhZQoe9rT+tHqvTTsomPIU=;
-        b=LYk996h2NofL+nbYgF3JZPHsgceENqyq72hl05MHsx22xv6O6dwnOELpjkbW/1wY32
-         PlKuqoScZFa7yJ679ezzinrUos88a1RsuOfSaKudwCK64NxNVBj18mAkZdr2cDfbs9Fg
-         vs4KYvIlflhrxtjCKNoGHM40D2BNHzJCHqOEV/5FMJvb/IUzbs6kX/wNm95p2CFl4lav
-         M4c6EzY0evuaK/edZB6szSerBvYK8JCxOpXX3UZiH/n+fGSEQ9cioyTzOAXjXo3bNsDp
-         0/4nvcPOixnttPRZrq+lUBb4xvHIQpLcHNQlENFBZPaZd2vTo+SnShvMM773wSR155uS
-         wcTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760353388; x=1760958188;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R36zhEWTXjAMC9qqqcZ2hDhZQoe9rT+tHqvTTsomPIU=;
-        b=lCdeDE8rjOWWej6OQ4En6BJET06MhEvE73OUN93A8CmWdCx+BRoSnK04Rbf3OHTlLC
-         X7dvsVif9FHGVACf7tddFzQPJWMkltvlj5cQqC0f2x6KyIu8aHrLfvqlEdxtLp6uvq6a
-         xyky3R+oNPsWNfmbmdQm+6fGGfuXSdnNi0XygzjV6AmOc0GKEsoNJut3IfVYalLjjVpg
-         Akc8VmG1uud289cl89kNJB913mXY8tWL4z0ob8O2m6S3hP7P9Sy6lH7VI4nhD/IU17RR
-         BGuG/xsqiTg82m3p7b72F7GWLjAdxI4STSXyHsoHsz8ulyOvHrby0AaDoT8oxg98JIp2
-         lT5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXwA8d6tqZVCOAfA87DVtEfZ9Y79rsCiLgkQWnXveE4xZJga43Ww67YHlnZWjO+aRx5+I/uvE0gvw5fsSat@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNMAHolAvBgMT+gxPfuiSJT+PZKouPWTc5utZNHP2zDzbkxqR+
-	nqEVxhn80wEPN2qLvOoN/mCko9aeJmJgb2ImJjNg75bzW+m29We1dqDi
-X-Gm-Gg: ASbGnctpAENyLMOKijzRE4eHLqNYddmSWgzsbufiPQxTxyBkLznLcIFa5N+QMB27kZp
-	zk9CemLEOlKQn2xzWuS1baAyt9aX/+7/wLQ7+PcBBQWp/EbEhGbLrXhuPjIe0D1tlyTSNt6+nB9
-	IPSg5Qy1l3Z2PaYcLHJw1Vcvmx9DujF8ZL0Y0w7hhH5rNQl7KEvJmtgMXHBcAzMYF1rcn9No2nR
-	SlLospn+9LPqfu0rA8v0PHC91xm4Sxm+9tsMDXRsTR5slTqSpYcc535ggf6aRn/N/6KMxGQaAOM
-	njcvF9eCUj4YRRCviZSme8KC4lomIig0kxCbgnHghUHgP5bo41wwbzw5A91mmYcL4hrfZ+KOogY
-	ODvzf296PGWNx7ss/QiAL3FH1XWJmu0yhZH598OuKcRqnNJ5Ka7hElUsqNx9LBORB
-X-Google-Smtp-Source: AGHT+IHJe9CvuwCz6Q5PoEQTTbl6WyMaH7Au5Vw7APlwtIacyj2OmqpNIAkZPtVvi18U13DZly66uA==
-X-Received: by 2002:a05:600c:3e1a:b0:46e:1d8d:cfa2 with SMTP id 5b1f17b1804b1-46fa9af9842mr127699785e9.20.1760353387911;
-        Mon, 13 Oct 2025 04:03:07 -0700 (PDT)
-Received: from gmail.com ([51.154.249.54])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab4f3b07sm127656955e9.2.2025.10.13.04.03.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 04:03:07 -0700 (PDT)
-Date: Mon, 13 Oct 2025 11:03:06 +0000
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Michael =?utf-8?B?QsO8c2No?= <mb@bues.ch>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] driver: gpio-bt8xx: use generic PCI PM
-Message-ID: <aOzcasDutRtw6JP9@gmail.com>
-References: <20251010105338.664564-1-vaibhavgupta40@gmail.com>
- <202510110924.dUQeeRV6-lkp@intel.com>
- <20251011122612.4fa7c97a@barney>
- <aOpAO7j0Uyo6FPcu@gmail.com>
- <CAMRc=Me2ABQUXVeHyfsDR-etyT9mdX-kqxfQDnh3msfZiS6ccQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ie2zK1md"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760358440; x=1791894440;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tIO5ex0j+Pyr+Z4CQQOwMWUZFlaougdUfX/tbF7AQio=;
+  b=ie2zK1md+SvqQ0/E/ahowMRLXd4WRcK/j9ymTRP3pPhmtIbw9k0FREcE
+   Puy6RoC+pSFMG7Hza7UlDSFQI+/Rt/Cy2CBBEWoi+eUmeTgEVDrPokzjT
+   t6QTZnZFL8cp1j9AjG2UzBSNNodGopqlnncZdoqaExJ4i2WVnwxrnxF72
+   wqiOTzf31Z3acPnB8pO6HAzs3VMHYze27QQyhJqruDzJ38LZ+O/mROQyx
+   69A8D8gzqFtFScpHbUnSmGdFjOwCBRPy75Bp2MqK9b4IeZ7S/nSRIxfed
+   4gFKxObdSccq/aQmo0LlJCIyhu5zUp2mHW/4fsD51rHA+6svnJu3vtbxD
+   A==;
+X-CSE-ConnectionGUID: R9R5q17BRuOUo1BPzr8e9g==
+X-CSE-MsgGUID: 5zWcbFWERqyc2epfK8fgnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="62528673"
+X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
+   d="scan'208";a="62528673"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 05:27:19 -0700
+X-CSE-ConnectionGUID: o9vsPEjmRwm01ZK7WSsCjA==
+X-CSE-MsgGUID: ymKHQC+aS/OUyQO1pzWCyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,225,1754982000"; 
+   d="scan'208";a="186001670"
+Received: from igk-lkp-server01.igk.intel.com (HELO 0e586ad5e7f7) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Oct 2025 05:27:18 -0700
+Received: from kbuild by 0e586ad5e7f7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1v8He0-000000008s9-1oDG;
+	Mon, 13 Oct 2025 12:27:16 +0000
+Date: Mon, 13 Oct 2025 14:26:50 +0200
+From: kernel test robot <lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/250-aop 58/75] warning: using `as _` conversion
+Message-ID: <202510122042.sh8wTiUn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Me2ABQUXVeHyfsDR-etyT9mdX-kqxfQDnh3msfZiS6ccQ@mail.gmail.com>
 
-On Mon, Oct 13, 2025 at 11:41:43AM +0200, Bartosz Golaszewski wrote:
-> On Sat, Oct 11, 2025 at 1:32 PM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
-> >
-> >
-> > Hello Michael,
-> >
-> > Ah yes, this macro somehow got overlooked by me. I will send a v2.
-> > Thanks for the review!
-> >
-> > Regards,
-> > Vaibhav
-> 
-> While at it: the subject should be: "gpio: bt8xx: ..."
-> 
-> Bart
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   8b6709186beeb5586868e91c84775efe3194d98d
+commit: 7c0959a07d1902bd77e8aa037d6326cc4f5f8461 [58/75] fixup! rust: Add Ownable/Owned types
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251012/202510122042.sh8wTiUn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510122042.sh8wTiUn-lkp@intel.com/reproduce)
 
-Done in v4.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510122042.sh8wTiUn-lkp@intel.com/
 
-Vaibhav
+All warnings (new ones prefixed by >>):
+
+>> warning: using `as _` conversion
+   --> rust/kernel/io/mem.rs:296:39
+   |
+   296 |     pub const WB: MemFlags = MemFlags(bindings::MEMREMAP_WB as _);
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^-
+   |                                                                |
+   |                                                                help: consider giving the type explicitly: `usize`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore
+   = note: requested on the command line with `-W clippy::as-underscore`
+--
+>> warning: using `as _` conversion
+   --> rust/kernel/io/mem.rs:302:39
+   |
+   302 |     pub const WT: MemFlags = MemFlags(bindings::MEMREMAP_WT as _);
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^-
+   |                                                                |
+   |                                                                help: consider giving the type explicitly: `usize`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore
+--
+>> warning: using `as _` conversion
+   --> rust/kernel/io/mem.rs:307:39
+   |
+   307 |     pub const WC: MemFlags = MemFlags(bindings::MEMREMAP_WC as _);
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^-
+   |                                                                |
+   |                                                                help: consider giving the type explicitly: `usize`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore
+--
+>> warning: using `as _` conversion
+   --> rust/kernel/io.rs:269:17
+   |
+   269 |                 buffer.len() as _,
+   |                 ^^^^^^^^^^^^^^^^-
+   |                                 |
+   |                                 help: consider giving the type explicitly: `usize`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore
+--
+>> warning: using `as _` conversion
+   --> rust/kernel/io.rs:290:17
+   |
+   290 |                 buffer.len() as _,
+   |                 ^^^^^^^^^^^^^^^^-
+   |                                 |
+   |                                 help: consider giving the type explicitly: `usize`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore
+--
+>> warning: using `as _` conversion
+   --> rust/kernel/xarray.rs:244:28
+   |
+   244 |         unsafe { T::borrow(self.ptr.as_ptr() as _) }
+   |                            ^^^^^^^^^^^^^^^^^^^^^-
+   |                                                 |
+   |                                                 help: consider giving the type explicitly: `*mut ffi::c_void`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#as_underscore
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
