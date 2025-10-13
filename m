@@ -1,58 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4B02DEA7B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 06:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C112EACF7;
+	Mon, 13 Oct 2025 08:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760337504; cv=none; b=qqCHeyjzMJoZyZTUdZjUOnYQ0QpqUaJOWPZu3yFQPePs6N5APj74AAH/CUBIHqHzLFBjJl1pMAwY/g93r98Eq2qZfxw7bjlPIVoFHXyqryrd/+rJDRHia/t5fPuygS79QEpSL+u4Z9jedrsvvb9Bx19A0jK/i3C9RBaqeS21BC4=
+	t=1760343995; cv=none; b=C81j6Ej0rURADYYHzk83mIxqdFbM/J4GaF4fQr0VWfdl7EFHEmaURp/vnbPMPyrysgLLLHdgWo2+aH6hBfJhHTGz96fqHwwUIoAKIVKdMHrtb12mzLMKjBfnL/gBayxxaF9Q18AH3BJlYBc0oCqJxYo9jHE8Y62cOnXGx8oEo+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760337504; c=relaxed/simple;
-	bh=u+KJ3J5hocETP52HDs8puNL6tGEF6iXXX8jni8LBMkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ezRDImpXs3oeY3luSmS0bdG5LGZLxYYuP8z6bnK+JUHwaFBi4wW2M5sbGDTQFRBgmZdBLiuk/+k3IVPIpP3Vf//ymGTY0uiiRB112Slc1rWLrLzKSg+/EOkMn7uqhSEMmKM/AyyrPY90ufyD1VwM4ZfU+ggfJoUJDDuU1qCx4bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Twb6IZHY; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760343995; c=relaxed/simple;
+	bh=mhYbMUqo6ZsY2xdUH3I9/u+IkGuSpwABWXvCjwa48yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jasmdKiM3IO+IdWHmSNyDgIP84wO1RG9oFAg7FJrM3DV2NhpZbAx8mQoeO8Qq7nZuVjGL3B8vf/bISEHM83DIc5Maln+RSU+OLLLksoPchxAv+0/v00qMN7XELk7iLsQHHAeKEuP4sWHZW9eciwu8OcmfLtT6VW51q5RmMxh6X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P1jrCx+u; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Twb6IZHY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760337503; x=1791873503;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u+KJ3J5hocETP52HDs8puNL6tGEF6iXXX8jni8LBMkg=;
-  b=Twb6IZHYX27TrnLycMqqsTAf6OhD0+emMRc8QvaH/dQze2bV6ofE5T3o
-   IZR8hO+NV4SP5xXWqQkp4UYYYSXJ8HGBkfD9jpZHSJTjkqjPEo6qJ5hSu
-   nbzU0c4iiUPh1Bnr1twLi02cvTJbjzmwpILW1b5LUMhElLas4SicWHMXG
-   UFnbyEcWG1TqLuM2MP1MBgzLEtGUkS8CDq0mDWwOxwrWq1FMOAarWWNo1
-   HCEvk/Bb9jn9QzzzErp+urvrynoMwPo56ALpgJyvoykoZMGN5Nt6x7Wii
-   hNYRQojN2YC5UQd6pIfej1hD+4deqTs9ZL5yPN1nAitlBM0RNRRT+FV5n
-   w==;
-X-CSE-ConnectionGUID: N4DwRX0YQQOYoQd1CnffnQ==
-X-CSE-MsgGUID: m8u7/UbtQF+xZFcf3TDqaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62385326"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62385326"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 23:38:22 -0700
-X-CSE-ConnectionGUID: bry6tbGRSyy3yRJQoA8DcA==
-X-CSE-MsgGUID: gJ+13iW/RC6097VAhG52Ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
-   d="scan'208";a="185929783"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Oct 2025 23:38:20 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v8CCI-0000Dn-0i;
-	Mon, 13 Oct 2025 06:38:18 +0000
-Date: Mon, 13 Oct 2025 14:37:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool/merge 66/70] error: objtool: --checksum not
- supported; install xxhash-devel and recompile
-Message-ID: <202510131412.DEdNtoeO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P1jrCx+u"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=2onQY5FvSXunJQp4XQbpmjw1bmWMDR7bKnWkiVs65Vs=; b=P1jrCx+uheHj/hJbkIbTIzHL7H
+	I6udKigyAEQLZTwd8MN28N6NsWzWXhmA5ZbVjtuyRNKl3bxrmkVAYFLgW/U2u675HyAneoft1dEuL
+	alxOCO24vFUepC7YJHE0kI4R5yzxiwmXf1LyZXJ8VGxWF1g13hX48IeDZAXu9VjHHzofcdfYERFui
+	qYSEPJlP4sncOP7WVVMUEc8I0MfL7g1aBPAHGD76XwXoe/FiwQuE1ZIw2Qjsf1QnLIA473kBynCRs
+	9M8hEyKjW1X1nFTgeIQK5YAvIi3hTBuqjmXctQFGpL7bpRLmNTa392/lI7K16xQiCJTJWqhzYelzj
+	R1UeeJ1g==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8Dsz-000000026Gw-11YD;
+	Mon, 13 Oct 2025 08:26:30 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4733C300212; Mon, 13 Oct 2025 10:26:29 +0200 (CEST)
+Date: Mon, 13 Oct 2025 10:26:29 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Ingo Molnar <mingo@kernel.org>, Kees Cook <kees@kernel.org>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [tip:x86/core 1/1] vmlinux.o: warning: objtool:
+ rcar_pcie_probe+0x13e: no-cfi indirect call!
+Message-ID: <20251013082629.GH4067720@noisy.programming.kicks-ass.net>
+References: <202510092124.O2IX0Jek-lkp@intel.com>
+ <20251010032001.GA3741500@ax162>
+ <20251010071032.GE4067720@noisy.programming.kicks-ass.net>
+ <20251010074446.GE4068168@noisy.programming.kicks-ass.net>
+ <20251010223012.GA3597090@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,59 +55,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251010223012.GA3597090@ax162>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool/merge
-head:   f8a72ab791073ba755c7ea51cdbec6ad963351b8
-commit: d118c28e401965b8db84cb00e3cb08bf6a1888d6 [66/70] livepatch/klp-build: Introduce klp-build script for generating livepatch modules
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251013/202510131412.DEdNtoeO-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510131412.DEdNtoeO-lkp@intel.com/reproduce)
+On Fri, Oct 10, 2025 at 03:30:12PM -0700, Nathan Chancellor wrote:
+> On Fri, Oct 10, 2025 at 09:44:46AM +0200, Peter Zijlstra wrote:
+> > That's here... and that is indeed broken. Also note how it zeros r11
+> > right before calling it.
+> > 
+> > AFAICT this is:
+> > 
+> >         host->phy_init_fn = of_device_get_match_data(dev);
+> >         err = host->phy_init_fn(host);
+> > 
+> > Where it has decided that of_device_get_match_data() *will* return NULL
+> > and then helpfully emits (*NULL)(); or something like that. And then
+> 
+> Oh duh because it will :)
+> 
+>   $ rg '^(# )?CONFIG_OF' .config
+>   1528:# CONFIG_OF is not set
+> 
+> which means that of_device_get_match_data() is always NULL:
+> 
+>   static inline const void *of_device_get_match_data(const struct device *dev)
+>   {
+>       return NULL;
+>   }
+> 
+> > forgets to add CFI bits on for extra fun and games.
+> 
+> which means this is another instance of what Sami mentioned happening on
+> another report of a similar issue
+> 
+>   https://lore.kernel.org/CABCJKue1wCB6jBLYUc-fAEzpyQWHXwbk8R5GBaZCkCao0EQZPA@mail.gmail.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510131412.DEdNtoeO-lkp@intel.com/
+Ah yes -- I had missed that :/
 
-All errors (new ones prefixed by >>):
+> which does somewhat make sense because what's the point of setting up
+> the CFI call if you know nothing can actually make use of it since we
+> will crash when trying to indirectly call a NULL pointer?
 
->> error: objtool: --checksum not supported; install xxhash-devel and recompile
---
-   drivers/input/mouse/sermouse.c: In function 'sermouse_connect':
-   drivers/input/mouse/sermouse.c:240:61: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
-         |                                                             ^~~~~~~
-   drivers/input/mouse/sermouse.c:240:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> error: objtool: --checksum not supported; install xxhash-devel and recompile
---
-   drivers/input/mouse/vsxxxaa.c: In function 'vsxxxaa_connect':
-   drivers/input/mouse/vsxxxaa.c:468:55: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
-         |                                                       ^~~~~~~
-   drivers/input/mouse/vsxxxaa.c:468:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> error: objtool: --checksum not supported; install xxhash-devel and recompile
---
-   sermouse.c: In function 'sermouse_connect':
-   sermouse.c:240:61: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
-         |                                                             ^~~~~~~
-   sermouse.c:240:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> error: objtool: --checksum not supported; install xxhash-devel and recompile
---
-   vsxxxaa.c: In function 'vsxxxaa_connect':
-   vsxxxaa.c:468:55: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
-         |                                                       ^~~~~~~
-   vsxxxaa.c:468:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> error: objtool: --checksum not supported; install xxhash-devel and recompile
+As Sami says, it would be really nice if clang would at least WARN about
+emitting an unconditional NULL call like that. I mean, it *knows* its
+going to crash and burn at that point, right?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Something like this would avoid this issue then.
+
+Yes, this seems reasonable -- even if the driver should perhaps
+mandate/depend on CONFIG_OF, making sure to behave when NULL does get
+returned is definitely a good thing!.
+
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+> Cheers,
+> Nathan
+> 
+> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+> index 213028052aa5..15514c9c1927 100644
+> --- a/drivers/pci/controller/pcie-rcar-host.c
+> +++ b/drivers/pci/controller/pcie-rcar-host.c
+> @@ -981,7 +981,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+>  		goto err_clk_disable;
+>  
+>  	host->phy_init_fn = of_device_get_match_data(dev);
+> -	err = host->phy_init_fn(host);
+> +	err = host->phy_init_fn ? host->phy_init_fn(host) : -ENODEV;
+>  	if (err) {
+>  		dev_err(dev, "failed to init PCIe PHY\n");
+>  		goto err_clk_disable;
