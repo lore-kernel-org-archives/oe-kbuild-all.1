@@ -1,45 +1,58 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC3019CCF5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 19:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C61E2DAFB8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 19:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760382886; cv=none; b=BXiS74Gylkk/O6itLjQAQLf4M8MJSFCpkTaf8jQ2aQ8c6dumoCyoITNXp1RR9l8nIWsiajGnzJWe47jES5uGaqDLEpEKg/WLZYasILvj3aqnr1HKU5ch2WRYDzSgnoHVJrmJ2ty88iYWOeaukTFfOlGXiIM/Z3IkiHtr+JJS/5E=
+	t=1760385581; cv=none; b=rGa5q+46R0cL0d6wy0ZKPWVPeTr0cY4lyF4r9JURyX4i46/WZeoaA2dpLufGUYkAFYNw7atNVfBZqU22+XMXKPnKnE+0uVID8xkauPVm05nglymZQLUGVLJoHpdQ9ERvBbbWggOT6MH9gRQYe0aWQzNuT0jo7+wrYBxOMq3HXLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760382886; c=relaxed/simple;
-	bh=n5rwf0WQdBC6QwlSIg9/3sdZ162ExJ0C6WDKkPAkRfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LDq0w8ycGp6dbUb7xFnhbiErHsOQux8c7rHxwl194SNXlDq3XIHrBRcMOqpeWESodAZo4UGoQWZgaKrkM9xk6HMuvNnF/cPhCP/seHZVQCs4ZcY/jGie5EiMRGp0Ni0HIyXG4myxAibwAbKTRbctW2ygpXdRGwPYreDJcUuQY1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=plcQFish; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1760385581; c=relaxed/simple;
+	bh=X1ZNzE6xAvST6sv7myFQ8E5nFxpuIlKBScXNiddyFEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uxV8A6699KF5emrhfb7udbcr982hDJ/4CTh6blnw8V78PR8Dtu2C9WFQp3NeSRvr3abkgqMQ4cK8p6HuEBd75PCkdzB8dowKX2kTt7cRvHzX1a86FeGMlj0UqO9ZPH+OMWyT3LpFajm4tL8GSU4WH7mVyTeusuhZrOZwuWdJyI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3qNYcgE; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="plcQFish"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=igE6g6u2NZD/HmmqlAKvt99GSVG3bL4BP1cMLQsOyQs=; b=plcQFishrn5RGYCCvgGv7bZsPB
-	iu5Kpk9YnPuqqB+7rD9KNM7LCtfj9v+Ad14Ks4G91szdciE6ocBsiBtMR6tRbUSMmLXXTn7ahzVEf
-	zRvMtixezI4Xfzt+mHrhK1R6IDVkQ70It6SvtOqlXktyHYHWrrBUvshYzU2QbGWDaAEvP2NPFOhdP
-	eSEb53cBidvahLM89/dvkEr48WssmG2DJ2AZ0/Vo0kQjVy+AVJ2NcnE0MgOtoA8gJL1fSn+l4J3Bz
-	8j0F3ajyUy76F2wSLrI3rlrSc4neDoINy51pA9KShg4BIAo5onPX4G+dm7bupKWQGrNCqTBJN/y7d
-	EjV7+n3Q==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8O08-00000004a6Z-2X5j;
-	Mon, 13 Oct 2025 19:14:32 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id E8F44300212; Mon, 13 Oct 2025 21:14:31 +0200 (CEST)
-Date: Mon, 13 Oct 2025 21:14:31 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Oleg Nesterov <oleg@redhat.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:locking/core 5/6] include/linux/seqlock.h:1243:
- undefined reference to `__scoped_seqlock_bug'
-Message-ID: <20251013191431.GB2734756@noisy.programming.kicks-ass.net>
-References: <202510140115.NW5RohLv-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3qNYcgE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760385580; x=1791921580;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X1ZNzE6xAvST6sv7myFQ8E5nFxpuIlKBScXNiddyFEk=;
+  b=X3qNYcgEADKTHUVns20O7Rv/cdcPJvL8vDK2jwsUqx8Y68i+lj2Q2lzJ
+   krJXUJAjyFX/A+qsKNBBxJ/UDpl06UBSsSqGsStZzOgPdfqIY6Ry3k7bw
+   enVv3rT1urM7CWLoKU+p7Dw9RvJLEmg0HZe6Ohijj7zJLPDQmrAADN3Ux
+   nqVSjwpYvKZ8WEbvuD9vaet1OzWAw8Vdxv3nIb7atd7xJaHo/n63hWyCz
+   71PaoJhfHlsPjGuoCemb9IKmuhDjElfm/W9kZcQNomhfRC/8a3PalN48h
+   s1IlKM9kkLX43Ygo0NgdZQe8WAbnWNsjUaos2bqvzfWQjwXOExPGVshpf
+   A==;
+X-CSE-ConnectionGUID: v9b41CppQ5Gqk9E77FiD8A==
+X-CSE-MsgGUID: 4jYhfR2eRYmnLZ6sOVq3hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62634465"
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
+   d="scan'208";a="62634465"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 12:59:37 -0700
+X-CSE-ConnectionGUID: jHy6c5HsRhWu8L1OpqRpNA==
+X-CSE-MsgGUID: ul/ZPYLjSqC87kdTx42GTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
+   d="scan'208";a="181702719"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 13 Oct 2025 12:59:36 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v8Ohg-00020z-2w;
+	Mon, 13 Oct 2025 19:59:32 +0000
+Date: Tue, 14 Oct 2025 03:58:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/uml-remove-32bit-pseudo-vdso 1/12] make[4]:
+ *** No rule to make target 'usr/init', needed by 'usr/initramfs_data.cpio'.
+Message-ID: <202510140352.9136LO46-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,28 +61,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202510140115.NW5RohLv-lkp@intel.com>
 
-On Tue, Oct 14, 2025 at 01:56:20AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
-> head:   bc46a565798322686d367c09b790a43a5b6fd847
-> commit: 5259948079562bd66aecfbc7f799bca42899bae2 [5/6] seqlock: Change do_task_stat() to use scoped_seqlock_read()
-> config: nios2-randconfig-001-20251013 (https://download.01.org/0day-ci/archive/20251014/202510140115.NW5RohLv-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140115.NW5RohLv-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510140115.NW5RohLv-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    nios2-linux-ld: fs/proc/array.o: in function `do_task_stat':
-> >> include/linux/seqlock.h:1243: undefined reference to `__scoped_seqlock_bug'
-> >> include/linux/seqlock.h:1243:(.text+0x704): relocation truncated to fit: R_NIOS2_CALL26 against `__scoped_seqlock_bug'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/uml-remove-32bit-pseudo-vdso
+head:   de3e88ecf53901519765f2d06b52b8984a90da9e
+commit: ce3cebd9b432705476c979f05d48fe90bec1b1a0 [1/12] testing
+config: riscv-randconfig-002-20251014 (https://download.01.org/0day-ci/archive/20251014/202510140352.9136LO46-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140352.9136LO46-lkp@intel.com/reproduce)
 
-This shows a failure to optimize. I've not managed to reproduce on
-x86_64 with gcc-8.4.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510140352.9136LO46-lkp@intel.com/
 
-Lets see what else pops on this branch.
+All errors (new ones prefixed by >>):
+
+>> make[4]: *** No rule to make target 'usr/init', needed by 'usr/initramfs_data.cpio'.
+   make[4]: Target 'usr/' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
+   Selected by [y]:
+   - RISCV [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
