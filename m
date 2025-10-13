@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B132DC79E;
-	Mon, 13 Oct 2025 05:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4B02DEA7B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 06:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760334512; cv=none; b=pE1FL6p/ipzPHuRw3hINLuvnujl9k+VP88PzrAX5AOch09igQGGavjuQe6GYKv35KuBk0uvOBEx05xUUnZOfLzm5uvERCmlogoiPiRxR07NRtuCY6ulchzimqXCXG7pBa72KCxaOcMmjZ+QBapAqEAJRCcVzwuSURutIasI2sa8=
+	t=1760337504; cv=none; b=qqCHeyjzMJoZyZTUdZjUOnYQ0QpqUaJOWPZu3yFQPePs6N5APj74AAH/CUBIHqHzLFBjJl1pMAwY/g93r98Eq2qZfxw7bjlPIVoFHXyqryrd/+rJDRHia/t5fPuygS79QEpSL+u4Z9jedrsvvb9Bx19A0jK/i3C9RBaqeS21BC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760334512; c=relaxed/simple;
-	bh=1CbkESsOV9wfYLzbIF/AdVP0kpVZargSZR3O7xR55a8=;
+	s=arc-20240116; t=1760337504; c=relaxed/simple;
+	bh=u+KJ3J5hocETP52HDs8puNL6tGEF6iXXX8jni8LBMkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P61XUZJAs/xq+ZuUUjrSeAqH65YFe5PbuZk4K3Bs7nXgrlT0s966duyUXJ8r8fa4Y5K1g9ZQG6CQ9LiWpA5/kubnEd4QEZsCv7NX5oa4WH5RtVrSsaWenOnYtCi1XCls4keIflcDhhaIknOptxzIxYx90QB0COljfcPwrNta9dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E11ydJbz; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=ezRDImpXs3oeY3luSmS0bdG5LGZLxYYuP8z6bnK+JUHwaFBi4wW2M5sbGDTQFRBgmZdBLiuk/+k3IVPIpP3Vf//ymGTY0uiiRB112Slc1rWLrLzKSg+/EOkMn7uqhSEMmKM/AyyrPY90ufyD1VwM4ZfU+ggfJoUJDDuU1qCx4bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Twb6IZHY; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E11ydJbz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Twb6IZHY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760334512; x=1791870512;
+  t=1760337503; x=1791873503;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1CbkESsOV9wfYLzbIF/AdVP0kpVZargSZR3O7xR55a8=;
-  b=E11ydJbzACvwILjYtPCqgoovXoD8n4NOtqs4S3pI7ATcVtpkUx54SDNe
-   WEcFd07qzl19xJj2cKBoKhI4H9lVLE3hl4LVchIN1d+ODR2w0ub6XGrfq
-   Ga/TtuRqCrij1QC/1U707bBKEb58TnHGIf8zVov7m5/ByM6rfFmCUsnah
-   hjymvlSDXK+kPNuMgk8iHksahc7q6xAd99lf8WRwWemwlarbV9GO4M+Cz
-   SJVz3ha47B3RTcHPdi/lFPSN3EBJWyVsSoMTDOJ+URPcrpE3WtSkZbkO+
-   o0RU5VbQ5arkqsRU31GKs4AyVFwKDOAToYsX0vrrMHMvzTQB21KFOx5TS
+  bh=u+KJ3J5hocETP52HDs8puNL6tGEF6iXXX8jni8LBMkg=;
+  b=Twb6IZHYX27TrnLycMqqsTAf6OhD0+emMRc8QvaH/dQze2bV6ofE5T3o
+   IZR8hO+NV4SP5xXWqQkp4UYYYSXJ8HGBkfD9jpZHSJTjkqjPEo6qJ5hSu
+   nbzU0c4iiUPh1Bnr1twLi02cvTJbjzmwpILW1b5LUMhElLas4SicWHMXG
+   UFnbyEcWG1TqLuM2MP1MBgzLEtGUkS8CDq0mDWwOxwrWq1FMOAarWWNo1
+   HCEvk/Bb9jn9QzzzErp+urvrynoMwPo56ALpgJyvoykoZMGN5Nt6x7Wii
+   hNYRQojN2YC5UQd6pIfej1hD+4deqTs9ZL5yPN1nAitlBM0RNRRT+FV5n
    w==;
-X-CSE-ConnectionGUID: JmPVI+lISPuywre4HMKp5A==
-X-CSE-MsgGUID: E1op3GrERa6VH/00XwWvhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11580"; a="80107046"
-X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
-   d="scan'208";a="80107046"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 22:48:31 -0700
-X-CSE-ConnectionGUID: 2tthKyD4STmYNJLs6Ilmgg==
-X-CSE-MsgGUID: jKd+E5yDQxy154Hqf4YzPA==
+X-CSE-ConnectionGUID: N4DwRX0YQQOYoQd1CnffnQ==
+X-CSE-MsgGUID: m8u7/UbtQF+xZFcf3TDqaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62385326"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62385326"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2025 23:38:22 -0700
+X-CSE-ConnectionGUID: bry6tbGRSyy3yRJQoA8DcA==
+X-CSE-MsgGUID: gJ+13iW/RC6097VAhG52Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,224,1754982000"; 
-   d="scan'208";a="181935498"
+   d="scan'208";a="185929783"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Oct 2025 22:48:28 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 12 Oct 2025 23:38:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8BPS-0000BV-0X;
-	Mon, 13 Oct 2025 05:48:07 +0000
-Date: Mon, 13 Oct 2025 13:45:13 +0800
+	id 1v8CCI-0000Dn-0i;
+	Mon, 13 Oct 2025 06:38:18 +0000
+Date: Mon, 13 Oct 2025 14:37:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: [drm-misc:drm-misc-next 135/212] ld.lld: error: undefined symbol:
- devm_backlight_device_register
-Message-ID: <202510131347.mbEv1p8p-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool/merge 66/70] error: objtool: --checksum not
+ supported; install xxhash-devel and recompile
+Message-ID: <202510131412.DEdNtoeO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,23 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   5385871282e5c2831c226d32cf2ce26b45a7b164
-commit: 7911d8cab55453b6bf59cd1f806503c3dbf0e990 [135/212] drm/panel: visionox-rm69299: Add backlight support
-config: x86_64-buildonly-randconfig-003-20251013 (https://download.01.org/0day-ci/archive/20251013/202510131347.mbEv1p8p-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510131347.mbEv1p8p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool/merge
+head:   f8a72ab791073ba755c7ea51cdbec6ad963351b8
+commit: d118c28e401965b8db84cb00e3cb08bf6a1888d6 [66/70] livepatch/klp-build: Introduce klp-build script for generating livepatch modules
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251013/202510131412.DEdNtoeO-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251013/202510131412.DEdNtoeO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510131347.mbEv1p8p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510131412.DEdNtoeO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: devm_backlight_device_register
-   >>> referenced by panel-visionox-rm69299.c:343 (drivers/gpu/drm/panel/panel-visionox-rm69299.c:343)
-   >>>               vmlinux.o:(visionox_rm69299_probe)
+>> error: objtool: --checksum not supported; install xxhash-devel and recompile
+--
+   drivers/input/mouse/sermouse.c: In function 'sermouse_connect':
+   drivers/input/mouse/sermouse.c:240:61: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
+         |                                                             ^~~~~~~
+   drivers/input/mouse/sermouse.c:240:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> error: objtool: --checksum not supported; install xxhash-devel and recompile
+--
+   drivers/input/mouse/vsxxxaa.c: In function 'vsxxxaa_connect':
+   drivers/input/mouse/vsxxxaa.c:468:55: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
+         |                                                       ^~~~~~~
+   drivers/input/mouse/vsxxxaa.c:468:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> error: objtool: --checksum not supported; install xxhash-devel and recompile
+--
+   sermouse.c: In function 'sermouse_connect':
+   sermouse.c:240:61: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
+         |                                                             ^~~~~~~
+   sermouse.c:240:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+     240 |         snprintf(sermouse->phys, sizeof(sermouse->phys), "%s/input0", serio->phys);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> error: objtool: --checksum not supported; install xxhash-devel and recompile
+--
+   vsxxxaa.c: In function 'vsxxxaa_connect':
+   vsxxxaa.c:468:55: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
+         |                                                       ^~~~~~~
+   vsxxxaa.c:468:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+     468 |         snprintf(mouse->phys, sizeof(mouse->phys), "%s/input0", serio->phys);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> error: objtool: --checksum not supported; install xxhash-devel and recompile
 
 -- 
 0-DAY CI Kernel Test Service
