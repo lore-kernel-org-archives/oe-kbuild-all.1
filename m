@@ -1,208 +1,112 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012061.outbound.protection.outlook.com [40.107.209.61])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8C829B789
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 17:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760375327; cv=fail; b=t4G1gm7gQ9c5hyZfGTTq0e6ZLn2Vo2WFwvMoKrVBpyhsJ55J0UmLkNM2UphpyLlfrMNcnMbiYLWLihak1eEEDAAeqUmofj7EtkdH2L67XueQVzLf3fnXyOsoEDLZ9+oa1uySVpHiP47PT1QBZ8CfJLXqPDcwMtWCI970z7UaG1Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760375327; c=relaxed/simple;
-	bh=s8tx2OALM3vnV0XHmejIH6lGCfQc3kD1cm8aAID1D9Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EdiMOz4/4+inX+wocVzMGN88Lki9U95+oUAJBXbd5iN3ma8s0WUwdgsZ2ueaqb5gpjo1XqDNMavGsZb1nXX7WArQWS2/Uo5dAmbuVXG8ogpIW7ere3DxzWql6v0ukEEuZ8ZnhRvn97WoACT7+EpK7h2lpvJo4nYC4wsSfNz5YwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Twshfs4e; arc=fail smtp.client-ip=40.107.209.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEAC20125F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 17:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760376320; cv=none; b=chXmMwOHM8rI4o9f+SEMbXkdsjA/72K/TmWeD3547oAV0wgp4B63wmscIfSwiovMmXNwN77IodKLFNF2iHS4UfYeuiHpOEAx+YQULs66MeSDyBz20UMbgf0COwpomXXIVNmEVyWuD2osLQF8Fc3KwUMloJzfjAWvg2dLiLJS3wM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760376320; c=relaxed/simple;
+	bh=LUz6lZrXABWBdmGIJHxo6Q2pijPy0RODmfzvta+k8pk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LBRHLyJwWaXJPiytSYfqz19WTkIxEOnolf/3hXk5F2vvwSYEHBfP+6NirL6Bf7yQRm239prhu5NpfKevZOfT7YmHdCZUZKCLwuwpLwqRVNkBSJ3FXSWGJ4pnb9UyukRYUSV1/Cv38SpczyBYA9so4b95dm++2Yr1vYL1n4IwRiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaNhT2FZ; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Twshfs4e"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P+UbBHE7grE9r8IbQRLWE1TUskK2ZTJy5ybjq5fwMRDyws/ZbJK6PFUT7T8tPnLlDfOUIhpO6SHgmZa4HWliSw6ZOCf1qslrLwiAv4b9xVcYjwQw1/t3VW4hNxz9x/B0LYioHUSGjjQJCY6h1uojjXj6Q2BDS1gawEF63hSKNr2N7ldX33Xn7N0qgQBOg2ze7fxkFUwCdTKh8Lezn0DPVw7zg1MLetJnvJPT3cuqDTZg75/CRx4COXrJQXyIb37qObBpzq2kO8g4OfhIV7L8pxjgatiM0aaWR/4igoSXxm6PUUZiFGFNjnMD8I7/pkFgE66RCflQM2YofRfaj/hzTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lEybL5wqSYdwBJSikoq7TQOmHOBJ3B3P3+QkFs0CbXM=;
- b=AWsjYaPh3Cjk2SjD7utk52nQr8tXiUDSOtOMGKybqbdZd3A1tJJDlZCp40YZB580GHJfG1EgZk0JfAYGokVKsAjtmEXUnfCGyqpyU1gTkjtt9FvHAahLHUd1RnQNduXdTW1dKoAHFwk9KmqTcAjcx30R2cgufOk+HcVMNG60To0HfAlzvf+ZGgDw9fAvm8bjUVqQ6Lb3iLPAr8/V4hTDJuEUhS92romkwqXngH2Clmj1SKFXSz8S5nm63hlyzzkSSn0fi2FmZaO5DC1o9+TWqCjiS98+TYafMSeVpt/8LUS1bf1UYFK0K8edwGmwBYnK/aRNC4uwzKEj39wziu7NAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lEybL5wqSYdwBJSikoq7TQOmHOBJ3B3P3+QkFs0CbXM=;
- b=Twshfs4ecXR5NZWetYzZ4BcBsqkgEITzGvOAVrzeqe9HNtG/+g70nk6cFQfXadM1qrZxDYdZv6v6RsZ5DW2lvu+nX8Dyff4RGThPENrcNqNZkaUCeMDjupJWsckbcMXIxCcVFTufwE+0wg/gfjc6IleGm/m4hIAlTPidPtUJak6fRcssDyAVZpdCnE5ZdnCTB2g2SxKxa0RdgvQ+BXYvzl0Med3HkCw6XWLMknGhxSsn8loZPNeB7Kbodor/LuVXke/6xkxWfL93h9zIL3QHwJf8YgHIwhp6TbWZ2Altc3OlGBZM+r+O1QzdSs/xAaFDfNWPGrcuQOtPhOTldOTmYA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- DS0PR12MB9728.namprd12.prod.outlook.com (2603:10b6:8:226::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9203.12; Mon, 13 Oct 2025 17:08:41 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 17:08:41 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: kernel test robot <lkp@intel.com>
-Cc: linmiaohe@huawei.com, david@redhat.com, jane.chu@oracle.com,
- kernel@pankajraghav.com,
- syzbot+e6367ea2fdab6ed46056@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, oe-kbuild-all@lists.linux.dev,
- akpm@linux-foundation.org, mcgrof@kernel.org, nao.horiguchi@gmail.com,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Subject: Re: [PATCH 2/2] mm/memory-failure: improve large block size folio
- handling.
-Date: Mon, 13 Oct 2025 13:08:39 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <CAB0F919-DB00-4599-A3BD-293E13063221@nvidia.com>
-In-Reply-To: <202510111805.rg0AewVk-lkp@intel.com>
-References: <20251010173906.3128789-3-ziy@nvidia.com>
- <202510111805.rg0AewVk-lkp@intel.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BL0PR05CA0020.namprd05.prod.outlook.com
- (2603:10b6:208:91::30) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaNhT2FZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760376318; x=1791912318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LUz6lZrXABWBdmGIJHxo6Q2pijPy0RODmfzvta+k8pk=;
+  b=kaNhT2FZoZvtQG7Ib8323wb5aTF817BjzlL3OyxlkmttRM3suBDjmhIs
+   NgdCo1Y7LQl+gnN3Z0Rrncjsb97OhPlaXIU7nrECqzAbOdM4nh2IXUOmt
+   InSNIIzMfG9h0Yh7d0OLNOFdoOgd7+/PVZC/d+NAEUPaS8bTmSdApbFHv
+   bSdhY0vpM8FK63pPtDYWgmb4jZJaMvODWBElLs8ZHgDenh1s64hgij+OV
+   /fY2ep18cn5Hm+OP2FT2Fnw2guRbGPDVmZxTwYqSVSHAxeohaqP72BwfG
+   /YZKBsm27ul7CLHV3xWivBaHkBA3YEvTLQSptzjlm+eiwzR/Y75AtMvA3
+   A==;
+X-CSE-ConnectionGUID: hzMTnYwaRkyY78Xl1BVNVw==
+X-CSE-MsgGUID: 9tG2sxAqQ1CkuvBKrsGG+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73971065"
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
+   d="scan'208";a="73971065"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 10:25:18 -0700
+X-CSE-ConnectionGUID: 1pgETg8XTzq+QX6zHzkFuQ==
+X-CSE-MsgGUID: NdMK7JqeQGSkuCQcrGq3ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
+   d="scan'208";a="205347117"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Oct 2025 10:25:16 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v8MIL-0001ux-2X;
+	Mon, 13 Oct 2025 17:25:13 +0000
+Date: Tue, 14 Oct 2025 01:24:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:bugfix/syzbot 5/5] fs/f2fs/xattr.h:156:13: warning:
+ 'f2fs_destroy_xattr_cache' defined but not used
+Message-ID: <202510140134.TvEMgTHM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DS0PR12MB9728:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6df8fe2b-9f91-476e-cef1-08de0a7b28e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?u0Az85Di6KCk1f0AnXMEM6tVN2CCkeYwiKFvOjhJsTH+MfxCxC9++NNH4q7a?=
- =?us-ascii?Q?Pq08jOp4Y6J3u7qT9zCc4bl6Ovds2tx5MPdXTkAs6ESOHSHWpyPLf6P4E75K?=
- =?us-ascii?Q?K25oSc6I57splRBJweEtHy8T6DI5Ax2ksmIwBHT/zkacFZI8+gR7K+qIM2Pf?=
- =?us-ascii?Q?tI6msWcDepehgQ1GF8DIsloPo2I7MYKCQuz0UERikisPkhe02Udn4cjnVmnD?=
- =?us-ascii?Q?a4LTdGNovdJJLLvNHnC1DPaaK3Epuk5KUqQ+SPLguYFbLeLu4RWcqP0oLPLE?=
- =?us-ascii?Q?TvDp3R78JnioCt8MVuSIwI838dmlHz+HrFu91yPgQMt1/vwKnXSaxsVDJj+9?=
- =?us-ascii?Q?GnIpya9K5AKGNNHbgnDH+Ozo/TLbonAE5oJ9NcvtOiA74Lwr4xsua1Sm08oi?=
- =?us-ascii?Q?xz5gMCB1yAWqA+pyymJ9lLypCYlU3H/rhHcYVNWuGwhGgg8qSUoAUX+irLWi?=
- =?us-ascii?Q?0Jbza0JRpO1gNKrS5UOOM+bKsDNbZHpVIe8Wp0WUBqpCJQlKPsjHcPM0enBK?=
- =?us-ascii?Q?MX88oVgkj0m7GPIuOrsSDRB3p3Cb0iTRXx9FHSnwuRDMZqtPN8zf1mam8m0M?=
- =?us-ascii?Q?+wdiztS+WomOZ4rwBQG8iJXcOUaO/Aj0J7YbNn8zSShmGIzJhjpfPVCSvwfR?=
- =?us-ascii?Q?8MljfdkKzJidAhOKcFxBqkcWyYsLMHjglyoIE09XyOU+rWINIeQP6jGNW5Ay?=
- =?us-ascii?Q?Jd8KUH7RaBEahcRa9A9a+2mXMhPZZtT/lsJ/dcDuX4Mxi0LwpP+Ar9TLn1yh?=
- =?us-ascii?Q?o4jT4qZk886hUbysBLzMFMW0QHNppht1/GQOHO23P/oXTGE03fB9cFe30f9Y?=
- =?us-ascii?Q?LNxLays2evIB1yn35cq7LSSIXll1jU/FRNKa1wgL5pxah4Tv6TXE2/ioXvsc?=
- =?us-ascii?Q?waDZN6uSbJewlAC1K8vc3D2smg8p1mliPiWP7mXvqzY48pmHrvNOUSQFvdVP?=
- =?us-ascii?Q?3cFu0vy0z2zqNWCH41rhTNVm7EqbP3rCUO0kpR0bsdroi4stZoZ4TMxoURGf?=
- =?us-ascii?Q?QtJ8S7aJf+LZn75VbNAlbHKt9Hxj3FbQBMeIhQ0fpCXnrZIxkqegM8+pdFcv?=
- =?us-ascii?Q?WnVcNVZ/yG/iclGVd/EQzoE9QYbFHCxRWxutu79e57xY6RiCCzN0gGORjsB8?=
- =?us-ascii?Q?/CKrkHkJNbbEHHa2UfgZq69VmRGQQLacTQD5py2yfF9iBWHfe6TJXJu1hHCX?=
- =?us-ascii?Q?u4CWxG3iNS7dcThOlkQ8AxCpICKee6Ja00neR14Dnvd8Yaow24ZPsdugk7BW?=
- =?us-ascii?Q?p/wgqFNKBn4W8S4Yk4puQz8GDSWwC+LbbRFA1idP6STUlCwnbV/mG5RpKxcL?=
- =?us-ascii?Q?HNy6YqsgO5XGwT7JKDB31dsQLicqZWPjW0ctirmp5vWaJDfCDRbyzUoWBsDd?=
- =?us-ascii?Q?okRlNVeoi6XAKy9D5GW6wBH1ebA1X12rsisN7PumJnfcNVFiSAATCTQ6P7WZ?=
- =?us-ascii?Q?4btA/wu+Kd+gLENNUEQBBX1CNVZszI9NccWJt9sX4kNswsRkg8Rn6Q=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uoKd1syMVR1CNGg3zpAS5GPxOIEASx+J7O8/qKlQje5DuurvUOqra6JALNlo?=
- =?us-ascii?Q?aF4x4b84cRQ9R5YIJ1tgmWm4XSYvqJsvJoE5J3i+S4QOapLieOn1ivuqqH36?=
- =?us-ascii?Q?e1sFpGV8HTU4Eh7BC2OuMwMVQhgwTJvXIqLE/lRIpzgR+M0H+0agSIbZWrq1?=
- =?us-ascii?Q?ADC/RNWaI2vDHzjU54LpcXi9Li1EwUaeX8tfY2+qJJWEMFx20Ok8cSdjY2oR?=
- =?us-ascii?Q?7jiXYNhI1Asu7uXFqmN0YASxsJB3hXHvqJTRe9YSVut/r6HU3Gm4FlFBStGi?=
- =?us-ascii?Q?ICHB1NPdB3QlVAx/gR7h6e2xpeEKPyBCuYN6vR7UCYr8i4kMUHnktyicBPtn?=
- =?us-ascii?Q?RK4dzpY75/Gs5xmG8ZEoU/emGJQ2w2f3yC8bQsTIWApEnxeMYvkwoUjzc/X8?=
- =?us-ascii?Q?ITejE1kBDjuYaTfvgdJgm6bCQhsBXwlB82tt5eMC8IR4jFVXIWb9/IED20qx?=
- =?us-ascii?Q?VCPzyCqgJYc8BcA+iiMle5phbRZIiri9yu2ymrj4fz6W5lonjIyC2+afluO8?=
- =?us-ascii?Q?0yKVxh8P1/1btqwkcMBKfnRJ4hl1xXLqG2r5DgoDdU/nSV6RsGwjcf83lWoz?=
- =?us-ascii?Q?GNE1ND0XV5d2C/QSYG0dNAqwhlZVATT429dw3r+oPZ+oiMPQrqxZvLJrQg4v?=
- =?us-ascii?Q?AoKh1H3YTl5w3jeGyBQ8DeqFIE/ylEqL7tgMTNEdKwCIG5bymZCZcG1Wwqyz?=
- =?us-ascii?Q?vhRwE/fEdb6VlW4ovO9YNd+rHX+IufZyPLkViqsYND0GkSZ/tzSU+/m30EOg?=
- =?us-ascii?Q?4R+1Le8B2NmIUKXMR9tnBG1yGaZizxtLuW6BPFkm5fm6bG8V/Xd11YjNcE86?=
- =?us-ascii?Q?2bjS5Xdh1ULoc5eMtRX/xeMFxSIUNWIDtdcerI/SAyLOZYe7K+XJRNgHx0Yq?=
- =?us-ascii?Q?84ORxK/rdVCI/TYvjcikMz5CTNppYPZQX9nJeaRi8SgREFYZwBPg+Kh5g22g?=
- =?us-ascii?Q?m/1pWh0ekSLGDfKf28HacIYCRIyXYt9+IYgGuDxPr/zED3fJeNv5NE7TTGqc?=
- =?us-ascii?Q?ywWAnsC+HaPV9zuJFXJ5ZHDoTUYpJ4QL2ODowTS7kZSi2v2p7s/+094u/tgf?=
- =?us-ascii?Q?mszhxHztjRnP35bqekhR+HOm1cxfPU4QMumU7KaPYtQIIy2Iv29PH+WEwsy+?=
- =?us-ascii?Q?6OOLThQ07TIPe79BYhN6QwM2GXZ8Ic/3UwPu5SKaI7+V4CofnWaUbeIq0gy6?=
- =?us-ascii?Q?yly1WJA6QHaf0ZRn509MXQRFQjhTrRG2t6rT6b5sB7GvwaUhaqOw8CWj/pHD?=
- =?us-ascii?Q?1VXfUXVNOclldNSnHjMSqIVnmyA92fEbhjpqfjNUUd+j8wMjn6p6X9gidVGg?=
- =?us-ascii?Q?aTcDrHMI2C6n8Q3nIApp35hedFOjeGFfKdfY22HE15pt1eibIIow1QPQPprq?=
- =?us-ascii?Q?xseW64w+jNm8fqFWZzOJ4fT5MgGeg2weoRH2llA3T/lxK3JqK6gzpo1Axgrm?=
- =?us-ascii?Q?g07jU0JeBbrmSL/zACvxR8Y6lvt3oZq+BkEkOv0PTz6NRfvYOGlq32wJfCLb?=
- =?us-ascii?Q?0Idh63yqu2JAZpyvp96oZ6SnMvRUeKajBZbrGlUtyp98usvR7RdVDKW40pzt?=
- =?us-ascii?Q?gPnYiKbAC7+F4QfuYVmVVUfKOkTs/AQly8Yvdjox?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6df8fe2b-9f91-476e-cef1-08de0a7b28e2
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 17:08:41.7597
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mj4E/kZTtimL9iuFEPIU7qGnpVgCqT34jEOkhcuy2Ae+UGmY6kSeVzNjSAm0mzYI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9728
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11 Oct 2025, at 6:23, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/syzbot
+head:   519a1cbfb1f287de5edded596f01a41af0cf25ec
+commit: 519a1cbfb1f287de5edded596f01a41af0cf25ec [5/5] f2fs: use global inline_xattr_slab instead of per-sb slab cache
+config: sparc-randconfig-002-20251013 (https://download.01.org/0day-ci/archive/20251014/202510140134.TvEMgTHM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140134.TvEMgTHM-lkp@intel.com/reproduce)
 
-> Hi Zi,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.17 next-20251010]
-> [cannot apply to akpm-mm/mm-everything]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.=
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510140134.TvEMgTHM-lkp@intel.com/
 
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_m=
-emory-do-not-change-split_huge_page-target-order-silently/20251011-014145=
+All warnings (new ones prefixed by >>):
 
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20251010173906.3128789-3-ziy%4=
-0nvidia.com
-> patch subject: [PATCH 2/2] mm/memory-failure: improve large block size =
-folio handling.
-> config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20=
-251011/202510111805.rg0AewVk-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20251011/202510111805.rg0AewVk-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510111805.rg0AewVk-l=
-kp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    mm/memory-failure.c: In function 'memory_failure':
->>> mm/memory-failure.c:2278:33: error: implicit declaration of function =
-'min_order_for_split' [-Wimplicit-function-declaration]
->     2278 |                 int new_order =3D min_order_for_split(folio)=
-;
->          |                                 ^~~~~~~~~~~~~~~~~~~
->
-
-min_order_for_split() is missing in the !CONFIG_TRANSPARENT_HUGEPAGE case=
-=2E Will add one
-to get rid of this error.
-
-Thanks.
+   In file included from fs/f2fs/file.c:31:
+>> fs/f2fs/xattr.h:156:13: warning: 'f2fs_destroy_xattr_cache' defined but not used [-Wunused-function]
+    static void f2fs_destroy_xattr_cache(void) { }
+                ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/f2fs/xattr.h:155:19: warning: 'f2fs_init_xattr_cache' defined but not used [-Wunused-function]
+    static int __init f2fs_init_xattr_cache(void) { return 0; }
+                      ^~~~~~~~~~~~~~~~~~~~~
 
 
---
-Best Regards,
-Yan, Zi
+vim +/f2fs_destroy_xattr_cache +156 fs/f2fs/xattr.h
+
+   140	
+   141	#define f2fs_xattr_handlers	NULL
+   142	#define f2fs_listxattr		NULL
+   143	static inline int f2fs_setxattr(struct inode *inode, int index,
+   144			const char *name, const void *value, size_t size,
+   145			struct folio *folio, int flags)
+   146	{
+   147		return -EOPNOTSUPP;
+   148	}
+   149	static inline int f2fs_getxattr(struct inode *inode, int index,
+   150				const char *name, void *buffer,
+   151				size_t buffer_size, struct folio *dfolio)
+   152	{
+   153		return -EOPNOTSUPP;
+   154	}
+ > 155	static int __init f2fs_init_xattr_cache(void) { return 0; }
+ > 156	static void f2fs_destroy_xattr_cache(void) { }
+   157	#endif
+   158	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
