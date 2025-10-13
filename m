@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94E92ECD11
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 21:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E762E266C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 22:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760390529; cv=none; b=lUUNH/LOUFzL81aDg5LDnoQJuWy1r49oPGJagwmnsQ5cKX99LHJeJ+0EH7ujkaTntpAZi6sOI+N8RlJvuDpE9hCtIhMjFAfuAKXPQFMNbH4mZy+x4t6FzrDYVHaA2rmiRigqleqSrXUsI2PaRYC5tjInCHNFaBEzSsd6cuCay8U=
+	t=1760394240; cv=none; b=moWjIsJQaeRmZAmPpYi0c/bs76P8IgVMfoubtRuSMByvxfHwYtg51o8aCgp2AgTFjuPzfwA3okonsso0zFCzJqrhIkvTvUfAxTshQC1BB800uN1Zw7AzJqNuKaep/GNeXcc4leA0zcm3a32uh1lJpyQR+np4srUK77Tz0kN+yP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760390529; c=relaxed/simple;
-	bh=6ntnqTOlJedOJehYxMVQ/LA8XCrMmJACkD0OGAldBQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gPs9ZkC6PaO5RAKSkqDqngmfURZ5PLlyNcqKNVx7yVgmksNFg0BNXtA5XxwkiyaCGTDrwTiBTeWblJfL/z6eAPoYM5dyF1cs9xXaeQSb46IFhd85WwE9YIUM5ksM+Wh6gl7hmcwsBBtwQQPxc1v6RDAcZviaHq97VK7OHwJDn68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/RaH2h8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1760394240; c=relaxed/simple;
+	bh=xhDQ8jQ2JeiHsGWFBexfvoz+gmbLmvKB7GakKQCB+Ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IWXg5k4IEJBjn1Snpc7Avc9IEqrU2d0bGryP9vv37vNlrfiT29r6PRFs4InpsMqaq/3HBSjmuiAVGzJxtdN0jqYZnqPj4AzUYql7bAuMEK5wNUg+x0zIubbjgqhQ+/wPfQxhznKWIZJtPv/dfLihGP4tmWBBf6sSrbs5C9GL490=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GACD2Zbq; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/RaH2h8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GACD2Zbq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760390527; x=1791926527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6ntnqTOlJedOJehYxMVQ/LA8XCrMmJACkD0OGAldBQE=;
-  b=X/RaH2h8lV9MNd3IRg5hD0CFj5EaDijr+JrD6C1QSbYkIz7lJJdV6w3z
-   5Ux6k3a2zB5v6oWlMqO0wnor5/Q8Whvm/AYs+kukSYO4E91B8GEMwu3qX
-   VfekEBVhwMds0nbyDo8XK5xh1/0U3M1oiLrem2iZDbhikcvwcVguEUO2t
-   2qytmbZEX4bfd3mNnjKS/cL33e7q3kIeaTd6NdPoyxgPWn9iYaOma6neB
-   MYvkgX4ib8Heq+4UcURXvJAkZR/siFdJd8kDrqpVTC48NpUgMc2tCUJPD
-   WnujZEVwcCrP9y6N/IcQZGk7hyCQmvmp6skpn6JpZt5n7VxhnSsxQyqir
-   g==;
-X-CSE-ConnectionGUID: vCnEO0qnR8uJVUuhjlmdaA==
-X-CSE-MsgGUID: QL4mO7otSM+djUNlgd4zOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62581840"
-X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
-   d="scan'208";a="62581840"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 14:22:04 -0700
-X-CSE-ConnectionGUID: YYphuXD0SOStTWE89FxKlA==
-X-CSE-MsgGUID: gWKK2VwqTlq10RJ+fdQ5ZA==
+  t=1760394239; x=1791930239;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xhDQ8jQ2JeiHsGWFBexfvoz+gmbLmvKB7GakKQCB+Ug=;
+  b=GACD2Zbq+030KzxywA8/ftVTNfANbzE+JFv+5kXuihgbmNiVx+zo94F/
+   otyAZYo/+v8HaXc/YUH6nllp9PQ42qpR8ss/EtWenTUJ6cJf1HjvCytQK
+   pGP6+KWflEeXpVNDofUovjc9otITNsLL8Nix4o8/B9zBkJqTyKt1FhCUg
+   isS8UI/IfmXMzpklVn3y+e9tAhlXFTOAcfpu430A1fXlXwc8ZuyhpdfvL
+   lRRJCVAWZTfodAsXatWf5Aw1IGSFrcCaAGCIn0R1nYKBDLMJ/nvHqagoo
+   RtnTBpRj5CyzSnpQElXzvz2KvCHxVwA7mfO5vdF7ihKrH+3O+sHbR1PtF
+   Q==;
+X-CSE-ConnectionGUID: aroUE02XQ1Sw1eltaEEAcA==
+X-CSE-MsgGUID: bPH18oSwQ22WPUtmsbNQrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62479971"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62479971"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 15:23:59 -0700
+X-CSE-ConnectionGUID: +DT6luHHSS21geBRihQwPA==
+X-CSE-MsgGUID: jXV5YpwFR02Os+Njlbr73w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
-   d="scan'208";a="180857835"
+   d="scan'208";a="185967524"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 13 Oct 2025 14:22:02 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Oct 2025 15:23:56 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8PzT-00025H-1E;
-	Mon, 13 Oct 2025 21:21:59 +0000
-Date: Tue, 14 Oct 2025 05:21:34 +0800
+	id 1v8QxO-00027b-1s;
+	Mon, 13 Oct 2025 22:23:54 +0000
+Date: Tue, 14 Oct 2025 06:23:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Mailhol <mailhol@kernel.org>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Oliver Hartkopp <socketcan@hartkopp.net>
-Cc: oe-kbuild-all@lists.linux.dev, Vincent Mailhol <mailhol@kernel.org>,
-	=?iso-8859-1?Q?St=E9phane?= Grosjean <stephane.grosjean@hms-networks.com>,
-	Robert Nawrath <mbro1689@gmail.com>,
-	Minh Le <minh.le.aj@renesas.com>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>, linux-can@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/9] can: calc_bittiming: add PWM calculation
-Message-ID: <202510140553.qo3f0I9s-lkp@intel.com>
-References: <20251013-canxl-netlink-v1-8-f422b7e2729f@kernel.org>
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [pci:for-linus 1/1] hppa-linux-ld: drivers/pci/vgaarb.c:559:
+ undefined reference to `screen_info'
+Message-ID: <202510140617.pslAecqF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,52 +64,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013-canxl-netlink-v1-8-f422b7e2729f@kernel.org>
 
-Hi Vincent,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cb6649f6217c0331b885cf787f1d175963e2a1d2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/can-dev-can_dev_dropped_skb-drop-CAN-FD-skbs-if-FD-is-off/20251013-191232
-base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
-patch link:    https://lore.kernel.org/r/20251013-canxl-netlink-v1-8-f422b7e2729f%40kernel.org
-patch subject: [PATCH 8/9] can: calc_bittiming: add PWM calculation
-config: riscv-randconfig-001-20251014 (https://download.01.org/0day-ci/archive/20251014/202510140553.qo3f0I9s-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140553.qo3f0I9s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+head:   17643231e97742d29227e3ed065f9a16208d3740
+commit: 17643231e97742d29227e3ed065f9a16208d3740 [1/1] PCI/VGA: Select SCREEN_INFO
+config: parisc-randconfig-002-20251014 (https://download.01.org/0day-ci/archive/20251014/202510140617.pslAecqF-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140617.pslAecqF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510140553.qo3f0I9s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510140617.pslAecqF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/can/dev.h:18,
-                    from net/can/raw.c:53:
-   include/linux/can/bittiming.h: In function 'can_calc_pwm':
->> include/linux/can/bittiming.h:204:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     204 | }
-         | ^
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
-   Depends on [n]: BINFMT_ELF [=y] && ELF_CORE [=n]
-   Selected by [y]:
-   - RISCV [=y]
-
-
-vim +204 include/linux/can/bittiming.h
-
-   200	
-   201	static inline int
-   202	can_calc_pwm(struct net_device *dev, struct netlink_ext_ack *extack)
-   203	{
- > 204	}
-   205	#endif /* CONFIG_CAN_CALC_BITTIMING */
-   206	
+   hppa-linux-ld: drivers/pci/vgaarb.o: in function `vga_arbiter_add_pci_device':
+   drivers/pci/vgaarb.c:596: undefined reference to `screen_info'
+>> hppa-linux-ld: drivers/pci/vgaarb.c:559: undefined reference to `screen_info'
+>> hppa-linux-ld: drivers/pci/vgaarb.c:559: undefined reference to `screen_info'
+>> hppa-linux-ld: drivers/pci/vgaarb.c:559: undefined reference to `screen_info'
+   hppa-linux-ld: drivers/video/screen_info_pci.o: in function `screen_info_fixup_lfb':
+   include/linux/screen_info.h:98: undefined reference to `screen_info'
+   hppa-linux-ld: drivers/video/screen_info_pci.o:include/linux/screen_info.h:98: more undefined references to `screen_info' follow
 
 -- 
 0-DAY CI Kernel Test Service
