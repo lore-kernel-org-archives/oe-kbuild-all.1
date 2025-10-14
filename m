@@ -1,157 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479CB2D239A;
-	Tue, 14 Oct 2025 19:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26E82D322E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 19:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760470984; cv=none; b=BzbsvVjbVFr6glMslpPjvRka6232f6PI7alLQFU9x+3FcdTbMHZQIJrtJ1U62sT/K1XFaRNY5ErY/A/e9dvmQOLXhjiS4S/AIq50E/HksH9+XeMLzLj7eprenjmlpfzXVEajTTdRKamRz7ppW3SOAdDG8YZ4HDpneFedxPaLAx4=
+	t=1760471576; cv=none; b=YayPzXWhioCe5jDYiuw76/h6BHROqudZ/3kAeftIuUcDpQ5Pcawbn0OInnKK2vqbqeuC4yoB8JqqSTdR98+B/83cudXCuPrNmL8oJQEnVONNiIPK0+/f2duYpzZZpi7W3XuQWmCwRJvMyG+iw0y/6uEjLNW2Rgo9S2Mrvq1tSyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760470984; c=relaxed/simple;
-	bh=EWgw3GLR6oRJ1kHguVBl4EyHjggRRJZVdezRBUpJWNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eY8AxNgNFsMwalt1xwjiMG3WEqaJhOsnWfTMFRzssqmKUCKLPaOyFU1mBgZLYQmYLm+TvUVWNAOurTJhKBVzuQ6rUSr8QNeWOp4JxhxMIVpt2I41KaabSI0uEUYAm7seX5GmoXFGgZNLSmlzm5BE+3ApkifV7GFfzDmr+41LuCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlefJFjQ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1760471576; c=relaxed/simple;
+	bh=rzfRhGYtB9+07+KIleA/pC/Rmz/MdAcry5BnbPOg3gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bSzol4LS3un5vaUxeuOVOiWIdErkCz6H3wftwC5bM1BRpUYb2Jn5DjtOe+Jc2I1MZJ9rx/D7OOgKAGDgo8YOkDrHafAhy3FnX+9Jz75RxRqzJJEgdUcCUyVxf88fG02iPHaMNU3a2wOOggv+2UtLUqTVkgvD70jTf4xVuhobLjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQYtG76m; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlefJFjQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQYtG76m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760470982; x=1792006982;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EWgw3GLR6oRJ1kHguVBl4EyHjggRRJZVdezRBUpJWNY=;
-  b=VlefJFjQZ11KYKueeTGWWBdU4AtaZGogcuFfSmDB8Jd2egEiUnRItt2H
-   4kUO0yUfuLxsCyUriONEW/xD7O94oLhCSqaIo1Tsw9ifS5W/+qBEoRN2d
-   4LPq9U+NmJCXcL3g2IFv2xO6rAtEjMACVfwThpKiS6hSTcC+JcQ7TeKbv
-   bdQ5wCVUQ17/HauBbdVWaR7NvMbUhsXTEpfqX3a0tIF8zY4rpopbJ8wtS
-   xoKjAX/AInH+TXgdOt5d88JTtpRVEcArmAuaksv59l67FnftIhUqiKBeE
-   /1HI7PHn1BrYLgg8GmxFs3ULqm/RzMEdIG4pf/msAm/sB/zovvYLseqJE
-   A==;
-X-CSE-ConnectionGUID: nGc9ChKZSZiwhXS6qmm8Ew==
-X-CSE-MsgGUID: fos1/Ra1TVOoKpL/NzHDVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="61847602"
+  t=1760471575; x=1792007575;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=rzfRhGYtB9+07+KIleA/pC/Rmz/MdAcry5BnbPOg3gc=;
+  b=iQYtG76m9nGmfm4uM1Si/726EXe0LLPe3/XCgcw/8ecCccP2zdEtoZZo
+   GpA6YPj0zdtlRLoFdyvOC7T//RRMeYYz/TdGiMeZQuROTBkHCS2u9W2AL
+   +b99gsqyNSeYylYlcXOzO3jXDrPQ6s1m10k6qXJpeb/CE5rRUynGz3Ziw
+   tD55O6MV45nTpPN5SxLf/q6HwXUSDwRRKdt52KMFFiAeEvOdm/F2q8w/f
+   xap4oS8j1bwSJELOQtospnT2GpOsFRKcEiwZlAEeR8xNHVz+s349emLEn
+   xbxfwek0FfBWX+ywg1Kwy22M+gV/If7Bv6TcAvzh3FQoaR/h1t2gEhqxB
+   g==;
+X-CSE-ConnectionGUID: kTZGQ4BnRCSobAFu9mdhhw==
+X-CSE-MsgGUID: KJ3h8Nn9RS+3jO6S9kCTwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="61674060"
 X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
-   d="scan'208";a="61847602"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 12:42:54 -0700
-X-CSE-ConnectionGUID: aXu6CnSrSEiPfneed3k1XQ==
-X-CSE-MsgGUID: ItSb2ZoMS0ma9rcCgTTF+g==
+   d="scan'208";a="61674060"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 12:52:54 -0700
+X-CSE-ConnectionGUID: tzykBlOERqWuyPxqP+fbug==
+X-CSE-MsgGUID: uYV0pt26TDOiaqHireXxdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
-   d="scan'208";a="182751611"
+   d="scan'208";a="181976781"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Oct 2025 12:42:51 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 Oct 2025 12:52:53 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8kv3-00037r-1x;
-	Tue, 14 Oct 2025 19:42:49 +0000
-Date: Wed, 15 Oct 2025 03:42:21 +0800
+	id 1v8l4k-00038p-29;
+	Tue, 14 Oct 2025 19:52:50 +0000
+Date: Wed, 15 Oct 2025 03:52:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/vmxon_sucks 17/19] arch/x86/virt/hw.c:302:9: error:
- assigning to 'int' from incompatible type 'void'
-Message-ID: <202510150357.nbUFdnh8-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/1] ovl: Use fsid as unique identifier for trusted
+ origin
+Message-ID: <202510150318.j2kBtJYC-lkp@intel.com>
+References: <20251014015707.129013-2-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251014015707.129013-2-andrealmeid@igalia.com>
 
-tree:   https://github.com/sean-jc/linux x86/vmxon_sucks
-head:   24e9ac2db43ec73d19dc6896a507de1ff078c2bc
-commit: 72541a6245fb93cdc3c8aa8140b20dd1701c0e63 [17/19] KVM: x86: Extract VMXON and EFER.SVME enablement to kernel
-config: x86_64-buildonly-randconfig-004-20251015 (https://download.01.org/0day-ci/archive/20251015/202510150357.nbUFdnh8-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510150357.nbUFdnh8-lkp@intel.com/reproduce)
+Hi André,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.18-rc1 next-20251014]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/ovl-Use-fsid-as-unique-identifier-for-trusted-origin/20251014-100119
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251014015707.129013-2-andrealmeid%40igalia.com
+patch subject: [RFC PATCH 1/1] ovl: Use fsid as unique identifier for trusted origin
+config: s390-randconfig-001-20251015 (https://download.01.org/0day-ci/archive/20251015/202510150318.j2kBtJYC-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510150318.j2kBtJYC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510150357.nbUFdnh8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510150318.j2kBtJYC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/virt/hw.c:302:9: error: assigning to 'int' from incompatible type 'void'
-     302 |         BUG_ON(x86_virt_call(put_cpu) && !virt_rebooting);
-         |         ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/virt/hw.c:269:7: note: expanded from macro 'x86_virt_call'
-     269 |                 __r = x86_svm_##fn();                   \
-         |                     ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-         |                                    ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
->> arch/x86/virt/hw.c:324:8: error: call to undeclared function 'x86_svm_emergency_disable_virtualization_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     324 |         (void)x86_virt_call(emergency_disable_virtualization_cpu);
-         |               ^
-   arch/x86/virt/hw.c:269:9: note: expanded from macro 'x86_virt_call'
-     269 |                 __r = x86_svm_##fn();                   \
-         |                       ^
-   <scratch space>:209:1: note: expanded from here
-     209 | x86_svm_emergency_disable_virtualization_cpu
-         | ^
-   arch/x86/virt/hw.c:324:8: note: did you mean 'x86_vmx_emergency_disable_virtualization_cpu'?
-   arch/x86/virt/hw.c:269:9: note: expanded from macro 'x86_virt_call'
-     269 |                 __r = x86_svm_##fn();                   \
-         |                       ^
-   <scratch space>:209:1: note: expanded from here
-     209 | x86_svm_emergency_disable_virtualization_cpu
-         | ^
-   arch/x86/virt/hw.c:121:12: note: 'x86_vmx_emergency_disable_virtualization_cpu' declared here
-     121 | static int x86_vmx_emergency_disable_virtualization_cpu(void)
-         |            ^
-   2 errors generated.
---
->> arch/x86/kernel/crash.c:114:2: error: call to undeclared function 'x86_virt_emergency_disable_virtualization_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     114 |         x86_virt_emergency_disable_virtualization_cpu();
-         |         ^
-   1 error generated.
+   fs/overlayfs/copy_up.c: In function 'ovl_encode_real_fh':
+>> fs/overlayfs/copy_up.c:431:16: error: assignment to expression with array type
+     431 |         uuid.b = ks.f_fsid;
+         |                ^
+>> fs/overlayfs/copy_up.c:470:31: error: invalid type argument of unary '*' (have 'uuid_t')
+     470 |                 fh->fb.uuid = *uuid;
+         |                               ^~~~~
 
 
-vim +302 arch/x86/virt/hw.c
+vim +431 fs/overlayfs/copy_up.c
 
-   293	
-   294	void x86_virt_put_cpu(int feat)
-   295	{
-   296		if (WARN_ON_ONCE(!this_cpu_read(virtualization_nr_users)))
-   297			return;
-   298	
-   299		if (this_cpu_dec_return(virtualization_nr_users) && !virt_rebooting)
-   300			return;
-   301	
- > 302		BUG_ON(x86_virt_call(put_cpu) && !virt_rebooting);
-   303	}
-   304	EXPORT_SYMBOL_GPL(x86_virt_put_cpu);
-   305	
-   306	/*
-   307	 * Disable virtualization, i.e. VMX or SVM, to ensure INIT is recognized during
-   308	 * reboot.  VMX blocks INIT if the CPU is post-VMXON, and SVM blocks INIT if
-   309	 * GIF=0, i.e. if the crash occurred between CLGI and STGI.
-   310	 */
-   311	int x86_virt_emergency_disable_virtualization_cpu(void)
-   312	{
-   313		/*
-   314		 * IRQs must be disabled as virtualization is enabled in hardware via
-   315		 * function call IPIs, i.e. IRQs need to be disabled to guarantee
-   316		 * virtualization stays disabled.
-   317		 */
-   318		lockdep_assert_irqs_disabled();
-   319	
-   320		/*
-   321		 * TODO: Track whether or not virtualization might be enabled on other
-   322		 *	 CPUs?  May not be worth avoiding the NMI shootdown...
-   323		 */
- > 324		(void)x86_virt_call(emergency_disable_virtualization_cpu);
-   325		return 0;
-   326	}
-   327	
+   418	
+   419	struct ovl_fh *ovl_encode_real_fh(struct ovl_fs *ofs, struct inode *realinode,
+   420					  bool is_upper)
+   421	{
+   422		struct ovl_fh *fh;
+   423		int fh_type, dwords;
+   424		int buflen = MAX_HANDLE_SZ;
+   425		uuid_t uuid;
+   426		struct kstatfs ks;
+   427		int err;
+   428	
+   429		// RFC: dentry can't be NULL, uuid needs a type cast
+   430		realinode->i_sb->s_op->statfs(NULL, &ks);
+ > 431		uuid.b = ks.f_fsid;
+   432	
+   433		/* Make sure the real fid stays 32bit aligned */
+   434		BUILD_BUG_ON(OVL_FH_FID_OFFSET % 4);
+   435		BUILD_BUG_ON(MAX_HANDLE_SZ + OVL_FH_FID_OFFSET > 255);
+   436	
+   437		fh = kzalloc(buflen + OVL_FH_FID_OFFSET, GFP_KERNEL);
+   438		if (!fh)
+   439			return ERR_PTR(-ENOMEM);
+   440	
+   441		/*
+   442		 * We encode a non-connectable file handle for non-dir, because we
+   443		 * only need to find the lower inode number and we don't want to pay
+   444		 * the price or reconnecting the dentry.
+   445		 */
+   446		dwords = buflen >> 2;
+   447		fh_type = exportfs_encode_inode_fh(realinode, (void *)fh->fb.fid,
+   448						   &dwords, NULL, 0);
+   449		buflen = (dwords << 2);
+   450	
+   451		err = -EIO;
+   452		if (fh_type < 0 || fh_type == FILEID_INVALID ||
+   453		    WARN_ON(buflen > MAX_HANDLE_SZ))
+   454			goto out_err;
+   455	
+   456		fh->fb.version = OVL_FH_VERSION;
+   457		fh->fb.magic = OVL_FH_MAGIC;
+   458		fh->fb.type = fh_type;
+   459		fh->fb.flags = OVL_FH_FLAG_CPU_ENDIAN;
+   460		/*
+   461		 * When we will want to decode an overlay dentry from this handle
+   462		 * and all layers are on the same fs, if we get a disconncted real
+   463		 * dentry when we decode fid, the only way to tell if we should assign
+   464		 * it to upperdentry or to lowerstack is by checking this flag.
+   465		 */
+   466		if (is_upper)
+   467			fh->fb.flags |= OVL_FH_FLAG_PATH_UPPER;
+   468		fh->fb.len = sizeof(fh->fb) + buflen;
+   469		if (ovl_origin_uuid(ofs))
+ > 470			fh->fb.uuid = *uuid;
+   471	
+   472		return fh;
+   473	
+   474	out_err:
+   475		kfree(fh);
+   476		return ERR_PTR(err);
+   477	}
+   478	
 
 -- 
 0-DAY CI Kernel Test Service
