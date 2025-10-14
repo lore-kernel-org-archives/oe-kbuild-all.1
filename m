@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A712311C06
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 12:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12151D5174
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 12:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760443997; cv=none; b=M0aiUK+F3H1Efxd2XudhzZp01sEe01LoU/66YI7dghSMBtYtQl17fn3EVFPTfIQq47sEmlQfQtel9hRCTf+YFiJ1wsO5y4irqMTiaurMufTMfau3IeP/gydQKrzednVppJWtUsdtwjZQpWzuYWncWdZrCsyYqrXK3pklKHSzAr0=
+	t=1760445216; cv=none; b=pimDifPTblx4Mw4d2ys6aNwMXQSAkn9YX03Bg+b5f5FugBOfX16XrSBkhdvpCKGc1D4qyX/JOMav1U4XJ5nob9u/V+HMCsKmv5qmo8ynhKlMApnFPP899TFsjyYke8fTTPbNk4RoyAz83TnZgmv2b9mW5nOncXWfJNqCbn5Mcic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760443997; c=relaxed/simple;
-	bh=lSKptZauH/pfaAXe6bjq0/3e6ib2AOPx9muCnN5qP20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y0YVC6kGBveAZlXCF9rwPLvqqS85/2XrCepeYfdcp7eoyehZEyw3ZW4GX0zJs6yGISxz9j5IdWL+NxFwS8LIuF2vAdr0e/JxjdfuNXPe+VnfG45zSURopdk2HgjW/sfDyaaZgC7lHFG8GZydE2mUKMqYmR4F8mB6oj/KWwoCMFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=np5ANdGT; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1760445216; c=relaxed/simple;
+	bh=thZubc+rYKfx8NFLImmRjeRIeu/Hn9lKZgFnWbFk0Sk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Na4nijnNq7quhwgpksKGk3RMKeNPdGm7KcI4eJ0f/DlPXFp+Bo5HtNcyzzF2hOMMNxbefHZ6gbmjxbqCOSJ9WAYKUIvNrxMV2I6lTbG8mugUzjH1wAvUMBZ0B28n5Lyi/homrOCU3t5+amHzo+4pzrPtEsnTKEXAxPVqmhC0wUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVXlcSTt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="np5ANdGT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVXlcSTt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760443994; x=1791979994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lSKptZauH/pfaAXe6bjq0/3e6ib2AOPx9muCnN5qP20=;
-  b=np5ANdGTLwQWqztWNVtD0Uea+s2ggAavbQ8z9GOq/6weFQTsayeeHYpf
-   BYzf8ACC7+rmGFlUUd/yZA1mOtMpCAh42a+E+0X2qcxItA8Mq2+b9hOoB
-   lZ3l+IiMoFin03xn3m8e6aoLFp2MlYu2nZz9zXDzqIApbowH5GvTq7XAf
-   zpp4y01WX8MwlxtrCWtsNPWiNz4nmW3IgbN/X3BC0iIGqMdZVUh2gUZA4
-   FStDgX2D9GWKeCHKdrikKdJvxOwknXYdR3wVGs/mx8YcVMisSI/PbkHoS
-   O0nrWlMcSCbtY2JWXo0Hm03EPLb3VirF8wR7Bx7j5ufPYmqxADj2Ht/u6
-   A==;
-X-CSE-ConnectionGUID: OVTfD3XRQ2mOm6pK1vT9Gg==
-X-CSE-MsgGUID: rsUhaSC/TLK4e8SoXPI4/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62511390"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62511390"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 05:13:13 -0700
-X-CSE-ConnectionGUID: +7QYm7AaSqW62lE4vNTskA==
-X-CSE-MsgGUID: HSzK1kEqQfSbZrFa4poH2w==
+  t=1760445215; x=1791981215;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=thZubc+rYKfx8NFLImmRjeRIeu/Hn9lKZgFnWbFk0Sk=;
+  b=hVXlcSTttXXEQwdJnsQB0WSIlVK0x0etlwARsvZpqsIV0x+iMRVJ0Kp5
+   /WE4JIwFMDE9Tr3/CrFT2GnY3mdSrijBLV4RoO7wpTDQmP4xuA/2REsPt
+   F38wamBnXvNNNg4+mF3rRurlxZM+OINU237fi3z9OIUXzT5WDIj5nUH2g
+   S82eZYOHsn2TMO7BzYCdQ/DxZ61A0SiiQu/m20GzponZaH8u+4Tt6NrKQ
+   kRcEEsuP7r8LNon/pE1LBnKGIIcWJ+wsGkbAEw55H+zj/ISqZRTgLtBbX
+   BNbGywuFPa2xrowIKfU4kBsiC0a3sxS9akkAE5puTpGwCsIgS3Jozc2db
+   Q==;
+X-CSE-ConnectionGUID: A1JuuAIXQB2iw73BKyQtDg==
+X-CSE-MsgGUID: 6gJ8g4mTS9+L1bm2dfO7Pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73944431"
+X-IronPort-AV: E=Sophos;i="6.19,228,1754982000"; 
+   d="scan'208";a="73944431"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 05:33:34 -0700
+X-CSE-ConnectionGUID: 43o5bnMmQcWZjCZnpSnGbA==
+X-CSE-MsgGUID: vlRI8ETsRq+69MltjTkfiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,228,1754982000"; 
-   d="scan'208";a="181416891"
+   d="scan'208";a="212487498"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 14 Oct 2025 05:13:11 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 Oct 2025 05:33:34 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8dts-0002ml-1J;
-	Tue, 14 Oct 2025 12:13:08 +0000
-Date: Tue, 14 Oct 2025 20:12:23 +0800
+	id 1v8eDa-0002nj-2O;
+	Tue, 14 Oct 2025 12:33:30 +0000
+Date: Tue, 14 Oct 2025 20:33:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditya Gollamudi <adigollamudi@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, adigollamudi@gmail.com,
-	mark.rutland@arm.com, peterz@infradead.org, kees@kernel.org,
-	mingo@kernel.org, ubizjak@gmail.com
-Subject: Re: [PATCH] include/linux/atomic: fix typos in atomic-arch-fallback.h
-Message-ID: <202510141934.WzOkEFX6-lkp@intel.com>
-References: <20251014011351.88032-1-adigollamudi@gmail.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lpieralisi:dev/gicv5-fixes 3/4] ERROR: modpost: "of_msi_xlate"
+ [drivers/pci/controller/pcie-iproc.ko] undefined!
+Message-ID: <202510142006.Xzng7XoV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,42 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014011351.88032-1-adigollamudi@gmail.com>
 
-Hi Aditya,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc1 next-20251013]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Gollamudi/include-linux-atomic-fix-typos-in-atomic-arch-fallback-h/20251014-092236
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251014011351.88032-1-adigollamudi%40gmail.com
-patch subject: [PATCH] include/linux/atomic: fix typos in atomic-arch-fallback.h
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251014/202510141934.WzOkEFX6-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141934.WzOkEFX6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git dev/gicv5-fixes
+head:   d326a1131fe5883f610e786c2dc252810c434a61
+commit: 62cb54092a9580f961c58ca1eb7254f2c23b8c85 [3/4] PCI: iproc: Implement MSI controller node detection with of_msi_xlate()
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251014/202510142006.Xzng7XoV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510142006.Xzng7XoV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510141934.WzOkEFX6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510142006.Xzng7XoV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> error: include/linux/atomic/atomic-arch-fallback.h has been modified.
-   make[3]: *** [./Kbuild:79: .checked-atomic-arch-fallback.h] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+>> ERROR: modpost: "of_msi_xlate" [drivers/pci/controller/pcie-iproc.ko] undefined!
+ERROR: modpost: "__ffsdi2" [drivers/spi/spi-amlogic-spifc-a4.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
