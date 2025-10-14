@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E586116DC28
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 07:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BC91D8E10
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 07:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426093; cv=none; b=ExaWtkVndTBt36itFLDcCPeaIyRWAKdi/UG0F2oBT3xlJt76NMH3uljRZhJL07MzAOR57J7KhHIlggFguoncQw5ABmnLmxcLHN2Q9+7UgKP250PZ3Myvz4xiWr+NLJEwKF8pR6jtw5FX5WrDR6lydcUXllQhOCQDLRmBQmS+gSg=
+	t=1760426697; cv=none; b=qmaXRUAQPR0tN7zwH9zhlUC17beNaZH94dLi+7IuyGFKCbcU2sLcTj2YPuC/K/P+FArvdLKBcXLdFW+ny3D2rl87Z/08jfL3E9x4uGxXOaYi3Zje10ssW5jeFAirw2giZnk0nuZnhtD8wz6EO1JOBuFoEHnIMLqYN7mqwxYmxEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426093; c=relaxed/simple;
-	bh=hZDANshQTLTa8k4Ess4Mgj06oH1Hy7w9ujvasKlD+dU=;
+	s=arc-20240116; t=1760426697; c=relaxed/simple;
+	bh=CZp0lbQNhLiQFl87ZwYMZVvAm4voMmM69OP6B4llGtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ijsFL7mmLkNDC4xB9WlUAC+a6I2wqokfgVulxzbUJn21845QD4+RImK57s/EVstSlvTQ1jGetJ7eT++PNjN7NpzWnOjq0XedDCFy3w/4505iyhI8jWgjuIkbFosHqFzE7ZMz7TnsvxbFB9WDi4VNkhuX5ar8q2LPoerXMRdIabc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4Q2w6ul; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=BDVdt0ABN29zSA0zsHLnjuzIw5QUuqo9HHIh3orLt2K+HNB7Mzz2E6upQAsIjg7/hwIN6ghwGy94W1NlWJL47vnChH1agPKDzZd/2DY9TfCGRR/rnBRHYLrf1hBpS8/OOJioZenGM79O2Z2IwU4b7fHV5Yyy6wrWOBzGN9Fmrb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFPB8zw/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4Q2w6ul"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFPB8zw/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760426091; x=1791962091;
+  t=1760426694; x=1791962694;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hZDANshQTLTa8k4Ess4Mgj06oH1Hy7w9ujvasKlD+dU=;
-  b=R4Q2w6ul3fztoFs4hOhuDc4hNb6tmlg4HAOsYIpxB1p1diVU2sApiUr3
-   hPs8X7HKtEjGKn8QoHaD+KIBZ1SeTOj44sCnvHEMRSRbbsIU6YnbYfhE6
-   by/vJad1/qtFln1KrNBAuC2Q4O3AbEObcFjlOEa5CTPa5WB0MdTeYwLzS
-   7E+tayJxJms/abb6latNcGZ1ptJrOt4h9qt7TMD6sx9Gg1xwW4LtVeQsE
-   LzdGkgQj6J7b7nA6frvh7vxvIxokMDfM7KEEp8Zk+kS/4v0TWnf25PTeR
-   ytHQ3pT05EGQZW5LSyF7aTc2kymZZueE88XEDXh3Xs5rYmGDaxL0+q0cN
-   A==;
-X-CSE-ConnectionGUID: K3isHa8rR/eVc379p4zkwQ==
-X-CSE-MsgGUID: XBj3/R+OQDuuftrc1KlQXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="65201779"
+  bh=CZp0lbQNhLiQFl87ZwYMZVvAm4voMmM69OP6B4llGtg=;
+  b=jFPB8zw/wTrGG3FAS6mK8qP2EEaS3ljm6jN2WMLIdPfQ7guguRplPRT6
+   N8RFL67LGm0gDYxSp3q95u5Wfrj/swzOXv//ktr9MtIgzVImTSqJ4V6D4
+   3P3jg+Cp3nQSOf/MKKCd9gor+Tra3Qt8BNqpJhwHmb3hdxdDM6B575yko
+   GLf4y8g2ZhNsfvJfs8is+V0xtp39X5E7XrkOCJAS4C3EcoT4NIP5gNNc6
+   N47Z0qh3trsMC9LfZsshQxcAKIXWBb55LMYaX97ekyGfecfzzgn5SN+Mm
+   H4HQgnUBXi9mtrMAu8UlE6jHC8MdGp8T+Vtj9JqlcCG4AdT0F9NOQsYEE
+   w==;
+X-CSE-ConnectionGUID: iNQJXLxKSvGSm24HNBmYZg==
+X-CSE-MsgGUID: qfjHSaA0R/q7/ZUm9GfTtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62675649"
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="65201779"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:14:50 -0700
-X-CSE-ConnectionGUID: L4mOxB6PSh6mjvn/p38eGw==
-X-CSE-MsgGUID: vHN3AWifRKamzqIrE09DoA==
+   d="scan'208";a="62675649"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:24:52 -0700
+X-CSE-ConnectionGUID: Q3qE+95qS+ilJ3jJ2tTHUQ==
+X-CSE-MsgGUID: kkSzHRp2TByN1oWW0oOGvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="181605678"
+   d="scan'208";a="205506982"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 14 Oct 2025 00:14:49 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2025 00:24:49 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8ZF2-0002VL-2D;
-	Tue, 14 Oct 2025 07:14:42 +0000
-Date: Tue, 14 Oct 2025 15:14:23 +0800
+	id 1v8ZOo-0002Vb-38;
+	Tue, 14 Oct 2025 07:24:46 +0000
+Date: Tue, 14 Oct 2025 15:24:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Kaplan <david.kaplan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 41/56] static_call: Add update_all_static_calls()
-Message-ID: <202510141536.UM7BtSOF-lkp@intel.com>
-References: <20251013143444.3999-42-david.kaplan@amd.com>
+To: Brendan Jackman <jackmanb@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
+Subject: Re: [PATCH] KVM: x86: Unify L1TF flushing under per-CPU variable
+Message-ID: <202510141438.OMSBOz6R-lkp@intel.com>
+References: <20251013-b4-l1tf-percpu-v1-1-d65c5366ea1a@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +69,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013143444.3999-42-david.kaplan@amd.com>
+In-Reply-To: <20251013-b4-l1tf-percpu-v1-1-d65c5366ea1a@google.com>
 
-Hi David,
+Hi Brendan,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on a5652f0f2a69fadcfb2f687a11a737a57f15b28e]
+[auto build test ERROR on 6b36119b94d0b2bb8cea9d512017efafd461d6ac]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Kaplan/Documentation-admin-guide-Add-documentation/20251013-231516
-base:   a5652f0f2a69fadcfb2f687a11a737a57f15b28e
-patch link:    https://lore.kernel.org/r/20251013143444.3999-42-david.kaplan%40amd.com
-patch subject: [RFC PATCH 41/56] static_call: Add update_all_static_calls()
-config: x86_64-buildonly-randconfig-003-20251014 (https://download.01.org/0day-ci/archive/20251014/202510141536.UM7BtSOF-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Brendan-Jackman/KVM-x86-Unify-L1TF-flushing-under-per-CPU-variable/20251013-235118
+base:   6b36119b94d0b2bb8cea9d512017efafd461d6ac
+patch link:    https://lore.kernel.org/r/20251013-b4-l1tf-percpu-v1-1-d65c5366ea1a%40google.com
+patch subject: [PATCH] KVM: x86: Unify L1TF flushing under per-CPU variable
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251014/202510141438.OMSBOz6R-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141536.UM7BtSOF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141438.OMSBOz6R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510141536.UM7BtSOF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510141438.OMSBOz6R-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/static_call_inline.c: In function 'update_all_static_calls':
->> kernel/static_call_inline.c:509:22: error: implicit declaration of function 'within_module_mem_type'; did you mean 'within_module_init'? [-Wimplicit-function-declaration]
-     509 |                      within_module_mem_type((u64) site_addr, mod, MOD_TEXT))) {
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      within_module_init
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+>> arch/x86/coco/tdx/tdx.c:471:12: error: conflicting types for 'read_msr'; have 'int(struct pt_regs *, struct ve_info *)'
+     471 | static int read_msr(struct pt_regs *regs, struct ve_info *ve)
+         |            ^~~~~~~~
+   In file included from arch/x86/include/asm/idtentry.h:15,
+                    from arch/x86/include/asm/traps.h:9,
+                    from arch/x86/coco/tdx/tdx.c:20:
+   arch/x86/include/asm/kvm_host.h:2320:29: note: previous definition of 'read_msr' with type 'long unsigned int(long unsigned int)'
+    2320 | static inline unsigned long read_msr(unsigned long msr)
+         |                             ^~~~~~~~
 
 
-vim +509 kernel/static_call_inline.c
+vim +471 arch/x86/coco/tdx/tdx.c
 
-   495	
-   496	void update_all_static_calls(struct static_call_site *start,
-   497				     struct static_call_site *stop,
-   498				     struct module *mod)
-   499	{
-   500		struct static_call_site *site;
-   501		struct static_call_key *key;
-   502	
-   503		for (site = start; site < stop; site++) {
-   504			void *site_addr = static_call_addr(site);
-   505	
-   506			/* All init code is gone when this function is called. */
-   507			if (is_kernel_text((u64) site_addr) ||
-   508			    (mod &&
- > 509			     within_module_mem_type((u64) site_addr, mod, MOD_TEXT))) {
-   510				key = static_call_key(site);
-   511				arch_static_call_transform(site_addr, NULL, key->func,
-   512						static_call_is_tail(site));
-   513			}
-   514		}
-   515	}
-   516	
+9f98a4f4e7216d Vishal Annapurve   2025-02-28  470  
+cdd85786f4b3b9 Kirill A. Shutemov 2022-06-14 @471  static int read_msr(struct pt_regs *regs, struct ve_info *ve)
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  472  {
+8a8544bde858e5 Kai Huang          2023-08-15  473  	struct tdx_module_args args = {
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  474  		.r10 = TDX_HYPERCALL_STANDARD,
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  475  		.r11 = hcall_func(EXIT_REASON_MSR_READ),
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  476  		.r12 = regs->cx,
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  477  	};
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  478  
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  479  	/*
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  480  	 * Emulate the MSR read via hypercall. More info about ABI
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  481  	 * can be found in TDX Guest-Host-Communication Interface
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  482  	 * (GHCI), section titled "TDG.VP.VMCALL<Instruction.RDMSR>".
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  483  	 */
+c641cfb5c157b6 Kai Huang          2023-08-15  484  	if (__tdx_hypercall(&args))
+cdd85786f4b3b9 Kirill A. Shutemov 2022-06-14  485  		return -EIO;
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  486  
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  487  	regs->ax = lower_32_bits(args.r11);
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  488  	regs->dx = upper_32_bits(args.r11);
+cdd85786f4b3b9 Kirill A. Shutemov 2022-06-14  489  	return ve_instr_len(ve);
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  490  }
+ae87f609cd5282 Kirill A. Shutemov 2022-04-06  491  
 
 -- 
 0-DAY CI Kernel Test Service
