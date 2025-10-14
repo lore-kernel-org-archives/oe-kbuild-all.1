@@ -1,142 +1,85 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8A72080C1;
-	Tue, 14 Oct 2025 09:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AD92D46D8;
+	Tue, 14 Oct 2025 09:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760434058; cv=none; b=WT1Mlb94Cwspu25WJ9SX+u0DimCaBgt8dp1/jdjJcscRVz9WrU6RTuJBOLlwj9HnjLkHtIrF/X/nQKcpianBPq+MPIOb3utEWq8CmNeb4AlMoayfxWhlUmCnas3zIHcqccVauvvhSdXT18fQ1o55RfnEUuck+GZMRbKOSwQvfss=
+	t=1760434212; cv=none; b=g/gXXqxnZGSS6eulXD7oCgYcJZLQ1khlFQZ6MU7x58tMcWSTx/UduACFQO5aJ10vMTvQWS9k0hLPolcvMe91SDJKWXYrbL8AbF0LpdmwGl2fYdx6Q0fLheBAS7q02JSrWFr/UXz0tWFe+ngsZ+dvmF+jorLX2/M6dyeGYYnBAFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760434058; c=relaxed/simple;
-	bh=K6TAMiCaGMIBLMsAhT/vxdWe9ZbYAm66uGS4kY5Okcs=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OIuiA1sDV+ldSDMqKWpRHX5BsdeQ4MovQgLp6U7hgupbNXuO0Rhp/WzLnSOaKsZ86h2eruSGvTGV3Ss2Tf8SI5U9n2LHmqs3bnxTAYkEVySIyi3NPbF4T9EmiIevt4X2DyVId1EAYXZ1ym+64DXTdyCXeNdTVqq/C3ieH4YXwx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=R6FDRJts; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1760434212; c=relaxed/simple;
+	bh=G8qIOGpZDmFjcVl+BG1v3H5em0d95hsDsI1brGLfCjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p9YMysP7sqnfp+p7+1hMGa1R2cI7JLH6q9tDn+x/Xc8V/wDgKFqDNrGf3m1jHcPoaGQ2sUI6Is1o/+fuE9CyOT96LHYaqGkE5lHpQUuGYPprRx4XpTL/Cwivnn8OLY9YUmlVkZ7XlBjvHxhNZCjJNN/Mr4EIGVdnux3u+cWIAUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aE7wQ02u; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="R6FDRJts"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1760434045; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=9p0qTVsaA/0eUuNDB2HEIbJ57T7iM2pq155kMAVAFzU=;
-	b=R6FDRJts2LRtA46ibE7Nq3B30BN5EmqvfMnMWrm/OM4bOOu0nPyNU67CsU4NGRCpRBxADJblGm7yb7AskJfwxXNCUnADwY5dSHBowvOme1wHCXRRAAC2AJJ4q8vFSt2MvPmP5kex+vJfqAIoP7jEXmec7GXQuoYeNviOm2wlj98=
-Received: from LG41624401116(mailfrom:yadong.qi@linux.alibaba.com fp:SMTPD_---0WqBV2FQ_1760434044 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 14 Oct 2025 17:27:25 +0800
-From: <yadong.qi@linux.alibaba.com>
-To: "'Dan Carpenter'" <dan.carpenter@linaro.org>,
-	<oe-kbuild@lists.linux.dev>
-Cc: <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>,
-	"'Andrew Morton'" <akpm@linux-foundation.org>,
-	"'Linux Memory Management List'" <linux-mm@kvack.org>,
-	"'Huang Ying'" <ying.huang@linux.alibaba.com>
-References: <202510110050.VG9YKMRK-lkp@intel.com>
-In-Reply-To: <202510110050.VG9YKMRK-lkp@intel.com>
-Subject: RE: [akpm-mm:mm-new 114/114] mm/vmalloc.c:191 vmap_pmd_range() error: uninitialized symbol 'err'.
-Date: Tue, 14 Oct 2025 17:27:24 +0800
-Message-ID: <003201dc3cec$c0697f40$413c7dc0$@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aE7wQ02u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760434210; x=1791970210;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G8qIOGpZDmFjcVl+BG1v3H5em0d95hsDsI1brGLfCjw=;
+  b=aE7wQ02uBaLT8p5ahyj6/tp/AvUif8x6MeMvUWwq3HlijEPK2zQnKa75
+   +ruppiuiT+GP3/t8Y1ANZWqHVjotvHN2sK6QV9qI6GlGouexgLHMFRof5
+   oRqHGRdCyBAvgk2/qT06Ie+A8rTLK7d3n6UAgwOf62k1M5bedH4g4iOng
+   HCwat2W5Hdl1y2FZ8Jy6y5GP1o3aLIKXesg6EaYCA5FrfD2hJYqwgwx/L
+   15sYHmTScPZyhEPydTtXos/AZil78J8YC6/u3FLxjWnSK5Ok+qm6Ds3F4
+   ktDjjJBBrTux+KzOls4Tr6IC+Vq1vWUk1AfHg2JeYeQHnu2nVJy9fXBaj
+   w==;
+X-CSE-ConnectionGUID: Rb8NyNgxQpemiCchZZ6iEQ==
+X-CSE-MsgGUID: 9oUzi0IsTK+LY+QnHnq5xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62624391"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
+   d="scan'208";a="62624391"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 02:30:09 -0700
+X-CSE-ConnectionGUID: cLpoLbhwTKqR+aex1Nyuiw==
+X-CSE-MsgGUID: Q4lWz0eOT5iw2fbMYIeYoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
+   d="scan'208";a="186091298"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 14 Oct 2025 02:30:08 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v8bM5-0002bT-0q;
+	Tue, 14 Oct 2025 09:30:05 +0000
+Date: Tue, 14 Oct 2025 17:29:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: [agd5f:drm-next 8/19] Warning:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:761 function parameter 'af' not
+ described in 'amdgpu_fence_driver_guilty_force_completion'
+Message-ID: <202510141727.kRy8dSnL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKp7XLvs+TopqcS+NXWteQ2YS1OxrMl93cA
-Content-Language: zh-cn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> -----Original Message-----
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Sent: 2025=C4=EA10=D4=C214=C8=D5 16:28
-> To: oe-kbuild@lists.linux.dev; Yadong Qi <yadong.qi@linux.alibaba.com>
-> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev; Andrew Morton
-> <akpm@linux-foundation.org>; Linux Memory Management List
-> <linux-mm@kvack.org>; Huang Ying <ying.huang@linux.alibaba.com>
-> Subject: [akpm-mm:mm-new 114/114] mm/vmalloc.c:191 vmap_pmd_range()
-> error: uninitialized symbol 'err'.
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git =
-mm-new
-> head:   dbf0247637dd0601a462793035bdd0b416b30e36
-> commit: dbf0247637dd0601a462793035bdd0b416b30e36 [114/114] mm:
-> vmalloc: WARN_ON if mapping size is not PAGE_SIZE aligned
-> config: sparc-randconfig-r071-20251010
-> =
-(https://download.01.org/0day-ci/archive/20251011/202510110050.VG9YKMRK-l=
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   079ae5118e1f0dcf5b1ab68ffdb5760b06ed79a2
+commit: ff780f4f80323148d43198f2052c14160c8428d3 [8/19] drm/amdgpu: set an error on all fences from a bad context
+config: s390-randconfig-002-20251014 (https://download.01.org/0day-ci/archive/20251014/202510141727.kRy8dSnL-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141727.kRy8dSnL-lkp@intel.com/reproduce)
 
-> kp@intel.com/config)
-> compiler: sparc-linux-gcc (GCC) 8.5.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version
-of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: =
-https://lore.kernel.org/r/202510110050.VG9YKMRK-lkp@intel.com/
->=20
-> smatch warnings:
-> mm/vmalloc.c:191 vmap_pmd_range() error: uninitialized symbol 'err'.
-> mm/vmalloc.c:243 vmap_pud_range() error: uninitialized symbol 'err'.
-> mm/vmalloc.c:295 vmap_p4d_range() error: uninitialized symbol 'err'.
->=20
-> vim +/err +191 mm/vmalloc.c
->=20
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  167  static int
-> vmap_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  168
-phys_addr_t
-> phys_addr, pgprot_t prot,
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  169  			unsigned
-int
-> max_page_shift, pgtbl_mod_mask *mask)
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  170  {
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  171  	pmd_t *pmd;
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  172  	unsigned long next;
-> dbf0247637dd06 Yadong Qi       2025-10-10  173  	int err;
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  174
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  175  	pmd =3D
-> pmd_alloc_track(&init_mm, pud, addr, mask);
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  176  	if (!pmd)
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  177  		return -ENOMEM;
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  178  	do {
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  179  		next =3D
-> pmd_addr_end(addr, end);
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  180
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  181  		if
-> (vmap_try_huge_pmd(pmd, addr, next, phys_addr, prot,
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  182
-> 	max_page_shift)) {
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  183  			*mask |=3D
-> PGTBL_PMD_MODIFIED;
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  184
-continue;
->=20
-> Is it possible to hit the continue on every iteration through the =
-loop?
->=20
-Yes, this is an issue. I will submit an addon patch to fix it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510141727.kRy8dSnL-lkp@intel.com/
 
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  185  		}
-> 5e9e3d777b99aa Nicholas Piggin 2021-04-29  186
-> dbf0247637dd06 Yadong Qi       2025-10-10  187  		err =3D
-> vmap_pte_range(pmd, addr, next, phys_addr, prot, max_page_shift, =
-mask);
-> dbf0247637dd06 Yadong Qi       2025-10-10  188  		if (err)
-> dbf0247637dd06 Yadong Qi       2025-10-10  189  			break;
->=20
-> I always feel like these are better as a "return ret;" anyway.  Then =
-it's
-> just one line to read instead of needing to "break; ... return err;".
-> Twice as fast to read one line vs two lines.
->=20
-I prefer to keep same style in vmalloc.c.
+All warnings (new ones prefixed by >>):
 
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:761 function parameter 'af' not described in 'amdgpu_fence_driver_guilty_force_completion'
 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
