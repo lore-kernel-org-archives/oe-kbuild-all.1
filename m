@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B88634BA39
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 07:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACB51E3DED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 07:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760427969; cv=none; b=V/G70VUzCMwC7lfG5MWcewtcil3IbNSke1NrECpd0aePxUAWxuzgShH/C7schA5yiIqiY5upfeJ7wpoAzZV7ZGYWjDic0JjiTuehTRTqFqfFYgC+B+avBhBt1XqsgFIUOpErYqe42sgluzeXnm8UVFt5foCD/K/Lv1w9Ey30NHg=
+	t=1760428072; cv=none; b=WtJXpF55g3RRqfYnA2fT2vDeqV+G1Qtsll2Ov82ysJqU0pPWsMSffK0A5ZLyunM4B3gJiS4KOJ1VDNcI+Qa+eRti4UtQ4YjtEZVGEOOd8KNT9f9JVSdBefPVAae8xAoPErNhQ5Len9yYq3i8umB8tKKTYn5Xh7CjRK0l1wRzdgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760427969; c=relaxed/simple;
-	bh=iFJYQTkBWaoY4pIAww0vQxQDPCBD8wuuPAHi7opOEEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WPMVjvmcJkzZxH18e7xmrShoeiN4To+udUl65d7OOkK6bo6hpz4gVCSZzmBsXHGI41uOuin30vuSRS8BKt0y8KGxkr9NsS4qmGUAt8OAjpOdm49iviX0WwHub0qIpcDPqSFGsldstiELI+jHTpLFUUUou+LWFmxzrLPGneJs7TE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VhO0YY5Z; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760428072; c=relaxed/simple;
+	bh=r6AqKWJgwKUzwfxb5aq/607KfDQIExWxJAMvO8wzI/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HzL077Lt4u3mKt0Hr5rSP+J/ReQeM3VkGBPJGVwbqE5YB43pbWfixWgws+bvpSduu2mfCC8JCW4yDfZhdYR7VM0PGMK8M97yZxjbGK25NqZ9dUim+X7c+AM/W9Py7YBgyxnBuAk7JXrmYlyPu6NktyoPTe7rV7KN606scGTGofU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C5Be1vg+; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VhO0YY5Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760427967; x=1791963967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iFJYQTkBWaoY4pIAww0vQxQDPCBD8wuuPAHi7opOEEk=;
-  b=VhO0YY5ZMn3zDiHUawTji/ZBOlNtOPqVrcATgy4Ui/f2771LYGpix4B9
-   IJkPqOHfnjIrGKjeA0ZMbod+xFiVB/ffEMzwm+4KENIgQ++H3qnDngSDi
-   vfb7C9Lp3UqsMt54oV9iG9Czhc0VbSSGZauhBud9EjX6GhRc1lFiBkAvE
-   cAQm6yCVzjeSFVJj9RGecrwzhxEQ+2q36XYV98Wmj7yIiyeuF32xTPiV5
-   MoYZhWVMddaIXKn1X93BO4KrdXPWXAjfcXZewyz6zbzyIQcwVajZsjAs9
-   xHZAXqBxmNglPvklLlByi2qIQSLv1CrRQhOUHqcwMbQan2KLTBaAeYnWA
-   g==;
-X-CSE-ConnectionGUID: CsvqFQSsSZCytpI0Bz8+MA==
-X-CSE-MsgGUID: Trd4VclDQLy+eLXi+dzZjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62491022"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62491022"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:46:06 -0700
-X-CSE-ConnectionGUID: EY2PmURNQxCAa5rG70wzCA==
-X-CSE-MsgGUID: +7v7PKt4QT+5fOUN0+0aKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="185835316"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 14 Oct 2025 00:46:05 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v8ZjO-0002Wp-1K;
-	Tue, 14 Oct 2025 07:46:02 +0000
-Date: Tue, 14 Oct 2025 15:45:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Kaplan <david.kaplan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 41/56] static_call: Add update_all_static_calls()
-Message-ID: <202510141554.vfmmSbaY-lkp@intel.com>
-References: <20251013143444.3999-42-david.kaplan@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C5Be1vg+"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso2831928f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 00:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760428069; x=1761032869; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h1BrabTRml53juPP0xOi+PNWI+Y0GuTwM8Zx3IM+NBw=;
+        b=C5Be1vg+FwSbmTwblnYr0giTf7agVZZNWHa8yeu/8TvktIHBmUQFP7pzMQLnu8daF8
+         Oo9ytfOFR0ub8kC9P9TqNKA3YfBkVtzJU2EW5ec1ivu3YkNoVdsAKSDZylJD8YmYRXQp
+         9k+ZutJW0RlHaPSBQrah8ivLCVxi/oes1yntwva64XbR6YF2Hn9kQcHSh86/nZ2ccyJJ
+         MiFAp7QRCUwN/7/Bu/gQAcBbP0DzeiLSx4xAuX3D6ngCvCqY6Bz4XPCx3Q0JiamWXpq2
+         yKzTGaBoYi2e9YQQ+wcn1aXP6oR07RX4e9IIAwEwOuzfOEUivf0Trgbx2HgEZpQEFwB7
+         fyNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760428069; x=1761032869;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h1BrabTRml53juPP0xOi+PNWI+Y0GuTwM8Zx3IM+NBw=;
+        b=tZWReBmuTlBihtp4LUKGITjY1Y/27nTngZREYKMe+Grlx+1GMZPMKObdsUEWEGzAyI
+         CxKQOEsOuoKcA/5FTU5+DyWViyjZMOihoEosJnKi2WRJDLUwWyb5vy5pE9fWbHdmLroE
+         UZviFytdaDy8vnGOygloXZ1k5VWLH3TrD0BDQTjAN1MFTkdhrXsrltfOob0MkUjLmbdl
+         NtrFLFy+xfaSiRcvEN7kHwfh16SKEvBwYVEOSVt2+MF6JAw2Z54dijZMad6FT+4fNLZa
+         v6fpbjMaovCrZEAlGmuTsx8wGnVxLhRVzauXl3sJl4U/45mP5zj3h+kbeT/6I8bKxb0s
+         y13Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVAMsYsWLGYL/kD/ivOibPSLD57VV/2/ndiPH/OIVHEOhgNF2iYuKwk+hkgKGavx8me7IqfXmkiVn1pL0Ls@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywhm9g4Z5kuE3mQXeW3hDWwryJ6Ead130H1cOw4lAxWBbhJXrmX
+	2eVcmGns7LAqWamL5+XDA7ulclo1DnCdCYlztq3+RgK8fqteCknTsLPZnPCv7IsmXP8=
+X-Gm-Gg: ASbGncvlicHzQvicuaPonFybBJBKNjoeBwCyW2eL0tUSU5laptu5AWPIU4w87GdBh6j
+	qSxOneTMlZh1E2eSsQmRtty4js+UZx915yvqtPjyhnhp1K3INaCBQgRAgRRNy2Zr3j0vQY/gubl
+	IoPrPC9ZUCN4P0IKsUjt82C1JzA8D7Qo4MBCHcdO1EIginfeHMHkIhJt9L5poMqR6JVCfjIZl8R
+	eKMk2GNPqnb3YQdFrVf46KraXq9pUsoUyWroG+29sWeQmeTZUK4wFsSLntKbAnx7gJ/NVM1Qre6
+	uu8gmP3o+eIiM50/0NVVWW4xqy0IGzqhwAOsDWVqBoAoCbZjATX45ZqYExOt10QsnP0GkX+fkZf
+	XFsn1qyoBJykREByTsvVW6LZOYiI41M0fbRXjBInSjS6MPK6UgSMXlMV1ENlO2A==
+X-Google-Smtp-Source: AGHT+IFUVMZEfYJpXScC2Iy5d5OaSQsrDfLBO3OecJ1Qe7T9+o25udt9hW35VLFmJsih7IjcCxqwnQ==
+X-Received: by 2002:a05:6000:4024:b0:3f9:6657:cdd with SMTP id ffacd0b85a97d-4266e7df967mr15000391f8f.38.1760428068639;
+        Tue, 14 Oct 2025 00:47:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce57cc0esm22389410f8f.6.2025.10.14.00.47.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 00:47:48 -0700 (PDT)
+Date: Tue, 14 Oct 2025 10:47:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rex Lu <rex.lu@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1651
+ mt7996_msdu_page_get_from_cache() warn: can 'p' even be NULL?
+Message-ID: <202510100155.MS0IXhzm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +73,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013143444.3999-42-david.kaplan@amd.com>
 
-Hi David,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a5652f0f2a69fadcfb2f687a11a737a57f15b28e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Kaplan/Documentation-admin-guide-Add-documentation/20251013-231516
-base:   a5652f0f2a69fadcfb2f687a11a737a57f15b28e
-patch link:    https://lore.kernel.org/r/20251013143444.3999-42-david.kaplan%40amd.com
-patch subject: [RFC PATCH 41/56] static_call: Add update_all_static_calls()
-config: powerpc-randconfig-001-20251014 (https://download.01.org/0day-ci/archive/20251014/202510141554.vfmmSbaY-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141554.vfmmSbaY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ec714e371f22f716a04e6ecb2a24988c92b26911
+commit: b1e58e137b61693f12da037d2d50aca9c2140a43 wifi: mt76: mt7996: Introduce RRO MSDU callbacks
+date:   3 weeks ago
+config: x86_64-randconfig-161-20251009 (https://download.01.org/0day-ci/archive/20251010/202510100155.MS0IXhzm-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510141554.vfmmSbaY-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510100155.MS0IXhzm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mac.c:1651 mt7996_msdu_page_get_from_cache() warn: can 'p' even be NULL?
 
-   kernel/static_call_inline.c: In function 'update_all_static_calls':
->> kernel/static_call_inline.c:507:22: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     507 |   if (is_kernel_text((u64) site_addr) ||
-         |                      ^
-   kernel/static_call_inline.c:509:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     509 |        within_module_mem_type((u64) site_addr, mod, MOD_TEXT))) {
-         |                               ^
+vim +/p +1651 drivers/net/wireless/mediatek/mt76/mt7996/mac.c
 
+b1e58e137b6169 Rex Lu      2025-09-09  1641  static struct mt7996_msdu_page *
+b1e58e137b6169 Rex Lu      2025-09-09  1642  mt7996_msdu_page_get_from_cache(struct mt7996_dev *dev)
+b1e58e137b6169 Rex Lu      2025-09-09  1643  {
+b1e58e137b6169 Rex Lu      2025-09-09  1644  	struct mt7996_msdu_page *p = NULL;
+b1e58e137b6169 Rex Lu      2025-09-09  1645  
+b1e58e137b6169 Rex Lu      2025-09-09  1646  	spin_lock(&dev->wed_rro.lock);
+b1e58e137b6169 Rex Lu      2025-09-09  1647  
+b1e58e137b6169 Rex Lu      2025-09-09  1648  	if (!list_empty(&dev->wed_rro.page_cache)) {
+b1e58e137b6169 Rex Lu      2025-09-09  1649  		p = list_first_entry(&dev->wed_rro.page_cache,
+b1e58e137b6169 Rex Lu      2025-09-09  1650  				     struct mt7996_msdu_page, list);
+b1e58e137b6169 Rex Lu      2025-09-09 @1651  		if (p)
 
-vim +507 kernel/static_call_inline.c
+This NULL check is pointless.  We already ensured that the list is not
+empty.
 
-   495	
-   496	void update_all_static_calls(struct static_call_site *start,
-   497				     struct static_call_site *stop,
-   498				     struct module *mod)
-   499	{
-   500		struct static_call_site *site;
-   501		struct static_call_key *key;
-   502	
-   503		for (site = start; site < stop; site++) {
-   504			void *site_addr = static_call_addr(site);
-   505	
-   506			/* All init code is gone when this function is called. */
- > 507			if (is_kernel_text((u64) site_addr) ||
-   508			    (mod &&
-   509			     within_module_mem_type((u64) site_addr, mod, MOD_TEXT))) {
-   510				key = static_call_key(site);
-   511				arch_static_call_transform(site_addr, NULL, key->func,
-   512						static_call_is_tail(site));
-   513			}
-   514		}
-   515	}
-   516	
+b1e58e137b6169 Rex Lu      2025-09-09  1652  			list_del(&p->list);
+b1e58e137b6169 Rex Lu      2025-09-09  1653  	}
+b1e58e137b6169 Rex Lu      2025-09-09  1654  
+b1e58e137b6169 Rex Lu      2025-09-09  1655  	spin_unlock(&dev->wed_rro.lock);
+b1e58e137b6169 Rex Lu      2025-09-09  1656  
+b1e58e137b6169 Rex Lu      2025-09-09  1657  	return p;
+b1e58e137b6169 Rex Lu      2025-09-09  1658  }
+
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
