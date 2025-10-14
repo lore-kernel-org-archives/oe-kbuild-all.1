@@ -1,66 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BC91D8E10
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 07:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DF12BE03E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 07:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760426697; cv=none; b=qmaXRUAQPR0tN7zwH9zhlUC17beNaZH94dLi+7IuyGFKCbcU2sLcTj2YPuC/K/P+FArvdLKBcXLdFW+ny3D2rl87Z/08jfL3E9x4uGxXOaYi3Zje10ssW5jeFAirw2giZnk0nuZnhtD8wz6EO1JOBuFoEHnIMLqYN7mqwxYmxEg=
+	t=1760427239; cv=none; b=tKEYK5qCp0GWq2jgRWJ8zc5IuNhJHWgtw/vvn/V/4rtQBXPoNHcYVFhc1uq9VYPEks+llY+E6wnBUXXTSAerLudkBQtou7pbTwzlJORVG9XAz6FHEjJQmcDdQFxbV72cfqi7E6nwIqbkl/yzxwSglSmr/tLwjyu+iSkffCTRZ0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760426697; c=relaxed/simple;
-	bh=CZp0lbQNhLiQFl87ZwYMZVvAm4voMmM69OP6B4llGtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BDVdt0ABN29zSA0zsHLnjuzIw5QUuqo9HHIh3orLt2K+HNB7Mzz2E6upQAsIjg7/hwIN6ghwGy94W1NlWJL47vnChH1agPKDzZd/2DY9TfCGRR/rnBRHYLrf1hBpS8/OOJioZenGM79O2Z2IwU4b7fHV5Yyy6wrWOBzGN9Fmrb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFPB8zw/; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760427239; c=relaxed/simple;
+	bh=rJZBVvFcCZfoZL/WIRUcWWYvpISm45B4Rwe3rWq54PY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=VBaAcqL4ffM4zXsnBeBZGHkbddF4gEmdARR49OJvqIpT6Fpu4rztSqt+Sudk9Avd5Gg4vhNhXdIxnYs8dN3XFC1zAngtLCLZydA09Oa7BvIRi8DQ2bcG0dbvGxHCqlD8D62JCdCuIsdnPk8eQRHYMQ/KePrTLa06byn5d5bVdHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WMrB7+IQ; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFPB8zw/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760426694; x=1791962694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CZp0lbQNhLiQFl87ZwYMZVvAm4voMmM69OP6B4llGtg=;
-  b=jFPB8zw/wTrGG3FAS6mK8qP2EEaS3ljm6jN2WMLIdPfQ7guguRplPRT6
-   N8RFL67LGm0gDYxSp3q95u5Wfrj/swzOXv//ktr9MtIgzVImTSqJ4V6D4
-   3P3jg+Cp3nQSOf/MKKCd9gor+Tra3Qt8BNqpJhwHmb3hdxdDM6B575yko
-   GLf4y8g2ZhNsfvJfs8is+V0xtp39X5E7XrkOCJAS4C3EcoT4NIP5gNNc6
-   N47Z0qh3trsMC9LfZsshQxcAKIXWBb55LMYaX97ekyGfecfzzgn5SN+Mm
-   H4HQgnUBXi9mtrMAu8UlE6jHC8MdGp8T+Vtj9JqlcCG4AdT0F9NOQsYEE
-   w==;
-X-CSE-ConnectionGUID: iNQJXLxKSvGSm24HNBmYZg==
-X-CSE-MsgGUID: qfjHSaA0R/q7/ZUm9GfTtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62675649"
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="62675649"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:24:52 -0700
-X-CSE-ConnectionGUID: Q3qE+95qS+ilJ3jJ2tTHUQ==
-X-CSE-MsgGUID: kkSzHRp2TByN1oWW0oOGvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="205506982"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2025 00:24:49 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v8ZOo-0002Vb-38;
-	Tue, 14 Oct 2025 07:24:46 +0000
-Date: Tue, 14 Oct 2025 15:24:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Brendan Jackman <jackmanb@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
-Subject: Re: [PATCH] KVM: x86: Unify L1TF flushing under per-CPU variable
-Message-ID: <202510141438.OMSBOz6R-lkp@intel.com>
-References: <20251013-b4-l1tf-percpu-v1-1-d65c5366ea1a@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WMrB7+IQ"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-41174604d88so2236280f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 00:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760427235; x=1761032035; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BwG/OchAZjwNRXsTLu0s9JIZNQmUXDtfcvX6l0dZWYY=;
+        b=WMrB7+IQwvBbYwQzSW5HA9JY3AgBTG5HpxZb80I+h/bc1BtkL9TTxssCgTDR7co/LR
+         KmCYWMt7ypSTWVufdM/Ac5/uGkrpcMJFIYp2VKtUF5vhJHjQuSyVHuGFjg1jG7YbkOb5
+         ry0dlHuhFVodFOXgFLsrdur8wU2Brp3lNtclSt4ExBPjvKQT05K/AaK+K3f0h/ziK8Py
+         OIC85QIL8TxERVFPHc9iVrBOHh4B5MTYTF3k7C+tQgVHPQTo56HAyTbg5ZkzkLNjN8Te
+         Aj2dTleT/dWwoP4Ex/0v596yZ79R+FxI5Tx8T3/Yysqyz26Spi2te/lzk2n8wKUtlOQO
+         /aUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760427235; x=1761032035;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BwG/OchAZjwNRXsTLu0s9JIZNQmUXDtfcvX6l0dZWYY=;
+        b=wzFoqNsWv0MyQwhZaSwc/RCBSK7D8iriz9qU9SqGfwYAWNI7axi0FXMwKq20ABgrEC
+         eN1yrSUm9mjivQ8UMSA+6bdw8NGrRicG0OgCRwFFlEgHZwXrelgCp+UEkXcsCkqkPD/6
+         ItTWy9bZ3kZHlQf9QcKib3m1dYJMVYQRAYghp+oHDEhKVw+sSm11FOU3q33FJEEq2FNB
+         QEIYS8xY9LKA/z/EH4kOWT95VaxNu7I/mCkhEN8c8wRx20tp4fd5cbrgG35AC93iDH7f
+         uCAUKRXI7Ch50LJEaM9pUeA9/A2/a2fiRXOLvtmtbIZJZDHQMWKIS0MyhPLg7/8E+/rO
+         lJag==
+X-Forwarded-Encrypted: i=1; AJvYcCVDdRG+F/jLHvY77qOxXhtlRaOrYZE2Djqsdj99Q07OTcbF5hvcjjLDldcK6HcKybXkBt9nT5tQFCQBUKoZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKKZvVrIgbaP0HY7o1xzyYu+rb52r8DtHcTlQFFvL6UOnFzYQr
+	aeIM8m3Jp9XB0hm83ZYIvd3Wsp3NKFFFhmaUHw4209azNpmNbZdukn521ZFtyaE2EyNkk88+YcH
+	yz8wQ
+X-Gm-Gg: ASbGncsGOugKBQPjJhcplgopAbwAiZLA+ZPoxGmp1iYKMe/NON1RGKPriIIRkaCgyyA
+	kcCVRnxCurhWjzuZ0w7Jla8EcDl6wghdYjx6Myftz3JtmD5PsUD+0i/0oHdlcSBYdEdf9Hm76Rf
+	RJJRJ7nq1DvOzxlbt6QC2UMR6Z5MJ7DVt06NvwMxS8Vxz3zcrhYf3nF2HD80qvoM/O+h/gWwHWC
+	xXB65PTYzfmX/ORNLEzXUYG+X0jRTPnhv8d1sp887dUBl3gLN5jzvpGgV6h9FoAKkYifmOiXuGa
+	YQPVBFIgFFOgCmgBpCfegSuaJ0RzHuD+4Ip2aKvUw9c9t8pzKQhXsCtFX37JQPPvxL5M/4MDH6X
+	qjcoAtu9ViMBZw7gOUMxnma+hBKKQQrdtc93NSxfjci25lyWg4AM=
+X-Google-Smtp-Source: AGHT+IE0SibgFOUsTOWb11Xe06KS5AooYnMfuV3qZwF21RGoTYuiMhvM5xxFKgxQQAvf0jDG3bRS2A==
+X-Received: by 2002:a05:6000:1ac8:b0:3f7:b7ac:f3d4 with SMTP id ffacd0b85a97d-42666abbbc1mr17933769f8f.5.1760427235501;
+        Tue, 14 Oct 2025 00:33:55 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce5e8a06sm22182799f8f.55.2025.10.14.00.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 00:33:55 -0700 (PDT)
+Date: Tue, 14 Oct 2025 10:33:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Randolph Lin <randolph@andestech.com>,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	jingoohan1@gmail.com, mani@kernel.org, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, robh@kernel.org, bhelgaas@google.com,
+	krzk+dt@kernel.org, conor+dt@kernel.org, alex@ghiti.fr,
+	aou@eecs.berkeley.edu, palmer@dabbelt.com, paul.walmsley@sifive.com,
+	ben717@andestech.com, inochiama@gmail.com,
+	thippeswamy.havalige@amd.com, namcao@linutronix.de,
+	shradha.t@samsung.com, pjw@kernel.org, randolph.sklin@gmail.com,
+	tim609@andestech.com, Randolph Lin <randolph@andestech.com>
+Subject: Re: [PATCH v6 4/5] PCI: andes: Add Andes QiLai SoC PCIe host driver
+ support
+Message-ID: <202510092111.fZmvx6jO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,65 +83,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013-b4-l1tf-percpu-v1-1-d65c5366ea1a@google.com>
+In-Reply-To: <20251003023527.3284787-5-randolph@andestech.com>
 
-Hi Brendan,
+Hi Randolph,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 6b36119b94d0b2bb8cea9d512017efafd461d6ac]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brendan-Jackman/KVM-x86-Unify-L1TF-flushing-under-per-CPU-variable/20251013-235118
-base:   6b36119b94d0b2bb8cea9d512017efafd461d6ac
-patch link:    https://lore.kernel.org/r/20251013-b4-l1tf-percpu-v1-1-d65c5366ea1a%40google.com
-patch subject: [PATCH] KVM: x86: Unify L1TF flushing under per-CPU variable
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251014/202510141438.OMSBOz6R-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141438.OMSBOz6R-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Randolph-Lin/PCI-dwc-Allow-adjusting-the-number-of-ob-ib-windows-in-glue-driver/20251003-104100
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20251003023527.3284787-5-randolph%40andestech.com
+patch subject: [PATCH v6 4/5] PCI: andes: Add Andes QiLai SoC PCIe host driver support
+config: powerpc-randconfig-r071-20251009 (https://download.01.org/0day-ci/archive/20251009/202510092111.fZmvx6jO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510141438.OMSBOz6R-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510092111.fZmvx6jO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/pci/controller/dwc/pcie-andes-qilai.c:157 qilai_pcie_host_fix_ob_iatu_count() error: uninitialized symbol 'ranges_32bits'.
 
->> arch/x86/coco/tdx/tdx.c:471:12: error: conflicting types for 'read_msr'; have 'int(struct pt_regs *, struct ve_info *)'
-     471 | static int read_msr(struct pt_regs *regs, struct ve_info *ve)
-         |            ^~~~~~~~
-   In file included from arch/x86/include/asm/idtentry.h:15,
-                    from arch/x86/include/asm/traps.h:9,
-                    from arch/x86/coco/tdx/tdx.c:20:
-   arch/x86/include/asm/kvm_host.h:2320:29: note: previous definition of 'read_msr' with type 'long unsigned int(long unsigned int)'
-    2320 | static inline unsigned long read_msr(unsigned long msr)
-         |                             ^~~~~~~~
+vim +/ranges_32bits +157 drivers/pci/controller/dwc/pcie-andes-qilai.c
 
+816cad1ac60166 Randolph Lin 2025-10-03  133  static int qilai_pcie_host_fix_ob_iatu_count(struct dw_pcie_rp *pp)
+816cad1ac60166 Randolph Lin 2025-10-03  134  {
+816cad1ac60166 Randolph Lin 2025-10-03  135  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+816cad1ac60166 Randolph Lin 2025-10-03  136  	struct device *dev = pci->dev;
+816cad1ac60166 Randolph Lin 2025-10-03  137  	struct resource_entry *entry;
+816cad1ac60166 Randolph Lin 2025-10-03  138  	/* Reserved 1 ob iATU for config space */
+816cad1ac60166 Randolph Lin 2025-10-03  139  	int count = 1;
+816cad1ac60166 Randolph Lin 2025-10-03  140  	int ranges_32bits;
 
-vim +471 arch/x86/coco/tdx/tdx.c
+This should be bool and initialized to false.
 
-9f98a4f4e7216d Vishal Annapurve   2025-02-28  470  
-cdd85786f4b3b9 Kirill A. Shutemov 2022-06-14 @471  static int read_msr(struct pt_regs *regs, struct ve_info *ve)
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  472  {
-8a8544bde858e5 Kai Huang          2023-08-15  473  	struct tdx_module_args args = {
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  474  		.r10 = TDX_HYPERCALL_STANDARD,
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  475  		.r11 = hcall_func(EXIT_REASON_MSR_READ),
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  476  		.r12 = regs->cx,
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  477  	};
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  478  
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  479  	/*
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  480  	 * Emulate the MSR read via hypercall. More info about ABI
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  481  	 * can be found in TDX Guest-Host-Communication Interface
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  482  	 * (GHCI), section titled "TDG.VP.VMCALL<Instruction.RDMSR>".
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  483  	 */
-c641cfb5c157b6 Kai Huang          2023-08-15  484  	if (__tdx_hypercall(&args))
-cdd85786f4b3b9 Kirill A. Shutemov 2022-06-14  485  		return -EIO;
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  486  
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  487  	regs->ax = lower_32_bits(args.r11);
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  488  	regs->dx = upper_32_bits(args.r11);
-cdd85786f4b3b9 Kirill A. Shutemov 2022-06-14  489  	return ve_instr_len(ve);
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  490  }
-ae87f609cd5282 Kirill A. Shutemov 2022-04-06  491  
+816cad1ac60166 Randolph Lin 2025-10-03  141  	u64 pci_addr;
+816cad1ac60166 Randolph Lin 2025-10-03  142  	u64 size;
+816cad1ac60166 Randolph Lin 2025-10-03  143  
+816cad1ac60166 Randolph Lin 2025-10-03  144  	resource_list_for_each_entry(entry, &pp->bridge->windows) {
+816cad1ac60166 Randolph Lin 2025-10-03  145  		if (resource_type(entry->res) != IORESOURCE_MEM)
+816cad1ac60166 Randolph Lin 2025-10-03  146  			continue;
+816cad1ac60166 Randolph Lin 2025-10-03  147  
+816cad1ac60166 Randolph Lin 2025-10-03  148  		size = resource_size(entry->res);
+816cad1ac60166 Randolph Lin 2025-10-03  149  		if (size < SZ_4G)
+816cad1ac60166 Randolph Lin 2025-10-03  150  			count++;
+816cad1ac60166 Randolph Lin 2025-10-03  151  
+816cad1ac60166 Randolph Lin 2025-10-03  152  		pci_addr = entry->res->start - entry->offset;
+816cad1ac60166 Randolph Lin 2025-10-03  153  		if (pci_addr < SZ_4G)
+816cad1ac60166 Randolph Lin 2025-10-03  154  			ranges_32bits = true;
+816cad1ac60166 Randolph Lin 2025-10-03  155  	}
+816cad1ac60166 Randolph Lin 2025-10-03  156  
+816cad1ac60166 Randolph Lin 2025-10-03 @157  	if (!ranges_32bits) {
+816cad1ac60166 Randolph Lin 2025-10-03  158  		dev_err(dev, "Bridge window must contain 32-bits address\n");
+816cad1ac60166 Randolph Lin 2025-10-03  159  		return -EINVAL;
+816cad1ac60166 Randolph Lin 2025-10-03  160  	}
+816cad1ac60166 Randolph Lin 2025-10-03  161  
+816cad1ac60166 Randolph Lin 2025-10-03  162  	pci->num_ob_windows = count;
+816cad1ac60166 Randolph Lin 2025-10-03  163  
+816cad1ac60166 Randolph Lin 2025-10-03  164  	return 0;
+816cad1ac60166 Randolph Lin 2025-10-03  165  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
