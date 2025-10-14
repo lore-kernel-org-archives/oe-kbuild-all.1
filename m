@@ -1,132 +1,137 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC9330E825
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 11:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A5E13D539
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 11:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760441513; cv=none; b=tTBlKiN2Kke23UwibwBWiCuEqzFUnRaIc9N1UBha6CbwkNTdwBWAWE6bAmwJ+EU6x9N8NFXVXTVz/lMhXUOhEL06o8ThRVAqEXxoZED0GA0NRfvWDzFYMNyNDEpzA2krqtD6FoMjyy44shp2iaa5yhICu9iwkkVxhuoeD/6DCzs=
+	t=1760443012; cv=none; b=uw4uvkeL1ArEhxUKXZW2zes4d+nFXPmzhR+ACiVQd9vghl15xLC4bQs9wMlizjOkmhPsI0cs8iRT+prmWlXHC2b7uEjttqfSXOuJVDJ2HyBTY5CrokofeqGEiB/ZFr/avbFiLp6YfoD5Pf5vqydF1z2/QvupaQsgsXBEKq36DMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760441513; c=relaxed/simple;
-	bh=3w4nQi9hgenkrHPxz75XSwpRlBt74vHGiJuFZQ2tndI=;
+	s=arc-20240116; t=1760443012; c=relaxed/simple;
+	bh=hkydFLPUZ9bnV9gcMkfMhYWSqn7gzyE4I9/UlQlyXKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o67FiuIsOj01hIumw/o4ipHGC4+nJLinyhTu9jvbgQxMyYwk21tgKWaaugdxBapcdKUoDlgkxbM3ifJuaWZ7cSvmyB6THjOCcFHrVQFrjJ4yLXLyNCZ1ns2ap76o5ZRJ+/kqGiPxNdAEfQGrmqxx4G8zmzMY+IlsfDkGTSNPGuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KmdcvSRp; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type:Content-Disposition; b=hs23/CgjKms9FkzBzAlRRAP29TL7cKfXRfX6eJIa89kYlEY3JSIQq/dEZExSozACrLDTZlS1CGMub8NLgvFBNwkSNUHlD3rV+Zd94lJqJf3ieIOX8M+zhUT64crphYtc5kr3kEDAbH2QF3hkkdyJKPRMmIr/feveauVvAStAQBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S4VqcUVq; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KmdcvSRp"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-421851bca51so3448548f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 04:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760441509; x=1761046309; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofkJNulQu/wtU9ucbaTHhfLlEv5BRzrjhZDncPD/y2M=;
-        b=KmdcvSRpV93Lq+RIxB5b917CCz+M3zE/4omy2fzIUMvZrqisrIUXTNOS9oZeakLucf
-         ZobXGq1l9lZrgk/AmgHugiExlSl0f0WvjaTZrtJDjyJjNno82BiUmv0SiwCfpmmPJA+C
-         2AF+5jrFJPlSAPVpCZK/HdwZEvIGwQ7AYS7Uk9rkFxaLxh1ftuex4mkM403HzwnvA6oE
-         bo5km6SPvkA3uroqMWGZufUxQthOQA/0bKuJ3zIK4nvyKN68bf2clXBVWyVbQySMFnub
-         w0utCVw0+B+FdznzlhbNZaSDP6pFEkyKFR+brXMk5nCQEqoXI/yE1NYHB6DOFvudU4um
-         hlBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760441509; x=1761046309;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ofkJNulQu/wtU9ucbaTHhfLlEv5BRzrjhZDncPD/y2M=;
-        b=GOp8k3hf8LMuSPXrmK1smS8ES3IkJVMYYAGvm7xl/vgUaP1mxDn2FzexOiJKf4OMqp
-         7hJrDiwZNfa1WG5NKOG033aYy5+2bOc/Oxlr0cVI+mromakQVexAmjzeJaR2lJJPeutg
-         KpyI6Y4zd5Roii8PJeuNLG1/7UANUnBggRzHTnLJ3WNz0871oOd+BomatUhC3rz/0D50
-         j0zyHNI71t1Bz/74cXvBfiOPXnb5spI6jHFYuwtFDQ0xjjqB/nxpqCyCJYcuRxgYtY/E
-         93pl6kSJ4ujG6W7shUjxv0XZvsq2qPJwaCDxs1RXbpP9o8PC+HhBvhieoFVrDE5e4w6c
-         3mXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGONHTGlkLuXuxW558jCEKh6qNPdLmOpweTJ2g83dBSZ2Xo1QU7kiYfH4VIePj9e113r5aB3WJmRhrh1rV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4w65GCcQQFq++BD9SbPmJhh3AnDh2fny5BhEj8QQNrhbrOCnp
-	IoE5tap/P/Vi/xLIYMiEaaPNfw3slrT4uYczpC6XEoEaC0eEWpVSug/N6hcIXONCcN0=
-X-Gm-Gg: ASbGncsFpnTqBTPs0DGzIf8W2t2wu/gm3OypNbdWldWSeeJfVUBVW+EoCi1iv4g9cpi
-	brT0X6Xom/TS+EUud5TUSGcLHdX76qWd7aykvma/NTLCZXKok52xdKAyy9qfRo4PEhSDnaNZsIr
-	BenELEoBtjfmLOpklqqQW/W/avYqRC5mZwhSiF7TKoAy57R6EIWusnpsG5v/KAwLejXPttUvdF/
-	xuM9zzthNX1qDScq/bLOAVll9tQZDoyAIbN3lMpZ8+ZLG3xau9NYKIMmrPs602uQF+RnMONZ+0f
-	0xnEr3beorAyX70vCEsOOrb9onfFtxVq+bx+S3D6DkxERwafhCmEJwRUIMw30CmBXgnXr/rL9jL
-	yQ2shUoZC7IOxGTzFupLi1xR/r4La1xt+ApUbfGJQ9MoaM1SvH4M=
-X-Google-Smtp-Source: AGHT+IE7JRJVgX/0XRZqqgOQ0IMTJn2bfv2E4RS1BB14d24blTgxq9Or2UqVDIrAHI/wbElOafShvQ==
-X-Received: by 2002:a05:6000:43c7:20b0:426:f355:7c9a with SMTP id ffacd0b85a97d-426f3557ce6mr628338f8f.25.1760441509084;
-        Tue, 14 Oct 2025 04:31:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb49c4027sm234419565e9.17.2025.10.14.04.31.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 04:31:48 -0700 (PDT)
-Date: Tue, 14 Oct 2025 14:31:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: oe-kbuild@lists.linux.dev, Peng Fan <peng.fan@nxp.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Andrew Davis <afd@ti.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 4/7] remoteproc: core: Use cleanup.h macros to
- simplify lock handling
-Message-ID: <aO40oQkj9sT78bMV@stanley.mountain>
-References: <20251010-remoteproc-cleanup-v2-4-7cecf1bfd81c@nxp.com>
- <202510121908.7aduLIkw-lkp@intel.com>
- <20251014104511.GA14479@nxa18884-linux.ap.freescale.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S4VqcUVq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760443009;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZLOR5+q/p7S4YJmEE2l0yvCfrYwsvBgNGhwGHJ8ptQs=;
+	b=S4VqcUVqZfxFycABqtryGhvQja0EV05X5/U6xn+uY4IFwPzqxuyXRNQaepcC4XuKsQh2dR
+	yFre7yoFxg3gvoayhpdsFr3WiKsaFvsBndagNTabjKjwpksjg0St4zPrzU/Faunv7mOUrw
+	G8leLuDqUVaqNlHk2hgefUHXHwBSxRE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-508-CSGadO48OCOAK5cqKlzTgQ-1; Tue,
+ 14 Oct 2025 07:56:44 -0400
+X-MC-Unique: CSGadO48OCOAK5cqKlzTgQ-1
+X-Mimecast-MFC-AGG-ID: CSGadO48OCOAK5cqKlzTgQ_1760443003
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7F12E18004D8;
+	Tue, 14 Oct 2025 11:56:42 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.12])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C0A881955F21;
+	Tue, 14 Oct 2025 11:56:39 +0000 (UTC)
+Date: Tue, 14 Oct 2025 19:56:35 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
+	oe-kbuild-all@lists.linux.dev, chrisl@kernel.org,
+	kasong@tencent.com, youngjun.park@lge.com, baohua@kernel.org,
+	shikemeng@huaweicloud.com, nphamcs@gmail.com
+Subject: Re: [PATCH v4 mm-new 1/2] mm/swap: do not choose swap device
+ according to numa node
+Message-ID: <aO46c6v/arlyo/nG@MiWiFi-R3L-srv>
+References: <20251011081624.224202-2-bhe@redhat.com>
+ <202510120456.vTSygUXV-lkp@intel.com>
+ <20251011150408.b865cffc3a8fb8bf834067f7@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20251011150408.b865cffc3a8fb8bf834067f7@linux-foundation.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: tfYsPycBS-TMT6jsAKuQsHpnqiHExFkgAJ7MQxJ1p30_1760443003
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014104511.GA14479@nxa18884-linux.ap.freescale.net>
 
-On Tue, Oct 14, 2025 at 06:45:11PM +0800, Peng Fan wrote:
-> Hi Dan,
+On 10/11/25 at 03:04pm, Andrew Morton wrote:
+> On Sun, 12 Oct 2025 04:45:07 +0800 kernel test robot <lkp@intel.com> wrote:
 > 
-> I am not sure, Is this false alarm?
+> > Hi Baoquan,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on akpm-mm/mm-everything]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-swap-do-not-choose-swap-device-according-to-numa-node/20251011-161743
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > patch link:    https://lore.kernel.org/r/20251011081624.224202-2-bhe%40redhat.com
+> > patch subject: [PATCH v4 mm-new 1/2] mm/swap: do not choose swap device according to numa node
+> > config: i386-buildonly-randconfig-003-20251012 (https://download.01.org/0day-ci/archive/20251012/202510120456.vTSygUXV-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120456.vTSygUXV-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202510120456.vTSygUXV-lkp@intel.com/
+> > 
+> > All error/warnings (new ones prefixed by >>):
+> > 
+> >    In file included from include/linux/list.h:5,
+> >                     from include/linux/wait.h:7,
+> >                     from include/linux/wait_bit.h:8,
+> >                     from include/linux/fs.h:7,
+> >                     from include/linux/highmem.h:5,
+> >                     from include/linux/bvec.h:10,
+> >                     from include/linux/blk_types.h:10,
+> >                     from include/linux/blkdev.h:9,
+> >                     from mm/swapfile.c:9:
 > 
-> On Tue, Oct 14, 2025 at 11:39:41AM +0300, Dan Carpenter wrote:
-> >Hi Peng,
-> >
-> >
-> >vim +/ret +1841 drivers/remoteproc/remoteproc_core.c
-> >
-> >70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1829  int rproc_trigger_recovery(struct rproc *rproc)
-> >70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1830  {
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1831  	struct device *dev = &rproc->dev;
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1832  	int ret;
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1833  
-> >c42baf6f84c7694 Peng Fan             2025-10-10  1834  	ACQUIRE(mutex_intr, lock)(&rproc->lock);
-> >c42baf6f84c7694 Peng Fan             2025-10-10  1835  	ret = ACQUIRE_ERR(mutex_intr, &lock);
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1836  	if (ret)
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1837  		return ret;
-> >7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1838  
-> >0b145574b6cd2b3 Alex Elder           2020-02-28  1839  	/* State could have changed before we got the mutex */
-> >0b145574b6cd2b3 Alex Elder           2020-02-28  1840  	if (rproc->state != RPROC_CRASHED)
-> >c42baf6f84c7694 Peng Fan             2025-10-10 @1841  		return ret;
-> >
-> >Please change this to either "return 0;" or "return -ERRORCODE;"
-> 
-> ACQUIRE_ERR should already returns 0. This change does not change the
-> assignment to ret as my understanding. Please help to see if this is false
-> alarm or I miss something?
-> 
+> Thanks.  I did this.  Baoquan, please review and retest?
 
-I guess if this was already merged then it's fine.  But "return ret" looks
-like an error path where "return 0;" is obvious.  This code will always
-trigger a Smatch warning, and I always tell people that old code has been
-reviewed so all the warnings are false positives, still someone will
-eventually change this to "return -EINVAL;" because it looks so much like
-a mistake.
+I finally got a system, retest this patchset + the appended fix, all
+works well. Sorry for my mistake, and thanks a lot for the fix.
 
-regards,
-dan carpenter
+> 
+> 
+> --- a/mm/swapfile.c~mm-swap-do-not-choose-swap-device-according-to-numa-node-fix
+> +++ a/mm/swapfile.c
+> @@ -1388,11 +1388,10 @@ start_over:
+>  static bool swap_sync_discard(void)
+>  {
+>  	bool ret = false;
+> -	int nid = numa_node_id();
+>  	struct swap_info_struct *si, *next;
+>  
+>  	spin_lock(&swap_avail_lock);
+> -	plist_for_each_entry_safe(si, next, &swap_avail_heads[nid], avail_lists[nid]) {
+> +	plist_for_each_entry_safe(si, next, &swap_avail_head, avail_list) {
+>  		spin_unlock(&swap_avail_lock);
+>  		if (get_swap_device_info(si)) {
+>  			if (si->flags & SWP_PAGE_DISCARD)
+> @@ -2890,7 +2889,6 @@ SYSCALL_DEFINE1(swapoff, const char __us
+>  	del_from_avail_list(p, true);
+>  	if (p->prio < 0) {
+>  		struct swap_info_struct *si = p;
+> -		int nid;
+>  
+>  		plist_for_each_entry_continue(si, &swap_active_head, list) {
+>  			si->prio++;
+> _
+> 
 
