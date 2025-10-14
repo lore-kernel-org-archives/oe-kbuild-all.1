@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17768220F38
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Oct 2025 23:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E522BF3CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 00:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760396765; cv=none; b=hz1B6GBtNM/tm+eehWOKvolyqnJP/to4KspBmPjIkfnDqt+ebsSiaopClRa28Xy6Q04quCLCP0j2oqmCFOTBVUJ3HRO5M/o0ApkrS1djZzivtHwbahufk6iGCN8UQPmyNNdjHreBTtXkVummEp3GYL3P119tSAqDxT4SG3yECrU=
+	t=1760401020; cv=none; b=qlvhi3yKBFqscMP6fznNBX+FigJ+amHJHhMaqHkPrAYuxHfl27VBgYLRSZEPholRh+4Q1O9KnSiPqPpMwJxJI4yjs1qZsz5+LD95yT1hOvHzN0i/HQfyJnE7+uiIBcSGYmk4N42cQaywSmI58p+C+c7jK3BEdrotAwHs+yoTaUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760396765; c=relaxed/simple;
-	bh=Zna6Mk2mp1+JzHn7YED0AIWYB3O6xmIRDfqePIM0TGs=;
+	s=arc-20240116; t=1760401020; c=relaxed/simple;
+	bh=DuO/8GWBJBfDpCvkOq8mQ3HXvQc7UvI88VJvRO4Pomk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N4ISd5RS7SUivtU16aGJtrS68SYjVmOHKmHCQqhtYWFIMyp9L7gtekAk7KJqQ/gD5ThnQbshfEDyjVcF2IqE974RmqMt12ojBkdYllZfuhsvAtHSwKP26VhwmxndVgPJcpWNGOdpqW+m+R5L0Xvl3ENET5eZoXi667cDWwB2mYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcwB6xqp; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=lO1NvDWZWzdZP7Eh1rk3GB5s9KBPWmvBGmleuBd2ZIYu+bRDqqASPi1csPHFsjAhEqiYEUEZk7yAJAE2+Spo1Vv1i30X9NGHH67KmpFujhqXDCgu+UYdsICPoGoMDPQ8tILCTcmkwzWXuEKrXGydSFl4rKbHCRkzdAR4+7osdx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcGqCNd+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcwB6xqp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcGqCNd+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760396763; x=1791932763;
+  t=1760401018; x=1791937018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zna6Mk2mp1+JzHn7YED0AIWYB3O6xmIRDfqePIM0TGs=;
-  b=LcwB6xqp7Lp8lfdwGGVci5mQGlhCPwMammEcLCaVkLLbrbHC9meQl4ZZ
-   fEAo8jDqxSrjX/m2s9Y6wsrIfd9MNXydhY20bnG5CaLUZkiHZZ0HfLdHv
-   hWrdYKfXqbfxG0YCxQ1ZU5mPZ55v0MpK9VFiLYvAm1/ccVjoC7UDKkBqA
-   rKGQOfGHUO7BWg8XUFOxW/k0WI9x4biROzMATEmN8CaZgL3g1L46X94I2
-   vBnbQkNE6G4SAJF1PMEQSBHabBVNBKffzbAALPp8OplgqnASOoufzT5r/
-   LjXRZ2KQpzD3jN765bsGyJpTP5OWJOWVW4F86r+49FByhv+1UIF2fLa4t
+  bh=DuO/8GWBJBfDpCvkOq8mQ3HXvQc7UvI88VJvRO4Pomk=;
+  b=BcGqCNd+IMXAEIIWQEwznEb7KgUEyseMfI+yo3WMtM4GPYQBHxBWGWNn
+   YfqCKiSfnZDcc8BpTP5rO6Jc63e4sBUy3qzE6voZ2R4nb8emAsR0WtlRe
+   Ea/hM9gwC7AhHV3r80FXTpeIdMEd+eKeWJs6uP0ZZrEJi0OvXz+uoPTpT
+   G5H1//PzYpWrcatfj/IOY9cSSq4bjtjrzXkW8VAID/hYzwCZ4zc8+L9zd
+   W7+ABmkYPcjEx2XDWEcQRrlcMeOfJR7yL405GN6eWpaGmqHyIL1pgLZBF
+   ynVbAMCX0WeUaRcpL44N0OLtatluhvUeeR6FdbhRKmXiAsEmhTUXMU7L7
    w==;
-X-CSE-ConnectionGUID: bY9TfabXTICaFWnWVl6svA==
-X-CSE-MsgGUID: MQbV2vjVSECsWWaROprp2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="72813864"
+X-CSE-ConnectionGUID: aG7tE1i5RJ6bxU6t+rL2tw==
+X-CSE-MsgGUID: o2t694h2Q7G4IQuVfUtjPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62446570"
 X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
-   d="scan'208";a="72813864"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 16:06:01 -0700
-X-CSE-ConnectionGUID: IZXybHuZQpC2B+doURbKMQ==
-X-CSE-MsgGUID: XK5B9WzHTBqCr5H97UL5FQ==
+   d="scan'208";a="62446570"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 17:16:57 -0700
+X-CSE-ConnectionGUID: QaItrlm1Sj20b6Y5GXOhzQ==
+X-CSE-MsgGUID: X2Fdj9DxQsmdBF9kByw2hA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,226,1754982000"; 
-   d="scan'208";a="218842693"
+   d="scan'208";a="185756988"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 13 Oct 2025 16:06:00 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 Oct 2025 17:16:56 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8Rc5-00028l-2V;
-	Mon, 13 Oct 2025 23:05:57 +0000
-Date: Tue, 14 Oct 2025 07:04:59 +0800
+	id 1v8Sik-0002BI-17;
+	Tue, 14 Oct 2025 00:16:54 +0000
+Date: Tue, 14 Oct 2025 08:16:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2967/2967]
- drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:843:6: error: no previous
- prototype for function 'sxe_hw_specific_irq_disable'
-Message-ID: <202510140608.bItB1nUr-lkp@intel.com>
+Subject: [trace:faultable-syscalls 6/10] kernel/trace/trace.c:11430:32:
+ error: use of undeclared identifier 'CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT'
+Message-ID: <202510140800.z72gsgUE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,477 +62,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi openeuler-ci-bot,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   168e029a9e4d8300e9779b8559d1e125a869533f
-commit: 0ba0ebb029b99864fa5963024535f48299373354 [2967/2967] !15589 [OLK-6.6] Ethernet: Supports Linkdata ethernet Controllers
-config: x86_64-randconfig-161-20251014 (https://download.01.org/0day-ci/archive/20251014/202510140608.bItB1nUr-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace faultable-syscalls
+head:   66d20821bfc64b78f00866e06d9b297c9c616413
+commit: 6834549be2989daee79e249f4cd481ea0b657dc7 [6/10] tracing: Add syscall_user_buf_size to limit amount written
+config: x86_64-randconfig-161-20251014 (https://download.01.org/0day-ci/archive/20251014/202510140800.z72gsgUE-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140608.bItB1nUr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510140800.z72gsgUE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510140608.bItB1nUr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510140800.z72gsgUE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:262:6: error: no previous prototype for function 'sxe_hw_uc_addr_pool_del' [-Werror,-Wmissing-prototypes]
-     262 | void sxe_hw_uc_addr_pool_del(struct sxe_hw *hw, u32 rar_idx, u32 pool_idx)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:262:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     262 | void sxe_hw_uc_addr_pool_del(struct sxe_hw *hw, u32 rar_idx, u32 pool_idx)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:283:5: error: no previous prototype for function 'sxe_hw_uc_addr_pool_enable' [-Werror,-Wmissing-prototypes]
-     283 | s32 sxe_hw_uc_addr_pool_enable(struct sxe_hw *hw, u8 rar_idx, u8 pool_idx)
-         |     ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     283 | s32 sxe_hw_uc_addr_pool_enable(struct sxe_hw *hw, u8 rar_idx, u8 pool_idx)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:337:5: error: no previous prototype for function 'sxe_hw_nic_reset' [-Werror,-Wmissing-prototypes]
-     337 | s32 sxe_hw_nic_reset(struct sxe_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:337:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     337 | s32 sxe_hw_nic_reset(struct sxe_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:367:6: error: no previous prototype for function 'sxe_hw_pf_rst_done_set' [-Werror,-Wmissing-prototypes]
-     367 | void sxe_hw_pf_rst_done_set(struct sxe_hw *hw)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:367:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     367 | void sxe_hw_pf_rst_done_set(struct sxe_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:735:5: error: no previous prototype for function 'sxe_hw_pending_irq_read_clear' [-Werror,-Wmissing-prototypes]
-     735 | u32 sxe_hw_pending_irq_read_clear(struct sxe_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:735:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     735 | u32 sxe_hw_pending_irq_read_clear(struct sxe_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:740:6: error: no previous prototype for function 'sxe_hw_pending_irq_write_clear' [-Werror,-Wmissing-prototypes]
-     740 | void sxe_hw_pending_irq_write_clear(struct sxe_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:740:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     740 | void sxe_hw_pending_irq_write_clear(struct sxe_hw *hw, u32 value)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:745:5: error: no previous prototype for function 'sxe_hw_irq_cause_get' [-Werror,-Wmissing-prototypes]
-     745 | u32 sxe_hw_irq_cause_get(struct sxe_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:745:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     745 | u32 sxe_hw_irq_cause_get(struct sxe_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:765:6: error: no previous prototype for function 'sxe_hw_ring_irq_auto_disable' [-Werror,-Wmissing-prototypes]
-     765 | void sxe_hw_ring_irq_auto_disable(struct sxe_hw *hw, bool is_msix)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:765:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     765 | void sxe_hw_ring_irq_auto_disable(struct sxe_hw *hw, bool is_msix)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:775:6: error: no previous prototype for function 'sxe_hw_irq_general_reg_set' [-Werror,-Wmissing-prototypes]
-     775 | void sxe_hw_irq_general_reg_set(struct sxe_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     775 | void sxe_hw_irq_general_reg_set(struct sxe_hw *hw, u32 value)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:780:5: error: no previous prototype for function 'sxe_hw_irq_general_reg_get' [-Werror,-Wmissing-prototypes]
-     780 | u32 sxe_hw_irq_general_reg_get(struct sxe_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:780:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     780 | u32 sxe_hw_irq_general_reg_get(struct sxe_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:790:6: error: no previous prototype for function 'sxe_hw_event_irq_map' [-Werror,-Wmissing-prototypes]
-     790 | void sxe_hw_event_irq_map(struct sxe_hw *hw, u8 offset, u16 irq_idx)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:790:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     790 | void sxe_hw_event_irq_map(struct sxe_hw *hw, u8 offset, u16 irq_idx)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:806:6: error: no previous prototype for function 'sxe_hw_ring_irq_map' [-Werror,-Wmissing-prototypes]
-     806 | void sxe_hw_ring_irq_map(struct sxe_hw *hw, bool is_tx, u16 reg_idx,
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:806:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     806 | void sxe_hw_ring_irq_map(struct sxe_hw *hw, bool is_tx, u16 reg_idx,
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:823:6: error: no previous prototype for function 'sxe_hw_ring_irq_interval_set' [-Werror,-Wmissing-prototypes]
-     823 | void sxe_hw_ring_irq_interval_set(struct sxe_hw *hw, u16 irq_idx, u32 interval)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:823:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     823 | void sxe_hw_ring_irq_interval_set(struct sxe_hw *hw, u16 irq_idx, u32 interval)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:838:6: error: no previous prototype for function 'sxe_hw_event_irq_auto_clear_set' [-Werror,-Wmissing-prototypes]
-     838 | void sxe_hw_event_irq_auto_clear_set(struct sxe_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:838:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     838 | void sxe_hw_event_irq_auto_clear_set(struct sxe_hw *hw, u32 value)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:843:6: error: no previous prototype for function 'sxe_hw_specific_irq_disable' [-Werror,-Wmissing-prototypes]
-     843 | void sxe_hw_specific_irq_disable(struct sxe_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:843:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     843 | void sxe_hw_specific_irq_disable(struct sxe_hw *hw, u32 value)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:848:6: error: no previous prototype for function 'sxe_hw_specific_irq_enable' [-Werror,-Wmissing-prototypes]
-     848 | void sxe_hw_specific_irq_enable(struct sxe_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:848:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     848 | void sxe_hw_specific_irq_enable(struct sxe_hw *hw, u32 value)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:876:6: error: no previous prototype for function 'sxe_hw_all_irq_disable' [-Werror,-Wmissing-prototypes]
-     876 | void sxe_hw_all_irq_disable(struct sxe_hw *hw)
-         |      ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     876 | void sxe_hw_all_irq_disable(struct sxe_hw *hw)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:994:5: error: no previous prototype for function 'sxe_hw_link_speed_get' [-Werror,-Wmissing-prototypes]
-     994 | u32 sxe_hw_link_speed_get(struct sxe_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:994:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     994 | u32 sxe_hw_link_speed_get(struct sxe_hw *hw)
-         | ^
-         | static 
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
---
-   In file included from drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c:12:
-   In file included from drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.h:14:
-   In file included from include/linux/ethtool.h:16:
-   In file included from include/linux/bitmap.h:11:
-   In file included from include/linux/string.h:294:
->> include/linux/fortify-string.h:606:4: error: call to '__read_overflow2_field' declared with 'warning' attribute: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
-     606 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^
+>> kernel/trace/trace.c:11430:32: error: use of undeclared identifier 'CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT'
+    11430 |         global_trace.syscall_buf_sz = CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT;
+          |                                       ^
    1 error generated.
---
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:187:6: error: no previous prototype for function 'sxevf_msg_write' [-Werror,-Wmissing-prototypes]
-     187 | void sxevf_msg_write(struct sxevf_hw *hw, u8 index, u32 msg)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:187:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     187 | void sxevf_msg_write(struct sxevf_hw *hw, u8 index, u32 msg)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:196:5: error: no previous prototype for function 'sxevf_msg_read' [-Werror,-Wmissing-prototypes]
-     196 | u32 sxevf_msg_read(struct sxevf_hw *hw, u8 index)
-         |     ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:196:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     196 | u32 sxevf_msg_read(struct sxevf_hw *hw, u8 index)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:206:5: error: no previous prototype for function 'sxevf_mailbox_read' [-Werror,-Wmissing-prototypes]
-     206 | u32 sxevf_mailbox_read(struct sxevf_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:206:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     206 | u32 sxevf_mailbox_read(struct sxevf_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:211:6: error: no previous prototype for function 'sxevf_mailbox_write' [-Werror,-Wmissing-prototypes]
-     211 | void sxevf_mailbox_write(struct sxevf_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:211:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     211 | void sxevf_mailbox_write(struct sxevf_hw *hw, u32 value)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:216:6: error: no previous prototype for function 'sxevf_pf_req_irq_trigger' [-Werror,-Wmissing-prototypes]
-     216 | void sxevf_pf_req_irq_trigger(struct sxevf_hw *hw)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:216:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     216 | void sxevf_pf_req_irq_trigger(struct sxevf_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:221:6: error: no previous prototype for function 'sxevf_pf_ack_irq_trigger' [-Werror,-Wmissing-prototypes]
-     221 | void sxevf_pf_ack_irq_trigger(struct sxevf_hw *hw)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:221:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     221 | void sxevf_pf_ack_irq_trigger(struct sxevf_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:226:6: error: no previous prototype for function 'sxevf_event_irq_map' [-Werror,-Wmissing-prototypes]
-     226 | void sxevf_event_irq_map(struct sxevf_hw *hw, u16 vector)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:226:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     226 | void sxevf_event_irq_map(struct sxevf_hw *hw, u16 vector)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:240:6: error: no previous prototype for function 'sxevf_specific_irq_enable' [-Werror,-Wmissing-prototypes]
-     240 | void sxevf_specific_irq_enable(struct sxevf_hw *hw, u32 value)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:240:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     240 | void sxevf_specific_irq_enable(struct sxevf_hw *hw, u32 value)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:245:6: error: no previous prototype for function 'sxevf_irq_enable' [-Werror,-Wmissing-prototypes]
-     245 | void sxevf_irq_enable(struct sxevf_hw *hw, u32 mask)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:245:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     245 | void sxevf_irq_enable(struct sxevf_hw *hw, u32 mask)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:251:6: error: no previous prototype for function 'sxevf_irq_disable' [-Werror,-Wmissing-prototypes]
-     251 | void sxevf_irq_disable(struct sxevf_hw *hw)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:251:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     251 | void sxevf_irq_disable(struct sxevf_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:259:6: error: no previous prototype for function 'sxevf_hw_ring_irq_map' [-Werror,-Wmissing-prototypes]
-     259 | void sxevf_hw_ring_irq_map(struct sxevf_hw *hw, bool is_tx, u16 hw_ring_idx,
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:259:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     259 | void sxevf_hw_ring_irq_map(struct sxevf_hw *hw, bool is_tx, u16 hw_ring_idx,
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:276:6: error: no previous prototype for function 'sxevf_ring_irq_interval_set' [-Werror,-Wmissing-prototypes]
-     276 | void sxevf_ring_irq_interval_set(struct sxevf_hw *hw, u16 irq_idx, u32 interval)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:276:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     276 | void sxevf_ring_irq_interval_set(struct sxevf_hw *hw, u16 irq_idx, u32 interval)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:313:6: error: no previous prototype for function 'sxevf_hw_reset' [-Werror,-Wmissing-prototypes]
-     313 | void sxevf_hw_reset(struct sxevf_hw *hw)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:313:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     313 | void sxevf_hw_reset(struct sxevf_hw *hw)
-         | ^
-         | static 
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:5: error: no previous prototype for function 'sxevf_link_state_get' [-Werror,-Wmissing-prototypes]
-     324 | u32 sxevf_link_state_get(struct sxevf_hw *hw)
-         |     ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     324 | u32 sxevf_link_state_get(struct sxevf_hw *hw)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:539:6: error: no previous prototype for function 'sxevf_tx_ring_switch' [-Werror,-Wmissing-prototypes]
-     539 | void sxevf_tx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:539:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     539 | void sxevf_tx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:594:6: error: no previous prototype for function 'sxevf_rx_ring_switch' [-Werror,-Wmissing-prototypes]
-     594 | void sxevf_rx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:594:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     594 | void sxevf_rx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:626:6: error: no previous prototype for function 'sxevf_rx_ring_desc_configure' [-Werror,-Wmissing-prototypes]
-     626 | void sxevf_rx_ring_desc_configure(struct sxevf_hw *hw, u32 desc_mem_len,
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:626:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     626 | void sxevf_rx_ring_desc_configure(struct sxevf_hw *hw, u32 desc_mem_len,
-         | ^
-         | static 
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:640:6: error: no previous prototype for function 'sxevf_rx_rcv_ctl_configure' [-Werror,-Wmissing-prototypes]
-     640 | void sxevf_rx_rcv_ctl_configure(struct sxevf_hw *hw, u8 reg_idx,
-         |      ^
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:640:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     640 | void sxevf_rx_rcv_ctl_configure(struct sxevf_hw *hw, u8 reg_idx,
-         | ^
-         | static 
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
 
 
-vim +/sxe_hw_specific_irq_disable +843 drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c
+vim +/CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT +11430 kernel/trace/trace.c
 
-dd013ad487534c liujie_answer 2025-04-15   842  
-dd013ad487534c liujie_answer 2025-04-15  @843  void sxe_hw_specific_irq_disable(struct sxe_hw *hw, u32 value)
-dd013ad487534c liujie_answer 2025-04-15   844  {
-dd013ad487534c liujie_answer 2025-04-15   845  	SXE_REG_WRITE(hw, SXE_EIMC, value);
-dd013ad487534c liujie_answer 2025-04-15   846  }
-dd013ad487534c liujie_answer 2025-04-15   847  
-dd013ad487534c liujie_answer 2025-04-15  @848  void sxe_hw_specific_irq_enable(struct sxe_hw *hw, u32 value)
-dd013ad487534c liujie_answer 2025-04-15   849  {
-dd013ad487534c liujie_answer 2025-04-15   850  	SXE_REG_WRITE(hw, SXE_EIMS, value);
-dd013ad487534c liujie_answer 2025-04-15   851  }
-dd013ad487534c liujie_answer 2025-04-15   852  
-dd013ad487534c liujie_answer 2025-04-15   853  static u32 sxe_hw_spp_state_get(struct sxe_hw *hw)
-dd013ad487534c liujie_answer 2025-04-15   854  {
-dd013ad487534c liujie_answer 2025-04-15   855  	return SXE_REG_READ(hw, SXE_SPP_STATE);
-dd013ad487534c liujie_answer 2025-04-15   856  }
-dd013ad487534c liujie_answer 2025-04-15   857  
-dd013ad487534c liujie_answer 2025-04-15   858  static void sxe_hw_rx_los_disable(struct sxe_hw *hw)
-dd013ad487534c liujie_answer 2025-04-15   859  {
-dd013ad487534c liujie_answer 2025-04-15   860  	u32 value;
-dd013ad487534c liujie_answer 2025-04-15   861  
-dd013ad487534c liujie_answer 2025-04-15   862  	value = SXE_REG_READ(hw, SXE_EIMS);
-dd013ad487534c liujie_answer 2025-04-15   863  	value &= ~SXE_EIMS_GPI_SPP1;
-dd013ad487534c liujie_answer 2025-04-15   864  	SXE_REG_WRITE(hw, SXE_EIMS, value);
-dd013ad487534c liujie_answer 2025-04-15   865  }
-dd013ad487534c liujie_answer 2025-04-15   866  
-dd013ad487534c liujie_answer 2025-04-15   867  static void sxe_hw_rx_los_enable(struct sxe_hw *hw)
-dd013ad487534c liujie_answer 2025-04-15   868  {
-dd013ad487534c liujie_answer 2025-04-15   869  	u32 value;
-dd013ad487534c liujie_answer 2025-04-15   870  
-dd013ad487534c liujie_answer 2025-04-15   871  	value = SXE_REG_READ(hw, SXE_EIMS);
-dd013ad487534c liujie_answer 2025-04-15   872  	value |= SXE_EIMS_GPI_SPP1;
-dd013ad487534c liujie_answer 2025-04-15   873  	SXE_REG_WRITE(hw, SXE_EIMS, value);
-dd013ad487534c liujie_answer 2025-04-15   874  }
-dd013ad487534c liujie_answer 2025-04-15   875  
-dd013ad487534c liujie_answer 2025-04-15  @876  void sxe_hw_all_irq_disable(struct sxe_hw *hw)
-dd013ad487534c liujie_answer 2025-04-15   877  {
-dd013ad487534c liujie_answer 2025-04-15   878  	SXE_REG_WRITE(hw, SXE_EIMC, 0xFFFF0000);
-dd013ad487534c liujie_answer 2025-04-15   879  
-dd013ad487534c liujie_answer 2025-04-15   880  	SXE_REG_WRITE(hw, SXE_EIMC_EX(0), ~0);
-dd013ad487534c liujie_answer 2025-04-15   881  	SXE_REG_WRITE(hw, SXE_EIMC_EX(1), ~0);
-dd013ad487534c liujie_answer 2025-04-15   882  
-dd013ad487534c liujie_answer 2025-04-15   883  	SXE_WRITE_FLUSH(hw);
-dd013ad487534c liujie_answer 2025-04-15   884  }
-dd013ad487534c liujie_answer 2025-04-15   885  
-dd013ad487534c liujie_answer 2025-04-15   886  static void sxe_hw_spp_configure(struct sxe_hw *hw, u32 hw_spp_proc_delay_us)
-dd013ad487534c liujie_answer 2025-04-15   887  {
-dd013ad487534c liujie_answer 2025-04-15   888  	u32 reg = SXE_REG_READ(hw, SXE_SPP_PROC);
-dd013ad487534c liujie_answer 2025-04-15   889  
-dd013ad487534c liujie_answer 2025-04-15   890  	reg &= ~SXE_SPP_PROC_DELAY_US_MASK;
-dd013ad487534c liujie_answer 2025-04-15   891  	reg |= hw_spp_proc_delay_us;
-dd013ad487534c liujie_answer 2025-04-15   892  	reg &= SXE_SPP_PROC_SPP2_TRIGGER_MASK;
-dd013ad487534c liujie_answer 2025-04-15   893  	reg |= SXE_SPP_PROC_SPP2_TRIGGER;
-dd013ad487534c liujie_answer 2025-04-15   894  
-dd013ad487534c liujie_answer 2025-04-15   895  	SXE_REG_WRITE(hw, SXE_SPP_PROC, reg);
-dd013ad487534c liujie_answer 2025-04-15   896  }
-dd013ad487534c liujie_answer 2025-04-15   897  
-dd013ad487534c liujie_answer 2025-04-15   898  static s32 sxe_hw_irq_test(struct sxe_hw *hw, u32 *icr, bool shared)
-dd013ad487534c liujie_answer 2025-04-15   899  {
-dd013ad487534c liujie_answer 2025-04-15   900  	s32 ret = 0;
-dd013ad487534c liujie_answer 2025-04-15   901  	u32 i, mask;
-dd013ad487534c liujie_answer 2025-04-15   902  	struct sxe_adapter *adapter = hw->adapter;
-dd013ad487534c liujie_answer 2025-04-15   903  
-dd013ad487534c liujie_answer 2025-04-15   904  	sxe_hw_specific_irq_disable(hw, 0xFFFFFFFF);
-dd013ad487534c liujie_answer 2025-04-15   905  	sxe_hw_regs_flush(hw);
-dd013ad487534c liujie_answer 2025-04-15   906  	usleep_range(10000, 20000);
-dd013ad487534c liujie_answer 2025-04-15   907  
-dd013ad487534c liujie_answer 2025-04-15   908  	for (i = 0; i < 10; i++) {
-dd013ad487534c liujie_answer 2025-04-15   909  		mask = BIT(i);
-dd013ad487534c liujie_answer 2025-04-15   910  		if (!shared) {
-dd013ad487534c liujie_answer 2025-04-15   911  			LOG_INFO_BDF("test irq: irq test start\n");
-dd013ad487534c liujie_answer 2025-04-15   912  			*icr = 0;
-dd013ad487534c liujie_answer 2025-04-15   913  			SXE_REG_WRITE(hw, SXE_EIMC, ~mask & 0x00007FFF);
-dd013ad487534c liujie_answer 2025-04-15   914  			SXE_REG_WRITE(hw, SXE_EICS, ~mask & 0x00007FFF);
-dd013ad487534c liujie_answer 2025-04-15   915  			sxe_hw_regs_flush(hw);
-dd013ad487534c liujie_answer 2025-04-15   916  			usleep_range(10000, 20000);
-dd013ad487534c liujie_answer 2025-04-15   917  
-dd013ad487534c liujie_answer 2025-04-15   918  			if (*icr & mask) {
-dd013ad487534c liujie_answer 2025-04-15   919  				LOG_ERROR_BDF("test irq: failed, eicr = %x\n", *icr);
-dd013ad487534c liujie_answer 2025-04-15   920  				ret = -SXE_DIAG_DISABLE_IRQ_TEST_ERR;
-dd013ad487534c liujie_answer 2025-04-15   921  				break;
-dd013ad487534c liujie_answer 2025-04-15   922  			}
-dd013ad487534c liujie_answer 2025-04-15   923  			LOG_INFO_BDF("test irq: irq test end\n");
-dd013ad487534c liujie_answer 2025-04-15   924  		}
-dd013ad487534c liujie_answer 2025-04-15   925  
-dd013ad487534c liujie_answer 2025-04-15   926  		LOG_INFO_BDF("test irq: mask irq test start\n");
-dd013ad487534c liujie_answer 2025-04-15   927  		*icr = 0;
-dd013ad487534c liujie_answer 2025-04-15   928  		SXE_REG_WRITE(hw, SXE_EIMS, mask);
-dd013ad487534c liujie_answer 2025-04-15   929  		SXE_REG_WRITE(hw, SXE_EICS, mask);
-dd013ad487534c liujie_answer 2025-04-15   930  		sxe_hw_regs_flush(hw);
-dd013ad487534c liujie_answer 2025-04-15   931  		usleep_range(10000, 20000);
-dd013ad487534c liujie_answer 2025-04-15   932  
-dd013ad487534c liujie_answer 2025-04-15   933  		if (!(*icr & mask)) {
-dd013ad487534c liujie_answer 2025-04-15   934  			LOG_ERROR_BDF("test irq: mask failed, eicr = %x\n", *icr);
-dd013ad487534c liujie_answer 2025-04-15   935  			ret = -SXE_DIAG_ENABLE_IRQ_TEST_ERR;
-dd013ad487534c liujie_answer 2025-04-15   936  			break;
-dd013ad487534c liujie_answer 2025-04-15   937  		}
-dd013ad487534c liujie_answer 2025-04-15   938  		LOG_INFO_BDF("test irq: mask irq test end\n");
-dd013ad487534c liujie_answer 2025-04-15   939  
-dd013ad487534c liujie_answer 2025-04-15   940  		sxe_hw_specific_irq_disable(hw, mask);
-dd013ad487534c liujie_answer 2025-04-15   941  		sxe_hw_regs_flush(hw);
-dd013ad487534c liujie_answer 2025-04-15   942  		usleep_range(10000, 20000);
-dd013ad487534c liujie_answer 2025-04-15   943  
-dd013ad487534c liujie_answer 2025-04-15   944  		if (!shared) {
-dd013ad487534c liujie_answer 2025-04-15   945  			LOG_INFO_BDF("test irq: other irq test start\n");
-dd013ad487534c liujie_answer 2025-04-15   946  			*icr = 0;
-dd013ad487534c liujie_answer 2025-04-15   947  			SXE_REG_WRITE(hw, SXE_EIMC, ~mask & 0x00007FFF);
-dd013ad487534c liujie_answer 2025-04-15   948  			SXE_REG_WRITE(hw, SXE_EICS, ~mask & 0x00007FFF);
-dd013ad487534c liujie_answer 2025-04-15   949  			sxe_hw_regs_flush(hw);
-dd013ad487534c liujie_answer 2025-04-15   950  			usleep_range(10000, 20000);
-dd013ad487534c liujie_answer 2025-04-15   951  
-dd013ad487534c liujie_answer 2025-04-15   952  			if (*icr) {
-dd013ad487534c liujie_answer 2025-04-15   953  				LOG_ERROR_BDF("test irq: other irq failed, eicr = %x\n", *icr);
-dd013ad487534c liujie_answer 2025-04-15   954  				ret = -SXE_DIAG_DISABLE_OTHER_IRQ_TEST_ERR;
-dd013ad487534c liujie_answer 2025-04-15   955  				break;
-dd013ad487534c liujie_answer 2025-04-15   956  			}
-dd013ad487534c liujie_answer 2025-04-15   957  			LOG_INFO_BDF("test irq: other irq test end\n");
-dd013ad487534c liujie_answer 2025-04-15   958  		}
-dd013ad487534c liujie_answer 2025-04-15   959  	}
-dd013ad487534c liujie_answer 2025-04-15   960  
-dd013ad487534c liujie_answer 2025-04-15   961  	sxe_hw_specific_irq_disable(hw, 0xFFFFFFFF);
-dd013ad487534c liujie_answer 2025-04-15   962  	sxe_hw_regs_flush(hw);
-dd013ad487534c liujie_answer 2025-04-15   963  	usleep_range(10000, 20000);
-dd013ad487534c liujie_answer 2025-04-15   964  
-dd013ad487534c liujie_answer 2025-04-15   965  	return ret;
-dd013ad487534c liujie_answer 2025-04-15   966  }
-dd013ad487534c liujie_answer 2025-04-15   967  
-dd013ad487534c liujie_answer 2025-04-15   968  static const struct sxe_irq_operations sxe_irq_ops = {
-dd013ad487534c liujie_answer 2025-04-15   969  	.event_irq_auto_clear_set = sxe_hw_event_irq_auto_clear_set,
-dd013ad487534c liujie_answer 2025-04-15   970  	.ring_irq_interval_set = sxe_hw_ring_irq_interval_set,
-dd013ad487534c liujie_answer 2025-04-15   971  	.event_irq_interval_set = sxe_hw_event_irq_interval_set,
-dd013ad487534c liujie_answer 2025-04-15   972  	.set_eitrsel = sxe_hw_set_eitrsel,
-dd013ad487534c liujie_answer 2025-04-15   973  	.ring_irq_map = sxe_hw_ring_irq_map,
-dd013ad487534c liujie_answer 2025-04-15   974  	.event_irq_map = sxe_hw_event_irq_map,
-dd013ad487534c liujie_answer 2025-04-15   975  	.irq_general_reg_set = sxe_hw_irq_general_reg_set,
-dd013ad487534c liujie_answer 2025-04-15   976  	.irq_general_reg_get = sxe_hw_irq_general_reg_get,
-dd013ad487534c liujie_answer 2025-04-15   977  	.ring_irq_auto_disable = sxe_hw_ring_irq_auto_disable,
-dd013ad487534c liujie_answer 2025-04-15   978  	.pending_irq_read_clear = sxe_hw_pending_irq_read_clear,
-dd013ad487534c liujie_answer 2025-04-15   979  	.pending_irq_write_clear = sxe_hw_pending_irq_write_clear,
-dd013ad487534c liujie_answer 2025-04-15   980  	.ring_irq_enable = sxe_hw_ring_irq_enable,
-dd013ad487534c liujie_answer 2025-04-15   981  	.irq_cause_get = sxe_hw_irq_cause_get,
-dd013ad487534c liujie_answer 2025-04-15   982  	.event_irq_trigger = sxe_hw_event_irq_trigger,
-dd013ad487534c liujie_answer 2025-04-15   983  	.ring_irq_trigger = sxe_hw_ring_irq_trigger,
-dd013ad487534c liujie_answer 2025-04-15   984  	.specific_irq_disable = sxe_hw_specific_irq_disable,
-dd013ad487534c liujie_answer 2025-04-15   985  	.specific_irq_enable = sxe_hw_specific_irq_enable,
-dd013ad487534c liujie_answer 2025-04-15   986  	.spp_state_get = sxe_hw_spp_state_get,
-dd013ad487534c liujie_answer 2025-04-15   987  	.rx_los_disable = sxe_hw_rx_los_disable,
-dd013ad487534c liujie_answer 2025-04-15   988  	.rx_los_enable = sxe_hw_rx_los_enable,
-dd013ad487534c liujie_answer 2025-04-15   989  	.all_irq_disable = sxe_hw_all_irq_disable,
-dd013ad487534c liujie_answer 2025-04-15   990  	.spp_configure = sxe_hw_spp_configure,
-dd013ad487534c liujie_answer 2025-04-15   991  	.irq_test = sxe_hw_irq_test,
-dd013ad487534c liujie_answer 2025-04-15   992  };
-dd013ad487534c liujie_answer 2025-04-15   993  
-dd013ad487534c liujie_answer 2025-04-15  @994  u32 sxe_hw_link_speed_get(struct sxe_hw *hw)
-dd013ad487534c liujie_answer 2025-04-15   995  {
-dd013ad487534c liujie_answer 2025-04-15   996  	u32 speed, value;
-dd013ad487534c liujie_answer 2025-04-15   997  	struct sxe_adapter *adapter = hw->adapter;
-dd013ad487534c liujie_answer 2025-04-15   998  
-dd013ad487534c liujie_answer 2025-04-15   999  	value = SXE_REG_READ(hw, SXE_COMCTRL);
-dd013ad487534c liujie_answer 2025-04-15  1000  
-dd013ad487534c liujie_answer 2025-04-15  1001  	if ((value & SXE_COMCTRL_SPEED_10G) == SXE_COMCTRL_SPEED_10G)
-dd013ad487534c liujie_answer 2025-04-15  1002  		speed = SXE_LINK_SPEED_10GB_FULL;
-dd013ad487534c liujie_answer 2025-04-15  1003  	else if ((value & SXE_COMCTRL_SPEED_1G) == SXE_COMCTRL_SPEED_1G)
-dd013ad487534c liujie_answer 2025-04-15  1004  		speed = SXE_LINK_SPEED_1GB_FULL;
-dd013ad487534c liujie_answer 2025-04-15  1005  	else
-dd013ad487534c liujie_answer 2025-04-15  1006  		speed = SXE_LINK_SPEED_UNKNOWN;
-dd013ad487534c liujie_answer 2025-04-15  1007  
-dd013ad487534c liujie_answer 2025-04-15  1008  	LOG_DEBUG_BDF("hw link speed=%x, (0x80=10G, 0x20=1G)\n, reg=%x",
-dd013ad487534c liujie_answer 2025-04-15  1009  		      speed, value);
-dd013ad487534c liujie_answer 2025-04-15  1010  
-dd013ad487534c liujie_answer 2025-04-15  1011  	return speed;
-dd013ad487534c liujie_answer 2025-04-15  1012  }
-dd013ad487534c liujie_answer 2025-04-15  1013  
-
-:::::: The code at line 843 was first introduced by commit
-:::::: dd013ad487534c1838afc2f55efdb5daec15aace Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-
-:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
-:::::: CC: liujie_answer <liujie5@linkdatatechnology.com>
+ 11412	
+ 11413		init_trace_flags_index(&global_trace);
+ 11414	
+ 11415		register_tracer(&nop_trace);
+ 11416	
+ 11417		/* Function tracing may start here (via kernel command line) */
+ 11418		init_function_trace();
+ 11419	
+ 11420		/* All seems OK, enable tracing */
+ 11421		tracing_disabled = 0;
+ 11422	
+ 11423		atomic_notifier_chain_register(&panic_notifier_list,
+ 11424					       &trace_panic_notifier);
+ 11425	
+ 11426		register_die_notifier(&trace_die_notifier);
+ 11427	
+ 11428		global_trace.flags = TRACE_ARRAY_FL_GLOBAL;
+ 11429	
+ 11430		global_trace.syscall_buf_sz = CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT;
+ 11431	
+ 11432		INIT_LIST_HEAD(&global_trace.systems);
+ 11433		INIT_LIST_HEAD(&global_trace.events);
+ 11434		INIT_LIST_HEAD(&global_trace.hist_vars);
+ 11435		INIT_LIST_HEAD(&global_trace.err_log);
+ 11436		list_add(&global_trace.marker_list, &marker_copies);
+ 11437		list_add(&global_trace.list, &ftrace_trace_arrays);
+ 11438	
+ 11439		apply_trace_boot_options();
+ 11440	
+ 11441		register_snapshot_cmd();
+ 11442	
+ 11443		return 0;
+ 11444	
+ 11445	out_free_pipe_cpumask:
+ 11446		free_cpumask_var(global_trace.pipe_cpumask);
+ 11447	out_free_savedcmd:
+ 11448		trace_free_saved_cmdlines_buffer();
+ 11449	out_free_temp_buffer:
+ 11450		ring_buffer_free(temp_buffer);
+ 11451	out_rm_hp_state:
+ 11452		cpuhp_remove_multi_state(CPUHP_TRACE_RB_PREPARE);
+ 11453	out_free_cpumask:
+ 11454		free_cpumask_var(global_trace.tracing_cpumask);
+ 11455	out_free_buffer_mask:
+ 11456		free_cpumask_var(tracing_buffer_mask);
+ 11457		return ret;
+ 11458	}
+ 11459	
 
 -- 
 0-DAY CI Kernel Test Service
