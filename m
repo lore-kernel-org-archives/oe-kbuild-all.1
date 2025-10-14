@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FD430ACFB;
-	Tue, 14 Oct 2025 04:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A7B27FB2A;
+	Tue, 14 Oct 2025 05:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760417519; cv=none; b=dFVTaRt5QT5xPmGXHCXj3tJoyXo8rsjFEspsgZSh+93urISSbqMvVCd0OuuO0Ql3Qxo1E1d0sMLAxOkMfNhISGOyApfQimzwxoMP+i+RMPEmEYmmE93j9G71c2UJIO2GeN5cwfKS1lOh8qFYE0T0bGOfjJua5n39pB+FJEhd4UE=
+	t=1760420115; cv=none; b=jJQvmvzoGLCyx1kVIfNy/1aW77AICnZ9EHMvDvfTgINFNqm4mvcxshskky1fxw7z2ESWRs6KcdrIxA7YjqoLQBTpDw0VOMDMebk/9Uoypinb7XHjCZZQfjtOtyavuW4kKvAj/UrkN1+ifc0b2yiL00KLzWO09pMAfXFje+bSXjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760417519; c=relaxed/simple;
-	bh=8r4JfeR1FFdB+OxMPpdtT24sRcT4JvppZgZJp7p6s10=;
+	s=arc-20240116; t=1760420115; c=relaxed/simple;
+	bh=wvn8CM5LXYun0vdXHMxoU4ZtILqmL0vMJS+JvrBjifY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gOCCc7J/4080qDpAIjsEre6f+LZcGuS1B0q4CSqNWdDfzQPOL8XlOXmN3vNz9M5TsWJb62Z6DcO13kS91MUnmaKhBw8ZGqBwBhyHgblp0VD4Z9Mgq27iKdGhCSTeuzqRwM4owXuqxAken5rKqwysS4bDI4mYdHeyndYhf9PvFu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBkKjOGR; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=VAMoGXIYJRlOP8CDHNfpR75uWqXqgthE91VrguCWN0XmA5b22xP8hAmguIWMTGigxOlH0O35fs7o3DwijvZpc+qeeF2WrZkgecUhLqZZanng2jwa1l/qKB2yMiN37PjjXc5aOjRbYiF7PGRw/icfja6MV14BEHwW4FuqhUWQSzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AItdC9qr; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBkKjOGR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AItdC9qr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760417516; x=1791953516;
+  t=1760420114; x=1791956114;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8r4JfeR1FFdB+OxMPpdtT24sRcT4JvppZgZJp7p6s10=;
-  b=PBkKjOGRsnhlRGzUYpHYfo8NfFEwpAtUBqtz2tBy5gmoMw+1Veofhn81
-   P5IZi9AWgLH8V25CGIJ1oZrb4tyRib6LTdeZiugoLI1hGaOmtb+0biDDy
-   SX++Fkp9MHc9cFAWr18X7YPxDAfGX894VugTj1R26diRT2D2139NmDjgF
-   bXMFS9F71qbxCpZmvuEsr4YaowefOKSFF48NX58vRa49QEt7F3u/HsrnC
-   8NhV2ZqGrWNyH1fWnrV+ofLOhjQL2pgMthn4eV0sL3H9Z5Y2b8Jxx2KB5
-   BLaAL3XltpN1JOQ5lFz5elXacLF3m6yKWw3Ow8zm6eWto5dv4ZA8oGGYa
-   g==;
-X-CSE-ConnectionGUID: wnLIX9W7TdSzgunRu3j8Eg==
-X-CSE-MsgGUID: mcxE6T68Qo21Uci5n8BzCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="73672679"
+  bh=wvn8CM5LXYun0vdXHMxoU4ZtILqmL0vMJS+JvrBjifY=;
+  b=AItdC9qrLUlqzpR6nY7Vx2Ywqrd56mmvLYkw4trPreROfeNfPmyANa2s
+   ZJdlFiAtRb0k7hus4w2XWk7ECbhwvIFBE+HZVW+gOQ7owTUlU+/63uKfg
+   wXdf5RiAb4c06jyeREUSCLg4KcOcRWTP/zWwKReEgHRcAT87dSfScYlxd
+   o7AXNLq/GgSaU/OkFV6C9kLSFTs+7BTvCifxYdcF9Fz+dDLfrN1ABGXGz
+   EIXwkkuzqwau5TCPQ84HO1TttItLnnmRkL9Ofjpr4tE5OCm4GzbwzWwba
+   8i4aUKZ9LH677nBF7rv506/f24jh+t5SWhMq+zdREKOpkyIvssTfl4udJ
+   A==;
+X-CSE-ConnectionGUID: 0v/uQSTQQmauF9jBzSlr8A==
+X-CSE-MsgGUID: 4sadpQkjRI2lSJtYy6uRUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62607767"
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="73672679"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 21:51:55 -0700
-X-CSE-ConnectionGUID: Q8yffyLIR+GiTu5XHkTjew==
-X-CSE-MsgGUID: 51ZWJWjAT8KtMQLk1CYyhw==
+   d="scan'208";a="62607767"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2025 22:35:13 -0700
+X-CSE-ConnectionGUID: 3OHmFtQLTaOU8AUdGPdWFw==
+X-CSE-MsgGUID: +YnTXWAXRxyO/QtXh2txIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="182216736"
+   d="scan'208";a="186041594"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Oct 2025 21:51:53 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Oct 2025 22:35:09 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8Wye-0002Mp-0f;
-	Tue, 14 Oct 2025 04:50:50 +0000
-Date: Tue, 14 Oct 2025 12:45:32 +0800
+	id 1v8Xgg-0002P9-0l;
+	Tue, 14 Oct 2025 05:35:06 +0000
+Date: Tue, 14 Oct 2025 13:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v13 05/17] irq & spin_lock: Add counted interrupt
- disabling/enabling
-Message-ID: <202510141211.osWNR3ei-lkp@intel.com>
-References: <20251013155205.2004838-6-lyude@redhat.com>
+To: Daniel Jurgens <danielj@nvidia.com>, netdev@vger.kernel.org,
+	mst@redhat.com, jasowang@redhat.com, alex.williamson@redhat.com,
+	pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, virtualization@lists.linux.dev,
+	parav@nvidia.com, shshitrit@nvidia.com, yohadt@nvidia.com,
+	xuanzhuo@linux.alibaba.com, eperezma@redhat.com,
+	shameerali.kolothum.thodi@huawei.com, jgg@ziepe.ca,
+	kevin.tian@intel.com, kuba@kernel.org, andrew+netdev@lunn.ch,
+	edumazet@google.com, Daniel Jurgens <danielj@nvidia.com>
+Subject: Re: [PATCH net-next v4 01/12] virtio_pci: Remove supported_cap size
+ build assert
+Message-ID: <202510141339.ne1O8cPc-lkp@intel.com>
+References: <20251013152742.619423-2-danielj@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,230 +70,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013155205.2004838-6-lyude@redhat.com>
+In-Reply-To: <20251013152742.619423-2-danielj@nvidia.com>
 
-Hi Lyude,
+Hi Daniel,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/preempt-Track-NMI-nesting-to-separate-per-CPU-counter/20251014-005451
-base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-patch link:    https://lore.kernel.org/r/20251013155205.2004838-6-lyude%40redhat.com
-patch subject: [PATCH v13 05/17] irq & spin_lock: Add counted interrupt disabling/enabling
-config: hexagon-randconfig-002-20251014 (https://download.01.org/0day-ci/archive/20251014/202510141211.osWNR3ei-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141211.osWNR3ei-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Jurgens/virtio_pci-Remove-supported_cap-size-build-assert/20251014-004146
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251013152742.619423-2-danielj%40nvidia.com
+patch subject: [PATCH net-next v4 01/12] virtio_pci: Remove supported_cap size build assert
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251014/202510141339.ne1O8cPc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141339.ne1O8cPc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510141211.osWNR3ei-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510141339.ne1O8cPc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
->> include/linux/irqflags.h:277:3: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     277 |                 raw_cpu_write(local_interrupt_disable_state.flags, flags);
-         |                 ^
-   include/linux/percpu-defs.h:413:34: note: expanded from macro 'raw_cpu_write'
-     413 | #define raw_cpu_write(pcp, val)         __pcpu_size_call(raw_cpu_write_, pcp, val)
-         |                                         ^
-   include/linux/percpu-defs.h:369:11: note: expanded from macro '__pcpu_size_call'
-     369 |                 case 1: stem##1(variable, __VA_ARGS__);break;           \
-         |                         ^
-   <scratch space>:91:1: note: expanded from here
-      91 | raw_cpu_write_1
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
->> include/linux/irqflags.h:277:3: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/percpu-defs.h:413:34: note: expanded from macro 'raw_cpu_write'
-     413 | #define raw_cpu_write(pcp, val)         __pcpu_size_call(raw_cpu_write_, pcp, val)
-         |                                         ^
-   include/linux/percpu-defs.h:370:11: note: expanded from macro '__pcpu_size_call'
-     370 |                 case 2: stem##2(variable, __VA_ARGS__);break;           \
-         |                         ^
-   <scratch space>:92:1: note: expanded from here
-      92 | raw_cpu_write_2
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
->> include/linux/irqflags.h:277:3: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/percpu-defs.h:413:34: note: expanded from macro 'raw_cpu_write'
-     413 | #define raw_cpu_write(pcp, val)         __pcpu_size_call(raw_cpu_write_, pcp, val)
-         |                                         ^
-   include/linux/percpu-defs.h:371:11: note: expanded from macro '__pcpu_size_call'
-     371 |                 case 4: stem##4(variable, __VA_ARGS__);break;           \
-         |                         ^
-   <scratch space>:93:1: note: expanded from here
-      93 | raw_cpu_write_4
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
->> include/linux/irqflags.h:277:3: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/percpu-defs.h:413:34: note: expanded from macro 'raw_cpu_write'
-     413 | #define raw_cpu_write(pcp, val)         __pcpu_size_call(raw_cpu_write_, pcp, val)
-         |                                         ^
-   include/linux/percpu-defs.h:372:11: note: expanded from macro '__pcpu_size_call'
-     372 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
-         |                         ^
-   <scratch space>:94:1: note: expanded from here
-      94 | raw_cpu_write_8
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
-   include/linux/irqflags.h:290:11: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     290 |                 flags = raw_cpu_read(local_interrupt_disable_state.flags);
-         |                         ^
-   include/linux/percpu-defs.h:412:28: note: expanded from macro 'raw_cpu_read'
-     412 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                         ^
-   include/linux/percpu-defs.h:325:23: note: expanded from macro '__pcpu_size_call_return'
-     325 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                              ^
-   <scratch space>:95:1: note: expanded from here
-      95 | raw_cpu_read_1
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
-   include/linux/irqflags.h:290:11: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/percpu-defs.h:412:28: note: expanded from macro 'raw_cpu_read'
-     412 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                         ^
-   include/linux/percpu-defs.h:326:23: note: expanded from macro '__pcpu_size_call_return'
-     326 |         case 2: pscr_ret__ = stem##2(variable); break;                  \
-         |                              ^
-   <scratch space>:96:1: note: expanded from here
-      96 | raw_cpu_read_2
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
-   In file included from include/linux/spinlock.h:59:
-   include/linux/irqflags.h:290:11: error: call to undeclared function 'raw_smp_processor_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/percpu-defs.h:412:28: note: expanded from macro 'raw_cpu_read'
-     412 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                         ^
-   include/linux/percpu-defs.h:327:23: note: expanded from macro '__pcpu_size_call_return'
-     327 |         case 4: pscr_ret__ = stem##4(variable); break;                  \
-         |                              ^
-   <scratch space>:97:1: note: expanded from here
-      97 | raw_cpu_read_4
-         | ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:246:2: note: expanded from macro 'raw_cpu_ptr'
-     246 |         arch_raw_cpu_ptr(ptr);                                          \
-         |         ^
-   include/asm-generic/percpu.h:57:53: note: expanded from macro 'arch_raw_cpu_ptr'
-      57 | #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-         |                                                     ^
-   include/asm-generic/percpu.h:44:40: note: expanded from macro '__my_cpu_offset'
-      44 | #define __my_cpu_offset per_cpu_offset(raw_smp_processor_id())
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/sched/affinity.h:1:
-   In file included from include/linux/sched.h:37:
+   In file included from include/linux/byteorder/little_endian.h:5,
+                    from arch/x86/include/uapi/asm/byteorder.h:5,
+                    from include/asm-generic/qrwlock_types.h:6,
+                    from arch/x86/include/asm/spinlock_types.h:7,
+                    from include/linux/spinlock_types_raw.h:7,
+                    from include/linux/ratelimit_types.h:7,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/segment.h:6,
+                    from arch/x86/include/asm/ptrace.h:5,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from include/linux/sched.h:13,
+                    from include/linux/delay.h:13,
+                    from drivers/virtio/virtio_pci_modern.c:17:
+   drivers/virtio/virtio_pci_modern.c: In function 'virtio_pci_admin_cmd_cap_init':
+   drivers/virtio/virtio_pci_modern.c:326:33: error: 'struct virtio_admin_cmd_query_cap_id_result' has no member named 'support_caps'; did you mean 'supported_caps'?
+     326 |         if (!(le64_to_cpu(data->support_caps[0]) & (1 << VIRTIO_DEV_PARTS_CAP)))
+         |                                 ^~~~~~~~~~~~
+   include/uapi/linux/byteorder/little_endian.h:33:51: note: in definition of macro '__le64_to_cpu'
+      33 | #define __le64_to_cpu(x) ((__force __u64)(__le64)(x))
+         |                                                   ^
+   drivers/virtio/virtio_pci_modern.c:326:15: note: in expansion of macro 'le64_to_cpu'
+     326 |         if (!(le64_to_cpu(data->support_caps[0]) & (1 << VIRTIO_DEV_PARTS_CAP)))
+         |               ^~~~~~~~~~~
+>> drivers/virtio/virtio_pci_modern.c:307:35: warning: unused variable 'vp_dev' [-Wunused-variable]
+     307 |         struct virtio_pci_device *vp_dev = to_vp_device(virtio_dev);
+         |                                   ^~~~~~
 
 
-vim +/raw_smp_processor_id +277 include/linux/irqflags.h
+vim +/vp_dev +307 drivers/virtio/virtio_pci_modern.c
 
-   267	
-   268	static inline void local_interrupt_disable(void)
-   269	{
-   270		unsigned long flags;
-   271		int new_count;
-   272	
-   273		new_count = hardirq_disable_enter();
-   274	
-   275		if ((new_count & HARDIRQ_DISABLE_MASK) == HARDIRQ_DISABLE_OFFSET) {
-   276			local_irq_save(flags);
- > 277			raw_cpu_write(local_interrupt_disable_state.flags, flags);
-   278		}
-   279	}
-   280	
+bfcad518605d92 Yishai Hadas   2024-11-13  304  
+bfcad518605d92 Yishai Hadas   2024-11-13  305  static void virtio_pci_admin_cmd_cap_init(struct virtio_device *virtio_dev)
+bfcad518605d92 Yishai Hadas   2024-11-13  306  {
+bfcad518605d92 Yishai Hadas   2024-11-13 @307  	struct virtio_pci_device *vp_dev = to_vp_device(virtio_dev);
+bfcad518605d92 Yishai Hadas   2024-11-13  308  	struct virtio_admin_cmd_query_cap_id_result *data;
+bfcad518605d92 Yishai Hadas   2024-11-13  309  	struct virtio_admin_cmd cmd = {};
+bfcad518605d92 Yishai Hadas   2024-11-13  310  	struct scatterlist result_sg;
+bfcad518605d92 Yishai Hadas   2024-11-13  311  	int ret;
+bfcad518605d92 Yishai Hadas   2024-11-13  312  
+bfcad518605d92 Yishai Hadas   2024-11-13  313  	data = kzalloc(sizeof(*data), GFP_KERNEL);
+bfcad518605d92 Yishai Hadas   2024-11-13  314  	if (!data)
+bfcad518605d92 Yishai Hadas   2024-11-13  315  		return;
+bfcad518605d92 Yishai Hadas   2024-11-13  316  
+bfcad518605d92 Yishai Hadas   2024-11-13  317  	sg_init_one(&result_sg, data, sizeof(*data));
+bfcad518605d92 Yishai Hadas   2024-11-13  318  	cmd.opcode = cpu_to_le16(VIRTIO_ADMIN_CMD_CAP_ID_LIST_QUERY);
+16c22c56d42825 Daniel Jurgens 2025-03-04  319  	cmd.group_type = cpu_to_le16(VIRTIO_ADMIN_GROUP_TYPE_SELF);
+bfcad518605d92 Yishai Hadas   2024-11-13  320  	cmd.result_sg = &result_sg;
+bfcad518605d92 Yishai Hadas   2024-11-13  321  
+bfcad518605d92 Yishai Hadas   2024-11-13  322  	ret = vp_modern_admin_cmd_exec(virtio_dev, &cmd);
+bfcad518605d92 Yishai Hadas   2024-11-13  323  	if (ret)
+bfcad518605d92 Yishai Hadas   2024-11-13  324  		goto end;
+bfcad518605d92 Yishai Hadas   2024-11-13  325  
+c1e3216169ec0d Daniel Jurgens 2025-10-13 @326  	if (!(le64_to_cpu(data->support_caps[0]) & (1 << VIRTIO_DEV_PARTS_CAP)))
+bfcad518605d92 Yishai Hadas   2024-11-13  327  		goto end;
+bfcad518605d92 Yishai Hadas   2024-11-13  328  
+bfcad518605d92 Yishai Hadas   2024-11-13  329  	virtio_pci_admin_cmd_dev_parts_objects_enable(virtio_dev);
+bfcad518605d92 Yishai Hadas   2024-11-13  330  end:
+bfcad518605d92 Yishai Hadas   2024-11-13  331  	kfree(data);
+bfcad518605d92 Yishai Hadas   2024-11-13  332  }
+bfcad518605d92 Yishai Hadas   2024-11-13  333  
 
 -- 
 0-DAY CI Kernel Test Service
